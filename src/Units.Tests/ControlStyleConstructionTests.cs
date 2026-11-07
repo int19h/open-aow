@@ -3,9 +3,9 @@ using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
-using Game = Aow.Units.AoWE.AoWEUnit;
-using EngineUnit = Aow.Units.Engine.EngineUnit;
 using Aow.Units.Sound;
+using EngineUnit = Aow.Units.Engine.EngineUnit;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -87,7 +87,9 @@ public sealed class ControlStyleConstructionTests
         internal int Marker;
         internal int ObservedMarker;
         internal TSet<TEControlStyleElement> ObservedStyle;
+
         internal Converted(TECustomNode owner) : base(owner) { Marker = 77; }
+
         public override void SetOwner(TECustomNode owner)
         {
             Calls++;
@@ -96,10 +98,6 @@ public sealed class ControlStyleConstructionTests
             base.SetOwner(owner);
         }
     }
-
-
-
-
 
     [Fact]
     public void NullFlagOwnerFailsBeforeAnUnacquiredLinkIsReleased()
@@ -119,7 +117,9 @@ public sealed class ControlStyleConstructionTests
         public FlagOwner() : base(null!, null!) { }
 
         internal readonly List<TEObject> Members = [];
+
         public override int AddChild(TEObject child) { Members.Add(child); return Members.Count - 1; }
+
         public override int RemoveChild(TEObject child) { int index = Members.IndexOf(child); Members.Remove(child); return index; }
     }
 
@@ -203,26 +203,32 @@ public sealed class ControlStyleConstructionTests
         private readonly SystemIoFileSystem files = new();
         internal readonly List<string> OpenedPaths = [];
         internal readonly List<string> EnumeratedDirectories = [];
+
         internal FlagFiles(string root)
         {
             this.root = Path.GetFullPath(root);
             Assert.True(files.SetCurrentDirectory(this.root));
         }
+
         private string Checked(string path)
         {
             string full = files.ExpandPath(path);
             Assert.True(full.Equals(root, StringComparison.OrdinalIgnoreCase) || full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase), "Flag fixture escaped temporary root: " + full);
             return full;
         }
+
         public string CurrentDirectory => files.CurrentDirectory;
+
         public bool SetCurrentDirectory(string path) => files.SetCurrentDirectory(Checked(path));
         public string ExpandPath(string path) => Checked(path);
+
         public Stream Open(string path, int mode)
         {
             string full = Checked(path);
             OpenedPaths.Add(full);
             return files.Open(full, mode);
         }
+
         public bool FileExists(string path) => files.FileExists(Checked(path));
         public bool DirectoryExists(string path) => files.DirectoryExists(Checked(path));
         public bool DeleteFile(string path) => files.DeleteFile(Checked(path));
@@ -232,6 +238,7 @@ public sealed class ControlStyleConstructionTests
         public int GetAttributes(string path) => files.GetAttributes(Checked(path));
         public int SetAttributes(string path, int attributes) => files.SetAttributes(Checked(path), attributes);
         public DateTime? LastWriteTime(string path) => files.LastWriteTime(Checked(path));
+
         public IEnumerable<RtlFileEntry> Enumerate(string directory)
         {
             string full = Checked(directory);
@@ -313,11 +320,12 @@ public sealed class ControlStyleConstructionTests
         }
     }
 
-
     private sealed class ReadEngine : TEngine
     {
         internal ReadEngine() : base(null!) { }
+
         internal TEObject? Created;
+
         public override TEObject CreateEObject(int classId, TECustomNode owner)
         {
             Created = base.CreateEObject(classId, owner);

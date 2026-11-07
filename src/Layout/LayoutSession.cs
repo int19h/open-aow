@@ -17,8 +17,10 @@ public interface ILayoutModule
 public sealed class LayoutSession
 {
     private sealed record Fixup(string Module, Action<TComponent> Apply);
+
     private readonly Dictionary<string, TComponent> modules = new(StringComparer.OrdinalIgnoreCase);
     private readonly List<Fixup> pending = [];
+
     public static LayoutSession Default { get; } = new();
     public bool FireCreateEvents { get; init; } = true;
     public IReadOnlyDictionary<string, TComponent> Modules => modules;
@@ -97,15 +99,16 @@ public sealed class LayoutSession
     }
 }
 
-
 // This adapter uses the list's getter and batches its changes, as TStrings.ReadData does.
 // It also allows collection initializers without changing the frozen shim.
 public sealed class LayoutStrings : IEnumerable<string>
 {
     private readonly List<string> values = [];
+
     public void Add(string value) => values.Add(value);
     public IEnumerator<string> GetEnumerator() => values.GetEnumerator();
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
     public void CopyTo(TStrings target)
     {
         target.BeginUpdate();

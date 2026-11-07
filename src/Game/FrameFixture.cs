@@ -1,23 +1,24 @@
 using System.Globalization;
+using System.Security.Cryptography;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Security.Cryptography;
-using Aow.Units.AoWE;
-using GameState = Aow.Units.AoWE.AoWEUnit;
 using Aow.Platform;
 using Aow.Rtl;
-using Aow.Units.AoWFileDialog;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWWinMan;
-using Aow.Units.AOWMWindow;
-using Aow.Units.HSEngine;
 using Aow.Units.AOWControlWin;
+using Aow.Units.AoWE;
+using Aow.Units.AoWExeForms;
+using Aow.Units.AoWFileDialog;
+using Aow.Units.AOWMWindow;
+using Aow.Units.AoWWinMan;
+using Aow.Units.HSEngine;
+using GameState = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Game;
 
 internal sealed class FrameFixture
 {
     private string? fileLocalTime;
+
     internal static DateTime FileStampUtc(DateTime localTime, TimeSpan offset) =>
         new DateTimeOffset(DateTime.SpecifyKind(localTime, DateTimeKind.Unspecified), offset).UtcDateTime;
 
@@ -198,8 +199,10 @@ internal sealed class FrameFixture
                 if (display.Frame % 100 == 0)
                     File.WriteAllText(Path.Combine(output, "progress.json"), JsonSerializer.Serialize(new
                     {
-                        presentation = display.Frame, applied,
-                        day = GameState.AoWHSMap?.FDay, map_frame = GameState.AoWHSMap?.Frame,
+                        presentation = display.Frame,
+                        applied,
+                        day = GameState.AoWHSMap?.FDay,
+                        map_frame = GameState.AoWHSMap?.Frame,
                         seat = GameState.AoWHSMap?.FSeatedPlayer,
                         combat_frame = GameState.AoWHSMap?.FCombatMap?.Frame
                     }) + "\n");
@@ -239,8 +242,23 @@ internal sealed class FrameFixture
                             }
                         }
                         if (click.Double || click.DoubleUi) form.DoubleClick();
-                        script.WriteLine(JsonSerializer.Serialize(new { script_frame = scriptFrame, X = inputX, Y = inputY, click.Hx, click.Hy, click.Button, click.Double, click.DoubleUi, click.Key, click.KeyDown, click.Repeat, click.Clock, click.Day,
-                            selected_combat_unit = AoWWinManUnit.General.FCombatUnit?.FUnit.FID }));
+                        script.WriteLine(JsonSerializer.Serialize(new
+                        {
+                            script_frame = scriptFrame,
+                            X = inputX,
+                            Y = inputY,
+                            click.Hx,
+                            click.Hy,
+                            click.Button,
+                            click.Double,
+                            click.DoubleUi,
+                            click.Key,
+                            click.KeyDown,
+                            click.Repeat,
+                            click.Clock,
+                            click.Day,
+                            selected_combat_unit = AoWWinManUnit.General.FCombatUnit?.FUnit.FID
+                        }));
                         applied++;
                     }
                 }
@@ -268,9 +286,19 @@ internal sealed class FrameFixture
                         .Select(index => list.GetItem(index))
                         .OfType<TItem>()
                         .Select(item => (object)new { item.FItemID, name = item.FName, type = item.FItemType.ToString() }).ToArray();
-                    heroes.Add(new { name = hero.FHeroName, hero.FPlayer, x, y, level,
-                        attack = hero.GetAttack(), defense = hero.GetDefense(), damage = hero.GetDamage(),
-                        equipped = Items(hero.FHeroItems), inventory = Items(hero.FInventory) });
+                    heroes.Add(new
+                    {
+                        name = hero.FHeroName,
+                        hero.FPlayer,
+                        x,
+                        y,
+                        level,
+                        attack = hero.GetAttack(),
+                        defense = hero.GetDefense(),
+                        damage = hero.GetDamage(),
+                        equipped = Items(hero.FHeroItems),
+                        inventory = Items(hero.FInventory)
+                    });
                 }
                 File.WriteAllText(Path.Combine(output, "heroes.json"), JsonSerializer.Serialize(heroes,
                     new JsonSerializerOptions { WriteIndented = true }) + "\n");
@@ -288,7 +316,11 @@ internal sealed class FrameFixture
                     }
                     File.WriteAllText(Path.Combine(output, "world.json"), JsonSerializer.Serialize(new
                     {
-                        day = world.FDay, seat = world.FSeatedPlayer, game_type = world.FGameType.ToString(), players, cities
+                        day = world.FDay,
+                        seat = world.FSeatedPlayer,
+                        game_type = world.FGameType.ToString(),
+                        players,
+                        cities
                     }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 }
             }
@@ -302,21 +334,35 @@ internal sealed class FrameFixture
                     {
                         int x = 0, y = 0;
                         HSEngineUnit.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
-                        units.Add(new { unit.FID, unit.FCombatPlayer, unit.FMovePoints, status = unit.FStatus.Image,
-                            hits = unit.FUnit.GetHits(), hit_points = unit.FUnit.GetHitPoints(),
-                            hx = sprite.GetXhx(), hy = sprite.GetYhx(),
-                            screen_x = x - viewer.SceneX + 12, screen_y = y - viewer.SceneY + 12 });
+                        units.Add(new
+                        {
+                            unit.FID,
+                            unit.FCombatPlayer,
+                            unit.FMovePoints,
+                            status = unit.FStatus.Image,
+                            hits = unit.FUnit.GetHits(),
+                            hit_points = unit.FUnit.GetHitPoints(),
+                            hx = sprite.GetXhx(),
+                            hy = sprite.GetYhx(),
+                            screen_x = x - viewer.SceneX + 12,
+                            screen_y = y - viewer.SceneY + 12
+                        });
                     }
                 File.WriteAllText(Path.Combine(output, "combat.json"), JsonSerializer.Serialize(new
                 {
-                    combatMap.FRound, combatMap.FCurrentCombatPlayer, combatMap.FSeatedCombatPlayer,
+                    combatMap.FRound,
+                    combatMap.FCurrentCombatPlayer,
+                    combatMap.FSeatedCombatPlayer,
                     units
                 }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
             }
             File.WriteAllText(Path.Combine(output, "selection.json"), JsonSerializer.Serialize(new
             {
                 count = GameState.AoWHSMap?.FSelectedArmy?.FMoveSettingsList?.Count,
-                x = selected?.GetXhx(), y = selected?.GetYhx(), level = selected?.GetLhx(), units = selected?.FArmy?.Count
+                x = selected?.GetXhx(),
+                y = selected?.GetYhx(),
+                level = selected?.GetLhx(),
+                units = selected?.FArmy?.Count
             }) + "\n");
             if (fixture.values.GetValueOrDefault("save_state") == "true")
             {
@@ -335,20 +381,40 @@ internal sealed class FrameFixture
                     File.Copy(Path.Combine(output, "user", saved), Path.Combine(output, "saved-" + Path.GetFileName(saved)), true);
             File.WriteAllText(Path.Combine(output, "taskbar.json"), JsonSerializer.Serialize(
                 new[] { taskbar.WGTLbl, taskbar.WGILbl, taskbar.WMTLbl, taskbar.WMILbl, taskbar.TGTLbl, taskbar.TGILbl, taskbar.TMTLbl, taskbar.TMILbl }
-                    .Select(c => new { name = c.Name, text = c.Text, c.WinLeft, c.WinTop, c.WinWidth, c.WinHeight, c.FVisible,
-                        owner = c.FAOWOwner?.Name, window = c.FAOWWindow?.Name }),
+                    .Select(c => new
+                    {
+                        name = c.Name,
+                        text = c.Text,
+                        c.WinLeft,
+                        c.WinTop,
+                        c.WinWidth,
+                        c.WinHeight,
+                        c.FVisible,
+                        owner = c.FAOWOwner?.Name,
+                        window = c.FAOWWindow?.Name
+                    }),
                 new JsonSerializerOptions { WriteIndented = true }) + "\n");
             File.WriteAllText(Path.Combine(output, "fixture.json"), JsonSerializer.Serialize(new
             {
-                fixture = name, complete, display_presentations = display.Frame,
-                map_frame = GameState.AoWHSMap?.Frame, day = GameState.AoWHSMap?.FDay,
-                combat_frame = GameState.AoWHSMap?.FCombatMap?.Frame, clicks_applied = applied,
+                fixture = name,
+                complete,
+                display_presentations = display.Frame,
+                map_frame = GameState.AoWHSMap?.Frame,
+                day = GameState.AoWHSMap?.FDay,
+                combat_frame = GameState.AoWHSMap?.FCombatMap?.Frame,
+                clicks_applied = applied,
                 input_sha256 = input is null ? null : Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))),
-                local_time = now, file_local_time = fixture.fileLocalTime, file_stamp_utc = fileStampUtc, address_animation_phase = FrameFixtureInputs.AddressAnimationPhase,
+                local_time = now,
+                file_local_time = fixture.fileLocalTime,
+                file_stamp_utc = fileStampUtc,
+                address_animation_phase = FrameFixtureInputs.AddressAnimationPhase,
                 water_variant_phase = FrameFixtureInputs.WaterVariantPhase,
                 measured_frame_rate = FrameFixtureInputs.MeasuredFrameRate,
-                tactical_ready = tacticalReady, no_window = true, silent = true,
-                checkpoint_frames = checkpoints, snapshots = capturedSnapshots
+                tactical_ready = tacticalReady,
+                no_window = true,
+                silent = true,
+                checkpoint_frames = checkpoints,
+                snapshots = capturedSnapshots
             }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
             Console.WriteLine($"fixture {name}: map frame {GameState.AoWHSMap?.Frame}, combat frame {GameState.AoWHSMap?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
         }
@@ -364,13 +430,17 @@ internal sealed class FrameFixture
         }
         return 0;
     }
+
     private string Get(string key) => values.TryGetValue(key, out string? value) ? value : defaults.TryGetValue(key, out value) ? value : throw new InvalidDataException("Missing fixture field " + key);
+
     private sealed record Snapshot(string Name, int Day, int Frame);
+
     private (int X, int Y) Pair(string key)
     {
         using var json = JsonDocument.Parse(Get(key));
         return (json.RootElement[0].GetInt32(), json.RootElement[1].GetInt32());
     }
+
     private static FrameFixture Load(string path, string name)
     {
         var result = new FrameFixture();
@@ -406,7 +476,9 @@ internal sealed class FrameFixture
 
         return result;
     }
+
     private sealed record Click(int At, int X, int Y, int Button, bool Double, int? Key, string? Clock, int? Day, int? KeyDown, int Repeat, int? Hx, int? Hy, bool DoubleUi, bool MoveOnly);
+
     private List<Click> Clicks()
     {
         if (!values.TryGetValue("clicks", out string? text)) return [];
@@ -426,6 +498,7 @@ internal sealed class FrameFixture
             c.TryGetProperty("double_ui", out var doubleUi) && doubleUi.GetBoolean(),
             c.TryGetProperty("move_only", out var moveOnly) && moveOnly.GetBoolean())).ToList();
     }
+
     internal sealed class FixtureHost : IRtlHost, IDialogService
     {
         public FixtureHost(string root, string user, Dictionary<string, object> settings, IClock clock, string? saveDirectory)
@@ -436,6 +509,7 @@ internal sealed class FrameFixture
             Clock = clock;
             foreach (var item in settings) Settings.Write(item.Key, item.Value);
         }
+
         public IFileSystem Files { get; }
         public IDialogService Dialogs => this;
         // A fixture records the address and opens nothing.
@@ -448,6 +522,7 @@ internal sealed class FrameFixture
         // The fixtures replay native scripts and compare frames exactly with the original game, so
         // the game writes the original extensions here (own-formats.md 4.2).
         public bool WritesOwnExtensions => false;
+
         public int Show(DialogRequest request) => throw new InvalidOperationException("Fixture dialog: " + request.Text);
     }
 }

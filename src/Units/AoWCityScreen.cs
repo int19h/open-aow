@@ -1,34 +1,34 @@
 // Translated from AoWCityScreen.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.City;
-using static Aow.Units.City.CityUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
+using Aow.Units.AoWInfoBanner;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWTC;
+using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using Aow.Units.aowUserDrawBox;
+using Aow.Units.City;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.City.CityUnit;
+using static Aow.Units.Engine.EngineUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using static Aow.Units.OverviewUnit.OverviewUnitUnit;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWInfoBanner;
 
 namespace Aow.Units.AoWCityScreen;
 
@@ -204,6 +204,7 @@ public partial class TCityScreen : TDataModule
     public TMigrationList FMigrations;
     public int FMigrationSort;
     public TIntegerList FImages;
+
     // AoWCityScreen.pas:748
     public void FreePreview()
     {

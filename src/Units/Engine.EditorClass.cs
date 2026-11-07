@@ -8,6 +8,7 @@ namespace Aow.Units.Engine;
 public interface IEObjectEditorClass
 {
     static abstract int EditorClassID { get; }
+
     static abstract void Edit(TEObject Obj, TEngine AEngine, TEditDoneEvent Done);
 }
 
@@ -27,11 +28,14 @@ public sealed class EditorClass
     public EClass Class { get; }
     public string ClassName => Class.ClassName;
     public int EditorClassID { get; }
+
     public void Edit(TEObject Obj, TEngine AEngine, TEditDoneEvent Done) => edit(Obj, AEngine, Done);
 
     public static EditorClass Register<T>() where T : TEObjectEditor, IEObjectEditorClass =>
         catalog.Add(typeof(T), new EditorClass(EClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done)));
+
     public static EditorClass Of<T>() where T : TEObjectEditor, IEObjectEditorClass => catalog[typeof(T)];
     public static EditorClass Of(Type type) => catalog[type];
+
     public static IReadOnlyList<EditorClass> All => catalog.All;
 }

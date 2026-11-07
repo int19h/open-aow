@@ -12,6 +12,7 @@ public sealed class EngineLeafConstructionTests
     {
 
         internal readonly List<TEObject> ObservedBeforeLeafBody = [];
+
         public override int AddChild(TEObject child)
         {
             Assert.Same(this, child.Owner);
@@ -51,15 +52,19 @@ public sealed class EngineLeafConstructionTests
         TECustomNode argument = owned ? owner : null!;
         Type type = kind switch
         {
-            0 => typeof(TEControlStyleSortNode), 1 => typeof(TETimerNode),
-            2 => typeof(TEUser), _ => typeof(TPlugInControl)
+            0 => typeof(TEControlStyleSortNode),
+            1 => typeof(TETimerNode),
+            2 => typeof(TEUser),
+            _ => typeof(TPlugInControl)
         };
         var meta = EClass.Of(type);
         engine.RegisterEClasses([EClass.Of(type)]);
         TEObject direct = kind switch
         {
-            0 => new TEControlStyleSortNode(argument), 1 => new TETimerNode(argument),
-            2 => new TEUser(argument), _ => new TPlugInControl(argument)
+            0 => new TEControlStyleSortNode(argument),
+            1 => new TETimerNode(argument),
+            2 => new TEUser(argument),
+            _ => new TPlugInControl(argument)
         };
         TEObject[] objects = [direct, meta.Create(argument), engine.CreateEObject(meta.ClassID, argument)];
         TEObject? copy = null;
@@ -131,17 +136,20 @@ public sealed class EngineLeafConstructionTests
     private sealed class ConvertedNode : TECustomNode
     {
         internal int OwnerCalls;
+
         internal ConvertedNode(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+
         public override int GetCount() => 0;
     }
-
-
 
     private sealed class ConvertedSort : TESortNode
     {
         internal int OwnerCalls;
+
         internal ConvertedSort(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner)
         {
             OwnerCalls++;
@@ -149,10 +157,6 @@ public sealed class EngineLeafConstructionTests
             FItems = new TSortItem[1];
         }
     }
-
-
-
-
 
     [Fact]
     public void SortStyleUsesTheNonvirtualInheritedStyleAndBothMetaclassFacades()

@@ -1,16 +1,16 @@
 // Translated from HolyG.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.ILTer;
-using static Aow.Units.EventLog.EventLogUnit;
-using Aow.Units.GlobalTargetSpells;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.GlobalTargetSpells;
+using Aow.Units.HSEngine;
+using Aow.Units.ILTer;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.HolyG;
 
@@ -23,7 +23,7 @@ public enum AnonymousEnum_hgSummoning : byte
 public partial class THolyGround : TILTerrainMO
 {
     public THolyGround(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // HolyG.pas:92
     public new const int ClassID = 131987;
@@ -32,6 +32,7 @@ public partial class THolyGround : TILTerrainMO
     public sbyte FPlayer;
     public sbyte FDuration;
     public sbyte FOriginalOverlay;
+
     // HolyG.pas:201
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -327,7 +328,7 @@ public partial class THolyGround : TILTerrainMO
 public partial class THolyGroundResource : TILTerrainMOR
 {
     public THolyGroundResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // HolyG.pas:276
     public new const int ClassID = 131988;
@@ -343,7 +344,7 @@ public partial class THolyGroundResource : TILTerrainMOR
 public partial class THolyGroundSpellTE : TGlobalTargetSpellTE
 {
     public THolyGroundSpellTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // HolyG.pas:282
     public new const int ClassID = 135942;
@@ -410,7 +411,6 @@ public partial class THolyGroundSpellTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class THolyGroundSpell : TGlobalTargetSpell
@@ -426,7 +426,6 @@ public partial class THolyGroundSpell : TGlobalTargetSpell
     }
 
     // HolyG.pas:339
-
 
     // HolyG.pas:375
     public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)

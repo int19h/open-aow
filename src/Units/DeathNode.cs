@@ -1,8 +1,8 @@
 // Translated from DeathNode.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.DeathNode;
@@ -10,7 +10,7 @@ namespace Aow.Units.DeathNode;
 public partial class TDeathNode : TProductionPlace
 {
     public TDeathNode(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // DeathNode.pas:37
     public new const int ClassID = 132270;
@@ -35,12 +35,10 @@ public partial class TDeathNodeResource : TProductionPlaceResource
 
     // DeathNode.pas:43
 
-
     // DeathNode.pas:58
     public override int ResourceUserClassID() => 132270;
 
     // DeathNode.pas:27
-
 
     // DeathNode.pas:52
     public override string ResourceEditName() => TranslateRStr(DeathNodeRStr);

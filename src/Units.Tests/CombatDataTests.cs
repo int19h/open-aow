@@ -8,18 +8,21 @@ public sealed class CombatDataTests
     private sealed class ObservedNode() : TENode(null!)
     {
         internal int DestroyCount;
+
         public override void Destroy() { DestroyCount++; base.Destroy(); }
     }
 
     private sealed class ObservedList : TByteList
     {
         internal int DestroyCount;
+
         public override void Destroy() { DestroyCount++; base.Destroy(); }
     }
 
     private sealed class ObservedChild(TECustomNode owner) : TCombatObject(owner)
     {
         internal int DestroyCount;
+
         public override void Destroy() { DestroyCount++; base.Destroy(); }
     }
 
@@ -73,11 +76,18 @@ public sealed class CombatDataTests
     {
         var data = new TCombatData(null!)
         {
-            FX = 12, FY = 34, FL = 2,
-            FAttackerX = 9, FAttackerY = 8, FAttackerL = 1,
-            FAttackerPlayer = -1, FDefenderPlayer = 3,
-            FRound = 7, FHeader = "Combat",
-            FWallType = 2, FWallBreached = true
+            FX = 12,
+            FY = 34,
+            FL = 2,
+            FAttackerX = 9,
+            FAttackerY = 8,
+            FAttackerL = 1,
+            FAttackerPlayer = -1,
+            FDefenderPlayer = 3,
+            FRound = 7,
+            FHeader = "Combat",
+            FWallType = 2,
+            FWallBreached = true
         };
         data.FDefeatedLeaders.Add(3);
         data.FDefeatedLeaders.Add(5);

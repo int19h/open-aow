@@ -1,7 +1,7 @@
 // Translated from AltPest.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.Altar;
+using Aow.Units.Engine;
 using Aow.Units.Storms;
 using static Aow.Units.AoWE.AoWEUnit;
 
@@ -10,7 +10,7 @@ namespace Aow.Units.AltPest;
 public partial class TAltarOfPestilence : TAltar
 {
     public TAltarOfPestilence(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AltPest.pas:36
     public new const int ClassID = 131852;
@@ -31,12 +31,10 @@ public partial class TAltarOfPestilenceResource : TAltarResource
 
     // AltPest.pas:44
 
-
     // AltPest.pas:55
     public override int ResourceUserClassID() => 131852;
 
     // AltPest.pas:26
-
 
     // AltPest.pas:49
     public override string ResourceEditName() => TranslateRStr(AltarOfPestilenceRStr);

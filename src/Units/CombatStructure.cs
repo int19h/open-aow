@@ -1,18 +1,18 @@
 // Translated from CombatStructure.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
+using Aow.Units.aowFX;
+using Aow.Units.AoWTC;
+using Aow.Units.CombatILTer;
+using Aow.Units.CombatRoad;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.aowFX;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.CombatILTer;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.CombatRoad;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.CombatStructure;
 
@@ -28,8 +28,8 @@ public partial class TCombatStructure : TCombatFixedILTerrain
 
     public int FHitPoints;
     public bool FPlaySound;
-    // CombatStructure.pas:51
 
+    // CombatStructure.pas:51
 
     // CombatStructure.pas:229
     public override sbyte GetOverlay(int Index)
@@ -312,13 +312,12 @@ public partial class TCombatStructure : TCombatFixedILTerrain
 
     // CombatStructure.pas:23
 
-
 }
 
 public partial class TCombatStructureResource : TCombatFixedILTerrainResource
 {
     public TCombatStructureResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatStructure.pas:256
     public new const int ClassID = 2229511;

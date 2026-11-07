@@ -1,21 +1,21 @@
 // Translated from Spring.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.Spring;
 
 public partial class TSpringOfLifeAnimation : TAnimation
 {
     public TSpringOfLifeAnimation(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Spring.pas:64
     public override void NewFrame()
@@ -28,7 +28,6 @@ public partial class TSpringOfLifeAnimation : TAnimation
     }
 
     // Animation.pas:43
-
 
     // Spring.pas:59
     public override TSet<TAnimationControlModeElement> AnimationControlMode() => SpringUnit.SpringMode;
@@ -45,7 +44,6 @@ public partial class TSpringOfLife : TStructure
     public new const int ClassID = 131328;
 
     // Spring.pas:70
-
 
     // Spring.pas:111
     public override void ArmyPlaced(TArmyHS PlacedArmy)
@@ -112,7 +110,6 @@ public partial class TSpringOfLife : TStructure
 
     // Spring.pas:27
 
-
 }
 
 public partial class TSpringOfLifeResource : TStructureResource
@@ -127,12 +124,10 @@ public partial class TSpringOfLifeResource : TStructureResource
 
     // Spring.pas:117
 
-
     // Spring.pas:129
     public override int ResourceUserClassID() => 131328;
 
     // Spring.pas:37
-
 
     // Spring.pas:126
     public override string ResourceEditName() => TranslateRStr(SpringOfLifeRStr);
@@ -154,6 +149,7 @@ public static partial class SpringUnit
     }
 
     public static TSet<TAnimationControlModeElement> SpringMode = TSet<TAnimationControlModeElement>.FromMask(17UL);
+
     public static void Initialize()
     {
     }

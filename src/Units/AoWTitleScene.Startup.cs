@@ -1,17 +1,17 @@
 #nullable disable
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using Aow.Units.AoWVideoDlg;
 using Aow.Platform;
 using Aow.Rtl;
-using Aow.Units.Sound;
 using Aow.Units.AoWE;
-using Aow.Units.AoWSelFactionWin;
-using Aow.Units.AoWMessageDlg;
-using Aow.Units.E2GameFlow;
 using Aow.Units.AoWFileDialog;
+using Aow.Units.AoWMessageDlg;
+using Aow.Units.AoWSelFactionWin;
+using Aow.Units.AoWVideoDlg;
+using Aow.Units.E2GameFlow;
 using Aow.Units.E2Globals;
+using Aow.Units.Sound;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWTitleScene;
 
@@ -39,6 +39,7 @@ public partial class TTitleScene
         Window.WinManager.ILIndexTBack = 4;
         Window.Visible = true;
     }
+
     public void WindowHide()
     {
         Window.WinManager.ILIndexTBack = 0;
@@ -47,6 +48,7 @@ public partial class TTitleScene
         Window.Visible = false;
         TitleSceneIL.ReleaseDiscardableImageData();
     }
+
     public void WindowMouseUp(TObject sender, TMouseButton button, TSet<TShiftState> shift, int x, int y)
     {
         FMouseX = x;

@@ -20,6 +20,7 @@ public partial class THashList : TObject
     internal int FCount;
     internal int FCapacity;
     internal Ptr<THashItem> FItems;
+
     // HashTabU.pas:120
     protected internal void SetCapacity(int NewCapacity)
     {
@@ -154,6 +155,7 @@ public partial class TIntegerHashTable : TObject
 public partial class TIntegerHashTable256 : TIntegerHashTable
 {
     internal FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 FLists;
+
     // HashTabU.pas:186
     public TIntegerHashTable256()
     {
@@ -204,7 +206,9 @@ public partial class TIntegerHashTable256 : TIntegerHashTable
 public struct TStringHashItem
 {
     private string key;
+
     public string Key { readonly get => key ?? ""; set => key = value; }
+
     public object Item;
 }
 
@@ -313,6 +317,7 @@ public partial class TStringHashTable : TObject
 public partial class TStringHashTable256 : TStringHashTable
 {
     internal FixedArray_Aow_Units_HashTabU_TStringHashList_256 FLists;
+
     // HashTabU.pas:281
     public TStringHashTable256()
     {

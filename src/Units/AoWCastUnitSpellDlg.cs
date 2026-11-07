@@ -1,20 +1,20 @@
 // Translated from AoWCastUnitSpellDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWCastUnitSpellDlg;
 
@@ -64,6 +64,7 @@ public partial class TCastUnitSpellDlg : TDataModule
     public TAOWLabel SelectionInfoLbl;
     public TIvTranslator Translator;
     public TUnitSpellCaster FCaster;
+
     // AoWCastUnitSpellDlg.pas:79
     public void ClearCaster()
     {

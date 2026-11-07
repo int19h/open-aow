@@ -1,9 +1,9 @@
 using System.Reflection;
-using Xunit.Sdk;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
+using Xunit.Sdk;
 using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
@@ -16,6 +16,7 @@ public sealed partial class EngineFixture : IDisposable
 {
     private readonly RecordingHost host = new("fixture");
     private static RecordingHost services = null!;
+
     internal static TAoWEngine Engine { get; private set; } = null!;
     internal static TAoWHSSet GameSet { get; private set; } = null!;
     internal static string Root => services.GameRoot;
@@ -59,11 +60,13 @@ public sealed partial class EngineFixture : IDisposable
     {
         internal readonly List<TEObject> Members = [];
         internal int Removals;
+
         public override int AddChild(TEObject child)
         {
             Members.Add(child);
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child)
         {
             Removals++;
@@ -105,6 +108,7 @@ public sealed class EngineStateAttribute : BeforeAfterTestAttribute
     private IClock clock = null!;
     private string exe = "";
     private Action<string> message = null!;
+
     public override void Before(MethodInfo methodUnderTest)
     {
         files = Runtime.Files; settings = Runtime.Settings; dialogs = Runtime.Dialogs; shell = Runtime.Shell;
@@ -113,6 +117,7 @@ public sealed class EngineStateAttribute : BeforeAfterTestAttribute
         EngineFixture.InstallServices();
         EngineFixture.RestoreEngine();
     }
+
     public override void After(MethodInfo methodUnderTest)
     {
         EngineFixture.RestoreEngine();

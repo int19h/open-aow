@@ -1,8 +1,8 @@
 // Translated from BldGuild.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.BldGuild;
@@ -10,7 +10,7 @@ namespace Aow.Units.BldGuild;
 public partial class TBuildersGuild : TProductionPlace
 {
     public TBuildersGuild(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // BldGuild.pas:37
     public new const int ClassID = 133422;
@@ -33,12 +33,10 @@ public partial class TBuildersGuildResource : TProductionPlaceResource
 
     // BldGuild.pas:40
 
-
     // BldGuild.pas:56
     public override int ResourceUserClassID() => 133422;
 
     // BldGuild.pas:26
-
 
     // BldGuild.pas:50
     public override string ResourceEditName() => TranslateRStr(BuildersGuildRStr);

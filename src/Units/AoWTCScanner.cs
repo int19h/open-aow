@@ -24,6 +24,7 @@ public partial class TTCScanner : TDataModule
     public TAOWLabel STitleLabel;
     public TAOWButton SMinIcon;
     public TIvTranslator Translator;
+
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()
     {

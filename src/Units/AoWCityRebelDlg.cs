@@ -1,13 +1,13 @@
 // Translated from AoWCityRebelDlg.pas.
 using Aow.Rtl;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.City;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWWindow;
+using Aow.Units.City;
+using Aow.Units.EventLog;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWCityRebelDlg;
@@ -33,6 +33,7 @@ public partial class TCityRebelDlg : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FOnClose;
     public TCityRebellionEventLog FEvent;
+
     // AoWCityRebelDlg.pas:49
     public void ClearEvent()
     {

@@ -1,7 +1,7 @@
 // Translated from UnitIDlg.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
 
 namespace Aow.Units.UnitIDlg;
 
@@ -29,6 +29,7 @@ public partial class TUnitInfoDlg : TForm
     public TImage Image1;
     public TLabel MovesLbl;
     public TIvTranslator Translator;
+
     // UnitIDlg.pas:104
     public int ShowUnit(TAbstractUnit AUnit)
     {

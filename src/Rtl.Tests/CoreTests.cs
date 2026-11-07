@@ -1,8 +1,8 @@
 using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
 using static Aow.Rtl.RtlUnit;
-using DelphiException = Aow.Rtl.Exception;
 using Assert = Xunit.Assert;
+using DelphiException = Aow.Rtl.Exception;
 
 namespace Aow.Rtl.Tests;
 
@@ -29,6 +29,7 @@ public sealed class CoreTests
         }
         finally { RandomizeSeed = null; SuppressRandomize = suppressed; RandSeed = previous; }
     }
+
     [Fact]
     public void ObjectsAndGeneratedUnit()
     {
@@ -207,7 +208,9 @@ public sealed class CoreTests
     }
 
     private enum WideFlag : byte { Low = 0, High = 63 }
+
     private enum ShiftedFlag : byte { Low = 8, High = 15 }
+
     [Fact]
     public void SetBoundariesAndImages()
     {

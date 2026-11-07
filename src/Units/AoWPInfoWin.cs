@@ -1,22 +1,22 @@
 // Translated from AoWPInfoWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWUnitWindow;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWUnitWindow;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWPInfoWin;
 
@@ -48,6 +48,7 @@ public partial class TPInfoW : TDataModule
     public TAOWButton Center;
     public TAOWButton Help;
     public TIvTranslator Translator;
+
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()
     {

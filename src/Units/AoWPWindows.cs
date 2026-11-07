@@ -1,22 +1,22 @@
 // Translated from AoWPWindows.pas.
-using Aow.Rtl;
-using Aow.Units.AOWMenu;
-using Aow.Units.StartMenu;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using Aow.Units.AoWSoundDlg;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using static Aow.Units.E3EventDialogs.E3EventDialogsUnit;
 using Aow.Platform;
+using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.aowHelpWin;
+using Aow.Units.AOWMenu;
+using Aow.Units.AoWSoundDlg;
+using Aow.Units.AoWVideoDlg;
 using Aow.Units.AoWWorldMap;
 using Aow.Units.E2Globals;
-using Aow.Units.aowHelpWin;
+using Aow.Units.StartMenu;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.E3EventDialogs.E3EventDialogsUnit;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
 
 namespace Aow.Units.AoWPWindows;
 
@@ -39,6 +39,7 @@ public partial class TPopupWindows : TDataModule
     public TAOWMenu TCHelpMenu;
     public TAOWMenu TCSettingsMenu;
     public TAOWMenu TCEndMenu;
+
     // AoWPWindows.pas:61
     public void SettingsMenuSelect(TAOWMenu Sender)
     {

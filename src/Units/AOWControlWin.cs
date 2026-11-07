@@ -1,23 +1,23 @@
 // Translated from AOWControlWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
+using Aow.Units.AoWExeForms;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWUnitWindow;
 using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.aowHelpWin.aowHelpWinUnit;
 using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.aowHelpWin.aowHelpWinUnit;
-using Aow.Units.AoWExeForms;
-using Aow.Units.AoWUnitWindow;
 
 namespace Aow.Units.AOWControlWin;
 
@@ -105,6 +105,7 @@ public partial class TControlWin : TDataModule
     public TAOWLabel PartyActionLbl1;
     public TAOWLabel PartyActionLbl2;
     public byte FSelection;
+
     // AOWControlWin.pas:294
     public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc SD)
     {

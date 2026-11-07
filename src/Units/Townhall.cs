@@ -1,14 +1,14 @@
 // Translated from Townhall.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.CombatStructure;
+using Aow.Units.Engine;
 
 namespace Aow.Units.Townhall;
 
 public partial class TTownhall : TCombatStructure
 {
     public TTownhall(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Townhall.pas:36
     public new const int ClassID = 2229520;
@@ -18,7 +18,7 @@ public partial class TTownhall : TCombatStructure
 public partial class TTownhallResource : TCombatStructureResource
 {
     public TTownhallResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Townhall.pas:39
     public new const int ClassID = 2229521;

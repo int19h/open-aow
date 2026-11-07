@@ -1,18 +1,18 @@
 // Translated from AOWMWindow.pas.
+using Aow.Platform;
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using Aow.Units.AoWWindow;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using Aow.Platform;
 using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWSWindow;
+using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AOWMWindow;
 
@@ -30,6 +30,7 @@ public partial class TMWindow : TDataModule
     public TAOWAlignWidth FMapAlignWidth;
     public TAOWAlignHeight FWorldAlignHeight;
     public TAOWAlignHeight FMapAlignHeight;
+
     // AOWMWindow.pas:61
     public bool InsideMap(int X, int Y) => X > this.MapWindow.WinLeft + 12 && X < this.MapWindow.WinLeft + this.MapWindow.WinWidth - 12 && Y > this.MapWindow.WinTop + 12 && Y < this.MapWindow.WinTop + this.MapWindow.WinHeight - 12;
 

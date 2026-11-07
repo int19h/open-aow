@@ -1,5 +1,4 @@
 using System.Text;
-using Xunit.Abstractions;
 using Aow.Units.AoWE;
 using Aow.Units.aowMapEvents;
 using Aow.Units.Arena;
@@ -12,8 +11,9 @@ using Aow.Units.HSEngine;
 using Aow.Units.ItemExpS;
 using Aow.Units.PrdPlace;
 using Aow.Units.WizardsTower;
-using Game = Aow.Units.AoWE.AoWEUnit;
+using Xunit.Abstractions;
 using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -174,11 +174,13 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     private sealed class JoiningHero : THero
     {
         internal bool Joins;
+
         internal JoiningHero(bool joins) : base(null!)
         {
             Joins = joins;
             FHeroResource = new THeroResource(null!) { FHeroType = THeroType.htHero };
         }
+
         public override bool CanJoin(sbyte Player) => Joins;
         public override bool OfferToJoin(sbyte Player) => Joins;
         public override bool GetTransporter() => false;
@@ -188,6 +190,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     private sealed class RecordingAction() : TDiplomaticAction(null!)
     {
         internal readonly List<sbyte> Players = [];
+
         public override void ExecuteAI(sbyte Player) => Players.Add(Player);
     }
 
@@ -195,6 +198,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
     private sealed class CountingUnitTable : TIntegerHashTable256
     {
         internal int Finds;
+
         public override object Find(int Key)
         {
             Finds++;

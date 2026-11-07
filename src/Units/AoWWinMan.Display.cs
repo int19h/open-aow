@@ -15,6 +15,7 @@ public partial class TGeneral
     {
         if (GameHost.MainForm is { } form) form.FCursor = (short)Math.Abs(Manager.Cursor);
     }
+
     public void ManagerUpdate()
     {
         var unit = AoWUnitBannerUnit.UnitBanner.BannerPopup;
@@ -38,6 +39,7 @@ public partial class TGeneral
             Manager.AddDrawRect(ref rect, null);
         }
     }
+
     public void MapProgress(TEObject sender, string message, int progression)
     {
         var progress = E2GlobalsUnit.ProgressDialog;

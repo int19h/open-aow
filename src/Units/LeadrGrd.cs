@@ -1,10 +1,10 @@
 // Translated from LeadrGrd.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.LeadrGrd;
 
@@ -16,6 +16,7 @@ public partial class TLeaderGrid : TCustomImageDrawGrid
     public bool FShowStatus;
     public TMemoryStream FStream;
     public TAoWHSMap FMap;
+
     // LeadrGrd.pas:111
     public override void Destroy()
     {
@@ -148,7 +149,9 @@ public struct THeroView
 {
     public FixedArray_byte_96 Reserved00;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
+
     public FixedArray_byte_4 Reserved64;
     public byte Race;
     public FixedArray_byte_15 Reserved69;
@@ -159,7 +162,9 @@ public struct TItemView
 {
     public FixedArray_byte_24 Reserved00;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
+
     public FixedArray_byte_24 Reserved1C;
     public byte Kind;
     public FixedArray_byte_15 Reserved35;

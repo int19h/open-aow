@@ -1,12 +1,12 @@
 // Translated from OverviewUnit.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
 
 namespace Aow.Units.OverviewUnit;
 
@@ -14,9 +14,10 @@ namespace Aow.Units.OverviewUnit;
 public partial class TOverviewUnitHS : TUnitHS
 {
     public TOverviewUnitHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TAbstractUnit FUnit;
+
     // OverviewUnit.pas:31
     public override void Destroy()
     {

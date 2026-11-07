@@ -65,11 +65,17 @@ public sealed class TypedNameRoundTripTests
     private sealed class Keyboard(TAOWEdit edit) : IDisplayEvents
     {
         public void KeyPress(byte value) => edit.CheckKeyPress(ref value);
+
         public void KeyDown(ushort key, TSet<TShiftState> shift) { }
+
         public void KeyUp(ushort key, TSet<TShiftState> shift) { }
+
         public void MouseMove(TSet<TShiftState> shift, int x, int y) { }
+
         public void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+
         public void MouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+
         public void DoubleClick() { }
     }
 }

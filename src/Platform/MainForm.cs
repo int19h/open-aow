@@ -1,24 +1,24 @@
 #nullable disable
 using Aow.Layout;
 using Aow.Rtl;
+using Aow.Units.AoWE;
+using Aow.Units.aowSetupEvents;
+using Aow.Units.AoWTCReg;
 using Aow.Units.DisplayC;
+using Aow.Units.E2WindowLayout;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
+using Aow.Units.Sound;
 using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
 using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
 using static Aow.Units.AOWMWindow.AOWMWindowUnit;
 using static Aow.Units.AoWSWindow.AoWSWindowUnit;
-using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
-using Aow.Units.AoWTCReg;
-using Aow.Units.Sound;
-using Aow.Units.E2WindowLayout;
-using Aow.Units.aowSetupEvents;
-using Aow.Units.AoWE;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 
 namespace Aow.Platform;
 
@@ -34,6 +34,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     public bool FCursorChanged { get; private set; }
     public bool IsClosed { get; private set; }
     public LayoutSession Layouts { get; }
+
     private readonly IDisplayHost host;
     private bool disposed;
     private bool created;
@@ -64,6 +65,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         try { form.Initialize(argument); return form; }
         catch { form.Dispose(); throw; }
     }
+
     private void Initialize(string argument)
     {
         Display.OnUpdateFrame = DisplayUpdateFrame;
@@ -79,6 +81,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         // The game reads its command line as a path on its own drive, so a host path becomes the file system's public path.
         FormShow(argument.Length == 0 ? argument : RtlUnit.Files.ExpandPath(argument));
     }
+
     private void FormCreate()
     {
         AoWTCRegUnit.RegisterTacticalCombat(AoWEngine);
@@ -118,9 +121,11 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         RtlUnit.SetCurrentDir(AoWEngine.StartupDirectory);
         AoWEngine.FCombatFont = FontModule.Age8;
     }
+
     // A command-line save names a world or campaign save by its original or own extension (own-formats.md 2.9).
     public static bool IsSaveName(string argument) =>
         Aow.Formats.DocumentKind.Save.HasExtension(Path.GetExtension(argument)) || Aow.Formats.DocumentKind.CampaignSave.HasExtension(Path.GetExtension(argument));
+
     private void FormShow(string argument)
     {
         SoundUnit.SongPlayer.OnSongChange = SoundDlg.SongChange;
@@ -135,18 +140,21 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         if (!AoWEngine.FRegistry.GetDebugMode() && !AoWEngine.FRegistry.GetSkipIntro()) IntroScene.Execute();
         else ShowTitleScene(TitleScene, true);
     }
+
     public void DisplayResizeBackSurface(int width, int height)
     {
         General.Manager.WinWidth = Math.Max(640, Display.BackSurfaceWidth);
         General.Manager.WinHeight = Math.Max(480, Display.BackSurfaceHeight);
         General.ResetLayout();
     }
+
     public void Run(int frames = 0)
     {
         if (frames > 0 && Display.PresentedFrames >= frames) return;
         Display.FramePresented = frame => { if (frames > 0 && frame >= frames) Display.StopUpdateFrameLoop(); };
         Display.StartUpdateFrameLoop();
     }
+
     public void DisplayUpdateFrame(TObject sender, TAbstractDC dc, int surfaceType)
     {
         RtlUnit.Clock.WaitMilliseconds(AoWEngine.FRegistry.GetDebugMode() ? 1 : 0);
@@ -184,7 +192,9 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         if (AoWHSMap is not null && AoWHSMap.FExitPending) General.ReturnToTitle();
         ApplyVideoSettings(VideoDialog);
     }
+
     private int CursorIndex => FCursor == 9999 && AoWHSMap is not null ? AoWHSMap.Mouse.Cursor : FCursor;
+
     public void GetCursorRect(int x, int y, ref TRect rect)
     {
         rect = default;
@@ -207,7 +217,9 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         else if (FCursor != 1 && IntGfxMod.Cursors.ImageExist(FCursor)) Include(IntGfxMod.Cursors[FCursor], -25, -25);
         rect = FCursorBounds;
     }
+
     private TRect FCursorBounds;
+
     public void DrawCursor(int x, int y, in TSurfaceDesc surface)
     {
         if (x == -1) return;
@@ -230,6 +242,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         }
         else if (FCursor != 1 && IntGfxMod.Cursors.ImageExist(FCursor)) IntGfxMod.Cursors[FCursor].ShowClipped(x - 25, y - 25, surface);
     }
+
     public void ScrollMap(int x, int y)
     {
         if (HasModalWindow(General) || x == -1 || !host.HasFocus) return;
@@ -238,24 +251,33 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         if (y <= 1) { MWindow.MapViewer.SceneY -= 16; SWindow.Scanner.SetTTop(MWindow.MapViewer.SceneY / 32 - 6); }
         if (y >= Display.ActiveDC.GetSurface(0).Height - 1) { MWindow.MapViewer.SceneY += 16; SWindow.Scanner.SetTTop(MWindow.MapViewer.SceneY / 32 - 6); }
     }
+
     public void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; General.Manager.CheckMouseDown(button, shift, x, y); }
+
     public void MouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y)
     {
         Display.MouseButtons = shift;
         General.Manager.CheckMouseUp(button, shift, x, y);
         if (AoWHSMap?.Mouse is Aow.Units.AoWE.TAbstractAoWHSMapMouse mouse) mouse.ResetRectangleSelection();
     }
+
     public void MouseMove(TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; General.Manager.CheckMouseMove(shift, x, y); }
+
     public void KeyDown(ushort key, TSet<TShiftState> shift)
     {
         if (key == 13 && shift.Contains(TShiftState.ssAlt)) { Display.SwapDC(); return; }
         General.Manager.CheckKeyDown(ref key, shift);
         if (key == 112 && AoWHSMap is not null && AoWHSMap.FGameType == Aow.Units.AoWE.TGameType.gtTutorial) ShowTutorialMessage(TutorialWindow);
     }
+
     public void KeyPress(byte key) => General.Manager.CheckKeyPress(ref key);
+
     public void DoubleClick() { if (AoWHSMap is not null && !HasModalWindow(General)) AoWHSMap.Mouse.DblClick(); }
+
     public void Resize(int width, int height) => Display.Resize();
+
     public void FocusChanged(bool active) { if (!active) Display.MouseButtons = default; }
+
     public bool CloseRequested()
     {
         if (AoWHSMap is null) return IsClosed = true;
@@ -267,6 +289,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         DialogWin.Confirm(TranslateRStr(AoWEUnit.ConfirmRStr), TranslateRStr(QuitCombatRStr), 6);
         return false;
     }
+
     public void Dispose()
     {
         if (disposed) return;

@@ -79,19 +79,23 @@ internal static class FrameVerification
         }
         Console.WriteLine($"Frame display PASS: {checks} checks, memory surfaces, focus, fullscreen, limiter, headless rows, no window");
     }
+
     private sealed class TestDisplay : TDisplay
     {
         public TestDisplay() : base(null!) { }
 
         public void SetUpdate(TUpdateFrameEvent action) => OnUpdateFrame = action;
     }
+
     private sealed class TestHost : IDisplayHost, IDisplayEvents
     {
         public (int Width, int Height) ClientSize { get; set; } = (640, 480);
         public bool Fullscreen { get; set; }
         public bool HasFocus { get; set; } = true;
+
         public bool SystemCursor;
         public int Presents, Pumps;
+
         public void Present(in TSurfaceDesc surface) => Presents++;
         public (int X, int Y, bool Inside) PointerPosition() => (639, 479, true);
         public void PumpEvents(IDisplayEvents sink) => Pumps++;

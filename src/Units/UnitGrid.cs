@@ -1,9 +1,9 @@
 // Translated from UnitGrid.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.ImageLib;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.UnitGrid;
 
@@ -15,6 +15,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     public bool FEditEnabled;
     public bool FShowUnitLevel;
     public TMemoryStream FMemoryStream;
+
     // UnitGrid.pas:60
     public override void Destroy()
     {

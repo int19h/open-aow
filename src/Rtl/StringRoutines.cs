@@ -59,12 +59,14 @@ public static partial class RtlUnit
     }
 
     public static void Insert(string? source, ref string value, int index) => value = Insert(source, value, index);
+
     public static int Pos(string? needle, string? haystack)
     {
         needle = RequireString(needle);
         haystack = RequireString(haystack);
         return needle.Length == 0 ? 0 : haystack.AsSpan().IndexOf(needle.AsSpan()) + 1;
     }
+
     public static void SetLength(ref string value, int length) => value = Resized(value, length);
     public static int Length(string? value) => RequireString(value).Length;
     public static int Ord(char value) => Cp1252.Byte(value);
@@ -100,6 +102,7 @@ public static partial class RtlUnit
     public static string UpperCase(string? value) => Map(value, UpCase);
     public static string LowerCase(string? value) => Map(value, c => c is >= 'A' and <= 'Z' ? (char)(c + 32) : c);
     public static string AnsiLowerCase(string? value) => Map(value, c => Cp1252.IsMapped(c) ? Cp1252.Char(Fold1252(Cp1252.Byte(c))) : c);
+
     public static string AnsiUpperCase(string? value) => Map(value, c => Cp1252.IsMapped(c) ? Cp1252.Char(Cp1252.Byte(c) switch
     {
         >= 97 and <= 122 or >= 224 and <= 246 or >= 248 and <= 254 => (byte)(Cp1252.Byte(c) - 32),
@@ -152,6 +155,7 @@ public static partial class RtlUnit
 
     public static int StrToInt(string? value) => TryInteger(value, out int result) ? result
         : throw new EConvertError($"'{value}' is not a valid integer value");
+
     public static int StrToIntDef(string? value, int fallback) => TryInteger(value, out int result) ? result : fallback;
 
     // SYSTEM.PAS _ValLong stops at the first zero and accepts only leading spaces.

@@ -1,12 +1,12 @@
 // Translated from AOWMenuBar.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using Aow.Units.AoWControl;
 using Aow.Units.AoWComp;
+using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AOWMenuBar;
 
@@ -26,6 +26,7 @@ public partial class TAOWMenuBar : TAOWControl
     public int FILIndexDown;
     public TList FMenus;
     public bool F130;
+
     // AOWMenuBar.pas:65
     public TAOWMenuBar(TComponent owner) : base(owner)
     {
@@ -108,7 +109,7 @@ public partial class TAOWMenuBar : TAOWControl
 
     // AOWMenuBar.pas:160
     // { Draw: the items side by side, each in an equal share of the width; the selected one with the up
-//   image and the text one pixel lower }
+    //   image and the text one pixel lower }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         TRect OldClip = default;
@@ -168,7 +169,7 @@ public partial class TAOWMenuBar : TAOWControl
 
     // AOWMenuBar.pas:206
     // { CheckMouseDown: a left click on an item selects it and shows its menus, or closes it when it
-//   was selected; a click outside the bar closes the selected item }
+    //   was selected; a click outside the bar closes the selected item }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         int I = default;

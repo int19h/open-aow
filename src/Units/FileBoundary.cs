@@ -120,8 +120,11 @@ public static class FileBoundary
             // every other one.
             Record(files, fileName, new GameFileReport
             {
-                Operation = "list", Profile = profile, Format = DetectedFormat.Original.ToString(),
-                G1 = "not applicable: header listing", Validation = "not applicable: header listing",
+                Operation = "list",
+                Profile = profile,
+                Format = DetectedFormat.Original.ToString(),
+                G1 = "not applicable: header listing",
+                Validation = "not applicable: header listing",
             });
             return head.Length == count ? head : [];
         }

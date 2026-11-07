@@ -1,12 +1,12 @@
 // Translated from AoWMemo.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWControl;
+using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.AoWVScroll;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Aow.Units.AoWVScroll;
-using Aow.Units.AoWControl;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWInterfaceImgLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWMemo;
 
@@ -65,6 +65,7 @@ public partial class TAOWMemo : TAOWControl
     public int FDrawIndex;
     public TRect FItemRect;
     public TStringList FLines;
+
     // AoWMemo.pas:126
     public TAOWMemo(TComponent owner) : base(owner)
     {
@@ -123,7 +124,7 @@ public partial class TAOWMemo : TAOWControl
 
     // AoWMemo.pas:169
     // { SetSize wraps every item at the width of the control into FLines (at spaces; a word that does
-//   not fit starts a new line) and sets up the scroll bar }
+    //   not fit starts a new line) and sets up the scroll bar }
     public override void SetSize()
     {
         int Len;
@@ -389,7 +390,7 @@ public partial class TAOWMemo : TAOWControl
 
     // AoWMemo.pas:378
     // { Draw draws the frame and the texture, the visible lines (clipped to the text area) and the
-//   cursor }
+    //   cursor }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         int X = default;
@@ -558,7 +559,7 @@ public partial class TAOWMemo : TAOWControl
 
     // AoWMemo.pas:715
     // { CheckKeyPress edits the text: Backspace, Enter (splits the paragraph) and the printable
-//   characters }
+    //   characters }
     public override void CheckKeyPress(ref byte Key)
     {
         bool Changed;
@@ -621,26 +622,26 @@ public partial class TAOWMemo : TAOWControl
                 case >= 14 and <= 31:
                     break;
                 default:
-                {
-                    C = Key;
-                    if (FLines[FCurLine].Length == FCurCol)
                     {
-                        var itemLength = FItems[FRealLine];
-                        var item = FItems[FRealLine];
-                        var item2 = FItems[FRealLine];
-                        FItems[FRealLine] = Copy(item2, 1, FRealCol + 1) + Cp1252.Text(C) + Copy(item, FRealCol + 2, itemLength.Length - FRealCol);
-                    }
-                    else
-                    {
-                        var itemLength = FItems[FRealLine];
-                        var item = FItems[FRealLine];
-                        var item2 = FItems[FRealLine];
-                        FItems[FRealLine] = Copy(item2, 1, FRealCol) + Cp1252.Text(C) + Copy(item, FRealCol + 1, itemLength.Length - FRealCol);
-                    }
+                        C = Key;
+                        if (FLines[FCurLine].Length == FCurCol)
+                        {
+                            var itemLength = FItems[FRealLine];
+                            var item = FItems[FRealLine];
+                            var item2 = FItems[FRealLine];
+                            FItems[FRealLine] = Copy(item2, 1, FRealCol + 1) + Cp1252.Text(C) + Copy(item, FRealCol + 2, itemLength.Length - FRealCol);
+                        }
+                        else
+                        {
+                            var itemLength = FItems[FRealLine];
+                            var item = FItems[FRealLine];
+                            var item2 = FItems[FRealLine];
+                            FItems[FRealLine] = Copy(item2, 1, FRealCol) + Cp1252.Text(C) + Copy(item, FRealCol + 1, itemLength.Length - FRealCol);
+                        }
 
-                    FRealCol += 1;
-                    Changed = true;
-                }
+                        FRealCol += 1;
+                        Changed = true;
+                    }
 
                     break;
             }
@@ -906,7 +907,7 @@ public partial class TAOWMemo : TAOWControl
 
     // AoWMemo.pas:789
     // { CurToReal finds the cursor in FItems from the cursor in FLines; it adds the length of the
-//   cursor's line for every line up to it, not of each line (original bug) }
+    //   cursor's line for every line up to it, not of each line (original bug) }
     public void CurToReal()
     {
         int Len;

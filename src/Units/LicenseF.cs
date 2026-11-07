@@ -15,6 +15,7 @@ public partial class TLicenseForm : TForm
     public TButton YesBtn;
     public TButton NoBtn;
     public TImage Image2;
+
     // LicenseF.pas:35
     public void FormCreate(TObject Sender)
     {

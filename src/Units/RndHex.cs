@@ -1,8 +1,8 @@
 // Translated from RndHex.pas.
 using Aow.Rtl;
 using Aow.Units.Engine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Hexagon;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.RndHex;
 
@@ -12,7 +12,7 @@ namespace Aow.Units.RndHex;
 public partial class TRndHexagonResource : THexagonResource
 {
     public TRndHexagonResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 131412;
 

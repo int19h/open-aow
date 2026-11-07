@@ -1,18 +1,18 @@
 // Translated from Storms.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.PoisonC;
+using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+using Aow.Units.PoisonC;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.Storms;
 
@@ -20,9 +20,10 @@ namespace Aow.Units.Storms;
 public partial class TStorm : TAnimation
 {
     public TStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public sbyte FPlayer;
+
     // Storms.pas:34
     public virtual void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref TStormDamageInfo Info)
     {
@@ -105,16 +106,16 @@ public partial class TStorm : TAnimation
         throw EAbstractError.Create("Abstract Error");
     }
 
-
 }
 
 // storm image library
 public partial class TBlastStorm : TStorm
 {
     public TBlastStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TCustomImageLibrary FStormImages;
+
     // Storms.pas:338
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
     {
@@ -262,7 +263,7 @@ public partial class TBlastStorm : TStorm
 public partial class TIceStorm : TBlastStorm
 {
     public TIceStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Storms.pas:363
     public new const int ClassID = 135738;
@@ -323,7 +324,6 @@ public partial class TIceStorm : TBlastStorm
 
     // Animation.pas:43
 
-
     // Storms.pas:368
     public override string Name() => TranslateRStr(IceStormRStr);
 
@@ -332,7 +332,7 @@ public partial class TIceStorm : TBlastStorm
 public partial class TDeathStorm : TBlastStorm
 {
     public TDeathStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Storms.pas:492
     public new const int ClassID = 135741;
@@ -354,7 +354,6 @@ public partial class TDeathStorm : TBlastStorm
 
     // Animation.pas:43
 
-
     // Storms.pas:497
     public override string Name() => TranslateRStr(DeathStormRStr);
 
@@ -363,7 +362,7 @@ public partial class TDeathStorm : TBlastStorm
 public partial class TDivineStorm : TBlastStorm
 {
     public TDivineStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Storms.pas:608
     public new const int ClassID = 135740;
@@ -385,7 +384,6 @@ public partial class TDivineStorm : TBlastStorm
 
     // Animation.pas:43
 
-
     // Storms.pas:613
     public override string Name() => TranslateRStr(DivineStormRStr);
 
@@ -395,11 +393,12 @@ public partial class TDivineStorm : TBlastStorm
 public partial class TLightningStorm : TStorm
 {
     public TLightningStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 135739;
 
     public TCustomImageLibrary FStormImages;
+
     // Storms.pas:429
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
     {
@@ -491,7 +490,6 @@ public partial class TLightningStorm : TStorm
 
     // Animation.pas:43
 
-
     // Storms.pas:424
     public override string Name() => TranslateRStr(LightningStormRStr);
 
@@ -500,7 +498,7 @@ public partial class TLightningStorm : TStorm
 public partial class TFireStorm : TStorm
 {
     public TFireStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Storms.pas:517
     public new const int ClassID = 135742;
@@ -633,7 +631,6 @@ public partial class TFireStorm : TStorm
 
     // Animation.pas:43
 
-
     // Storms.pas:522
     public override string Name() => TranslateRStr(FireStormRStr);
 
@@ -643,11 +640,12 @@ public partial class TFireStorm : TStorm
 public partial class TPestilenceStorm : TStorm
 {
     public TPestilenceStorm(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 135745;
 
     public TPoisonCloudResource FCloudResource;
+
     // Storms.pas:644
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
     {
@@ -771,7 +769,6 @@ public partial class TPestilenceStorm : TStorm
 
     // Animation.pas:43
 
-
     // Storms.pas:639
     public override string Name() => TranslateRStr(PestilenceStormRStr);
 
@@ -781,7 +778,7 @@ public partial class TPestilenceStorm : TStorm
 public partial class TStormSpellTE : TSpellTE
 {
     public TStormSpellTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Storms.pas:730
     public new const int ClassID = 135937;
@@ -790,6 +787,7 @@ public partial class TStormSpellTE : TSpellTE
     public sbyte FX;
     public sbyte FY;
     public sbyte FL;
+
     // Storms.pas:735
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -828,7 +826,6 @@ public partial class TStormSpellTE : TSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 // targeting storm, caster
@@ -836,6 +833,7 @@ public partial class TStormSpell : TSpell
 {
     public TStorm FTargetStorm;
     public TAbstractUnit FSource;
+
     // Storms.pas:762
     public TStormSpell(TECustomNode owner) : base(owner)
     {

@@ -1,19 +1,19 @@
 // Translated from AoWUnitSelDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWUnitSelDlg;
 
@@ -50,6 +50,7 @@ public partial class TUnitSelectionDlg : TDataModule
     public TIvTranslator Translator;
     public TUnitSelector FEvent;
     public TUnitSelectorAAI FEventLog;
+
     // AoWUnitSelDlg.pas:66
     public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
     {

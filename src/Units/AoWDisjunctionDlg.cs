@@ -1,26 +1,26 @@
 // Translated from AoWDisjunctionDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWHScroll;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWPanel;
+using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.GFXE;
 using Aow.Units.GlobalSpells;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.Engine.EngineUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.AoWDisjunctionDlg;
 
@@ -59,6 +59,7 @@ public partial class TDisjunctionDlg : TDataModule
     public sbyte FMapX;
     public sbyte FMapY;
     public sbyte FMapL;
+
     // AoWDisjunctionDlg.pas:179
     public void ClearCaster()
     {

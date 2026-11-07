@@ -1,11 +1,8 @@
 // Translated from AoWMagic.pas.
 using Aow.Rtl;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
@@ -14,11 +11,14 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.GFXE;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
 using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.Engine.EngineUnit;
 
 namespace Aow.Units.AoWMagic;
 
@@ -94,6 +94,7 @@ public partial class TMagicWin : TDataModule
     public int FEnchantmentSort;
     public int FGlobalEnchantmentSort;
     public int FPowerSort;
+
     // AoWMagic.pas:133
     public void SelectEnchantment(int Index)
     {

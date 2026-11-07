@@ -1,8 +1,8 @@
 // Translated from NetworkE.pas.
 using Aow.Rtl;
+using Aow.Units.Engine;
 using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
-using Aow.Units.Engine;
 
 namespace Aow.Units.NetworkE;
 
@@ -16,6 +16,7 @@ public partial class TPlayerCommunicator : TEObject
     internal TMemoryStream FReceiveStream;
     internal TPlayerCommunicationControl FPCC;
     internal TEventList FOnProcess;
+
     // NetworkE.pas:605
     public TPlayerCommunicator(TECustomNode owner) : base(owner)
     {
@@ -153,6 +154,7 @@ public partial class TTokenEvent : TEObject
 
     internal int FRefCount;
     internal int FTokenCounter;
+
     // NetworkE.pas:969
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -161,7 +163,6 @@ public partial class TTokenEvent : TEObject
     }
 
     // NetworkE.pas:943
-
 
     // NetworkE.pas:955
     public override int AddRef()
@@ -197,6 +198,7 @@ public partial class TTokenEventList : TEObject
     public new const int ClassID = NetworkEUnit.CID_TokenEventList;
 
     internal TEReferenceNode FList;
+
     // NetworkE.pas:1000
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -322,6 +324,7 @@ public partial class TTokenControl : TObject
     internal TTokenManager FTokenManager;
     internal int FPlayer;
     internal bool FActive;
+
     // NetworkE.pas:1189
     // { Keeps the events sorted on their token counters; an event without one goes to the end }
     public virtual void Add(TTokenEvent TE)
@@ -357,7 +360,7 @@ public partial class TTokenControl : TObject
 
     // NetworkE.pas:1293
     // { A local player's events end with a TPassTokenTE (after a TSyncTE when the executer checks the
-//   sync); a remote player's events are prefetched only when they are complete }
+    //   sync); a remote player's events are prefetched only when they are complete }
     public virtual bool PrefetchTokenEvents(TTokenExecuter Executer)
     {
         bool Result;
@@ -525,7 +528,7 @@ public partial class TTokenControl : TObject
 
     // NetworkE.pas:1266
     // { The number of events of a remote player that can be executed now: they must follow the
-//   executer's token counter without a gap, up to and including the first TPassTokenTE }
+    //   executer's token counter without a gap, up to and including the first TPassTokenTE }
     public int GetPrefetchableTokenEvents(TTokenExecuter Executer)
     {
         int Result;
@@ -592,6 +595,7 @@ public partial class TTokenExecuter : TObject
     internal TTokenEventList FSystemEvents;
     internal bool FHoldTC;
     internal TTokenManager FTokenManager;
+
     // NetworkE.pas:1429
     public virtual TExecuteResult ExecuteTokenEvent(TTokenEvent TE)
     {
@@ -849,7 +853,7 @@ public partial class TTokenExecuter : TObject
 
     // NetworkE.pas:1550
     // { Lets the active token control prefetch its events, executes them and activates the next token
-//   control, for at most one round of token controls }
+    //   control, for at most one round of token controls }
     public void Process()
     {
         int I;
@@ -943,6 +947,7 @@ public partial class TTokenManager : TObject
     internal TObject FOwner;
     internal TList FTokenControls;
     internal TNetworkMessageEvent FOnMessage;
+
     // NetworkE.pas:1642
     public virtual TTokenExecuter CreateTokenExecuter() => new TTokenExecuter(this);
 
@@ -979,7 +984,7 @@ public partial class TTokenManager : TObject
 
     // NetworkE.pas:1694
     // { A player is ready when nothing of his waits: no system events, no token events, and his events
-//   are not being executed }
+    //   are not being executed }
     public virtual bool PlayerReady(int APlayer)
     {
         bool Result;
@@ -1050,7 +1055,6 @@ public partial class TTokenManager : TObject
 
     // NetworkE.pas:1606
     // { The original does not call the inherited constructor. }
-
 
     // NetworkE.pas:1614
     public override void Destroy()
@@ -1130,6 +1134,7 @@ public delegate bool TSendDataEvent(object Data, int Size, int SystemID);
 public delegate void TGetSyncValueEvent(ref int Value);
 public delegate void TTokenEventEvent(TTokenEvent TE);
 public delegate void TNetworkMessageEvent(TObject Sender, string Msg);
+
 // { The original reaches TENode's child list (Engine.TENode.FChildren, +8) from this unit; the
 //     recovered Engine.pas keeps the field private, so this layout view of TENode reads it (a
 //     typecast of a field or parameter compiles to no code) }
@@ -1148,6 +1153,7 @@ public partial class TDataPackage : TEObject
     internal int FSender;
     internal int FReceiver;
     internal int FRefCount;
+
     // NetworkE.pas:592
     // { The original does not call the inherited ReadWrite. }
     public override void ReadWrite(TEStorageStream Stream)
@@ -1201,6 +1207,7 @@ public partial class TPlayerCommunicationSettings : TEObject
 {
     internal TConnectionMode FConnectionMode;
     internal int FSystemID;
+
     // NetworkE.pas:452
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1245,6 +1252,7 @@ public partial class TPlayerCommunicationControl : TObject
     internal int FRefCount;
     internal TPlayerCommunicator FPlayerCommunicator;
     internal TPlayerCommunicationSettingsList FPCSList;
+
     // NetworkE.pas:549
     public virtual int GetLocalSystemID() => 1;
 
@@ -1364,6 +1372,7 @@ public partial class TPlayerCommunicationControl : TObject
 public partial class TPackageDataList : TObject
 {
     internal TList FList;
+
     // NetworkE.pas:870
     public TPackageDataList()
     {
@@ -1453,6 +1462,7 @@ public partial class TRemotePCC : TPlayerCommunicationControl
     internal int FLocalSystemID;
     internal TPackageDataList FPackageDataList;
     internal TSendDataEvent FOnSendData;
+
     // NetworkE.pas:819
     public override int GetLocalSystemID() => FLocalSystemID;
 
@@ -1509,7 +1519,7 @@ public partial class TRemotePCC : TPlayerCommunicationControl
 
     // NetworkE.pas:852
     // { A package for every player (AllPlayers) goes to system 0, the transport's broadcast; a package
-//   for every player or for a player on this system is also received here. }
+    //   for every player or for a player on this system is also received here. }
     public override bool SendPackageData(int APlayer, TMemoryStream Stream)
     {
         bool Result;
@@ -1609,6 +1619,7 @@ public partial class TRemotePCC : TPlayerCommunicationControl
 public partial class TLocalPCC : TPlayerCommunicationControl
 {
     internal TPackageDataList FPackageDataList;
+
     // NetworkE.pas:709
     public override int GetSystemCount() => 1;
 
@@ -1687,6 +1698,7 @@ public partial class TTokenPackage : TDataPackage
     public new const int ClassID = NetworkEUnit.CID_TokenPackage;
 
     internal TTokenEventList FTokenEvents;
+
     // NetworkE.pas:1105
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1717,9 +1729,10 @@ public partial class TTokenPackageDistributer : TObject
 {
     internal TTokenManager FTokenManager;
     internal TPlayerCommunicator FPC;
+
     // NetworkE.pas:1136
     // { The token events of a package from another system go to the token control of the sending player,
-//   unless they were already executed or are already there. }
+    //   unless they were already executed or are already there. }
     public virtual void TokenPackageReceived(TTokenPackage TP)
     {
         if (FTokenManager != null)
@@ -1815,6 +1828,7 @@ public partial class TSyncTE : TTokenEvent
     { }
 
     internal int FSyncValue;
+
     // NetworkE.pas:1738
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1853,7 +1867,7 @@ public static partial class NetworkEUnit
     // them to the others in a token package, a TPassTokenTE ends the turn of the token) and
     // executes them in token counter order
     // { TRemotePCC.SendPackageData / TTokenControl.TokenEventsPrefetched: the package goes to every
-//     player }
+    //     player }
     public const int AllPlayers = 32768;
     // { Class IDs }
     public const short CID_TokenPackage = 1360;
@@ -1861,6 +1875,7 @@ public static partial class NetworkEUnit
     public const short CID_TokenEventList = 1362;
     public const short CID_PassTokenTE = 1364;
     public const short CID_SyncTE = 1365;
+
     // NetworkE.pas:1751
     public static void RegisterNetworkEngine(TEngine AEngine)
     {
@@ -1869,6 +1884,7 @@ public static partial class NetworkEUnit
     }
 
     public static int NetworkEngineDID;
+
     // NetworkE.pas:1051
     public static int CompareTokenCounter(object Item1, object Item2) => ((TTokenEvent)Item1).FTokenCounter - ((TTokenEvent)Item2).FTokenCounter;
 }

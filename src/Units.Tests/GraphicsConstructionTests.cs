@@ -3,8 +3,8 @@ using Aow.Rtl;
 using Aow.Units.DisplayC;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using LibraryImage = Aow.Units.ImageLib.TLibraryImage;
 using G = Aow.Units.GFXE.GFXEUnit;
+using LibraryImage = Aow.Units.ImageLib.TLibraryImage;
 
 namespace Aow.Units.Tests;
 
@@ -46,26 +46,26 @@ public sealed class GraphicsConstructionTests
             var descriptor = LibraryImageClass.Of(type);
             Assert.Equal(type, descriptor.Type);
             foreach (var construct in new[] { direct, create })
-            foreach (var suppliedOwner in new TCustomImageLibrary[] { null!, owner })
-            {
-                var image = construct(suppliedOwner);
-                Assert.Equal(type, image.GetType());
-                Assert.Same(descriptor, image.ImageClass);
-                Assert.Same(suppliedOwner, image.Owner);
-                Assert.Equal(-1, image.DataPosition);
-                Assert.False(image.ReloadingEnabled);
-                Assert.Equal(TLoadMode.lmLoadOnDemand, image.LoadMode);
-                Assert.Equal(TBlendMode.bmAlpha, image.ShowInfo.BlendMode);
-                Assert.False(image.ShowInfo.Blend.HasValue);
-                Assert.Equal(0, image.ShowInfo.Blend.Percentage);
-                Assert.Equal(type.Name.StartsWith("TTransparent", StringComparison.Ordinal) ? TShowMode.smTransparent : TShowMode.smOpaque, image.ShowInfo.ShowMode);
-                Assert.Equal(0, image.Width);
-                Assert.Equal(0, image.Height);
-                if (image is TImageNode) Assert.Equal("(multi images)", image.FileName);
-                Assert.Equal(0, owner.Count);
-                Assert.Equal(0, ((TList)Field(Field(owner, "FPaletteManager")!, "FPalettes")!).Count);
-                image.Destroy();
-            }
+                foreach (var suppliedOwner in new TCustomImageLibrary[] { null!, owner })
+                {
+                    var image = construct(suppliedOwner);
+                    Assert.Equal(type, image.GetType());
+                    Assert.Same(descriptor, image.ImageClass);
+                    Assert.Same(suppliedOwner, image.Owner);
+                    Assert.Equal(-1, image.DataPosition);
+                    Assert.False(image.ReloadingEnabled);
+                    Assert.Equal(TLoadMode.lmLoadOnDemand, image.LoadMode);
+                    Assert.Equal(TBlendMode.bmAlpha, image.ShowInfo.BlendMode);
+                    Assert.False(image.ShowInfo.Blend.HasValue);
+                    Assert.Equal(0, image.ShowInfo.Blend.Percentage);
+                    Assert.Equal(type.Name.StartsWith("TTransparent", StringComparison.Ordinal) ? TShowMode.smTransparent : TShowMode.smOpaque, image.ShowInfo.ShowMode);
+                    Assert.Equal(0, image.Width);
+                    Assert.Equal(0, image.Height);
+                    if (image is TImageNode) Assert.Equal("(multi images)", image.FileName);
+                    Assert.Equal(0, owner.Count);
+                    Assert.Equal(0, ((TList)Field(Field(owner, "FPaletteManager")!, "FPalettes")!).Count);
+                    image.Destroy();
+                }
         }
         finally { owner.Destroy(); }
     }
@@ -165,8 +165,6 @@ public sealed class GraphicsConstructionTests
         owner.Destroy();
     }
 
-
-
     [Fact]
     public void PrivateHelpersKeepInitialState()
     {
@@ -252,8 +250,6 @@ public sealed class GraphicsConstructionTests
         palette.Destroy();
     }
 
-
-
     [Fact]
     public void PlainDisplayInitializesFrameRateAndOwner()
     {
@@ -268,8 +264,6 @@ public sealed class GraphicsConstructionTests
         owner.Destroy();
     }
 
-
-
     [Fact]
     public void InvalidDibDimensionsAndFormatDoNotTouchExternalPalette()
     {
@@ -281,6 +275,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal((byte)29, palette.Entries[0].R);
         palette.Destroy();
     }
+
     [Fact]
     public void LibraryLegacyBridgeAndLayoutFlagsRunOnce()
     {
@@ -369,10 +364,13 @@ public sealed class GraphicsConstructionTests
     private sealed class ObservedImage : LibraryImage, ILibraryImageClass
     {
         static LibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new ObservedImage(owner);
+
         public int DerivedValue;
         public int SeenDerivedValue;
         public int SeenPosition;
+
         internal ObservedImage(TCustomImageLibrary owner) : base(owner) { DerivedValue = 77; }
+
         public override void SetOwner(TCustomImageLibrary owner)
         {
             SeenDerivedValue = DerivedValue;
@@ -380,7 +378,6 @@ public sealed class GraphicsConstructionTests
             base.SetOwner(owner);
         }
     }
-
 
     [Fact]
     public void SdlHostCapturePrecedesOwnerCallbacks()
@@ -398,6 +395,7 @@ public sealed class GraphicsConstructionTests
     private sealed class DisplayObservingOwner : TComponent
     {
         public int X, Y;
+
         public override void Notification(TComponent component, TOperation operation)
         {
             if (operation == TOperation.opInsert && component is TSdlDC controller)
@@ -411,9 +409,13 @@ public sealed class GraphicsConstructionTests
         public (int Width, int Height) ClientSize => (640, 480);
         public bool Fullscreen { get; set; }
         public bool HasFocus => true;
+
         public void Present(in TSurfaceDesc surface) { }
+
         public (int X, int Y, bool Inside) PointerPosition() => (7, 9, true);
+
         public void PumpEvents(Aow.Platform.IDisplayEvents sink) { }
+
         public void ShowSystemCursor(bool show) { }
     }
 

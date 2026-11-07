@@ -1,28 +1,28 @@
 // Translated from AoWTC.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.NetworkE;
-using Aow.Units.aowFX;
-using static Aow.Units.aowFX.aowFXUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
+using Aow.Rtl;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.FleeLoc;
-using Aow.Units.CombatTE;
-using static Aow.Units.CombatTE.CombatTEUnit;
+using Aow.Units.aowFX;
 using Aow.Units.AoWReg;
-using Aow.Units.CombatTerrain;
-using Aow.Units.HxBridge;
 using Aow.Units.City;
 using Aow.Units.CityWall;
+using Aow.Units.CombatTE;
+using Aow.Units.CombatTerrain;
+using Aow.Units.Engine;
+using Aow.Units.FleeLoc;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.HxBridge;
+using Aow.Units.ImageLib;
+using Aow.Units.NetworkE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.aowFX.aowFXUnit;
 using static Aow.Units.CombatFire.CombatFireUnit;
+using static Aow.Units.CombatTE.CombatTEUnit;
+using static Aow.Units.Engine.EngineUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWTC;
 
@@ -69,9 +69,7 @@ public partial class TAoWNewCombatMapSettings : TNewHSMapSettings
         HSSFileName = AoWEngine.HSSFileName;
     }
 
-
     // AoWTC.pas:2147
-
 
     // AoWTC.pas:70
 
@@ -110,6 +108,7 @@ public partial class TCAI : TObject
     public bool FIgnoreWalls;
     public bool FFlee;
     public TaiStatus Status;
+
     // AoWTC.pas:762
     public override void Destroy()
     {
@@ -802,28 +801,28 @@ public partial class TCAI : TObject
                 Total = 0;
                 Original = Value;
                 Chance = 100;
-            {
-                for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
                 {
-                    var obstacle = Obstacles[I];
-                    var path = Path[((TROb)obstacle).PathIndex];
-                    var obstacle2 = Obstacles[I];
-                    HPtoHX(Path[((TROb)obstacle2).PathIndex].X, path.Y, ref X, ref Y);
-                    V = 0;
-                    EvalHex(Ignore, Ability, Spell, X, Y, ref V, HitWalls, true, U, IgnoreWall);
-                    try
+                    for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
                     {
-                        var obstacle3 = Obstacles[I];
-                        Total = Total + V * Chance / 100 * ((TROb)obstacle3).Chance / 100;
-                    }
-                    catch
-                    {
-                        Total = Total + ((TROb)Obstacles[I]).Chance * (V / 100 * Chance / 100);
-                    }
+                        var obstacle = Obstacles[I];
+                        var path = Path[((TROb)obstacle).PathIndex];
+                        var obstacle2 = Obstacles[I];
+                        HPtoHX(Path[((TROb)obstacle2).PathIndex].X, path.Y, ref X, ref Y);
+                        V = 0;
+                        EvalHex(Ignore, Ability, Spell, X, Y, ref V, HitWalls, true, U, IgnoreWall);
+                        try
+                        {
+                            var obstacle3 = Obstacles[I];
+                            Total = Total + V * Chance / 100 * ((TROb)obstacle3).Chance / 100;
+                        }
+                        catch
+                        {
+                            Total = Total + ((TROb)Obstacles[I]).Chance * (V / 100 * Chance / 100);
+                        }
 
-                    Chance = (100 - ((TROb)Obstacles[I]).Chance) * Chance / 100;
+                        Chance = (100 - ((TROb)Obstacles[I]).Chance) * Chance / 100;
+                    }
                 }
-            }
 
                 try
                 {
@@ -836,12 +835,12 @@ public partial class TCAI : TObject
 
                 Value = Value + Total;
                 Path.Free();
-            {
-                for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
                 {
-                    ((TObject)Obstacles[I]).Free();
+                    for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
+                    {
+                        ((TObject)Obstacles[I]).Free();
+                    }
                 }
-            }
 
                 Obstacles.Free();
                 Result = Original - Value;
@@ -1176,29 +1175,29 @@ public partial class TCAI : TObject
                                                                 EvalArea(ref Value, Target, Ability, Spell, X, Y, true, true, true, U, Wall);
                                                                 BestIndex = X;
                                                                 BestValue = Y;
-                                                            {
-                                                                I = 1;
-                                                                for (; I <= 6; I += 1)
                                                                 {
-                                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                    var yhx2 = U.FUnitHS.GetYhx();
-                                                                    if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                    I = 1;
+                                                                    for (; I <= 6; I += 1)
                                                                     {
-                                                                        D = Cost;
-                                                                        var fUnitHSXhx = U.FUnitHS.GetXhx();
-                                                                        var yhx3 = U.FUnitHS.GetYhx();
-                                                                        V = EvalPath(ref D, Target, Ability, Spell, fUnitHSXhx, yhx3, NX, NY, true, U, Wall);
-                                                                        EvalArea(ref D, Target, Ability, Spell, NX, NY, true, true, true, U, Wall);
-                                                                        if (D > Value)
+                                                                        CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                        var yhx2 = U.FUnitHS.GetYhx();
+                                                                        if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
                                                                         {
-                                                                            Value = D;
-                                                                            PathValue = V;
-                                                                            BestIndex = NX;
-                                                                            BestValue = NY;
+                                                                            D = Cost;
+                                                                            var fUnitHSXhx = U.FUnitHS.GetXhx();
+                                                                            var yhx3 = U.FUnitHS.GetYhx();
+                                                                            V = EvalPath(ref D, Target, Ability, Spell, fUnitHSXhx, yhx3, NX, NY, true, U, Wall);
+                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, true, true, true, U, Wall);
+                                                                            if (D > Value)
+                                                                            {
+                                                                                Value = D;
+                                                                                PathValue = V;
+                                                                                BestIndex = NX;
+                                                                                BestValue = NY;
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
 
                                                                 X = BestIndex;
                                                                 Y = BestValue;
@@ -1206,56 +1205,56 @@ public partial class TCAI : TObject
                                                             case 127:
                                                                 Value = 0;
                                                                 Cost = 0;
-                                                            {
-                                                                I = 1;
-                                                                for (; I <= 36; I += 1)
                                                                 {
-                                                                    var yhx2 = U.FUnitHS.GetYhx();
-                                                                    CenterHNtoHX(U.FUnitHS.GetXhx(), yhx2, I, ref NX, ref NY);
-                                                                    EvalHex(null, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
+                                                                    I = 1;
+                                                                    for (; I <= 36; I += 1)
+                                                                    {
+                                                                        var yhx2 = U.FUnitHS.GetYhx();
+                                                                        CenterHNtoHX(U.FUnitHS.GetXhx(), yhx2, I, ref NX, ref NY);
+                                                                        EvalHex(null, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
+                                                                    }
                                                                 }
-                                                            }
 
                                                                 break;
                                                             case 128:
                                                                 EvalHex(Target, Ability, Spell, U.FUnitHS.GetXhx(), U.FUnitHS.GetYhx(), ref Value, true, true, U, Wall);
-                                                            {
-                                                                I = 0;
-                                                                for (; I <= 18; I += 1)
                                                                 {
-                                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                    EvalHex(Target, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
+                                                                    I = 0;
+                                                                    for (; I <= 18; I += 1)
+                                                                    {
+                                                                        CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                        EvalHex(Target, Ability, Spell, NX, NY, ref Value, true, true, U, Wall);
+                                                                    }
                                                                 }
-                                                            }
 
                                                                 BestIndex = X;
                                                                 BestValue = Y;
-                                                            {
-                                                                I = 1;
-                                                                for (; I <= 18; I += 1)
                                                                 {
-                                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                    var yhx2 = U.FUnitHS.GetYhx();
-                                                                    if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                    I = 1;
+                                                                    for (; I <= 18; I += 1)
                                                                     {
-                                                                        D = Cost;
-                                                                        EvalHex(Target, Ability, Spell, U.FUnitHS.GetXhx(), U.FUnitHS.GetYhx(), ref D, true, true, U, Wall);
-                                                                        V = 0;
-                                                                        for (; V <= 18; V += 1)
+                                                                        CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                        var yhx2 = U.FUnitHS.GetYhx();
+                                                                        if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
                                                                         {
-                                                                            CenterHNtoHX(NX, NY, V, ref AX, ref AY);
-                                                                            EvalHex(Target, Ability, Spell, AX, AY, ref D, true, true, U, Wall);
-                                                                        }
+                                                                            D = Cost;
+                                                                            EvalHex(Target, Ability, Spell, U.FUnitHS.GetXhx(), U.FUnitHS.GetYhx(), ref D, true, true, U, Wall);
+                                                                            V = 0;
+                                                                            for (; V <= 18; V += 1)
+                                                                            {
+                                                                                CenterHNtoHX(NX, NY, V, ref AX, ref AY);
+                                                                                EvalHex(Target, Ability, Spell, AX, AY, ref D, true, true, U, Wall);
+                                                                            }
 
-                                                                        if (D > Value)
-                                                                        {
-                                                                            Value = D;
-                                                                            BestIndex = NX;
-                                                                            BestValue = NY;
+                                                                            if (D > Value)
+                                                                            {
+                                                                                Value = D;
+                                                                                BestIndex = NX;
+                                                                                BestValue = NY;
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
 
                                                                 X = BestIndex;
                                                                 Y = BestValue;
@@ -1273,25 +1272,25 @@ public partial class TCAI : TObject
                                                                 EvalArea(ref Value, Target, Ability, Spell, X, Y, true, true, true, U, Wall);
                                                                 BestIndex = X;
                                                                 BestValue = Y;
-                                                            {
-                                                                I = 1;
-                                                                for (; I <= 6; I += 1)
                                                                 {
-                                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                    var yhx2 = U.FUnitHS.GetYhx();
-                                                                    if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                    I = 1;
+                                                                    for (; I <= 6; I += 1)
                                                                     {
-                                                                        D = Cost;
-                                                                        EvalArea(ref D, Target, Ability, Spell, NX, NY, true, true, true, U, Wall);
-                                                                        if (D > Value)
+                                                                        CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                        var yhx2 = U.FUnitHS.GetYhx();
+                                                                        if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
                                                                         {
-                                                                            Value = D;
-                                                                            BestIndex = NX;
-                                                                            BestValue = NY;
+                                                                            D = Cost;
+                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, true, true, true, U, Wall);
+                                                                            if (D > Value)
+                                                                            {
+                                                                                Value = D;
+                                                                                BestIndex = NX;
+                                                                                BestValue = NY;
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
 
                                                                 X = BestIndex;
                                                                 Y = BestValue;
@@ -1301,25 +1300,25 @@ public partial class TCAI : TObject
                                                                 EvalArea(ref Value, Target, Ability, Spell, X, Y, false, true, true, U, Wall);
                                                                 BestIndex = X;
                                                                 BestValue = Y;
-                                                            {
-                                                                I = 1;
-                                                                for (; I <= 6; I += 1)
                                                                 {
-                                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                    var yhx2 = U.FUnitHS.GetYhx();
-                                                                    if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                    I = 1;
+                                                                    for (; I <= 6; I += 1)
                                                                     {
-                                                                        D = Cost;
-                                                                        EvalArea(ref D, Target, Ability, Spell, NX, NY, false, true, true, U, Wall);
-                                                                        if (D > Value)
+                                                                        CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                        var yhx2 = U.FUnitHS.GetYhx();
+                                                                        if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
                                                                         {
-                                                                            Value = D;
-                                                                            BestIndex = NX;
-                                                                            BestValue = NY;
+                                                                            D = Cost;
+                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, false, true, true, U, Wall);
+                                                                            if (D > Value)
+                                                                            {
+                                                                                Value = D;
+                                                                                BestIndex = NX;
+                                                                                BestValue = NY;
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
 
                                                                 X = BestIndex;
                                                                 Y = BestValue;
@@ -1328,25 +1327,25 @@ public partial class TCAI : TObject
                                                                 EvalArea(ref Value, Target, Ability, Spell, X, Y, false, false, false, U, Wall);
                                                                 BestIndex = X;
                                                                 BestValue = Y;
-                                                            {
-                                                                I = 1;
-                                                                for (; I <= 6; I += 1)
                                                                 {
-                                                                    CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                                                    var yhx2 = U.FUnitHS.GetYhx();
-                                                                    if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
+                                                                    I = 1;
+                                                                    for (; I <= 6; I += 1)
                                                                     {
-                                                                        D = Cost;
-                                                                        EvalArea(ref D, Target, Ability, Spell, NX, NY, false, false, false, U, Wall);
-                                                                        if (D > Value)
+                                                                        CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                                        var yhx2 = U.FUnitHS.GetYhx();
+                                                                        if (dHXtoRad(U.FUnitHS.GetXhx(), yhx2, NX, NY) <= Range)
                                                                         {
-                                                                            Value = D;
-                                                                            BestIndex = NX;
-                                                                            BestValue = NY;
+                                                                            D = Cost;
+                                                                            EvalArea(ref D, Target, Ability, Spell, NX, NY, false, false, false, U, Wall);
+                                                                            if (D > Value)
+                                                                            {
+                                                                                Value = D;
+                                                                                BestIndex = NX;
+                                                                                BestValue = NY;
+                                                                            }
                                                                         }
                                                                     }
                                                                 }
-                                                            }
 
                                                                 X = BestIndex;
                                                                 Y = BestValue;
@@ -2860,14 +2859,14 @@ public partial class TCAI : TObject
                                     Moves.Delete(I);
                                     break;
                                 default:
-                                {
-                                    if (Move.Value > -100000000 && Move.Value < 100000000)
                                     {
-                                        Move.Value += Move.GroupValue / 4;
-                                    }
+                                        if (Move.Value > -100000000 && Move.Value < 100000000)
+                                        {
+                                            Move.Value += Move.GroupValue / 4;
+                                        }
 
-                                    I += 1;
-                                }
+                                        I += 1;
+                                    }
 
                                     break;
                             }
@@ -2919,104 +2918,104 @@ public partial class TCAI : TObject
                             {
                                 case TaiMoveType.aiMove:
                                 case TaiMoveType.aiMoveRanged:
-                                {
-                                    var tacticalCombatUnitHS = Move.UnitHS;
-                                    if ((Move.UnitHS.FUnit.FUnit is THero || (FSide == TCombatSideIndex.csAttacker && AoWTCUnit.AoWCombatMap.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
                                     {
-                                        Move.UnitHS.FUnit.FMovePoints = FMinMoves;
-                                    }
-
-                                    Settings = new TCombatMoveControlSettings(null);
-                                    var lhx = tacticalCombatUnitHS.GetLhx();
-                                    var yhx = tacticalCombatUnitHS.GetYhx();
-                                    Settings.SetSourcePos(tacticalCombatUnitHS.GetXhx(), yhx, lhx);
-                                    Settings.SetDestinationPos(Move.X, Move.Y, 0);
-                                    Settings.FArmyHS = Move.UnitHS;
-                                    if (Move.MoveType == TaiMoveType.aiMoveRanged || MeleeDamageTypes(Move.UnitHS.FUnit) == TSet<TDamageType>.Of())
-                                    {
-                                        Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMoveRanged);
-                                    }
-                                    else
-                                    {
-                                        Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee);
-                                    }
-
-                                    if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
-                                    {
-                                        if (!(AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508) == null && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) == null))
+                                        var tacticalCombatUnitHS = Move.UnitHS;
+                                        if ((Move.UnitHS.FUnit.FUnit is THero || (FSide == TCombatSideIndex.csAttacker && AoWTCUnit.AoWCombatMap.FRound == 1)) && Move.UnitHS.FUnit.FMovePoints > FMinMoves)
                                         {
-                                            if (!FIgnoreWalls || !ChargeFromPos((int)(((uint)Move.UnitHS.FUnit.FPosition) >> 4)) || FSide == TCombatSideIndex.csAttacker)
+                                            Move.UnitHS.FUnit.FMovePoints = FMinMoves;
+                                        }
+
+                                        Settings = new TCombatMoveControlSettings(null);
+                                        var lhx = tacticalCombatUnitHS.GetLhx();
+                                        var yhx = tacticalCombatUnitHS.GetYhx();
+                                        Settings.SetSourcePos(tacticalCombatUnitHS.GetXhx(), yhx, lhx);
+                                        Settings.SetDestinationPos(Move.X, Move.Y, 0);
+                                        Settings.FArmyHS = Move.UnitHS;
+                                        if (Move.MoveType == TaiMoveType.aiMoveRanged || MeleeDamageTypes(Move.UnitHS.FUnit) == TSet<TDamageType>.Of())
+                                        {
+                                            Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMoveRanged);
+                                        }
+                                        else
+                                        {
+                                            Settings.FMoveFlags = TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmMelee);
+                                        }
+
+                                        if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallType != 0)
+                                        {
+                                            if (!(AoWTCUnit.AoWCombatMap.FCombat.FCombatData.FWallBreached && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508) == null && AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) == null))
                                             {
-                                                Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
+                                                if (!FIgnoreWalls || !ChargeFromPos((int)(((uint)Move.UnitHS.FUnit.FPosition) >> 4)) || FSide == TCombatSideIndex.csAttacker)
+                                                {
+                                                    Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
+                                                }
                                             }
                                         }
-                                    }
 
-                                    Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
-                                    Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
-                                    AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
-                                    if (Settings.FPath.Count < 2 && !Settings.FMoveFlags.Contains(TCombatMoveModeElement.mmaiWall))
-                                    {
-                                        Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
+                                        Move.UnitHS.FUnit.FUnit.CreateMovePointTable(ref Settings.FMovePointTable);
+                                        Settings.FPlayer = Move.UnitHS.FUnit.GetPlayer();
                                         AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
-                                    }
-
-                                    Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
-                                    if (Wall == null)
-                                    {
-                                        Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510);
-                                    }
-
-                                    if (Settings.FPath.Count == 2 && Move.MoveType == TaiMoveType.aiMoveRanged && Wall != null)
-                                    {
-                                        Move.UnitHS.FUnit.FMovePoints = 0;
-                                    }
-                                    else
-                                    {
-                                        if (Settings.FPath.Count > 1)
+                                        if (Settings.FPath.Count < 2 && !Settings.FMoveFlags.Contains(TCombatMoveModeElement.mmaiWall))
                                         {
-                                            Path = Settings.FPath;
-                                            PathCost = MakeTerrainPath(Settings, ref Path, ref TerrainCost, Move.UnitHS.FUnit, null, false, false, 0);
-                                            if (Path.Count > 1 && PathCost > -1)
+                                            Settings.FMoveFlags = Settings.FMoveFlags + TSet<TCombatMoveModeElement>.Of(TCombatMoveModeElement.mmaiWall);
+                                            AoWTCUnit.AoWCombatMap.FMoveControl.ProcessMove(Settings);
+                                        }
+
+                                        Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
+                                        if (Wall == null)
+                                        {
+                                            Wall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510);
+                                        }
+
+                                        if (Settings.FPath.Count == 2 && Move.MoveType == TaiMoveType.aiMoveRanged && Wall != null)
+                                        {
+                                            Move.UnitHS.FUnit.FMovePoints = 0;
+                                        }
+                                        else
+                                        {
+                                            if (Settings.FPath.Count > 1)
                                             {
-                                                if (Path[Path.Count - 2].Flag > 0 && Path[Path.Count - 2].Flag <= Move.UnitHS.FUnit.FMovePoints)
+                                                Path = Settings.FPath;
+                                                PathCost = MakeTerrainPath(Settings, ref Path, ref TerrainCost, Move.UnitHS.FUnit, null, false, false, 0);
+                                                if (Path.Count > 1 && PathCost > -1)
                                                 {
-                                                    if (Move.MoveType == TaiMoveType.aiMoveRanged)
+                                                    if (Path[Path.Count - 2].Flag > 0 && Path[Path.Count - 2].Flag <= Move.UnitHS.FUnit.FMovePoints)
                                                     {
-                                                        Value = ((TMovepath)Path).PosToMovePoints(0);
-                                                        if (Value < Move.UnitHS.FUnit.FMovePoints)
+                                                        if (Move.MoveType == TaiMoveType.aiMoveRanged)
+                                                        {
+                                                            Value = ((TMovepath)Path).PosToMovePoints(0);
+                                                            if (Value < Move.UnitHS.FUnit.FMovePoints)
+                                                            {
+                                                                Move.UnitHS.FUnit.FMovePoints = Value;
+                                                            }
+                                                        }
+
+                                                        Value = ((TMovepath)Path).MovePointsToPos(Move.UnitHS.FUnit.FMovePoints);
+                                                        Value = ((TMovepath)Path).PosToMovePoints(Value);
+                                                        if (Value > 0 && Value < Move.UnitHS.FUnit.FMovePoints)
                                                         {
                                                             Move.UnitHS.FUnit.FMovePoints = Value;
                                                         }
-                                                    }
 
-                                                    Value = ((TMovepath)Path).MovePointsToPos(Move.UnitHS.FUnit.FMovePoints);
-                                                    Value = ((TMovepath)Path).PosToMovePoints(Value);
-                                                    if (Value > 0 && Value < Move.UnitHS.FUnit.FMovePoints)
-                                                    {
-                                                        Move.UnitHS.FUnit.FMovePoints = Value;
+                                                        // { Original repeats X. }
+                                                        AoWEngine.OutputDebugStr("AI moves to X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
+                                                        Moved = MoveCombatUnit(Move.UnitHS.FUnit, (TMovepath)Path);
+                                                        if (Move.UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
+                                                        {
+                                                            var unitHSYhx = Move.UnitHS.GetYhx();
+                                                            var xhx = Move.UnitHS.GetXhx();
+                                                            AoWTCUnit.AoWCombatMap.CenterViewTo(xhx, unitHSYhx, 0);
+                                                        }
                                                     }
-
-                                                    // { Original repeats X. }
-                                                    AoWEngine.OutputDebugStr("AI moves to X: " + IntToStr(Move.X) + " Y: " + IntToStr(Move.X));
-                                                    Moved = MoveCombatUnit(Move.UnitHS.FUnit, (TMovepath)Path);
-                                                    if (Move.UnitHS.FUnit.FCombatPlayer == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
+                                                    else
                                                     {
-                                                        var unitHSYhx = Move.UnitHS.GetYhx();
-                                                        var xhx = Move.UnitHS.GetXhx();
-                                                        AoWTCUnit.AoWCombatMap.CenterViewTo(xhx, unitHSYhx, 0);
+                                                        Move.UnitHS.FUnit.FMovePoints = 0;
                                                     }
-                                                }
-                                                else
-                                                {
-                                                    Move.UnitHS.FUnit.FMovePoints = 0;
                                                 }
                                             }
                                         }
-                                    }
 
-                                    Settings.Free();
-                                }
+                                        Settings.Free();
+                                    }
 
                                     break;
                                 case TaiMoveType.aiMelee:
@@ -3144,7 +3143,7 @@ public partial class TCAI : TObject
 public partial class TAoWCombatMapField : TAoWMapField
 {
     public TAoWCombatMapField(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWTC.pas:2158
     public new const int ClassID = 2228481;
@@ -3166,7 +3165,7 @@ public partial class TAoWCombatMapField : TAoWMapField
 public partial class TAoWCombatMapLevel : TAoWMapLevel
 {
     public TAoWCombatMapLevel(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWTC.pas:2173
     public new const int ClassID = 2228482;
@@ -3184,7 +3183,7 @@ public partial class TAoWCombatMapLevel : TAoWMapLevel
 public partial class TRangedPathHS : TFixedVisibleHS
 {
     public TRangedPathHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWTC.pas:4846
     public new const int ClassID = 2228485;
@@ -3195,6 +3194,7 @@ public partial class TRangedPathHS : TFixedVisibleHS
     public ushort FFrameCount;
     public TCombatUnitSelectionControl FSelection;
     public ushort FRange;
+
     // AoWTC.pas:4849
     public override int GetShowPriority() => 1811939328;
 
@@ -3265,17 +3265,17 @@ public partial class TRangedPathHS : TFixedVisibleHS
                         var rangedPath = FSelection.FRangedPath[count - 1];
                         var fRangedPathCount = FSelection.FRangedPath.Count;
                         HPtoHX(FSelection.FRangedPath[fRangedPathCount - 1].X, rangedPath.Y, ref X, ref Y);
-                    {
-                        for (int I = 0; I <= 11; I++)
                         {
-                            var yhx = FSelection.GetTCUnitHS().GetYhx();
-                            var dHXtoHN2 = dHXtoHN(FSelection.GetTCUnitHS().GetXhx(), yhx, X, Y);
-                            var yhx2 = FSelection.GetTCUnitHS().GetYhx();
-                            CenterHNtoHX(FSelection.GetTCUnitHS().GetXhx(), yhx2, AoWTCUnit.BreathHN[dHXtoHN2 * 12 + I - 12], ref NX, ref NY);
-                            HXtoHP(NX, NY, ref PX, ref PY);
-                            FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                            for (int I = 0; I <= 11; I++)
+                            {
+                                var yhx = FSelection.GetTCUnitHS().GetYhx();
+                                var dHXtoHN2 = dHXtoHN(FSelection.GetTCUnitHS().GetXhx(), yhx, X, Y);
+                                var yhx2 = FSelection.GetTCUnitHS().GetYhx();
+                                CenterHNtoHX(FSelection.GetTCUnitHS().GetXhx(), yhx2, AoWTCUnit.BreathHN[dHXtoHN2 * 12 + I - 12], ref NX, ref NY);
+                                HXtoHP(NX, NY, ref PX, ref PY);
+                                FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                            }
                         }
-                    }
 
                         break;
                     default:
@@ -3291,34 +3291,34 @@ public partial class TRangedPathHS : TFixedVisibleHS
                                     case 120:
                                     case 129:
                                     case 130:
-                                    {
-                                        for (int I = 0; I <= 18; I++)
                                         {
-                                            var count2 = FSelection.FRangedPath.Count;
-                                            var rangedPathY = FSelection.FRangedPath[count2 - 1];
-                                            var count3 = FSelection.FRangedPath.Count;
-                                            HPtoHX(FSelection.FRangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
-                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                            HXtoHP(NX, NY, ref PX, ref PY);
-                                            FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                                            for (int I = 0; I <= 18; I++)
+                                            {
+                                                var count2 = FSelection.FRangedPath.Count;
+                                                var rangedPathY = FSelection.FRangedPath[count2 - 1];
+                                                var count3 = FSelection.FRangedPath.Count;
+                                                HPtoHX(FSelection.FRangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
+                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                HXtoHP(NX, NY, ref PX, ref PY);
+                                                FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                                            }
                                         }
-                                    }
 
                                         break;
                                     case 124:
                                     case 128:
-                                    {
-                                        for (int I = 0; I <= 6; I++)
                                         {
-                                            var count2 = FSelection.FRangedPath.Count;
-                                            var rangedPathY = FSelection.FRangedPath[count2 - 1];
-                                            var count3 = FSelection.FRangedPath.Count;
-                                            HPtoHX(FSelection.FRangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
-                                            CenterHNtoHX(X, Y, I, ref NX, ref NY);
-                                            HXtoHP(NX, NY, ref PX, ref PY);
-                                            FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                                            for (int I = 0; I <= 6; I++)
+                                            {
+                                                var count2 = FSelection.FRangedPath.Count;
+                                                var rangedPathY = FSelection.FRangedPath[count2 - 1];
+                                                var count3 = FSelection.FRangedPath.Count;
+                                                HPtoHX(FSelection.FRangedPath[count3 - 1].X, rangedPathY.Y, ref X, ref Y);
+                                                CenterHNtoHX(X, Y, I, ref NX, ref NY);
+                                                HXtoHP(NX, NY, ref PX, ref PY);
+                                                FTargetImages[0].ShowClipped(PX - 8 - XhpSurf, PY + 2 - YhpSurf, SurfaceDesc);
+                                            }
                                         }
-                                    }
 
                                         break;
                                     default:
@@ -3392,7 +3392,6 @@ public partial class TRangedPathHS : TFixedVisibleHS
 
     // Engine.pas:524
 
-
 }
 
 // FDone. FCancelled. FFrame. FAbilityIndex. FSpellIndex. FPath. FVariant. FTargetX. FTargetY.
@@ -3421,6 +3420,7 @@ public partial class TfxHS : TFixedVisibleHS
     public TCombatObject FTarget;
     public TCombatAction FCombatAction;
     public TfxType FEffectType;
+
     // AoWTC.pas:5221
     public override void Destroy()
     {
@@ -3429,7 +3429,6 @@ public partial class TfxHS : TFixedVisibleHS
     }
 
     // AoWTC.pas:5214
-
 
     // AoWTC.pas:5239
     public override int GetShowPriority() => 1811939328;
@@ -3802,99 +3801,99 @@ public partial class TfxHS : TFixedVisibleHS
 
                                 J = Random(5) + 5;
                                 HXtoHP(FTargetX, FTargetY, ref K, ref X);
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    var random = Random(100);
-                                    var random2 = Random(5);
-                                    var random3 = Random(100);
-                                    MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(random3 + K - 50), (short)(random + X - 50), (short)(random2 + 5), 100, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        var random = Random(100);
+                                        var random2 = Random(5);
+                                        var random3 = Random(100);
+                                        MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(random3 + K - 50), (short)(random + X - 50), (short)(random2 + 5), 100, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 J = Random(10) + 10;
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(50) + 20) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)Random(10) / 10);
-                                    Z = 100;
-                                    var random = Random(360);
-                                    MakeArcPath(K - 200, X - 100, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(50) + 20) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)Random(10) / 10);
+                                        Z = 100;
+                                        var random = Random(360);
+                                        MakeArcPath(K - 200, X - 100, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case >= 1000 and <= 1029:
                                 HXtoHP(FTargetX, FTargetY, ref K, ref X);
                                 J = Random(5) + 5;
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    var random = Random(100);
-                                    var random2 = Random(5);
-                                    var random3 = Random(100);
-                                    MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(random3 + K - 50), (short)(random + X - 50), (short)(random2 + 5), 100, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        var random = Random(100);
+                                        var random2 = Random(5);
+                                        var random3 = Random(100);
+                                        MakeArcPathXY((short)(K - 200), (short)(X - 200), (short)(random3 + K - 50), (short)(random + X - 50), (short)(random2 + 5), 100, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 J = Random(10) + 10;
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(50) + 20) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)Random(10) / 10);
-                                    Z = 100;
-                                    var random = Random(360);
-                                    MakeArcPath(K - 200, X - 100, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(50) + 20) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)Random(10) / 10);
+                                        Z = 100;
+                                        var random = Random(360);
+                                        MakeArcPath(K - 200, X - 100, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 J = Random(5) + 5;
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(20) + 20) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)(Random(50) + 20) / 10);
-                                    Z = 0;
-                                    var count8 = FPath.Count;
-                                    var path = FPath[count8 - 1];
-                                    var count9 = FPath.Count;
-                                    var pathZ = FPath[count9 - 1];
-                                    var count10 = FPath.Count;
-                                    var pathX = FPath[count10 - 1];
-                                    var random = Random(360);
-                                    MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(20) + 20) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)(Random(50) + 20) / 10);
+                                        Z = 0;
+                                        var count8 = FPath.Count;
+                                        var path = FPath[count8 - 1];
+                                        var count9 = FPath.Count;
+                                        var pathZ = FPath[count9 - 1];
+                                        var count10 = FPath.Count;
+                                        var pathX = FPath[count10 - 1];
+                                        var random = Random(360);
+                                        MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case 1030:
@@ -3909,28 +3908,28 @@ public partial class TfxHS : TFixedVisibleHS
                                 }
 
                                 J = Random(5) + 5;
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(20) + 20) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)(Random(50) + 20) / 10);
-                                    Z = 0;
-                                    var count8 = FPath.Count;
-                                    var path = FPath[count8 - 1];
-                                    var count9 = FPath.Count;
-                                    var pathZ = FPath[count9 - 1];
-                                    var count10 = FPath.Count;
-                                    var pathX = FPath[count10 - 1];
-                                    var random = Random(360);
-                                    MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(20) + 20) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)(Random(50) + 20) / 10);
+                                        Z = 0;
+                                        var count8 = FPath.Count;
+                                        var path = FPath[count8 - 1];
+                                        var count9 = FPath.Count;
+                                        var pathZ = FPath[count9 - 1];
+                                        var count10 = FPath.Count;
+                                        var pathX = FPath[count10 - 1];
+                                        var random = Random(360);
+                                        MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case 3000:
@@ -3946,48 +3945,48 @@ public partial class TfxHS : TFixedVisibleHS
                                     }
                                 }
 
-                            {
-                                I = 0;
-                                int last = FPath.Count - 1;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(25) + 25) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)(Random(50) + 40) / 10);
-                                    Z = 0;
-                                    var pathY = FPath[I];
-                                    var pathZ = FPath[I];
-                                    var random = Random(360);
-                                    MakeArcPath(FPath[I].X, pathY.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 0;
+                                    int last = FPath.Count - 1;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(25) + 25) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)(Random(50) + 40) / 10);
+                                        Z = 0;
+                                        var pathY = FPath[I];
+                                        var pathZ = FPath[I];
+                                        var random = Random(360);
+                                        MakeArcPath(FPath[I].X, pathY.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 J = Random(10) + 100;
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(50) + 50) / 10);
-                                    Gravity = (float)0.1;
-                                    VZ = (float)((double)(Random(5) + 5) / 10);
-                                    Z = 0;
-                                    var count8 = FPath.Count;
-                                    var path = FPath[count8 - 1];
-                                    var count9 = FPath.Count;
-                                    var pathZ = FPath[count9 - 1];
-                                    var count10 = FPath.Count;
-                                    var pathX = FPath[count10 - 1];
-                                    var random = Random(360);
-                                    MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(50) + 50) / 10);
+                                        Gravity = (float)0.1;
+                                        VZ = (float)((double)(Random(5) + 5) / 10);
+                                        Z = 0;
+                                        var count8 = FPath.Count;
+                                        var path = FPath[count8 - 1];
+                                        var count9 = FPath.Count;
+                                        var pathZ = FPath[count9 - 1];
+                                        var count10 = FPath.Count;
+                                        var pathX = FPath[count10 - 1];
+                                        var random = Random(360);
+                                        MakeArcPath(pathX.X, path.Y - pathZ.Z, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 FDone = true;
                                 FTarget = null;
@@ -4011,75 +4010,75 @@ public partial class TfxHS : TFixedVisibleHS
                                     }
                                 }
 
-                            {
-                                I = 1;
-                                for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    var random = Random(360);
-                                    var pathX = FPath[0];
-                                    var pathY = FPath[0];
-                                    var random2 = Random(2);
-                                    var random3 = Random(10);
-                                    MakeSwarmPath(Random(10) + 10, random3 + FFrame / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    I = 1;
+                                    for (; I <= 20; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        var random = Random(360);
+                                        var pathX = FPath[0];
+                                        var pathY = FPath[0];
+                                        var random2 = Random(2);
+                                        var random3 = Random(10);
+                                        MakeSwarmPath(Random(10) + 10, random3 + FFrame / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case >= 30 and <= 59:
-                            {
-                                I = 1;
-                                for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    var random = Random(360);
-                                    var pathX = FPath[0];
-                                    var pathY = FPath[0];
-                                    var random2 = Random(2);
-                                    var random3 = Random(10);
-                                    MakeSwarmPath(Random(10) + 10, random3 + (60 - FFrame) / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    I = 1;
+                                    for (; I <= 20; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        var random = Random(360);
+                                        var pathX = FPath[0];
+                                        var pathY = FPath[0];
+                                        var random2 = Random(2);
+                                        var random3 = Random(10);
+                                        MakeSwarmPath(Random(10) + 10, random3 + (60 - FFrame) / 4, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case >= 60 and <= 89:
-                            {
-                                I = 1;
-                                for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    var random = Random(360);
-                                    var pathX = FPath[0];
-                                    var pathY = FPath[0];
-                                    var random2 = Random(2);
-                                    var random3 = Random(10);
-                                    MakeSwarmPath(Random(10) + 10, random3 + (FFrame - 60) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    I = 1;
+                                    for (; I <= 20; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        var random = Random(360);
+                                        var pathX = FPath[0];
+                                        var pathY = FPath[0];
+                                        var random2 = Random(2);
+                                        var random3 = Random(10);
+                                        MakeSwarmPath(Random(10) + 10, random3 + (FFrame - 60) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case >= 90 and <= 119:
-                            {
-                                I = 1;
-                                for (; I <= 20; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    var random = Random(360);
-                                    var pathX = FPath[0];
-                                    var pathY = FPath[0];
-                                    var random2 = Random(2);
-                                    var random3 = Random(10);
-                                    MakeSwarmPath(Random(10) + 10, random3 + (120 - FFrame) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    I = 1;
+                                    for (; I <= 20; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        var random = Random(360);
+                                        var pathX = FPath[0];
+                                        var pathY = FPath[0];
+                                        var random2 = Random(2);
+                                        var random3 = Random(10);
+                                        MakeSwarmPath(Random(10) + 10, random3 + (120 - FFrame) / 2, I % 6 * 60 + FFrame, random, pathX.X, pathY.Y, (TSwarmDirection)random2, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case 150:
@@ -4098,42 +4097,42 @@ public partial class TfxHS : TFixedVisibleHS
                                 X = 200;
                                 Y = 200;
                                 J = Random(5);
-                            {
-                                I = 0;
-                                for (; I <= 359; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    X = -X;
-                                    var pi = Math.PI;
-                                    var sin = Math.Sin((double)((double)(I + J) * pi) / 180);
-                                    var random = Random(10);
-                                    var pathY = FPath[0];
-                                    var mathPI = Math.PI;
-                                    var cos = Math.Cos((double)((double)(I + J) * mathPI) / 180);
-                                    var random2 = Random(10);
-                                    var pathX = FPath[0];
-                                    var path = FPath[0];
-                                    MakeLinePath(FPath[0].X, path.Y, pathX.X + Round((double)cos * (random2 + X)), pathY.Y + Round((double)sin * (random + Y)) / 2, 75, ref Effect.FPath);
-                                    if (I % 10 == 0)
+                                    I = 0;
+                                    for (; I <= 359; I += 1)
                                     {
-                                        K = 1;
-                                        for (; K <= 10; K += 1)
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        X = -X;
+                                        var pi = Math.PI;
+                                        var sin = Math.Sin((double)((double)(I + J) * pi) / 180);
+                                        var random = Random(10);
+                                        var pathY = FPath[0];
+                                        var mathPI = Math.PI;
+                                        var cos = Math.Cos((double)((double)(I + J) * mathPI) / 180);
+                                        var random2 = Random(10);
+                                        var pathX = FPath[0];
+                                        var path = FPath[0];
+                                        MakeLinePath(FPath[0].X, path.Y, pathX.X + Round((double)cos * (random2 + X)), pathY.Y + Round((double)sin * (random + Y)) / 2, 75, ref Effect.FPath);
+                                        if (I % 10 == 0)
                                         {
-                                            Effect2 = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                            Effect2.FAbilityIndex = FAbilityIndex;
-                                            Effect2.FSpellIndex = FSpellIndex;
-                                            var count7 = Effect.FPath.Count;
-                                            var path2 = Effect.FPath[count7 - 1];
-                                            var count8 = Effect.FPath.Count;
-                                            var path3 = Effect.FPath[count8 - 1];
-                                            var path4 = FPath[0];
-                                            MakeLinePath(FPath[0].X, path4.Y, path3.X, path2.Y, K * 5 + 75, ref Effect2.FPath);
+                                            K = 1;
+                                            for (; K <= 10; K += 1)
+                                            {
+                                                Effect2 = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                                Effect2.FAbilityIndex = FAbilityIndex;
+                                                Effect2.FSpellIndex = FSpellIndex;
+                                                var count7 = Effect.FPath.Count;
+                                                var path2 = Effect.FPath[count7 - 1];
+                                                var count8 = Effect.FPath.Count;
+                                                var path3 = Effect.FPath[count8 - 1];
+                                                var path4 = FPath[0];
+                                                MakeLinePath(FPath[0].X, path4.Y, path3.X, path2.Y, K * 5 + 75, ref Effect2.FPath);
+                                            }
                                         }
                                     }
                                 }
-                            }
 
                                 break;
                             case >= 151 and <= 169:
@@ -4143,14 +4142,14 @@ public partial class TfxHS : TFixedVisibleHS
                                 Msg.MsgID = 200720;
                                 Msg.Param[0] = 1;
                                 Msg.Result = -1;
-                            {
-                                I = 1;
-                                for (; I <= 36; I += 1)
                                 {
-                                    CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    I = 1;
+                                    for (; I <= 36; I += 1)
+                                    {
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    }
                                 }
-                            }
 
                                 break;
                             case >= 170 and <= 184:
@@ -4160,14 +4159,14 @@ public partial class TfxHS : TFixedVisibleHS
                                 Msg.MsgID = 200720;
                                 Msg.Param[0] = 2;
                                 Msg.Result = -1;
-                            {
-                                I = 1;
-                                for (; I <= 36; I += 1)
                                 {
-                                    CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    I = 1;
+                                    for (; I <= 36; I += 1)
+                                    {
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    }
                                 }
-                            }
 
                                 break;
                             case >= 185 and <= 194:
@@ -4176,14 +4175,14 @@ public partial class TfxHS : TFixedVisibleHS
                                 Msg.MsgID = 200720;
                                 Msg.Param[0] = 3;
                                 Msg.Result = -1;
-                            {
-                                I = 1;
-                                for (; I <= 36; I += 1)
                                 {
-                                    CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    I = 1;
+                                    for (; I <= 36; I += 1)
+                                    {
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    }
                                 }
-                            }
 
                                 break;
                             case 230:
@@ -4191,14 +4190,14 @@ public partial class TfxHS : TFixedVisibleHS
                                 HPtoHX(FPath[0].X, path8.Y, ref X, ref Y);
                                 Msg.MsgID = 200721;
                                 Msg.Result = -1;
-                            {
-                                I = 1;
-                                for (; I <= 36; I += 1)
                                 {
-                                    CenterHNtoHX(X, Y, I, ref J, ref K);
-                                    AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    I = 1;
+                                    for (; I <= 36; I += 1)
+                                    {
+                                        CenterHNtoHX(X, Y, I, ref J, ref K);
+                                        AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[J, K].SendMapFieldMsg(ref Msg);
+                                    }
                                 }
-                            }
 
                                 FFrame = -1;
                                 break;
@@ -4327,21 +4326,21 @@ public partial class TfxHS : TFixedVisibleHS
                                 J = Random(6) + 10;
                                 var yhx = ((TTacticalCombatUnit)FTarget).FUnitHS.GetYhx();
                                 HXtoHP(((TTacticalCombatUnit)FTarget).FUnitHS.GetXhx(), yhx, ref K, ref X);
-                            {
-                                I = 1;
-                                int last = J - 1;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(25) + 25) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)(Random(50) + FFrame) / 10);
-                                    Z = 0;
-                                    MakeArcPath(K + 16, X + 16, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 1;
+                                    int last = J - 1;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(25) + 25) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)(Random(50) + FFrame) / 10);
+                                        Z = 0;
+                                        MakeArcPath(K + 16, X + 16, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 switch (FFrame)
                                 {
@@ -4368,22 +4367,22 @@ public partial class TfxHS : TFixedVisibleHS
                                         }
 
                                         J = Random(10) + 100;
-                                    {
-                                        I = 0;
-                                        int last = J;
-                                        for (; I <= last; I += 1)
                                         {
-                                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
-                                            Effect.FAbilityIndex = FAbilityIndex;
-                                            Effect.FSpellIndex = FSpellIndex;
-                                            Speed = (float)((double)(Random(50) + 50) / 10);
-                                            Gravity = (float)0.1;
-                                            VZ = (float)((double)(Random(5) + 5) / 10);
-                                            Z = 0;
-                                            var random = Random(360);
-                                            MakeArcPath(K + 16, X + 16, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                            I = 0;
+                                            int last = J;
+                                            for (; I <= last; I += 1)
+                                            {
+                                                Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                                Effect.FAbilityIndex = FAbilityIndex;
+                                                Effect.FSpellIndex = FSpellIndex;
+                                                Speed = (float)((double)(Random(50) + 50) / 10);
+                                                Gravity = (float)0.1;
+                                                VZ = (float)((double)(Random(5) + 5) / 10);
+                                                Z = 0;
+                                                var random = Random(360);
+                                                MakeArcPath(K + 16, X + 16, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                            }
                                         }
-                                    }
 
                                         break;
                                 }
@@ -4416,39 +4415,39 @@ public partial class TfxHS : TFixedVisibleHS
                                 var pathY = FPath[0];
                                 var random3 = Random(80);
                                 X = pathY.Y + random3 - 40;
-                            {
-                                I = 1;
-                                int last = J - 1;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(50) + 25) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)(Random(50) + 100) / 10);
-                                    Z = 0;
-                                    MakeArcPath(K, X, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 1;
+                                    int last = J - 1;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(50) + 25) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)(Random(50) + 100) / 10);
+                                        Z = 0;
+                                        MakeArcPath(K, X, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 J = Random(10) + 50;
-                            {
-                                I = 0;
-                                int last = J;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(50) + 50) / 10);
-                                    Gravity = (float)0.1;
-                                    VZ = (float)((double)(Random(5) + 5) / 10);
-                                    Z = 0;
-                                    var random = Random(360);
-                                    MakeArcPath(K, X, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 0;
+                                    int last = J;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxFrost);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(50) + 50) / 10);
+                                        Gravity = (float)0.1;
+                                        VZ = (float)((double)(Random(5) + 5) / 10);
+                                        Z = 0;
+                                        var random = Random(360);
+                                        MakeArcPath(K, X, random, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case 200:
@@ -4985,48 +4984,48 @@ public partial class TfxHS : TFixedVisibleHS
                             case 85:
                             case 90:
                             case 95:
-                            {
-                                I = 0;
-                                int last = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                                for (; I <= last; I += 1)
                                 {
-                                    if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                    I = 0;
+                                    int last = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                    for (; I <= last; I += 1)
                                     {
-                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                        var yhx = ((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                        HXtoHP(((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
-                                        J = Random(20) + (J + 6);
-                                        K = Random(20) + (K + 6);
-                                        MakeLinePath(J, K - 100, J, K, 50, ref Effect.FPath);
-                                        Effect.FAbilityIndex = FAbilityIndex;
-                                        Effect.FSpellIndex = FSpellIndex;
+                                        if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                        {
+                                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                            var yhx = ((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                                            HXtoHP(((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
+                                            J = Random(20) + (J + 6);
+                                            K = Random(20) + (K + 6);
+                                            MakeLinePath(J, K - 100, J, K, 50, ref Effect.FPath);
+                                            Effect.FAbilityIndex = FAbilityIndex;
+                                            Effect.FSpellIndex = FSpellIndex;
+                                        }
                                     }
                                 }
-                            }
 
                                 break;
                             case 100:
-                            {
-                                I = 0;
-                                int last = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
-                                for (; I <= last; I += 1)
                                 {
-                                    if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                    I = 0;
+                                    int last = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetCount() - 1;
+                                    for (; I <= last; I += 1)
                                     {
-                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxPrayerGlow);
-                                        var yhx = ((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
-                                        HXtoHP(((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
-                                        var xyz = new TXYZ();
-                                        Effect.FPath.Add(xyz);
-                                        Effect.FPath[0].X = J + 16;
-                                        Effect.FPath[0].Y = K + 16;
-                                        Effect.FAbilityIndex = FAbilityIndex;
-                                        Effect.FSpellIndex = FSpellIndex;
-                                        var combatObject = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
-                                        Effect.FTarget = combatObject;
+                                        if (AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I) is TCombatUnit && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).GetEnabled() && AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I).FCombatPlayer == FTarget.FCombatPlayer)
+                                        {
+                                            Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxPrayerGlow);
+                                            var yhx = ((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
+                                            HXtoHP(((TTacticalCombatUnit)AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx(), yhx, ref J, ref K);
+                                            var xyz = new TXYZ();
+                                            Effect.FPath.Add(xyz);
+                                            Effect.FPath[0].X = J + 16;
+                                            Effect.FPath[0].Y = K + 16;
+                                            Effect.FAbilityIndex = FAbilityIndex;
+                                            Effect.FSpellIndex = FSpellIndex;
+                                            var combatObject = AoWTCUnit.AoWCombatMap.FCombat.FCombatData.GetObjects(I);
+                                            Effect.FTarget = combatObject;
+                                        }
                                     }
                                 }
-                            }
 
                                 FFrame = -1;
                                 FTarget = null;
@@ -5101,22 +5100,22 @@ public partial class TfxHS : TFixedVisibleHS
                                 }
 
                                 J = Random(6) + 20;
-                            {
-                                I = 1;
-                                int last = J - 1;
-                                for (; I <= last; I += 1)
                                 {
-                                    Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
-                                    Effect.FAbilityIndex = FAbilityIndex;
-                                    Effect.FSpellIndex = FSpellIndex;
-                                    Speed = (float)((double)(Random(10) + 10) / 10);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)((double)Random(50) + (double)(FFrame * 3) * 0.5) / 10);
-                                    Z = 0;
-                                    var path = FPath[0];
-                                    MakeArcPath(FPath[0].X, path.Y, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    I = 1;
+                                    int last = J - 1;
+                                    for (; I <= last; I += 1)
+                                    {
+                                        Effect = AoWTCUnit.AoWCombatMap.AddEffect(TfxType.fxGeyserWater);
+                                        Effect.FAbilityIndex = FAbilityIndex;
+                                        Effect.FSpellIndex = FSpellIndex;
+                                        Speed = (float)((double)(Random(10) + 10) / 10);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)((double)Random(50) + (double)(FFrame * 3) * 0.5) / 10);
+                                        Z = 0;
+                                        var path = FPath[0];
+                                        MakeArcPath(FPath[0].X, path.Y, I * 360 / J, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
-                            }
 
                                 break;
                             case >= 125 and <= 149:
@@ -5152,14 +5151,13 @@ public partial class TfxHS : TFixedVisibleHS
 
     // AoWTC.pas:196
 
-
 }
 
 public partial class TCItemHS : TItemHS
 {
 
     public TCItemHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWTC.pas:2586
     public override void Deactivate()
@@ -5215,6 +5213,7 @@ public partial class TUnitPositionHS : TSingleHS
     public int FImageIndex;
     public TCustomImageLibrary FImages;
     public byte FDirection;
+
     // AoWTC.pas:5060
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -5225,7 +5224,6 @@ public partial class TUnitPositionHS : TSingleHS
     }
 
     // AoWTC.pas:5008
-
 
     // AoWTC.pas:5021
     public override byte GetLevel() => 27;
@@ -5300,20 +5298,20 @@ public partial class TUnitPositionHS : TSingleHS
 
     // AoWTC.pas:223
 
-
 }
 
 // FFrame. FOffsetX. FOffsetY
 public partial class TCBloodHS : TSingleHS
 {
     public TCBloodHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 2228487;
 
     public int FFrame;
     public int FOffsetX;
     public int FOffsetY;
+
     // AoWTC.pas:6393
     public override byte GetLevel() => 26;
 
@@ -5350,14 +5348,13 @@ public partial class TCBloodHS : TSingleHS
 
     // Engine.pas:524
 
-
 }
 
 // FUnit. FUnitGFX. FFrame. FOffsetX. FOffsetY. FSequenceIndex. FSequenceFrame
 public partial class TCCorpseHS : TSingleHS
 {
     public TCCorpseHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 2228488;
 
@@ -5368,6 +5365,7 @@ public partial class TCCorpseHS : TSingleHS
     public int FOffsetY;
     public int FSequenceIndex;
     public int FSequenceFrame;
+
     // AoWTC.pas:4007
     public override byte GetLevel() => 26;
 
@@ -5568,14 +5566,13 @@ public partial class TCCorpseHS : TSingleHS
 
     // Engine.pas:524
 
-
 }
 
 // Inherited single-hexagon sprite layout
 public partial class TCOozeHS : TSingleHS
 {
     public TCOozeHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWTC.pas:4092
     public new const int ClassID = 2228489;
@@ -5637,13 +5634,13 @@ public partial class TCOozeHS : TSingleHS
 
     // Engine.pas:524
 
-
 }
 
 // FPositions: packed XYL entries, eight per army position
 public partial class TUnitPositionControl : TEObject
 {
     public TXYLList FPositions;
+
     // AoWTC.pas:4943
     public override void Destroy()
     {
@@ -5779,6 +5776,7 @@ public partial class TCombatMoveControl : TMoveControl
 
     public TTacticalCombatUnitHS FUnitHS;
     public TSet<TCombatMoveModeElement> FMoveFlags;
+
     // AoWTC.pas:2716
     public override void ProcessMove(TMoveControlSettings Settings)
     {
@@ -5803,6 +5801,7 @@ public partial class TTacticalCombatUnit : TCombatUnit
     public byte FPositionGroup;
     public bool FCanFlee;
     public TTCDeathMethod FDeathMethod;
+
     // AoWTC.pas:2626
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
@@ -5945,13 +5944,13 @@ public partial class TTacticalCombatUnit : TCombatUnit
                                         Corpse.FSequenceIndex = -1;
                                         break;
                                     default:
-                                    {
-                                        Corpse.FSequenceIndex = ((int)FUnit.GetUnitSize() & 127) + 30;
-                                        if (Corpse.FSequenceIndex > 32)
                                         {
-                                            Corpse.FSequenceIndex = 32;
+                                            Corpse.FSequenceIndex = ((int)FUnit.GetUnitSize() & 127) + 30;
+                                            if (Corpse.FSequenceIndex > 32)
+                                            {
+                                                Corpse.FSequenceIndex = 32;
+                                            }
                                         }
-                                    }
 
                                         break;
                                 }
@@ -6038,7 +6037,7 @@ public partial class TTacticalCombatUnit : TCombatUnit
 public partial class TTacticalCombatUnitHS : TUnitHS
 {
     public TTacticalCombatUnitHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWTC.pas:3348
     public new const int ClassID = 2228484;
@@ -6056,6 +6055,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
     public int FCombatAbilityCount;
     public TList FAbilities;
     public bool FBusy;
+
     // AoWTC.pas:3566
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
@@ -6385,11 +6385,11 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 return;
             }
 
-            Touch:
-                if (((TTouchAbility)AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility)).CanTouch(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit, FUnit))
-                {
-                    MoveResult.Code = 0;
-                }
+        Touch:
+            if (((TTouchAbility)AoWHSSet.FAbilityControl.GetAbility(((TCombatMoveControl)Info.Sender).FUnitHS.FSelectedAbility)).CanTouch(((TCombatMoveControl)Info.Sender).FUnitHS.FUnit, FUnit))
+            {
+                MoveResult.Code = 0;
+            }
         }
         else
         {
@@ -6871,7 +6871,6 @@ public partial class TTacticalCombatUnitHS : TUnitHS
 
     // intf_P2_03.inc:74
 
-
 }
 
 // FPathInvalid. FTargetImages. FRangedPathHS. FTargetX. FTargetY. FCursorImage. FCursorFrame.
@@ -6898,6 +6897,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     public THexagonSprite FMouseOverTarget;
     public TXYZList FRangedPath;
     public TList FObstacles;
+
     // AoWTC.pas:2733
     public override void Destroy()
     {
@@ -7377,11 +7377,11 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             }
         }
 
-        FinishCursor:
-            if (AoWTCUnit.AoWCombatMap.Mouse.CursorMode != 0)
-            {
-                return;
-            }
+    FinishCursor:
+        if (AoWTCUnit.AoWCombatMap.Mouse.CursorMode != 0)
+        {
+            return;
+        }
 
         if (UnitHS.FUnit.GetPlayer() == AoWTCUnit.AoWCombatMap.FSeatedPlayer)
         {
@@ -8116,17 +8116,17 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
 
                                         break;
                                     default:
-                                    {
-                                        var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
-                                        CalculateRangedPath((sbyte)AoWTCUnit.AoWCombatMap.Mouse.Xhx, (sbyte)yhx);
-                                        if (FRangedPath.Count > 0)
                                         {
-                                            var mouseYhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
-                                            var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
-                                            FMouseOverTarget = (THexagonSprite)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, mouseYhx].FindOwnedChild(2228484);
-                                            AoWTCUnit.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
+                                            var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                            CalculateRangedPath((sbyte)AoWTCUnit.AoWCombatMap.Mouse.Xhx, (sbyte)yhx);
+                                            if (FRangedPath.Count > 0)
+                                            {
+                                                var mouseYhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
+                                                var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
+                                                FMouseOverTarget = (THexagonSprite)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, mouseYhx].FindOwnedChild(2228484);
+                                                AoWTCUnit.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
+                                            }
                                         }
-                                    }
 
                                         break;
                                 }
@@ -8238,6 +8238,7 @@ public partial class TTacticalCombatPlayer : TCombatPlayer
     public int FLastX;
     public int FLastY;
     public TTacticalCombatUnit FLastUnit;
+
     // AoWTC.pas:6419
     public void SetAuto(bool Value)
     {
@@ -8254,6 +8255,7 @@ public partial class TTacticalCombatPlayer : TCombatPlayer
 public partial class TTacticalCombatPlayerList : TObject
 {
     public TCombatPlayerList FPlayers;
+
     // AoWTC.pas:6426
     public int GetCount()
     {
@@ -8279,7 +8281,7 @@ public partial class TAoWCombatMapMouse : TAbstractAoWHSMapMouse
 {
 
     public TAoWCombatMapMouse() : base()
-    {}
+    { }
 
     // intf_P1_05.inc:68
 
@@ -8318,6 +8320,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     public bool FPlaySounds;
     public FixedArray_byte_8 FPositionStatus;
     public int FRound;
+
     // AoWTC.pas:2213
     public override void Destroy()
     {
@@ -8955,6 +8958,7 @@ public partial class TTacticalCombat : TCombat
     { }
 
     public sbyte FHostPlayer;
+
     // AoWTC.pas:5086
     public override TCombatUnit CreateCombatUnit() => new TTacticalCombatUnit(null);
 
@@ -9168,6 +9172,7 @@ public partial class TRndTacHsm : TObject
     public FixedArray_Aow_Rtl_TList_286 FResources;
     // original allocates one extra list
     public int FHomePosition;
+
     // AoWTC.pas:4149
     public override void Destroy()
     {
@@ -10609,6 +10614,7 @@ public enum TaiMoveType : byte
 public static partial class AoWTCUnit
 {
     public static byte TCombatUnitSelectionControl_CalculateMovePath__ClimbFlag = 1;
+
     // AoWTC.pas:6436
     public static void MakeAbilPath(TCombatSideIndex Side, short Ability, short Spell, short X1, short Y1, short X2, short Y2, ref TXYZList Path, ref TList Obstacles)
     {
@@ -11096,6 +11102,7 @@ public static partial class AoWTCUnit
     public static FixedArray_byte_3770 MapShape = FixedArray_byte_3770.From([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 10, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 11, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 10, 10, 2, 14, 2, 14, 2, 14, 2, 14, 2, 11, 11, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 14, 1, 14, 1, 14, 1, 14, 1, 14, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 7, 19, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 15, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 8, 8, 8, 8, 8, 8, 19, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 15, 9, 9, 9, 9, 9, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 18, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 16, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 18, 17, 1, 1, 1, 1, 1, 1, 1, 1, 1, 17, 16, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 17, 17, 17, 17, 17, 17, 17, 17, 17, 5, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 12, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 13, 4, 4, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 12, 12, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 13, 13, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     public static FixedArray_byte_3770 MapRoads = FixedArray_byte_3770.From([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 0, 0, 21, 2, 2, 2, 21, 0, 0, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 0, 0, 21, 2, 2, 2, 21, 0, 0, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 26, 26, 21, 2, 2, 2, 21, 22, 22, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 7, 21, 2, 2, 2, 21, 3, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 7, 7, 7, 1, 1, 1, 3, 3, 3, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 26, 7, 7, 1, 1, 1, 1, 1, 3, 3, 22, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 1, 1, 1, 1, 1, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 1, 1, 1, 1, 1, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 5, 1, 5, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 24, 5, 5, 5, 24, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 24, 5, 5, 5, 24, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 6, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 4, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 6, 6, 6, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 4, 4, 4, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 25, 25, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 23, 23, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 5, 5, 5, 24, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
     public static FixedArray_int_18 clusterChk = FixedArray_int_18.From([1, 2, 6, 16, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 33, 34, 35, 36]);
+
     // AoWTC.pas:3664
     public static void OriginalUnitAssert(string Message, string Filename, int LineNumber)
     {

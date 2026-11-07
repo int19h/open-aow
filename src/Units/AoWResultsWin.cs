@@ -1,28 +1,28 @@
 // Translated from AoWResultsWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.ImageLib.ImageLibUnit;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AOWPyreScrn.AOWPyreScrnUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
 using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
 using Aow.Units.AoWWorldMap;
 using Aow.Units.E2Globals;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AOWPyreScrn.AOWPyreScrnUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using static Aow.Units.ImageLib.ImageLibUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWResultsWin;
 
@@ -81,6 +81,7 @@ public partial class TResultsWin : TDataModule
     public int FMaxStrength;
     public TByteList FPlayers;
     public TList FControls;
+
     // AoWResultsWin.pas:93
     public void UpdateSelection()
     {
@@ -482,6 +483,7 @@ public partial class TResultsWin : TDataModule
 public static partial class AoWResultsWinUnit
 {
     public static TResultsWin ResultsWin;
+
     // AoWResultsWin.pas:368
     public static void ShowResults(TResultsWin Window)
     {

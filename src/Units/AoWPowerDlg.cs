@@ -1,19 +1,19 @@
 // Translated from AoWPowerDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWHScroll;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.aowIntGfxMod;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.AoWPowerDlg;
 
@@ -49,6 +49,7 @@ public partial class TPowerDlg : TDataModule
     public TAOWImage PAMana;
     public TAOWImage PARes;
     public TIvTranslator Translator;
+
     // AoWPowerDlg.pas:70
     public void Execute()
     {

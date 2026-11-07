@@ -1,9 +1,9 @@
 // Translated from AOWGauge.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AOWGauge;
 
@@ -27,6 +27,7 @@ public partial class TAoWGauge : TAOWControl
     public int FILIndexFrame;
     public int FILIndexTNormal;
     public int FILIndexTSelected;
+
     // AOWGauge.pas:69
     public TAoWGauge(TComponent owner) : base(owner)
     {
@@ -115,7 +116,7 @@ public partial class TAoWGauge : TAOWControl
 
     // AOWGauge.pas:183
     // { Draw: the filled width P is computed from Position without subtracting Min (original bug:
-//   the gauge is only right for Min = 0) }
+    //   the gauge is only right for Min = 0) }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         TRect OldClip = default;

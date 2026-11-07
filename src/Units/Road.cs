@@ -21,8 +21,8 @@ public partial class TRoad : TAbstractRoad
     public new const int ClassID = 131428;
 
     protected internal byte FTransitions;
-    // Road.pas:42
 
+    // Road.pas:42
 
     // Road.pas:52
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -115,13 +115,12 @@ public partial class TRoad : TAbstractRoad
 
     // Road.pas:18
 
-
 }
 
 public partial class TRoadResource : TAbstractRoadResource
 {
     public TRoadResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Road.pas:136
     public new const int ClassID = 131429;

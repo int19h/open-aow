@@ -7,6 +7,7 @@ public sealed class PreInheritedTests
     private static readonly List<string> Events = [];
     private static bool fail;
     private static int destroyed;
+
     private sealed class HookOwner : EngineFixture.Owner
     {
 
@@ -17,23 +18,28 @@ public sealed class PreInheritedTests
             return 0;
         }
     }
+
     private class First : TEObject
     {
 
         private protected First(ConstructionContext? context, TECustomNode? owner) : base(context!, owner!) => Events.Add("first body");
     }
+
     private class Middle : First
     {
 
         private protected Middle(ConstructionContext? context, TECustomNode? owner) : base(context, owner) => Events.Add("middle body");
     }
+
     private sealed class Leaf : Middle
     {
         private readonly int initialized = InitializeField();
         internal int State;
 
         internal Leaf(ConstructionContext? context, TECustomNode? owner) : base(context, owner) => Events.Add("leaf body");
+
         private static int InitializeField() { Events.Add("leaf field"); return 1; }
+
         private protected sealed override void InitializeBeforeInherited()
         {
             Assert.Equal(1, initialized);
@@ -41,6 +47,7 @@ public sealed class PreInheritedTests
             State = 17;
             if (fail) throw new InvalidDataException("hook failure");
         }
+
         public override void Destroy()
         {
             Assert.Equal(17, State);
@@ -49,6 +56,7 @@ public sealed class PreInheritedTests
             base.Destroy();
         }
     }
+
     [Fact]
     public void FieldHookInsertionAndThreeBodiesRunInDelphiOrder()
     {

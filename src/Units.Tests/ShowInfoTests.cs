@@ -126,8 +126,11 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     private sealed class BlendRecorder : LibraryImage, ILibraryImageClass
     {
         static LibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new BlendRecorder(owner);
+
         public readonly List<TBlendTable> Drawn = [];
+
         internal BlendRecorder(TCustomImageLibrary owner) : base(owner) { }
+
         public override bool SupportShowMode(TShowMode ShowMode, int PixelFormatID) => true;
         public override void ShowBlended(int X, int Y, in TSurfaceDesc SD, TBlendTable Table) => Drawn.Add(Table);
         public override void ShowBlendedStretched(in TRect R, in TSurfaceDesc SD, TBlendTable Table) => Drawn.Add(Table);

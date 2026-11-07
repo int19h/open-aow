@@ -1,9 +1,9 @@
 // Translated from AoWControl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.AOWToolTip;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWBaseWin;
+using Aow.Units.AoWComp;
+using Aow.Units.AOWToolTip;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWControl;
 
@@ -17,6 +17,7 @@ public partial class TAOWControl : TAoWComponent
     public int FToolTipShown;
     public TAOWBaseWindow FAOWWindow;
     public TAOWToolTip FToolTip;
+
     // AoWControl.pas:46
     public TAOWControl(TComponent owner) : base(owner)
     {
@@ -33,10 +34,10 @@ public partial class TAOWControl : TAoWComponent
 
     // AoWControl.pas:84
     // { Update counts the tool tip delay and shows or hides the tool tip, and asks the owner to redraw
-//   the control's old and new places when it moved, changed size or became hidden. FOldRect holds
-//   the place of the last update as (Left, Top, Width, Height); the rectangles to redraw are in the
-//   coordinates of the window manager (the owner's position is added unless the owner is the
-//   manager's direct child... of a window placed in the manager) }
+    //   the control's old and new places when it moved, changed size or became hidden. FOldRect holds
+    //   the place of the last update as (Left, Top, Width, Height); the rectangles to redraw are in the
+    //   coordinates of the window manager (the owner's position is added unless the owner is the
+    //   manager's direct child... of a window placed in the manager) }
     public override void Update()
     {
         TRect R = default;

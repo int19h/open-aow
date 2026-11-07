@@ -18,6 +18,7 @@ public partial class TAoWMapLevel
     }
 
     private static byte FogCount(TAoWMapField field) => (byte)((uint)field.FFieldFlags >> 16);
+
     public bool FogArea(int x, int y, int radius)
     {
         bool result = false;
@@ -73,6 +74,8 @@ public partial class TAoWMapLevel
     }
 
     public void ResetFog() { for (int i = 0; i < Count; i++) ((TAoWMapField)GetChild(i)).SetFogCount(0); }
+
     public void ResetUnFog() { for (int i = 0; i < Count; i++) ((TAoWMapField)GetChild(i)).SetFogCount(1); }
+
     public void Reset() { for (int i = 0; i < Count; i++) ((TAoWMapField)GetChild(i)).FFieldFlags = 0; }
 }

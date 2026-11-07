@@ -1,7 +1,7 @@
 // Translated from AltLife.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.Altar;
+using Aow.Units.Engine;
 using Aow.Units.Storms;
 using static Aow.Units.AoWE.AoWEUnit;
 
@@ -10,7 +10,7 @@ namespace Aow.Units.AltLife;
 public partial class TAltarOfLife : TAltar
 {
     public TAltarOfLife(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AltLife.pas:36
     public new const int ClassID = 131635;
@@ -31,12 +31,10 @@ public partial class TAltarOfLifeResource : TAltarResource
 
     // AltLife.pas:44
 
-
     // AltLife.pas:55
     public override int ResourceUserClassID() => 131635;
 
     // AltLife.pas:26
-
 
     // AltLife.pas:49
     public override string ResourceEditName() => TranslateRStr(AltarOfLifeRStr);

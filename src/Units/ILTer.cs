@@ -1,11 +1,11 @@
 // Translated from ILTer.pas.
 using Aow.Rtl;
-using Exception = Aow.Rtl.Exception;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
 using static Aow.Units.HSEngine.HSEngineUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.ILTer;
 
@@ -27,7 +27,6 @@ public partial class TILTerrainMO : TMultiHexMO
 
     protected internal int FImageIndex;
     protected internal sbyte FTerrainType;
-
 
     // ILTer.pas:164
     public override sbyte GetTerrain(int Index)
@@ -270,13 +269,12 @@ public partial class TILTerrainMO : TMultiHexMO
 
     // ILTer.pas:20
 
-
 }
 
 public partial class TILTerrainMOR : TMultiHexMOR
 {
     public TILTerrainMOR(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // ILTer.pas:269
     public new const int ClassID = 131463;
@@ -298,8 +296,7 @@ public partial class TFixedILTerrainMO : TILTerrainMO
 {
 
     public TFixedILTerrainMO(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     public new const int ClassID = 131464;
 
@@ -372,8 +369,7 @@ public partial class TFixedILTerrainMO : TILTerrainMO
 public partial class TFixedILTerrainMOR : TILTerrainMOR
 {
     public TFixedILTerrainMOR(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     // ILTer.pas:339
     public new const int ClassID = 131465;

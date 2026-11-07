@@ -121,7 +121,8 @@ public abstract class FileProfile
         foreach (var m in container.Members)
             if (m.Name != "$layout" && Array.IndexOf(allowed, m.Name) < 0)
                 throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                    $"$container has no member \"{m.Name}\".") { File = ctx.File, Span = m.NameSpan, Path = "$container." + m.Name });
+                    $"$container has no member \"{m.Name}\".")
+                { File = ctx.File, Span = m.NameSpan, Path = "$container." + m.Name });
     }
 
     internal static string CompressionOf(EncodeContext ctx, JsonObject container, out int level)
@@ -322,6 +323,7 @@ public sealed class ScenarioSetProfile : FileProfile
     public override bool RootHasClass => false;
 
     private const int HeaderSize = 52;
+
     private static ReadOnlySpan<byte> Id => [4, (byte)'H', (byte)'S', (byte)'S', 0];
 
     internal override (JsonObject Container, JsonObject Root) Import(byte[] file, ImportSession session)

@@ -1,10 +1,10 @@
 // Translated from AoWWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWWinControl;
 using Aow.Units.AoWWinGeneric;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWWindow;
 
@@ -24,8 +24,8 @@ public partial class TAOWWindow : TAOWGenericWindow
 
     // AoWWindow.pas:63
     // { SetSize: at least as large as the frame corners, between the minimum and maximum size, and
-//   inside the window manager's screen (and borders); the frame rectangle is set for masked
-//   windows }
+    //   inside the window manager's screen (and borders); the frame rectangle is set for masked
+    //   windows }
     public override void SetSize()
     {
         switch (FWindowType)
@@ -342,7 +342,7 @@ public partial class TAOWWindow : TAOWGenericWindow
 
     // AoWWindow.pas:253
     // { CheckMouseDown: a click brings the window to the front; the controls get it first; a left
-//   click in the title area starts dragging, one on a border (Resizable) starts resizing }
+    //   click in the title area starts dragging, one on a border (Resizable) starts resizing }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAoWComponent C = default;
@@ -542,7 +542,7 @@ public partial class TAOWWindow : TAOWGenericWindow
 
     // AoWWindow.pas:411
     // { CheckMouseMove drags or resizes the window, passes the move to the controls and sets the
-//   resize cursors over the borders }
+    //   resize cursors over the borders }
     public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         bool Resized;

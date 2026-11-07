@@ -1,10 +1,10 @@
 // Translated from AoWVScroll.pas.
+using System.ComponentModel;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
-using System.ComponentModel;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWVScroll;
 
@@ -63,6 +63,7 @@ public partial class TAOWScrollBar : TAOWControl
     public int FILIndexDecDown;
     public int FILIndexBack;
     public int FILIndexTab;
+
     // AoWVScroll.pas:130
     public TAOWScrollBar(TComponent owner) : base(owner)
     {
@@ -75,8 +76,8 @@ public partial class TAOWScrollBar : TAOWControl
 
     // AoWVScroll.pas:251
     // { Validate checks the image libraries and picks the kind of scroll bar: both buttons with a
-//   background and a tab make a scroll bar, both buttons alone make an increment/decrement pair,
-//   a background line with a tab makes a slider; anything else leaves the scroll bar invalid }
+    //   background and a tab make a scroll bar, both buttons alone make an increment/decrement pair,
+    //   a background line with a tab makes a slider; anything else leaves the scroll bar invalid }
     public override void Validate()
     {
         if (FILIInc != null)
@@ -154,8 +155,8 @@ public partial class TAOWScrollBar : TAOWControl
 
     // AoWVScroll.pas:351
     // { Update repeats the action of a held mouse button once the button has been held for Delay
-//   updates: a button steps by SmallChange, the track pages by LargeChange up to the position that
-//   was clicked }
+    //   updates: a button steps by SmallChange, the track pages by LargeChange up to the position that
+    //   was clicked }
     public override void Update()
     {
         if (FVisible && F150 > 0)
@@ -513,7 +514,7 @@ public partial class TAOWVScrollBar : TAOWScrollBar
 
     // AoWVScroll.pas:408
     // { SetSize takes the width from the images and sizes the track and the tab: the tab of a line is
-//   proportional to the visible part of the range, but no shorter than its two end images }
+    //   proportional to the visible part of the range, but no shorter than its two end images }
     public override void SetSize()
     {
         F14C = FMax - FMin + 1;
@@ -604,7 +605,7 @@ public partial class TAOWVScrollBar : TAOWScrollBar
 
     // AoWVScroll.pas:457
     // { Draw draws the buttons (pressed while held), the background and the tab. The top of the
-//   increment button is computed from the height of its pressed image in both states (original) }
+    //   increment button is computed from the height of its pressed image in both states (original) }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         int TabPos = default;
@@ -741,8 +742,8 @@ public partial class TAOWVScrollBar : TAOWScrollBar
 
     // AoWVScroll.pas:549
     // { CheckMouseDown: a click on a button steps the position, a click in the track pages towards
-//   the click, a click on the tab starts dragging it (F151 stays 5). The track before the tab ends
-//   at the height of the increment button (original) }
+    //   the click, a click on the tab starts dragging it (F151 stays 5). The track before the tab ends
+    //   at the height of the increment button (original) }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         int TabPos = default;

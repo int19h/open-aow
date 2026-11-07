@@ -62,9 +62,18 @@ internal static class PacingVerification
         Directory.CreateDirectory(output);
         File.WriteAllText(Path.Combine(output, "pacing.json"), JsonSerializer.Serialize(new
         {
-            equal, frames = 300, warmup_frames = warmupFrames, fps = 30, target_ms = 33, tolerance_ms = 1,
-            minimum_ms = regular.Min(), maximum_ms = regular.Max(), slow_ms = slow,
-            following_ms = following, frame_ms = regular, no_window = true
+            equal,
+            frames = 300,
+            warmup_frames = warmupFrames,
+            fps = 30,
+            target_ms = 33,
+            tolerance_ms = 1,
+            minimum_ms = regular.Min(),
+            maximum_ms = regular.Max(),
+            slow_ms = slow,
+            following_ms = following,
+            frame_ms = regular,
+            no_window = true
         }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
         Console.WriteLine($"G5: {(equal ? "PASS" : "FAIL")}, 300 frames, {regular.Min():F3}..{regular.Max():F3} ms, slow {slow:F3} ms, following {string.Join(", ", following.Select(t => t.ToString("F3")))} ms, no window");
         return equal ? 0 : 1;
@@ -82,9 +91,13 @@ internal static class PacingVerification
         public (int Width, int Height) ClientSize => (1, 1);
         public bool Fullscreen { get; set; }
         public bool HasFocus => false;
+
         public void Present(in TSurfaceDesc surface) { }
+
         public (int X, int Y, bool Inside) PointerPosition() => (-1, -1, false);
+
         public void PumpEvents(IDisplayEvents sink) { }
+
         public void ShowSystemCursor(bool show) { }
     }
 }

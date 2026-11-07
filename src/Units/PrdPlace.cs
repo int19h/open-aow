@@ -1,14 +1,14 @@
 // Translated from PrdPlace.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLogUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.Animation;
+using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.HSEngine;
 using Aow.Units.PassiveAb;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
 
 namespace Aow.Units.PrdPlace;
 
@@ -19,6 +19,7 @@ public partial class TProductionPlaceControl : TProductionControl
     { }
 
     public TProductionPlace FProductionPlace;
+
     // PrdPlace.pas:169
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
@@ -218,6 +219,7 @@ public partial class TProductionPlace : TPlayerStructure
     public TProductionPlaceControl FProductionControl;
     public byte FRazedState;
     public byte FDefenderLevel;
+
     // PrdPlace.pas:283
     public override void Destroy()
     {
@@ -237,7 +239,6 @@ public partial class TProductionPlace : TPlayerStructure
     }
 
     // PrdPlace.pas:264
-
 
     // PrdPlace.pas:352
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -881,7 +882,6 @@ public partial class TProductionPlace : TPlayerStructure
 
     // PrdPlace.pas:51
 
-
 }
 
 // available unit indexes
@@ -898,6 +898,7 @@ public partial class TProductionPlaceResource : TPlayerStructureResource
     public new const int ClassID = 132027;
 
     public TUnitIndexList FUnits;
+
     // PrdPlace.pas:709
     public override void Destroy()
     {
@@ -913,7 +914,6 @@ public partial class TProductionPlaceResource : TPlayerStructureResource
     }
 
     // PrdPlace.pas:701
-
 
     // PrdPlace.pas:724
     public override EditorClass Editor()
@@ -931,7 +931,6 @@ public partial class TProductionPlaceResource : TPlayerStructureResource
     public override int ResourceUserClassID() => 132026;
 
     // PrdPlace.pas:100
-
 
     // PrdPlace.pas:715
     public override string ResourceEditName() => "";

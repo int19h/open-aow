@@ -1,12 +1,12 @@
 // Translated from Crops.pas.
-using Aow.Rtl;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.ILTer;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Crops;
 
@@ -27,6 +27,7 @@ public partial class TPlayerCropStructure : TPlayerStructure
     public byte FIncome;
     public bool FChangingCrops;
     public TPlayerStructureIncomeSource FIncomeSource;
+
     // Crops.pas:278
     public override void Destroy()
     {
@@ -35,7 +36,6 @@ public partial class TPlayerCropStructure : TPlayerStructure
     }
 
     // Crops.pas:270
-
 
     // Crops.pas:528
     public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
@@ -463,12 +463,13 @@ public partial class TPlayerCropStructure : TPlayerStructure
 public partial class TPlayerCropStructureResource : TPlayerStructureResource
 {
     public TPlayerCropStructureResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Crops.pas:599
     public new const int ClassID = 131919;
 
     public TWordList FCropLocations;
+
     // Crops.pas:592
     public override void Destroy()
     {
@@ -508,6 +509,7 @@ public partial class TCrop : TILTerrainMO
     public new const int ClassID = 131946;
 
     public TPlayerCropStructure FCropOwner;
+
     // Crops.pas:114
     public override void Destroy()
     {
@@ -515,7 +517,6 @@ public partial class TCrop : TILTerrainMO
     }
 
     // Crops.pas:109
-
 
     // Crops.pas:151
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -678,13 +679,12 @@ public partial class TCrop : TILTerrainMO
 
     // Crops.pas:68
 
-
 }
 
 public partial class TCropResource : TILTerrainMOR
 {
     public TCropResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Crops.pas:245
     public new const int ClassID = 131947;

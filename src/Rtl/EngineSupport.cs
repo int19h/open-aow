@@ -1,8 +1,8 @@
+using System.IO.Compression;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.IO.Compression;
-using System.Linq.Expressions;
 
 namespace Aow.Rtl;
 
@@ -24,11 +24,16 @@ public struct TRect
 }
 
 public class TCanvas : TObject { }
+
 public class TLibraryImage : TObject { }
+
 public class TPopupMenu : TObject { }
+
 public enum TBltMode : byte { bmNone, bmStretch, bmStretchToFit, bmCenter }
+
 public delegate void TStreamProc(TStream stream);
 public delegate void RwData(Span<byte> buffer, int size, int id);
+
 public readonly record struct THeapStatus(int TotalAllocated);
 
 public sealed class TApplication
@@ -39,6 +44,7 @@ public sealed class TApplication
 public static partial class RtlUnit
 {
     public static object AllocMem(uint count) => Ptr<byte>.Alloc(checked((int)count)).Box();
+
     public static T? RebindDelegate<T>(Delegate? value) where T : Delegate
     {
         if (value is null) return null;
@@ -58,18 +64,25 @@ public static partial class RtlUnit
         var arguments = parameters.Select((p, i) => (Expression)Expression.Convert(p, inputs[i].ParameterType));
         return Expression.Lambda<T>(Expression.Invoke(Expression.Constant(value), arguments), parameters).Compile();
     }
+
     public static string ReadShortString(ReadOnlySpan<byte> image) => Cp1252.Decode(image.Slice(1, image[0]).ToArray());
+
     public static void WriteShortString(Span<byte> image, string value)
     {
         int length = Math.Min(value.Length, image.Length - 1);
         image[0] = (byte)length;
         Cp1252.Encode(value).AsSpan().Slice(0, length).CopyTo(image.Slice(1));
     }
+
     public static TApplication Application { get; } = new();
     public static Action<string> MessageHandler { get; set; } = message => throw new EInvalidOperation(message);
+
     public static void ShowMessage(string message) => MessageHandler(message);
+
     public static void RegisterClass(Type type) { }
+
     public static void RegisterComponents(string category, Type[] types) { }
+
     public static uint RegisterClipboardFormat(string name) => 1;
     public static byte[] ValueBytes<T>(T value, int count) where T : unmanaged => Bytes.Of(ref value, count).ToArray();
     public static THeapStatus GetHeapStatus() => new(unchecked((int)GC.GetTotalMemory(false)));
@@ -77,17 +90,20 @@ public static partial class RtlUnit
     public static bool ArrayEquals<TArray, TElement>(TArray left, TArray right) where TArray : unmanaged where TElement : unmanaged => Bytes.Of(ref left).SequenceEqual(Bytes.Of(ref right));
     public static MethodInfo? MethodCode(Delegate? value) => value?.Method;
     public static object? MethodTarget(Delegate? value) => value?.Target;
+
     public static void RwSet<E>(ref TSet<E> value, int size, int id, RwData transfer, int low = 0) where E : unmanaged
     {
         ulong image = value.Image;
         transfer(Bytes.Of(ref image, size), size, id);
         value = TSet<E>.FromMask(image << (low / 8 * 8));
     }
+
     public static bool PointerSequenceEqual<T>(Ptr<T> left, Ptr<T> right, int count)
     {
         for (int i = 0; i < count; i++) if (!EqualityComparer<T>.Default.Equals(left[i], right[i])) return false;
         return true;
     }
+
     public static int ReadString(TStream stream, ref string value, int start, int count, bool exact)
     {
         byte[] bytes = Cp1252.Encode(value).ToArray();
@@ -98,12 +114,15 @@ public static partial class RtlUnit
         if (exact && read != count) throw new EReadError("Stream read error");
         return read;
     }
+
     // Delphi code stored small integers in TObject slots (TStrings.Objects, a TNotifyEvent sender)
     // with TObject(I) and read them back with Integer(Obj). IntToObject gives one cached box per
     // value, so IndexOfObject finds it again, and ObjectToInt reads the box back. The values are
     // enum values, indices and small ids, so the cache stays bounded and holds no game object.
     private sealed class IntegerObject(int value) : TObject { public int Value { get; } = value; }
+
     private static readonly Dictionary<int, TObject> integerObjects = [];
+
     public static TObject? IntToObject(int value)
     {
         if (value == 0) return null;
@@ -180,7 +199,9 @@ internal sealed class StreamAdapter(TStream source) : Stream
     public override bool CanWrite => true;
     public override long Length => source.Size;
     public override long Position { get => source.Position; set => source.Position = checked((int)value); }
+
     public override void Flush() { }
+
     public override int Read(byte[] buffer, int offset, int count) => source.Read(buffer.AsSpan(offset, count));
     public override int Read(Span<byte> buffer) => source.Read(buffer);
     public override void Write(byte[] buffer, int offset, int count) => source.WriteBuffer(buffer.AsSpan(offset, count));
@@ -194,11 +215,16 @@ public class TCompressionStream : TStream
     private readonly ZLibStream stream;
     private int position;
     private bool destroyed;
+
     public TCompressionStream(TCompressionLevel level, TStream destination) => stream = new(new StreamAdapter(destination), level switch
     { TCompressionLevel.clNone => CompressionLevel.NoCompression, TCompressionLevel.clFastest => CompressionLevel.Fastest, TCompressionLevel.clMax => CompressionLevel.SmallestSize, _ => CompressionLevel.Optimal }, true);
+
     public override int Read(Span<byte> buffer) => throw new EStreamError("Invalid stream operation");
+
     public override int Write(ReadOnlySpan<byte> buffer) { stream.Write(buffer); position += buffer.Length; return buffer.Length; }
+
     public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new EStreamError("Invalid stream operation");
+
     public override void Destroy() { if (!destroyed) { destroyed = true; stream.Dispose(); } base.Destroy(); }
 }
 
@@ -206,7 +232,9 @@ public class TDecompressionStream : TStream
 {
     private readonly ZLibStream stream;
     private int position;
+
     public TDecompressionStream(TStream source) => stream = new(new StreamAdapter(source), CompressionMode.Decompress, true);
+
     public override int Read(Span<byte> buffer)
     {
         int count = 0;
@@ -219,7 +247,9 @@ public class TDecompressionStream : TStream
         position += count;
         return count;
     }
+
     public override int Write(ReadOnlySpan<byte> buffer) => throw new EStreamError("Invalid stream operation");
     public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new EStreamError("Invalid stream operation");
+
     public override void Destroy() { stream.Dispose(); base.Destroy(); }
 }

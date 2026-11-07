@@ -5,6 +5,7 @@ public static partial class GFXEUnit
     public static Func<(int Width, int Height)> DesktopSize { get; set; } = () => (1280, 1024);
     /// <summary>The full screen sizes the display host offers, or null for the fixed list of the headless host.</summary>
     public static Func<IReadOnlyList<(int Width, int Height)>> FullscreenSizes { get; set; } = () => null;
+
     private static readonly (int Width, int Height)[] FixedSizes = [(640, 480), (800, 600), (1024, 768), (1280, 1024)];
 
     /// <summary>

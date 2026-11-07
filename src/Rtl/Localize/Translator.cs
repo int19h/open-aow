@@ -9,6 +9,7 @@ public static class TranslatorProperties
 {
     internal sealed record Binding(Type Type, string Name, Func<TComponent, string[]> Read,
         Action<TComponent, string[]> Write, bool IsList);
+
     private static readonly Dictionary<(Type, string), Binding> bindings = [];
 
     public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : TComponent
@@ -48,6 +49,7 @@ public class TIvCustomTranslator : TComponent
     public TIvCustomTranslator(TComponent? owner = null) : base(owner) { }
 
     private ConditionalWeakTable<TComponent, Dictionary<string, string[]>> nativeValues = new();
+
     public string DictionaryName { get; set; } = "AoW";
     public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();
     public MldDictionary? Dictionary { get; set; }

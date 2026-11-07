@@ -1,11 +1,11 @@
 #nullable disable
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.AoWE;
@@ -112,6 +112,7 @@ public partial class TUnitHS
         }
     }
 }
+
 public partial class TAbstractUnit
 {
     public virtual int ShowEx(int X, int Y, in TSurfaceDesc SD, in TP2UnitShowInfo Info)
@@ -296,6 +297,7 @@ public partial class TAbstractUnit
         return Result;
     }
 }
+
 public partial class TArmyHS
 {
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)

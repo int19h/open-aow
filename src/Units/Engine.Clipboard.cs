@@ -13,14 +13,19 @@ public static partial class EngineUnit
 public partial class TECopyComponent : TComponent
 {
     private TEObjectList objects = null!;
+
     public TECopyComponent(TComponent? owner) : base(owner)
     {
         objects = new TEObjectList();
     }
+
     public override void Destroy() { objects.Free(); base.Destroy(); }
+
     public IndexedProperty<int, TEObject> EObjects => new(i => objects.EObjects[i], (i, value) => objects.EObjects[i] = value);
     public int Count => objects.Count;
     public TEObjectList EObjectList => objects;
+
     public void CopyToClipboard(TEngine engine, string name) { }
+
     public void PasteFromClipboard(TEngine engine, string name) { }
 }

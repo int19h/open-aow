@@ -7,10 +7,15 @@ namespace Aow.Rtl.Tests;
 public sealed class EngineSupportTests
 {
     private enum Flag : byte { A, B, C }
+
     private enum OffsetFlag : byte { A = 8, B, C }
+
     [InlineArray(4)] private struct FourBytes { private byte first; }
+
     private sealed class Receiver { public void Event(TObject sender) { } }
+
     private sealed class EventContext : TObject { }
+
     private delegate void EventDone(EventContext context);
 
     [Fact]

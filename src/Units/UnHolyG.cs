@@ -1,16 +1,16 @@
 // Translated from UnHolyG.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.ILTer;
-using static Aow.Units.EventLog.EventLogUnit;
-using Aow.Units.GlobalTargetSpells;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.GlobalTargetSpells;
+using Aow.Units.HSEngine;
+using Aow.Units.ILTer;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.UnHolyG;
 
@@ -23,7 +23,7 @@ public enum AnonymousEnum_hgSummoning : byte
 public partial class TUnHolyGround : TILTerrainMO
 {
     public TUnHolyGround(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // UnHolyG.pas:93
     public new const int ClassID = 131985;
@@ -32,6 +32,7 @@ public partial class TUnHolyGround : TILTerrainMO
     public sbyte FPlayer;
     public sbyte FDuration;
     public sbyte FOriginalOverlay;
+
     // UnHolyG.pas:204
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -329,7 +330,7 @@ public partial class TUnHolyGround : TILTerrainMO
 public partial class TUnHolyGroundResource : TILTerrainMOR
 {
     public TUnHolyGroundResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // UnHolyG.pas:278
     public new const int ClassID = 131986;
@@ -345,7 +346,7 @@ public partial class TUnHolyGroundResource : TILTerrainMOR
 public partial class TUnholyGroundSpellTE : TGlobalTargetSpellTE
 {
     public TUnholyGroundSpellTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // UnHolyG.pas:288
     public new const int ClassID = 135943;
@@ -411,7 +412,6 @@ public partial class TUnholyGroundSpellTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TUnholyGroundSpell : TGlobalTargetSpell
@@ -427,7 +427,6 @@ public partial class TUnholyGroundSpell : TGlobalTargetSpell
     }
 
     // UnHolyG.pas:349
-
 
     // UnHolyG.pas:383
     public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)

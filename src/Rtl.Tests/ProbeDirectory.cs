@@ -3,8 +3,11 @@ namespace Aow.Rtl.Tests;
 internal sealed class ProbeDirectory : IDisposable
 {
     private readonly string previous = Directory.GetCurrentDirectory();
+
     internal string Root { get; } = Path.Combine(AppContext.BaseDirectory, "probe-temp", Guid.NewGuid().ToString("N"));
+
     internal ProbeDirectory() { Directory.CreateDirectory(Root); Directory.SetCurrentDirectory(Root); }
+
     public void Dispose()
     {
         Directory.SetCurrentDirectory(previous);

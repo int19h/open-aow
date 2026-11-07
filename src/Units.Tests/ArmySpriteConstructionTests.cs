@@ -15,50 +15,54 @@ public sealed class ArmySpriteConstructionTests
     {
         internal readonly List<string> Events = [];
         internal int Origin;
+
         public override int AddChild(TEObject child)
         {
             base.AddChild(child);
             Events.Add(OrderingRecording.Snapshot(child, Origin));
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child)
         {
             Events.Add("remove");
             return base.RemoveChild(child) < 0 ? -1 : 0;
         }
     }
+
     [Fact]
     public void StateOwnerEventsAndOffsetsMatchBaseCommit()
     {
         var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
         for (int owned = 0; owned < 2; owned++)
-        for (int route = 0; route < 4; route++)
-        {
-            using var fixture = new OrderingRecording.Fixture(typeof(TArmyHS));
-            var owner = owned == 0 ? null : new ArmyOwner();
-            int origin = new TObject().InstanceId;
-            if (owner is not null) owner.Origin = origin;
-            TArmyHS? value = null;
-            string state;
-            int destroyEntries = 0;
-            try
+            for (int route = 0; route < 4; route++)
             {
-                value = Assert.IsType<TArmyHS>(OrderingRecording.Create(typeof(TArmyHS), owner, route, fixture.Engine));
-                state = OrderingRecording.Snapshot(value, origin);
+                using var fixture = new OrderingRecording.Fixture(typeof(TArmyHS));
+                var owner = owned == 0 ? null : new ArmyOwner();
+                int origin = new TObject().InstanceId;
+                if (owner is not null) owner.Origin = origin;
+                TArmyHS? value = null;
+                string state;
+                int destroyEntries = 0;
+                try
+                {
+                    value = Assert.IsType<TArmyHS>(OrderingRecording.Create(typeof(TArmyHS), owner, route, fixture.Engine));
+                    state = OrderingRecording.Snapshot(value, origin);
+                }
+                catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
+                {
+                    state = error.GetType().FullName + ":" + error.Message;
+                    destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TArmyHS) && x.GetMethod()?.Name == "Destroy");
+                }
+                Assert.NotNull(value);
+                actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
+                Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
+                value?.SetOwner(null!);
+                value?.Destroy();
             }
-            catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
-            {
-                state = error.GetType().FullName + ":" + error.Message;
-                destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TArmyHS) && x.GetMethod()?.Name == "Destroy");
-            }
-            Assert.NotNull(value);
-            actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-            Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
-            value?.SetOwner(null!);
-            value?.Destroy();
-        }
         OrderingRecording.Check("ArmySpriteConstruction", actual);
     }
+
     [Fact]
     public void SavedArmyReturnsThroughCreateEObjectAndReadWrite()
     {

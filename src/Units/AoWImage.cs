@@ -1,7 +1,7 @@
 // Translated from AoWImage.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWControl;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWImage;
 
@@ -22,6 +22,7 @@ public partial class TAOWImage : TAOWControl
     public int FAnimStart;
     public int FCurrentImage;
     public int FAnimEnd;
+
     // AoWImage.pas:79
     public override void SetSize()
     {

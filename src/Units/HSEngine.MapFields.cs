@@ -72,8 +72,12 @@ public partial class TMapLevel
         FWidth = width;
         FHeight = height;
         FLhx = level;
-        TMapProgress progress = new() { Level = FLhx, Percent = 0,
-            ProgressType = mode.Contains(TStorageModeElement.smRead) ? TMapProgressType.ptLoading : TMapProgressType.ptSaving };
+        TMapProgress progress = new()
+        {
+            Level = FLhx,
+            Percent = 0,
+            ProgressType = mode.Contains(TStorageModeElement.smRead) ? TMapProgressType.ptLoading : TMapProgressType.ptSaving
+        };
         bool notify = !mode.Contains(TStorageModeElement.smTranslate);
         if (notify) FMap.NotifyProgress(progress);
         if ((mode & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, smText, TStorageModeElement.smCompare))

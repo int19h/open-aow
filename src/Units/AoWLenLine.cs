@@ -1,9 +1,9 @@
 // Translated from AoWLenLine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWLenLine;
 
@@ -14,6 +14,7 @@ public partial class TAoWLenLine : TAOWControl
     { }
 
     public TInterfaceIL FILLine;
+
     // AoWLenLine.pas:36
     public override void Validate()
     {

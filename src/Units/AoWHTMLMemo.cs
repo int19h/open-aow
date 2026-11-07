@@ -1,13 +1,13 @@
 // Translated from AoWHTMLMemo.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using Aow.Units.AoWVScroll;
+using Aow.Units.AoWBaseWin;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
-using Aow.Units.AoWBaseWin;
+using Aow.Units.AoWVScroll;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.AoWHTMLMemo;
 
@@ -66,6 +66,7 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
     public TAOWBaseWindow FAOWWindow;
     public int FTextWidth;
     public int FTextHeight;
+
     // AoWHTMLMemo.pas:93
     public TaowHTMLMemo(TComponent owner) : base(owner)
     {
@@ -109,7 +110,7 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
 
     // AoWHTMLMemo.pas:210
     // { SetSize parses the text into FLines and FChanges, wrapping the lines at the width of the
-//   window, and sets up the scroll bar }
+    //   window, and sets up the scroll bar }
     public override void SetSize()
     {
         TChangeInfo CI;
@@ -680,7 +681,7 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
 
     // AoWHTMLMemo.pas:584
     // { Draw renders the text into the back surface when it changed, then blits the dirty rectangles
-//   of the window (or the whole visible part) from it }
+    //   of the window (or the whole visible part) from it }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         int OldLeft;
@@ -986,7 +987,7 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
 
     // AoWHTMLMemo.pas:182
     // { LoadFont makes the font in FileName (relative to the program) the current font, loading it
-//   the first time }
+    //   the first time }
     public bool LoadFont(string FileName)
     {
         TImageLibraryFont Font;

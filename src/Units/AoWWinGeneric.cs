@@ -1,9 +1,9 @@
 // Translated from AoWWinGeneric.pas.
 using Aow.Rtl;
-using Aow.Units.AOWWinManager;
+using Aow.Units.AoWBaseWin;
 using Aow.Units.AoWComp;
 using Aow.Units.AoWWinControl;
-using Aow.Units.AoWBaseWin;
+using Aow.Units.AOWWinManager;
 
 namespace Aow.Units.AoWWinGeneric;
 

@@ -1,11 +1,11 @@
 // Translated from AGCPlugins.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
+using Aow.Units.City;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using Aow.Units.City;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AGCPlugins;
@@ -39,6 +39,7 @@ public partial class TAIGroupRazeControl : TAIGroupControlPlugin
     public TSet<TDamageType> FDamageTypes;
     public float FStructureStrengthFactor;
     public float FCityStrengthFactor;
+
     // AGCPlugins.pas:101
     public override bool Activate(TAIGroupControl Control)
     {
@@ -167,6 +168,7 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
     public int FBattleFieldRadius;
     public TSet<TDamageType> FDamageTypes;
     public float FMovePointsFactor;
+
     // AGCPlugins.pas:164
     public override void Destroy()
     {
@@ -375,6 +377,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
     public int FMovePointsMax;
     public TMoveControlSettings FMoveSettings;
     public TAIGroupControl FControl;
+
     // AGCPlugins.pas:303
     public override void Destroy()
     {
@@ -412,34 +415,34 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
             case 0:
                 Control = FControl;
                 FMoveSettings.Reset();
-            {
-                this.FMoveSettings.FPlayer = Control.FGroup.FPlayer;
-                this.FMoveSettings.FMode = this.FMoveSettings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmAI);
-                this.FMoveSettings.SetSourcePos(Control.FLocation.X, Control.FLocation.Y, Control.FLocation.L);
-            }
-
-            {
-                var moveControlSettings = FMoveSettings;
-                moveControlSettings.FMovePointsMax = this.FMovePointsMax;
-                moveControlSettings.FArmyHS = Control.FArmyHS;
-                moveControlSettings.FSelection = Control.FSelection;
-                moveControlSettings.FMovePointTable = Control.FMovePointTable;
-                moveControlSettings.FMode = moveControlSettings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmLogProcessedMapFields);
-                AoWHSMap.FMoveControl.ProcessMove(FMoveSettings);
-            }
-
-            {
-                var group = Control.FGroup;
-                // { Original reloads the current control. }
-                if (group.FTargetMode == 1 && this.FControl.FGroup.FTargetXYL.X > 0 && FMoveSettings.GetMovePoints(group.FTargetXYL.X, group.FTargetXYL.Y, group.FTargetXYL.L) != 16777215 && Unsafe.As<TXYL, int>(ref this.FControl.FGroup.FTargetXYL) != Unsafe.As<TXYL, int>(ref Control.FLocation))
                 {
-                    FState = 2;
+                    this.FMoveSettings.FPlayer = Control.FGroup.FPlayer;
+                    this.FMoveSettings.FMode = this.FMoveSettings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmAI);
+                    this.FMoveSettings.SetSourcePos(Control.FLocation.X, Control.FLocation.Y, Control.FLocation.L);
                 }
-                else
+
                 {
-                    FState = 1;
+                    var moveControlSettings = FMoveSettings;
+                    moveControlSettings.FMovePointsMax = this.FMovePointsMax;
+                    moveControlSettings.FArmyHS = Control.FArmyHS;
+                    moveControlSettings.FSelection = Control.FSelection;
+                    moveControlSettings.FMovePointTable = Control.FMovePointTable;
+                    moveControlSettings.FMode = moveControlSettings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmLogProcessedMapFields);
+                    AoWHSMap.FMoveControl.ProcessMove(FMoveSettings);
                 }
-            }
+
+                {
+                    var group = Control.FGroup;
+                    // { Original reloads the current control. }
+                    if (group.FTargetMode == 1 && this.FControl.FGroup.FTargetXYL.X > 0 && FMoveSettings.GetMovePoints(group.FTargetXYL.X, group.FTargetXYL.Y, group.FTargetXYL.L) != 16777215 && Unsafe.As<TXYL, int>(ref this.FControl.FGroup.FTargetXYL) != Unsafe.As<TXYL, int>(ref Control.FLocation))
+                    {
+                        FState = 2;
+                    }
+                    else
+                    {
+                        FState = 1;
+                    }
+                }
 
                 Result = false;
                 break;
@@ -516,11 +519,11 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
                 Result = false;
                 break;
             case 2:
-            {
-                var aiGroupControl = FControl;
-                aiGroupControl.SetupME();
-                aiGroupControl.ExecuteME(aiGroupControl.FGroup.FTargetXYL.X, aiGroupControl.FGroup.FTargetXYL.Y, aiGroupControl.FGroup.FTargetXYL.L);
-            }
+                {
+                    var aiGroupControl = FControl;
+                    aiGroupControl.SetupME();
+                    aiGroupControl.ExecuteME(aiGroupControl.FGroup.FTargetXYL.X, aiGroupControl.FGroup.FTargetXYL.Y, aiGroupControl.FGroup.FTargetXYL.L);
+                }
 
                 FState += 1;
                 Result = false;
@@ -557,6 +560,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
 public static partial class AGCPluginsUnit
 {
     public static TSet<TDamageType> AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
+
     // AGCPlugins.pas:326
     public static int CompareWanderFields(in TDoubleItem<TAoWMapField> Item1, in TDoubleItem<TAoWMapField> Item2) => Item2.B - Item1.B;
 

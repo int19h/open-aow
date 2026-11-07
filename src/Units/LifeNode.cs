@@ -1,8 +1,8 @@
 // Translated from LifeNode.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.LifeNode;
@@ -10,7 +10,7 @@ namespace Aow.Units.LifeNode;
 public partial class TLifeNode : TProductionPlace
 {
     public TLifeNode(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // LifeNode.pas:37
     public new const int ClassID = 131953;
@@ -35,12 +35,10 @@ public partial class TLifeNodeResource : TProductionPlaceResource
 
     // LifeNode.pas:43
 
-
     // LifeNode.pas:58
     public override int ResourceUserClassID() => 131953;
 
     // LifeNode.pas:27
-
 
     // LifeNode.pas:52
     public override string ResourceEditName() => TranslateRStr(LifeNodeRStr);

@@ -1,11 +1,11 @@
 // Translated from StartMenu.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AOWMenu;
+using Aow.Units.AOWMenuBar;
+using Aow.Units.AOWWinManager;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Aow.Units.AOWMenu;
-using Aow.Units.AOWWinManager;
-using Aow.Units.AOWMenuBar;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.StartMenu;
 
@@ -16,6 +16,7 @@ public partial class TStartMenu : TAOWMenu
     { }
 
     public TImageLibrary FILWholeMenu;
+
     // StartMenu.pas:30
     public override void SetSize()
     {

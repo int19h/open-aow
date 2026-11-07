@@ -276,7 +276,8 @@ internal class StringsCodec : PropertyCodec
         foreach (var m in obj.Members)
             if (Array.IndexOf(names, m.Name) < 0)
                 throw new ConversionException(new FormatDiagnostic(m.Name.StartsWith('$') ? Codes.ReservedMember : Codes.UnknownMember,
-                    $"Member \"{m.Name}\" is not allowed here.") { File = ctx.File, Span = m.NameSpan, Path = path.Member(m.Name).ToString() });
+                    $"Member \"{m.Name}\" is not allowed here.")
+                { File = ctx.File, Span = m.NameSpan, Path = path.Member(m.Name).ToString() });
     }
 }
 

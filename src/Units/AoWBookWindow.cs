@@ -1,9 +1,9 @@
 // Translated from AoWBookWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.AoWBookWindow;
 
@@ -18,6 +18,7 @@ public partial class TAoWBookWindow : TAOWWindow
     public bool FAnimating;
     public TSurface FPageSurface;
     public PageTurnCtrl.TPageTurnMode FPageTurnMode;
+
     // AoWBookWindow.pas:50
     public override void Destroy()
     {

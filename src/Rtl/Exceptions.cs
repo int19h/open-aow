@@ -9,6 +9,7 @@ public class EStringListError(string message = "") : Exception(message)
 public class EWin32Error(string message = "") : Exception(message)
 {
     public int ErrorCode { get; set; }
+
     public static new EWin32Error Create(string message = "") => new(message);
     public static new EWin32Error CreateFmt(string format, params ReadOnlySpan<FormatArg> args) => new(RtlUnit.Format(format, args));
 }
@@ -124,6 +125,7 @@ public class EOutOfMemory(string message = "") : Exception(message)
 public class EInOutError(string message = "") : Exception(message)
 {
     public int ErrorCode;
+
     public static new EInOutError Create(string message = "") => new(message);
     public static new EInOutError CreateFmt(string format, params ReadOnlySpan<FormatArg> args) => new(RtlUnit.Format(format, args));
 }

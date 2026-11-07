@@ -1,11 +1,5 @@
 // Translated from AoWSoundDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.SoundUnit;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWFrame;
@@ -17,8 +11,14 @@ using Aow.Units.AoWPanel;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.GFXE;
+using Aow.Units.Sound;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.Engine.EngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWSoundDlg;
 
@@ -81,6 +81,7 @@ public partial class TSoundDlg : TDataModule
     public TIvTranslator Translator;
     public int FSoundQuality;
     public TSoundSettings FSettings;
+
     // AoWSoundDlg.pas:108
     public void CloseClick()
     {

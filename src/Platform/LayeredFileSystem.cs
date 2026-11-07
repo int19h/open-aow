@@ -28,14 +28,17 @@ public sealed class LayeredFileSystem : IFileSystem
     public string UserDirectory => user;
     public string VirtualDrive => OperatingSystem.IsWindows() ? Path.GetPathRoot(root)![..2] : "C:";
     public string CurrentDirectory => PublicPath(current);
+
     private string PublicPath(string relative) => OperatingSystem.IsWindows() ? Path.Combine(root, relative) : VirtualDrive + "\\" + relative.Replace(Path.DirectorySeparatorChar, '\\');
     private static bool Same(string a, string b) => string.Equals(a, b, StringComparison.OrdinalIgnoreCase);
     private static bool Within(string parent, string child) => child.StartsWith(Path.TrimEndingDirectorySeparator(parent) + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase);
+
     private static void RejectLink(string path)
     {
         if ((File.GetAttributes(path) & FileAttributes.ReparsePoint) != 0)
             throw new UnauthorizedAccessException("Links are outside the virtual drive: " + path);
     }
+
     private static void EnsureDirectory(string path)
     {
         string? parent = Path.GetDirectoryName(path);
@@ -43,6 +46,7 @@ public sealed class LayeredFileSystem : IFileSystem
         if (Directory.Exists(path)) { RejectLink(path); return; }
         Directory.CreateDirectory(path);
     }
+
     private void Snapshot(string directory, string relative)
     {
         rootTree[relative] = directory;
@@ -55,6 +59,7 @@ public sealed class LayeredFileSystem : IFileSystem
             if (Directory.Exists(entry)) Snapshot(entry, key);
         }
     }
+
     private string Relative(string path)
     {
         path = path.Replace('\\', Path.DirectorySeparatorChar).Replace('/', Path.DirectorySeparatorChar);
@@ -82,7 +87,9 @@ public sealed class LayeredFileSystem : IFileSystem
         }
         return Path.Combine([.. parts]);
     }
+
     public string ExpandPath(string path) => PublicPath(Relative(path));
+
     public string ExtractRelativePath(string baseFile, string destination)
     {
         static bool DirectoryPath(string path) => path.EndsWith('\\') || path.EndsWith('/');
@@ -97,6 +104,7 @@ public sealed class LayeredFileSystem : IFileSystem
         string result = string.Join("\\", parts);
         return DirectoryPath(destination) && result.Length > 0 ? result + "\\" : result;
     }
+
     public bool SetCurrentDirectory(string path)
     {
         string relative = Relative(path);
@@ -105,6 +113,7 @@ public sealed class LayeredFileSystem : IFileSystem
         current = relative;
         return true;
     }
+
     private string? UserLocation(string relative)
     {
         string location = user;
@@ -120,6 +129,7 @@ public sealed class LayeredFileSystem : IFileSystem
         }
         return location;
     }
+
     private string? ReadLocation(string relative)
     {
         string ancestor = relative;
@@ -131,6 +141,7 @@ public sealed class LayeredFileSystem : IFileSystem
         }
         return UserLocation(relative) ?? (Same(root, user) ? null : rootTree.GetValueOrDefault(relative));
     }
+
     private string WriteLocation(string relative)
     {
         string location = user;
@@ -142,6 +153,7 @@ public sealed class LayeredFileSystem : IFileSystem
         }
         return location;
     }
+
     public Stream Open(string path, int mode)
     {
         string relative = Relative(path);
@@ -164,26 +176,31 @@ public sealed class LayeredFileSystem : IFileSystem
         return new FileStream(target, create ? FileMode.Create : FileMode.Open, access,
             (mode & 0xF0) == RtlUnit.fmShareDenyWrite ? FileShare.Read : FileShare.ReadWrite);
     }
+
     public bool FileExists(string path) => ReadLocation(Relative(path)) is { } p && File.Exists(p);
     public bool DirectoryExists(string path) => ReadLocation(Relative(path)) is { } p && Directory.Exists(p);
+
     private bool Mutate(Action action)
     {
         try { action(); return true; }
         catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException) { return false; }
         finally { userListings.Clear(); }
     }
+
     public bool DeleteFile(string path) => Mutate(() =>
     {
         string target = WriteLocation(Relative(path));
         if (!File.Exists(target)) throw new FileNotFoundException(path);
         File.Delete(target);
     });
+
     public bool RenameFile(string source, string target) => Mutate(() =>
     {
         string destination = WriteLocation(Relative(target));
         EnsureDirectory(Path.GetDirectoryName(destination)!);
         File.Move(WriteLocation(Relative(source)), destination);
     });
+
     // Both paths resolve in the user layer, so the move stays on one volume and replaces the
     // user copy in one step. A shipped file is shadowed, never written.
     public bool ReplaceFile(string source, string target) => Mutate(() =>
@@ -194,6 +211,7 @@ public sealed class LayeredFileSystem : IFileSystem
         EnsureDirectory(Path.GetDirectoryName(destination)!);
         File.Move(from, destination, true);
     });
+
     public string Layer(string path)
     {
         string relative = Relative(path);
@@ -201,16 +219,20 @@ public sealed class LayeredFileSystem : IFileSystem
         if (found is null) return "none";
         return Same(root, user) ? "single" : Within(user, found) || Same(user, found) ? "user" : "root";
     }
+
     public bool CreateDirectory(string path) => !DirectoryExists(path) && Mutate(() => EnsureDirectory(WriteLocation(Relative(path))));
+
     public bool RemoveDirectory(string path) => Mutate(() =>
     {
         string relative = Relative(path);
         if (relative.Length == 0) throw new UnauthorizedAccessException("The virtual drive cannot be removed.");
         Directory.Delete(WriteLocation(relative));
     });
+
     public int GetAttributes(string path) => ReadLocation(Relative(path)) is { } p ? (int)File.GetAttributes(p) : -1;
     public int SetAttributes(string path, int attributes) => Mutate(() => File.SetAttributes(WriteLocation(Relative(path)), (FileAttributes)attributes)) ? 0 : -1;
     public DateTime? LastWriteTime(string path) => ReadLocation(Relative(path)) is { } p ? RtlFileTime.LastWriteTime(p) : null;
+
     public IEnumerable<RtlFileEntry> Enumerate(string directory)
     {
         string relative = Relative(directory);

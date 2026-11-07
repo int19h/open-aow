@@ -1,21 +1,21 @@
 // Translated from aowTCMapEvents.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.HSEngine;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
+using Aow.Units.AoWSWindow;
 using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
+using Aow.Units.AoWUnitWindow;
 using Aow.Units.CMapCtrl;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.aowMapEvents.aowMapEventsUnit;
 using static Aow.Units.AOWMWindow.AOWMWindowUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using static Aow.Units.AoWTCUnit.AoWTCUnitUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.AoWComp;
-using static Aow.Units.aowMapEvents.aowMapEventsUnit;
-using Aow.Units.AoWSWindow;
-using Aow.Units.AoWUnitWindow;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.aowTCMapEvents;
 
@@ -26,6 +26,7 @@ public partial class TTCMapEvents : TDataModule
 
     public TAoWCombatMapControl TCMap;
     public int FChatHeight;
+
     // aowTCMapEvents.pas:105
     public void TCMapDeActivateMap()
     {

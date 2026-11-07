@@ -1,11 +1,11 @@
 // Translated from AoWComboBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
-using Aow.Units.AoWVScroll;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.AoWVScroll;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWComboBox;
 
@@ -51,6 +51,7 @@ public partial class TAOWComboBox : TAOWControl
     public int FILTsIndex;
     public int FDrawItem;
     public TRect FDrawItemRect;
+
     // AoWComboBox.pas:114
     public TAOWComboBox(TComponent owner) : base(owner)
     {
@@ -99,7 +100,7 @@ public partial class TAOWComboBox : TAOWControl
 
     // AoWComboBox.pas:146
     // { SetSize closes the list and sets up the scroll bar. The scroll bar's range and page are one
-//   item short of the open list's, and its top is taken from the first edit image (original) }
+    //   item short of the open list's, and its top is taken from the first edit image (original) }
     public override void SetSize()
     {
         FOpen = false;
@@ -194,8 +195,8 @@ public partial class TAOWComboBox : TAOWControl
 
     // AoWComboBox.pas:286
     // { Draw draws the edit field with the selected item and, when the list is open, the frame, the
-//   texture of the list, the highlight of the item under the mouse and the items, clipped short of
-//   the scroll bar; OnDrawItem is called for every item with FDrawItem and FDrawItemRect set }
+    //   texture of the list, the highlight of the item under the mouse and the items, clipped short of
+    //   the scroll bar; OnDrawItem is called for every item with FDrawItem and FDrawItemRect set }
     public override void Draw(TSurfaceDesc SurfDesc)
     {
         TRect OldClip = default;
@@ -299,7 +300,7 @@ public partial class TAOWComboBox : TAOWControl
 
     // AoWComboBox.pas:375
     // { CheckMouseDown opens or closes the list with a click on the edit field and closes it with a
-//   click outside the control }
+    //   click outside the control }
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);

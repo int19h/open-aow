@@ -1,13 +1,13 @@
 // Translated from Sign.pas.
-using Aow.Rtl;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
 using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Sign;
@@ -26,6 +26,7 @@ public partial class TSign : TStructure
 
     public TStringList FText;
     public TBitList FTextSeen;
+
     // Sign.pas:92
     public override void Destroy()
     {
@@ -46,7 +47,6 @@ public partial class TSign : TStructure
     }
 
     // Sign.pas:85
-
 
     // Sign.pas:102
     public override sbyte GetOverlay(int Index) => -1;
@@ -105,7 +105,6 @@ public partial class TSign : TStructure
 
     // Sign.pas:24
 
-
 }
 
 public partial class TSignResource : TStructureResource
@@ -120,7 +119,6 @@ public partial class TSignResource : TStructureResource
     public new const int ClassID = 131331;
 
     // Sign.pas:152
-
 
     // Sign.pas:165
     public override int ResourceUserClassID() => 131330;
@@ -177,7 +175,6 @@ public partial class TSignResource : TStructureResource
 
     // Sign.pas:37
 
-
     // Sign.pas:162
     public override string ResourceEditName() => TranslateRStr(SignRStr);
 
@@ -198,6 +195,7 @@ public partial class TUpdateSignTE : TTokenEvent
     public sbyte FXhx;
     public sbyte FYhx;
     public sbyte FLhx;
+
     // Sign.pas:199
     public override void Destroy()
     {
@@ -216,7 +214,6 @@ public partial class TUpdateSignTE : TTokenEvent
     }
 
     // Sign.pas:196
-
 
     // Sign.pas:214
     public override TExecuteResult Execute(TTokenExecuter TE)
@@ -240,7 +237,6 @@ public partial class TUpdateSignTE : TTokenEvent
     }
 
     // Sign.pas:54
-
 
 }
 

@@ -1,7 +1,7 @@
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
 using G = Aow.Units.GFXE.GFXEUnit;
+using Images = Aow.Units.ImageLib.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
@@ -12,6 +12,7 @@ public sealed class InstalledFontsFactAttribute : FactAttribute
     // so its fonts are the same files.
     internal static string Root => Path.GetFullPath(Environment.GetEnvironmentVariable("AOW_GAME_ROOT") is { Length: > 0 } root
         ? root : @"D:\Games\GOG\Age of Wonders");
+
     internal static string Fonts => Path.Combine(Root, "Int", "Fonts");
 
     public InstalledFontsFactAttribute()

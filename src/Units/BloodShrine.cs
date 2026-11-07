@@ -1,20 +1,20 @@
 // Translated from BloodShrine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.Sound.SoundUnit;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.BloodShrine;
 
 public partial class TBloodShrineAnimation : TAnimation
 {
     public TBloodShrineAnimation(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // BloodShrine.pas:56
     public override void NewFrame()
@@ -27,7 +27,6 @@ public partial class TBloodShrineAnimation : TAnimation
     }
 
     // Animation.pas:43
-
 
     // BloodShrine.pas:53
     public override TSet<TAnimationControlModeElement> AnimationControlMode() => TSet<TAnimationControlModeElement>.Of(TAnimationControlModeElement.amLinkToNewFrame, TAnimationControlModeElement.amOwnedByMap);
@@ -44,7 +43,6 @@ public partial class TBloodShrine : TStructure
     public new const int ClassID = 131376;
 
     // BloodShrine.pas:62
-
 
     // BloodShrine.pas:103
     public override void ArmyPlaced(TArmyHS PlacedArmy)
@@ -109,7 +107,6 @@ public partial class TBloodShrine : TStructure
 
     // BloodShrine.pas:26
 
-
 }
 
 public partial class TBloodShrineResource : TStructureResource
@@ -125,12 +122,10 @@ public partial class TBloodShrineResource : TStructureResource
 
     // BloodShrine.pas:109
 
-
     // BloodShrine.pas:122
     public override int ResourceUserClassID() => 131376;
 
     // BloodShrine.pas:36
-
 
     // BloodShrine.pas:119
     public override string ResourceEditName() => TranslateRStr(BloodShrineRStr);

@@ -13,11 +13,13 @@ public interface IGameHost
     Units.ImageLib.TLibraryImage FCursorImage { get; set; }
     TRect FLastCursorRect { get; }
     bool FCursorChanged { get; }
+
     bool CloseRequested();
 }
 
 public static class GameHost
 {
     public static IGameHost MainForm { get; set; }
+
     public static byte DeferredSetupAction;
 }

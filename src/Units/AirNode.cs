@@ -1,8 +1,8 @@
 // Translated from AirNode.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AirNode;
@@ -10,7 +10,7 @@ namespace Aow.Units.AirNode;
 public partial class TAirNode : TProductionPlace
 {
     public TAirNode(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AirNode.pas:37
     public new const int ClassID = 133454;
@@ -35,12 +35,10 @@ public partial class TAirNodeResource : TProductionPlaceResource
 
     // AirNode.pas:43
 
-
     // AirNode.pas:58
     public override int ResourceUserClassID() => 133454;
 
     // AirNode.pas:27
-
 
     // AirNode.pas:52
     public override string ResourceEditName() => TranslateRStr(AirNodeRStr);

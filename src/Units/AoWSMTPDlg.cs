@@ -1,17 +1,17 @@
 // Translated from AoWSMTPDlg.pas.
 using Aow.Rtl;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
 using Aow.Units.E3IMSTypes;
+using Aow.Units.EventLog;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.E3Globals.E3GlobalsUnit;
 
 namespace Aow.Units.AoWSMTPDlg;
@@ -29,6 +29,7 @@ public partial class TmsMessage : TComponent
     public bool FEncode;
     public TmsAttList FAttachments;
     public TmsAddressList FRecipients;
+
     // AoWSMTPDlg.pas:20
     public void SetBody(TStrings Value)
     {
@@ -45,6 +46,7 @@ public partial class TmsSMTP : TComponent
 
     public string FHost = "";
     public TmsMessage FMessage;
+
     // AoWSMTPDlg.pas:29
     public void SetWinsockLoaded(bool Value)
     {
@@ -65,6 +67,7 @@ public partial class TmsSMTP : TComponent
 public partial class TIMSSendThread : TThread
 {
     public bool FSuccess;
+
     // AoWSMTPDlg.pas:105
     protected internal override void Execute()
     {
@@ -116,6 +119,7 @@ public partial class TSMTPDlg : TDataModule
     public TSMTPEventLog FEvent;
     public int FProgress;
     public bool FFinished;
+
     // AoWSMTPDlg.pas:115
     public void FinishDialog()
     {

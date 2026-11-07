@@ -1,22 +1,22 @@
 // Translated from AoWSpellBook.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using Aow.Units.EventLog;
 using Aow.Units.AoWBookWindow;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
+using Aow.Units.AoWExeForms;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWTC;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using Aow.Units.AoWExeForms;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWSpellBook;
 
@@ -159,6 +159,7 @@ public partial class TSpellBook : TDataModule
     public TExecuteDoneEvent FDone;
     public TPlayerMagicEventLog FEvent;
     public TDoubleItemList FPlayerPages;
+
     // AoWSpellBook.pas:393
     public void FinishDialog()
     {

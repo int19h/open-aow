@@ -8,6 +8,7 @@ public interface ILibraryImageClass
     static abstract int ClassID { get; }
     static abstract byte ClassVersion { get; }
     static abstract string Name { get; }
+
     static abstract TLibraryImage Create(TCustomImageLibrary owner);
 }
 
@@ -30,11 +31,15 @@ public sealed class LibraryImageClass
     public int ClassID { get; }
     public byte ClassVersion { get; }
     public string Name { get; } = "";
+
     public TLibraryImage Create(TCustomImageLibrary owner) => create(owner);
+
     public static LibraryImageClass Register<T>() where T : TLibraryImage, ILibraryImageClass =>
         catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassID, T.ClassVersion, T.Name, T.Create));
+
     public static LibraryImageClass Of<T>() where T : TLibraryImage, ILibraryImageClass => catalog[typeof(T)];
     public static LibraryImageClass Of(Type type) => catalog[type];
+
     public static IReadOnlyList<LibraryImageClass> All => catalog.All;
 
     public int GrabImages(in TSurfaceDesc SD, TGrabInfo GrabInfo, TCustomImageLibrary ImageLibrary, TGrabProgressEvent OnProgress)
@@ -104,5 +109,6 @@ public sealed class LibraryImageClass
 public sealed class GrabInfoClass(string name, Func<TGrabInfo> create)
 {
     public string Name { get; } = name;
+
     public TGrabInfo Create() => create();
 }

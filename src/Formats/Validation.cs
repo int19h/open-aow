@@ -30,7 +30,12 @@ public sealed class ValidationContext(JsonObject document, FileProfile profile, 
     public FormatDiagnostic At(string code, string message, JsonValue value, DocPath path, string? rejected = null, string? constraint = null) =>
         new(code, message)
         {
-            File = File, Span = value.Span, Path = path.ToString(), Value = rejected, Constraint = constraint, Migration = value.Origin,
+            File = File,
+            Span = value.Span,
+            Path = path.ToString(),
+            Value = rejected,
+            Constraint = constraint,
+            Migration = value.Origin,
         };
 }
 

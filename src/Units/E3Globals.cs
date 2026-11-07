@@ -1,25 +1,25 @@
 // Translated from E3Globals.pas.
+using Aow.Platform;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWUnitSelDlg;
 using Aow.Units.AoWArmyInfoDlg;
-using Aow.Units.AoWDisjunctionDlg;
-using Aow.Units.AoWInfoWin;
-using Aow.Units.AoWMagic;
-using Aow.Units.AoWEmailSettingsDlg;
-using Aow.Units.AoWEmailGameSettingsDlg;
-using Aow.Units.AoWTitleScene;
-using Aow.Units.AoWVideoDlg;
-using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using Aow.Units.AoWPOP3Dlg;
 using Aow.Units.AoWCastUnitSpellDlg;
 using Aow.Units.AoWDeformFaceDlg;
+using Aow.Units.AoWDisjunctionDlg;
+using Aow.Units.AoWE;
+using Aow.Units.AoWEmailGameSettingsDlg;
+using Aow.Units.AoWEmailSettingsDlg;
+using Aow.Units.AoWInfoWin;
+using Aow.Units.AoWMagic;
+using Aow.Units.AoWPOP3Dlg;
+using Aow.Units.AoWTitleScene;
+using Aow.Units.AoWUnitSelDlg;
+using Aow.Units.AoWVideoDlg;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWVideoDlg.AoWVideoDlgUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.Sound.SoundUnit;
-using Aow.Platform;
 
 namespace Aow.Units.E3Globals;
 
@@ -33,6 +33,7 @@ public static partial class E3GlobalsUnit
     public static TPOP3Dlg POP3Dlg;
     public static TCastUnitSpellDlg CastUnitSpellDlg;
     public static TDeformFaceDlg DeformFaceDlg;
+
     // E3Globals.pas:222
     public static void HideItemSelection(TIWindow Window)
     {

@@ -1,14 +1,11 @@
 // Translated from AoWScenSetup.pas.
+using Aow.Platform;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.Sound.SoundUnit;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWSetup;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWComboBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWHScroll;
@@ -17,16 +14,19 @@ using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWSetup;
+using Aow.Units.aowSetupEvents;
 using Aow.Units.AoWVScroll;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.E2Globals;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using Aow.Platform;
-using Aow.Units.E2Globals;
-using Aow.Units.AoWE;
-using Aow.Units.aowSetupEvents;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.AoWScenSetup;
 
@@ -229,6 +229,7 @@ public partial class TScenSetup : TDataModule
     public TSetupControl FSetupControl;
     public int FPingDelay;
     public bool FChatScrollPending;
+
     // AoWScenSetup.pas:526
     public void Execute(TSetupControl Control)
     {

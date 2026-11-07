@@ -1,13 +1,13 @@
 // Translated from MagicSanctuary.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
+using Aow.Units.ImageLib;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.MagicSanctuary;
 
@@ -21,8 +21,8 @@ public partial class TMagicSanctuaryOverlayHS : TSingleHS
 
     public TMagicSanctuary FStructure;
     public int FFadeEndFrame;
-    // MagicSanctuary.pas:67
 
+    // MagicSanctuary.pas:67
 
     // MagicSanctuary.pas:73
     public override int GetShowPriority() => FStructure.GetShowPriority() + 134217728;
@@ -88,6 +88,7 @@ public partial class TMagicSanctuary : TStructure
     public new const int ClassID = 133274;
 
     public TMagicSanctuaryOverlayHS FOverlayHS;
+
     // MagicSanctuary.pas:117
     public override void Destroy()
     {
@@ -97,7 +98,6 @@ public partial class TMagicSanctuary : TStructure
     }
 
     // MagicSanctuary.pas:110
-
 
     // MagicSanctuary.pas:136
     public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
@@ -131,7 +131,6 @@ public partial class TMagicSanctuary : TStructure
 
     // MagicSanctuary.pas:33
 
-
 }
 
 public partial class TMagicSanctuaryResource : TStructureResource
@@ -148,12 +147,10 @@ public partial class TMagicSanctuaryResource : TStructureResource
 
     // MagicSanctuary.pas:149
 
-
     // MagicSanctuary.pas:163
     public override int ResourceUserClassID() => 133274;
 
     // MagicSanctuary.pas:43
-
 
     // MagicSanctuary.pas:157
     public override string ResourceEditName() => TranslateRStr(MagicSanctuaryRStr);

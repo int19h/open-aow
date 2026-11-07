@@ -1,17 +1,17 @@
 // Translated from AoWNewTurnDialog.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.EventLog;
-using static Aow.Units.AoWTC.AoWTCUnit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
-using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using Aow.Units.AoWPInfoWin;
+using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWNewTurnDialog;
 
@@ -36,6 +36,7 @@ public partial class TNewTurnDlg : TDataModule
     public TAOWImage FaceFrame;
     public TExecuteDoneEvent FDone;
     public TNewTurnEventLog FNewTurn;
+
     // AoWNewTurnDialog.pas:50
     public void FinishDialog()
     {

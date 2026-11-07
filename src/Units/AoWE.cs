@@ -1,28 +1,28 @@
 // Translated from AoWE.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using static Aow.Units.Engine.EngineUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using static Aow.Units.ImageLib.ImageLibUnit;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.NetworkE;
-using static Aow.Units.NetworkE.NetworkEUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.ILTer;
-using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLogUnit;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Animation;
-using Aow.Units.AoWReg;
 using Aow.Units.aowFX;
+using Aow.Units.AoWReg;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ILTer;
+using Aow.Units.ImageLib;
+using Aow.Units.NetworkE;
+using Aow.Units.Sound;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.aowFX.aowFXUnit;
+using static Aow.Units.Engine.EngineUnit;
+using static Aow.Units.EventLog.EventLogUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.ImageLib.ImageLibUnit;
+using static Aow.Units.NetworkE.NetworkEUnit;
+using static Aow.Units.Sound.SoundUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.AoWE;
 
@@ -516,6 +516,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
     public int FLayer;
     public TXYZList FPath;
     public TworldFXType FEffectType;
+
     // Army.PAS:5334
     public override void Destroy()
     {
@@ -844,31 +845,31 @@ public partial class TWorldFXHS : TFixedVisibleHS
                                 }
                             }
 
-                        {
-                            for (int J = 0; J <= 1; J++)
                             {
-                                Count = Random(3) + 7;
-                                for (int I = 1; I <= Count - 1; I++)
+                                for (int J = 0; J <= 1; J++)
                                 {
-                                    Effect = AoWEUnit.AoWHSMap.AddEffect(TworldFXType.fxWMParticle);
-                                    var pi = Math.PI;
-                                    Effect.FX = 50 + Round((double)Math.Cos((double)((double)((double)(FFrame * 360) * 0.005) * pi) / 180) * FFrame) / 4;
-                                    var mathPI = Math.PI;
-                                    Effect.FY = 50 + Round((double)Math.Sin((double)((double)((double)(FFrame * 360) * 0.005) * mathPI) / 180) * FFrame) / 8;
-                                    if (J == 1)
+                                    Count = Random(3) + 7;
+                                    for (int I = 1; I <= Count - 1; I++)
                                     {
-                                        Effect.FX = 100 - Effect.FX;
-                                        Effect.FY = 100 - Effect.FY;
-                                    }
+                                        Effect = AoWEUnit.AoWHSMap.AddEffect(TworldFXType.fxWMParticle);
+                                        var pi = Math.PI;
+                                        Effect.FX = 50 + Round((double)Math.Cos((double)((double)((double)(FFrame * 360) * 0.005) * pi) / 180) * FFrame) / 4;
+                                        var mathPI = Math.PI;
+                                        Effect.FY = 50 + Round((double)Math.Sin((double)((double)((double)(FFrame * 360) * 0.005) * mathPI) / 180) * FFrame) / 8;
+                                        if (J == 1)
+                                        {
+                                            Effect.FX = 100 - Effect.FX;
+                                            Effect.FY = 100 - Effect.FY;
+                                        }
 
-                                    Speed = (float)((double)(Random(10) + 30) * 0.1);
-                                    Gravity = (float)0.5;
-                                    VZ = (float)((double)(Random(50) + FFrame / 2) * 0.1);
-                                    Z = 0;
-                                    MakeArcPath(0, 0, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                        Speed = (float)((double)(Random(10) + 30) * 0.1);
+                                        Gravity = (float)0.5;
+                                        VZ = (float)((double)(Random(50) + FFrame / 2) * 0.1);
+                                        Z = 0;
+                                        MakeArcPath(0, 0, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                                    }
                                 }
                             }
-                        }
 
                             break;
                         case 200:
@@ -883,25 +884,25 @@ public partial class TWorldFXHS : TFixedVisibleHS
                         case >= 0 and <= 14:
                             RadiusX = 200;
                             RadiusY = 200;
-                        {
-                            for (int I = 0; I <= 29; I++)
                             {
-                                Effect = AoWEUnit.AoWHSMap.AddEffect(TworldFXType.fxSWParticle);
-                                Effect.FX = 50;
-                                Effect.FY = 50;
-                                RadiusX = -RadiusX;
-                                var pi = Math.PI;
-                                var sin = Math.Sin((double)((double)(I * 12 + FFrame * 5) * pi) / 180);
-                                var random = Random(10);
-                                var mathPI = Math.PI;
-                                MakeArcPathXY((short)Round((double)Math.Cos((double)((double)(I * 12 + FFrame * 5) * mathPI) / 180) * (RadiusX + Random(10))), (short)(Round((double)sin * (RadiusY + random)) / 2), 0, -150, 100, 10, ref Effect.FPath);
-                                for (int J = 0, last = Effect.FPath.Count - 1; J <= last; J++)
+                                for (int I = 0; I <= 29; I++)
                                 {
-                                    var point = Effect.FPath[J];
-                                    Effect.FPath[J].Z = -point.Z;
+                                    Effect = AoWEUnit.AoWHSMap.AddEffect(TworldFXType.fxSWParticle);
+                                    Effect.FX = 50;
+                                    Effect.FY = 50;
+                                    RadiusX = -RadiusX;
+                                    var pi = Math.PI;
+                                    var sin = Math.Sin((double)((double)(I * 12 + FFrame * 5) * pi) / 180);
+                                    var random = Random(10);
+                                    var mathPI = Math.PI;
+                                    MakeArcPathXY((short)Round((double)Math.Cos((double)((double)(I * 12 + FFrame * 5) * mathPI) / 180) * (RadiusX + Random(10))), (short)(Round((double)sin * (RadiusY + random)) / 2), 0, -150, 100, 10, ref Effect.FPath);
+                                    for (int J = 0, last = Effect.FPath.Count - 1; J <= last; J++)
+                                    {
+                                        var point = Effect.FPath[J];
+                                        Effect.FPath[J].Z = -point.Z;
+                                    }
                                 }
                             }
-                        }
 
                             break;
                     }
@@ -936,18 +937,18 @@ public partial class TWorldFXHS : TFixedVisibleHS
                     switch (FFrame)
                     {
                         case >= 0 and <= 49:
-                        {
-                            for (int I = 0; I <= 29; I++)
                             {
-                                Effect = AoWEUnit.AoWHSMap.AddEffect(TworldFXType.fxEMParticle);
-                                RadiusX = Random(12);
-                                var pi = Math.PI;
-                                Effect.FX = Round((double)Math.Cos((double)((double)(I * 12 + RadiusX) * pi) / 180) * FFrame) + 50;
-                                var mathPI = Math.PI;
-                                Effect.FY = Round((double)Math.Sin((double)((double)(I * 12 + RadiusX) * mathPI) / 180) * FFrame) / 2 + 50;
-                                MakeLinePath(0, 0, 0, FFrame * 3 - 200, 30, ref Effect.FPath);
+                                for (int I = 0; I <= 29; I++)
+                                {
+                                    Effect = AoWEUnit.AoWHSMap.AddEffect(TworldFXType.fxEMParticle);
+                                    RadiusX = Random(12);
+                                    var pi = Math.PI;
+                                    Effect.FX = Round((double)Math.Cos((double)((double)(I * 12 + RadiusX) * pi) / 180) * FFrame) + 50;
+                                    var mathPI = Math.PI;
+                                    Effect.FY = Round((double)Math.Sin((double)((double)(I * 12 + RadiusX) * mathPI) / 180) * FFrame) / 2 + 50;
+                                    MakeLinePath(0, 0, 0, FFrame * 3 - 200, 30, ref Effect.FPath);
+                                }
                             }
-                        }
 
                             break;
                         case 200:
@@ -992,9 +993,10 @@ public partial class TWorldFXHS : TFixedVisibleHS
 public partial class TPlayerStructureList : TEChangeNotifyEventList
 {
     public TPlayerStructureList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TPlayer FPlayer;
+
     // Player.PAS:1
     public TPlayerStructure GetStructure(int Index) => (TPlayerStructure)FChildren.List[Index];
 
@@ -1005,9 +1007,10 @@ public partial class TPlayerStructureList : TEChangeNotifyEventList
 public partial class TArmyList : TEChangeNotifyEventList
 {
     public TArmyList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TPlayer FPlayer;
+
     // Player.PAS:6
     public TArmy GetArmy(int Index) => (TArmy)FChildren.List[Index];
 
@@ -1021,10 +1024,11 @@ public partial class TUnitProduction : TEObject
     public new const int ClassID = 131737;
 
     public TUnitProduction(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FUnitIndex;
     public bool FResearched;
+
     // Structur.PAS:7
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1040,7 +1044,7 @@ public partial class TUnitProduction : TEObject
 public partial class TUnitProductionList : TENode
 {
     public TUnitProductionList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Structur.PAS:14
     public TUnitProduction GetItem(int Index)
@@ -1098,9 +1102,10 @@ public partial class TProductionItem : TEObject
     public new const int ClassID = 131735;
 
     public TProductionItem(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public ProductionOrder Order = new UnknownOrder(0, 0, 0);
+
     // Structur.PAS:63
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1155,9 +1160,10 @@ public partial class TProductionItem : TEObject
 public partial class TProductionQueue : TENode
 {
     public TProductionQueue(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TProductionControl FProductionControl;
+
     // Structur.PAS:83
     public TProductionItem GetItem(int Index)
     {
@@ -1216,7 +1222,7 @@ public partial class TProductionQueue : TENode
 public partial class TProductionSettings : TEObject
 {
     public TProductionSettings(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FGold;
     public int FMana;
@@ -1228,6 +1234,7 @@ public partial class TProductionSettings : TEObject
     public int FGroupID;
     public TUnit FUnit;
     public int FUnitProductionIndex;
+
     // Structur.PAS:114
     public override void Destroy()
     {
@@ -1300,6 +1307,7 @@ public partial class TProductionTE : TTokenEvent
     public bool FQueue;
     public int FIndex;
     public int FReserved;
+
     // Structur.PAS:155
     // { Original leaves the upkeep fields unchanged. }
     public override void Destroy()
@@ -1348,7 +1356,6 @@ public partial class TProductionTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // change event, update count, queue, loop queue, unit productions, status, settings
@@ -1373,6 +1380,7 @@ public partial class TProductionControl : TEObject
     public TUnitProductionList FUnitProductions;
     public TProductionControlStatus FStatus;
     public TProductionSettings FSettings;
+
     // Structur.PAS:202
     public override void Destroy()
     {
@@ -2271,6 +2279,7 @@ public partial class TEnchantment : TEObject
     public sbyte FSource;
     public int FUpkeep;
     public sbyte FDispelResistance;
+
     // Spells.PAS:1726
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -2394,7 +2403,7 @@ public partial class TEnchantment : TEObject
 public partial class TEnchantmentList : TENode
 {
     public TEnchantmentList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Spells.PAS:1762
     // inherited children
@@ -2450,6 +2459,7 @@ public partial class TChangePlayerMagicTE : TTokenEvent
     public byte FPlayerIndex;
     public int FValue;
     public int FExtraValue;
+
     // Spells.PAS:2448
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -2496,7 +2506,6 @@ public partial class TChangePlayerMagicTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // (mode, location, spell ID, value, enchantment name)
@@ -2516,6 +2525,7 @@ public partial class TPlayerMagicEventLog : TEventLog
     public int FSpellID;
     public int FValue;
     public string FEnchantmentName = "";
+
     // Spells.PAS:1854
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -2618,7 +2628,7 @@ public partial class TPlayerMagicEventLog : TEventLog
 public partial class TPowerSource : TEObject
 {
     public TPowerSource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Spells.PAS:1782
     public virtual string Name() => "";
@@ -2659,9 +2669,10 @@ public partial class TPowerSource : TEObject
 public partial class TExternalPowerSource : TPowerSource
 {
     public TExternalPowerSource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TPlayerMagicControl FExternalPowerControl;
+
     // Spells.PAS:1835
     public override string Name() => AoWEUnit.TranslateRStr(AoWEUnit.P4ExternalPowerRStr);
 
@@ -2672,7 +2683,7 @@ public partial class TExternalPowerSource : TPowerSource
 public partial class TPowerSourceList : TENode
 {
     public TPowerSourceList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Spells.PAS:1828
     public TPowerSource GetItems(int Index) => (TPowerSource)FChildren.List[Index];
@@ -2728,6 +2739,7 @@ public partial class TPlayerMagicControl : TEObject
     public TSet<TPlayerEnchantmentType> FActiveEnchantments;
     public TSet<TPlayerEnchantmentType> FEnemyEnchantments;
     public TEventList FChangedEvents;
+
     // Spells.PAS:1927
     public override void Destroy()
     {
@@ -3597,6 +3609,7 @@ public partial class TGlobalEnchantment : TEObject
     public sbyte FPlayerIndex;
     public string FName = "";
     public int FEnchantmentManaUpkeep;
+
     // Spells.PAS:2520
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -3898,6 +3911,7 @@ public partial class TGlobalEnchantmentEventLog : TLocationTextEventLog
     public new const int ClassID = 131819;
 
     public sbyte FEnchantmentPlayer;
+
     // Spells.PAS:2660
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -3928,7 +3942,7 @@ public partial class TGlobalEnchantmentEventLog : TLocationTextEventLog
 public partial class TGlobalEnchantmentList : TENode
 {
     public TGlobalEnchantmentList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Spells.PAS:2671
     public TGlobalEnchantment GetEnchantments(int Index) => (TGlobalEnchantment)FChildren.List[Index];
@@ -3949,6 +3963,7 @@ public partial class TChangeGlobalMagicTE : TTokenEvent
     public byte FPlayerIndex;
     public int FEnchantmentID;
     public int FValue;
+
     // Spells.PAS:2720
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -3991,7 +4006,6 @@ public partial class TChangeGlobalMagicTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // next ID, update count, active types, enchantments, double-mana counters, changed events
@@ -4012,6 +4026,7 @@ public partial class TGlobalMagicControl : TEObject
     public TGlobalEnchantmentList FEnchantments;
     public FixedArray_int_9 FDoubleSphereManaCount;
     public TEventList FChangedEvents;
+
     // Spells.PAS:2675
     public override void Destroy()
     {
@@ -4351,6 +4366,7 @@ public partial class TRace : TEObject
     // TStatus values
     public TIntegerList FPlayerRelations;
     public bool FEnabled;
+
     // Ability.PAS:221
     public override void Destroy()
     {
@@ -4752,10 +4768,11 @@ public partial class TDiplomaticRelationHistoryItem : TEObject
     public new const int ClassID = 131354;
 
     public TDiplomaticRelationHistoryItem(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FDay;
     public TDiplomaticRelation FRelation;
+
     // Player.PAS:33
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -4773,7 +4790,7 @@ public partial class TDiplomaticRelationHistoryList : TENode
     public new const int ClassID = 131355;
 
     public TDiplomaticRelationHistoryList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Player.PAS:45
     public TDiplomaticRelationHistoryItem GetItems(int Index) => (TDiplomaticRelationHistoryItem)FChildren.EObjects[Index];
@@ -4834,6 +4851,7 @@ public partial class TPlayerDiplomaticRelations : TEObject
     public TPlayer FPlayer;
     public TByteList FRelations;
     public TENode FHistory;
+
     // Player.PAS:85
     public override void Destroy()
     {
@@ -4963,6 +4981,7 @@ public partial class TLeaderSetupControl : TEObject
     public TIntegerList FItems;
     public TLeaderSetupStatus FStatus;
     public TNotifyEvent FOnDone;
+
     // Player.PAS:1766
     public override void Destroy()
     {
@@ -5013,13 +5032,14 @@ public partial class TTurnInfoItem : TEObject
     public new const int ClassID = 131739;
 
     public TTurnInfoItem(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FGold;
     public int FMana;
     public int FStructures;
     public int FArmyStrength;
     public byte FHeroes;
+
     // Player.PAS:161
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -5041,7 +5061,7 @@ public partial class TTurnInfoItem : TEObject
 public partial class TTurnInfo : TENode
 {
     public TTurnInfo(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Player.PAS:177
     public TTurnInfoItem GetTurnInfo(int Index) => (TTurnInfoItem)FChildren.List[Index];
@@ -5062,6 +5082,7 @@ public partial class TPlayerStatistics : TEObject
     public TTurnInfo FTurnInfo;
     public int FUnitsKilled;
     public int FUnitsLost;
+
     // Player.PAS:188
     public override void Destroy()
     {
@@ -5085,7 +5106,7 @@ public partial class TPlayerStatistics : TEObject
 public partial class TIncomeSource : TEObject
 {
     public TIncomeSource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Player.PAS:202
     public virtual string Name() => "";
@@ -5119,7 +5140,7 @@ public partial class TIncomeSource : TEObject
 public partial class TIncomeSourceList : TENode
 {
     public TIncomeSourceList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Player.PAS:231
     public TIncomeSource GetItems(int Index) => (TIncomeSource)FChildren.List[Index];
@@ -5140,6 +5161,7 @@ public partial class TPBEMPlayerSettings : TEObject
 
     public TSet<TPBEMPlayerStatusElement> FStatus;
     public TEmailGame FEmailGame;
+
     // Player.PAS:243
     public override void Destroy()
     {
@@ -5290,6 +5312,7 @@ public partial class TPlayer : TEObject
     public int FIncome;
     public TLeader FLeader;
     public TEventLogbook FEventLogbook;
+
     // Player.PAS:315
     public override void Destroy()
     {
@@ -7433,7 +7456,6 @@ public partial class TAoWNewHSMapSettings : TNewHSMapSettings
 
     // AoWHSMap.PAS:921
 
-
     // intf_P1_03.inc:346
 
 }
@@ -7442,11 +7464,12 @@ public partial class TAoWNewHSMapSettings : TNewHSMapSettings
 public partial class TAoWMapField : TMapField
 {
     public TAoWMapField(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 131090;
 
     public int FFieldFlags;
+
     // AoWHSMap.PAS:63
     // { Original tests the entire ECX register for a Boolean passed in CL. }
     public override void ReadWrite(TEStorageStream Stream)
@@ -7617,7 +7640,9 @@ public partial class TAoWMapField : TMapField
         int count = player & 31;
         return count == 0 || ((uint)FFieldFlags & (1u << (count - 1))) != 0;
     }
+
     public void SetExplored(int player, bool value) => SetExploredRaw(player, value ? 1 : 0);
+
     // The original tests ECX, including the bits above the Boolean byte.
     public void SetExploredRaw(int player, int value)
     {
@@ -7631,7 +7656,7 @@ public partial class TAoWMapField : TMapField
 public partial class TAoWMapLevel : TMapLevel
 {
     public TAoWMapLevel(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 131091;
 
@@ -7655,6 +7680,7 @@ public partial class TSubMove : TEObject
     public TXYL FLocation;
     public TXYL FOrigin;
     public TDoubleItemList FMovePointLines;
+
     // MoveT.PAS:28
     public override void Destroy()
     {
@@ -7675,7 +7701,7 @@ public partial class TSubMove : TEObject
 public partial class TSubMoveList : TENode
 {
     public TSubMoveList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MoveT.PAS:39
     public TSubMove GetSubMove(int Index) => (TSubMove)FChildren.List[Index];
@@ -7766,6 +7792,7 @@ public partial class TMoveControlSettings : TEObject
     public TUnitUserList FUnits;
     // AddUnitsEx
     public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
+
     // MoveT.PAS:84
     public override void Destroy()
     {
@@ -7991,6 +8018,7 @@ public partial class TMoveControl : TObject
     public TXYLList FDirectRoute;
     public int FExploredMask;
     public TMoveControlSettings FSettings;
+
     // MoveT.PAS:266
     public override void Destroy()
     {
@@ -8697,6 +8725,7 @@ public partial class TPlayerConnectionEventLog : TMessageEventLog
 
     public byte FReason;
     public sbyte FDisconnectedPlayer;
+
     // PlayerC.PAS:1714
     public override bool Yes()
     {
@@ -8799,6 +8828,7 @@ public partial class TPlayerControl : TEObject
     public string FPassword = "";
     public TDoubleItemList FDisconnectedPlayers;
     public bool FOutOfSyncShown;
+
     // PlayerC.PAS:7
     public override void Destroy()
     {
@@ -9588,6 +9618,7 @@ public partial class TTextControlItem : TEObject
     public int FID;
     public TStrings FText;
     public string FName = "";
+
     // Structur.PAS:4400
     public override void Destroy()
     {
@@ -9615,7 +9646,7 @@ public partial class TTextControlItem : TEObject
 public partial class TTextControl : TENode
 {
     public TTextControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Structur.PAS:4419
     public TTextControlItem GetItem(int Index)
@@ -9705,7 +9736,7 @@ public partial class TTurnPlayerControl : TPlayerControl
     public new const int ClassID = 131664;
 
     public TTurnPlayerControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // PlayerC.PAS:589
     public override void NewTurn(sbyte Player)
@@ -10143,9 +10174,10 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
     public new const int ClassID = 131667;
 
     public TPBEMPlayerControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public sbyte FLocalPlayer;
+
     // PlayerC.PAS:984
     public override void NewTurn(sbyte Player)
     {
@@ -10619,7 +10651,7 @@ public partial class TSimultaniousPlayerControl : TPlayerControl
     public new const int ClassID = 131665;
 
     public TSimultaniousPlayerControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // PlayerC.PAS:1343
     public override void NewDay()
@@ -10979,13 +11011,13 @@ public partial class TMoveSettings : TEObject
     public int FSelection;
     public int FMovePos;
     public bool FValid;
+
     // Structur.PAS:4018
     public override void Destroy()
     {
         FPath.Free();
         base.Destroy();
     }
-
 
     // Structur.PAS:4024
     public TXYL GetMoveLoc()
@@ -11015,7 +11047,7 @@ public partial class TMoveSettings : TEObject
 public partial class TMoveSettingsList : TENode
 {
     public TMoveSettingsList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Structur.PAS:4040
     // inherited FChildren
@@ -11129,6 +11161,7 @@ public partial class TMoveSelector : TObject
     public int FCurrentMove;
     public TAbstractAoWHSMap FMap;
     public TSet<TMoveSelectorStatusElement> FStatus;
+
     // Structur.PAS:4118
     public override void Destroy()
     {
@@ -11462,9 +11495,6 @@ public partial class TMoveSelector : TObject
     // Structur.PAS:4109
     // control settings, moves, current move, map, status
 
-
-
-
     // Structur.PAS:4131
     public void Clear()
     {
@@ -11538,6 +11568,7 @@ public partial class TSelectedArmy : TMoveSelector
     public int FRoadBuilderID;
     public TIntegerList FSelectedUnitGFX;
     public bool FIgnoreMouseDown;
+
     // Army.PAS:3573
     public override void Destroy()
     {
@@ -12446,6 +12477,7 @@ public partial class TTargetSelectionControl : TObject
     public ImageLib.TLibraryImage FSourceImage;
     public ImageLib.TLibraryImage FValidTargetImage;
     public ImageLib.TLibraryImage FInvalidTargetImage;
+
     // Structur.PAS:3793
     public override void Destroy()
     {
@@ -12463,7 +12495,6 @@ public partial class TTargetSelectionControl : TObject
 
         base.Destroy();
     }
-
 
     // Structur.PAS:3809
     public void TriggerOnChangeEvent(TTargetSelectionChange Change)
@@ -12723,11 +12754,12 @@ public partial class TTargetSelectionControl : TObject
 public partial class TAoWHSMapKeyboard : TEObject
 {
     public TAoWHSMapKeyboard(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public string FCheatText = "";
     public TAoWHSMapKeyboardMode FMode;
     public int FLockCount;
+
     // AoWHSMap.PAS:946
     public virtual void KeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
@@ -12979,6 +13011,7 @@ public partial class TAbstractAoWHSMapMouse : THSMapMouse
 
     public TRect FSelectionRectangle;
     public TEventList FRectangleSelectEvents;
+
     // AoWHSMap.PAS:1057
     public override void Destroy()
     {
@@ -13022,7 +13055,6 @@ public partial class TAbstractAoWHSMapMouse : THSMapMouse
             UpdateRectangleSelection(HSMap.ViewXhp + X - 2, HSMap.ViewYhp + Y - 3);
         }
     }
-
 
     // AoWHSMap.PAS:1063
     public void ResetRectangleSelection()
@@ -13293,6 +13325,7 @@ public partial class TAbstractAoWHSMap : THSMap
     public sbyte FSelectorX;
     public sbyte FSelectorY;
     public bool FHexagonSelectorVisible;
+
     // AoWHSMap.PAS:383
     public override void Destroy()
     {
@@ -13960,6 +13993,7 @@ public partial class TAbstractAoWCombatMap : TAbstractAoWHSMap
 
     public TEventList FCombatStartedEvents;
     public TEventList FAbilityActivatedEvents;
+
     // AoWHSMap.PAS:914
     public override void Destroy()
     {
@@ -13987,6 +14021,7 @@ public partial class TTutorialControl : TEObject
     }
 
     public TIntegerList FShownMessages;
+
     // AoWHSMap.PAS:6
     public override void Destroy()
     {
@@ -14172,6 +14207,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     public bool FShowUnitShadows;
     public Text FTokenEventLog;
     public bool FTokenEventLogging;
+
     // AoWHSMap.PAS:1336
     public override void Destroy()
     {
@@ -16649,6 +16685,7 @@ public partial class TUnitGFXResource : TEResource
     public int FRefCount;
     public byte F_UnitGFXResource_30;
     public FixedArray_Aow_Units_Sound_TSFXLibrary_5 FSFXLibraries;
+
     // UnitHS.PAS:12
     public override void Destroy()
     {
@@ -16880,7 +16917,7 @@ public partial class TUnitGFXResourceList : TEResourceList
 public partial class TAoWMapObjectEditor : TEObjectEditor, IEObjectEditorClass
 {
     public TAoWMapObjectEditor(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Army.PAS:5753
     public static new int EditorClassID => 65878;
@@ -16894,6 +16931,7 @@ public partial class TUnitShadowHS : THexagonSprite
     { }
 
     public TUnitHS FUnitHS;
+
     // UnitHS.PAS:153
     public override int GetShowPriority() => (FUnitHS.GetShowPriority() & 67108863) + 1677721600;
 
@@ -16925,6 +16963,7 @@ public partial class TUnitHS : THexagonSprite
     // -1 when idle
     public byte FFlagID;
     public TUnitShadowHS FShadow;
+
     // UnitHS.PAS:168
     public override void Destroy()
     {
@@ -16961,7 +17000,6 @@ public partial class TUnitHS : THexagonSprite
             FDirection = 3;
         }
     }
-
 
     // UnitHS.PAS:610
     public override void TimerEvent(int Tick, TEObject Sender)
@@ -17507,7 +17545,6 @@ public partial class TUnitHS : THexagonSprite
 
     // intf_P2_03.inc:74
 
-
 }
 
 // { Interface declaration run owned by P1. }
@@ -17516,9 +17553,10 @@ public partial class TAbilityData : TEObject
 {
 
     public TAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TAbilityData FNext;
+
     // Ability.PAS:1234
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -17587,6 +17625,7 @@ public partial class TAbility : TEObject
     public TSFXLibrary FSFXLibrary;
     public TImageSequenceList FImageSequences;
     public TSet<TAbilitySelectionType> FSelectionTypes;
+
     // Ability.PAS:1245
     public override void Destroy()
     {
@@ -17983,12 +18022,14 @@ public partial class TAbility : TEObject
 
     public virtual bool CanExpand(TAbilityOwner owner) => !owner.GetAbSet(FAbilityID) && (owner.GetAbilitySelectionTypes() & FSelectionTypes) != default(TSet<TAbilitySelectionType>);
     public virtual int ExpandCost(TAbilityOwner owner) => FSkillPointCost;
+
     public virtual bool Remove(TAbilityOwner owner)
     {
         if (!owner.GetAbSet(FAbilityID)) return false;
         owner.SetAbSet(FAbilityID, 0);
         return true;
     }
+
     public virtual bool GetInherent(TAbilityOwner owner) => owner.GetAbSet(FAbilityID);
     public virtual int GetSkillPoints(TAbilityOwner owner) => owner.GetAbSet(FAbilityID) ? FSkillPointCost : 0;
     public virtual bool GetEnabled(TAbilityOwner owner) => owner.GetAbSet(FAbilityID);
@@ -17999,10 +18040,11 @@ public partial class TCustomAbilityList : TEObject
 {
 
     public TCustomAbilityList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte[] FAbilityBits = [];
     public int FAbilityCount;
+
     // Ability.PAS:942
     public override void Destroy()
     {
@@ -18200,13 +18242,14 @@ public partial class TCustomAbilityList : TEObject
         if (value != 0) bits[index >> 3] |= mask;
         else bits[index >> 3] &= (byte)~mask;
     }
+
     public virtual bool GetAbSet(int index) => (uint)index < (uint)FAbilityCount && (FAbilityBits[index >> 3] & (1 << (index & 7))) != 0;
 }
 
 public partial class TAbilityList : TCustomAbilityList
 {
     public TAbilityList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
 }
 
@@ -18221,6 +18264,7 @@ public partial class TAbilityOwner : TCustomAbilityList
     }
 
     public TAbilityData FAbilityData;
+
     // Ability.PAS:1762
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -18879,6 +18923,7 @@ public partial class TAbilityControl : TEObject
 
     public TList FAbilities;
     public FixedArray_Aow_Units_AoWE_TAbilityTypeList_5 FAbilitiesByType;
+
     // Ability.PAS:2044
     public override void Destroy()
     {
@@ -19041,7 +19086,7 @@ public partial class TItemGFX : TEResource
     public new const int ClassID = 131689;
 
     public TItemGFX(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public string FImageLibraryName = "";
     public int FImageIndex;
@@ -19049,6 +19094,7 @@ public partial class TItemGFX : TEResource
     public TCustomImageLibrary FImageLibrary;
     public int FRefCount;
     public bool FHidden;
+
     // Army.PAS:5093
     public override TEngine GetEngine() => AoWEUnit.AoWEngine;
 
@@ -19225,6 +19271,7 @@ public partial class TItemTE : TTokenEvent
     public byte FAction;
     // 0 = use
     public int FHeroID;
+
     // Army.PAS:4185
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -19277,7 +19324,6 @@ public partial class TItemTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // ID, owner name, status, references, library ID, library name, value, name, type, spell ID,
@@ -19313,6 +19359,7 @@ public partial class TItem : TAbilityOwner
     public sbyte FDefense;
     public sbyte FDamage;
     public sbyte FResistance;
+
     // Army.PAS:4220
     public override void Destroy()
     {
@@ -19788,6 +19835,7 @@ public partial class TItemList : TEChangeNotifyNode
     }
 
     public TNotifyEvent FOnChanged;
+
     // Army.PAS:4537
     // code, data
     public override void MainReadWrite(TEStorageStream Stream)
@@ -19978,10 +20026,11 @@ public partial class TItemList : TEChangeNotifyNode
 public partial class TItemLibrary : TItemList
 {
     public TItemLibrary(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public string FName = "";
     public int FLastID;
+
     // Army.PAS:4933
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -20094,6 +20143,7 @@ public partial class TItemLibraryManager : TEObject
 
     public TItemLibrary FSystemLibrary;
     public TENode FLibraries;
+
     // Army.PAS:4974
     public override void Destroy()
     {
@@ -20266,6 +20316,7 @@ public partial class TItemControl : TEObject
     public TEventList FOnItemChanged;
     public int FLastID;
     public TSet<TItemControlStatusElement> FStatus;
+
     // Army.PAS:4647
     public override void Destroy()
     {
@@ -20607,7 +20658,7 @@ public partial class TItemControl : TEObject
 public partial class TItemHSList : TItemList
 {
     public TItemHSList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Army.PAS:5202
     public override void SetOwner(TECustomNode AOwner)
@@ -20627,6 +20678,7 @@ public partial class TItemHS : TSingleHS
 
     public TItemHSList FItems;
     public TItemGenerateMode FGenerateMode;
+
     // Army.PAS:5221
     public override void Destroy()
     {
@@ -20770,7 +20822,6 @@ public partial class TItemHS : TSingleHS
 
     // intf_P2_04.inc:216
 
-
 }
 
 // { Interface declaration run owned by P1. }
@@ -20779,13 +20830,14 @@ public partial class TFaceResource : TEResource
     public new const int ClassID = 131696;
 
     public TFaceResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public string FImageLibraryName = "";
     public int FImageIndex;
     public TCustomImageLibrary FImageLibrary;
     public int FReferences;
     public bool FDeveloperOnly;
+
     // Ability.PAS:445
     public override TEngine GetEngine() => AoWEUnit.AoWEngine;
 
@@ -21001,6 +21053,7 @@ public partial class TUnitControl : TEObject
     public int FNextUnitID;
     public TIntegerHashTable256 FUnitTable;
     public TList FUnits;
+
     // Unit.PAS:8
     public override void Destroy()
     {
@@ -21133,6 +21186,7 @@ public partial class TAbstractUnit : TAbilityOwner
     public byte FMaxOffensiveStrength;
     public int FDefensiveStrength;
     public byte F_AbstractUnit_38;
+
     // Unit.PAS:108
     public override void Destroy()
     {
@@ -23483,6 +23537,7 @@ public partial class TAbstractUnit : TAbilityOwner
     }
 
     public virtual bool GetAbilitySet(int index) => (uint)index < (uint)FAbilityCount && (FAbilityBits[index >> 3] & (1 << (index & 7))) != 0;
+
     public override bool RemoveAbility(int ability)
     {
         AddRef();
@@ -23570,9 +23625,10 @@ public partial class TAbstractUnit : TAbilityOwner
 public partial class TAbstractUnitResource : TEResource
 {
     public TAbstractUnitResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FUnitGFXResourceIndex;
+
     // UnitRes.PAS:1
     public override TEngine GetEngine() => AoWEUnit.AoWEngine;
 
@@ -23713,6 +23769,7 @@ public partial class TUnitResource : TAbstractUnitResource
     public int FObtainValue;
     public TUnitSize FUnitSize;
     public TBloodType FBloodType;
+
     // UnitRes.PAS:92
     public override void Destroy()
     {
@@ -23893,6 +23950,7 @@ public partial class TUnit : TAbstractUnit
     public sbyte FAbDefense;
     public sbyte FAbResistance;
     public sbyte FAbDamage;
+
     // Unit.PAS:2132
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -24369,7 +24427,7 @@ public partial class TUnitList : TEChangeNotifyNode
 {
 
     public TUnitList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Unit.PAS:2294
     public override void MainReadWrite(TEStorageStream Stream)
@@ -24656,7 +24714,7 @@ public partial class TUnitUserList : TUnitList
 {
 
     public TUnitUserList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Unit.PAS:2380
     public override void Clear()
@@ -24797,6 +24855,7 @@ public partial class TUnitIndexListCollection : TObject
 
     public int FCollectionSize;
     public TUnitIndexList FUnits;
+
     // Unit.PAS:2419
     public override void Destroy()
     {
@@ -25017,6 +25076,7 @@ public partial class TUnitSelectionControl : TStringList
     public bool FShowTypeCategories;
     public bool FShowAllCategory;
     public THero FSelectedHero;
+
     // Ability.PAS:776
     public override void Destroy()
     {
@@ -25271,6 +25331,7 @@ public partial class TUnitSelector : TObject
     public int FSourceUnitID;
     public TUnitSelectorNotifyEvent FOnSelect;
     public TUnitSelectorNotifyEvent FOnCancel;
+
     // Ability.PAS:583
     public override void Destroy()
     {
@@ -25389,6 +25450,7 @@ public partial class TUnitSelectorAAI : TActivateAbilityInfo
     }
 
     public TUnitSelector FUnitSelector;
+
     // Ability.PAS:696
     public override void Destroy()
     {
@@ -25878,6 +25940,7 @@ public partial class THeroUpgradeTE : TTokenEvent
     public sbyte FMoves;
     public sbyte FHits;
     public TAbilityOwner FAbilities;
+
     // Hero.PAS:7
     public override void Destroy()
     {
@@ -25936,7 +25999,6 @@ public partial class THeroUpgradeTE : TTokenEvent
 
     // intf_P2_06.inc:62
 
-
 }
 
 // FUnitID. FMode. FItemID (also spell ID). FParameter
@@ -25951,6 +26013,7 @@ public partial class THeroUpdateTE : TTokenEvent
     public THeroUpdateMode FMode;
     public int FItemID;
     public int FParameter;
+
     // Hero.PAS:2279
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -26002,16 +26065,16 @@ public partial class THeroUpdateTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // FHero
 public partial class THeroPowerSource : TPowerSource
 {
     public THeroPowerSource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public THero FHero;
+
     // Hero.PAS:587
     public override string Name() => FHero.FHeroName;
 
@@ -26058,6 +26121,7 @@ public partial class THeroUpgradeEventLog : TEventLog
     public byte FOldLevel;
     public byte FNewLevel;
     public new int FDay;
+
     // Hero.PAS:57
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -26186,6 +26250,7 @@ public partial class TJoinEventLog : TEventLog
     public int FGold;
     public TJoinMode FJoinMode;
     public string FText = "";
+
     // Diplomacy.pas:12
     public override void Destroy()
     {
@@ -26410,6 +26475,7 @@ public partial class THeroEmergeEventLog : TEventLog
     public string FText = "";
     public THeroJoinMode FMode;
     public string FLocationName = "";
+
     // Hero.PAS:188
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -26592,6 +26658,7 @@ public partial class THero : TAbstractUnit
     public int FLibraryID;
     public string FLibraryName = "";
     public bool FRegistered;
+
     // Hero.PAS:631
     public override void Destroy()
     {
@@ -29048,6 +29115,7 @@ public partial class TLeader : THero
 
     public byte FSpherePicksMax;
     public TByteList FSpheres;
+
     // Hero.PAS:2766
     public override void Destroy()
     {
@@ -29481,7 +29549,7 @@ public partial class TLeader : THero
 public partial class THeroList : TEReferenceNode
 {
     public THeroList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Hero.PAS:2395
     public THero FindHero(int ID)
@@ -29537,6 +29605,7 @@ public partial class THeroControl : TEObject
     public int FUpdateCount;
     public TEventList FOnHeroChanged;
     public THeroList FHeroes;
+
     // Hero.PAS:2421
     public override void Destroy()
     {
@@ -29817,10 +29886,11 @@ public partial class THeroControl : TEObject
 public partial class THeroLibrary : THeroList
 {
     public THeroLibrary(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public string FLibraryName = "";
     public int FNextLibraryID;
+
     // Hero.PAS:2639
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -29940,6 +30010,7 @@ public partial class THeroLibraryManager : TEObject
 
     public THeroLibrary FSystemLibrary;
     public TENode FLibraries;
+
     // Hero.PAS:2653
     public override void Destroy()
     {
@@ -30124,6 +30195,7 @@ public partial class THeroResource : TAbstractUnitResource
     public sbyte FResistance;
     public TAbilityOwner FAbilities;
     public int FFaceIndex;
+
     // Hero.PAS:2320
     public override void Destroy()
     {
@@ -30258,6 +30330,7 @@ public partial class TAdjustableUnit : TAbstractUnit
     public TSet<TDamageType> FImmunityTypes;
     public TSet<TDamageType> FProtectionTypes;
     public sbyte FHitPoints;
+
     // Unit.PAS:2534
     public TAdjustableUnit(TECustomNode owner) : base(owner)
     {
@@ -30332,16 +30405,16 @@ public partial class TAdjustableUnit : TAbstractUnit
                 FProtectionTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical);
                 break;
             default:
-            {
-                FAttack = 6;
-                FDefense = 3;
-                FResistance = 4;
-                FDamage = 7;
-                FHits = 20;
-                FImmunityTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtWall);
-                SetAbSet(21, 1);
-                SetAbSet(0, 1);
-            }
+                {
+                    FAttack = 6;
+                    FDefense = 3;
+                    FResistance = 4;
+                    FDamage = 7;
+                    FHits = 20;
+                    FImmunityTypes = TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtWall);
+                    SetAbSet(21, 1);
+                    SetAbSet(0, 1);
+                }
 
                 break;
         }
@@ -30360,6 +30433,7 @@ public partial class TWallUnit : TAbstractUnit
     public TWallType FWallType;
     public sbyte FHitPoints;
     public sbyte FHits;
+
     // Unit.PAS:2510
     public override sbyte GetDefense() => 0;
 
@@ -30430,6 +30504,7 @@ public partial class TArmyID : TEObject
     public sbyte FY;
     public sbyte FL;
     public byte F_ArmyID_13;
+
     // Army.PAS:7
     public override void Destroy()
     {
@@ -30552,6 +30627,7 @@ public partial class TArmy : TUnitList
     public TSet<TArmyUserModeElement> FUserMode;
     public byte FVisibilityRanges;
     public byte FConcealedUnits;
+
     // Army.PAS:336
     public override void Destroy()
     {
@@ -34025,11 +34101,12 @@ public partial class TArmyView : TArmy
     public new const int ClassID = 131609;
 
     public TArmyView(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public FixedArray_ushort_8 FUnitConcealment;
     public ushort FConcealedForPlayers;
     public FixedArray_int_8 FMoraleValues;
+
     // Army.PAS:122
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -34139,6 +34216,7 @@ public partial class TArmyHS : TUnitHS
     public byte FUnitIndex;
     public sbyte FUnitYOffset;
     public sbyte FMoveSteps;
+
     // Army.PAS:2654
     public override void Destroy()
     {
@@ -34974,7 +35052,7 @@ public partial class TArmyHS : TUnitHS
 public partial class TArmyHSList : TEChangeNotifyEventList
 {
     public TArmyHSList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Army.PAS:3562
     public TArmyHS GetArmyHS(int Index) => (TArmyHS)FChildren.List[Index];
@@ -35004,6 +35082,7 @@ public partial class TArmyEventLog : TEventLog
     public TByteList FDamageValues;
     public TByteList FDamageTypes;
     public bool FGameOver;
+
     // Army.PAS:150
     public override void Destroy()
     {
@@ -35154,6 +35233,7 @@ public partial class TArmyInfoEventLog : TEventLog
     public string FText = "";
     public string FDescription = "";
     public TSet<TExecuteTrigger> FTriggers;
+
     // Army.PAS:263
     public override void Destroy()
     {
@@ -35261,6 +35341,7 @@ public partial class TRaceResource : TEResource
     public int FHeroUnitIndex;
     public TUnitIndexList FSpecialUnitIndexes;
     public TStringList FHeroNames;
+
     // PlayerC.PAS:1740
     public override void Destroy()
     {
@@ -35567,6 +35648,7 @@ public partial class TStructureShadow : THexagonSprite
 
     public TSet<TStructureShadowStatusElement> FShadowStatus;
     public TStructure FStructure;
+
     // Structur.PAS:934
     public override void Destroy()
     {
@@ -35665,7 +35747,6 @@ public partial class TStructure : TFixedILTerrainMO
         FFogged = true;
     }
 
-
     public new const int ClassID = 131914;
 
     public int FStructureID;
@@ -35674,6 +35755,7 @@ public partial class TStructure : TFixedILTerrainMO
     public byte FBuildingDays;
     public TStructureShadow FShadow;
     public bool FFogged;
+
     // Structur.PAS:1017
     public override void Destroy()
     {
@@ -35704,7 +35786,6 @@ public partial class TStructure : TFixedILTerrainMO
     }
 
     // Structur.PAS:1010
-
 
     // Structur.PAS:1629
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -37060,7 +37141,6 @@ public partial class TStructure : TFixedILTerrainMO
 
     // intf_P1_09.inc:78
 
-
 }
 
 public partial class TStructureControl : TEObject
@@ -37076,6 +37156,7 @@ public partial class TStructureControl : TEObject
     public TENode FStructures;
     public int FNextID;
     public int FCityCount;
+
     // Structur.PAS:3227
     public override void Destroy()
     {
@@ -37216,7 +37297,6 @@ public partial class TStructureResource : TFixedILTerrainMOR
         FRazeable = false;
     }
 
-
     public new const int ClassID = 131915;
 
     public bool FTerrainBound;
@@ -37232,6 +37312,7 @@ public partial class TStructureResource : TFixedILTerrainMOR
     public byte FRebuildDays;
     public TUnitIndexListCollection FDefenders;
     public int FRazeDefenderBudget;
+
     // Structur.PAS:1904
     public override void Destroy()
     {
@@ -37260,7 +37341,6 @@ public partial class TStructureResource : TFixedILTerrainMOR
     }
 
     // Structur.PAS:1892
-
 
     // Structur.PAS:1917
     public override int ResourceUserClassID() => 131914;
@@ -37330,7 +37410,6 @@ public partial class TStructureResource : TFixedILTerrainMOR
 
     // intf_P1_09.inc:200
 
-
     // Structur.PAS:1914
     public override string ResourceEditName() => "";
 
@@ -37343,6 +37422,7 @@ public partial class TRazeStructureEventLog : TMessageEventLog
     { }
 
     public TStructure FStructure;
+
     // Structur.PAS:3086
     // (FStructure)
     public override bool Yes()
@@ -37356,9 +37436,10 @@ public partial class TRazeStructureEventLog : TMessageEventLog
 public partial class TPlayerStructureIncomeSource : TIncomeSource
 {
     public TPlayerStructureIncomeSource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TPlayerStructure FStructure;
+
     // Structur.PAS:2486
     public override string Name() => FStructure.GetName();
 
@@ -37387,9 +37468,10 @@ public partial class TPlayerStructureIncomeSource : TIncomeSource
 public partial class TPlayerStructurePowerSource : TPowerSource
 {
     public TPlayerStructurePowerSource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TPlayerStructure FStructure;
+
     // Structur.PAS:2509
     public override string Name() => FStructure.GetName();
 
@@ -37431,7 +37513,6 @@ public partial class TPlayerStructure : TStructure
         FUnfogRange = 0;
     }
 
-
     public new const int ClassID = 131916;
 
     public sbyte FPlayer;
@@ -37439,6 +37520,7 @@ public partial class TPlayerStructure : TStructure
     public byte FFlagID;
     public TBitList FVictoryLocations;
     public byte FUnfogRange;
+
     // Structur.PAS:1977
     public override void Destroy()
     {
@@ -37456,7 +37538,6 @@ public partial class TPlayerStructure : TStructure
     }
 
     // Structur.PAS:1970
-
 
     // Structur.PAS:2328
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -38211,7 +38292,6 @@ public partial class TPlayerStructure : TStructure
 
     // intf_P1_09.inc:249
 
-
 }
 
 public partial class TPlayerStructureResource : TStructureResource
@@ -38223,13 +38303,13 @@ public partial class TPlayerStructureResource : TStructureResource
         FFlagY = -35;
     }
 
-
     public new const int ClassID = 131917;
 
     public bool FClaimed;
     public int FFlagX;
     public int FFlagY;
     public TFlagControl FFlagControl;
+
     // Structur.PAS:2430
     public override void Destroy()
     {
@@ -38248,7 +38328,6 @@ public partial class TPlayerStructureResource : TStructureResource
 
     // Structur.PAS:2422
     // (claimed, flag position, flag control)
-
 
     // Structur.PAS:2467
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -38310,14 +38389,12 @@ public partial class TPlayerStructureResource : TStructureResource
 
     // intf_P1_09.inc:300
 
-
 }
 
 public partial class TStructureTE : TTokenEvent
 {
     public TStructureTE(TECustomNode owner) : base(owner)
-    {}
-
+    { }
 
     public new const int ClassID = 135440;
 
@@ -38330,6 +38407,7 @@ public partial class TStructureTE : TTokenEvent
     public bool FRazed;
     public int FParam;
     public int FParam2;
+
     // Structur.PAS:3051
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -38399,7 +38477,6 @@ public partial class TStructureTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // signed days remaining, caster player
@@ -38412,6 +38489,7 @@ public partial class TFrozenWaterHS : TSingleHS
 
     public sbyte FDaysRemaining;
     public sbyte FCasterPlayer;
+
     // Structur.PAS:4487
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -38497,7 +38575,6 @@ public partial class TFrozenWaterHS : TSingleHS
 
     // Engine.pas:524
 
-
 }
 
 // { Interface declaration run owned by P5. }
@@ -38506,6 +38583,7 @@ public partial class TPadControl : TEControlStyleObject
 {
     public TList FPadResources;
     public TBitList FTerrainTypes;
+
     // MoveT.PAS:3622
     public override void Destroy()
     {
@@ -38614,6 +38692,7 @@ public partial class TFlagControl : TEControlStyleObject
 
     public TRaceResourceList FRaceResources;
     public TCustomImageLibrary FFlags;
+
     // PlayerC.PAS:1920
     public override void Destroy()
     {
@@ -38732,6 +38811,7 @@ public partial class TAoWHSSet : THSSet
     public TImageSequenceList FImageSequences;
     public TTextControl FTextControl;
     public int FHSSCRC;
+
     // Ability.PAS:74
     public override void Destroy()
     {
@@ -39007,7 +39087,7 @@ public partial class TEmailGame : TEObject
     public new const int ClassID = 136960;
 
     public TEmailGame(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public string FName = "";
     public int FUniqueLocalID;
@@ -39015,6 +39095,7 @@ public partial class TEmailGame : TEObject
     public int FSecurityID;
     public string FEmailAddress = "";
     public int FLastDay;
+
     // Diplomacy.pas:2465
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -39033,7 +39114,7 @@ public partial class TEmailGame : TEObject
 public partial class TEmailGameList : TENode
 {
     public TEmailGameList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Diplomacy.pas:2475
     public TEmailGame GetEmailGames(int Index) => (TEmailGame)FChildren.List[Index];
@@ -39068,6 +39149,7 @@ public partial class TEmailGameControl : TEObject
     }
 
     public TEmailGameList FGames;
+
     // Diplomacy.pas:2495
     public override void Destroy()
     {
@@ -39336,6 +39418,7 @@ public partial class TSMTPEventLog : TEventLog
     public bool FSuccess;
     public string FFromAddress = "";
     public string FError = "";
+
     // Diplomacy.pas:2447
     public override void Destroy()
     {
@@ -39358,6 +39441,7 @@ public partial class TFire : TILTerrainMO
     public int FShowPriority;
     public sbyte FPlayer;
     public int FExplosionFrame;
+
     // Structur.PAS:3402
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -39747,7 +39831,6 @@ public partial class TFire : TILTerrainMO
 
     // intf_P1_11.inc:16
 
-
 }
 
 // FFireType
@@ -39759,6 +39842,7 @@ public partial class TFireResource : TILTerrainMOR
     public new const int ClassID = 132991;
 
     public TFireType FFireType;
+
     // Structur.PAS:3685
     // FFireType
     public override void Destroy()
@@ -39807,6 +39891,7 @@ public partial class TFireControl : TObject
     }
 
     public TList FResources;
+
     // Structur.PAS:3726
     public override void Destroy()
     {
@@ -39923,6 +40008,7 @@ public partial class TCombatPredictorUnit : TObject
     public int FTargetPriority;
     public int FHitPoints;
     public TSet<TCombatPredictorUnitStatusElement> FStatus;
+
     // CombatPredictor.pas:4
     public override void Destroy()
     {
@@ -40360,6 +40446,7 @@ public partial class TCombatPredictorSide : TCombatPredictorUnitList
 {
     public FixedArray_byte_4 F_CombatPredictorSide_10;
     public FixedArray_int_10 FStrength;
+
     // CombatPredictor.pas:278
     public void Reset()
     {
@@ -40416,6 +40503,7 @@ public partial class TCombatPredictor : TObject
     public int FNextCPUID;
     public byte FInvalid;
     public int FWork;
+
     // CombatPredictor.pas:301
     public override void Destroy()
     {
@@ -41428,6 +41516,7 @@ public partial class TCombatObject : TEObject
     public byte FPosition;
     public TSet<TCombatObjectStatusElement> FStatus;
     public TSet<TCombatObjectControlModeElement> FControlMode;
+
     // Combat.pas:1930
     public override void Destroy()
     {
@@ -42185,6 +42274,7 @@ public partial class TCombatUnit : TCombatObject
     public bool FDisabled;
     public TSet<TWallCombatFeaturesElement> FWallCombatFeatures;
     public int FUnitGFXResourceIndex;
+
     // Combat.pas:1078
     public override void Destroy()
     {
@@ -43099,6 +43189,7 @@ public partial class TCombatWall : TCombatObject
     public byte FWallType;
     public byte FHitPoints;
     public bool FLocked;
+
     // Combat.pas:1667
     public override void Destroy()
     {
@@ -43291,6 +43382,7 @@ public partial class TCombatSide : TENode
     public TCombatSide FOpponent;
     public int FStrength;
     public int FConquerCount;
+
     // Combat.pas:6005
     public override void Destroy()
     {
@@ -43418,6 +43510,7 @@ public partial class TFastCombatCommand : TObject
     public int FExpectedDV;
     public int FMoveCost;
     public TCombatObject FTarget;
+
     // AIGroup.pas:6710
     public virtual string GetName()
     {
@@ -43459,6 +43552,7 @@ public partial class TFastCombatCommandList : TObject
     public TCombatSide FTargetSide;
     public TFastCombat FCombat;
     public TList FCommands;
+
     // AIGroup.pas:6727
     public override void Destroy()
     {
@@ -43526,6 +43620,7 @@ public partial class TCombatViewer : TObject
     public int FPosition;
     public int FTime;
     public TCombatLogbook FLogbook;
+
     // Combat2.pas:555
     public override void Destroy()
     {
@@ -43852,6 +43947,7 @@ public partial class TSingleTargetCA : TCombatAction
     public TSet<TSingleTargetModeElement> FMode;
     public byte FSourceID;
     public byte FTargetID;
+
     // Combat2.pas:732
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -43945,6 +44041,7 @@ public partial class TDamageCA : TSingleTargetCA
     public TP3PackedDamageTypes FDamageTypes;
     public TP3PackedDamageTypes FEffects;
     public byte FDamageDone;
+
     // Combat2.pas:777
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44126,9 +44223,10 @@ public partial class TDamageEffectCA : TSingleTargetCA
     public new const int ClassID = 131762;
 
     public TDamageEffectCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TDamageType FDamageType;
+
     // Combat2.pas:879
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44217,9 +44315,10 @@ public partial class TUpdateHeaderCA : TCombatAction
     public new const int ClassID = 131766;
 
     public TUpdateHeaderCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public string F_UpdateHeaderCA_0C = "";
+
     // Combat2.pas:963
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44243,9 +44342,10 @@ public partial class TNewCombatTurnCA : TCombatAction
     public new const int ClassID = 131770;
 
     public TNewCombatTurnCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte F_NewCombatTurnCA_0C;
+
     // Combat2.pas:985
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44285,7 +44385,7 @@ public partial class TNewCombatRoundCA : TCombatAction
     public new const int ClassID = 131771;
 
     public TNewCombatRoundCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat2.pas:1012
     public override void Execute(TCombat Combat)
@@ -44309,9 +44409,10 @@ public partial class TCombatObjectTurnDoneCA : TCombatAction
     public new const int ClassID = 131772;
 
     public TCombatObjectTurnDoneCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte F_CombatObjectTurnDoneCA_0C;
+
     // Combat2.pas:1041
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44337,10 +44438,11 @@ public partial class TMoveWallCA : TCombatAction
     public new const int ClassID = 131767;
 
     public TMoveWallCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte F_MoveWallCA_0C;
     public byte F_MoveWallCA_0D;
+
     // Combat2.pas:1075
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44375,9 +44477,10 @@ public partial class TFleeCA : TCombatAction
     public new const int ClassID = 131776;
 
     public TFleeCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte FObjectID;
+
     // Combat2.pas:1102
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44400,7 +44503,7 @@ public partial class TFleeCA : TCombatAction
 public partial class TCombatActionList : TEReferenceNode
 {
     public TCombatActionList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat2.pas:729
     public TCombatAction GetCombatActions(int Index) => (TCombatAction)FChildren.List[Index];
@@ -44427,6 +44530,7 @@ public partial class TCombatParty : TEObject
     public byte FWall;
     public byte F_CombatParty_19;
     public byte FPlayerIndex;
+
     // Combat2.pas:40
     public override void Destroy()
     {
@@ -44466,7 +44570,7 @@ public partial class TCombatParty : TEObject
 public partial class TCombatPartyList : TENode
 {
     public TCombatPartyList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat2.pas:70
     public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(TEControlStyleElement.csSaveLoad, TEControlStyleElement.csArrayMode);
@@ -44552,11 +44656,12 @@ public partial class TCombatPlayer : TEObject
     public new const int ClassID = 131744;
 
     public TCombatPlayer(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public sbyte FPlayer;
     public byte FIndependentRelation;
     public byte FSideIndex;
+
     // Combat2.pas:118
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -44670,6 +44775,7 @@ public partial class TCombatData : TEObject
     public byte FWallType;
     public bool FWallBreached;
     public TCombatWall FWall;
+
     // Combat2.pas:173
     public override void Destroy()
     {
@@ -44786,6 +44892,7 @@ public partial class TCombatLogbook : TEObject
     public TCombatActionList FActions;
     public TCombatResult FCombatResult;
     public bool F_CombatLogbook_19;
+
     // Combat2.pas:359
     public override void Destroy()
     {
@@ -44888,6 +44995,7 @@ public partial class TCombat : TEObject
     // EndCombat also receives a form sender
     public byte FExplorationSite;
     public TEObject FItems;
+
     // item list or prisoners army
     // Combat.pas:6082
     public override void Destroy()
@@ -44966,15 +45074,15 @@ public partial class TCombat : TEObject
         switch ((int)FCombatResult)
         {
             case >= 4 and <= 5:
-            {
-                for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
                 {
-                    if (FCombatData.GetObjects(I).FStatus.Contains(TCombatObjectStatusElement.csFled))
+                    for (int I = FCombatData.GetCount() - 1; I >= 0; I--)
                     {
-                        FCombatResult = TCombatResult.crFled;
+                        if (FCombatData.GetObjects(I).FStatus.Contains(TCombatObjectStatusElement.csFled))
+                        {
+                            FCombatResult = TCombatResult.crFled;
+                        }
                     }
                 }
-            }
 
                 break;
         }
@@ -45767,6 +45875,7 @@ public partial class TCombatEventLog : TEventLog
     public new const int ClassID = 131810;
 
     public TCombatLogbook FLogbook;
+
     // Combat2.pas:405
     public override void Destroy()
     {
@@ -45952,6 +46061,7 @@ public partial class TCombatTypeRequestEventLog : TEventLog
     public TEObject FTokenEvent;
     public bool FCreateNewMove;
     public TArmyID FArmyID;
+
     // Combat2.pas:1
     public override void Destroy()
     {
@@ -46007,11 +46117,12 @@ public partial class TAIPlayerAction : TEObject, IAIPlayerActionClass
 {
 
     public TAIPlayerAction(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FProcessCycles;
     public TAIPlayerControl FControl;
     public TAIPlayerProcessPhase FPhase;
+
     // AI.pas:4
     public virtual bool Setup(TAIPlayerControl Control, TAIPlayerProcessPhase Phase)
     {
@@ -46045,14 +46156,13 @@ public partial class TAIPlayerAction : TEObject, IAIPlayerActionClass
     // AI.pas:1
     public static TSet<TAIPlayerProcessPhase> SupportedPhases => TSet<TAIPlayerProcessPhase>.Of(TAIPlayerProcessPhase.appMain);
 
-
 }
 
 // children
 public partial class TAIPlayerActionList : TENode
 {
     public TAIPlayerActionList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AI.pas:26
     public TAIPlayerAction GetActions(int Index) => (TAIPlayerAction)FChildren.List[Index];
@@ -46074,6 +46184,7 @@ public partial class TAIPlayerActionManager : TEObject
     }
 
     public TList FRegisteredClasses;
+
     // AI.pas:42
     public override void Destroy()
     {
@@ -46120,7 +46231,7 @@ public partial class TAIPlayerActionManager : TEObject
 public partial class TAIGroupList : TENode
 {
     public TAIGroupList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:526
     public TAIGroup GetGroups(int Index)
@@ -46201,6 +46312,7 @@ public partial class TAIPlayerControl : TEObject
     public TAIMoveExecuter FMoveExecuter;
     public TAIPlayerProcessPhase FPhase;
     public float FDefenseStrengthMultiplier;
+
     // AI.pas:92
     public override void Destroy()
     {
@@ -46855,6 +46967,7 @@ public partial class TAIExecuter : TEObject
     public int FTokenCycles;
     public int FTokenCycle;
     public int FLockCount;
+
     // AI.pas:569
     public override void Destroy()
     {
@@ -47153,6 +47266,7 @@ public partial class TAIMoveControlSettings : TEObject
     public TXYL FArrivalPoint;
     public TXYL FTransportSource;
     public TXYL FTransportDestination;
+
     // AIGroup.pas:3849
     public override void Destroy()
     {
@@ -47253,6 +47367,7 @@ public partial class TAIMoveControl : TEObject
     public TAIMoveControlMode FMode;
     public int FState;
     public TMoveControlSettings FPathSettings;
+
     // AIGroup.pas:3918
     public override void Destroy()
     {
@@ -47696,6 +47811,7 @@ public partial class TMoveTarget : TEObject
     public int FMovePoints;
     public int FTransporterID;
     public TMovepath FMovepath;
+
     // AIGroup.pas:4221
     public override void Destroy()
     {
@@ -47735,7 +47851,7 @@ public partial class TMoveTarget : TEObject
 public partial class TMoveTargetList : TEReferenceNode
 {
     public TMoveTargetList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:4240
     public TMoveTarget GetTarget(int Index) => (TMoveTarget)FChildren.List[Index];
@@ -47808,6 +47924,7 @@ public partial class TAIMoveTargetSelector : TEObject
     public TAbstractUnit FTransporter;
     public TUnitUserList FUnits;
     public TAIGroupControl FControl;
+
     // AIGroup.pas:6384
     public override void Destroy()
     {
@@ -48243,7 +48360,7 @@ public partial class TAIMoveTargetSelector : TEObject
 public partial class TAIMoveExecuterUnit : TEObject
 {
     public TAIMoveExecuterUnit(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TAbstractUnit FUnit;
     public int FUnitID;
@@ -48258,6 +48375,7 @@ public partial class TAIMoveExecuterUnit : TEObject
     public TXYL FTransportDestination;
     public TAIMoveExecuterUnitStatus FStatus;
     public byte FMoveResult;
+
     // AIGroup.pas:4280
     public void Initialize(TAbstractUnit AUnit, sbyte X, sbyte Y, sbyte L)
     {
@@ -48319,7 +48437,7 @@ public partial class TAIMoveExecuterUnit : TEObject
 public partial class TAIMoveExecuterUnitList : TENode
 {
     public TAIMoveExecuterUnitList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:4328
     public TAIMoveExecuterUnit GetUnits(int Index) => (TAIMoveExecuterUnit)FChildren.List[Index];
@@ -48474,7 +48592,7 @@ public partial class TAIMoveExecuterUnitList : TENode
 public partial class TAIMoveExecuterArmy : TAIMoveExecuterUnitList
 {
     public TAIMoveExecuterArmy(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TXYL FLocation;
     public TXYL FDestination;
@@ -48485,6 +48603,7 @@ public partial class TAIMoveExecuterArmy : TAIMoveExecuterUnitList
     public TXYL FTransportDestination;
     public sbyte FPlayer;
     public bool FGrouped;
+
     // AIGroup.pas:4527
     public void Setup(TAIMoveExecuterUnit Transporter)
     {
@@ -48642,7 +48761,7 @@ public partial class TAIMoveExecuterArmy : TAIMoveExecuterUnitList
 public partial class TAIMoveExecuterArmyList : TENode
 {
     public TAIMoveExecuterArmyList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:4642
     public TAIMoveExecuterArmy GetArmies(int Index) => (TAIMoveExecuterArmy)FChildren.List[Index];
@@ -48752,6 +48871,7 @@ public partial class TAIMoveExecuterMove : TAIMoveExecuterUnitList
     public sbyte FDestinationX;
     public sbyte FDestinationY;
     public sbyte FDestinationL;
+
     // AIGroup.pas:4446
     public override void Destroy()
     {
@@ -48845,7 +48965,7 @@ public partial class TAIMoveExecuterMove : TAIMoveExecuterUnitList
 public partial class TAIMoveExecuterMoveQueue : TENode
 {
     public TAIMoveExecuterMoveQueue(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:4522
     public override void Clear()
@@ -48883,6 +49003,7 @@ public partial class TAIMoveExecuterControl : TEObject
     public TAIMoveControl FMoveControl;
     public TAIMoveExecuter FExecuter;
     public int FState;
+
     // AIGroup.pas:4732
     public override void Destroy()
     {
@@ -49226,7 +49347,7 @@ public partial class TAIMoveExecuterControl : TEObject
 public partial class TDefaultMEC : TAIMoveExecuterControl
 {
     public TDefaultMEC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:4978
     public override void CalculateMoves()
@@ -49350,6 +49471,7 @@ public partial class TAdjacentArmy : TEObject
     public int FMoves;
     public int FMovePoints;
     public TMovepath FPath;
+
     // AIGroup.pas:5051
     public override void Destroy()
     {
@@ -49397,7 +49519,7 @@ public partial class TAdjacentArmy : TEObject
 public partial class TAdjacentArmyList : TENode
 {
     public TAdjacentArmyList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:5071
     public TAdjacentArmy GetAdjacentArmies(int Index) => (TAdjacentArmy)FChildren.List[Index];
@@ -49469,6 +49591,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
 
     public TXYL FMeetingPoint;
     public TAdjacentArmyList FAdjacentArmies;
+
     // AIGroup.pas:5123
     public override void Destroy()
     {
@@ -49995,9 +50118,10 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
 public partial class TTransportMEC : TAIMoveExecuterControl
 {
     public TTransportMEC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TXYL FMeetingPoint;
+
     // AIGroup.pas:5741
     public override void CalculateMoves()
     {
@@ -50766,6 +50890,7 @@ public partial class TAIMoveExecuter : TEObject
     public sbyte FPlayer;
     public int FProcessCycles;
     public TAIMoveExecuterDoneEvent FOnDone;
+
     // AIGroup.pas:5985
     public override void Destroy()
     {
@@ -51347,7 +51472,7 @@ public partial class TAIMoveExecuter : TEObject
 public partial class TEndTurnAIPA : TAIPlayerAction, IAIPlayerActionClass
 {
     public TEndTurnAIPA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AI.pas:1024
     public override void Destroy()
@@ -51386,7 +51511,7 @@ public partial class TEndTurnAIPA : TAIPlayerAction, IAIPlayerActionClass
 public partial class TInitializeAIPA : TAIPlayerAction, IAIPlayerActionClass
 {
     public TInitializeAIPA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AI.pas:1017
     public override bool Process()
@@ -51415,6 +51540,7 @@ public partial class TGroupControlAIPA : TAIPlayerAction, IAIPlayerActionClass
 
     public int FGroupProcessCycles;
     public TAIGroupControl FGroupControl;
+
     // AI.pas:1054
     public override void Destroy()
     {
@@ -51519,6 +51645,7 @@ public partial class TGroupControlLoopAIPA : TAIPlayerAction, IAIPlayerActionCla
 
     public int FGroupProcessCycles;
     public TAIGroupControl FGroupControl;
+
     // AI.pas:1124
     public override void Destroy()
     {
@@ -51637,7 +51764,7 @@ public partial class TAIBudget : TEObject
     public new const int ClassID = 131740;
 
     public TAIBudget(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FPriority;
     public int FRequiredGold;
@@ -51651,6 +51778,7 @@ public partial class TAIBudget : TEObject
     public int FDayMana;
     public int FGold;
     public int FMana;
+
     // AI.pas:1658
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -51752,7 +51880,7 @@ public partial class TAITransporterBudget : TAIBudget
 public partial class TAIBudgetList : TENode
 {
     public TAIBudgetList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AI.pas:1707
     public TAIBudget GetBudgets(int Index) => (TAIBudget)FChildren.List[Index];
@@ -51788,6 +51916,7 @@ public partial class TAIBudgetManager : TEObject
     public int FGold;
     public int FMana;
     public TAIBudget FDefaultBudget;
+
     // AI.pas:1722
     public override void Destroy()
     {
@@ -52509,6 +52638,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     public int FGoldUpkeep;
     public int FManaUpkeep;
     public TQuadItemList<TProductionControl> FProductions;
+
     // AI.pas:1208
     public override void Destroy()
     {
@@ -52526,62 +52656,62 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
         switch (FState)
         {
             case 0:
-            {
-                var player = FControl.FPlayer;
-                if (player.FPlayerIndex != 0)
                 {
-                    if (FindAvailableTransporter() == null && !ProducingTransporter() && AoWEUnit.AoWHSMap.FDay > 5)
+                    var player = FControl.FPlayer;
+                    if (player.FPlayerIndex != 0)
                     {
-                        Budget = (TAIBudget)player.FAIBudget.FBudgets.FindChild(131742);
-                        if (Budget == null)
+                        if (FindAvailableTransporter() == null && !ProducingTransporter() && AoWEUnit.AoWHSMap.FDay > 5)
                         {
-                            Budget = new TAITransporterBudget(null);
-                            Budget.SetOwner(player.FAIBudget.FBudgets);
+                            Budget = (TAIBudget)player.FAIBudget.FBudgets.FindChild(131742);
+                            if (Budget == null)
+                            {
+                                Budget = new TAITransporterBudget(null);
+                                Budget.SetOwner(player.FAIBudget.FBudgets);
+                            }
+
+                            if (Budget.FRequiredGold < 100)
+                            {
+                                Budget.FRequiredGold += 15;
+                            }
+
+                            ProduceTransporter(Budget);
+                            if (!TransporterProductionControlExists())
+                            {
+                                player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
+                                Budget.FGold = 0;
+                                Budget.FMana = 0;
+                                Budget.FRequiredGold = 0;
+                            }
                         }
 
-                        if (Budget.FRequiredGold < 100)
+                        FGoldUpkeep = player.FAIBudget.FGoldUpkeep - Round((double)player.FIncome * 0.1);
+                        if (FGoldUpkeep < 0)
                         {
-                            Budget.FRequiredGold += 15;
+                            FGoldUpkeep = 0;
                         }
 
-                        ProduceTransporter(Budget);
-                        if (!TransporterProductionControlExists())
+                        var manaIncome = player.FMagicControl.GetManaIncome();
+                        FManaUpkeep = player.FAIBudget.FManaUpkeep - Round((double)manaIncome * 0.1);
+                        if (FManaUpkeep < 0)
                         {
-                            player.FAIBudget.ReturnExpense(Budget.FGold, Budget.FMana);
-                            Budget.FGold = 0;
-                            Budget.FMana = 0;
-                            Budget.FRequiredGold = 0;
+                            FManaUpkeep = 0;
                         }
-                    }
 
-                    FGoldUpkeep = player.FAIBudget.FGoldUpkeep - Round((double)player.FIncome * 0.1);
-                    if (FGoldUpkeep < 0)
-                    {
-                        FGoldUpkeep = 0;
-                    }
-
-                    var manaIncome = player.FMagicControl.GetManaIncome();
-                    FManaUpkeep = player.FAIBudget.FManaUpkeep - Round((double)manaIncome * 0.1);
-                    if (FManaUpkeep < 0)
-                    {
-                        FManaUpkeep = 0;
-                    }
-
-                    if (player.FPlayerIndex != 0 && (player.FAIBudget.FGold > 25 || player.FAIBudget.FMana > 25) && (FGoldUpkeep > 0 || FManaUpkeep > 0))
-                    {
-                        FProductionIndex = -1;
-                        FState += 1;
+                        if (player.FPlayerIndex != 0 && (player.FAIBudget.FGold > 25 || player.FAIBudget.FMana > 25) && (FGoldUpkeep > 0 || FManaUpkeep > 0))
+                        {
+                            FProductionIndex = -1;
+                            FState += 1;
+                        }
+                        else
+                        {
+                            FState = -1;
+                        }
                     }
                     else
                     {
                         FState = -1;
                     }
                 }
-                else
-                {
-                    FState = -1;
-                }
-            }
 
                 break;
             case 1:
@@ -53057,6 +53187,7 @@ public partial class TProcessEventlogAIPA : TAIPlayerAction, IAIPlayerActionClas
     }
 
     public int FLogIndex;
+
     // AI.pas:1616
     public override void Destroy()
     {
@@ -53114,6 +53245,7 @@ public partial class TStructureAIPA : TAIPlayerAction
 
     public new int FPhase;
     public TIntegerList FStructureIDs;
+
     // Structur.PAS:3324
     public override void Destroy()
     {
@@ -53207,7 +53339,7 @@ public partial class TStructurePhase2AIPA : TStructureAIPA, IAIPlayerActionClass
 public partial class TAIGroupProduction : TEObject
 {
     public TAIGroupProduction(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TAbstractUnit FUnit;
     public TProductionControl FControl;
@@ -53220,7 +53352,7 @@ public partial class TAIGroupProduction : TEObject
 public partial class TAIGroupProductionList : TENode
 {
     public TAIGroupProductionList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1
     public TAIGroupProduction GetProductions(int Index) => (TAIGroupProduction)FChildren.List[Index];
@@ -53328,6 +53460,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
     public byte FTargetMode;
     public byte FProcessPriority;
     public byte FRecruitmentPriority;
+
     // AIGroup.pas:72
     public override void Destroy()
     {
@@ -53963,7 +54096,6 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
     // AIGroup.pas:121
     public static TGroupBehavior Behavior => TGroupBehavior.gbNone;
 
-
 }
 
 // next ID, classes
@@ -53978,6 +54110,7 @@ public partial class TAIGroupManager : TAIGroupList
 
     public int FNextID;
     public TList FRegisteredClasses;
+
     // AIGroup.pas:571
     public override void Destroy()
     {
@@ -54149,9 +54282,10 @@ public partial class TAIGroupControlTarget : TEObject
 public partial class TAIGroupControlTargetList : TEReferenceNode
 {
     public TAIGroupControlTargetList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TAIGroupControl FControl;
+
     // AIGroup.pas:684
     public TAIGroupControlTarget GetTargets(int Index)
     {
@@ -54238,6 +54372,7 @@ public partial class TAIRecruitmentGroup : TEObject
     public int FMovePoints;
     public int FTransporterID;
     public int FPathStrength;
+
     // AIGroup.pas:756
     public override void Destroy()
     {
@@ -54311,7 +54446,7 @@ public partial class TAIRecruitmentGroup : TEObject
 public partial class TAIRecruitmentGroupList : TEReferenceNode
 {
     public TAIRecruitmentGroupList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:800
     public TAIRecruitmentGroup GetRecruitmentGroups(int Index)
@@ -54456,7 +54591,7 @@ public partial class TAIGroupProductionLocation : TEObject
 public partial class TAIGroupProductionLocationList : TEReferenceNode
 {
     public TAIGroupProductionLocationList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:907
     public TAIGroupProductionLocation GetProductionLocation(int Index)
@@ -54676,6 +54811,7 @@ public partial class TAIGroupControl : TEObject
     public TAIGroupProductionLocationList FProductionLocations;
     public TAIGroupControlPlugin FPlugin;
     public int FState;
+
     // AIGroup.pas:983
     public override void Destroy()
     {
@@ -55197,6 +55333,7 @@ public partial class TAIGroupTargetFinder : TAIGroupControlPlugin
     public int FTargetRange;
     public int FStep;
     public TSet<TDamageType> FDamageTypes;
+
     // AIGroup.pas:1895
     public override void Destroy()
     {
@@ -55311,6 +55448,7 @@ public partial class TGroupDefenseSelector : TObject
 
     public TUnitList FDefenders;
     public TXYL FDefenseLocation;
+
     // AIGroup.pas:1646
     public override void Destroy()
     {
@@ -55515,6 +55653,7 @@ public partial class TAIGroupDefenseControl : TAIGroupControlPlugin
     public int FCustomState;
     public TSet<TGroupDefenseControlModeElement> FMode;
     public TGroupDefendMode FDefendMode;
+
     // AIGroup.pas:1816
     public override void Destroy()
     {
@@ -55542,10 +55681,10 @@ public partial class TAIGroupDefenseControl : TAIGroupControlPlugin
         switch (FState)
         {
             case 0:
-            {
-                var aiGroupControl = FGroupControl;
-                FSelector.Execute(aiGroupControl.FGroup, aiGroupControl.FLocation.X, aiGroupControl.FLocation.Y, aiGroupControl.FLocation.L, null);
-            }
+                {
+                    var aiGroupControl = FGroupControl;
+                    FSelector.Execute(aiGroupControl.FGroup, aiGroupControl.FLocation.X, aiGroupControl.FLocation.Y, aiGroupControl.FLocation.L, null);
+                }
 
                 if (FSelector.FDefenders.Count != 0)
                 {
@@ -55553,10 +55692,10 @@ public partial class TAIGroupDefenseControl : TAIGroupControlPlugin
                     {
                         case TGroupDefendMode.gdmSplit:
                             Units = new TUnitUserList(null);
-                        {
-                            var aiGroupControl = FGroupControl;
-                            FSelector.GetDefenders(aiGroupControl.FGroup.FPlayer, aiGroupControl.FLocation.X, aiGroupControl.FLocation.Y, aiGroupControl.FLocation.L, Units);
-                        }
+                            {
+                                var aiGroupControl = FGroupControl;
+                                FSelector.GetDefenders(aiGroupControl.FGroup.FPlayer, aiGroupControl.FLocation.X, aiGroupControl.FLocation.Y, aiGroupControl.FLocation.L, Units);
+                            }
 
                             Index = Units.IndexOfBehavior(TGroupBehavior.gbPassive);
                             if (Index == -1)
@@ -55622,6 +55761,7 @@ public partial class TAIRecruitmentGroupFinder : TAIGroupControlPlugin
     public int FStep;
     public int FTargetRange;
     public TSet<TAIRecruitmentGroupFinderModeElement> FMode;
+
     // AIGroup.pas:1987
     public override void Destroy()
     {
@@ -55750,6 +55890,7 @@ public partial class TAIGroupRecruitControl : TAIGroupControlPlugin
     public TSet<TMoveType> FMoveTypes;
     public int FMovesMin;
     public float FPathStrengthFactor;
+
     // AIGroup.pas:2076
     public override void Destroy()
     {
@@ -56078,6 +56219,7 @@ public partial class TAIGroupCooperationControl : TAIGroupControlPlugin
     public TSet<TDamageType> FDamageTypes;
     public FixedArray_int_10 FCooperateStrengths;
     public int FSuperiority;
+
     // AIGroup.pas:2845
     public override void Destroy()
     {
@@ -56366,6 +56508,7 @@ public partial class TAIProductionLocationFinder : TAIGroupControlPlugin
     public int FRange;
     public int FStep;
     public int FTargetRange;
+
     // AIGroup.pas:2309
     public override void Destroy()
     {
@@ -56483,6 +56626,7 @@ public partial class TAIGroupUnitProduction : TEObject
     public int FProductionTime;
     public int FPriority;
     public bool FResearch;
+
     // AIGroup.pas:2395
     public override void Destroy()
     {
@@ -56557,7 +56701,7 @@ public partial class TAIGroupUnitProduction : TEObject
 public partial class TAIGroupUnitProductionList : TEReferenceNode
 {
     public TAIGroupUnitProductionList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:2435
     public TAIGroupUnitProduction GetUnitProductions(int Index) => (TAIGroupUnitProduction)FChildren.EObjects[Index];
@@ -56603,6 +56747,7 @@ public partial class TAIGroupProductionControl : TAIGroupControlPlugin
     public TSet<TMoveType> FMoveTypes;
     public int FMovesMin;
     public float FPathStrengthFactor;
+
     // AIGroup.pas:2447
     public override void Destroy()
     {
@@ -57156,6 +57301,7 @@ public partial class TAIGroupTargetSelector : TAIGroupControlPlugin
     public bool FAllowTransport;
     public int FValidTargetLimit;
     public TAIGroupTargetPrioritySettings FPrioritySettings;
+
     // AIGroup.pas:3051
     public override void Destroy()
     {
@@ -58370,6 +58516,7 @@ public partial class THuntAG : TAIGroup, IAIGroupClass
     }
 
     public TIntegerList FTargetUnitIDs;
+
     // AIGroup.pas:1436
     public override void Destroy()
     {
@@ -58415,7 +58562,7 @@ public partial class THuntAG : TAIGroup, IAIGroupClass
 public partial class THuntAGC : TAIGroupControl
 {
     public THuntAGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1479
     public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
@@ -58469,17 +58616,17 @@ public partial class THuntAGC : TAIGroupControl
         {
             case 0:
                 Group = (THuntAG)FGroup;
-            {
-                for (int I = Group.FTargetUnitIDs.Count - 1; I >= 0; I--)
                 {
-                    var item = Group.FTargetUnitIDs[I];
-                    AUnit = AoWEUnit.AoWHSMap.FUnitControl.FindUnit(item);
-                    if (AUnit == null || AUnit.FPlayer == 0)
+                    for (int I = Group.FTargetUnitIDs.Count - 1; I >= 0; I--)
                     {
-                        Group.FTargetUnitIDs.Delete(I);
+                        var item = Group.FTargetUnitIDs[I];
+                        AUnit = AoWEUnit.AoWHSMap.FUnitControl.FindUnit(item);
+                        if (AUnit == null || AUnit.FPlayer == 0)
+                        {
+                            Group.FTargetUnitIDs.Delete(I);
+                        }
                     }
                 }
-            }
 
                 if (Group.FTargetUnitIDs.Count != 0)
                 {
@@ -58521,7 +58668,7 @@ public partial class THuntAGC : TAIGroupControl
 public partial class TGroupControl : TEObject
 {
     public TGroupControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1565
     public virtual TGroupBehavior Behavior() => TGroupBehavior.gbNone;
@@ -58533,7 +58680,7 @@ public partial class TGuardGC : TGroupControl
     public new const int ClassID = 136194;
 
     public TGuardGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1575
     public override TGroupBehavior Behavior() => TGroupBehavior.gbGuard;
@@ -58546,7 +58693,7 @@ public partial class TPassiveGC : TGroupControl
     public new const int ClassID = 136199;
 
     public TPassiveGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1585
     public override TGroupBehavior Behavior() => TGroupBehavior.gbPassive;
@@ -58559,7 +58706,7 @@ public partial class TGuardAreaGC : TGroupControl
     public new const int ClassID = 136192;
 
     public TGuardAreaGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1595
     public override TGroupBehavior Behavior() => TGroupBehavior.gbGuardArea;
@@ -58572,7 +58719,7 @@ public partial class TSuicidalGC : TGroupControl
     public new const int ClassID = 136195;
 
     public TSuicidalGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1605
     public override TGroupBehavior Behavior() => TGroupBehavior.gbSuicidal;
@@ -58585,7 +58732,7 @@ public partial class TPatrolGC : TGroupControl
     public new const int ClassID = 136193;
 
     public TPatrolGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1615
     public override TGroupBehavior Behavior() => TGroupBehavior.gbPatrol;
@@ -58598,7 +58745,7 @@ public partial class TScoutGC : TGroupControl
     public new const int ClassID = 136196;
 
     public TScoutGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1625
     public override TGroupBehavior Behavior() => TGroupBehavior.gbScout;
@@ -58611,7 +58758,7 @@ public partial class TRefugeGC : TGroupControl
     public new const int ClassID = 136208;
 
     public TRefugeGC(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AIGroup.pas:1635
     public override TGroupBehavior Behavior() => TGroupBehavior.gbRefuge;
@@ -58629,6 +58776,7 @@ public partial class TEndTurnTE : TTokenEvent
     public sbyte FPlayer;
     public int FDay;
     public TEndTurnMode FMode;
+
     // MoveT.PAS:1907
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -58674,7 +58822,6 @@ public partial class TEndTurnTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // player, settings string
@@ -58687,6 +58834,7 @@ public partial class TChangePlayerSettingsTE : TTokenEvent
 
     public sbyte FPlayer;
     public string FSettings = "";
+
     // MoveT.PAS:1891
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -58704,7 +58852,6 @@ public partial class TChangePlayerSettingsTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // status, path, move index
@@ -58720,6 +58867,7 @@ public partial class TMoveTE : TTokenEvent
     public TMoveStatus FStatus;
     public TMovepath FPath;
     public int FMoveIndex;
+
     // MoveT.PAS:1958
     public override void Destroy()
     {
@@ -58733,7 +58881,6 @@ public partial class TMoveTE : TTokenEvent
         base.ReadWrite(Stream);
         Stream.rwStreamProc(20, FPath.LoadFromStream, FPath.SaveToStream);
     }
-
 
     // MoveT.PAS:2027
     public override TExecuteResult Execute(TTokenExecuter TE)
@@ -58926,6 +59073,7 @@ public partial class TMultiMoveTE : TTokenEvent
 
     public TTokenEventList FEvents;
     public bool FSimultaneous;
+
     // MoveT.PAS:3293
     public override void Destroy()
     {
@@ -59014,7 +59162,6 @@ public partial class TMultiMoveTE : TTokenEvent
 
     // intf_P5_07.inc:788
 
-
 }
 
 // mode, unit IDs, selection, army sprite, moving/target player, target, destination, animate
@@ -59035,6 +59182,7 @@ public partial class TMoveArmyTE : TMoveTE
     public sbyte FDestinationY;
     public sbyte FDestinationL;
     public bool FAnimate;
+
     // MoveT.PAS:2066
     public override void Destroy()
     {
@@ -59532,7 +59680,6 @@ public partial class TArmyDefaultMoveTE : TMoveArmyTE
 
     // intf_P5_07.inc:816
 
-
 }
 
 public partial class TArmyNegotiateMoveTE : TMoveArmyTE
@@ -59648,7 +59795,6 @@ public partial class TArmyNegotiateMoveTE : TMoveArmyTE
 
     // intf_P5_07.inc:816
 
-
 }
 
 public partial class TArmyCombineMoveTE : TMoveArmyTE
@@ -59706,7 +59852,6 @@ public partial class TArmyCombineMoveTE : TMoveArmyTE
 
     // intf_P5_07.inc:816
 
-
 }
 
 // combat mode, combat type, ignore defenders
@@ -59720,6 +59865,7 @@ public partial class TArmyCombatMoveTE : TMoveArmyTE
     public TCombatMoveMode FCombatMode;
     public TCombatType FCombatType;
     public bool FIgnoreDefenders;
+
     // MoveT.PAS:2513
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -60214,11 +60360,11 @@ public partial class TArmyCombatMoveTE : TMoveArmyTE
 
                                         break;
                                     default:
-                                    {
-                                        // { The original tests the always-available case before the human-only case. }
-                                        FCombatType = TCombatType.ctFast;
-                                        FCombatMode = TCombatMoveMode.cmSetupReady;
-                                    }
+                                        {
+                                            // { The original tests the always-available case before the human-only case. }
+                                            FCombatType = TCombatType.ctFast;
+                                            FCombatMode = TCombatMoveMode.cmSetupReady;
+                                        }
 
                                         break;
                                 }
@@ -60498,7 +60644,6 @@ public partial class TArmyCombatMoveTE : TMoveArmyTE
 
     // intf_P5_07.inc:816
 
-
 }
 
 // combat-move token
@@ -60508,6 +60653,7 @@ public partial class TCombatRestoreHotseatEventLog : TEventLog
     { }
 
     public TArmyCombatMoveTE FCombatMove;
+
     // MoveT.PAS:2494
     public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
     {
@@ -60541,6 +60687,7 @@ public partial class TNegotiateTE : TTokenEvent
     public int FEventLogID;
     public int FData1;
     public int FData2;
+
     // Diplomacy.pas:124
     public override void Destroy()
     {
@@ -60703,6 +60850,7 @@ public partial class TNegotiateRequestEventLog : TJoinEventLog
     public TNegotiateObject FObject;
     public int FData1;
     public int FData2;
+
     // Diplomacy.pas:270
     public override void Destroy()
     {
@@ -60819,6 +60967,7 @@ public partial class TGameOverTE : TTokenEvent
 
     public sbyte FPlayer;
     public TGameOverStatus FGameOverStatus;
+
     // MoveT.PAS:3233
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -60836,7 +60985,6 @@ public partial class TGameOverTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // save filename
@@ -60848,6 +60996,7 @@ public partial class TSaveGameTE : TTokenEvent
     public new const int ClassID = 135444;
 
     public string FFileName = "";
+
     // MoveT.PAS:1848
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -60910,7 +61059,6 @@ public partial class TSaveGameTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TCheatTE : TTokenEvent
@@ -60922,6 +61070,7 @@ public partial class TCheatTE : TTokenEvent
 
     public sbyte FPlayer;
     public int FCheatID;
+
     // MoveT.PAS:3460
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -60937,23 +61086,23 @@ public partial class TCheatTE : TTokenEvent
         switch (FCheatID)
         {
             case 0:
-            {
-                for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
                 {
-                    var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I);
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).SetGems(players.FGems + 1000);
+                    for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+                    {
+                        var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I);
+                        AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).SetGems(players.FGems + 1000);
+                    }
                 }
-            }
 
                 break;
             case 1:
-            {
-                for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
                 {
-                    var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I);
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.SetMana(players.FMagicControl.FMana + 1000);
+                    for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+                    {
+                        var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I);
+                        AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.SetMana(players.FMagicControl.FMana + 1000);
+                    }
                 }
-            }
 
                 break;
             case 2:
@@ -60998,13 +61147,13 @@ public partial class TCheatTE : TTokenEvent
                     AoWEUnit.AoWHSMap.ShowMessage(p5SpellCheatDisabled);
                 }
 
-            {
-                for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
                 {
-                    var fMagicControlCheatEnabled = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled();
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.FCheatEnabled = fMagicControlCheatEnabled;
+                    for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+                    {
+                        var fMagicControlCheatEnabled = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled();
+                        AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.FCheatEnabled = fMagicControlCheatEnabled;
+                    }
                 }
-            }
 
                 break;
             case 5:
@@ -61025,34 +61174,34 @@ public partial class TCheatTE : TTokenEvent
 
                 break;
             case 7:
-            {
-                for (int I = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(0).FStructures.Count - 1; I >= 0; I--)
                 {
-                    if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(0).FStructures.GetStructure(I).EClass.ClassID == 131336)
+                    for (int I = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(0).FStructures.Count - 1; I >= 0; I--)
                     {
-                        AoWEUnit.AoWHSMap.FPlayers.GetPlayers(0).FStructures.GetStructure(I).SetPlayer(FPlayer);
+                        if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(0).FStructures.GetStructure(I).EClass.ClassID == 131336)
+                        {
+                            AoWEUnit.AoWHSMap.FPlayers.GetPlayers(0).FStructures.GetStructure(I).SetPlayer(FPlayer);
+                        }
                     }
                 }
-            }
 
                 break;
             case 8:
                 AoWEUnit.AoWHSMap.FPlayerControl.GameOver(FPlayer, TGameOverStatus.goLost);
                 break;
             case 9:
-            {
-                for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
                 {
-                    AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.FSpells.Clear();
-                    for (int J = 1, lastJ = AoWEUnit.AoWHSSet.FSpellControl.GetCount() - 1; J <= lastJ; J++)
+                    for (int I = 1, last = AoWEUnit.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
                     {
-                        if (AoWEUnit.AoWHSSet.FSpellControl.GetSpell(J) != null)
+                        AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.FSpells.Clear();
+                        for (int J = 1, lastJ = AoWEUnit.AoWHSSet.FSpellControl.GetCount() - 1; J <= lastJ; J++)
                         {
-                            AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.FSpells.Add(J);
+                            if (AoWEUnit.AoWHSSet.FSpellControl.GetSpell(J) != null)
+                            {
+                                AoWEUnit.AoWHSMap.FPlayers.GetPlayers(I).FMagicControl.FSpells.Add(J);
+                            }
                         }
                     }
                 }
-            }
 
                 break;
         }
@@ -61062,7 +61211,6 @@ public partial class TCheatTE : TTokenEvent
     }
 
     // NetworkE.pas:230
-
 
 }
 
@@ -61076,6 +61224,7 @@ public partial class TDisbandUnitTE : TTokenEvent
 
     public int FUnitID;
     public sbyte FPlayer;
+
     // MoveT.PAS:3532
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -61174,7 +61323,6 @@ public partial class TDisbandUnitTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // flow mode, player
@@ -61187,6 +61335,7 @@ public partial class TCombatFlowControlTE : TTokenEvent
 
     public TSet<TCombatFlowControlModeElement> FMode;
     public int FPlayer;
+
     // MoveT.PAS:3596
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -61233,7 +61382,6 @@ public partial class TCombatFlowControlTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TTerminatePlayerTE : TTokenEvent
@@ -61246,6 +61394,7 @@ public partial class TTerminatePlayerTE : TTokenEvent
     public sbyte FPlayer;
     public TExitGameCallBack FExitCallBack;
     public TExitGameMode FExitMode;
+
     // MoveT.PAS:3249
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -61294,7 +61443,6 @@ public partial class TTerminatePlayerTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // round distance, state
@@ -61310,6 +61458,7 @@ public partial class TFastCombatUnit : TCombatUnit
 
     public int FRoundDistance;
     public TSet<TFastCombatUnitStateElement> FState;
+
     // AIGroup.pas:6797
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -61818,7 +61967,7 @@ public partial class TFastCombatUnit : TCombatUnit
 public partial class TFastCombatParty : TCombatParty
 {
     public TFastCombatParty(TECustomNode owner) : base(owner)
-    {}
+    { }
 
 }
 
@@ -61844,6 +61993,7 @@ public partial class TFastCombat : TCombat
     }
 
     public int FWallSiegeObjectCount;
+
     // AIGroup.pas:7123
     public override void Destroy()
     {
@@ -62132,6 +62282,7 @@ public partial class TAdjustableAbility : TAbility
     }
 
     public TAbilityType FAbilityType;
+
     // AoWAb.PAS:1
     public override TAbilityType GetAbilityType() => FAbilityType;
 }
@@ -62153,12 +62304,13 @@ public partial class TDurationAbilityData : TAbilityData
     public new const int ClassID = 139266;
 
     public TDurationAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte FDuration;
     public byte FPlayerIndex;
     public ushort FAbilityID;
     public int FSource;
+
     // AoWAb.PAS:16
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -62367,10 +62519,11 @@ public partial class TMultiLevelAbilityData : TAbilityData
     public new const int ClassID = 139265;
 
     public TMultiLevelAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte FLevel;
     public ushort FLevelAbilityID;
+
     // AoWAb.PAS:231
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -62399,6 +62552,7 @@ public partial class TMultiLevelAbility : TAdjustableAbility
 
     public int FMaxLevel;
     public TIntegerList FLevelCosts;
+
     // AoWAb.PAS:255
     public override void Destroy()
     {
@@ -62417,12 +62571,15 @@ public partial class TMultiLevelAbility : TAdjustableAbility
     public override int GetInherentLevel(TAbilityOwner owner) => owner == null ? 0 : ((TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
     public override string GetName(TAbilityOwner owner) => GetLevelName(GetLevel(owner));
     public override string ExpandName(TAbilityOwner owner) => GetLevelName(GetLevel(owner) + 1);
+
     public override int ExpandCost(TAbilityOwner owner)
     {
         int level = GetInherentLevel(owner);
         return level >= FMaxLevel ? 0 : FLevelCosts.Get(level + 1);
     }
+
     public override bool CanExpand(TAbilityOwner owner) => (owner.GetAbilitySelectionTypes() & FSelectionTypes) != default(TSet<TAbilitySelectionType>) && GetInherentLevel(owner) < FMaxLevel;
+
     public override int GetSkillPoints(TAbilityOwner owner)
     {
         int level = GetInherentLevel(owner), sum = 0;
@@ -62430,6 +62587,7 @@ public partial class TMultiLevelAbility : TAdjustableAbility
         for (int i = level; i >= 1; --i) sum = sum + FLevelCosts.Get(level);
         return sum;
     }
+
     public override bool Expand(TAbilityOwner owner)
     {
         var data = (TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID);
@@ -62446,6 +62604,7 @@ public partial class TMultiLevelAbility : TAdjustableAbility
         data.FLevel = (byte)(data.FLevel + 1);
         return true;
     }
+
     public override bool Remove(TAbilityOwner owner)
     {
         var data = (TMultiLevelAbilityData)owner.GetAbilityData(FAbilityID);
@@ -62476,9 +62635,10 @@ public partial class TStrikeCA : TDamageCA
     public new const int ClassID = 131754;
 
     public TStrikeCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TSet<TStrikeModeElement> FStrikeMode;
+
     // AoWAb.PAS:1157
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -62583,6 +62743,7 @@ public partial class TMeleeRound : TObject
     public int FDefenderStrikes;
     public TSet<TDamageType> FAttackerDamageTypes;
     public TSet<TDamageType> FDefenderDamageTypes;
+
     // AoWAb.PAS:1492
     public override void Destroy()
     {
@@ -63122,6 +63283,7 @@ public partial class TStrikeAbility : TAdjustableAbility
     }
 
     public TMeleeRound FMeleeRound;
+
     // AoWAb.PAS:1220
     public override void Destroy()
     {
@@ -63445,9 +63607,10 @@ public partial class TRangedAttackCA : TDamageCA
     public new const int ClassID = 131753;
 
     public TRangedAttackCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FAbilityID;
+
     // AoWAb.PAS:4631
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -64138,9 +64301,10 @@ public partial class TPossessCA : TSingleTargetCA
     public new const int ClassID = 131765;
 
     public TPossessCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public bool FSuccessful;
+
     // AoWAb.PAS:2471
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -64411,9 +64575,10 @@ public partial class TPossessedAbilityData : TAbilityData
     public new const int ClassID = 131797;
 
     public TPossessedAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FSourceExperience;
+
     // AoWAb.PAS:2556
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -64511,9 +64676,10 @@ public partial class TWebCA : TSingleTargetCA
     public new const int ClassID = 131768;
 
     public TWebCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public bool FSuccessful;
+
     // AoWAb.PAS:2765
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -64711,9 +64877,10 @@ public partial class TEntangleCA : TSingleTargetCA
     public new const int ClassID = 131774;
 
     public TEntangleCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public bool FSuccessful;
+
     // AoWAb.PAS:2927
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -64919,9 +65086,10 @@ public partial class TInvokeDeathCA : TSingleTargetCA
     public new const int ClassID = 131780;
 
     public TInvokeDeathCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public bool FSuccessful;
+
     // AoWAb.PAS:3400
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -65163,7 +65331,7 @@ public partial class TTurnUndeadCA : TDamageCA
     public new const int ClassID = 131769;
 
     public TTurnUndeadCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWAb.PAS:3088
     public override void Execute(TCombat Combat)
@@ -65867,12 +66035,13 @@ public partial class TCommandedAbilityData : TAbilityData
     public new const int ClassID = 131757;
 
     public TCommandedAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FAbilityID;
     public byte FSourceID;
     public int FCommandAbilityID;
     public byte FOriginalCombatPlayer;
+
     // AoWAb.PAS:5005
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -65937,10 +66106,11 @@ public partial class TCommandCA : TSingleTargetCA
     public new const int ClassID = 131763;
 
     public TCommandCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FAbilityID;
     public bool FSuccessful;
+
     // AoWAb.PAS:5044
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -66027,6 +66197,7 @@ public partial class TCommandAbilityData : TAbilityData
 
     public int FAbilityID;
     public TByteList FCommandedUnits;
+
     // AoWAb.PAS:4954
     public override void Destroy()
     {
@@ -66484,7 +66655,7 @@ public partial class TSelfDestructCA : TDamageCA
     public new const int ClassID = 131764;
 
     public TSelfDestructCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWAb.PAS:2116
     public override void Execute(TCombat Combat)
@@ -66833,7 +67004,7 @@ public partial class THealingCA : TSingleTargetCA
     public new const int ClassID = 131773;
 
     public THealingCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWAb.PAS:3579
     public override void Execute(TCombat Combat)
@@ -66889,9 +67060,10 @@ public partial class THealingAbilityData : TAbilityData
     public new const int ClassID = 131758;
 
     public THealingAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public bool FEnabled;
+
     // AoWAb.PAS:3611
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -66918,6 +67090,7 @@ public partial class THealingTE : TTokenEvent
     public byte FSourcePlayer;
     public int FTargetID;
     public byte FTargetPlayer;
+
     // AoWAb.PAS:3853
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -66976,13 +67149,12 @@ public partial class THealingTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class THealingUnitSelector : TUnitSelector
 {
     public THealingUnitSelector() : base()
-    {}
+    { }
 
     // AoWAb.PAS:3894
     public override bool CanSelectUnit(TUnit AUnit)
@@ -67394,6 +67566,7 @@ public partial class TDispelMagicCA : TSingleTargetCA
     }
 
     public TIntegerList FEnchantmentIDs;
+
     // AoWAb.PAS:3941
     public override void Destroy()
     {
@@ -67503,7 +67676,7 @@ public partial class TDispelMagicAbilityCA : TDispelMagicCA
     public new const int ClassID = 131775;
 
     public TDispelMagicAbilityCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWAb.PAS:4018
     public override void Execute(TCombat Combat)
@@ -67530,6 +67703,7 @@ public partial class TDispelMagicAbilityTE : TTokenEvent
     public byte FSourcePlayer;
     public int FTargetID;
     public byte FTargetPlayer;
+
     // AoWAb.PAS:4337
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -67625,7 +67799,6 @@ public partial class TDispelMagicAbilityTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // (enabled, level)
@@ -67634,10 +67807,11 @@ public partial class TDispelMagicAbilityData : TAbilityData
     public new const int ClassID = 131789;
 
     public TDispelMagicAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public bool FEnabled;
     public byte FLevel;
+
     // AoWAb.PAS:4034
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -67656,7 +67830,7 @@ public partial class TDispelMagicAbilityData : TAbilityData
 public partial class TDispelMagicAbilityUnitSelector : TUnitSelector
 {
     public TDispelMagicAbilityUnitSelector() : base()
-    {}
+    { }
 
     // AoWAb.PAS:4403
     public override bool CanSelectUnit(TUnit AUnit) => AUnit.CanDispelEnchantment(FPlayer);
@@ -68134,10 +68308,11 @@ public partial class TLeadershipAbilityData : TMultiLevelAbilityData
     public new const int ClassID = 131790;
 
     public TLeadershipAbilityData(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte FExternalLevel;
     public string FExternalSource = "";
+
     // AoWAb.PAS:957
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -68350,6 +68525,7 @@ public partial class TUnitEnchantment : TEnchantment
 
     public int FUnitID;
     public int FEnchantmentAbilityID;
+
     // AoWAb.PAS:797
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -68502,6 +68678,7 @@ public partial class TUnitEnchantmentAbilityData : TAbilityData
     // -1 is permanent
     public sbyte FEnchantmentPlayerIndex;
     public TUnitEnchantment FEnchantment;
+
     // AoWAb.PAS:567
     public override void Destroy()
     {
@@ -68799,7 +68976,7 @@ public partial class TConstructionControl : TEObject
 {
 
     public TConstructionControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWAb.PAS:5494
     public virtual void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
@@ -68836,13 +69013,12 @@ public partial class TConstructionControl : TEObject
     // AoWAb.PAS:5517
     public virtual int ID() => 0;
 
-
 }
 
 public partial class TConstructionControlList : TENode
 {
     public TConstructionControlList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWAb.PAS:5519
     public TConstructionControl GetConstructionControl(int Index) => (TConstructionControl)FChildren.List[Index];
@@ -68886,6 +69062,7 @@ public partial class TConstructAbility : TAdjustableAbility
     }
 
     public TConstructionControlList FConstructionControls;
+
     // AoWAb.PAS:5548
     public override void Destroy()
     {
@@ -68936,6 +69113,7 @@ public partial class TCosmeticSurgeryEnchantment : TUnitEnchantment
     }
 
     public int FFaceIndex;
+
     // AoWAb.PAS:895
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -69265,9 +69443,10 @@ public partial class TSpellCastingAbility : TMultiLevelAbility
 public partial class TSpellCC : TFastCombatCommand
 {
     public TSpellCC(int AbilityID) : base(AbilityID)
-    {}
+    { }
 
     public int FSpellID;
+
     // Spells.PAS:1
     public override string GetName()
     {
@@ -69314,6 +69493,7 @@ public partial class TSpell : TEObject
     public TSFXLibrary FCastSounds;
     public TImageSequenceList FCastImages;
     public int FCastDuration;
+
     // Spells.PAS:20
     public override void Destroy()
     {
@@ -69593,11 +69773,13 @@ public partial class TSpell : TEObject
     }
 
     public virtual bool CanActivateCombat(TAbstractUnit source, ref string reason) => AoWEUnit.AoWHSMap.FCombat != null;
+
     public virtual void GetCombatInfo(TAbstractUnit source, ref TSpellCombatInfo info)
     {
         info.Attack = 0; info.Damage = 0; info.DamageTypes = default;
         info.RepeatCount = 1; info.Range = 0; info.Radius = 0; info.TargetTypes = default;
     }
+
     public virtual TAICastSpellAction CreateCastSpellAction()
     {
         var action = new TAICastSpellAction(null);
@@ -69605,6 +69787,7 @@ public partial class TSpell : TEObject
         try { action.SetOwner(null); } catch { action.Destroy(); throw; }
         return action;
     }
+
     public virtual void SetupCastSpellAction(TAbstractUnit source, TAICastSpellAction action)
     { action.FSpellID = FSpellID; action.FSourceUnitID = source.FUnitID; }
 
@@ -69624,6 +69807,7 @@ public partial class TSpellControl : TEObject
     }
 
     public TList FRegisteredSpells;
+
     // Spells.PAS:582
     public override void Destroy()
     {
@@ -69800,6 +69984,7 @@ public partial class TSpellList : TObject
     }
 
     public TList FSpells;
+
     // Spells.PAS:700
     public override void Destroy()
     {
@@ -69864,7 +70049,7 @@ public partial class TSpellList : TObject
 public partial class TSpellTE : TTokenEvent
 {
     public TSpellTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 135936;
 
@@ -69872,6 +70057,7 @@ public partial class TSpellTE : TTokenEvent
     public int FEventSourceID;
     public byte FEventPlayerIndex;
     public int FEventMana;
+
     // Spells.PAS:423
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -69893,13 +70079,16 @@ public partial class TSpellTE : TTokenEvent
 
     // NetworkE.pas:230
     public TAbstractUnit GetSource() => AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FEventSourceID);
+
     public virtual bool Validate(THero source)
     {
         string reason = "";
         try { return (byte)source.FPlayer == FEventPlayerIndex && source.CanCastSpellInstantly(FEventSpellID, FEventMana, ref reason); }
         finally { reason = ""; }
     }
+
     public virtual bool Process(TAbstractUnit source, int value) => AoWEUnit.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).ExecuteTE(this, source, value);
+
     public virtual void PlayDefaultCastEffects(int unused1, int unused2)
     {
         sbyte x = 0, y = 0, l = 0;
@@ -70012,6 +70201,7 @@ public partial class TSpellCastEventLog : TEventLog
 
     public int FUnitID;
     public int FSpellID;
+
     // Spells.PAS:837
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -70078,6 +70268,7 @@ public partial class TUnitSpellCaster : TSpellCaster
     public byte FSelectionMask;
     public bool FAllowMultipleTargets;
     public byte FValidSelection;
+
     // Spells.PAS:864
     public override void Destroy()
     {
@@ -70234,6 +70425,7 @@ public partial class TUnitSpellTE : TSpellTE
     public TUnitUserList FTargetUnits;
     public byte FTargetPlayer;
     public FixedArray_int_2 FSpellData;
+
     // Spells.PAS:1126
     public override void Destroy()
     {
@@ -70353,7 +70545,6 @@ public partial class TUnitSpellTE : TSpellTE
 
     // intf_P4_02.inc:1059
 
-
 }
 
 // (spell ID, source/target IDs, spell data, mana)
@@ -70362,13 +70553,14 @@ public partial class TUnitSpellCA : TCombatAction
     public new const int ClassID = 131779;
 
     public TUnitSpellCA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FSpellID;
     public byte FSourceID;
     public byte FTargetID;
     public FixedArray_int_2 FSpellData;
     public int FMana;
+
     // Spells.PAS:1102
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -70837,7 +71029,7 @@ public partial class TUnitSpell : TSpell
 public partial class TResearchSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
 {
     public TResearchSpellAIPA(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Spells.PAS:1504
     public override bool Process()
@@ -70889,7 +71081,7 @@ public partial class TResearchSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
 public partial class TAICastSpellAction : TEObject
 {
     public TAICastSpellAction(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public int FSourceUnitID;
     public int FSpellID;
@@ -70899,7 +71091,7 @@ public partial class TAICastSpellAction : TEObject
 public partial class TAICastSpellActionList : TENode
 {
     public TAICastSpellActionList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Spells.PAS:1535
     // inherited children
@@ -70932,6 +71124,7 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
     public TIntegerList FIdleHeroes;
     public TIntegerList FPendingHeroes;
     public TAICastSpellActionList FCastSpellActions;
+
     // Spells.PAS:1551
     public override void Destroy()
     {
@@ -70941,7 +71134,6 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
         FCastSpellActions.Free();
         base.Destroy();
     }
-
 
     // Spells.PAS:1561
     public override bool Activate()
@@ -71187,6 +71379,7 @@ public partial class TAoWMapCampaignSettings : TEObject
     public int FTransferGoldMax;
     public int FTransferManaMax;
     public int FHeroLevelMax;
+
     // Diplomacy.pas:1726
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -71239,6 +71432,7 @@ public partial class TAoWCampaignTransferSettings : TEObject
     public int FTransferGoldMax;
     public int FTransferManaMax;
     public int FTransferPointsLeft;
+
     // Diplomacy.pas:1750
     public override void Destroy()
     {
@@ -71864,6 +72058,7 @@ public partial class TAoWCampaignScenario : TEObject
     public int FID;
     public string FName = "";
     public string FFileName = "";
+
     // Diplomacy.pas:2197
     public override void Destroy()
     {
@@ -71889,7 +72084,7 @@ public partial class TAoWCampaignScenario : TEObject
 public partial class TAoWCampaignScenarioList : TENode
 {
     public TAoWCampaignScenarioList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Diplomacy.pas:2214
     public TAoWCampaignScenario GetScenario(int Index)
@@ -71989,6 +72184,7 @@ public partial class TAoWCampaign : TEObject
     public string FFileName = "";
     public TCampaignDifficultyLevel FDifficultyLevel;
     public TPlayMode FPlayMode;
+
     // Diplomacy.pas:2261
     public override void Destroy()
     {
@@ -72294,6 +72490,7 @@ public partial class TDiplomaticAction : TEObject
     public int FEscrowGold;
     public int FEscrowMana;
     public int FEventLogID;
+
     // Diplomacy.pas:596
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -72591,7 +72788,7 @@ public partial class TDiplomaticAction : TEObject
 public partial class TDiplomaticActionList : TEReferenceNode
 {
     public TDiplomaticActionList(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Diplomacy.pas:1097
     public TDiplomaticAction GetDiplomaticActions(int Index) => (TDiplomaticAction)FChildren.List[Index];
@@ -72631,6 +72828,7 @@ public partial class TDiplomaticActionTE : TTokenEvent
 
     public int FOperation;
     public TDiplomaticAction FAction;
+
     // Diplomacy.pas:1117
     public override void Destroy()
     {
@@ -72708,7 +72906,6 @@ public partial class TDiplomaticActionTE : TTokenEvent
 
     // NetworkE.pas:230
 
-
 }
 
 // Action
@@ -72721,6 +72918,7 @@ public partial class TDiplomaticActionEventLog : TEventLog
     public new const int ClassID = 131347;
 
     public TDiplomaticAction FAction;
+
     // Diplomacy.pas:1170
     public override void Destroy()
     {
@@ -72997,6 +73195,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
     }
 
     public sbyte FNextPlayer;
+
     // Diplomacy.pas:1543
     public override void Destroy()
     {
@@ -73282,7 +73481,7 @@ public partial class TAoWDictionary : TIvBinaryDictionary
 {
 
     public TAoWDictionary(TComponent owner)
-    {}
+    { }
 
     // IvAMulti.pas:21
 
@@ -73307,6 +73506,7 @@ public partial class TAoWEngine : THSEngine
     public TEmailGameControl FEmailGames;
     public TAoWDictionary FDictionary;
     public byte FLanguage;
+
     // Army.PAS:5853
     public override void Destroy()
     {
@@ -73832,6 +74032,7 @@ public partial class TAgeOfWondersEngine : THexagonSpriteEngine
     { }
 
     public THSEngine FGameEngine;
+
     // Army.PAS:6104
     public override void Destroy()
     {
@@ -73863,7 +74064,7 @@ public partial class TStructureConstructionControl : TConstructionControl
 {
 
     public TStructureConstructionControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Structur.PAS:3195
     public override bool CanConstruct(TAbstractUnit AUnit, ref string Reason) => ValidateLocation(AUnit, ref Reason) && (base.CanConstruct(AUnit, ref Reason) && StructureResource(AUnit) != null);
@@ -73950,6 +74151,7 @@ public partial class TConstructStructureTE : TTokenEvent
     public int FUnitID;
     public sbyte FPlayer;
     public int FControlID;
+
     // Structur.PAS:3098
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -74019,7 +74221,6 @@ public partial class TConstructStructureTE : TTokenEvent
     }
 
     // NetworkE.pas:230
-
 
 }
 
@@ -74097,6 +74298,7 @@ public partial class TExportTextStream : TEWriteTextStorageStream
 public partial class TTranslateTextStream : TTranslateStorageStream
 {
     public TIvDictionary FDictionary;
+
     // Army.PAS:5614
     public override void TranslateStrings(ref TStrings Strings)
     {
@@ -74165,7 +74367,7 @@ public partial class TTranslateTextStream : TTranslateStorageStream
 public partial class TRebuildConstructionControl : TConstructionControl
 {
     public TRebuildConstructionControl(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // AoWAb.PAS:5404
     public TStructure GetStructure(TAbstractUnit AUnit)
@@ -74319,7 +74521,7 @@ public partial class TBuildRoadsControl : TConstructionControl
 public partial class TUnitResourceAbilityOwner : TAbilityOwner
 {
     public TUnitResourceAbilityOwner(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Army.PAS:6125
     public override TSet<TAbilitySelectionType> GetAbilitySelectionTypes() => TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit);
@@ -74331,7 +74533,7 @@ public partial class TUnitResourceAbilityOwner : TAbilityOwner
 public partial class THeroResourceAbilityOwner : TAbilityOwner
 {
     public THeroResourceAbilityOwner(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Army.PAS:6128
     public override TSet<TAbilitySelectionType> GetAbilitySelectionTypes() => TSet<TAbilitySelectionType>.Of(TAbilitySelectionType.astUnit, TAbilitySelectionType.astEditor);
@@ -74415,10 +74617,12 @@ public struct TStormDamageInfo
     public sbyte IndependentRelation;
     [FieldOffset(2)]
     public byte FriendlyRelations__image;
+
     public TSet<byte> FriendlyRelations { get => TSet<byte>.FromMask(FriendlyRelations__image); set => FriendlyRelations__image = (byte)value.Image; }
 
     [FieldOffset(3)]
     public byte EnemyRelations__image;
+
     public TSet<byte> EnemyRelations { get => TSet<byte>.FromMask(EnemyRelations__image); set => EnemyRelations__image = (byte)value.Image; }
 
     [FieldOffset(4)]
@@ -74624,10 +74828,12 @@ public struct TRaceTerrainInfo
 {
     [FieldOffset(0)]
     public ushort Bonus__image;
+
     public TSet<byte> Bonus { get => TSet<byte>.FromMask(Bonus__image); set => Bonus__image = (ushort)value.Image; }
 
     [FieldOffset(2)]
     public ushort Penalty__image;
+
     public TSet<byte> Penalty { get => TSet<byte>.FromMask(Penalty__image); set => Penalty__image = (ushort)value.Image; }
 }
 
@@ -74963,6 +75169,7 @@ public enum THeroEmergeMode : byte
 }
 
 public delegate int TMoveOnMovePointProc(TAoWMapField MapF, int MoveOverCode);
+
 public enum TMoveControlSettingsStatus : byte
 {
     mcssIdle = 0,
@@ -74980,6 +75187,7 @@ public enum TPlayerConnectionFailure : byte
 }
 
 public delegate void TExitGameCallBack(TExitGameMode Mode, bool Exited);
+
 public enum THotSeatMode : byte
 {
     hmWaiting = 0,
@@ -75009,6 +75217,7 @@ public enum TSelectedArmyMode : byte
 
 public delegate void TShowTargetSelectionEvent(TTargetSelectionControl TargetSelection, int HN, int Xs, int Ys, in TSurfaceDesc SurfaceDesc);
 public delegate void TValidateTargetEvent(TTargetSelectionControl TargetSelection, sbyte Xt, sbyte Yt, sbyte Lt, ref bool Valid);
+
 public enum TTargetSelectionChange : byte
 {
     tscNone = 0,
@@ -75024,6 +75233,7 @@ public enum TAoWHSMapKeyboardMode : byte
 }
 
 public delegate void TRectangleSelectEvent(in TRect SelectionRect);
+
 public enum TMoveSpeed : byte
 {
     msSlow = 0,
@@ -75101,6 +75311,7 @@ public enum THeroSortMode : byte
 }
 
 public delegate void THeroesUpdatedEvent(THeroList HeroList);
+
 public enum TAddUnitsResult : byte
 {
     arOK = 0,
@@ -75173,6 +75384,7 @@ public enum TMoveWallMode : byte
 }
 
 public delegate void TCombatExecutedEvent(TCombat pCombat);
+
 public enum TCombatPlaceID : byte
 {
     cpiNone = 0,
@@ -75208,6 +75420,7 @@ public enum TAIMoveControlMode : byte
 }
 
 public delegate void TMoveTargetFoundEvent(TMoveTarget Target, ref bool SearchDone);
+
 public enum TAIMoveTargetSelectorStatus : byte
 {
     atsIdle = 0,
@@ -75408,6 +75621,7 @@ public struct TAbilityDamageValues
     public int TargetCost;
     [FieldOffset(16)]
     public ushort DamageTypes__image;
+
     public TSet<TDamageType> DamageTypes { get => TSet<TDamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
 }
 
@@ -75416,6 +75630,7 @@ public struct TAbilityCombatInfo
 {
     [FieldOffset(0)]
     public byte TargetTypes__image;
+
     public TSet<TCombatTargetTypeElement> TargetTypes { get => TSet<TCombatTargetTypeElement>.FromMask(TargetTypes__image); set => TargetTypes__image = (byte)value.Image; }
 
     [FieldOffset(1)]
@@ -75424,6 +75639,7 @@ public struct TAbilityCombatInfo
     public sbyte Damage;
     [FieldOffset(3)]
     public ushort DamageTypes__image;
+
     public TSet<TDamageType> DamageTypes { get => TSet<TDamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
 
     [FieldOffset(5)]
@@ -75446,6 +75662,7 @@ public struct TMeleeStrike
 }
 
 public delegate bool TValidateMovePositionProc(TMoveSettingsList Moves, int Index);
+
 // current/seated player, message events, message text, message frame, FPS, map-event lock, map
 // events, scanner events, scanner lock, fog/exploration, selectors, selector visibility
 public struct TMapChangedInfo
@@ -75458,7 +75675,9 @@ public struct TMapChangedInfo
 public struct TShowMessageInfo
 {
     private string text;
+
     public string Text { readonly get => text ?? ""; set => text = value; }
+
     public int Color;
 }
 
@@ -75486,6 +75705,7 @@ public struct TP2UnitShowInfo
     public byte Direction;
     [FieldOffset(1)]
     public byte Overlays__image;
+
     public TSet<TUnitOverlayModesElement> Overlays { get => TSet<TUnitOverlayModesElement>.FromMask(Overlays__image); set => Overlays__image = (byte)value.Image; }
 
     [FieldOffset(2)]
@@ -75497,16 +75717,19 @@ public struct TP2UnitShowInfo
 }
 
 public delegate void TUnitSelectorNotifyEvent(TUnitSelector Selector);
+
 // { Interface declaration run owned by P3. }
 [StructLayout(LayoutKind.Explicit, Size = 2)]
 public struct TP3PackedDamageTypes
 {
     [FieldOffset(0)]
     public ushort Value__image;
+
     public TSet<TDamageType> Value { get => TSet<TDamageType>.FromMask(Value__image); set => Value__image = (ushort)value.Image; }
 }
 
 public delegate void TAIMoveExecuterDoneEvent(TObject Sender);
+
 [StructLayout(LayoutKind.Explicit, Size = 8)]
 public struct TSpellCombatInfo
 {
@@ -75516,6 +75739,7 @@ public struct TSpellCombatInfo
     public sbyte Damage;
     [FieldOffset(2)]
     public ushort DamageTypes__image;
+
     public TSet<TDamageType> DamageTypes { get => TSet<TDamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
 
     [FieldOffset(4)]
@@ -75526,6 +75750,7 @@ public struct TSpellCombatInfo
     public sbyte Radius;
     [FieldOffset(7)]
     public byte TargetTypes__image;
+
     public TSet<TCombatTargetTypeElement> TargetTypes { get => TSet<TCombatTargetTypeElement>.FromMask(TargetTypes__image); set => TargetTypes__image = (byte)value.Image; }
 }
 
@@ -75555,6 +75780,7 @@ public struct TP1CombatInfo
     public sbyte Damage;
     [FieldOffset(3)]
     public ushort Types__image;
+
     public TSet<TDamageType> Types { get => TSet<TDamageType>.FromMask(Types__image); set => Types__image = (ushort)value.Image; }
 
     [FieldOffset(5)]
@@ -75564,7 +75790,7 @@ public struct TP1CombatInfo
 public partial class TP1OwnerView : TEObject
 {
     public TP1OwnerView(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat.pas:24
     public virtual bool HasAbility(int Index)
@@ -75672,7 +75898,7 @@ public partial class TP1OwnerView : TEObject
 public partial class TP1AbilityView : TEObject
 {
     public TP1AbilityView(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat.pas:43
     public virtual void Execute()
@@ -75966,7 +76192,7 @@ public partial class TP1AbilityView : TEObject
 public partial class TP1AbilityNameView : TEObject
 {
     public TP1AbilityNameView(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat.pas:94
     public virtual void Execute()
@@ -76336,6 +76562,7 @@ public partial class TP1DistanceCombatView : TObject
 }
 
 public delegate int TP1FastRound(TFastCombat Combat);
+
 // { P2 recovery in original code order. }
 [StructLayout(LayoutKind.Explicit, Size = 8)]
 public struct TP2HeroLevel
@@ -76351,10 +76578,12 @@ public struct TP2RaceTerrain
 {
     [FieldOffset(0)]
     public ushort Preferred__image;
+
     public TSet<TAoWTerrainType> Preferred { get => TSet<TAoWTerrainType>.FromMask(Preferred__image); set => Preferred__image = (ushort)value.Image; }
 
     [FieldOffset(2)]
     public ushort Disliked__image;
+
     public TSet<TAoWTerrainType> Disliked { get => TSet<TAoWTerrainType>.FromMask(Disliked__image); set => Disliked__image = (ushort)value.Image; }
 }
 
@@ -76390,6 +76619,7 @@ public struct TP2DamageValue
 public partial class TP2AbilityCalls : TObject
 {
     public int AbilityID;
+
     // Combat.pas:355
     public virtual void Slot00()
     {
@@ -76732,7 +76962,6 @@ public partial class TP2AbilityCalls : TObject
         throw EAbstractError.Create("Abstract Error");
     }
 
-
 }
 
 // ExpandAbility acts on an owner. The setters update enchantments.
@@ -76970,6 +77199,7 @@ public partial class TP2OwnerCalls : TObject
 public partial class TP2EnchantmentCalls : TObject
 {
     public byte Duration;
+
     // Combat.pas:471
     public virtual void Slot00()
     {
@@ -77243,7 +77473,6 @@ public partial class TP2LegacyBehaviorCalls : TObject
         throw EAbstractError.Create("Abstract Error");
     }
 
-
 }
 
 public partial class TP2MapPlayerFields : TObject
@@ -77259,7 +77488,7 @@ public partial class TP2FaceEnchantmentFields : TObject
 public partial class TP3NodeAccess : TENode
 {
     public TP3NodeAccess(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TEObjectList ChildrenList { get => FChildren; }
 }
@@ -77267,7 +77496,7 @@ public partial class TP3NodeAccess : TENode
 public partial class TUnitControlCallViewP4 : TUnitControl
 {
     public TUnitControlCallViewP4(TECustomNode owner) : base(owner)
-    {}
+    { }
 
 }
 
@@ -77309,7 +77538,6 @@ public partial class THeroCastingViewP4 : THero
     public THeroCastingViewP4(TECustomNode owner) : base(owner)
     { }
 
-
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 20)]
@@ -77325,6 +77553,7 @@ public struct TP4DamageValue
     public int V3;
     [FieldOffset(16)]
     public ushort DamageTypes__image;
+
     public TSet<TDamageType> DamageTypes { get => TSet<TDamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
 }
 
@@ -77337,6 +77566,7 @@ public struct TP4CombatInfo
     public byte V1;
     [FieldOffset(2)]
     public ushort DamageTypes__image;
+
     public TSet<TDamageType> DamageTypes { get => TSet<TDamageType>.FromMask(DamageTypes__image); set => DamageTypes__image = (ushort)value.Image; }
 
     [FieldOffset(4)]
@@ -77347,6 +77577,7 @@ public struct TP4CombatInfo
     public byte V6;
     [FieldOffset(7)]
     public byte Modes__image;
+
     public TSet<TCombatMode> Modes { get => TSet<TCombatMode>.FromMask(Modes__image); set => Modes__image = (byte)value.Image; }
 }
 
@@ -77355,7 +77586,7 @@ public partial class TDurationReturnView : TAbility
 {
 
     public TDurationReturnView(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat.pas:853
     public virtual byte GetDuration(TAbilityOwner AbilityOwner)
@@ -77375,7 +77606,7 @@ public partial class TCastingPointsReturnViewP4 : TDurationReturnView
 {
 
     public TCastingPointsReturnViewP4(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat.pas:861
     public virtual void Slot114()
@@ -77426,7 +77657,7 @@ public partial class TCastingPointsReturnViewP4 : TDurationReturnView
 public partial class TP5EventLogABI : TEObject
 {
     public TP5EventLogABI(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Combat.pas:951
     public virtual void Slot4C()
@@ -77493,102 +77724,119 @@ public static partial class AoWEUnit
 {
     public static FixedArray_int_3 TCombatUnit_CommandingTargetPriority__CommandAbilityIDs = FixedArray_int_3.From([29, 28, 148]);
     public static FixedArray_int_3 TCombatUnit_CommandingTargetStrength__CommandAbilityIDs = FixedArray_int_3.From([29, 28, 148]);
+
     public static TCombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertFile = new TCombatPredictor_AddWall__TOriginalAssertText
     {
         RefCount = -1,
         Len = 38,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 67, 111, 109, 98, 97, 116, 80, 114, 101, 100, 105, 99, 116, 111, 114, 46, 112, 97, 115, 0])
     };
+
     public static TCombatPredictor_AddWall__TOriginalAssertText TCombatPredictor_AddWall__OriginalAssertMessage = new TCombatPredictor_AddWall__TOriginalAssertText
     {
         RefCount = -1,
         Len = 23,
         Text = FixedArray_byte_128.From([85, 115, 101, 32, 68, 101, 108, 101, 116, 101, 87, 97, 108, 108, 32, 105, 110, 115, 116, 101, 97, 100, 33, 0])
     };
+
     public static TAIGroup_Deactivate__TOriginalAssertText TAIGroup_Deactivate__OriginalAssertFile = new TAIGroup_Deactivate__TOriginalAssertText
     {
         RefCount = -1,
         Len = 30,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 73, 71, 114, 111, 117, 112, 46, 112, 97, 115, 0])
     };
+
     public static TAIGroup_Deactivate__TOriginalAssertText TAIGroup_Deactivate__OriginalAssertMessage = new TAIGroup_Deactivate__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
         Text = FixedArray_byte_128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
+
     public static TMoveControl_SetupMove__TOriginalAssertText TMoveControl_SetupMove__OriginalAssertFile = new TMoveControl_SetupMove__TOriginalAssertText
     {
         RefCount = -1,
         Len = 28,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 77, 111, 118, 101, 84, 46, 80, 65, 83, 0])
     };
+
     public static TMoveControl_SetupMove__TOriginalAssertText TMoveControl_SetupMove__OriginalAssertMessage = new TMoveControl_SetupMove__TOriginalAssertText
     {
         RefCount = -1,
         Len = 31,
         Text = FixedArray_byte_128.From([73, 110, 118, 97, 108, 105, 100, 32, 115, 101, 116, 116, 105, 110, 103, 115, 32, 40, 84, 77, 111, 118, 101, 67, 111, 110, 116, 114, 111, 108, 41, 0])
     };
+
     public static TMoveControl_CalculatePathEx__TOriginalAssertText TMoveControl_CalculatePathEx__OriginalAssertFile = new TMoveControl_CalculatePathEx__TOriginalAssertText
     {
         RefCount = -1,
         Len = 28,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 77, 111, 118, 101, 84, 46, 80, 65, 83, 0])
     };
+
     public static TMoveControl_CalculatePathEx__TOriginalAssertText TMoveControl_CalculatePathEx__OriginalAssertMessage = new TMoveControl_CalculatePathEx__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
         Text = FixedArray_byte_128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
+
     public static TMoveControl_Activate__TOriginalAssertText TMoveControl_Activate__OriginalAssertFile = new TMoveControl_Activate__TOriginalAssertText
     {
         RefCount = -1,
         Len = 28,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 77, 111, 118, 101, 84, 46, 80, 65, 83, 0])
     };
+
     public static TMoveControl_Activate__TOriginalAssertText TMoveControl_Activate__OriginalAssertMessage = new TMoveControl_Activate__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
         Text = FixedArray_byte_128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
+
     public static TUnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertFile = new TUnitEnchantmentAbility_Expand__TOriginalAssertText
     {
         RefCount = -1,
         Len = 28,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 111, 87, 65, 98, 46, 80, 65, 83, 0])
     };
+
     public static TUnitEnchantmentAbility_Expand__TOriginalAssertText TUnitEnchantmentAbility_Expand__OriginalAssertMessage = new TUnitEnchantmentAbility_Expand__TOriginalAssertText
     {
         RefCount = -1,
         Len = 17,
         Text = FixedArray_byte_128.From([65, 115, 115, 101, 114, 116, 105, 111, 110, 32, 102, 97, 105, 108, 117, 114, 101, 0])
     };
+
     public static TAbstractAoWHSMap_UnFogExploreArea__TAssertText TAbstractAoWHSMap_UnFogExploreArea__AssertFile = new TAbstractAoWHSMap_UnFogExploreArea__TAssertText
     {
         RefCount = -1,
         Len = 31,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 111, 87, 72, 83, 77, 97, 112, 46, 80, 65, 83, 0])
     };
+
     public static TAbstractAoWHSMap_UnFogExploreArea__TAssertText TAbstractAoWHSMap_UnFogExploreArea__AssertMessage = new TAbstractAoWHSMap_UnFogExploreArea__TAssertText
     {
         RefCount = -1,
         Len = 19,
         Text = FixedArray_byte_128.From([73, 110, 118, 97, 108, 105, 100, 32, 85, 110, 102, 111, 103, 32, 82, 97, 110, 103, 101, 0])
     };
+
     public static TSpellControl_GetSpell__TOriginalAssertText TSpellControl_GetSpell__OriginalAssertFile = new TSpellControl_GetSpell__TOriginalAssertText
     {
         RefCount = -1,
         Len = 29,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 83, 112, 101, 108, 108, 115, 46, 80, 65, 83, 0])
     };
+
     public static TSpellControl_GetSpell__TOriginalAssertText TSpellControl_GetSpell__OriginalAssertMessage = new TSpellControl_GetSpell__TOriginalAssertText
     {
         RefCount = -1,
         Len = 15,
         Text = FixedArray_byte_128.From([73, 110, 118, 97, 108, 105, 100, 32, 83, 112, 101, 108, 108, 73, 68, 0])
     };
+
     public static TSet<TAbilitySelectionType> TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes = TSet<TAbilitySelectionType>.FromMask(1UL);
     public static string TAbstractUnit_UpdateOffensiveStrength__AssertFile = "D:\\AoWDev\\AoWE\\inc\\Unit.PAS";
     public static TSet<TDamageType> TAbstractUnit_GetStrengthMax__AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
@@ -77599,6 +77847,7 @@ public static partial class AoWEUnit
     public static string TArmyHS_Show__AssertFile = "D:\\AoWDev\\AoWE\\inc\\Army.PAS";
     public static string TArmyHS_Show__AssertMessage = "Invalid Unit Index";
     public static FixedArray_byte_8 P2InitializeMovePoints__MoveBits = FixedArray_byte_8.From([1, 4, 2, 8, 16, 32, 64, 128]);
+
     // Combat.pas:1060
     public static string TranslateRStr(string S)
     {
@@ -80793,6 +81042,7 @@ public static partial class AoWEUnit
     public static TSet<TAlignment> alsEvil = TSet<TAlignment>.FromMask(120UL);
     public static TSet<TAlignment> alsPureNeutral = TSet<TAlignment>.FromMask(72UL);
     public static TSet<TAlignment> alsPureEvil = TSet<TAlignment>.FromMask(112UL);
+
     // Original alsAll at excludes alPureNeutral
     public static TRaceTerrainInfo[] RaceTerrain = [new TRaceTerrainInfo
     {
@@ -80845,6 +81095,7 @@ public static partial class AoWEUnit
     }
 
     ];
+
     public static TSet<TAlignment> alsAll = TSet<TAlignment>.FromMask(123UL);
     public static FixedArray_string_3 UnitTypePluralRStr = FixedArray_string_3.From([]);
     // initially empty
@@ -80902,6 +81153,7 @@ public static partial class AoWEUnit
     public static readonly string WarningRStr = "Warning";
     public static readonly string DoYouWishToContinueRStr = "Do you wish to continue?";
     public static readonly string MessageRStr = "Message";
+
     // Diplomacy.pas:396
     // Original unnamed helper, following TNegotiateRequestEventLog
     // { P5 unnamed helper declarations; these must follow the forward class block. }
@@ -81300,6 +81552,7 @@ public static partial class AoWEUnit
     public static FixedArray_Aow_Units_FixedArray_byte_3_6 P5EvenDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([2, 4, 6]), FixedArray_byte_3.From([4, 2, 6]), FixedArray_byte_3.From([4, 6, 2]), FixedArray_byte_3.From([6, 4, 2]), FixedArray_byte_3.From([6, 2, 4]), FixedArray_byte_3.From([2, 6, 4])]);
     public static readonly string P5SavingGameRStr = "saving: %s";
     public static readonly string P5ErrorSavingRStr = "Error saving: %s";
+
     // Combat.pas:1779
     public static void P3InitializeHitProbabilities()
     {
@@ -81918,6 +82171,7 @@ public static partial class AoWEUnit
     public static readonly string P2RegisterArcheryRStr = "Archery";
     public static readonly string P2RegisterPoisonDartsRStr = "Poison Darts";
     public static readonly string P2RegisterDoomGazeRStr = "Doom Gaze";
+
     // Army.PAS:5326
     public static TRangedAttackAbility P2CreateRangedAttack(int ID, string Name, sbyte Attack, sbyte Damage, sbyte Repeats, TCombatRange Range, TSet<TDamageType> DamageTypes, int Enchantment)
     {
@@ -82145,6 +82399,7 @@ public static partial class AoWEUnit
     }
 
     public static TAbilityPlugIn AoWAbilityPlugIn;
+
     public static void Initialize()
     {
         TAbilityTypeRStr[(int)TAbilityType.atEnhancement] = EnhancementRStr;
@@ -82239,12 +82494,15 @@ public static partial class AoWEUnit
     public static void RetrieveStormDamageInfo(sbyte player, TStormType storm, sbyte x, sbyte y,
         sbyte level, sbyte innerRadius, sbyte outerRadius, ref TStormDamageInfo info)
     {
-        var query = new StormDamageQuery { Info = new()
+        var query = new StormDamageQuery
         {
-            Player = player,
-            FriendlyRelations = TSet<byte>.WithBounds(0, 7).With(0).With(2),
-            EnemyRelations = TSet<byte>.WithBounds(0, 7).With(1).With(3)
-        } };
+            Info = new()
+            {
+                Player = player,
+                FriendlyRelations = TSet<byte>.WithBounds(0, 7).With(0).With(2),
+                EnemyRelations = TSet<byte>.WithBounds(0, 7).With(1).With(3)
+            }
+        };
         var mapLevel = AoWHSMap.MapContainer.GetMapLevel(level);
         var message = new TMapFieldMsg { MsgID = 0x1151 };
         message.Param[0] = (int)storm;

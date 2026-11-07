@@ -1,25 +1,25 @@
 // Translated from FastCombatWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using Aow.Units.EventLog;
-using Aow.Units.AoWComp;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWHScroll;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWPanel;
-using Aow.Units.AoWWindow;
 using Aow.Units.aowUserDrawBox;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using Aow.Units.AoWWindow;
 using Aow.Units.E3Globals;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.FastCombatWin;
 
@@ -97,6 +97,7 @@ public partial class TFastCombatWindow : TDataModule
     public TCombatViewer FViewer;
     public TExecuteDoneEvent FDone;
     public TEventLog FEvent;
+
     // FastCombatWin.pas:231
     public void GetPartyPosition(int Index, ref int X, ref int Y)
     {
@@ -493,12 +494,12 @@ public partial class TFastCombatWindow : TDataModule
                         Image = 9;
                     }
 
-                {
-                    if (Image != this.GlowImage.CurrentImage)
                     {
-                        this.GlowImage.CurrentImage = Image + 20;
+                        if (Image != this.GlowImage.CurrentImage)
+                        {
+                            this.GlowImage.CurrentImage = Image + 20;
+                        }
                     }
-                }
 
                     if (!GlowImage.Visible)
                     {
@@ -522,13 +523,13 @@ public partial class TFastCombatWindow : TDataModule
                         GlowImage.Visible = true;
                     }
 
-                {
-                    var endPosition = this.FViewer.GetEndPosition();
-                    if (this.FViewer.FPosition >= endPosition)
                     {
-                        SetPhase(2);
+                        var endPosition = this.FViewer.GetEndPosition();
+                        if (this.FViewer.FPosition >= endPosition)
+                        {
+                            SetPhase(2);
+                        }
                     }
-                }
 
                     break;
                 case 2:
@@ -538,12 +539,12 @@ public partial class TFastCombatWindow : TDataModule
                         Image = 0;
                     }
 
-                {
-                    if (Image != this.GlowImage.CurrentImage)
                     {
-                        this.GlowImage.CurrentImage = Image + 20;
+                        if (Image != this.GlowImage.CurrentImage)
+                        {
+                            this.GlowImage.CurrentImage = Image + 20;
+                        }
                     }
-                }
 
                     if (!GlowImage.Visible)
                     {

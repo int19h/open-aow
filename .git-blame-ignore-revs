@@ -1,0 +1,5 @@
+# Commits that change only the format of the code. `git blame` skips them after
+# `git config blame.ignoreRevsFile .git-blame-ignore-revs` (docs/process.md section 7).
+
+# FMT-1: dotnet format under .editorconfig, and one blank line between members (MemberSpacing).
+4db4611f99d410927210ccf14e24e5040aaa7ee3

@@ -224,11 +224,13 @@ public sealed class MldDictionary
         public int Position { get; set; }
         public bool LittleEndian { get; set; }
         public bool Ansi { get; set; }
+
         public void Seek(int position)
         {
             if ((uint)position > (uint)Data.Length) throw new InvalidDataException("MLD offset outside file");
             Position = position;
         }
+
         private ReadOnlySpan<byte> Take(int count)
         {
             if (count < 0 || Position < 0 || Position > Data.Length - count)
@@ -237,15 +239,19 @@ public sealed class MldDictionary
             Position += count;
             return span;
         }
+
         public byte Byte() => Take(1)[0];
         public int Word() => LittleEndian ? BinaryPrimitives.ReadUInt16LittleEndian(Take(2)) : BinaryPrimitives.ReadUInt16BigEndian(Take(2));
+
         public int Offset()
         {
             uint offset = LittleEndian ? BinaryPrimitives.ReadUInt32LittleEndian(Take(4)) : BinaryPrimitives.ReadUInt32BigEndian(Take(4));
             if (offset > int.MaxValue) throw new InvalidDataException("MLD offset outside file");
             return (int)offset;
         }
+
         public string Text() => Chars(Word());
+
         public string Chars(int count)
         {
             var raw = Take(checked(count * (Ansi ? 1 : 2)));

@@ -1,8 +1,8 @@
 // Translated from PageTurnCtrl.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.PageTurnCtrl;
@@ -26,6 +26,7 @@ public partial class TPageTurnControl : TObject
     public float FRadius;
     public float FShadow;
     public int FPosition;
+
     // PageTurnCtrl.pas:51
     public TPageTurnControl()
     {

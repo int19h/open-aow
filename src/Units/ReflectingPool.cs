@@ -1,10 +1,10 @@
 // Translated from ReflectingPool.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.ReflectingPool;
 
@@ -20,6 +20,7 @@ public partial class TReflectingPool : TPlayerStructure
     public new const int ClassID = 132670;
 
     public int FCenterFrame;
+
     // ReflectingPool.pas:80
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -27,7 +28,6 @@ public partial class TReflectingPool : TPlayerStructure
     }
 
     // ReflectingPool.pas:52
-
 
     // ReflectingPool.pas:241
     public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
@@ -314,7 +314,6 @@ public partial class TReflectingPool : TPlayerStructure
 
     // ReflectingPool.pas:20
 
-
 }
 
 public partial class TReflectingPoolResource : TPlayerStructureResource
@@ -332,12 +331,10 @@ public partial class TReflectingPoolResource : TPlayerStructureResource
 
     // ReflectingPool.pas:254
 
-
     // ReflectingPool.pas:269
     public override int ResourceUserClassID() => 132670;
 
     // ReflectingPool.pas:42
-
 
     // ReflectingPool.pas:263
     public override string ResourceEditName() => TranslateRStr(ReflectingPoolRStr);

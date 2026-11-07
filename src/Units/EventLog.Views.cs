@@ -1,7 +1,7 @@
 using Aow.Units.AoWE;
+using Aow.Units.EventLog;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
-using Aow.Units.EventLog;
 
 // What the map events screen shows for each event log kind, and what an AI player does with it.
 // The keys name views, and the map events screen holds the renderer of each key, so this file

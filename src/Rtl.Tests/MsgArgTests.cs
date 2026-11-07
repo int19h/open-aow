@@ -8,6 +8,7 @@ namespace Aow.Rtl.Tests;
 public sealed class MsgArgTests
 {
     private sealed class SampleObject : TObject;
+
     private sealed class OtherObject : TObject;
 
     // An exhaustive switch over the cases. A case added to MsgArg fails this with CS8509.

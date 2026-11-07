@@ -1,15 +1,15 @@
 #nullable disable
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.ImageLib;
-using static Aow.Units.aowFX.aowFXUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.CityWall;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.aowFX.aowFXUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.AoWTC;
 
@@ -644,6 +644,7 @@ public partial class TfxHS
         }
     }
 }
+
 public partial class TTacticalCombatUnitHS
 {
     public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)

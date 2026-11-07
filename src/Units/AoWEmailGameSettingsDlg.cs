@@ -1,23 +1,23 @@
 // Translated from AoWEmailGameSettingsDlg.pas.
+using Aow.Platform;
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWSetup;
-using Aow.Units.AoWComp;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
+using Aow.Units.AoWMessageDlg;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWSetup;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.E3Globals.E3GlobalsUnit;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using Aow.Platform;
-using Aow.Units.AoWMessageDlg;
+using static Aow.Units.E3Globals.E3GlobalsUnit;
 
 namespace Aow.Units.AoWEmailGameSettingsDlg;
 
@@ -68,6 +68,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     public TIvTranslator Translator;
     public TStringList FEmailAddresses;
     public TSetupControl FSetupControl;
+
     // AoWEmailGameSettingsDlg.pas:85
     public void EmailGameSettingsDlgCreate()
     {

@@ -1,20 +1,20 @@
 // Translated from CitySpells.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.Sound;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.City;
-using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLogUnit;
+using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.City;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.Sound;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.EventLog.EventLogUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.CitySpells;
 
@@ -45,6 +45,7 @@ public partial class TCityTargetSpellTE : TSpellTE
 
     public TXYL FTargetLocation;
     public sbyte FTargetPlayer;
+
     // CitySpells.pas:175
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -87,7 +88,6 @@ public partial class TCityTargetSpellTE : TSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 // source unit ID. city target modes
@@ -95,6 +95,7 @@ public partial class TCityTargetSpell : TSpell
 {
     public int FSourceID;
     public TSet<TCityTargetModeElement> FCityTargetMode;
+
     // CitySpells.pas:209
     public TCityTargetSpell(TECustomNode owner) : base(owner)
     {
@@ -347,6 +348,7 @@ public partial class TTownGateTE : TCityTargetSpellTE
 
     public TArmyID FArmyID;
     public TXYL FTeleportLocation;
+
     // CitySpells.pas:391
     public override void Destroy()
     {
@@ -378,7 +380,6 @@ public partial class TTownGateTE : TCityTargetSpellTE
     }
 
     // NetworkE.pas:230
-
 
 }
 
@@ -582,7 +583,6 @@ public partial class TCityEnchantmentSpellTE : TCityTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 // enchantment ID, enchantment setting, AI priority, AI budget, AI cast situations
@@ -593,6 +593,7 @@ public partial class TCityEnchantmentSpell : TCityTargetSpell
     public int FAIPriority;
     public int FAIBudget;
     public TSet<TCityEnchantmentCastSpellSituationElement> FAICastSituation;
+
     // CitySpells.pas:554
     public TCityEnchantmentSpell(TECustomNode owner) : base(owner)
     {
@@ -1180,6 +1181,7 @@ public partial class TAnimateRuins : TCityTargetSpell
 public static partial class CitySpellsUnit
 {
     public static FixedArray_int_2 TAnimateRuins_ExecuteTE__UndeadUnits = FixedArray_int_2.From([198, 201]);
+
     // CitySpells.pas:988
     public static void RegisterCitySpells(TAoWEngine Engine)
     {

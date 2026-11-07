@@ -1,27 +1,27 @@
 using System.Reflection;
+using Aow.Units.Animation;
+using Aow.Units.AoWE;
+using Aow.Units.aowHelpWin;
+using Aow.Units.AoWLeaderSetup;
 using Aow.Units.AOWMenu;
 using Aow.Units.AOWMultiWin;
-using Aow.Units.AOWTitleWindow;
-using Aow.Units.AoWE;
-using Aow.Units.AoWLeaderSetup;
 using Aow.Units.AoWPWindows;
 using Aow.Units.AoWScenSetup;
 using Aow.Units.AoWSetup;
+using Aow.Units.aowSetupEvents;
 using Aow.Units.AoWTitleScene;
+using Aow.Units.AOWTitleWindow;
 using Aow.Units.AoWVideoDlg;
 using Aow.Units.AoWWinMan;
 using Aow.Units.Engine;
-using Aow.Units.Animation;
 using Aow.Units.GFXE;
 using Aow.Units.GlobalEnchantmentSpells;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
 using Aow.Units.Sound;
-using Aow.Units.aowHelpWin;
-using Aow.Units.aowSetupEvents;
+using E2 = Aow.Units.E2Globals.E2GlobalsUnit;
 using Exe = Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using Game = Aow.Units.AoWE.AoWEUnit;
-using E2 = Aow.Units.E2Globals.E2GlobalsUnit;
 
 namespace Aow.Units.Tests;
 
@@ -294,7 +294,7 @@ public sealed class OfflineStubTests
         SetField(level, "FWidth", 2);
         int[] overlaid = [0, 4, 3];
         TMapField[] fields = Enumerable.Range(0, 6).Select(i => (TMapField)new TAoWMapField(null!)
-            { Xhx = (sbyte)(i % 2), Yhx = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
+        { Xhx = (sbyte)(i % 2), Yhx = (sbyte)(i / 2), OverlayType = (sbyte)(overlaid.Contains(i) ? 4 : 0) }).ToArray();
         SetField(level, "fields", fields);
         var container = new TMapContainer(null!);
         var levels = new TEObjectList();
@@ -338,12 +338,14 @@ public sealed class OfflineStubTests
     private sealed class RecordingImage() : Aow.Units.ImageLib.TLibraryImage(null!)
     {
         public readonly List<(int, int)> Calls = [];
+
         public override void Show(int x, int y, in TSurfaceDesc surface) => Calls.Add((x, y));
     }
 
     private sealed class FinishedAnimation() : TAnimation(null!)
     {
         public bool Finished;
+
         public override void Destroy() => Finished = true;
     }
 }

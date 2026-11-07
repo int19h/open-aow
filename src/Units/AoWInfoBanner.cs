@@ -1,8 +1,8 @@
 // Translated from AoWInfoBanner.pas.
 using Aow.Rtl;
-using Aow.Units.AOWMenu;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
+using Aow.Units.AOWMenu;
 using Aow.Units.AoWVScroll;
 
 namespace Aow.Units.AoWInfoBanner;
@@ -16,6 +16,7 @@ public partial class TInfoBanner : TDataModule
     public TAOWMemo InfoMemo;
     public TAOWMenu BannerPopup;
     public TAOWVScrollBar InfoMemoSB;
+
     // AoWInfoBanner.pas:35
     public void ShowInfo(string Header, TStrings Description)
     {

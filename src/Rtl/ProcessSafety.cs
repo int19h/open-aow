@@ -11,6 +11,7 @@ public static class ProcessSafety
     {
         if (OperatingSystem.IsWindows()) SetErrorMode(0x8003);
     }
+
 #pragma warning restore CA2255
 
     [DllImport("kernel32.dll")]

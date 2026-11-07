@@ -35,6 +35,7 @@ public partial class TEmailSettingsDlg : TDataModule
     public TAOWButton Close;
     public TAOWImage TitleIcon;
     public TIvTranslator Translator;
+
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick(TObject Sender)
     {

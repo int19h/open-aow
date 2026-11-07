@@ -17,6 +17,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
     private readonly byte[] encoded;
     private bool initialized;
     private int callbackFailed;
+
     public long SubmittedFrames { get; private set; }
     public bool CallbackFailed => Volatile.Read(ref callbackFailed) != 0;
 
@@ -35,7 +36,8 @@ public sealed unsafe class SdlAudioOutput : IDisposable
             SDL_SetHint("SDL_AUDIO_DEVICE_SAMPLE_FRAMES", Math.Max(1, settings.SampleRate / 20).ToString(System.Globalization.CultureInfo.InvariantCulture));
             SDL_AudioSpec spec = new()
             {
-                freq = settings.SampleRate, channels = channels,
+                freq = settings.SampleRate,
+                channels = channels,
                 format = bytesPerSample == 1 ? SDL_AudioFormat.SDL_AUDIO_U8 : SDL_AudioFormat.SDL_AUDIO_S16LE
             };
             stream = SDL_OpenAudioDeviceStream(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, &spec, &Callback, GCHandle.ToIntPtr(handle));
@@ -75,6 +77,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
         }
         catch (System.Exception) { Volatile.Write(ref output.callbackFailed, 1); }
     }
+
     public void Dispose()
     {
         if (stream is not null) { SDL_DestroyAudioStream(stream); stream = null; }

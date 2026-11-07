@@ -19,6 +19,7 @@ public sealed class CombatMapConstructionTests
     private sealed class MapPublicationOwner(bool reject) : EngineFixture.Owner
     {
         internal readonly List<bool> PublishedAtInsertion = [];
+
         public override int AddChild(TEObject child)
         {
             base.AddChild(child);
@@ -26,6 +27,7 @@ public sealed class CombatMapConstructionTests
             if (reject) throw new InvalidDataException("owner rejects after insertion");
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
     }
 
@@ -40,63 +42,63 @@ public sealed class CombatMapConstructionTests
         try
         {
             for (int failure = 0; failure < 3; failure++)
-            for (int owned = 0; owned < 2; owned++)
-            for (int route = 0; route < 4; route++)
-            {
-                using var fixture = new OrderingRecording.Fixture(typeof(TAoWCombatMap));
-                var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
-                entry.FImageLibrary = new TImageLibrary(null!);
-                var set = Game.AoWHSSet;
-                if (failure == 2) Game.AoWHSSet = null!;
-                Combat.AoWCombatMap = null!;
-                var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
-                int origin = new TObject().InstanceId;
-                TAoWCombatMap? value = null;
-                System.Exception? caught = null;
-                try
-                {
-                    value = Assert.IsType<TAoWCombatMap>(OrderingRecording.Create(typeof(TAoWCombatMap), owner, route, fixture.Engine));
-                }
-                catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { caught = error; }
-                finally { Game.AoWHSSet = set; }
-                Assert.Equal(failure == 0, value is not null);
-                var published = Combat.AoWCombatMap;
-                Assert.NotNull(published);
-                Assert.Equal(origin + 1, published.InstanceId);
-                if (owner is not null) Assert.Equal([true], owner.PublishedAtInsertion);
-                int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TAoWCombatMap) && x.GetMethod()?.Name == "Destroy");
-                var record = new JsonObject
-                {
-                    ["GlobalType"] = published.GetType().FullName,
-                    ["GlobalOffset"] = published.InstanceId - origin,
-                    ["OwnerMembership"] = owner?.Members.Contains(published),
-                    ["PublishedAtInsertion"] = JsonSerializer.SerializeToNode(owner?.PublishedAtInsertion),
-                    ["ExceptionType"] = caught?.GetType().FullName,
-                    ["ExceptionMessage"] = caught?.Message,
-                    ["DestroyEntries"] = destroyEntries,
-                    ["FieldGraph"] = failure == 0 ? JsonNode.Parse(OrderingRecording.Snapshot(value!, origin)) : null
-                };
-                string key = $"failure{failure}.owner{owned}.route{route}";
-                actual.Add(key, record);
-                if (failure == 0)
-                {
-                    Assert.Same(value, published);
-                    var mouse = Assert.IsType<TAoWCombatMapMouse>(value!.Mouse);
-                    Assert.Equal(256, mouse.CursorMode);
-                    Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.FPositionStatus[i]));
-                    Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
-                    value.SetOwner(null!);
-                    value.Destroy();
-                    Assert.Null(Combat.AoWCombatMap);
-                    Assert.Equal(0, entry.RefCount);
-                }
-                else
-                {
-                    Assert.Equal(plain ? 0 : 1, destroyEntries);
-                    Assert.IsType(plain && failure == 1 ? typeof(InvalidDataException) : typeof(NullReferenceException), caught);
-                    owner?.Members.Clear();
-                }
-            }
+                for (int owned = 0; owned < 2; owned++)
+                    for (int route = 0; route < 4; route++)
+                    {
+                        using var fixture = new OrderingRecording.Fixture(typeof(TAoWCombatMap));
+                        var entry = fixture.Manager.FDiskList.AddILFile("TargHex.ILB");
+                        entry.FImageLibrary = new TImageLibrary(null!);
+                        var set = Game.AoWHSSet;
+                        if (failure == 2) Game.AoWHSSet = null!;
+                        Combat.AoWCombatMap = null!;
+                        var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
+                        int origin = new TObject().InstanceId;
+                        TAoWCombatMap? value = null;
+                        System.Exception? caught = null;
+                        try
+                        {
+                            value = Assert.IsType<TAoWCombatMap>(OrderingRecording.Create(typeof(TAoWCombatMap), owner, route, fixture.Engine));
+                        }
+                        catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { caught = error; }
+                        finally { Game.AoWHSSet = set; }
+                        Assert.Equal(failure == 0, value is not null);
+                        var published = Combat.AoWCombatMap;
+                        Assert.NotNull(published);
+                        Assert.Equal(origin + 1, published.InstanceId);
+                        if (owner is not null) Assert.Equal([true], owner.PublishedAtInsertion);
+                        int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TAoWCombatMap) && x.GetMethod()?.Name == "Destroy");
+                        var record = new JsonObject
+                        {
+                            ["GlobalType"] = published.GetType().FullName,
+                            ["GlobalOffset"] = published.InstanceId - origin,
+                            ["OwnerMembership"] = owner?.Members.Contains(published),
+                            ["PublishedAtInsertion"] = JsonSerializer.SerializeToNode(owner?.PublishedAtInsertion),
+                            ["ExceptionType"] = caught?.GetType().FullName,
+                            ["ExceptionMessage"] = caught?.Message,
+                            ["DestroyEntries"] = destroyEntries,
+                            ["FieldGraph"] = failure == 0 ? JsonNode.Parse(OrderingRecording.Snapshot(value!, origin)) : null
+                        };
+                        string key = $"failure{failure}.owner{owned}.route{route}";
+                        actual.Add(key, record);
+                        if (failure == 0)
+                        {
+                            Assert.Same(value, published);
+                            var mouse = Assert.IsType<TAoWCombatMapMouse>(value!.Mouse);
+                            Assert.Equal(256, mouse.CursorMode);
+                            Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.FPositionStatus[i]));
+                            Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
+                            value.SetOwner(null!);
+                            value.Destroy();
+                            Assert.Null(Combat.AoWCombatMap);
+                            Assert.Equal(0, entry.RefCount);
+                        }
+                        else
+                        {
+                            Assert.Equal(plain ? 0 : 1, destroyEntries);
+                            Assert.IsType(plain && failure == 1 ? typeof(InvalidDataException) : typeof(NullReferenceException), caught);
+                            owner?.Members.Clear();
+                        }
+                    }
             string? target = Environment.GetEnvironmentVariable("AOW_COMBAT_MAP_RECORD");
             if (target is not null)
             {

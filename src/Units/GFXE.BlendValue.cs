@@ -18,6 +18,7 @@ public readonly struct BlendValue : IUnion
     private readonly Case kind;
 
     public BlendValue(int value) { percentage = value; kind = Case.Percentage; }
+
     public BlendValue(TBlendTable? value) { table = value; kind = value is null ? Case.None : Case.Table; }
 
     // The compiler prefers a user-defined conversion to a union conversion. One operator per case

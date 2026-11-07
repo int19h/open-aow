@@ -12,6 +12,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTAbility(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -20,6 +21,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTAdjustableAbility(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -28,6 +30,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTCombatAction(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -36,6 +39,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTDamageCA(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -44,6 +48,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTDispelMagicCA(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -52,6 +57,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTDurationAbility(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -60,6 +66,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTEnhancementAbility(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -68,6 +75,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTGlobalEnchantment(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -76,6 +84,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTMultiLevelAbility(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -84,6 +93,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTSingleTargetCA(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -92,6 +102,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTSpell(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -100,6 +111,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTSpellCaster(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -108,6 +120,7 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTUnitEnchantmentAbility(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
@@ -116,10 +129,9 @@ public sealed partial class SpellConstructionTests
         public int OwnerCalls { get; private set; }
 
         public ProbeTUnitSpell(TECustomNode owner) : base(owner) { }
+
         public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
-
-
 
     [Theory]
     [InlineData(typeof(Aow.Units.HolyG.THolyGroundSpell))]

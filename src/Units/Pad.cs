@@ -1,9 +1,9 @@
 // Translated from Pad.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.ILTer;
-using Aow.Units.AoWE;
 
 namespace Aow.Units.Pad;
 
@@ -19,8 +19,8 @@ public partial class TPad : TFixedILTerrainMO
     public new const int ClassID = 131334;
 
     public bool FPadActive;
-    // Pad.pas:46
 
+    // Pad.pas:46
 
     // Pad.pas:55
     public override bool CanSelect(int Xhp, int Yhp) => false;
@@ -43,7 +43,6 @@ public partial class TPad : TFixedILTerrainMO
 
     // Pad.pas:20
 
-
 }
 
 // FPadSize
@@ -58,6 +57,7 @@ public partial class TPadResource : TFixedILTerrainMOR
     public new const int ClassID = 131335;
 
     public byte FPadSize;
+
     // Pad.pas:69
     public override void Destroy()
     {
@@ -70,7 +70,6 @@ public partial class TPadResource : TFixedILTerrainMOR
     }
 
     // Pad.pas:63
-
 
     // Pad.pas:101
     public override EditorClass Editor()
@@ -113,7 +112,6 @@ public partial class TPadResource : TFixedILTerrainMOR
     }
 
     // Pad.pas:32
-
 
     // Pad.pas:79
     public override string ResourceEditName() => "Pad";

@@ -1,9 +1,9 @@
 // Translated from CombatSpells.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.CombatSpells;
@@ -19,6 +19,7 @@ public partial class TCombatSpellCA : TDamageCA
 
     public int FSpellID;
     public int FManaCost;
+
     // CombatSpells.pas:452
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -92,7 +93,6 @@ public partial class TCombatSpellCA : TDamageCA
         }
     }
 
-
 }
 
 // source ID, target ID, casting mana, success, spell ID
@@ -106,6 +106,7 @@ public partial class TExclusiveCombatSpellCA : TCombatAction
     public int FManaCost;
     public bool FSucceeded;
     public int FSpellID;
+
     // CombatSpells.pas:502
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -198,6 +199,7 @@ public partial class TMultiTargetCombatSpellCA : TCombatAction
     public int FManaCost;
     public bool FSucceeded;
     public int FSpellID;
+
     // CombatSpells.pas:563
     public override void Destroy()
     {
@@ -309,6 +311,7 @@ public partial class TCombatSpell : TSpell
 {
     public TSpellCombatInfo FCombatInfo;
     public byte FDamageMode;
+
     // CombatSpells.pas:632
     public TCombatSpell(TECustomNode owner) : base(owner)
     {
@@ -671,7 +674,6 @@ public partial class TTurnUndeadSpellCA : TCombatSpellCA
         }
     }
 
-
 }
 
 // inherited combat statistics, damage mode
@@ -787,7 +789,6 @@ public partial class TFastCombatHighPrayerCA : TMultiTargetCombatSpellCA
         }
     }
 
-
 }
 
 public partial class TTacticalCombatHighPrayerCA : TExclusiveCombatSpellCA
@@ -810,7 +811,6 @@ public partial class TTacticalCombatHighPrayerCA : TExclusiveCombatSpellCA
             AoWHSSet.FAbilityControl.GetAbility(100).Expand(((TCombatUnit)Target).FUnit);
         }
     }
-
 
 }
 
@@ -1032,7 +1032,6 @@ public partial class TMindDecayCA : TExclusiveCombatSpellCA
         }
     }
 
-
 }
 
 // inherited combat statistics, damage mode
@@ -1138,7 +1137,6 @@ public partial class TSlowCA : TExclusiveCombatSpellCA
         }
     }
 
-
 }
 
 // inherited combat statistics, damage mode
@@ -1218,7 +1216,6 @@ public partial class TEntangleSpellCA : TExclusiveCombatSpellCA
             }
         }
     }
-
 
 }
 
@@ -1613,7 +1610,6 @@ public partial class TFastCombatTerrorCA : TMultiTargetCombatSpellCA
         }
     }
 
-
 }
 
 // source ID, target ID, casting mana, success
@@ -1629,6 +1625,7 @@ public partial class TTacticalCombatTerrorCA : TCombatAction
     public byte FTargetID;
     public int FManaCost;
     public bool FSucceeded;
+
     // CombatSpells.pas:1713
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1675,7 +1672,6 @@ public partial class TTacticalCombatTerrorCA : TCombatAction
             FSucceeded = HitRole(6 - Target.GetResistance());
         }
     }
-
 
 }
 
@@ -1926,7 +1922,6 @@ public partial class TRecallSpiritCA : TExclusiveCombatSpellCA
         }
     }
 
-
 }
 
 // inherited spell ID, combat statistics, damage mode
@@ -2013,7 +2008,6 @@ public partial class TAnimateDeadCA : TExclusiveCombatSpellCA
             Target.SetCombatPlayer((byte)Source.FCombatPlayer);
         }
     }
-
 
 }
 

@@ -1,13 +1,13 @@
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.AOWMWindow;
+using Aow.Units.AoWWindow;
 using Aow.Units.AoWWinMan;
 using Aow.Units.AOWWinManager;
-using Aow.Units.AoWWindow;
+using Aow.Units.E2GameFlow;
 using Aow.Units.StartMenu;
 using GameState = Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AOWMWindow;
-using Aow.Units.E2GameFlow;
 
 namespace Aow.Game;
 
@@ -129,6 +129,7 @@ internal static class FrameFixtureChecks
         private readonly string exe = RtlUnit.Application.ExeName;
         private readonly bool ownExtensions = RtlUnit.WritesOwnExtensions;
         private readonly string scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
+
         internal StartupScope(string root)
         {
             Directory.CreateDirectory(scratch);
@@ -137,6 +138,7 @@ internal static class FrameFixtureChecks
             Aow.Units.Sound.NullSoundSystem.Install();
             GameState.ValidateAoWEngine();
         }
+
         public void Dispose()
         {
             GameState.AoWEngine.Destroy();
@@ -155,6 +157,7 @@ internal static class FrameFixtureChecks
         public MovementArmy() : base(null!) { }
 
         public override void CalcShowPriority() { }
+
         public override sbyte GetLhx() => 0;
     }
 }

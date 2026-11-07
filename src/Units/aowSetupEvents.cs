@@ -1,20 +1,20 @@
 // Translated from aowSetupEvents.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using Aow.Units.AoWSetup;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E2GameFlow.E2GameFlowUnit;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
+using Aow.Units.AoWLeaderSetup;
+using Aow.Units.AoWSetup;
 using Aow.Units.AoWWinMan;
 using Aow.Units.E2Globals;
-using Aow.Units.AoWLeaderSetup;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.AoWMessageDlg.AoWMessageDlgUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.E2GameFlow.E2GameFlowUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.aowSetupEvents;
 
@@ -26,6 +26,7 @@ public partial class TSetupEvents : TDataModule
     public TGDPlay DPlay;
     public TSetupControl SetupControl;
     public bool FLobbyGame;
+
     // aowSetupEvents.pas:61
     public void ClearChat()
     {

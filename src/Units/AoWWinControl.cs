@@ -1,10 +1,10 @@
 // Translated from AoWWinControl.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.AoWWinControl;
 
@@ -68,6 +68,7 @@ public partial class TAOWWindowControl : TAoWComponent
     public int FILIndexFrame;
     public int FILIndexTexture;
     public bool FDockable;
+
     // AoWWinControl.pas:103
     public TAOWWindowControl(TComponent owner) : base(owner)
     {
@@ -245,8 +246,8 @@ public partial class TAOWWindowControl : TAoWComponent
 
     // AoWWinControl.pas:170
     // { VerifyBackSurface makes the back surface match Surface (a DirectDraw surface in video memory
-//   when Surface is one and UseVMem is set, else a surface in system memory or a data surface);
-//   True when the back surface was created or restored and has to be drawn again }
+    //   when Surface is one and UseVMem is set, else a surface in system memory or a data surface);
+    //   True when the back surface was created or restored and has to be drawn again }
     public bool VerifyBackSurface(TSurface Surface)
     {
         TSet<TDDSCreationFlagsElement> Flags;
@@ -317,6 +318,7 @@ public partial class TAOWWindowControl : TAoWComponent
 }
 
 public delegate void TAoWOnDrawSurface(TAOWWindowControl Sender, TSurface Surface, int Left, int Top);
+
 public static partial class AoWWinControlUnit
 {
 }

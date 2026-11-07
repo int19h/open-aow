@@ -1,21 +1,21 @@
 // Translated from City.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using System.Runtime.CompilerServices;
+using Aow.Rtl;
+using Aow.Units.Animation;
+using Aow.Units.AoWE;
+using Aow.Units.AoWReg;
+using Aow.Units.Crops;
 using Aow.Units.Engine;
+using Aow.Units.EventLog;
 using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
+using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
 using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.EventLog;
-using static Aow.Units.EventLog.EventLogUnit;
-using Aow.Units.Animation;
-using Aow.Units.AoWReg;
-using Aow.Units.AoWE;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.Crops;
+using static Aow.Units.EventLog.EventLogUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.City;
 
@@ -46,6 +46,7 @@ public partial class TCityProductionControl : TProductionControl
     { }
 
     public TCity FCity;
+
     // City.pas:645
     public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
     {
@@ -171,13 +172,14 @@ public partial class TCityProductionControl : TProductionControl
 public partial class TCityOverlayHS : TSingleHS
 {
     public TCityOverlayHS(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TCity FCity;
     public int FModeStartFrame;
     public TCityOverlayMode FMode;
     public AnonymousEnum_saSetup FShellAnimation;
     public int FShellEndFrame;
+
     // City.pas:718
     public override int GetShowPriority() => FCity.GetShowPriority() + 134217728;
 
@@ -348,6 +350,7 @@ public partial class TCityEnchantment : TGlobalEnchantment
 
     public new TCityEnchantmentID FEnchantmentID;
     public TXYL FEnchantmentLocation;
+
     // City.pas:2727
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -455,6 +458,7 @@ public partial class TCity : TPlayerCropStructure
     public ImageLib.TLibraryImage FWallFrontImage;
     public ImageLib.TLibraryImage FCityImage;
     public TDefendersGenerateMode FDefendersMode;
+
     // City.pas:839
     public override void Destroy()
     {
@@ -485,7 +489,6 @@ public partial class TCity : TPlayerCropStructure
     }
 
     // City.pas:824
-
 
     // City.pas:2191
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -3212,8 +3215,8 @@ public partial class TCityResource : TPlayerCropStructureResource
     public new const int ClassID = 131337;
 
     public byte FSize;
-    // City.pas:2622
 
+    // City.pas:2622
 
     // City.pas:2669
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -3278,7 +3281,6 @@ public partial class TCityResource : TPlayerCropStructureResource
 
     // City.pas:262
 
-
     // City.pas:2633
     public override string ResourceEditName() => TranslateRStr(CityRStr);
 
@@ -3297,6 +3299,7 @@ public partial class TCityRebellionEventLog : TEventLog
     public int FYhx;
     public int FLhx;
     public string FCityName = "";
+
     // City.pas:2680
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -3378,6 +3381,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
     public FixedArray_int_4 FProductionLevelCounts;
     public int FMaxProductionLevel;
     public float FProductionRatio;
+
     // City.pas:3130
     public override bool Process()
     {
@@ -4048,6 +4052,7 @@ public enum TDefendersGenerateMode : byte
 public static partial class CityUnit
 {
     public static FixedArray_int_5 TCity_JoinAmount__JoinPercent = FixedArray_int_5.From([200, 175, 150, 125, 100]);
+
     // City.pas:3248
     public static bool RaceInCity(sbyte Race, sbyte Player)
     {
@@ -4138,6 +4143,7 @@ public static partial class CityUnit
     public static readonly string CityWoodenWallRStr = "Wooden Wall";
     public static readonly string CityStoneWallRStr = "Stone Wall";
     public static TCity SortingCity;
+
     // City.pas:2005
     public static int CompareCityProductions(object Item1, object Item2)
     {

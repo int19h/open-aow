@@ -18,14 +18,17 @@ public sealed class SweepConstructionTests
     {
 
         internal readonly List<string> Observations = [];
+
         public override int AddChild(TEObject child)
         {
             base.AddChild(child);
             Observations.Add(Snapshot(child));
             return Members.Count - 1;
         }
+
         public override int RemoveChild(TEObject child) { return base.RemoveChild(child) < 0 ? -1 : 0; }
     }
+
     private sealed class Fixture : IDisposable
     {
         private readonly int previousSeed = Runtime.RandSeed;
@@ -34,6 +37,7 @@ public sealed class SweepConstructionTests
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TMapObjectResourceList CombatResources = new TMapObjectResourceList(null!);
+
         internal Fixture()
         {
             Runtime.RandSeed = 123456789;
@@ -44,6 +48,7 @@ public sealed class SweepConstructionTests
             Game.AoWHSSet.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
         }
+
         public void Dispose()
         {
             Runtime.RandSeed = previousSeed;
@@ -55,6 +60,7 @@ public sealed class SweepConstructionTests
             Manager.Destroy();
         }
     }
+
     private static string Snapshot(object value)
     {
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
@@ -89,7 +95,6 @@ public sealed class SweepConstructionTests
         }
         return JsonSerializer.Serialize(State(value, "$"));
     }
-
 
     private static readonly string[] Names =
     [
@@ -357,7 +362,9 @@ public sealed class SweepConstructionTests
         "Aow.Units.IsoHex.TUpperIsometricHexagonResource",
         "Aow.Units.GlobalTargetSpells.TGlobalTargetSpellTE",
     ];
+
     public static IEnumerable<object[]> Classes => Names.Select(name => new object[] { name });
+
     private static object? Invoke(Func<object?> action)
     {
         try { return action(); }
@@ -367,6 +374,7 @@ public sealed class SweepConstructionTests
             throw;
         }
     }
+
     private static TEObject Direct(Type type, TECustomNode owner)
     {
         var constructor = type.GetConstructor([typeof(TECustomNode)]);
@@ -375,6 +383,7 @@ public sealed class SweepConstructionTests
         if (factory is not null) return (TEObject)Invoke(() => factory.Invoke(null, [owner]))!;
         return (TEObject)Invoke(() => Activator.CreateInstance(type, [owner]))!;
     }
+
     [Theory]
     [MemberData(nameof(Classes))]
     public void StateOwnerObservationAndTeardownMatchTheOriginal(string name)
@@ -382,35 +391,36 @@ public sealed class SweepConstructionTests
         Type type = typeof(TSpell).Assembly.GetType(name)!;
 
         for (int owned = 0; owned < 2; owned++)
-        for (int route = 0; route < 4; route++)
-        {
-            using var fixture = new Fixture();
-            var owner = owned == 0 ? null : new SweepOwner();
-            TEObject? value = null;
-            var states = new List<string>();
-            try
+            for (int route = 0; route < 4; route++)
             {
-                value = route == 1 ? EClass.Of(type).Create(owner!)
-                    : route == 0 ? Direct(type, owner!)
-                    : route == 2 ? EClass.Of(type).Create(owner!)
-                    : Saved(type, owner!);
-                Assert.IsType(type, value);
-                Assert.Same(owner, value.Owner);
-                states.Add("success:" + Snapshot(value));
+                using var fixture = new Fixture();
+                var owner = owned == 0 ? null : new SweepOwner();
+                TEObject? value = null;
+                var states = new List<string>();
+                try
+                {
+                    value = route == 1 ? EClass.Of(type).Create(owner!)
+                        : route == 0 ? Direct(type, owner!)
+                        : route == 2 ? EClass.Of(type).Create(owner!)
+                        : Saved(type, owner!);
+                    Assert.IsType(type, value);
+                    Assert.Same(owner, value.Owner);
+                    states.Add("success:" + Snapshot(value));
+                }
+                catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
+                finally
+                {
+                    try { value?.Destroy(); }
+                    catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
+                }
+                states.Add("owner:" + (owner?.Members.Count ?? 0));
+                if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
+                string actual = string.Join("\n", states);
+                string key = name + ".owner" + owned;
+                ConstructionSnapshot.Check("SweepConstruction", key, actual);
             }
-            catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
-            finally
-            {
-                try { value?.Destroy(); }
-                catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
-            }
-            states.Add("owner:" + (owner?.Members.Count ?? 0));
-            if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            string actual = string.Join("\n", states);
-            string key = name + ".owner" + owned;
-            ConstructionSnapshot.Check("SweepConstruction", key, actual);
-        }
     }
+
     private static TEObject Saved(Type type, TECustomNode owner)
     {
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
@@ -426,6 +436,7 @@ public sealed class SweepConstructionTests
         }
         finally { engine.Destroy(); }
     }
+
     [Theory]
     [InlineData("Aow.Units.AoWE.TAbstractAoWHSMapMouse")]
     [InlineData("Aow.Units.AoWTC.TAoWCombatMapMouse")]

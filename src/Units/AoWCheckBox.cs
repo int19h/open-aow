@@ -1,7 +1,7 @@
 // Translated from AoWCheckBox.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.AoWButton;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWCheckBox;
 
@@ -16,6 +16,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
     { }
 
     public TNotifyEvent FOnDoubleClick;
+
     // AoWCheckBox.pas:51
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {

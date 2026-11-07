@@ -1,8 +1,8 @@
 // Translated from AowUserWindow.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWWindow;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AowUserWindow;
 
@@ -13,6 +13,7 @@ public partial class TAoWUserWindow : TAOWWindow
     { }
 
     public TDrawSurfaceExEvent FOnDrawSurfaceEx;
+
     // AowUserWindow.pas:29
     public override void DrawSurface(TSurface Surface)
     {
@@ -34,6 +35,7 @@ public partial class TAoWUserWindow : TAOWWindow
 }
 
 public delegate void TDrawSurfaceExEvent(TSurface Surface, ref bool Handled);
+
 public static partial class AowUserWindowUnit
 {
     // AowUserWindow.pas:38

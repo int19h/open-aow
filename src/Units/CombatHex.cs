@@ -1,27 +1,28 @@
 // Translated from CombatHex.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.AoWE;
+using Aow.Units.AoWHex;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
-using Aow.Units.ImageLib;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWHex;
-using Aow.Units.AoWE;
+using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.CombatHex;
 
 public partial class TCombatHexagon : TAbstractHexagon
 {
     public TCombatHexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 2229504;
 
     public byte FImageVariant;
     public FixedArray_byte_3 FTransitions;
+
     // CombatHex.pas:174
     public override void TerrainChanged(in THSTerrainInfo Msg)
     {
@@ -249,11 +250,12 @@ public partial class TCombatHexagon : TAbstractHexagon
 public partial class TCombatHexagonResource : TAbstractHexagonResource
 {
     public TCombatHexagonResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 2229505;
 
     public TCustomImageLibrary FTransitionLibrary;
+
     // CombatHex.pas:194
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
@@ -311,7 +313,7 @@ public partial class TCombatHexagonResource : TAbstractHexagonResource
 public partial class TWaterCombatHexagon : TAoWWaterHexagon
 {
     public TWaterCombatHexagon(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatHex.pas:219
     public new const int ClassID = 2229655;
@@ -324,7 +326,7 @@ public partial class TWaterCombatHexagon : TAoWWaterHexagon
 public partial class TWaterCombatHexagonResource : TAoWWaterHexagonResource
 {
     public TWaterCombatHexagonResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatHex.pas:222
     public new const int ClassID = 2229656;
@@ -349,6 +351,7 @@ public static partial class CombatHexUnit
     }
 
     public static FixedArray_byte_3 TransitionNeighbours = FixedArray_byte_3.From([6, 1, 2]);
+
     public static void Initialize()
     {
     }

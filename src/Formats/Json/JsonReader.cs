@@ -41,7 +41,9 @@ public sealed class JsonReader
         {
             throw new ConversionException(new FormatDiagnostic(Codes.Utf8, "The document is not valid UTF-8.")
             {
-                File = file, Offset = error.Index, Decompressed = decompressed,
+                File = file,
+                Offset = error.Index,
+                Decompressed = decompressed,
             });
         }
         return Parse(text, file, decompressed, limits);
@@ -83,7 +85,11 @@ public sealed class JsonReader
     private ConversionException Error(string code, string message, TextSpan? span = null, string? value = null, string? constraint = null) =>
         new(new FormatDiagnostic(code, message)
         {
-            File = file, Span = span ?? Here, Decompressed = decompressed, Value = value, Constraint = constraint,
+            File = file,
+            Span = span ?? Here,
+            Decompressed = decompressed,
+            Value = value,
+            Constraint = constraint,
         });
 
     private void SkipWhitespace()

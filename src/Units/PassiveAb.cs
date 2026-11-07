@@ -1,7 +1,7 @@
 // Translated from PassiveAb.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.PassiveAb;
@@ -604,6 +604,7 @@ public partial class TMarksmanshipAbility : TMultiLevelAbility
 public partial class TMovementAbility : TAdjustableAbility
 {
     public TSet<TMoveType> FMoveTypes;
+
     // PassiveAb.pas:1409
     public TMovementAbility(TECustomNode owner) : base(owner)
     {
@@ -636,6 +637,7 @@ public partial class TMovementAbility : TAdjustableAbility
 public partial class TImmunityAbility : TEnhancementAbility
 {
     public TSet<TDamageType> FImmunityTypes;
+
     // PassiveAb.pas:1428
     public TImmunityAbility(TECustomNode owner) : base(owner)
     {
@@ -667,6 +669,7 @@ public partial class TImmunityAbility : TEnhancementAbility
 public partial class TProtectionAbility : TEnhancementAbility
 {
     public TSet<TDamageType> FProtectionTypes;
+
     // PassiveAb.pas:1446
     public TProtectionAbility(TECustomNode owner) : base(owner)
     {

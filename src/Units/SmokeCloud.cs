@@ -1,13 +1,13 @@
 // Translated from SmokeCloud.pas.
-using Aow.Rtl;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.SmokeCloud;
 
@@ -30,6 +30,7 @@ public partial class TSmokeCloudEnchantment : TGlobalEnchantment
     public new const int ClassID = 135748;
 
     public TSmokeCloud FCloud;
+
     // SmokeCloud.pas:91
     public TSmokeCloudEnchantment(TECustomNode owner) : base(owner)
     {
@@ -60,6 +61,7 @@ public partial class TSmokeCloudEnchantment : TGlobalEnchantment
 
     // The unused fourth byte in the original register result has no defined value.
     public override TXYL GetLocation() => new() { X = FCloud.GetXhx(), Y = FCloud.GetYhx(), L = FCloud.GetLhx() };
+
     public override bool Deactivate(byte player)
     {
         if ((FEnchantmentStatus.Image & 1) == 0) return false;
@@ -91,6 +93,7 @@ public partial class TSmokeCloud : TMultiHexMO
     public bool FUpdated;
     public bool FVisibleForSeatedPlayer;
     public TSmokeCloudEnchantment FEnchantment;
+
     // SmokeCloud.pas:181
     public override void Destroy()
     {
@@ -110,7 +113,6 @@ public partial class TSmokeCloud : TMultiHexMO
     }
 
     // SmokeCloud.pas:172
-
 
     // SmokeCloud.pas:373
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
@@ -398,13 +400,12 @@ public partial class TSmokeCloud : TMultiHexMO
 
     // SmokeCloud.pas:43
 
-
 }
 
 public partial class TSmokeCloudResource : TMultiHexMOR
 {
     public TSmokeCloudResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // SmokeCloud.pas:385
     public new const int ClassID = 135747;
@@ -421,6 +422,7 @@ public struct TCloudSpellFields
 {
     public FixedArray_byte_8 Reserved;
     private string name;
+
     public string Name { readonly get => name ?? ""; set => name = value; }
 }
 

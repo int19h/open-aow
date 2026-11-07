@@ -1,10 +1,10 @@
 // Translated from Sound.pas.
-using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Engine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.Engine.EngineUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Sound;
 
@@ -50,6 +50,7 @@ public partial class TSample : TObject
     internal TSampleData FSampleData;
     internal TSampleCallBack FCallBack;
     internal TSet<TSampleStatusElement> FStatus;
+
     // Sound.pas:746
     protected internal virtual bool GetPlaying() => FDelay != 0;
 
@@ -91,7 +92,7 @@ public partial class TSample : TObject
 
     // Sound.pas:761
     // { Called every tick (ProcessSound): a delayed sample counts down and plays, a finished one that
-//   does not loop destroys itself. }
+    //   does not loop destroys itself. }
     public virtual void Update()
     {
         if (FStatus.Contains(TSampleStatusElement.ssRunning) && !GetPlaying())
@@ -184,10 +185,12 @@ public partial class TSample : TObject
 public partial class TSongStatus : TObject
 {
     protected internal string FFileName = "";
+
     public string FileName { get => FFileName; }
 }
 
 public delegate void TSampleCallBack(TSample Sample, TSampleCallBackMode Mode);
+
 public enum TSamplePanning : byte
 {
     spLeft = 0,
@@ -204,6 +207,7 @@ public struct TSoundSettings
 {
     [FieldOffset(0)]
     public byte OutputMode__image;
+
     public TSet<TSoundOutputModeElement> OutputMode { get => TSet<TSoundOutputModeElement>.FromMask(OutputMode__image); set => OutputMode__image = (byte)value.Image; }
 
     [FieldOffset(4)]
@@ -228,6 +232,7 @@ public partial class TSampleData : TObject
 
     internal string FName = "";
     internal int FRefCount;
+
     // Sound.pas:674
     protected TSampleData(ConstructionContext context, string Name)
     {
@@ -289,6 +294,7 @@ public partial class TSoundSystem : TObject
 {
     protected internal int FRefCount;
     protected internal TSet<TSoundSystemStatusElement> FStatus;
+
     // Sound.pas:115
     protected internal virtual SampleClass SampleClass()
     {
@@ -492,6 +498,7 @@ public partial class TSFXManager : TComponent
 {
     internal string FSearchPath = "";
     internal TSFXList FSFX;
+
     // Sound.pas:407
     public TSFXManager(TComponent owner) : base(owner)
     {
@@ -579,6 +586,7 @@ public partial class TSFXManagerComboBox : TComboBox
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptySFXName = "";
+
     // Sound.pas:472
     internal void SetSFXManager(TSFXManager Value)
     {
@@ -620,7 +628,7 @@ public partial class TSFXManagerComboBox : TComboBox
 
     // Sound.pas:518
     // { Fills the items with the manager's files under SubDirectory (without the subdirectory), less
-//   those in SkipDirectories, after EmptySFXName. }
+    //   those in SkipDirectories, after EmptySFXName. }
     public void GenerateItems()
     {
         /* TODO: Implement StdCtrls.Items in the platform or editor service. */
@@ -649,6 +657,7 @@ public partial class TSFXManagerListBox : TListBox
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptySFXName = "";
+
     // Sound.pas:566
     internal void SetSFXManager(TSFXManager Value)
     {
@@ -725,6 +734,7 @@ public partial class TSonglist : TEObject
 
     internal TStringList FSongs;
     internal TStringList FSongNames;
+
     // Sound.pas:813
     internal void SetSongs(TStringList Value)
     {
@@ -761,7 +771,6 @@ public partial class TSonglist : TEObject
     }
 
     // Sound.pas:786
-
 
     // Sound.pas:794
     public override void Destroy()
@@ -812,6 +821,7 @@ public partial class TSongPlayer : TObject
     internal TNotifyEvent FOnSongChange;
     internal TSongStatus FBackup;
     internal int FPauseCount;
+
     // Sound.pas:870
     internal void SetSongs(TStringList Value)
     {
@@ -1069,6 +1079,7 @@ public partial class TSFX : TEObject
     { }
 
     internal string FFileName = "";
+
     // Sound.pas:1027
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1098,6 +1109,7 @@ public partial class TSFXSequence : TENode
     { }
 
     internal int FID;
+
     // Sound.pas:1057
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -1360,6 +1372,7 @@ public static partial class SoundUnit
 {
     public static string BaseSoundEnginePath = "";
     public static TSongPlayer SongPlayer;
+
     // Sound.pas:1182
     // { Unit routines }
     // { Loads the sound data (or adds a reference) so that it stays loaded between samples. }
@@ -1811,7 +1824,7 @@ public static partial class SoundUnit
 
     // Sound.pas:1468
     // { The title stored in an Impulse Tracker or Scream Tracker 3 module, else the file name without
-//   the extension. }
+    //   the extension. }
     public static string GetSongName(string FileName)
     {
         string Result = "";
@@ -1965,6 +1978,7 @@ public static partial class SoundUnit
     public static TSoundSystemList SoundSystems = default;
     public static TSampleDataList SampleDataList = default;
     public static TSampleList SampleList = default;
+
     public static void Initialize()
     {
         if (ToolServices != null)

@@ -1,24 +1,24 @@
 // Translated from AoWGamePlayDlg.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWReg;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
 using Aow.Units.AoWComboBox;
+using Aow.Units.AoWE;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
+using Aow.Units.AoWMessageDlg;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWReg;
 using Aow.Units.AoWTabPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using Aow.Units.EventLog;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using Aow.Units.AoWMessageDlg;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWGamePlayDlg;
 
@@ -88,6 +88,7 @@ public partial class TGamePlayDlg : TDataModule
     public TAOWImage CeltLineL;
     public TIvTranslator Translator;
     public string FNewPassword = "";
+
     // AoWGamePlayDlg.pas:200
     public void PasswordEntered(TEventLog Log)
     {

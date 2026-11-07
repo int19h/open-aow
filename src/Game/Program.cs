@@ -63,6 +63,7 @@ internal static class Program
             fileLog?.Dispose();
         }
     }
+
     private static string? Value(string[] args, string name)
     {
         int index = Array.IndexOf(args, name);

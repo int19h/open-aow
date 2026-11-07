@@ -2,14 +2,15 @@ using System.Text.Json;
 using Aow.Rtl;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
-using Images = Aow.Units.ImageLib.ImageLibUnit;
 using G = Aow.Units.GFXE.GFXEUnit;
+using Images = Aow.Units.ImageLib.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
 public sealed class ImageClassTests
 {
     private sealed class UnregisteredImage(TCustomImageLibrary owner) : Aow.Units.ImageLib.TLibraryImage(owner);
+
     private sealed class UnregisteredImageFile : TImageFile;
 
     [Fact]

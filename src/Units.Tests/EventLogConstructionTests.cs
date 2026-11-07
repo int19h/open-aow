@@ -19,6 +19,7 @@ public sealed class EventLogConstructionTests
         internal int DestroyEntries;
         internal readonly List<string> Observations = [];
         internal int Origin;
+
         internal EventListOwner() : base(null!)
         {
             FOnChanged = _ =>
@@ -32,11 +33,13 @@ public sealed class EventLogConstructionTests
                 Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.FDay, child.FPlayer, child.FID, child.FRefCount, AddRefReturn = child.FRefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child, Origin) }));
             };
         }
+
         public override int AddChild(TEObject child)
         {
             Last = (TEventLog)child;
             return base.AddChild(child);
         }
+
         public override int RemoveChild(TEObject child)
         {
             DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Destroy", DeclaringType: { } t } && t == typeof(TEObject)));
@@ -47,6 +50,7 @@ public sealed class EventLogConstructionTests
             finally { FOnChanged = changed; }
         }
     }
+
     private static readonly string[] Names =
     [
         "Aow.Units.AoWE.TArmyEventLog",
@@ -94,38 +98,39 @@ public sealed class EventLogConstructionTests
         "Aow.Units.EventLog.TTutorialMessageEventLog",
         "Aow.Units.EventLog.TUserEventLog",
     ];
+
     [Fact]
     public void StateInsertionAndOffsetsMatchBaseCommit()
     {
         var actual = new SortedDictionary<string, string>(StringComparer.Ordinal);
         foreach (string name in Names)
-        for (int mapped = 0; mapped < 2; mapped++)
-        for (int owned = 0; owned < 2; owned++)
-        for (int route = 0; route < 4; route++)
-        {
-            Type type = typeof(TEventLog).Assembly.GetType(name)!;
-            using var fixture = new OrderingRecording.Fixture(type);
-            if (mapped == 1) Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
-            var owner = owned == 1 ? new EventListOwner() : null;
-            int origin = new TObject().InstanceId;
-            if (owner is not null) owner.Origin = origin;
-            TEventLog? value = null;
-            string state;
-            try
-            {
-                value = (TEventLog)OrderingRecording.Create(type, owner, route, fixture.Engine);
-                Assert.IsType(type, value);
-                state = OrderingRecording.Snapshot(value, origin);
-            }
-            catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
-            Assert.NotNull(value);
-            actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
-            Game.AoWEngine.FDictionary = fixture.Dictionary;
-            Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msDestroying); });
-            if (owner is not null) value?.AddRef();
-            value?.Destroy();
-            owner?.Destroy();
-        }
+            for (int mapped = 0; mapped < 2; mapped++)
+                for (int owned = 0; owned < 2; owned++)
+                    for (int route = 0; route < 4; route++)
+                    {
+                        Type type = typeof(TEventLog).Assembly.GetType(name)!;
+                        using var fixture = new OrderingRecording.Fixture(type);
+                        if (mapped == 1) Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
+                        var owner = owned == 1 ? new EventListOwner() : null;
+                        int origin = new TObject().InstanceId;
+                        if (owner is not null) owner.Origin = origin;
+                        TEventLog? value = null;
+                        string state;
+                        try
+                        {
+                            value = (TEventLog)OrderingRecording.Create(type, owner, route, fixture.Engine);
+                            Assert.IsType(type, value);
+                            state = OrderingRecording.Snapshot(value, origin);
+                        }
+                        catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
+                        Assert.NotNull(value);
+                        actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
+                        Game.AoWEngine.FDictionary = fixture.Dictionary;
+                        Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msDestroying); });
+                        if (owner is not null) value?.AddRef();
+                        value?.Destroy();
+                        owner?.Destroy();
+                    }
         OrderingRecording.Check("EventLogConstruction", actual);
     }
 }

@@ -1,43 +1,43 @@
 // Translated from AoWInfoWin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AOWGauge;
+using Aow.Units.Altar;
 using Aow.Units.AoWArnoLine;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWUnitWindow;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
+using Aow.Units.Arena;
+using Aow.Units.Cave;
+using Aow.Units.City;
+using Aow.Units.E3Globals;
+using Aow.Units.ExploreS;
+using Aow.Units.Farm;
+using Aow.Units.GFXE;
 using Aow.Units.Mine;
 using Aow.Units.PowerNode;
-using Aow.Units.Farm;
-using Aow.Units.Tower;
-using Aow.Units.Sign;
-using static Aow.Units.AoWWinMan.AoWWinManUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
-using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
-using Aow.Units.City;
-using static Aow.Units.City.CityUnit;
 using Aow.Units.PrdPlace;
-using Aow.Units.Cave;
+using Aow.Units.Sign;
 using Aow.Units.Teleport;
-using Aow.Units.ExploreS;
+using Aow.Units.Tower;
 using Aow.Units.WizardsTower;
-using Aow.Units.Arena;
-using Aow.Units.Altar;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWCityScreen.AoWCityScreenUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using static Aow.Units.aowHelpWin.aowHelpWinUnit;
+using static Aow.Units.AoWProdScreen.AoWProdScreenUnit;
+using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.City.CityUnit;
 using static Aow.Units.E2CampaignSupport.E2CampaignSupportUnit;
-using Aow.Units.AoWUnitWindow;
-using Aow.Units.E3Globals;
-using Aow.Units.aowIntGfxMod;
 
 namespace Aow.Units.AoWInfoWin;
 
@@ -143,6 +143,7 @@ public partial class TIWindow : TDataModule
     // screen of each InfoButton key. ClassRegistry adds the original renderers.
     public static readonly Catalog<StructureView, Action<TIWindow, TStructure>> StructurePanels = new("structure info panel");
     public static readonly Catalog<StructureView, Action<TIWindow, TStructure>> StructureButtons = new("structure info button");
+
     // AoWInfoWin.pas:137
     public void InfoWinResize()
     {
@@ -285,6 +286,7 @@ public partial class TIWindow : TDataModule
 public static partial class AoWInfoWinUnit
 {
     public static TIWindow IWindow;
+
     // AoWInfoWin.pas:616
     public static void ShowStructureInfo(TIWindow Dialog, TStructure Structure)
     {

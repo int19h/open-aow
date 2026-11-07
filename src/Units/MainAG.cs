@@ -1,13 +1,13 @@
 // Translated from MainAG.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.City;
 using Aow.Units.AGCPlugins;
 using Aow.Units.AoWE;
+using Aow.Units.City;
+using Aow.Units.Engine;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.MainAG;
 
@@ -184,6 +184,7 @@ public partial class TFortifyAGC : TAIGroupControl
     public int FEnemyStrength;
     public int FRequiredStrength;
     public TAIGroupTargetSelector FTargetSelector;
+
     // MainAG.pas:262
     public override void Destroy()
     {
@@ -274,41 +275,41 @@ public partial class TFortifyAGC : TAIGroupControl
                     CurrentTarget = FTargets.GetTargets(I);
                 }
 
-            {
-                I = 0;
-                int last = FTargets.Count - 1;
-                for (; I <= last; I += 1)
                 {
-                    var targetData = FTargets.GetTargets(I);
-                    var targetMovePoints = FTargets.GetTargets(I);
-                    FTargets.GetTargets(I).FDataB = targetData.FData.Priority * 10 + targetMovePoints.FMovePoints * -2;
-                    Excess = FTargets.GetTargets(I).FDataA - FStrengthMax;
-                    if (Excess > 0)
+                    I = 0;
+                    int last = FTargets.Count - 1;
+                    for (; I <= last; I += 1)
                     {
-                        var target = FTargets.GetTargets(I);
-                        target.FDataB -= (int)(((uint)Excess) >> 4);
-                    }
-
-                    Excess = FTargets.GetTargets(I).FPathStrength;
-                    if (Excess > 0)
-                    {
-                        var target = FTargets.GetTargets(I);
-                        target.FDataB -= (int)(((uint)Excess) >> 3);
-                    }
-
-                    if (FTargets.GetTargets(I).FLocation.XYL != FLocation.XYL)
-                    {
-                        var targetLocation = FTargets.GetTargets(I);
-                        Army = ((TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(targetLocation.FLocation.XYL)).GetArmyHS();
-                        if (Army != null)
+                        var targetData = FTargets.GetTargets(I);
+                        var targetMovePoints = FTargets.GetTargets(I);
+                        FTargets.GetTargets(I).FDataB = targetData.FData.Priority * 10 + targetMovePoints.FMovePoints * -2;
+                        Excess = FTargets.GetTargets(I).FDataA - FStrengthMax;
+                        if (Excess > 0)
                         {
-                            var count = Army.FArmy.Count;
                             var target = FTargets.GetTargets(I);
-                            target.FDataB -= count << 2;
+                            target.FDataB -= (int)(((uint)Excess) >> 4);
+                        }
+
+                        Excess = FTargets.GetTargets(I).FPathStrength;
+                        if (Excess > 0)
+                        {
+                            var target = FTargets.GetTargets(I);
+                            target.FDataB -= (int)(((uint)Excess) >> 3);
+                        }
+
+                        if (FTargets.GetTargets(I).FLocation.XYL != FLocation.XYL)
+                        {
+                            var targetLocation = FTargets.GetTargets(I);
+                            Army = ((TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(targetLocation.FLocation.XYL)).GetArmyHS();
+                            if (Army != null)
+                            {
+                                var count = Army.FArmy.Count;
+                                var target = FTargets.GetTargets(I);
+                                target.FDataB -= count << 2;
+                            }
                         }
                     }
                 }
-            }
 
                 FTargets.SortOnPriority();
                 if (FTargets.Count != 0 && FTargets.GetTargets(0) != CurrentTarget)

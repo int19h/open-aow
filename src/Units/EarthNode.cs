@@ -1,8 +1,8 @@
 // Translated from EarthNode.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
 using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.EarthNode;
@@ -10,7 +10,7 @@ namespace Aow.Units.EarthNode;
 public partial class TEarthNode : TProductionPlace
 {
     public TEarthNode(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // EarthNode.pas:36
     public new const int ClassID = 132302;
@@ -34,12 +34,10 @@ public partial class TEarthNodeResource : TProductionPlaceResource
 
     // EarthNode.pas:42
 
-
     // EarthNode.pas:56
     public override int ResourceUserClassID() => 132302;
 
     // EarthNode.pas:26
-
 
     // EarthNode.pas:50
     public override string ResourceEditName() => TranslateRStr(EarthNodeRStr);

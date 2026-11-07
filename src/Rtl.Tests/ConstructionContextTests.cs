@@ -8,16 +8,19 @@ public sealed class ConstructionContextTests
     {
         internal readonly List<string> Facts = [];
         internal readonly List<ConstructionContext> Contexts = [];
+
         internal void Fact(string label, string value) => Facts.Add($"{label} {value}");
         internal void Num(string label, int value) => Fact(label, value.ToString(System.Globalization.CultureInfo.InvariantCulture));
     }
 
     private sealed class EConstruct(string message) : System.Exception(message);
+
     private sealed class ECleanup(string message) : System.Exception(message);
 
     private class Captured : TObject
     {
         protected readonly Trace Trace;
+
         protected Captured(ConstructionContext context, Trace trace)
         {
             context.Capture(this);
@@ -29,6 +32,7 @@ public sealed class ConstructionContextTests
     private class Base : Captured
     {
         private readonly int baseValue;
+
         protected Base(ConstructionContext context, Trace trace, int failAt) : base(context, trace)
         {
             baseValue = 10;
@@ -36,6 +40,7 @@ public sealed class ConstructionContextTests
             try { if (failAt == 1) throw new EConstruct("base"); }
             finally { trace.Fact("base_unwind", "done"); }
         }
+
         public override void Destroy()
         {
             Trace.Num("base_destroy", baseValue);
@@ -46,6 +51,7 @@ public sealed class ConstructionContextTests
     private class Middle : Base
     {
         private readonly int middleValue;
+
         protected Middle(ConstructionContext context, Trace trace, int failAt) : base(context, trace, failAt)
         {
             middleValue = 20;
@@ -53,6 +59,7 @@ public sealed class ConstructionContextTests
             try { if (failAt == 2) throw new EConstruct("middle"); }
             finally { trace.Fact("middle_unwind", "done"); }
         }
+
         public override void Destroy()
         {
             Trace.Num("middle_destroy", middleValue);
@@ -63,6 +70,7 @@ public sealed class ConstructionContextTests
     private sealed class Leaf : Middle
     {
         private readonly int leafValue;
+
         private Leaf(ConstructionContext context, Trace trace, int failAt) : base(context, trace, failAt)
         {
             leafValue = 30;
@@ -70,7 +78,9 @@ public sealed class ConstructionContextTests
             try { if (failAt == 3) throw new EConstruct("leaf"); }
             finally { trace.Fact("leaf_unwind", "done"); }
         }
+
         internal static Leaf New(Trace trace, int failAt) => ConstructionContext.Create(context => new Leaf(context, trace, failAt));
+
         public override void Destroy()
         {
             Trace.Num("leaf_destroy", leafValue);
@@ -81,6 +91,7 @@ public sealed class ConstructionContextTests
     private sealed class Owned : Captured
     {
         private readonly List<TObject> owner;
+
         private Owned(ConstructionContext context, Trace trace, List<TObject> owner) : base(context, trace)
         {
             this.owner = owner;
@@ -88,7 +99,9 @@ public sealed class ConstructionContextTests
             trace.Num("owner_inserted", owner.Count);
             throw new EConstruct("owner");
         }
+
         internal static Owned New(Trace trace, List<TObject> owner) => ConstructionContext.Create(context => new Owned(context, trace, owner));
+
         public override void Destroy()
         {
             Trace.Num("owner_at_destroy", owner.Count);
@@ -101,13 +114,16 @@ public sealed class ConstructionContextTests
     private sealed class Parent : Captured
     {
         private readonly Leaf? child;
+
         private Parent(ConstructionContext context, Trace trace) : base(context, trace)
         {
             trace.Fact("parent_body", "enter");
             try { child = Leaf.New(trace, 2); }
             finally { trace.Num("parent_unwind_child_nil", child is null ? 1 : 0); }
         }
+
         internal static Parent New(Trace trace) => ConstructionContext.Create(context => new Parent(context, trace));
+
         public override void Destroy()
         {
             Trace.Num("parent_destroy_child_nil", child is null ? 1 : 0);
@@ -120,6 +136,7 @@ public sealed class ConstructionContextTests
     {
         private Throwing(ConstructionContext context, Trace trace) : base(context, trace, 0) => throw new EConstruct("original");
         internal static Throwing New(Trace trace) => ConstructionContext.Create(context => new Throwing(context, trace));
+
         public override void Destroy()
         {
             Trace.Fact("throwing_destroy", "enter");
@@ -137,11 +154,13 @@ public sealed class ConstructionContextTests
     private sealed class VirtualLeaf : VirtualBase
     {
         private readonly int value;
+
         private VirtualLeaf(ConstructionContext context, Trace trace) : base(context, trace)
         {
             value = 77;
             trace.Num("virtual_after", value);
         }
+
         internal static VirtualLeaf New(Trace trace) => ConstructionContext.Create(context => new VirtualLeaf(context, trace));
         protected override void Observe() => Trace.Num("virtual_derived_value", value);
     }
@@ -149,7 +168,9 @@ public sealed class ConstructionContextTests
     private class PlainBase : Captured
     {
         internal int Value;
+
         protected PlainBase(ConstructionContext context, Trace trace, bool fail) : base(context, trace) => Initialize(fail);
+
         // A Delphi constructor invoked on an existing object remains an ordinary method.
         protected void Initialize(bool fail)
         {
@@ -157,6 +178,7 @@ public sealed class ConstructionContextTests
             Trace.Num("plain_body", Value);
             if (fail) throw new EConstruct("plain");
         }
+
         public override void Destroy()
         {
             Trace.Num("plain_destroy", Value);
@@ -167,6 +189,7 @@ public sealed class ConstructionContextTests
     private sealed class PlainLeaf : PlainBase
     {
         private PlainLeaf(ConstructionContext context, Trace trace) : base(context, trace, false) { }
+
         internal static PlainLeaf New(Trace trace) => ConstructionContext.Create(context => new PlainLeaf(context, trace));
         internal void Reenter() => Initialize(true);
     }

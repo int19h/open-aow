@@ -17,6 +17,7 @@ internal static class OrderingRecording
         Assert.Equal(ConstructionSnapshot.Keys(name), actual.Keys);
         foreach (var pair in actual) ConstructionSnapshot.Check(name, pair.Key, pair.Value);
     }
+
     internal static TEObject Direct(Type type, TECustomNode? owner)
     {
         try
@@ -32,6 +33,7 @@ internal static class OrderingRecording
             throw;
         }
     }
+
     internal static TEObject Create(Type type, TECustomNode? owner, int route, TEngine engine) => route switch
     {
         0 => Direct(type, owner),
@@ -39,16 +41,20 @@ internal static class OrderingRecording
         2 => EClass.Of(type).Create(owner!),
         _ => engine.CreateEObject(EClass.Of(type).ClassID, owner!)
     };
+
     internal sealed class Fixture : IDisposable
     {
         private readonly int seed = Runtime.RandSeed;
+
         internal TAoWDictionary Dictionary => dictionary;
+
         private readonly TAoWDictionary dictionary = EngineFixture.Engine.FDictionary;
         private readonly TAoWHSSet set = Game.AoWHSSet;
         private readonly TAoWEngine engine = Game.AoWEngine;
         private readonly TAoWHSMap map = Game.AoWHSMap;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
         internal readonly TEngine Engine;
+
         internal Fixture(Type? type = null)
         {
             Runtime.RandSeed = 123456789;
@@ -69,6 +75,7 @@ internal static class OrderingRecording
                 Engine.RegisterEClasses([descriptor]);
             }
         }
+
         public void Dispose()
         {
             Engine.Destroy();
@@ -81,6 +88,7 @@ internal static class OrderingRecording
             Manager.Destroy();
         }
     }
+
     internal static string Snapshot(object value, int origin)
     {
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);

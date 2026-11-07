@@ -1,18 +1,18 @@
 // Translated from AoWWizardsTowerDlg.pas.
 using Aow.Rtl;
-using Aow.Units.GFXE;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWComp;
-using Aow.Units.WizardsTower;
-using Aow.Units.EventLog;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWWindow;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.WizardsTower;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 
 namespace Aow.Units.AoWWizardsTowerDlg;
@@ -42,6 +42,7 @@ public partial class TWizardsTowerDlg : TDataModule
     public TIvTranslator Translator;
     public TExecuteDoneEvent FOnClose;
     public TEnterWizardsTowerEventLog FEvent;
+
     // AoWWizardsTowerDlg.pas:54
     public void ClearEvent()
     {

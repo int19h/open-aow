@@ -1,8 +1,8 @@
 // Translated from AOWInterfaceImgLib.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AOWInterfaceImgLib;
 
@@ -19,7 +19,7 @@ public partial class TInterfaceIL : TImageLibrary
 
     // AOWInterfaceImgLib.pas:34
     // { CheckIL returns Self when the library holds the Count images from Index on, else nil after a
-//   message box that names the library and the component (Sender) that needs them }
+    //   message box that names the library and the component (Sender) that needs them }
     public TInterfaceIL CheckIL(int Index, int Count, TComponent Sender)
     {
         TInterfaceIL Result = this;
@@ -45,8 +45,8 @@ public partial class TInterfaceIL : TImageLibrary
 
     // AOWInterfaceImgLib.pas:58
     // { DrawILF draws a frame of 8 images: Index the top left corner, +1 the top edge, +2 the top right
-//   corner, +3 the left edge, +4 the right edge, +5 the bottom left corner, +6 the bottom edge, +7
-//   the bottom right corner }
+    //   corner, +3 the left edge, +4 the right edge, +5 the bottom left corner, +6 the bottom edge, +7
+    //   the bottom right corner }
     public void DrawILF(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
     {
         int ClipRight;
@@ -209,7 +209,7 @@ public partial class TInterfaceIL : TImageLibrary
 
     // AOWInterfaceImgLib.pas:154
     // { DrawILLh draws a horizontal line of 3 images: Index the left end, +1 the middle (repeated),
-//   +2 the right end }
+    //   +2 the right end }
     public void DrawILLh(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
     {
         int ClipRight;
@@ -260,7 +260,7 @@ public partial class TInterfaceIL : TImageLibrary
 
     // AOWInterfaceImgLib.pas:184
     // { DrawILLv draws a vertical line of 3 images: Index the top end, +1 the middle (repeated), +2
-//   the bottom end }
+    //   the bottom end }
     public void DrawILLv(int Index, in TRect R, ref TSurfaceDesc SurfDesc)
     {
         int ClipRight;

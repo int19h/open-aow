@@ -1,9 +1,9 @@
 // Translated from AoWArnoLine.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWArnoLine;
 
@@ -14,6 +14,7 @@ public partial class TAoWArnoLine : TAOWControl
     public ImageLib.TLibraryImage FImageMiddle;
     public ImageLib.TLibraryImage FImageBottom;
     public TInterfaceIL FLineLibrary;
+
     // AoWArnoLine.pas:47
     public override void Destroy()
     {

@@ -1,14 +1,14 @@
 // Translated from WorkShop.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
 using Aow.Units.CombatStructure;
+using Aow.Units.Engine;
 
 namespace Aow.Units.WorkShop;
 
 public partial class TWorkshop : TCombatStructure
 {
     public TWorkshop(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // WorkShop.pas:36
     public new const int ClassID = 2229512;
@@ -18,7 +18,7 @@ public partial class TWorkshop : TCombatStructure
 public partial class TWorkshopResource : TCombatStructureResource
 {
     public TWorkshopResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // WorkShop.pas:39
     public new const int ClassID = 2229513;

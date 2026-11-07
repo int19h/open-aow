@@ -1,17 +1,17 @@
 // Translated from Mountain.pas.
-using Aow.Rtl;
-using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.ILTer;
-using Aow.Units.AoWTer;
-using Aow.Units.GlobalTargetSpells;
+using System.Runtime.InteropServices;
+using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
+using Aow.Units.AoWTer;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.GlobalTargetSpells;
+using Aow.Units.HSEngine;
+using Aow.Units.ILTer;
 using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.Mountain;
 
@@ -23,7 +23,7 @@ public enum AnonymousEnum_rmRaising : byte
 public partial class TMountainMO : TAoWTerrain
 {
     public TMountainMO(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Mountain.pas:101
     public new const int ClassID = 131432;
@@ -112,7 +112,7 @@ public partial class TMountainMO : TAoWTerrain
 public partial class TMountainMOR : TAoWTerrainResource
 {
     public TMountainMOR(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Mountain.pas:169
     public new const int ClassID = 131433;
@@ -129,7 +129,7 @@ public partial class TMountainMOR : TAoWTerrainResource
 public partial class TRaisedMountain : TILTerrainMO
 {
     public TRaisedMountain(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Mountain.pas:178
     public new const int ClassID = 131434;
@@ -138,6 +138,7 @@ public partial class TRaisedMountain : TILTerrainMO
     public sbyte FPlayer;
     public sbyte FDuration;
     public sbyte FOriginalOverlay;
+
     // Mountain.pas:181
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -251,7 +252,7 @@ public partial class TRaisedMountain : TILTerrainMO
 public partial class TRaisedMountainResource : TILTerrainMOR
 {
     public TRaisedMountainResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Mountain.pas:249
     public new const int ClassID = 131435;
@@ -267,7 +268,7 @@ public partial class TRaisedMountainResource : TILTerrainMOR
 public partial class TRaiseTerrainTE : TGlobalTargetSpellTE
 {
     public TRaiseTerrainTE(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // Mountain.pas:258
     public new const int ClassID = 135946;
@@ -342,7 +343,6 @@ public partial class TRaiseTerrainTE : TGlobalTargetSpellTE
 
     // NetworkE.pas:230
 
-
 }
 
 public partial class TRaiseTerrain : TGlobalTargetSpell
@@ -358,7 +358,6 @@ public partial class TRaiseTerrain : TGlobalTargetSpell
     }
 
     // Mountain.pas:327
-
 
     // Mountain.pas:364
     public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
@@ -440,6 +439,7 @@ public static partial class MountainUnit
     }
 
     public static readonly string MountainNameRStr = "Mountain";
+
     public static void Initialize()
     {
     }

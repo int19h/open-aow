@@ -1,24 +1,25 @@
 // Translated from MoveOnEvents.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.Sound.SoundUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.EventLog;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
+using static Aow.Units.Sound.SoundUnit;
 
 namespace Aow.Units.MoveOnEvents;
 
 public partial class TMoveOnEvent : TMapObject
 {
     public TMoveOnEvent(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public byte FRadius;
     public int FTriggerPlayers;
+
     // MoveOnEvents.pas:151
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -189,7 +190,6 @@ public partial class TMoveOnEventResource : TMapObjectResource
 
     // MoveOnEvents.pas:261
 
-
     // MoveOnEvents.pas:267
     public override void SetLevel(byte Value)
     {
@@ -197,7 +197,6 @@ public partial class TMoveOnEventResource : TMapObjectResource
     }
 
     // MoveOnEvents.pas:48
-
 
     // MoveOnEvents.pas:272
     public override string ResourceEditName() => "MoveOnEvent";
@@ -207,12 +206,13 @@ public partial class TMoveOnEventResource : TMapObjectResource
 public partial class TChangeSongMoveOnEvent : TMoveOnEvent
 {
     public TChangeSongMoveOnEvent(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MoveOnEvents.pas:277
     public new const int ClassID = 132427;
 
     public string FSongFileName = "";
+
     // MoveOnEvents.pas:280
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -243,7 +243,7 @@ public partial class TChangeSongMoveOnEvent : TMoveOnEvent
 public partial class TChangeSongMoveOnEventResource : TMoveOnEventResource
 {
     public TChangeSongMoveOnEventResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MoveOnEvents.pas:301
     public new const int ClassID = 132428;
@@ -259,12 +259,13 @@ public partial class TChangeSongMoveOnEventResource : TMoveOnEventResource
 public partial class TPlaySampleMoveOnEvent : TMoveOnEvent
 {
     public TPlaySampleMoveOnEvent(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MoveOnEvents.pas:307
     public new const int ClassID = 132445;
 
     public string FSampleFileName = "";
+
     // MoveOnEvents.pas:310
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -291,7 +292,7 @@ public partial class TPlaySampleMoveOnEvent : TMoveOnEvent
 public partial class TPlaySampleMoveOnEventResource : TMoveOnEventResource
 {
     public TPlaySampleMoveOnEventResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MoveOnEvents.pas:328
     public new const int ClassID = 132446;
@@ -315,6 +316,7 @@ public partial class TShowMessageMoveOnEvent : TMoveOnEvent
     public new const int ClassID = 132429;
 
     public TStringList FMessage;
+
     // MoveOnEvents.pas:340
     public override void Destroy()
     {
@@ -330,7 +332,6 @@ public partial class TShowMessageMoveOnEvent : TMoveOnEvent
     }
 
     // MoveOnEvents.pas:334
-
 
     // MoveOnEvents.pas:355
     public override void MovedOnTrigger(sbyte Player)
@@ -350,13 +351,12 @@ public partial class TShowMessageMoveOnEvent : TMoveOnEvent
 
     // MoveOnEvents.pas:93
 
-
 }
 
 public partial class TShowMessageMoveOnEventResource : TMoveOnEventResource
 {
     public TShowMessageMoveOnEventResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // MoveOnEvents.pas:375
     public new const int ClassID = 132430;

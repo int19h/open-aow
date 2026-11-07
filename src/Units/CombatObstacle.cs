@@ -1,22 +1,23 @@
 // Translated from CombatObstacle.pas.
 using Aow.Rtl;
+using Aow.Units.AoWE;
+using Aow.Units.AoWTC;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.AoWE;
 using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
 using static Aow.Units.AoWTC.AoWTCUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.CombatObstacle;
 
 public partial class TCombatObstacleShadow : THexagonSprite
 {
     public TCombatObstacleShadow(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TCombatObstacle FObstacle;
+
     // CombatObstacle.pas:74
     public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) - 1677721600;
 
@@ -33,9 +34,10 @@ public partial class TCombatObstacleShadow : THexagonSprite
 public partial class TCombatObstacleOverlay : THexagonSprite
 {
     public TCombatObstacleOverlay(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public TCombatObstacle FObstacle;
+
     // CombatObstacle.pas:84
     public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) + 393216;
 
@@ -52,13 +54,14 @@ public partial class TCombatObstacleOverlay : THexagonSprite
 public partial class TCombatObstacle : TMultiHexMO
 {
     public TCombatObstacle(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatObstacle.pas:94
     public new const int ClassID = 2229546;
 
     public TCombatObstacleShadow FShadow;
     public TCombatObstacleOverlay FOverlay;
+
     // CombatObstacle.pas:97
     public override void Destroy()
     {
@@ -251,7 +254,7 @@ public partial class TCombatObstacle : TMultiHexMO
 public partial class TCombatObstacleResource : TMultiHexMOR
 {
     public TCombatObstacleResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // CombatObstacle.pas:239
     public new const int ClassID = 2229547;

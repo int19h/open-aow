@@ -1,34 +1,34 @@
 // Translated from AoWProdScreen.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.Engine;
-using Aow.Units.GFXE;
-using static Aow.Units.GFXE.GFXEUnit;
-using Aow.Units.HSEngine;
-using static Aow.Units.HSEngine.HSEngineUnit;
-using Aow.Units.PrdPlace;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AoWTC;
-using Aow.Units.AoWComp;
-using Aow.Units.AOWGauge;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWCheckBox;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWE;
 using Aow.Units.AoWFrame;
+using Aow.Units.AOWGauge;
 using Aow.Units.AoWImage;
+using Aow.Units.AoWInfoBanner;
+using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
+using Aow.Units.AoWTC;
+using Aow.Units.aowUserDrawBox;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
-using Aow.Units.aowUserDrawBox;
+using Aow.Units.Engine;
+using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
+using Aow.Units.PrdPlace;
+using Aow.Units.Shipyard;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
+using static Aow.Units.GFXE.GFXEUnit;
+using static Aow.Units.HSEngine.HSEngineUnit;
 using static Aow.Units.OverviewUnit.OverviewUnitUnit;
-using Aow.Units.Shipyard;
-using Aow.Units.aowIntGfxMod;
-using Aow.Units.AoWInfoBanner;
 
 namespace Aow.Units.AoWProdScreen;
 
@@ -149,6 +149,7 @@ public partial class TProductionScreen : TDataModule
     public byte FMode;
     public TAoWCombatMap FPreview;
     public TIntegerList FImages;
+
     // AoWProdScreen.pas:590
     public void FreePreview()
     {
@@ -1219,6 +1220,7 @@ public partial class TProductionScreen : TDataModule
 public static partial class AoWProdScreenUnit
 {
     public static TProductionScreen ProductionScreen;
+
     // AoWProdScreen.pas:819
     public static int SphereImage(TMagicSphere Sphere)
     {

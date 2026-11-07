@@ -1,19 +1,19 @@
 // Translated from AoWCampaignJoin.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWE;
+using Aow.Units.aowIntGfxMod;
+using Aow.Units.AoWLeaderSetup;
 using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.aowUserDrawBox;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using static Aow.Units.E2Globals.E2GlobalsUnit;
-using static Aow.Units.E1GameFlow.E1GameFlowUnit;
-using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
-using Aow.Units.AoWLeaderSetup;
-using Aow.Units.aowIntGfxMod;
 using Aow.Units.AoWWorldMap;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using static Aow.Units.E1GameFlow.E1GameFlowUnit;
+using static Aow.Units.E2Globals.E2GlobalsUnit;
 
 namespace Aow.Units.AoWCampaignJoin;
 
@@ -38,6 +38,7 @@ public partial class TCampaignJoinDlg : TDataModule
     public int FScrollDelay;
     public int FScrollPosition;
     public TStringList FScrollText;
+
     // AoWCampaignJoin.pas:160
     public void CustomizeLeader()
     {

@@ -1,10 +1,10 @@
 // Translated from AOWWinManager.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWWinControl;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AOWWinManager;
 
@@ -33,6 +33,7 @@ public partial class TAOWWinManager : TAoWComponent
     public int FILIndexTBack;
     public int FILIndexTFore;
     public bool FDrawOverlay;
+
     // AOWWinManager.pas:81
     public TAOWWinManager(TComponent owner) : base(owner)
     {
@@ -100,9 +101,9 @@ public partial class TAOWWinManager : TAoWComponent
 
     // AOWWinManager.pas:204
     // { InvalidateRect passes ARect (screen coordinates) on to the windows from Index up that it touches
-//   (a rectangle from a window only when that window is not below the overlay priority): a
-//   double-buffered window adds it, in its own coordinates, to its blit list, any other window adds
-//   it to its draw list. The window itself is passed as the Sender. }
+    //   (a rectangle from a window only when that window is not below the overlay priority): a
+    //   double-buffered window adds it, in its own coordinates, to its blit list, any other window adds
+    //   it to its draw list. The window itself is passed as the Sender. }
     public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
     {
         TAoWComponent C;
@@ -133,12 +134,12 @@ public partial class TAOWWinManager : TAoWComponent
 
     // AOWWinManager.pas:239
     // { DrawSurface draws the screen into Surface: first it brings the windows up to date and adds the
-//   screen area that a hidden or moved window uncovered to the draw list (only the frame strips for a
-//   masked window), then it redraws the background (all of it the first time, else only the dirty
-//   rectangles) and asks every window to draw itself; the rectangles each window blitted are passed
-//   on to the windows above it, and the foreground texture is drawn again over them when the window
-//   is below the overlay priority. FBackRect holds the window's last place as (Left, Top, Width,
-//   Height). }
+    //   screen area that a hidden or moved window uncovered to the draw list (only the frame strips for a
+    //   masked window), then it redraws the background (all of it the first time, else only the dirty
+    //   rectangles) and asks every window to draw itself; the rectangles each window blitted are passed
+    //   on to the windows above it, and the foreground texture is drawn again over them when the window
+    //   is below the overlay priority. FBackRect holds the window's last place as (Left, Top, Width,
+    //   Height). }
     public override void DrawSurface(TSurface Surface)
     {
         TAOWWindowControl C;
@@ -181,9 +182,9 @@ public partial class TAOWWinManager : TAoWComponent
                                 if (C.FVisible && FDrawn && C.FBackRect.Right > 0 && C.FBackRect.Bottom > 0)
                                 {
                                     // { the window moved: add the parts of its old place it no longer covers. For a
-//                 masked window the strips are off (original bugs): the third strip of the left
-//                 and right cases is everything below the top frame, and the right case starts
-//                 at FWinLeft + FFrameRight }
+                                    //                 masked window the strips are off (original bugs): the third strip of the left
+                                    //                 and right cases is everything below the top frame, and the right case starts
+                                    //                 at FWinLeft + FFrameRight }
                                     if (C.FBackRect.Left < C.FWinLeft)
                                     {
                                         if (C.FMasked)

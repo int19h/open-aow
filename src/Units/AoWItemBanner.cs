@@ -1,15 +1,15 @@
 // Translated from AoWItemBanner.pas.
 using Aow.Rtl;
-using static Aow.Rtl.RtlUnit;
-using Aow.Units.GFXE;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
-using Aow.Units.AOWMenu;
 using Aow.Units.AoWImage;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
-using Aow.Units.AoWVScroll;
+using Aow.Units.AOWMenu;
 using Aow.Units.aowUserDrawBox;
+using Aow.Units.AoWVScroll;
+using Aow.Units.GFXE;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.AoWItemBanner;
 
@@ -31,6 +31,7 @@ public partial class TItemBanner : TDataModule
     public TaowUserDrawBox DrawBox;
     public TAOWListBox AbLB;
     public TAOWVScrollBar AbVSB;
+
     // AoWItemBanner.pas:46
     public void IBannerPopupShow(TObject Sender)
     {

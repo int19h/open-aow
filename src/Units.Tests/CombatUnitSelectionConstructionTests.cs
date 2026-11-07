@@ -23,6 +23,7 @@ public sealed class CombatUnitSelectionConstructionTests
             throw;
         }
     }
+
     [Fact]
     public void StateVirtualSettingsLinkCountOffsetsAndFailureMatchBaseCommit()
     {

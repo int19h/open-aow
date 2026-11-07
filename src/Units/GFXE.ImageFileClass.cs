@@ -7,6 +7,7 @@ public interface IImageFileClass
     static abstract string Name { get; }
     static abstract string Extension { get; }
     static abstract string Description { get; }
+
     static abstract int GetPixelFormatID(string fileName);
     static abstract TSurface CreateSurface(string fileName);
     static abstract int LoadToSurfaceDesc(string fileName, ref TSurfaceDesc surface, int x, int y);
@@ -15,7 +16,9 @@ public interface IImageFileClass
 public sealed class ImageFileClass
 {
     private static readonly Catalog<Type, ImageFileClass> catalog = new("image file class");
+
     private delegate int LoadImage(string fileName, ref TSurfaceDesc surface, int x, int y);
+
     private readonly Func<string> getName;
     private readonly Func<string> getExtension;
     private readonly Func<string> getDescription;
@@ -41,13 +44,17 @@ public sealed class ImageFileClass
     public string Name => getName();
     public string Extension => getExtension();
     public string Description => getDescription();
+
     public int GetPixelFormatID(string fileName) => getPixelFormatID(fileName);
     public TSurface CreateSurface(string fileName) => createSurface(fileName);
     public int LoadToSurfaceDesc(string fileName, ref TSurfaceDesc surface, int x, int y) => loadToSurfaceDesc(fileName, ref surface, x, y);
+
     public static ImageFileClass Register<T>() where T : TImageFile, IImageFileClass =>
         catalog.Add(typeof(T), new ImageFileClass(typeof(T), static () => T.Name, static () => T.Extension,
             static () => T.Description, T.GetPixelFormatID, T.CreateSurface, T.LoadToSurfaceDesc));
+
     public static ImageFileClass Of<T>() where T : TImageFile, IImageFileClass => catalog[typeof(T)];
     public static ImageFileClass Of(Type type) => catalog[type];
+
     public static IReadOnlyList<ImageFileClass> All => catalog.All;
 }

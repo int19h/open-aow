@@ -5,6 +5,7 @@ namespace Aow.Rtl;
 public partial class TIvDictionary
 {
     private readonly MldDictionary dictionary = new();
+
     public string DictionaryName { get; private set; } = "";
     public MldDictionary Reader => dictionary;
 

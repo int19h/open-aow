@@ -1,15 +1,15 @@
 // Translated from House.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.HSEngine;
-using Aow.Units.CombatStructure;
 using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.City;
-using static Aow.Units.AoWTC.AoWTCUnit;
-using static Aow.Rtl.RtlUnit;
+using Aow.Units.CombatStructure;
+using Aow.Units.Engine;
 using Aow.Units.GFXE;
+using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
+using static Aow.Rtl.RtlUnit;
+using static Aow.Units.AoWE.AoWEUnit;
+using static Aow.Units.AoWTC.AoWTCUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
 
 namespace Aow.Units.House;
@@ -17,12 +17,13 @@ namespace Aow.Units.House;
 public partial class THouse : TCombatStructure
 {
     public THouse(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     public new const int ClassID = 2229522;
 
     public int FRace;
     public int FFlagID;
+
     // House.pas:45
     public override void Activate()
     {
@@ -144,13 +145,13 @@ public partial class THouse : TCombatStructure
 
                             break;
                         default:
-                        {
-                            ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
-                            if (ImageIndex != -1)
                             {
-                                Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                                ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                                if (ImageIndex != -1)
+                                {
+                                    Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
+                                }
                             }
-                        }
 
                             break;
                     }
@@ -195,7 +196,7 @@ public partial class THouse : TCombatStructure
 public partial class THouseResource : TCombatStructureResource
 {
     public THouseResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // House.pas:145
     public new const int ClassID = 2229523;

@@ -1,9 +1,9 @@
 // Translated from BehaviorAG.pas.
 using Aow.Rtl;
-using Aow.Units.Engine;
-using Aow.Units.AoWE;
-using static Aow.Units.AoWE.AoWEUnit;
 using Aow.Units.AGCPlugins;
+using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.BehaviorAG;
 
@@ -24,6 +24,7 @@ public partial class TAbstractBehaviorAG : TAIGroup
 public partial class TAbstractBehaviorAGC : TAIGroupControl
 {
     public TAIGroupTargetSelector FTargetSelector;
+
     // BehaviorAG.pas:150
     public override void Destroy()
     {

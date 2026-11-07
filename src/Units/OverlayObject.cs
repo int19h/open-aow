@@ -9,7 +9,7 @@ namespace Aow.Units.OverlayObject;
 public partial class TOverlayObject : TFixedILTerrainMO
 {
     public TOverlayObject(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // OverlayObject.pas:36
     public new const int ClassID = 131228;
@@ -20,12 +20,13 @@ public partial class TOverlayObject : TFixedILTerrainMO
 public partial class TOverlayObjectResource : TFixedILTerrainMOR
 {
     public TOverlayObjectResource(TECustomNode owner) : base(owner)
-    {}
+    { }
 
     // OverlayObject.pas:42
     public new const int ClassID = 131229;
 
     public int FOverlayType;
+
     // OverlayObject.pas:48
     public override void ReadWrite(TEStorageStream Stream)
     {

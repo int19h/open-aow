@@ -1,11 +1,11 @@
 // Translated from Cave.pas.
-using Aow.Rtl;
 using System.Runtime.InteropServices;
-using Aow.Units.Engine;
-using Aow.Units.NetworkE;
-using Aow.Units.HSEngine;
-using Aow.Units.EventLog;
+using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.Engine;
+using Aow.Units.EventLog;
+using Aow.Units.HSEngine;
+using Aow.Units.NetworkE;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Cave;
@@ -35,6 +35,7 @@ public partial class TCave : TStructure
     public new const int ClassID = 131966;
 
     public TCaveEntrance FEntrance;
+
     // Cave.pas:134
     public override void Destroy()
     {
@@ -76,7 +77,6 @@ public partial class TCave : TStructure
     }
 
     // Cave.pas:128
-
 
     // Cave.pas:273
     public override sbyte GetOverlay(int Index)
@@ -518,7 +518,6 @@ public partial class TCave : TStructure
 
     // Cave.pas:25
 
-
 }
 
 public partial class TCaveResource : TStructureResource
@@ -534,12 +533,10 @@ public partial class TCaveResource : TStructureResource
 
     // Cave.pas:426
 
-
     // Cave.pas:439
     public override int ResourceUserClassID() => 131966;
 
     // Cave.pas:49
-
 
     // Cave.pas:433
     public override string ResourceEditName() => TranslateRStr(CaveRStr);
@@ -553,6 +550,7 @@ public partial class TEnterCaveEventLog : TMessageEventLog
     { }
 
     public TCave FCave;
+
     // Cave.pas:442
     public override bool Yes()
     {

@@ -527,12 +527,15 @@ public sealed class AtomicReplacementTests : IDisposable
     private sealed class FailingFiles(IFileSystem inner, bool failWrite = false, bool failReplace = false) : IFileSystem
     {
         public string CurrentDirectory => inner.CurrentDirectory;
+
         public string ExpandPath(string path) => inner.ExpandPath(path);
+
         public Stream Open(string path, int mode)
         {
             var stream = inner.Open(path, mode);
             return failWrite && mode == Runtime.fmCreate ? new BrokenStream(stream) : stream;
         }
+
         public bool FileExists(string path) => inner.FileExists(path);
         public bool DirectoryExists(string path) => inner.DirectoryExists(path);
         public bool DeleteFile(string path) => inner.DeleteFile(path);
@@ -548,6 +551,7 @@ public sealed class AtomicReplacementTests : IDisposable
     private sealed class NoReplaceFiles(IFileSystem inner) : IFileSystem
     {
         public string CurrentDirectory => inner.CurrentDirectory;
+
         public string ExpandPath(string path) => inner.ExpandPath(path);
         public Stream Open(string path, int mode) => inner.Open(path, mode);
         public bool FileExists(string path) => inner.FileExists(path);
@@ -567,15 +571,18 @@ public sealed class AtomicReplacementTests : IDisposable
         public override bool CanWrite => true;
         public override long Length => inner.Length;
         public override long Position { get => inner.Position; set => inner.Position = value; }
+
         public override void Flush() => inner.Flush();
         public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
         public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
         public override void SetLength(long value) => inner.SetLength(value);
+
         public override void Write(byte[] buffer, int offset, int count)
         {
             inner.Write(buffer, offset, Math.Min(count, 1));
             throw new IOException("There is not enough space on the disk.");
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing) inner.Dispose();

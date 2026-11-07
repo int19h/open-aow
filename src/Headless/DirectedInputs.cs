@@ -8,6 +8,7 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
 {
     public List<object> ItemActions { get; } = [];
     public List<object> GlobalRequests { get; } = [];
+
     private int caster = -1;
     private bool pending;
 
@@ -25,6 +26,7 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
     }
 
     public void DaySaved() => pending = spell != 0;
+
     public void BeforeFrame()
     {
         if (pending && map.FCurrentPlayer == caster)
@@ -47,11 +49,22 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
         string reason = "";
         bool accepted = hero.CastSpell(spell, ref reason);
         bool started = !accepted && reason.Length == 0 && before == 0 && hero.ExecuteStartCasting(spell);
-        GlobalRequests.Add(new { accepted, started, reason = reason.Length != 0,
-            player = caster, player_busy = player.GetBusy(), current_player = map.FCurrentPlayer,
-            casting_points = hero.FCastingPoints, casting_max = hero.GetCastingPointsMax(),
-            casting_before = before, required_before = required, casting_after = hero.FCastingSpellID,
-            required_after = hero.FCastingProgress, casting_mana = hero.FCastingMana });
+        GlobalRequests.Add(new
+        {
+            accepted,
+            started,
+            reason = reason.Length != 0,
+            player = caster,
+            player_busy = player.GetBusy(),
+            current_player = map.FCurrentPlayer,
+            casting_points = hero.FCastingPoints,
+            casting_max = hero.GetCastingPointsMax(),
+            casting_before = before,
+            required_before = required,
+            casting_after = hero.FCastingSpellID,
+            required_after = hero.FCastingProgress,
+            casting_mana = hero.FCastingMana
+        });
     }
 
     private void EquipItems()
@@ -92,8 +105,19 @@ internal sealed class DirectedInputs(TAoWHSMap map, bool items, int spell)
                         consumed = control.FindItem(id) is null;
                     }
                 }
-                ItemActions.Add(new { player = index, type = kind, item_id = id, placed,
-                    stored, reequipped, swapped, use_queued = queued, use_executed = executed, consumed });
+                ItemActions.Add(new
+                {
+                    player = index,
+                    type = kind,
+                    item_id = id,
+                    placed,
+                    stored,
+                    reequipped,
+                    swapped,
+                    use_queued = queued,
+                    use_executed = executed,
+                    consumed
+                });
             }
         }
     }

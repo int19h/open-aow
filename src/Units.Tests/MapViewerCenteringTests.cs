@@ -1,7 +1,7 @@
 using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
-using RtlApi = Aow.Rtl.RtlUnit;
 using G = Aow.Units.GFXE.GFXEUnit;
+using RtlApi = Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.Tests;
 
@@ -23,6 +23,7 @@ public sealed class MapViewerCenteringTests
     {
         public override void UpdateStaticScene() => FStaticSceneInvalid = false;
         public override void UpdateDynamicScene() => FDynamicSceneInvalid = false;
+
         public override void DrawDynamicScene(ref TSurfaceDesc SD)
         {
         }
