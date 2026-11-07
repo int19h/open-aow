@@ -17666,7 +17666,7 @@ public partial class TAbility : TEObject
     {
         int Distance;
         bool Value;
-        Distance = ((TFastCombat)Source.FCombat).GetRoundDistance();
+        Distance = Source.FCombat.GetRoundDistance();
         if (Source.GetMoves() >= 32)
         {
             Distance += 2;
@@ -17675,7 +17675,7 @@ public partial class TAbility : TEObject
         Value = Distance >= Target.fcRoundDistance();
         if (Value && Source is TCombatUnit && ((TCombatUnit)Source).FUnit is THero)
         {
-            Value = Value && ((((byte)Source.FStatus.Image) & 16) != 0 || Source.fcRoundDistance() <= ((TFastCombat)Source.FCombat).GetRoundDistance() + 2);
+            Value = Value && ((((byte)Source.FStatus.Image) & 16) != 0 || Source.fcRoundDistance() <= Source.FCombat.GetRoundDistance() + 2);
         }
 
         return Value;
@@ -45269,6 +45269,71 @@ public partial class TCombat : TEObject
     public int GetRound() => FCombatData.FRound;
 
     // Combat.pas:6115
+    // The tactical AI's damage estimates call these through an unchecked TFastCombat cast in the
+    // original. They read only the combat data, so they live on TCombat for both combat kinds.
+    // AIGroup.pas:7133
+    public int GetRoundDistance()
+    {
+        int Distance;
+        Distance = (FCombatData.FRound - 1) * 2;
+        if (this.FCombatData.FPlayers.GetPlayers((sbyte)this.FCombatData.FCurrentPlayer).FSideIndex == 0)
+        {
+            Distance += 1;
+        }
+
+        return Distance;
+    }
+
+    // AIGroup.pas:7180
+    public bool GetWallInBetween(byte Source, byte Target)
+    {
+        bool Result;
+        if ((Source & 15) <= 7 && (Target & 15) <= 7 && FCombatData.FWall != null && !FCombatData.FWall.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
+        {
+            Source = (byte)(int)(((uint)Source) >> 4);
+            Target = (byte)(int)(((uint)Target) >> 4);
+            if (Source < 7 && Target < 7)
+            {
+                var party = FCombatData.FParties.GetParty(Source);
+                var fPartiesParty = FCombatData.FParties.GetParty(Target);
+                Result = (party.FWall != 0) ^ (fPartiesParty.FWall != 0);
+            }
+            else
+            {
+                Result = false;
+            }
+        }
+        else
+        {
+            Result = false;
+        }
+
+        return Result;
+    }
+
+    // AIGroup.pas:7195
+    public TWallSituation GetWallSituation(TCombatObject Source, TCombatObject Target)
+    {
+        TWallSituation Result;
+        if (GetWallInBetween(Source.FPosition, Target.FPosition))
+        {
+            if (Source.GetSide() == TCombatSideIndex.csDefender)
+            {
+                Result = TWallSituation.wsSource;
+            }
+            else
+            {
+                Result = TWallSituation.wsTarget;
+            }
+        }
+        else
+        {
+            Result = TWallSituation.wsNone;
+        }
+
+        return Result;
+    }
+
     // { }
     public void ExecuteCombatAction(TCombatAction Action)
     {
@@ -61863,19 +61928,6 @@ public partial class TFastCombat : TCombat
         base.Deactivate();
     }
 
-    // AIGroup.pas:7133
-    public int GetRoundDistance()
-    {
-        int Distance;
-        Distance = (FCombatData.FRound - 1) * 2;
-        if (this.FCombatData.FPlayers.GetPlayers((sbyte)this.FCombatData.FCurrentPlayer).FSideIndex == 0)
-        {
-            Distance += 1;
-        }
-
-        return Distance;
-    }
-
     // AIGroup.pas:7144
     public int GetRoundDistanceMax()
     {
@@ -61894,56 +61946,6 @@ public partial class TFastCombat : TCombat
                     Result = Obj.fcRoundDistance();
                 }
             }
-        }
-
-        return Result;
-    }
-
-    // AIGroup.pas:7180
-    public bool GetWallInBetween(byte Source, byte Target)
-    {
-        bool Result;
-        if ((Source & 15) <= 7 && (Target & 15) <= 7 && FCombatData.FWall != null && !FCombatData.FWall.FStatus.Contains(TCombatObjectStatusElement.csDestroyed))
-        {
-            Source = (byte)(int)(((uint)Source) >> 4);
-            Target = (byte)(int)(((uint)Target) >> 4);
-            if (Source < 7 && Target < 7)
-            {
-                var party = FCombatData.FParties.GetParty(Source);
-                var fPartiesParty = FCombatData.FParties.GetParty(Target);
-                Result = (party.FWall != 0) ^ (fPartiesParty.FWall != 0);
-            }
-            else
-            {
-                Result = false;
-            }
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
-    // AIGroup.pas:7195
-    public TWallSituation GetWallSituation(TCombatObject Source, TCombatObject Target)
-    {
-        TWallSituation Result;
-        if (GetWallInBetween(Source.FPosition, Target.FPosition))
-        {
-            if (Source.GetSide() == TCombatSideIndex.csDefender)
-            {
-                Result = TWallSituation.wsSource;
-            }
-            else
-            {
-                Result = TWallSituation.wsTarget;
-            }
-        }
-        else
-        {
-            Result = TWallSituation.wsNone;
         }
 
         return Result;
@@ -63524,7 +63526,7 @@ public partial class TRangedAttackAbility : TAdjustableAbility
     {
         int Distance;
         TCombatRange Range;
-        Distance = ((TFastCombat)Source.FCombat).GetRoundDistance();
+        Distance = Source.FCombat.GetRoundDistance();
         Range = GetRangeRA(Source.GetAbilityOwner());
         if (Range == TCombatRange.crLong)
         {
@@ -63559,7 +63561,7 @@ public partial class TRangedAttackAbility : TAdjustableAbility
             Target = Commands.FTargetSide.GetObjects(I);
             if (Target.GetEnabled() && fcValidRoundDistance(Commands.FSource, Target))
             {
-                var wallSituation = ((TFastCombat)Commands.FSource.FCombat).GetWallSituation(Commands.FSource, Target);
+                var wallSituation = Commands.FSource.FCombat.GetWallSituation(Commands.FSource, Target);
                 fcGetDamageValueEx(Commands.FSource, Target, wallSituation, ref Values);
                 if (Values.SourceDamage != 0)
                 {
@@ -63580,7 +63582,7 @@ public partial class TRangedAttackAbility : TAdjustableAbility
         int Penalty;
         TRangedAttackCA Action;
         Target = Command.FTarget;
-        if (((TFastCombat)Source.FCombat).GetWallSituation(Source, Target) == TWallSituation.wsTarget)
+        if (Source.FCombat.GetWallSituation(Source, Target) == TWallSituation.wsTarget)
         {
             Penalty = 2;
         }
@@ -63818,7 +63820,7 @@ public partial class TBreathAbility : TRangedAttackAbility
     // AoWAb.PAS:4894
     public override bool fcExecuteCombatCommand(TCombatObject Source, TFastCombatCommand Command)
     {
-        TFastCombat Combat;
+        TCombat Combat;
         TList Targets;
         TCombatObject Target;
         TCombatObject Other;
@@ -63827,7 +63829,7 @@ public partial class TBreathAbility : TRangedAttackAbility
         bool Result = base.fcExecuteCombatCommand(Source, Command);
         if (Result)
         {
-            Combat = (TFastCombat)Source.FCombat;
+            Combat = Source.FCombat;
             Targets = new TList();
             Target = Command.FTarget;
             for (int I = Combat.FSides[(int)Target.GetSide()].GetCount() - 1; I >= 0; I--)
@@ -63878,12 +63880,12 @@ public partial class TBreathAbility : TRangedAttackAbility
     public override void fcGetDamageValueEx(TCombatObject Attacker, TCombatObject Defender, TWallSituation WallSituation, ref TAbilityDamageValues DamageValues)
     {
         int Count;
-        TFastCombat Combat;
+        TCombat Combat;
         TCombatObject Target;
         base.fcGetDamageValueEx(Attacker, Defender, WallSituation, ref DamageValues);
         if (DamageValues.SourceDamage != 0)
         {
-            Combat = (TFastCombat)Attacker.FCombat;
+            Combat = Attacker.FCombat;
             Count = 0;
             for (int I = Combat.FSides[(int)Defender.GetSide()].GetCount() - 1; I >= 0; I--)
             {
@@ -65754,7 +65756,7 @@ public partial class TRoundAttackAbility : TTouchAbility
     {
         int Count;
         TSet<TDamageType> DamageTypes;
-        TFastCombat Combat;
+        TCombat Combat;
         TCombatObject Target;
         if (WallSituation == TWallSituation.wsNone && CanTouch(Attacker, Defender))
         {
@@ -65769,7 +65771,7 @@ public partial class TRoundAttackAbility : TTouchAbility
             DamageValues.TargetCost = defenderDamage;
             var immunityTypes = Defender.GetImmunityTypes();
             DamageValues.DamageTypes = DamageTypes - immunityTypes;
-            Combat = (TFastCombat)Attacker.FCombat;
+            Combat = Attacker.FCombat;
             Count = 0;
             for (int I = Combat.FSides[(int)Defender.GetSide()].GetCount() - 1; I >= 0; I--)
             {

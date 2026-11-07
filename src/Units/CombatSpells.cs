@@ -426,7 +426,7 @@ public partial class TCombatSpell : TSpell
                 Target = Commands.FTargetSide.GetObjects(I);
                 if (Target.GetEnabled() && Target.fcRoundDistance() <= Distance)
                 {
-                    var wallSituation = ((TFastCombat)Commands.FSource.FCombat).GetWallSituation(Commands.FSource, Target);
+                    var wallSituation = Commands.FSource.FCombat.GetWallSituation(Commands.FSource, Target);
                     fcGetDamageValueEx(Commands.FSource, Target, wallSituation, ref Values);
                     if (Values.SourceDamage != 0)
                     {
@@ -451,7 +451,7 @@ public partial class TCombatSpell : TSpell
         int Distance;
         TCombatObject Target;
         TList Targets;
-        TFastCombat Combat;
+        TCombat Combat;
         Target = Command.FTarget;
         for (int I = 0, last = FCombatInfo.RepeatCount - 1; I <= last; I++)
         {
@@ -465,7 +465,7 @@ public partial class TCombatSpell : TSpell
 
         if (FCombatInfo.Radius > 1)
         {
-            Combat = (TFastCombat)Source.FCombat;
+            Combat = Source.FCombat;
             Targets = new TList();
             Distance = Combat.GetRoundDistance();
             if (FCombatInfo.Range == -1)
@@ -538,7 +538,7 @@ public partial class TCombatSpell : TSpell
         int Count;
         int Distance;
         TCombatObject Other;
-        TFastCombat Combat;
+        TCombat Combat;
         int Damage;
         int Defense;
         if (WallSituation == TWallSituation.wsNone || FCombatInfo.Range == -1 || FCombatInfo.Range >= 8)
@@ -569,7 +569,7 @@ public partial class TCombatSpell : TSpell
             Values.TargetCost = 0;
             if (Values.SourceDamage != 0 && FCombatInfo.Radius > 1)
             {
-                Combat = (TFastCombat)Source.FCombat;
+                Combat = Source.FCombat;
                 Count = 0;
                 Distance = Combat.GetRoundDistance();
                 if (FCombatInfo.Range == -1)
