@@ -13,6 +13,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellSer
         FilesForRun = new RunFiles(GameRoot, output, input);
         dialogFile = Path.Combine(output, "dialogs.jsonl");
         File.WriteAllText(dialogFile, "");
+        File.WriteAllText(Path.Combine(output, "urls.jsonl"), "");
         if (settings is not null)
             foreach (var property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
                 Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Name, property.Value));
