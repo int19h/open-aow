@@ -163,16 +163,39 @@ public class TVideoPlayer : TComponent
 {
     public TVideoPlayer(TComponent? owner = null) : base(owner) { }
  }
+// The offline DirectPlay component (aowDPlayComp.pas). It never connects and never joins a
+// session, so the original's guards on Connected and InSession take their offline branch.
 public class TGDPlay : TComponent
 {
     public TGDPlay(TComponent? owner = null) : base(owner) { }
 
     public TGUID AppGUID { get; set; }
     public bool Connected => false;
+    public bool InSession => false;
     public TConnectionType ConnectionType => TConnectionType.conNone;
     public object? DPlay => null;
+    public string SessionName { get; set; } = "";
+    // SetPlayerName renames the session player only when connected and in a session.
+    public string PlayerName { get; set; } = "";
+    // The service providers found by GetConnections, TGDConnection items.
+    public TList ConnectionItems { get; } = new();
     public void CheckMessages() { }
-    public void GetConnections(TStrings connections) => connections.Clear();
+    // Without the DirectPlay COM object the original returns 0 with an empty provider list.
+    public int GetConnections()
+    {
+        ConnectionItems.Clear();
+        return 0;
+    }
+    // The original sets its close flag only in a session.
+    public void CloseSession() { }
+    // The original sets its disconnect flag only when connected.
+    public void DisConnect() { }
+}
+// aowDPlayComp.pas: a service provider found by EnumConnections.
+public class TGDConnection : TObject
+{
+    public TGUID FGuid;
+    public TConnectionType FType;
 }
 public class TGDFile : TObject { }
 public class TGDMessage : TObject { }

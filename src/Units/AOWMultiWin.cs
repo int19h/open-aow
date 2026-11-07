@@ -15,6 +15,8 @@ using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
 using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using Aow.Units.E2GameFlow;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AOWMultiWin;
 
@@ -100,8 +102,15 @@ public partial class TMultiWindow : TDataModule
     // AOWMultiWin.pas:103
     public void CloseBtnClick()
     {
-        /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
-        throw new NotImplementedException();
+        General.PlayButtonSound(0);
+        if (SetupEvents.DPlay.Connected)
+        {
+            SetupEvents.DPlay.DisConnect();
+        }
+
+        E2GlobalsUnit.TitleWindow.TitleWin.Visible = false;
+        MultiPnl.Visible = false;
+        E2GameFlowUnit.ShowTitleScene(E2GlobalsUnit.TitleScene, true);
     }
 
     // AOWMultiWin.pas:142
@@ -286,8 +295,12 @@ public partial class TMultiWindow : TDataModule
     // AOWMultiWin.pas:349
     public void HeatNetBtnClick()
     {
-        /* TODO: Implement Forms.Handle in the platform or editor service. */
-        throw new NotImplementedException();
+        // The full version starts GOTOHEAT.EXE from the game folder and ends the game when it
+        // starts. The installed game has no GOTOHEAT.EXE, so the original does nothing there.
+        if (AoWEngine.FDemo)
+        {
+            ShowDemoMessage();
+        }
     }
 }
 

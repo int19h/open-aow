@@ -1992,7 +1992,6 @@ public partial class TEarthMastery : TGlobalEnchantmentSpell
         TMapLevel MapLevel;
         TAoWMapField MapF;
         MapLevel = AoWHSMap.MapContainer.GetMapLevel(AoWHSMap.ViewL);
-        _ = MapLevel.FHNOffsets[0][4];
         MaxX = AoWHSMap.ViewXhx + AoWHSMap.ViewWidthHX - 1;
         MaxY = AoWHSMap.ViewYhx + AoWHSMap.ViewHeightHX - 1;
         for (int X = AoWHSMap.ViewXhx; X <= MaxX; X++)
@@ -2003,14 +2002,19 @@ public partial class TEarthMastery : TGlobalEnchantmentSpell
             MapF = (TAoWMapField)MapLevel.GetField(X, AoWHSMap.ViewYhx);
             for (int Y = AoWHSMap.ViewYhx; Y <= MaxY; Y++)
             {
+                // The original frame offset uses the field address.
                 if (MapF.OverlayType == 4)
                 {
                     FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - (((int)(((uint)MapF.InstanceId) >> 8)) & 15), SurfaceDesc);
                 }
 
-                // { Original uses the field address. }
-                /* TODO: Implement managed object pool traversal. */
-                throw new NotImplementedException();
+                // The original steps the field pointer by FHNOffsets[0, 4], one row down. The step
+                // after the last row is never read there, and the guard keeps it from reading here.
+                if (Y < MaxY)
+                {
+                    MapF = (TAoWMapField)MapLevel.GetField(X, Y + 1);
+                }
+
                 Yhp += 32;
             }
         }

@@ -16,6 +16,7 @@ using Aow.Platform;
 using Aow.Units.AoWE;
 using Aow.Units.AoWWorldMap;
 using Aow.Units.E2Globals;
+using Aow.Units.aowHelpWin;
 
 namespace Aow.Units.AoWPWindows;
 
@@ -115,8 +116,19 @@ public partial class TPopupWindows : TDataModule
     // AoWPWindows.pas:107
     public void HelpMenuSelect(TAOWMenu Sender)
     {
-        /* TODO: Implement Forms.Handle in the platform or editor service. */
-        throw new NotImplementedException();
+        switch (Sender.FSelectedItem)
+        {
+            case 0:
+                aowHelpWinUnit.ShowHelp(507);
+                break;
+            case 1:
+                aowHelpWinUnit.ShowHelp(500);
+                break;
+            case 2:
+                // The original switches to windowed mode and opens http://www.ageofwonders.com.
+                /* TODO: Implement Forms.Handle in the platform or editor service. */
+                throw new NotImplementedException();
+        }
     }
 
     // AoWPWindows.pas:73. Keep all three branches across the host boundary.

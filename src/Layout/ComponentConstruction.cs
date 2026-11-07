@@ -707,8 +707,6 @@ namespace Aow.Layout
         public TGDMessageErrorEvent OnMessageError { get; set; }
         public TGDPingMessageEvent OnPingMessage { get; set; }
         public TGDSessionLostEvent OnSessionLost { get; set; }
-        public string PlayerName { get; set; } = "";
-        public string SessionName { get; set; } = "";
         public bool UseCodes { get; set; }
         public bool UseSetupDialogs { get; set; }
     }

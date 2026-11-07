@@ -26,6 +26,7 @@ using static Aow.Units.E2GameFlow.E2GameFlowUnit;
 using Aow.Platform;
 using Aow.Units.E2Globals;
 using Aow.Units.AoWE;
+using Aow.Units.aowSetupEvents;
 
 namespace Aow.Units.AoWScenSetup;
 
@@ -321,8 +322,48 @@ public partial class TScenSetup : TDataModule
     // AoWScenSetup.pas:257
     public void ExitGameClick(TObject Sender)
     {
-        /* TODO: Implement aowDPlayComp.CloseSession in the platform or editor service. */
-        throw new NotImplementedException();
+        int I;
+        TSetupSettings Settings;
+        try
+        {
+            General.PlayButtonSound(0);
+            if (FSetupControl.GetRemote())
+            {
+                if (FSetupControl.GetHost())
+                {
+                    Settings = FSetupControl.FSettings;
+                    I = 0;
+                    while (I != Settings.FRemotePlayers.Count && Settings.FRemotePlayers.GetPlayers(I).FRemoteID == Settings.FHostRemoteID)
+                    {
+                        I++;
+                    }
+
+                    if (I != Settings.FRemotePlayers.Count)
+                    {
+                        FSetupControl.hSetHostRemoteID(Settings.FRemotePlayers.GetPlayers(I).FRemoteID);
+                    }
+                }
+
+                if (aowSetupEventsUnit.SetupEvents.DPlay.Connected)
+                {
+                    aowSetupEventsUnit.SetupEvents.DPlay.CloseSession();
+                }
+            }
+
+            aowSetupEventsUnit.SetupEvents.DPlay.DisConnect();
+            CloseSetup();
+            if (aowSetupEventsUnit.SetupEvents.FLobbyGame)
+            {
+                GameHost.MainForm.CloseRequested();
+            }
+            else
+            {
+                MultiWindow.Execute("");
+            }
+        }
+        catch
+        {
+        }
     }
 
     // AoWScenSetup.pas:281
