@@ -451,14 +451,37 @@ and letterboxes the rest in black. There is no mode switching. The game's own re
 (`VideoDialog`: `FDisplayWidth`, `FDisplayHeight` for play, 640 by 480 for the title scene when
 `AllowResolutionSwitches` is set, `ChangeResolution` in `ApplyVideoSettings`) is kept and acts on
 the back surface size: `ChangeResolution(W, H)` resizes the back surfaces, `ChangeResolution(0, 0)`
-(windowed) sizes them to the window. `ListDisplayModes` offers 640 by 480, 800 by 600, 1024 by 768
-and 1280 by 1024 filtered by the desktop size, the modes the original offered on a typical adapter.
-The registry's `DisplayMode` (0 windowed, 1 full screen) maps to the fullscreen flag. The game
+(windowed) sizes them to the window. The registry's `DisplayMode` (0 windowed, 1 full screen) maps to the fullscreen flag. The game
 clamps the toolkit's layout to at least 640 by 480 (`DisplayResizeBackSurface`).
 
 Mouse coordinates are mapped back through the same scale and offset to back-surface pixels, so
 `GetMousePos` returns what the original returned on a 1:1 window, and positions over the letterbox
 are outside.
+
+Display modes. The original had no fixed list. `VideoDlgWindowCreate` calls
+`ListDisplayModes(FDisplayModes, 0, 0, 16)`, which hands DirectDraw's `EnumDisplayModes` a surface
+description with `DDSD_PIXELFORMAT`, `DDPF_RGB` and the 16 bits per pixel that `PFIDtoMASK(16)`
+gives (all masks zero). `ListDisplayModesCallback` adds every mode DirectDraw reports, because
+`ListPixelFormatID` is never set. `UpdateModes` then lists the desktop window entry and every
+reported mode of at least 640 by 480. The modes were therefore whatever the adapter and Windows
+reported. The port's `ListDisplayModes` (`GFXE.DisplayModes.cs`) takes its sizes from
+`GFXEUnit.FullscreenSizes`. The SDL host answers with `IntegerScaleSizes` of the desktop size: the
+desktop divided by each whole scale from 8 down to 1 (rounded down), without duplicates, at least
+640 by 480, smallest first. A 3840 by 2160 desktop gives 960 by 540, 1280 by 720, 1920 by 1080 and
+3840 by 2160. Every listed size fills the desktop at a whole pixel scale.
+The headless host returns no sizes, and `ListDisplayModes` then falls back to 640 by 480, 800 by
+600, 1024 by 768 and 1280 by 1024 within `GFXEUnit.DesktopSize`. Every size is listed as RGB 555,
+and the width, height and pixel format arguments filter the list as the original's
+`EnumDisplayModes` description did. `UpdateModes` keeps its 640 by 480 floor.
+
+Scenes larger than the map (port extension). At large back surface sizes the map viewer's scene
+can be wider or taller than the map, which the original never reached. `THSMapViewer` keeps the
+original scroll clamp, so `SceneX`, `SceneY`, the view port and the saved view stay the original's.
+`ShowScene` then draws the scene as the original does into a scene-sized surface, fills the scene
+outside the map's extent black and copies the map's extent centered into the scene on each axis
+where the scene exceeds the map. The map window turns mouse positions back through the same
+offset, and positions on the black area are outside the map. On an axis where the scene fits
+inside the map nothing changes.
 
 ### 7.5 Cursor
 
