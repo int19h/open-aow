@@ -148,6 +148,63 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             if (!SDL_SetRenderVSync(renderer, value ? 1 : 0)) Console.Error.WriteLine("SDL: vsync unavailable: " + SDL_GetError());
         }
     }
+    /// <summary>The VCL message box as a modal SDL message box (platform.md 9). The buttons follow
+    /// `MB_*` in the low four bits of the flags and return their `ID*` value, the icon follows
+    /// `MB_ICON*`. Fullscreen leaves for the box and returns after, as the original's dialogs did.</summary>
+    public int ShowMessageBox(DialogRequest request)
+    {
+        OnThread();
+        (int Id, string Label)[] buttons = (request.Flags & 15) switch
+        {
+            1 => [(1, "OK"), (2, "Cancel")],
+            2 => [(3, "Abort"), (4, "Retry"), (5, "Ignore")],
+            3 => [(6, "Yes"), (7, "No"), (2, "Cancel")],
+            4 => [(6, "Yes"), (7, "No")],
+            5 => [(4, "Retry"), (2, "Cancel")],
+            _ => [(1, "OK")]
+        };
+        var kind = (request.Flags & 0xF0) switch
+        {
+            0x10 => SDL_MessageBoxFlags.SDL_MESSAGEBOX_ERROR,
+            0x30 => SDL_MessageBoxFlags.SDL_MESSAGEBOX_WARNING,
+            _ => SDL_MessageBoxFlags.SDL_MESSAGEBOX_INFORMATION
+        };
+        bool fullscreen = Fullscreen;
+        if (fullscreen) Fullscreen = false;
+        var labels = buttons.Select(b => Marshal.StringToCoTaskMemUTF8(b.Label)).ToArray();
+        nint title = Marshal.StringToCoTaskMemUTF8(request.Caption.Length > 0 ? request.Caption : "Age of Wonders");
+        nint text = Marshal.StringToCoTaskMemUTF8(request.Text);
+        try
+        {
+            var data = stackalloc SDL_MessageBoxButtonData[buttons.Length];
+            for (int i = 0; i < buttons.Length; i++)
+                data[i] = new SDL_MessageBoxButtonData
+                {
+                    flags = (buttons[i].Id == request.DefaultResult ? SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_RETURNKEY_DEFAULT : 0)
+                        | (buttons[i].Id is 2 || buttons.Length == 1 ? SDL_MessageBoxButtonFlags.SDL_MESSAGEBOX_BUTTON_ESCAPEKEY_DEFAULT : 0),
+                    buttonID = buttons[i].Id,
+                    text = (byte*)labels[i]
+                };
+            var box = new SDL_MessageBoxData
+            {
+                flags = kind | SDL_MessageBoxFlags.SDL_MESSAGEBOX_BUTTONS_LEFT_TO_RIGHT,
+                window = window,
+                title = (byte*)title,
+                message = (byte*)text,
+                numbuttons = buttons.Length,
+                buttons = data
+            };
+            int pressed;
+            return SDL_ShowMessageBox(&box, &pressed) && pressed > 0 ? pressed : request.DefaultResult;
+        }
+        finally
+        {
+            foreach (var label in labels) Marshal.FreeCoTaskMem(label);
+            Marshal.FreeCoTaskMem(title);
+            Marshal.FreeCoTaskMem(text);
+            if (fullscreen) Fullscreen = true;
+        }
+    }
     public void ShowSystemCursor(bool show)
     {
         OnThread();

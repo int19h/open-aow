@@ -18,7 +18,7 @@ public sealed class SdlHost : IRtlHost, IDisposable
             Display.VSync = vsync ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\VSync") is int interval ? interval != 0 : true);
         }
         catch { Display.Dispose(); throw; }
-        Dialogs = dialogs ?? new UnavailableDialogs();
+        Dialogs = dialogs ?? new DisplayDialogs(Display);
     }
     public static string DefaultUserDirectory()
     {
@@ -35,8 +35,14 @@ public sealed class SdlHost : IRtlHost, IDisposable
     public string GameRoot { get; }
     public string ExeName => ((LayeredFileSystem)Files).ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
     public void Dispose() => Display.Dispose();
-    private sealed class UnavailableDialogs : IDialogService
+    /// <summary>Game message boxes on the window. Each text also goes to the error stream, so a
+    /// run's log keeps what the player saw.</summary>
+    private sealed class DisplayDialogs(SdlDisplayHost display) : IDialogService
     {
-        public int Show(DialogRequest request) => throw new NotSupportedException("Game dialogs are part of milestone 5.3: " + request.Text);
+        public int Show(DialogRequest request)
+        {
+            Console.Error.WriteLine("Message: " + request.Text);
+            return display.ShowMessageBox(request);
+        }
     }
 }
