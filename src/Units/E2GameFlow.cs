@@ -430,7 +430,7 @@ public static partial class E2GameFlowUnit
         var path = GetCampaignScenario(Campaign, 0).FPaths[0];
         Index = Campaign.FScenarios.IndexOfID(path);
         var campaignScenario = GetCampaignScenario(WorldMap.GetCampaign(), Index);
-        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName, Aow.Formats.GameProfile.WorldMap);
+        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), Aow.Formats.GameProfile.WorldMap);
         I = 0;
         // { Original uses the preview map child count as the player-search bound. }
         while (I < Preview.Count && (int)Preview.FPlayers.GetPlayers(I).FPlayerType != 0)
@@ -628,7 +628,8 @@ public static partial class E2GameFlowUnit
     // E2GameFlow.pas:40
     public static void LoadWorldCampaign(TWorldMap Dialog, string Name)
     {
-        AoWEngine.LoadCampaign(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name);
+        // A derived name opens its own sibling first (own-formats.md 2.9).
+        AoWEngine.LoadCampaign(FileBoundary.ReadName(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name));
     }
 
     // E2GameFlow.pas:87

@@ -126,23 +126,26 @@ internal static class Commands
         int done = 0, failed = 0, skipped = 0;
         foreach (var relative in Enumerate(o.Dir!))
         {
-            string input = Path.Combine(o.Dir!, relative), target = Path.Combine(o.Out, relative);
+            string input = Path.Combine(o.Dir!, relative);
             manifest.TryGetValue(relative, out var entry);
-            if (entry.Kind is null && GameFiles.KindForExtension(Path.GetExtension(relative)) is null)
+            string extension = Path.GetExtension(relative);
+            if (entry.Kind is null && (DocumentKind.ForExtension(extension) is not { } byName || byName.IsOwnExtension(extension)))
             {
                 output.WriteLine($"{relative}: skipped, not an in-scope original");
                 skipped++;
                 continue;
             }
-            if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
-            {
-                errors.WriteLine($"{relative}: {refusal}");
-                failed++;
-                continue;
-            }
             try
             {
                 var result = ImportOriginal(File.ReadAllBytes(input), input, entry.Kind, entry.Profile);
+                // A derived output name takes the kind's own extension (own-formats.md 3.2).
+                string target = Path.Combine(o.Out, DerivedName(relative, result.Document, own: true));
+                if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+                {
+                    errors.WriteLine($"{relative}: {refusal}");
+                    failed++;
+                    continue;
+                }
                 SafeOutput.Replace(target, GameFiles.Write(result.Document));
                 output.WriteLine($"{relative}: {Describe(result.Document)}");
                 done++;
@@ -162,9 +165,10 @@ internal static class Commands
         if (o.Out is null || o.Positional.Count != 0) throw new UsageException("to-original --dir needs --out and no other paths.");
         if (SafeOutput.Overlaps(o.Dir!, o.Out)) return Fail(errors, "The input and output directory trees overlap.");
         int done = 0, failed = 0, skipped = 0;
+        var sources = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var relative in Enumerate(o.Dir!))
         {
-            string input = Path.Combine(o.Dir!, relative), target = Path.Combine(o.Out, relative);
+            string input = Path.Combine(o.Dir!, relative);
             var bytes = File.ReadAllBytes(input);
             if (!GameFiles.IsGzip(bytes) && !GameFiles.IsJsonCandidate(bytes))
             {
@@ -172,16 +176,26 @@ internal static class Commands
                 skipped++;
                 continue;
             }
-            if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
-            {
-                errors.WriteLine($"{relative}: {refusal}");
-                failed++;
-                continue;
-            }
             try
             {
                 var read = GameFiles.Read(bytes, input);
                 var exported = GameFiles.Export(read.Document, null, input);
+                // A derived output name takes the kind's original extension (own-formats.md 3.2).
+                string target = Path.Combine(o.Out, DerivedName(relative, read.Document, own: false));
+                // Foo.asg and Foo.oasg both export to Foo.asg: the second is refused by name.
+                if (sources.TryGetValue(target, out var first))
+                {
+                    errors.WriteLine($"{relative}: exports to the same name as {first}");
+                    failed++;
+                    continue;
+                }
+                sources[target] = relative;
+                if (SafeOutput.CheckFile(input, target, o.Overwrite) is { } refusal)
+                {
+                    errors.WriteLine($"{relative}: {refusal}");
+                    failed++;
+                    continue;
+                }
                 foreach (var d in exported.Invalidated) errors.WriteLine(d.ToString());
                 SafeOutput.Replace(target, exported.Bytes);
                 output.WriteLine($"{relative}: {Describe(read.Document)}, 0 losses");
@@ -195,6 +209,17 @@ internal static class Commands
         }
         output.WriteLine($"to-original: {done} converted, {failed} failed, {skipped} skipped, 0 losses");
         return failed > 0 ? Program.Error : Program.Success;
+    }
+
+    /// <summary>
+    /// The output name a directory conversion derives from an input name: the document kind's own
+    /// extension for an import, its original extension for an export, in place of the input's.
+    /// </summary>
+    internal static string DerivedName(string relative, Aow.Formats.Json.JsonObject document, bool own)
+    {
+        var (_, kindName, _, _) = GameFiles.Envelope(document, relative);
+        var kind = DocumentKind.Find(kindName)!;
+        return own ? kind.OwnName(relative) : kind.OriginalName(relative);
     }
 
     /// <summary>Profile, kind, version, representability, residue, coverage and the cost of one file.</summary>

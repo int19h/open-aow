@@ -2282,9 +2282,12 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5341
+    // Every caller derives the name (RELEASE.HSS, the set a map names), so the own sibling opens
+    // first (own-formats.md 2.9).
     public void InitializeHSSet(string FileName, Engine.TProgressEvent AProgress)
     {
         TEMsg Msg = default;
+        FileName = FileBoundary.ReadName(FileName);
         if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
         {
             LoadHSS(FileName, false, AProgress, Aow.Formats.GameProfile.ScenarioSet);

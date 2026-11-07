@@ -623,7 +623,8 @@ public partial class TSetupControl : TComponent
         {
             if (AoWHSSet.FHSSCRC == FSettings.FSetCRC)
             {
-                FileName = AoWEngine.StartupDirectory + FSettings.FMapName;
+                // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
+                FileName = FileBoundary.ReadName(AoWEngine.StartupDirectory + FSettings.FMapName);
                 if (FileExists(FileName))
                 {
                     if (FileBoundary.ImageCrc32(FileName, Aow.Formats.GameProfile.WorldMap) == FSettings.FMapCRC)

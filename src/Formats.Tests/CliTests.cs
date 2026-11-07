@@ -93,10 +93,48 @@ public sealed class CliTests : FormatsTest, IDisposable
         var result = Run("to-own", "--dir", In("in"), "--out", In("out"));
         Assert.Equal(Program.Success, result.Code);
         Assert.Contains("1 converted, 0 failed, 0 skipped", result.Output);
-        Assert.True(File.Exists(Path.Combine(In("out"), "h.ahl")));
+        // A derived output name takes the own extension on import and the original one on export.
+        Assert.True(File.Exists(Path.Combine(In("out"), "h.oahl")));
+        Assert.False(File.Exists(Path.Combine(In("out"), "h.ahl")));
         var back = Run("to-original", "--dir", In("out"), "--out", In("back"));
         Assert.Equal(Program.Success, back.Code);
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
+        Assert.Single(Directory.GetFiles(In("back")));
+    }
+
+    // An own document named with an original extension exports to that original name.
+    [GameFact]
+    public void DirectoryExportOfAnOwnDocumentUnderAnOriginalNameKeepsTheName()
+    {
+        Directory.CreateDirectory(In("in"));
+        Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.ahl")).Code);
+        Assert.Equal(Program.Success, Run("to-original", "--dir", In("in"), "--out", In("back")).Code);
+        Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
+    }
+
+    // Import skips own documents, and two own documents that export to one name are refused.
+    [GameFact]
+    public void DirectoryModesSkipOwnInputsAndRefuseCollidingExports()
+    {
+        Directory.CreateDirectory(In("in"));
+        Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.oahl")).Code);
+        var import = Run("to-own", "--dir", In("in"), "--out", In("out"));
+        Assert.Contains("0 converted, 0 failed, 1 skipped", import.Output);
+        Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.ahl")).Code);
+        var export = Run("to-original", "--dir", In("in"), "--out", In("back"));
+        Assert.NotEqual(Program.Success, export.Code);
+        Assert.Contains("exports to the same name as", export.Errors);
+        Assert.Single(Directory.GetFiles(In("back")));
+    }
+
+    // The explicit output path of the single-file forms is kept as given.
+    [GameFact]
+    public void AnExplicitOutputPathIsKept()
+    {
+        Assert.Equal(Program.Success, Run("to-own", HeroList, In("a.json")).Code);
+        Assert.True(File.Exists(In("a.json")));
+        Assert.Equal(Program.Success, Run("to-original", In("a.json"), In("b.bin")).Code);
+        Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(In("b.bin")));
     }
 
     [GameFact]

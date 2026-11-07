@@ -8,6 +8,13 @@ public interface IRtlHost
     ISettingsStore Settings { get; }
     string ExeName { get; }
     string GameRoot { get; }
+
+    /// <summary>
+    /// Whether the game names the documents it writes with the own extensions (own-formats.md
+    /// 4.2). The desktop and headless hosts do. A host that replays the original game's scripts
+    /// against its frames writes the original extensions.
+    /// </summary>
+    bool WritesOwnExtensions => true;
 }
 
 public readonly record struct DialogRequest(string Text, string Caption, int Flags, int DefaultResult);
@@ -35,12 +42,16 @@ public static partial class RtlUnit
     public static ISettingsStore? Settings { get; set; }
     public static IDialogService? Dialogs { get; set; }
 
+    /// <summary>The installed host's choice of written extensions (IRtlHost.WritesOwnExtensions).</summary>
+    public static bool WritesOwnExtensions { get; set; } = true;
+
     public static void InstallHost(IRtlHost host)
     {
         Files = host.Files;
         Clock = host.Clock;
         Settings = host.Settings;
         Dialogs = host.Dialogs;
+        WritesOwnExtensions = host.WritesOwnExtensions;
         Application.ExeName = host.ExeName;
         MessageHandler = message => host.Dialogs.Show(new(message, "", 0, 1));
     }

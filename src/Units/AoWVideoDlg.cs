@@ -341,7 +341,8 @@ public partial class TWMCampaign : TAoWCampaign
                 Result = Result + "-" + TranslateRStr(WonRStr);
             }
 
-            Result = Result + ".acg";
+            // The campaign autosave takes the extension the host writes (own-formats.md 4.2).
+            Result = Result + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
         }
         else
         {
