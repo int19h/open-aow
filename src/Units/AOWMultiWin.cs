@@ -15,6 +15,8 @@ using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.aowSetupEvents.aowSetupEventsUnit;
 using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
 using static Aow.Units.AoWExeForms.AoWExeFormsUnit;
+using Aow.Units.E2GameFlow;
+using Aow.Units.E2Globals;
 
 namespace Aow.Units.AOWMultiWin;
 
@@ -71,8 +73,33 @@ public partial class TMultiWindow : TDataModule
     // AOWMultiWin.pas:362
     public int ConnectProvider(TConnectionType Kind)
     {
-        /* TODO: Implement aowDPlayComp.ConnectionItems in the platform or editor service. */
-        throw new NotImplementedException();
+        int I = 0;
+        int Found = -1;
+        int Result = 0;
+        while (I < SetupEvents.DPlay.ConnectionItems.Count)
+        {
+            if (((TGDConnection)SetupEvents.DPlay.ConnectionItems[I]).FType == Kind)
+            {
+                Found = I;
+                I = SetupEvents.DPlay.ConnectionItems.Count;
+            }
+
+            I++;
+        }
+
+        if (Found > -1)
+        {
+            SetupEvents.DPlay.TCPPort = IPEdit.Text;
+            Result = SetupEvents.DPlay.Connect(Found);
+            // The port's own message. The offline component never connects, and the caller
+            // leaves the window as it is when the connection fails.
+            if (Result != 0)
+            {
+                RtlUnit.ShowMessage(AOWMultiWinUnit.NetworkPlayNotAvailableText);
+            }
+        }
+
+        return Result;
     }
 
     // AOWMultiWin.pas:385
@@ -100,8 +127,15 @@ public partial class TMultiWindow : TDataModule
     // AOWMultiWin.pas:103
     public void CloseBtnClick()
     {
-        /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
-        throw new NotImplementedException();
+        General.PlayButtonSound(0);
+        if (SetupEvents.DPlay.Connected)
+        {
+            SetupEvents.DPlay.DisConnect();
+        }
+
+        E2GlobalsUnit.TitleWindow.TitleWin.Visible = false;
+        MultiPnl.Visible = false;
+        E2GameFlowUnit.ShowTitleScene(E2GlobalsUnit.TitleScene, true);
     }
 
     // AOWMultiWin.pas:142
@@ -159,15 +193,38 @@ public partial class TMultiWindow : TDataModule
     // AOWMultiWin.pas:200
     public void FindClick()
     {
-        /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        General.PlayButtonSound(0);
+        if (ConnectProvider(TConnectionType.conTCP) == 0)
+        {
+            SetupEvents.DPlay.PlayerName = TCPName.Text;
+            AOWMultiWinUnit.SessionRefreshDelay = 0;
+            TCPPnl.Visible = false;
+            JoinPnl.Visible = true;
+            GamesLB.Items.Clear();
+            GamesLB.FSized = false;
+        }
     }
 
     // AOWMultiWin.pas:215
     public void HostClick(TObject Sender)
     {
-        /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        General.PlayButtonSound(0);
+        if (ConnectProvider(TConnectionType.conTCP) == 0)
+        {
+            SetupEvents.DPlay.PlayerName = TCPName.Text;
+            SetupEvents.DPlay.SessionName = Aow.Units.AoWE.AoWEUnit.Format(TranslateRStr(XsGameRStr), [TCPName.Text]);
+            if (SetupEvents.DPlay.CreateSession() == 0)
+            {
+                MultiPnl.Visible = false;
+                SetupEvents.SetupControl.SetupHost(SetupEvents.DPlay.PlayerName, 1, SetupEvents.DPlay.PlayerID);
+                if (!IsEmpty(FPendingMap))
+                {
+                    SetupEvents.SetupControl.hPickMap(FPendingMap);
+                }
+
+                ScenSetup.Execute(SetupEvents.SetupControl);
+            }
+        }
     }
 
     // AOWMultiWin.pas:232
@@ -286,12 +343,18 @@ public partial class TMultiWindow : TDataModule
     // AOWMultiWin.pas:349
     public void HeatNetBtnClick()
     {
-        /* TODO: Implement Forms.Handle in the platform or editor service. */
-        throw new NotImplementedException();
+        // The full version starts GOTOHEAT.EXE from the game folder and ends the game when it
+        // starts. The installed game has no GOTOHEAT.EXE, so the original does nothing there.
+        if (AoWEngine.FDemo)
+        {
+            ShowDemoMessage();
+        }
     }
 }
 
 public static partial class AOWMultiWinUnit
 {
     public static int SessionRefreshDelay;
+    // The port has no table for its own text, so the multi window holds its one message.
+    public const string NetworkPlayNotAvailableText = "Network play is not available in this version.";
 }

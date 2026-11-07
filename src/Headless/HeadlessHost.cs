@@ -4,7 +4,7 @@ using Aow.Platform;
 
 namespace Aow.Headless;
 
-internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
+internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock, IShellService
 {
     private readonly string dialogFile;
     public HeadlessHost(string root, string output, string? settings, string movementSpeed = "normal", string? input = null)
@@ -13,6 +13,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
         FilesForRun = new RunFiles(GameRoot, output, input);
         dialogFile = Path.Combine(output, "dialogs.jsonl");
         File.WriteAllText(dialogFile, "");
+        File.WriteAllText(Path.Combine(output, "urls.jsonl"), "");
         if (settings is not null)
             foreach (var property in JsonDocument.Parse(File.ReadAllText(settings)).RootElement.EnumerateObject())
                 Settings.Write(property.Name.StartsWith('\\') ? property.Name : "\\Software\\Triumph Studios\\Age of Wonders\\" + property.Name.Replace('/', '\\'), ReadSetting(property.Name, property.Value));
@@ -46,6 +47,7 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
     public RunFiles FilesForRun { get; }
     public IFileSystem Files => FilesForRun;
     public IDialogService Dialogs => this;
+    public IShellService Shell => this;
     public IClock Clock => this;
     public ISettingsStore Settings { get; } = new MemorySettingsStore();
     public string GameRoot { get; }
@@ -55,6 +57,12 @@ internal sealed class HeadlessHost : IRtlHost, IDialogService, IClock
     public double ElapsedMilliseconds => 0;
     public void WaitMilliseconds(int milliseconds) => ArgumentOutOfRangeException.ThrowIfNegative(milliseconds);
     public int DialogCount { get; private set; }
+    // A headless run records the address and opens nothing.
+    public void OpenUrl(string url)
+    {
+        File.AppendAllText(Path.Combine(Path.GetDirectoryName(dialogFile)!, "urls.jsonl"), JsonSerializer.Serialize(new { url }) + "\n");
+        Console.WriteLine("open url: " + url);
+    }
     public int Show(DialogRequest request)
     {
         DialogCount++;

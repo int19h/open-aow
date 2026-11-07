@@ -25,6 +25,7 @@ public sealed partial class EngineFixture
         private readonly IFileSystem previousFiles = Runtime.Files;
         private readonly ISettingsStore? previousSettings = Runtime.Settings;
         private readonly IDialogService? previousDialogs = Runtime.Dialogs;
+        private readonly IShellService? previousShell = Runtime.Shell;
         private readonly IClock previousClock = Runtime.Clock;
         private readonly string previousExe = Runtime.Application.ExeName;
         private readonly Action<string> previousMessage = Runtime.MessageHandler;
@@ -71,6 +72,8 @@ public sealed partial class EngineFixture
         public IFileSystem Files => this;
         public ISettingsStore Settings => this;
         public IDialogService Dialogs => this;
+        // Engine tests record an address and never open a browser.
+        public IShellService Shell { get; } = new RecordingShell();
         public IClock Clock => previousClock;
         public string ExeName => Path.Combine(root, "AoW.exe");
         public string GameRoot => root;
@@ -111,6 +114,7 @@ public sealed partial class EngineFixture
         internal void RestoreServices()
         {
             Runtime.Files = previousFiles; Runtime.Settings = previousSettings; Runtime.Dialogs = previousDialogs;
+            Runtime.Shell = previousShell;
             Runtime.Clock = previousClock; Runtime.Application.ExeName = previousExe; Runtime.MessageHandler = previousMessage;
         }
         public void Dispose()

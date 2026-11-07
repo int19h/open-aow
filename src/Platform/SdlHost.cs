@@ -31,10 +31,20 @@ public sealed class SdlHost : IRtlHost, IDisposable
     public ISettingsStore Settings { get; }
     public IClock Clock { get; } = new SdlClock();
     public IDialogService Dialogs { get; }
+    public IShellService Shell { get; } = new SdlShell();
     public SdlDisplayHost Display { get; }
     public string GameRoot { get; }
     public string ExeName => ((LayeredFileSystem)Files).ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
     public void Dispose() => Display.Dispose();
+    /// <summary>The default browser through SDL_OpenURL. A failure goes to the error stream, as
+    /// the original ignored the result of ShellExecute.</summary>
+    private sealed class SdlShell : IShellService
+    {
+        public void OpenUrl(string url)
+        {
+            if (!SDL.SDL3.SDL_OpenURL(url)) Console.Error.WriteLine("Open URL failed: " + url + ": " + SDL.SDL3.SDL_GetError());
+        }
+    }
     /// <summary>Game message boxes on the window. Each text also goes to the error stream, so a
     /// run's log keeps what the player saw.</summary>
     private sealed class DisplayDialogs : IDialogService

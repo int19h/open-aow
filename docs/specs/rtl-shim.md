@@ -501,6 +501,9 @@ shows the dialog and runs a nested frame loop until the player answers, then ret
 The headless harness answers from a script (`testing.md`). The constants `mt*`, `mb*`, `mr*`,
 `MB_*`, `id*` keep their Delphi values.
 
+`OpenUrl(url)` goes to the host's `IShellService` (`IRtlHost.Shell`), the port's form of the
+original's `ShellExecute` of a web address (`platform.md` section 9).
+
 ### 5.3 Application, Screen, Clipboard
 
 `Application.ExeName` (12 uses) returns the host's executable path or, for the game root, the

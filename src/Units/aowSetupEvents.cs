@@ -57,8 +57,10 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:84
     public void UpdatePlayerName(string Name)
     {
-        /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
-        throw new NotImplementedException();
+        if (SetupControl.GetRemote() && DPlay.Connected)
+        {
+            DPlay.PlayerName = Name;
+        }
     }
 
     // aowSetupEvents.pas:90

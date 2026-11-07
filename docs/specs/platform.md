@@ -261,9 +261,18 @@ set. Code mods (`../design.md` section 6) get their own entry point later.
 Networking. The engine's transport hook is small: `TRemotePCC.OnSendData(Data, Size, SystemID)` sends
 a package and `ReceiveDataPackage` takes one in; `aowSetupEvents` wires both to `TGDPlay`
 (`aowDPlayComp`, 68 call sites in `AoW`, none in the rules). The host supplies a `TGDPlay` stand-in
-whose `GetConnections` returns no service providers, so the multiplayer window shows an empty list
-and every other method returns a failure code, until `networking.md` puts a socket transport behind
-the same component.
+whose `GetConnections` lists the TCP/IP provider alone, as DirectPlay does on any current Windows.
+The New Game window then shows "TCP Internet" and hides "IPX LAN" by the original's own logic, as
+the native frames show. `Connect` and `CreateSession` return `E_FAIL`, and `ConnectProvider` tells
+the player "Network play is not available in this version." through `ShowMessage`, leaving the
+window as it was. This holds until `networking.md` puts a socket transport behind the same
+component.
+
+The desktop. The original's one `ShellExecute` of the game (Help, third item) opens
+`http://www.ageofwonders.com`. It goes to the host's `IShellService.OpenUrl`, which the desktop
+host implements with `SDL_OpenURL`. The port skips the original's switch to windowed mode before
+it. The headless host and the frame fixture host record the address and open nothing, and a host
+that supplies no shell service refuses the request.
 
 E-mail play. `ims.dpl`'s `TmsSMTP`, `TmsPOP3` and `TmsMessage` components get stand-ins that load
 from the form files and fail every operation, pending `../design.md` open question 7.

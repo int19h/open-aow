@@ -3,6 +3,7 @@ using Aow.Rtl;
 using Aow.Units.AoWVideoDlg;
 using Aow.Units.E2Globals;
 using Aow.Units.Sound;
+using Aow.Units.aowSetupEvents;
 
 namespace Aow.Units.AOWMultiWin;
 
@@ -19,11 +20,22 @@ public partial class TMultiWindow
         }
         AoWVideoDlgUnit.VideoDialog.SetSceneSize(640, 480);
         FPendingMap = mapName;
+        var dplay = aowSetupEventsUnit.SetupEvents.DPlay;
+        if (dplay.Connected) dplay.DisConnect();
         E2GlobalsUnit.TitleWindow.TitleWin.Visible = true;
         E2GlobalsUnit.TitleWindow.TitlePnl.Visible = false;
         MultiPnl.Visible = GamePanel.Visible = true;
-        TCPPnl.Visible = LanPnl.Visible = JoinPnl.Visible = IPXBtn.Visible = PBEMPnl.Visible = false;
-        TCPBtn.Visible = true;
+        TCPPnl.Visible = LanPnl.Visible = JoinPnl.Visible = TCPBtn.Visible = IPXBtn.Visible = PBEMPnl.Visible = false;
+        // A provider button shows only when DirectPlay lists that provider. The offline component
+        // lists the TCP/IP provider alone, as DirectPlay does on any current Windows, so TCP
+        // shows and IPX stays hidden.
+        if (dplay.GetConnections() == 0)
+            for (int i = 0; i < dplay.ConnectionItems.Count; i++)
+                switch (((TGDConnection)dplay.ConnectionItems[i]!).FType)
+                {
+                    case TConnectionType.conTCP: TCPBtn.Visible = true; break;
+                    case TConnectionType.conIPX: IPXBtn.Visible = true; break;
+                }
     }
 
     public void MultiWinUpdate()
