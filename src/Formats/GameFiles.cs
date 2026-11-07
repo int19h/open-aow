@@ -57,19 +57,11 @@ public static class GameFiles
 {
     public static FormatSchema Schema => FormatSchema.Current;
 
-    /// <summary>The kind an original extension suggests. A .hsm needs its header to pick a profile.</summary>
-    public static string? KindForExtension(string? extension) => extension?.ToLowerInvariant() switch
-    {
-        ".asg" => "save",
-        ".hsm" => "map",
-        ".csm" => "campaign-map",
-        ".cam" => "campaign",
-        ".acg" => "campaign-save",
-        ".hss" => "scenario-set",
-        ".ahl" => "hero-list",
-        ".ail" => "item-list",
-        _ => null,
-    };
+    /// <summary>
+    /// The kind an original or own extension suggests (DocumentKind). A .hsm or .ohsm needs its
+    /// header to pick a profile.
+    /// </summary>
+    public static string? KindForExtension(string? extension) => DocumentKind.ForExtension(extension)?.Name;
 
     /// <summary>
     /// Picks the original profile for a kind, using the HSM header class where world and

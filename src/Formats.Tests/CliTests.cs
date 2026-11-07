@@ -93,10 +93,33 @@ public sealed class CliTests : FormatsTest, IDisposable
         var result = Run("to-own", "--dir", In("in"), "--out", In("out"));
         Assert.Equal(Program.Success, result.Code);
         Assert.Contains("1 converted, 0 failed, 0 skipped", result.Output);
-        Assert.True(File.Exists(Path.Combine(In("out"), "h.ahl")));
+        // A derived output name takes the own extension on import and the original one on export.
+        Assert.True(File.Exists(Path.Combine(In("out"), "h.oahl")));
+        Assert.False(File.Exists(Path.Combine(In("out"), "h.ahl")));
         var back = Run("to-original", "--dir", In("out"), "--out", In("back"));
         Assert.Equal(Program.Success, back.Code);
         Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
+        Assert.Single(Directory.GetFiles(In("back")));
+    }
+
+    // An own document named with an original extension exports to that original name.
+    [GameFact]
+    public void DirectoryExportOfAnOwnDocumentUnderAnOriginalNameKeepsTheName()
+    {
+        Directory.CreateDirectory(In("in"));
+        Assert.Equal(Program.Success, Run("to-own", HeroList, Path.Combine(In("in"), "h.ahl")).Code);
+        Assert.Equal(Program.Success, Run("to-original", "--dir", In("in"), "--out", In("back")).Code);
+        Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(Path.Combine(In("back"), "h.ahl")));
+    }
+
+    // The explicit output path of the single-file forms is kept as given.
+    [GameFact]
+    public void AnExplicitOutputPathIsKept()
+    {
+        Assert.Equal(Program.Success, Run("to-own", HeroList, In("a.json")).Code);
+        Assert.True(File.Exists(In("a.json")));
+        Assert.Equal(Program.Success, Run("to-original", In("a.json"), In("b.bin")).Code);
+        Assert.Equal(File.ReadAllBytes(HeroList), File.ReadAllBytes(In("b.bin")));
     }
 
     [GameFact]

@@ -22,6 +22,9 @@ internal static class FrameFixtureChecks
             if (!condition) throw new InvalidOperationException(label);
             checks++;
         }
+        // The fixture host replays native scripts, so the game writes original names under it.
+        Check(!RtlUnit.WritesOwnExtensions && Aow.Units.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
+            && Aow.Units.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
         var instance = new TObject();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)instance.InstanceId >> 2) & 65535), "ordinary animation phase");
         Check(!new TGDPlay().Connected && new TGDPlay().ConnectionType == TConnectionType.conNone, "offline connection queries");
@@ -124,6 +127,7 @@ internal static class FrameFixtureChecks
         private readonly IDialogService? dialogs = RtlUnit.Dialogs;
         private readonly IClock clock = RtlUnit.Clock;
         private readonly string exe = RtlUnit.Application.ExeName;
+        private readonly bool ownExtensions = RtlUnit.WritesOwnExtensions;
         private readonly string scratch = Path.Combine(Path.GetTempPath(), "aow-frame-inputs-" + Guid.NewGuid().ToString("N"));
         internal StartupScope(string root)
         {
@@ -141,6 +145,7 @@ internal static class FrameFixtureChecks
             RtlUnit.Dialogs = dialogs;
             RtlUnit.Clock = clock;
             RtlUnit.Application.ExeName = exe;
+            RtlUnit.WritesOwnExtensions = ownExtensions;
             Directory.Delete(scratch, true);
         }
     }

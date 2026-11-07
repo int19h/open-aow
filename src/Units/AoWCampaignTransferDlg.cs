@@ -818,8 +818,8 @@ public partial class TCampaignTransferDlg : TDataModule
     {
         var campaign = AoWEngine.FCampaign;
         ResetSelection();
-        campaign.FTransferSettings.SetupSelection(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" +
-            campaign.FScenarios.GetScenario(campaign.FNextScenarioID).FFileName);
+        campaign.FTransferSettings.SetupSelection(FileBoundary.ReadName(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" +
+            campaign.FScenarios.GetScenario(campaign.FNextScenarioID).FFileName));
         if (campaign.FTransferSettings.FTransferPointsMax > 0)
         {
             GoldSlider.Max = campaign.FTransferSettings.FTransferGoldMax;

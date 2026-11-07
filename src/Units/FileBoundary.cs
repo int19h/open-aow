@@ -148,6 +148,88 @@ public static class FileBoundary
         return System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(image.Length - 4));
     }
 
+    /// <summary>
+    /// The name a game write takes (own-formats.md 4.2). A name with an original extension takes
+    /// its kind's own extension, so an original file of that name stays untouched beside the new
+    /// document. A file under EmailIn keeps its name, since the play-by-e-mail exchange names its
+    /// game files with the original extension. A host that writes original extensions
+    /// (IRtlHost.WritesOwnExtensions) keeps every name.
+    /// </summary>
+    public static string WriteName(string fileName)
+    {
+        if (!RtlUnit.WritesOwnExtensions) return fileName;
+        var kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
+        if (kind is null || IsEmailExchange(fileName)) return fileName;
+        return RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
+    }
+
+    /// <summary>
+    /// The extension a game write of a kind takes: the own one, or the original one where the host
+    /// writes original extensions (IRtlHost.WritesOwnExtensions).
+    /// </summary>
+    public static string WriteExtension(DocumentKind kind) => RtlUnit.WritesOwnExtensions ? kind.OwnExtension : kind.OriginalExtension;
+
+    /// <summary>
+    /// The file a read of a name the game derives opens (own-formats.md 2.9). A name with an
+    /// original extension opens its own sibling when that exists, else the name itself. The
+    /// content still decides the format.
+    /// </summary>
+    public static string ReadName(string fileName)
+    {
+        var kind = DocumentKind.ForOriginalExtension(RtlUnit.ExtractFileExt(fileName));
+        if (kind is null) return fileName;
+        string own = RtlUnit.ChangeFileExt(fileName, kind.OwnExtension);
+        return RtlUnit.FileExists(own) ? own : fileName;
+    }
+
+    /// <summary>Whether a file lies directly in an EmailIn directory.</summary>
+    public static bool IsEmailExchange(string fileName)
+    {
+        string directory = RtlUnit.ExtractFileDir(RtlUnit.ExpandFileName(fileName));
+        return RtlUnit.CompareText(RtlUnit.ExtractFileName(directory), "EmailIn") == 0;
+    }
+
+    /// <summary>
+    /// The names of the documents of a kind in a directory, for a listing that loads each one
+    /// (the user hero and item lists). Originals come first in FindFirst order, then own
+    /// documents. A name present in both forms lists its own document only, in the original's
+    /// place, so a list saved again by the port loads once.
+    /// </summary>
+    public static List<string> FindDocuments(string directory, DocumentKind kind)
+    {
+        var originals = FindNames(directory + "*" + kind.OriginalExtension);
+        var owns = FindNames(directory + "*" + kind.OwnExtension);
+        var result = new List<string>();
+        foreach (var name in originals)
+        {
+            string own = RtlUnit.ChangeFileExt(name, kind.OwnExtension);
+            int index = owns.FindIndex(o => RtlUnit.CompareText(o, own) == 0);
+            if (index < 0)
+            {
+                result.Add(name);
+                continue;
+            }
+            result.Add(owns[index]);
+            owns.RemoveAt(index);
+        }
+        result.AddRange(owns);
+        return result;
+    }
+
+    private static List<string> FindNames(string mask)
+    {
+        var names = new List<string>();
+        TSearchRec search = default;
+        bool found = RtlUnit.FindFirst(mask, 63 & ~16, ref search) == 0;
+        while (found)
+        {
+            names.Add(search.Name);
+            found = RtlUnit.FindNext(ref search) == 0;
+        }
+        RtlUnit.FindClose(ref search);
+        return names;
+    }
+
     /// <summary>The temporary of a replacement: a sibling the game never opens.</summary>
     public static string TemporaryFor(string fileName) => fileName + ".openaow-tmp";
 
