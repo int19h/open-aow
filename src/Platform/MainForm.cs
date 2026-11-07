@@ -156,7 +156,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
             aowSetupEventsUnit.SetupEvents.DPlay.CheckMessages();
         SoundUnit.ProcessSound();
         try { AoWHSMap?.NewFrame(); }
-        catch (System.Exception) { RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
+        catch (System.Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during AoWHSMap.NewFrame"); }
         if (dc?.GetSurface(1) is TSurface back)
         {
             int x = -1, y = -1;
@@ -168,7 +168,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
                 FLastCursorRect.Right != rect.Right || FLastCursorRect.Bottom != rect.Bottom;
             if (AoWHSMap is not null) ScrollMap(x, y);
             try { General.Manager.DrawSurface(back); }
-            catch (System.Exception) { RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
+            catch (System.Exception error) { Console.Error.WriteLine(error); RtlUnit.ShowMessage("Exception during WinManager DrawSurface"); }
             TSurfaceDesc descriptor = default;
             if (x != -1 && back.Lock(ref descriptor) >= 0)
             {
