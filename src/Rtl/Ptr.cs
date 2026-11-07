@@ -70,6 +70,12 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     internal readonly object? ViewState => view?.Target;
 
     public static Ptr<T> To(T[] array, int index) => new() { Array = array, Index = index };
+
+    // The transpiler emits these where a pointer meets a span parameter (section 1.4 of
+    // rtl-shim.md). The product units do not use them.
+    public static implicit operator Span<T>(Ptr<T> pointer) => pointer.AsSpan();
+
+    public static implicit operator ReadOnlySpan<T>(Ptr<T> pointer) => pointer.AsSpan();
     // SYSTEM.PAS:1042 returns nil without calling the allocator for size zero.
     public static Ptr<T> Alloc(int count) => count == 0 ? default : To(new T[count], 0);
 

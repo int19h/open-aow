@@ -358,6 +358,10 @@ public static partial class RtlUnit
 {
     public static TIToolServices? ToolServices => null;
 
+    // The transpiler emits this for an untyped pointer read as bytes (section 1.4 of rtl-shim.md).
+    // The product units do not use it.
+    public static Ptr<byte> BytePointer(object? value) => value is null ? default : value is IPointerBox pointer ? pointer.As<byte>() : throw new EInvalidCast("Value is not a pointer");
+
     public static TRect Rect(int left, int top, int right, int bottom) => new() { Left = left, Top = top, Right = right, Bottom = bottom };
     public static bool Succeeded(int result) => result >= 0;
     public static bool Failed(int result) => result < 0;

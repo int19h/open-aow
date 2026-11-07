@@ -148,6 +148,10 @@ typed `Move`, `FillChar`, `GetMem`, `ReallocMem`, `FreeMem`, `New` and `Dispose`
 record address passed as `TObject`), and the box cases of `BufferBytes` and `TList.IndexOf`. The
 units hold no `Ptr<T>` since the graphics slices GP-1 to GP-4 (`graphics.md` 3.5): blocks of
 records are arrays, pixels are a `byte[]` with a byte index, optional rectangles are `TRect?`.
+The transpiler still targets the first-stage shape, so the RTL keeps what its output needs: the
+implicit conversions from `Ptr<T>` to `Span<T>` and `ReadOnlySpan<T>`, and
+`RtlUnit.BytePointer(object)`, which reads a boxed pointer as bytes. The transpiled probes and the
+reference output compile against them, and the product units do not call them.
 None of the units calls these members or creates a box, so they remain for the tests of the RTL
 and are candidates for removal. Records grown and shifted as arrays use `RtlUnit.ReallocArray`,
 `MoveElements` and `ClearElements` (section 2.4).
