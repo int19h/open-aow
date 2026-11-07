@@ -500,8 +500,14 @@ public partial class TMapEvents : TDataModule
     // aowMapEvents.pas:1026
     public void TheMapPlayerTerminated(sbyte Player)
     {
-        /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
-        throw new NotImplementedException();
+        TBWindow.UpdatePlayerIndicator();
+        if (AoWHSMap != null)
+            if (AoWHSMap.FConnectionType == TPlayerConnectionType.pcNetwork)
+                if (Player == AoWHSMap.FSeatedPlayer)
+                {
+                    /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
+                    throw new NotImplementedException();
+                }
     }
 
     // aowMapEvents.pas:409
