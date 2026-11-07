@@ -15,8 +15,9 @@ stays the disposition of the second opinion, and section 9 holds the result and 
 Covers `docs/milestones.md` row 9.7, `docs/design.md` sections 5 and 9 and
 `docs/specs/persistence.md`. The user's decisions stand: canonical JSON as the
 primary save and map format, always pretty printed for hand editing, map field
-rows as arrays on single lines, original extensions, and conversion without
-creating game objects. The original-format image ships as a transitional engine
+rows as arrays on single lines, and conversion without creating game objects.
+The original extensions of 9.7 gave way on 2026-11-06 to own extensions, an `o` before the
+original one (the user's decision, 1.1, 2.9 and 4.2). The original-format image ships as a transitional engine
 backend. Section 6 defines its cost and exit, completed at the latest before any
 persistence interface becomes stable mod API in milestone 10.
 
@@ -42,19 +43,24 @@ table. A `.hsm` file names its profile through the root class id of its HSM head
 (`GameFiles.ProfileFor`): a `TAoWHSMap` root is `world-hsm`, a `TAoWCombatMap` root is
 `tactical-hsm`.
 
-| family | extension and kind | profile | engine table and root | 9.7 status |
-| --- | --- | --- | --- | --- |
-| World saves | `.asg`, `save` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game writes JSON |
-| Custom maps | `.hsm`, `map` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
-| Tactical maps | `.hsm` in `TCMaps`, `map` | `tactical-hsm` | tactical, `TAoWCombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
-| Campaign maps | `.csm`, `campaign-map` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert |
-| Campaign definitions | `.cam`, `campaign` | `campaign` | campaign, `TAoWCampaign`, stored object with class identity | Convert |
-| Campaign saves | `.acg`, `campaign-save` | `campaign` | campaign, `TAoWCampaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
-| Scenario sets | `.hss`, `scenario-set` | `scenario-set` | game, `TAoWHSSet`, 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHSS` takes the profile and has no caller in the product |
-| Hero lists | `.ahl`, `hero-list` | `hero-list` | game, `THeroLibrary`, written object without class id | Convert. The game writes JSON |
-| Item lists | `.ail`, `item-list` | `item-list` | game, `TItemLibrary`, written object without class id | Convert. The game writes JSON |
-| Game-set resources | 12 shipped `.pfs` files | none | written objects, CRC-wrapped objects and separate `GENERAL.PFS` flag/string layout | Inventory only, original paths retained until milestone 10 |
-| E-mail game index | `EmailIn/egames.pfs` | none | written object and external CRC bookkeeping | Inventory only, original path retained |
+Each kind owns two extensions (`DocumentKind` in `src/Formats/DocumentKind.cs`): the original
+one and its own one, an `o` before the original. A profile holds kinds with different extensions,
+so the kind, not the profile, owns both. `FileProfile.AllKinds` lists the kind names in the
+order of `DocumentKind.All`, and `GameFiles.KindForExtension` asks the kinds for either form.
+
+| family | extension and kind | own extension | profile | engine table and root | 9.7 status |
+| --- | --- | --- | --- | --- | --- |
+| World saves | `.asg`, `save` | `.oasg` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game writes JSON |
+| Custom maps | `.hsm`, `map` | `.ohsm` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
+| Tactical maps | `.hsm` in `TCMaps`, `map` | `.ohsm` | `tactical-hsm` | tactical, `TAoWCombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
+| Campaign maps | `.csm`, `campaign-map` | `.ocsm` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert |
+| Campaign definitions | `.cam`, `campaign` | `.ocam` | `campaign` | campaign, `TAoWCampaign`, stored object with class identity | Convert |
+| Campaign saves | `.acg`, `campaign-save` | `.oacg` | `campaign` | campaign, `TAoWCampaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
+| Scenario sets | `.hss`, `scenario-set` | `.ohss` | `scenario-set` | game, `TAoWHSSet`, 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHSS` takes the profile and has no caller in the product |
+| Hero lists | `.ahl`, `hero-list` | `.oahl` | `hero-list` | game, `THeroLibrary`, written object without class id | Convert. The game writes JSON |
+| Item lists | `.ail`, `item-list` | `.oail` | `item-list` | game, `TItemLibrary`, written object without class id | Convert. The game writes JSON |
+| Game-set resources | 12 shipped `.pfs` files | none | none | written objects, CRC-wrapped objects and separate `GENERAL.PFS` flag/string layout | Inventory only, original paths retained until milestone 10 |
+| E-mail game index | `EmailIn/egames.pfs` | none | none | written object and external CRC bookkeeping | Inventory only, original path retained |
 
 The census fixes exact root types, headers, checksums, read entries and write
 entries from code. Unclassified entries block the switch. Redirecting generic
@@ -489,7 +495,11 @@ the same text in its file log (4.2), and a refused load raises `EGameFileError` 
 
 ### 2.9 Content detection
 
-Keep original extensions. Classification yields own JSON, gzip own JSON, supported
+Own documents take their own extensions (1.1). The extension never decides the format. It only
+selects candidates: which files a listing shows and which names a path search tries. A file
+under either extension classifies by its content, so an own document under an original name (the
+saves of 9.7 before own extensions) loads, and so does an original under an own name.
+Classification yields own JSON, gzip own JSON, supported
 original profile, malformed own input, unsupported version, unsupported kind or
 unknown format. It never retries binary after a JSON error.
 
@@ -612,6 +622,11 @@ legacy rules that fired, a `G3:` line that names the independent reader and the 
 without one, and timed `Measure:` lines. With `--expect` and the check expectation file it
 fails on any drift of the pinned layout counts. Section 9 quotes its output at the gate.
 
+The directory forms derive each output name from the input name and the document kind:
+`to-own --dir` gives the output the kind's own extension (`Foo.asg` becomes `Foo.oasg`,
+`Keepers.CAM` becomes `Keepers.ocam`), `to-original --dir` its original extension (`Foo.oasg`
+becomes `Foo.asg`). The single-file forms keep the explicit output path as given.
+
 Exit codes: 0 complete success, 1 comparison difference, 2 error, 3 successful
 explicit lossy conversion. Errors outrank differences, which outrank losses in
 batch results. Enumeration is sorted, each file is converted once per direction
@@ -720,9 +735,32 @@ macOS. Preserve host overrides and the oracle's single-directory mode. Resolve
 casing, aliases and future mod layers through the file service, not a second
 Formats lookup.
 
-Original saves copied to the user layer load normally. Saving under the same
-name replaces that user copy with JSON. State this in user-facing instructions.
-Original-game files come from explicit export.
+Original saves copied to the user layer load normally. The choice of written extensions is a
+fact of the host, `IRtlHost.WritesOwnExtensions` (`RtlUnit.WritesOwnExtensions` once the host is
+installed), read by `FileBoundary.WriteName` and `FileBoundary.WriteExtension`. It defaults to
+own. The desktop SDL host and the headless host write own extensions. The frame-fixture host
+(`FrameFixture.FixtureHost`, also used by `FrameFixtureChecks`) writes original extensions,
+since it replays native scripts and compares frames exactly with the original game. Reading and
+listing do not depend on it. The headless host redirects the autosave it writes
+(`autosave.oasg`) to the run's day file, which keeps its harness name `day-NN.asg`. Under the shipped hosts the game writes only own extensions
+for the files it writes in the own format: saves and autosaves (`Save/autosave.oasg`), campaign
+saves and autosaves (`.oacg`, `Save/autosave.oacg` and the names of `GetAutoSaveFileName`), the hero and
+item lists (`User/*.oahl`, `User/*.oail`) and the debug saves under `DEBUG`. Saving under the name
+of an original (`Foo.asg`) writes `Foo.oasg` beside it and leaves the original untouched. The
+default name of the save dialog and the "save game to" question name the file the save writes
+(`FileBoundary.WriteName`). Original-game files come from explicit export. The files that stay
+original keep their names: the play-by-e-mail game files under `EmailIn` (`FileBoundary.IsEmailExchange`)
+and the PFS files of 1.1.
+
+A read of a name the game derives (the tutorial, the campaign definitions and their maps by
+name, the tactical maps under `TCMaps`, the scenario set a map names and `RELEASE.HSS`, the map
+a network host names) opens the own sibling first and falls back to the original name. A
+derived name with an own extension whose file is missing opens its original sibling
+(`FileBoundary.ReadName`). A name the user picks in a dialog opens as picked. The load and save
+dialogs list each family under both extensions and show the full name with its extension, so the
+two forms of a name stand side by side (`TFileDlgWindow.ListsFile`). The user hero and item lists
+load each name once, its own document when both forms exist (`FileBoundary.FindDocuments`), and
+deleting a list deletes both forms.
 
 After serialization and validation, write a sibling temporary through the file
 service, finish and close it, then replace atomically. Failure retains the old
@@ -1230,8 +1268,8 @@ pins the rule to exactly one occurrence in that file.
 
 ### 9.6 Open items
 
-- The user-facing statement that a save under an original's name becomes JSON (4.2) is not in
-  the product's `README.md`.
+- The user-facing statement that a save under an original's name writes an own document beside
+  it (4.2) is not in the product's `README.md`.
 - `aowconv info` prints `Game content validation arrives with 9.7-3.` and runs no unit
   validator. `check` and the game run them.
 - Version 1 maps no `rwData` record to named fields, annotates no reference domain in the schema

@@ -445,6 +445,9 @@ internal sealed class FrameFixture
         public ISettingsStore Settings { get; } = new MemorySettingsStore();
         public string ExeName => Files.ExpandPath(Path.Combine(GameRoot, "AoW.exe"));
         public string GameRoot { get; }
+        // The fixtures replay native scripts and compare frames exactly with the original game, so
+        // the game writes the original extensions here (own-formats.md 4.2).
+        public bool WritesOwnExtensions => false;
         public int Show(DialogRequest request) => throw new InvalidOperationException("Fixture dialog: " + request.Text);
     }
 }

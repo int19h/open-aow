@@ -118,11 +118,14 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         RtlUnit.SetCurrentDir(AoWEngine.StartupDirectory);
         AoWEngine.FCombatFont = FontModule.Age8;
     }
+    // A command-line save names a world or campaign save by its original or own extension (own-formats.md 2.9).
+    public static bool IsSaveName(string argument) =>
+        Aow.Formats.DocumentKind.Save.HasExtension(Path.GetExtension(argument)) || Aow.Formats.DocumentKind.CampaignSave.HasExtension(Path.GetExtension(argument));
     private void FormShow(string argument)
     {
         SoundUnit.SongPlayer.OnSongChange = SoundDlg.SongChange;
         AoWEngine.OutputDebugStr("ParamStr: " + argument);
-        if (argument.Length != 0 && RtlUnit.FileExists(argument) && Path.GetExtension(argument).ToLowerInvariant() is ".asg" or ".acg")
+        if (argument.Length != 0 && RtlUnit.FileExists(argument) && IsSaveName(argument))
         {
             ShowTitleScene(TitleScene, false);
             GameHost.DeferredSetupAction = 2;

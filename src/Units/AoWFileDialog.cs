@@ -136,7 +136,7 @@ public partial class TFileDlgWindow : TDataModule
     public void LoadSelectedGame(string Name)
     {
         TAoWHSMap Map = default;
-        if (LowerCase(ExtractFileExt(Name)) == ".acg")
+        if (Aow.Formats.DocumentKind.CampaignSave.HasExtension(ExtractFileExt(Name)))
         {
             if (!AoWEngine.FDemo)
             {
@@ -200,6 +200,21 @@ public partial class TFileDlgWindow : TDataModule
         }
     }
 
+    // The file filter of FindFiles (AoWFileDialog.pas:233). Each family lists its original and its
+    // own extension (own-formats.md 2.9), so the shown name tells the two apart.
+    public static bool ListsFile(int Mode, bool Campaign, string Extension)
+    {
+        bool IsCampaignSave = Aow.Formats.DocumentKind.CampaignSave.HasExtension(Extension);
+        bool IsSave = Aow.Formats.DocumentKind.Save.HasExtension(Extension);
+        bool IncludeFile = false;
+        IncludeFile = IncludeFile || Mode == 1 && Campaign && IsCampaignSave;
+        IncludeFile = IncludeFile || Mode == 1 && !Campaign && IsSave;
+        IncludeFile = IncludeFile || Mode == 0 && (IsSave || IsCampaignSave);
+        // { Original accepts .asg in every mode, including map selection. }
+        IncludeFile = IncludeFile || Mode == 2 && Aow.Formats.DocumentKind.Map.HasExtension(Extension) || IsSave;
+        return IncludeFile;
+    }
+
     // AoWFileDialog.pas:233
     public void FindFiles()
     {
@@ -243,13 +258,8 @@ public partial class TFileDlgWindow : TDataModule
                     }
                     else
                     {
-                        IncludeFile = false;
                         Extension = LowerCase(ExtractFileExt(Search.Name));
-                        IncludeFile = IncludeFile || FMode == 1 && AoWEngine.FCampaign != null && Extension == ".acg";
-                        IncludeFile = IncludeFile || FMode == 1 && AoWEngine.FCampaign == null && Extension == ".asg";
-                        IncludeFile = IncludeFile || FMode == 0 && (Extension == ".asg" || Extension == ".acg");
-                        // { Original accepts .asg in every mode, including map selection. }
-                        IncludeFile = IncludeFile || FMode == 2 && Extension == ".hsm" || Extension == ".asg";
+                        IncludeFile = ListsFile(FMode, AoWEngine.FCampaign != null, Extension);
                         if (IncludeFile)
                         {
                             Stamp = new TFileTime();
@@ -409,20 +419,22 @@ public partial class TFileDlgWindow : TDataModule
                         if (AoWEngine.FCampaign != null)
                         {
                             FileDialog.Visible = false;
-                            SFileName.Text = SFileName.Text + ".acg";
+                            // The save takes the extension the host writes, beside an original of the same name
+                            // (own-formats.md 4.2).
+                            SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.CampaignSave.OriginalExtension);
                             SaveCampaign(General, SFileName.Text);
                         }
                         else
                         {
                             if (FSaveEvent != null)
                             {
-                                FSaveEvent.FFileName = SFileName.Text + ".asg";
+                                FSaveEvent.FFileName = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension, FDirectory);
                                 FileDialog.Visible = false;
                             }
                             else
                             {
                                 FileDialog.Visible = false;
-                                SFileName.Text = SFileName.Text + ".asg";
+                                SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension);
                                 SaveGame(General, SFileName.Text);
                             }
                         }
@@ -481,7 +493,7 @@ public partial class TFileDlgWindow : TDataModule
         {
             var item = FileLB.Items[FileLB.Selected];
             SFileName.Text = item;
-            if (LowerCase(ExtractFileExt(SFileName.Text)) != ".acg")
+            if (!Aow.Formats.DocumentKind.CampaignSave.HasExtension(ExtractFileExt(SFileName.Text)))
             {
                 Map = (TAoWHSMap)AoWEngine.CreatePreviewHSM(SFileName.Text, Aow.Formats.GameProfile.WorldMap);
                 if (Map != null)
@@ -584,13 +596,14 @@ public partial class TFileDlgWindow : TDataModule
 
                 if (!IsEmpty(SFileName.Text))
                 {
+                    // The default name shows the file the save writes (own-formats.md 4.2).
                     if (AoWEngine.FCampaign != null)
                     {
-                        SFileName.Text = SFileName.Text + ".acg";
+                        SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.CampaignSave.OriginalExtension);
                     }
                     else
                     {
-                        SFileName.Text = SFileName.Text + ".asg";
+                        SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension);
                     }
                 }
 
@@ -604,7 +617,8 @@ public partial class TFileDlgWindow : TDataModule
                 NewPnl.Visible = false;
                 break;
             case 2:
-                if (ExtractFileExt(FLastFileName) == ".hsm")
+                var lastExtension = ExtractFileExt(FLastFileName);
+                if (lastExtension == Aow.Formats.DocumentKind.Map.OriginalExtension || lastExtension == Aow.Formats.DocumentKind.Map.OwnExtension)
                 {
                     var fileName3 = ExtractFileName(FLastFileName);
                     FileName.Text = fileName3;

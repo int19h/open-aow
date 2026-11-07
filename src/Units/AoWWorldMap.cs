@@ -420,7 +420,7 @@ public partial class TWorldMap : TDataModule
                 case 4:
                     var campaign27 = GetCampaign();
                     var campaignScenario11 = GetCampaignScenario(GetCampaign(), campaign27.FNextScenarioID);
-                    Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName, Aow.Formats.GameProfile.WorldMap);
+                    Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName), Aow.Formats.GameProfile.WorldMap);
                     if (Preview != null)
                     {
                         Index = Preview.FPlayers.IndexOfPlayerType(TPlayerType.ptHuman);
@@ -456,7 +456,7 @@ public partial class TWorldMap : TDataModule
                         SetCurrentDir(AoWEngine.StartupDirectory + "Scenario\\Campaign\\");
                         var campaign4 = GetCampaign();
                         var campaignScenario = GetCampaignScenario(GetCampaign(), campaign4.FCurrentScenarioID);
-                        AoWWinManUnit.LoadGame(General, campaignScenario.FFileName);
+                        AoWWinManUnit.LoadGame(General, FileBoundary.ReadName(campaignScenario.FFileName));
                         TitleWindow.TitlePnl.Visible = true;
                         WorldPnl.Visible = false;
                         GetCampaign().SetupScenario();

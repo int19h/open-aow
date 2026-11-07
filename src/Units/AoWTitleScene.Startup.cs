@@ -72,7 +72,7 @@ public partial class TTitleScene
                     else AoWMessageDlgUnit.ShowDemoMessage();
                     break;
                 case 2:
-                    E2GameFlowUnit.LoadGame(General, AoWEUnit.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM");
+                    E2GameFlowUnit.LoadGame(General, FileBoundary.ReadName(AoWEUnit.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
                     if (AoWEUnit.AoWHSMap is { } map)
                     {
                         map.FFixedLeaders = true;

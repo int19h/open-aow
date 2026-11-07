@@ -94,9 +94,16 @@ internal sealed class RunFiles : IFileSystem
     {
         if (AutoSaveTarget is null) return path;
         string name = RtlUnit.ExtractFileName(path).ToString();
-        if (name.Equals("autosave.asg", StringComparison.OrdinalIgnoreCase)) return AutoSaveTarget;
-        string temporary = Aow.Units.FileBoundary.TemporaryFor("autosave.asg");
-        return name.Equals(temporary, StringComparison.OrdinalIgnoreCase) ? Aow.Units.FileBoundary.TemporaryFor(AutoSaveTarget) : path;
+        // The autosave goes to the day file under either extension, the one this host writes and
+        // the original one (own-formats.md 4.2).
+        var save = Aow.Formats.DocumentKind.Save;
+        foreach (var extension in new[] { save.OwnExtension, save.OriginalExtension })
+        {
+            string autosave = "autosave" + extension;
+            if (name.Equals(autosave, StringComparison.OrdinalIgnoreCase)) return AutoSaveTarget;
+            if (name.Equals(Aow.Units.FileBoundary.TemporaryFor(autosave), StringComparison.OrdinalIgnoreCase)) return Aow.Units.FileBoundary.TemporaryFor(AutoSaveTarget);
+        }
+        return path;
     }
     public Stream Open(string path, int mode)
     {

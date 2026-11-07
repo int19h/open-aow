@@ -312,8 +312,12 @@ Milestone 9.7 (`specs/own-formats.md`) adopted them. The decisions:
 
 - The own format is primary for the in-scope families: world saves (`.asg`), custom and tactical
   maps (`.hsm`), campaign maps (`.csm`), campaign definitions and saves (`.cam`, `.acg`), the
-  scenario set (`.hss`) and the user hero and item lists (`.ahl`, `.ail`). Files keep the
-  original extensions, and content, never the extension, tells a document from an original.
+  scenario set (`.hss`) and the user hero and item lists (`.ahl`, `.ail`). An own document has
+  its own extension, an `o` before the original one (`.oasg`, `.ohsm`, `.ocsm`, `.ocam`,
+  `.oacg`, `.ohss`, `.oahl`, `.oail`), so it never takes the place of an original in the
+  original game's folders and the file dialogs, which show the extension, tell the two apart.
+  Content, never the extension, tells a document from an original: an own document under an
+  original name still loads.
 - A document is canonical JSON: UTF-8 without a byte order mark, LF line ends, always pretty
   printed with two-space indentation for hand editing, members in schema order, with one
   exception: each row of a map's `Fields` takes one line. It carries `$format`, `$version`,

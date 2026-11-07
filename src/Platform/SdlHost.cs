@@ -47,11 +47,21 @@ public sealed class SdlHost : IRtlHost, IDisposable
     }
     /// <summary>Game message boxes on the window. Each text also goes to the error stream, so a
     /// run's log keeps what the player saw.</summary>
-    private sealed class DisplayDialogs(SdlDisplayHost display) : IDialogService
+    private sealed class DisplayDialogs : IDialogService
     {
+        // The game's catch blocks drop the exception and show only a message (as the original
+        // did), so the host keeps the last one thrown on each thread for the log.
+        [ThreadStatic] private static System.Exception? last;
+        private readonly SdlDisplayHost display;
+        public DisplayDialogs(SdlDisplayHost display)
+        {
+            this.display = display;
+            AppDomain.CurrentDomain.FirstChanceException += (_, e) => last = e.Exception;
+        }
         public int Show(DialogRequest request)
         {
             Console.Error.WriteLine("Message: " + request.Text);
+            if (request.Text.StartsWith("Exception", StringComparison.Ordinal) && last is { } error) Console.Error.WriteLine(error);
             return display.ShowMessageBox(request);
         }
     }

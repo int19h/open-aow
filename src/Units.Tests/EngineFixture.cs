@@ -45,6 +45,8 @@ public sealed partial class EngineFixture : IDisposable
 
     internal static void InstallServices() => Runtime.InstallHost(services);
 
+    internal static IRtlHost Services => services;
+
     internal static TAoWHSSet CreateGameSet(TImageLibraryManager manager)
     {
         var value = TAoWHSSet.Create(null!);

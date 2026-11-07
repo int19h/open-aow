@@ -2282,9 +2282,12 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5341
+    // Every caller derives the name (RELEASE.HSS, the set a map names), so the own sibling opens
+    // first (own-formats.md 2.9).
     public void InitializeHSSet(string FileName, Engine.TProgressEvent AProgress)
     {
         TEMsg Msg = default;
+        FileName = FileBoundary.ReadName(FileName);
         if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
         {
             LoadHSS(FileName, false, AProgress, Aow.Formats.GameProfile.ScenarioSet);
@@ -4828,7 +4831,9 @@ public partial class THSMapMouse : TObject
     // HSEngine.pas:3651
     public virtual void Move(TSet<TShiftState> Shift, int X, int Y)
     {
-        if (X >= 0 && Y >= 0 && X <= FHSMap.GetMaxXhp() && Y <= FHSMap.GetMaxYhp())
+        // Port extension: a view wider or taller than the map takes scene points past MaxXhp or MaxYhp.
+        // GetXhp and GetYhp still test the map coordinates.
+        if (X >= 0 && Y >= 0 && X <= Math.Max(FHSMap.GetMaxXhp(), FHSMap.FViewWidth) && Y <= Math.Max(FHSMap.GetMaxYhp(), FHSMap.FViewHeight))
         {
             FX = X;
             FY = Y;
@@ -5039,6 +5044,8 @@ public partial class THSMapViewer : TComponent
     internal bool FStaticSurfaceValid;
     internal TNotifyEvent FOnSceneChanged;
     internal THSMap FHSMap;
+    // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
+    internal TSurface FCenteredSurface;
     // HSEngine.pas:4670
     public THSMapViewer(TComponent owner) : base(owner)
     {
@@ -5057,6 +5064,7 @@ public partial class THSMapViewer : TComponent
         }
 
         FStaticSurface.Free();
+        FCenteredSurface.Free();
         base.Destroy();
     }
 
@@ -5259,6 +5267,9 @@ public partial class THSMapViewer : TComponent
         object MP;
         TSurfaceDesc SD = default;
         TRect R = default;
+        TSurface Target = Surface;
+        int TargetX = X;
+        int TargetY = Y;
         try
         {
             MP = FHSMap;
@@ -5268,6 +5279,20 @@ public partial class THSMapViewer : TComponent
                 if (M.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight) && FOnSceneChanged != null)
                 {
                     FOnSceneChanged(this);
+                }
+
+                // Port extension: a scene larger than the map draws as the original does into
+                // FCenteredSurface, then ShowCenteredMap centers the map on Target and fills the rest black.
+                if (GetSceneExceedsMap())
+                {
+                    Surface = VerifyCenteredSurface(Target);
+                    X = 0;
+                    Y = 0;
+                }
+                else if (FCenteredSurface != null)
+                {
+                    FCenteredSurface.Free();
+                    FCenteredSurface = null;
                 }
 
                 VerifyStaticSurface(Surface);
@@ -5321,12 +5346,120 @@ public partial class THSMapViewer : TComponent
                         }
                     }
                 }
+
+                if (Surface != Target)
+                {
+                    ShowCenteredMap(Target, TargetX, TargetY);
+                }
             }
         }
         catch
         {
             ShowMessage("Exception during MapViewer.ShowScene");
         }
+    }
+
+    // Port extension: the original never showed a scene wider or taller than the map. SceneX and
+    // SceneY keep the original clamp there, so the view port and the saved view stay the original's.
+    public bool GetSceneExceedsMap() => FHSMap != null && (FSceneWidth > FHSMap.GetMaxXhp() - 32 || FSceneHeight > FHSMap.GetMaxYhp() - 32);
+
+    // Port extension: the part of the scene that shows the map under the original clamp. On an axis
+    // where the scene fits inside the map it spans the scene.
+    public TRect GetMapSceneRect()
+    {
+        TRect R = default;
+        if (FHSMap != null)
+        {
+            R.Left = Math.Max(16 - FSceneX, 0);
+            R.Top = Math.Max(16 - FSceneY, 0);
+            R.Right = Math.Min(FHSMap.GetMaxXhp() - 16 - FSceneX, FSceneWidth);
+            R.Bottom = Math.Min(FHSMap.GetMaxYhp() - 16 - FSceneY, FSceneHeight);
+        }
+
+        return R;
+    }
+
+    // Port extension: where ShowScene shows the map, centered in the scene. It equals
+    // GetMapSceneRect when the scene fits inside the map.
+    public TRect GetMapDisplayRect()
+    {
+        TRect R = GetMapSceneRect();
+        int Width = R.Right - R.Left;
+        int Height = R.Bottom - R.Top;
+        R.Left = (FSceneWidth - Width) >> 1;
+        R.Top = (FSceneHeight - Height) >> 1;
+        R.Right = R.Left + Width;
+        R.Bottom = R.Top + Height;
+        return R;
+    }
+
+    // Port extension: turns a point of the shown scene into the scene point of the original clamp,
+    // which the map mouse takes. A point outside the centered map gives false.
+    public bool SceneToMapMouse(ref int X, ref int Y)
+    {
+        TRect Shown;
+        TRect Source;
+        if (!GetSceneExceedsMap())
+        {
+            return true;
+        }
+
+        Shown = GetMapDisplayRect();
+        if (X < Shown.Left || X >= Shown.Right || Y < Shown.Top || Y >= Shown.Bottom)
+        {
+            return false;
+        }
+
+        Source = GetMapSceneRect();
+        X += Source.Left - Shown.Left;
+        Y += Source.Top - Shown.Top;
+        return true;
+    }
+
+    // Port extension: the scene-sized surface that ShowScene draws on when the scene exceeds the map.
+    public TSurface VerifyCenteredSurface(TSurface Surface)
+    {
+        if (FCenteredSurface != null && FCenteredSurface.GetPixelFormatID() != Surface.GetPixelFormatID())
+        {
+            FCenteredSurface.Free();
+            FCenteredSurface = null;
+        }
+
+        if (FCenteredSurface == null)
+        {
+            FCenteredSurface = new TDataSurface(FSceneWidth, FSceneHeight, Surface.GetPixelFormatID(), null);
+        }
+        else if (FCenteredSurface.GetWidth() != FSceneWidth || FCenteredSurface.GetHeight() != FSceneHeight)
+        {
+            FCenteredSurface.Resize(FSceneWidth, FSceneHeight);
+        }
+
+        return FCenteredSurface;
+    }
+
+    // Port extension: fills the scene outside the centered map black and copies the map part of
+    // FCenteredSurface into the centered rectangle.
+    public void ShowCenteredMap(TSurface Target, int X, int Y)
+    {
+        TSurfaceDesc SD = default;
+        TRect[] Source = [GetMapSceneRect()];
+        TRect Shown = GetMapDisplayRect();
+        if (Target.LockEx(ref SD, Rect(X, Y, X + FSceneWidth, Y + FSceneHeight)) >= 0)
+        {
+            FillOutsideRect(Shown, SD);
+            Target.UnlockEx(SD);
+        }
+
+        FCenteredSurface.BltClipped(Target, Ptr<TRect>.To(Source, 0), X + Shown.Left, Y + Shown.Top);
+    }
+
+    // Port extension: fills every pixel of SD outside Inside black.
+    public static void FillOutsideRect(TRect Inside, in TSurfaceDesc SD)
+    {
+        GFXEUnit.ColorFillSD(Rect(0, 0, SD.Width, Inside.Top), 0, SD);
+        GFXEUnit.ColorFillSD(Rect(0, Inside.Bottom, SD.Width, SD.Height), 0, SD);
+        GFXEUnit.ColorFillSD(Rect(0, Inside.Top, Inside.Left, Inside.Bottom), 0, SD);
+        GFXEUnit.ColorFillSD(Rect(Inside.Right, Inside.Top, SD.Width, Inside.Bottom), 0, SD);
     }
 
     public THSMap HSMap { get => FHSMap; set => SetHSMap(value); }

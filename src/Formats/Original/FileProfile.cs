@@ -30,8 +30,8 @@ public abstract class FileProfile
         new WrittenObjectProfile("item-list", ["item-list"], "TItemLibrary"),
     ];
 
-    public static IReadOnlyList<string> AllKinds { get; } =
-        ["save", "map", "campaign-map", "campaign", "campaign-save", "scenario-set", "hero-list", "item-list"];
+    /// <summary>The names of the document kinds (DocumentKind.All), which own the extensions.</summary>
+    public static IReadOnlyList<string> AllKinds { get; } = [.. DocumentKind.All.Select(k => k.Name)];
 
     public static FileProfile? Find(string name) => All.FirstOrDefault(p => p.Name == name);
 

@@ -704,14 +704,14 @@ public partial class TGeneral : TDataModule
                     S = ExtractFileDir(Application.ExeName);
                     S = S + "\\Scenario\\Custom";
                     SetCurrentDir(S);
-                    AoWWinManUnit.LoadGame(this, "Crap.hsm");
+                    AoWWinManUnit.LoadGame(this, FileBoundary.ReadName("Crap.hsm"));
                     AoWWinManUnit.StartGame(this);
                     break;
                 case 123:
                     S = ExtractFileDir(Application.ExeName);
                     S = S + "\\Scenario\\Custom";
                     SetCurrentDir(S);
-                    AoWWinManUnit.LoadGame(this, "demomap.hsm");
+                    AoWWinManUnit.LoadGame(this, FileBoundary.ReadName("demomap.hsm"));
                     AoWWinManUnit.StartGame(this);
                     break;
             }

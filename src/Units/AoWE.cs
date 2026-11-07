@@ -8947,12 +8947,12 @@ public partial class TPlayerControl : TEObject
                 {
                     if (Player == 0)
                     {
-                        AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + ".asg", null, Aow.Formats.GameProfile.WorldMap);
+                        AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
                     }
                 }
                 else
                 {
-                    AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + ".asg", null, Aow.Formats.GameProfile.WorldMap);
+                    AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "DEBUG\\" + AoWEUnit.AoWHSMap.FMapName + IntToStr(AoWEUnit.AoWHSMap.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWEUnit.AoWHSMap.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
                 }
             }
             catch
@@ -8969,7 +8969,8 @@ public partial class TPlayerControl : TEObject
         {
             try
             {
-                FileName = "autosave.acg";
+                // The autosave takes the extension the host writes (own-formats.md 4.2).
+                FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
                 AoWEUnit.AoWEngine.SaveCampaign(AoWEUnit.AoWEngine.StartupDirectory + "Save\\" + FileName);
             }
             catch
@@ -8982,7 +8983,7 @@ public partial class TPlayerControl : TEObject
         {
             try
             {
-                FileName = "autosave.asg";
+                FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save);
                 AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
             }
             catch
@@ -9181,20 +9182,21 @@ public partial class TPlayerControl : TEObject
                             Log = new TMessageEventLog(null);
                             Log.FTitle = AoWEUnit.TranslateRStr(AoWEUnit.ConfirmRStr);
                             Log.FButtons = TMessageEventLogButtons.mebYesNoCancel;
-                            if (AoWEUnit.AoWEngine.FCampaign == null && !IsEmpty(AoWEUnit.AoWHSMap.FileName) && CompareText(ExtractFileExt(AoWEUnit.AoWHSMap.FileName), ".hsm") != 0)
+                            if (AoWEUnit.AoWEngine.FCampaign == null && !IsEmpty(AoWEUnit.AoWHSMap.FileName) && !Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWEUnit.AoWHSMap.FileName)))
                             {
                                 Log.FLayout = TMessageEventLogLayout.melNormal;
-                                var fileName = ExtractFileName(AoWEUnit.AoWHSMap.FileName);
+                                // The message names the file the save writes (own-formats.md 4.2).
+                                var fileName = ExtractFileName(FileBoundary.WriteName(AoWEUnit.AoWHSMap.FileName));
                                 var format = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SaveGameToXRStr), [fileName]);
                                 Log.FMessage.Add(format);
                             }
                             else
                             {
-                                if (AoWEUnit.AoWEngine.FCampaign != null && !IsEmpty(AoWEUnit.AoWEngine.FCampaign.FFileName) && CompareText(ExtractFileExt(AoWEUnit.AoWHSMap.FileName), ".csm") != 0)
+                                if (AoWEUnit.AoWEngine.FCampaign != null && !IsEmpty(AoWEUnit.AoWEngine.FCampaign.FFileName) && !Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWEUnit.AoWHSMap.FileName)))
                                 {
                                     // { Original tests the map extension when saving a campaign. }
                                     Log.FLayout = TMessageEventLogLayout.melNormal;
-                                    var fileName = ExtractFileName(AoWEUnit.AoWEngine.FCampaign.FFileName);
+                                    var fileName = ExtractFileName(FileBoundary.WriteName(AoWEUnit.AoWEngine.FCampaign.FFileName));
                                     var format = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SaveGameToXRStr), [fileName]);
                                     Log.FMessage.Add(format);
                                 }
@@ -9415,7 +9417,7 @@ public partial class TPlayerControl : TEObject
         TSaveGameEventLog SaveLog = default;
         if (((TMessageEventLog)Log).FPressedButton == TPressedEventLogButton.pebYes)
         {
-            if (AoWEUnit.AoWEngine.FCampaign == null && (IsEmpty(AoWEUnit.AoWHSMap.FileName) || CompareText(ExtractFileExt(AoWEUnit.AoWHSMap.FileName), ".hsm") == 0) || AoWEUnit.AoWEngine.FCampaign != null && (IsEmpty(AoWEUnit.AoWEngine.FCampaign.FFileName) || CompareText(ExtractFileExt(AoWEUnit.AoWHSMap.FileName), ".csm") == 0))
+            if (AoWEUnit.AoWEngine.FCampaign == null && (IsEmpty(AoWEUnit.AoWHSMap.FileName) || Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWEUnit.AoWHSMap.FileName))) || AoWEUnit.AoWEngine.FCampaign != null && (IsEmpty(AoWEUnit.AoWEngine.FCampaign.FFileName) || Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWEUnit.AoWHSMap.FileName))))
             {
                 SaveLog = new TSaveGameEventLog(null);
                 if (!IsEmpty(AoWEUnit.AoWHSMap.FileName))
@@ -9438,13 +9440,15 @@ public partial class TPlayerControl : TEObject
             else
             {
                 var aoWEngine = AoWEUnit.AoWEngine;
+                // The save writes the own sibling of an original's name, which stays untouched
+                // (own-formats.md 4.2).
                 if (aoWEngine.FCampaign != null)
                 {
-                    aoWEngine.SaveCampaign(aoWEngine.FCampaign.FFileName);
+                    aoWEngine.SaveCampaign(FileBoundary.WriteName(aoWEngine.FCampaign.FFileName));
                 }
                 else
                 {
-                    aoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null, Aow.Formats.GameProfile.WorldMap);
+                    aoWEngine.SaveHSM(FileBoundary.WriteName(AoWEUnit.AoWHSMap.FileName), null, Aow.Formats.GameProfile.WorldMap);
                 }
 
                 AoWEUnit.AoWHSMap.ExecuteExitGame();
@@ -10254,7 +10258,7 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
         TSaveGameEventLog Log = default;
         if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(AoWEUnit.AoWHSMap.FCurrentPlayer).FPBEMSettings.FStatus.Contains(TPBEMPlayerStatusElement.pbsPlaying))
         {
-            if (CompareText(ExtractFileExt(AoWEUnit.AoWHSMap.FileName), ".hsm") == 0)
+            if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWEUnit.AoWHSMap.FileName)))
             {
                 Log = new TSaveGameEventLog(null);
                 Log.FTitle = AoWEUnit.TranslateRStr(AoWEUnit.SaveEmailGameRStr);
@@ -10269,6 +10273,8 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
             }
             else
             {
+                // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
+                AoWEUnit.AoWHSMap.FileName = FileBoundary.WriteName(AoWEUnit.AoWHSMap.FileName);
                 AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null, Aow.Formats.GameProfile.WorldMap);
                 AoWEUnit.AoWHSMap.ExecuteExitGame();
             }
@@ -10287,7 +10293,7 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
         bool Saved = default;
         if (AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType == TPlayerType.ptHuman && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FStatus == TPlayerStatus.psPlaying)
         {
-            if (CompareText(ExtractFileExt(AoWEUnit.AoWHSMap.FileName), ".hsm") == 0)
+            if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWEUnit.AoWHSMap.FileName)))
             {
                 SaveLog = new TSaveGameEventLog(null);
                 SaveLog.FTitle = AoWEUnit.TranslateRStr(AoWEUnit.SaveEmailGameRStr);
@@ -10304,6 +10310,8 @@ public partial class TPBEMPlayerControl : TTurnPlayerControl
             {
                 var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player);
                 AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + TSet<TPBEMPlayerStatusElement>.Of(TPBEMPlayerStatusElement.pbsTurnDone) - TSet<TPBEMPlayerStatusElement>.Of(TPBEMPlayerStatusElement.pbsPlaying);
+                // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
+                AoWEUnit.AoWHSMap.FileName = FileBoundary.WriteName(AoWEUnit.AoWHSMap.FileName);
                 try
                 {
                     AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWHSMap.FileName, null, Aow.Formats.GameProfile.WorldMap);
@@ -12951,7 +12959,7 @@ public partial class TAoWHSMapKeyboard : TEObject
     public void RunDefaultTest()
     {
         string FileName;
-        FileName = "autosave.asg";
+        FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save);
         // { Original saves the autosave file. }
         AoWEUnit.AoWEngine.SaveHSM(AoWEUnit.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
     }
@@ -16242,7 +16250,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                 Player.FViewL = (byte)L;
             }
 
-            FCombatMap = (TAbstractAoWCombatMap)AoWEUnit.AoWEngine.LoadHSMEx(AoWEUnit.AoWEngine.StartupDirectory + FileName, false, null, Aow.Formats.GameProfile.TacticalMap);
+            FCombatMap = (TAbstractAoWCombatMap)AoWEUnit.AoWEngine.LoadHSMEx(FileBoundary.ReadName(AoWEUnit.AoWEngine.StartupDirectory + FileName), false, null, Aow.Formats.GameProfile.TacticalMap);
             FCombatMapCreatedEvents.TriggerNotifyEvents(this);
         }
     }
@@ -20126,29 +20134,24 @@ public partial class TItemLibraryManager : TEObject
     // Army.PAS:5012
     public void ReadUserLibraries()
     {
-        TSearchRec Search = default;
         TItemLibrary ItemLibrary;
-        bool Found;
         FLibraries.Clear();
         FLibraries.AddChild(FSystemLibrary);
-        Found = FindFirst(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + "*" + ".ail", 63 & ~16, ref Search) == 0;
-        while (Found)
+        // Both extensions list, and a list present in both forms loads its own document once
+        // (own-formats.md 4.2).
+        foreach (var Listed in FileBoundary.FindDocuments(AoWEUnit.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.ItemList))
         {
             ItemLibrary = new TItemLibrary(null);
             try
             {
-                ItemLibrary.LoadFromFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + Search.Name);
+                ItemLibrary.LoadFromFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + Listed);
                 ItemLibrary.SetOwner(FLibraries);
             }
             catch
             {
                 ItemLibrary.Free();
             }
-
-            Found = FindNext(ref Search) == 0;
         }
-
-        FindClose(ref Search);
     }
 
     // Army.PAS:5033
@@ -20159,7 +20162,7 @@ public partial class TItemLibraryManager : TEObject
         {
             ItemLibrary = GetLibrary(I);
             var name = ItemLibrary.GetName();
-            ItemLibrary.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + ".ail");
+            ItemLibrary.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
         }
     }
 
@@ -20217,7 +20220,7 @@ public partial class TItemLibraryManager : TEObject
             Result = new TItemLibrary(FLibraries);
             Result.FName = LibraryName;
             // { Original creates in Release while reading and deleting from User. }
-            Result.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "Release\\" + LibraryName + ".ail");
+            Result.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
         }
         else
         {
@@ -20233,7 +20236,9 @@ public partial class TItemLibraryManager : TEObject
         if (Index < FLibraries.Count && Index > 0)
         {
             var name = GetLibrary(Index).GetName();
-            DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + ".ail");
+            // The list goes in both forms, so an original of the same name does not return.
+            DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OriginalExtension);
+            DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OwnExtension);
             GetLibrary(Index).Free();
         }
     }
@@ -29976,28 +29981,23 @@ public partial class THeroLibraryManager : TEObject
     public void ReadUserLibraries()
     {
         THeroLibrary Lib;
-        TSearchRec Search = default;
-        bool Found;
         FLibraries.Clear();
         FLibraries.AddChild(FSystemLibrary);
-        Found = FindFirst(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + "*" + ".ahl", 63 - 16, ref Search) == 0;
-        while (Found)
+        // Both extensions list, and a list present in both forms loads its own document once
+        // (own-formats.md 4.2).
+        foreach (var Listed in FileBoundary.FindDocuments(AoWEUnit.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.HeroList))
         {
             Lib = new THeroLibrary(null);
             try
             {
-                Lib.LoadFromFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + Search.Name);
+                Lib.LoadFromFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + Listed);
                 Lib.SetOwner(FLibraries);
             }
             catch
             {
                 Lib.Free();
             }
-
-            Found = FindNext(ref Search) == 0;
         }
-
-        FindClose(ref Search);
     }
 
     // Hero.PAS:2703
@@ -30008,7 +30008,7 @@ public partial class THeroLibraryManager : TEObject
         {
             Lib = GetLibrary(I);
             var name = Lib.GetName();
-            Lib.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + ".ahl");
+            Lib.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
         }
     }
 
@@ -30065,7 +30065,7 @@ public partial class THeroLibraryManager : TEObject
         {
             Result = new THeroLibrary(FLibraries);
             Result.FLibraryName = LibraryName;
-            Result.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "Release\\" + LibraryName + ".ahl");
+            Result.SaveToFile(AoWEUnit.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
         }
         else
         {
@@ -30081,7 +30081,9 @@ public partial class THeroLibraryManager : TEObject
         if (Index < FLibraries.GetCount() && Index > 0)
         {
             var name = GetLibrary(Index).GetName();
-            DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + ".ahl");
+            // The list goes in both forms, so an original of the same name does not return.
+            DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OriginalExtension);
+            DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OwnExtension);
             GetLibrary(Index).Free();
         }
     }
@@ -38982,7 +38984,7 @@ public partial class TAoWHSSet : THSSet
         CRCs.Add(GetFileCRC(Path + "SPELLS.PFS", false));
         // The scenario set's stored CRC comes from its engine image, so an own document agrees
         // with its original (own-formats.md 4.1). The PFS files keep their original bytes.
-        CRCs.Add(FileBoundary.ImageTailInt32(Path + "RELEASE.HSS", Aow.Formats.GameProfile.ScenarioSet));
+        CRCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(Path + "RELEASE.HSS"), Aow.Formats.GameProfile.ScenarioSet));
         int Result = GetCRC32(MemoryMarshal.AsBytes(CRCs.List.AsSpan()), CRCs.Count * 4);
         CRCs.Free();
         return Result;
@@ -72058,7 +72060,8 @@ public partial class TAoWCampaign : TEObject
     public virtual TAoWCampaignScenario CreateScenario() => new TAoWCampaignScenario(null);
 
     // Diplomacy.pas:2413
-    public virtual string GetAutoSaveFileName(TCampaignAutoSaveType Auto) => AoWEUnit.AoWHSMap.FMapName + ".acg";
+    // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
+    public virtual string GetAutoSaveFileName(TCampaignAutoSaveType Auto) => AoWEUnit.AoWHSMap.FMapName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
 
     // Diplomacy.pas:2330
     public virtual void SelectNextScenario(int ID)

@@ -47,7 +47,13 @@ public partial class TMWindow : TDataModule
     {
         if (InsideMap(X, Y))
         {
-            AoWHSMap.Mouse.Down(Button, Shift, X - 12 - MapWindow.WinLeft, Y - 12 - MapWindow.WinTop);
+            X = X - 12 - MapWindow.WinLeft;
+            Y = Y - 12 - MapWindow.WinTop;
+            // Port extension: a scene larger than the map shows the map centered (THSMapViewer.ShowScene).
+            if (MapViewer.SceneToMapMouse(ref X, ref Y))
+            {
+                AoWHSMap.Mouse.Down(Button, Shift, X, Y);
+            }
         }
     }
 
@@ -58,7 +64,15 @@ public partial class TMWindow : TDataModule
         {
             X = X - 12 - MapWindow.WinLeft;
             var window = MapWindow;
-            AoWHSMap.Mouse.Up(Button, Shift, X, Y - 12 - window.WinTop);
+            Y = Y - 12 - window.WinTop;
+            // Port extension: the black area around a centered map is outside the map.
+            if (!MapViewer.SceneToMapMouse(ref X, ref Y))
+            {
+                X = -1;
+                Y = -1;
+            }
+
+            AoWHSMap.Mouse.Up(Button, Shift, X, Y);
         }
         else
         {
@@ -72,7 +86,16 @@ public partial class TMWindow : TDataModule
         var window = MapWindow;
         if (X > window.WinLeft + 11 && X < MapWindow.WinLeft + window.WinWidth - 11 && Y > window.WinTop + 11 && Y < window.WinTop + window.WinHeight - 11)
         {
-            AoWHSMap.Mouse.Move(Shift, X - 12 - MapWindow.WinLeft, Y - 12 - window.WinTop);
+            X = X - 12 - MapWindow.WinLeft;
+            Y = Y - 12 - window.WinTop;
+            // Port extension: the black area around a centered map is outside the map.
+            if (!MapViewer.SceneToMapMouse(ref X, ref Y))
+            {
+                X = -1;
+                Y = -1;
+            }
+
+            AoWHSMap.Mouse.Move(Shift, X, Y);
             MapWindow.Cursor = 9999;
         }
     }
