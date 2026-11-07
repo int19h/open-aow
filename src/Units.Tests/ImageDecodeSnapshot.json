@@ -1,0 +1,3450 @@
+{
+  "Installed": [
+    {
+      "Library": "Images/AMShell.ILB",
+      "Images": 25,
+      "Hash": "BD198594CCD26365"
+    },
+    {
+      "Library": "Images/A_death.ILB",
+      "Images": 12,
+      "Hash": "548E64596984023D"
+    },
+    {
+      "Library": "Images/A_deathA.ILB",
+      "Images": 8,
+      "Hash": "235B771087932E8D"
+    },
+    {
+      "Library": "Images/A_FIRE.ILB",
+      "Images": 87,
+      "Hash": "CA37547C94F763DE"
+    },
+    {
+      "Library": "Images/A_ICE.ILB",
+      "Images": 63,
+      "Hash": "B8A0B550489392AE"
+    },
+    {
+      "Library": "Images/A_lghtn.ILB",
+      "Images": 6,
+      "Hash": "FB2587684AAC0ACC"
+    },
+    {
+      "Library": "Images/A_lghtnA.ILB",
+      "Images": 8,
+      "Hash": "8EC2693387967202"
+    },
+    {
+      "Library": "Images/A_LIFE.ILB",
+      "Images": 57,
+      "Hash": "F3709725063D968D"
+    },
+    {
+      "Library": "Images/A_pest.ILB",
+      "Images": 6,
+      "Hash": "2B212B63F7DB1F2C"
+    },
+    {
+      "Library": "Images/A_pestAn.ILB",
+      "Images": 9,
+      "Hash": "0B7ECDF39DD3435F"
+    },
+    {
+      "Library": "Images/BORDER.ILB",
+      "Images": 171,
+      "Hash": "D78801C764DC9B6E"
+    },
+    {
+      "Library": "Images/City1.ILB",
+      "Images": 16,
+      "Hash": "BA08127BD914D356"
+    },
+    {
+      "Library": "Images/City2.ILB",
+      "Images": 16,
+      "Hash": "C05582B2AC5CA8F8"
+    },
+    {
+      "Library": "Images/City3.ILB",
+      "Images": 16,
+      "Hash": "BBC3C59BB26106E3"
+    },
+    {
+      "Library": "Images/City4.ILB",
+      "Images": 16,
+      "Hash": "D844C7DF38FF4C93"
+    },
+    {
+      "Library": "Images/Combat.ILB",
+      "Images": 93,
+      "Hash": "273B4BA481804A58"
+    },
+    {
+      "Library": "Images/Cursors.ilb",
+      "Images": 100,
+      "Hash": "8ECF38004CFA28F8"
+    },
+    {
+      "Library": "Images/Demo.ILB",
+      "Images": 3,
+      "Hash": "249778CAD70E4559"
+    },
+    {
+      "Library": "Images/EARTHHEX.ILB",
+      "Images": 35,
+      "Hash": "4CEA327A92AE3808"
+    },
+    {
+      "Library": "Images/Effects/Destr.ILB",
+      "Images": 18,
+      "Hash": "7A3645310DE9B44B"
+    },
+    {
+      "Library": "Images/Effects/Enchant.ILB",
+      "Images": 77,
+      "Hash": "79C60C4CA0218E3F"
+    },
+    {
+      "Library": "Images/Effects/ExplBig.ILB",
+      "Images": 30,
+      "Hash": "5AEA8776C08ECEF0"
+    },
+    {
+      "Library": "Images/Effects/ExplSmll.ILB",
+      "Images": 37,
+      "Hash": "996FA400CD6BD8FA"
+    },
+    {
+      "Library": "Images/Effects/ExplTC.ILB",
+      "Images": 30,
+      "Hash": "5E4419181AE135DD"
+    },
+    {
+      "Library": "Images/Effects/FireLg.ILB",
+      "Images": 26,
+      "Hash": "4E1C7A6C653A703A"
+    },
+    {
+      "Library": "Images/Effects/FireSm.ILB",
+      "Images": 12,
+      "Hash": "A7B1FA4B860CBB64"
+    },
+    {
+      "Library": "Images/Effects/FireSm2.ILB",
+      "Images": 14,
+      "Hash": "41E472AD78E304F7"
+    },
+    {
+      "Library": "Images/Effects/Lightn.ILB",
+      "Images": 3,
+      "Hash": "E6378DBC887E1E48"
+    },
+    {
+      "Library": "Images/Effects/Magic.ILB",
+      "Images": 144,
+      "Hash": "1F8649F8AE260F1E"
+    },
+    {
+      "Library": "Images/Effects/MSparks.ILB",
+      "Images": 38,
+      "Hash": "E24CB85B85BF41DE"
+    },
+    {
+      "Library": "Images/Effects/Particle.ILB",
+      "Images": 24,
+      "Hash": "A7B5C7A0C06482CF"
+    },
+    {
+      "Library": "Images/Effects/PoisnCld.ILB",
+      "Images": 10,
+      "Hash": "00F2AABC9D63124D"
+    },
+    {
+      "Library": "Images/Effects/RAZRAC.ILB",
+      "Images": 53,
+      "Hash": "CBECEF64877492F7"
+    },
+    {
+      "Library": "Images/Effects/SolarFl.ilb",
+      "Images": 14,
+      "Hash": "C137E156F36DCA75"
+    },
+    {
+      "Library": "Images/Effects/Storm1.ILB",
+      "Images": 35,
+      "Hash": "6C3523AF951CC296"
+    },
+    {
+      "Library": "Images/Effects/StormD.ILB",
+      "Images": 35,
+      "Hash": "56FA3CCB0123330B"
+    },
+    {
+      "Library": "Images/Effects/StormLgt.ILB",
+      "Images": 35,
+      "Hash": "A72283AF1634C6C3"
+    },
+    {
+      "Library": "Images/Effects/Swarm.ILB",
+      "Images": 22,
+      "Hash": "8C80343197F6F789"
+    },
+    {
+      "Library": "Images/Effects/Swrath.ILB",
+      "Images": 12,
+      "Hash": "5D895336D8DC168C"
+    },
+    {
+      "Library": "Images/Effects/TwinkGr.ILB",
+      "Images": 233,
+      "Hash": "4C8D3AE38538282E"
+    },
+    {
+      "Library": "Images/Epl_cas2.ILB",
+      "Images": 10,
+      "Hash": "C39E9F02940054A9"
+    },
+    {
+      "Library": "Images/Epl_casr.ILB",
+      "Images": 9,
+      "Hash": "AD45E336BB992399"
+    },
+    {
+      "Library": "Images/Epl_dng2.ILB",
+      "Images": 10,
+      "Hash": "E63F5FB59B8FACD9"
+    },
+    {
+      "Library": "Images/EPL_DUNG.ILB",
+      "Images": 6,
+      "Hash": "88AECDDE8DF0A70B"
+    },
+    {
+      "Library": "Images/EPL_MONS.ILB",
+      "Images": 6,
+      "Hash": "1E67EF16AC3D489A"
+    },
+    {
+      "Library": "Images/EPL_PMID.ILB",
+      "Images": 6,
+      "Hash": "FD44EF2C4B533AD4"
+    },
+    {
+      "Library": "Images/Epl_zig.ILB",
+      "Images": 11,
+      "Hash": "20A8EC5B9D7159F1"
+    },
+    {
+      "Library": "Images/Faces/H_Faces.ILB",
+      "Images": 66,
+      "Hash": "0D4B9E0D2B142C5C"
+    },
+    {
+      "Library": "Images/Faces/L_Faces.ILB",
+      "Images": 26,
+      "Hash": "84C334F267F3C9BB"
+    },
+    {
+      "Library": "Images/Faces/R_Faces.ILB",
+      "Images": 12,
+      "Hash": "FE1AED49A76007B4"
+    },
+    {
+      "Library": "Images/Faces/UNITS.ILB",
+      "Images": 91,
+      "Hash": "3A959DDD8CFB716A"
+    },
+    {
+      "Library": "Images/FHOLE.ILB",
+      "Images": 33,
+      "Hash": "C52C58E3893F7462"
+    },
+    {
+      "Library": "Images/Flags.ilb",
+      "Images": 61,
+      "Hash": "9BC9EDE9610202BF"
+    },
+    {
+      "Library": "Images/General.ilb",
+      "Images": 53,
+      "Hash": "8D190101FA0915FD"
+    },
+    {
+      "Library": "Images/GNDUHOLY.ILB",
+      "Images": 36,
+      "Hash": "3A2ABBD04F57FABD"
+    },
+    {
+      "Library": "Images/GND_HOLY.ILB",
+      "Images": 36,
+      "Hash": "8DF62E23F4273216"
+    },
+    {
+      "Library": "Images/GND_POIS.ILB",
+      "Images": 12,
+      "Hash": "EB69B145915CE285"
+    },
+    {
+      "Library": "Images/HEXTRANS.ILB",
+      "Images": 129,
+      "Hash": "54980E4E8F3D61FF"
+    },
+    {
+      "Library": "Images/IceHex.ILB",
+      "Images": 115,
+      "Hash": "F679FB68F39709E1"
+    },
+    {
+      "Library": "Images/Items/I_Attack.ILB",
+      "Images": 33,
+      "Hash": "AAE54E88AFEB8B53"
+    },
+    {
+      "Library": "Images/Items/I_Body.ILB",
+      "Images": 23,
+      "Hash": "671BF1827599EECC"
+    },
+    {
+      "Library": "Images/Items/I_Defend.ILB",
+      "Images": 14,
+      "Hash": "595D4E678D899E81"
+    },
+    {
+      "Library": "Images/Items/I_Head.ILB",
+      "Images": 20,
+      "Hash": "3B7FFDB793C9799D"
+    },
+    {
+      "Library": "Images/Items/I_Rings.ILB",
+      "Images": 14,
+      "Hash": "AB96AE00B3CF3E58"
+    },
+    {
+      "Library": "Images/Items/I_Scroll.ILB",
+      "Images": 8,
+      "Hash": "C1019CE419707939"
+    },
+    {
+      "Library": "Images/Items/I_Use.ILB",
+      "Images": 16,
+      "Hash": "DB675E625E2E16C0"
+    },
+    {
+      "Library": "Images/MG_BLK.ILB",
+      "Images": 9,
+      "Hash": "997EA4F066A097F3"
+    },
+    {
+      "Library": "Images/MG_CHA.ILB",
+      "Images": 15,
+      "Hash": "93B91D53877C0C8B"
+    },
+    {
+      "Library": "Images/MG_NAT.ILB",
+      "Images": 3,
+      "Hash": "5335B77A02FCAE98"
+    },
+    {
+      "Library": "Images/MG_SOR.ILB",
+      "Images": 15,
+      "Hash": "0908610E7345EAF0"
+    },
+    {
+      "Library": "Images/MG_WHT.ILB",
+      "Images": 3,
+      "Hash": "949BCF0152EB240D"
+    },
+    {
+      "Library": "Images/Misc_Obj.ILB",
+      "Images": 34,
+      "Hash": "083DE9DECCCE6A68"
+    },
+    {
+      "Library": "Images/Mountain/MOUNTAIN.ILB",
+      "Images": 30,
+      "Hash": "9403E678F5864863"
+    },
+    {
+      "Library": "Images/Mountain/WL_VOLCL.ILB",
+      "Images": 10,
+      "Hash": "AA369CFA9F18C6C6"
+    },
+    {
+      "Library": "Images/Mountain/WL_VOLCS.ILB",
+      "Images": 10,
+      "Hash": "F8CA4A34B3CF46D4"
+    },
+    {
+      "Library": "Images/PAD1.ILB",
+      "Images": 7,
+      "Hash": "740C1CEB96E06B9E"
+    },
+    {
+      "Library": "Images/PAD2.ILB",
+      "Images": 7,
+      "Hash": "9D7C4C22EF0DA335"
+    },
+    {
+      "Library": "Images/PAD3.ILB",
+      "Images": 7,
+      "Hash": "D16D551464506E4E"
+    },
+    {
+      "Library": "Images/PAD4.ILB",
+      "Images": 7,
+      "Hash": "4CE5120EAD505306"
+    },
+    {
+      "Library": "Images/Pro_Drgn.ILB",
+      "Images": 10,
+      "Hash": "57FC1550D5443696"
+    },
+    {
+      "Library": "Images/Pro_Fire.ILB",
+      "Images": 14,
+      "Hash": "06AD0F4DF6A1987B"
+    },
+    {
+      "Library": "Images/PRO_GATE.ILB",
+      "Images": 93,
+      "Hash": "B4FB0D432FDBC1A1"
+    },
+    {
+      "Library": "Images/PRO_GROV.ILB",
+      "Images": 24,
+      "Hash": "36C45A30CD2D19D9"
+    },
+    {
+      "Library": "Images/Pro_syrd.ILB",
+      "Images": 6,
+      "Hash": "DE98C2C1CDEA0FA8"
+    },
+    {
+      "Library": "Images/Races/RAZRAC.ILB",
+      "Images": 59,
+      "Hash": "0831BE9E80603DBB"
+    },
+    {
+      "Library": "Images/Races/RDARKELF.ILB",
+      "Images": 59,
+      "Hash": "B55F8375C3AD83E1"
+    },
+    {
+      "Library": "Images/Races/RDWARF.ILB",
+      "Images": 59,
+      "Hash": "687B8AB9626BBFAE"
+    },
+    {
+      "Library": "Images/Races/RELF.ILB",
+      "Images": 59,
+      "Hash": "39C9F6A8D7BB429D"
+    },
+    {
+      "Library": "Images/Races/RFROSTL.ILB",
+      "Images": 59,
+      "Hash": "1DC3F09204D16DA4"
+    },
+    {
+      "Library": "Images/Races/RGOBLIN.ILB",
+      "Images": 59,
+      "Hash": "10AF2A9257DDC3A8"
+    },
+    {
+      "Library": "Images/Races/RHALFLNG.ILB",
+      "Images": 59,
+      "Hash": "2BD29405A2D0FB9D"
+    },
+    {
+      "Library": "Images/Races/RHIGHMAN.ILB",
+      "Images": 59,
+      "Hash": "67F2923102C9FBCA"
+    },
+    {
+      "Library": "Images/Races/RHUMAN.ILB",
+      "Images": 51,
+      "Hash": "6BF4E2AF02D1499A"
+    },
+    {
+      "Library": "Images/Races/RLIZARDS.ILB",
+      "Images": 60,
+      "Hash": "4F3BFF19DC1ECC8C"
+    },
+    {
+      "Library": "Images/Races/RORC.ILB",
+      "Images": 59,
+      "Hash": "A955B51E9016B10B"
+    },
+    {
+      "Library": "Images/Races/RUNDEAD.ILB",
+      "Images": 59,
+      "Hash": "67BDB3BE8B086B4E"
+    },
+    {
+      "Library": "Images/ROCKHEX.ILB",
+      "Images": 35,
+      "Hash": "A6B6C9275FF33F59"
+    },
+    {
+      "Library": "Images/SMOKE.ILB",
+      "Images": 42,
+      "Hash": "85E4F63C89D04A0A"
+    },
+    {
+      "Library": "Images/SpellIcn.ILB",
+      "Images": 216,
+      "Hash": "87773A04CED53D24"
+    },
+    {
+      "Library": "Images/Str_amgic.ILB",
+      "Images": 1,
+      "Hash": "CEB07B7A8FACFAA4"
+    },
+    {
+      "Library": "Images/Str_aren.ILB",
+      "Images": 4,
+      "Hash": "F2FB81DFD749C17C"
+    },
+    {
+      "Library": "Images/Str_bldg.ILB",
+      "Images": 18,
+      "Hash": "78DD4B724C9E339A"
+    },
+    {
+      "Library": "Images/Str_blds.ILB",
+      "Images": 13,
+      "Hash": "9059181DF3196D87"
+    },
+    {
+      "Library": "Images/Str_cave.ILB",
+      "Images": 7,
+      "Hash": "77704CDEEB7FE912"
+    },
+    {
+      "Library": "Images/Str_elvc.ILB",
+      "Images": 3,
+      "Hash": "DF7103289D41E3DC"
+    },
+    {
+      "Library": "Images/STR_FARM.ILB",
+      "Images": 12,
+      "Hash": "179947C3491F84FC"
+    },
+    {
+      "Library": "Images/Str_inn.ILB",
+      "Images": 6,
+      "Hash": "6BA0D2DB6BF582A5"
+    },
+    {
+      "Library": "Images/Str_mage.ILB",
+      "Images": 3,
+      "Hash": "DBC0F081F0EF96F4"
+    },
+    {
+      "Library": "Images/Str_mine.ILB",
+      "Images": 16,
+      "Hash": "B3590E91402E37EC"
+    },
+    {
+      "Library": "Images/Str_node.ILB",
+      "Images": 184,
+      "Hash": "D43CEFB555315C32"
+    },
+    {
+      "Library": "Images/Str_nrck.ILB",
+      "Images": 13,
+      "Hash": "30FF2F0B381CAE3B"
+    },
+    {
+      "Library": "Images/Str_pod.ILB",
+      "Images": 34,
+      "Hash": "3A69A3B304CE459E"
+    },
+    {
+      "Library": "Images/Str_rf.ILB",
+      "Images": 13,
+      "Hash": "6D53186B7B71A945"
+    },
+    {
+      "Library": "Images/Str_sant.ILB",
+      "Images": 15,
+      "Hash": "BD8376A1D0A55874"
+    },
+    {
+      "Library": "Images/Str_signs.ILB",
+      "Images": 12,
+      "Hash": "0D44CE05BDCA1E67"
+    },
+    {
+      "Library": "Images/STR_SOL.ILB",
+      "Images": 24,
+      "Hash": "11EE3ECE31DBF65A"
+    },
+    {
+      "Library": "Images/STR_TELE.ILB",
+      "Images": 12,
+      "Hash": "19603BF9FED21F75"
+    },
+    {
+      "Library": "Images/Str_towr.ILB",
+      "Images": 7,
+      "Hash": "8D8B6A105630B745"
+    },
+    {
+      "Library": "Images/Str_wtwr.ILB",
+      "Images": 15,
+      "Hash": "90144B4DC7A0AB55"
+    },
+    {
+      "Library": "Images/Targhex.ILB",
+      "Images": 3,
+      "Hash": "8F1974B64191AEC2"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/CTransHx.ILB",
+      "Images": 156,
+      "Hash": "8713A105E1FE1A7F"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_De.ILB",
+      "Images": 12,
+      "Hash": "E563345FF4BFBC3F"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_DeDr.ILB",
+      "Images": 24,
+      "Hash": "37F98DDD7C3E4B96"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_Dr.ILB",
+      "Images": 12,
+      "Hash": "B0729FB142AED008"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_Earth.ILB",
+      "Images": 36,
+      "Hash": "8DF2D0CF568BBCC5"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_Gr.ILB",
+      "Images": 12,
+      "Hash": "AF6A31C1A21FAE85"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_GrDr.ILB",
+      "Images": 24,
+      "Hash": "3063E6F27896E126"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_Ic.ILB",
+      "Images": 12,
+      "Hash": "766E18A41DD912E5"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_La.ILB",
+      "Images": 12,
+      "Hash": "C32A722ABE871915"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_Sn.ILB",
+      "Images": 12,
+      "Hash": "829DB7B89A2E55C4"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_SnDr.ILB",
+      "Images": 24,
+      "Hash": "551B41116C73E3B3"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_St.ILB",
+      "Images": 12,
+      "Hash": "DF75C48B14121FF9"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_StDr.ILB",
+      "Images": 24,
+      "Hash": "2F8D73CD95E43C7B"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_ugIc.ILB",
+      "Images": 12,
+      "Hash": "137E23C4C2448188"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_ugWa.ILB",
+      "Images": 12,
+      "Hash": "4AF1BF0754BDFFC7"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_Wa.ILB",
+      "Images": 12,
+      "Hash": "E2225404FF898AAB"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_Wl.ILB",
+      "Images": 12,
+      "Hash": "885E00CF146AE1A4"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_WlDr.ILB",
+      "Images": 24,
+      "Hash": "802E52763B0C778B"
+    },
+    {
+      "Library": "Images/TCombat/City/cgr_wpad.ILB",
+      "Images": 24,
+      "Hash": "E1D5ADF946F44DC5"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Gen1.ILB",
+      "Images": 10,
+      "Hash": "A6AAE23660EC1E75"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Swall1.ILB",
+      "Images": 40,
+      "Hash": "5048A9A7E69B7CE2"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Swall2.ILB",
+      "Images": 40,
+      "Hash": "88B56DDDAA1ACAD6"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Swall3.ILB",
+      "Images": 40,
+      "Hash": "3E986BB053B85637"
+    },
+    {
+      "Library": "Images/TCombat/City/c_tile.ILB",
+      "Images": 21,
+      "Hash": "7DEB6A852AEA9B42"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Wwall1.ILB",
+      "Images": 40,
+      "Hash": "03E668944F02E568"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Wwall2.ILB",
+      "Images": 40,
+      "Hash": "1B7499207EA25D89"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Wwall3.ILB",
+      "Images": 40,
+      "Hash": "AC22A1D06FA38565"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Azr.ILB",
+      "Images": 20,
+      "Hash": "D6619FAD1E824017"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_DElf.ILB",
+      "Images": 8,
+      "Hash": "906B8927E9317940"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Dwrf.ILB",
+      "Images": 8,
+      "Hash": "BCC327F70172BC1A"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Elf.ILB",
+      "Images": 8,
+      "Hash": "2B14610134273FE0"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Evil.ILB",
+      "Images": 23,
+      "Hash": "EF859957122FA3A5"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Frost.ILB",
+      "Images": 20,
+      "Hash": "85B6540449ADDBF4"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Gen.ILB",
+      "Images": 24,
+      "Hash": "3F5CB218DDDDB2E9"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Gob.ILB",
+      "Images": 20,
+      "Hash": "D0E813934CA0001B"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Half.ILB",
+      "Images": 8,
+      "Hash": "1B4AF4A7FAD80A2E"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_High.ILB",
+      "Images": 8,
+      "Hash": "1020300E7158EEF2"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Humn.ILB",
+      "Images": 8,
+      "Hash": "40695BB395ECAE4B"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Liz.ILB",
+      "Images": 20,
+      "Hash": "7B7515CFA34C1962"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Neutr.ILB",
+      "Images": 20,
+      "Hash": "F7A5BAB0E82A64A2"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Neutr2.ILB",
+      "Images": 20,
+      "Hash": "06C7ED21084B30B6"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Orc.ILB",
+      "Images": 20,
+      "Hash": "26CA46A06C3EF3C5"
+    },
+    {
+      "Library": "Images/TCombat/City/zc_Und.ILB",
+      "Images": 8,
+      "Hash": "8384B796032E2E41"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_bone.ILB",
+      "Images": 7,
+      "Hash": "FFC65A258CFCD1DD"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_brk.ILB",
+      "Images": 3,
+      "Hash": "4F04D2AB09E9EE0D"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_cact.ILB",
+      "Images": 7,
+      "Hash": "309699A2909A89B5"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_crops.ILB",
+      "Images": 2,
+      "Hash": "0AE91F75083E5BBE"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_dtree.ILB",
+      "Images": 10,
+      "Hash": "59E5876835A6C419"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_hill.ILB",
+      "Images": 3,
+      "Hash": "888048255296D905"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_srk.ILB",
+      "Images": 3,
+      "Hash": "28CDAEC7920004C2"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_ston.ILB",
+      "Images": 6,
+      "Hash": "4CA298891C050707"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_tree.ILB",
+      "Images": 6,
+      "Hash": "61FBC9E134E4EC02"
+    },
+    {
+      "Library": "Images/TCombat/Expl/cr_floor.ILB",
+      "Images": 10,
+      "Hash": "0E233AAD47526E02"
+    },
+    {
+      "Library": "Images/TCombat/Expl/cr_obj.ILB",
+      "Images": 15,
+      "Hash": "61DF80A470046F70"
+    },
+    {
+      "Library": "Images/TCombat/Expl/cr_wall.ILB",
+      "Images": 30,
+      "Hash": "5582D149F6CE3739"
+    },
+    {
+      "Library": "Images/TCombat/Expl/drk_floor.ILB",
+      "Images": 10,
+      "Hash": "846F23B6FC436DFA"
+    },
+    {
+      "Library": "Images/TCombat/Expl/drk_obj.ILB",
+      "Images": 21,
+      "Hash": "F51BF99CB7F42FEB"
+    },
+    {
+      "Library": "Images/TCombat/Expl/drk_wall.ILB",
+      "Images": 30,
+      "Hash": "C1C1452F380C7C2F"
+    },
+    {
+      "Library": "Images/TCombat/Expl/dung_obj.ILB",
+      "Images": 13,
+      "Hash": "3A6FD6CEB005D837"
+    },
+    {
+      "Library": "Images/TCombat/Expl/ml_wall.ILB",
+      "Images": 4,
+      "Hash": "F30A5D9A4629C902"
+    },
+    {
+      "Library": "Images/TCombat/Expl/Torch.ILB",
+      "Images": 26,
+      "Hash": "8FE5573D806B7122"
+    },
+    {
+      "Library": "Images/TCombat/Expl/zig_floor.ILB",
+      "Images": 10,
+      "Hash": "22C1370444AC3BED"
+    },
+    {
+      "Library": "Images/TCombat/Expl/zig_obj.ILB",
+      "Images": 25,
+      "Hash": "E72D95E6908D3FDB"
+    },
+    {
+      "Library": "Images/TCombat/Expl/zig_wall.ILB",
+      "Images": 30,
+      "Hash": "95841609CEEBAC84"
+    },
+    {
+      "Library": "Images/TCombat/FleeObj.ILB",
+      "Images": 8,
+      "Hash": "B1028D4DEF88810B"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_bone.ILB",
+      "Images": 7,
+      "Hash": "B7E27BC468984931"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_brk.ILB",
+      "Images": 3,
+      "Hash": "72EE3D613DF962C1"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_brkS.ILB",
+      "Images": 3,
+      "Hash": "6CF0F753B2F67C56"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_crop.ILB",
+      "Images": 3,
+      "Hash": "77DCC190B9756B4D"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_dtree.ILB",
+      "Images": 10,
+      "Hash": "F0034A082D6B5A04"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_flwr.ILB",
+      "Images": 8,
+      "Hash": "CF849AA50AE5C9DD"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_hill.ILB",
+      "Images": 3,
+      "Hash": "DBFECCB4F773C5BB"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_Pine.ILB",
+      "Images": 5,
+      "Hash": "FD65CC0C7DE82392"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_shdw.ILB",
+      "Images": 49,
+      "Hash": "5776BB834CDC6D00"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_shrb.ILB",
+      "Images": 5,
+      "Hash": "96B07F7B0CFCD680"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_srk.ILB",
+      "Images": 3,
+      "Hash": "DACE73CD770134CC"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_srkS.ILB",
+      "Images": 3,
+      "Hash": "BC3672D596B139D7"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_ston.ILB",
+      "Images": 6,
+      "Hash": "A33B12DB41198447"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_toad.ILB",
+      "Images": 10,
+      "Hash": "BC3AAE017FD3F600"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_Tre.ILB",
+      "Images": 5,
+      "Hash": "9DA096FB666905A5"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_TreS.ILB",
+      "Images": 5,
+      "Hash": "5D6ECD2928FF4F6C"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_Wllw.ILB",
+      "Images": 3,
+      "Hash": "A38E39A7F6CDA91D"
+    },
+    {
+      "Library": "Images/TCombat/Misc.ILB",
+      "Images": 42,
+      "Hash": "2454978C46AD155A"
+    },
+    {
+      "Library": "Images/TCombat/Objects/Arrow.ILB",
+      "Images": 120,
+      "Hash": "75476A2E31D73AC7"
+    },
+    {
+      "Library": "Images/TCombat/Objects/Balls.ILB",
+      "Images": 30,
+      "Hash": "13EA9E56D1583F5B"
+    },
+    {
+      "Library": "Images/TCombat/Objects/BFBig1.ILB",
+      "Images": 12,
+      "Hash": "63E59E921DCB09DA"
+    },
+    {
+      "Library": "Images/TCombat/Objects/BFMed1.ILB",
+      "Images": 12,
+      "Hash": "C4DE629DCDC71948"
+    },
+    {
+      "Library": "Images/TCombat/Objects/BFSml1.ILB",
+      "Images": 12,
+      "Hash": "74C9E2387A6607A4"
+    },
+    {
+      "Library": "Images/TCombat/Objects/BHBig1.ILB",
+      "Images": 24,
+      "Hash": "C733452DEBF9165C"
+    },
+    {
+      "Library": "Images/TCombat/Objects/BHMed1.ILB",
+      "Images": 24,
+      "Hash": "DFECF7467B28DF42"
+    },
+    {
+      "Library": "Images/TCombat/Objects/BHSml1.ILB",
+      "Images": 18,
+      "Hash": "15E8B783D15B9345"
+    },
+    {
+      "Library": "Images/TCombat/Objects/Bolts.ILB",
+      "Images": 108,
+      "Hash": "4EFD1D520A09FA76"
+    },
+    {
+      "Library": "Images/TCombat/Objects/GndBlood.ILB",
+      "Images": 8,
+      "Hash": "49A9C147ADD49DF2"
+    },
+    {
+      "Library": "Images/TCombat/Objects/SEffect.ILB",
+      "Images": 156,
+      "Hash": "FF3547CA4A727DBC"
+    },
+    {
+      "Library": "Images/TCombat/Objects/TCUIcon.ILB",
+      "Images": 13,
+      "Hash": "91BCE6C73D7E29E3"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_bone.ILB",
+      "Images": 7,
+      "Hash": "D271BFC10A75B6AF"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_brk.ILB",
+      "Images": 3,
+      "Hash": "96F0ECED53E2ABFF"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_crops.ILB",
+      "Images": 2,
+      "Hash": "17AAF25961F53559"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_dtree.ILB",
+      "Images": 10,
+      "Hash": "6C6F18E65E405AA5"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_hill.ILB",
+      "Images": 3,
+      "Hash": "E17776C764BC9AF0"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_lveg.ILB",
+      "Images": 5,
+      "Hash": "EC7B7EF53794FC86"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_pine.ILB",
+      "Images": 5,
+      "Hash": "05DB725831D1F6FC"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_shrb.ILB",
+      "Images": 5,
+      "Hash": "B0321AB582DEAA23"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_srk.ILB",
+      "Images": 3,
+      "Hash": "335D94DBB00E2368"
+    },
+    {
+      "Library": "Images/TCombat/Sn/zsn_ston.ILB",
+      "Images": 6,
+      "Hash": "BD09E09B04AA8B9A"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_bg.ILB",
+      "Images": 4,
+      "Hash": "1F11A27B028F1A99"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_brdge.ILB",
+      "Images": 18,
+      "Hash": "70D734B32A756C5A"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_fhole.ILB",
+      "Images": 2,
+      "Hash": "836E64F7662E851B"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_firpit.ILB",
+      "Images": 2,
+      "Hash": "0BBC63E695A20E92"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_grove.ILB",
+      "Images": 5,
+      "Hash": "5285832FF51B85C2"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_inn.ILB",
+      "Images": 4,
+      "Hash": "2568F370236C7083"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_mine.ILB",
+      "Images": 5,
+      "Hash": "A206544AB16D1A85"
+    },
+    {
+      "Library": "Images/TCombat/Struct/zs_water.ilb",
+      "Images": 16,
+      "Hash": "9BF172EF46BD94AC"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_bone.ILB",
+      "Images": 7,
+      "Hash": "A3187C9892008DD9"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_brk.ILB",
+      "Images": 3,
+      "Hash": "327BA69B7ED41C2F"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_crops.ILB",
+      "Images": 2,
+      "Hash": "1FC4BE341879FFBA"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_dtree.ILB",
+      "Images": 10,
+      "Hash": "B23B6F5145FF2A28"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_hill.ILB",
+      "Images": 3,
+      "Hash": "369147749A7CD0ED"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_lveg.ILB",
+      "Images": 5,
+      "Hash": "C28084B84E550A18"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_shrb.ILB",
+      "Images": 5,
+      "Hash": "15E8B525A7F5C8CC"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_srk.ILB",
+      "Images": 3,
+      "Hash": "869E81EEFEE6036E"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_ston.ILB",
+      "Images": 6,
+      "Hash": "D6F0EFFC4E42A759"
+    },
+    {
+      "Library": "Images/TCombat/St/zst_tree.ILB",
+      "Images": 5,
+      "Hash": "924C05C0F6D8CF42"
+    },
+    {
+      "Library": "Images/TCombat/TCAnim.ILB",
+      "Images": 41,
+      "Hash": "D4B8F630ECC36D60"
+    },
+    {
+      "Library": "Images/TCombat/treeshdw.ILB",
+      "Images": 4,
+      "Hash": "F39C6E7D299F564D"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_bone.ILB",
+      "Images": 7,
+      "Hash": "FCC1D71C61BC0B4B"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_brk.ILB",
+      "Images": 3,
+      "Hash": "AEACA4AA06551A75"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_crop.ILB",
+      "Images": 5,
+      "Hash": "2F4148E9F32343A0"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_grave.ILB",
+      "Images": 8,
+      "Hash": "F5A7E4F5DE9C1C31"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_lveg.ILB",
+      "Images": 5,
+      "Hash": "220FE3FB23B6181A"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_srk.ILB",
+      "Images": 3,
+      "Hash": "1DEC584CC8C389BA"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_ston.ILB",
+      "Images": 6,
+      "Hash": "D9A15850F9069005"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_toad.ILB",
+      "Images": 5,
+      "Hash": "C83B5D25120495BD"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_bone.ILB",
+      "Images": 7,
+      "Hash": "29418A659369FE74"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_brk.ILB",
+      "Images": 3,
+      "Hash": "61C63FB038E3DDBC"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_dtree.ILB",
+      "Images": 10,
+      "Hash": "5F648FACD4B1099E"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_grave.ILB",
+      "Images": 8,
+      "Hash": "D0CC280AB5B13276"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_hill.ILB",
+      "Images": 3,
+      "Hash": "1052572CA2EF2590"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_lveg.ILB",
+      "Images": 5,
+      "Hash": "DE4728821DCE3CB9"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_shrb.ILB",
+      "Images": 5,
+      "Hash": "0332B0A792D091C8"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_srk.ILB",
+      "Images": 3,
+      "Hash": "CFC71BA663A37EED"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_ston.ILB",
+      "Images": 6,
+      "Hash": "B905BBEE45ACAF54"
+    },
+    {
+      "Library": "Images/TCombat/Wl/zwl_tree.ILB",
+      "Images": 5,
+      "Hash": "6B571BEB50807B17"
+    },
+    {
+      "Library": "Images/tcunits.ILB",
+      "Images": 57,
+      "Hash": "E522C701AC673167"
+    },
+    {
+      "Library": "Images/UNITS/Animals/BOARY.ILB",
+      "Images": 72,
+      "Hash": "7A92824E3D1B4464"
+    },
+    {
+      "Library": "Images/UNITS/Animals/EAGLE.ILB",
+      "Images": 72,
+      "Hash": "906EF05265739235"
+    },
+    {
+      "Library": "Images/UNITS/Animals/FROGY.ILB",
+      "Images": 72,
+      "Hash": "CC48A5DCD88C4B32"
+    },
+    {
+      "Library": "Images/UNITS/Animals/WOLFY.ILB",
+      "Images": 72,
+      "Hash": "86C052253400F307"
+    },
+    {
+      "Library": "Images/UNITS/Azr/ARZLD.ILB",
+      "Images": 72,
+      "Hash": "02D1A9B34AED41EF"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRAR.ILB",
+      "Images": 72,
+      "Hash": "B9D1E5C9E00E277B"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRAV.ILB",
+      "Images": 72,
+      "Hash": "66E8F396A9A4836D"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRCL.ILB",
+      "Images": 72,
+      "Hash": "A721A066A7CB9609"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRHE.ILB",
+      "Images": 72,
+      "Hash": "6C585E0A058BBA96"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRHR.ILB",
+      "Images": 72,
+      "Hash": "52390159654F0D60"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRHX.ILB",
+      "Images": 72,
+      "Hash": "87B21A4801FA6762"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRWR.ILB",
+      "Images": 72,
+      "Hash": "3EDDB7F50FBEBDB1"
+    },
+    {
+      "Library": "Images/UNITS/Azr/BHLDR.ILB",
+      "Images": 72,
+      "Hash": "2CFA43155E1FF099"
+    },
+    {
+      "Library": "Images/UNITS/Azr/DJINN.ILB",
+      "Images": 66,
+      "Hash": "DCBD6D60666F4C86"
+    },
+    {
+      "Library": "Images/UNITS/Azr/ELEPH.ILB",
+      "Images": 72,
+      "Hash": "C38D857DC2501BED"
+    },
+    {
+      "Library": "Images/UNITS/Azr/SCORP.ILB",
+      "Images": 72,
+      "Hash": "F017D4DE4EBF9872"
+    },
+    {
+      "Library": "Images/UNITS/Azr/WORMY.ILB",
+      "Images": 72,
+      "Hash": "A1263C815925326B"
+    },
+    {
+      "Library": "Images/UNITS/DeadUnit.ILB",
+      "Images": 257,
+      "Hash": "EDD5AD2B50495F26"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfar.ILB",
+      "Images": 72,
+      "Hash": "4DE97122FC7BF4CC"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfcl.ILB",
+      "Images": 72,
+      "Hash": "BE5189B7259258A8"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfex.ILB",
+      "Images": 72,
+      "Hash": "EA476C5089064A26"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfhe.ILB",
+      "Images": 72,
+      "Hash": "64E69A6AE5C7651C"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfhr.ILB",
+      "Images": 72,
+      "Hash": "AD46515E075F27A7"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfhx.ILB",
+      "Images": 72,
+      "Hash": "4E0D7F02FC186B6A"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfin.ILB",
+      "Images": 72,
+      "Hash": "1BD50805F8BF974D"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfld.ILB",
+      "Images": 72,
+      "Hash": "F3E9FA8812115ED3"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlflp.ILB",
+      "Images": 72,
+      "Hash": "596F1014509449E0"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfsh.ILB",
+      "Images": 72,
+      "Hash": "8148F2BB2CA344F8"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfsq.ILB",
+      "Images": 72,
+      "Hash": "C4AB55E3B4FBFDCA"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfwr.ILB",
+      "Images": 72,
+      "Hash": "B05EA9047012910C"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrar.ILB",
+      "Images": 72,
+      "Hash": "E7C6CDFBB3C71DA9"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwras.ILB",
+      "Images": 36,
+      "Hash": "75167AD41631BDD7"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrbr.ILB",
+      "Images": 72,
+      "Hash": "F5C6C76E327FC249"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrbz.ILB",
+      "Images": 78,
+      "Hash": "32853DC202C62929"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrcl.ILB",
+      "Images": 72,
+      "Hash": "3DB60822D520CA96"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrfb.ILB",
+      "Images": 72,
+      "Hash": "17288489EF5AA003"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrhe.ILB",
+      "Images": 72,
+      "Hash": "B8BA72A6E7541609"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrhx.ILB",
+      "Images": 72,
+      "Hash": "DB36B5C471A2EBD1"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrld.ILB",
+      "Images": 72,
+      "Hash": "D460647595AF8E48"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/Dwrmo.ILB",
+      "Images": 72,
+      "Hash": "A170CBAADC9E007A"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrwr.ILB",
+      "Images": 72,
+      "Hash": "B335FA568FAC8B9D"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/giant.ILB",
+      "Images": 72,
+      "Hash": "1CE8B7A00845D113"
+    },
+    {
+      "Library": "Images/UNITS/Element/elmar.ILB",
+      "Images": 72,
+      "Hash": "287243DF16BDD0FC"
+    },
+    {
+      "Library": "Images/UNITS/Element/elmer.ILB",
+      "Images": 72,
+      "Hash": "2C14570A42946214"
+    },
+    {
+      "Library": "Images/UNITS/Element/elmfr.ILB",
+      "Images": 72,
+      "Hash": "664AC413ABA60E61"
+    },
+    {
+      "Library": "Images/UNITS/Element/elmwt.ILB",
+      "Images": 72,
+      "Hash": "1815EA0C5A06BD27"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvar.ILB",
+      "Images": 73,
+      "Hash": "E35102374F2E7680"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvcl.ILB",
+      "Images": 73,
+      "Hash": "55ECB25E4396886F"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvhe.ILB",
+      "Images": 72,
+      "Hash": "5259B9FE5D93FD72"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvhr.ILB",
+      "Images": 72,
+      "Hash": "846CFED5A482F12E"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvhx.ILB",
+      "Images": 72,
+      "Hash": "FB223B9703A19F38"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvld.ILB",
+      "Images": 72,
+      "Hash": "3849C4E027615F9B"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvrn.ILB",
+      "Images": 90,
+      "Hash": "3FB7C43A726BFB38"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvwr.ILB",
+      "Images": 73,
+      "Hash": "DF3EFA5050404BBA"
+    },
+    {
+      "Library": "Images/UNITS/Elv/fairy.ILB",
+      "Images": 54,
+      "Hash": "E15AB6B6D9014D2D"
+    },
+    {
+      "Library": "Images/UNITS/Elv/natsp.ILB",
+      "Images": 72,
+      "Hash": "FBE075172BDCA57A"
+    },
+    {
+      "Library": "Images/UNITS/Elv/nymph.ILB",
+      "Images": 72,
+      "Hash": "E638D33BE15A45E3"
+    },
+    {
+      "Library": "Images/UNITS/Elv/unicn.ILB",
+      "Images": 72,
+      "Hash": "895C7506D8EA12E8"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROAR.ILB",
+      "Images": 72,
+      "Hash": "2FB461EC193C2B89"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROCL.ILB",
+      "Images": 72,
+      "Hash": "57E4D6D403296899"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FRODR.ILB",
+      "Images": 90,
+      "Hash": "7655D4C15D62D76D"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROHE.ILB",
+      "Images": 72,
+      "Hash": "0127BADB3F3C0805"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROHX.ILB",
+      "Images": 72,
+      "Hash": "59036EA5F745DE28"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROKP.ILB",
+      "Images": 72,
+      "Hash": "9F2162EA04DD2CE8"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROLD.ILB",
+      "Images": 72,
+      "Hash": "E63DCE4F9540120F"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROSQ.ILB",
+      "Images": 72,
+      "Hash": "095E86BB74AC6824"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROSW.ILB",
+      "Images": 72,
+      "Hash": "74248F0F737F0559"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROWF.ILB",
+      "Images": 72,
+      "Hash": "B58199B6580A3F28"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROWR.ILB",
+      "Images": 72,
+      "Hash": "615F9049F4C354D5"
+    },
+    {
+      "Library": "Images/UNITS/Fro/NOrb.ILB",
+      "Images": 19,
+      "Hash": "D540082AE6CE7239"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/GbnBB.ILB",
+      "Images": 72,
+      "Hash": "C493B43C2F66A320"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnbg.ILB",
+      "Images": 72,
+      "Hash": "0CA6F8A1C10DAF85"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnbm.ILB",
+      "Images": 36,
+      "Hash": "E09555F910D0B793"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbncl.ILB",
+      "Images": 72,
+      "Hash": "582309A533B87044"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnhe.ILB",
+      "Images": 72,
+      "Hash": "94908FE0DFC56C71"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnhx.ILB",
+      "Images": 72,
+      "Hash": "AFDADD5531DACEDF"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnld.ILB",
+      "Images": 72,
+      "Hash": "C7A18C51B2A16C6C"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnwf.ILB",
+      "Images": 72,
+      "Hash": "F54495E258F0F826"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnwr.ILB",
+      "Images": 72,
+      "Hash": "72B09FF482591E59"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnwy.ILB",
+      "Images": 90,
+      "Hash": "3C5122910AE9B3FE"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/monst.ILB",
+      "Images": 72,
+      "Hash": "553A7E4108B597C4"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/troll.ILB",
+      "Images": 72,
+      "Hash": "0CFDE4307D472B11"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/astra.ILB",
+      "Images": 54,
+      "Hash": "AA1B4374ADBAEF44"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghar.ILB",
+      "Images": 72,
+      "Hash": "301DD94D5F766024"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghch.ILB",
+      "Images": 78,
+      "Hash": "538552321667EA96"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghcl.ILB",
+      "Images": 72,
+      "Hash": "EAA65223F2190459"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghdr.ILB",
+      "Images": 72,
+      "Hash": "3A47EC610BE6537D"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghhe.ILB",
+      "Images": 72,
+      "Hash": "FC41BA8A0FB8FB26"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/Hghhr.ILB",
+      "Images": 72,
+      "Hash": "39B4C0D6FF69017C"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghhx.ILB",
+      "Images": 72,
+      "Hash": "4D3A4915F5E033F8"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghld.ILB",
+      "Images": 72,
+      "Hash": "3FC0ECBC5688AF5B"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghwr.ILB",
+      "Images": 72,
+      "Hash": "EF0E1511D49EA8C3"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/puppt.ILB",
+      "Images": 72,
+      "Hash": "483401F61020ABE9"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/titan.ILB",
+      "Images": 72,
+      "Hash": "D994A605897DB9A4"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/valky.ILB",
+      "Images": 66,
+      "Hash": "FAFA81AC0A82BE1F"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/centr.ILB",
+      "Images": 72,
+      "Hash": "4035952161348E40"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfcl.ILB",
+      "Images": 72,
+      "Hash": "F8B4D484E878623A"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfer.ILB",
+      "Images": 92,
+      "Hash": "2ECE81820AEBAC62"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfhe.ILB",
+      "Images": 72,
+      "Hash": "D854B92EE94AE5B5"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfhx.ILB",
+      "Images": 72,
+      "Hash": "D2B5D4F97DD3EC64"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfld.ILB",
+      "Images": 72,
+      "Hash": "6A231A36BF7C153D"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfpr.ILB",
+      "Images": 72,
+      "Hash": "E2F7F6AC60BE0E80"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfrg.ILB",
+      "Images": 72,
+      "Hash": "8E5E2CFC72556480"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfsl.ILB",
+      "Images": 78,
+      "Hash": "552CDCA031E2F791"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfwr.ILB",
+      "Images": 72,
+      "Hash": "BD1012FD54A7ED04"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/leprc.ILB",
+      "Images": 72,
+      "Hash": "B7E6ADA77E38D504"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/satyr.ILB",
+      "Images": 78,
+      "Hash": "782232E9B144503A"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNAR.ILB",
+      "Images": 73,
+      "Hash": "5E404B0914183A7B"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNAS.ILB",
+      "Images": 36,
+      "Hash": "A3F281DFAD168D05"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNCH.ILB",
+      "Images": 72,
+      "Hash": "F1DEC47C04F2E94B"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNCL.ILB",
+      "Images": 73,
+      "Hash": "9F57BD7D15751005"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNHE.ILB",
+      "Images": 72,
+      "Hash": "1B80B417E0FF6B8E"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNHR.ILB",
+      "Images": 72,
+      "Hash": "591AFCFF4AAC87D4"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNHX.ILB",
+      "Images": 72,
+      "Hash": "CBBF76B00C729165"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNLD.ILB",
+      "Images": 72,
+      "Hash": "871BA66432684A7D"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNMS.ILB",
+      "Images": 72,
+      "Hash": "E9111DD246201CFE"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNPL.ILB",
+      "Images": 72,
+      "Hash": "77D6EF5B63B5490F"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNSP.ILB",
+      "Images": 73,
+      "Hash": "E623B0A837469DC1"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNWR.ILB",
+      "Images": 73,
+      "Hash": "1A79B45373867ED3"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/SDRGN.ILB",
+      "Images": 90,
+      "Hash": "AFC48BE32D2B3B64"
+    },
+    {
+      "Library": "Images/UNITS/Liz/Baslk.ILB",
+      "Images": 72,
+      "Hash": "FF62CE1E4070BE2C"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZAR.ILB",
+      "Images": 72,
+      "Hash": "3D7BA88267BE1AE1"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZCF.ILB",
+      "Images": 72,
+      "Hash": "E6C1925C2D553F8D"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZCL.ILB",
+      "Images": 72,
+      "Hash": "757F944D4127641D"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZDR.ILB",
+      "Images": 90,
+      "Hash": "9B4F604FFDF174CA"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZFR.ILB",
+      "Images": 72,
+      "Hash": "2852FB13B067F3C3"
+    },
+    {
+      "Library": "Images/UNITS/Liz/lizhe.ILB",
+      "Images": 72,
+      "Hash": "1777F14EBB92A6D7"
+    },
+    {
+      "Library": "Images/UNITS/Liz/lizhx.ILB",
+      "Images": 72,
+      "Hash": "8EADBBFEB0273BDA"
+    },
+    {
+      "Library": "Images/UNITS/Liz/lizld.ILB",
+      "Images": 72,
+      "Hash": "463D75A0656D6B0B"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZLK.ILB",
+      "Images": 72,
+      "Hash": "C94FD4CCBFE94E07"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZSM.ILB",
+      "Images": 72,
+      "Hash": "453187A9005EC010"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZWM.ILB",
+      "Images": 72,
+      "Hash": "13D26334DC6164CE"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZWR.ILB",
+      "Images": 72,
+      "Hash": "5DE4C9E2B881A49C"
+    },
+    {
+      "Library": "Images/UNITS/Machines/blsta.ILB",
+      "Images": 42,
+      "Hash": "EF39BF3764F39A6D"
+    },
+    {
+      "Library": "Images/UNITS/Machines/btram.ILB",
+      "Images": 42,
+      "Hash": "7BC8184B40063E2D"
+    },
+    {
+      "Library": "Images/UNITS/Machines/build.ILB",
+      "Images": 36,
+      "Hash": "B399964A7729CE7F"
+    },
+    {
+      "Library": "Images/UNITS/Machines/CANON.ILB",
+      "Images": 48,
+      "Hash": "334A841D280090D0"
+    },
+    {
+      "Library": "Images/UNITS/Machines/crbow.ILB",
+      "Images": 42,
+      "Hash": "A2C9ACF8DC877BBB"
+    },
+    {
+      "Library": "Images/UNITS/Machines/ctplt.ILB",
+      "Images": 48,
+      "Hash": "67B337B292980DED"
+    },
+    {
+      "Library": "Images/UNITS/Machines/drill.ILB",
+      "Images": 72,
+      "Hash": "453BB2CE2DA19A13"
+    },
+    {
+      "Library": "Images/UNITS/Machines/FLTHR.ILB",
+      "Images": 48,
+      "Hash": "1533E002D0B44550"
+    },
+    {
+      "Library": "Images/UNITS/Machines/frezr.ILB",
+      "Images": 48,
+      "Hash": "2C2704D1BB8DE0E3"
+    },
+    {
+      "Library": "Images/UNITS/Machines/sbtrm.ILB",
+      "Images": 42,
+      "Hash": "C6EF9A12A1250E79"
+    },
+    {
+      "Library": "Images/UNITS/Machines/spult.ILB",
+      "Images": 48,
+      "Hash": "F3A70EFFDA0B7E77"
+    },
+    {
+      "Library": "Images/UNITS/Machines/tcrbw.ILB",
+      "Images": 42,
+      "Hash": "430C3FFE1BFE92E5"
+    },
+    {
+      "Library": "Images/UNITS/Machines/tpult.ILB",
+      "Images": 48,
+      "Hash": "87C6386702F580E1"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/bldrg.ILB",
+      "Images": 90,
+      "Hash": "BE1FC3E9E0B6CEFF"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/ghost.ILB",
+      "Images": 72,
+      "Hash": "1435379D299848C8"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/mermd.ILB",
+      "Images": 72,
+      "Hash": "834331AF3A3AD211"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/mummy.ILB",
+      "Images": 72,
+      "Hash": "972A0E87AE32271E"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/sargn.ILB",
+      "Images": 72,
+      "Hash": "603B13F1FFC590B7"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/seadr.ILB",
+      "Images": 72,
+      "Hash": "C124C2E2C713B96C"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/spidr.ILB",
+      "Images": 72,
+      "Hash": "130BCEE409352FA1"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/YLDRG.ILB",
+      "Images": 90,
+      "Hash": "1DC91C148AADCD28"
+    },
+    {
+      "Library": "Images/UNITS/Orc/kobld.ILB",
+      "Images": 72,
+      "Hash": "405F204F5EBBC174"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcar.ILB",
+      "Images": 72,
+      "Hash": "0CBCA963AFB7D5D2"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcas.ILB",
+      "Images": 72,
+      "Hash": "4A8C232DD2AC43B0"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcbt.ILB",
+      "Images": 66,
+      "Hash": "5FD8A799EC8F2F60"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orccl.ILB",
+      "Images": 72,
+      "Hash": "8BF6945FF63BB0E2"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcdr.ILB",
+      "Images": 90,
+      "Hash": "479AB6F8705B6DB7"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orche.ILB",
+      "Images": 72,
+      "Hash": "4CEF97D02800D35F"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orchr.ILB",
+      "Images": 72,
+      "Hash": "2634CA17C82385E4"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orchx.ILB",
+      "Images": 72,
+      "Hash": "1441AF0083F6DACB"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcld.ILB",
+      "Images": 72,
+      "Hash": "B26C5884D01D3C5B"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcwl.ILB",
+      "Images": 72,
+      "Hash": "32B977BEA09B9EA7"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcwr.ILB",
+      "Images": 72,
+      "Hash": "B2D068683F61DB46"
+    },
+    {
+      "Library": "Images/UNITS/Ships/DSHIP.ILB",
+      "Images": 36,
+      "Hash": "1C6EC7F2E6A7E479"
+    },
+    {
+      "Library": "Images/UNITS/Ships/GALLN.ILB",
+      "Images": 36,
+      "Hash": "A6C5855CBDC4A10F"
+    },
+    {
+      "Library": "Images/UNITS/Ships/GALLY.ILB",
+      "Images": 36,
+      "Hash": "6D2C785387BCEF6D"
+    },
+    {
+      "Library": "Images/UNITS/Ships/SLOOP.ILB",
+      "Images": 36,
+      "Hash": "61DE2D6CBB312C1E"
+    },
+    {
+      "Library": "Images/UNITS/UND/boneh.ILB",
+      "Images": 72,
+      "Hash": "A1F617DCC75274A6"
+    },
+    {
+      "Library": "Images/UNITS/UND/demon.ILB",
+      "Images": 78,
+      "Hash": "FCF88BBEAEAC91B4"
+    },
+    {
+      "Library": "Images/UNITS/UND/undar.ILB",
+      "Images": 72,
+      "Hash": "683ED054480BAA94"
+    },
+    {
+      "Library": "Images/UNITS/UND/undcl.ILB",
+      "Images": 72,
+      "Hash": "A0EB0F1C25FC6643"
+    },
+    {
+      "Library": "Images/UNITS/UND/undgh.ILB",
+      "Images": 72,
+      "Hash": "C426249A34B73023"
+    },
+    {
+      "Library": "Images/UNITS/UND/undhe.ILB",
+      "Images": 72,
+      "Hash": "4AA8BC020C4BD10C"
+    },
+    {
+      "Library": "Images/UNITS/UND/undhh.ILB",
+      "Images": 72,
+      "Hash": "D809EABCC5F8289F"
+    },
+    {
+      "Library": "Images/UNITS/UND/undhr.ILB",
+      "Images": 72,
+      "Hash": "C23CB33831E0F02E"
+    },
+    {
+      "Library": "Images/UNITS/UND/undhx.ILB",
+      "Images": 72,
+      "Hash": "640E61DC76DFA5A1"
+    },
+    {
+      "Library": "Images/UNITS/UND/undld.ILB",
+      "Images": 72,
+      "Hash": "BCFF7FE60851869B"
+    },
+    {
+      "Library": "Images/UNITS/UND/undpr.ILB",
+      "Images": 72,
+      "Hash": "7B7302DEC38A37D0"
+    },
+    {
+      "Library": "Images/UNITS/UND/undrp.ILB",
+      "Images": 72,
+      "Hash": "434D52EAF00C0C3E"
+    },
+    {
+      "Library": "Images/UNITS/UND/undwr.ILB",
+      "Images": 72,
+      "Hash": "55CA4C6F74E5655E"
+    },
+    {
+      "Library": "Images/UNITS/UND/undww.ILB",
+      "Images": 72,
+      "Hash": "5BDA3B2BE1EF32F9"
+    },
+    {
+      "Library": "Images/UNITS/UShadow.ILB",
+      "Images": 31,
+      "Hash": "CDB8CB441A24A282"
+    },
+    {
+      "Library": "Images/UShadow.ILB",
+      "Images": 26,
+      "Hash": "FA07FA1A77AD4D67"
+    },
+    {
+      "Library": "Images/WaterAnm.ILB",
+      "Images": 97,
+      "Hash": "08EB1B2E4F5D6CF8"
+    },
+    {
+      "Library": "Images/Waterhex.ILB",
+      "Images": 115,
+      "Hash": "B5BF588DC44623DE"
+    },
+    {
+      "Library": "Int/AudioImg.ILB",
+      "Images": 3,
+      "Hash": "31356FDF06B26E02"
+    },
+    {
+      "Library": "Int/BookWin.ILB",
+      "Images": 36,
+      "Hash": "B352E38C9B36D01D"
+    },
+    {
+      "Library": "Int/Celtdeco.ilb",
+      "Images": 57,
+      "Hash": "6364D74C965A0CE3"
+    },
+    {
+      "Library": "Int/DragMenu.ILB",
+      "Images": 15,
+      "Hash": "4F4EB91D5D3E1274"
+    },
+    {
+      "Library": "Int/EventIcn.ILB",
+      "Images": 23,
+      "Hash": "E7D6F7C748DDEE1B"
+    },
+    {
+      "Library": "Int/FCWin.ILB",
+      "Images": 47,
+      "Hash": "A73EAA2FBF429827"
+    },
+    {
+      "Library": "Int/Fonts/Age10.ILB",
+      "Images": 155,
+      "Hash": "983E13C46CF163EE"
+    },
+    {
+      "Library": "Int/Fonts/Age10b.ILB",
+      "Images": 155,
+      "Hash": "03405F4B76462E4A"
+    },
+    {
+      "Library": "Int/Fonts/Age10bs.ILB",
+      "Images": 155,
+      "Hash": "753EEE47365095DB"
+    },
+    {
+      "Library": "Int/Fonts/Age10LB.ILB",
+      "Images": 155,
+      "Hash": "07A4308EBC923BAA"
+    },
+    {
+      "Library": "Int/Fonts/Age10s.ILB",
+      "Images": 155,
+      "Hash": "87DD1095E9D49432"
+    },
+    {
+      "Library": "Int/Fonts/Age10tb.ILB",
+      "Images": 155,
+      "Hash": "654EA8F1001F2179"
+    },
+    {
+      "Library": "Int/Fonts/Age14G.ILB",
+      "Images": 91,
+      "Hash": "EE6FD2CABCD70EC5"
+    },
+    {
+      "Library": "Int/Fonts/Age15BlBr.ILB",
+      "Images": 155,
+      "Hash": "FAE2A6CA9CF4A9FF"
+    },
+    {
+      "Library": "Int/Fonts/Age15WhGr.ILB",
+      "Images": 310,
+      "Hash": "C5F5D3AE9BDC4ADC"
+    },
+    {
+      "Library": "Int/Fonts/Age15WhIn.ILB",
+      "Images": 155,
+      "Hash": "B864C014992E2234"
+    },
+    {
+      "Library": "Int/Fonts/Age16s.ILB",
+      "Images": 155,
+      "Hash": "CFA95EE1796AC1D3"
+    },
+    {
+      "Library": "Int/Fonts/Age8.ILB",
+      "Images": 155,
+      "Hash": "1C6C54880E3FF48E"
+    },
+    {
+      "Library": "Int/Fonts/Age8s.ILB",
+      "Images": 155,
+      "Hash": "CAD2E8222CD1A39D"
+    },
+    {
+      "Library": "Int/GemPile.ILB",
+      "Images": 20,
+      "Hash": "9C84C543FAF0D8A2"
+    },
+    {
+      "Library": "Int/GenericB.ILB",
+      "Images": 103,
+      "Hash": "9A3614B2AC9C487C"
+    },
+    {
+      "Library": "Int/GenericE.ILB",
+      "Images": 33,
+      "Hash": "C1EED8C5CC54BEB4"
+    },
+    {
+      "Library": "Int/GenericF.ILB",
+      "Images": 129,
+      "Hash": "34C16483DD418ABE"
+    },
+    {
+      "Library": "Int/GenericI.ILB",
+      "Images": 75,
+      "Hash": "D0F0FADD00EC73B4"
+    },
+    {
+      "Library": "Int/GenericS.ilb",
+      "Images": 98,
+      "Hash": "31088A139CF25CE4"
+    },
+    {
+      "Library": "Int/GenericT.ilb",
+      "Images": 23,
+      "Hash": "0816EDD7BEF7CDAD"
+    },
+    {
+      "Library": "Int/IconMove.ILB",
+      "Images": 20,
+      "Hash": "AF3855205D624A48"
+    },
+    {
+      "Library": "Int/Icons.ILB",
+      "Images": 12,
+      "Hash": "2AF634970E6D2AE9"
+    },
+    {
+      "Library": "Int/LBIcon.ILB",
+      "Images": 34,
+      "Hash": "DB2076B01D7E476B"
+    },
+    {
+      "Library": "Int/Menus.ILB",
+      "Images": 28,
+      "Hash": "0032E5891601A1E2"
+    },
+    {
+      "Library": "Int/Misc.ILB",
+      "Images": 5,
+      "Hash": "655371E2CF9BF8F7"
+    },
+    {
+      "Library": "Int/MiscArt.ILB",
+      "Images": 37,
+      "Hash": "A3B9000066990C21"
+    },
+    {
+      "Library": "Int/ProdIcon.ILB",
+      "Images": 5,
+      "Hash": "91119E2CE839E174"
+    },
+    {
+      "Library": "Int/ProdWin.ILB",
+      "Images": 6,
+      "Hash": "3DBBB8F3529EE486"
+    },
+    {
+      "Library": "Int/PyreWin.ILB",
+      "Images": 9,
+      "Hash": "FCDC8C8337F9A2F2"
+    },
+    {
+      "Library": "Int/ScanFog.ilb",
+      "Images": 2,
+      "Hash": "8A6627985D06ED4D"
+    },
+    {
+      "Library": "Int/ScanHiLi.ilb",
+      "Images": 3,
+      "Hash": "8635A862DD1937ED"
+    },
+    {
+      "Library": "Int/ScanObj.ilb",
+      "Images": 79,
+      "Hash": "D3655C71E4BB86EF"
+    },
+    {
+      "Library": "Int/ScanTile.ilb",
+      "Images": 39,
+      "Hash": "E6181DF69A8AC11A"
+    },
+    {
+      "Library": "Int/ScanWin.ilb",
+      "Images": 28,
+      "Hash": "31D9CD3196D1ECCD"
+    },
+    {
+      "Library": "Int/Scenes/BookWin.ILB",
+      "Images": 37,
+      "Hash": "2332F18B02A66F52"
+    },
+    {
+      "Library": "Int/Scenes/BPDElf.ILB",
+      "Images": 5,
+      "Hash": "126D3E2A79EB1B68"
+    },
+    {
+      "Library": "Int/Scenes/BPDwf.ILB",
+      "Images": 6,
+      "Hash": "DFEE66E15C3B336F"
+    },
+    {
+      "Library": "Int/Scenes/BPElf.ILB",
+      "Images": 5,
+      "Hash": "F2394414397280B0"
+    },
+    {
+      "Library": "Int/Scenes/BPGen.ILB",
+      "Images": 12,
+      "Hash": "F6241A4F33E02AC4"
+    },
+    {
+      "Library": "Int/Scenes/BPGob.ILB",
+      "Images": 5,
+      "Hash": "270E6896EB7E0F3A"
+    },
+    {
+      "Library": "Int/Scenes/BPHalfl.ILB",
+      "Images": 5,
+      "Hash": "A2097577163068A9"
+    },
+    {
+      "Library": "Int/Scenes/BPHigh.ILB",
+      "Images": 4,
+      "Hash": "D1D8C23C02B4BF65"
+    },
+    {
+      "Library": "Int/Scenes/BPLiz.ILB",
+      "Images": 5,
+      "Hash": "E1186849A1162D3A"
+    },
+    {
+      "Library": "Int/Scenes/BPOrcs.ILB",
+      "Images": 5,
+      "Hash": "038C578162173A05"
+    },
+    {
+      "Library": "Int/Scenes/BPUnd.ILB",
+      "Images": 4,
+      "Hash": "21ED095B9AF759C5"
+    },
+    {
+      "Library": "Int/Scenes/CBPics1.ILB",
+      "Images": 10,
+      "Hash": "CCF428F619E6A398"
+    },
+    {
+      "Library": "Int/Scenes/CityWin.ILB",
+      "Images": 41,
+      "Hash": "BC5B27061F1EEB81"
+    },
+    {
+      "Library": "Int/Scenes/CTrans.ILB",
+      "Images": 42,
+      "Hash": "EAF9EF383D2EBBEE"
+    },
+    {
+      "Library": "Int/Scenes/EndScene.ILB",
+      "Images": 29,
+      "Hash": "B3B336EE83C81C91"
+    },
+    {
+      "Library": "Int/Scenes/FactionS.ILB",
+      "Images": 8,
+      "Hash": "183548A83CA1AF6B"
+    },
+    {
+      "Library": "Int/Scenes/FShire.ILB",
+      "Images": 1,
+      "Hash": "677653A47CB88696"
+    },
+    {
+      "Library": "Int/Scenes/FSMap.ILB",
+      "Images": 1,
+      "Hash": "AEA11807C94FA896"
+    },
+    {
+      "Library": "Int/Scenes/Halfl01.ILB",
+      "Images": 1,
+      "Hash": "17DFEC33EF152A9F"
+    },
+    {
+      "Library": "Int/Scenes/Halfl02.ILB",
+      "Images": 1,
+      "Hash": "A6952ED948963E5C"
+    },
+    {
+      "Library": "Int/Scenes/HalfUnit.ILB",
+      "Images": 1,
+      "Hash": "5BEED7D3E3C44668"
+    },
+    {
+      "Library": "Int/Scenes/Inn.ILB",
+      "Images": 32,
+      "Hash": "C87ADB7AC191240D"
+    },
+    {
+      "Library": "Int/Scenes/Logo.ILB",
+      "Images": 34,
+      "Hash": "2DEC8303990CCE9B"
+    },
+    {
+      "Library": "Int/Scenes/LSetup.ILB",
+      "Images": 1,
+      "Hash": "1F0A2CBADDA08AA6"
+    },
+    {
+      "Library": "Int/Scenes/PDeadQ.ILB",
+      "Images": 1,
+      "Hash": "DA5A79B772B2F99F"
+    },
+    {
+      "Library": "Int/Scenes/PlyrIcns.ILB",
+      "Images": 12,
+      "Hash": "5FF310762CBF8EA0"
+    },
+    {
+      "Library": "Int/Scenes/PyreFrm.ILB",
+      "Images": 11,
+      "Hash": "4A76721207F6DA4D"
+    },
+    {
+      "Library": "Int/Scenes/RelFr.ILB",
+      "Images": 53,
+      "Hash": "67D8A92B04504D73"
+    },
+    {
+      "Library": "Int/Scenes/title.ilb",
+      "Images": 25,
+      "Hash": "AE99C6A975537D63"
+    },
+    {
+      "Library": "Int/Scenes/TitleM.ILB",
+      "Images": 62,
+      "Hash": "0730EBFEFF68B2F9"
+    },
+    {
+      "Library": "Int/Scenes/TradeRte.ILB",
+      "Images": 1,
+      "Hash": "A6952ED948963E5C"
+    },
+    {
+      "Library": "Int/Scenes/UCFire.ILB",
+      "Images": 1,
+      "Hash": "80C21C2F50869CFB"
+    },
+    {
+      "Library": "Int/Scenes/UCMap.ILB",
+      "Images": 1,
+      "Hash": "AEEF6B86EEC1E18C"
+    },
+    {
+      "Library": "Int/Scenes/UGPassg.ILB",
+      "Images": 1,
+      "Hash": "E172D94EC04884C9"
+    },
+    {
+      "Library": "Int/Scenes/U_Drill.ILB",
+      "Images": 1,
+      "Hash": "838AC4A18892F5D2"
+    },
+    {
+      "Library": "Int/Scenes/Victory.ILB",
+      "Images": 1,
+      "Hash": "299DCF663EF25A3E"
+    },
+    {
+      "Library": "Int/Scenes/WMBackg.ILB",
+      "Images": 18,
+      "Hash": "5B6FF8713B7AC730"
+    },
+    {
+      "Library": "Int/ShieldsM.ILB",
+      "Images": 39,
+      "Hash": "6372D70D560BEF30"
+    },
+    {
+      "Library": "Int/TBTurnBt.ILB",
+      "Images": 102,
+      "Hash": "2AD764832A2DD3C3"
+    },
+    {
+      "Library": "Int/TBWin.ILB",
+      "Images": 53,
+      "Hash": "4F031136A5AECB89"
+    },
+    {
+      "Library": "Int/TitleM.ILB",
+      "Images": 48,
+      "Hash": "B4193FFDD7347B7D"
+    },
+    {
+      "Library": "Int/TitleScr.ILB",
+      "Images": 1,
+      "Hash": "72780AE71F794F36"
+    },
+    {
+      "Library": "Int/UnitBgs.ILB",
+      "Images": 8,
+      "Hash": "3A22FDC1DD1C1905"
+    },
+    {
+      "Library": "Int/Units.ILB",
+      "Images": 58,
+      "Hash": "9553A733CD3264AE"
+    },
+    {
+      "Library": "Int/UnitWin.ILB",
+      "Images": 35,
+      "Hash": "FDA424B87A71948F"
+    },
+    {
+      "Library": "Int/WinTIcon.ilb",
+      "Images": 19,
+      "Hash": "4DD35CCAF63A9615"
+    }
+  ],
+  "Grabbed": [
+    {
+      "Library": "Images/AMShell.ILB 0",
+      "Images": 60,
+      "Hash": "60317C33C2E74528"
+    },
+    {
+      "Library": "Images/BORDER.ILB 400",
+      "Images": 60,
+      "Hash": "DE348DF3297C5197"
+    },
+    {
+      "Library": "Images/Effects/Enchant.ILB 800",
+      "Images": 60,
+      "Hash": "242A7A14BA6297D8"
+    },
+    {
+      "Library": "Images/Effects/PoisnCld.ILB 1200",
+      "Images": 60,
+      "Hash": "319336899D3E14B1"
+    },
+    {
+      "Library": "Images/Effects/TwinkGr.ILB 1600",
+      "Images": 60,
+      "Hash": "2C158362E6BC9FE4"
+    },
+    {
+      "Library": "Images/General.ilb 2000",
+      "Images": 60,
+      "Hash": "DCFA86AC8D0AD573"
+    },
+    {
+      "Library": "Images/Items/I_Attack.ILB 2400",
+      "Images": 60,
+      "Hash": "89CD976094C7CFD5"
+    },
+    {
+      "Library": "Images/PRO_GROV.ILB 2800",
+      "Images": 60,
+      "Hash": "96F9F2A36BBD7AF4"
+    },
+    {
+      "Library": "Images/Races/RHALFLNG.ILB 3200",
+      "Images": 60,
+      "Hash": "52E1E6D87C68D52E"
+    },
+    {
+      "Library": "Images/SpellIcn.ILB 3600",
+      "Images": 60,
+      "Hash": "23E914D5D125DA78"
+    },
+    {
+      "Library": "Images/Str_node.ILB 4000",
+      "Images": 60,
+      "Hash": "C3BF2B00B9816BE9"
+    },
+    {
+      "Library": "Images/TCombat/Base_hex/H_DeDr.ILB 4400",
+      "Images": 60,
+      "Hash": "31843CB10F3CECB0"
+    },
+    {
+      "Library": "Images/TCombat/City/c_Swall3.ILB 4800",
+      "Images": 60,
+      "Hash": "0B0BD94B24B4D837"
+    },
+    {
+      "Library": "Images/TCombat/De/zde_bone.ILB 5200",
+      "Images": 60,
+      "Hash": "29845E15FD0BC967"
+    },
+    {
+      "Library": "Images/TCombat/Gr/zgr_Tre.ILB 5600",
+      "Images": 60,
+      "Hash": "E003DEA7606B3931"
+    },
+    {
+      "Library": "Images/TCombat/Objects/Bolts.ILB 6000",
+      "Images": 60,
+      "Hash": "D14792A10F91EBB8"
+    },
+    {
+      "Library": "Images/TCombat/Ug/zug_crop.ILB 6400",
+      "Images": 60,
+      "Hash": "89CEAB55F9E74908"
+    },
+    {
+      "Library": "Images/UNITS/Animals/WOLFY.ILB 6800",
+      "Images": 60,
+      "Hash": "5BFE098B3599A3F4"
+    },
+    {
+      "Library": "Images/UNITS/Azr/AZRHR.ILB 7200",
+      "Images": 60,
+      "Hash": "B68FA99F591544F8"
+    },
+    {
+      "Library": "Images/UNITS/Azr/ELEPH.ILB 7600",
+      "Images": 60,
+      "Hash": "7627A6E21CC514FE"
+    },
+    {
+      "Library": "Images/UNITS/DeadUnit.ILB 8000",
+      "Images": 60,
+      "Hash": "F291BBB4F28BD898"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfhx.ILB 8400",
+      "Images": 60,
+      "Hash": "FBF8FAABFD1BC382"
+    },
+    {
+      "Library": "Images/UNITS/Dlf/dlfsq.ILB 8800",
+      "Images": 60,
+      "Hash": "1256A3C633807312"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrcl.ILB 9200",
+      "Images": 60,
+      "Hash": "5B208E8D1EADCF2A"
+    },
+    {
+      "Library": "Images/UNITS/Dwr/dwrwr.ILB 9600",
+      "Images": 60,
+      "Hash": "860931DD6F8E45F2"
+    },
+    {
+      "Library": "Images/UNITS/Element/elmwt.ILB 10000",
+      "Images": 60,
+      "Hash": "7FD149E27B626C56"
+    },
+    {
+      "Library": "Images/UNITS/Elv/elvld.ILB 10400",
+      "Images": 60,
+      "Hash": "7A2C80DEE045A430"
+    },
+    {
+      "Library": "Images/UNITS/Elv/unicn.ILB 10800",
+      "Images": 60,
+      "Hash": "7321F5DA6859713E"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROHX.ILB 11200",
+      "Images": 60,
+      "Hash": "784A614AD8834D6A"
+    },
+    {
+      "Library": "Images/UNITS/Fro/FROWF.ILB 11600",
+      "Images": 60,
+      "Hash": "E5E2F8ECBBBC077C"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnhe.ILB 12000",
+      "Images": 60,
+      "Hash": "4AC6A8D72711D9A2"
+    },
+    {
+      "Library": "Images/UNITS/Gbn/gbnwy.ILB 12400",
+      "Images": 60,
+      "Hash": "9932194366BDF7C2"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghcl.ILB 12800",
+      "Images": 60,
+      "Hash": "4EA5ABCA39788404"
+    },
+    {
+      "Library": "Images/UNITS/Hgm/hghwr.ILB 13200",
+      "Images": 60,
+      "Hash": "53FDB4320956070A"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfcl.ILB 13600",
+      "Images": 60,
+      "Hash": "CF60E735F879D528"
+    },
+    {
+      "Library": "Images/UNITS/Hlf/hlfrg.ILB 14000",
+      "Images": 60,
+      "Hash": "95610C47E9E42634"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNAR.ILB 14400",
+      "Images": 60,
+      "Hash": "A1819381F15E9F90"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/HMNHX.ILB 14800",
+      "Images": 60,
+      "Hash": "B0A1733E23D2FB1C"
+    },
+    {
+      "Library": "Images/UNITS/Hmn/SDRGN.ILB 15200",
+      "Images": 60,
+      "Hash": "C93DA08352FE622A"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZDR.ILB 15600",
+      "Images": 60,
+      "Hash": "1A7F67EDFF8DC844"
+    },
+    {
+      "Library": "Images/UNITS/Liz/LIZLK.ILB 16000",
+      "Images": 60,
+      "Hash": "C3327515946DD2EA"
+    },
+    {
+      "Library": "Images/UNITS/Machines/CANON.ILB 16400",
+      "Images": 60,
+      "Hash": "36DC85362DA3A386"
+    },
+    {
+      "Library": "Images/UNITS/Machines/tpult.ILB 16800",
+      "Images": 60,
+      "Hash": "66CB0E3EA111D0EE"
+    },
+    {
+      "Library": "Images/UNITS/Monsters/sargn.ILB 17200",
+      "Images": 60,
+      "Hash": "6C5A388CBCCC7964"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orcas.ILB 17600",
+      "Images": 60,
+      "Hash": "A7AABE58FE5FD466"
+    },
+    {
+      "Library": "Images/UNITS/Orc/orchr.ILB 18000",
+      "Images": 60,
+      "Hash": "47ACD787FAD60148"
+    },
+    {
+      "Library": "Images/UNITS/Ships/GALLN.ILB 18400",
+      "Images": 60,
+      "Hash": "8D2EED73EB66BE1C"
+    },
+    {
+      "Library": "Images/UNITS/UND/undgh.ILB 18800",
+      "Images": 60,
+      "Hash": "5E91B7182F28F6D4"
+    },
+    {
+      "Library": "Images/UNITS/UND/undpr.ILB 19200",
+      "Images": 60,
+      "Hash": "2372A4237E40EF10"
+    },
+    {
+      "Library": "Images/WaterAnm.ILB 19600",
+      "Images": 60,
+      "Hash": "9A0B1D5CF33C0CE0"
+    },
+    {
+      "Library": "Int/Fonts/Age10.ILB 20000",
+      "Images": 60,
+      "Hash": "6803F48ED382891C"
+    },
+    {
+      "Library": "Int/Fonts/Age10bs.ILB 20400",
+      "Images": 60,
+      "Hash": "2C8AB20CB4FD68C3"
+    },
+    {
+      "Library": "Int/Fonts/Age10tb.ILB 20800",
+      "Images": 60,
+      "Hash": "0F67B0E316651FDB"
+    },
+    {
+      "Library": "Int/Fonts/Age15WhGr.ILB 21200",
+      "Images": 60,
+      "Hash": "5858A125746A6D9F"
+    },
+    {
+      "Library": "Int/Fonts/Age16s.ILB 21600",
+      "Images": 60,
+      "Hash": "50501DCED9E484C3"
+    },
+    {
+      "Library": "Int/Fonts/Age8s.ILB 22000",
+      "Images": 60,
+      "Hash": "2DC0FA4A221E2B2D"
+    },
+    {
+      "Library": "Int/GenericI.ILB 22400",
+      "Images": 60,
+      "Hash": "AE13C0420C18B51B"
+    },
+    {
+      "Library": "Int/ScanTile.ilb 22800",
+      "Images": 60,
+      "Hash": "04339060B4D69CB3"
+    },
+    {
+      "Library": "Int/Scenes/RelFr.ILB 23200",
+      "Images": 60,
+      "Hash": "43444C1AC9EA26C1"
+    },
+    {
+      "Library": "Int/Units.ILB 23600",
+      "Images": 60,
+      "Hash": "F552D2D38AD1A9E4"
+    }
+  ],
+  "Pixels": [
+    {
+      "Library": "00000008 1",
+      "Images": 4,
+      "Hash": "82D66DAC0F6694C5"
+    },
+    {
+      "Library": "00000008 2",
+      "Images": 5,
+      "Hash": "65C7157F223349F2"
+    },
+    {
+      "Library": "00000008 3",
+      "Images": 3,
+      "Hash": "DFAFE803347BBCC5"
+    },
+    {
+      "Library": "00000008 4",
+      "Images": 4,
+      "Hash": "7A2FA35802DB85E8"
+    },
+    {
+      "Library": "00000008 5",
+      "Images": 5,
+      "Hash": "A3568AAD18E86D78"
+    },
+    {
+      "Library": "00000008 6",
+      "Images": 3,
+      "Hash": "27693E4E8BBB6A2A"
+    },
+    {
+      "Library": "00000008 7",
+      "Images": 4,
+      "Hash": "BB5A844BA73C0136"
+    },
+    {
+      "Library": "00000008 8",
+      "Images": 5,
+      "Hash": "CF562DC0634EB43C"
+    },
+    {
+      "Library": "00000008 9",
+      "Images": 3,
+      "Hash": "78A39DBFCF3850EF"
+    },
+    {
+      "Library": "00000008 10",
+      "Images": 4,
+      "Hash": "5E6641ADDBBEDB97"
+    },
+    {
+      "Library": "00000008 11",
+      "Images": 5,
+      "Hash": "0693F80D9DCA488C"
+    },
+    {
+      "Library": "00000008 12",
+      "Images": 3,
+      "Hash": "DEFCB7F4ABA35D39"
+    },
+    {
+      "Library": "00000008 13",
+      "Images": 4,
+      "Hash": "2493F0FAB2487550"
+    },
+    {
+      "Library": "00000008 14",
+      "Images": 5,
+      "Hash": "98FDED41A7F55D11"
+    },
+    {
+      "Library": "00000008 15",
+      "Images": 3,
+      "Hash": "430297B00EB9C4BD"
+    },
+    {
+      "Library": "00000008 16",
+      "Images": 4,
+      "Hash": "B508BA185A71BC77"
+    },
+    {
+      "Library": "00000008 17",
+      "Images": 5,
+      "Hash": "80CD55582E8EEB48"
+    },
+    {
+      "Library": "55509310 1",
+      "Images": 4,
+      "Hash": "76E78EE3F2A2E2D1"
+    },
+    {
+      "Library": "55509310 2",
+      "Images": 5,
+      "Hash": "1ED17CB42F0CF13B"
+    },
+    {
+      "Library": "55509310 3",
+      "Images": 3,
+      "Hash": "728FFECBB84C48E9"
+    },
+    {
+      "Library": "55509310 4",
+      "Images": 4,
+      "Hash": "06AD3E30CE211269"
+    },
+    {
+      "Library": "55509310 5",
+      "Images": 5,
+      "Hash": "412314AB8F5AA41D"
+    },
+    {
+      "Library": "55509310 6",
+      "Images": 3,
+      "Hash": "70557F7C2C27A6AB"
+    },
+    {
+      "Library": "55509310 7",
+      "Images": 4,
+      "Hash": "A4B2793013F0BDDB"
+    },
+    {
+      "Library": "55509310 8",
+      "Images": 5,
+      "Hash": "9C91AB1415C33D5B"
+    },
+    {
+      "Library": "55509310 9",
+      "Images": 3,
+      "Hash": "F1E460BD29A2FC75"
+    },
+    {
+      "Library": "55509310 10",
+      "Images": 4,
+      "Hash": "B507B85E42177529"
+    },
+    {
+      "Library": "55509310 11",
+      "Images": 5,
+      "Hash": "D77F67CD887A17F9"
+    },
+    {
+      "Library": "55509310 12",
+      "Images": 3,
+      "Hash": "4CDD86FC8E52DDFF"
+    },
+    {
+      "Library": "55509310 13",
+      "Images": 4,
+      "Hash": "E588EE3A5AFC8063"
+    },
+    {
+      "Library": "55509310 14",
+      "Images": 5,
+      "Hash": "9E012C62C19459DB"
+    },
+    {
+      "Library": "55509310 15",
+      "Images": 3,
+      "Hash": "5149647147D00959"
+    },
+    {
+      "Library": "55509310 16",
+      "Images": 4,
+      "Hash": "F7239DAFAE8A5231"
+    },
+    {
+      "Library": "55509310 17",
+      "Images": 5,
+      "Hash": "ABBF6497F4C435F5"
+    },
+    {
+      "Library": "56509310 1",
+      "Images": 4,
+      "Hash": "5DB46F069EAF3C39"
+    },
+    {
+      "Library": "56509310 2",
+      "Images": 5,
+      "Hash": "E95B2D3AFB5C9A67"
+    },
+    {
+      "Library": "56509310 3",
+      "Images": 3,
+      "Hash": "BD973D374DEB93C9"
+    },
+    {
+      "Library": "56509310 4",
+      "Images": 4,
+      "Hash": "95071ABE8F3364B9"
+    },
+    {
+      "Library": "56509310 5",
+      "Images": 5,
+      "Hash": "18A95383F2A0C6ED"
+    },
+    {
+      "Library": "56509310 6",
+      "Images": 3,
+      "Hash": "C3D58FD9485DAAA3"
+    },
+    {
+      "Library": "56509310 7",
+      "Images": 4,
+      "Hash": "E1D6B16ADAFD2D7F"
+    },
+    {
+      "Library": "56509310 8",
+      "Images": 5,
+      "Hash": "6CA062012306E79F"
+    },
+    {
+      "Library": "56509310 9",
+      "Images": 3,
+      "Hash": "C81704C041616EA5"
+    },
+    {
+      "Library": "56509310 10",
+      "Images": 4,
+      "Hash": "21CD433D041856DD"
+    },
+    {
+      "Library": "56509310 11",
+      "Images": 5,
+      "Hash": "58EF729CCB01DF71"
+    },
+    {
+      "Library": "56509310 12",
+      "Images": 3,
+      "Hash": "6B3E7B28FD00886F"
+    },
+    {
+      "Library": "56509310 13",
+      "Images": 4,
+      "Hash": "B88CA76C7787B86B"
+    },
+    {
+      "Library": "56509310 14",
+      "Images": 5,
+      "Hash": "3AD8D57CCBA629AB"
+    },
+    {
+      "Library": "56509310 15",
+      "Images": 3,
+      "Hash": "A97FEC66674EF141"
+    },
+    {
+      "Library": "56509310 16",
+      "Images": 4,
+      "Hash": "DBD7FB8D9AEAB7B5"
+    },
+    {
+      "Library": "56509310 17",
+      "Images": 5,
+      "Hash": "7A53D26DB2EB2205"
+    },
+    {
+      "Library": "88809318 1",
+      "Images": 4,
+      "Hash": "89925410EAD1F95A"
+    },
+    {
+      "Library": "88809318 2",
+      "Images": 5,
+      "Hash": "B2186B29CE925F3B"
+    },
+    {
+      "Library": "88809318 3",
+      "Images": 3,
+      "Hash": "BEC62000472E53CC"
+    },
+    {
+      "Library": "88809318 4",
+      "Images": 4,
+      "Hash": "9C1807AD090DA2FE"
+    },
+    {
+      "Library": "88809318 5",
+      "Images": 5,
+      "Hash": "15909661388E9E98"
+    },
+    {
+      "Library": "88809318 6",
+      "Images": 3,
+      "Hash": "4491B9FD85BFA5D1"
+    },
+    {
+      "Library": "88809318 7",
+      "Images": 4,
+      "Hash": "C1114A2F91A3D6AF"
+    },
+    {
+      "Library": "88809318 8",
+      "Images": 5,
+      "Hash": "3AAC8E8342E9AFE3"
+    },
+    {
+      "Library": "88809318 9",
+      "Images": 3,
+      "Hash": "582599B76002CA2B"
+    },
+    {
+      "Library": "88809318 10",
+      "Images": 4,
+      "Hash": "F897796A6C08249D"
+    },
+    {
+      "Library": "88809318 11",
+      "Images": 5,
+      "Hash": "7B2990B259DCE295"
+    },
+    {
+      "Library": "88809318 12",
+      "Images": 3,
+      "Hash": "ED6BDF2756E99B96"
+    },
+    {
+      "Library": "88809318 13",
+      "Images": 4,
+      "Hash": "3B8EA3902A6C4F33"
+    },
+    {
+      "Library": "88809318 14",
+      "Images": 5,
+      "Hash": "3E812B2AF45B2B53"
+    },
+    {
+      "Library": "88809318 15",
+      "Images": 3,
+      "Hash": "63BEF35AA58C90FA"
+    },
+    {
+      "Library": "88809318 16",
+      "Images": 4,
+      "Hash": "2999E4E6603416B8"
+    },
+    {
+      "Library": "88809318 17",
+      "Images": 5,
+      "Hash": "A1D686080B3CF2C4"
+    },
+    {
+      "Library": "88889320 1",
+      "Images": 4,
+      "Hash": "BECFDBD273CC1B6A"
+    },
+    {
+      "Library": "88889320 2",
+      "Images": 5,
+      "Hash": "8764BBC295C753EF"
+    },
+    {
+      "Library": "88889320 3",
+      "Images": 3,
+      "Hash": "5D6DF008B88DE832"
+    },
+    {
+      "Library": "88889320 4",
+      "Images": 4,
+      "Hash": "A30B92F1D8BE5340"
+    },
+    {
+      "Library": "88889320 5",
+      "Images": 5,
+      "Hash": "266B5A7977F4D0BC"
+    },
+    {
+      "Library": "88889320 6",
+      "Images": 3,
+      "Hash": "7474BD515D8903B6"
+    },
+    {
+      "Library": "88889320 7",
+      "Images": 4,
+      "Hash": "62D8096403162224"
+    },
+    {
+      "Library": "88889320 8",
+      "Images": 5,
+      "Hash": "7573BED118B041B3"
+    },
+    {
+      "Library": "88889320 9",
+      "Images": 3,
+      "Hash": "486E3CAA498ADC05"
+    },
+    {
+      "Library": "88889320 10",
+      "Images": 4,
+      "Hash": "B03D0C569E0B3111"
+    },
+    {
+      "Library": "88889320 11",
+      "Images": 5,
+      "Hash": "ED80405C65805E5C"
+    },
+    {
+      "Library": "88889320 12",
+      "Images": 3,
+      "Hash": "8BECD088319488DE"
+    },
+    {
+      "Library": "88889320 13",
+      "Images": 4,
+      "Hash": "558AF88EE466D7A6"
+    },
+    {
+      "Library": "88889320 14",
+      "Images": 5,
+      "Hash": "61C057102BF0CBEF"
+    },
+    {
+      "Library": "88889320 15",
+      "Images": 3,
+      "Hash": "14D95D2607CA1924"
+    },
+    {
+      "Library": "88889320 16",
+      "Images": 4,
+      "Hash": "33617F547CD419FB"
+    },
+    {
+      "Library": "88889320 17",
+      "Images": 5,
+      "Hash": "0E8DC8713F7F62D8"
+    }
+  ],
+  "Blend": [
+    {
+      "Library": "alpha",
+      "Images": 31,
+      "Hash": "462430DA8DA8D5F0"
+    },
+    {
+      "Library": "intensity",
+      "Images": 31,
+      "Hash": "35168F5956DFE553"
+    },
+    {
+      "Library": "brighten",
+      "Images": 31,
+      "Hash": "31E8A0DB7D029464"
+    },
+    {
+      "Library": "shadow",
+      "Images": 31,
+      "Hash": "92FF6BF0C56D6AB4"
+    },
+    {
+      "Library": "linear",
+      "Images": 31,
+      "Hash": "B67805892C645557"
+    }
+  ]
+}

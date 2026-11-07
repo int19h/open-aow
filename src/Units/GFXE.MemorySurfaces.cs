@@ -276,6 +276,6 @@ public partial class TBlendTable5Bit
 {
     public override void Assign(TBlendTable Source)
     {
-        if (Source is TBlendTable5Bit table) Array.Copy(table.Table, Table, 32);
+        if (Source is TBlendTable5Bit table) Array.Copy(table.FTable, FTable, 32 * 32);
     }
 }

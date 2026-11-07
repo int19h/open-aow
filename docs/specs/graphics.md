@@ -131,7 +131,7 @@ because the frame oracle depends on them:
 | class | original | port |
 |---|---|---|
 | `TSurface` | abstract base with the VMT `GetColor, GetPixelInfo, GetWidth, GetHeight, GetPixelFormatID, Blt, BltClipped, BltColorKey, BltColorKeyClipped, BltDC, BltStretch, Lock, Unlock, LockEx, UnlockEx, UpdatePalette, Resize, Cls` | transpiled. `BltDC` raises `ENotSupported` |
-| `TDataSurface` | memory surface: `Create(W, H, pfid, Palette)`, `Resize` allocates `Pitch = (((BitCount + 7) shr 3) * W + 7) and not 7` bytes per row with the data 8-byte aligned, `Lock` fills the descriptor with `ClipRect` = whole surface, `CaptureSurface` copies a rectangle of another surface | transpiled. `FMem` is a `byte[]` of `Pitch * H` bytes and `FData` a `Ptr<byte>` at its first byte. The original allocates 7 bytes more and aligns `FData` to 8 for MMX, a performance choice with no effect on pixels, so the port has no alignment. The pitch formula is kept so that `Pitch` values match. `Resize` keeps the bytes the old and the new size share, as `ReallocMem` does |
+| `TDataSurface` | memory surface: `Create(W, H, pfid, Palette)`, `Resize` allocates `Pitch = (((BitCount + 7) shr 3) * W + 7) and not 7` bytes per row with the data 8-byte aligned, `Lock` fills the descriptor with `ClipRect` = whole surface, `CaptureSurface` copies a rectangle of another surface | transpiled. `FMem` is a `byte[]` of `Pitch * H + 7` bytes and `FData` a `Ptr<byte>` at its first byte. The original allocates the same 7 bytes more and aligns `FData` to 8 for MMX, a performance choice with no effect on pixels, so the port has no alignment and keeps the 7 bytes after the last row, where the 24-bit readers of section 3.6 read one byte past the last pixel. The pitch formula is kept so that `Pitch` values match. `Resize` keeps the bytes the old and the new size share, as `ReallocMem` does |
 | `TDIB16Surface` | a 16-bit Windows DIB section, bottom-up, used by `TWindows16DC` for the back surfaces and by `Structur.PAS:1696` for a structure preview; `Lock` gives top-down `Data` with a negative pitch | a memory surface with the same constructor `Create(W, H, pfid)`, top-down positive pitch `(W * 2 + 3) and not 3`, `Cls`, `Resize`, `Blt`, `Lock`, `PixelFormatID` read-write before the first lock. `FBits` is a `Ptr<byte>` at the first byte of a `byte[]` of `Pitch * H` bytes. `Handle` and `BltDC` raise |
 | `TDIBSurface`, `TDIB08Surface`, `TDIB24Surface`, `TDIB32Surface` | DIB sections of other depths, used by `TWindows08DC`, `TWindows24DC`, the video player and the editor | the same memory stand-in, generic in bit count, with `FBits` as for `TDIB16Surface`. Only the video player (rewritten) and editor code reach them |
 | `TWindows08DIBSurface` (`DisplayC`) | the 8-bit bottom-up DIB of `TWindows08DC`, pitch `-((W + 7) and not 7)`, `FBits` 8-byte aligned, `Lock` gives the last row as `Data` | transpiled. `FMem` is a `byte[]` of `abs(Pitch) * H` bytes and `FBits` a `Ptr<byte>` at its first byte, without the alignment |
@@ -147,17 +147,36 @@ aowInt and the drawing code of AoWEPACK:
 | Delphi | C# |
 |---|---|
 | `Pointer(Integer(P) + n)`, `PWord(Integer(P) + n)`, `PChar(Integer(P) + n)` | `P + n` on `Ptr<byte>`, reinterpreted as `Ptr<ushort>` where the target type says so |
-| `PWord(X + X + Integer(SD.Data) + Y * SD.Pitch)^` | `SD.Data.U16At(X + X + Y * SD.Pitch)`, a typed read at a byte offset |
+| `PWord(X + X + Integer(SD.Data) + Y * SD.Pitch)^` | `SD.View().Word(X + X + Y * SD.Pitch)`, a little-endian read at a byte offset from the first pixel (`Byte`, `Word`, `Dword` and the indexer of `SurfaceView`) |
 | `Inc(Integer(P), SD.Pitch)`, `Dec(Integer(P), n)` | `P += n`, `P -= n` |
 | `Inc(P)` on `PWord` | `P += 2` in bytes, the element size |
 | `PIntArray(Integer(RowTable) + H * 4)` | one `int[]` of `H + W` entries, the row table its first `H` as a `Span<int>` and the column table the rest |
-| `Integer(FData)` stored as a value in an integer array (`TPicture16.ShowOpaqueStretched`, `RowTable^[I] := C * FPitch + Integer(FData)`) | not expressible: the four stretched `Show` methods of `TPicture16` (`ShowOpaqueStretched`, `ShowBlendedStretched`) are overrides that build the row table as byte offsets and pass a `SurfaceView` of `FData` to the rewritten `BltStretched16` as the base |
-| `GetMem`, `ReallocMem`, `FreeMem` of pixel buffers | `Ptr<byte>` over a `byte[]` of the size, reallocation copies |
+| `Integer(FData)` stored as a value in an integer array (`TPicture16.ShowOpaqueStretched`, `RowTable^[I] := C * FPitch + Integer(FData)`) | not expressible: the four stretched `Show` methods of `TPicture16` (`ShowOpaqueStretched`, `ShowBlendedStretched`) are overrides that build the row table as byte offsets and pass the picture's `View` to the rewritten `BltStretched16` as the base |
+| `GetMem`, `ReallocMem`, `FreeMem` of pixel buffers | a `byte[]` of the size (`MemorySurfaces.Reallocate`: the new array keeps the bytes the two sizes share, size 0 gives `null`). Image buffers are section 6.8 |
 | `FillChar(P^, n, v)`, `Move(S^, D^, n)` | `Ptr` spans |
 | an untyped `Pointer` and a pitch passed to a blitter | a `SurfaceView` (section 5.2), tables and encoded images as byte spans |
 
 A probe `pointers` (section 10) exercises each row on the oracle compiler before the graphics units
 are transpiled.
+
+### 3.6 Pixel readers
+
+`TSurface.GetColor`, `TSurface.GetPixelInfo`, `GetPixelInfo(SD, X, Y)` and the nested readers of
+`GetSurfaceRectangles`, `MinimizeTransparentRect` and `MinimizeInvTransparentRect` read through
+`SD.View()`. A read outside the surface's memory raises as the pointer's read did
+(`ArgumentOutOfRangeException` for the typed reads, `IndexOutOfRangeException` for the 24-bit bytes
+of `GetColor`). For 24-bit pixels `TSurface.GetPixelInfo` and `GetSurfaceRectangles` read a dword
+and mask it to 24 bits except at the last pixel of a row (`X + 1 >= Width`), where they read a word
+and a byte. `GetPixelInfo(SD, X, Y)` (GFXE.pas:2326) and the readers of the two `Minimize`
+functions (GFXE.pas:2547, 2614) have no such test and read a dword at every pixel, one byte past the
+pixel at the end of a row. The original reads that byte from the row padding or from the 7 bytes its
+surfaces allocate past the last row, so it never faults there. The port keeps the dword read and
+the 7 bytes past the last row of a `TDataSurface`, so the read never faults there either. Only
+the grabbers reach a 24-bit surface: `TBitMask.GrabImage` and `TShadow.GrabImage` call
+`MinimizeTransparentRect` and `GetPixelInfo` on the grabbed surface, which the editor's grab tools
+and the probe build. The game draws no 24-bit surface, and `TSprite16` and `TRLESprite16` convert a
+24-bit grab to 565 before they minimize. `ImageDecodeTests.PixelReadersReadEveryFormatAsRecorded`
+pins every reader on widths 1 to 17 of each format.
 
 ## 4. Blend tables
 
@@ -181,6 +200,11 @@ The originals compute in `Single` variables with x87 extended intermediates and 
 and proves equality with the probe `blendtables`, which prints a hash of every table (5 by 31 by
 1,024 bytes) from the oracle compiler. If a table differs at a rounding boundary, the port keeps
 the oracle's bytes for that table as a constant, since the tables are derived data, not game data.
+
+In the port `TBlendTable.FTable` is the table's `byte[]` of 1,024 bytes, row `I` at byte `I * 32`,
+where the original holds a pointer to the derived class's own `Table` field. `TBlendTable5Bit.Bytes`
+is that array as a span for the blenders, and `TBlendTable5Bit.Table[I][J]` reads and writes byte
+`I * 32 + J` for the generators. `Assign` copies the 1,024 bytes.
 
 The game selects tables in three ways: `TShowInfo.BlendMode` with `BlendPercentage` through
 `Lookup`, a `bmUser` table passed directly, and the cursor's pulsing alpha in `DrawCursor`,
@@ -396,6 +420,41 @@ frame-table sequence calls `Random(FFrameTable.Count)` while loading. These are 
 uses of the global generator that `testing.md` 3.3 notes: they do not touch game logic because
 `TAoWHSMap.Random` reloads its own seed before every draw, and the frame oracle (section 9) fixes
 `RandSeed` as the playtest harness does so that random animations repeat.
+
+### 6.8 Image buffers in the port
+
+Each image class owns its decoded data as a `byte[]`, and the pictures and the sprite a pitch and
+one view of their rows:
+
+| class | storage | pitch and size |
+|---|---|---|
+| `TPicture08` | `FBuffer`, the rows from byte 0, `View` | `FPitch` as section 6.1, `FPitch * DataHeight + 7` bytes |
+| `TPicture16`, `TTransparentPicture16` | `FBuffer`, the rows from byte 0, `View` | `FPitch` as section 6.1, `FPitch * DataHeight + 7` bytes |
+| `TSprite16` | `FBuffer`, the rows of the sprite rectangle from byte 0, `View` | `FPitch` from `SpriteWidth` as for `$10`, `FPitch * SpriteHeight + 7` bytes |
+| `TRLESprite08` | `FData`, the encoded rows | `DataSize` bytes |
+| `TRLESprite16`, `TTransparentRLESprite16` | `FData`, the encoded rows (section 6.3) | `DataSize` bytes |
+| `TBitMask`, `TShadow` | `FMaskData` (section 6.4) | `FPitch * MaskHeight + 4` bytes |
+
+The original allocates `FBuffer` 7 bytes larger than the rows and points `FBits` (`TPicture08`) or
+`FData` (`TPicture16`, `TSprite16`) at `FBuffer` rounded up to 8 bytes, for MMX. The alignment has
+no effect on pixels, so the port has no aligned pointer: the rows start at the first byte of
+`FBuffer` and the 7 bytes stay after the last row. The pitch and the sizes are the original's. No
+caller and no file sees the size of a buffer: a library file holds `DataSize` and the rows without
+their padding (`WriteDiscardableImageData` writes `DataWidth` bytes or `DataWidth * 2` bytes per
+row). `View` is a `SurfaceView` over the whole buffer with the pitch, so `Show`, `ShowBlended`,
+`ShowTransparent`, the stretched draws and `RemapToPixelFormat` pass `View.At(SX * 2 + SY * FPitch)`
+or `View` to the blitters. The decoders of section 5.2 take the encoded data and the masks as
+`ReadOnlySpan<byte>`, the RLE remappers as `Span<byte>`. The encoders (`GrabImage` of `TRLESprite08`,
+`TRLESprite16` and `TBitMask`) grow the array as the original grows its block (`MemorySurfaces.Reallocate`
+at every 4,096 bytes past `DataSize`) and write words and dwords little-endian at an index. A grab
+reads the grabbed surface through `SD.View()`.
+
+`ImageDecodeTests` pins the classes on the installed libraries (every image of the 538 files: the
+buffer, its pitch and size, and opaque, transparent, blended and stretched draws into both 16-bit
+formats and, for the 8-bit images, an 8-bit surface) and, for the classes the libraries do not hold
+(`TPicture08`, `TBitMask`, `TShadow`), on grabs of installed images from 555, 565, 8-bit and 24-bit
+surfaces, written to a stream and read back. `TTransparentPicture16` grabs nothing and runs the code
+of `TPicture16`.
 
 ## 7. Display controller and frame loop
 
