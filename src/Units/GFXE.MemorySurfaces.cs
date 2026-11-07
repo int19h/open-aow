@@ -228,7 +228,7 @@ public static partial class GFXEUnit
     }
 
     public static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in TSurfaceDesc SD)
-        => Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD.Data, SD.Pitch, SD.ClipRect);
+        => Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD.View());
 
     public static int ColorFillSD(TRect R, int Color, in TSurfaceDesc SD)
     {

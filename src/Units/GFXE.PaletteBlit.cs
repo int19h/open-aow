@@ -1,26 +1,22 @@
-using Aow.Rtl;
+using System.Runtime.InteropServices;
+using Aow.Graphics;
 
 namespace Aow.Units.GFXE;
 
 public static partial class GFXEUnit
 {
-    public static void RemapSurface08to555(object source, object destination, int sourcePitch,
-        int destinationPitch, int width, int height, TGFXEPalette palette) =>
-        RemapIndexedSurface(source, destination, sourcePitch, destinationPitch, width, height, palette, false);
+    public static void RemapSurface08to555(SurfaceView source, SurfaceView destination, int width, int height, TGFXEPalette palette) =>
+        RemapIndexedSurface(source, destination, width, height, palette, false);
 
-    public static void RemapSurface08to565(object source, object destination, int sourcePitch,
-        int destinationPitch, int width, int height, TGFXEPalette palette) =>
-        RemapIndexedSurface(source, destination, sourcePitch, destinationPitch, width, height, palette, true);
+    public static void RemapSurface08to565(SurfaceView source, SurfaceView destination, int width, int height, TGFXEPalette palette) =>
+        RemapIndexedSurface(source, destination, width, height, palette, true);
 
-    private static void RemapIndexedSurface(object source, object destination, int sourcePitch,
-        int destinationPitch, int width, int height, TGFXEPalette palette, bool rgb565)
+    private static void RemapIndexedSurface(SurfaceView source, SurfaceView destination, int width, int height, TGFXEPalette palette, bool rgb565)
     {
-        var input = RtlUnit.BytePointer(source);
-        var output = RtlUnit.BytePointer(destination);
         for (int y = 0; y < height; y++)
         {
-            var src = input + y * sourcePitch;
-            var dst = (output + y * destinationPitch).Reinterpret<ushort>();
+            var src = source.Row(y, width);
+            var dst = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, width * 2));
             for (int x = 0; x < width; x++)
             {
                 ref var entry = ref palette.Entries[src[x]];

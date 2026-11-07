@@ -1,6 +1,7 @@
 // Translated from GFXE.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 using Exception = Aow.Rtl.Exception;
@@ -1609,8 +1610,8 @@ public partial class TSurface : TObject
         TSurfaceDesc SSD = default;
         TRect[] R__cell = new TRect[1];
         ref TRect R = ref R__cell[0];
-        object S;
-        object D;
+        SurfaceView S;
+        SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID)
         {
             if (Succeeded(Dest.Lock(ref DSD)))
@@ -1626,9 +1627,9 @@ public partial class TSurface : TObject
                         SrcRect = Ptr<TRect>.To(R__cell, 0);
                     }
 
-                    S = (SSD.Data + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
-                    D = (DSD.Data + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
-                    GFXEUnit.BltRect(S, D, SSD.Pitch, DSD.Pitch, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
+                    S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
+                    D = DSD.View(X * DSD.BitCount / 8 + Y * DSD.Pitch);
+                    GFXEUnit.BltRect(S, D, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
                     Unlock();
                     Result = GFXEUnit.GFXE_OK;
                 }
@@ -1745,8 +1746,8 @@ public partial class TSurface : TObject
         TSurfaceDesc SSD = default;
         TRect[] R__cell = new TRect[1];
         ref TRect R = ref R__cell[0];
-        object S;
-        object D;
+        SurfaceView S;
+        SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID && (PixelFormatID & 255) == 16)
         {
             if (Succeeded(Dest.Lock(ref DSD)))
@@ -1762,9 +1763,9 @@ public partial class TSurface : TObject
                         SrcRect = Ptr<TRect>.To(R__cell, 0);
                     }
 
-                    S = (SSD.Data + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
-                    D = (DSD.Data + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
-                    GFXEUnit.BltColorKey16(S, D, SSD.Pitch, DSD.Pitch, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
+                    S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
+                    D = DSD.View(X * DSD.BitCount / 8 + Y * DSD.Pitch);
+                    GFXEUnit.BltColorKey16(S, D, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
                     Result = GFXEUnit.GFXE_OK;
                     Unlock();
                 }
@@ -2059,7 +2060,7 @@ public partial class TDataSurface : TSurface
                     SetPalette(SD.Palette);
                     FX = R.Value.Left;
                     FY = R.Value.Top;
-                    GFXEUnit.BltRect((SD.Data + FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)).Box(), FData.Box(), SD.Pitch, FPitch, (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
+                    GFXEUnit.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), SurfaceView.Of(FData, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
                 }
             }
             catch
@@ -2604,6 +2605,9 @@ public partial class TBlendTable5Bit : TBlendTable
 {
     public new FixedArray_byte_32[] Table = new FixedArray_byte_32[32];
 
+    // The 32 by 32 bytes of the table in one span, as the blenders read it.
+    public ReadOnlySpan<byte> Bytes => MemoryMarshal.AsBytes(Table.AsSpan());
+
     // GFXE.pas:9609
     public TBlendTable5Bit()
     {
@@ -2780,7 +2784,7 @@ public partial class TLookupBlendTableCollection100 : TObject
 
 }
 
-public delegate void TBltRectProc(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height);
+public delegate void TBltRectProc(SurfaceView Src, SurfaceView Dst, int Width, int Height);
 public delegate void TProgressEvent(TObject Sender, int Percent, int Param);
 
 // { The implementation list of image file classes (TList of TImageFileClass). }
@@ -3144,8 +3148,8 @@ public static partial class GFXEUnit
         int Result;
         int W;
         int H;
-        object S;
-        object D;
+        SurfaceView S;
+        SurfaceView D;
         if (SrcRect.Right > Src.ClipRect.Right)
         {
             SrcRect.Right = Src.ClipRect.Right;
@@ -3197,9 +3201,9 @@ public static partial class GFXEUnit
             if (W > 0 && H > 0)
             {
                 W = (int)(((uint)(Src.BitCount * W)) >> 3);
-                S = (Src.Data + Src.Pitch * SrcRect.Top + (int)(((uint)(Src.BitCount * SrcRect.Left)) >> 3)).Box();
-                D = (Dest.Data + Dest.Pitch * Y + (int)(((uint)(Dest.BitCount * X)) >> 3)).Box();
-                BltRect(S, D, Src.Pitch, Dest.Pitch, W, H);
+                S = Src.View(Src.Pitch * SrcRect.Top + (int)(((uint)(Src.BitCount * SrcRect.Left)) >> 3));
+                D = Dest.View(Dest.Pitch * Y + (int)(((uint)(Dest.BitCount * X)) >> 3));
+                BltRect(S, D, W, H);
             }
 
             Result = GFXE_OK;
@@ -3217,14 +3221,14 @@ public static partial class GFXEUnit
     {
         int Result;
         int Key;
-        object S;
-        object D;
+        SurfaceView S;
+        SurfaceView D;
         if (Src.BitCount == 16 && Dest.PixelFormatID == Src.PixelFormatID)
         {
             Key = Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
-            S = (Src.Data + Src.Pitch * SrcRect.Top + SrcRect.Left * 2).Box();
-            D = (Dest.Data + Dest.Pitch * Y + X * 2).Box();
-            BltColorKey16(S, D, Src.Pitch, Dest.Pitch, SrcRect.Right - SrcRect.Left, SrcRect.Bottom - SrcRect.Top, Key);
+            S = Src.View(Src.Pitch * SrcRect.Top + SrcRect.Left * 2);
+            D = Dest.View(Dest.Pitch * Y + X * 2);
+            BltColorKey16(S, D, SrcRect.Right - SrcRect.Left, SrcRect.Bottom - SrcRect.Top, Key);
             Result = GFXE_OK;
         }
         else
@@ -3241,8 +3245,8 @@ public static partial class GFXEUnit
         int Result;
         int W;
         int H;
-        object S;
-        object D;
+        SurfaceView S;
+        SurfaceView D;
         int Key;
         if (Src.BitCount == 16 && Dest.BitCount == 16)
         {
@@ -3295,11 +3299,11 @@ public static partial class GFXEUnit
             if (W > 0 && H > 0)
             {
                 Key = Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
-                S = (Src.Data + Src.Pitch * SrcRect.Top + SrcRect.Left * 2).Box();
-                D = (Dest.Data + Dest.Pitch * Y).Box();
+                S = Src.View(Src.Pitch * SrcRect.Top + SrcRect.Left * 2);
+                D = Dest.View(Dest.Pitch * Y);
                 X += X;
-                D = (BytePointer(D) + X).Box();
-                BltColorKey16(S, D, Src.Pitch, Dest.Pitch, W, H, Key);
+                D = D.At(X);
+                BltColorKey16(S, D, W, H, Key);
             }
 
             Result = GFXE_OK;
@@ -3789,145 +3793,114 @@ public static partial class GFXEUnit
     }
 
     // GFXE.pas:8325
-    public static void RemapSurface24to565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height)
+    public static void RemapSurface24to565(SurfaceView Src, SurfaceView Dst, int Width, int Height)
     {
-        Ptr<byte> S;
-        Ptr<ushort> D;
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            S = Ptr<byte>.Unbox((BytePointer(Src) + SrcPitch * Y).Box());
-            D = Ptr<ushort>.Unbox((BytePointer(Dst) + DstPitch * Y).Box());
+            var S = Src.Row(Y, Width * 3);
+            var D = Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
-                D.Value = (ushort)(((S[2] & 248) << 8) + ((S[1] & 252) << 3) + (int)(((uint)S[0]) >> 3));
-                S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 3).Box());
-                D = Ptr<ushort>.Unbox((D.Reinterpret<byte>() + 2).Box());
+                int I = X * 3;
+                D[X] = (ushort)(((S[I + 2] & 248) << 8) + ((S[I + 1] & 252) << 3) + (S[I] >> 3));
             }
         }
     }
 
     // GFXE.pas:8345
-    public static void RemapSurface24to555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height)
+    public static void RemapSurface24to555(SurfaceView Src, SurfaceView Dst, int Width, int Height)
     {
-        Ptr<byte> S;
-        Ptr<ushort> D;
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            S = Ptr<byte>.Unbox((BytePointer(Src) + SrcPitch * Y).Box());
-            D = Ptr<ushort>.Unbox((BytePointer(Dst) + DstPitch * Y).Box());
+            var S = Src.Row(Y, Width * 3);
+            var D = Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
-                D.Value = (ushort)(((S[2] & 248) << 7) + ((S[1] & 248) << 2) + (int)(((uint)S[0]) >> 3));
-                S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 3).Box());
-                D = Ptr<ushort>.Unbox((D.Reinterpret<byte>() + 2).Box());
+                int I = X * 3;
+                D[X] = (ushort)(((S[I + 2] & 248) << 7) + ((S[I + 1] & 248) << 2) + (S[I] >> 3));
             }
         }
     }
 
     // GFXE.pas:8365
-    public static void RemapSurface555to24(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height)
+    public static void RemapSurface555to24(SurfaceView Src, SurfaceView Dst, int Width, int Height)
     {
-        Ptr<byte> D;
-        Ptr<ushort> S;
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            S = Ptr<ushort>.Unbox((BytePointer(Src) + SrcPitch * Y).Box());
-            D = Ptr<byte>.Unbox((BytePointer(Dst) + DstPitch * Y).Box());
+            var S = Words(Src.Row(Y, Width * 2));
+            var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
-                D[2] = (byte)(int)(((uint)(S.Value & 31744)) >> 7);
-                D[1] = (byte)(int)(((uint)(S.Value & 992)) >> 2);
-                D[0] = (byte)((S.Value & 31) << 3);
-                D = Ptr<byte>.Unbox((D.Reinterpret<byte>() + 3).Box());
-                S = Ptr<ushort>.Unbox((S.Reinterpret<byte>() + 2).Box());
+                int I = X * 3;
+                D[I + 2] = (byte)((S[X] & 31744) >> 7);
+                D[I + 1] = (byte)((S[X] & 992) >> 2);
+                D[I] = (byte)((S[X] & 31) << 3);
             }
         }
     }
 
     // GFXE.pas:8386
-    public static void RemapSurface565to24(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height)
+    public static void RemapSurface565to24(SurfaceView Src, SurfaceView Dst, int Width, int Height)
     {
-        Ptr<byte> D;
-        Ptr<ushort> S;
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            S = Ptr<ushort>.Unbox((BytePointer(Src) + SrcPitch * Y).Box());
-            D = Ptr<byte>.Unbox((BytePointer(Dst) + DstPitch * Y).Box());
+            var S = Words(Src.Row(Y, Width * 2));
+            var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
-                D[2] = (byte)(int)(((uint)(S.Value & 63488)) >> 8);
-                D[1] = (byte)(int)(((uint)(S.Value & 2016)) >> 3);
-                D[0] = (byte)((S.Value & 31) << 3);
-                D = Ptr<byte>.Unbox((D.Reinterpret<byte>() + 3).Box());
-                S = Ptr<ushort>.Unbox((S.Reinterpret<byte>() + 2).Box());
+                int I = X * 3;
+                D[I + 2] = (byte)((S[X] & 63488) >> 8);
+                D[I + 1] = (byte)((S[X] & 2016) >> 3);
+                D[I] = (byte)((S[X] & 31) << 3);
             }
         }
     }
 
     // GFXE.pas:8408
     // { Both 32 bit converters produce 555 pixels from bytes 1-3 of the source (original). }
-    public static void RemapSurface32to565(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height)
-    {
-        Ptr<byte> S;
-        Ptr<ushort> D;
-        for (int Y = 0; Y <= Height - 1; Y++)
-        {
-            S = Ptr<byte>.Unbox((BytePointer(Src) + SrcPitch * Y).Box());
-            D = Ptr<ushort>.Unbox((BytePointer(Dst) + DstPitch * Y).Box());
-            for (int X = 0; X <= Width - 1; X++)
-            {
-                D.Value = (ushort)(((S[1] & 248) << 7) + ((S[2] & 248) << 2) + (int)(((uint)S[3]) >> 3));
-                S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 4).Box());
-                D = Ptr<ushort>.Unbox((D.Reinterpret<byte>() + 2).Box());
-            }
-        }
-    }
+    public static void RemapSurface32to565(SurfaceView Src, SurfaceView Dst, int Width, int Height) => RemapSurface32to555(Src, Dst, Width, Height);
 
     // GFXE.pas:8428
-    public static void RemapSurface32to555(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height)
+    public static void RemapSurface32to555(SurfaceView Src, SurfaceView Dst, int Width, int Height)
     {
-        Ptr<byte> S;
-        Ptr<ushort> D;
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            S = Ptr<byte>.Unbox((BytePointer(Src) + SrcPitch * Y).Box());
-            D = Ptr<ushort>.Unbox((BytePointer(Dst) + DstPitch * Y).Box());
+            var S = Src.Row(Y, Width * 4);
+            var D = Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
-                D.Value = (ushort)(((S[1] & 248) << 7) + ((S[2] & 248) << 2) + (int)(((uint)S[3]) >> 3));
-                S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 4).Box());
-                D = Ptr<ushort>.Unbox((D.Reinterpret<byte>() + 2).Box());
+                int I = X * 4;
+                D[X] = (ushort)(((S[I + 1] & 248) << 7) + ((S[I + 2] & 248) << 2) + (S[I + 3] >> 3));
             }
         }
     }
 
     // GFXE.pas:8490
-    public static void RemapSurface08to24(object Src, object Dst, int SrcPitch, int DstPitch, int Width, int Height, TGFXEPalette Palette)
+    public static void RemapSurface08to24(SurfaceView Src, SurfaceView Dst, int Width, int Height, TGFXEPalette Palette)
     {
-        Ptr<byte> S;
-        Ptr<byte> D;
-        Ptr<TPaletteEntry> E;
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            S = Ptr<byte>.Unbox((BytePointer(Src) + SrcPitch * Y).Box());
-            D = Ptr<byte>.Unbox((BytePointer(Dst) + DstPitch * Y).Box());
+            var S = Src.Row(Y, Width);
+            var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
-                E = Ptr<TPaletteEntry>.To(Palette.Entries, S.Value);
-                D[2] = E.Value.R;
-                D[1] = E.Value.G;
-                D[0] = E.Value.B;
-                S = Ptr<byte>.Unbox((S.Reinterpret<byte>() + 1).Box());
-                D = Ptr<byte>.Unbox((D.Reinterpret<byte>() + 3).Box());
+                ref var E = ref Palette.Entries[S[X]];
+                int I = X * 3;
+                D[I + 2] = E.R;
+                D[I + 1] = E.G;
+                D[I] = E.B;
             }
         }
     }
 
+    // The 16-bit pixels of a row, little-endian as the original's PWord.
+    private static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
+
     // GFXE.pas:8513
     public static int RemapSurfacePart(in TSurfaceDesc Src, int SrcX, int SrcY, int Width, int Height, in TSurfaceDesc Dest, int DestX, int DestY)
     {
-        object S;
-        object D;
+        SurfaceView S;
+        SurfaceView D;
         int Result = GFXE_OK;
         if (SrcX + Width > Src.Width)
         {
@@ -3979,24 +3952,24 @@ public static partial class GFXEUnit
 
         if (Width > 0 && Height > 0)
         {
-            S = (Src.Data + Src.Pitch * SrcY + (int)(((uint)(Src.BitCount + 7)) >> 3) * SrcX).Box();
-            D = (Dest.Data + Dest.Pitch * DestY + (int)(((uint)(Dest.BitCount + 7)) >> 3) * DestX).Box();
+            S = Src.View(Src.Pitch * SrcY + (int)(((uint)(Src.BitCount + 7)) >> 3) * SrcX);
+            D = Dest.View(Dest.Pitch * DestY + (int)(((uint)(Dest.BitCount + 7)) >> 3) * DestX);
             switch (Src.PixelFormatID)
             {
                 case pfPAL8:
                     switch (Dest.PixelFormatID)
                     {
                         case pfRGB565:
-                            RemapSurface08to565(S, D, Src.Pitch, Dest.Pitch, Width, Height, Src.Palette);
+                            RemapSurface08to565(S, D, Width, Height, Src.Palette);
                             break;
                         case pfRGB555:
-                            RemapSurface08to555(S, D, Src.Pitch, Dest.Pitch, Width, Height, Src.Palette);
+                            RemapSurface08to555(S, D, Width, Height, Src.Palette);
                             break;
                         case pfRGB24:
-                            RemapSurface08to24(S, D, Src.Pitch, Dest.Pitch, Width, Height, Src.Palette);
+                            RemapSurface08to24(S, D, Width, Height, Src.Palette);
                             break;
                         case pfPAL8:
-                            BltRect(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            BltRect(S, D, Width, Height);
                             break;
                         default:
                             Result = GFXE_NOTSUPPORTED;
@@ -4009,16 +3982,16 @@ public static partial class GFXEUnit
                     switch (Dest.PixelFormatID)
                     {
                         case pfRGB24:
-                            RemapSurface555to24(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface555to24(S, D, Width, Height);
                             break;
                         case pfRGB32:
-                            RemapSurface555to32(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface555to32(S, D, Width, Height);
                             break;
                         case pfRGB565:
-                            RemapSurface555to565(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface555to565(S, D, Width, Height);
                             break;
                         case pfRGB555:
-                            BltRect(S, D, Src.Pitch, Dest.Pitch, Width * 2, Height);
+                            BltRect(S, D, Width * 2, Height);
                             break;
                         default:
                             Result = GFXE_NOTSUPPORTED;
@@ -4030,16 +4003,16 @@ public static partial class GFXEUnit
                     switch (Dest.PixelFormatID)
                     {
                         case pfRGB24:
-                            RemapSurface565to24(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface565to24(S, D, Width, Height);
                             break;
                         case pfRGB32:
-                            RemapSurface565to32(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface565to32(S, D, Width, Height);
                             break;
                         case pfRGB555:
-                            RemapSurface565to555(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface565to555(S, D, Width, Height);
                             break;
                         case pfRGB565:
-                            BltRect(S, D, Src.Pitch, Dest.Pitch, Width * 2, Height);
+                            BltRect(S, D, Width * 2, Height);
                             break;
                         default:
                             Result = GFXE_NOTSUPPORTED;
@@ -4051,13 +4024,13 @@ public static partial class GFXEUnit
                     switch (Dest.PixelFormatID)
                     {
                         case pfRGB565:
-                            RemapSurface24to565(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface24to565(S, D, Width, Height);
                             break;
                         case pfRGB555:
-                            RemapSurface24to555(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface24to555(S, D, Width, Height);
                             break;
                         case pfRGB24:
-                            BltRect(S, D, Src.Pitch, Dest.Pitch, Width * 3, Height);
+                            BltRect(S, D, Width * 3, Height);
                             break;
                         default:
                             Result = GFXE_NOTSUPPORTED;
@@ -4069,13 +4042,13 @@ public static partial class GFXEUnit
                     switch (Dest.PixelFormatID)
                     {
                         case pfRGB565:
-                            RemapSurface32to565(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface32to565(S, D, Width, Height);
                             break;
                         case pfRGB555:
-                            RemapSurface32to555(S, D, Src.Pitch, Dest.Pitch, Width, Height);
+                            RemapSurface32to555(S, D, Width, Height);
                             break;
                         case pfRGB32:
-                            BltRect(S, D, Src.Pitch, Dest.Pitch, Width * 4, Height);
+                            BltRect(S, D, Width * 4, Height);
                             break;
                         default:
                             Result = GFXE_NOTSUPPORTED;
@@ -4580,13 +4553,13 @@ public static partial class GFXEUnit
         T.Width = T.Width - 8;
         if (T.Width > 0)
         {
-            BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
             for (int I = 0, last = BltProcCount - 1; I <= last; I++)
             {
                 Start = GetElapsedMilliSeconds();
                 for (int J = 0; J <= Count - 1; J++)
                 {
-                    BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
                 }
 
                 Stop = GetElapsedMilliSeconds();
@@ -4626,13 +4599,13 @@ public static partial class GFXEUnit
         T.Width = T.Width - 16;
         if (T.Width > 0)
         {
-            BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
             for (int I = 0, last = BltProcCount - 1; I <= last; I++)
             {
                 Start = GetElapsedMilliSeconds();
                 for (int J = 0; J <= Count - 1; J++)
                 {
-                    BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
                 }
 
                 Stop = GetElapsedMilliSeconds();
@@ -4672,13 +4645,13 @@ public static partial class GFXEUnit
         T.Width = T.Width - 16;
         if (T.Width > 0)
         {
-            BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
             for (int I = 0, last = BltProcCount - 1; I <= last; I++)
             {
                 Start = GetElapsedMilliSeconds();
                 for (int J = 0; J <= Count - 1; J++)
                 {
-                    BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
                 }
 
                 Stop = GetElapsedMilliSeconds();
@@ -4718,13 +4691,13 @@ public static partial class GFXEUnit
         T.Width = T.Width - 16;
         if (T.Width > 0)
         {
-            BltProcs[0](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
             for (int I = 0, last = BltProcCount - 1; I <= last; I++)
             {
                 Start = GetElapsedMilliSeconds();
                 for (int J = 0; J <= Count - 1; J++)
                 {
-                    BltProcs[I](T.Src, T.Dst, T.SrcPitch, T.DstPitch, T.Width, T.Height);
+                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
                 }
 
                 Stop = GetElapsedMilliSeconds();

@@ -78,8 +78,9 @@ record's layout is part of the original's contract. The port's `TSurfaceDesc`
 `Ptr<byte>` and `Palette` a `TGFXEPalette`. No code of the port reads it as bytes: the original's
 `FillChar(SD, SizeOf(SD), 0)` is `SD = default` and its `Move(SD, FSurfaceDesc, SizeOf(SD))` an
 assignment. There is one descriptor type. It lives in the units project because `TGFXEPalette`
-does, and the rewritten routines of `Aow.Graphics`, which sit below the units, take the
-descriptor's `Data`, `Pitch` and `ClipRect` as parameters.
+does, and the rewritten routines of `Aow.Graphics`, which sit below the units, take a
+`SurfaceView` that `TSurfaceDesc.View(Offset)` builds from the descriptor's `Data`, `Pitch` and
+`ClipRect` (section 5.2).
 
 ### 3.2 Pixel formats
 
@@ -149,10 +150,11 @@ aowInt and the drawing code of AoWEPACK:
 | `PWord(X + X + Integer(SD.Data) + Y * SD.Pitch)^` | `SD.Data.U16At(X + X + Y * SD.Pitch)`, a typed read at a byte offset |
 | `Inc(Integer(P), SD.Pitch)`, `Dec(Integer(P), n)` | `P += n`, `P -= n` |
 | `Inc(P)` on `PWord` | `P += 2` in bytes, the element size |
-| `PIntArray(Integer(RowTable) + H * 4)` | `RowTable.Slice(H * 4)` as `Ptr<int>` |
-| `Integer(FData)` stored as a value in an integer array (`TPicture16.ShowOpaqueStretched`, `RowTable^[I] := C * FPitch + Integer(FData)`) | not expressible: the four stretched `Show` methods of `TPicture16` (`ShowOpaqueStretched`, `ShowBlendedStretched`) are overrides that build the row table as an `int[]` of byte offsets and pass `FData` to the rewritten `BltStretched16` as the base |
+| `PIntArray(Integer(RowTable) + H * 4)` | one `int[]` of `H + W` entries, the row table its first `H` as a `Span<int>` and the column table the rest |
+| `Integer(FData)` stored as a value in an integer array (`TPicture16.ShowOpaqueStretched`, `RowTable^[I] := C * FPitch + Integer(FData)`) | not expressible: the four stretched `Show` methods of `TPicture16` (`ShowOpaqueStretched`, `ShowBlendedStretched`) are overrides that build the row table as byte offsets and pass a `SurfaceView` of `FData` to the rewritten `BltStretched16` as the base |
 | `GetMem`, `ReallocMem`, `FreeMem` of pixel buffers | `Ptr<byte>` over a `byte[]` of the size, reallocation copies |
 | `FillChar(P^, n, v)`, `Move(S^, D^, n)` | `Ptr` spans |
+| an untyped `Pointer` and a pitch passed to a blitter | a `SurfaceView` (section 5.2), tables and encoded images as byte spans |
 
 A probe `pointers` (section 10) exercises each row on the oracle compiler before the graphics units
 are transpiled.
@@ -198,10 +200,22 @@ few bit tests); `transpiler.md` section 8.2 covers them.
 
 ### 5.2 The blitters
 
-Every routine below becomes a static C# method on `Aow.Graphics.Blit` with the same name and the
-same parameter list, pointers as `Ptr<byte>` and `const SD: TSurfaceDesc` as the descriptor's
-`Data`, `Pitch` and `ClipRect` (section 3.1). The `GFXEUnit` and `ImageLibUnit` routines that call
-them keep `in TSurfaceDesc`. The
+Every routine below becomes a static C# method on `Aow.Graphics.Blit` with the same name. A
+pointer and its pitch, and `const SD: TSurfaceDesc`, become a `SurfaceView` (`src/Graphics/
+SurfaceView.cs`): a `ref struct` with the whole block of memory as a `Span<byte>`, the byte index
+of the first pixel of row 0 in it (`Start`), the signed pitch (negative for the bottom-up
+`TWindows08DIBSurface`) and the clip rectangle for the routines that clip. A routine addresses the
+block by index (`Row(y, count)` slices a row, `Word` and `Dword` read and write at a byte offset,
+little-endian), so the view never moves and the rows of a bottom-up bitmap need nothing special.
+Callers build the view from a descriptor with `TSurfaceDesc.View(Offset)`, the offset being the
+original's pointer arithmetic, and from an image buffer with `SurfaceView.Of(Pointer, Pitch)`. A
+blend table, a remap table and a palette are `ReadOnlySpan<byte>` (`TBlendTable5Bit.Bytes`), the
+encoded RLE and mask data a byte span, the stretch tables `ReadOnlySpan<int>`. The `GFXEUnit`
+wrappers take the same views with the original's names, `TBltRectProc` included, and the
+`ImageLibUnit` ones keep `in TSurfaceDesc`. The alignment tests of the assembler (the "paired"
+paths below, the head and tail bytes of the copies) read `Start`, which is the original pointer's
+offset in its block. A row that runs past the end of its block ends with the block, so a routine
+writes the pixels inside and raises at its first access beyond the end, as the pointer did. The
 semantics column is the contract. Where the semantics say "paired", the assembler processes two
 pixels per step when the destination is dword aligned and the run is long enough, with a different
 mask on the high pixel, and the result differs from the single-pixel formula in the low bit of one
@@ -212,17 +226,18 @@ GFXE (all `pascal` calling convention in the original, irrelevant in C#):
 
 | routine | semantics |
 |---|---|
-| `BltRect`, `RegisterBltRect`, `FPBltRect`, `RepMovsdBltRect`, `MMXBltRect` | copy `Width` bytes of `Height` rows from `Src` (pitch `SrcPitch`) to `Dst` (pitch `DstPitch`). One implementation, `BltRect`; the variants were a speed choice of `GetOptimalGFXESettings` and produce the same bytes |
+| `BltRect`, `RegisterBltRect`, `FPBltRect`, `RepMovsdBltRect`, `MMXBltRect` | copy `Width` bytes of `Height` rows from `Src` to `Dst`, row 0 first. The variants were a speed choice of `GetOptimalGFXESettings` and write the same bytes for separate rows that lie inside their blocks, which the port copies with `Span.CopyTo` per row. They differ where the order of writes shows, and there each keeps the original's loop: `RegisterBltRect` (and `BltRect`, which is it) aligns the source to 4 with single bytes, copies pairs of dwords, a dword and the tail bytes, and when the head and tail exceed `Width` its dword count wraps around and the loop runs off the block (the port raises). `MMXBltRect` and `FPBltRect` align to 8 for rows of 31 bytes or more and copy blocks of 32 bytes read whole before the first write, the floating point one writing the four quadwords last to first, then dwords and bytes. Their row loop tests the height after the first row, so a zero height with a row shorter than 31 bytes runs on until it leaves the block. `RepMovsdBltRect` copies a row shorter than 4 bytes byte by byte, a longer one as the bytes that align its end, the dwords and the tail. A destination that starts inside the source row after its first byte (a shift to the right within one block) repeats bytes in a pattern set by each loop's step, so the port runs the original loop for such a row, for a row that leaves its block and for the wrapped count. No caller of the game copies within one surface (the sources are back surfaces, image buffers and saved surfaces distinct from their destinations), so the overlap and overrun rules hold only for the probe and the unit tests (`BlitterTests`) |
 | `BltColorKey16(Src, Dst, SrcPitch, DstPitch, Width, Height, ColorKey)` | copy `Width` 16-bit pixels per row except pixels equal to `ColorKey` |
 | `BltTransparent555`, `BltTransparent565` | 50 percent blend of source over destination without a color key: `((s and M) + (d and M)) shr 1` per pixel, with `M = $7BDF` (555) and `$F7DF` (565) for single pixels; paired dwords use `$7BDE7BDF` and `$F7DEF7DF`. Used by `TPicture16.ShowTransparent` and `TSprite16` |
-| `BltStretched16(RowTable, ColTable, Dst, DstPitch, Width, Height)` | nearest neighbour: `Dst[y][x] = Row(y)[Col(x)]` where `RowTable[y]` is the source row (an address in the original, a byte offset from the base in the port) and `ColTable[x]` the source column |
+| `BltStretched16(RowTable, ColTable, Dst, DstPitch, Width, Height)` | nearest neighbour: `Dst[y][x] = Row(y)[Col(x)]` where `RowTable[y]` is the source row (an address in the original, a byte offset from the source view's first pixel in the port, `BltStretched16(Source, RowTable, ColTable, Dst, Width, Height)`) and `ColTable[x]` the source column |
 | `FillInt(Dest, Count, Value)`, `FillWord`, `FillTrippleByte` | fill `Count` elements of 4, 2 or 3 bytes |
 | `RemapSurface16to16(Src, Dst, Table, ...)`, `RemapSurface16to08`, `RemapSurface16to32` | per pixel table lookup, `Dst = Table[Src]` with a 65,536-entry table of the destination size |
-| `RemapSurface555to32`, `RemapSurface565to32`, `RemapSurface555to565`, `RemapSurface565to555` | channel expansion and repacking per pixel. 555 to 565: `(p and $7FE0) shl 1 + (p and $1F)` with the green low bit 0; 565 to 555: `(p and $FFC0) shr 1 + (p and $1F)`; to 32: each 5-bit channel shifted into an 8-bit channel (low bits 0) |
+| `RemapSurface555to32`, `RemapSurface565to32`, `RemapSurface555to565`, `RemapSurface565to555` | channel expansion and repacking per pixel, each pixel read before it is written, so `TImage16.RemapToPixelFormat` converts its own buffer in place. 555 to 565: `(p and $7FE0) shl 1 + (p and $1F)` with the green low bit 0; 565 to 555: `(p and $FFC0) shr 1 + (p and $1F)`; to 32: each 5-bit channel shifted into an 8-bit channel (low bits 0) |
 | `BlendSurface555(Src, Dst, SrcPitch, DstPitch, Width, Height, Table)`, `BlendSurface565` | per pixel, per channel: `Dst.ch = Table[Src.ch5, Dst.ch5]` where `ch5` is the channel's top 5 bits; for 565 the green low bit of source and destination is dropped and the result green is written with its low bit 0. Paired |
 | `BlendColorKey555`, `BlendColorKey565` | as `BlendSurface`, skipping source pixels equal to `ColorKey` |
 | `BlendStretched555`, `BlendStretched565` | `BltStretched16` with the blend of `BlendSurface` instead of the copy |
 | `RDTSC`, `CPUIDSupported`, `MMXsupport` | `0`, `False`, `False` |
+| `RemapSurface24to565`, `RemapSurface24to555`, `RemapSurface555to24`, `RemapSurface565to24`, `RemapSurface32to565`, `RemapSurface32to555`, `RemapSurface08to24`, `RemapSurface08to555`, `RemapSurface08to565` | Pascal, not assembler, but rewritten on views with the blitters (`GFXE.cs`, `GFXE.PaletteBlit.cs`): per pixel conversion as `GFXE.pas:8325` to `8513` writes it. Both 32-bit converters produce 555 pixels from bytes 1 to 3 of the source, as the original does. `RemapSurfacePart` calls them |
 
 ImageLib:
 

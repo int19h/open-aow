@@ -1,18 +1,29 @@
-using Aow.Rtl;
+using Aow.Graphics;
 using Aow.Units.GFXE;
 
 namespace Aow.Units.ImageLib;
 
+// The assembler sprite routines of ImageLib.pas (graphics.md 5.2). The encoded image data and the
+// palette are byte spans, the descriptor gives the destination view and its clip rectangle.
 public static partial class ImageLibUnit
 {
-    public static void RemapRLE565to555(object Data, int Height, int ColorKey) => Graphics.Blit.RemapRLE565to555(RtlUnit.BytePointer(Data), Height, ColorKey);
-    public static void RemapRLE555to565(object Data, int Height, int ColorKey) => Graphics.Blit.RemapRLE555to565(RtlUnit.BytePointer(Data), Height, ColorKey);
-    public static void BltRLE16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => Graphics.Blit.BltRLE16(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height, ColorKey);
-    public static void BlendRLE565(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => Graphics.Blit.BlendRLE565(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height, ColorKey);
-    public static void BlendRLE555(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, int ColorKey) => Graphics.Blit.BlendRLE555(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height, ColorKey);
-    public static void ShowBitMask16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => Graphics.Blit.ShowBitMask16(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height);
-    public static void ShowShadow565(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => Graphics.Blit.ShowShadow565(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height);
-    public static void ShowShadow555(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height) => Graphics.Blit.ShowShadow555(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height);
-    public static void ShowRLE08(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, byte ColorKey) => Graphics.Blit.ShowRLE08(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height, ColorKey);
-    public static void ShowRLE08to16(int X, int Y, in TSurfaceDesc SD, object Data, int Width, int Height, byte ColorKey, object Palette) => Graphics.Blit.ShowRLE08to16(X, Y, SD.Data, SD.Pitch, SD.ClipRect, RtlUnit.BytePointer(Data), Width, Height, ColorKey, RtlUnit.BytePointer(Palette));
+    public static void RemapRLE565to555(Span<byte> Data, int Height, int ColorKey) => Blit.RemapRLE565to555(Data, Height, ColorKey);
+
+    public static void RemapRLE555to565(Span<byte> Data, int Height, int ColorKey) => Blit.RemapRLE555to565(Data, Height, ColorKey);
+
+    public static void BltRLE16(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey) => Blit.BltRLE16(X, Y, SD.View(), Data, Width, Height, ColorKey);
+
+    public static void BlendRLE565(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey) => Blit.BlendRLE565(X, Y, SD.View(), Data, Width, Height, ColorKey);
+
+    public static void BlendRLE555(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height, int ColorKey) => Blit.BlendRLE555(X, Y, SD.View(), Data, Width, Height, ColorKey);
+
+    public static void ShowBitMask16(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height) => Blit.ShowBitMask16(X, Y, SD.View(), Data, Width, Height);
+
+    public static void ShowShadow565(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height) => Blit.ShowShadow565(X, Y, SD.View(), Data, Width, Height);
+
+    public static void ShowShadow555(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height) => Blit.ShowShadow555(X, Y, SD.View(), Data, Width, Height);
+
+    public static void ShowRLE08(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height, byte ColorKey) => Blit.ShowRLE08(X, Y, SD.View(), Data, Width, Height, ColorKey);
+
+    public static void ShowRLE08to16(int X, int Y, in TSurfaceDesc SD, ReadOnlySpan<byte> Data, int Width, int Height, byte ColorKey, ReadOnlySpan<byte> Palette) => Blit.ShowRLE08to16(X, Y, SD.View(), Data, Width, Height, ColorKey, Palette);
 }
