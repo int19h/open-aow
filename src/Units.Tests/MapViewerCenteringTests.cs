@@ -116,10 +116,13 @@ public sealed class MapViewerCenteringTests
         Assert.Equal((96, 5), (x, y));
         x = 47;
         Assert.False(viewer.SceneToMapMouse(ref x, ref y));
-        x = 352;
+        x = 351;
         y = 5;
         Assert.True(viewer.SceneToMapMouse(ref x, ref y));
-        Assert.Equal(400, x);
+        Assert.Equal(399, x);
+        // The first black column right of the map is outside.
+        x = 352;
+        Assert.False(viewer.SceneToMapMouse(ref x, ref y));
 
         // The scene point 390 lies past MaxXhp 336 and inside the map at 310.
         var mouse = fixture.Map.Mouse;

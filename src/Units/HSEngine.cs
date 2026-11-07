@@ -5286,6 +5286,11 @@ public partial class THSMapViewer : TComponent
                     X = 0;
                     Y = 0;
                 }
+                else if (FCenteredSurface != null)
+                {
+                    FCenteredSurface.Free();
+                    FCenteredSurface = null;
+                }
 
                 VerifyStaticSurface(Surface);
                 R.Left = X;
@@ -5397,7 +5402,7 @@ public partial class THSMapViewer : TComponent
         }
 
         Shown = GetMapDisplayRect();
-        if (X < Shown.Left || X > Shown.Right || Y < Shown.Top || Y > Shown.Bottom)
+        if (X < Shown.Left || X >= Shown.Right || Y < Shown.Top || Y >= Shown.Bottom)
         {
             return false;
         }
