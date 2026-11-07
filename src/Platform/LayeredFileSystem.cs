@@ -92,6 +92,8 @@ public sealed class LayeredFileSystem : IFileSystem
 
     public string ExtractRelativePath(string baseFile, string destination)
     {
+        // SysUtils: an empty base has no drive and no path, so the destination comes back unchanged.
+        if (baseFile.Length == 0) return destination;
         static bool DirectoryPath(string path) => path.EndsWith('\\') || path.EndsWith('/');
         string[] first = Relative(baseFile).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);
         string[] second = Relative(destination).Split(Path.DirectorySeparatorChar, StringSplitOptions.RemoveEmptyEntries);

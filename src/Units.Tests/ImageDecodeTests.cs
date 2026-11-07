@@ -461,6 +461,10 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     private static void WithImageClasses(Action body)
     {
         var previousClasses = Images.LibraryImageClasses;
+        // Engine startup sets the base to the startup directory, so a library stores its name
+        // relative to it and loads its on-demand images from there.
+        var previousBase = Images.BaseImageLibraryPath;
+        Images.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         var previousTables = (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable);
         (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
@@ -480,6 +484,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         {
             Images.LibraryImageClasses.Destroy();
             Images.LibraryImageClasses = previousClasses;
+            Images.BaseImageLibraryPath = previousBase;
             G.AlphaBlendTable.Free();
             G.IntensityBlendTable.Free();
             G.BrightenBlendTable.Free();
