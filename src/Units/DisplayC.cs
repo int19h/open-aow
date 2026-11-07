@@ -2509,13 +2509,14 @@ public partial class TDDrawFullScr32DC : TDDrawFullScrDC
 }
 
 // an 8 bit bottom-up DIB of a TWindows08DC, drawn with the bitmap info and palette of its
-// owner. FWidth, FHeight, FMem, FBits (FMem aligned to 8), FPitch (negative), FOwner
+// owner. FWidth, FHeight, FMem, FBits (FMem aligned to 8), FPitch (negative), FOwner. The port's
+// FMem is the pixel array and FBits addresses its first byte (graphics.md 3.4).
 public partial class TWindows08DIBSurface : TSurface
 {
     internal int FWidth;
     internal int FHeight;
-    internal Ptr<byte> FMem;
-    internal object FBits;
+    internal byte[] FMem;
+    internal Ptr<byte> FBits;
     internal int FPitch;
     internal TWindows08DC FOwner;
     // DisplayC.pas:2011
@@ -2528,7 +2529,8 @@ public partial class TWindows08DIBSurface : TSurface
     // DisplayC.pas:2018
     public override void Destroy()
     {
-        FMem = FMem.Realloc(0);
+        FMem = null;
+        FBits = default;
         base.Destroy();
     }
 
@@ -2568,7 +2570,7 @@ public partial class TWindows08DIBSurface : TSurface
         SD.ClipRect.Bottom = FHeight;
         SD.Pitch = FPitch;
         SD.Palette = FOwner.FPalette;
-        SD.Data = (BytePointer(FBits) + Math.Abs(FHeight * FPitch) + FPitch).Box();
+        SD.Data = FBits + Math.Abs(FHeight * FPitch) + FPitch;
         return 0;
     }
 
@@ -2606,8 +2608,8 @@ public partial class TWindows08DIBSurface : TSurface
             bitmapInfoHeader.biWidth = Math.Abs(FPitch);
             bitmapInfoHeader.biHeight = FHeight;
 
-            FMem = FMem.Realloc(Math.Abs(FPitch * FHeight) + 7);
-            FBits = AlignPointer(FMem + 7, ~7).Box();
+            FMem = MemorySurfaces.Reallocate(FMem, Math.Abs(FPitch * FHeight));
+            FBits = Ptr<byte>.To(FMem, 0);
             Result = 0;
         }
         else

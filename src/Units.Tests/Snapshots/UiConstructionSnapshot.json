@@ -5058,8 +5058,16 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.data": 0,
-                "TSurfaceDesc.palette": 0
+                "TSurfaceDesc.Data": {
+                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Ptr`1.Array": null,
+                  "Ptr`1.Index": 0,
+                  "Ptr`1.byteOffset": 0,
+                  "Ptr`1.storage": null,
+                  "Ptr`1.storageBytes": 0,
+                  "Ptr`1.view": null
+                },
+                "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSource2": {
                 "$type": "Aow.Units.GFXE.TSurfaceDesc",
@@ -5079,8 +5087,16 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.data": 0,
-                "TSurfaceDesc.palette": 0
+                "TSurfaceDesc.Data": {
+                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Ptr`1.Array": null,
+                  "Ptr`1.Index": 0,
+                  "Ptr`1.byteOffset": 0,
+                  "Ptr`1.storage": null,
+                  "Ptr`1.storageBytes": 0,
+                  "Ptr`1.view": null
+                },
+                "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSourceX1": 0,
               "TPageTurnControl.FSourceX2": 0,
@@ -5292,8 +5308,16 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.data": 0,
-                "TSurfaceDesc.palette": 0
+                "TSurfaceDesc.Data": {
+                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Ptr`1.Array": null,
+                  "Ptr`1.Index": 0,
+                  "Ptr`1.byteOffset": 0,
+                  "Ptr`1.storage": null,
+                  "Ptr`1.storageBytes": 0,
+                  "Ptr`1.view": null
+                },
+                "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSource2": {
                 "$type": "Aow.Units.GFXE.TSurfaceDesc",
@@ -5313,8 +5337,16 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.data": 0,
-                "TSurfaceDesc.palette": 0
+                "TSurfaceDesc.Data": {
+                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+                  "Ptr`1.Array": null,
+                  "Ptr`1.Index": 0,
+                  "Ptr`1.byteOffset": 0,
+                  "Ptr`1.storage": null,
+                  "Ptr`1.storageBytes": 0,
+                  "Ptr`1.view": null
+                },
+                "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSourceX1": 0,
               "TPageTurnControl.FSourceX2": 0,

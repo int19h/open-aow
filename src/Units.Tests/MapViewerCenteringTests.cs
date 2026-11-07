@@ -59,7 +59,7 @@ public sealed class MapViewerCenteringTests
         {
             TSurfaceDesc sd = default;
             Target.Lock(ref sd);
-            var data = RtlApi.BytePointer(sd.Data);
+            var data = sd.Data;
             int at = y * sd.Pitch + x * 2;
             int value = data[at] | data[at + 1] << 8;
             Target.Unlock();

@@ -93,8 +93,8 @@ public partial class TPageTurnControl : TObject
         int SourceY;
         int Height;
         int Y;
-        object SourceP;
-        object DestP;
+        Span<byte> Source;
+        int SourceP;
         int SourcePitch;
         if (Dest.ClipRect.Left <= DestX && DestX < Dest.ClipRect.Right)
         {
@@ -115,19 +115,23 @@ public partial class TPageTurnControl : TObject
 
             if (Height > 0)
             {
+                // The pointers of the original are byte indexes into the surfaces' memory.
                 if (SourceX < FWidth * 2)
                 {
-                    SourceP = (BytePointer(FSource1.Data) + (FSourceX1 + SourceX) * 2 + (FSourceY1 + SourceY) * FSource1.Pitch).Box();
+                    Source = FSource1.Data.StorageAsBytes(out SourceP);
+                    SourceP += (FSourceX1 + SourceX) * 2 + (FSourceY1 + SourceY) * FSource1.Pitch;
                     SourcePitch = FSource1.Pitch;
                 }
                 else
                 {
-                    SourceP = (BytePointer(FSource2.Data) + (SourceX - FWidth * 2 + FSourceX2) * 2 + (FSourceY2 + SourceY) * FSource2.Pitch).Box();
+                    Source = FSource2.Data.StorageAsBytes(out SourceP);
+                    SourceP += (SourceX - FWidth * 2 + FSourceX2) * 2 + (FSourceY2 + SourceY) * FSource2.Pitch;
                     SourcePitch = FSource2.Pitch;
                 }
 
-                DestP = (BytePointer(Dest.Data) + DestX * 2 + Dest.Pitch * Y).Box();
-                PageTurnCtrlUnit.BltColumn(SourceP, SourcePitch, DestP, Dest.Pitch, Height);
+                var Destination = Dest.Data.StorageAsBytes(out int DestP);
+                DestP += DestX * 2 + Dest.Pitch * Y;
+                PageTurnCtrlUnit.BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
             }
         }
     }
@@ -521,15 +525,16 @@ public enum TPageTurnMode : byte
 public static partial class PageTurnCtrlUnit
 {
     // PageTurnCtrl.pas:108
-    public static void BltColumn(object Source, int SourcePitch, object Dest, int DestPitch, int Height)
+    // Source and Dest are byte indexes into the two memories. Each step copies one 16-bit pixel.
+    public static void BltColumn(ReadOnlySpan<byte> SourceMemory, int Source, int SourcePitch, Span<byte> DestMemory, int Dest, int DestPitch, int Height)
     {
         while (Height > 0)
         {
-            ushort value__22 = MemoryMarshal.Read<ushort>(BytePointer(Source).AsSpan(2));
-            MemoryMarshal.Write(BytePointer(Dest).AsSpan(2), in value__22);
+            ushort value__22 = MemoryMarshal.Read<ushort>(SourceMemory.Slice(Source, 2));
+            MemoryMarshal.Write(DestMemory.Slice(Dest, 2), in value__22);
 
-            Source = (BytePointer(Source) + SourcePitch).Box();
-            Dest = (BytePointer(Dest) + DestPitch).Box();
+            Source += SourcePitch;
+            Dest += DestPitch;
             Height -= 1;
         }
     }

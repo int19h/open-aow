@@ -41,20 +41,34 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         return MemoryMarshal.CreateSpan(ref Value, count);
     }
     public readonly Span<T> AsSpan() => AsSpan((StorageBytes - ByteIndex) / Unsafe.SizeOf<T>());
+    // The whole backing storage as bytes and this pointer's byte index into it, for loops that
+    // step by a pitch in either direction and index the storage instead of moving a pointer.
+    public readonly Span<byte> StorageAsBytes(out int byteIndex)
+    {
+        if (IsNull) throw new NullReferenceException();
+        if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
+            throw new EInvalidCast("Byte storage requires unmanaged elements");
+        byteIndex = ByteIndex;
+        return MemoryMarshal.CreateSpan(ref MemoryMarshal.GetArrayDataReference((System.Array)Storage!), StorageBytes);
+    }
     public readonly Ptr<U> Reinterpret<U>(int offset = 0)
     {
         if (IsNull) return default;
         if (RuntimeHelpers.IsReferenceOrContainsReferences<T>() || RuntimeHelpers.IsReferenceOrContainsReferences<U>())
             throw new EInvalidCast("Pointer view requires unmanaged elements");
-        var pointer = this;
-        return new Ptr<U>
-        {
-            storage = Storage,
-            storageBytes = StorageBytes,
-            byteOffset = ByteIndex + offset,
-            view = (int i) => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref Unsafe.As<T, byte>(ref pointer.RawReference(0)), offset + i * Unsafe.SizeOf<U>()))
-        };
+        // The same type at the same address is the pointer itself, so a box, unbox and offset
+        // round trip builds no view.
+        if (typeof(U) == typeof(T) && offset == 0) return Unsafe.As<Ptr<T>, Ptr<U>>(ref Unsafe.AsRef(in this));
+        // A view addresses the original array at a byte offset. It never captures another view,
+        // so reading through a chain of reinterpretations costs one step.
+        var root = (System.Array)Storage!;
+        int start = ByteIndex + offset;
+        return new Ptr<U> { storage = root, storageBytes = StorageBytes, byteOffset = start, view = View<U>(root, start) };
     }
+    private static PointerElement<U> View<U>(System.Array root, int start)
+        => (int i) => ref Unsafe.As<byte, U>(ref Unsafe.Add(ref MemoryMarshal.GetArrayDataReference(root), start + i * Unsafe.SizeOf<U>()));
+    // The state a view captures, for the tests that pin that views never nest.
+    internal readonly object? ViewState => view?.Target;
     public static implicit operator Span<T>(Ptr<T> pointer) => pointer.AsSpan();
     public static implicit operator ReadOnlySpan<T>(Ptr<T> pointer) => pointer.AsSpan();
     public static Ptr<T> To(T[] array, int index) => new() { Array = array, Index = index };

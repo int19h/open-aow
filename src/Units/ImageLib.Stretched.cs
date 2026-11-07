@@ -72,7 +72,7 @@ public partial class TPicture16
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = (RtlUnit.BytePointer(SD.Data) + L * 2 + SD.Pitch * T).Box();
+                Dst = (SD.Data + L * 2 + SD.Pitch * T).Box();
                 RowTable = Ptr<int>.Alloc(W + H);
                 ColTable = (RowTable.Reinterpret<byte>() + H * 4).Reinterpret<int>();
                 XStep = RtlUnit.Round((double)65535 / XScale);
@@ -239,7 +239,7 @@ public partial class TPicture16
             H = B - T;
             if (W > 0 && H > 0)
             {
-                Dst = (RtlUnit.BytePointer(SD.Data) + L * 2 + SD.Pitch * T).Box();
+                Dst = (SD.Data + L * 2 + SD.Pitch * T).Box();
                 RowTable = Ptr<int>.Alloc(W + H);
                 ColTable = (RowTable.Reinterpret<byte>() + H * 4).Reinterpret<int>();
                 XStep = RtlUnit.Round((double)65535 / XScale);

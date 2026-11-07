@@ -4,22 +4,21 @@ namespace Aow.Graphics;
 
 public static partial class Blit
 {
-    private static bool Visible(int x, int y, in TSurfaceDesc sd) => x >= sd.ClipRect.Left && x < sd.ClipRect.Right && y >= sd.ClipRect.Top && y < sd.ClipRect.Bottom;
-    public static void BltRLE16(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, sd, data, w, h, key, false, false);
-    public static void BlendRLE555(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, sd, data, w, h, key, true, false);
-    public static void BlendRLE565(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, sd, data, w, h, key, true, true);
-    private static void Rle16(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, int key, bool blend, bool rgb565)
+    private static bool Visible(int x, int y, in TRect clip) => x >= clip.Left && x < clip.Right && y >= clip.Top && y < clip.Bottom;
+    public static void BltRLE16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, dst, pitch, clip, data, w, h, key, false, false);
+    public static void BlendRLE555(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, dst, pitch, clip, data, w, h, key, true, false);
+    public static void BlendRLE565(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key) => Rle16(x, y, dst, pitch, clip, data, w, h, key, true, true);
+    private static void Rle16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, int key, bool blend, bool rgb565)
     {
-        if (w <= 0 || h <= 0 || x >= sd.ClipRect.Right || x + w <= sd.ClipRect.Left || y >= sd.ClipRect.Bottom || y + h <= sd.ClipRect.Top) return;
-        var dst = RtlUnit.BytePointer(sd.Data);
-        bool fast = x >= sd.ClipRect.Left && x + w <= sd.ClipRect.Right;
+        if (w <= 0 || h <= 0 || x >= clip.Right || x + w <= clip.Left || y >= clip.Bottom || y + h <= clip.Top) return;
+        bool fast = x >= clip.Left && x + w <= clip.Right;
         int row = 0;
         for (int ry = 0; ry < h; ry++)
         {
             int length = (int)Dword(data, row), end = row + length, p = row + 4, dx = x;
-            if (y + ry >= sd.ClipRect.Top && y + ry < sd.ClipRect.Bottom)
+            if (y + ry >= clip.Top && y + ry < clip.Bottom)
             {
-                int dest = (y + ry) * sd.Pitch + x * 2;
+                int dest = (y + ry) * pitch + x * 2;
                 if (blend && fast) FastRleBlend(data, p, length - 4, dst, dest, key, rgb565);
                 else while (p < end)
                 {
@@ -27,9 +26,9 @@ public static partial class Blit
                     if (pixel == key) { dx += Word(data, p) / 2; p += 2; }
                     else
                     {
-                        if (Visible(dx, y + ry, sd))
+                        if (Visible(dx, y + ry, clip))
                         {
-                            int at = (y + ry) * sd.Pitch + dx * 2;
+                            int at = (y + ry) * pitch + dx * 2;
                             Word(dst, at, blend ? Half(pixel, Word(dst, at), rgb565) : pixel);
                         }
                         dx++;
@@ -95,12 +94,11 @@ public static partial class Blit
     }
     public static void RemapRLE555to565(Ptr<byte> data, int h, int key) => RemapRle(data, h, key, true);
     public static void RemapRLE565to555(Ptr<byte> data, int h, int key) => RemapRle(data, h, key, false);
-    public static void ShowRLE08(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, byte key) => Rle08(x, y, sd, data, w, h, key, default, false);
-    public static void ShowRLE08to16(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, byte key, Ptr<byte> palette) => Rle08(x, y, sd, data, w, h, key, palette, true);
-    private static void Rle08(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, byte key, Ptr<byte> palette, bool paletteMode)
+    public static void ShowRLE08(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, byte key) => Rle08(x, y, dst, pitch, clip, data, w, h, key, default, false);
+    public static void ShowRLE08to16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, byte key, Ptr<byte> palette) => Rle08(x, y, dst, pitch, clip, data, w, h, key, palette, true);
+    private static void Rle08(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, byte key, Ptr<byte> palette, bool paletteMode)
     {
         int p = 0;
-        var dst = RtlUnit.BytePointer(sd.Data);
         for (int ry = 0; ry < h; ry++)
         {
             p += 4;
@@ -111,19 +109,19 @@ public static partial class Blit
                 else
                 {
                     // ShowRLE08 ignores the clip rectangle. The palette variant clips.
-                    if (!paletteMode) dst[(y + ry) * sd.Pitch + x + dx] = pixel;
-                    else if (Visible(x + dx, y + ry, sd)) Word(dst, (y + ry) * sd.Pitch + (x + dx) * 2, Word(palette, pixel * 4));
+                    if (!paletteMode) dst[(y + ry) * pitch + x + dx] = pixel;
+                    else if (Visible(x + dx, y + ry, clip)) Word(dst, (y + ry) * pitch + (x + dx) * 2, Word(palette, pixel * 4));
                     dx++;
                 }
             }
         }
     }
-    public static void ShowBitMask16(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h) => Mask(x, y, sd, data, w, h, false, false);
-    public static void ShowShadow555(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h) => Mask(x, y, sd, data, w, h, true, false);
-    public static void ShowShadow565(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h) => Mask(x, y, sd, data, w, h, true, true);
-    private static void Mask(int x, int y, in TSurfaceDesc sd, Ptr<byte> data, int w, int h, bool shadow, bool rgb565)
+    public static void ShowBitMask16(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h) => Mask(x, y, dst, pitch, clip, data, w, h, false, false);
+    public static void ShowShadow555(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h) => Mask(x, y, dst, pitch, clip, data, w, h, true, false);
+    public static void ShowShadow565(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h) => Mask(x, y, dst, pitch, clip, data, w, h, true, true);
+    private static void Mask(int x, int y, Ptr<byte> dst, int pitch, in TRect clip, Ptr<byte> data, int w, int h, bool shadow, bool rgb565)
     {
-        int clipLeft = sd.ClipRect.Left, clipRight = sd.ClipRect.Right, clipTop = sd.ClipRect.Top, clipBottom = sd.ClipRect.Bottom;
+        int clipLeft = clip.Left, clipRight = clip.Right, clipTop = clip.Top, clipBottom = clip.Bottom;
         if (x + w < clipLeft || x >= clipRight || clipRight <= clipLeft || y + h < clipTop || y >= clipBottom || clipBottom <= clipTop)
             return;
         int words = (w + 31) >> 5, sourcePitch = words * 4;
@@ -139,13 +137,12 @@ public static partial class Blit
             if (right >= 0) { limit -= right * 2; words -= (right >> 5) + 1; }
         }
         if (clipped && words == 0 && left == 0) throw new EAccessViolation("Original clipped mask loop underflows its word count");
-        var dst = RtlUnit.BytePointer(sd.Data);
         int m1 = rgb565 ? 0x7BEF : 0x3DEF, m2 = rgb565 ? 0xE79C : 0x739C;
         uint pair1 = rgb565 ? 0x7BEF7BEFu : 0x3DEF3DEFu, pair2 = rgb565 ? 0xE79CE79Cu : 0x739C739Cu;
         int Dark(int at) { int p = Word(dst, at); return ((p >> 1) & m1) + ((p & m2) >> 2); }
         for (int ry = first; ry < last; ry++)
         {
-            int p = ry * sourcePitch + skip * 4, d = (y + ry) * sd.Pitch + x * 2, offset = left * 2, next = 64, remaining = words;
+            int p = ry * sourcePitch + skip * 4, d = (y + ry) * pitch + x * 2, offset = left * 2, next = 64, remaining = words;
             uint bits = Dword(data, p);
             if (left != 0) { bits <<= left; p += 4; }
             else if (!shadow) p += 4;

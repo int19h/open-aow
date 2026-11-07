@@ -1473,25 +1473,25 @@ public partial class TSurface : TObject
                 switch (SD.PixelFormatID)
                 {
                     case GFXEUnit.pfRGB555:
-                        W = MemoryMarshal.Read<ushort>((BytePointer(SD.Data) + (X + X) + Y * SD.Pitch).AsSpan(2));
+                        W = MemoryMarshal.Read<ushort>((SD.Data + (X + X) + Y * SD.Pitch).AsSpan(2));
                         Result = (int)(((uint)(W & 31744)) >> 7) + ((W & 992) << 6) + ((W & 31) << 19);
                         break;
                     case GFXEUnit.pfRGB565:
-                        W = MemoryMarshal.Read<ushort>((BytePointer(SD.Data) + (X + X) + Y * SD.Pitch).AsSpan(2));
+                        W = MemoryMarshal.Read<ushort>((SD.Data + (X + X) + Y * SD.Pitch).AsSpan(2));
                         Result = (int)(((uint)(W & 63488)) >> 8) + ((W & 2016) << 5) + ((W & 31) << 19);
                         break;
                     case GFXEUnit.pfPAL8:
                         Assert(SD.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
-                        Index = MemoryMarshal.Read<byte>((BytePointer(SD.Data) + X + Y * SD.Pitch).AsSpan(1));
+                        Index = MemoryMarshal.Read<byte>((SD.Data + X + Y * SD.Pitch).AsSpan(1));
                         P = Ptr<TPaletteEntry>.To(SD.Palette.Entries, Index).Reinterpret<byte>();
                         Result = P[0] + (P[1] << 8) + (P[2] << 16);
                         break;
                     case GFXEUnit.pfRGB24:
-                        P = Ptr<byte>.Unbox((BytePointer(SD.Data) + (X + X + X) + Y * SD.Pitch).Box());
+                        P = Ptr<byte>.Unbox((SD.Data + (X + X + X) + Y * SD.Pitch).Box());
                         Result = P[2] + (P[1] << 8) + (P[0] << 16);
                         break;
                     case GFXEUnit.pfRGB32:
-                        V = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X << 2) + Y * SD.Pitch).AsSpan(4));
+                        V = MemoryMarshal.Read<int>((SD.Data + (X << 2) + Y * SD.Pitch).AsSpan(4));
                         Result = (int)(((uint)(V & 16711680)) >> 16) + (V & 65280) + ((V & 255) << 16);
                         break;
                     default:
@@ -1529,25 +1529,25 @@ public partial class TSurface : TObject
                 switch (SD.BitCount)
                 {
                     case 8:
-                        Result = MemoryMarshal.Read<byte>((BytePointer(SD.Data) + X + Y * SD.Pitch).AsSpan(1));
+                        Result = MemoryMarshal.Read<byte>((SD.Data + X + Y * SD.Pitch).AsSpan(1));
                         break;
                     case 16:
-                        Result = MemoryMarshal.Read<ushort>((BytePointer(SD.Data) + (X + X) + Y * SD.Pitch).AsSpan(2));
+                        Result = MemoryMarshal.Read<ushort>((SD.Data + (X + X) + Y * SD.Pitch).AsSpan(2));
                         break;
                     case 24:
                         if (X + 1 < SD.Width)
                         {
-                            Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X + X + X) + Y * SD.Pitch).AsSpan(4)) & 16777215;
+                            Result = MemoryMarshal.Read<int>((SD.Data + (X + X + X) + Y * SD.Pitch).AsSpan(4)) & 16777215;
                         }
                         else
                         {
-                            P = (BytePointer(SD.Data) + (X + X + X) + Y * SD.Pitch).Box();
+                            P = (SD.Data + (X + X + X) + Y * SD.Pitch).Box();
                             Result = MemoryMarshal.Read<ushort>(BytePointer(P).AsSpan(2)) + (MemoryMarshal.Read<byte>((BytePointer(P) + 2).AsSpan(1)) << 16);
                         }
 
                         break;
                     case 32:
-                        Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X << 2) + Y * SD.Pitch).AsSpan(4));
+                        Result = MemoryMarshal.Read<int>((SD.Data + (X << 2) + Y * SD.Pitch).AsSpan(4));
                         break;
                     default:
                         Assert(false, "Pixel format not supported (GetColor)", "GFXE.pas", 11946);
@@ -1624,8 +1624,8 @@ public partial class TSurface : TObject
                         SrcRect = Ptr<TRect>.To(R__cell, 0);
                     }
 
-                    S = (BytePointer(SSD.Data) + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
-                    D = (BytePointer(DSD.Data) + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
+                    S = (SSD.Data + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
+                    D = (DSD.Data + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
                     GFXEUnit.BltRect(S, D, SSD.Pitch, DSD.Pitch, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
                     Unlock();
                     Result = GFXEUnit.GFXE_OK;
@@ -1760,8 +1760,8 @@ public partial class TSurface : TObject
                         SrcRect = Ptr<TRect>.To(R__cell, 0);
                     }
 
-                    S = (BytePointer(SSD.Data) + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
-                    D = (BytePointer(DSD.Data) + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
+                    S = (SSD.Data + SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch).Box();
+                    D = (DSD.Data + X * DSD.BitCount / 8 + Y * DSD.Pitch).Box();
                     GFXEUnit.BltColorKey16(S, D, SSD.Pitch, DSD.Pitch, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
                     Result = GFXEUnit.GFXE_OK;
                     Unlock();
@@ -1942,7 +1942,7 @@ public partial class TSurface : TObject
             Result = Lock(ref SD);
             if (Succeeded(Result))
             {
-                SD.Data = (BytePointer(SD.Data) + (int)(((uint)(R.Left * SD.BitCount)) >> 3) + R.Top * SD.Pitch).Box();
+                SD.Data = SD.Data + (int)(((uint)(R.Left * SD.BitCount)) >> 3) + R.Top * SD.Pitch;
                 SD.Width = R.Right - R.Left;
                 SD.Height = R.Bottom - R.Top;
                 SD.ClipRect.Right = SD.Width;
@@ -1972,14 +1972,15 @@ public partial class TSurface : TObject
 }
 
 // a surface in memory. FWidth, FHeight, FMem, FData (FMem aligned to 8), FBitCount (Byte),
-// FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette
+// FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette. The port's FMem
+// is the pixel array and FData addresses its first byte (graphics.md 3.4).
 public partial class TDataSurface : TSurface
 {
 
     internal int FWidth;
     internal int FHeight;
-    internal Ptr<byte> FMem;
-    internal object FData;
+    internal byte[] FMem;
+    internal Ptr<byte> FData;
     internal byte FBitCount;
     internal int FPitch;
     internal int FPixelFormatID;
@@ -2006,7 +2007,8 @@ public partial class TDataSurface : TSurface
     {
         FPalette.Free();
         FPalette = null;
-        FMem = FMem.Realloc(0);
+        FMem = null;
+        FData = default;
         base.Destroy();
     }
 
@@ -2054,7 +2056,7 @@ public partial class TDataSurface : TSurface
                     SetPalette(SD.Palette);
                     FX = R.Value.Left;
                     FY = R.Value.Top;
-                    GFXEUnit.BltRect((BytePointer(SD.Data) + FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)).Box(), FData, SD.Pitch, FPitch, (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
+                    GFXEUnit.BltRect((SD.Data + FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)).Box(), FData.Box(), SD.Pitch, FPitch, (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
                 }
             }
             catch
@@ -2098,9 +2100,11 @@ public partial class TDataSurface : TSurface
             FWidth = AWidth;
             FHeight = AHeight;
             FPitch = ((int)(((uint)(FBitCount + 7)) >> 3) * FWidth + 7) & ~7;
-            Size = FPitch * FHeight + 7;
-            FMem = FMem.Realloc(Size);
-            FData = AlignPointer(FMem + 7, ~7).Box();
+            // The original allocates 7 bytes more and aligns FData to 8 for MMX. The alignment has
+            // no effect on pixels, so the port's data starts at the first byte of the array.
+            Size = FPitch * FHeight;
+            FMem = MemorySurfaces.Reallocate(FMem, Size);
+            FData = Ptr<byte>.To(FMem, 0);
             Result = GFXEUnit.GFXE_OK;
         }
         else
@@ -2111,7 +2115,7 @@ public partial class TDataSurface : TSurface
         return Result;
     }
 
-    public object Data { get => FData; }
+    public Ptr<byte> Data { get => FData; }
     public int Pitch { get => FPitch; }
     public TGFXEPalette Palette { get => FPalette; set => SetPalette(value); }
 
@@ -2124,8 +2128,8 @@ public partial class TDIBSurface : TSurface
     internal int FHandle;
     internal int FWidth;
     internal int FHeight;
-    internal Ptr<byte> FMem;
-    internal object FBits;
+    internal byte[] FMem;
+    internal Ptr<byte> FBits;
     internal int FPitch;
     internal int FPixelFormatID;
     internal TBitmapInfoHeader FInfo;
@@ -2164,7 +2168,7 @@ public partial class TDIBSurface : TSurface
         Unlock();
     }
 
-    public object Bits { get => FBits; }
+    public Ptr<byte> Bits { get => FBits; }
     public int Pitch { get => FPitch; }
     public TGFXEPalette Palette { get => FPalette; }
 }
@@ -2175,8 +2179,8 @@ public partial class TDIB08Surface : TSurface
 {
     internal int FWidth;
     internal int FHeight;
-    internal Ptr<byte> FMem;
-    internal object FBits;
+    internal byte[] FMem;
+    internal Ptr<byte> FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
@@ -2201,7 +2205,7 @@ public partial class TDIB16Surface : TSurface
     internal int FHandle;
     internal int FWidth;
     internal int FHeight;
-    internal object FBits;
+    internal Ptr<byte> FBits;
     internal int FPitch;
     internal int FPixelFormatID;
     internal TBitmapInfoHeader FInfo;
@@ -2225,7 +2229,7 @@ public partial class TDIB24Surface : TSurface
     internal int FHandle;
     internal int FWidth;
     internal int FHeight;
-    internal object FBits;
+    internal Ptr<byte> FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
     // GFXE.pas:7238
@@ -2250,8 +2254,8 @@ public partial class TDIB32Surface : TSurface
 {
     internal int FWidth;
     internal int FHeight;
-    internal Ptr<byte> FMem;
-    internal object FBits;
+    internal byte[] FMem;
+    internal Ptr<byte> FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
     // GFXE.pas:7446
@@ -3161,8 +3165,8 @@ public static partial class GFXEUnit
             if (W > 0 && H > 0)
             {
                 W = (int)(((uint)(Src.BitCount * W)) >> 3);
-                S = (BytePointer(Src.Data) + Src.Pitch * SrcRect.Top + (int)(((uint)(Src.BitCount * SrcRect.Left)) >> 3)).Box();
-                D = (BytePointer(Dest.Data) + Dest.Pitch * Y + (int)(((uint)(Dest.BitCount * X)) >> 3)).Box();
+                S = (Src.Data + Src.Pitch * SrcRect.Top + (int)(((uint)(Src.BitCount * SrcRect.Left)) >> 3)).Box();
+                D = (Dest.Data + Dest.Pitch * Y + (int)(((uint)(Dest.BitCount * X)) >> 3)).Box();
                 BltRect(S, D, Src.Pitch, Dest.Pitch, W, H);
             }
 
@@ -3186,8 +3190,8 @@ public static partial class GFXEUnit
         if (Src.BitCount == 16 && Dest.PixelFormatID == Src.PixelFormatID)
         {
             Key = Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
-            S = (BytePointer(Src.Data) + Src.Pitch * SrcRect.Top + SrcRect.Left * 2).Box();
-            D = (BytePointer(Dest.Data) + Dest.Pitch * Y + X * 2).Box();
+            S = (Src.Data + Src.Pitch * SrcRect.Top + SrcRect.Left * 2).Box();
+            D = (Dest.Data + Dest.Pitch * Y + X * 2).Box();
             BltColorKey16(S, D, Src.Pitch, Dest.Pitch, SrcRect.Right - SrcRect.Left, SrcRect.Bottom - SrcRect.Top, Key);
             Result = GFXE_OK;
         }
@@ -3259,8 +3263,8 @@ public static partial class GFXEUnit
             if (W > 0 && H > 0)
             {
                 Key = Color2PixelInfo(ColorKey, Src.PixelFormatID, null);
-                S = (BytePointer(Src.Data) + Src.Pitch * SrcRect.Top + SrcRect.Left * 2).Box();
-                D = (BytePointer(Dest.Data) + Dest.Pitch * Y).Box();
+                S = (Src.Data + Src.Pitch * SrcRect.Top + SrcRect.Left * 2).Box();
+                D = (Dest.Data + Dest.Pitch * Y).Box();
                 X += X;
                 D = (BytePointer(D) + X).Box();
                 BltColorKey16(S, D, Src.Pitch, Dest.Pitch, W, H, Key);
@@ -3283,16 +3287,16 @@ public static partial class GFXEUnit
         switch (SD.BitCount)
         {
             case 8:
-                Result = MemoryMarshal.Read<byte>((BytePointer(SD.Data) + X + SD.Pitch * Y).AsSpan(1));
+                Result = MemoryMarshal.Read<byte>((SD.Data + X + SD.Pitch * Y).AsSpan(1));
                 break;
             case 16:
-                Result = MemoryMarshal.Read<ushort>((BytePointer(SD.Data) + X + X + SD.Pitch * Y).AsSpan(2));
+                Result = MemoryMarshal.Read<ushort>((SD.Data + X + X + SD.Pitch * Y).AsSpan(2));
                 break;
             case 24:
-                Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + X * 3 + SD.Pitch * Y).AsSpan(4)) & 16777215;
+                Result = MemoryMarshal.Read<int>((SD.Data + X * 3 + SD.Pitch * Y).AsSpan(4)) & 16777215;
                 break;
             case 32:
-                Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + X * 4 + SD.Pitch * Y).AsSpan(4));
+                Result = MemoryMarshal.Read<int>((SD.Data + X * 4 + SD.Pitch * Y).AsSpan(4));
                 break;
             default:
                 throw Exception.Create("PixelFormat is not supported");
@@ -3405,7 +3409,7 @@ public static partial class GFXEUnit
     {
         Dest = Src;
         IntersectRect(ref Dest.ClipRect, Src.ClipRect, R);
-        Dest.Data = (BytePointer(Src.Data) + R.Top * Src.Pitch + (int)(((uint)Src.BitCount) >> 3) * R.Left).Box();
+        Dest.Data = Src.Data + R.Top * Src.Pitch + (int)(((uint)Src.BitCount) >> 3) * R.Left;
         Dest.ClipRect.Left -= R.Left;
         Dest.ClipRect.Right -= R.Left;
         Dest.ClipRect.Top -= R.Top;
@@ -3429,25 +3433,25 @@ public static partial class GFXEUnit
             switch (SD.BitCount)
             {
                 case 8:
-                    Result = MemoryMarshal.Read<byte>((BytePointer(SD.Data) + X + SD.Pitch * Y).AsSpan(1));
+                    Result = MemoryMarshal.Read<byte>((SD.Data + X + SD.Pitch * Y).AsSpan(1));
                     break;
                 case 16:
-                    Result = MemoryMarshal.Read<ushort>((BytePointer(SD.Data) + X + X + SD.Pitch * Y).AsSpan(2));
+                    Result = MemoryMarshal.Read<ushort>((SD.Data + X + X + SD.Pitch * Y).AsSpan(2));
                     break;
                 case 24:
                     if (X + 1 < SD.Width)
                     {
-                        Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X + X + X) + SD.Pitch * Y).AsSpan(4)) & 16777215;
+                        Result = MemoryMarshal.Read<int>((SD.Data + (X + X + X) + SD.Pitch * Y).AsSpan(4)) & 16777215;
                     }
                     else
                     {
-                        P = (BytePointer(SD.Data) + (X + X + X) + SD.Pitch * Y).Box();
+                        P = (SD.Data + (X + X + X) + SD.Pitch * Y).Box();
                         Result = MemoryMarshal.Read<ushort>(BytePointer(P).AsSpan(2)) + (MemoryMarshal.Read<byte>((BytePointer(P) + 2).AsSpan(1)) << 16);
                     }
 
                     break;
                 case 32:
-                    Result = MemoryMarshal.Read<int>((BytePointer(SD.Data) + (X << 2) + SD.Pitch * Y).AsSpan(4));
+                    Result = MemoryMarshal.Read<int>((SD.Data + (X << 2) + SD.Pitch * Y).AsSpan(4));
                     break;
                 default:
                     throw Exception.Create("PixelFormat is not supported");
@@ -3550,16 +3554,16 @@ public static partial class GFXEUnit
             switch (SD__value.BitCount)
             {
                 case 8:
-                    Result = MemoryMarshal.Read<byte>((BytePointer(SD__value.Data) + X + SD__value.Pitch * Y).AsSpan(1));
+                    Result = MemoryMarshal.Read<byte>((SD__value.Data + X + SD__value.Pitch * Y).AsSpan(1));
                     break;
                 case 16:
-                    Result = MemoryMarshal.Read<ushort>((BytePointer(SD__value.Data) + X + X + SD__value.Pitch * Y).AsSpan(2));
+                    Result = MemoryMarshal.Read<ushort>((SD__value.Data + X + X + SD__value.Pitch * Y).AsSpan(2));
                     break;
                 case 24:
-                    Result = MemoryMarshal.Read<int>((BytePointer(SD__value.Data) + X * 3 + SD__value.Pitch * Y).AsSpan(4)) & 16777215;
+                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 3 + SD__value.Pitch * Y).AsSpan(4)) & 16777215;
                     break;
                 case 32:
-                    Result = MemoryMarshal.Read<int>((BytePointer(SD__value.Data) + X * 4 + SD__value.Pitch * Y).AsSpan(4));
+                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 4 + SD__value.Pitch * Y).AsSpan(4));
                     break;
                 default:
                     throw Exception.Create("PixelFormat is not supported");
@@ -3650,16 +3654,16 @@ public static partial class GFXEUnit
             switch (SD__value.BitCount)
             {
                 case 8:
-                    Result = MemoryMarshal.Read<byte>((BytePointer(SD__value.Data) + X + SD__value.Pitch * Y).AsSpan(1));
+                    Result = MemoryMarshal.Read<byte>((SD__value.Data + X + SD__value.Pitch * Y).AsSpan(1));
                     break;
                 case 16:
-                    Result = MemoryMarshal.Read<ushort>((BytePointer(SD__value.Data) + X + X + SD__value.Pitch * Y).AsSpan(2));
+                    Result = MemoryMarshal.Read<ushort>((SD__value.Data + X + X + SD__value.Pitch * Y).AsSpan(2));
                     break;
                 case 24:
-                    Result = MemoryMarshal.Read<int>((BytePointer(SD__value.Data) + X * 3 + SD__value.Pitch * Y).AsSpan(4)) & 16777215;
+                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 3 + SD__value.Pitch * Y).AsSpan(4)) & 16777215;
                     break;
                 case 32:
-                    Result = MemoryMarshal.Read<int>((BytePointer(SD__value.Data) + X * 4 + SD__value.Pitch * Y).AsSpan(4));
+                    Result = MemoryMarshal.Read<int>((SD__value.Data + X * 4 + SD__value.Pitch * Y).AsSpan(4));
                     break;
                 default:
                     throw Exception.Create("PixelFormat is not supported");
@@ -3943,8 +3947,8 @@ public static partial class GFXEUnit
 
         if (Width > 0 && Height > 0)
         {
-            S = (BytePointer(Src.Data) + Src.Pitch * SrcY + (int)(((uint)(Src.BitCount + 7)) >> 3) * SrcX).Box();
-            D = (BytePointer(Dest.Data) + Dest.Pitch * DestY + (int)(((uint)(Dest.BitCount + 7)) >> 3) * DestX).Box();
+            S = (Src.Data + Src.Pitch * SrcY + (int)(((uint)(Src.BitCount + 7)) >> 3) * SrcX).Box();
+            D = (Dest.Data + Dest.Pitch * DestY + (int)(((uint)(Dest.BitCount + 7)) >> 3) * DestX).Box();
             switch (Src.PixelFormatID)
             {
                 case pfPAL8:
@@ -4194,7 +4198,7 @@ public static partial class GFXEUnit
         SD.ClipRect.Right = DDSD.dwWidth;
         SD.ClipRect.Top = 0;
         SD.ClipRect.Bottom = DDSD.dwHeight;
-        SD.Data = DDSD.lpSurface;
+        SD.Data = BytePointer(DDSD.lpSurface);
         var masKtoPFID = MASKtoPFID(DDSD.ddpfPixelFormat.dwRGBBitCount, DDSD.ddpfPixelFormat.dwRBitMask, DDSD.ddpfPixelFormat.dwGBitMask, DDSD.ddpfPixelFormat.dwBBitMask, DDSD.ddpfPixelFormat.dwRGBAlphaBitMask);
         SD.PixelFormatID = masKtoPFID;
         SD.RMask = DDSD.ddpfPixelFormat.dwRBitMask;
