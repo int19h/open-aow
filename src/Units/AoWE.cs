@@ -15905,7 +15905,9 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     public void MouseMoved(TObject Sender)
     {
         TAoWMapField Field;
-        if (Mouse.Capture == null && Mouse.Xhx != -1)
+        // The original tests Xhx only and with Yhx -1 read memory before the field block. The
+        // port treats that point as off the map.
+        if (Mouse.Capture == null && Mouse.Xhx != -1 && Mouse.Yhx != -1)
         {
             var yhx = Mouse.Yhx;
             var xhx = Mouse.Xhx;

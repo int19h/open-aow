@@ -6952,7 +6952,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                             }
                         }
 
-                        if (AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1)
+                        if (AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1 && AoWTCUnit.AoWCombatMap.Mouse.Yhx != -1)
                         {
                             var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
                             var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
@@ -7002,7 +7002,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     {
                         if (AoWTCUnit.AoWCombatMap.Mouse.Shift.Contains(TShiftState.ssCtrl))
                         {
-                            if (FMoveSettingsList.GetCount() > 0 && AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1)
+                            if (FMoveSettingsList.GetCount() > 0 && AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1 && AoWTCUnit.AoWCombatMap.Mouse.Yhx != -1)
                             {
                                 var yhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
                                 var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
@@ -7055,7 +7055,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                         }
                         else
                         {
-                            if (AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1)
+                            if (AoWTCUnit.AoWCombatMap.Mouse.Xhx != -1 && AoWTCUnit.AoWCombatMap.Mouse.Yhx != -1)
                             {
                                 if (GetTCUnitHS() != null)
                                 {
