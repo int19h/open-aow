@@ -3,3 +3,6 @@
 
 # FMT-1: dotnet format under .editorconfig, and one blank line between members (MemberSpacing).
 4db4611f99d410927210ccf14e24e5040aaa7ee3
+
+# FMT-2: file-scoped namespaces (IDE0161).
+067bee20e74af8608acadaa71ec415c11ab1ab0f
