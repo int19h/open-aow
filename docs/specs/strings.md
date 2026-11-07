@@ -54,8 +54,8 @@ and implicit ones at `FilesAndTime.cs:155, 156, 198` (`ExpandFileName`, `GetCurr
 
 The private repository depends on the type too: `tests/localization` (48 uses), `tools/forms`
 (5), `tools/oracle/Tests` (2) and the transpiler emitter (38 sites in 7 files, `Emitter.cs:276`
-maps `TypeKind.String` to `Aow.Rtl.AnsiString`). The probes layer transpiles the `.pas` probes and
-compiles them against the product `src/Rtl`, so the emitter and the shim change together. The
+maps `TypeKind.String` to `Aow.Rtl.AnsiString`). The gate no longer translates the `.pas` probes.
+The forms model still builds the transpiler, because `Forms.Model` references that assembly. The
 forms generator holds form text as Latin-1 byte chars (`tools/forms/Generator/FormTree.cs:17`,
 `Program.cs:41`), and the Python tools read game text with the `cp1252` codec
 (`tests/localization/generate.py:15`).

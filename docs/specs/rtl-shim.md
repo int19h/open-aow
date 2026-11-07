@@ -134,10 +134,8 @@ copy, which handles overlap like `Move`) and `Fill(Ptr<T> dst, int n, T value)`.
 gives a view of the same storage as another unmanaged type, which never nests (a view addresses
 the original array at a byte offset).
 
-`Box()` returns a `PtrBox<T> : TObject` holding the pointer, for the record addresses the source
-passes as `TObject` or `Integer` (`transpiler.md` 4.3, addresses of records). `Ptr<T>.Unbox(object)`
-and `Unbox(IntOrRef)` give the pointer back and throw on any other object, and `FromBox` also
-reads a box of another element type through `IPointerBox`. `Ptr<byte>.Unbox(string)` is the
+A `PtrBox<T> : TObject` holds a pointer. Tests construct it directly. `Ptr<T>.Unbox(object)`
+gives that pointer back and throws on any other object. `Ptr<byte>.Unbox(string)` is the
 zero-terminated copy of section 1.2. `Bytes.Of(ref T)` is the `Span<byte>` over an unmanaged
 struct for the untyped buffer routines (`GetCRC32`, `Move`, `FillChar`, `CompareMem` with
 `SizeOf`).
@@ -148,13 +146,9 @@ typed `Move`, `FillChar`, `GetMem`, `ReallocMem`, `FreeMem`, `New` and `Dispose`
 record address passed as `TObject`), and the box cases of `BufferBytes` and `TList.IndexOf`. The
 units hold no `Ptr<T>` since the graphics slices GP-1 to GP-4 (`graphics.md` 3.5): blocks of
 records are arrays, pixels are a `byte[]` with a byte index, optional rectangles are `TRect?`.
-The transpiler still targets the first-stage shape, so the RTL keeps what its output needs: the
-implicit conversions from `Ptr<T>` to `Span<T>` and `ReadOnlySpan<T>`, and
-`RtlUnit.BytePointer(object)`, which reads a boxed pointer as bytes. The transpiled probes and the
-reference output compile against them, and the product units do not call them.
-None of the units calls these members or creates a box, so they remain for the tests of the RTL
-and are candidates for removal. Records grown and shifted as arrays use `RtlUnit.ReallocArray`,
-`MoveElements` and `ClearElements` (section 2.4).
+They do not convert a pointer to a span and they do not read a boxed pointer as bytes.
+`ReadLegacyRecord` recovers a record through `Unbox(object)`. Records grown and shifted as arrays
+use `RtlUnit.ReallocArray`, `MoveElements` and `ClearElements` (section 2.4).
 
 ### 1.5 IntOrRef and MsgArg
 
@@ -164,8 +158,8 @@ a string slot that holds no string. `Value` of a reference is its `InstanceId`, 
 id from the same counter. `Ref` of an integer is `null`. The first stage used it wherever the
 source overlays a reference and an integer (`transpiler.md` 4.3). Since milestone 9.6 it remains
 only in `THashItem.Key` (`Engine.cs` and `HashTabU.cs`), where `THashList` keeps an integer key
-and `TStringHashItem` a string in the same slot, and in `Ptr<T>.Unbox(IntOrRef)` (1.4), until the
-collections pass gives each hash list a typed key. The message slots took `MsgArg` and the blend
+and `TStringHashItem` a string in the same slot, until the collections pass gives each hash list
+a typed key. The message slots took `MsgArg` and the blend
 slot of `TShowInfo` took the union `BlendValue` of the units (`unions-and-kinds.md` 3.3).
 
 `MsgArg` (`MsgArg.cs`, brief 9.6-4) is the slot of an engine message, a 32-bit word of the
@@ -580,17 +574,23 @@ file systems by directory listing, because the data files use mixed case (`Image
 
 ## 8. Testing
 
-Unit tests in `src/Rtl.Tests/` for every member in this document, with fixtures from the probes
-where a probe exists. The probe outputs come from `tests/probes/expected/` (`transpiler.md`
-section 11): the shim test loads the expected text and compares the shim's output for the same
-calls. Where the probe cannot run (host-dependent members), the test states the expected behavior
-from `CLASSES.PAS` or `SYSUTILS.PAS` with the source line in a comment.
+Unit tests in `src/Rtl.Tests` cover the members in this document. Where a Delphi probe recorded
+library behavior, the recording ships in `src/Rtl.Tests/Probes` and the test reads that file.
+The tests do not look up a private checkout. Where the probe cannot run (host-dependent members),
+the test states the expected behavior from `CLASSES.PAS` or `SYSUTILS.PAS` with the source line
+in a comment.
 
-Done measures:
+The gate's probes layer runs the hand-written graphics probes `blitters`, `libraries` and
+`blendtables` against their recordings. It does not translate Delphi probes. The transpiler is
+not a gate layer. The forms model still builds `Transpiler.slnx`, because `Forms.Model`
+references that assembly and reads `tools/transpile/reference/overrides.toml`.
 
-1. R1: the core types of section 1 exist, with tests, and a hand-written C# file in the style of
-   the transpiler's output compiles against them.
+The early done measures named the probe runner as the check:
+
+1. R1: the core types of section 1 exist, with tests.
 2. R2: every member the shim demand list names after the first transpiler run over Engine exists.
-3. R3: the probes `random`, `strings`, `format`, `lists`, `streams`, `files`, `floats` pass
-   against the shim.
+3. R3: the probes `random`, `strings`, `format`, `lists`, `streams`, `files` and `floats` were
+   the gate check for those routines. The same facts now live in `src/Rtl.Tests` and read the
+   copied recordings, together with `sets`, `integers`, `integer-list-slots`, `record-move` and
+   `reference-fill`.
 4. R4: every member the demand list names after the run over the whole transpile set exists.

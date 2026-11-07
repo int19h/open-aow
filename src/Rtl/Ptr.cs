@@ -71,11 +71,6 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public static Ptr<T> To(T[] array, int index) => new() { Array = array, Index = index };
 
-    // The transpiler emits these where a pointer meets a span parameter (section 1.4 of
-    // rtl-shim.md). The product units do not use them.
-    public static implicit operator Span<T>(Ptr<T> pointer) => pointer.AsSpan();
-
-    public static implicit operator ReadOnlySpan<T>(Ptr<T> pointer) => pointer.AsSpan();
     // SYSTEM.PAS:1042 returns nil without calling the allocator for size zero.
     public static Ptr<T> Alloc(int count) => count == 0 ? default : To(new T[count], 0);
 
@@ -119,20 +114,13 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
         destination.AsSpan(count).Fill(value);
     }
 
-    public readonly PtrBox<T> Box() => new(this);
     public readonly Ptr<U> As<U>() => Reinterpret<U>();
 
     public static Ptr<T> Unbox(object? value) => value is PtrBox<T> box ? box.Pointer
         : throw new EInvalidCast("Object is not a box of the requested pointer type");
 
-    public static Ptr<T> Unbox(IntOrRef value) => Unbox(value.Ref);
-
     public static Ptr<T> Unbox(string value) => typeof(T) == typeof(byte) ? (Ptr<T>)(object)Ptr<byte>.To([.. Cp1252.Encode(value), 0], 0)
         : throw new EInvalidCast("A string pointer requires byte elements");
-
-    public static Ptr<T> FromBox(object? value) => value is PtrBox<T> box ? box.Pointer
-        : value is IPointerBox pointer ? pointer.As<T>()
-        : throw new EInvalidCast("Object has no pointer storage");
 }
 
 public interface IPointerBox

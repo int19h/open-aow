@@ -36,12 +36,10 @@ image registry recording. `EClassBaseline.json` remains the readable class-id ta
 
 ## Run and regenerate
 
-From the product root, set `AOW_PRIVATE` to the private checkout for the RTL probe
-fixtures. Without it, the RTL tests look for a sibling `open-aow-private` checkout.
-Missing fixtures report the resolved root and the variable in the test skip output.
+The RTL probe recordings ship in `src/Rtl.Tests/Probes` and the tests read them
+from the build output. They do not read `AOW_PRIVATE`.
 
 ```powershell
-$env:AOW_PRIVATE = 'D:\git\open-aow-private'
 $env:AOW_GAME_ROOT = 'D:\Games\GOG\Age of Wonders'
 $env:AOW_MUTE = '1'
 $env:SDL_AUDIODRIVER = 'dummy'

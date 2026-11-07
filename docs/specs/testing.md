@@ -13,14 +13,14 @@ frame comparison, and how they fit together in one command. The tooling under `t
 | layer | proves | tool | where specified |
 |---|---|---|---|
 | unit tests | one C# member behaves as documented | xUnit in `src/*.Tests` | `rtl-shim.md` section 8 |
-| probes | the transpiler and the shim together reproduce Delphi semantics | `tests/probes/run.py` | `transpiler.md` section 11, this document section 2 |
+| probes | the hand-written graphics probes match the Delphi recordings | `tools/forms/verify_probes.py` | this document section 2 |
 | round trip | the persistence path is byte exact | `tests/roundtrip/` | `persistence.md` section 4 |
 | headless oracle | the rules play the same game as the Delphi build | `tools/oracle/` | section 3 |
 | frame comparison | the renderer draws the same pixels | `tools/oracle/frames.py` | section 4 |
 | strings checks | text stays one code page 1252 char per byte, no game string is null, and no swallowed error goes unseen | `StringsRewrite --check`, the strict switch, the exception census, the sort dump | section 6 |
 | play | a person plays a scenario | none | `../process.md` |
 
-`python tools/check.py` runs all 13 layers of the gate (`check_support.LAYERS` in the private
+`python tools/check.py` runs all 12 layers of the gate (`check_support.LAYERS` in the private
 repository), the probes first, the others concurrently and pacing last, prints PASS or FAIL for
 each and fails unless every layer passes.
 It is the command the implementer runs before reporting, and the command the design session runs
@@ -35,11 +35,15 @@ per line, and nothing that varies between runs (no addresses, no times). The run
    executable. The output is the expected text, stored in `tests/probes/expected/<name>.txt` and
    committed, with the probe source. A probe is recompiled only when its source changes, by a
    hash recorded next to the expected text.
-2. Transpiles the probe with the transpiler (`transpiler.md` section 1) into
-   `tests/probes/generated/<name>/`,
-   builds it against `src/Rtl` with `dotnet build`, runs it and captures the output.
-3. Compares the two outputs line by line and prints the first differing line with both texts.
-   A difference the specification accepts is listed in `tests/probes/accepted/<name>.txt`, one
+2. The gate does not translate these programs. Its probes layer runs the hand-written programs
+   `blitters.cs`, `libraries.cs` and `blendtables.cs` and compares their output with the recordings.
+   Library facts are unit tests in `src/Rtl.Tests` that read copies of the recordings in
+   `src/Rtl.Tests/Probes`. The `asm-stubs` recording is product code. `AsmStubsProbeTests` in
+   `src/Units.Tests` calls those routines and compares all 28222 fact lines with the copy in
+   `src/Units.Tests/Probes/asm-stubs.txt`.
+3. `run.py --transpiled` compared a frozen-transpiler build with a recording. That path is
+   outside the gate and unmaintained: the RTL no longer carries `Box`, `FromBox`, `Unbox(IntOrRef)`,
+   `BytePointer` or `ReferenceFromId`, so probes whose emitted C# calls them no longer build. A difference the specification accepts is listed in `tests/probes/accepted/<name>.txt`, one
    label or label pattern per line with the section that accepts it, and the runner then prints
    `match (N accepted)`. Two exist: the raw byte of a non-canonical Boolean (`integers`,
    `transpiler.md` section 7 trap 9) and the order of the `AnsiCompareText` pairs that
@@ -72,6 +76,7 @@ The probe set and what each one covers:
 | `typed-constants` | mutation of typed constants, record and array constants |
 | `init-order` | a program with three units whose `initialization` sections print, in two `uses` orders |
 | `files` | `FindFirst` order over a prepared directory, attribute filtering, `ExtractFileName` and the other path functions |
+| `asm-stubs` | engine and GFXE fills, `TBitList` get, put, load and save, explored flags, ability bits, razed state, hex coordinates and the hex walk |
 
 The `records-layout` probe is special: its expected output is also the test data of the
 transpiler's layout model (the layout tests in `tools/transpile/Transpiler.Tests/`), and the

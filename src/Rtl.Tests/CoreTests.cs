@@ -151,16 +151,16 @@ public sealed class CoreTests
         Assert.Equal(2, nil.Realloc(2).Array!.Length);
         Ptr<int>.Copy(default, default, 0);
         Ptr<int>.Fill(default, -1, 0);
-        var box = pointer.Box();
+        var box = new PtrBox<int>(pointer);
         Assert.Equal(pointer, box.Pointer);
         Assert.Equal(pointer, Ptr<int>.Unbox((object)box));
         IntOrRef slot = box;
-        Assert.Equal(pointer, Ptr<int>.Unbox(slot));
-        Ptr<int>.Unbox(slot).Value = 42;
+        Assert.Equal(pointer, Ptr<int>.Unbox(slot.Ref));
+        Ptr<int>.Unbox(slot.Ref).Value = 42;
         Assert.Equal(42, pointer.Value);
         Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox((object?)null));
         Assert.Throws<EInvalidCast>(() => Ptr<byte>.Unbox(box));
-        Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox((IntOrRef)3));
+        Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox(((IntOrRef)3).Ref));
         string[] words = ["a", "b", "c"];
         var managed = Ptr<string>.To(words, 0);
         Ptr<string>.Copy(managed, managed + 1, 2);
@@ -169,8 +169,8 @@ public sealed class CoreTests
         Assert.Equal(new[] { "a", "z", "z" }, words);
         var cell = new TSampleRecord[1];
         var recordPointer = Ptr<TSampleRecord>.To(cell, 0);
-        IntOrRef payload = recordPointer.Box();
-        Ptr<TSampleRecord>.Unbox(payload).Value.Value = 91;
+        IntOrRef payload = new PtrBox<TSampleRecord>(recordPointer);
+        Ptr<TSampleRecord>.Unbox(payload.Ref).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
     }
 

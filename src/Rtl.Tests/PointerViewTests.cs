@@ -26,14 +26,14 @@ public sealed class PointerViewTests
     public void ExplicitBoxViewsKeepTheOriginalStorageAndOffset()
     {
         var pair = Ptr<Pair>.Alloc(1);
-        IntOrRef payload = pair.Box();
-        var words = Ptr<int>.FromBox(payload.Ref);
+        IntOrRef payload = new PtrBox<Pair>(pair);
+        var words = ((IPointerBox)payload.Ref!).As<int>();
         words[1] = 73;
         Assert.Equal(73, pair.Value.Second);
-        var bytes = Ptr<byte>.FromBox((words + 1).Box());
+        var bytes = ((IPointerBox)new PtrBox<int>(words + 1)).As<byte>();
         Assert.Equal(4, bytes.ByteIndex);
         Assert.Equal(pair.StorageIdentity, bytes.StorageIdentity);
-        Assert.Throws<EInvalidCast>(() => Ptr<string>.FromBox(pair.Box()));
+        Assert.Throws<EInvalidCast>(() => ((IPointerBox)new PtrBox<Pair>(pair)).As<string>());
     }
 
     [Fact]
@@ -50,10 +50,10 @@ public sealed class PointerViewTests
         Ptr<int>.Copy(words, words + 1, 2);
         Assert.Equal(new[] { 17, 17, 23, 0 }, words.AsSpan(4).ToArray());
         var list = new TList();
-        list.Add((words + 1).Box());
-        Assert.Equal(0, list.IndexOf(records.Reinterpret<int>(4).Box()));
-        Assert.Equal(-1, list.IndexOf(words.Box()));
-        Assert.Throws<EInvalidCast>(() => Ptr<byte>.Unbox(words.Box()));
+        list.Add(new PtrBox<int>(words + 1));
+        Assert.Equal(0, list.IndexOf(new PtrBox<int>(records.Reinterpret<int>(4))));
+        Assert.Equal(-1, list.IndexOf(new PtrBox<int>(words)));
+        Assert.Throws<EInvalidCast>(() => Ptr<byte>.Unbox(new PtrBox<int>(words)));
         Assert.Throws<ArgumentOutOfRangeException>(() => words.AsSpan(5));
         Assert.Throws<IndexOutOfRangeException>(() => words[4]);
         Assert.Throws<IndexOutOfRangeException>(() => words[-1]);
@@ -72,9 +72,9 @@ public sealed class PointerViewTests
     {
         var bytes = Ptr<byte>.Alloc(2048);
         for (int i = 0; i < 2048; i++) bytes[i] = (byte)(i * 7);
-        object boxed = bytes.Box();
-        for (int i = 0; i < 1000; i++) boxed = (Ptr<byte>.FromBox(boxed) + 1).Box();
-        var end = Ptr<byte>.FromBox(boxed);
+        object boxed = new PtrBox<byte>(bytes);
+        for (int i = 0; i < 1000; i++) boxed = new PtrBox<byte>(Ptr<byte>.Unbox(boxed) + 1);
+        var end = Ptr<byte>.Unbox(boxed);
         Assert.Equal(1000, end.ByteIndex);
         Assert.Equal(unchecked((byte)(1000 * 7)), end.Value);
         Assert.Same(bytes.Array, end.Array);
@@ -89,9 +89,9 @@ public sealed class PointerViewTests
         var words = bytes.Reinterpret<ushort>();
         for (int i = 0; i < 1000; i++)
         {
-            var step = Ptr<byte>.FromBox(words.Box()) + 1;
+            var step = ((IPointerBox)new PtrBox<ushort>(words)).As<byte>() + 1;
             AssertFlat(step.ViewState);
-            words = Ptr<ushort>.FromBox(step.Box());
+            words = ((IPointerBox)new PtrBox<byte>(step)).As<ushort>();
             AssertFlat(words.ViewState);
         }
         Assert.Equal(1000, words.ByteIndex);
