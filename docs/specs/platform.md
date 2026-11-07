@@ -68,6 +68,12 @@ uploads and draws; `ClientSize` reports the window's client size divided by the 
 `PointerPosition` maps the pointer through the scale and the letterbox; `HasFocus` is the keyboard
 focus flag; `ShowSystemCursor` toggles `SDL_ShowCursor`.
 
+`Present` waits for the vertical blank (`SDL_SetRenderVSync` with interval 1), so a scrolled frame
+never tears. The game's limiter (`graphics.md` 7.2) keeps its 33 ms target, which is two refreshes
+at 60 Hz. The port's own setting `Video/VSync` (section 8) turns the wait off at 0, and
+`--no-vsync` does the same for one run. A driver without vsync logs the fact and presents without it.
+The headless host (section 10) has no renderer and is unaffected.
+
 `PumpEvents` is `Application.ProcessMessages`: it drains the SDL queue and translates:
 
 | SDL event | delivered as |
@@ -232,7 +238,8 @@ The shim's `TRegistry` stores them in `settings.json` in the user layer as `Sect
 value's kind (integer, boolean, string, rectangle, bytes); a missing value reads as the original's
 default, which the transpiled getters supply. `AssociateAoWMap` (file association under
 `\Software\Classes`), `RegisterDPlayLobbyServer` and `GetDeveloper`'s GUID key are no-ops.
-`Display Mode` 1 maps to the fullscreen flag, `Use DirectSound` is read and ignored.
+`Display Mode` 1 maps to the fullscreen flag, `Use DirectSound` is read and ignored. `Video/VSync`
+is the port's own setting, absent from the original: missing or nonzero means vsync on (section 3).
 
 ## 9. Message boxes, plug-ins, networking, e-mail
 

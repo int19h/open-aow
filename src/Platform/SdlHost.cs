@@ -4,14 +4,19 @@ namespace Aow.Platform;
 
 public sealed class SdlHost : IRtlHost, IDisposable
 {
-    public SdlHost(string gameRoot, string? userDirectory = null, int scale = 1, bool? fullscreen = null, bool hidden = false, IDialogService? dialogs = null)
+    public SdlHost(string gameRoot, string? userDirectory = null, int scale = 1, bool? fullscreen = null, bool hidden = false, IDialogService? dialogs = null, bool? vsync = null)
     {
         GameRoot = Path.GetFullPath(gameRoot);
         var files = new LayeredFileSystem(GameRoot, userDirectory ?? DefaultUserDirectory());
         Files = files;
         Settings = new JsonSettingsStore(files.UserDirectory);
         Display = new SdlDisplayHost("OpenAoW", scale: scale, hidden: hidden);
-        try { Display.Fullscreen = fullscreen ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\Display Mode") is int mode ? mode != 0 : true); }
+        try
+        {
+            Display.Fullscreen = fullscreen ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\Display Mode") is int mode ? mode != 0 : true);
+            // The port's own setting, absent from the original: on unless it reads 0.
+            Display.VSync = vsync ?? (Settings.Read(@"\Software\Triumph Studios\Age of Wonders\Video\VSync") is int interval ? interval != 0 : true);
+        }
         catch { Display.Dispose(); throw; }
         Dialogs = dialogs ?? new UnavailableDialogs();
     }

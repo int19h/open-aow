@@ -12,6 +12,8 @@ dotnet run --no-build --project src/Game -- --game-root "D:\Games\GOG\Age of Won
 Files and typed JSON settings go to the user data directory. `--user-data PATH`
 selects that directory. `--single-directory PATH` selects one directory for both
 layers. `--fullscreen` overrides the saved display mode.
+`--no-vsync` presents without waiting for the vertical blank, which the `Video/VSync`
+setting 0 also does. Vsync is on by default.
 
 `--mute` sets the SDL stream gain to zero before playback starts. Automated checks
 use this option and the dummy audio driver. Music and sound effect volume, enabled
