@@ -1,0 +1,29 @@
+string abc
+decimal -123
+hex FF
+hex_negative FFFFFFFF
+string_width [   abc]
+decimal_width [   -12]
+hex_width [    FF]
+string_precision ab
+decimal_precision -00012
+hex_precision 0000FF
+left_string [abc   ]
+left_decimal [0012  ]
+star_width [    12]
+star_precision ab
+star_both [    00FF]
+explicit_index abc/7/abc
+index_then_implicit 20/30/10
+index_star [    ab]
+percent % 5 %
+empty_string [   ]
+zero_precision_string []
+zero_precision_decimal 0
+extra_argument 1
+bad_type EConvertError
+missing_argument EConvertError
+bad_specifier EConvertError
+bad_index EConvertError
+bad_star_type 1
+end 28

@@ -1,0 +1,11 @@
+nil 0
+sum 25
+same_box 1
+find_box 0
+minimum -2147483648
+maximum 2147483647
+maximum_score 30
+zero_is_nil 1
+object_identity 1
+object_recovered 1
+end 10

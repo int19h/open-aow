@@ -126,7 +126,9 @@ with `Selected model is at capacity` is resumed later, in the same thread.
 
 A task in the private repository that edits product source adds `--add-dir D:\git\open-aow`.
 The transpiler no longer writes into the product. Its `emit --out <dir>` writes reference output
-under the private repository for porting upstream changes by hand.
+under the private repository for porting upstream changes by hand. The gate does not build or
+test the transpiler as its own layer. The forms model still builds `Transpiler.slnx`, because
+`Forms.Model` references that assembly and reads `tools/transpile/reference/overrides.toml`.
 
 Fork a task to try an alternative without losing the first line of work:
 
@@ -194,6 +196,7 @@ Every brief carries these:
 - The units under `src/Units/` are source and are edited by hand. Every edit keeps
   `python tools/check.py` passing from the private repository. The hand-over took place on
   2026-10-27. The private transpiler emits reference diffs outside the product repository.
+  The gate does not build or test the transpiler as its own layer.
 - Do not change `D:\git\aow`.
 - Tests run with one command named in the brief, and the brief's done measure is checked by a
   command, not by reading.
@@ -205,9 +208,9 @@ Every brief carries these:
 In order of cost. A task uses the cheapest rung that proves its claim.
 
 1. The .NET build compiles with no warnings in the changed projects.
-2. Unit tests pass. Fixtures that encode Delphi behavior (random sequences, string routine results,
-   stream bytes) come from small Delphi programs compiled with the oracle compiler and are stored
-   under `tests/fixtures/` with the program that made them.
+2. Unit tests pass. Recordings of Delphi library behavior ship in `src/Rtl.Tests/Probes` and the
+   tests read them there. The gate's probes layer runs `blitters`, `libraries` and `blendtables`
+   against their recordings. It does not translate Delphi probes.
 3. The persistence round trip: a save read and written back is byte-identical in the first stage,
    and equal under the comparator in the second (`docs/design.md` sections 5 and 9).
 4. The headless oracle: a seeded computer-only game produces the same saves as the Delphi build,

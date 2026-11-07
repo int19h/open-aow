@@ -7,33 +7,14 @@ namespace Aow.Rtl.Tests;
 
 public sealed class ProbeFactAttribute : FactAttribute
 {
-    internal static string Root => ResolveRoot(Environment.GetEnvironmentVariable("AOW_PRIVATE"), ProductRoot());
+    public ProbeFactAttribute(string name) => Recording = name;
 
-    internal static string ResolveRoot(string? privateCheckout, string productCheckout) => Path.GetFullPath(Path.Combine(
-        string.IsNullOrWhiteSpace(privateCheckout)
-            ? Path.Combine(Path.GetDirectoryName(productCheckout)!, "open-aow-private")
-            : privateCheckout,
-        "tests", "probes", "expected"));
-
-    private static string ProductRoot()
-    {
-        for (var directory = new DirectoryInfo(AppContext.BaseDirectory); directory is not null; directory = directory.Parent)
-            if (File.Exists(Path.Combine(directory.FullName, "OpenAow.slnx"))) return directory.FullName;
-        return AppContext.BaseDirectory;
-    }
-
-    public ProbeFactAttribute(string name) : this(name, Root) { }
-
-    internal ProbeFactAttribute(string name, string root)
-    {
-        string path = Path.Combine(root, name + ".txt");
-        if (!File.Exists(path)) Skip = $"Private Delphi fixture is absent: {path}. Set AOW_PRIVATE to the private checkout. Fixture root: {root}";
-    }
+    public string Recording { get; }
 }
 
 internal sealed class ProbeLines(string name)
 {
-    private readonly string[] lines = File.ReadAllLines(Path.Combine(ProbeFactAttribute.Root, name + ".txt"));
+    private readonly string[] lines = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Probes", name + ".txt"));
     private int position;
 
     internal string Current => lines[position];

@@ -125,59 +125,16 @@ public static partial class RtlUnit
         }
     }
 
-    // The ids of objects that went through Integer(obj). The table holds each object weakly, so an
-    // object its owner drops stays collectible (review-9x.md finding 22). Entries of collected
-    // objects go on lookup and when the table reaches the prune threshold.
-    private static readonly Dictionary<int, WeakReference<TObject>> referenceIds = [];
-    private static int pruneThreshold = 1024;
-
-    /// <summary>
-    /// Integer(Obj): the value of an integer box, 0 for nil, and the InstanceId of any other object,
-    /// recorded weakly for <see cref="ReferenceFromId{T}"/>. No product code under src turns an
-    /// object into a number. The routine serves the transpiler's reference output and the probes.
-    /// </summary>
+    // Integer(Obj): the value of an integer box, 0 for nil, and the InstanceId of any other object.
+    // Product code stores integers in object slots and reads them back. It does not recover an object from the id.
     public static int ObjectToInt(TObject? value)
     {
         switch (value)
         {
             case null: return 0;
             case IntegerObject box: return box.Value;
+            default: return value.InstanceId;
         }
-        int id = value.InstanceId;
-        lock (referenceIds)
-        {
-            if (referenceIds.TryGetValue(id, out var entry)) entry.SetTarget(value);
-            else
-            {
-                if (referenceIds.Count >= pruneThreshold) PruneReferenceIds();
-                referenceIds.Add(id, new WeakReference<TObject>(value));
-            }
-        }
-        return id;
-    }
-
-    /// <summary>
-    /// TFoo(Integer): the object whose InstanceId is <paramref name="id"/>, or null for 0, an unknown
-    /// id or a collected object. No product code under src calls it. The routine serves the
-    /// transpiler's reference output and the probes.
-    /// </summary>
-    public static T? ReferenceFromId<T>(int id) where T : TObject
-    {
-        if (id == 0) return null;
-        lock (referenceIds)
-        {
-            if (!referenceIds.TryGetValue(id, out var entry)) return null;
-            if (entry.TryGetTarget(out var value)) return (T)value;
-            referenceIds.Remove(id);
-            return null;
-        }
-    }
-
-    private static void PruneReferenceIds()
-    {
-        foreach (var (id, entry) in referenceIds)
-            if (!entry.TryGetTarget(out _)) referenceIds.Remove(id);
-        pruneThreshold = Math.Max(1024, referenceIds.Count * 2);
     }
 }
 
