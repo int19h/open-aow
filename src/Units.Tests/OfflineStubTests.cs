@@ -286,7 +286,7 @@ public sealed class OfflineStubTests
         using var saved = new SavedGlobals();
         var recorder = new RecordingImage();
         var library = new TCustomImageLibrary(null!);
-        var images = Ptr<TImageItem>.Alloc(128);
+        var images = new TImageItem[128];
         for (int i = 0; i < 128; i++) images[i] = new() { Image = recorder, Reference = -1 };
         SetField(library, "FImages", images);
         SetField(library, "FCount", 128);

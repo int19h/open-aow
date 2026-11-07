@@ -115,7 +115,7 @@ public sealed class GlyphIndexTests
             try
             {
                 draw(sd);
-                return sd.Data.AsSpan(Math.Abs(sd.Pitch) * height).ToArray();
+                return sd.Data.AsSpan(sd.DataIndex, Math.Abs(sd.Pitch) * height).ToArray();
             }
             finally { surface.Unlock(); }
         }

@@ -23,11 +23,6 @@ public readonly ref struct SurfaceView
         Clip = clip;
     }
 
-    // The view of a pointer's storage that starts at the pointer. A nil pointer gives an empty
-    // block, so the first access raises as the pointer did.
-    public static SurfaceView Of(Ptr<byte> data, int pitch, TRect clip = default)
-        => data.IsNull ? new(default, 0, pitch, clip) : new(data.StorageAsBytes(out int start), start, pitch, clip);
-
     // The view moved by a byte offset, as `Pointer(Integer(P) + Offset)`.
     public SurfaceView At(int offset) => new(Memory, Start + offset, Pitch, Clip);
 

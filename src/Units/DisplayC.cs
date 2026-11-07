@@ -50,10 +50,12 @@ public enum TDisplayOptionsElement : byte
     doAutoEnableDDraw = 9
 }
 
-// a byte matrix (the invalidated blocks of a surface). FData, FWidth, FHeight
+// a byte matrix (the invalidated blocks of a surface). FData, FWidth, FHeight. The port's FData
+// is the array of FWidth * FHeight bytes, row by row, and null for an empty matrix as GetMem of
+// size 0 gives nil.
 public partial class TMatrix : TObject
 {
-    internal Ptr<byte> FData;
+    internal byte[] FData;
     internal byte FWidth;
     internal byte FHeight;
 
@@ -63,21 +65,13 @@ public partial class TMatrix : TObject
     {
         FWidth = AWidth;
         FHeight = AHeight;
-        FData = Ptr<byte>.Alloc(FWidth * FHeight);
-        if (!FData.IsNull)
-        {
-            Ptr<byte>.Fill(FData, FWidth * FHeight, default);
-        }
+        FData = FWidth * FHeight == 0 ? null : new byte[FWidth * FHeight];
     }
 
     // DisplayC.pas:3155
     public override void Destroy()
     {
-        if (!FData.IsNull)
-        {
-            FData = default;
-            FData = default;
-        }
+        FData = null;
 
         base.Destroy();
     }
@@ -89,7 +83,7 @@ public partial class TMatrix : TObject
         int Result;
         if (X < FWidth && Y < FHeight)
         {
-            Result = (FData + X + Y * FWidth).Value;
+            Result = FData[X + Y * FWidth];
             if (Result > 2)
             {
                 Result = 2;
@@ -108,7 +102,7 @@ public partial class TMatrix : TObject
     {
         if (X < FWidth && Y < FHeight)
         {
-            (FData + X + Y * FWidth).Value = Value;
+            FData[X + Y * FWidth] = Value;
         }
     }
 
@@ -619,7 +613,7 @@ public partial class TAbstractDC : TComponent
     }
 
     // DisplayC.pas:76
-    public virtual Ptr<TRect> GetPrimarySurfaceRgn()
+    public virtual TRect? GetPrimarySurfaceRgn()
     {
         throw EAbstractError.Create("Abstract Error");
     }
@@ -763,10 +757,8 @@ public partial class TAbstractDC : TComponent
         int BlkH = default;
         int V;
         TRect ClipR = default;
-        TRect[] SrcR__cell = new TRect[1];
-        ref TRect SrcR = ref SrcR__cell[0];
-        TRect[] DstR__cell = new TRect[1];
-        ref TRect DstR = ref DstR__cell[0];
+        TRect SrcR = default;
+        TRect DstR = default;
         if (GetInvMatrix() != null)
         {
             Result = 0;
@@ -837,7 +829,7 @@ public partial class TAbstractDC : TComponent
                             }
 
                             var surface = GetSurface(0);
-                            Result = GetSurface(Index).BltStretch(surface, Ptr<TRect>.To(SrcR__cell, 0), Ptr<TRect>.To(DstR__cell, 0));
+                            Result = GetSurface(Index).BltStretch(surface, SrcR, DstR);
                             for (int X = 0, lastX = BW - 1; X <= lastX; X++)
                             {
                                 for (int Y = 0, lastY = BH - 1; Y <= lastY; Y++)
@@ -1013,13 +1005,8 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:680
-    public override Ptr<TRect> GetPrimarySurfaceRgn()
-    {
-        Ptr<TRect> Result = default;
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        return Result;
-    }
+    // The original returns @FPrimarySurfaceRgn, which is never nil.
+    public override TRect? GetPrimarySurfaceRgn() => FPrimarySurfaceRgn;
 
     // DisplayC.pas:685
     public override TSet<TDisplayCtrlStatusElement> GetStatus() => FStatus;
@@ -1184,14 +1171,15 @@ public partial class TDisplayCtrl : TAbstractDC
         int H2;
         int W2;
         int H1;
-        Ptr<byte> P;
-        Ptr<byte> Q;
+        // P and Q are indexes into Matrix.FData.
+        int P;
+        int Q;
         int N;
         int L;
         int Off;
         bool Ok;
-        P = Matrix.FData + X + Matrix.FWidth * Y;
-        if (P.Value != 0)
+        P = X + Matrix.FWidth * Y;
+        if (Matrix.FData[P] != 0)
         {
             H1 = 0;
             Q = P;
@@ -1201,7 +1189,7 @@ public partial class TDisplayCtrl : TAbstractDC
             {
                 N = W1;
                 L = 0;
-                while (N != 0 && (Q + L).Value != 0)
+                while (N != 0 && Matrix.FData[Q + L] != 0)
                 {
                     L += 1;
                     N -= 1;
@@ -1228,7 +1216,7 @@ public partial class TDisplayCtrl : TAbstractDC
                 N = H2;
                 L = 0;
                 Off = 0;
-                while (N != 0 && (Q + Off).Value != 0)
+                while (N != 0 && Matrix.FData[Q + Off] != 0)
                 {
                     L += 1;
                     N -= 1;
@@ -1960,579 +1948,14 @@ public partial class TWindows32DC : TWindowsDC
     }
 }
 
-// a TDDrawSurface around a surface that DirectDraw created elsewhere (the primary surface and
-// its attached back buffers)
-public partial class TDDrawDCSurface : TDDrawSurface
-{
-    // DisplayC.pas:2480
-    public int SetDDSurface(IDirectDrawSurface ASurface, TSet<TDDrawSurfaceStatusElement> AStatus)
-    {
-        int Result;
-        TDDSurfaceDesc DDSD = default;
-        if (FSurface != null)
-        {
-            FSurface = null;
-        }
-
-        FStatus = TSet<TDDrawSurfaceStatusElement>.Of();
-        FSurface = (IDirectDrawSurface2)(object)ASurface;
-        if (FSurface != null)
-        {
-            DDSD = default;
-            DDSD.dwSize = 108;
-            Result = FSurface.Lock(default, ref DDSD, DDLOCK_WAIT, 0);
-            if (Succeeded(Result))
-            {
-                FWidth = DDSD.dwWidth;
-                FHeight = DDSD.dwHeight;
-                ref var ddPixelFormat = ref DDSD.ddpfPixelFormat;
-                FPixelFormatID = MASKtoPFID(ddPixelFormat.dwRGBBitCount, ddPixelFormat.dwRBitMask, ddPixelFormat.dwGBitMask, ddPixelFormat.dwBBitMask, ddPixelFormat.dwRGBAlphaBitMask);
-
-                FSurface.Unlock(null);
-                FStatus = AStatus;
-            }
-        }
-        else
-        {
-            FWidth = 0;
-            FHeight = 0;
-            FPixelFormatID = 0;
-            Result = 0;
-        }
-
-        return Result;
-    }
-}
-
-// the DirectDraw controllers. FPrimary, FBack1, FBack2, FUseVideoMemory, FUseVerticalBlank,
-// FDebugMode
-public partial class TDDrawDC : TDisplayCtrl
-{
-
-    public TDDrawDC(TComponent owner) : base(owner)
-    { }
-
-    internal TDDrawDCSurface FPrimary;
-    internal TDDrawDCSurface FBack1;
-    internal TDDrawDCSurface FBack2;
-    internal bool FUseVideoMemory;
-    internal bool FUseVerticalBlank;
-    internal bool FDebugMode;
-
-    // DisplayC.pas:2514
-    public void SurfaceLost(TObject Sender)
-    {
-        VerifyLostSurfaces();
-    }
-
-    // DisplayC.pas:2520
-    // { Restores the lost surfaces and tells the display which surfaces lost their contents. }
-    public int VerifyLostSurfaces()
-    {
-        int Result = 0;
-        if (FPrimary != null && FPrimary.Lost())
-        {
-            Result = FPrimary.Restore();
-            if (Succeeded(Result))
-            {
-                FDisplay.SurfaceDataLost(0);
-                if (FBack1 != null && FBack1.Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
-                {
-                    FDisplay.SurfaceDataLost(1);
-                }
-
-                if (FBack2 != null && FBack2.Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
-                {
-                    FDisplay.SurfaceDataLost(2);
-                }
-            }
-        }
-
-        if (Succeeded(Result) && FBack1 != null && FBack1.Lost())
-        {
-            Result = FBack1.Restore();
-            if (Succeeded(Result))
-            {
-                FDisplay.SurfaceDataLost(1);
-            }
-        }
-
-        if (Succeeded(Result) && FBack2 != null && FBack2.Lost())
-        {
-            Result = FBack2.Restore();
-            if (Succeeded(Result))
-            {
-                FDisplay.SurfaceDataLost(2);
-            }
-        }
-
-        return Result;
-    }
-
-    // DisplayC.pas:2549
-    public override int FlipSurface(int Index)
-    {
-        int Result;
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        if (Succeeded(Result))
-        {
-            Result = DisplayCUnit.DCERR_NOFLIP;
-        }
-
-        return Result;
-    }
-
-    // DisplayC.pas:2556
-    public override int BltSurface(int Index)
-    {
-        int Result;
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        return Result;
-    }
-
-    // DisplayC.pas:2561
-    public override TSurface GetSurface(int Index)
-    {
-        TSurface Result;
-        switch (Index)
-        {
-            case 0:
-                Result = FPrimary;
-                break;
-            case 1:
-                Result = FBack1;
-                break;
-            case 2:
-                Result = FBack2;
-                break;
-            default:
-                Result = null;
-                break;
-        }
-
-        return Result;
-    }
-
-    // DisplayC.pas:2572
-    public override int WaitForVerticalBlank()
-    {
-        int Result;
-        int Wait;
-        int Target;
-        int T;
-        int D;
-        if (FUseVerticalBlank)
-        {
-            if (DD() != null)
-            {
-                Wait = FDisplay.FFrameTime;
-                if (Wait != 0)
-                {
-                    Target = FLastVBTime + Wait;
-                    T = GetElapsedMilliSeconds();
-                    if (T >= Target - Wait)
-                    {
-                        D = Target - T;
-                        while (D > 0)
-                        {
-                            if (D > 5)
-                            {
-                                Clock.WaitMilliseconds(0);
-                            }
-
-                            T = GetElapsedMilliSeconds();
-                            D = Target - T;
-                        }
-                    }
-
-                    FLastVBTime = T;
-                }
-
-                Result = DD().WaitForVerticalBlank(DisplayCUnit.DDWAITVB_BLOCKBEGIN, 0);
-                FLastVBTime = GetElapsedMilliSeconds();
-            }
-            else
-            {
-                Result = DisplayCUnit.DCERR_NOTSUPPORTED;
-            }
-        }
-        else
-        {
-            Wait = FDisplay.FFrameTime;
-            if (Wait != 0)
-            {
-                Target = FLastVBTime + Wait;
-                T = GetElapsedMilliSeconds();
-                if (T >= Target - Wait)
-                {
-                    D = Target - T;
-                    while (D > 0)
-                    {
-                        if (D > 5)
-                        {
-                            Clock.WaitMilliseconds(2);
-                        }
-
-                        T = GetElapsedMilliSeconds();
-                        D = Target - T;
-                    }
-                }
-
-                FLastVBTime = T;
-            }
-
-            Result = 0;
-        }
-
-        return Result;
-    }
-
-    // DisplayC.pas:2628
-    public override void ShowFrameRate()
-    {
-        /* TODO: Implement Controls.Parent in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2655
-    public override int Deactivate()
-    {
-        if (GetStatus().Contains(TDisplayCtrlStatusElement.dsActivated))
-        {
-            DD().FlipToGDISurface();
-            DD().WaitForVerticalBlank(DisplayCUnit.DDWAITVB_BLOCKBEGIN, 0);
-            FBack2.Free();
-            FBack2 = null;
-            FBack1.Free();
-            FBack1 = null;
-            FPrimary.Free();
-            FPrimary = null;
-        }
-
-        return base.Deactivate();
-    }
-
-    [Published]
-    public bool UseVideoMemory { get => FUseVideoMemory; set => FUseVideoMemory = value; }
-
-    [Published]
-    public bool UseVerticalBlank { get => FUseVerticalBlank; set => FUseVerticalBlank = value; }
-
-    [Published]
-    public bool DebugMode { get => FDebugMode; set => FDebugMode = value; }
-}
-
-// full screen through DirectDraw, in the window of the display's TDDrawFSWinControl. FHooked
-// (the main window hook), FDisplayWidth, FDisplayHeight, FBitDepth, FEnable3D, FSwitching. One
-// more virtual: CreateSurfaces
-public partial class TDDrawFullScrDC : TDDrawDC
-{
-
-    internal bool FHooked;
-    internal int FDisplayWidth;
-    internal int FDisplayHeight;
-    internal int FBitDepth;
-    internal bool FEnable3D;
-    internal bool FSwitching;
-
-    // DisplayC.pas:2673
-    public TDDrawFullScrDC(TComponent owner) : base(owner)
-    {
-        FHooked = false;
-        FDisplayWidth = 640;
-        FDisplayHeight = 480;
-        FBitDepth = 16;
-        FSwitching = false;
-    }
-
-    // DisplayC.pas:2683
-    public override void Destroy()
-    {
-        UnHookMainWindow();
-        base.Destroy();
-    }
-
-    // DisplayC.pas:2691
-    // { Hides the display when the application is deactivated and shows it again (through a posted
-    //   message) when it is activated. }
-    public bool MainWindowHook(ref TMessage Message)
-    {
-        /* TODO: Implement Windows.PostMessage in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2703
-    public void HookMainWindow()
-    {
-        /* TODO: Implement Forms.HookMainWindow in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2712
-    public void UnHookMainWindow()
-    {
-        /* TODO: Implement Forms.UnhookMainWindow in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2723
-    // { Bug kept from the original: the resolution only changes when both the width and the height
-    //   differ from the current ones. }
-    public int SwitchResolution(int AWidth, int AHeight)
-    {
-        /* TODO: Implement Controls.Handle in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2753
-    public void HideApplicationForms()
-    {
-        /* TODO: Implement Forms.FormCount in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2763
-    public void ShowApplicationForms()
-    {
-        /* TODO: Implement Forms.FormCount in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2773
-    public override TWinControl OutputWnd() => GetDisplay().FFSWinControl;
-
-    // DisplayC.pas:2778
-    public override int Handle()
-    {
-        /* TODO: Implement Controls.Handle in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2783
-    public override void GetMousePos(ref int X, ref int Y)
-    {
-        /* TODO: Implement Windows.GetCursorPos in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:2800
-    public int SetDisplayMode(int AWidth, int AHeight, int ABitDepth) => DD().SetDisplayMode(AWidth, AHeight, ABitDepth, 0, 0);
-
-    // DisplayC.pas:2807
-    // { Flips to surface Index when it is attached to the primary surface (ssComplex), else blits
-    //   it; once more after restoring lost surfaces. }
-    public override int FlipSurface(int Index)
-    {
-        int Result;
-        if (((TDDrawSurface)GetSurface(Index)).Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
-        {
-            while (!(FPrimary.Surface.GetFlipStatus(DDGFS_ISFLIPDONE) != DDERR_WASSTILLDRAWING))
-            {
-            }
-
-            Result = FPrimary.Surface.GetFlipStatus(DisplayCUnit.DDGFS_CANFLIP);
-            if (Succeeded(Result))
-            {
-                var surface = GetSurface(Index);
-                Result = FPrimary.Surface.Flip(((TDDrawSurface)surface).Surface, 0);
-            }
-        }
-        else
-        {
-            var primarySurfaceRgn = GetPrimarySurfaceRgn();
-            var surface = GetSurface(0);
-            Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
-            if (Succeeded(Result))
-            {
-                Result = DisplayCUnit.DCERR_NOFLIP;
-            }
-        }
-
-        if (Result == DDERR_SURFACELOST)
-        {
-            if (Succeeded(VerifyLostSurfaces()))
-            {
-                if (((TDDrawSurface)GetSurface(Index)).Status.Contains(TDDrawSurfaceStatusElement.ssComplex))
-                {
-                    while (!(FPrimary.Surface.GetFlipStatus(DDGFS_ISFLIPDONE) != DDERR_WASSTILLDRAWING))
-                    {
-                    }
-
-                    Result = FPrimary.Surface.GetFlipStatus(DisplayCUnit.DDGFS_CANFLIP);
-                    if (Succeeded(Result))
-                    {
-                        var surface = GetSurface(Index);
-                        Result = FPrimary.Surface.Flip(((TDDrawSurface)surface).Surface, 0);
-                    }
-                }
-                else
-                {
-                    var primarySurfaceRgn = GetPrimarySurfaceRgn();
-                    var surface = GetSurface(0);
-                    Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
-                    if (Succeeded(Result))
-                    {
-                        Result = DisplayCUnit.DCERR_NOFLIP;
-                    }
-                }
-            }
-        }
-
-        return Result;
-    }
-
-    // DisplayC.pas:2844
-    // { Creates the primary surface and the back surfaces: a flipping chain in video memory when the
-    //   back surfaces have the size of the screen (with one back buffer less when the chain cannot be
-    //   made), else a primary surface and separate back surfaces. }
-    public virtual int CreateSurfaces()
-    {
-        /* TODO: Implement Controls.Color in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:3002
-    // { Bug kept from the original: the result of CreateSurfaces is ignored, the result is 0. }
-    public override int ResizeBackSurfaces(int AWidth, int AHeight)
-    {
-        int Result = 0;
-        InvalidateAll();
-        if (GetDisplay().FBufferingScheme != TBufferingScheme.bsSingle)
-        {
-            if (AWidth != FBack1.Width || AHeight != FBack1.Height)
-            {
-                CreateSurfaces();
-                if (GetDisplay().FOnSurfaceDataLost != null)
-                {
-                    for (int I = 1, last = (int)GetDisplay().FBufferingScheme; I <= last; I++)
-                    {
-                        GetDisplay().FOnSurfaceDataLost(this, I);
-                    }
-                }
-            }
-        }
-
-        return Result;
-    }
-
-    // DisplayC.pas:3018
-    public override int Hide()
-    {
-        /* TODO: Implement Windows.ShowWindow in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:3031
-    public override int Show()
-    {
-        /* TODO: Implement Controls.Handle in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:3060
-    public override int Activate(TCustomDisplay ADisplay)
-    {
-        /* TODO: Implement Controls.Cursor in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // DisplayC.pas:3093
-    public override int Deactivate()
-    {
-        if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
-        {
-            Hide();
-            ShowApplicationForms();
-            UnHookMainWindow();
-        }
-
-        return base.Deactivate();
-    }
-
-    [Published]
-    public int DisplayWidth { get => FDisplayWidth; set => FDisplayWidth = value; }
-
-    [Published]
-    public int DisplayHeight { get => FDisplayHeight; set => FDisplayHeight = value; }
-
-    [Published]
-    public bool Enable3D { get => FEnable3D; set => FEnable3D = value; }
-
-}
-
-// 16 bit full screen
-public partial class TDDrawFullScr16DC : TDDrawFullScrDC
-{
-
-    // DisplayC.pas:3106
-    public TDDrawFullScr16DC(TComponent owner) : base(owner)
-    {
-        FBitDepth = 16;
-    }
-
-    // DisplayC.pas:3113
-    // { A 1555 surface is drawn on as 555. }
-    public override int CreateSurfaces()
-    {
-        int Result = base.CreateSurfaces();
-        if (Result >= 0)
-        {
-            if (FPrimary.PixelFormatID == pfARGB1555)
-            {
-                FPrimary.FPixelFormatID = pfRGB555;
-            }
-
-            if (FBack1 != null && FBack1.PixelFormatID == pfARGB1555)
-            {
-                FBack1.FPixelFormatID = pfRGB555;
-            }
-
-            if (FBack2 != null && FBack2.PixelFormatID == pfARGB1555)
-            {
-                FBack2.FPixelFormatID = pfRGB555;
-            }
-        }
-
-        return Result;
-    }
-
-}
-
-// 24 bit full screen
-public partial class TDDrawFullScr24DC : TDDrawFullScrDC
-{
-
-    // DisplayC.pas:3129
-    public TDDrawFullScr24DC(TComponent owner) : base(owner)
-    {
-        FBitDepth = 24;
-    }
-
-}
-
-// 32 bit full screen
-public partial class TDDrawFullScr32DC : TDDrawFullScrDC
-{
-
-    // DisplayC.pas:3137
-    public TDDrawFullScr32DC(TComponent owner) : base(owner)
-    {
-        FBitDepth = 32;
-    }
-
-}
-
 // an 8 bit bottom-up DIB of a TWindows08DC, drawn with the bitmap info and palette of its
 // owner. FWidth, FHeight, FMem, FBits (FMem aligned to 8), FPitch (negative), FOwner. The port's
-// FMem is the pixel array and FBits addresses its first byte (graphics.md 3.4).
+// FMem is the pixel array and FBits, its first byte, has no field of its own (graphics.md 3.4).
 public partial class TWindows08DIBSurface : TSurface
 {
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
-    internal Ptr<byte> FBits;
     internal int FPitch;
     internal TWindows08DC FOwner;
 
@@ -2547,7 +1970,6 @@ public partial class TWindows08DIBSurface : TSurface
     public override void Destroy()
     {
         FMem = null;
-        FBits = default;
         base.Destroy();
     }
 
@@ -2560,14 +1982,14 @@ public partial class TWindows08DIBSurface : TSurface
     // DisplayC.pas:2036
     // { Copies SrcRect to the top left of DestRect (no stretching); a GDI surface that cannot be
     //   locked is drawn on with BltDC. }
-    public override int BltStretch(TSurface Dest, Ptr<TRect> SrcRect, Ptr<TRect> DestRect)
+    public override int BltStretch(TSurface Dest, TRect? SrcRect, TRect? DestRect)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:2078
-    public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect)
+    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect)
     {
         /* TODO: Implement Windows.GetClientRect in the platform or editor service. */
         throw new NotImplementedException();
@@ -2587,7 +2009,8 @@ public partial class TWindows08DIBSurface : TSurface
         SD.ClipRect.Bottom = FHeight;
         SD.Pitch = FPitch;
         SD.Palette = FOwner.FPalette;
-        SD.Data = FBits + Math.Abs(FHeight * FPitch) + FPitch;
+        SD.Data = FMem;
+        SD.DataIndex = Math.Abs(FHeight * FPitch) + FPitch;
         return 0;
     }
 
@@ -2626,7 +2049,6 @@ public partial class TWindows08DIBSurface : TSurface
             bitmapInfoHeader.biHeight = FHeight;
 
             FMem = MemorySurfaces.Reallocate(FMem, Math.Abs(FPitch * FHeight));
-            FBits = Ptr<byte>.To(FMem, 0);
             Result = 0;
         }
         else
@@ -2646,10 +2068,10 @@ public static partial class DisplayCUnit
     // in a window through GDI or full screen through DirectDraw, plus the frame update loop).
     // The original was D:\GEngine\GFXE\DisplayC\DisplayC.pas with inc\TDisplay.PAS included
     // (the Assert in TCustomDisplay.CreateWnd names it). TMatrix came from a unit DCTypes (its
-    // error message says so) but is compiled into this unit. Two declarations of GFXE.pas must
-    // be as in the original: the fields of TDDrawSurface protected (TDDrawDCSurface and
-    // TDDrawFullScr16DC write them) and the surface parameter of
-    // IDirectDrawSurface.GetAttachedSurface var, not out (the calls do not clear it)
+    // error message says so) but is compiled into this unit. The port has no DirectDraw: the
+    // DirectDraw controllers (TDDrawDC, TDDrawFullScrDC and its 16, 24 and 32 bit descendants)
+    // and their surface TDDrawDCSurface are dropped, and TSdlDC is the one controller
+    // (graphics.md 7.3).
     // { HResult codes of the display controllers }
     public const int DCERR_NOTSUPPORTED = -2147414015;
     public const int DCERR_ACTIVATEFAILED = -2147414014;
@@ -2659,25 +2081,11 @@ public static partial class DisplayCUnit
     public const int DCERR_NOFLIP = -2147414007;
     // { Posted to the display: WParam 1 shows the active DC, 2 activates the primary DC }
     public const short WM_DISPLAYC = 27135;
-    // { DirectDraw constants used here (not in GFXE) }
-    public const byte DDSD_BACKBUFFERCOUNT = 32;
-    public const byte DDSCAPS_BACKBUFFER = 4;
-    public const byte DDSCAPS_COMPLEX = 8;
-    public const byte DDSCAPS_FLIP = 16;
-    public const short DDSCAPS_3DDEVICE = 8192;
-    public const byte DDSCL_FULLSCREEN = 1;
-    public const byte DDSCL_ALLOWREBOOT = 2;
-    public const byte DDSCL_NOWINDOWCHANGES = 4;
-    public const byte DDSCL_EXCLUSIVE = 16;
-    public const byte DDSCL_ALLOWMODEX = 64;
-    public const byte DDWAITVB_BLOCKBEGIN = 1;
-    public const byte DDGFS_CANFLIP = 1;
 
     // DisplayC.pas:3184
     public static void Register()
     {
         RegisterComponents("GFX Engine", [typeof(TDisplay)]);
         RegisterComponents("GFX Engine", [typeof(TWindows08DC), typeof(TWindows16DC), typeof(TWindows24DC), typeof(TWindows32DC)]);
-        RegisterComponents("GFX Engine", [typeof(TDDrawFullScr16DC), typeof(TDDrawFullScr24DC), typeof(TDDrawFullScr32DC)]);
     }
 }

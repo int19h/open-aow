@@ -67,15 +67,7 @@
               "TCustomImageLibrary.FCount": 0,
               "TCustomImageLibrary.FDataOffset": 0,
               "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": {
-                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Ptr`1.Array": null,
-                "Ptr`1.Index": 0,
-                "Ptr`1.byteOffset": 0,
-                "Ptr`1.storage": null,
-                "Ptr`1.storageBytes": 0,
-                "Ptr`1.view": null
-              },
+              "TCustomImageLibrary.FImages": null,
               "TCustomImageLibrary.FLoadOnDemand": true,
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,

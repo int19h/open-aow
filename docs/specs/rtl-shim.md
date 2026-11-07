@@ -127,18 +127,34 @@ over an integer subrange. A constructor argument above 63 throws.
 ### 1.4 Ptr<T>
 
 `struct Ptr<T>` with fields `T[] Array` and `int Index`. Members: `ref T Value`, `this[int]` (a
-`ref T` at `Index + i`), `IsNull`, `Alloc(int n)`, `Realloc(int n)` (copies the old elements into a
-new array), `To(T[] array, int index)`, operators `+ int`, `- int`, `- Ptr<T>` (index difference),
-`==`, `!=`, `Copy(Ptr<T> src, Ptr<T> dst, int n)` (`Array.Copy`, which handles overlap like
-`Move`), `Fill(Ptr<T> dst, int n, T value)`, and `CompareMem(Ptr<T> a, Ptr<T> b, int n)` (a byte
-comparison through `MemoryMarshal.AsBytes` for unmanaged `T`).
+`ref T` at `Index + i`), `IsNull`, `AsSpan(int n)` and `AsSpan()`, `Alloc(int n)`, `Realloc(int n)`
+(copies the old elements into a new array), `To(T[] array, int index)`, operators `+ int`,
+`- int`, `- Ptr<T>` (index difference), `==`, `!=`, `Copy(Ptr<T> src, Ptr<T> dst, int n)` (span
+copy, which handles overlap like `Move`) and `Fill(Ptr<T> dst, int n, T value)`. `Reinterpret<U>`
+gives a view of the same storage as another unmanaged type, which never nests (a view addresses
+the original array at a byte offset).
 
 `Box()` returns a `PtrBox<T> : TObject` holding the pointer, for the record addresses the source
 passes as `TObject` or `Integer` (`transpiler.md` 4.3, addresses of records). `Ptr<T>.Unbox(object)`
-and `Unbox(IntOrRef)` give the pointer back and throw on any other object. `Ptr<byte>.Unbox(string)`
-is the zero-terminated copy of section 1.2. `Bytes.Of(ref T)` is the
-`Span<byte>` over an unmanaged struct for the untyped buffer routines (`GetCRC32`, `Move`,
-`FillChar`, `CompareMem` with `SizeOf`).
+and `Unbox(IntOrRef)` give the pointer back and throw on any other object, and `FromBox` also
+reads a box of another element type through `IPointerBox`. `Ptr<byte>.Unbox(string)` is the
+zero-terminated copy of section 1.2. `Bytes.Of(ref T)` is the `Span<byte>` over an unmanaged
+struct for the untyped buffer routines (`GetCRC32`, `Move`, `FillChar`, `CompareMem` with
+`SizeOf`).
+
+What uses `Ptr<T>` is the boundary of the RTL alone: the `PChar` routines of section 2.3, the
+typed `Move`, `FillChar`, `GetMem`, `ReallocMem`, `FreeMem`, `New` and `Dispose` of section 2.4,
+`TStream.Read`, `Write`, `ReadBuffer` and `WriteBuffer` on a `Ptr<byte>`, `ReadLegacyRecord` (a
+record address passed as `TObject`), and the box cases of `BufferBytes` and `TList.IndexOf`. The
+units hold no `Ptr<T>` since the graphics slices GP-1 to GP-4 (`graphics.md` 3.5): blocks of
+records are arrays, pixels are a `byte[]` with a byte index, optional rectangles are `TRect?`.
+The transpiler still targets the first-stage shape, so the RTL keeps what its output needs: the
+implicit conversions from `Ptr<T>` to `Span<T>` and `ReadOnlySpan<T>`, and
+`RtlUnit.BytePointer(object)`, which reads a boxed pointer as bytes. The transpiled probes and the
+reference output compile against them, and the product units do not call them.
+None of the units calls these members or creates a box, so they remain for the tests of the RTL
+and are candidates for removal. Records grown and shifted as arrays use `RtlUnit.ReallocArray`,
+`MoveElements` and `ClearElements` (section 2.4).
 
 ### 1.5 IntOrRef and MsgArg
 
@@ -288,7 +304,11 @@ that differ apart.
 ### 2.4 Memory and misc
 
 `Move`, `FillChar`, `GetMem`, `FreeMem`, `ReallocMem`, `New`, `Dispose` exist only in the typed
-forms the transpiler emits (`transpiler.md` section 5.8). `Assert(bool, string, string file,
+forms the transpiler emits (`transpiler.md` section 5.8). For a block of records held as an
+array, `ReallocArray(A, N)` is `ReallocMem` (a new array that keeps the elements both sizes
+share, `null` for 0), `MoveElements(Src, I, Dst, J, N)` is `Move` of `N` records between array
+indexes, overlapping or not, and `ClearElements(A, I, N)` is `FillChar` of `N` records with zero.
+A count of 0 or less does nothing. `Assert(bool, string, string file,
 int line)` throws `EAssertionFailed` with the Delphi message format `"<msg> (<file>, line <n>)"`, and
 `Assertion failed` stands for an empty message.
 `Halt` throws a host-handled `EHalt`. `ParamStr`, `ParamCount` come from the host.

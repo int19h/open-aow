@@ -96,12 +96,6 @@ public static partial class RtlUnit
         value = TSet<E>.FromMask(image << (low / 8 * 8));
     }
 
-    public static bool PointerSequenceEqual<T>(Ptr<T> left, Ptr<T> right, int count)
-    {
-        for (int i = 0; i < count; i++) if (!EqualityComparer<T>.Default.Equals(left[i], right[i])) return false;
-        return true;
-    }
-
     public static int ReadString(TStream stream, ref string value, int start, int count, bool exact)
     {
         byte[] bytes = Cp1252.Encode(value).ToArray();

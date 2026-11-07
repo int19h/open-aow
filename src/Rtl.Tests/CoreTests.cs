@@ -149,11 +149,8 @@ public sealed class CoreTests
         Assert.Equal(new[] { 2, 3 }, (pointer + 1).Realloc(2).Array);
         Assert.True(pointer.Realloc(0).IsNull);
         Assert.Equal(2, nil.Realloc(2).Array!.Length);
-        Assert.True(Ptr<int>.CompareMem(pointer, pointer.Realloc(5), 5));
-        Assert.False(Ptr<int>.CompareMem(pointer, grown, 1));
         Ptr<int>.Copy(default, default, 0);
         Ptr<int>.Fill(default, -1, 0);
-        Assert.True(Ptr<int>.CompareMem(default, default, 0));
         var box = pointer.Box();
         Assert.Equal(pointer, box.Pointer);
         Assert.Equal(pointer, Ptr<int>.Unbox((object)box));
@@ -170,11 +167,6 @@ public sealed class CoreTests
         Assert.Equal(new[] { "a", "a", "b" }, words);
         Ptr<string>.Fill(managed + 1, 2, "z");
         Assert.Equal(new[] { "a", "z", "z" }, words);
-        Assert.Throws<EInvalidOperation>(() => Ptr<string>.CompareMem(managed, managed, 1));
-        var plusZero = Ptr<double>.To([0.0], 0);
-        var minusZero = Ptr<double>.To([-0.0], 0);
-        Assert.False(Ptr<double>.CompareMem(plusZero, minusZero, 1));
-        Assert.True(Ptr<double>.CompareMem(Ptr<double>.To([double.NaN], 0), Ptr<double>.To([double.NaN], 0), 1));
         var cell = new TSampleRecord[1];
         var recordPointer = Ptr<TSampleRecord>.To(cell, 0);
         IntOrRef payload = recordPointer.Box();
