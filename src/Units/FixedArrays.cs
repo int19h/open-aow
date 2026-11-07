@@ -82,24 +82,6 @@ public struct FixedArray_string_2
     }
 }
 
-[InlineArray(21)]
-public struct FixedArray_string_21
-{
-    private string element0;
-
-    public static FixedArray_string_21 From(ReadOnlySpan<string> values)
-    {
-        FixedArray_string_21 result = default;
-        ((Span<string>)result).Fill("");
-        for (int i = 0; i < values.Length; i++)
-        {
-            result[i] = values[i];
-        }
-
-        return result;
-    }
-}
-
 [InlineArray(3)]
 public struct FixedArray_string_3
 {
@@ -648,12 +630,6 @@ public struct FixedArray_Aow_Units_FixedArray_sbyte_7_7
 public struct FixedArray_Aow_Units_GFXE_TBlendTable_101
 {
     private TBlendTable element0;
-}
-
-[InlineArray(21)]
-public struct FixedArray_Aow_Units_GFXE_TBltRectProc_21
-{
-    private TBltRectProc element0;
 }
 
 [InlineArray(256)]

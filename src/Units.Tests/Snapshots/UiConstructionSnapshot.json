@@ -982,15 +982,7 @@
             "TCustomImageLibrary.FCount": 0,
             "TCustomImageLibrary.FDataOffset": 0,
             "TCustomImageLibrary.FFileName": "",
-            "TCustomImageLibrary.FImages": {
-              "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Ptr`1.Array": null,
-              "Ptr`1.Index": 0,
-              "Ptr`1.byteOffset": 0,
-              "Ptr`1.storage": null,
-              "Ptr`1.storageBytes": 0,
-              "Ptr`1.view": null
-            },
+            "TCustomImageLibrary.FImages": null,
             "TCustomImageLibrary.FLoadOnDemand": true,
             "TCustomImageLibrary.FLoadedFileName": "",
             "TCustomImageLibrary.FOnChange": null,
@@ -1047,15 +1039,7 @@
             "TCustomImageLibrary.FCount": 0,
             "TCustomImageLibrary.FDataOffset": 0,
             "TCustomImageLibrary.FFileName": "",
-            "TCustomImageLibrary.FImages": {
-              "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Ptr`1.Array": null,
-              "Ptr`1.Index": 0,
-              "Ptr`1.byteOffset": 0,
-              "Ptr`1.storage": null,
-              "Ptr`1.storageBytes": 0,
-              "Ptr`1.view": null
-            },
+            "TCustomImageLibrary.FImages": null,
             "TCustomImageLibrary.FLoadOnDemand": true,
             "TCustomImageLibrary.FLoadedFileName": "",
             "TCustomImageLibrary.FOnChange": null,
@@ -1107,15 +1091,7 @@
               "TCustomImageLibrary.FCount": 0,
               "TCustomImageLibrary.FDataOffset": 0,
               "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": {
-                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Ptr`1.Array": null,
-                "Ptr`1.Index": 0,
-                "Ptr`1.byteOffset": 0,
-                "Ptr`1.storage": null,
-                "Ptr`1.storageBytes": 0,
-                "Ptr`1.view": null
-              },
+              "TCustomImageLibrary.FImages": null,
               "TCustomImageLibrary.FLoadOnDemand": false,
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,
@@ -4088,15 +4064,7 @@
               "TCustomImageLibrary.FCount": 0,
               "TCustomImageLibrary.FDataOffset": 0,
               "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": {
-                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Ptr`1.Array": null,
-                "Ptr`1.Index": 0,
-                "Ptr`1.byteOffset": 0,
-                "Ptr`1.storage": null,
-                "Ptr`1.storageBytes": 0,
-                "Ptr`1.view": null
-              },
+              "TCustomImageLibrary.FImages": null,
               "TCustomImageLibrary.FLoadOnDemand": true,
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,
@@ -4271,15 +4239,7 @@
               "TCustomImageLibrary.FCount": 0,
               "TCustomImageLibrary.FDataOffset": 0,
               "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": {
-                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Ptr`1.Array": null,
-                "Ptr`1.Index": 0,
-                "Ptr`1.byteOffset": 0,
-                "Ptr`1.storage": null,
-                "Ptr`1.storageBytes": 0,
-                "Ptr`1.view": null
-              },
+              "TCustomImageLibrary.FImages": null,
               "TCustomImageLibrary.FLoadOnDemand": true,
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,
@@ -5058,15 +5018,8 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.Data": {
-                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-                  "Ptr`1.Array": null,
-                  "Ptr`1.Index": 0,
-                  "Ptr`1.byteOffset": 0,
-                  "Ptr`1.storage": null,
-                  "Ptr`1.storageBytes": 0,
-                  "Ptr`1.view": null
-                },
+                "TSurfaceDesc.Data": null,
+                "TSurfaceDesc.DataIndex": 0,
                 "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSource2": {
@@ -5087,15 +5040,8 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.Data": {
-                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-                  "Ptr`1.Array": null,
-                  "Ptr`1.Index": 0,
-                  "Ptr`1.byteOffset": 0,
-                  "Ptr`1.storage": null,
-                  "Ptr`1.storageBytes": 0,
-                  "Ptr`1.view": null
-                },
+                "TSurfaceDesc.Data": null,
+                "TSurfaceDesc.DataIndex": 0,
                 "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSourceX1": 0,
@@ -5308,15 +5254,8 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.Data": {
-                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-                  "Ptr`1.Array": null,
-                  "Ptr`1.Index": 0,
-                  "Ptr`1.byteOffset": 0,
-                  "Ptr`1.storage": null,
-                  "Ptr`1.storageBytes": 0,
-                  "Ptr`1.view": null
-                },
+                "TSurfaceDesc.Data": null,
+                "TSurfaceDesc.DataIndex": 0,
                 "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSource2": {
@@ -5337,15 +5276,8 @@
                 "TSurfaceDesc.PixelFormatID": 0,
                 "TSurfaceDesc.RMask": 0,
                 "TSurfaceDesc.Width": 0,
-                "TSurfaceDesc.Data": {
-                  "$type": "Aow.Rtl.Ptr`1[[System.Byte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-                  "Ptr`1.Array": null,
-                  "Ptr`1.Index": 0,
-                  "Ptr`1.byteOffset": 0,
-                  "Ptr`1.storage": null,
-                  "Ptr`1.storageBytes": 0,
-                  "Ptr`1.view": null
-                },
+                "TSurfaceDesc.Data": null,
+                "TSurfaceDesc.DataIndex": 0,
                 "TSurfaceDesc.Palette": null
               },
               "TPageTurnControl.FSourceX1": 0,
@@ -12265,15 +12197,7 @@
               "TCustomImageLibrary.FCount": 0,
               "TCustomImageLibrary.FDataOffset": 0,
               "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": {
-                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Ptr`1.Array": null,
-                "Ptr`1.Index": 0,
-                "Ptr`1.byteOffset": 0,
-                "Ptr`1.storage": null,
-                "Ptr`1.storageBytes": 0,
-                "Ptr`1.view": null
-              },
+              "TCustomImageLibrary.FImages": null,
               "TCustomImageLibrary.FLoadOnDemand": true,
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,
@@ -12531,15 +12455,7 @@
               "TCustomImageLibrary.FCount": 0,
               "TCustomImageLibrary.FDataOffset": 0,
               "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": {
-                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Ptr`1.Array": null,
-                "Ptr`1.Index": 0,
-                "Ptr`1.byteOffset": 0,
-                "Ptr`1.storage": null,
-                "Ptr`1.storageBytes": 0,
-                "Ptr`1.view": null
-              },
+              "TCustomImageLibrary.FImages": null,
               "TCustomImageLibrary.FLoadOnDemand": true,
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,
@@ -29415,15 +29331,7 @@
             "TCustomImageLibrary.FCount": 0,
             "TCustomImageLibrary.FDataOffset": 0,
             "TCustomImageLibrary.FFileName": "",
-            "TCustomImageLibrary.FImages": {
-              "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Ptr`1.Array": null,
-              "Ptr`1.Index": 0,
-              "Ptr`1.byteOffset": 0,
-              "Ptr`1.storage": null,
-              "Ptr`1.storageBytes": 0,
-              "Ptr`1.view": null
-            },
+            "TCustomImageLibrary.FImages": null,
             "TCustomImageLibrary.FLoadOnDemand": true,
             "TCustomImageLibrary.FLoadedFileName": "",
             "TCustomImageLibrary.FOnChange": null,
@@ -29487,15 +29395,7 @@
             "TCustomImageLibrary.FCount": 0,
             "TCustomImageLibrary.FDataOffset": 0,
             "TCustomImageLibrary.FFileName": "",
-            "TCustomImageLibrary.FImages": {
-              "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "Ptr`1.Array": null,
-              "Ptr`1.Index": 0,
-              "Ptr`1.byteOffset": 0,
-              "Ptr`1.storage": null,
-              "Ptr`1.storageBytes": 0,
-              "Ptr`1.view": null
-            },
+            "TCustomImageLibrary.FImages": null,
             "TCustomImageLibrary.FLoadOnDemand": true,
             "TCustomImageLibrary.FLoadedFileName": "",
             "TCustomImageLibrary.FOnChange": null,
@@ -29554,15 +29454,7 @@
               "TCustomImageLibrary.FCount": 0,
               "TCustomImageLibrary.FDataOffset": 0,
               "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": {
-                "$type": "Aow.Rtl.Ptr`1[[Aow.Units.ImageLib.TImageItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "Ptr`1.Array": null,
-                "Ptr`1.Index": 0,
-                "Ptr`1.byteOffset": 0,
-                "Ptr`1.storage": null,
-                "Ptr`1.storageBytes": 0,
-                "Ptr`1.view": null
-              },
+              "TCustomImageLibrary.FImages": null,
               "TCustomImageLibrary.FLoadOnDemand": false,
               "TCustomImageLibrary.FLoadedFileName": "",
               "TCustomImageLibrary.FOnChange": null,

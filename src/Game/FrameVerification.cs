@@ -65,7 +65,7 @@ internal static class FrameVerification
 
             var recorder = new HeadlessDisplayHost(directory);
             byte[] pixels = [1, 0, 2, 0, 99, 99, 3, 0, 4, 0, 99, 99];
-            sd = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatID = GFXEUnit.pfRGB555, Data = Ptr<byte>.To(pixels, 6) };
+            sd = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatID = GFXEUnit.pfRGB555, Data = pixels, DataIndex = 6 };
             recorder.Present(sd);
             Check(File.ReadAllBytes(Path.Combine(directory, "frame-1.raw")).SequenceEqual(new byte[] { 3, 0, 4, 0, 1, 0, 2, 0 }), "top-down recording excludes padding and handles negative pitch");
             using var metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "frame-1.json")));

@@ -76,16 +76,11 @@ public sealed class GraphicsConstructionTests
         yield return new object[] { typeof(TDisplay), (Func<TComponent, TComponent>)(owner => new TDisplay(owner)) };
         yield return new object[] { typeof(TWindows24DC), (Func<TComponent, TComponent>)(owner => new TWindows24DC(owner)) };
         yield return new object[] { typeof(TWindows32DC), (Func<TComponent, TComponent>)(owner => new TWindows32DC(owner)) };
-        yield return new object[] { typeof(TDDrawDC), (Func<TComponent, TComponent>)(owner => new TDDrawDC(owner)) };
         yield return new object[] { typeof(TCustomDisplay), (Func<TComponent, TComponent>)(owner => new TCustomDisplay(owner)) };
         yield return new object[] { typeof(TDisplayCtrl), (Func<TComponent, TComponent>)(owner => new TDisplayCtrl(owner)) };
         yield return new object[] { typeof(TWindowsDC), (Func<TComponent, TComponent>)(owner => new TWindowsDC(owner)) };
         yield return new object[] { typeof(TWindows08DC), (Func<TComponent, TComponent>)(owner => new TWindows08DC(owner)) };
         yield return new object[] { typeof(TWindows16DC), (Func<TComponent, TComponent>)(owner => new TWindows16DC(owner)) };
-        yield return new object[] { typeof(TDDrawFullScrDC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScrDC(owner)) };
-        yield return new object[] { typeof(TDDrawFullScr16DC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScr16DC(owner)) };
-        yield return new object[] { typeof(TDDrawFullScr24DC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScr24DC(owner)) };
-        yield return new object[] { typeof(TDDrawFullScr32DC), (Func<TComponent, TComponent>)(owner => new TDDrawFullScr32DC(owner)) };
         yield return new object[] { typeof(TCustomImageLibrary), (Func<TComponent, TComponent>)(owner => new TCustomImageLibrary(owner)) };
         yield return new object[] { typeof(TImageLibrary), (Func<TComponent, TComponent>)(owner => new TImageLibrary(owner)) };
         yield return new object[] { typeof(TImageLibraryFont), (Func<TComponent, TComponent>)(owner => new TImageLibraryFont(owner)) };
@@ -133,13 +128,7 @@ public sealed class GraphicsConstructionTests
             Assert.NotNull(Field(value, "FDiskList"));
             Assert.NotSame(Field(value, "FDiskList"), Field(value, "FOwnedList"));
         }
-        if (value is TDDrawFullScrDC)
-        {
-            Assert.Throws<NotImplementedException>(() => value.Destroy());
-            Assert.Equal(1, owner.ComponentCount);
-            owner.RemoveComponent(value);
-        }
-        else value.Destroy();
+        value.Destroy();
         Assert.Equal(0, owner.ComponentCount);
         owner.Destroy();
     }
@@ -154,13 +143,7 @@ public sealed class GraphicsConstructionTests
         Assert.Same(owner, value.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(value, owner.Components[0]);
-        // The absent DirectDraw teardown body is a separate platform boundary.
-        if (value is TDDrawFullScrDC)
-        {
-            Assert.Throws<NotImplementedException>(() => value.Destroy());
-            owner.RemoveComponent(value);
-        }
-        else value.Destroy();
+        value.Destroy();
         Assert.Equal(0, owner.ComponentCount);
         owner.Destroy();
     }
@@ -218,7 +201,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(4, sd.Height);
         Assert.Equal(format, sd.PixelFormatID);
         Assert.Equal(pitch, sd.Pitch);
-        Assert.False(sd.Data.IsNull);
+        Assert.NotNull(sd.Data);
         if (sd.Palette is { } copy)
         {
             Assert.NotSame(palette, copy);
@@ -243,7 +226,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(4, surface.Height);
         TSurfaceDesc descriptor = default;
         Assert.Equal(0, surface.Lock(ref descriptor));
-        Assert.False(descriptor.Data.IsNull);
+        Assert.NotNull(descriptor.Data);
         surface.Unlock();
         surface.Destroy();
         Assert.Equal((byte)29, palette.Entries[0].R);
@@ -343,8 +326,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
         Assert.Equal(G.pfRGB555, sd.PixelFormatID);
-        var data = sd.Data;
-        Assert.Equal((ushort)0x7C00, data.Reinterpret<ushort>().Value);
+        Assert.Equal((ushort)0x7C00, sd.View().Word(0));
         copy.Unlock();
         copy.Destroy();
         source.Destroy();

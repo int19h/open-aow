@@ -48,7 +48,7 @@ public sealed class StructureBorderTests
         TSurfaceDesc sd = default;
         surface.Cls(color);
         surface.Lock(ref sd);
-        int pixel = sd.Data.Reinterpret<ushort>().Value;
+        int pixel = sd.View().Word(0);
         surface.Unlock();
         surface.Destroy();
         return pixel;
@@ -76,12 +76,11 @@ public sealed class StructureBorderTests
             Assert.Equal(G.GFXE_OK, target.Cls(0));
             Assert.Equal(G.GFXE_OK, target.Lock(ref sd));
             Assert.True(structure.ShowBorderImage(sd, Runtime.Rect(0, 0, Width, height)));
-            var data = sd.Data;
             var rows = new int[height];
             for (int y = 0; y < height; y++)
             {
-                int row = (data + y * sd.Pitch).Reinterpret<ushort>().Value;
-                Assert.Equal(row, (data + y * sd.Pitch + 2).Reinterpret<ushort>().Value);
+                int row = sd.View().Word(y * sd.Pitch);
+                Assert.Equal(row, sd.View().Word(y * sd.Pitch + 2));
                 rows[y] = row;
             }
             Assert.Equal(1, rows.Count(row => row == Pixel(TopColor)));

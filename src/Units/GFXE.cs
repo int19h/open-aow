@@ -23,1253 +23,6 @@ public enum TDDSCreationFlagsElement : byte
     cfSystemMemory = 1
 }
 
-[StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct TDDColorKey
-{
-    [FieldOffset(0)]
-    public int dwColorSpaceLowValue;
-    [FieldOffset(4)]
-    public int dwColorSpaceHighValue;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 32)]
-public struct TDDPixelFormat
-{
-    [FieldOffset(0)]
-    public int dwSize;
-    [FieldOffset(4)]
-    public int dwFlags;
-    [FieldOffset(8)]
-    public int dwFourCC;
-    [FieldOffset(12)]
-    public int dwRGBBitCount;
-    [FieldOffset(16)]
-    public int dwRBitMask;
-    [FieldOffset(20)]
-    public int dwGBitMask;
-    [FieldOffset(24)]
-    public int dwBBitMask;
-    [FieldOffset(28)]
-    public int dwRGBAlphaBitMask;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 4)]
-public struct TDDSCaps
-{
-    [FieldOffset(0)]
-    public int dwCaps;
-}
-
-public struct TDDSurfaceDesc
-{
-    public int dwSize;
-    public int dwFlags;
-    public int dwHeight;
-    public int dwWidth;
-    public int lPitch;
-    public int dwBackBufferCount;
-    public int dwMipMapCount;
-    public int dwAlphaBitDepth;
-    public int dwReserved;
-    public object lpSurface;
-    public TDDColorKey ddckCKDestOverlay;
-    public TDDColorKey ddckCKDestBlt;
-    public TDDColorKey ddckCKSrcOverlay;
-    public TDDColorKey ddckCKSrcBlt;
-    public TDDPixelFormat ddpfPixelFormat;
-    public TDDSCaps ddsCaps;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 100)]
-public struct TDDBltFX
-{
-    [FieldOffset(0)]
-    public int dwSize;
-    [FieldOffset(4)]
-    public int dwDDFX;
-    [FieldOffset(8)]
-    public int dwROP;
-    [FieldOffset(12)]
-    public int dwDDROP;
-    [FieldOffset(16)]
-    public int dwRotationAngle;
-    [FieldOffset(20)]
-    public int dwZBufferOpCode;
-    [FieldOffset(24)]
-    public int dwZBufferLow;
-    [FieldOffset(28)]
-    public int dwZBufferHigh;
-    [FieldOffset(32)]
-    public int dwZBufferBaseDest;
-    [FieldOffset(36)]
-    public int dwZDestConstBitDepth;
-    [FieldOffset(40)]
-    public int dwZDestConst;
-    [FieldOffset(44)]
-    public int dwZSrcConstBitDepth;
-    [FieldOffset(48)]
-    public int dwZSrcConst;
-    [FieldOffset(52)]
-    public int dwAlphaEdgeBlendBitDepth;
-    [FieldOffset(56)]
-    public int dwAlphaEdgeBlend;
-    [FieldOffset(60)]
-    public int dwReserved;
-    [FieldOffset(64)]
-    public int dwAlphaDestConstBitDepth;
-    [FieldOffset(68)]
-    public int dwAlphaDestConst;
-    [FieldOffset(72)]
-    public int dwAlphaSrcConstBitDepth;
-    [FieldOffset(76)]
-    public int dwAlphaSrcConst;
-    [FieldOffset(80)]
-    public int dwFillColor;
-    [FieldOffset(84)]
-    public TDDColorKey ddckDestColorkey;
-    [FieldOffset(92)]
-    public TDDColorKey ddckSrcColorkey;
-}
-
-public delegate int TDDEnumModesCallback(Ptr<TDDSurfaceDesc> lpDDSurfaceDesc, object lpContext);
-
-public partial class IDirectDrawSurface : IUnknown
-{
-    // GFXE.pas:212
-    public int AddAttachedSurface(IDirectDrawSurface lpDDSAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface.AddAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:213
-    public int AddOverlayDirtyRect(in TRect lpRect)
-    {
-        /* TODO: Implement IDirectDrawSurface.AddOverlayDirtyRect. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:214
-    public int Blt(Ptr<TRect> lpDestRect, IDirectDrawSurface lpDDSrcSurface, Ptr<TRect> lpSrcRect, int dwFlags, Ptr<TDDBltFX> lpDDBltFx)
-    {
-        /* TODO: Implement IDirectDrawSurface.Blt. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:215
-    public int BltBatch(object lpDDBltBatch, int dwCount, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface.BltBatch. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:216
-    public int BltFast(int dwX, int dwY, IDirectDrawSurface lpDDSrcSurface, Ptr<TRect> lpSrcRect, int dwTrans)
-    {
-        /* TODO: Implement IDirectDrawSurface.BltFast. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:217
-    public int DeleteAttachedSurface(int dwFlags, IDirectDrawSurface lpDDSAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface.DeleteAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:218
-    public int EnumAttachedSurfaces(object lpContext, object lpEnumSurfacesCallback)
-    {
-        /* TODO: Implement IDirectDrawSurface.EnumAttachedSurfaces. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:219
-    public int EnumOverlayZOrders(int dwFlags, object lpContext, object lpfnCallback)
-    {
-        /* TODO: Implement IDirectDrawSurface.EnumOverlayZOrders. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:220
-    public int Flip(IDirectDrawSurface lpDDSurfaceTargetOverride, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface.Flip. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:221
-    public int GetAttachedSurface(ref TDDSCaps lpDDSCaps, ref IDirectDrawSurface lplpDDAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:222
-    public int GetBltStatus(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetBltStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:223
-    public int GetCaps(ref TDDSCaps lpDDSCaps)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetCaps. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:224
-    public int GetClipper(IDirectDrawClipper lplpDDClipper)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:225
-    public int GetColorKey(int dwFlags, ref TDDColorKey lpDDColorKey)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetColorKey. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:226
-    public int GetDC(ref int lphDC)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetDC. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:227
-    public int GetFlipStatus(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetFlipStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:228
-    public int GetOverlayPosition(ref int lplX, ref int lplY)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetOverlayPosition. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:229
-    public int GetPalette(IDirectDrawPalette lplpDDPalette)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetPalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:230
-    public int GetPixelFormat(ref TDDPixelFormat lpDDPixelFormat)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetPixelFormat. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:231
-    public int GetSurfaceDesc(ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDrawSurface.GetSurfaceDesc. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:232
-    public int Initialize(IDirectDraw lpDD, ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDrawSurface.Initialize. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:233
-    public int IsLost()
-    {
-        /* TODO: Implement IDirectDrawSurface.IsLost. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:234
-    public int Lock(Ptr<TRect> lpDestRect, ref TDDSurfaceDesc lpDDSurfaceDesc, int dwFlags, int hEvent)
-    {
-        /* TODO: Implement IDirectDrawSurface.Lock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:235
-    public int ReleaseDC(int hDC)
-    {
-        /* TODO: Implement IDirectDrawSurface.ReleaseDC. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:236
-    public int Restore()
-    {
-        /* TODO: Implement IDirectDrawSurface.Restore. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:237
-    public int SetClipper(IDirectDrawClipper lpDDClipper)
-    {
-        /* TODO: Implement IDirectDrawSurface.SetClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:238
-    public int SetColorKey(int dwFlags, Ptr<TDDColorKey> lpDDColorKey)
-    {
-        /* TODO: Implement IDirectDrawSurface.SetColorKey. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:239
-    public int SetOverlayPosition(int lX, int lY)
-    {
-        /* TODO: Implement IDirectDrawSurface.SetOverlayPosition. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:240
-    public int SetPalette(IDirectDrawPalette lpDDPalette)
-    {
-        /* TODO: Implement IDirectDrawSurface.SetPalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:241
-    public int Unlock(object lpSurfaceData)
-    {
-        /* TODO: Implement IDirectDrawSurface.Unlock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:242
-    public int UpdateOverlay(Ptr<TRect> lpSrcRect, IDirectDrawSurface lpDDDestSurface, Ptr<TRect> lpDestRect, int dwFlags, object lpDDOverlayFx)
-    {
-        /* TODO: Implement IDirectDrawSurface.UpdateOverlay. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:243
-    public int UpdateOverlayDisplay(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface.UpdateOverlayDisplay. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:244
-    public int UpdateOverlayZOrder(int dwFlags, IDirectDrawSurface lpDDSReference)
-    {
-        /* TODO: Implement IDirectDrawSurface.UpdateOverlayZOrder. */
-        throw new NotImplementedException();
-    }
-}
-
-public partial class IDirectDrawPalette : IUnknown
-{
-    // GFXE.pas:196
-    public int GetCaps(ref int lpdwCaps)
-    {
-        /* TODO: Implement IDirectDrawPalette.GetCaps. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:197
-    public int GetEntries(int dwFlags, int dwBase, int dwNumEntries, object lpEntries)
-    {
-        /* TODO: Implement IDirectDrawPalette.GetEntries. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:198
-    public int Initialize(IDirectDraw lpDD, int dwFlags, object lpDDColorTable)
-    {
-        /* TODO: Implement IDirectDrawPalette.Initialize. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:199
-    public int SetEntries(int dwFlags, int dwStartingEntry, int dwCount, object lpEntries)
-    {
-        /* TODO: Implement IDirectDrawPalette.SetEntries. */
-        throw new NotImplementedException();
-    }
-}
-
-public partial class IDirectDrawClipper : IUnknown
-{
-    // GFXE.pas:203
-    public int GetClipList(Ptr<TRect> lpRect, object lpClipList, ref int lpdwSize)
-    {
-        /* TODO: Implement IDirectDrawClipper.GetClipList. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:204
-    public int GetHWnd(ref int lphWnd)
-    {
-        /* TODO: Implement IDirectDrawClipper.GetHWnd. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:205
-    public int Initialize(IDirectDraw lpDD, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawClipper.Initialize. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:206
-    public int IsClipListChanged(ref bool lpbChanged)
-    {
-        /* TODO: Implement IDirectDrawClipper.IsClipListChanged. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:207
-    public int SetClipList(object lpClipList, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawClipper.SetClipList. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:208
-    public int SetHWnd(int dwFlags, int hWnd)
-    {
-        /* TODO: Implement IDirectDrawClipper.SetHWnd. */
-        throw new NotImplementedException();
-    }
-}
-
-public partial class IDirectDraw : IUnknown
-{
-    // GFXE.pas:149
-    public int Compact()
-    {
-        /* TODO: Implement IDirectDraw.Compact. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:150
-    public int CreateClipper(int dwFlags, IDirectDrawClipper lplpDDClipper, IUnknown pUnkOuter)
-    {
-        /* TODO: Implement IDirectDraw.CreateClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:151
-    public int CreatePalette(int dwFlags, object lpColorTable, IDirectDrawPalette lplpDDPalette, IUnknown pUnkOuter)
-    {
-        /* TODO: Implement IDirectDraw.CreatePalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:152
-    public int CreateSurface(in TDDSurfaceDesc lpDDSurfaceDesc, ref IDirectDrawSurface lplpDDSurface, IUnknown pUnkOuter)
-    {
-        /* TODO: Implement IDirectDraw.CreateSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:153
-    public int DuplicateSurface(IDirectDrawSurface lpDDSurface, IDirectDrawSurface lplpDupDDSurface)
-    {
-        /* TODO: Implement IDirectDraw.DuplicateSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:154
-    public int EnumDisplayModes(int dwFlags, Ptr<TDDSurfaceDesc> lpDDSurfaceDesc, object lpContext, TDDEnumModesCallback lpEnumModesCallback)
-    {
-        /* TODO: Implement IDirectDraw.EnumDisplayModes. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:155
-    public int EnumSurfaces(int dwFlags, Ptr<TDDSurfaceDesc> lpDDSD, object lpContext, object lpEnumCallback)
-    {
-        /* TODO: Implement IDirectDraw.EnumSurfaces. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:156
-    public int FlipToGDISurface()
-    {
-        /* TODO: Implement IDirectDraw.FlipToGDISurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:157
-    public int GetCaps(object lpDDDriverCaps, object lpDDHELCaps)
-    {
-        /* TODO: Implement IDirectDraw.GetCaps. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:158
-    public int GetDisplayMode(ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDraw.GetDisplayMode. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:159
-    public int GetFourCCCodes(ref int lpNumCodes, Ptr<int> lpCodes)
-    {
-        /* TODO: Implement IDirectDraw.GetFourCCCodes. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:160
-    public int GetGDISurface(IDirectDrawSurface lplpGDIDDSSurface)
-    {
-        /* TODO: Implement IDirectDraw.GetGDISurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:161
-    public int GetMonitorFrequency(ref int lpdwFrequency)
-    {
-        /* TODO: Implement IDirectDraw.GetMonitorFrequency. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:162
-    public int GetScanLine(ref int lpdwScanLine)
-    {
-        /* TODO: Implement IDirectDraw.GetScanLine. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:163
-    public int GetVerticalBlankStatus(ref bool lpbIsInVB)
-    {
-        /* TODO: Implement IDirectDraw.GetVerticalBlankStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:164
-    public int Initialize(Ptr<TGUID> lpGUID)
-    {
-        /* TODO: Implement IDirectDraw.Initialize. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:165
-    public int RestoreDisplayMode()
-    {
-        /* TODO: Implement IDirectDraw.RestoreDisplayMode. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:166
-    public int SetCooperativeLevel(int hWnd, int dwFlags)
-    {
-        /* TODO: Implement IDirectDraw.SetCooperativeLevel. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:167
-    public int SetDisplayMode(int dwWidth, int dwHeight, int dwBpp)
-    {
-        /* TODO: Implement IDirectDraw.SetDisplayMode. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:168
-    public int WaitForVerticalBlank(int dwFlags, int hEvent)
-    {
-        /* TODO: Implement IDirectDraw.WaitForVerticalBlank. */
-        throw new NotImplementedException();
-    }
-}
-
-public partial class IDirectDraw2 : IUnknown
-{
-    // GFXE.pas:172
-    public int Compact()
-    {
-        /* TODO: Implement IDirectDraw2.Compact. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:173
-    public int CreateClipper(int dwFlags, IDirectDrawClipper lplpDDClipper, IUnknown pUnkOuter)
-    {
-        /* TODO: Implement IDirectDraw2.CreateClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:174
-    public int CreatePalette(int dwFlags, object lpColorTable, IDirectDrawPalette lplpDDPalette, IUnknown pUnkOuter)
-    {
-        /* TODO: Implement IDirectDraw2.CreatePalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:175
-    public int CreateSurface(in TDDSurfaceDesc lpDDSurfaceDesc, ref IDirectDrawSurface lplpDDSurface, IUnknown pUnkOuter)
-    {
-        /* TODO: Implement IDirectDraw2.CreateSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:176
-    public int DuplicateSurface(IDirectDrawSurface lpDDSurface, IDirectDrawSurface lplpDupDDSurface)
-    {
-        /* TODO: Implement IDirectDraw2.DuplicateSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:177
-    public int EnumDisplayModes(int dwFlags, Ptr<TDDSurfaceDesc> lpDDSurfaceDesc, object lpContext, TDDEnumModesCallback lpEnumModesCallback)
-    {
-        /* TODO: Implement IDirectDraw2.EnumDisplayModes. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:178
-    public int EnumSurfaces(int dwFlags, Ptr<TDDSurfaceDesc> lpDDSD, object lpContext, object lpEnumCallback)
-    {
-        /* TODO: Implement IDirectDraw2.EnumSurfaces. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:179
-    public int FlipToGDISurface()
-    {
-        /* TODO: Implement IDirectDraw2.FlipToGDISurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:180
-    public int GetCaps(object lpDDDriverCaps, object lpDDHELCaps)
-    {
-        /* TODO: Implement IDirectDraw2.GetCaps. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:181
-    public int GetDisplayMode(ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDraw2.GetDisplayMode. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:182
-    public int GetFourCCCodes(ref int lpNumCodes, Ptr<int> lpCodes)
-    {
-        /* TODO: Implement IDirectDraw2.GetFourCCCodes. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:183
-    public int GetGDISurface(IDirectDrawSurface lplpGDIDDSSurface)
-    {
-        /* TODO: Implement IDirectDraw2.GetGDISurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:184
-    public int GetMonitorFrequency(ref int lpdwFrequency)
-    {
-        /* TODO: Implement IDirectDraw2.GetMonitorFrequency. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:185
-    public int GetScanLine(ref int lpdwScanLine)
-    {
-        /* TODO: Implement IDirectDraw2.GetScanLine. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:186
-    public int GetVerticalBlankStatus(ref bool lpbIsInVB)
-    {
-        /* TODO: Implement IDirectDraw2.GetVerticalBlankStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:187
-    public int Initialize(Ptr<TGUID> lpGUID)
-    {
-        /* TODO: Implement IDirectDraw2.Initialize. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:188
-    public int RestoreDisplayMode()
-    {
-        /* TODO: Implement IDirectDraw2.RestoreDisplayMode. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:189
-    public int SetCooperativeLevel(int hWnd, int dwFlags)
-    {
-        /* TODO: Implement IDirectDraw2.SetCooperativeLevel. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:190
-    public int SetDisplayMode(int dwWidth, int dwHeight, int dwBpp, int dwRefreshRate, int dwFlags)
-    {
-        /* TODO: Implement IDirectDraw2.SetDisplayMode. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:191
-    public int WaitForVerticalBlank(int dwFlags, int hEvent)
-    {
-        /* TODO: Implement IDirectDraw2.WaitForVerticalBlank. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:192
-    public int GetAvailableVidMem(Ptr<TDDSCaps> lpDDSCaps, ref int lpdwTotal, ref int lpdwFree)
-    {
-        /* TODO: Implement IDirectDraw2.GetAvailableVidMem. */
-        throw new NotImplementedException();
-    }
-}
-
-public partial class IDirectDrawSurface2 : IUnknown
-{
-    // GFXE.pas:248
-    public int AddAttachedSurface(IDirectDrawSurface2 lpDDSAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface2.AddAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:249
-    public int AddOverlayDirtyRect(in TRect lpRect)
-    {
-        /* TODO: Implement IDirectDrawSurface2.AddOverlayDirtyRect. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:250
-    public int Blt(Ptr<TRect> lpDestRect, IDirectDrawSurface2 lpDDSrcSurface, Ptr<TRect> lpSrcRect, int dwFlags, Ptr<TDDBltFX> lpDDBltFx)
-    {
-        /* TODO: Implement IDirectDrawSurface2.Blt. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:251
-    public int BltBatch(object lpDDBltBatch, int dwCount, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface2.BltBatch. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:252
-    public int BltFast(int dwX, int dwY, IDirectDrawSurface2 lpDDSrcSurface, Ptr<TRect> lpSrcRect, int dwTrans)
-    {
-        /* TODO: Implement IDirectDrawSurface2.BltFast. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:253
-    public int DeleteAttachedSurface(int dwFlags, IDirectDrawSurface2 lpDDSAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface2.DeleteAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:254
-    public int EnumAttachedSurfaces(object lpContext, object lpEnumSurfacesCallback)
-    {
-        /* TODO: Implement IDirectDrawSurface2.EnumAttachedSurfaces. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:255
-    public int EnumOverlayZOrders(int dwFlags, object lpContext, object lpfnCallback)
-    {
-        /* TODO: Implement IDirectDrawSurface2.EnumOverlayZOrders. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:256
-    public int Flip(IDirectDrawSurface2 lpDDSurfaceTargetOverride, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface2.Flip. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:257
-    public int GetAttachedSurface(ref TDDSCaps lpDDSCaps, ref IDirectDrawSurface2 lplpDDAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:258
-    public int GetBltStatus(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetBltStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:259
-    public int GetCaps(ref TDDSCaps lpDDSCaps)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetCaps. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:260
-    public int GetClipper(IDirectDrawClipper lplpDDClipper)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:261
-    public int GetColorKey(int dwFlags, ref TDDColorKey lpDDColorKey)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetColorKey. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:262
-    public int GetDC(ref int lphDC)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetDC. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:263
-    public int GetFlipStatus(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetFlipStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:264
-    public int GetOverlayPosition(ref int lplX, ref int lplY)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetOverlayPosition. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:265
-    public int GetPalette(IDirectDrawPalette lplpDDPalette)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetPalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:266
-    public int GetPixelFormat(ref TDDPixelFormat lpDDPixelFormat)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetPixelFormat. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:267
-    public int GetSurfaceDesc(ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetSurfaceDesc. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:268
-    public int Initialize(IDirectDraw lpDD, ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDrawSurface2.Initialize. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:269
-    public int IsLost()
-    {
-        /* TODO: Implement IDirectDrawSurface2.IsLost. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:270
-    public int Lock(Ptr<TRect> lpDestRect, ref TDDSurfaceDesc lpDDSurfaceDesc, int dwFlags, int hEvent)
-    {
-        /* TODO: Implement IDirectDrawSurface2.Lock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:271
-    public int ReleaseDC(int hDC)
-    {
-        /* TODO: Implement IDirectDrawSurface2.ReleaseDC. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:272
-    public int Restore()
-    {
-        /* TODO: Implement IDirectDrawSurface2.Restore. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:273
-    public int SetClipper(IDirectDrawClipper lpDDClipper)
-    {
-        /* TODO: Implement IDirectDrawSurface2.SetClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:274
-    public int SetColorKey(int dwFlags, Ptr<TDDColorKey> lpDDColorKey)
-    {
-        /* TODO: Implement IDirectDrawSurface2.SetColorKey. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:275
-    public int SetOverlayPosition(int lX, int lY)
-    {
-        /* TODO: Implement IDirectDrawSurface2.SetOverlayPosition. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:276
-    public int SetPalette(IDirectDrawPalette lpDDPalette)
-    {
-        /* TODO: Implement IDirectDrawSurface2.SetPalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:277
-    public int Unlock(object lpSurfaceData)
-    {
-        /* TODO: Implement IDirectDrawSurface2.Unlock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:278
-    public int UpdateOverlay(Ptr<TRect> lpSrcRect, IDirectDrawSurface2 lpDDDestSurface, Ptr<TRect> lpDestRect, int dwFlags, object lpDDOverlayFx)
-    {
-        /* TODO: Implement IDirectDrawSurface2.UpdateOverlay. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:279
-    public int UpdateOverlayDisplay(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface2.UpdateOverlayDisplay. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:280
-    public int UpdateOverlayZOrder(int dwFlags, IDirectDrawSurface2 lpDDSReference)
-    {
-        /* TODO: Implement IDirectDrawSurface2.UpdateOverlayZOrder. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:281
-    public int GetDDInterface(IUnknown lplpDD)
-    {
-        /* TODO: Implement IDirectDrawSurface2.GetDDInterface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:282
-    public int PageLock(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface2.PageLock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:283
-    public int PageUnlock(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface2.PageUnlock. */
-        throw new NotImplementedException();
-    }
-}
-
-public partial class IDirectDrawSurface3 : IUnknown
-{
-    // GFXE.pas:287
-    public int AddAttachedSurface(IDirectDrawSurface3 lpDDSAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface3.AddAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:288
-    public int AddOverlayDirtyRect(in TRect lpRect)
-    {
-        /* TODO: Implement IDirectDrawSurface3.AddOverlayDirtyRect. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:289
-    public int Blt(Ptr<TRect> lpDestRect, IDirectDrawSurface3 lpDDSrcSurface, Ptr<TRect> lpSrcRect, int dwFlags, Ptr<TDDBltFX> lpDDBltFx)
-    {
-        /* TODO: Implement IDirectDrawSurface3.Blt. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:290
-    public int BltBatch(object lpDDBltBatch, int dwCount, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.BltBatch. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:291
-    public int BltFast(int dwX, int dwY, IDirectDrawSurface3 lpDDSrcSurface, Ptr<TRect> lpSrcRect, int dwTrans)
-    {
-        /* TODO: Implement IDirectDrawSurface3.BltFast. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:292
-    public int DeleteAttachedSurface(int dwFlags, IDirectDrawSurface3 lpDDSAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface3.DeleteAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:293
-    public int EnumAttachedSurfaces(object lpContext, object lpEnumSurfacesCallback)
-    {
-        /* TODO: Implement IDirectDrawSurface3.EnumAttachedSurfaces. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:294
-    public int EnumOverlayZOrders(int dwFlags, object lpContext, object lpfnCallback)
-    {
-        /* TODO: Implement IDirectDrawSurface3.EnumOverlayZOrders. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:295
-    public int Flip(IDirectDrawSurface3 lpDDSurfaceTargetOverride, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.Flip. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:296
-    public int GetAttachedSurface(ref TDDSCaps lpDDSCaps, ref IDirectDrawSurface3 lplpDDAttachedSurface)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetAttachedSurface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:297
-    public int GetBltStatus(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetBltStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:298
-    public int GetCaps(ref TDDSCaps lpDDSCaps)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetCaps. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:299
-    public int GetClipper(IDirectDrawClipper lplpDDClipper)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:300
-    public int GetColorKey(int dwFlags, ref TDDColorKey lpDDColorKey)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetColorKey. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:301
-    public int GetDC(ref int lphDC)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetDC. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:302
-    public int GetFlipStatus(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetFlipStatus. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:303
-    public int GetOverlayPosition(ref int lplX, ref int lplY)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetOverlayPosition. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:304
-    public int GetPalette(IDirectDrawPalette lplpDDPalette)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetPalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:305
-    public int GetPixelFormat(ref TDDPixelFormat lpDDPixelFormat)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetPixelFormat. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:306
-    public int GetSurfaceDesc(ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetSurfaceDesc. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:307
-    public int Initialize(IDirectDraw lpDD, ref TDDSurfaceDesc lpDDSurfaceDesc)
-    {
-        /* TODO: Implement IDirectDrawSurface3.Initialize. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:308
-    public int IsLost()
-    {
-        /* TODO: Implement IDirectDrawSurface3.IsLost. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:309
-    public int Lock(Ptr<TRect> lpDestRect, ref TDDSurfaceDesc lpDDSurfaceDesc, int dwFlags, int hEvent)
-    {
-        /* TODO: Implement IDirectDrawSurface3.Lock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:310
-    public int ReleaseDC(int hDC)
-    {
-        /* TODO: Implement IDirectDrawSurface3.ReleaseDC. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:311
-    public int Restore()
-    {
-        /* TODO: Implement IDirectDrawSurface3.Restore. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:312
-    public int SetClipper(IDirectDrawClipper lpDDClipper)
-    {
-        /* TODO: Implement IDirectDrawSurface3.SetClipper. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:313
-    public int SetColorKey(int dwFlags, Ptr<TDDColorKey> lpDDColorKey)
-    {
-        /* TODO: Implement IDirectDrawSurface3.SetColorKey. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:314
-    public int SetOverlayPosition(int lX, int lY)
-    {
-        /* TODO: Implement IDirectDrawSurface3.SetOverlayPosition. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:315
-    public int SetPalette(IDirectDrawPalette lpDDPalette)
-    {
-        /* TODO: Implement IDirectDrawSurface3.SetPalette. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:316
-    public int Unlock(object lpSurfaceData)
-    {
-        /* TODO: Implement IDirectDrawSurface3.Unlock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:317
-    public int UpdateOverlay(Ptr<TRect> lpSrcRect, IDirectDrawSurface3 lpDDDestSurface, Ptr<TRect> lpDestRect, int dwFlags, object lpDDOverlayFx)
-    {
-        /* TODO: Implement IDirectDrawSurface3.UpdateOverlay. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:318
-    public int UpdateOverlayDisplay(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.UpdateOverlayDisplay. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:319
-    public int UpdateOverlayZOrder(int dwFlags, IDirectDrawSurface3 lpDDSReference)
-    {
-        /* TODO: Implement IDirectDrawSurface3.UpdateOverlayZOrder. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:320
-    public int GetDDInterface(IUnknown lplpDD)
-    {
-        /* TODO: Implement IDirectDrawSurface3.GetDDInterface. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:321
-    public int PageLock(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.PageLock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:322
-    public int PageUnlock(int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.PageUnlock. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:323
-    public int SetSurfaceDesc(in TDDSurfaceDesc lpDDSD, int dwFlags)
-    {
-        /* TODO: Implement IDirectDrawSurface3.SetSurfaceDesc. */
-        throw new NotImplementedException();
-    }
-}
-
-public partial class IDirectDrawColorControl : IUnknown
-{
-    // GFXE.pas:327
-    public int GetColorControls(object lpColorControl)
-    {
-        /* TODO: Implement IDirectDrawColorControl.GetColorControls. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:328
-    public int SetColorControls(object lpColorControl)
-    {
-        /* TODO: Implement IDirectDrawColorControl.SetColorControls. */
-        throw new NotImplementedException();
-    }
-}
-
 [StructLayout(LayoutKind.Explicit, Size = 4)]
 public struct TPaletteEntry
 {
@@ -1307,7 +60,8 @@ public partial class TGFXEPalette : TObject
     }
 
     // GFXE.pas:11068
-    public Ptr<TPaletteEntry> GetEntry(int Index) => Ptr<TPaletteEntry>.To(Entries, Index);
+    // The original returns a pointer to the entry, a reference here.
+    public ref TPaletteEntry GetEntry(int Index) => ref Entries[Index];
 
     // GFXE.pas:11073
     public int Remap(int NewPixelFormatID)
@@ -1602,13 +356,12 @@ public partial class TSurface : TObject
     }
 
     // GFXE.pas:12007
-    public virtual int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y)
+    public virtual int Blt(TSurface Dest, TRect? SrcRect, int X, int Y)
     {
         int Result;
         TSurfaceDesc DSD = default;
         TSurfaceDesc SSD = default;
-        TRect[] R__cell = new TRect[1];
-        ref TRect R = ref R__cell[0];
+        TRect R = default;
         SurfaceView S;
         SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID)
@@ -1617,13 +370,13 @@ public partial class TSurface : TObject
             {
                 if (Succeeded(Lock(ref SSD)))
                 {
-                    if (SrcRect.IsNull)
+                    if (SrcRect is null)
                     {
                         R.Left = 0;
                         R.Right = SSD.Width;
                         R.Top = 0;
                         R.Bottom = SSD.Height;
-                        SrcRect = Ptr<TRect>.To(R__cell, 0);
+                        SrcRect = R;
                     }
 
                     S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
@@ -1653,14 +406,13 @@ public partial class TSurface : TObject
     }
 
     // GFXE.pas:12045
-    public virtual int BltClipped(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y)
+    public virtual int BltClipped(TSurface Dest, TRect? SrcRect, int X, int Y)
     {
         int Result;
         int W;
         int H;
-        TRect[] R__cell = new TRect[1];
-        ref TRect R = ref R__cell[0];
-        if (SrcRect.IsNull)
+        TRect R = default;
+        if (SrcRect is null)
         {
             R.Left = 0;
             var width = GetWidth();
@@ -1727,7 +479,7 @@ public partial class TSurface : TObject
         {
             R.Right = W + R.Left;
             R.Bottom = R.Top + H;
-            Result = Blt(Dest, Ptr<TRect>.To(R__cell, 0), X, Y);
+            Result = Blt(Dest, R, X, Y);
         }
         else
         {
@@ -1738,13 +490,12 @@ public partial class TSurface : TObject
     }
 
     // GFXE.pas:12130
-    public virtual int BltColorKey(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y, int ColorKey)
+    public virtual int BltColorKey(TSurface Dest, TRect? SrcRect, int X, int Y, int ColorKey)
     {
         int Result;
         TSurfaceDesc DSD = default;
         TSurfaceDesc SSD = default;
-        TRect[] R__cell = new TRect[1];
-        ref TRect R = ref R__cell[0];
+        TRect R = default;
         SurfaceView S;
         SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID && (PixelFormatID & 255) == 16)
@@ -1753,13 +504,13 @@ public partial class TSurface : TObject
             {
                 if (Succeeded(Lock(ref SSD)))
                 {
-                    if (SrcRect.IsNull)
+                    if (SrcRect is null)
                     {
                         R.Left = 0;
                         R.Right = SSD.Width;
                         R.Top = 0;
                         R.Bottom = SSD.Height;
-                        SrcRect = Ptr<TRect>.To(R__cell, 0);
+                        SrcRect = R;
                     }
 
                     S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
@@ -1789,14 +540,13 @@ public partial class TSurface : TObject
     }
 
     // GFXE.pas:12168
-    public virtual int BltColorKeyClipped(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y, int ColorKey)
+    public virtual int BltColorKeyClipped(TSurface Dest, TRect? SrcRect, int X, int Y, int ColorKey)
     {
         int Result;
         int W;
         int H;
-        TRect[] R__cell = new TRect[1];
-        ref TRect R = ref R__cell[0];
-        if (SrcRect.IsNull)
+        TRect R = default;
+        if (SrcRect is null)
         {
             R.Left = 0;
             var width = GetWidth();
@@ -1863,7 +613,7 @@ public partial class TSurface : TObject
         {
             R.Right = W + R.Left;
             R.Bottom = R.Top + H;
-            Result = BltColorKey(Dest, Ptr<TRect>.To(R__cell, 0), X, Y, ColorKey);
+            Result = BltColorKey(Dest, R, X, Y, ColorKey);
         }
         else
         {
@@ -1874,14 +624,12 @@ public partial class TSurface : TObject
     }
 
     // GFXE.pas:12102
-    public virtual int BltStretch(TSurface Dest, Ptr<TRect> SrcRect, Ptr<TRect> DestRect)
+    public virtual int BltStretch(TSurface Dest, TRect? SrcRect, TRect? DestRect)
     {
         int Result;
-        TRect[] R__cell = new TRect[1];
-        ref TRect R = ref R__cell[0];
-        TRect[] DR__cell = new TRect[1];
-        ref TRect DR = ref DR__cell[0];
-        if (SrcRect.IsNull)
+        TRect R = default;
+        TRect DR = default;
+        if (SrcRect is null)
         {
             R.Left = 0;
             var width = GetWidth();
@@ -1889,10 +637,10 @@ public partial class TSurface : TObject
             R.Top = 0;
             var height = GetHeight();
             R.Bottom = height;
-            SrcRect = Ptr<TRect>.To(R__cell, 0);
+            SrcRect = R;
         }
 
-        if (DestRect.IsNull)
+        if (DestRect is null)
         {
             DR.Left = 0;
             var width = Dest.GetWidth();
@@ -1900,7 +648,7 @@ public partial class TSurface : TObject
             DR.Top = 0;
             var height = Dest.GetHeight();
             DR.Bottom = height;
-            DestRect = Ptr<TRect>.To(DR__cell, 0);
+            DestRect = DR;
         }
 
         if (SrcRect.Value.Right - SrcRect.Value.Left == DestRect.Value.Right - DestRect.Value.Left && SrcRect.Value.Bottom - SrcRect.Value.Top == DestRect.Value.Bottom - DestRect.Value.Top)
@@ -1944,7 +692,7 @@ public partial class TSurface : TObject
             Result = Lock(ref SD);
             if (Succeeded(Result))
             {
-                SD.Data = SD.Data + (int)(((uint)(R.Left * SD.BitCount)) >> 3) + R.Top * SD.Pitch;
+                SD.DataIndex = SD.DataIndex + (int)(((uint)(R.Left * SD.BitCount)) >> 3) + R.Top * SD.Pitch;
                 SD.Width = R.Right - R.Left;
                 SD.Height = R.Bottom - R.Top;
                 SD.ClipRect.Right = SD.Width;
@@ -1975,14 +723,14 @@ public partial class TSurface : TObject
 
 // a surface in memory. FWidth, FHeight, FMem, FData (FMem aligned to 8), FBitCount (Byte),
 // FPitch, FPixelFormatID, FX, FY (origin of the captured rectangle), FPalette. The port's FMem
-// is the pixel array and FData addresses its first byte (graphics.md 3.4).
+// is the pixel array and its first byte is the first pixel, so FData has no field of its own
+// (graphics.md 3.4).
 public partial class TDataSurface : TSurface
 {
 
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
-    internal Ptr<byte> FData;
     internal byte FBitCount;
     internal int FPitch;
     internal int FPixelFormatID;
@@ -2000,7 +748,7 @@ public partial class TDataSurface : TSurface
     }
 
     // GFXE.pas:12396
-    public TDataSurface(TSurface Surface, Ptr<TRect> R)
+    public TDataSurface(TSurface Surface, TRect? R)
     {
         CaptureSurface(Surface, R);
     }
@@ -2011,7 +759,6 @@ public partial class TDataSurface : TSurface
         FPalette.Free();
         FPalette = null;
         FMem = null;
-        FData = default;
         base.Destroy();
     }
 
@@ -2028,11 +775,10 @@ public partial class TDataSurface : TSurface
     public override int Unlock() => GFXEUnit.GFXE_OK;
 
     // GFXE.pas:12446
-    public int CaptureSurface(TSurface Surface, Ptr<TRect> R)
+    public int CaptureSurface(TSurface Surface, TRect? R)
     {
         TSurfaceDesc SD = default;
-        TRect[] RR__cell = new TRect[1];
-        ref TRect RR = ref RR__cell[0];
+        TRect RR = default;
         int W;
         int H;
         int Result = Surface.Lock(ref SD);
@@ -2042,13 +788,13 @@ public partial class TDataSurface : TSurface
             {
                 FBitCount = (byte)SD.BitCount;
                 FPixelFormatID = SD.PixelFormatID;
-                if (R.IsNull)
+                if (R is null)
                 {
                     RR.Left = 0;
                     RR.Right = SD.Width;
                     RR.Top = 0;
                     RR.Bottom = SD.Height;
-                    R = Ptr<TRect>.To(RR__cell, 0);
+                    R = RR;
                 }
 
                 W = R.Value.Right - R.Value.Left;
@@ -2059,7 +805,7 @@ public partial class TDataSurface : TSurface
                     SetPalette(SD.Palette);
                     FX = R.Value.Left;
                     FY = R.Value.Top;
-                    GFXEUnit.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), SurfaceView.Of(FData, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
+                    GFXEUnit.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), new SurfaceView(FMem, 0, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
                 }
             }
             catch
@@ -2104,12 +850,11 @@ public partial class TDataSurface : TSurface
             FHeight = AHeight;
             FPitch = ((int)(((uint)(FBitCount + 7)) >> 3) * FWidth + 7) & ~7;
             // The original allocates 7 bytes more and aligns FData to 8 for MMX. The alignment has
-            // no effect on pixels, so the port's data starts at the first byte of the array. The 7
+            // no effect on pixels, so the port's data is the array from its first byte. The 7
             // bytes stay after the last row: the 24-bit pixel readers read 4 bytes at the last
             // pixel, which the original's slack absorbs.
             Size = FPitch * FHeight + 7;
             FMem = MemorySurfaces.Reallocate(FMem, Size);
-            FData = Ptr<byte>.To(FMem, 0);
             Result = GFXEUnit.GFXE_OK;
         }
         else
@@ -2120,7 +865,7 @@ public partial class TDataSurface : TSurface
         return Result;
     }
 
-    public Ptr<byte> Data { get => FData; }
+    public byte[] Data { get => FMem; }
     public int Pitch { get => FPitch; }
     public TGFXEPalette Palette { get => FPalette; set => SetPalette(value); }
 
@@ -2134,30 +879,12 @@ public partial class TDIBSurface : TSurface
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
-    internal Ptr<byte> FBits;
+    internal byte[] FBits;
     internal int FPitch;
     internal int FPixelFormatID;
     internal TBitmapInfoHeader FInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
     internal TGFXEPalette FPalette;
-
-    // GFXE.pas:6397
-    public Ptr<TBitmapInfo> GetBITMAPINFO()
-    {
-        Ptr<TBitmapInfo> Result = default;
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        return Result;
-    }
-
-    // GFXE.pas:6402
-    public Ptr<TBitmapInfoHeader> GetBITMAPINFOHEADER()
-    {
-        Ptr<TBitmapInfoHeader> Result = default;
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        return Result;
-    }
 
     // GFXE.pas:6407
     public override int GetWidth() => FWidth;
@@ -2174,7 +901,7 @@ public partial class TDIBSurface : TSurface
         Unlock();
     }
 
-    public Ptr<byte> Bits { get => FBits; }
+    public byte[] Bits { get => FBits; }
     public int Pitch { get => FPitch; }
     public TGFXEPalette Palette { get => FPalette; }
 }
@@ -2186,7 +913,7 @@ public partial class TDIB08Surface : TSurface
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
-    internal Ptr<byte> FBits;
+    internal byte[] FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
@@ -2212,7 +939,7 @@ public partial class TDIB16Surface : TSurface
     internal int FHandle;
     internal int FWidth;
     internal int FHeight;
-    internal Ptr<byte> FBits;
+    internal byte[] FBits;
     internal int FPitch;
     internal int FPixelFormatID;
     internal TBitmapInfoHeader FInfo;
@@ -2237,7 +964,7 @@ public partial class TDIB24Surface : TSurface
     internal int FHandle;
     internal int FWidth;
     internal int FHeight;
-    internal Ptr<byte> FBits;
+    internal byte[] FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
 
@@ -2247,15 +974,6 @@ public partial class TDIB24Surface : TSurface
     // GFXE.pas:7243
     public override int GetHeight() => FHeight;
 
-    // GFXE.pas:7248
-    public Ptr<TBitmapInfoHeader> GetBMPInfo()
-    {
-        Ptr<TBitmapInfoHeader> Result = default;
-        /* TODO: Implement cell or array backing for this address. */
-        throw new NotImplementedException();
-        return Result;
-    }
-
 }
 
 // a 32 bit bitmap in memory (bottom-up). FWidth, FHeight, FMem, FBits, FPitch, FInfo
@@ -2264,7 +982,7 @@ public partial class TDIB32Surface : TSurface
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
-    internal Ptr<byte> FBits;
+    internal byte[] FBits;
     internal int FPitch;
     internal TBitmapInfoHeader FInfo;
 
@@ -2312,10 +1030,10 @@ public partial class TGDISurface : TSurface
     }
 
     // GFXE.pas:12329
-    public override int Blt(TSurface Dest, Ptr<TRect> SrcRect, int X, int Y) => GFXEUnit.GFXE_NOTSUPPORTED;
+    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => GFXEUnit.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12334
-    public override int BltDC(int DC, Ptr<TRect> SrcRect, Ptr<TRect> DestRect)
+    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -2347,7 +1065,6 @@ public partial class TDDrawSurface : TSurface
     protected internal int FPixelFormatID;
     protected internal int FWidth;
     protected internal int FHeight;
-    protected internal IDirectDrawSurface2 FSurface;
     protected internal TSet<TDDSCreationFlagsElement> FCreationFlags;
     protected internal TSet<TDDrawSurfaceStatusElement> FStatus;
     protected internal int FLockCount;
@@ -2363,7 +1080,6 @@ public partial class TDDrawSurface : TSurface
     // GFXE.pas:9289
     public override int GetHeight() => FHeight;
 
-    public IDirectDrawSurface2 Surface { get => FSurface; }
     public TSet<TDDrawSurfaceStatusElement> Status { get => FStatus; }
     public TSet<TDDSCreationFlagsElement> CreationFlags { get => FCreationFlags; }
     public TNotifyEvent OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
@@ -2792,7 +1508,6 @@ public partial class TLookupBlendTableCollection100 : TObject
 
 }
 
-public delegate void TBltRectProc(SurfaceView Src, SurfaceView Dst, int Width, int Height);
 public delegate void TProgressEvent(TObject Sender, int Percent, int Param);
 
 // { The implementation list of image file classes (TList of TImageFileClass). }
@@ -2842,26 +1557,6 @@ public partial class TImageFileClassList : TList
     public ClassesAccessor Classes => new ClassesAccessor(this);
 }
 
-// { The blit timing test of GetOptimalGFXESettings }
-public struct TBltTest
-{
-    public Ptr<byte> Src;
-    public Ptr<byte> Dst;
-    public int SrcPitch;
-    public int DstPitch;
-    public int Width;
-    public int Height;
-}
-
-[StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct TBltTestResult
-{
-    [FieldOffset(0)]
-    public int Index;
-    [FieldOffset(4)]
-    public int Bandwidth;
-}
-
 // the Windows bitmap file format
 public partial class TBMPImageFile : TImageFile, IImageFileClass
 {
@@ -2882,17 +1577,14 @@ public partial class TBMPImageFile : TImageFile, IImageFileClass
 
 }
 
-public delegate int Procedure_0(Ptr<TGUID> lpGUID, IDirectDraw lplpDD, IUnknown pUnkOuter);
-public delegate int Procedure_1(object lpCallback, object lpContext);
-public delegate int Procedure_2(int dwFlags, IDirectDrawClipper lplpDDClipper, IUnknown pUnkOuter);
-
 public static partial class GFXEUnit
 {
     // The GFXE unit of Gfxepack.dpl (the graphics engine of Age of Wonders: surfaces, blitters,
     // blend tables, DirectDraw access). The original was D:\GEngine\GFXE\GFXMAIN\GFXE.pas with
-    // inc\DIBSURF.PAS and inc\DDSurf.PAS included (the Assert line numbers tell). the
-    // DirectDraw interfaces and GUIDs are declared in this unit itself (their type info and
-    // typed constants sit in Gfxepack.dpl), without GUIDs on the interface types. The assembler
+    // inc\DIBSURF.PAS and inc\DDSurf.PAS included (the Assert line numbers tell). The original
+    // declares the DirectDraw interfaces and GUIDs in this unit itself. The port has no
+    // DirectDraw (graphics.md 1, decision 3) and drops them with the blit timing tests of
+    // GetOptimalGFXESettings and the settings routines (graphics.md 2). The assembler
     // blitters are transcribed from the disassembly: `asm` blocks compile verbatim. the MMX
     // instructions are DB-encoded (Delphi 3 has no MMX mnemonics)
     // { HResult codes returned by the surfaces (GetErrorMsg) }
@@ -2912,118 +1604,9 @@ public static partial class GFXEUnit
     public const int pfBGR24 = -2004870376;
     public const int pfRGB32 = -2004315360;
     public const int pfXRGB32 = -2004839648;
-    // { DirectDraw constants used here }
+    // { The result of the DirectDraw surface methods that TDDrawSurface keeps }
     public const byte DD_OK = 0;
-    public const int DDERR_UNSUPPORTED = -2005532242;
-    public const int DDERR_SURFACELOST = -2005532222;
-    public const int DDERR_WASSTILLDRAWING = -2005532132;
-    public const byte DDENUMRET_OK = 1;
-    public const byte DDSD_CAPS = 1;
-    public const byte DDSD_HEIGHT = 2;
-    public const byte DDSD_WIDTH = 4;
-    public const byte DDSD_PITCH = 8;
-    public const short DDSD_PIXELFORMAT = 4096;
-    public const byte DDSCAPS_OFFSCREENPLAIN = 64;
-    public const short DDSCAPS_PRIMARYSURFACE = 512;
-    public const short DDSCAPS_SYSTEMMEMORY = 2048;
-    public const short DDSCAPS_VIDEOMEMORY = 16384;
-    public const byte DDPF_RGB = 64;
-    public const byte DDLOCK_WAIT = 1;
-    public const short DDBLT_ASYNC = 512;
-    public const short DDBLT_COLORFILL = 1024;
-    public const int DDBLT_KEYSRC = 32768;
-    public const int DDBLT_WAIT = 16777216;
-    public const byte DDBLTFAST_NOCOLORKEY = 0;
-    public const byte DDBLTFAST_SRCCOLORKEY = 1;
-    public const byte DDBLTFAST_WAIT = 16;
-    public const byte DDCKEY_SRCBLT = 8;
-    public const byte DDGBS_CANBLT = 1;
-    public const byte DDGFS_ISFLIPDONE = 2;
-    public const byte DDSCL_NORMAL = 8;
 
-    public static TGUID CLSID_DirectDraw = new TGUID
-    {
-        D1 = -675868960,
-        D2 = 17216,
-        D3 = 4559,
-        D4 = [176, 99, 0, 32, 175, 194, 205, 53]
-    };
-
-    public static TGUID CLSID_DirectDrawClipper = new TGUID
-    {
-        D1 = 1496848288,
-        D2 = 32179,
-        D3 = 4559,
-        D4 = [162, 222, 0, 170, 0, 185, 51, 86]
-    };
-
-    public static TGUID IID_IDirectDraw = new TGUID
-    {
-        D1 = 1813306240,
-        D2 = 42803,
-        D3 = 4558,
-        D4 = [165, 33, 0, 32, 175, 11, 229, 96]
-    };
-
-    public static TGUID IID_IDirectDraw2 = new TGUID
-    {
-        D1 = -1280904224,
-        D2 = 11075,
-        D3 = 4559,
-        D4 = [162, 222, 0, 170, 0, 185, 51, 86]
-    };
-
-    public static TGUID IID_IDirectDrawSurface = new TGUID
-    {
-        D1 = 1813306241,
-        D2 = 42803,
-        D3 = 4558,
-        D4 = [165, 33, 0, 32, 175, 11, 229, 96]
-    };
-
-    public static TGUID IID_IDirectDrawSurface2 = new TGUID
-    {
-        D1 = 1468029061,
-        D2 = 28396,
-        D3 = 4559,
-        D4 = [148, 65, 168, 35, 3, 193, 14, 39]
-    };
-
-    public static TGUID IID_IDirectDrawSurface3 = new TGUID
-    {
-        D1 = -637252096,
-        D2 = 27058,
-        D3 = 4560,
-        D4 = [161, 213, 0, 170, 0, 184, 223, 187]
-    };
-
-    public static TGUID IID_IDirectDrawPalette = new TGUID
-    {
-        D1 = 1813306244,
-        D2 = 42803,
-        D3 = 4558,
-        D4 = [165, 33, 0, 32, 175, 11, 229, 96]
-    };
-
-    public static TGUID IID_IDirectDrawClipper = new TGUID
-    {
-        D1 = 1813306245,
-        D2 = 42803,
-        D3 = 4558,
-        D4 = [165, 33, 0, 32, 175, 11, 229, 96]
-    };
-
-    public static TGUID IID_IDirectDrawColorControl = new TGUID
-    {
-        D1 = 1268715232,
-        D2 = 3454,
-        D3 = 4560,
-        D4 = [155, 6, 0, 160, 201, 3, 163, 184]
-    };
-
-    public static Procedure_0 DirectDrawCreate;
-    public static Procedure_1 DirectDrawEnumerate;
-    public static Procedure_2 DirectDrawCreateClipper;
     public static TLookupBlendTableCollection100 AlphaBlendTable;
     public static TLookupBlendTableCollection100 IntensityBlendTable;
     public static TLookupBlendTableCollection100 BrightenBlendTable;
@@ -3125,28 +1708,6 @@ public static partial class GFXEUnit
             {
                 throw Exception.Create("ImageFile class with " + AClasses[I].Extension + " extension is already registered");
             }
-        }
-    }
-
-    // GFXE.pas:1656
-    public static void GetOptimalGFXESettings(bool ShowDialog)
-    {
-        /* TODO: Implement Grids.Cells in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:1736
-    public static void RegisterBltProc(TBltRectProc Proc, string Name)
-    {
-        if (BltProcCount != MaxBltProcs)
-        {
-            BltProcCount += 1;
-            BltProcs[BltProcCount - 1] = Proc;
-            BltProcNames[BltProcCount - 1] = Name;
-        }
-        else
-        {
-            throw Exception.Create("Maximum number of BltProc reached");
         }
     }
 
@@ -3455,7 +2016,7 @@ public static partial class GFXEUnit
     {
         Dest = Src;
         IntersectRect(ref Dest.ClipRect, Src.ClipRect, R);
-        Dest.Data = Src.Data + R.Top * Src.Pitch + (int)(((uint)Src.BitCount) >> 3) * R.Left;
+        Dest.DataIndex = Src.DataIndex + R.Top * Src.Pitch + (int)(((uint)Src.BitCount) >> 3) * R.Left;
         Dest.ClipRect.Left -= R.Left;
         Dest.ClipRect.Right -= R.Left;
         Dest.ClipRect.Top -= R.Top;
@@ -4202,29 +2763,6 @@ public static partial class GFXEUnit
         throw new NotImplementedException();
     }
 
-    // GFXE.pas:9258
-    public static int DDSDtoSurfaceDesc(in TDDSurfaceDesc DDSD, ref TSurfaceDesc SD)
-    {
-        int Result = DD_OK;
-        SD = default;
-        SD.Width = DDSD.dwWidth;
-        SD.Height = DDSD.dwHeight;
-        SD.Pitch = DDSD.lPitch;
-        SD.BitCount = DDSD.ddpfPixelFormat.dwRGBBitCount;
-        SD.ClipRect.Left = 0;
-        SD.ClipRect.Right = DDSD.dwWidth;
-        SD.ClipRect.Top = 0;
-        SD.ClipRect.Bottom = DDSD.dwHeight;
-        SD.Data = BytePointer(DDSD.lpSurface);
-        var masKtoPFID = MASKtoPFID(DDSD.ddpfPixelFormat.dwRGBBitCount, DDSD.ddpfPixelFormat.dwRBitMask, DDSD.ddpfPixelFormat.dwGBitMask, DDSD.ddpfPixelFormat.dwBBitMask, DDSD.ddpfPixelFormat.dwRGBAlphaBitMask);
-        SD.PixelFormatID = masKtoPFID;
-        SD.RMask = DDSD.ddpfPixelFormat.dwRBitMask;
-        SD.GMask = DDSD.ddpfPixelFormat.dwGBitMask;
-        SD.BMask = DDSD.ddpfPixelFormat.dwBBitMask;
-        SD.AMask = DDSD.ddpfPixelFormat.dwRGBAlphaBitMask;
-        return Result;
-    }
-
     // GFXE.pas:9517
     // { The 5 bit blend tables: Table[I, J] is the blend of source intensity I over destination
     //   intensity J (0..31). }
@@ -4358,97 +2896,6 @@ public static partial class GFXEUnit
         return Result;
     }
 
-    // GFXE.pas:12530
-    public static void SaveGFXESettingsToStream(TStream Stream)
-    {
-    }
-
-    // GFXE.pas:12534
-    public static void LoadGFXESettingsFromStream(TStream Stream)
-    {
-    }
-
-    // GFXE.pas:12538
-    public static void WriteGFXESettingsToRegistry(string Key)
-    {
-        try
-        {
-        }
-        finally
-        {
-        }
-    }
-
-    // GFXE.pas:12545
-    public static void ReadGFXESettingsFromRegistry(string Key)
-    {
-        try
-        {
-        }
-        finally
-        {
-        }
-    }
-
-    // GFXE.pas:12563
-    public static int GetPrimarySurfacePFID()
-    {
-        int Result;
-        TDDSurfaceDesc DDSD;
-        IDirectDrawSurface S = default;
-        if (DD() != null)
-        {
-            DDSD = default;
-            DDSD.dwSize = 108;
-            DDSD.dwFlags = DDSD_CAPS;
-            DDSD.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-            DD().SetCooperativeLevel(0, DDSCL_NORMAL);
-            if (Succeeded(DD().CreateSurface(DDSD, ref S, null)))
-            {
-                Result = DDStoPFID(S);
-                S = null;
-            }
-            else
-            {
-                Result = 0;
-            }
-        }
-        else
-        {
-            Result = 0;
-        }
-
-        return Result;
-    }
-
-    // GFXE.pas:12587
-    public static bool DisplayModeSupported(int Width, int Height, int PixelFormatID)
-    {
-        bool Result;
-        if (DD() != null)
-        {
-            EnumDDSD = default;
-            EnumDDSD.dwSize = 108;
-            EnumDDSD.dwFlags = DDSD_HEIGHT | DDSD_WIDTH | DDSD_PIXELFORMAT;
-            EnumDDSD.dwWidth = Width;
-            EnumDDSD.dwHeight = Height;
-            EnumDDSD.ddpfPixelFormat.dwSize = 32;
-            EnumDDSD.ddpfPixelFormat.dwFlags = DDPF_RGB;
-            var pfiDtoMASK = PFIDtoMASK(PixelFormatID, ref Unsafe.As<int, int>(ref EnumDDSD.ddpfPixelFormat.dwRBitMask), ref Unsafe.As<int, int>(ref EnumDDSD.ddpfPixelFormat.dwGBitMask), ref Unsafe.As<int, int>(ref EnumDDSD.ddpfPixelFormat.dwBBitMask), ref Unsafe.As<int, int>(ref EnumDDSD.ddpfPixelFormat.dwRGBAlphaBitMask));
-            EnumDDSD.ddpfPixelFormat.dwRGBBitCount = pfiDtoMASK;
-            ModeCount = 0;
-            /* TODO: Implement cell or array backing for this address. */
-            throw new NotImplementedException();
-            Result = ModeCount != 0;
-        }
-        else
-        {
-            Result = false;
-        }
-
-        return Result;
-    }
-
     // GFXE.pas:12697
     public static void ForceOptimal16BitPixelFormatID(int PixelFormatID)
     {
@@ -4469,270 +2916,14 @@ public static partial class GFXEUnit
         throw new NotImplementedException();
     }
 
-    // GFXE.pas:12734
-    public static int DDStoPFID(IDirectDrawSurface Surface)
-    {
-        int Result;
-        TDDSurfaceDesc DDSD;
-        if (Surface != null)
-        {
-            DDSD = default;
-            DDSD.dwSize = 108;
-            Result = Surface.Lock(default, ref DDSD, DDLOCK_WAIT, 0);
-            if (Result >= 0)
-            {
-                Result = MASKtoPFID(DDSD.ddpfPixelFormat.dwRGBBitCount, DDSD.ddpfPixelFormat.dwRBitMask, DDSD.ddpfPixelFormat.dwGBitMask, DDSD.ddpfPixelFormat.dwBBitMask, DDSD.ddpfPixelFormat.dwRGBAlphaBitMask);
-                Surface.Unlock(null);
-            }
-            else
-            {
-                Result = 0;
-            }
-        }
-        else
-        {
-            Result = 0;
-        }
-
-        return Result;
-    }
-
-    // GFXE.pas:12756
-    public static bool DirectDrawActivated() => FDirectDrawActivated;
-
-    // GFXE.pas:12787
-    public static IDirectDraw2 DD()
-    {
-        IDirectDraw2 Result;
-        if (!FDirectDrawActivated)
-        {
-            if (ActivateDirectDraw())
-            {
-                Result = FDirectDraw;
-            }
-            else
-            {
-                Result = null;
-            }
-        }
-        else
-        {
-            Result = FDirectDraw;
-        }
-
-        return Result;
-    }
-
     // GFXE.pas:12874
     public static void Register()
     {
         RegisterComponents("GFX Engine", [typeof(TDrawPanel), typeof(TOpenImageFileDialog)]);
     }
 
-    public const byte MaxBltProcs = 20;
     public static int ForcedPixelFormatID;
     public static TImageFileClassList ImageFileClassList;
-    public static FixedArray_Aow_Units_GFXE_TBltRectProc_21 BltProcs;
-    public static FixedArray_string_21 BltProcNames = FixedArray_string_21.From([]);
-    // { the blit routine indices chosen by GetOptimalGFXESettings: large and small blits, for
-    //     qword, dword, word and misaligned source/destination pairs }
-    public static FixedArray_byte_8 OptimalBltProc;
-    public static int BltProcCount;
-    public static int ModeCount;
-    public static TDDSurfaceDesc EnumDDSD;
-    public static int ListPixelFormatID;
-    public static bool FDirectDrawActivated;
-    public static IDirectDraw2 FDirectDraw;
-    public static bool PerformanceCounterAvailable;
-    public static long PerformanceFrequency;
-
-    // GFXE.pas:1508
-    // // sic: the small misaligned entry (+7) is never used
-    // { The four timing tests of GetOptimalGFXESettings: the source and destination of T are aligned
-    //   to 8 bytes and the destination offset by 0, 4, 2 or 1 bytes; every registered blit routine
-    //   is run Count times and the fastest one returned with its bandwidth. }
-    public static TBltTestResult TestQWordAligned(TBltTest T, int Count)
-    {
-        TBltTestResult Res = default;
-        int Start = default;
-        int Stop = default;
-        int BestTime;
-        int Best;
-        Best = -1;
-        BestTime = 16777215;
-        T.Src = AlignPointer(T.Src + 7, ~7);
-        T.Dst = AlignPointer(T.Dst + 7, ~7);
-        T.Width = T.Width - 8;
-        if (T.Width > 0)
-        {
-            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-            for (int I = 0, last = BltProcCount - 1; I <= last; I++)
-            {
-                Start = GetElapsedMilliSeconds();
-                for (int J = 0; J <= Count - 1; J++)
-                {
-                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-                }
-
-                Stop = GetElapsedMilliSeconds();
-                if (Stop - Start < BestTime)
-                {
-                    BestTime = Stop - Start;
-                    Best = I;
-                }
-            }
-
-            Res.Index = Best;
-            try
-            {
-                Res.Bandwidth = Round((double)(T.Width * T.Height) / ((double)((double)1000 / Count) * BestTime));
-            }
-            catch
-            {
-                Res.Bandwidth = 0;
-            }
-        }
-
-        return Res;
-    }
-
-    // GFXE.pas:1545
-    public static TBltTestResult TestDWordAligned(TBltTest T, int Count)
-    {
-        TBltTestResult Res = default;
-        int Start = default;
-        int Stop = default;
-        int BestTime;
-        int Best;
-        Best = -1;
-        BestTime = 16777215;
-        T.Src = AlignPointer(T.Src + 7, ~7);
-        T.Dst = AlignPointer(T.Dst + 7, ~7) + 4;
-        T.Width = T.Width - 16;
-        if (T.Width > 0)
-        {
-            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-            for (int I = 0, last = BltProcCount - 1; I <= last; I++)
-            {
-                Start = GetElapsedMilliSeconds();
-                for (int J = 0; J <= Count - 1; J++)
-                {
-                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-                }
-
-                Stop = GetElapsedMilliSeconds();
-                if (Stop - Start < BestTime)
-                {
-                    BestTime = Stop - Start;
-                    Best = I;
-                }
-            }
-
-            Res.Index = Best;
-            try
-            {
-                Res.Bandwidth = Round((double)(T.Width * T.Height) / ((double)((double)1000 / Count) * BestTime));
-            }
-            catch
-            {
-                Res.Bandwidth = 0;
-            }
-        }
-
-        return Res;
-    }
-
-    // GFXE.pas:1582
-    public static TBltTestResult TestWordAligned(TBltTest T, int Count)
-    {
-        TBltTestResult Res = default;
-        int Start = default;
-        int Stop = default;
-        int BestTime;
-        int Best;
-        Best = -1;
-        BestTime = 16777215;
-        T.Src = AlignPointer(T.Src + 7, ~7);
-        T.Dst = AlignPointer(T.Dst + 7, ~7) + 2;
-        T.Width = T.Width - 16;
-        if (T.Width > 0)
-        {
-            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-            for (int I = 0, last = BltProcCount - 1; I <= last; I++)
-            {
-                Start = GetElapsedMilliSeconds();
-                for (int J = 0; J <= Count - 1; J++)
-                {
-                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-                }
-
-                Stop = GetElapsedMilliSeconds();
-                if (Stop - Start < BestTime)
-                {
-                    BestTime = Stop - Start;
-                    Best = I;
-                }
-            }
-
-            Res.Index = Best;
-            try
-            {
-                Res.Bandwidth = Round((double)(T.Width * T.Height) / ((double)((double)1000 / Count) * BestTime));
-            }
-            catch
-            {
-                Res.Bandwidth = 0;
-            }
-        }
-
-        return Res;
-    }
-
-    // GFXE.pas:1619
-    public static TBltTestResult TestMissAligned(TBltTest T, int Count)
-    {
-        TBltTestResult Res = default;
-        int Start = default;
-        int Stop = default;
-        int BestTime;
-        int Best;
-        Best = -1;
-        BestTime = 16777215;
-        T.Src = AlignPointer(T.Src + 7, ~7);
-        T.Dst = AlignPointer(T.Dst + 7, ~7) + 1;
-        T.Width = T.Width - 16;
-        if (T.Width > 0)
-        {
-            BltProcs[0](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-            for (int I = 0, last = BltProcCount - 1; I <= last; I++)
-            {
-                Start = GetElapsedMilliSeconds();
-                for (int J = 0; J <= Count - 1; J++)
-                {
-                    BltProcs[I](SurfaceView.Of(T.Src, T.SrcPitch), SurfaceView.Of(T.Dst, T.DstPitch), T.Width, T.Height);
-                }
-
-                Stop = GetElapsedMilliSeconds();
-                if (Stop - Start < BestTime)
-                {
-                    BestTime = Stop - Start;
-                    Best = I;
-                }
-            }
-
-            Res.Index = Best;
-            try
-            {
-                Res.Bandwidth = Round((double)(T.Width * T.Height) / ((double)((double)1000 / Count) * BestTime));
-            }
-            catch
-            {
-                Res.Bandwidth = 0;
-            }
-        }
-
-        return Res;
-    }
 
     // GFXE.pas:8752
     // { The BMP file format: TBMPImageFile and its helpers. }
@@ -4800,70 +2991,17 @@ public static partial class GFXEUnit
         LinearAlphaBlendTable.GenerateLookupTables(Bits, GenerateLinearAlphaBlendTable, Count);
     }
 
-    // GFXE.pas:12554
-    // { DirectDraw: display modes and the DirectDraw object }
-    public static int DisplayModeSupportedCallback(Ptr<TDDSurfaceDesc> DDSD, object Context)
-    {
-        if (EnumDDSD.ddpfPixelFormat.dwRBitMask == DDSD.Value.ddpfPixelFormat.dwRBitMask && EnumDDSD.ddpfPixelFormat.dwGBitMask == DDSD.Value.ddpfPixelFormat.dwGBitMask && EnumDDSD.ddpfPixelFormat.dwBBitMask == DDSD.Value.ddpfPixelFormat.dwBBitMask)
-        {
-            ModeCount += 1;
-        }
-
-        return DDENUMRET_OK;
-    }
-
-    // GFXE.pas:12657
-    // { ListPixelFormatID is never set (original): every mode is listed. }
-    public static int ListDisplayModesCallback(Ptr<TDDSurfaceDesc> DDSD, object Context)
-    {
-        int PFID;
-        PFID = MASKtoPFID(DDSD.Value.ddpfPixelFormat.dwRGBBitCount, DDSD.Value.ddpfPixelFormat.dwRBitMask, DDSD.Value.ddpfPixelFormat.dwGBitMask, DDSD.Value.ddpfPixelFormat.dwBBitMask, DDSD.Value.ddpfPixelFormat.dwRGBAlphaBitMask);
-        if (ListPixelFormatID == 0 || PFID == ListPixelFormatID)
-        {
-            ((TDisplayModeList)Context).Add(DDSD.Value.dwWidth, DDSD.Value.dwHeight, PFID);
-        }
-
-        return DDENUMRET_OK;
-    }
-
-    // GFXE.pas:12761
-    public static bool ActivateDirectDraw()
-    {
-        /* TODO: Implement ActiveX.CoInitialize in the platform or editor service. */
-        throw new NotImplementedException();
-    }
-
-    // GFXE.pas:12778
-    public static void DeactivateDirectDraw()
-    {
-        if (FDirectDrawActivated)
-        {
-            FDirectDraw = null;
-            CoUninitialize();
-        }
-    }
-
     public static void Initialize()
     {
-        PerformanceCounterAvailable = QueryPerformanceFrequency(ref PerformanceFrequency);
         AlphaBlendTable = new TLookupBlendTableCollection100();
         IntensityBlendTable = new TLookupBlendTableCollection100();
         BrightenBlendTable = new TLookupBlendTableCollection100();
         ShadowBlendTable = new TLookupBlendTableCollection100();
         LinearAlphaBlendTable = new TLookupBlendTableCollection100();
         InitBlendTables(5, 31);
-        FDirectDrawActivated = false;
-        BltProcCount = 0;
         ForcedPixelFormatID = 0;
         ImageFileClassList = new TImageFileClassList();
         RegisterImageFileClasses([ImageFileClass.Of<TBMPImageFile>()]);
-        RegisterBltProc(RegisterBltRect, "Register Blt");
-        if (MMXsupport())
-        {
-            RegisterBltProc(MMXBltRect, "MMX Blt");
-        }
-
-        RegisterBltProc(RepMovsdBltRect, "MOVSD Blt");
     }
 
     public static void Finalize()
@@ -4873,7 +3011,6 @@ public static partial class GFXEUnit
         BrightenBlendTable.Free();
         ShadowBlendTable.Free();
         LinearAlphaBlendTable.Free();
-        DeactivateDirectDraw();
         ImageFileClassList.Free();
     }
 }

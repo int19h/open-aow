@@ -78,7 +78,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // installed image is drawn on a 555 surface keyed with magenta, copied into 565, 8 bit and
     // 24 bit surfaces, and grabbed from each into every class that grabs that format, whole and
     // inset by a pixel. The grabbed image is pinned as an installed one, written to a stream, read
-    // back and pinned again. One hash per source image covers all its grabs.
+    // back and pinned again. One hash per source image covers all its grabs. GP-4 ported the 8 bit
+    // grab of TRLESprite08, which raised NotImplementedException inside GrabImage and so returned
+    // false before. With that grab reverted the recording of cff6832 matched in full, so the 59
+    // sources whose hash changed changed only through it. The old grab raised at its first pixel,
+    // so the one unchanged source (PoisnCld.ILB 1200) is one whose 8 bit grabs read no pixel.
+    // TRLESprite08GrabTests checks the bytes of the encoding.
     [InstalledLibrariesFact]
     public void GrabbedImagesDecodeAndDrawAsRecorded()
     {
@@ -125,7 +130,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             s565.Lock(ref d565);
             s8.Lock(ref d8);
             s24.Lock(ref d24);
-            var words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.Pitch * h));
+            var words = System.Runtime.InteropServices.MemoryMarshal.Cast<byte, ushort>(d555.Data.AsSpan(d555.DataIndex, d555.Pitch * h));
             words.Fill(Magenta555);
             try { source.Show(0, 0, d555); }
             catch (System.Exception) { }
@@ -135,10 +140,9 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     int c = words[y * d555.Pitch / 2 + x];
                     int r = (c >> 10) & 31, g = (c >> 5) & 31, b = c & 31;
                     int c565 = (r << 11) | (g << 6) | ((g >> 4) << 5) | b;
-                    (d565.Data + y * d565.Pitch + x * 2).AsSpan(2)[0] = (byte)c565;
-                    (d565.Data + y * d565.Pitch + x * 2).AsSpan(2)[1] = (byte)(c565 >> 8);
-                    (d8.Data + y * d8.Pitch + x).AsSpan(1)[0] = c == Magenta555 ? (byte)0 : (byte)(1 + (r ^ (g << 3) ^ (b << 5)) % 255);
-                    var p24 = (d24.Data + y * d24.Pitch + x * 3).AsSpan(3);
+                    d565.View().Word(y * d565.Pitch + x * 2, c565);
+                    d8.View()[y * d8.Pitch + x] = c == Magenta555 ? (byte)0 : (byte)(1 + (r ^ (g << 3) ^ (b << 5)) % 255);
+                    var p24 = d24.View().Bytes(y * d24.Pitch + x * 3, 3);
                     p24[0] = (byte)(b << 3);
                     p24[1] = (byte)(g << 3);
                     p24[2] = (byte)(r << 3);
@@ -249,7 +253,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     {
                         TSurfaceDesc sd = default;
                         surface.Lock(ref sd);
-                        var bytes = sd.Data.AsSpan(sd.Pitch * h);
+                        var bytes = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
                         for (int i = 0; i < bytes.Length; i++) bytes[i] = (byte)((i * 7 + w) % 5 == 0 ? 0xC3 : i * 29 + 1);
                         hash.Add(sd.Pitch);
                         for (int y = 0; y < h; y++)
@@ -408,7 +412,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         AddBuffer(image, hash);
     }
 
-    // The image's decoded buffer as the class holds it, a byte array or a pointer at its start.
+    // The image's decoded buffer as the class holds it, a byte array.
     private static void AddBuffer(LibraryImage image, Fnv hash)
     {
         var type = image.GetType();
@@ -419,8 +423,6 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         byte[]? bytes = field?.GetValue(image) switch
         {
             byte[] array => array,
-            Ptr<byte> pointer when pointer.IsNull => null,
-            Ptr<byte> pointer => pointer.Index == 0 ? pointer.Array : throw new InvalidOperationException("The buffer pointer is not at its start"),
             null => null,
             var other => throw new InvalidOperationException($"{type.Name}.{field!.Name} is a {other.GetType().Name}"),
         };
@@ -441,7 +443,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         {
             TSurfaceDesc sd = default;
             Assert.Equal(0, surface.Lock(ref sd));
-            var pixels = sd.Data.AsSpan(sd.Pitch * h);
+            var pixels = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
             for (int i = 0; i < pixels.Length; i++) pixels[i] = (byte)(i * 37 + x * 5 + y);
             sd.ClipRect = RtlUnit.Rect(1, 1, w - 1, h - 1);
             try { draw(sd); }

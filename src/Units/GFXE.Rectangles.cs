@@ -8,8 +8,8 @@ public partial class TSurface
         => BltClipped(target, default, x, y);
 
     public int BltAreaClipped(TSurface target, in TRect area, int x, int y)
-        => BltClipped(target, Ptr<TRect>.To([area], 0), x, y);
+        => BltClipped(target, area, x, y);
 
     public int BltAreaColorKeyClipped(TSurface target, in TRect area, int x, int y, int colorKey)
-        => BltColorKeyClipped(target, Ptr<TRect>.To([area], 0), x, y, colorKey);
+        => BltColorKeyClipped(target, area, x, y, colorKey);
 }

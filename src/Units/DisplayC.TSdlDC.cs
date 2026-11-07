@@ -10,11 +10,6 @@ namespace Aow.Units.DisplayC;
 public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDisplayCtrl(owner)
 {
     private readonly TSurface[] surfaces = new TSurface[3];
-    private readonly Ptr<TRect> primaryRegion = Ptr<TRect>.Alloc(1);
-
-    public override void SetPrimarySurfaceRgn(in TRect region) { FPrimarySurfaceRgn = region; primaryRegion.Value = region; }
-
-    public override Ptr<TRect> GetPrimarySurfaceRgn() => primaryRegion;
 
     public bool UseVerticalBlank { get; set; } = true;
 

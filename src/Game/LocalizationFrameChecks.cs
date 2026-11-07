@@ -114,8 +114,8 @@ internal static class LocalizationFrameChecks
                 {
                     FontModule.Age8.SetText(0, 0, undead, l);
                     FontModule.Age8.SetText(0, 0, "Undead", r);
-                    var pixels = l.Data.AsSpan(l.Pitch * 40);
-                    if (!pixels.SequenceEqual(r.Data.AsSpan(r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
+                    var pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
+                    if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                         throw new InvalidOperationException("English Undead rendering differs");
                 }
                 finally { left.Unlock(); right.Unlock(); }

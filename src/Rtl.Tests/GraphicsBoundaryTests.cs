@@ -5,18 +5,6 @@ namespace Aow.Rtl.Tests;
 public sealed class GraphicsBoundaryTests
 {
     [Fact]
-    public void PointerViewsKeepTheirBytesAfterBoxingAndAlignment()
-    {
-        var words = new[] { 0x12345678, unchecked((int)0xABCDEF01) };
-        var bytes = RtlUnit.BytePointer(Ptr<int>.To(words, 0).Box());
-        Assert.Equal(0x56, bytes[1]);
-        RtlUnit.AlignPointer(bytes + 7, -4).Reinterpret<int>().Value = 17;
-        Assert.Equal(17, words[1]);
-        Assert.Equal(8, bytes.AsSpan().Length);
-        Assert.Equal(0, RtlUnit.BytePointer(null).AsSpan().Length);
-    }
-
-    [Fact]
     public void CharacterBufferConversionStopsAtZero()
     {
         Assert.Equal("AB", RtlUnit.StrPasBuffer(new byte[] { 65, 66, 0, 67 }));

@@ -610,7 +610,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:2087
-    public virtual void ShowDC(Ptr<TRect> SrcRect, Ptr<TRect> DestRect, int DC, int BkColor)
+    public virtual void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
     {
     }
 
@@ -928,7 +928,7 @@ public partial class TCustomImageLibrary : TComponent
     internal int FDataOffset;
     internal int FCapacity;
     internal int FCount;
-    internal Ptr<TImageItem> FImages;
+    internal TImageItem[] FImages;
     internal TPaletteManager FPaletteManager;
 
     // ImageLib.pas:9699
@@ -941,10 +941,10 @@ public partial class TCustomImageLibrary : TComponent
 
         if (NewCapacity != FCapacity)
         {
-            FImages = FImages.Realloc(NewCapacity);
+            FImages = ReallocArray(FImages, NewCapacity);
             if (NewCapacity > FCapacity)
             {
-                Ptr<TImageItem>.Fill(FImages + FCapacity, NewCapacity - FCapacity, default);
+                ClearElements(FImages, FCapacity, NewCapacity - FCapacity);
                 for (int I = FCapacity; I <= NewCapacity - 1; I++)
                 {
                     FImages[I].Reference = -1;
@@ -1047,8 +1047,8 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:9775
     internal void DeleteItem(int Index)
     {
-        Ptr<TImageItem>.Copy(FImages + (Index + 1), FImages + Index, FCount - Index - 1);
-        Ptr<TImageItem>.Fill(FImages + (FCount - 1), 1, default);
+        MoveElements(FImages, Index + 1, FImages, Index, FCount - Index - 1);
+        ClearElements(FImages, FCount - 1, 1);
         FCount -= 1;
         SetModified(true);
     }
@@ -1057,8 +1057,8 @@ public partial class TCustomImageLibrary : TComponent
     internal void InsertItem(int Index)
     {
         SetCount(FCount + 1);
-        Ptr<TImageItem>.Copy(FImages + Index, FImages + (Index + 1), FCount - Index - 1);
-        Ptr<TImageItem>.Fill(FImages + Index, 1, default);
+        MoveElements(FImages, Index, FImages, Index + 1, FCount - Index - 1);
+        ClearElements(FImages, Index, 1);
     }
 
     // ImageLib.pas:9877
@@ -2301,7 +2301,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
 
     static TLibraryImage ILibraryImageClass.Create(TCustomImageLibrary owner) => new TImageNode(owner);
 
-    internal Ptr<TLibraryImage> FImages;
+    internal TLibraryImage[] FImages;
     internal int FCapacity;
     internal int FCount;
 
@@ -2310,7 +2310,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         if (NewCapacity != FCapacity)
         {
-            FImages = FImages.Realloc(NewCapacity);
+            FImages = ReallocArray(FImages, NewCapacity);
             FCapacity = NewCapacity;
         }
     }
@@ -2325,7 +2325,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
 
         if (NewCount > FCount)
         {
-            Ptr<TLibraryImage>.Fill(FImages + FCount, NewCount - FCount, default);
+            ClearElements(FImages, FCount, NewCount - FCount);
         }
 
         FCount = NewCount;
@@ -2413,7 +2413,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
 
         if (Index < FCount)
         {
-            Ptr<TLibraryImage>.Copy(FImages + Index, FImages + (Index + 1), FCount - Index);
+            MoveElements(FImages, Index, FImages, Index + 1, FCount - Index);
         }
 
         FImages[Index] = Image;
@@ -2445,7 +2445,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
             FCount -= 1;
             if (I < FCount)
             {
-                Ptr<TLibraryImage>.Copy(FImages + (I + 1), FImages + I, FCount - I);
+                MoveElements(FImages, I + 1, FImages, I, FCount - I);
             }
 
             UpdateDimensions();
@@ -2472,7 +2472,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
             FCount -= 1;
             if (Index < FCount)
             {
-                Ptr<TLibraryImage>.Copy(FImages + (Index + 1), FImages + Index, FCount - Index);
+                MoveElements(FImages, Index + 1, FImages, Index, FCount - Index);
             }
 
             UpdateDimensions();
@@ -2610,7 +2610,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1514
-    public override void ShowDC(Ptr<TRect> SrcRect, Ptr<TRect> DestRect, int DC, int BkColor)
+    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -2818,7 +2818,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     // ImageLib.pas:7258
     // { ShowDC remaps the palette to pfPAL8 (an original slip: the surface is pfRGB565; ShowOpaque
     //   remaps the palette again when it differs). }
-    public override void ShowDC(Ptr<TRect> SrcRect, Ptr<TRect> DestRect, int DC, int BkColor)
+    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -3333,12 +3333,12 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                     FRLEHeight = Bottom - Top;
                     for (int Y = Top; Y <= Bottom - 1; Y++)
                     {
-                        Line = SD.Data.ByteIndex + SD.Pitch * Y;
+                        // Line is the byte index of row Y in the surface's memory.
+                        Line = SD.DataIndex + SD.Pitch * Y;
                         StartLine();
                         for (int X = MinRect.Left, last = MinRect.Right - 1; X <= last; X++)
                         {
-                            /* TODO: Implement managed pointer provenance for the integer address. */
-                            throw new NotImplementedException();
+                            B = SD.Data[Line + X];
                             if (B != FTransparentColor)
                             {
                                 FlushTransparent();
@@ -3426,7 +3426,7 @@ public partial class TImage16 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:2128
-    public override void ShowDC(Ptr<TRect> SrcRect, Ptr<TRect> DestRect, int DC, int BkColor)
+    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -5268,7 +5268,7 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
 
     // ImageLib.pas:4827
     // { ShowDC clears the surface to gray, not to BkColor. }
-    public override void ShowDC(Ptr<TRect> SrcRect, Ptr<TRect> DestRect, int DC, int BkColor)
+    public override void ShowDC(TRect? SrcRect, TRect? DestRect, int DC, int BkColor)
     {
         /* TODO: Implement Windows.WindowFromDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -7097,7 +7097,7 @@ public partial class TImageSequenceList : TList
 
 public partial class TFrameTableList : TPersistent
 {
-    internal Ptr<int> FList;
+    internal int[] FList;
     internal int FCount;
     internal int FCapacity;
     internal int FDefaultValue;
@@ -7163,7 +7163,7 @@ public partial class TFrameTableList : TPersistent
 
         if (NewCapacity != FCapacity)
         {
-            FList = FList.Realloc(NewCapacity);
+            FList = ReallocArray(FList, NewCapacity);
             FCapacity = NewCapacity;
         }
     }
@@ -7183,7 +7183,7 @@ public partial class TFrameTableList : TPersistent
 
         if (NewCount > FCount)
         {
-            FillBytes(MemoryMarshal.AsBytes((FList + FCount).Array.AsSpan((FList + FCount).Index, NewCount - FCount)), FDefaultValue);
+            FillBytes(MemoryMarshal.AsBytes(FList.AsSpan(FCount, NewCount - FCount)), FDefaultValue);
         }
 
         FCount = NewCount;
@@ -7203,7 +7203,7 @@ public partial class TFrameTableList : TPersistent
             var frameTableList = (TFrameTableList)Source;
             this.SetCapacity(frameTableList.FCount);
             this.FCount = frameTableList.FCount;
-            Ptr<int>.Copy(frameTableList.FList, this.FList, this.FCount);
+            MoveElements(frameTableList.FList, 0, this.FList, 0, this.FCount);
             this.FDefaultValue = frameTableList.FDefaultValue;
         }
         else
@@ -7244,7 +7244,7 @@ public partial class TFrameTableList : TPersistent
         FCount -= 1;
         if (Index < FCount)
         {
-            Ptr<int>.Copy(FList + (Index + 1), FList + Index, FCount - Index);
+            MoveElements(FList, Index + 1, FList, Index, FCount - Index);
         }
     }
 
@@ -7313,7 +7313,7 @@ public partial class TFrameTableList : TPersistent
 
         if (Index < FCount)
         {
-            Ptr<int>.Copy(FList + Index, FList + (Index + 1), FCount - Index);
+            MoveElements(FList, Index, FList, Index + 1, FCount - Index);
         }
 
         FList[Index] = Item;
@@ -7367,14 +7367,14 @@ public partial class TFrameTableList : TPersistent
     // ImageLib.pas:9554
     public void Sort(TFrameTableSortCompare Compare)
     {
-        if (!FList.IsNull && Count > 0)
+        if (FList != null && Count > 0)
         {
             ImageLibUnit.FrameTableQuickSort(FList, 0, Count - 1, Compare);
         }
     }
 
     // ImageLib.pas:9560
-    public bool Compare(TFrameTableList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.Array.AsSpan(FList.Index, FCount)), MemoryMarshal.AsBytes(List.FList.Array.AsSpan(List.FList.Index, FCount)), FCount * 4);
+    public bool Compare(TFrameTableList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
     // ImageLib.pas:9566
     public void LoadFromStream(TStream Stream)
@@ -7384,7 +7384,7 @@ public partial class TFrameTableList : TPersistent
         Stream.Read(Bytes.Of(ref FDefaultValue, 4));
         Stream.Read(Bytes.Of(ref N, 4));
         SetCapacity(N);
-        Stream.Read(MemoryMarshal.AsBytes(FList.Array.AsSpan(FList.Index, N)));
+        Stream.Read(MemoryMarshal.AsBytes(FList.AsSpan(0, N)));
         FCount = N;
     }
 
@@ -7393,7 +7393,7 @@ public partial class TFrameTableList : TPersistent
     {
         Stream.Write(Bytes.Of(ref FDefaultValue, 4));
         Stream.Write(Bytes.Of(ref FCount, 4));
-        Stream.Write(MemoryMarshal.AsBytes(FList.Array.AsSpan(FList.Index, FCount)));
+        Stream.Write(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)));
     }
 
     // ImageLib.pas:9586
@@ -7465,7 +7465,7 @@ public partial class TFrameTableList : TPersistent
 
     public int this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-    public Ptr<int> List { get => FList; }
+    public int[] List { get => FList; }
     public int DefaultValue { get => FDefaultValue; set => FDefaultValue = value; }
     public string ItemString { get => GetItemString(); set => SetItemString(value); }
 
@@ -8527,7 +8527,7 @@ public static partial class ImageLibUnit
     }
 
     // ImageLib.pas:9527
-    public static void FrameTableQuickSort(Ptr<int> SortList, int L, int R, TFrameTableSortCompare SCompare)
+    public static void FrameTableQuickSort(int[] SortList, int L, int R, TFrameTableSortCompare SCompare)
     {
         int I;
         int J;

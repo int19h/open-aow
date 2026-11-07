@@ -5451,7 +5451,7 @@ public partial class THSMapViewer : TComponent
     public void ShowCenteredMap(TSurface Target, int X, int Y)
     {
         TSurfaceDesc SD = default;
-        TRect[] Source = [GetMapSceneRect()];
+        TRect Source = GetMapSceneRect();
         TRect Shown = GetMapDisplayRect();
         if (Target.LockEx(ref SD, Rect(X, Y, X + FSceneWidth, Y + FSceneHeight)) >= 0)
         {
@@ -5459,7 +5459,7 @@ public partial class THSMapViewer : TComponent
             Target.UnlockEx(SD);
         }
 
-        FCenteredSurface.BltClipped(Target, Ptr<TRect>.To(Source, 0), X + Shown.Left, Y + Shown.Top);
+        FCenteredSurface.BltClipped(Target, Source, X + Shown.Left, Y + Shown.Top);
     }
 
     // Port extension: fills every pixel of SD outside Inside black.

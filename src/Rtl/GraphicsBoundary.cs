@@ -359,14 +359,8 @@ public static partial class RtlUnit
     public static TIToolServices? ToolServices => null;
 
     public static TRect Rect(int left, int top, int right, int bottom) => new() { Left = left, Top = top, Right = right, Bottom = bottom };
-    public static Ptr<byte> BytePointer(object? value) => value is null ? default : value is IPointerBox pointer ? pointer.As<byte>() : throw new EInvalidCast("Value is not a pointer");
-    public static Ptr<byte> AlignPointer(Ptr<byte> value, int mask) => value + ((value.ByteIndex & mask) - value.ByteIndex);
     public static bool Succeeded(int result) => result >= 0;
     public static bool Failed(int result) => result < 0;
-
-    public static bool QueryPerformanceFrequency(ref long frequency) { frequency = System.Diagnostics.Stopwatch.Frequency; return true; }
-
-    public static void CoUninitialize() { }
 
     public static void RegisterClasses(Type[] types) { foreach (var type in types) RegisterClass(type); }
 

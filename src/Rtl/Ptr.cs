@@ -48,17 +48,6 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public readonly Span<T> AsSpan() => AsSpan((StorageBytes - ByteIndex) / Unsafe.SizeOf<T>());
 
-    // The whole backing storage as bytes and this pointer's byte index into it, for loops that
-    // step by a pitch in either direction and index the storage instead of moving a pointer.
-    public readonly Span<byte> StorageAsBytes(out int byteIndex)
-    {
-        if (IsNull) throw new NullReferenceException();
-        if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-            throw new EInvalidCast("Byte storage requires unmanaged elements");
-        byteIndex = ByteIndex;
-        return MemoryMarshal.CreateSpan(ref MemoryMarshal.GetArrayDataReference((System.Array)Storage!), StorageBytes);
-    }
-
     public readonly Ptr<U> Reinterpret<U>(int offset = 0)
     {
         if (IsNull) return default;
@@ -80,8 +69,6 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     // The state a view captures, for the tests that pin that views never nest.
     internal readonly object? ViewState => view?.Target;
 
-    public static implicit operator Span<T>(Ptr<T> pointer) => pointer.AsSpan();
-    public static implicit operator ReadOnlySpan<T>(Ptr<T> pointer) => pointer.AsSpan();
     public static Ptr<T> To(T[] array, int index) => new() { Array = array, Index = index };
     // SYSTEM.PAS:1042 returns nil without calling the allocator for size zero.
     public static Ptr<T> Alloc(int count) => count == 0 ? default : To(new T[count], 0);
@@ -124,18 +111,6 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     {
         if (count <= 0) return;
         destination.AsSpan(count).Fill(value);
-    }
-
-    public static bool CompareMem(Ptr<T> a, Ptr<T> b, int count)
-    {
-        if (RuntimeHelpers.IsReferenceOrContainsReferences<T>())
-            throw new EInvalidOperation("Byte comparison requires unmanaged elements");
-        if (count <= 0) return true;
-        var left = a.AsSpan(count);
-        var right = b.AsSpan(count);
-        int size = checked(count * Unsafe.SizeOf<T>());
-        return MemoryMarshal.CreateReadOnlySpan(ref Unsafe.As<T, byte>(ref MemoryMarshal.GetReference(left)), size)
-            .SequenceEqual(MemoryMarshal.CreateReadOnlySpan(ref Unsafe.As<T, byte>(ref MemoryMarshal.GetReference(right)), size));
     }
 
     public readonly PtrBox<T> Box() => new(this);

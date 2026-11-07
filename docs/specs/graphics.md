@@ -38,9 +38,9 @@ finished frame on the screen. The UI toolkit that draws into these surfaces (aow
 
 | unit | lines | treatment |
 |---|---:|---|
-| `GFXE.pas` | 12,903 | Transpile the Pascal parts: palette, `TSurface`, `TDataSurface`, pixel format ids and masks, `Color2PixelInfo` and its inverses, the clipping blitters (`BltSDRectClipped`, `BltSprite16`, `BltSpriteClipped16`), `ColorFillSD`, `DrawLine16`, `CreateSDfromSD`, `GetPixelInfo`, `MinimizeTransparentRect`, `GetSurfaceRectangles`, `RemapSurfacePart`, the blend table classes and generators, `TDisplayModeList`. Rewrite the 28 assembler routines (section 5). Replace `TDIBSurface`, `TDIB08Surface`, `TDIB16Surface`, `TDIB24Surface`, `TDIB32Surface`, `TDDrawSurface` with memory surfaces (section 3.4). Drop `TGDISurface`, `TDrawPanel`, the DirectDraw interfaces and `DD`, `GetOptimalGFXESettings` with `GFXDiag.pas` (a timing dialog that picks a `BltRect` variant), `RegisterBltProc`, the settings stream and registry routines, `SaveSurfaceDescToBMP24` (kept as a test helper), `LoadBMP` and the `TImageFile` classes (used by the editor's grabbing tools). `GetElapsedMilliSeconds` and `GetElapsedMicroSeconds` read `IClock`. `RDTSC`, `CPUIDSupported` and `MMXsupport` return constants |
+| `GFXE.pas` | 12,903 | Transpile the Pascal parts: palette, `TSurface`, `TDataSurface`, pixel format ids and masks, `Color2PixelInfo` and its inverses, the clipping blitters (`BltSDRectClipped`, `BltSprite16`, `BltSpriteClipped16`), `ColorFillSD`, `DrawLine16`, `CreateSDfromSD`, `GetPixelInfo`, `MinimizeTransparentRect`, `GetSurfaceRectangles`, `RemapSurfacePart`, the blend table classes and generators, `TDisplayModeList`. Rewrite the 28 assembler routines (section 5). Replace `TDIBSurface`, `TDIB08Surface`, `TDIB16Surface`, `TDIB24Surface`, `TDIB32Surface`, `TDDrawSurface` with memory surfaces (section 3.4). Drop `TGDISurface`, `TDrawPanel`, the DirectDraw interfaces, records, GUIDs and `DD`, `ActivateDirectDraw` and the display mode routines that ask DirectDraw (`GetPrimarySurfacePFID`, `DisplayModeSupported`, `DDStoPFID`, `DDSDtoSurfaceDesc` and their callbacks), `GetOptimalGFXESettings` with `GFXDiag.pas` (a timing dialog that picks a `BltRect` variant) and its timing tests (`TBltTest`, `TestQWordAligned` and the three others), `RegisterBltProc` with `BltProcs`, `BltProcNames`, `OptimalBltProc` and `TBltRectProc`, the settings stream and registry routines, `SaveSurfaceDescToBMP24` (kept as a test helper), `LoadBMP` and the `TImageFile` classes (used by the editor's grabbing tools). `GetElapsedMilliSeconds` and `GetElapsedMicroSeconds` read `IClock`. `RDTSC`, `CPUIDSupported` and `MMXsupport` return constants |
 | `ImageLib.pas` | 10,752 | Transpile the classes of section 6. Rewrite the 11 assembler routines. Drop the design-time and editor parts: `TCustomImageDrawGrid` and descendants, `TImageLibraryPanel`, `TILManagerComboBox`, `TILManagerListBox`, the property editors, clipboard, `GrabImage` and `CreateGrabForm` of every class (image capture from screenshots, used to build libraries), `ShowDC`, `BltLibraryImage`, `BltImageSequence`, `BltImageSequenceEx` (GDI canvas drawing). The rules packages reference some of these from editor-support code (`BltLibraryImage` 8 times in AoWEPACK, 3 in Engine, 1 in HSEPack; `TCustomImageDrawGrid` 7 times in AoWEPACK); those units are reviewed when the transpile set is finalized, and a referenced routine becomes a stub that raises `ENotSupported` rather than a drop |
-| `DisplayC.pas` | 3,191 | Transpile `TCustomDisplay`'s logic (frame loop, surface index, pause and resume, controller activation, events) with its `TWinControl` base replaced by the shim's control stub, and `TDisplayCtrl` (frame counter, frame limiter, invalidation matrix). Replace the five Windows controllers and the three DirectDraw controllers with one controller, `TSdlDC` (section 7.3). Drop `TDDrawFSWinControl`, `TUpdateFrameThread` (asynchronous mode, editor only), `TMatrix` stays (used by `BltInvalidatedSurface`, which the game does not use but the code references) |
+| `DisplayC.pas` | 3,191 | Transpile `TCustomDisplay`'s logic (frame loop, surface index, pause and resume, controller activation, events) with its `TWinControl` base replaced by the shim's control stub, and `TDisplayCtrl` (frame counter, frame limiter, invalidation matrix). Replace the five Windows controllers and the three DirectDraw controllers with one controller, `TSdlDC` (section 7.3). The DirectDraw controllers (`TDDrawDC`, `TDDrawFullScrDC` and its 16, 24 and 32-bit descendants) and their surface `TDDrawDCSurface` are deleted. `MainForm` names `TDDrawFullScr16DC` as `DXDC`, but the port builds its main form by hand (`src/Platform/MainForm.cs`, where `DXDC` is the `TSdlDC`) and loads no form that names it. The Windows controllers stay transpiled and unused. Drop `TDDrawFSWinControl`, `TUpdateFrameThread` (asynchronous mode, editor only), `TMatrix` stays (used by `BltInvalidatedSurface`, which the game does not use but the code references) |
 | `AoWUnit.pas` (`TMainForm`) | 463 | Rewritten as the platform host (`../design.md` section 3). Its frame procedure `DisplayUpdateFrame`, `GetCursorRect`, `DrawCursor` and `ScrollMap` are transcribed as they are, because they are the game loop and the software cursor (section 7.5) |
 | `Video.pas` (VideoP) | 665 | Rewrite, `platform.md`: AVI through the Video for Windows API, one file, `IMAGES\SCENES\INTRO.AVI` (94 MB) |
 
@@ -74,13 +74,19 @@ everything else is copied. The UI toolkit draws every window through such sub-de
 uses it 5 times, aowInt through its own equivalents). The assembler blitters read `ClipRect`,
 `Pitch` and `Data` at their byte offsets (`[edi+$10]`, `[edi+$0C]`, `[edi+$20]`), which is why the
 record's layout is part of the original's contract. The port's `TSurfaceDesc`
-(`GFXE.SurfaceDesc.cs`) is a plain struct with the same fields in the same order, `Data` a
-`Ptr<byte>` and `Palette` a `TGFXEPalette`. No code of the port reads it as bytes: the original's
-`FillChar(SD, SizeOf(SD), 0)` is `SD = default` and its `Move(SD, FSurfaceDesc, SizeOf(SD))` an
-assignment. There is one descriptor type. It lives in the units project because `TGFXEPalette`
-does, and the rewritten routines of `Aow.Graphics`, which sit below the units, take a
-`SurfaceView` that `TSurfaceDesc.View(Offset)` builds from the descriptor's `Data`, `Pitch` and
-`ClipRect` (section 5.2).
+(`GFXE.SurfaceDesc.cs`) is a plain struct with the same fields in the same order, except that the
+pointer `Data` is two fields: `Data`, the `byte[]` that holds the surface's rows, and `DataIndex`,
+the byte index of the first byte of row 0 in it. `Palette` is a `TGFXEPalette`. Arithmetic on the
+original's pointer is arithmetic on `DataIndex`: `CreateSDfromSD` adds `R.Top * Pitch + (BitCount
+shr 3) * R.Left`, `TSurface.LockEx` adds the offset of its rectangle, and the bottom-up
+`TWindows08DIBSurface` gives `DataIndex = (Height - 1) * abs(Pitch)`. A nil `Data` is a null
+array. No code of the port reads the descriptor as bytes: the original's `FillChar(SD, SizeOf(SD),
+0)` is `SD = default` and its `Move(SD, FSurfaceDesc, SizeOf(SD))` an assignment. There is one
+descriptor type. It lives in the units project because `TGFXEPalette` does, and the rewritten
+routines of `Aow.Graphics`, which sit below the units, take a `SurfaceView` that
+`TSurfaceDesc.View(Offset)` builds from `Data`, `DataIndex + Offset`, `Pitch` and `ClipRect`
+without other work (section 5.2). The display hosts copy the rows of a presented descriptor from
+`Data` at `DataIndex + y * Pitch`.
 
 ### 3.2 Pixel formats
 
@@ -124,37 +130,47 @@ because the frame oracle depends on them:
   advances `P` without tracking `X` and the clipped path tracks both.
 - `TSurface.Blt`, `BltClipped`, `BltColorKey`, `BltColorKeyClipped`: lock both surfaces and call
   `BltRect` or `BltColorKey16`; `BltStretch` supports only equal sizes and returns
-  `GFXE_NOTSUPPORTED` otherwise. `TSurface.Cls` fills every row with the converted color.
+  `GFXE_NOTSUPPORTED` otherwise. `TSurface.Cls` fills every row with the converted color. Their
+  rectangle parameters are the original's `PRect`, where nil means the whole surface: the port's
+  `TRect?`, null for nil, with the virtual methods and their overrides as in the original
+  (`BltDC`, `TDataSurface.Create` and `CaptureSurface`, `TLibraryImage.ShowDC` take the same).
+  `TAbstractDC.GetPrimarySurfaceRgn` returns `TRect?` as well, and `TDisplayCtrl` returns its
+  `FPrimarySurfaceRgn` where the original returns `@FPrimarySurfaceRgn`.
+  `SurfaceRectangleTests` pins these methods with and without a rectangle.
 
 ### 3.4 Surface classes in the port
 
 | class | original | port |
 |---|---|---|
 | `TSurface` | abstract base with the VMT `GetColor, GetPixelInfo, GetWidth, GetHeight, GetPixelFormatID, Blt, BltClipped, BltColorKey, BltColorKeyClipped, BltDC, BltStretch, Lock, Unlock, LockEx, UnlockEx, UpdatePalette, Resize, Cls` | transpiled. `BltDC` raises `ENotSupported` |
-| `TDataSurface` | memory surface: `Create(W, H, pfid, Palette)`, `Resize` allocates `Pitch = (((BitCount + 7) shr 3) * W + 7) and not 7` bytes per row with the data 8-byte aligned, `Lock` fills the descriptor with `ClipRect` = whole surface, `CaptureSurface` copies a rectangle of another surface | transpiled. `FMem` is a `byte[]` of `Pitch * H + 7` bytes and `FData` a `Ptr<byte>` at its first byte. The original allocates the same 7 bytes more and aligns `FData` to 8 for MMX, a performance choice with no effect on pixels, so the port has no alignment and keeps the 7 bytes after the last row, where the 24-bit readers of section 3.6 read one byte past the last pixel. The pitch formula is kept so that `Pitch` values match. `Resize` keeps the bytes the old and the new size share, as `ReallocMem` does |
-| `TDIB16Surface` | a 16-bit Windows DIB section, bottom-up, used by `TWindows16DC` for the back surfaces and by `Structur.PAS:1696` for a structure preview; `Lock` gives top-down `Data` with a negative pitch | a memory surface with the same constructor `Create(W, H, pfid)`, top-down positive pitch `(W * 2 + 3) and not 3`, `Cls`, `Resize`, `Blt`, `Lock`, `PixelFormatID` read-write before the first lock. `FBits` is a `Ptr<byte>` at the first byte of a `byte[]` of `Pitch * H` bytes. `Handle` and `BltDC` raise |
+| `TDataSurface` | memory surface: `Create(W, H, pfid, Palette)`, `Resize` allocates `Pitch = (((BitCount + 7) shr 3) * W + 7) and not 7` bytes per row with the data 8-byte aligned, `Lock` fills the descriptor with `ClipRect` = whole surface, `CaptureSurface` copies a rectangle of another surface | transpiled. `FMem` is a `byte[]` of `Pitch * H + 7` bytes whose first byte is the first pixel, so `FData` has no field of its own and `Lock` gives `Data = FMem`, `DataIndex = 0`. The original allocates the same 7 bytes more and aligns `FData` to 8 for MMX, a performance choice with no effect on pixels, so the port has no alignment and keeps the 7 bytes after the last row, where the 24-bit readers of section 3.6 read one byte past the last pixel. The pitch formula is kept so that `Pitch` values match. `Resize` keeps the bytes the old and the new size share, as `ReallocMem` does |
+| `TDIB16Surface` | a 16-bit Windows DIB section, bottom-up, used by `TWindows16DC` for the back surfaces and by `Structur.PAS:1696` for a structure preview; `Lock` gives top-down `Data` with a negative pitch | a memory surface with the same constructor `Create(W, H, pfid)`, top-down positive pitch `(W * 2 + 3) and not 3`, `Cls`, `Resize`, `Blt`, `Lock`, `PixelFormatID` read-write before the first lock. `FBits` is a `byte[]` of `Pitch * H` bytes with the first pixel at its first byte. `Handle` and `BltDC` raise |
 | `TDIBSurface`, `TDIB08Surface`, `TDIB24Surface`, `TDIB32Surface` | DIB sections of other depths, used by `TWindows08DC`, `TWindows24DC`, the video player and the editor | the same memory stand-in, generic in bit count, with `FBits` as for `TDIB16Surface`. Only the video player (rewritten) and editor code reach them |
-| `TWindows08DIBSurface` (`DisplayC`) | the 8-bit bottom-up DIB of `TWindows08DC`, pitch `-((W + 7) and not 7)`, `FBits` 8-byte aligned, `Lock` gives the last row as `Data` | transpiled. `FMem` is a `byte[]` of `abs(Pitch) * H` bytes and `FBits` a `Ptr<byte>` at its first byte, without the alignment |
-| `TDDrawSurface` | a DirectDraw surface: `CreateSurface(W, H, pfid, Flags)`, `Lost`, `Restore`, `Status` (`ssVideoMemory`, `ssSystemMemory`), `AsyncCls`, `OnSurfaceLost` | a memory surface. `CreateSurface` allocates, `Status` is `[ssSystemMemory]`, `Lost` is `False`, `Restore` returns `DD_OK`, `AsyncCls` is `Cls`. The game creates these only when the back surface it draws into `is TDDrawSurface` (`HSEngine.pas:4813`, `AoWWinControl.pas:189`, `AoWBookWindow.pas:139`), which is never true in the port, so the class exists for the type checks and the editor |
+| `TWindows08DIBSurface` (`DisplayC`) | the 8-bit bottom-up DIB of `TWindows08DC`, pitch `-((W + 7) and not 7)`, `FBits` 8-byte aligned, `Lock` gives the last row as `Data` | transpiled. `FMem` is a `byte[]` of `abs(Pitch) * H` bytes without the alignment, so `FBits` has no field of its own, and `Lock` gives `Data = FMem`, `DataIndex = (H - 1) * abs(Pitch)` |
+| `TDDrawSurface` | a DirectDraw surface: `CreateSurface(W, H, pfid, Flags)`, `Lost`, `Restore`, `Status` (`ssVideoMemory`, `ssSystemMemory`), `AsyncCls`, `OnSurfaceLost` | a memory surface. `CreateSurface` allocates, `Status` is `[ssSystemMemory]`, `Lost` is `False`, `Restore` returns `DD_OK`, `AsyncCls` is `Cls`. The game creates these only when the back surface it draws into `is TDDrawSurface` (`HSEngine.pas:4813`, `AoWWinControl.pas:189`, `AoWBookWindow.pas:139`), which is never true in the port, so the class exists for the type checks and the editor. The original's `FSurface`, the DirectDraw interface, is dropped with the interfaces |
 | `TGFXEPalette` | 256 entries of 4 bytes with `PixelFormatID`, `LoadFromStream`, `Remap` to 555 or 565, `GetNearestColor` | transpiled |
 
 ### 3.5 Pointer idioms the transpiler meets here
 
-The graphics code addresses pixels through integer arithmetic on pointers, and these forms are
-the ones the transpiler's `Ptr<T>` mapping (`transpiler.md` 5.8) has to cover for GFXE, ImageLib,
-aowInt and the drawing code of AoWEPACK:
+The graphics code addresses pixels through integer arithmetic on pointers. The transpiler's
+first mapping was `Ptr<T>` (`transpiler.md` 5.8). The graphics layer of the port has none left
+(slices GP-1 to GP-4), and these are its forms for GFXE, ImageLib, aowInt and the drawing code of
+AoWEPACK:
 
 | Delphi | C# |
 |---|---|
-| `Pointer(Integer(P) + n)`, `PWord(Integer(P) + n)`, `PChar(Integer(P) + n)` | `P + n` on `Ptr<byte>`, reinterpreted as `Ptr<ushort>` where the target type says so |
+| `Pointer(Integer(P) + n)`, `PWord(Integer(P) + n)`, `PChar(Integer(P) + n)` | a byte index into the block plus `n`: `SD.DataIndex + n` for a descriptor, `View.At(n)` for a view |
 | `PWord(X + X + Integer(SD.Data) + Y * SD.Pitch)^` | `SD.View().Word(X + X + Y * SD.Pitch)`, a little-endian read at a byte offset from the first pixel (`Byte`, `Word`, `Dword` and the indexer of `SurfaceView`) |
-| `Inc(Integer(P), SD.Pitch)`, `Dec(Integer(P), n)` | `P += n`, `P -= n` |
-| `Inc(P)` on `PWord` | `P += 2` in bytes, the element size |
+| `Inc(Integer(P), SD.Pitch)`, `Dec(Integer(P), n)` | `index += n`, `index -= n` on a byte index |
+| `Inc(P)` on `PWord` | `index += 2` in bytes, the element size |
 | `PIntArray(Integer(RowTable) + H * 4)` | one `int[]` of `H + W` entries, the row table its first `H` as a `Span<int>` and the column table the rest |
 | `Integer(FData)` stored as a value in an integer array (`TPicture16.ShowOpaqueStretched`, `RowTable^[I] := C * FPitch + Integer(FData)`) | not expressible: the four stretched `Show` methods of `TPicture16` (`ShowOpaqueStretched`, `ShowBlendedStretched`) are overrides that build the row table as byte offsets and pass the picture's `View` to the rewritten `BltStretched16` as the base |
 | `GetMem`, `ReallocMem`, `FreeMem` of pixel buffers | a `byte[]` of the size (`MemorySurfaces.Reallocate`: the new array keeps the bytes the two sizes share, size 0 gives `null`). Image buffers are section 6.8 |
-| `FillChar(P^, n, v)`, `Move(S^, D^, n)` | `Ptr` spans |
+| `FillChar(P^, n, v)`, `Move(S^, D^, n)` on pixels | `Span<byte>.Fill` and `CopyTo` on slices of the block |
 | an untyped `Pointer` and a pitch passed to a blitter | a `SurfaceView` (section 5.2), tables and encoded images as byte spans |
+| a `PRect` parameter, nil for the whole surface or no rectangle | `TRect?`, null for nil (section 3.3) |
+| a block of records grown with `ReallocMem` and shifted with `Move` (`THashList.FItems` in `HashTabU`, `TCustomImageLibrary.FImages`, `TImageNode.FImages`, `TFrameTableList.FList`, `TMatrix.FData` in `DisplayC`) | a `T[]` with the original's count and capacity, so the growth steps stay: `RtlUnit.ReallocArray` (size 0 gives null, as `ReallocMem` gives nil), `MoveElements` and `ClearElements` for `Move` and `FillChar` of records. `GraphicsArrayTests` pins them |
+| a function result `PPaletteEntry` (`TGFXEPalette.GetEntry`) | a `ref` return |
 
 A probe `pointers` (section 10) exercises each row on the oracle compiler before the graphics units
 are transpiled.
@@ -232,10 +248,10 @@ of the first pixel of row 0 in it (`Start`), the signed pitch (negative for the 
 block by index (`Row(y, count)` slices a row, `Word` and `Dword` read and write at a byte offset,
 little-endian), so the view never moves and the rows of a bottom-up bitmap need nothing special.
 Callers build the view from a descriptor with `TSurfaceDesc.View(Offset)`, the offset being the
-original's pointer arithmetic, and from an image buffer with `SurfaceView.Of(Pointer, Pitch)`. A
+original's pointer arithmetic, and from an image buffer with the image's `View` (section 6.8). A
 blend table, a remap table and a palette are `ReadOnlySpan<byte>` (`TBlendTable5Bit.Bytes`), the
 encoded RLE and mask data a byte span, the stretch tables `ReadOnlySpan<int>`. The `GFXEUnit`
-wrappers take the same views with the original's names, `TBltRectProc` included, and the
+wrappers take the same views with the original's names, and the
 `ImageLibUnit` ones keep `in TSurfaceDesc`. The alignment tests of the assembler (the "paired"
 paths below, the head and tail bytes of the copies) read `Start`, which is the original pointer's
 offset in its block. A row that runs past the end of its block ends with the block, so a routine
@@ -250,7 +266,7 @@ GFXE (all `pascal` calling convention in the original, irrelevant in C#):
 
 | routine | semantics |
 |---|---|
-| `BltRect`, `RegisterBltRect`, `FPBltRect`, `RepMovsdBltRect`, `MMXBltRect` | copy `Width` bytes of `Height` rows from `Src` to `Dst`, row 0 first. The variants were a speed choice of `GetOptimalGFXESettings` and write the same bytes for separate rows that lie inside their blocks, which the port copies with `Span.CopyTo` per row. They differ where the order of writes shows, and there each keeps the original's loop: `RegisterBltRect` (and `BltRect`, which is it) aligns the source to 4 with single bytes, copies pairs of dwords, a dword and the tail bytes, and when the head and tail exceed `Width` its dword count wraps around and the loop runs off the block (the port raises). `MMXBltRect` and `FPBltRect` align to 8 for rows of 31 bytes or more and copy blocks of 32 bytes read whole before the first write, the floating point one writing the four quadwords last to first, then dwords and bytes. Their row loop tests the height after the first row, so a zero height with a row shorter than 31 bytes runs on until it leaves the block. `RepMovsdBltRect` copies a row shorter than 4 bytes byte by byte, a longer one as the bytes that align its end, the dwords and the tail. A destination that starts inside the source row after its first byte (a shift to the right within one block) repeats bytes in a pattern set by each loop's step, so the port runs the original loop for such a row, for a row that leaves its block and for the wrapped count. No caller of the game copies within one surface (the sources are back surfaces, image buffers and saved surfaces distinct from their destinations), so the overlap and overrun rules hold only for the probe and the unit tests (`BlitterTests`) |
+| `BltRect`, `RegisterBltRect`, `FPBltRect`, `RepMovsdBltRect`, `MMXBltRect` | copy `Width` bytes of `Height` rows from `Src` to `Dst`, row 0 first. The variants were a speed choice of the original's `GetOptimalGFXESettings`, which the port drops (section 2), and write the same bytes for separate rows that lie inside their blocks, which the port copies with `Span.CopyTo` per row. They differ where the order of writes shows, and there each keeps the original's loop: `RegisterBltRect` (and `BltRect`, which is it) aligns the source to 4 with single bytes, copies pairs of dwords, a dword and the tail bytes, and when the head and tail exceed `Width` its dword count wraps around and the loop runs off the block (the port raises). `MMXBltRect` and `FPBltRect` align to 8 for rows of 31 bytes or more and copy blocks of 32 bytes read whole before the first write, the floating point one writing the four quadwords last to first, then dwords and bytes. Their row loop tests the height after the first row, so a zero height with a row shorter than 31 bytes runs on until it leaves the block. `RepMovsdBltRect` copies a row shorter than 4 bytes byte by byte, a longer one as the bytes that align its end, the dwords and the tail. A destination that starts inside the source row after its first byte (a shift to the right within one block) repeats bytes in a pattern set by each loop's step, so the port runs the original loop for such a row, for a row that leaves its block and for the wrapped count. No caller of the game copies within one surface (the sources are back surfaces, image buffers and saved surfaces distinct from their destinations), so the overlap and overrun rules hold only for the probe and the unit tests (`BlitterTests`) |
 | `BltColorKey16(Src, Dst, SrcPitch, DstPitch, Width, Height, ColorKey)` | copy `Width` 16-bit pixels per row except pixels equal to `ColorKey` |
 | `BltTransparent555`, `BltTransparent565` | 50 percent blend of source over destination without a color key: `((s and M) + (d and M)) shr 1` per pixel, with `M = $7BDF` (555) and `$F7DF` (565) for single pixels; paired dwords use `$7BDE7BDF` and `$F7DEF7DF`. Used by `TPicture16.ShowTransparent` and `TSprite16` |
 | `BltStretched16(RowTable, ColTable, Dst, DstPitch, Width, Height)` | nearest neighbour: `Dst[y][x] = Row(y)[Col(x)]` where `RowTable[y]` is the source row (an address in the original, a byte offset from the source view's first pixel in the port, `BltStretched16(Source, RowTable, ColTable, Dst, Width, Height)`) and `ColTable[x]` the source column |
@@ -447,7 +463,10 @@ or `View` to the blitters. The decoders of section 5.2 take the encoded data and
 `ReadOnlySpan<byte>`, the RLE remappers as `Span<byte>`. The encoders (`GrabImage` of `TRLESprite08`,
 `TRLESprite16` and `TBitMask`) grow the array as the original grows its block (`MemorySurfaces.Reallocate`
 at every 4,096 bytes past `DataSize`) and write words and dwords little-endian at an index. A grab
-reads the grabbed surface through `SD.View()`.
+reads the grabbed surface through `SD.View()`, and the 8-bit grab of `TRLESprite08` reads its
+bytes from `SD.Data` at `SD.DataIndex + Y * Pitch + X` (`TRLESprite08GrabTests`). A library keeps
+its images in `FImages`, an array of `TImageItem` of the original's capacity, rounded up to 8
+less one, and an image node keeps its sub-images in an array of `TLibraryImage` (section 3.5).
 
 `ImageDecodeTests` pins the classes on the installed libraries (every image of the 538 files: the
 buffer, its pitch and size, and opaque, transparent, blended and stretched draws into both 16-bit

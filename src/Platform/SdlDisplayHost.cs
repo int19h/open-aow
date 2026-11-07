@@ -248,8 +248,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             ResizeImage(backSurface.Width, backSurface.Height);
         }
         int rowBytes = checked(width * 2);
-        Ptr<byte> pointer = backSurface.Data;
-        for (int y = 0; y < height; y++) (pointer + checked(y * backSurface.Pitch)).AsSpan(rowBytes).CopyTo(upload.AsSpan(y * rowBytes));
+        for (int y = 0; y < height; y++) backSurface.Data.AsSpan(checked(backSurface.DataIndex + y * backSurface.Pitch), rowBytes).CopyTo(upload.AsSpan(y * rowBytes));
         fixed (byte* pixels = upload) Check(SDL_UpdateTexture(texture, null, (nint)pixels, rowBytes));
         Check(SDL_RenderClear(renderer));
         var viewport = Viewport;

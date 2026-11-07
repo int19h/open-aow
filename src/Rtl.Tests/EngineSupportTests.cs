@@ -110,11 +110,6 @@ public sealed class EngineSupportTests
         Assert.Equal(R.MethodCode(first), R.MethodCode(second));
         Assert.NotSame(R.MethodTarget(first), R.MethodTarget(second));
         Assert.Null(R.MethodCode(null)); Assert.Null(R.MethodTarget(null));
-        var left = Ptr<TNotifyEvent>.To(new[] { first, second }, 0);
-        var right = Ptr<TNotifyEvent>.To(new[] { first, second }, 0);
-        Assert.True(R.PointerSequenceEqual(left, right, 2));
-        right[1] = first;
-        Assert.False(R.PointerSequenceEqual(left, right, 2));
     }
 
     [Fact]

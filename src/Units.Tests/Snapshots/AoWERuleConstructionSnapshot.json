@@ -2795,15 +2795,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -2826,15 +2818,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -3227,15 +3211,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -3258,15 +3234,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -3884,15 +3852,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -3915,15 +3875,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4022,15 +3974,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4053,15 +3997,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4224,15 +4160,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4255,15 +4183,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4353,15 +4273,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4384,15 +4296,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4484,15 +4388,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -4515,15 +4411,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6029,15 +5917,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6060,15 +5940,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6202,15 +6074,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6233,15 +6097,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6346,15 +6202,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6377,15 +6225,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6519,15 +6359,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6550,15 +6382,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6941,15 +6765,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -6972,15 +6788,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7168,15 +6976,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7199,15 +6999,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7299,15 +7091,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7330,15 +7114,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7429,15 +7205,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7460,15 +7228,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7574,15 +7334,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7605,15 +7357,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7789,15 +7533,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7820,15 +7556,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7919,15 +7647,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -7950,15 +7670,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -8995,15 +8707,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -9026,15 +8730,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -9317,15 +9013,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -9348,15 +9036,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -9975,15 +9655,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -10006,15 +9678,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -10629,15 +10293,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -10660,15 +10316,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -14921,15 +14569,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -14952,15 +14592,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -17981,15 +17613,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18012,15 +17636,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18134,15 +17750,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18165,15 +17773,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18587,15 +18187,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18618,15 +18210,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18788,15 +18372,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18819,15 +18395,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18927,15 +18495,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -18958,15 +18518,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19058,15 +18610,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19089,15 +18633,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19316,15 +18852,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19347,15 +18875,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19515,15 +19035,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19546,15 +19058,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19686,15 +19190,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19717,15 +19213,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19858,15 +19346,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -19889,15 +19369,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20064,15 +19536,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20095,15 +19559,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20449,15 +19905,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20480,15 +19928,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20579,15 +20019,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20610,15 +20042,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20902,15 +20326,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -20933,15 +20349,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -21159,15 +20567,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -21190,15 +20590,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -21704,15 +21096,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -21735,15 +21119,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -21921,15 +21297,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -21952,15 +21320,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -22051,15 +21411,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },
@@ -22082,15 +21434,7 @@
                     "$type": "Aow.Units.HashTabU.TStringHashList",
                     "THashList.FCapacity": 0,
                     "THashList.FCount": 0,
-                    "THashList.FItems": {
-                      "$type": "Aow.Rtl.Ptr`1[[Aow.Units.HashTabU.THashItem, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                      "Ptr`1.Array": null,
-                      "Ptr`1.Index": 0,
-                      "Ptr`1.byteOffset": 0,
-                      "Ptr`1.storage": null,
-                      "Ptr`1.storageBytes": 0,
-                      "Ptr`1.view": null
-                    }
+                    "THashList.FItems": null
                   }
                 }
               },

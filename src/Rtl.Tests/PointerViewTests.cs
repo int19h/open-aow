@@ -57,7 +57,6 @@ public sealed class PointerViewTests
         Assert.Throws<ArgumentOutOfRangeException>(() => words.AsSpan(5));
         Assert.Throws<IndexOutOfRangeException>(() => words[4]);
         Assert.Throws<IndexOutOfRangeException>(() => words[-1]);
-        Assert.True(Ptr<int>.CompareMem(words, words.Realloc(4), 4));
     }
 
     [Fact]
@@ -74,8 +73,8 @@ public sealed class PointerViewTests
         var bytes = Ptr<byte>.Alloc(2048);
         for (int i = 0; i < 2048; i++) bytes[i] = (byte)(i * 7);
         object boxed = bytes.Box();
-        for (int i = 0; i < 1000; i++) boxed = (RtlUnit.BytePointer(boxed) + 1).Box();
-        var end = RtlUnit.BytePointer(boxed);
+        for (int i = 0; i < 1000; i++) boxed = (Ptr<byte>.FromBox(boxed) + 1).Box();
+        var end = Ptr<byte>.FromBox(boxed);
         Assert.Equal(1000, end.ByteIndex);
         Assert.Equal(unchecked((byte)(1000 * 7)), end.Value);
         Assert.Same(bytes.Array, end.Array);
