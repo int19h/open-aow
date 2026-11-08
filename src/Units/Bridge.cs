@@ -51,9 +51,10 @@ public partial class TBridge : TAbstractRoad
         OldOwner = (TMapField)Owner;
         Owner = MapField;
         FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
-        if (OldOwner != null)
+        // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped. }
+        if (OldOwner?.Owner is TMapField OldOwnerField)
         {
-            ((TMapField)OldOwner.Owner).UpdateOverlayType();
+            OldOwnerField.UpdateOverlayType();
         }
 
         MapField.UpdateOverlayType();
