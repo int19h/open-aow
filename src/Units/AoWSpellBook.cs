@@ -191,7 +191,7 @@ public partial class TSpellBook : TDataModule
         bool Result;
         if (FActivation != null)
         {
-            FHero = (THero)AoWHSMap.FUnitControl.FindUnit(FActivation.FUnitID);
+            FHero = AoWHSMap.FUnitControl.FindUnit<THero>(FActivation.FUnitID);
             Result = FHero != null && !FHero.FUnitStatus.Contains(TUnitStatusElement.usKilled);
         }
         else

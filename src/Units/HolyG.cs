@@ -316,8 +316,8 @@ public partial class THolyGround : TILTerrainMO
         var lhx = Anim.GetLhx();
         var yhx = Anim.GetYhx();
         var xhx = Anim.GetXhx();
-        Anim = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == ((TECustomNode)(object)Anim).FindOwnedChild(131987) && FrameCounter == 9)
+        var field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+        if (this == field.FindOwnedChild(131987) && FrameCounter == 9)
         {
             FMode = FMode - TSet<AnonymousEnum_hgSummoning>.Of(AnonymousEnum_hgSummoning.hgSummoning);
         }

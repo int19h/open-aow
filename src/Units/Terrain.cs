@@ -196,8 +196,11 @@ public partial class TTerrainMO : TMultiHexMO
             while (!Found && I != 0)
             {
                 I -= 1;
-                R = (TTerrainMOR)Resources.List[I];
-                Found = R.EClass.ClassID == FResource.EClass.ClassID && R.FDecorationType == ((TTerrainMOR)FResource).FDecorationType && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
+                if (Resources.List[I] is TTerrainMOR terrain)
+                {
+                    R = terrain;
+                    Found = R.EClass.ClassID == FResource.EClass.ClassID && R.FDecorationType == ((TTerrainMOR)FResource).FDecorationType && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
+                }
             }
 
             if (Found)
@@ -241,10 +244,13 @@ public partial class TTerrainMO : TMultiHexMO
         Resources = GetResourceList(FResource.Engine).FChildren;
         for (int I = 0, last = Resources.Count - 1; I <= last; I++)
         {
-            R = (TTerrainMOR)Resources.List[I];
-            if (R.EClass.ClassID == FResource.EClass.ClassID && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.FDecorationType == DecorationType && R != FResource && R.TerrainList.CompareTerrain(FResource.TerrainList, TSet<TTerrainCompareModeElement>.Of(TTerrainCompareModeElement.cmSameOverlayType)))
+            if (Resources.List[I] is TTerrainMOR terrain)
             {
-                Candidates.Add(R);
+                R = terrain;
+                if (R.EClass.ClassID == FResource.EClass.ClassID && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.FDecorationType == DecorationType && R != FResource && R.TerrainList.CompareTerrain(FResource.TerrainList, TSet<TTerrainCompareModeElement>.Of(TTerrainCompareModeElement.cmSameOverlayType)))
+                {
+                    Candidates.Add(R);
+                }
             }
         }
 

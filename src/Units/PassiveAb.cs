@@ -184,7 +184,11 @@ public partial class TCrusaderAbility : TDurationAbility
     public override bool Remove(TAbilityOwner owner)
     {
         bool Result = base.Remove(owner);
-        ((TAbstractUnit)owner).Killed();
+        if (owner is TAbstractUnit unit)
+        {
+            unit.Killed();
+        }
+
         return Result;
     }
 
@@ -343,9 +347,8 @@ public partial class TBurningAbility : TDurationAbility
                     CombatObject.GetAbilityOwner().RemoveAbility(FAbilityID);
                 }
 
-                if (CombatObject.GetAbilityOwner() is TAbstractUnit)
+                if (CombatObject.GetAbilityOwner() is TAbstractUnit unit)
                 {
-                    var unit = (TAbstractUnit)CombatObject.GetAbilityOwner();
                     if (HitRole(4 - unit.GetResistance()))
                     {
                         CombatObject.ExecuteDamage(1);
@@ -828,8 +831,13 @@ public partial class TEnchantedWeaponAbility : TUnitEnchantmentAbility
     // PassiveAb.pas:1093
     public override int GetAIUpkeepPriority(TAbilityOwner Owner)
     {
-        int Result = ((TAbstractUnit)Owner).GetUnitLevel() + 225;
-        if (Owner is TLeader)
+        if (Owner is not TAbstractUnit unit)
+        {
+            return 0;
+        }
+
+        int Result = unit.GetUnitLevel() + 225;
+        if (unit is TLeader)
         {
             Result += 50;
         }
@@ -852,9 +860,8 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     public override bool Remove(TAbilityOwner owner)
     {
         bool Result = base.Remove(owner);
-        if (Result)
+        if (Result && owner is TAbstractUnit unit)
         {
-            var unit = (TAbstractUnit)owner;
             unit.Killed();
             unit.SetOwner(null);
         }
@@ -865,8 +872,13 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     // PassiveAb.pas:1134
     public override int GetAIUpkeepPriority(TAbilityOwner Owner)
     {
+        if (Owner is not TAbstractUnit unit)
+        {
+            return 0;
+        }
+
         int Result;
-        switch (((TAbstractUnit)Owner).GetUnitLevel())
+        switch (unit.GetUnitLevel())
         {
             case 1:
                 Result = 250;
@@ -966,8 +978,13 @@ public partial class TFuryAbility : TUnitEnchantmentAbility
     // PassiveAb.pas:1180
     public override int GetAIUpkeepPriority(TAbilityOwner Owner)
     {
-        int Result = ((TAbstractUnit)Owner).GetUnitLevel() + 200;
-        if (Owner is TLeader)
+        if (Owner is not TAbstractUnit unit)
+        {
+            return 0;
+        }
+
+        int Result = unit.GetUnitLevel() + 200;
+        if (unit is TLeader)
         {
             Result -= 50;
         }
@@ -1037,13 +1054,13 @@ public partial class TFireAuraEnchantment : TUnitEnchantmentAbility
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner.Owner is TArmy)
+        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
         {
-            ((TAbstractUnit)owner).GetLocation(ref X, ref Y, ref L);
+            unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 var mapField = AoWHSMap.MapContainer.GetField(X, Y, L);
-                ((TArmy)owner.Owner).ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
+                army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
 
@@ -1068,13 +1085,13 @@ public partial class TWaterWalkingEnchantment : TUnitEnchantmentAbility
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner.Owner is TArmy)
+        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
         {
-            ((TAbstractUnit)owner).GetLocation(ref X, ref Y, ref L);
+            unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 var mapField = AoWHSMap.MapContainer.GetField(X, Y, L);
-                ((TArmy)owner.Owner).ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
+                army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
 
@@ -1099,13 +1116,13 @@ public partial class TWindWalkingEnchantment : TUnitEnchantmentAbility
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner.Owner is TArmy)
+        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
         {
-            ((TAbstractUnit)owner).GetLocation(ref X, ref Y, ref L);
+            unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 var mapField = AoWHSMap.MapContainer.GetField(X, Y, L);
-                ((TArmy)owner.Owner).ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
+                army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
 
@@ -1130,13 +1147,13 @@ public partial class TLiquidFormEnchantment : TUnitEnchantmentAbility
         sbyte Y = default;
         sbyte L = default;
         bool Result = base.Remove(owner);
-        if (Result && owner.Owner is TArmy)
+        if (Result && owner is TAbstractUnit unit && owner.Owner is TArmy army)
         {
-            ((TAbstractUnit)owner).GetLocation(ref X, ref Y, ref L);
+            unit.GetLocation(ref X, ref Y, ref L);
             if (X != -1)
             {
                 var mapField = AoWHSMap.MapContainer.GetField(X, Y, L);
-                ((TArmy)owner.Owner).ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
+                army.ValidateTerrain(mapField.TerrainType, mapField.OverlayType);
             }
         }
 
@@ -1146,8 +1163,13 @@ public partial class TLiquidFormEnchantment : TUnitEnchantmentAbility
     // PassiveAb.pas:1378
     public override int GetAIUpkeepPriority(TAbilityOwner Owner)
     {
-        int Result = ((TAbstractUnit)Owner).GetUnitLevel() + 300;
-        if (Owner is TLeader)
+        if (Owner is not TAbstractUnit unit)
+        {
+            return 0;
+        }
+
+        int Result = unit.GetUnitLevel() + 300;
+        if (unit is TLeader)
         {
             Result += 50;
         }
@@ -1193,8 +1215,13 @@ public partial class TBlessedEnchantment : TUnitEnchantmentAbility
     // PassiveAb.pas:1242
     public override int GetAIUpkeepPriority(TAbilityOwner Owner)
     {
-        int Result = ((TAbstractUnit)Owner).GetUnitLevel() + 200;
-        if (Owner is TLeader)
+        if (Owner is not TAbstractUnit unit)
+        {
+            return 0;
+        }
+
+        int Result = unit.GetUnitLevel() + 200;
+        if (unit is TLeader)
         {
             Result += 50;
         }
@@ -1219,8 +1246,13 @@ public partial class TDarkGiftEnchantment : TUnitEnchantmentAbility
     // PassiveAb.pas:1261
     public override int GetAIUpkeepPriority(TAbilityOwner Owner)
     {
-        int Result = ((TAbstractUnit)Owner).GetUnitLevel() + 200;
-        if (Owner is TLeader)
+        if (Owner is not TAbstractUnit unit)
+        {
+            return 0;
+        }
+
+        int Result = unit.GetUnitLevel() + 200;
+        if (unit is TLeader)
         {
             Result += 50;
         }

@@ -258,9 +258,17 @@ public partial class TRelWindow : TDataModule
         FGlowIntensity = 50;
         FGlowIncreasing = false;
         RelWin.Visible = true;
-        ((TAOWCheckBox)FControls[Player + 23]).Checked = true;
+        if (FControls[Player + 23] is TAOWCheckBox playerCheck)
+        {
+            playerCheck.Checked = true;
+        }
+
         Index = FPlayers.IndexOf(AoWHSMap.FSeatedPlayer);
-        ((TAOWCheckBox)FControls[Index + 24]).Checked = true;
+        if (FControls[Index + 24] is TAOWCheckBox seatedCheck)
+        {
+            seatedCheck.Checked = true;
+        }
+
         P1CBChange((TObject)FControls[Index + 24]);
         AoWHSMap.FTutorialControl.ShowMessage(65, true, true);
     }
@@ -289,7 +297,7 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:293
-    public void ShowPlayerActions(sbyte Player)
+    public virtual void ShowPlayerActions(sbyte Player)
     {
         int Selected;
         ClearActions();
@@ -754,9 +762,9 @@ public partial class TRelWindow : TDataModule
     // AoWRelations.pas:610
     public void P1CBChange(TObject Sender)
     {
-        TAOWCheckBox Check;
-        Check = (TAOWCheckBox)Sender;
-        if (Check.Checked)
+        // The original SetChecked call on an image is undefined, so skipped. An image has FChecked and no SetChecked. The action branch runs only for a check box.
+        TAoWComponent component = (TAoWComponent)Sender;
+        if (component.FChecked)
         {
             General.PlayButtonSound(1);
         }
@@ -767,15 +775,15 @@ public partial class TRelWindow : TDataModule
 
         RelPnl.FAligned = false;
         RelWin.FDrawn = false;
-        if (Check.Checked)
+        if (component.FChecked && Sender is TAOWCheckBox check)
         {
             if (FAction == null)
             {
-                ShowPlayerActions((sbyte)FPlayers[Check.Tag]);
+                ShowPlayerActions((sbyte)FPlayers[check.Tag]);
             }
             else
             {
-                HighlightPlayer((sbyte)FPlayers[Check.Tag]);
+                HighlightPlayer((sbyte)FPlayers[check.Tag]);
             }
         }
     }

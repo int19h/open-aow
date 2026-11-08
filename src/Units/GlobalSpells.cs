@@ -1290,25 +1290,29 @@ public partial class TDisjunctionSpellCaster : TSpellCaster
     // GlobalSpells.pas:868
     public override bool CanCast(ref string Reason)
     {
-        THero Source;
+        // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
+        TAbstractUnit Source;
         bool Result = base.CanCast(ref Reason);
-        Source = (THero)AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
+        Source = AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
         if (Result && SelectedEnchantment() != null)
         {
             if (!AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(TGlobalEnchantmentType.getSpellWard) || SelectedEnchantment().FEnchantmentType == TGlobalEnchantmentType.getSpellWard)
             {
                 if (!AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
                 {
-                    var spell = AoWHSSet.FSpellControl.GetSpell(51);
-                    var mana = GetMana();
-                    if (AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.FMana + Source.FCastingProgress >= spell.FBaseManaCost + mana)
+                    if (Source is THero hero)
                     {
-                        Result = true;
-                    }
-                    else
-                    {
-                        Result = false;
-                        Reason = TranslateRStr(NotEnoughManaRStr);
+                        var spell = AoWHSSet.FSpellControl.GetSpell(51);
+                        var mana = GetMana();
+                        if (AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.FMana + hero.FCastingProgress >= spell.FBaseManaCost + mana)
+                        {
+                            Result = true;
+                        }
+                        else
+                        {
+                            Result = false;
+                            Reason = TranslateRStr(NotEnoughManaRStr);
+                        }
                     }
                 }
                 else
@@ -1428,20 +1432,24 @@ public partial class TDisjunctionSpellCaster : TSpellCaster
     // GlobalSpells.pas:851
     public bool GetEnoughMana()
     {
-        THero Source;
+        // FPlayer is on TAbstractUnit. FCastingProgress is on THero, so only that read tests for a hero.
+        TAbstractUnit Source;
         int Mana;
         bool Result = false;
-        Source = (THero)AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
+        Source = AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
         if (SelectedEnchantment() != null)
         {
             if (!AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
             {
-                Mana = AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.FMana + Source.FCastingProgress;
-                var spell = AoWHSSet.FSpellControl.GetSpell(51);
-                var mana = GetMana();
-                if (Mana >= spell.FBaseManaCost + mana)
+                if (Source is THero hero)
                 {
-                    Result = true;
+                    Mana = AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.FMana + hero.FCastingProgress;
+                    var spell = AoWHSSet.FSpellControl.GetSpell(51);
+                    var mana = GetMana();
+                    if (Mana >= spell.FBaseManaCost + mana)
+                    {
+                        Result = true;
+                    }
                 }
             }
             else
