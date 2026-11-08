@@ -157,7 +157,7 @@ public partial class THeroUpgradeDlg : TDataModule
     // AoWHeroUpgradeDlg.pas:280
     public bool ValidateHero()
     {
-        FHero = (THero)AoWHSMap.FUnitControl.FindUnit(FReferencedHero.FUnitID);
+        FHero = AoWHSMap.FUnitControl.FindUnit<THero>(FReferencedHero.FUnitID);
         bool Result = FHero != null;
         if (!Result)
         {

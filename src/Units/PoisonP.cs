@@ -321,8 +321,8 @@ public partial class TPoisonPlant : TILTerrainMO
         var lhx = Animation.GetLhx();
         var yhx = Animation.GetYhx();
         var xhx = Animation.GetXhx();
-        Animation = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == ((TECustomNode)(object)Animation).FindOwnedChild(131998) && FrameCounter == 9)
+        var field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+        if (this == field.FindOwnedChild(131998) && FrameCounter == 9)
         {
             FPlantStatus = FPlantStatus - TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
         }

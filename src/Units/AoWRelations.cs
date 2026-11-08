@@ -258,11 +258,18 @@ public partial class TRelWindow : TDataModule
         FGlowIntensity = 50;
         FGlowIncreasing = false;
         RelWin.Visible = true;
-        ((TAOWCheckBox)FControls[Player + 23]).Checked = true;
+        if (FControls[Player + 23] is TAOWCheckBox playerCheck)
+        {
+            playerCheck.Checked = true;
+        }
+
         Index = FPlayers.IndexOf(AoWHSMap.FSeatedPlayer);
-        var seatedCheck = (TAOWCheckBox)FControls[Index + 24];
-        seatedCheck.Checked = true;
-        P1CBChange(seatedCheck, Index);
+        if (FControls[Index + 24] is TAOWCheckBox seatedCheck)
+        {
+            seatedCheck.Checked = true;
+        }
+
+        P1CBChange((TAoWComponent)FControls[Index + 24], Index);
         AoWHSMap.FTutorialControl.ShowMessage(65, true, true);
     }
 
@@ -290,7 +297,7 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:293
-    public void ShowPlayerActions(sbyte Player)
+    public virtual void ShowPlayerActions(sbyte Player)
     {
         int Selected;
         ClearActions();
@@ -753,11 +760,10 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:610
-    public void P1CBChange(TAOWCheckBox Sender, int Slot)
+    public void P1CBChange(TAoWComponent Sender, int Slot)
     {
-        TAOWCheckBox Check;
-        Check = Sender;
-        if (Check.Checked)
+        // The original SetChecked call on an image is undefined, so skipped. An image has FChecked and no SetChecked. The action branch runs only for a check box.
+        if (Sender.FChecked)
         {
             General.PlayButtonSound(1);
         }
@@ -768,7 +774,7 @@ public partial class TRelWindow : TDataModule
 
         RelPnl.FAligned = false;
         RelWin.FDrawn = false;
-        if (Check.Checked)
+        if (Sender.FChecked && Sender is TAOWCheckBox)
         {
             if (FAction == null)
             {

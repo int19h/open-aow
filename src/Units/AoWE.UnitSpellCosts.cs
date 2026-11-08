@@ -5,7 +5,7 @@ public partial class TUnitSpellCaster
     // Spells.PAS:909. The recovered casting view aliases the hero.
     public int GetRequiredMana()
     {
-        var hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
+        var hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FCasterSourceID);
         return hero is null ? -1 : hero.CastingMana(AoWEUnit.AoWHSSet.FSpellControl.GetSpell(FCasterSpellID)) * GetSelectionCount();
     }
 
