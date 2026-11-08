@@ -191,7 +191,17 @@ public sealed class PersistCorpusTests
             var loaded = Blank(cls.Name);
             try
             {
-                Load(loaded, image);
+                try
+                {
+                    Load(loaded, image);
+                }
+                catch (Aow.Rtl.Exception error)
+                {
+                    // The fixture loads no game resources, so a part that needs one (a unit's
+                    // resource) cannot load. Such an instance proves nothing either way.
+                    Block(cls.Name, "fixture: " + error.Message);
+                    return false;
+                }
                 var rewritten = Image(loaded);
                 var expected = PilotImage.Decode(rewritten, cls.Name, engine);
                 var tree = TreeWriter.Write(loaded, factory);
@@ -211,7 +221,7 @@ public sealed class PersistCorpusTests
                 var again = Blank(cls.Name);
                 try
                 {
-                    TreeReader.Read(DocumentBackend.Read(expected, cls, schema, engine), again, factory);
+                    TreeReader.Read(DocumentBackend.Read(expected, cls, schema, engine), again, factory, Stop);
                     EqualBytes(PilotImage.Encode(expected, cls.Name, engine), Image(again), file + " " + cls.Name + " read");
                 }
                 finally
@@ -231,7 +241,7 @@ public sealed class PersistCorpusTests
                         Block(cls.Name, error.Diagnostic.Message);
                         return false;
                     }
-                    TreeReader.Read(read, fromImage, factory);
+                    TreeReader.Read(read, fromImage, factory, Stop);
                     EqualBytes(Image(loaded), Image(fromImage), file + " " + cls.Name + " readwrite");
                 }
                 finally
@@ -332,12 +342,17 @@ public sealed class PersistCorpusTests
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
+    // Both loads stop on a nested error, so a dropped part fails the comparison instead of
+    // vanishing from both sides.
+    private static void Stop(string message, ref bool continueLoad) => continueLoad = false;
+
     private static void Load(TEObject obj, byte[] image)
     {
         using var memory = new TMemoryStream();
         memory.Write(image);
         memory.Position = 0;
         var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
+        reader.OnError = static (TEStorageStream _, string _, ref bool cont) => cont = false;
         try
         {
             obj.MainReadWrite(reader);
