@@ -539,9 +539,9 @@ public partial class TCity : TPlayerCropStructure
         YhpSurf = Y - YhpSurf;
         if (!FMode.Contains(TCityModeElement.cmRazed) || GetBuilding())
         {
-            if ((AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) || !FFogged || !AoWHSMap.FFogEnabled) && FFlagID != 63 && (((TCityResource)FResource).FClaimed || (FFlagID & 32) == 0))
+            if ((AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) || !FFogged || !AoWHSMap.FFogEnabled) && FFlagID != 63 && (((TPlayerStructureResource)FResource).FClaimed || (FFlagID & 32) == 0))
             {
-                var cityResource = (TCityResource)FResource;
+                var cityResource = (TPlayerStructureResource)FResource;
                 if (cityResource.FFlagType <= 1)
                 {
                     AoWHSSet.FFlagControl.ShowFlag(cityResource.FFlagX + XhpSurf, cityResource.FFlagY + YhpSurf, cityResource.Engine.HSMap.Frame + X, this.FFlagID, SurfaceDesc);
@@ -565,7 +565,7 @@ public partial class TCity : TPlayerCropStructure
         }
         else
         {
-            ((TCityResource)FResource).Show(XhpSurf, YhpSurf, SurfaceDesc, this);
+            ((TStructureResource)FResource).Show(XhpSurf, YhpSurf, SurfaceDesc, this);
         }
     }
 
@@ -1425,7 +1425,7 @@ public partial class TCity : TPlayerCropStructure
     public override void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
     {
         TCityProductionEventLog Log;
-        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) && FStatus.Contains(TMapObjectStatusElement.moActivated) && !((TCityResource)FResource).FClaimed)
+        if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) && FStatus.Contains(TMapObjectStatusElement.moActivated) && !((TPlayerStructureResource)FResource).FClaimed)
         {
             Log = new TCityProductionEventLog(null);
             Log.FPlayer = NewPlayer;
@@ -1584,7 +1584,7 @@ public partial class TCity : TPlayerCropStructure
             {
                 if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                 {
-                    Count = ((TCityResource)FResource).FCropLocations.Count;
+                    Count = ((TPlayerCropStructureResource)FResource).FCropLocations.Count;
                 }
                 else
                 {
@@ -4073,7 +4073,7 @@ public static partial class CityUnit
         {
             if (P.FStructures.GetStructure(I) is TCity)
             {
-                Result = !((TCity)P.FStructures.GetStructure(I)).GetBuilding() && ((TCity)P.FStructures.GetStructure(I)).FRace == Race;
+                Result = !P.FStructures.GetStructure(I).GetBuilding() && ((TCity)P.FStructures.GetStructure(I)).FRace == Race;
             }
 
             I += 1;
@@ -4127,7 +4127,7 @@ public static partial class CityUnit
                 Structure = P.FStructures.GetStructure(I);
                 if (Structure.EClass.ClassID == 131336 && Structure.FPlayer == Player)
                 {
-                    Result += ((TCity)Structure).FIncome;
+                    Result += ((TPlayerCropStructure)Structure).FIncome;
                 }
             }
         }

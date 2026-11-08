@@ -218,7 +218,7 @@ public partial class THeroJoinDlg : TDataModule
     }
 
     // AoWHeroJoinDlg.pas:196
-    public void U1MouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void U1MouseDown(TComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (ValidateJoin())
         {

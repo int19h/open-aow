@@ -2399,7 +2399,7 @@ public partial class THexagonSprite : TEObject
     public virtual sbyte GetYhx() => ((TMapField)Owner).FYhx;
 
     // HXSPRITE.PAS:97
-    public virtual sbyte GetLhx() => (sbyte)((TMapLevel)((TMapField)Owner).Owner).FLhx;
+    public virtual sbyte GetLhx() => (sbyte)((TMapLevel)Owner.Owner).FLhx;
 
     // HXSPRITE.PAS:102
     public virtual int GetXYL() => GetXhx() + (GetYhx() << 8) + (GetLhx() << 16);
@@ -2570,11 +2570,11 @@ public partial class THexagonSprite : TEObject
     // HXSPRITE.PAS:82
     public virtual void GetBaseHX(ref int XYL)
     {
-        XYL = ((TMapField)Owner).FXhx + (((TMapField)Owner).FYhx << 8) + (((TMapLevel)((TMapField)Owner).Owner).FLhx << 16);
+        XYL = ((TMapField)Owner).FXhx + (((TMapField)Owner).FYhx << 8) + (((TMapLevel)Owner.Owner).FLhx << 16);
     }
 
     // HXSPRITE.PAS:57
-    public virtual bool CanSelect(int Xhp, int Yhp) => Owner != null && ((THSEngine)((TMapLevel)((TMapField)Owner).Owner).FEngine).FHSMap.FStatus.Contains(THSMapStatusElement.msEditting);
+    public virtual bool CanSelect(int Xhp, int Yhp) => Owner != null && ((THSEngine)((TMapLevel)Owner.Owner).FEngine).FHSMap.FStatus.Contains(THSMapStatusElement.msEditting);
 
     // HXSPRITE.PAS:107
     public virtual void Select()
@@ -2584,7 +2584,7 @@ public partial class THexagonSprite : TEObject
     // HXSPRITE.PAS:111
     public virtual void Unselect()
     {
-        ((TMapLevel)((TMapField)Owner).Owner).FMap.FSelection.Unselect(this);
+        ((TMapLevel)Owner.Owner).FMap.FSelection.Unselect(this);
     }
 
     // HXSPRITE.PAS:17

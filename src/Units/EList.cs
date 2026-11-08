@@ -37,7 +37,7 @@ public partial class TObjectList : TList
 
         if (List[Index] != null)
         {
-            ((TListObject)List[Index]).Destroy();
+            ((TObject)List[Index]).Destroy();
         }
 
         List[Index] = Value;
@@ -57,7 +57,7 @@ public partial class TObjectList : TList
         {
             if (List[I] != null)
             {
-                ((TListObject)List[I]).Destroy();
+                ((TObject)List[I]).Destroy();
             }
 
             Delete(I);

@@ -1902,7 +1902,7 @@ public partial class TWorldMap : ILayoutModule
 
     private void Layout_WorldPnlMouseMove_1(TObject p0, TSet<TShiftState> p1, int p2, int p3)
     {
-        WorldPnlMouseMove((TAoWComponent)p0, p1, p2, p3);
+        WorldPnlMouseMove(p0, p1, p2, p3);
     }
 
     private void Layout_WorldPnlUpdate_2(TObject p0)
@@ -1912,32 +1912,32 @@ public partial class TWorldMap : ILayoutModule
 
     private void Layout_Path1MouseDown_3(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
-        Path1MouseDown((TAoWComponent)p0, p1, p2, p3, p4);
+        Path1MouseDown(p0, p1, p2, p3, p4);
     }
 
     private void Layout_Path1MouseMove_4(TObject p0, TSet<TShiftState> p1, int p2, int p3)
     {
-        Path1MouseMove((TAoWComponent)p0, p1, p2, p3);
+        Path1MouseMove(p0, p1, p2, p3);
     }
 
     private void Layout_Path2MouseDown_5(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
-        Path2MouseDown((TAoWComponent)p0, p1, p2, p3, p4);
+        Path2MouseDown(p0, p1, p2, p3, p4);
     }
 
     private void Layout_Path2MouseMove_6(TObject p0, TSet<TShiftState> p1, int p2, int p3)
     {
-        Path2MouseMove((TAoWComponent)p0, p1, p2, p3);
+        Path2MouseMove(p0, p1, p2, p3);
     }
 
     private void Layout_Path3MouseDown_7(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
-        Path3MouseDown((TAoWComponent)p0, p1, p2, p3, p4);
+        Path3MouseDown(p0, p1, p2, p3, p4);
     }
 
     private void Layout_Path3MouseMove_8(TObject p0, TSet<TShiftState> p1, int p2, int p3)
     {
-        Path3MouseMove((TAoWComponent)p0, p1, p2, p3);
+        Path3MouseMove(p0, p1, p2, p3);
     }
 
     private void Layout_PPawnMouseMove_9(TObject p0, TSet<TShiftState> p1, int p2, int p3)

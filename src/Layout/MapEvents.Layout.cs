@@ -70,7 +70,7 @@ public partial class TMapEvents : ILayoutModule
 
     private void Layout_TheMapArmyDeselected_1(TObject p0)
     {
-        TheMapArmyDeselected((TArmy)p0);
+        TheMapArmyDeselected(p0);
     }
 
     private void Layout_TheMapArmyChanged_2(TObject p0)
@@ -90,7 +90,7 @@ public partial class TMapEvents : ILayoutModule
 
     private void Layout_TheMapStructureDeselected_5(TObject p0)
     {
-        TheMapStructureDeselected((TStructure)p0);
+        TheMapStructureDeselected(p0);
     }
 
     private void Layout_TheMapStructureDblClick_6(TObject p0)

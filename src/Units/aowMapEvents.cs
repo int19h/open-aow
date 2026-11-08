@@ -139,7 +139,7 @@ public partial class TMapEvents : TDataModule
     }
 
     // aowMapEvents.pas:117
-    public void TheMapArmyDeselected(TArmy Army)
+    public void TheMapArmyDeselected(TObject Army)
     {
         General.FAbilities.Clear();
         General.FUnitList = null;
@@ -586,7 +586,7 @@ public partial class TMapEvents : TDataModule
     }
 
     // aowMapEvents.pas:457
-    public void TheMapStructureDeselected(TStructure Structure)
+    public void TheMapStructureDeselected(TObject Structure)
     {
         if (General.FSign != null)
         {

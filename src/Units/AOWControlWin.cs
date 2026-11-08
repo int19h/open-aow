@@ -156,7 +156,7 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:333
-    public void Unit1FrameMouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Unit1FrameMouseDown(TComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (General.FUnitList != null && General.FSelectedUnits[Sender.Tag] > -1 && General.FUnitList.GetUnit(General.FSelectedUnits[Sender.Tag]) != null)
         {

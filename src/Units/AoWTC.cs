@@ -177,12 +177,12 @@ public partial class TCAI : TObject
         Strength = Target.GetTargetStrength();
         if (Target is TTacticalCombatUnit)
         {
-            if (((TTacticalCombatUnit)Target).FUnit is THero)
+            if (((TCombatUnit)Target).FUnit is THero)
             {
                 Strength = Strength * 2;
             }
 
-            if (((TTacticalCombatUnit)Target).FUnit is TLeader)
+            if (((TCombatUnit)Target).FUnit is TLeader)
             {
                 Strength = Strength * 2;
             }
@@ -192,12 +192,12 @@ public partial class TCAI : TObject
         Strength = Source.GetTargetStrength();
         if (Source is TTacticalCombatUnit)
         {
-            if (((TTacticalCombatUnit)Source).FUnit is THero)
+            if (((TCombatUnit)Source).FUnit is THero)
             {
                 Strength = Strength * 2;
             }
 
-            if (((TTacticalCombatUnit)Source).FUnit is TLeader)
+            if (((TCombatUnit)Source).FUnit is TLeader)
             {
                 Strength = Strength * 2;
             }
@@ -293,9 +293,9 @@ public partial class TCAI : TObject
             {
                 var yhx = ((TTacticalCombatUnit)Enemies[I]).FUnitHS.GetYhx();
                 Distance = dHXtoRad(X, Y, ((TTacticalCombatUnit)Enemies[I]).FUnitHS.GetXhx(), yhx);
-                if (Distance < 15 && ((TTacticalCombatUnit)Enemies[I]).GetTargetStrength() > 0)
+                if (Distance < 15 && ((TCombatObject)Enemies[I]).GetTargetStrength() > 0)
                 {
-                    Result = Result - ((TTacticalCombatUnit)Enemies[I]).GetTargetStrength() * (15 - Distance);
+                    Result = Result - ((TCombatObject)Enemies[I]).GetTargetStrength() * (15 - Distance);
                 }
             }
 
@@ -305,9 +305,9 @@ public partial class TCAI : TObject
                 {
                     var yhx = ((TTacticalCombatUnit)Units[I]).FUnitHS.GetYhx();
                     Distance = dHXtoRad(X, Y, ((TTacticalCombatUnit)Units[I]).FUnitHS.GetXhx(), yhx);
-                    if (Distance < 15 && ((TTacticalCombatUnit)Units[I]).GetTargetStrength() > 0)
+                    if (Distance < 15 && ((TCombatObject)Units[I]).GetTargetStrength() > 0)
                     {
-                        Result = Result + ((TTacticalCombatUnit)Units[I]).GetTargetStrength() * (15 - Distance);
+                        Result = Result + ((TCombatObject)Units[I]).GetTargetStrength() * (15 - Distance);
                     }
                 }
             }
@@ -316,9 +316,9 @@ public partial class TCAI : TObject
             {
                 var yhx = ((TTacticalCombatUnit)Allies[I]).FUnitHS.GetYhx();
                 Distance = dHXtoRad(X, Y, ((TTacticalCombatUnit)Allies[I]).FUnitHS.GetXhx(), yhx);
-                if (Distance < 15 && ((TTacticalCombatUnit)Allies[I]).GetTargetStrength() > 0)
+                if (Distance < 15 && ((TCombatObject)Allies[I]).GetTargetStrength() > 0)
                 {
-                    Result = Result + ((TTacticalCombatUnit)Allies[I]).GetTargetStrength() * (15 - Distance);
+                    Result = Result + ((TCombatObject)Allies[I]).GetTargetStrength() * (15 - Distance);
                 }
             }
         }
@@ -2107,7 +2107,7 @@ public partial class TCAI : TObject
                                         {
                                             if (!tacticalCombat.FCombatData.GetObjects(I).GetLocked())
                                             {
-                                                if (((TTacticalCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnit is THero)
+                                                if (((TCombatUnit)tacticalCombat.FCombatData.GetObjects(I)).FUnit is THero)
                                                 {
                                                     var combatObject = tacticalCombat.FCombatData.GetObjects(I);
                                                     Units.Add(combatObject);
@@ -2641,8 +2641,8 @@ public partial class TCAI : TObject
                                         for (; J <= limit; J += 1)
                                         {
                                             var yhx = U.FUnitHS.GetYhx();
-                                            var yhx2 = ((TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J]).GetYhx();
-                                            N = dHXtoRad(((TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
+                                            var yhx2 = ((THexagonSprite)AoWTCUnit.AoWCombatMap.FWalls[J]).GetYhx();
+                                            N = dHXtoRad(((THexagonSprite)AoWTCUnit.AoWCombatMap.FWalls[J]).GetXhx(), yhx2, U.FUnitHS.GetXhx(), yhx);
                                             if (((TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J]).FHitPoints > 0 && N < L)
                                             {
                                                 Wall = (TCityWall)AoWTCUnit.AoWCombatMap.FWalls[J];
@@ -5076,7 +5076,7 @@ public partial class TfxHS : TFixedVisibleHS
                                     ((TTacticalCombatUnit)FTarget).FUnitHS.FBusy = false;
                                 }
 
-                                if (FTarget != null && ((TTacticalCombatUnit)FTarget).FUnit.GetMoveTypes().Contains(TMoveType.mtFlying))
+                                if (FTarget != null && ((TCombatUnit)FTarget).FUnit.GetMoveTypes().Contains(TMoveType.mtFlying))
                                 {
                                     FTarget = null;
                                 }
@@ -5267,7 +5267,7 @@ public partial class TUnitPositionHS : TSingleHS
     // AoWTC.pas:5049
     public override void Deactivate()
     {
-        if (Activated() && ((TMapLevel)((TMapField)Owner).Owner).Map.Status.Contains(THSMapStatusElement.msEditting))
+        if (Activated() && ((TMapLevel)Owner.Owner).Map.Status.Contains(THSMapStatusElement.msEditting))
         {
             AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TCUNITS.ILB");
             var unitPosition = AoWTCUnit.AoWCombatMap.FUnitPositions.GetUnitPosition(FPosition, FIndex);
@@ -6337,12 +6337,12 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 }
             }
 
-            if (GetXhx() != ((TCombatMoveControl)Info.Sender).FDestinationX && ((TCombatMoveControl)Info.Sender).FDestinationX != -1)
+            if (GetXhx() != ((TMoveControl)Info.Sender).FDestinationX && ((TMoveControl)Info.Sender).FDestinationX != -1)
             {
                 return;
             }
 
-            if (GetYhx() != ((TCombatMoveControl)Info.Sender).FDestinationY && ((TCombatMoveControl)Info.Sender).FDestinationY != -1)
+            if (GetYhx() != ((TMoveControl)Info.Sender).FDestinationY && ((TMoveControl)Info.Sender).FDestinationY != -1)
             {
                 return;
             }
@@ -6400,7 +6400,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
             CenterHNtoHX(GetXhx(), yhx, Info.HN, ref X, ref Y);
             if (MoveResult.Code < 30)
             {
-                MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
+                MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
             }
 
             if (MoveResult.Code <= -1)
@@ -6413,7 +6413,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 return;
             }
 
-            if (GetXhx() == ((TCombatMoveControl)Info.Sender).FDestinationX && GetYhx() == ((TCombatMoveControl)Info.Sender).FDestinationY)
+            if (GetXhx() == ((TMoveControl)Info.Sender).FDestinationX && GetYhx() == ((TMoveControl)Info.Sender).FDestinationY)
             {
                 return;
             }
@@ -6438,9 +6438,9 @@ public partial class TTacticalCombatUnitHS : TUnitHS
                 return;
             }
 
-            if (((TCombatMoveControl)Info.Sender).FDestinationX >= 0 && ((TCombatMoveControl)Info.Sender).FDestinationY >= 0 && dHXtoRad(X, Y, ((TCombatMoveControl)Info.Sender).FDestinationX, ((TCombatMoveControl)Info.Sender).FDestinationY) <= 1)
+            if (((TMoveControl)Info.Sender).FDestinationX >= 0 && ((TMoveControl)Info.Sender).FDestinationY >= 0 && dHXtoRad(X, Y, ((TMoveControl)Info.Sender).FDestinationX, ((TMoveControl)Info.Sender).FDestinationY) <= 1)
             {
-                if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[((TCombatMoveControl)Info.Sender).FDestinationX, ((TCombatMoveControl)Info.Sender).FDestinationY].FindOwnedChild(2228484) != null)
+                if (AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[((TMoveControl)Info.Sender).FDestinationX, ((TMoveControl)Info.Sender).FDestinationY].FindOwnedChild(2228484) != null)
                 {
                     return;
                 }
@@ -8330,9 +8330,9 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         while (FEffects.Count > 0)
         {
             var effect = FEffects[0];
-            DynamicFixedVisibleHS.RemoveChild((THexagonSprite)effect);
+            DynamicFixedVisibleHS.RemoveChild((TEObject)effect);
             var effect2 = FEffects[0];
-            DynamicVisibleHS.RemoveChild((THexagonSprite)effect2);
+            DynamicVisibleHS.RemoveChild((TEObject)effect2);
             ((TObject)FEffects[0]).Free();
             FEffects.Delete(0);
         }
@@ -8373,7 +8373,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         FUnitChangedEvents = new TEventList();
         FPlayers = new TTacticalCombatPlayerList();
         FUnitSelection = new TCombatUnitSelectionControl();
-        ((TAoWCombatMapMouse)Mouse).FRectangleSelectEvents.Add(FUnitSelection.RectangleSelectEvent);
+        ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents.Add(FUnitSelection.RectangleSelectEvent);
         FEffects = new TList();
         FWalls = new TList();
         FFleeLocations = new TList();
@@ -8456,9 +8456,9 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         }
 
         DrawMoveRoute(SD);
-        if (((TAoWCombatMapMouse)Mouse).FSelectionRectangle.Left != -1)
+        if (((TAbstractAoWHSMapMouse)Mouse).FSelectionRectangle.Left != -1)
         {
-            DrawSelectionRect(ViewXhp, ViewYhp, ((TAoWCombatMapMouse)Mouse).FSelectionRectangle, SD);
+            DrawSelectionRect(ViewXhp, ViewYhp, ((TAbstractAoWHSMapMouse)Mouse).FSelectionRectangle, SD);
         }
     }
 
@@ -8530,7 +8530,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         while (I != 0 && X == -1)
         {
             I -= 1;
-            if (FCombat.FCombatData.GetObjects(I) is TTacticalCombatUnit && ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == Hero)
+            if (FCombat.FCombatData.GetObjects(I) is TTacticalCombatUnit && ((TCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == Hero)
             {
                 X = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
                 Y = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
@@ -8921,7 +8921,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         I = 0;
         while (I < FCombat.FCombatData.GetCount())
         {
-            if (FCombat.FCombatData.GetObjects(I) is TTacticalCombatUnit && ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == U && FCombat.FCombatData.GetObjects(I).GetEnabled())
+            if (FCombat.FCombatData.GetObjects(I) is TTacticalCombatUnit && ((TCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnit == U && FCombat.FCombatData.GetObjects(I).GetEnabled())
             {
                 X = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetXhx();
                 Y = ((TTacticalCombatUnit)FCombat.FCombatData.GetObjects(I)).FUnitHS.GetYhx();
@@ -9207,7 +9207,7 @@ public partial class TRndTacHsm : TObject
                 var mor = AoWHSSet.FCombatResources.MORs[J];
                 var mor2 = AoWHSSet.FCombatResources.MORs[J];
                 var mor3 = AoWHSSet.FCombatResources.MORs[J];
-                FResources[(sbyte)((TCombatTerrainResource)mor2).TerrainType * 19 + ((TCombatTerrainResource)mor3).DecorationType].Add(mor);
+                FResources[(sbyte)((Terrain.TTerrainMOR)mor2).TerrainType * 19 + ((Terrain.TTerrainMOR)mor3).DecorationType].Add(mor);
             }
         }
 

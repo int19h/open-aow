@@ -317,7 +317,7 @@ public partial class THolyGround : TILTerrainMO
         var yhx = Anim.GetYhx();
         var xhx = Anim.GetXhx();
         Anim = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == ((TMapField)(object)Anim).FindOwnedChild(131987) && FrameCounter == 9)
+        if (this == ((TECustomNode)(object)Anim).FindOwnedChild(131987) && FrameCounter == 9)
         {
             FMode = FMode - TSet<AnonymousEnum_hgSummoning>.Of(AnonymousEnum_hgSummoning.hgSummoning);
         }
@@ -376,7 +376,7 @@ public partial class THolyGroundSpellTE : TGlobalTargetSpellTE
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
             {
                 Field = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
-                if (((THolyGroundSpell)AoWHSSet.FSpellControl.GetSpell(13)).ValidTargetMapF(Field))
+                if (((TGlobalTargetSpell)AoWHSSet.FSpellControl.GetSpell(13)).ValidTargetMapF(Field))
                 {
                     if (Field.GetArmyHS() == null)
                     {
@@ -454,10 +454,10 @@ public partial class THolyGroundSpell : TGlobalTargetSpell
     public override bool ValidTargetSelectionMapF(TMapField Field)
     {
         TArmyHS Army;
-        bool Result = base.ValidTargetMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)((TAoWMapField)Field).TerrainType);
+        bool Result = base.ValidTargetMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
         // { Original overlay test allows these overlays even when the terrain check failed. }
-        Result = (Result && ((TAoWMapField)Field).OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)((TAoWMapField)Field).OverlayType);
-        Result = Result && ((TAoWMapField)Field).FindNoneTransparentHS(typeof(TStructure)) == null;
+        Result = (Result && Field.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
+        Result = Result && Field.FindNoneTransparentHS(typeof(TStructure)) == null;
         if (Result)
         {
             Army = ((TAoWMapField)Field).GetArmyHS();
@@ -473,10 +473,10 @@ public partial class THolyGroundSpell : TGlobalTargetSpell
     // HolyG.pas:350
     public override bool ValidTargetMapF(TMapField Field)
     {
-        bool Result = base.ValidTargetMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)((TAoWMapField)Field).TerrainType);
+        bool Result = base.ValidTargetMapF(Field) && TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 5).Contains((byte)Field.TerrainType);
         // { Original overlay test allows these overlays even when the terrain check failed. }
-        Result = (Result && ((TAoWMapField)Field).OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)((TAoWMapField)Field).OverlayType);
-        return Result && ((TAoWMapField)Field).FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+        Result = (Result && Field.OverlayType == -1) || TSet<byte>.WithBounds(0, 255).With(9).WithRange(1, 4).Contains((byte)Field.OverlayType);
+        return Result && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
     }
 
     // HolyG.pas:63

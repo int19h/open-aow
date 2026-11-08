@@ -988,7 +988,7 @@ public partial class TRealmWin : TDataModule
     {
         if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(((TAOWListBox)Sender).Selected).GetCount() > 0)
         {
-            var unit = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(((TAOWListBox)Sender).Selected).GetUnit(((TAOWListBox)Sender).Tag);
+            var unit = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(((TAOWListBox)Sender).Selected).GetUnit(((TComponent)Sender).Tag);
             General.FSelectedUnit = unit;
             UnitWindow.ShowUnit();
         }

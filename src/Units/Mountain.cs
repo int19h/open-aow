@@ -241,7 +241,7 @@ public partial class TRaisedMountain : TILTerrainMO
         var yhx = Anim.GetYhx();
         var xhx = Anim.GetXhx();
         Anim = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (((TMapField)(object)Anim).FindOwnedChild(131434) == this && FrameCounter == 9)
+        if (((TECustomNode)(object)Anim).FindOwnedChild(131434) == this && FrameCounter == 9)
         {
             FMode = FMode - TSet<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.rmRaising);
         }
@@ -304,7 +304,7 @@ public partial class TRaiseTerrainTE : TGlobalTargetSpellTE
             {
                 Field = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
                 Resource = null;
-                if (((TRaiseTerrain)AoWHSSet.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
+                if (((TGlobalTargetSpell)AoWHSSet.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
                 {
                     Found = false;
                     I = Resources.Count;
@@ -387,7 +387,7 @@ public partial class TRaiseTerrain : TGlobalTargetSpell
     {
         bool Valid;
         TArmyHS Army;
-        Valid = base.ValidTargetSelectionMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)((TAoWMapField)Field).TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)((TAoWMapField)Field).OverlayType) && ((TAoWMapField)Field).FindNoneTransparentHS(typeof(TStructure)) == null;
+        Valid = base.ValidTargetSelectionMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null;
         if (Valid)
         {
             Army = ((TAoWMapField)Field).GetArmyHS();
@@ -401,7 +401,7 @@ public partial class TRaiseTerrain : TGlobalTargetSpell
     }
 
     // Mountain.pas:338
-    public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)((TAoWMapField)Field).TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)((TAoWMapField)Field).OverlayType) && ((TAoWMapField)Field).FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+    public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
 
     // Mountain.pas:77
 

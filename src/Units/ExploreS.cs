@@ -119,7 +119,7 @@ public partial class TExplorationSite : TStructure
         else
         {
             Image = TerrainType + 100;
-            if (((TExplorationSiteResource)FResource).ImageSequenceList.ImageSequences[Image << 0] != null)
+            if (FResource.ImageSequenceList.ImageSequences[Image << 0] != null)
             {
                 Result = Image;
             }

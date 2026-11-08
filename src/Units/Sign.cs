@@ -133,8 +133,8 @@ public partial class TSignResource : TStructureResource
         bool Animate;
         if (FImageSequenceList != null)
         {
-            Index = ((TSign)Structure).ImageIndex;
-            Offset = ((TMapField)((TSign)Structure).Owner).Xhx + ((TMapField)((TSign)Structure).Owner).Yhx * 16;
+            Index = Structure.ImageIndex;
+            Offset = ((TMapField)Structure.Owner).Xhx + ((TMapField)Structure.Owner).Yhx * 16;
             Animate = AoWHSMap.FSeatedPlayer < 0 || !((TSign)Structure).GetTextSeen(AoWHSMap.FSeatedPlayer);
             if (Index < FImageSequenceList.Count)
             {
@@ -158,7 +158,7 @@ public partial class TSignResource : TStructureResource
 
                 if (Image != -1)
                 {
-                    if (((TSign)Structure).GetSelected() && (AoWHSMap.Frame & 6) == 6)
+                    if (Structure.GetSelected() && (AoWHSMap.Frame & 6) == 6)
                     {
                         Sequence.ImageLibrary[Image].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
                     }

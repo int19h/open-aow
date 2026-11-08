@@ -2587,7 +2587,7 @@ public partial class TControlWin : ILayoutModule
 
     private void Layout_Unit1FrameMouseDown_2(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
-        Unit1FrameMouseDown((TAoWComponent)p0, p1, p2, p3, p4);
+        Unit1FrameMouseDown((TComponent)p0, p1, p2, p3, p4);
     }
 
     private void Layout_CenterClick_3(TObject p0)

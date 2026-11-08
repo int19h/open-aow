@@ -157,7 +157,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     {
         TRaceResource R;
         int I;
-        var panel = (TAOWPanel)Sender;
+        var panel = Sender;
         I = panel.Tag + PlayerSB.Position;
         if (I < FEmailAddresses.Count)
         {

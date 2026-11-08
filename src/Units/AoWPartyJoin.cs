@@ -235,7 +235,7 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:211
-    public void U1MouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void U1MouseDown(TComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (ValidateJoin())
         {

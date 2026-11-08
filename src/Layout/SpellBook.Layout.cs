@@ -3683,7 +3683,7 @@ public partial class TSpellBook : ILayoutModule
 
     private void Layout_CastingIcnDraw_7(TAoWComponent p0, TSurfaceDesc p1)
     {
-        CastingIcnDraw((TAOWImage)p0, p1);
+        CastingIcnDraw((AoWControl.TAOWControl)p0, p1);
     }
 
     private void Layout_CastingBtnClick_8(TObject p0)
@@ -3708,7 +3708,7 @@ public partial class TSpellBook : ILayoutModule
 
     private void Layout_ResearchIcnDraw_12(TAoWComponent p0, TSurfaceDesc p1)
     {
-        ResearchIcnDraw((TAOWImage)p0, p1);
+        ResearchIcnDraw((AoWControl.TAOWControl)p0, p1);
     }
 
     private void Layout_CancelResearchBtnClick_13(TObject p0)

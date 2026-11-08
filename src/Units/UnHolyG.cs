@@ -319,7 +319,7 @@ public partial class TUnHolyGround : TILTerrainMO
         var yhx = Anim.GetYhx();
         var xhx = Anim.GetXhx();
         Anim = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == ((TMapField)(object)Anim).FindOwnedChild(131985) && FrameCounter == 9)
+        if (this == ((TECustomNode)(object)Anim).FindOwnedChild(131985) && FrameCounter == 9)
         {
             FMode = FMode - TSet<AnonymousEnum_hgSummoning>.Of(AnonymousEnum_hgSummoning.hgSummoning);
         }

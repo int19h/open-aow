@@ -226,7 +226,7 @@ public partial class TAoWHexagon : THexagon
 
         if (FTransitions[Side] != 255)
         {
-            IL = ((TAoWHexagonResource)FResource).FTransitionLibrary;
+            IL = ((THexagonResource)FResource).FTransitionLibrary;
             Image = FTransitions[Side];
             if (Image < IL.Count)
             {

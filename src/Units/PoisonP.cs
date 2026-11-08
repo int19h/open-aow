@@ -322,7 +322,7 @@ public partial class TPoisonPlant : TILTerrainMO
         var yhx = Animation.GetYhx();
         var xhx = Animation.GetXhx();
         Animation = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (this == ((TMapField)(object)Animation).FindOwnedChild(131998) && FrameCounter == 9)
+        if (this == ((TECustomNode)(object)Animation).FindOwnedChild(131998) && FrameCounter == 9)
         {
             FPlantStatus = FPlantStatus - TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
         }

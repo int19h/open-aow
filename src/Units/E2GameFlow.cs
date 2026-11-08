@@ -64,7 +64,7 @@ public static partial class E2GameFlowUnit
             {
                 if (General.Manager.FChildren[I] != TBWindow.TaskWindow)
                 {
-                    ((TAOWWindow)General.Manager.FChildren[I]).Visible = false;
+                    ((TAoWComponent)General.Manager.FChildren[I]).Visible = false;
                 }
             }
         }

@@ -1293,7 +1293,7 @@ public partial class TSampleList : TList
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((TSample)List[I]).Destroy();
+            ((TObject)List[I]).Destroy();
         }
 
         base.Clear();

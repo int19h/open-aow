@@ -25,7 +25,7 @@ public partial class THSLibrary : TImageLibrary
             FHSEngine = FEngine.HSEngine;
             for (int I = FList.Count - 1; I >= 0; I--)
             {
-                ((TLibraryHS)FList[I]).Remove();
+                ((THexagonSprite)FList[I]).Remove();
             }
         }
     }
@@ -49,7 +49,7 @@ public partial class THSLibrary : TImageLibrary
     {
         for (int I = FList.Count - 1; I >= 0; I--)
         {
-            ((TLibraryHS)FList[I]).Destroy();
+            ((TObject)FList[I]).Destroy();
         }
 
         FList.Clear();

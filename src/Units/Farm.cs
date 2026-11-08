@@ -134,7 +134,7 @@ public partial class TFarm : TPlayerCropStructure
             {
                 if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                 {
-                    Count = ((TFarmResource)FResource).FCropLocations.Count;
+                    Count = ((TPlayerCropStructureResource)FResource).FCropLocations.Count;
                 }
                 else
                 {
@@ -197,7 +197,7 @@ public static partial class FarmUnit
                 Structure = P.FStructures.GetStructure(I);
                 if (Structure.EClass.ClassID == 131950 && Structure.FPlayer == Player)
                 {
-                    Result += ((TFarm)Structure).FIncome;
+                    Result += ((TPlayerCropStructure)Structure).FIncome;
                 }
             }
         }
