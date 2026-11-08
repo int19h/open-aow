@@ -683,55 +683,55 @@ public partial class TAOWListBox : TAOWControl
 
     public new TNotifyEvent<TAOWListBox> OnChange
     {
-        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     public new TMouseEvent<TAOWListBox> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown, static slot => (TMouseEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
     public new TMouseEvent<TAOWListBox> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp, static slot => (TMouseEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
     public new TMouseMoveEvent<TAOWListBox> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove, static slot => (TMouseMoveEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
     public new TKeyPressEvent<TAOWListBox> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress, static slot => (TKeyPressEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
     public new TKeyEvent<TAOWListBox> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown, static slot => (TKeyEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
     public new TAoWOnDrawEvent<TAOWListBox> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw, static slot => (TAoWOnDrawEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
     public new TAoWOnDrawEvent<TAOWListBox> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw, static slot => (TAoWOnDrawEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
     public new TNotifyEvent<TAOWListBox> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate, static slot => (TNotifyEvent<TAOWListBox>)slot);
+        get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }

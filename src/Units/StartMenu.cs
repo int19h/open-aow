@@ -181,115 +181,115 @@ public partial class TStartMenu : TAOWMenu
 
     public new TNotifyEvent<TStartMenu> OnChange
     {
-        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     public new TMouseEvent<TStartMenu> OnMouseDown
     {
-        get => EventSlot.Get(this, FOnMouseDown, static slot => (TMouseEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
     public new TMouseEvent<TStartMenu> OnMouseUp
     {
-        get => EventSlot.Get(this, FOnMouseUp, static slot => (TMouseEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
     public new TMouseMoveEvent<TStartMenu> OnMouseMove
     {
-        get => EventSlot.Get(this, FOnMouseMove, static slot => (TMouseMoveEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
     public new TKeyPressEvent<TStartMenu> OnKeyPress
     {
-        get => EventSlot.Get(this, FOnKeyPress, static slot => (TKeyPressEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
     public new TKeyEvent<TStartMenu> OnKeyDown
     {
-        get => EventSlot.Get(this, FOnKeyDown, static slot => (TKeyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
     public new TAoWOnDrawEvent<TStartMenu> OnPreDraw
     {
-        get => EventSlot.Get(this, FOnPreDraw, static slot => (TAoWOnDrawEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
     public new TAoWOnDrawEvent<TStartMenu> OnDraw
     {
-        get => EventSlot.Get(this, FOnDraw, static slot => (TAoWOnDrawEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnUpdate
     {
-        get => EventSlot.Get(this, FOnUpdate, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
     public new TAoWOnDrawBackEvent<TStartMenu> OnDrawBack
     {
-        get => EventSlot.Get(this, FOnDrawBack, static slot => (TAoWOnDrawBackEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnEnter
     {
-        get => EventSlot.Get(this, FOnEnter, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnExit
     {
-        get => EventSlot.Get(this, FOnExit, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnChangeCursor
     {
-        get => EventSlot.Get(this, FOnChangeCursor, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnChangeCursor);
         set => EventSlot.Set(this, ref FOnChangeCursor, value);
     }
 
     public new TAoWOnDrawSurface<TStartMenu> OnDrawSurface
     {
-        get => EventSlot.Get(this, FOnDrawSurface, static slot => (TAoWOnDrawSurface<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnDrawSurface);
         set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
     public new TAoWOnDrawSurface<TStartMenu> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, FOnPreDrawSurface, static slot => (TAoWOnDrawSurface<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnPreDrawSurface);
         set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnHide
     {
-        get => EventSlot.Get(this, FOnHide, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnShow
     {
-        get => EventSlot.Get(this, FOnShow, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnDrawItem
     {
-        get => EventSlot.Get(this, FOnDrawItem, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnDrawItem);
         set => EventSlot.Set(this, ref FOnDrawItem, value);
     }
 
     public new TNotifyEvent<TStartMenu> OnSelect
     {
-        get => EventSlot.Get(this, FOnSelect, static slot => (TNotifyEvent<TStartMenu>)slot);
+        get => EventSlot.Get(this, FOnSelect);
         set => EventSlot.Set(this, ref FOnSelect, value);
     }
 }

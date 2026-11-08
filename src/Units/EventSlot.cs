@@ -1,98 +1,169 @@
 // One slot for a component event and the typed view a derived class publishes.
-// The base field holds the view's invoke method. The getter returns the typed
+// The base field holds the view's Invoke method. The getter returns the typed
 // handler while that method still targets a view of this owner. A handler stored
 // through a base reference, or a wrapper copied onto another component, comes
 // back through the delegate conversion.
-using System.Reflection;
-using System.Reflection.Emit;
+//
+// Invoke is an ordinary instance method of the view class. A snapshot records
+// DeclaringType.FullName + "." + Method.Name for that method. No recorded
+// constructor stores a wrapper.
+using Aow.Rtl;
+using Aow.Units.AoWWinControl;
+using Aow.Units.GFXE;
 
 namespace Aow.Units.AoWComp;
 
-// The object the base field's invoke method targets. Construction snapshots
-// record a handler's declaring type and method name, and they do not walk this
-// object. The generated method is named Invoke and its declaring type is null.
-// No recorded constructor stores one.
-internal sealed class EventView<TOwner, TEvent>
+internal abstract class SlotView<TOwner, TEvent>(TOwner owner, TEvent typed)
     where TOwner : class
     where TEvent : class, Delegate
 {
-    internal readonly TOwner Owner;
-    internal readonly TEvent Typed;
+    internal readonly TOwner Owner = owner;
+    internal readonly TEvent Typed = typed;
+}
 
-    internal EventView(TOwner owner, TEvent typed)
-    {
-        Owner = owner;
-        Typed = typed;
-    }
+internal sealed class NotifyView<TBase, TOwner>(TOwner owner, TNotifyEvent<TOwner> typed)
+    : SlotView<TOwner, TNotifyEvent<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _) => Typed(Owner);
+}
+
+internal sealed class MouseView<TBase, TOwner>(TOwner owner, TMouseEvent<TOwner> typed)
+    : SlotView<TOwner, TMouseEvent<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _, TMouseButton button, TSet<TShiftState> shift, int x, int y) => Typed(Owner, button, shift, x, y);
+}
+
+internal sealed class MouseMoveView<TBase, TOwner>(TOwner owner, TMouseMoveEvent<TOwner> typed)
+    : SlotView<TOwner, TMouseMoveEvent<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _, TSet<TShiftState> shift, int x, int y) => Typed(Owner, shift, x, y);
+}
+
+internal sealed class KeyPressView<TBase, TOwner>(TOwner owner, TKeyPressEvent<TOwner> typed)
+    : SlotView<TOwner, TKeyPressEvent<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _, ref byte key) => Typed(Owner, ref key);
+}
+
+internal sealed class KeyView<TBase, TOwner>(TOwner owner, TKeyEvent<TOwner> typed)
+    : SlotView<TOwner, TKeyEvent<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _, ref ushort key, TSet<TShiftState> shift) => Typed(Owner, ref key, shift);
+}
+
+internal sealed class DrawView<TBase, TOwner>(TOwner owner, TAoWOnDrawEvent<TOwner> typed)
+    : SlotView<TOwner, TAoWOnDrawEvent<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _, TSurfaceDesc surf) => Typed(Owner, surf);
+}
+
+internal sealed class DrawBackView<TBase, TOwner>(TOwner owner, TAoWOnDrawBackEvent<TOwner> typed)
+    : SlotView<TOwner, TAoWOnDrawBackEvent<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _, TSurfaceDesc surf) => Typed(Owner, surf);
+}
+
+internal sealed class DrawSurfaceView<TBase, TOwner>(TOwner owner, TAoWOnDrawSurface<TOwner> typed)
+    : SlotView<TOwner, TAoWOnDrawSurface<TOwner>>(owner, typed)
+    where TBase : class
+    where TOwner : class, TBase
+{
+    internal void Invoke(TBase _, TSurface surface, int left, int top) => Typed(Owner, surface, left, top);
 }
 
 internal static class EventSlot
 {
-    public static void Set<TOwner, TBaseEvent, TEvent>(TOwner owner, ref TBaseEvent field, TEvent value)
-        where TOwner : class
-        where TBaseEvent : class, Delegate
-        where TEvent : class, Delegate
-    {
-        if (value == null)
-        {
-            field = null;
-            return;
-        }
+    public static void Set<TBase, TOwner>(TOwner owner, ref TNotifyEvent<TBase> field, TNotifyEvent<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new NotifyView<TBase, TOwner>(owner, value).Invoke;
 
-        var view = new EventView<TOwner, TEvent>(owner, value);
-        field = (TBaseEvent)Binder<TOwner, TBaseEvent, TEvent>.Method.CreateDelegate(typeof(TBaseEvent), view);
-    }
+    public static TNotifyEvent<TOwner> Get<TBase, TOwner>(TOwner owner, TNotifyEvent<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is NotifyView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
 
-    public static TEvent Get<TOwner, TBaseEvent, TEvent>(TOwner owner, TBaseEvent field, Func<TBaseEvent, TEvent> adapt)
-        where TOwner : class
-        where TBaseEvent : class, Delegate
-        where TEvent : class, Delegate
-    {
-        if (field?.Target is EventView<TOwner, TEvent> view && view.Owner == owner)
-        {
-            return view.Typed;
-        }
+    public static void Set<TBase, TOwner>(TOwner owner, ref TMouseEvent<TBase> field, TMouseEvent<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new MouseView<TBase, TOwner>(owner, value).Invoke;
 
-        return adapt(field);
-    }
+    public static TMouseEvent<TOwner> Get<TBase, TOwner>(TOwner owner, TMouseEvent<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is MouseView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
 
-    // One invoke method per closed owner and delegate pair. It replaces the
-    // sender with the view's owner and forwards the remaining arguments.
-    private static class Binder<TOwner, TBaseEvent, TEvent>
-        where TOwner : class
-        where TBaseEvent : class, Delegate
-        where TEvent : class, Delegate
-    {
-        internal static readonly DynamicMethod Method = Build();
+    public static void Set<TBase, TOwner>(TOwner owner, ref TMouseMoveEvent<TBase> field, TMouseMoveEvent<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new MouseMoveView<TBase, TOwner>(owner, value).Invoke;
 
-        private static DynamicMethod Build()
-        {
-            Type viewType = typeof(EventView<TOwner, TEvent>);
-            FieldInfo owner = viewType.GetField(nameof(EventView<TOwner, TEvent>.Owner), BindingFlags.Instance | BindingFlags.NonPublic);
-            FieldInfo typed = viewType.GetField(nameof(EventView<TOwner, TEvent>.Typed), BindingFlags.Instance | BindingFlags.NonPublic);
-            MethodInfo invoke = typeof(TEvent).GetMethod("Invoke");
-            ParameterInfo[] parameters = typeof(TBaseEvent).GetMethod("Invoke").GetParameters();
-            var signature = new Type[parameters.Length + 1];
-            signature[0] = viewType;
-            for (int i = 0; i < parameters.Length; i++)
-            {
-                signature[i + 1] = parameters[i].ParameterType;
-            }
+    public static TMouseMoveEvent<TOwner> Get<TBase, TOwner>(TOwner owner, TMouseMoveEvent<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is MouseMoveView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
 
-            var method = new DynamicMethod("Invoke", invoke.ReturnType, signature, viewType, true);
-            ILGenerator il = method.GetILGenerator();
-            il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Ldfld, typed);
-            il.Emit(OpCodes.Ldarg_0);
-            il.Emit(OpCodes.Ldfld, owner);
-            for (int i = 1; i < parameters.Length; i++)
-            {
-                il.Emit(OpCodes.Ldarg, i + 1);
-            }
+    public static void Set<TBase, TOwner>(TOwner owner, ref TKeyPressEvent<TBase> field, TKeyPressEvent<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new KeyPressView<TBase, TOwner>(owner, value).Invoke;
 
-            il.Emit(OpCodes.Callvirt, invoke);
-            il.Emit(OpCodes.Ret);
-            return method;
-        }
-    }
+    public static TKeyPressEvent<TOwner> Get<TBase, TOwner>(TOwner owner, TKeyPressEvent<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is KeyPressView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
+
+    public static void Set<TBase, TOwner>(TOwner owner, ref TKeyEvent<TBase> field, TKeyEvent<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new KeyView<TBase, TOwner>(owner, value).Invoke;
+
+    public static TKeyEvent<TOwner> Get<TBase, TOwner>(TOwner owner, TKeyEvent<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is KeyView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
+
+    public static void Set<TBase, TOwner>(TOwner owner, ref TAoWOnDrawEvent<TBase> field, TAoWOnDrawEvent<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new DrawView<TBase, TOwner>(owner, value).Invoke;
+
+    public static TAoWOnDrawEvent<TOwner> Get<TBase, TOwner>(TOwner owner, TAoWOnDrawEvent<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is DrawView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
+
+    public static void Set<TBase, TOwner>(TOwner owner, ref TAoWOnDrawBackEvent<TBase> field, TAoWOnDrawBackEvent<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new DrawBackView<TBase, TOwner>(owner, value).Invoke;
+
+    public static TAoWOnDrawBackEvent<TOwner> Get<TBase, TOwner>(TOwner owner, TAoWOnDrawBackEvent<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is DrawBackView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
+
+    public static void Set<TBase, TOwner>(TOwner owner, ref TAoWOnDrawSurface<TBase> field, TAoWOnDrawSurface<TOwner> value)
+        where TBase : class
+        where TOwner : class, TBase
+        => field = value == null ? null : new DrawSurfaceView<TBase, TOwner>(owner, value).Invoke;
+
+    public static TAoWOnDrawSurface<TOwner> Get<TBase, TOwner>(TOwner owner, TAoWOnDrawSurface<TBase> field)
+        where TBase : class
+        where TOwner : class, TBase
+        => field?.Target is DrawSurfaceView<TBase, TOwner> view && view.Owner == owner ? view.Typed : field;
 }
