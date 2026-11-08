@@ -26112,10 +26112,17 @@ public partial class THeroUpdateTE : TTokenEvent
     {
         TExecuteResult Result;
         bool Success;
-        THero Hero;
         Success = false;
-        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FUnitID);
-        if (Hero != null && ((AoWEUnit.AoWHSMap.FCombat == null && AoWEUnit.AoWHSMap.FCurrentPlayer == Hero.FPlayer) || (AoWEUnit.AoWHSMap.FCombat != null && AoWEUnit.AoWHSMap.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWEUnit.AoWHSMap.FCombat.FCombatData.FCurrentPlayer).FPlayer == Hero.FPlayer)))
+        TAbstractUnit unit = AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FUnitID);
+        if (unit == null)
+        {
+            // A missing id is a nil hero. The original reads FPlayer and faults.
+            // ExecuteTokenEvent catches the fault, shows the message and returns erDone.
+            // Returning erDoneHalt stops the rest of Process.
+            _ = unit.FPlayer;
+        }
+
+        if (unit is THero Hero && ((AoWEUnit.AoWHSMap.FCombat == null && AoWEUnit.AoWHSMap.FCurrentPlayer == Hero.FPlayer) || (AoWEUnit.AoWHSMap.FCombat != null && AoWEUnit.AoWHSMap.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWEUnit.AoWHSMap.FCombat.FCombatData.FCurrentPlayer).FPlayer == Hero.FPlayer)))
         {
             switch (FMode)
             {
@@ -67520,19 +67527,24 @@ public partial class THealingAbility : TTouchAbility
         THealingUnitSelector Selector;
         if (CanActivate(Owner, ref Reason))
         {
+            var unit = Owner as TAbstractUnit;
             Info = new TUnitSelectorAAI(null);
             Info.FAbilityID = FAbilityID;
-            Selector = new THealingUnitSelector();
-            var healing = AoWEUnit.TranslateRStr(AoWEUnit.HealingRStr);
-            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [healing]);
-            if (Owner is TAbstractUnit unit)
+            if (unit != null)
             {
                 Info.FUnitID = unit.FUnitID;
-                Selector.Setup(unit, (TUnitList)unit.Owner);
             }
             else
             {
                 Info.FUnitID = 0;
+            }
+
+            Selector = new THealingUnitSelector();
+            var healing = AoWEUnit.TranslateRStr(AoWEUnit.HealingRStr);
+            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [healing]);
+            if (unit != null)
+            {
+                Selector.Setup(unit, (TUnitList)unit.Owner);
             }
 
             Info.SetUnitSelector(Selector);
@@ -68222,19 +68234,24 @@ public partial class TDispelMagicAbility : TTouchAbility
         TDispelMagicAbilityUnitSelector Selector;
         if (CanActivate(Owner, ref Reason))
         {
+            var unit = Owner as TAbstractUnit;
             Info = new TUnitSelectorAAI(null);
             Info.FAbilityID = FAbilityID;
-            Selector = new TDispelMagicAbilityUnitSelector();
-            var dispelMagic = AoWEUnit.TranslateRStr(AoWEUnit.DispelMagicRStr);
-            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [dispelMagic]);
-            if (Owner is TAbstractUnit unit)
+            if (unit != null)
             {
                 Info.FUnitID = unit.FUnitID;
-                Selector.Setup(unit, (TUnitList)unit.Owner);
             }
             else
             {
                 Info.FUnitID = 0;
+            }
+
+            Selector = new TDispelMagicAbilityUnitSelector();
+            var dispelMagic = AoWEUnit.TranslateRStr(AoWEUnit.DispelMagicRStr);
+            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [dispelMagic]);
+            if (unit != null)
+            {
+                Selector.Setup(unit, (TUnitList)unit.Owner);
             }
 
             Info.SetUnitSelector(Selector);

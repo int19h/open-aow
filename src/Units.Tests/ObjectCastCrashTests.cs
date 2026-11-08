@@ -65,8 +65,27 @@ public sealed class ObjectCastCrashTests
             var data = new TUnitEnchantmentAbilityData(null!);
             data.FEnchantmentAbilityID = (ushort)AbilityID;
             data.FEnchantment = new TUnitEnchantment(null!);
+            data.FEnchantment.FUpkeep = 5;
+            data.FEnchantment.FSource = -3;
             AddAbilityData(data);
             return true;
+        }
+    }
+
+    private sealed class RecordingRelWindow : TRelWindow
+    {
+        public RecordingRelWindow() : base(null!)
+        {
+        }
+
+        public int ShownPlayer { get; private set; } = -2;
+
+        public int ShowCount { get; private set; }
+
+        public override void ShowPlayerActions(sbyte player)
+        {
+            ShowCount += 1;
+            ShownPlayer = player;
         }
     }
 
@@ -227,7 +246,7 @@ public sealed class ObjectCastCrashTests
         AoWWinManUnit.General.Manager = new TAOWWinManager(null!);
         try
         {
-            var window = new TRelWindow(null!);
+            var window = new RecordingRelWindow();
             window.P1I = new TAOWImage(null!);
             window.P2I = new TAOWImage(null!);
             window.P3I = new TAOWImage(null!);
@@ -294,12 +313,24 @@ public sealed class ObjectCastCrashTests
             window.ShowRelations(0);
             Assert.False(window.R12I.FChecked);
             Assert.False(window.P1CB.Checked);
+            Assert.Equal(0, window.ShowCount);
 
             window.ShowRelations(1);
             Assert.False(window.R12I.FChecked);
             Assert.True(window.P1CB.Checked);
             Assert.False(window.RelPnl.FAligned);
             Assert.False(window.RelWin.FDrawn);
+            Assert.Equal(0, window.ShowCount);
+
+            var player = scope.Map.FPlayers.GetPlayers(1);
+            player.FPlayerIndex = 1;
+            player.FStatus = TPlayerStatus.psPlaying;
+            scope.Map.FSeatedPlayer = 1;
+            window.ShowRelations(1);
+            Assert.Equal(1, window.ShowCount);
+            Assert.Equal(1, window.ShownPlayer);
+            Assert.True(window.P1CB.Checked);
+            Assert.False(window.R12I.FChecked);
         }
         finally
         {
@@ -311,11 +342,36 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void PlaceHXAcceptsANonSpriteOwner()
     {
-        using var scope = new MapScope();
-        var holder = new EngineFixture.Owner();
-        var bridge = new THexagonBridge(holder);
-        bridge.FResource = new TMapObjectResource(null!);
-        Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
-        Assert.Same(scope.Field, bridge.Owner);
+        using (var scope = new MapScope())
+        {
+            var level = (TMapLevel)scope.Field.Owner;
+            var marker = new TMapField(level);
+            marker.FXhx = 20;
+            marker.FYhx = 20;
+            marker.OverlayType = 4;
+            var holder = new EngineFixture.Owner();
+            holder.FOwner = marker;
+            var bridge = new THexagonBridge(holder);
+            bridge.FResource = new TMapObjectResource(null!);
+            Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
+            Assert.Same(scope.Field, bridge.Owner);
+            Assert.Equal(-1, marker.OverlayType);
+        }
+
+        using (var scope = new MapScope())
+        {
+            var level = (TMapLevel)scope.Field.Owner;
+            var marker = new TMapField(level);
+            marker.FXhx = 20;
+            marker.FYhx = 20;
+            marker.OverlayType = 4;
+            var holder = new EngineFixture.Owner();
+            holder.FOwner = level;
+            var bridge = new THexagonBridge(holder);
+            bridge.FResource = new TMapObjectResource(null!);
+            Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
+            Assert.Same(scope.Field, bridge.Owner);
+            Assert.Equal(4, marker.OverlayType);
+        }
     }
 }

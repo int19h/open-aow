@@ -297,7 +297,7 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:293
-    public void ShowPlayerActions(sbyte Player)
+    public virtual void ShowPlayerActions(sbyte Player)
     {
         int Selected;
         ClearActions();
@@ -762,7 +762,7 @@ public partial class TRelWindow : TDataModule
     // AoWRelations.pas:610
     public void P1CBChange(TObject Sender)
     {
-        // An image has FChecked and no SetChecked. The action branch runs only for a check box.
+        // The original SetChecked call on an image is undefined, so skipped. An image has FChecked and no SetChecked. The action branch runs only for a check box.
         TAoWComponent component = (TAoWComponent)Sender;
         if (component.FChecked)
         {

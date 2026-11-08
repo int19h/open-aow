@@ -217,8 +217,8 @@ public partial class THexagonBridge : TAbstractRoad
         FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
         FTerrain = MapField.TerrainType;
         // { Original bug: refresh the old owner's owner as a map field. }
-        // A sprite is not a node. The test goes through object, and a node owner skips the refresh.
-        if ((object)previous is THexagonSprite sprite && sprite.Owner is TMapField field)
+        // FOwner lives on TEObject, so the old owner has it. A nil owner or a non-field owner is undefined in the original, so skip it.
+        if (previous?.Owner is TMapField field)
         {
             field.UpdateOverlayType();
         }
