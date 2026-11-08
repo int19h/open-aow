@@ -152,7 +152,7 @@ public sealed class CliTests : FormatsTest, IDisposable
     {
         var result = Run("info", HeroList);
         Assert.Equal(Program.Success, result.Code);
-        Assert.Contains("Profile: hero-list, kind hero-list, version 2", result.Output);
+        Assert.Contains("Profile: hero-list, kind hero-list, version 3", result.Output);
         Assert.Contains("Residue: 0 layout parts", result.Output);
     }
 

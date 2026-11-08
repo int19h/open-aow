@@ -1,6 +1,7 @@
 // Translated from AoWSetup.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
@@ -101,6 +102,16 @@ public partial class TRemotePlayer : TEObject
         Stream.rwByte(ref FPreferredRace, 22);
         Stream.rwData(Bytes.Of(ref FMapValidation, 1), 1, 23);
         Stream.rwInteger(ref FVersion, 24);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.String("Name", ref FName);
+        persister.RawInt("RemoteID", ref FRemoteID);
+        persister.Byte("PreferredRace", ref FPreferredRace);
+        persister.Enum("MapValidation", ref FMapValidation);
+        persister.Int("Version", ref FVersion);
     }
 
 }
@@ -242,6 +253,31 @@ public partial class TSetupSettings : TENode
         Stream.rwInteger(ref FSetCRC, 27);
         Stream.rwData(Bytes.Of(ref FTacticalCombatAvailability, 1), 1, 28);
         Stream.rwBool(ref FAlwaysViewTC, 29);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.String("FileName", ref FFileName);
+        persister.RawByte("PlayMode", ref FPlayMode);
+        persister.Bool("ExplorationEnabled", ref FExplorationEnabled);
+        persister.String("MapName", ref FMapName);
+        persister.RawByte("VictoryCondition", ref FVictoryCondition);
+        persister.RawByte("IndependentAIMode", ref FIndependentAIMode);
+        persister.Bool("CustomizeLeaders", ref FCustomizeLeaders);
+        persister.Int("RandomSeed", ref FRandomSeed);
+        persister.Bool("LeadersOnMap", ref FLeadersOnMap);
+        persister.Int("DayLimit", ref FDayLimit);
+        persister.Int("TurnTime", ref FTurnTime);
+        persister.Object("RemotePlayers", FRemotePlayers);
+        persister.Int("HostRemoteID", ref FHostRemoteID);
+        persister.Int("MapDay", ref FMapDay);
+        persister.Bool("AlliedVictory", ref FAlliedVictory);
+        persister.RawByte("ConnectionType", ref FConnectionType);
+        persister.Int("MapCRC", ref FMapCRC);
+        persister.Int("SetCRC", ref FSetCRC);
+        persister.RawByte("TacticalCombatAvailability", ref FTacticalCombatAvailability);
+        persister.Bool("AlwaysViewTC", ref FAlwaysViewTC);
     }
 
     // AoWSetup.pas:327

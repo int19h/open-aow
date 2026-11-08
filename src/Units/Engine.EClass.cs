@@ -9,7 +9,7 @@ namespace Aow.Units.Engine;
 public sealed class EClass
 {
     private static readonly Catalog<Type, EClass> catalog = new("engine class");
-    private readonly Func<TECustomNode, TEObject> create;
+    private Func<TECustomNode, TEObject> create;
 
     private EClass(Type type, int classId, EClass parent, Func<TECustomNode, TEObject> create, int instanceSize)
     {
@@ -28,6 +28,16 @@ public sealed class EClass
     public string ClassName => TObject.ClassNameOf(Type);
 
     public TEObject Create(TECustomNode owner) => create(owner);
+
+    // A test swaps the delegate and restores the previous one. Create has no per-call check.
+    internal Func<TECustomNode, TEObject> SubstituteCreate(Func<TECustomNode, TEObject> next)
+    {
+        ArgumentNullException.ThrowIfNull(next);
+        var previous = create;
+        create = next;
+        return previous;
+    }
+
     public bool InheritsFrom(Type type) => type.IsAssignableFrom(Type);
     public override string ToString() => ClassName;
 

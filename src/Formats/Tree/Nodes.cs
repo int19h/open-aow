@@ -211,6 +211,23 @@ public sealed class RecordNode : TreeValue
     }
 }
 
+/// <summary>
+/// Set bits of a counted bit array, in ascending index order. Bits past the count in the last byte
+/// are <see cref="Residue"/>. Version 1 and version 2 refuse the shape.
+/// </summary>
+public sealed class BitArrayNode(int count, int[] indices, byte residue) : TreeValue
+{
+    public int Count { get; } = count;
+    public IReadOnlyList<int> Indices { get; } = indices;
+    public byte Residue { get; } = residue;
+
+    internal override void RejectVersion(int version, DocPath path)
+    {
+        if (version < 3)
+            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " does not store a bit array.", path);
+    }
+}
+
 /// <summary>A variable-length list. Version 1 refuses it. It is not the children of a node.</summary>
 public sealed class ListNode : TreeValue
 {

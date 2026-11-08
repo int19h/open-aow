@@ -20,7 +20,16 @@ public interface IPersistableFactory
     string ClassName(IPersistable obj);
 
     IPersistable Create(string className);
+
+    /// <summary>Frees an object the load created and then dropped. The default leaves it to the caller.</summary>
+    void Release(IPersistable obj) { }
 }
+
+/// <summary>
+/// The load's error handler. <paramref name="continueLoad"/> starts true.
+/// The handler sets it false to stop the load. A null handler continues.
+/// </summary>
+public delegate void LoadErrorHandler(string message, ref bool continueLoad);
 
 /// <summary>
 /// The children of one node, in stored order. A stored child has its owner, is not shared and
@@ -56,6 +65,10 @@ public interface IItemSlot
 
     void UShort(ref ushort value);
 
+    void Short(ref short value);
+
+    void UInt(ref uint value);
+
     void Bool(ref bool value);
 
     void String(ref string value);
@@ -76,7 +89,10 @@ public delegate void ItemTransfer<T>(IItemSlot slot, ref T value);
 /// leaves the caller's span unchanged. <see cref="Enum{TEnum}"/> and <see cref="Set{E}"/> are
 /// always stored, including zero, because the original writes every positive-size image. Their
 /// fallback applies only when the member is absent on load. A fixed integer array stores every
-/// element, including zeros. <see cref="Object"/>, <see cref="Created"/> and
+/// element, including zeros. <see cref="RawInt"/>, <see cref="RawByte"/>, <see cref="RawSByte"/>
+/// and <see cref="RawBool"/> store rwData values, zero and false included.
+/// <see cref="BitArray"/> stores the bits whenever the byte length is nonzero.
+/// <see cref="Object"/>, <see cref="Created"/> and
 /// <see cref="Children"/> are always stored. <see cref="Record"/> is stored whenever the
 /// serializer calls it.
 /// </summary>
@@ -97,6 +113,10 @@ public interface IPersister
 
     void UShort(string name, ref ushort value, ushort fallback = 0);
 
+    void Short(string name, ref short value, short fallback = 0);
+
+    void UInt(string name, ref uint value, uint fallback = 0);
+
     void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
 
     void Set<E>(string name, ref TSet<E> value) where E : unmanaged, Enum;
@@ -110,6 +130,29 @@ public interface IPersister
     void LinesWithObjects(string name, IList<string> lines, IList<int> objects);
 
     void Bytes(string name, Span<byte> data);
+
+    /// <summary>An rwData integer. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
+    void RawInt(string name, ref int value);
+
+    /// <summary>An rwData byte. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
+    void RawByte(string name, ref byte value);
+
+    /// <summary>An rwData signed byte. The value is stored even when it is zero. An absent member on load leaves the caller's value.</summary>
+    void RawSByte(string name, ref sbyte value);
+
+    /// <summary>
+    /// An rwData bool. The byte is stored even when false. 0 and 1 load as false and true.
+    /// Any other byte stays that byte, so a stored 02 writes back as 02.
+    /// An absent member on load leaves the caller's value.
+    /// </summary>
+    void RawBool(string name, ref bool value);
+
+    /// <summary>
+    /// A counted bit array stored by rwData. The length is <c>(count + 7) &gt;&gt; 3</c>.
+    /// Length zero is omitted. Bits past the count in the last byte are residue.
+    /// An absent member on load leaves the caller's bytes.
+    /// </summary>
+    void BitArray(string name, int count, Span<byte> bits);
 
     void Object(string name, IPersistable obj);
 
