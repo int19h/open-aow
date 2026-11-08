@@ -1,0 +1,16 @@
+{
+  "format": "OpenAoW-schema",
+  "version": 1,
+  "classes": [
+    {
+      "name": "TRefuse",
+      "inherits": false,
+      "properties": [
+        {"name": "Scores", "codec": "list", "element": {"codec": "i32"}},
+        {"name": "Pair", "codec": "record", "fields": [
+          {"name": "A", "codec": "i32"}
+        ]}
+      ]
+    }
+  ]
+}

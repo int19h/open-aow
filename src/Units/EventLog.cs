@@ -1,6 +1,7 @@
 // Translated from EventLog.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
@@ -53,6 +54,14 @@ public partial class TEventLog : TEObject
         Stream.rwInteger(ref FDay, 10);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayer), 11);
         Stream.rwInteger(ref FID, 12);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("TEventLog.Day", ref FDay);
+        PersistSupport.UnsignedByte(persister, "Player", ref FPlayer);
+        persister.Int("ID", ref FID);
     }
 
     // EventLog.pas:345
@@ -319,6 +328,15 @@ public partial class TMessageEventLog : TEventLog
         Stream.rwData(Bytes.Of(ref FLayout, 1), 1, 31);
         Stream.rwData(Bytes.Of(ref FButtons, 1), 1, 32);
         Stream.rwString(ref FTitle, 33);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        PersistSupport.Lines(persister, "Message", FMessage);
+        PersistSupport.ByteImage(persister, "Layout", ref FLayout);
+        PersistSupport.ByteImage(persister, "Buttons", ref FButtons);
+        persister.String("Title", ref FTitle);
     }
 
     // EventLog.pas:842

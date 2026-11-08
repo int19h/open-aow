@@ -1,6 +1,7 @@
 // Translated from AoWE.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.aowFX;
@@ -2290,6 +2291,15 @@ public partial class TEnchantment : TEObject
         Stream.rwInteger(ref FEnchantmentID, 13);
     }
 
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        PersistSupport.UnsignedByte(persister, "DispelResistance", ref FDispelResistance);
+        PersistSupport.UnsignedByte(persister, "Source", ref FSource);
+        persister.Int("Upkeep", ref FUpkeep);
+        persister.Int("EnchantmentID", ref FEnchantmentID);
+    }
+
     // Spells.PAS:1700
     public virtual string GetName() => AoWEUnit.TranslateRStr(AoWEUnit.P4UndefinedRStr);
 
@@ -3620,6 +3630,17 @@ public partial class TGlobalEnchantment : TEObject
         Stream.rwString(ref FName, 13);
         Stream.rwInteger(ref FEnchantmentManaUpkeep, 14);
         Stream.rwInteger(ref FDispelMana, 15);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("TGlobalEnchantment.EnchantmentID", ref FEnchantmentID);
+        PersistSupport.ByteImage(persister, "EnchantmentType", ref FEnchantmentType);
+        PersistSupport.UnsignedByte(persister, "PlayerIndex", ref FPlayerIndex);
+        persister.String("Name", ref FName);
+        persister.Int("EnchantmentManaUpkeep", ref FEnchantmentManaUpkeep);
+        persister.Int("DispelMana", ref FDispelMana);
     }
 
     // Spells.PAS:2477
@@ -19110,6 +19131,15 @@ public partial class TItemGFX : TEResource
         Stream.rwInteger(ref FImageIndex, 7);
         Stream.rwData(Bytes.Of(ref FItemType, 1), 1, 8);
         Stream.rwBool(ref FHidden, 9);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.String("ImageLibraryName", ref FImageLibraryName);
+        persister.Int("ImageIndex", ref FImageIndex);
+        PersistSupport.ByteImage(persister, "ItemType", ref FItemType);
+        persister.Bool("Hidden", ref FHidden);
     }
 
     // Army.PAS:5138
@@ -38498,6 +38528,13 @@ public partial class TFrozenWaterHS : TSingleHS
         Stream.rwShortint(ref FCasterPlayer, 31);
     }
 
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.SByte("DaysRemaining", ref FDaysRemaining);
+        persister.SByte("CasterPlayer", ref FCasterPlayer);
+    }
+
     // Structur.PAS:4518
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
@@ -51797,6 +51834,23 @@ public partial class TAIBudget : TEObject
         Stream.rwInteger(ref FDayMana, 41);
     }
 
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("Priority", ref FPriority);
+        persister.Int("RequiredGold", ref FRequiredGold);
+        persister.Int("RequiredMana", ref FRequiredMana);
+        persister.Int("GoldUpkeep", ref FGoldUpkeep);
+        persister.Int("ManaUpkeep", ref FManaUpkeep);
+        persister.Int("Gold", ref FGold);
+        persister.Int("Mana", ref FMana);
+        persister.Int("Days", ref FDays);
+        persister.Int("DayGoldMax", ref FDayGoldMax);
+        persister.Int("DayManaMax", ref FDayManaMax);
+        persister.Int("DayGold", ref FDayGold);
+        persister.Int("DayMana", ref FDayMana);
+    }
+
     // AI.pas:1702
     public virtual bool GetReady() => FRequiredGold == FGold && FRequiredMana == FMana;
 
@@ -51935,6 +51989,18 @@ public partial class TAIBudgetManager : TEObject
         Stream.rwInteger(ref FManaUpkeep, 24);
         Stream.rwInteger(ref FProductionGoldUpkeep, 25);
         Stream.rwInteger(ref FProductionManaUpkeep, 26);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Object("Budgets", FBudgets);
+        persister.Int("Gold", ref FGold);
+        persister.Int("Mana", ref FMana);
+        persister.Int("GoldUpkeep", ref FGoldUpkeep);
+        persister.Int("ManaUpkeep", ref FManaUpkeep);
+        persister.Int("ProductionGoldUpkeep", ref FProductionGoldUpkeep);
+        persister.Int("ProductionManaUpkeep", ref FProductionManaUpkeep);
     }
 
     // AI.pas:2166
@@ -68534,6 +68600,13 @@ public partial class TUnitEnchantment : TEnchantment
         Stream.rwInteger(ref FUnitID, 21);
     }
 
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("EnchantmentAbilityID", ref FEnchantmentAbilityID);
+        persister.Int("UnitID", ref FUnitID);
+    }
+
     // AoWAb.PAS:804
     public override string GetName()
     {
@@ -68700,6 +68773,15 @@ public partial class TUnitEnchantmentAbilityData : TAbilityData
         Stream.rwCreateEObject(ref FEnchantment, null, 16);
         Stream.rwShortintEx(ref FEnchantmentPlayerIndex, -1, 17);
         Stream.rwShortintEx(ref FEnchantmentDuration, -1, 18);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.UShort("EnchantmentAbilityID", ref FEnchantmentAbilityID);
+        persister.Created("Enchantment", ref FEnchantment);
+        persister.SByte("EnchantmentPlayerIndex", ref FEnchantmentPlayerIndex, -1);
+        persister.SByte("EnchantmentDuration", ref FEnchantmentDuration, -1);
     }
 
     // AoWAb.PAS:577
@@ -69119,6 +69201,12 @@ public partial class TCosmeticSurgeryEnchantment : TUnitEnchantment
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FFaceIndex, 25);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("FaceIndex", ref FFaceIndex);
     }
 
     // AoWAb.PAS:901

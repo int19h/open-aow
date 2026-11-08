@@ -11,7 +11,7 @@ namespace Aow.Formats.Original;
 /// document value and back through its own virtual methods, so new kinds join the family
 /// without a switch in the object codec.
 /// </summary>
-public abstract class PropertyCodec
+public abstract partial class PropertyCodec
 {
     /// <summary>A codec whose presence is its value stores no bytes.</summary>
     public virtual bool ZeroSize => false;
@@ -24,7 +24,7 @@ public abstract class PropertyCodec
         string? family = (source["family"] as JsonString)?.Value;
         return codec switch
         {
-            "i32" => new IntegerCodec(4, true),
+            "i32" => new IntegerCodec(4, true, (source["domain"] as JsonString)?.Value),
             "u8" => new IntegerCodec(1, false),
             "u16" => new IntegerCodec(2, false),
             "i8" => new IntegerCodec(1, true),
@@ -33,6 +33,8 @@ public abstract class PropertyCodec
             "strings" => new StringsCodec(),
             "strings-ex" => new StringsExCodec(),
             "data" => new DataCodec(size),
+            "list" => new ListCodec(Create((JsonObject)source["element"]!, schema)),
+            "record" => new RecordCodec(source, schema),
             "float32" => new FloatCodec(4),
             "float64" => new FloatCodec(8),
             "int-list" => new RunListCodec(4),
@@ -70,6 +72,14 @@ public abstract class PropertyCodec
 
     internal virtual void EncodeElement(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site) => Encode(ctx, value, data, site);
 
+    /// <summary>Writes a tree value as its document value. Null means the member is omitted.</summary>
+    internal virtual JsonValue? WriteTree(Tree.TreeValue value, Tree.DocumentSite site) =>
+        throw site.Mismatch($"{site.Property?.Name ?? "The value"} does not store this value.");
+
+    /// <summary>Reads a document value into a tree value. Null means the member is absent.</summary>
+    internal virtual Tree.TreeValue? ReadTree(JsonValue value, Tree.DocumentSite site) =>
+        throw site.Mismatch($"{site.Property?.Name ?? "The value"} does not store this value.", value);
+
     internal virtual JsonValue DecodePair(DecodeContext ctx, (int Start, int End)? first, (int Start, int End)? second, ValueSite site) =>
         throw new InvalidOperationException($"{GetType().Name} stores one entry.");
 
@@ -79,7 +89,7 @@ public abstract class PropertyCodec
     protected static string Text(long value) => value.ToString(CultureInfo.InvariantCulture);
 }
 
-internal sealed class IntegerCodec(int width, bool signed) : PropertyCodec
+internal sealed partial class IntegerCodec(int width, bool signed, string? domain = null) : PropertyCodec
 {
     private long Min => signed ? -(1L << (width * 8 - 1)) : 0;
     private long Max => signed ? (1L << (width * 8 - 1)) - 1 : (1L << (width * 8)) - 1;
@@ -113,7 +123,7 @@ internal sealed class IntegerCodec(int width, bool signed) : PropertyCodec
 }
 
 /// <summary>rwBool: true when present. Explicit false normalizes to absence.</summary>
-internal sealed class BoolCodec : PropertyCodec
+internal sealed partial class BoolCodec : PropertyCodec
 {
     public override bool ZeroSize => true;
 
@@ -137,18 +147,28 @@ internal static class TextCodec
 
     public static byte[] Encode(EncodeContext ctx, string text, JsonValue at, DocPath path)
     {
+        if (Problem(text, ctx.Limits.StringBytes) is { } problem)
+            throw ctx.Fail(problem.Code, problem.Message, at, path, problem.Value, problem.Constraint);
+        return Cp1252.Encode(text);
+    }
+
+    /// <summary>The code page and length check shared by the converter and the document backend.</summary>
+    internal readonly record struct TextProblem(string Code, string Message, string? Value, string? Constraint);
+
+    internal static TextProblem? Problem(string text, int limit)
+    {
         for (int i = 0; i < text.Length; i++)
             if (!Cp1252.IsMapped(text[i]))
-                throw ctx.Fail(Codes.Text, $"Character U+{(int)text[i]:X4} at index {i} has no code page 1252 byte.", at, path,
+                return new TextProblem(Codes.Text, $"Character U+{(int)text[i]:X4} at index {i} has no code page 1252 byte.",
                     ((int)text[i]).ToString("X4", CultureInfo.InvariantCulture), "code page 1252 characters");
-        if (text.Length > ctx.Limits.StringBytes)
-            throw ctx.Fail(Codes.Limit, "A string is too long.", at, path, null, $"at most {ctx.Limits.StringBytes} bytes");
-        return Cp1252.Encode(text);
+        if (text.Length > limit)
+            return new TextProblem(Codes.Limit, "A string is too long.", null, $"at most {limit} bytes");
+        return null;
     }
 }
 
 /// <summary>rwString: a one-byte length, or $FF and a 32-bit length, then the bytes.</summary>
-internal sealed class StringCodec : PropertyCodec
+internal sealed partial class StringCodec : PropertyCodec
 {
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
@@ -188,7 +208,7 @@ internal sealed class StringCodec : PropertyCodec
 /// rwStrings: a 32-bit byte length and the TStrings text. An array of lines when every line
 /// ends in CR LF and holds no CR, LF or NUL, otherwise { "$text": ... }.
 /// </summary>
-internal class StringsCodec : PropertyCodec
+internal partial class StringsCodec : PropertyCodec
 {
     protected static (string Text, int End) Block(DecodeContext ctx, int start, int end, ValueSite site)
     {
@@ -224,7 +244,7 @@ internal class StringsCodec : PropertyCodec
         return count;
     }
 
-    protected static JsonValue TextValue(string text)
+    internal static JsonValue TextValue(string text)
     {
         var lines = Lines(text);
         if (lines is null) return new JsonObject().Add("$text", new JsonString(text));
@@ -233,7 +253,7 @@ internal class StringsCodec : PropertyCodec
         return array;
     }
 
-    protected static string TextOf(EncodeContext ctx, JsonValue value, DocPath path, out int lines)
+    internal static string TextOf(EncodeContext ctx, JsonValue value, DocPath path, out int lines)
     {
         if (value is JsonArray array)
         {
@@ -282,7 +302,7 @@ internal class StringsCodec : PropertyCodec
 }
 
 /// <summary>rwStringsEx: the text block, then one signed 32-bit object value per line.</summary>
-internal sealed class StringsExCodec : StringsCodec
+internal sealed partial class StringsExCodec : StringsCodec
 {
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
@@ -322,7 +342,7 @@ internal sealed class StringsExCodec : StringsCodec
 }
 
 /// <summary>rwData and opaque callback payloads: exact lowercase hexadecimal bytes.</summary>
-internal sealed class DataCodec(int? size) : PropertyCodec
+internal sealed partial class DataCodec(int? size) : PropertyCodec
 {
     /// <summary>The fixed record size, or null.</summary>
     internal int? Size => size;
@@ -343,10 +363,10 @@ internal sealed class DataCodec(int? size) : PropertyCodec
 
     internal static byte[] HexValue(EncodeContext ctx, JsonValue value, ValueSite site)
     {
-        if (value is not JsonString s || s.Value.Length % 2 != 0 || s.Value.Any(c => c is not (>= '0' and <= '9' or >= 'a' and <= 'f')))
+        if (value is not JsonString s || !HexText.IsLowerHex(s.Value))
             throw ctx.Fail(Codes.Type, $"{site.Property.Name} is lowercase hexadecimal bytes.", value, site.Path, value.KindName);
         if (s.Value.Length / 2 > ctx.Limits.DecompressedBytes) throw ctx.Fail(Codes.Limit, "A payload is too large.", value, site.Path);
-        return Convert.FromHexString(s.Value);
+        return HexText.Decode(s.Value);
     }
 }
 

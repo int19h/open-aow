@@ -1,6 +1,7 @@
 // Translated from GlobalEnchantmentSpells.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
@@ -892,6 +893,19 @@ public partial class TFloodControl : TEObject
         }
     }
 
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("Width", ref FWidth);
+        persister.Int("Height", ref FHeight);
+        if (FWidth != 0)
+        {
+            int count = FWidth * FHeight * 2;
+            if (persister.Loading) Array.Resize(ref FOriginalTerrain, count);
+            persister.Bytes("OriginalTerrain", MemoryMarshal.AsBytes(FOriginalTerrain.AsSpan(0, count)));
+        }
+    }
+
     // GlobalEnchantmentSpells.pas:1066
     public TFloodControl(TECustomNode owner) : base(owner)
     {
@@ -1083,6 +1097,16 @@ public partial class TFloodEnchantment : TGlobalEnchantment
         Stream.rwBool(ref FRemoved, 22);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDispelPlayer), 23);
         Stream.rwShortintEx(ref FRestoreDays, -1, 24);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("TurnsActive", ref FTurnsActive);
+        persister.Object("FloodControl", FFloodControl);
+        persister.Bool("Removed", ref FRemoved);
+        PersistSupport.UnsignedByte(persister, "DispelPlayer", ref FDispelPlayer);
+        persister.SByte("RestoreDays", ref FRestoreDays, -1);
     }
 
     // GlobalEnchantmentSpells.pas:1224

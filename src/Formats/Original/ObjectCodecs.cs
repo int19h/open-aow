@@ -4,7 +4,7 @@ using Aow.Formats.Schema;
 namespace Aow.Formats.Original;
 
 /// <summary>rwEObject: an object whose class the schema fixes. The document has no $class.</summary>
-internal sealed class FixedObjectCodec(string className) : PropertyCodec
+internal sealed partial class FixedObjectCodec(string className) : PropertyCodec
 {
     public string ClassName { get; } = className;
 
@@ -27,8 +27,10 @@ internal sealed class FixedObjectCodec(string className) : PropertyCodec
 /// the profile's engine table. Dynamic members (sprites, ability data, items) are created
 /// objects too, with $slot where their id carries identity.
 /// </summary>
-internal sealed class CreatedObjectCodec(string? family) : PropertyCodec
+internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
 {
+    internal string? Family => family;
+
     internal static JsonObject DecodeCreated(DecodeContext ctx, int start, int end, ValueSite site, string? family, int? slot, out bool isNull)
     {
         ctx.Need(start, 4, end, site.Path, "class id");
@@ -130,7 +132,7 @@ internal sealed class CreatedObjectCodec(string? family) : PropertyCodec
 /// rwChildren: a nested table whose entry ids are the children's slots, each a created object.
 /// The document lists them in stored order with an explicit $slot.
 /// </summary>
-internal sealed class ChildrenCodec : PropertyCodec
+internal sealed partial class ChildrenCodec : PropertyCodec
 {
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
