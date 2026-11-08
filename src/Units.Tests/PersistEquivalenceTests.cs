@@ -9,12 +9,15 @@ using Aow.Units.City;
 using Aow.Units.Engine;
 using Aow.Units.EventLog;
 using Aow.Units.GlobalEnchantmentSpells;
+using Aow.Units.HSEngine;
+using Game = Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.Tests;
 
 /// <summary>
-/// Pilot objects persist through the tree to the same version 1 JSON the converter decodes from
+/// Pilot objects persist through the tree to the same version 2 JSON the converter decodes from
 /// the image, and a fresh object loaded from that JSON writes the image the converter encodes.
+/// The original backend writes and reads that same image with no ReadWrite on its path.
 /// </summary>
 [Collection("Engine")]
 [EngineState]
@@ -215,7 +218,7 @@ public sealed class PersistEquivalenceTests
         Check("TUnitEnchantment", new TUnitEnchantment(null!) { FEnchantmentAbilityID = int.MinValue, FUnitID = int.MaxValue, FSource = 0, FDispelResistance = 0, FUpkeep = 0 });
         Check("TCosmeticSurgeryEnchantment", new TCosmeticSurgeryEnchantment(null!) { FFaceIndex = int.MaxValue });
         Check("TCosmeticSurgeryEnchantment", new TCosmeticSurgeryEnchantment(null!) { FFaceIndex = int.MinValue, FEnchantmentID = 0, FUpkeep = 0, FSource = 0, FDispelResistance = 0 });
-        Check("TUnitEnchantmentAbilityData", new TUnitEnchantmentAbilityData(null!));
+        RefuseAbilityData(new TUnitEnchantmentAbilityData(null!));
         var absent = new TUnitEnchantmentAbilityData(null!)
         {
             FEnchantmentAbilityID = 0,
@@ -223,7 +226,7 @@ public sealed class PersistEquivalenceTests
             FEnchantmentDuration = -1,
             FEnchantment = null,
         };
-        Check("TUnitEnchantmentAbilityData", absent);
+        RefuseAbilityData(absent);
         var present = new TUnitEnchantmentAbilityData(null!)
         {
             FEnchantmentAbilityID = 65535,
@@ -231,7 +234,7 @@ public sealed class PersistEquivalenceTests
             FEnchantmentDuration = -128,
             FEnchantment = new TCosmeticSurgeryEnchantment(null!) { FFaceIndex = 3, FUnitID = int.MinValue },
         };
-        Check("TUnitEnchantmentAbilityData", present);
+        RefuseAbilityData(present);
         var edge = new TUnitEnchantmentAbilityData(null!)
         {
             FEnchantmentAbilityID = 1,
@@ -239,33 +242,322 @@ public sealed class PersistEquivalenceTests
             FEnchantmentDuration = 127,
             FEnchantment = new TUnitEnchantment(null!) { FEnchantmentAbilityID = int.MaxValue },
         };
-        Check("TUnitEnchantmentAbilityData", edge);
+        RefuseAbilityData(edge);
+    }
+
+    [Fact]
+    public void DeclaredEnumMembersAndAnUndeclaredByteRoundTrip()
+    {
+        Each<TDiplomaticRelation>(value => Check("TDiplomaticRelationHistoryItem", new TDiplomaticRelationHistoryItem(null!) { FDay = 3, FRelation = value }));
+        Check("TDiplomaticRelationHistoryItem", new TDiplomaticRelationHistoryItem(null!) { FRelation = (TDiplomaticRelation)255, FDay = int.MinValue });
+        Each<TChangeGlobalMagicMode>(value => Check("TChangeGlobalMagicTE", new TChangeGlobalMagicTE(null!) { FMode = value, FPlayerIndex = 1, FEnchantmentID = 2, FValue = 3 }));
+        Check("TChangeGlobalMagicTE", new TChangeGlobalMagicTE(null!) { FMode = (TChangeGlobalMagicMode)255, FPlayerIndex = 255, FEnchantmentID = int.MaxValue, FValue = int.MinValue });
+        Each<TGlobalEnchantmentType>(value => Check("TGlobalEnchantment", new TGlobalEnchantment(null!) { FEnchantmentType = value }));
+        Each<TItemType>(value => Check("TItemGFX", new TItemGFX(null!) { FItemType = value }));
+        Each<TMessageEventLogLayout>(value => Check("TMessageEventLog", new TMessageEventLog(null!) { FLayout = value }));
+        Each<TMessageEventLogButtons>(value => Check("TMessageEventLog", new TMessageEventLog(null!) { FButtons = value }));
+        Each<TCityEnchantmentID>(value =>
+        {
+            var control = new TGlobalMagicControl(null!);
+            var city = new TCityEnchantment(null!) { FEnchantmentID = value };
+            city.FEnchantmentLocation.XYL = 9;
+            city.SetOwner(control.FEnchantments);
+            Check("TGlobalMagicControl", control);
+        });
+    }
+
+    [Fact]
+    public void SetsCoverEmptyFullAndUnnamedBits()
+    {
+        Check("TEControlStyleObject", new TEControlStyleObject(null!) { FControlStyle = TSet<TEControlStyleElement>.FromMask(0xFF) });
+        Check("TSingleTargetCA", new TSingleTargetCA(null!) { FMode = TSet<TSingleTargetModeElement>.FromMask(0), FSourceID = 0, FTargetID = 0 });
+        Check("TSingleTargetCA", new TSingleTargetCA(null!) { FMode = TSet<TSingleTargetModeElement>.Of(TSingleTargetModeElement.smDefensive), FSourceID = 255, FTargetID = 1 });
+        Check("TSingleTargetCA", new TSingleTargetCA(null!) { FMode = TSet<TSingleTargetModeElement>.FromMask(0xFF), FSourceID = 4, FTargetID = 5 });
+    }
+
+    [Fact]
+    public void FixedArraysCoverZeroMixedAndBoundaryValues()
+    {
+        var zero = new TUnitSpellCA(null!);
+        Check("TUnitSpellCA", zero);
+        var mixed = new TUnitSpellCA(null!) { FSpellID = 8, FSourceID = 1, FTargetID = 2, FMana = -4 };
+        mixed.FSpellData[0] = 7;
+        mixed.FSpellData[1] = -1;
+        Check("TUnitSpellCA", mixed);
+        var bounds = new TUnitSpellCA(null!) { FSpellID = int.MinValue, FMana = int.MaxValue };
+        bounds.FSpellData[0] = int.MinValue;
+        bounds.FSpellData[1] = int.MaxValue;
+        Check("TUnitSpellCA", bounds);
+        var control = new TGlobalMagicControl(null!);
+        Check("TGlobalMagicControl", control);
+        var spheres = new TGlobalMagicControl(null!) { FNextEnchantmentID = int.MaxValue };
+        for (int i = 0; i < 9; i++) spheres.FDoubleSphereManaCount[i] = i == 8 ? int.MinValue : i;
+        var hatred = new THatredEnchantment(null!) { FDaysActive = 12 };
+        hatred.SetOwner(spheres.FEnchantments);
+        var harmony = new THarmonyEnchantment(null!) { FDaysActive = int.MinValue };
+        harmony.SetOwner(spheres.FEnchantments);
+        Check("TGlobalMagicControl", spheres);
+    }
+
+    [Fact]
+    public void ArmyViewCoversBothArrayWidths()
+    {
+        var previous = Game.AoWHSMap;
+        var map = new TAoWHSMap(null!);
+        map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
+        Game.AoWHSMap = map;
+        try
+        {
+            Check("TArmy", new TArmy(null!));
+            Each<TGroupBehavior>(value =>
+            {
+                var army = new TArmy(null!) { FOldAIBehavior = value, FPlayer = -1 };
+                army.FMode = TSet<TArmyModeElement>.Of(TArmyModeElement.amFixedBehavior);
+                army.FUserMode = TSet<TArmyUserModeElement>.FromMask(0);
+                Check("TArmy", army);
+            });
+            var full = new TArmy(null!);
+            full.FMode = TSet<TArmyModeElement>.FromMask(0xFF) - TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving);
+            full.FUserMode = TSet<TArmyUserModeElement>.FromMask(0xFF);
+            Check("TArmy", full);
+            var view = new TArmyView(null!);
+            Check("TArmyView", view);
+            var widths = new TArmyView(null!) { FConcealedForPlayers = ushort.MaxValue };
+            for (int i = 0; i < 8; i++)
+            {
+                widths.FUnitConcealment[i] = (ushort)(i == 0 ? 0 : ushort.MaxValue);
+                widths.FMoraleValues[i] = i % 2 == 0 ? int.MinValue : int.MaxValue;
+            }
+            Check("TArmyView", widths);
+        }
+        finally
+        {
+            Game.AoWHSMap = previous!;
+            map.Destroy();
+        }
+    }
+
+    [Fact]
+    public void AnOverlongSpellDataListIsRefusedOnExport()
+    {
+        var spell = new TUnitSpellCA(null!);
+        try
+        {
+            var cls = Schema.Get("TUnitSpellCA");
+            var tree = TreeWriter.Write(spell, Factory);
+            var list = (ListNode)tree.Find("SpellData")!;
+            list.Items.Add(new IntegerNode(4, true, 1));
+            var document = DocumentBackend.Write(tree, cls, Schema, "game");
+            Assert.Equal(3, ((JsonArray)document["SpellData"]!).Items.Count);
+            var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, cls, Schema, "game"));
+            Assert.Equal(Codes.Range, error.Diagnostic.Code);
+            Assert.Equal("root.SpellData", error.Diagnostic.Path);
+            Assert.Contains("holds at most 2", error.Diagnostic.Message);
+            Assert.Contains("Export does not truncate", error.Diagnostic.Message);
+        }
+        finally
+        {
+            spell.Destroy();
+        }
+    }
+
+    [Fact]
+    public void ANetworkArmyOmitsDestinationsAndStillReadsThem()
+    {
+        WithDestroyingMap(map =>
+        {
+            map.FConnectionType = TPlayerConnectionType.pcNetwork;
+            var army = new TArmy(null!);
+            army.FDestinationX = 3;
+            army.FDestinationY = 4;
+            army.FDestinationL = 1;
+            army.FUserMode = TSet<TArmyUserModeElement>.Of(TArmyUserModeElement.aumGuard);
+            var cls = Schema.Get("TArmy");
+            var document = DocumentBackend.Write(TreeWriter.Write(army, Factory), cls, Schema, "game");
+            Assert.Null(document.Find("DestinationX"));
+            Assert.Null(document.Find("DestinationY"));
+            Assert.Null(document.Find("DestinationL"));
+            Assert.Null(document.Find("UserMode"));
+            Check("TArmy", army);
+
+            map.FConnectionType = TPlayerConnectionType.pcLocal;
+            var source = new TArmy(null!) { FDestinationX = 3, FDestinationY = 4, FDestinationL = 1 };
+            source.FUserMode = TSet<TArmyUserModeElement>.Of(TArmyUserModeElement.aumGuard);
+            var image = Image(source);
+            source.Destroy();
+            map.FConnectionType = TPlayerConnectionType.pcNetwork;
+            var viaPersist = (TArmy)Factory.Create("TArmy");
+            var viaReadWrite = (TArmy)Factory.Create("TArmy");
+            try
+            {
+                TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), viaPersist, Factory);
+                Load(viaReadWrite, image);
+                Assert.Equal(3, viaPersist.FDestinationX);
+                Assert.Equal(4, viaPersist.FDestinationY);
+                Assert.Equal(1, viaPersist.FDestinationL);
+                Assert.True(viaPersist.FUserMode.Contains(TArmyUserModeElement.aumGuard));
+                Assert.Equal(3, viaReadWrite.FDestinationX);
+                Assert.Equal(4, viaReadWrite.FDestinationY);
+                Assert.Equal(1, viaReadWrite.FDestinationL);
+                Assert.True(viaReadWrite.FUserMode.Contains(TArmyUserModeElement.aumGuard));
+                EqualBytes(Image(viaPersist), Image(viaReadWrite), "TArmy network load");
+            }
+            finally
+            {
+                viaReadWrite.Destroy();
+                viaPersist.Destroy();
+            }
+        });
+    }
+
+    [Fact]
+    public void LoadingAnArmyClearsMoving()
+    {
+        WithDestroyingMap(_ =>
+        {
+            var source = new TArmy(null!);
+            source.FMode = TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving, TArmyModeElement.amFixedBehavior);
+            var image = Image(source);
+            source.Destroy();
+            var cls = Schema.Get("TArmy");
+            var viaPersist = (TArmy)Factory.Create("TArmy");
+            var viaReadWrite = (TArmy)Factory.Create("TArmy");
+            try
+            {
+                TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), viaPersist, Factory);
+                Load(viaReadWrite, image);
+                Assert.False(viaPersist.FMode.Contains(TArmyModeElement.amMoving));
+                Assert.False(viaReadWrite.FMode.Contains(TArmyModeElement.amMoving));
+                Assert.True(viaPersist.FMode.Contains(TArmyModeElement.amFixedBehavior));
+                Assert.True(viaReadWrite.FMode.Contains(TArmyModeElement.amFixedBehavior));
+                EqualBytes(Image(viaPersist), Image(viaReadWrite), "TArmy moving");
+            }
+            finally
+            {
+                viaReadWrite.Destroy();
+                viaPersist.Destroy();
+            }
+        });
+    }
+
+    [Fact]
+    public void AnArmyWithAUnitRefusesThroughTUnit()
+    {
+        WithDestroyingMap(_ =>
+        {
+            var army = new TArmy(null!);
+            try
+            {
+                new TUnit(null!).SetOwner(army);
+                var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(army, Factory));
+                Assert.Equal("Class TUnit overrides ReadWrite and has no PersistFields.", error.Message);
+            }
+            finally
+            {
+                army.Destroy();
+            }
+        });
+    }
+
+    [Fact]
+    public void CsSaveLoadIsTheStoredNameOfTheAlias()
+    {
+        var info = EnumTypeInfo.Describe(typeof(TEControlStyleElement));
+        Assert.Equal("csSaveLoad", info.ByValue[0]);
+        Assert.False(info.ByName.ContainsKey("csStored"));
+        Assert.Equal(0, info.ByName["csSaveLoad"]);
+    }
+
+    private static void WithDestroyingMap(Action<TAoWHSMap> body)
+    {
+        var previous = Game.AoWHSMap;
+        var map = new TAoWHSMap(null!);
+        map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
+        Game.AoWHSMap = map;
+        try
+        {
+            body(map);
+        }
+        finally
+        {
+            Game.AoWHSMap = previous!;
+            map.Destroy();
+        }
+    }
+
+    private static void Each<TEnum>(Action<TEnum> check) where TEnum : struct, Enum
+    {
+        foreach (var value in Enum.GetValues<TEnum>()) check(value);
     }
 
     private static void Check(string className, TEObject obj)
     {
+        TEObject? loaded = null;
+        TEObject? fromImage = null;
         try
         {
             var cls = Schema.Get(className);
-            var expected = PilotImage.Decode(Image(obj), className);
-            var actual = DocumentBackend.Write(TreeWriter.Write(obj, Factory), cls, Schema, "game");
+            var image = Image(obj);
+            var expected = PilotImage.Decode(image, className);
+            var tree = TreeWriter.Write(obj, Factory);
+            var actual = DocumentBackend.Write(tree, cls, Schema, "game");
             EqualJson(expected, actual, className + " write");
-            var loaded = (TEObject)Factory.Create(className);
+            EqualBytes(image, OriginalBackend.Write(tree, cls, Schema, "game"), className + " original");
+            loaded = (TEObject)Factory.Create(className);
+            TreeReader.Read(DocumentBackend.Read(expected, cls, Schema, "game"), loaded, Factory);
+            EqualBytes(PilotImage.Encode(expected, className), Image(loaded), className + " read");
+            fromImage = (TEObject)Factory.Create(className);
+            TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), fromImage, Factory);
+            EqualBytes(image, Image(fromImage), className + " original read");
+            var viaReadWrite = (TEObject)Factory.Create(className);
             try
             {
-                var node = DocumentBackend.Read(expected, cls, Schema, "game");
-                TreeReader.Read(node, loaded, Factory);
-                EqualBytes(PilotImage.Encode(expected, className), Image(loaded), className + " read");
+                Load(viaReadWrite, image);
+                EqualBytes(Image(fromImage), Image(viaReadWrite), className + " readwrite");
             }
             finally
             {
-                loaded.Destroy();
+                viaReadWrite.Destroy();
             }
+        }
+        finally
+        {
+            fromImage?.Destroy();
+            loaded?.Destroy();
+            obj.Destroy();
+        }
+    }
+
+    private static void RefuseAbilityData(TUnitEnchantmentAbilityData obj)
+    {
+        try
+        {
+            var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(obj, Factory));
+            Assert.Equal("Class TAbilityData overrides ReadWrite and has no PersistFields.", error.Message);
         }
         finally
         {
             obj.Destroy();
         }
+    }
+
+    private static void Load(TEObject obj, byte[] image)
+    {
+        EngineFixture.WithRegisteredClasses(() =>
+        {
+            using var memory = new TMemoryStream();
+            memory.Write(image);
+            memory.Position = 0;
+            var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
+            try
+            {
+                obj.MainReadWrite(reader);
+            }
+            finally
+            {
+                reader.Destroy();
+            }
+        });
     }
 
     private static byte[] Image(TEObject obj)

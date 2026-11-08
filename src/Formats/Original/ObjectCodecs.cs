@@ -134,6 +134,8 @@ internal sealed partial class CreatedObjectCodec(string? family) : PropertyCodec
 /// </summary>
 internal sealed partial class ChildrenCodec : PropertyCodec
 {
+    internal override bool AcceptsDocumentArray(int version) => true;
+
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
         var table = PropertyTable.Read(ctx, start, end, site.Path);
@@ -199,6 +201,8 @@ internal sealed partial class ChildrenCodec : PropertyCodec
 /// </summary>
 internal sealed class MapFieldsCodec : PropertyCodec
 {
+    internal override bool AcceptsDocumentArray(int version) => true;
+
     private static int Dimension(JsonObject owner, string name) => owner[name] is JsonInteger n ? (int)n.Value : 0;
 
     /// <summary>The level's class, from its $class, decides the field class (MapFieldClass).</summary>

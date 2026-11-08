@@ -1,4 +1,5 @@
 // Translated from Engine.pas.
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Formats.Tree;
@@ -4325,11 +4326,39 @@ public partial class TEObject : TObject, IPersistable
     }
 
     // Tree form of ReadWrite. MainPersist is the stored image.
-    public virtual void Persist(IPersister persister)
+    public virtual void PersistFields(IPersister persister)
     {
     }
 
-    void IPersistable.Persist(IPersister persister) => MainPersist(persister);
+    void IPersistable.Persist(IPersister persister)
+    {
+        if (TreePersistenceRefusal(GetType()) is string reason)
+            throw new InvalidOperationException(reason);
+        MainPersist(persister);
+    }
+
+    /// <summary>
+    /// A class that stores through MainReadWrite or ReadWriteChildren needs the same MainPersist.
+    /// A class that stores through ReadWrite needs its own PersistFields.
+    /// The name is the class that is missing it. Null means the closure can use the tree.
+    /// </summary>
+    public static string TreePersistenceRefusal(Type type)
+    {
+        const BindingFlags declared = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly;
+        for (var current = type; current is not null && current != typeof(object); current = current.BaseType)
+        {
+            bool image = current.GetMethod(nameof(MainReadWrite), declared) is not null
+                || current.GetMethod("ReadWriteChildren", declared) is not null;
+            bool tree = current.GetMethod(nameof(MainPersist), declared) is not null;
+            if (image && !tree)
+                return "Class " + current.Name + " overrides MainReadWrite or ReadWriteChildren and has no MainPersist.";
+            bool fields = current.GetMethod(nameof(ReadWrite), declared) is not null;
+            bool persisted = current.GetMethod(nameof(PersistFields), declared) is not null;
+            if (fields && !persisted)
+                return "Class " + current.Name + " overrides ReadWrite and has no PersistFields.";
+        }
+        return null;
+    }
 
     public virtual void MainPersist(IPersister persister)
     {
@@ -4338,7 +4367,7 @@ public partial class TEObject : TObject, IPersistable
             Clear();
         }
 
-        Persist(persister);
+        PersistFields(persister);
     }
 
     // Engine.pas:2594
@@ -4539,7 +4568,7 @@ public partial class TECustomNode : TEObject
             Clear();
         }
 
-        Persist(persister);
+        PersistFields(persister);
         persister.Children("Children", new NodeChildren(this));
     }
 
@@ -5681,9 +5710,9 @@ public partial class TEResource : TEObject
         Stream.rwInteger(ref FEditIndex, 3);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("ResourceID", ref FResourceID);
         persister.Int("EditID", ref FEditID);
         persister.Int("EditIndex", ref FEditIndex);
@@ -7616,6 +7645,20 @@ public partial class TEChangeNotifyNode : TECustomNode
         }
     }
 
+    public override void MainPersist(IPersister persister)
+    {
+        if (persister.Loading)
+        {
+            BeginUpdate();
+        }
+
+        base.MainPersist(persister);
+        if (persister.Loading)
+        {
+            EndUpdate();
+        }
+    }
+
     // Engine.pas:7978
     public override int GetCount() => FChildren.Count;
 
@@ -8353,9 +8396,9 @@ public partial class TEControlStyleObject : TEObject
         RwSet(ref FControlStyle, 1, 1, Stream.rwData, 0);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        PersistSupport.Set(persister, "ControlStyle", ref FControlStyle);
+        persister.Set("ControlStyle", ref FControlStyle);
     }
 
 }
@@ -8651,9 +8694,9 @@ public partial class TEResourceEditSettings : TEControlStyleObject
         }
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         PersistSupport.LinesEx(persister, "Editors", FEditors);
     }
 

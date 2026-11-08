@@ -1,4 +1,3 @@
-using System.Runtime.InteropServices;
 using Aow.Formats.Tree;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
@@ -64,23 +63,26 @@ public static class PersistSupport
         value = unchecked((sbyte)stored);
     }
 
-    public static void Set<E>(IPersister persister, string name, ref TSet<E> value) where E : unmanaged
+    public static void Int32Array(IPersister persister, string name, Span<int> values)
     {
-        ulong image = value.Image;
-        Span<byte> bytes = stackalloc byte[1];
-        bytes[0] = (byte)image;
-        persister.Bytes(name, bytes);
+        var list = new List<int>(values.Length);
+        for (int i = 0; i < values.Length; i++) list.Add(values[i]);
+        persister.List(name, list, static (IItemSlot slot, ref int item) => slot.Int(ref item));
         if (!persister.Loading) return;
-        image = (image & ~0xFFul) | bytes[0];
-        value = TSet<E>.FromMask(image);
+        if (list.Count > values.Length)
+            throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
+        for (int i = 0; i < values.Length; i++) values[i] = i < list.Count ? list[i] : 0;
     }
 
-    public static void ByteImage<T>(IPersister persister, string name, ref T value) where T : unmanaged
+    public static void UInt16Array(IPersister persister, string name, Span<ushort> values)
     {
-        Span<byte> bytes = stackalloc byte[1];
-        bytes[0] = MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[0];
-        persister.Bytes(name, bytes);
-        if (persister.Loading) MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref value, 1))[0] = bytes[0];
+        var list = new List<ushort>(values.Length);
+        for (int i = 0; i < values.Length; i++) list.Add(values[i]);
+        persister.List(name, list, static (IItemSlot slot, ref ushort item) => slot.UShort(ref item));
+        if (!persister.Loading) return;
+        if (list.Count > values.Length)
+            throw new InvalidOperationException(name + " holds at most " + values.Length + " values.");
+        for (int i = 0; i < values.Length; i++) values[i] = i < list.Count ? list[i] : (ushort)0;
     }
 
     public static void Lines(IPersister persister, string name, TStrings lines)

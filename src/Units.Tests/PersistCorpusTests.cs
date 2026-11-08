@@ -1,6 +1,7 @@
 using System.Text;
 using Aow.Formats;
 using Aow.Formats.Json;
+using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
@@ -32,6 +33,8 @@ public sealed class PersistCorpusTests
         "TAITransporterBudget", "TAICityFortifyBudget", "TAICityResearchBudget", "TAICityUpgradeBudget",
         "TCosmeticSurgeryEnchantment", "TFloodControl", "TFloodEnchantment", "TFrozenWaterHS",
         "TUnitEnchantment", "TUnitEnchantmentAbilityData",
+        "TDiplomaticRelationHistoryItem", "TChangeGlobalMagicTE", "TUnitSpellCA", "TGlobalMagicControl",
+        "TSingleTargetCA", "TCityEnchantment", "THatredEnchantment", "THarmonyEnchantment",
     ];
 
     private readonly ITestOutputHelper output;
@@ -52,6 +55,9 @@ public sealed class PersistCorpusTests
             var found = GameFiles.Classify(bytes, Path.GetExtension(path));
             if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null) continue;
             var imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
+            Assert.Equal(2, ((JsonInteger)imported.Document["$version"]!).Value);
+            var migrated = GameFiles.Read(GameFiles.Write(Version1Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
+            EqualJson(imported.Document, migrated, relative + " migration");
             var root = (JsonObject)imported.Document["root"]!;
             var cls = found.Profile.RootHasClass
                 ? schema.Get(((JsonString)root["$class"]!).Value)
@@ -65,7 +71,7 @@ public sealed class PersistCorpusTests
             Console.WriteLine(line);
         }
         // Every install holds these, so a walker that finds nothing fails here.
-        foreach (var name in (string[])["TAIBudgetManager", "TUnitEnchantmentAbilityData", "TEResourceEditSettings"])
+        foreach (var name in (string[])["TAIBudgetManager", "TUnitEnchantmentAbilityData", "TEResourceEditSettings", "TGlobalMagicControl"])
             Assert.True(counts[name] > 0, name + " has no instance in the corpus.");
     }
 
@@ -129,8 +135,10 @@ public sealed class PersistCorpusTests
                 Load(loaded, image);
                 var rewritten = Image(loaded);
                 var expected = PilotImage.Decode(rewritten, cls.Name, engine);
-                var actual = DocumentBackend.Write(TreeWriter.Write(loaded, factory), cls, schema, engine);
+                var tree = TreeWriter.Write(loaded, factory);
+                var actual = DocumentBackend.Write(tree, cls, schema, engine);
                 EqualJson(expected, actual, file + " " + cls.Name + " write");
+                EqualBytes(rewritten, OriginalBackend.Write(tree, cls, schema, engine), file + " " + cls.Name + " original");
                 var again = (TEObject)factory.Create(cls.Name);
                 try
                 {
@@ -141,11 +149,26 @@ public sealed class PersistCorpusTests
                 {
                     again.Destroy();
                 }
+                var fromImage = (TEObject)factory.Create(cls.Name);
+                try
+                {
+                    TreeReader.Read(OriginalBackend.Read(image, cls, schema, engine), fromImage, factory);
+                    EqualBytes(Image(loaded), Image(fromImage), file + " " + cls.Name + " readwrite");
+                }
+                finally
+                {
+                    fromImage.Destroy();
+                }
             }
             finally
             {
                 loaded.Destroy();
             }
+        }
+        catch (InvalidOperationException error) when (IsTreeRefusal(error))
+        {
+            // A refusing class overrides ReadWrite with no PersistFields, or MainReadWrite with no
+            // MainPersist. The write throws that class's refusal. The count stands.
         }
         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
         {
@@ -153,20 +176,47 @@ public sealed class PersistCorpusTests
         }
     }
 
+    private static readonly Dictionary<string, Type> EngineTypes = BuildEngineTypes();
+
+    private static Dictionary<string, Type> BuildEngineTypes()
+    {
+        var types = new Dictionary<string, Type>();
+        foreach (var eclass in EClass.All)
+        {
+            if (eclass.Type.Assembly != typeof(TEObject).Assembly) continue;
+            types.TryAdd(eclass.Type.Name, eclass.Type);
+        }
+        return types;
+    }
+
+    private static bool IsTreeRefusal(InvalidOperationException error)
+    {
+        string message = error.Message;
+        const string prefix = "Class ";
+        if (!message.StartsWith(prefix, StringComparison.Ordinal)) return false;
+        int nameEnd = message.IndexOf(' ', prefix.Length);
+        if (nameEnd < 0) return false;
+        string name = message.Substring(prefix.Length, nameEnd - prefix.Length);
+        return EngineTypes.TryGetValue(name, out var type) && TEObject.TreePersistenceRefusal(type) == message;
+    }
+
     private static void Load(TEObject obj, byte[] image)
     {
-        using var memory = new TMemoryStream();
-        memory.Write(image);
-        memory.Position = 0;
-        var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
-        try
+        EngineFixture.WithRegisteredClasses(() =>
         {
-            obj.MainReadWrite(reader);
-        }
-        finally
-        {
-            reader.Destroy();
-        }
+            using var memory = new TMemoryStream();
+            memory.Write(image);
+            memory.Position = 0;
+            var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
+            try
+            {
+                obj.MainReadWrite(reader);
+            }
+            finally
+            {
+                reader.Destroy();
+            }
+        });
     }
 
     private static byte[] Image(TEObject obj)
@@ -189,10 +239,49 @@ public sealed class PersistCorpusTests
         var left = JsonWriter.ToUtf8(expected);
         var right = JsonWriter.ToUtf8(actual);
         if (left.AsSpan().SequenceEqual(right)) return;
-        string text = Encoding.UTF8.GetString(right);
-        if (text.Length > 1500) text = text[..1500];
-        Assert.Fail(label + "\n" + text);
+        Assert.Fail(label + " at " + FirstDifference(expected, actual, ""));
     }
+
+    private static string FirstDifference(JsonValue expected, JsonValue actual, string path)
+    {
+        if (expected is JsonObject left && actual is JsonObject right)
+        {
+            int count = Math.Max(left.Members.Count, right.Members.Count);
+            for (int i = 0; i < count; i++)
+            {
+                if (i >= left.Members.Count) return Join(path, right.Members[i].Name) + " extra";
+                if (i >= right.Members.Count) return Join(path, left.Members[i].Name) + " missing";
+                var one = left.Members[i];
+                var other = right.Members[i];
+                if (!string.Equals(one.Name, other.Name, StringComparison.Ordinal))
+                    return path + " member " + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + " " + one.Name + " / " + other.Name;
+                string nested = FirstDifference(one.Value, other.Value, Join(path, one.Name));
+                if (nested.Length != 0) return nested;
+            }
+            return "";
+        }
+        if (expected is JsonArray leftItems && actual is JsonArray rightItems)
+        {
+            int count = Math.Max(leftItems.Items.Count, rightItems.Items.Count);
+            for (int i = 0; i < count; i++)
+            {
+                string at = path + "[" + i.ToString(System.Globalization.CultureInfo.InvariantCulture) + "]";
+                if (i >= leftItems.Items.Count) return at + " extra";
+                if (i >= rightItems.Items.Count) return at + " missing";
+                string nested = FirstDifference(leftItems.Items[i], rightItems.Items[i], at);
+                if (nested.Length != 0) return nested;
+            }
+            return "";
+        }
+        var expectedBytes = JsonWriter.ToUtf8(expected);
+        var actualBytes = JsonWriter.ToUtf8(actual);
+        if (expectedBytes.AsSpan().SequenceEqual(actualBytes)) return "";
+        string text = Encoding.UTF8.GetString(actualBytes);
+        if (text.Length > 80) text = text[..80];
+        return path + " " + text;
+    }
+
+    private static string Join(string path, string name) => path.Length == 0 ? name : path + "." + name;
 
     private static void EqualBytes(byte[] expected, byte[] actual, string label)
     {
@@ -200,9 +289,25 @@ public sealed class PersistCorpusTests
         Assert.Fail(label + " at " + expected.AsSpan().CommonPrefixLength(actual));
     }
 
-    private static string Root => Path.GetFullPath(Environment.GetEnvironmentVariable("AOW_GAME_ROOT") is { Length: > 0 } root
-        ? root
-        : @"D:\Games\GOG\Age of Wonders");
+    private static JsonObject Version1Document(byte[] file, FileProfile profile, string kind, string relative)
+    {
+        var session = new ImportSession
+        {
+            Schema = SymbolicMigration.Version1,
+            Limits = FormatLimits.Default,
+            Counts = new LayoutCounts(),
+            File = relative,
+        };
+        var (container, root) = profile.Import(file, session);
+        return new JsonObject()
+            .Add("$format", new JsonString(OwnFormat.FormatName))
+            .Add("$version", new JsonInteger(1))
+            .Add("$kind", new JsonString(kind))
+            .Add("$container", container)
+            .Add("root", root);
+    }
+
+    private static string Root => InstalledSave.Root;
 
     internal static string? SkipReason =>
         File.Exists(Path.Combine(Root, "Release", "Release.hss")) && Directory.Exists(Path.Combine(Root, "Scenario", "Custom"))

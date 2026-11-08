@@ -89,6 +89,8 @@ internal sealed partial class StringCodec
 
 internal partial class StringsCodec
 {
+    internal override bool AcceptsDocumentArray(int version) => true;
+
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         if (value is not LinesNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is lines.");
@@ -137,20 +139,7 @@ internal sealed partial class StringsExCodec
     internal override TreeValue? ReadTree(JsonValue value, DocumentSite site)
     {
         if (value is not JsonObject obj) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an object with lines or $text, and objects.", value);
-        bool hasText = obj.Find("$text") is not null;
-        CheckOnly(site.Context, obj, site.Path, hasText ? "$text" : "lines", "objects");
-        var textValue = hasText ? obj : obj["lines"] ?? throw site.Fail(Codes.MissingMember, "lines or $text is required.", obj);
-        string text = TextOf(site.Context, textValue, site.Path.Member(hasText ? "$text" : "lines"), out int lines);
-        var objects = obj["objects"] as JsonArray ?? throw site.Fail(Codes.MissingMember, "objects is an array of integers.", obj);
-        if (objects.Items.Count != lines)
-            throw site.Fail(Codes.Corrupt, $"The text has {lines} lines and {objects.Items.Count} object values.", objects);
-        var ids = new List<int>(objects.Items.Count);
-        for (int i = 0; i < objects.Items.Count; i++)
-        {
-            if (objects.Items[i] is not JsonInteger n || n.Value < int.MinValue || n.Value > int.MaxValue)
-                throw site.At(site.Path.Member("objects").Item(i), false).Fail(Codes.Range, "An object value is a signed 32-bit integer.", objects.Items[i]);
-            ids.Add((int)n.Value);
-        }
+        var (text, ids) = ReadMembers(site.Context, obj, site.Path);
         site.RequireText(text, value);
         return LinesExNode.FromText(text, ids);
     }
@@ -263,9 +252,11 @@ internal sealed partial class ChildrenCodec
     }
 }
 
-/// <summary>A variable-length list. Version 1 has no list member, and the backend refuses the shape.</summary>
-internal sealed class ListCodec(PropertyCodec element) : PropertyCodec
+/// <summary>A variable-length list. The schema declares whether it stores one. Version 1 refuses the shape.</summary>
+internal sealed class ListCodec(PropertyCodec element, bool storesList) : PropertyCodec
 {
+    internal override bool AcceptsList(int version) => storesList;
+
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site) =>
         throw new InvalidOperationException("A list has no image.");
 
@@ -309,9 +300,13 @@ internal sealed class RecordCodec : PropertyCodec
 {
     private readonly (string Name, PropertyCodec Codec)[] fields;
 
-    public RecordCodec(JsonObject source, FormatSchema schema)
+    public RecordCodec(JsonObject source, FormatSchema schema, string path)
     {
-        fields = ((JsonArray)source["fields"]!).Items.Cast<JsonObject>().Select(f => (((JsonString)f["name"]!).Value, Create(f, schema))).ToArray();
+        fields = ((JsonArray)source["fields"]!).Items.Cast<JsonObject>().Select(f =>
+        {
+            string name = ((JsonString)f["name"]!).Value;
+            return (name, Create(f, schema, path + "." + name));
+        }).ToArray();
     }
 
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site) =>

@@ -1,3 +1,5 @@
+using Aow.Rtl;
+
 namespace Aow.Formats.Tree;
 
 /// <summary>
@@ -46,13 +48,13 @@ public interface IChildCollection
 /// <summary>One value of a variable-length list. The call stores exactly one value.</summary>
 public interface IItemSlot
 {
-    void Int(ref int value, int fallback = 0);
+    void Int(ref int value);
 
-    void Byte(ref byte value, byte fallback = 0);
+    void Byte(ref byte value);
 
-    void SByte(ref sbyte value, sbyte fallback = 0);
+    void SByte(ref sbyte value);
 
-    void UShort(ref ushort value, ushort fallback = 0);
+    void UShort(ref ushort value);
 
     void Bool(ref bool value);
 
@@ -71,7 +73,10 @@ public delegate void ItemTransfer<T>(IItemSlot slot, ref T value);
 /// directions. On load, an absent member takes the fallback. On save, a value equal to the
 /// fallback is omitted. <see cref="Bool"/> is present only when true. An empty string or an
 /// empty list is omitted. <see cref="Bytes"/> of length zero is omitted, and an absent value
-/// leaves the caller's span unchanged. <see cref="Object"/>, <see cref="Created"/> and
+/// leaves the caller's span unchanged. <see cref="Enum{TEnum}"/> and <see cref="Set{E}"/> are
+/// always stored, including zero, because the original writes every positive-size image. Their
+/// fallback applies only when the member is absent on load. A fixed integer array stores every
+/// element, including zeros. <see cref="Object"/>, <see cref="Created"/> and
 /// <see cref="Children"/> are always stored. <see cref="Record"/> is stored whenever the
 /// serializer calls it.
 /// </summary>
@@ -91,6 +96,10 @@ public interface IPersister
     void SByte(string name, ref sbyte value, sbyte fallback = 0);
 
     void UShort(string name, ref ushort value, ushort fallback = 0);
+
+    void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
+
+    void Set<E>(string name, ref TSet<E> value) where E : unmanaged, Enum;
 
     void Bool(string name, ref bool value);
 

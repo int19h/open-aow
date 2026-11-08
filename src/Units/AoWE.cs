@@ -2291,9 +2291,9 @@ public partial class TEnchantment : TEObject
         Stream.rwInteger(ref FEnchantmentID, 13);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         PersistSupport.UnsignedByte(persister, "DispelResistance", ref FDispelResistance);
         PersistSupport.UnsignedByte(persister, "Source", ref FSource);
         persister.Int("Upkeep", ref FUpkeep);
@@ -3632,11 +3632,11 @@ public partial class TGlobalEnchantment : TEObject
         Stream.rwInteger(ref FDispelMana, 15);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("TGlobalEnchantment.EnchantmentID", ref FEnchantmentID);
-        PersistSupport.ByteImage(persister, "EnchantmentType", ref FEnchantmentType);
+        persister.Enum("EnchantmentType", ref FEnchantmentType);
         PersistSupport.UnsignedByte(persister, "PlayerIndex", ref FPlayerIndex);
         persister.String("Name", ref FName);
         persister.Int("EnchantmentManaUpkeep", ref FEnchantmentManaUpkeep);
@@ -3995,6 +3995,15 @@ public partial class TChangeGlobalMagicTE : TTokenEvent
         Stream.rwInteger(ref FValue, 23);
     }
 
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Enum("Mode", ref FMode);
+        persister.Byte("PlayerIndex", ref FPlayerIndex);
+        persister.Int("EnchantmentID", ref FEnchantmentID);
+        persister.Int("Value", ref FValue);
+    }
+
     // Spells.PAS:2722
     public override TExecuteResult Execute(TTokenExecuter TE)
     {
@@ -4063,6 +4072,15 @@ public partial class TGlobalMagicControl : TEObject
         Stream.rwEObject(FEnchantments, 10);
         Stream.rwInteger(ref FNextEnchantmentID, 11);
         Stream.rwData(MemoryMarshal.AsBytes((Span<int>)FDoubleSphereManaCount).Slice(0, 36), 36, 0);
+        UpdateActiveEnchantments();
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Object("Enchantments", FEnchantments);
+        persister.Int("NextEnchantmentID", ref FNextEnchantmentID);
+        PersistSupport.Int32Array(persister, "DoubleSphereManaCount", FDoubleSphereManaCount);
         UpdateActiveEnchantments();
     }
 
@@ -4800,6 +4818,13 @@ public partial class TDiplomaticRelationHistoryItem : TEObject
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FDay, 20);
         Stream.rwData(Bytes.Of(ref FRelation, 1), 1, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Int("Day", ref FDay);
+        persister.Enum("Relation", ref FRelation);
     }
 
     // Engine.pas:524
@@ -19133,12 +19158,12 @@ public partial class TItemGFX : TEResource
         Stream.rwBool(ref FHidden, 9);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.String("ImageLibraryName", ref FImageLibraryName);
         persister.Int("ImageIndex", ref FImageIndex);
-        PersistSupport.ByteImage(persister, "ItemType", ref FItemType);
+        persister.Enum("ItemType", ref FItemType);
         persister.Bool("Hidden", ref FHidden);
     }
 
@@ -24464,6 +24489,18 @@ public partial class TUnitList : TEChangeNotifyNode
     {
         base.MainReadWrite(Stream);
         if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smTextOnly, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+        {
+            for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
+            {
+                ((TEObject)FChildren.List[I]).Release();
+            }
+        }
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        base.MainPersist(persister);
+        if (persister.Loading)
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
@@ -30697,6 +30734,29 @@ public partial class TArmy : TUnitList
         }
     }
 
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.UnsignedByte(persister, "Player", ref FPlayer);
+        PersistSupport.UnsignedByte(persister, "X", ref FX);
+        PersistSupport.UnsignedByte(persister, "Y", ref FY);
+        PersistSupport.UnsignedByte(persister, "L", ref FL);
+        if (persister.Loading || AoWEUnit.AoWHSMap == null || AoWEUnit.AoWHSMap.FConnectionType != (TPlayerConnectionType)1)
+        {
+            PersistSupport.UnsignedByte(persister, "DestinationX", ref FDestinationX);
+            PersistSupport.UnsignedByte(persister, "DestinationY", ref FDestinationY);
+            PersistSupport.UnsignedByte(persister, "DestinationL", ref FDestinationL);
+            persister.Set("UserMode", ref FUserMode);
+        }
+
+        persister.Enum("OldAIBehavior", ref FOldAIBehavior);
+        persister.Set("Mode", ref FMode);
+        if (persister.Loading && FMode.Contains(TArmyModeElement.amMoving))
+        {
+            FMode = FMode - TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving);
+        }
+    }
+
     // Army.PAS:2259
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
@@ -34157,6 +34217,22 @@ public partial class TArmyView : TArmy
                 GetUnit(I).FMoraleValue = (sbyte)FMoraleValues[I];
             }
         }
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.UInt16Array(persister, "UnitConcealment", FUnitConcealment);
+        persister.UShort("ConcealedForPlayers", ref FConcealedForPlayers);
+        PersistSupport.Int32Array(persister, "MoraleValues", FMoraleValues);
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        base.MainPersist(persister);
+        if (!persister.Loading) return;
+        for (int i = 0; i < GetCount(); i++)
+            GetUnit(i).FMoraleValue = (sbyte)FMoraleValues[i];
     }
 
     // Army.PAS:138
@@ -38528,9 +38604,9 @@ public partial class TFrozenWaterHS : TSingleHS
         Stream.rwShortint(ref FCasterPlayer, 31);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.SByte("DaysRemaining", ref FDaysRemaining);
         persister.SByte("CasterPlayer", ref FCasterPlayer);
     }
@@ -43992,6 +44068,14 @@ public partial class TSingleTargetCA : TCombatAction
         Stream.rwByte(ref FSourceID, 10);
         Stream.rwByte(ref FTargetID, 11);
         RwSet(ref FMode, 1, 12, Stream.rwData, 0);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Byte("SourceID", ref FSourceID);
+        persister.Byte("TargetID", ref FTargetID);
+        persister.Set("Mode", ref FMode);
     }
 
     // Combat2.pas:749
@@ -51834,9 +51918,9 @@ public partial class TAIBudget : TEObject
         Stream.rwInteger(ref FDayMana, 41);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("Priority", ref FPriority);
         persister.Int("RequiredGold", ref FRequiredGold);
         persister.Int("RequiredMana", ref FRequiredMana);
@@ -51991,9 +52075,9 @@ public partial class TAIBudgetManager : TEObject
         Stream.rwInteger(ref FProductionManaUpkeep, 26);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Object("Budgets", FBudgets);
         persister.Int("Gold", ref FGold);
         persister.Int("Mana", ref FMana);
@@ -68600,9 +68684,9 @@ public partial class TUnitEnchantment : TEnchantment
         Stream.rwInteger(ref FUnitID, 21);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("EnchantmentAbilityID", ref FEnchantmentAbilityID);
         persister.Int("UnitID", ref FUnitID);
     }
@@ -68775,9 +68859,9 @@ public partial class TUnitEnchantmentAbilityData : TAbilityData
         Stream.rwShortintEx(ref FEnchantmentDuration, -1, 18);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.UShort("EnchantmentAbilityID", ref FEnchantmentAbilityID);
         persister.Created("Enchantment", ref FEnchantment);
         persister.SByte("EnchantmentPlayerIndex", ref FEnchantmentPlayerIndex, -1);
@@ -69203,9 +69287,9 @@ public partial class TCosmeticSurgeryEnchantment : TUnitEnchantment
         Stream.rwInteger(ref FFaceIndex, 25);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("FaceIndex", ref FFaceIndex);
     }
 
@@ -70658,6 +70742,16 @@ public partial class TUnitSpellCA : TCombatAction
         Stream.rwByte(ref FTargetID, 22);
         Stream.rwData(MemoryMarshal.AsBytes((Span<int>)FSpellData).Slice(0, 8), 8, 23);
         Stream.rwInteger(ref FMana, 24);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Int("SpellID", ref FSpellID);
+        persister.Byte("SourceID", ref FSourceID);
+        persister.Byte("TargetID", ref FTargetID);
+        PersistSupport.Int32Array(persister, "SpellData", FSpellData);
+        persister.Int("Mana", ref FMana);
     }
 
     // Spells.PAS:1111

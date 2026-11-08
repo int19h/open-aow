@@ -56,9 +56,9 @@ public partial class TEventLog : TEObject
         Stream.rwInteger(ref FID, 12);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("TEventLog.Day", ref FDay);
         PersistSupport.UnsignedByte(persister, "Player", ref FPlayer);
         persister.Int("ID", ref FID);
@@ -330,12 +330,12 @@ public partial class TMessageEventLog : TEventLog
         Stream.rwString(ref FTitle, 33);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         PersistSupport.Lines(persister, "Message", FMessage);
-        PersistSupport.ByteImage(persister, "Layout", ref FLayout);
-        PersistSupport.ByteImage(persister, "Buttons", ref FButtons);
+        persister.Enum("Layout", ref FLayout);
+        persister.Enum("Buttons", ref FButtons);
         persister.String("Title", ref FTitle);
     }
 

@@ -34,8 +34,8 @@ public sealed class MigrationChain
 
     public int Current { get; }
 
-    /// <summary>Version 1 is the first format. It has no earlier contract.</summary>
-    public static MigrationChain Default { get; } = new(OwnFormat.CurrentVersion, []);
+    /// <summary>Version 2 is the current format. Version 1 reaches it through the symbolic step.</summary>
+    public static MigrationChain Default { get; } = new(OwnFormat.CurrentVersion, [SymbolicMigration.Step]);
 
     /// <summary>Migrates a parsed document from its declared version to the current one.</summary>
     public JsonObject Migrate(JsonObject document, int version, List<string> applied)
