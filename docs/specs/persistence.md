@@ -6,7 +6,8 @@ code meets the shim, and the round trip milestone that proves it. The format des
 from `D:\git\aow\doc\persistence.md` and from `src/delphi3/Engine.pas` as read on 2026-10-24.
 Sections 1 and 5 were revised on 2026-11-06 for milestone 9.7 (brief 9.7-4): the format is the
 engine image and the format of the original files, and the disk format is the port's own
-(`own-formats.md`).
+(`own-formats.md`). Section 5 was revised on 2026-11-07 for PE-1, step 1 of the exit from the
+image (`persistence-tree.md`).
 
 The persistence code itself is transpiled, not rewritten: `TPropertyTable`, `TEStorageStream`,
 `TEReadStorageStream`, `TEWriteStorageStream`, `TCompareStorageStream`,
@@ -274,6 +275,11 @@ so a persisted `rwData` record keeps its explicit layout, and the own document h
 hex. A persisted record becomes a plain type only when step 2 of the exit from the image
 (`own-formats.md` 6.3) gives it an explicit field adapter. Until that exit, `ReadWrite`, the
 numeric `rw*` calls and raw `rwData` are transitional and no stable mod API.
+
+Step 1 of that exit is implemented for the pilot classes named in `persistence-tree.md`. It adds
+`Persist` beside `ReadWrite` on those classes, a typed tree in `Aow.Formats.Tree`, and a direct
+version 1 document backend. The game still loads and saves through `ReadWrite` and the converter.
+Step 3 is the switch.
 
 Milestone 9.6 (`unions-and-kinds.md` section 4) changed the model of two persisted classes and no
 byte of a file:

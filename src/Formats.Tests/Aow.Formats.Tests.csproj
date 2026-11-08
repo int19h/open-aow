@@ -5,6 +5,8 @@
   </PropertyGroup>
   <ItemGroup>
     <EmbeddedResource Include="Golden/*.json" LogicalName="Aow.Formats.Tests.Golden.%(Filename)%(Extension)" />
+    <None Include="TreeSchema.json" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="TreeSchemaV1.json" CopyToOutputDirectory="PreserveNewest" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5">

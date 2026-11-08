@@ -1025,9 +1025,10 @@ mods-design's proposal to stabilize them and the roadmap's deferral of named
 persistence until after milestone 10. 9.6 is not blocked by exit implementation.
 Mod work that still uses the bridge carries the stated temporary costs.
 
-None of the five steps is implemented. The private roadmap allocates them as briefs PE-1 to
-PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md` section 10
-names them as that step's prerequisite.
+Step 1 is implemented for the pilot classes in `persistence-tree.md`. `ReadWrite` and the
+converter remain the game's path until step 3. Steps 2 to 5 are not implemented. The private
+roadmap allocates the five steps as briefs PE-1 to PE-5 in its phase 8, before 10.4 publishes
+the API baseline, and `milestones.md` section 10 names them as that step's prerequisite.
 
 ### 6.4 Cross-document reconciliation
 
@@ -1260,11 +1261,13 @@ pins the rule to exactly one occurrence in that file.
   section 9.3.
   A persisted array keeps its original size until an adapter of X28 gives its extra entries a
   port-features property.
-- The exit (6.3). A typed persistence tree with a direct document backend, the legacy codecs as
-  adapters, the serializers migrated class by class, the transport separated from disk
-  persistence, and the proof. It is not implemented. It is a prerequisite of milestone 10: no
-  persistence interface becomes stable mod API before it, and the private roadmap allocates it
-  as briefs PE-1 to PE-5 before step 10.4 publishes the API baseline.
+- The exit (6.3). Step 1, the typed persistence tree and its direct document backend, is
+  implemented for the pilot scope in `persistence-tree.md`. Steps 2 to 5 (legacy codec adapters,
+  serializer migration, transport separated from disk persistence, and the proof) are not
+  implemented. `ReadWrite` and the converter remain the game's path until step 3. The exit is a
+  prerequisite of milestone 10: no persistence interface becomes stable mod API before it, and
+  the private roadmap allocates it as briefs PE-1 to PE-5 before step 10.4 publishes the API
+  baseline.
 
 ### 9.6 Open items
 

@@ -1,0 +1,474 @@
+using Aow.Formats.Json;
+using Aow.Formats.Original;
+using Aow.Formats.Schema;
+using Aow.Formats.Tree;
+
+namespace Aow.Formats.Tests;
+
+/// <summary>
+/// The persistence tree against a version 2 test schema. Version 1 of the game schema has no
+/// list and no record, so those shapes are proven here.
+/// </summary>
+public sealed class TreeTests : FormatsTest
+{
+    private static FormatSchema Schema { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchema.json")), "TreeSchema.json");
+
+    private static FormatSchema Version1 { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchemaV1.json")), "TreeSchemaV1.json");
+
+    private static SchemaClass SampleClass => Schema.Get("TSample");
+
+    [Fact]
+    public void EveryValueRoundTripsInSchemaOrder()
+    {
+        var source = Full();
+        var document = Write(source);
+        Assert.Equal(SampleClass.Properties.Select(p => p.Name).Where(name => document.Find(name) is not null), document.Members.Select(m => m.Name));
+        Assert.Equal("0a0b0c0d", ((JsonString)document["Blob"]!).Value);
+        Assert.Equal("Jörg", ((JsonString)document["Title"]!).Value);
+        Assert.Equal(4, ((JsonInteger)document["Player"]!).Value);
+        var readNode = DocumentBackend.Read(document, SampleClass, Schema, "game");
+        Assert.Equal([("Player", 4)], readNode.References("player-slot").ToList());
+        var loaded = new TSample();
+        TreeReader.Read(readNode, loaded, new TestFactory());
+        AssertSame(source, loaded);
+    }
+
+    [Fact]
+    public void FallbacksAndEmptyValuesAreAbsent()
+    {
+        var document = Write(new TSample());
+        Assert.Equal(["Blob", "Fixed", "Made", "Children", "Pair"], document.Members.Select(m => m.Name).ToList());
+        Assert.Equal("00000000", ((JsonString)document["Blob"]!).Value);
+        Assert.IsType<JsonNull>(document["Made"]);
+        Assert.Empty(((JsonObject)document["Fixed"]!).Members);
+        Assert.Empty(((JsonArray)document["Children"]!).Items);
+        Assert.Empty(((JsonObject)document["Pair"]!).Members);
+        var loaded = new TSample
+        {
+            Number = 1,
+            NumberFallback = 1,
+            Small = 1,
+            SmallFallback = 1,
+            SignedByte = 1,
+            Word = 1,
+            WordFallback = 1,
+            Flag = true,
+            Title = "x",
+            Note = "x",
+            Player = 3,
+            Blob = [9, 9, 9, 9],
+        };
+        loaded.Message.Add("x");
+        loaded.EditorLines.Add("x");
+        loaded.EditorObjects.Add(1);
+        loaded.Scores.Add(1);
+        loaded.Flags.Add(true);
+        loaded.Kids.Add(new TInner { N = 1 });
+        loaded.Made = new TInner { N = 1 };
+        loaded.Fixed.N = 5;
+        TreeReader.Read(DocumentBackend.Read(document, SampleClass, Schema, "game"), loaded, new TestFactory());
+        AssertSame(new TSample(), loaded);
+    }
+
+    [Fact]
+    public void NonZeroFallbacksAndBoundariesRoundTrip()
+    {
+        var source = new TSample
+        {
+            Number = int.MinValue,
+            NumberFallback = 0,
+            Small = 255,
+            SmallFallback = 0,
+            SignedByte = -128,
+            Word = 65535,
+            WordFallback = 0,
+            Flag = true,
+        };
+        var loaded = RoundTrip(source);
+        Assert.Equal(int.MinValue, loaded.Number);
+        Assert.Equal(0, loaded.NumberFallback);
+        Assert.Equal(255, loaded.Small);
+        Assert.Equal(0, loaded.SmallFallback);
+        Assert.Equal(-128, loaded.SignedByte);
+        Assert.Equal(65535, loaded.Word);
+        Assert.Equal(0, loaded.WordFallback);
+        Assert.True(loaded.Flag);
+        var other = RoundTrip(new TSample { Number = int.MaxValue, NumberFallback = 8, SmallFallback = 255, SignedByte = 127, WordFallback = 65535 });
+        Assert.Equal(int.MaxValue, other.Number);
+        Assert.Equal(8, other.NumberFallback);
+        Assert.Equal(255, other.SmallFallback);
+        Assert.Equal(127, other.SignedByte);
+        Assert.Equal(65535, other.WordFallback);
+    }
+
+    [Fact]
+    public void AnEmptyByteSpanIsOmittedAndAnAbsentValueLeavesTheSpan()
+    {
+        var empty = new BytesProbe();
+        var node = TreeWriter.Write(empty, new TestFactory());
+        Assert.Null(node.Find("Blob"));
+        var kept = new BytesProbe { Data = [9, 9] };
+        TreeReader.Read(node, kept, new TestFactory());
+        Assert.Equal([9, 9], kept.Data);
+        var wrong = new BytesProbe { Data = [1, 2] };
+        var mismatch = Assert.Throws<ConversionException>(() => TreeReader.Read(TreeWriter.Write(new BytesProbe { Data = [1, 2, 3, 4] }, new TestFactory()), wrong, new TestFactory()));
+        Assert.Equal(Codes.Range, mismatch.Diagnostic.Code);
+        Assert.Equal("root.Blob", mismatch.Diagnostic.Path);
+        var shortNode = new ObjectNode(null, null);
+        shortNode.Add("Blob", new BytesNode([1, 2]));
+        var size = Assert.Throws<ConversionException>(() => DocumentBackend.Write(shortNode, SampleClass, Schema, "game"));
+        Assert.Equal(Codes.Range, size.Diagnostic.Code);
+        Assert.Equal("root.Blob", size.Diagnostic.Path);
+    }
+
+    [Fact]
+    public void ALineThatHoldsCrIsStoredAsText()
+    {
+        var source = new TSample();
+        source.Message.Add("a\rb");
+        var document = Write(source);
+        Assert.Equal("a\rb\r\n", ((JsonString)((JsonObject)document["Message"]!)["$text"]!).Value);
+    }
+
+    [Fact]
+    public void ALineWithObjectsThatHoldsCrIsRefusedAsTheConverterRefusesIt()
+    {
+        var source = new TSample();
+        source.EditorLines.Add("a\rb");
+        source.EditorObjects.Add(1);
+        var node = TreeWriter.Write(source, new TestFactory());
+        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, SampleClass, Schema, "game"));
+        Assert.Equal(Codes.Corrupt, error.Diagnostic.Code);
+        Assert.Equal("root.Editors", error.Diagnostic.Path);
+    }
+
+    [Fact]
+    public void AnUnconsumedMemberIsAnErrorWithItsPath()
+    {
+        var source = new TSample { SkipNote = true, Note = "kept" };
+        var node = TreeWriter.Write(new TSample { Note = "kept" }, new TestFactory());
+        var error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, source, new TestFactory()));
+        Assert.Equal(Codes.Required, error.Diagnostic.Code);
+        Assert.Equal("root.Note", error.Diagnostic.Path);
+        Assert.Contains("was not read", error.Diagnostic.Message, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void HasDoesNotConsumeAMember()
+    {
+        var node = TreeWriter.Write(new TSample { Note = "kept" }, new TestFactory());
+        var target = new TSample { SkipNote = true };
+        var error = Assert.Throws<ConversionException>(() => TreeReader.Read(node, target, new TestFactory()));
+        Assert.Equal("root.Note", error.Diagnostic.Path);
+        Assert.True(target.HadNote);
+    }
+
+    [Fact]
+    public void AnUnknownMemberIsAnErrorWithItsPath()
+    {
+        var document = Write(new TSample());
+        document.Add("Nope", new JsonInteger(1));
+        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
+        Assert.Equal(Codes.UnknownMember, error.Diagnostic.Code);
+        Assert.Equal("root.Nope", error.Diagnostic.Path);
+        var nested = Write(new TSample());
+        ((JsonObject)nested["Fixed"]!).Add("Nope", new JsonInteger(1));
+        var nestedError = Assert.Throws<ConversionException>(() => DocumentBackend.Read(nested, SampleClass, Schema, "game"));
+        Assert.Equal("root.Fixed.Nope", nestedError.Diagnostic.Path);
+    }
+
+    [Fact]
+    public void ADuplicateMemberIsRefused()
+    {
+        var document = Write(new TSample());
+        document.Add("Fixed", new JsonObject());
+        var error = Assert.Throws<ConversionException>(() => DocumentBackend.Read(document, SampleClass, Schema, "game"));
+        Assert.Equal(Codes.Duplicate, error.Diagnostic.Code);
+        Assert.Equal("root.Fixed", error.Diagnostic.Path);
+        var twice = Assert.Throws<ConversionException>(() => TreeWriter.Write(new Twice { Number = 1 }, new TestFactory()));
+        Assert.Equal(Codes.Duplicate, twice.Diagnostic.Code);
+        Assert.Equal("root.Number", twice.Diagnostic.Path);
+    }
+
+    [Fact]
+    public void AListLongerThanAFixedArrayRoundTrips()
+    {
+        var source = new TSample();
+        for (int i = 0; i < 300; i++) source.Scores.Add(i - 10);
+        source.Scores[0] = 0;
+        source.Scores[1] = int.MinValue;
+        source.Scores[2] = int.MaxValue;
+        source.Flags.Add(false);
+        source.Flags.Add(true);
+        var document = Write(source);
+        Assert.Equal(300, ((JsonArray)document["Scores"]!).Items.Count);
+        Assert.Equal(0, ((JsonInteger)((JsonArray)document["Scores"]!).Items[0]).Value);
+        Assert.False(((JsonBool)((JsonArray)document["Flags"]!).Items[0]).Value);
+        Assert.True(((JsonBool)((JsonArray)document["Flags"]!).Items[1]).Value);
+        AssertSame(source, RoundTrip(source));
+    }
+
+    [Fact]
+    public void ARecordThatGainsAFieldReadsTheOlderDocumentWithTheFallback()
+    {
+        var older = (JsonObject)JsonReader.Parse("""{"Pair":{"A":2}}""", "older.json");
+        var loaded = new TSample();
+        TreeReader.Read(DocumentBackend.Read(older, SampleClass, Schema, "game"), loaded, new TestFactory());
+        Assert.Equal(2, loaded.PairA);
+        Assert.Equal(4, loaded.PairB);
+        var absent = new TSample { PairA = 9, PairB = 9 };
+        TreeReader.Read(DocumentBackend.Read(new JsonObject(), SampleClass, Schema, "game"), absent, new TestFactory());
+        Assert.Equal(0, absent.PairA);
+        Assert.Equal(4, absent.PairB);
+        var written = Write(new TSample { PairA = 2, PairB = 4 });
+        Assert.Equal(["A"], ((JsonObject)written["Pair"]!).Members.Select(m => m.Name).ToList());
+    }
+
+    [Fact]
+    public void Version1RefusesAListAndARecordWithThePath()
+    {
+        var list = new ObjectNode(null, null);
+        list.Add("Extra", new ListNode());
+        var listError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(list, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game"));
+        Assert.Equal(Codes.Type, listError.Diagnostic.Code);
+        Assert.Equal("root.Extra", listError.Diagnostic.Path);
+        Assert.Equal("Version 1 does not store a list.", listError.Diagnostic.Message);
+        var record = new ObjectNode(null, null);
+        record.Add("Extra", new RecordNode());
+        var recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game"));
+        Assert.Equal("root.Extra", recordError.Diagnostic.Path);
+        Assert.Equal("Version 1 does not store a record.", recordError.Diagnostic.Message);
+
+        var schema = Version1;
+        var cls = schema.Get("TRefuse");
+        var scores = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Scores":[1,2]}""", "list.json"), cls, schema, "game"));
+        Assert.Equal("root.Scores", scores.Diagnostic.Path);
+        Assert.Equal("Version 1 does not store a list.", scores.Diagnostic.Message);
+        var pair = Assert.Throws<ConversionException>(() => DocumentBackend.Read((JsonObject)JsonReader.Parse("""{"Pair":{"A":1}}""", "record.json"), cls, schema, "game"));
+        Assert.Equal("root.Pair", pair.Diagnostic.Path);
+        Assert.Equal("Version 1 does not store a record.", pair.Diagnostic.Message);
+        var node = new ObjectNode(null, null);
+        node.Add("Scores", new ListNode());
+        var written = Assert.Throws<ConversionException>(() => DocumentBackend.Write(node, cls, schema, "game"));
+        Assert.Equal("root.Scores", written.Diagnostic.Path);
+        Assert.Equal("Version 1 does not store a list.", written.Diagnostic.Message);
+    }
+
+    [Fact]
+    public void Version1WritesAReferenceAsAPlainInteger()
+    {
+        var node = new ObjectNode(null, null);
+        node.Add("Upkeep", new ReferenceNode("player-slot", 4));
+        var document = DocumentBackend.Write(node, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game");
+        Assert.Equal(4, ((JsonInteger)document["Upkeep"]!).Value);
+        var read = DocumentBackend.Read(document, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game");
+        Assert.IsType<IntegerNode>(read.Find("Upkeep"));
+        var probe = new ReferenceProbe();
+        TreeReader.Read(node, probe, new TestFactory());
+        Assert.Equal(4, probe.Key);
+        var fromDocument = new ReferenceProbe();
+        TreeReader.Read(read, fromDocument, new TestFactory());
+        Assert.Equal(4, fromDocument.Key);
+    }
+
+    private static JsonObject Write(TSample sample) =>
+        DocumentBackend.Write(TreeWriter.Write(sample, new TestFactory()), SampleClass, Schema, "game");
+
+    private static TSample RoundTrip(TSample sample)
+    {
+        var loaded = new TSample();
+        TreeReader.Read(DocumentBackend.Read(Write(sample), SampleClass, Schema, "game"), loaded, new TestFactory());
+        return loaded;
+    }
+
+    private static TSample Full()
+    {
+        var sample = new TSample
+        {
+            Number = int.MinValue,
+            NumberFallback = 8,
+            Small = 255,
+            SmallFallback = 1,
+            SignedByte = 127,
+            Word = 65535,
+            WordFallback = 10,
+            Flag = true,
+            Title = "Jörg",
+            Note = "seen",
+            Player = 4,
+            Blob = [0x0A, 0x0B, 0x0C, 0x0D],
+            PairA = 1,
+            PairB = 5,
+            Made = new TInner { N = 5 },
+        };
+        sample.Message.Add("one");
+        sample.Message.Add("two");
+        sample.EditorLines.Add("");
+        sample.EditorObjects.Add(0);
+        sample.EditorLines.Add("Gate");
+        sample.EditorObjects.Add(4);
+        sample.Scores.Add(0);
+        sample.Scores.Add(int.MaxValue);
+        sample.Flags.Add(false);
+        sample.Flags.Add(true);
+        sample.Kids.Add(new TInner { N = 1 });
+        sample.Kids.Add(new TInner());
+        return sample;
+    }
+
+    private static void AssertSame(TSample expected, TSample actual)
+    {
+        Assert.Equal(expected.Number, actual.Number);
+        Assert.Equal(expected.NumberFallback, actual.NumberFallback);
+        Assert.Equal(expected.Small, actual.Small);
+        Assert.Equal(expected.SmallFallback, actual.SmallFallback);
+        Assert.Equal(expected.SignedByte, actual.SignedByte);
+        Assert.Equal(expected.Word, actual.Word);
+        Assert.Equal(expected.WordFallback, actual.WordFallback);
+        Assert.Equal(expected.Flag, actual.Flag);
+        Assert.Equal(expected.Title, actual.Title);
+        Assert.Equal(expected.Note, actual.Note);
+        Assert.Equal(expected.Player, actual.Player);
+        Assert.Equal(expected.Blob, actual.Blob);
+        Assert.Equal(expected.PairA, actual.PairA);
+        Assert.Equal(expected.PairB, actual.PairB);
+        Assert.Equal(expected.Message, actual.Message);
+        Assert.Equal(expected.EditorLines, actual.EditorLines);
+        Assert.Equal(expected.EditorObjects, actual.EditorObjects);
+        Assert.Equal(expected.Scores, actual.Scores);
+        Assert.Equal(expected.Flags, actual.Flags);
+        Assert.Equal(expected.Kids.Select(k => k.N).ToList(), actual.Kids.Select(k => k.N).ToList());
+        Assert.Equal(expected.Made is TInner made ? made.N : -1, actual.Made is TInner loaded ? loaded.N : -1);
+        Assert.Equal(expected.Fixed.N, actual.Fixed.N);
+    }
+
+    private sealed class TInner : IPersistable
+    {
+        public int N;
+
+        public void Persist(IPersister persister) => persister.Int("N", ref N);
+    }
+
+    private sealed class TSample : IPersistable
+    {
+        public int Number;
+        public int NumberFallback = 7;
+        public byte Small;
+        public byte SmallFallback = 3;
+        public sbyte SignedByte;
+        public ushort Word;
+        public ushort WordFallback = 9;
+        public bool Flag;
+        public string Title = "";
+        public string Note = "";
+        public int Player;
+        public byte[] Blob = new byte[4];
+        public int PairA;
+        public int PairB = 4;
+        public bool SkipNote;
+        public bool HadNote;
+
+        public TInner Fixed { get; } = new();
+
+        public IPersistable? Made;
+
+        public List<string> Message { get; } = [];
+        public List<string> EditorLines { get; } = [];
+        public List<int> EditorObjects { get; } = [];
+        public List<int> Scores { get; } = [];
+        public List<bool> Flags { get; } = [];
+        public List<TInner> Kids { get; } = [];
+
+        public void Persist(IPersister persister)
+        {
+            if (persister.Loading) Kids.Clear();
+            persister.Reference("Player", "player-slot", ref Player);
+            persister.List("Flags", Flags, FlagItem);
+            persister.List("Scores", Scores, ScoreItem);
+            persister.Record("Pair", WritePair);
+            persister.Children("Children", new KidList(Kids));
+            persister.Created("Made", ref Made);
+            persister.Object("Fixed", Fixed);
+            persister.Bytes("Blob", Blob);
+            persister.LinesWithObjects("Editors", EditorLines, EditorObjects);
+            persister.Lines("Message", Message);
+            persister.String("Title", ref Title);
+            persister.Bool("Flag", ref Flag);
+            persister.UShort("WordFallback", ref WordFallback, 9);
+            persister.UShort("Word", ref Word);
+            persister.SByte("SignedByte", ref SignedByte);
+            persister.Byte("SmallFallback", ref SmallFallback, 3);
+            persister.Byte("Small", ref Small);
+            persister.Int("NumberFallback", ref NumberFallback, 7);
+            persister.Int("Number", ref Number);
+            if (SkipNote) HadNote = persister.Has("Note");
+            else persister.String("Note", ref Note);
+        }
+
+        private void WritePair(IPersister record)
+        {
+            record.Int("B", ref PairB, 4);
+            record.Int("A", ref PairA);
+        }
+
+        private static void ScoreItem(IItemSlot slot, ref int value) => slot.Int(ref value);
+
+        private static void FlagItem(IItemSlot slot, ref bool value) => slot.Bool(ref value);
+    }
+
+    private sealed class KidList(List<TInner> kids) : IChildCollection
+    {
+        public int Count => kids.Count;
+
+        public IPersistable Get(int index) => kids[index];
+
+        public bool IsStored(int index) => true;
+
+        public int Slot(int index) => index;
+
+        public bool KeepIndex => false;
+
+        public void Attach(IPersistable child)
+        {
+        }
+
+        public void Place(int slot, IPersistable child) => kids.Add((TInner)child);
+    }
+
+    private sealed class BytesProbe : IPersistable
+    {
+        public byte[] Data = [];
+
+        public void Persist(IPersister persister) => persister.Bytes("Blob", Data);
+    }
+
+    private sealed class Twice : IPersistable
+    {
+        public int Number;
+
+        public void Persist(IPersister persister)
+        {
+            persister.Int("Number", ref Number);
+            persister.Int("Number", ref Number);
+        }
+    }
+
+    private sealed class ReferenceProbe : IPersistable
+    {
+        public int Key;
+
+        public void Persist(IPersister persister) => persister.Reference("Upkeep", "player-slot", ref Key);
+    }
+
+    private sealed class TestFactory : IPersistableFactory
+    {
+        public string ClassName(IPersistable obj) => obj.GetType().Name;
+
+        public IPersistable Create(string className) => className switch
+        {
+            nameof(TInner) => new TInner(),
+            nameof(TSample) => new TSample(),
+            _ => throw new InvalidOperationException("The test factory has no class " + className + "."),
+        };
+    }
+}

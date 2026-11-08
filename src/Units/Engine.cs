@@ -1,6 +1,7 @@
 // Translated from Engine.pas.
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.FMemStr;
 using static Aow.Rtl.RtlUnit;
@@ -4243,7 +4244,7 @@ public partial class TPropertyTable : TObject
 }
 
 // FOwner
-public partial class TEObject : TObject
+public partial class TEObject : TObject, IPersistable
 {
     // Engine.pas:2461
     public const int ClassID = 80;
@@ -4321,6 +4322,23 @@ public partial class TEObject : TObject
     // Engine.pas:2590
     public virtual void ReadWrite(TEStorageStream Stream)
     {
+    }
+
+    // Tree form of ReadWrite. MainPersist is the stored image.
+    public virtual void Persist(IPersister persister)
+    {
+    }
+
+    void IPersistable.Persist(IPersister persister) => MainPersist(persister);
+
+    public virtual void MainPersist(IPersister persister)
+    {
+        if (persister.Loading)
+        {
+            Clear();
+        }
+
+        Persist(persister);
     }
 
     // Engine.pas:2594
@@ -4512,6 +4530,17 @@ public partial class TECustomNode : TEObject
 
         ReadWrite(Stream);
         ReadWriteChildren(Stream);
+    }
+
+    public override void MainPersist(IPersister persister)
+    {
+        if (persister.Loading)
+        {
+            Clear();
+        }
+
+        Persist(persister);
+        persister.Children("Children", new NodeChildren(this));
     }
 
     // Engine.pas:2626
@@ -5650,6 +5679,14 @@ public partial class TEResource : TEObject
         Stream.rwInteger(ref FResourceID, 1);
         Stream.rwInteger(ref FEditID, 2);
         Stream.rwInteger(ref FEditIndex, 3);
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        persister.Int("ResourceID", ref FResourceID);
+        persister.Int("EditID", ref FEditID);
+        persister.Int("EditIndex", ref FEditIndex);
     }
 
     // Engine.pas:8519
@@ -8316,6 +8353,11 @@ public partial class TEControlStyleObject : TEObject
         RwSet(ref FControlStyle, 1, 1, Stream.rwData, 0);
     }
 
+    public override void Persist(IPersister persister)
+    {
+        PersistSupport.Set(persister, "ControlStyle", ref FControlStyle);
+    }
+
 }
 
 // FControlStyle
@@ -8607,6 +8649,12 @@ public partial class TEResourceEditSettings : TEControlStyleObject
         {
             Stream.rwStringsEx(FEditors, 3);
         }
+    }
+
+    public override void Persist(IPersister persister)
+    {
+        base.Persist(persister);
+        PersistSupport.LinesEx(persister, "Editors", FEditors);
     }
 
     public TStringList Editors { get => FEditors; }

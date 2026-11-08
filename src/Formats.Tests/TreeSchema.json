@@ -1,0 +1,42 @@
+{
+  "format": "OpenAoW-schema",
+  "version": 2,
+  "classes": [
+    {
+      "name": "TInner",
+      "inherits": false,
+      "properties": [
+        {"name": "N", "codec": "i32"}
+      ]
+    },
+    {
+      "name": "TSample",
+      "inherits": false,
+      "properties": [
+        {"name": "Number", "codec": "i32"},
+        {"name": "NumberFallback", "codec": "i32"},
+        {"name": "Small", "codec": "u8"},
+        {"name": "SmallFallback", "codec": "u8"},
+        {"name": "SignedByte", "codec": "i8"},
+        {"name": "Word", "codec": "u16"},
+        {"name": "WordFallback", "codec": "u16"},
+        {"name": "Flag", "codec": "bool"},
+        {"name": "Title", "codec": "string"},
+        {"name": "Message", "codec": "strings"},
+        {"name": "Editors", "codec": "strings-ex"},
+        {"name": "Blob", "codec": "data", "size": 4},
+        {"name": "Fixed", "codec": "object", "class": "TInner"},
+        {"name": "Made", "codec": "created", "family": "TInner"},
+        {"name": "Children", "codec": "children"},
+        {"name": "Player", "codec": "i32", "domain": "player-slot"},
+        {"name": "Scores", "codec": "list", "element": {"codec": "i32"}},
+        {"name": "Flags", "codec": "list", "element": {"codec": "bool"}},
+        {"name": "Pair", "codec": "record", "fields": [
+          {"name": "A", "codec": "i32"},
+          {"name": "B", "codec": "i32"}
+        ]},
+        {"name": "Note", "codec": "string"}
+      ]
+    }
+  ]
+}
