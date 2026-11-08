@@ -1,18 +1,21 @@
+using System.Globalization;
 using Aow.Formats.Tree;
 using Aow.Rtl;
+using Aow.Units.AoWE;
 using static Aow.Rtl.RtlUnit;
+using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Engine;
 
 // The engine side of the persistence tree. Formats does not name these types.
 public sealed class EnginePersistableFactory : IPersistableFactory
 {
-    public static EnginePersistableFactory Instance { get; } = new();
-
+    private readonly TAoWEngine engine;
     private readonly Dictionary<string, EClass> byName;
 
-    public EnginePersistableFactory()
+    public EnginePersistableFactory(TAoWEngine engine)
     {
+        this.engine = engine ?? throw new InvalidOperationException("The engine is not running.");
         byName = new Dictionary<string, EClass>();
         foreach (var eclass in EClass.All)
             if (!byName.TryAdd(eclass.ClassName, eclass))
@@ -21,8 +24,16 @@ public sealed class EnginePersistableFactory : IPersistableFactory
 
     public string ClassName(IPersistable obj) => TObject.ClassNameOf(obj.GetType());
 
-    public IPersistable Create(string className) =>
-        byName.TryGetValue(className, out var eclass) ? eclass.Create(null) : throw new InvalidOperationException("The engine has no class " + className + ".");
+    public void Release(IPersistable obj) => (obj as TObject)?.Free();
+
+    public IPersistable Create(string className)
+    {
+        if (!byName.TryGetValue(className, out var eclass))
+            throw new InvalidOperationException("The engine has no class " + className + ".");
+        if (engine.ClassTable.Find(eclass.ClassID) is not EClass registered || registered.ClassName != eclass.ClassName)
+            throw Exception.Create("Unregistered E-ClassID found (" + eclass.ClassID.ToString(CultureInfo.InvariantCulture) + ")");
+        return registered.Create(null);
+    }
 }
 
 public sealed class NodeChildren(TECustomNode node) : IChildCollection
@@ -56,6 +67,9 @@ public sealed class NodeChildren(TECustomNode node) : IChildCollection
 
 public static class PersistSupport
 {
+    public static void Record<T>(IPersister persister, string name, ref T value) where T : unmanaged =>
+        RecordValues.Transfer(persister, name, ref value);
+
     public static void UnsignedByte(IPersister persister, string name, ref sbyte value)
     {
         byte stored = unchecked((byte)value);

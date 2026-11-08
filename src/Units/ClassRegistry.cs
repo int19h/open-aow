@@ -1238,5 +1238,7 @@ internal static class ClassRegistry
         FormatMapping.Register("TProductionItem", new ProductionOrderCases());
         FormatMapping.Register("TDiplomaticAction", new DiplomaticProposalCases());
         Aow.Formats.EnumCatalog.RegisterReflection(typeof(ClassRegistry).Assembly);
+        Aow.Formats.Tree.RecordCatalog.RegisterReflection(typeof(ClassRegistry).Assembly);
+        Aow.Formats.Tree.RecordCatalog.RegisterReflection(typeof(Aow.Rtl.TRect).Assembly);
     }
 }

@@ -300,6 +300,8 @@ public partial class TFileDlgWindow : TDataModule
             var objectValue = AoWFileDialogUnit.Files.Objects[I];
             DateLB.Items.AddObject(dateTimeToStr, objectValue);
         }
+
+        RestoreSortOrder();
     }
 
     // AoWFileDialog.pas:296
@@ -668,8 +670,14 @@ public partial class TFileDlgWindow : TDataModule
     // AoWFileDialog.pas:522
     public void SaveBtnClick(TObject Sender)
     {
-        string Selected = "";
         General.PlayButtonSound(0);
+        RememberSortByDate(false);
+        SortByName();
+    }
+
+    internal void SortByName()
+    {
+        string Selected = "";
         if (FileLB.Selected != -1)
         {
             Selected = FileLB.Items[FileLB.Selected];
@@ -713,8 +721,14 @@ public partial class TFileDlgWindow : TDataModule
     // AoWFileDialog.pas:549
     public void DateBtnClick(TObject Sender)
     {
-        string Selected = "";
         General.PlayButtonSound(0);
+        RememberSortByDate(true);
+        SortByDate();
+    }
+
+    internal void SortByDate()
+    {
+        string Selected = "";
         if (FileLB.Selected != -1)
         {
             Selected = FileLB.Items[FileLB.Selected];

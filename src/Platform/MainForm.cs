@@ -263,6 +263,8 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 
     public void MouseMove(TSet<TShiftState> shift, int x, int y) { Display.MouseButtons = shift; General.Manager.CheckMouseMove(shift, x, y); }
 
+    public void MouseWheel(int steps, TSet<TShiftState> shift, int x, int y) => General.Manager.CheckMouseWheel(steps, shift, x, y);
+
     public void KeyDown(ushort key, TSet<TShiftState> shift)
     {
         if (key == 13 && shift.Contains(TShiftState.ssAlt)) { Display.SwapDC(); return; }

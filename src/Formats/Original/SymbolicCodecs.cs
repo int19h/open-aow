@@ -37,7 +37,7 @@ internal static class IntegerBytes
 }
 
 /// <summary>One enum byte or wider integer. A declared value is its C# member name. Any other value is its integer.</summary>
-internal sealed class EnumCodec : PropertyCodec
+internal sealed partial class EnumCodec : PropertyCodec
 {
     public EnumCodec(string typeName, int width, bool signed)
     {
@@ -127,7 +127,7 @@ internal sealed class EnumCodec : PropertyCodec
 }
 
 /// <summary>A set stored in a fixed number of bytes. The document is member names in ascending ordinal order, and integers for bits the enum does not name.</summary>
-internal sealed class SetCodec : PropertyCodec
+internal sealed partial class SetCodec : PropertyCodec
 {
     public SetCodec(string typeName, int width)
     {
@@ -228,7 +228,7 @@ internal sealed class SetCodec : PropertyCodec
 /// A fixed integer array. Version 2 stores every element, including trailing zeros.
 /// A longer list is kept by the document and refused on export. A shorter list fills the rest with zero on export.
 /// </summary>
-internal sealed class FixedArrayCodec : PropertyCodec
+internal sealed partial class FixedArrayCodec : PropertyCodec
 {
     public FixedArrayCodec(int width, bool signed, int count)
     {

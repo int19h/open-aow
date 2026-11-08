@@ -18131,6 +18131,21 @@ public partial class TCustomAbilityList : TEObject
         }
     }
 
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        int count = FAbilityCount;
+        persister.Int("AbCount", ref count);
+        if (persister.Loading) SetAbCount(count);
+        int length = (int)(((uint)(FAbilityCount + 7)) >> 3);
+        persister.BitArray("AbilityCount", FAbilityCount, FAbilityBits.AsSpan(0, length));
+        for (int index = 0; index < FAbilityCount; index++)
+        {
+            if (GetAbSet(index) && AoWEUnit.AoWHSSet.FAbilityControl.GetAbility(index) == null)
+                SetAbSet(index, 0);
+        }
+    }
+
     // Ability.PAS:948
     public override void Clear()
     {
@@ -44173,6 +44188,14 @@ public partial class TDamageCA : TSingleTargetCA
         Stream.rwData(Bytes.Of(ref FDamageTypes, 2), 2, 17);
     }
 
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Byte("Damage", ref FDamage);
+        PersistSupport.Record(persister, "Effects", ref FEffects);
+        PersistSupport.Record(persister, "DamageTypes", ref FDamageTypes);
+    }
+
     // Combat2.pas:817
     public override void Execute(TCombat Combat)
     {
@@ -53654,6 +53677,26 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
         Stream.rwInteger(ref FManaBudget, 30);
         Stream.rwInteger(ref FTargetMovePoints, 31);
         Stream.rwData(Bytes.Of(ref FTargetMode, 1), 1, 32);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Int("GroupID", ref FGroupID);
+        persister.Int("TransporterID", ref FTransporterID, -1);
+        persister.Int("LeaderID", ref FLeaderID, -1);
+        int target = FTargetXYL.XYL;
+        persister.Int("TargetXYL", ref target);
+        if (persister.Loading) FTargetXYL.XYL = target;
+        persister.Enum("TargetType", ref FTargetType);
+        PersistSupport.UnsignedByte(persister, "Player", ref FPlayer);
+        persister.RawSByte("IndependentRelation", ref FIndependentRelation);
+        persister.Byte("ProcessPriority", ref FProcessPriority);
+        persister.Byte("RecruitmentPriority", ref FRecruitmentPriority);
+        persister.Int("GoldBudget", ref FGoldBudget);
+        persister.Int("ManaBudget", ref FManaBudget);
+        persister.Int("TargetMovePoints", ref FTargetMovePoints);
+        persister.RawByte("TargetMode", ref FTargetMode);
     }
 
     // AIGroup.pas:88

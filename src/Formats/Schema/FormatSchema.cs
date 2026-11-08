@@ -36,7 +36,14 @@ public sealed class FormatSchema
 
     private static readonly Lazy<FormatSchema> embedded = new(LoadEmbedded);
 
-    public static FormatSchema Current => embedded.Value;
+    /// <summary>
+    /// A test installs a schema here so one migration step can be observed not to read <see cref="Current"/>.
+    /// Production leaves it null. <see cref="Current"/> is then the embedded schema after one null comparison.
+    /// The persist path does not read this field.
+    /// </summary>
+    internal static FormatSchema? Substituted;
+
+    public static FormatSchema Current => Substituted ?? embedded.Value;
 
     private static FormatSchema LoadEmbedded()
     {

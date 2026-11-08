@@ -55,6 +55,8 @@ internal sealed partial class IntegerCodec
 
 internal sealed partial class BoolCodec
 {
+    internal override bool StoresImage(TreeValue value) => value is not BoolNode { Value: false };
+
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         if (value is not BoolNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is a boolean.");
@@ -172,6 +174,15 @@ internal sealed partial class DataCodec
 
 internal sealed partial class FixedObjectCodec
 {
+    internal override void WriteImage(TreeValue value, EncodeContext ctx, ByteBuffer data, ImageFrame frame)
+    {
+        if (value is not ObjectNode node) throw ctx.Fail(Codes.Type, (frame.Property.Name) + " is an object.", null, frame.Path);
+        ImageTree.WriteBody(node, ctx.Schema.Get(ClassName), ctx, data, frame.Path, false);
+    }
+
+    internal override TreeValue ReadImage(DecodeContext ctx, int start, int end, ImageFrame frame) =>
+        ImageTree.ReadBody(ctx, start, end, ctx.Schema.Get(ClassName), frame.Path, null, null);
+
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         if (value is not ObjectNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an object.");
@@ -187,6 +198,51 @@ internal sealed partial class FixedObjectCodec
 
 internal sealed partial class CreatedObjectCodec
 {
+    internal override void WriteImage(TreeValue value, EncodeContext ctx, ByteBuffer data, ImageFrame frame)
+    {
+        if (value is NullNode)
+        {
+            data.Int32(0);
+            return;
+        }
+        if (value is not ObjectNode node || node.ClassName is not string name)
+            throw ctx.Fail(Codes.Type, frame.Property.Name + " is an object or null.", null, frame.Path);
+        var cls = Resolve(ctx, name, frame);
+        var shape = ctx.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, cls.Name);
+        data.Int32(cls.Id!.Value);
+        ImageTree.WriteBody(node, shape?.Shape ?? cls, ctx, data, frame.Path, true);
+    }
+
+    internal override TreeValue ReadImage(DecodeContext ctx, int start, int end, ImageFrame frame)
+    {
+        ctx.Need(start, 4, end, frame.Path, "class id");
+        int classId = ctx.Int32(start);
+        if (classId == 0)
+        {
+            if (end != start + 4) throw ctx.Fail(Codes.Corrupt, "Bytes follow a nil object.", start + 4, frame.Path);
+            return NullNode.Instance;
+        }
+        var cls = ctx.Schema.Resolve(ctx.Engine, classId)
+            ?? throw ctx.Fail(Codes.UnknownClass, "Class id " + classId.ToString(System.Globalization.CultureInfo.InvariantCulture) + " is not in the " + ctx.Engine + " engine table.", start, frame.Path, classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        var shape = ctx.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, cls.Name);
+        if (shape is null && Family is not null && !cls.InheritsFrom(Family))
+            throw ctx.Fail(Codes.ClassFamily, "Class " + cls.Name + " is not a " + Family + ".", start, frame.Path, cls.Name, Family);
+        if (shape is { } legacy)
+            ctx.Counts.LegacyRules[legacy.Rule] = ctx.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
+        return ImageTree.ReadBody(ctx, start + 4, end, shape?.Shape ?? cls, frame.Path, cls.Name, null);
+    }
+
+    private SchemaClass Resolve(EncodeContext ctx, string name, ImageFrame frame)
+    {
+        var cls = ctx.Schema.Find(name)
+            ?? throw ctx.Fail(Codes.UnknownClass, "Unknown class " + name + ".", null, frame.Path, name);
+        if (cls.Id is not int id || ctx.Schema.Resolve(ctx.Engine, id) != cls)
+            throw ctx.Fail(Codes.UnknownClass, "Class " + cls.Name + " is not in the " + ctx.Engine + " engine table.", null, frame.Path, cls.Name);
+        if (Family is not null && ctx.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, cls.Name) is null && !cls.InheritsFrom(Family))
+            throw ctx.Fail(Codes.ClassFamily, "Class " + cls.Name + " is not a " + Family + ".", null, frame.Path, cls.Name, Family);
+        return cls;
+    }
+
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         if (value is NullNode) return new JsonNull();
@@ -208,6 +264,70 @@ internal sealed partial class CreatedObjectCodec
 
 internal sealed partial class ChildrenCodec
 {
+    internal override void WriteImage(TreeValue value, EncodeContext ctx, ByteBuffer data, ImageFrame frame)
+    {
+        if (value is not ChildListNode node) throw ctx.Fail(Codes.Type, frame.Property.Name + " is an array.", null, frame.Path);
+        if (node.Children.Count > ctx.Limits.CollectionItems)
+            throw ctx.Fail(Codes.Limit, "A collection has too many items.", null, frame.Path, null, "at most " + ctx.Limits.CollectionItems + " items");
+        var writer = new ObjectWriter();
+        var slots = new HashSet<int>();
+        for (int i = 0; i < node.Children.Count; i++)
+        {
+            var child = node.Children[i];
+            var itemPath = frame.Path.Item(i);
+            if (child.Slot is not int slot || slot < 0)
+                throw ctx.Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.", null, itemPath);
+            if (!slots.Add(slot))
+                throw ctx.Fail(Codes.Slot, "Child slot " + slot + " is declared twice.", null, itemPath.Member("$slot"));
+            if (child.ClassName is not string name)
+                throw ctx.Fail(Codes.MissingMember, "A child needs a class.", null, itemPath);
+            var cls = ctx.Schema.Find(name)
+                ?? throw ctx.Fail(Codes.UnknownClass, "Unknown class " + name + ".", null, itemPath, name);
+            if (cls.Id is not int id || ctx.Schema.Resolve(ctx.Engine, id) != cls)
+                throw ctx.Fail(Codes.UnknownClass, "Class " + cls.Name + " is not in the " + ctx.Engine + " engine table.", null, itemPath, cls.Name);
+            var shape = ctx.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, cls.Name);
+            writer.Begin(slot, frame.Property, i);
+            writer.Data.Int32(id);
+            ImageTree.WriteBody(child, shape?.Shape ?? cls, ctx, writer.Data, itemPath, true);
+            writer.End();
+        }
+        ObjectImage.Place(ctx, writer, null, frame.Id, null, new JsonObject(), frame.Path, data);
+    }
+
+    internal override TreeValue ReadImage(DecodeContext ctx, int start, int end, ImageFrame frame)
+    {
+        var table = PropertyTable.Read(ctx, start, end, frame.Path);
+        int db = table.DataBase;
+        int length = end - db;
+        var boundaries = table.Entries.Select(entry => entry.Offset).Append(length).Distinct().Order().ToArray();
+        var order = table.Entries.OrderBy(entry => entry.Offset).ThenBy(entry => entry.Index).ToList();
+        var slots = new HashSet<int>();
+        var children = new List<ObjectNode>();
+        for (int i = 0; i < order.Count; i++)
+        {
+            var entry = order[i];
+            if (i + 1 < order.Count && order[i + 1].Offset == entry.Offset)
+                throw ctx.Fail(Codes.Layout, "Two children share one offset.", db + entry.Offset, frame.Path);
+            if (!slots.Add(entry.Id)) throw ctx.Fail(Codes.Duplicate, "Child slot " + entry.Id + " is stored twice.", db + entry.Offset, frame.Path);
+            int next = boundaries[Array.BinarySearch(boundaries, entry.Offset) + 1];
+            int childStart = db + entry.Offset;
+            int childEnd = db + next;
+            ctx.Need(childStart, 4, childEnd, frame.Path.Item(children.Count), "class id");
+            int classId = ctx.Int32(childStart);
+            if (classId == 0) throw ctx.Fail(Codes.Type, "A stored child is never nil.", childStart, frame.Path.Item(children.Count));
+            var cls = ctx.Schema.Resolve(ctx.Engine, classId)
+                ?? throw ctx.Fail(Codes.UnknownClass, "Class id " + classId.ToString(System.Globalization.CultureInfo.InvariantCulture) + " is not in the " + ctx.Engine + " engine table.", childStart, frame.Path.Item(children.Count), classId.ToString(System.Globalization.CultureInfo.InvariantCulture));
+            var shape = ctx.Schema.LegacyShape(frame.Property.Owner.Name + "." + frame.Property.Name, cls.Name);
+            if (shape is { } legacy)
+                ctx.Counts.LegacyRules[legacy.Rule] = ctx.Counts.LegacyRules.GetValueOrDefault(legacy.Rule) + 1;
+            var itemPath = frame.Path.Item(children.Count);
+            children.Add(ImageTree.ReadBody(ctx, childStart + 4, childEnd, shape?.Shape ?? cls, itemPath, cls.Name, entry.Id));
+        }
+        if (children.Count > ctx.Limits.CollectionItems)
+            throw ctx.Fail(Codes.Limit, "A collection has too many items.", start, frame.Path, null, "at most " + ctx.Limits.CollectionItems + " items");
+        return new ChildListNode(children);
+    }
+
     internal override JsonValue? WriteTree(TreeValue value, DocumentSite site)
     {
         if (value is not ChildListNode node) throw site.Mismatch($"{site.Property?.Name ?? "The value"} is an array.");
@@ -255,6 +375,8 @@ internal sealed partial class ChildrenCodec
 /// <summary>A variable-length list. The schema declares whether it stores one. Version 1 refuses the shape.</summary>
 internal sealed class ListCodec(PropertyCodec element, bool storesList) : PropertyCodec
 {
+    internal override string? ImageRefusal => "The direct path does not store a list.";
+
     internal override bool AcceptsList(int version) => storesList;
 
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site) =>
@@ -298,6 +420,8 @@ internal sealed class ListCodec(PropertyCodec element, bool storesList) : Proper
 /// <summary>Named fields with no class. Version 1 has no record, and the backend refuses the shape.</summary>
 internal sealed class RecordCodec : PropertyCodec
 {
+    internal override string? ImageRefusal => "A record has no image.";
+
     private readonly (string Name, PropertyCodec Codec)[] fields;
 
     public RecordCodec(JsonObject source, FormatSchema schema, string path)
