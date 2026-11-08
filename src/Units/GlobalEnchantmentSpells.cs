@@ -586,6 +586,12 @@ public partial class THatredEnchantment : TGlobalEnchantment
         Stream.rwInteger(ref FDaysActive, 20);
     }
 
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Int("DaysActive", ref FDaysActive);
+    }
+
     // GlobalEnchantmentSpells.pas:833
     public THatredEnchantment(TECustomNode owner) : base(owner)
     {
@@ -688,6 +694,12 @@ public partial class THarmonyEnchantment : TGlobalEnchantment
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FDaysActive, 20);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Int("DaysActive", ref FDaysActive);
     }
 
     // GlobalEnchantmentSpells.pas:913
@@ -893,9 +905,9 @@ public partial class TFloodControl : TEObject
         }
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("Width", ref FWidth);
         persister.Int("Height", ref FHeight);
         if (FWidth != 0)
@@ -1099,9 +1111,9 @@ public partial class TFloodEnchantment : TGlobalEnchantment
         Stream.rwShortintEx(ref FRestoreDays, -1, 24);
     }
 
-    public override void Persist(IPersister persister)
+    public override void PersistFields(IPersister persister)
     {
-        base.Persist(persister);
+        base.PersistFields(persister);
         persister.Int("TurnsActive", ref FTurnsActive);
         persister.Object("FloodControl", FFloodControl);
         persister.Bool("Removed", ref FRemoved);

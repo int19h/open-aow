@@ -1,5 +1,6 @@
 // Translated from City.pas.
 using System.Runtime.CompilerServices;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.Animation;
 using Aow.Units.AoWE;
@@ -357,6 +358,13 @@ public partial class TCityEnchantment : TGlobalEnchantment
         base.ReadWrite(Stream);
         Stream.rwData(Bytes.Of(ref FEnchantmentID, 1), 1, 20);
         Stream.rwInteger(ref FEnchantmentLocation.XYL, 21);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Enum("TCityEnchantment.EnchantmentID", ref FEnchantmentID);
+        persister.Int("EnchantmentLocation", ref FEnchantmentLocation.XYL);
     }
 
     // City.pas:2716

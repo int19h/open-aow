@@ -19,7 +19,8 @@ public static class DocumentBackend
 
     internal static JsonObject WriteObject(ObjectNode node, SchemaClass cls, DocumentSite site, bool created, bool slotted)
     {
-        if (site.Schema.Version == 1) node.RejectVersion(1, site.Path);
+        RefuseMapping(cls, site);
+        node.RejectVersion(site.Schema.Version, site.Path);
         var json = new JsonObject();
         if (created)
         {
@@ -46,6 +47,8 @@ public static class DocumentBackend
             var member = site.For(prop);
             if (prop.IsDynamic)
                 throw member.Fail(Codes.Type, "PE-1 does not store a dynamic member.");
+            if (site.Schema.Version >= 2 && value is ListNode && !prop.Codec.AcceptsList(site.Schema.Version))
+                throw member.Fail(Codes.Type, ListOnly(site.Schema.Version));
             var written = prop.Codec.WriteTree(value, member);
             if (written is not null) json.Add(prop.Name, written);
             seen.Add(prop.Name);
@@ -58,39 +61,30 @@ public static class DocumentBackend
 
     internal static ObjectNode ReadObject(JsonObject document, SchemaClass cls, DocumentSite site, bool created, bool slotted)
     {
-        string? className = null;
-        int? slot = null;
+        RefuseMapping(cls, site);
         var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var member in document.Members)
-        {
             if (!seen.Add(member.Name))
                 throw site.ForName(member.Name).Fail(Codes.Duplicate, $"Member \"{member.Name}\" is stored twice.", member.Value, member.Name);
-            if (member.Name.StartsWith('$'))
-            {
-                if (member.Name == "$layout") continue;
-                if (created && member.Name == "$class")
-                {
-                    className = ClassName(member.Value, site);
-                    continue;
-                }
-                if (slotted && member.Name == "$slot")
-                {
-                    if (member.Value is not JsonInteger { Value: >= 0 and <= int.MaxValue } number)
-                        throw site.ForName("$slot").Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.", member.Value);
-                    slot = (int)number.Value;
-                    continue;
-                }
-                throw site.ForName(member.Name).Fail(Codes.ReservedMember,
-                    Reserved.IsKnown(member.Name) ? $"Reserved member \"{member.Name}\" is not allowed here." : $"Unknown reserved member \"{member.Name}\".",
-                    member.Value, member.Name);
-            }
-            if (cls.PropertyByName(member.Name) is null)
-                throw site.ForName(member.Name).Fail(Codes.UnknownMember, $"Class {cls.Name} has no member \"{member.Name}\".", member.Value, member.Name);
+        var reserved = new List<string>(2);
+        if (created) reserved.Add("$class");
+        if (slotted) reserved.Add("$slot");
+        ObjectImage.CheckMembers(site.Context, document, cls, site.Path, [.. reserved]);
+
+        string? className = null;
+        int? slot = null;
+        if (created)
+        {
+            if (document["$class"] is not JsonValue classValue)
+                throw site.Fail(Codes.MissingMember, "A created object needs $class.");
+            className = ClassName(classValue, site);
         }
-        if (created && className is null)
-            throw site.Fail(Codes.MissingMember, "A created object needs $class.");
-        if (slotted && slot is null)
-            throw site.Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.");
+        if (slotted)
+        {
+            if (document["$slot"] is not JsonInteger { Value: >= 0 and <= int.MaxValue } number)
+                throw site.ForName("$slot").Fail(Codes.MissingMember, "A child needs a non-negative integer $slot.", document["$slot"]);
+            slot = (int)number.Value;
+        }
 
         var node = new ObjectNode(className, slot);
         foreach (var prop in cls.Properties)
@@ -100,11 +94,22 @@ public static class DocumentBackend
             var at = site.For(prop);
             if (prop.IsDynamic)
                 throw at.Fail(Codes.Type, "PE-1 does not store a dynamic member.", member.Value);
+            if (site.Schema.Version >= 2 && member.Value is JsonArray && !prop.Codec.AcceptsDocumentArray(site.Schema.Version))
+                throw at.Fail(Codes.Type, ListOnly(site.Schema.Version), member.Value);
             var value = prop.Codec.ReadTree(member.Value, at);
             if (value is not null) node.Add(prop.Name, value);
         }
         return node;
     }
+
+    private static void RefuseMapping(SchemaClass cls, DocumentSite site)
+    {
+        if (cls.Mapping is null) return;
+        throw site.Fail(Codes.Mapping, "Class " + cls.Name + " uses a case mapping. The document backend does not reproduce it.", value: cls.Name);
+    }
+
+    private static string ListOnly(int version) =>
+        "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " stores a list only for a fixed integer array.";
 
     internal static SchemaClass RequireClass(DocumentSite site, string name, string? family, JsonValue? at)
     {

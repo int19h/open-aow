@@ -1,10 +1,18 @@
 {
-  "current": 1,
+  "current": 2,
   "versions": [
     {
       "version": 1,
       "schemaSha256": "5ecbbc56c94a93586ab5a9a3367f30396c6e55760872c7603f9efb40bcb29dee",
       "codecs": ["property-table-1", "cfs-1", "hsm-header-1", "hss-header-1", "stored-object-1", "written-object-1", "cp1252-frozen-1"],
+      "mappings": ["DiplomaticProposal-1", "ProductionOrder-1"],
+      "unitMappings": ["TAoWHSMap", "TDiplomaticAction", "TMapContainer", "TProductionItem"],
+      "flatMappings": []
+    },
+    {
+      "version": 2,
+      "schemaSha256": "a5502bdcbb34c1c89b6f0695edd33903fd9ea2944386753ff91ead3d7e10d937",
+      "codecs": ["property-table-1", "cfs-1", "hsm-header-1", "hss-header-1", "stored-object-1", "written-object-1", "cp1252-frozen-1", "enum-1", "set-1", "int-array-1"],
       "mappings": ["DiplomaticProposal-1", "ProductionOrder-1"],
       "unitMappings": ["TAoWHSMap", "TDiplomaticAction", "TMapContainer", "TProductionItem"],
       "flatMappings": []

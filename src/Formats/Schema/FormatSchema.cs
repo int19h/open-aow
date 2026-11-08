@@ -26,6 +26,9 @@ public sealed class FormatSchema
 
     public int Version { get; }
 
+    /// <summary>The schema stores a generic list. The test schema sets this. Product schemas do not.</summary>
+    public bool StoresLists { get; }
+
     /// <summary>SHA-256 of the normalized schema text, pinned in versions.json.</summary>
     public string Hash { get; }
 
@@ -55,6 +58,7 @@ public sealed class FormatSchema
     {
         Hash = hash;
         Version = (int)((JsonInteger)root["version"]!).Value;
+        StoresLists = root["lists"] is JsonBool { Value: true };
         var list = (JsonArray)root["classes"]!;
         foreach (var item in list.Items)
         {
@@ -289,7 +293,7 @@ public sealed class SchemaProperty
         DynamicMinimum = source["dynamic"] is JsonInteger d ? (int)d.Value : null;
         SlotBase = source["slotBase"] is JsonInteger s ? (int)s.Value : null;
         IsChildrenPhase = source["phase"] is JsonString { Value: "children" };
-        Codec = PropertyCodec.Create(source, schema);
+        Codec = PropertyCodec.Create(source, schema, owner.Name + "." + Name);
     }
 
     public SchemaClass Owner { get; }

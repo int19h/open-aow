@@ -24,6 +24,29 @@ public sealed class IntegerNode(int width, bool signed, long value) : TreeValue
     public long Value { get; } = value;
 }
 
+/// <summary>
+/// One enum value. The type name is the C# enum and the integer is the stored value.
+/// A declared value is written as that member's name. Any other value is written as its integer.
+/// </summary>
+public sealed class EnumNode(string typeName, int width, bool signed, long value) : TreeValue
+{
+    public string TypeName { get; } = typeName;
+    public int Width { get; } = width;
+    public bool Signed { get; } = signed;
+    public long Value { get; } = value;
+}
+
+/// <summary>
+/// One set. The mask is the little-endian image. Member names are stored in ascending ordinal
+/// order, and an unnamed bit is stored as its integer.
+/// </summary>
+public sealed class SetNode(string typeName, int width, ulong mask) : TreeValue
+{
+    public string TypeName { get; } = typeName;
+    public int Width { get; } = width;
+    public ulong Mask { get; } = mask;
+}
+
 /// <summary>A cross reference. Version 1 writes the key as a plain integer and keeps the domain here.</summary>
 public sealed class ReferenceNode(string domain, int key) : TreeValue
 {
@@ -174,8 +197,8 @@ public sealed class RecordNode : TreeValue
 
     internal override void RejectVersion(int version, DocPath path)
     {
-        if (version == 1)
-            throw TreeErrors.Fail(Codes.Type, "Version 1 does not store a record.", path);
+        if (version < 3)
+            throw TreeErrors.Fail(Codes.Type, "Version " + version.ToString(System.Globalization.CultureInfo.InvariantCulture) + " does not store a record.", path);
         foreach (var (name, value) in members)
             value.RejectVersion(version, path.Member(name));
     }

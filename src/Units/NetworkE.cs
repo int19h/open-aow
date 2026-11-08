@@ -1,4 +1,5 @@
 // Translated from NetworkE.pas.
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.Engine;
 using static Aow.Rtl.RtlUnit;
@@ -160,6 +161,12 @@ public partial class TTokenEvent : TEObject
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FTokenCounter, 10);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        persister.Int("TokenCounter", ref FTokenCounter);
     }
 
     // NetworkE.pas:943

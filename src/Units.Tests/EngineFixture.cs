@@ -82,6 +82,32 @@ public sealed partial class EngineFixture : IDisposable
         return value;
     }
 
+    // The startup engine registers the classes its constructor names. A ReadWrite load creates
+    // every other class through that table and drops the object when the id is missing. The tree
+    // factory uses EClass, so the two loads match only when the table holds the same classes.
+    internal static void WithRegisteredClasses(Action body)
+    {
+        var seen = new HashSet<int>();
+        var added = new List<EClass>();
+        try
+        {
+            foreach (var eclass in EClass.All)
+            {
+                if (eclass.Type.Assembly != typeof(TEObject).Assembly) continue;
+                int id = eclass.ClassID;
+                if (id == 0 || !seen.Add(id)) continue;
+                if (Engine.ClassTable.Find(id) != null) continue;
+                Engine.RegisterEClasses([eclass]);
+                added.Add(eclass);
+            }
+            body();
+        }
+        finally
+        {
+            if (added.Count != 0) Engine.UnregisterEClasses(added.ToArray());
+        }
+    }
+
     public void Dispose()
     {
         RestoreEngine();

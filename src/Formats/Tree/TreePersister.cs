@@ -1,3 +1,5 @@
+using Aow.Rtl;
+
 namespace Aow.Formats.Tree;
 
 /// <summary>Writes one object into a tree. The root carries no class name. Created objects and children do.</summary>
@@ -77,6 +79,48 @@ sealed class MemberPersister : IPersister
 
     public void UShort(string name, ref ushort value, ushort fallback = 0) =>
         value = (ushort)Integer(name, value, fallback, 2, false);
+
+    public void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum
+    {
+        var (width, signed) = EnumTypeInfo.Layout(typeof(TEnum));
+        string typeName = typeof(TEnum).Name;
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null)
+            {
+                value = fallback;
+                return;
+            }
+            if (found is not EnumNode node || node.TypeName != typeName || node.Width != width || node.Signed != signed)
+                throw Type(name, "a " + typeName);
+            value = (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
+            return;
+        }
+        Store(name, new EnumNode(typeName, width, signed, Convert.ToInt64(value)));
+    }
+
+    public void Set<E>(string name, ref TSet<E> value) where E : unmanaged, Enum
+    {
+        int width = default(TSet<E>).StorageSize;
+        string typeName = typeof(E).Name;
+        if (width is < 1 or > 8)
+            throw new InvalidOperationException("A set image is 1 to 8 bytes.");
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return;
+            if (found is not SetNode node || node.TypeName != typeName || node.Width != width)
+                throw Type(name, "a set of " + typeName);
+            value = TSet<E>.FromMask(node.Mask);
+            return;
+        }
+        Span<byte> image = stackalloc byte[width];
+        value.CopyImageTo(image);
+        ulong mask = 0;
+        for (int i = 0; i < width; i++) mask |= (ulong)image[i] << (8 * i);
+        Store(name, new SetNode(typeName, width, mask));
+    }
 
     public void Bool(string name, ref bool value)
     {
@@ -402,13 +446,13 @@ sealed class ItemSlot : IItemSlot
         return loading ? loaded! : stored!;
     }
 
-    public void Int(ref int value, int fallback = 0) => value = (int)Integer(value, fallback, 4, true);
+    public void Int(ref int value) => value = (int)Integer(value, 4, true);
 
-    public void Byte(ref byte value, byte fallback = 0) => value = (byte)Integer(value, fallback, 1, false);
+    public void Byte(ref byte value) => value = (byte)Integer(value, 1, false);
 
-    public void SByte(ref sbyte value, sbyte fallback = 0) => value = (sbyte)Integer(value, fallback, 1, true);
+    public void SByte(ref sbyte value) => value = (sbyte)Integer(value, 1, true);
 
-    public void UShort(ref ushort value, ushort fallback = 0) => value = (ushort)Integer(value, fallback, 2, false);
+    public void UShort(ref ushort value) => value = (ushort)Integer(value, 2, false);
 
     public void Bool(ref bool value)
     {
@@ -478,7 +522,7 @@ sealed class ItemSlot : IItemSlot
         stored = written;
     }
 
-    private long Integer(long current, long fallback, int width, bool signed)
+    private long Integer(long current, int width, bool signed)
     {
         Use();
         if (loading)
@@ -488,7 +532,6 @@ sealed class ItemSlot : IItemSlot
             return node.Value;
         }
         stored = new IntegerNode(width, signed, current);
-        _ = fallback;
         return current;
     }
 

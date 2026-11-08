@@ -1,6 +1,7 @@
 {
   "format": "OpenAoW-schema",
-  "version": 2,
+  "version": 3,
+  "lists": true,
   "classes": [
     {
       "name": "TInner",

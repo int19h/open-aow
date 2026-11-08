@@ -1237,5 +1237,6 @@ internal static class ClassRegistry
         FormatMapping.Register("TMapContainer", new CountedChildren("TMapLevel", "LevelCount"));
         FormatMapping.Register("TProductionItem", new ProductionOrderCases());
         FormatMapping.Register("TDiplomaticAction", new DiplomaticProposalCases());
+        Aow.Formats.EnumCatalog.RegisterReflection(typeof(ClassRegistry).Assembly);
     }
 }

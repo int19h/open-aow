@@ -16,7 +16,13 @@ public abstract partial class PropertyCodec
     /// <summary>A codec whose presence is its value stores no bytes.</summary>
     public virtual bool ZeroSize => false;
 
-    internal static PropertyCodec Create(JsonObject source, FormatSchema schema)
+    /// <summary>A generic list is stored when the schema declares it. A fixed integer array is stored from version 2.</summary>
+    internal virtual bool AcceptsList(int version) => false;
+
+    /// <summary>The document value is a JSON array for this codec at this version.</summary>
+    internal virtual bool AcceptsDocumentArray(int version) => AcceptsList(version);
+
+    internal static PropertyCodec Create(JsonObject source, FormatSchema schema, string path)
     {
         string codec = ((JsonString)source["codec"]!).Value;
         int? size = source["size"] is JsonInteger s ? (int)s.Value : null;
@@ -33,8 +39,8 @@ public abstract partial class PropertyCodec
             "strings" => new StringsCodec(),
             "strings-ex" => new StringsExCodec(),
             "data" => new DataCodec(size),
-            "list" => new ListCodec(Create((JsonObject)source["element"]!, schema)),
-            "record" => new RecordCodec(source, schema),
+            "list" => new ListCodec(Create((JsonObject)source["element"]!, schema, path + ".element"), schema.StoresLists),
+            "record" => new RecordCodec(source, schema, path),
             "float32" => new FloatCodec(4),
             "float64" => new FloatCodec(8),
             "int-list" => new RunListCodec(4),
@@ -46,9 +52,30 @@ public abstract partial class PropertyCodec
             "children" => new ChildrenCodec(),
             "map-fields" => new MapFieldsCodec(),
             "campaign-map" => new CampaignMapCodec(),
+            "enum" => new EnumCodec(TypeName(source, "enum"), CheckedWidth(source, path, "enum"), Signed(source)),
+            "set" => new SetCodec(TypeName(source, "set"), CheckedWidth(source, path, "set")),
+            "int-array" => new FixedArrayCodec(CheckedWidth(source, path, "int-array"), Signed(source), Count(source)),
             _ => throw new InvalidOperationException($"Unknown codec {codec}."),
         };
     }
+
+    private static string TypeName(JsonObject source, string key) =>
+        (source[key] as JsonString)?.Value ?? throw new InvalidOperationException("A " + key + " codec names its C# type.");
+
+    private static int Width(JsonObject source) =>
+        source["width"] is JsonInteger width ? (int)width.Value : throw new InvalidOperationException("The codec needs a width.");
+
+    private static int CheckedWidth(JsonObject source, string path, string kind)
+    {
+        int width = Width(source);
+        if (width is 1 or 2 or 4) return width;
+        throw new InvalidOperationException(path + " has width " + width + ". An " + kind + " width is 1, 2 or 4.");
+    }
+
+    private static bool Signed(JsonObject source) => source["signed"] is JsonBool { Value: true };
+
+    private static int Count(JsonObject source) =>
+        source["count"] is JsonInteger count ? (int)count.Value : throw new InvalidOperationException("An integer array needs a count.");
 
     /// <summary>Decodes one stored value that occupies data[start..end) exactly.</summary>
     internal abstract JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site);
@@ -257,16 +284,16 @@ internal partial class StringsCodec : PropertyCodec
     {
         if (value is JsonArray array)
         {
-            var builder = new System.Text.StringBuilder();
+            var parts = new string[array.Items.Count];
             for (int i = 0; i < array.Items.Count; i++)
             {
                 if (array.Items[i] is not JsonString line) throw ctx.Fail(Codes.Type, "A line is a string.", array.Items[i], path.Item(i));
                 if (line.Value.AsSpan().IndexOfAny('\r', '\n', '\0') >= 0)
                     throw ctx.Fail(Codes.Text, "A line holds CR, LF or NUL. Use { \"$text\": ... } for such text.", line, path.Item(i));
-                builder.Append(line.Value).Append("\r\n");
+                parts[i] = line.Value;
             }
             lines = array.Items.Count;
-            return builder.ToString();
+            return Join(parts);
         }
         if (value is JsonObject obj && obj["$text"] is JsonString text)
         {
@@ -322,22 +349,30 @@ internal sealed partial class StringsExCodec : StringsCodec
     internal override void Encode(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site)
     {
         if (value is not JsonObject obj) throw ctx.Fail(Codes.Type, $"{site.Property.Name} is an object with lines or $text, and objects.", value, site.Path, value.KindName);
-        bool hasText = obj.Find("$text") is not null;
-        CheckOnly(ctx, obj, site.Path, hasText ? "$text" : "lines", "objects");
-        var textValue = hasText ? obj : obj["lines"] ?? throw ctx.Fail(Codes.MissingMember, "lines or $text is required.", obj, site.Path);
-        string text = TextOf(ctx, textValue, site.Path.Member(hasText ? "$text" : "lines"), out int lines);
-        var objects = obj["objects"] as JsonArray ?? throw ctx.Fail(Codes.MissingMember, "objects is an array of integers.", obj, site.Path);
-        if (objects.Items.Count != lines)
-            throw ctx.Fail(Codes.Corrupt, $"The text has {lines} lines and {objects.Items.Count} object values.", objects, site.Path.Member("objects"));
+        var (text, ids) = ReadMembers(ctx, obj, site.Path);
         var bytes = TextCodec.Encode(ctx, text, value, site.Path);
         data.Int32(bytes.Length);
         data.Bytes(bytes);
+        foreach (var id in ids) data.Int32(id);
+    }
+
+    internal static (string Text, List<int> Ids) ReadMembers(EncodeContext ctx, JsonObject obj, DocPath path)
+    {
+        bool hasText = obj.Find("$text") is not null;
+        CheckOnly(ctx, obj, path, hasText ? "$text" : "lines", "objects");
+        var textValue = hasText ? obj : obj["lines"] ?? throw ctx.Fail(Codes.MissingMember, "lines or $text is required.", obj, path);
+        string text = TextOf(ctx, textValue, path.Member(hasText ? "$text" : "lines"), out int lines);
+        var objects = obj["objects"] as JsonArray ?? throw ctx.Fail(Codes.MissingMember, "objects is an array of integers.", obj, path);
+        if (objects.Items.Count != lines)
+            throw ctx.Fail(Codes.Corrupt, $"The text has {lines} lines and {objects.Items.Count} object values.", objects, path.Member("objects"));
+        var ids = new List<int>(objects.Items.Count);
         for (int i = 0; i < objects.Items.Count; i++)
         {
             if (objects.Items[i] is not JsonInteger n || n.Value < int.MinValue || n.Value > int.MaxValue)
-                throw ctx.Fail(Codes.Range, "An object value is a signed 32-bit integer.", objects.Items[i], site.Path.Member("objects").Item(i));
-            data.Int32((int)n.Value);
+                throw ctx.Fail(Codes.Range, "An object value is a signed 32-bit integer.", objects.Items[i], path.Member("objects").Item(i));
+            ids.Add((int)n.Value);
         }
+        return (text, ids);
     }
 }
 

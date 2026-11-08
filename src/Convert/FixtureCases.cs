@@ -353,7 +353,9 @@ public static partial class Fixtures
             () => GameFiles.Read("{\"$format\": \"OpenAoW\" // c\n}"u8.ToArray())));
         yield return new("diagnostics", "a newer version fails with both numbers", () => Expect(Codes.Version,
             () => GameFiles.Read("{\"$format\": \"OpenAoW\", \"$version\": 7}"u8.ToArray()),
-            d => d.Message.Contains('7') && d.Message.Contains('1') ? null : "the numbers are missing"));
+            d => d.Message.Contains("version 7", StringComparison.Ordinal)
+                && d.Message.Contains("supported version " + OwnFormat.CurrentVersion, StringComparison.Ordinal)
+                ? null : "the numbers are missing"));
 
         // Migration chains.
         yield return new("migrations", "a historical chain migrates through every step", MigrationChainCase);

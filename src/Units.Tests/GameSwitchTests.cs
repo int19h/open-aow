@@ -430,7 +430,7 @@ public sealed class AtomicReplacementTests : IDisposable
 
     /// <summary>The engine image of an empty hero list: the stored image of one root property.</summary>
     private static byte[] HeroListImage(string name = "") => GameFiles.ExportImage((JsonObject)JsonReader.Parse(
-        "{\"$format\": \"OpenAoW\", \"$version\": 1, \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {"
+        "{\"$format\": \"OpenAoW\", \"$version\": " + OwnFormat.CurrentVersion + ", \"$kind\": \"hero-list\", \"$container\": {\"profile\": \"hero-list\", \"compression\": \"none\"}, \"root\": {"
         + (name.Length == 0 ? "" : "\"LibraryName\": \"" + name + "\"") + "}}"));
 
     private string Old => Path.Combine(directory, "user", "User", "list.ahl");

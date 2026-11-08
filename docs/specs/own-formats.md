@@ -198,7 +198,7 @@ record fields and canonical ordinals. Objects specify allowed families. Referenc
 properties and list/record elements name domains, null sentinels and missing-target
 rules.
 
-What version 1 holds: 970 classes, generated once by the private
+What version 1 holds, and version 2 keeps: 970 classes, generated once by the private
 `tools/formats/schema-build` from the 9.7-0 census proposal, the class baseline
 `src/Units.Tests/EClassBaseline.json`, registration reachability and corpus order evidence, then
 hand-owned. `python -B tools/formats/schema-build/regenerate.py` reproduces it. A class records
@@ -213,13 +213,16 @@ the one domain the game checks (`player-slot`), and the census marks the other r
 candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds the one named
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
-`src/Formats/versions.json` pins the current version (1) with the schema's SHA-256, the codec
-contracts (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
-`written-object-1`, `cp1252-frozen-1`), the mapping contracts (`DiplomaticProposal-1`,
-`ProductionOrder-1`), `unitMappings`, the persisted classes whose game load needs a unit mapping
-(`TAoWHSMap`, `TDiplomaticAction`, `TMapContainer`, `TProductionItem`), and `flatMappings`, the
-kind classes that keep a flat mapping, empty in version 1. `SchemaTests` fails when the schema's
-hash differs from the pinned one.
+`src/Formats/versions.json` pins the current version (2) with the schema's SHA-256. Version 2
+adds the codec contracts `enum-1`, `set-1` and `int-array-1` to the version 1 contracts
+(`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
+`written-object-1`, `cp1252-frozen-1`). The mapping contracts stay `DiplomaticProposal-1` and
+`ProductionOrder-1`. `unitMappings` names the persisted classes whose game load needs a unit
+mapping (`TAoWHSMap`, `TDiplomaticAction`, `TMapContainer`, `TProductionItem`). `flatMappings`,
+the kind classes that keep a flat mapping, is empty. Version 1 keeps its historical hash.
+`SchemaTests` fails when the current schema's hash differs from the pinned one. Version 2
+reannotates the enum, set and fixed integer array properties of 2.3 and leaves every other
+property in place.
 
 Initial names use fields without `F`, checked against recovery metadata for local
 arguments, with declaring-class prefixes for collisions. Persisted class, member
@@ -239,7 +242,7 @@ retain numbers where lossless conversion requires them.
 | `rwString` | String through frozen `Cp1252`. `IsMapped` checks every character. Strict input refuses unmapped characters with locations |
 | `rwStrings` | Array of lines only when the block rule below reproduces exact bytes, otherwise `{ "$text": "..." }` |
 | `rwStringsEx` | `lines` and signed 32-bit `objects` arrays of equal length. Noncanonical text uses `$text` plus `objects`, with decoded line count checked |
-| `rwData` | Named fields with explicit layout and `$padding` for nonzero padding, otherwise a classified exact lowercase hex payload. Version 1 maps no record to named fields: every `rwData` value is exact hex, and `$padding` does not occur |
+| `rwData` | Named fields with explicit layout and `$padding` for nonzero padding, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Other values stay exact hex. `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
 | Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads. Version 1 has one, `TAIPlayerControl.DefenseStrengthMultiplier` |
 | Overlapping record | One authoritative schema field set. Other views derive from it. Uninterpreted bits stay exact, never independently editable aliases |
 | `rwStreamProc` | Typed arrays or codec-specific objects. Bit lists retain `default`, stored `count` and exact `bits`, without capacity rounding. Other identified payloads stay hex until a decoder exists |
@@ -392,12 +395,21 @@ A test checks them against the current version. Golden binary/document pairs pin
 behavior too, since unchanged mapping names do not prove unchanged code. Mapping
 implementation changes receive format-change review.
 
-Version 1 is the only version, so `MigrationChain.Default` holds no step and
-`src/Formats/Migrations` holds the step and chain types only. `MigrationTests` run a test chain from
-version 1 to 3 over the golden hero lists of `src/Formats.Tests/Golden`, check that every step
-runs and names the values it synthesizes, and that a newer version fails with both numbers. The
-production order and diplomatic proposal mappings landed inside 9.7-3, before any game wrote a
-document, so they are part of version 1 and no flat-field migration exists.
+Version 2 is the current version. `MigrationChain.Default` holds one step,
+`1-symbolic-enum-set-array`, from version 1 to version 2. The step rewrites the hex of an enum,
+a set and a fixed integer array into the names and lists of 2.3, by the enum catalog. It recomputes
+every `$layout` fingerprint so the retained parts still match the visible values, and it leaves
+every other value in place. A nested campaign map's fingerprint uses that map's profile.
+A version 1 document still loads. The converter writes version 2.
+`MigrationTests` run a test chain from version 1 to 3 over the golden hero lists of
+`src/Formats.Tests/Golden`, check that every step runs and names the values it synthesizes, and
+that a newer version fails with both numbers. `THeroLibrary` is a schema class. Those hero lists
+hold no reannotated member, so the version 2 step leaves their bodies unchanged. The step walks
+a pinned copy of the version 2 schema and switches on the codec type. That switch stays inside
+this frozen step. Document value rules have no switch on a kind (`persistence-tree.md`).
+`SymbolicTests` migrates constructed hex and that golden file. The production order and
+diplomatic proposal mappings landed inside 9.7-3, before any game wrote a document, so they are
+part of version 1 and no flat-field migration exists.
 
 9.7-1 uses `Aow.Rtl.Cp1252` from 9.5-P1b, including `IsMapped`, never `AnsiString`.
 It does not wait for 9.5-1. The table is frozen from 9.7-1 onward. Fixtures cover
@@ -1025,8 +1037,12 @@ mods-design's proposal to stabilize them and the roadmap's deferral of named
 persistence until after milestone 10. 9.6 is not blocked by exit implementation.
 Mod work that still uses the bridge carries the stated temporary costs.
 
-Step 1 is implemented for the pilot classes in `persistence-tree.md`. `ReadWrite` and the
-converter remain the game's path until step 3. Steps 2 to 5 are not implemented. The private
+Step 1 is implemented for the pilot classes in `persistence-tree.md`. Step 2 is implemented for
+three shapes: enum bytes, sets and fixed integer arrays. They are symbolic names and lists in
+version 2, and the original backend maps one object's tree to the property-table image and back
+with no `ReadWrite` on that path (`persistence-tree.md`). Padded records and bit arrays are
+PE-2b. The `stream` callbacks, map blobs and run-length lists are PE-2c. Steps 3 to 5 are not
+implemented. `ReadWrite` and the converter remain the game's path until step 3. The private
 roadmap allocates the five steps as briefs PE-1 to PE-5 in its phase 8, before 10.4 publishes
 the API baseline, and `milestones.md` section 10 names them as that step's prerequisite.
 
@@ -1262,9 +1278,10 @@ pins the rule to exactly one occurrence in that file.
   A persisted array keeps its original size until an adapter of X28 gives its extra entries a
   port-features property.
 - The exit (6.3). Step 1, the typed persistence tree and its direct document backend, is
-  implemented for the pilot scope in `persistence-tree.md`. Steps 2 to 5 (legacy codec adapters,
-  serializer migration, transport separated from disk persistence, and the proof) are not
-  implemented. `ReadWrite` and the converter remain the game's path until step 3. The exit is a
+  implemented for the pilot scope in `persistence-tree.md`. Step 2 is implemented for enum bytes,
+  sets and fixed integer arrays (version 2 and the original backend). PE-2b (padded records and
+  bit arrays), PE-2c (`stream` callbacks, map blobs and run-length lists) and steps 3 to 5 are
+  not implemented. `ReadWrite` and the converter remain the game's path until step 3. The exit is a
   prerequisite of milestone 10: no persistence interface becomes stable mod API before it, and
   the private roadmap allocates it as briefs PE-1 to PE-5 before step 10.4 publishes the API
   baseline.

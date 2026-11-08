@@ -277,8 +277,12 @@ hex. A persisted record becomes a plain type only when step 2 of the exit from t
 numeric `rw*` calls and raw `rwData` are transitional and no stable mod API.
 
 Step 1 of that exit is implemented for the pilot classes named in `persistence-tree.md`. It adds
-`Persist` beside `ReadWrite` on those classes, a typed tree in `Aow.Formats.Tree`, and a direct
-version 1 document backend. The game still loads and saves through `ReadWrite` and the converter.
+`PersistFields` beside `ReadWrite` on those classes, a typed tree in `Aow.Formats.Tree`, and a
+direct document backend. Step 2 is implemented for enum bytes, sets and fixed integer arrays.
+Version 2 stores those as C# member names, name lists and integer lists. The original backend
+maps one object's tree to the property-table image and back. Other `rwData` values stay exact
+hex until PE-2b (padded records and bit arrays) and PE-2c (`stream` callbacks, map blobs and
+run-length lists). The game still loads and saves through `ReadWrite` and the converter.
 Step 3 is the switch.
 
 Milestone 9.6 (`unions-and-kinds.md` section 4) changed the model of two persisted classes and no

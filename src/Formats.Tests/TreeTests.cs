@@ -6,8 +6,9 @@ using Aow.Formats.Tree;
 namespace Aow.Formats.Tests;
 
 /// <summary>
-/// The persistence tree against a version 2 test schema. Version 1 of the game schema has no
-/// list and no record, so those shapes are proven here.
+/// The persistence tree against a version 3 test schema. Version 1 of the game schema has no
+/// list and no record, so those shapes are proven here. Version 2 stores a fixed integer array
+/// and still refuses a record.
 /// </summary>
 public sealed class TreeTests : FormatsTest
 {
@@ -227,17 +228,28 @@ public sealed class TreeTests : FormatsTest
     [Fact]
     public void Version1RefusesAListAndARecordWithThePath()
     {
-        var list = new ObjectNode(null, null);
-        list.Add("Extra", new ListNode());
-        var listError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(list, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game"));
-        Assert.Equal(Codes.Type, listError.Diagnostic.Code);
-        Assert.Equal("root.Extra", listError.Diagnostic.Path);
-        Assert.Equal("Version 1 does not store a list.", listError.Diagnostic.Message);
+        var current = FormatSchema.Current;
+        var enchantment = current.Get("TEnchantment");
+        var unknown = new ObjectNode(null, null);
+        unknown.Add("Extra", new ListNode());
+        var unknownError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(unknown, enchantment, current, "game"));
+        Assert.Equal(Codes.UnknownMember, unknownError.Diagnostic.Code);
+        Assert.Equal("root.Extra", unknownError.Diagnostic.Path);
+        var upkeep = new ObjectNode(null, null);
+        upkeep.Add("Upkeep", new ListNode());
+        var upkeepError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(upkeep, enchantment, current, "game"));
+        Assert.Equal(Codes.Type, upkeepError.Diagnostic.Code);
+        Assert.Equal("root.Upkeep", upkeepError.Diagnostic.Path);
+        Assert.Equal("Version 2 stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
         var record = new ObjectNode(null, null);
         record.Add("Extra", new RecordNode());
-        var recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, FormatSchema.Current.Get("TEnchantment"), FormatSchema.Current, "game"));
+        var recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, enchantment, current, "game"));
         Assert.Equal("root.Extra", recordError.Diagnostic.Path);
-        Assert.Equal("Version 1 does not store a record.", recordError.Diagnostic.Message);
+        Assert.Equal("Version 2 does not store a record.", recordError.Diagnostic.Message);
+        var upkeepDocument = Assert.Throws<ConversionException>(() => DocumentBackend.Read(
+            (JsonObject)JsonReader.Parse("""{"Upkeep":[1,2]}""", "upkeep.json"), enchantment, current, "game"));
+        Assert.Equal("root.Upkeep", upkeepDocument.Diagnostic.Path);
+        Assert.Equal("Version 2 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
 
         var schema = Version1;
         var cls = schema.Get("TRefuse");

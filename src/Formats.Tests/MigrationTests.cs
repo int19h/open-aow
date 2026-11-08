@@ -59,7 +59,7 @@ public sealed class MigrationTests : FormatsTest
         root.Remove("LibraryTitle");
         root.Remove("Obsolete");
         var document = read.Document;
-        document.Find("$version")!.Value = new JsonInteger(1);
+        document.Find("$version")!.Value = new JsonInteger(OwnFormat.CurrentVersion);
         var error = Assert.Throws<ConversionException>(() => GameFiles.Export(document));
         Assert.Equal("test-add-NextLibraryID", error.Diagnostic.Migration);
         Assert.Equal("root.NextLibraryID", error.Diagnostic.Path);
@@ -73,11 +73,12 @@ public sealed class MigrationTests : FormatsTest
     }
 
     [Fact]
-    public void TheCurrentChainHasNoStep()
+    public void TheCurrentChainRewritesSymbolicValues()
     {
-        Assert.Equal(1, MigrationChain.Default.Current);
+        Assert.Equal(2, MigrationChain.Default.Current);
         var read = GameFiles.Read(Golden("hero-list-v1.json"), null, null, MigrationChain.Default);
-        Assert.Empty(read.Migrations);
+        Assert.Equal([SymbolicMigration.Name], read.Migrations);
         Assert.Equal(1, read.DeclaredVersion);
+        Assert.Equal(2, ((JsonInteger)read.Document["$version"]!).Value);
     }
 }
