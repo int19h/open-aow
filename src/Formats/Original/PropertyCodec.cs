@@ -19,6 +19,26 @@ public abstract partial class PropertyCodec
     /// <summary>A generic list is stored when the schema declares it. A fixed integer array is stored from version 2.</summary>
     internal virtual bool AcceptsList(int version) => false;
 
+    /// <summary>False when a present tree value writes no image entry. A false rwBool is that case.</summary>
+    internal virtual bool StoresImage(Tree.TreeValue value) => true;
+
+    /// <summary>Set when this codec has no original image. The direct path refuses a present member.</summary>
+    internal virtual string? ImageRefusal => null;
+
+    /// <summary>Writes a tree value as original image bytes. A leaf overrides this. The base refuses.</summary>
+    internal virtual void WriteImage(Tree.TreeValue value, EncodeContext ctx, ByteBuffer data, ImageFrame frame)
+    {
+        if (ImageRefusal is string reason) throw new InvalidOperationException(reason);
+        throw new InvalidOperationException(GetType().Name + " has no image writer.");
+    }
+
+    /// <summary>Reads original image bytes into a tree value. A leaf overrides this. The base refuses.</summary>
+    internal virtual Tree.TreeValue ReadImage(DecodeContext ctx, int start, int end, ImageFrame frame)
+    {
+        if (ImageRefusal is string reason) throw new InvalidOperationException(reason);
+        throw new InvalidOperationException(GetType().Name + " has no image reader.");
+    }
+
     /// <summary>The document value is a JSON array for this codec at this version.</summary>
     internal virtual bool AcceptsDocumentArray(int version) => AcceptsList(version);
 
@@ -30,17 +50,21 @@ public abstract partial class PropertyCodec
         string? family = (source["family"] as JsonString)?.Value;
         return codec switch
         {
-            "i32" => new IntegerCodec(4, true, (source["domain"] as JsonString)?.Value),
-            "u8" => new IntegerCodec(1, false),
-            "u16" => new IntegerCodec(2, false),
-            "i8" => new IntegerCodec(1, true),
+            "i32" => new IntegerCodec(4, true, (source["domain"] as JsonString)?.Value, Raw(source)),
+            "u8" => new IntegerCodec(1, false, raw: Raw(source)),
+            "u16" => new IntegerCodec(2, false, raw: Raw(source)),
+            "i8" => new IntegerCodec(1, true, raw: Raw(source)),
             "bool" => new BoolCodec(),
+            "raw-bool" => new RawBoolCodec(),
             "string" => new StringCodec(),
             "strings" => new StringsCodec(),
             "strings-ex" => new StringsExCodec(),
             "data" => new DataCodec(size),
             "list" => new ListCodec(Create((JsonObject)source["element"]!, schema, path + ".element"), schema.StoresLists),
-            "record" => new RecordCodec(source, schema, path),
+            "record" => source["record"] is JsonString named
+                ? new CatalogRecordCodec(named.Value, CheckedSize(source, path))
+                : new RecordCodec(source, schema, path),
+            "bit-array" => new BitArrayCodec(CountName(source, path)),
             "float32" => new FloatCodec(4),
             "float64" => new FloatCodec(8),
             "int-list" => new RunListCodec(4),
@@ -76,6 +100,14 @@ public abstract partial class PropertyCodec
 
     private static int Count(JsonObject source) =>
         source["count"] is JsonInteger count ? (int)count.Value : throw new InvalidOperationException("An integer array needs a count.");
+
+    private static string CountName(JsonObject source, string path) =>
+        (source["count"] as JsonString)?.Value ?? throw new InvalidOperationException(path + " bit array names its count property.");
+
+    private static int CheckedSize(JsonObject source, string path) =>
+        source["size"] is JsonInteger size && size.Value > 0 ? (int)size.Value : throw new InvalidOperationException(path + " record needs a size.");
+
+    private static bool Raw(JsonObject source) => source["raw"] is JsonBool { Value: true };
 
     /// <summary>Decodes one stored value that occupies data[start..end) exactly.</summary>
     internal abstract JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site);
@@ -116,8 +148,11 @@ public abstract partial class PropertyCodec
     protected static string Text(long value) => value.ToString(CultureInfo.InvariantCulture);
 }
 
-internal sealed partial class IntegerCodec(int width, bool signed, string? domain = null) : PropertyCodec
+internal sealed partial class IntegerCodec(int width, bool signed, string? domain = null, bool raw = false) : PropertyCodec
 {
+    /// <summary>True when rwData stores the integer, so a zero is present.</summary>
+    internal bool Raw { get; } = raw;
+
     private long Min => signed ? -(1L << (width * 8 - 1)) : 0;
     private long Max => signed ? (1L << (width * 8 - 1)) - 1 : (1L << (width * 8)) - 1;
 
@@ -137,9 +172,10 @@ internal sealed partial class IntegerCodec(int width, bool signed, string? domai
 
     internal override void Encode(EncodeContext ctx, JsonValue value, ByteBuffer data, ValueSite site)
     {
-        if (value is not JsonInteger n) throw ctx.Fail(Codes.Type, $"{site.Property.Name} is an integer.", value, site.Path, value.KindName);
+        string name = site.Property?.Name ?? "The value";
+        if (value is not JsonInteger n) throw ctx.Fail(Codes.Type, $"{name} is an integer.", value, site.Path, value.KindName);
         if (n.Value < Min || n.Value > Max)
-            throw ctx.Fail(Codes.Range, $"{site.Property.Name} is outside its storage range.", value, site.Path, Text(n.Value), $"{Min} to {Max}");
+            throw ctx.Fail(Codes.Range, $"{name} is outside its storage range.", value, site.Path, Text(n.Value), $"{Min} to {Max}");
         switch (width)
         {
             case 1: data.Byte((byte)n.Value); break;
@@ -176,6 +212,14 @@ internal static class TextCodec
     {
         if (Problem(text, ctx.Limits.StringBytes) is { } problem)
             throw ctx.Fail(problem.Code, problem.Message, at, path, problem.Value, problem.Constraint);
+        return Cp1252.Encode(text);
+    }
+
+    /// <summary>The code page bytes of <paramref name="text"/>, or the same refusal the document path raises.</summary>
+    internal static byte[] Bytes(EncodeContext ctx, string text, DocPath path)
+    {
+        if (Problem(text, ctx.Limits.StringBytes) is { } problem)
+            throw ctx.Fail(problem.Code, problem.Message, null, path, problem.Value, problem.Constraint);
         return Cp1252.Encode(text);
     }
 
@@ -408,6 +452,8 @@ internal sealed partial class DataCodec(int? size) : PropertyCodec
 /// <summary>Floating-point fields keep their exact little-endian bits.</summary>
 internal sealed class FloatCodec(int width) : PropertyCodec
 {
+    internal override string? ImageRefusal => "The direct path does not store a float.";
+
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
         if (end - start != width) throw Mismatch(ctx, start, site, $"A {width * 8}-bit float is stored in {end - start} bytes.");
@@ -431,6 +477,8 @@ internal sealed class FloatCodec(int width) : PropertyCodec
 /// </summary>
 internal sealed class RunListCodec(int width) : PropertyCodec
 {
+    internal override string? ImageRefusal => "PE-2c still needs a run-length list. The direct path does not store it.";
+
     private long Read(byte[] data, int at) => width == 1 ? data[at] : BinaryPrimitives.ReadInt32LittleEndian(data.AsSpan(at, 4));
 
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
@@ -550,6 +598,8 @@ internal sealed class RunListCodec(int width) : PropertyCodec
 /// <summary>TBitList streams: a default byte, the stored count and the exact bit bytes.</summary>
 internal sealed class BitListCodec : PropertyCodec
 {
+    internal override string? ImageRefusal => "PE-2c still needs a bit list. The direct path does not store it.";
+
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site)
     {
         ctx.Need(start, 5, end, site.Path, "bit list header");

@@ -198,7 +198,7 @@ record fields and canonical ordinals. Objects specify allowed families. Referenc
 properties and list/record elements name domains, null sentinels and missing-target
 rules.
 
-What version 1 holds, and version 2 keeps: 970 classes, generated once by the private
+What version 1 holds, and versions 2 and 3 keep: 970 classes, generated once by the private
 `tools/formats/schema-build` from the 9.7-0 census proposal, the class baseline
 `src/Units.Tests/EClassBaseline.json`, registration reachability and corpus order evidence, then
 hand-owned. `python -B tools/formats/schema-build/regenerate.py` reproduces it. A class records
@@ -213,16 +213,18 @@ the one domain the game checks (`player-slot`), and the census marks the other r
 candidates for review. Two classes carry case tables (2.3). `legacyShapes` holds the one named
 legacy rule, `LEGACY_VALLEY01_SPRITE` (section 9).
 
-`src/Formats/versions.json` pins the current version (2) with the schema's SHA-256. Version 2
+`src/Formats/versions.json` pins the current version (3) with the schema's SHA-256
+`550a5553edce148e835a87eadd81a8063874bbc2167118c4099c3731e4f60df3`. Version 2
 adds the codec contracts `enum-1`, `set-1` and `int-array-1` to the version 1 contracts
 (`property-table-1`, `cfs-1`, `hsm-header-1`, `hss-header-1`, `stored-object-1`,
-`written-object-1`, `cp1252-frozen-1`). The mapping contracts stay `DiplomaticProposal-1` and
+`written-object-1`, `cp1252-frozen-1`). Version 3 adds `record-1`, `bit-array-1` and `raw-1`.
+The mapping contracts stay `DiplomaticProposal-1` and
 `ProductionOrder-1`. `unitMappings` names the persisted classes whose game load needs a unit
 mapping (`TAoWHSMap`, `TDiplomaticAction`, `TMapContainer`, `TProductionItem`). `flatMappings`,
-the kind classes that keep a flat mapping, is empty. Version 1 keeps its historical hash.
-`SchemaTests` fails when the current schema's hash differs from the pinned one. Version 2
-reannotates the enum, set and fixed integer array properties of 2.3 and leaves every other
-property in place.
+the kind classes that keep a flat mapping, is empty. Version 1 and version 2 keep their historical
+hashes. `SchemaTests` fails when the current schema's hash differs from the pinned one. Version 2
+reannotates the enum, set and fixed integer array properties of 2.3. Version 3 reannotates the
+record, bit-array and raw primitive properties of 2.3 and leaves every other property in place.
 
 Initial names use fields without `F`, checked against recovery metadata for local
 arguments, with declaring-class prefixes for collisions. Persisted class, member
@@ -242,7 +244,7 @@ retain numbers where lossless conversion requires them.
 | `rwString` | String through frozen `Cp1252`. `IsMapped` checks every character. Strict input refuses unmapped characters with locations |
 | `rwStrings` | Array of lines only when the block rule below reproduces exact bytes, otherwise `{ "$text": "..." }` |
 | `rwStringsEx` | `lines` and signed 32-bit `objects` arrays of equal length. Noncanonical text uses `$text` plus `objects`, with decoded line count checked |
-| `rwData` | Named fields with explicit layout and `$padding` for nonzero padding, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Other values stay exact hex. `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
+| `rwData` | Named fields with explicit layout, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Version 3 stores a padded record as a JSON object of its C# field names (a one-field set wrapper as that set's name array), nonzero record residue as `$reserved` on the record, the ability bit array as ascending indices (residue bits as `$reserved` on the value), and a primitive `rwData` integer or bool as that integer or boolean, zero and false included. `TFloodControl.OriginalTerrain` and `TDiplomaticAction.ActionType` stay exact hex. Envelope `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
 | Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads. Version 1 has one, `TAIPlayerControl.DefenseStrengthMultiplier` |
 | Overlapping record | One authoritative schema field set. Other views derive from it. Uninterpreted bits stay exact, never independently editable aliases |
 | `rwStreamProc` | Typed arrays or codec-specific objects. Bit lists retain `default`, stored `count` and exact `bits`, without capacity rounding. Other identified payloads stay hex until a decoder exists |
@@ -325,8 +327,9 @@ declared legacy write order, data without gaps and short string prefixes below
 255. `$layout` records differences needed for G1. Its versioned structure has
 `codec`, `fingerprint` and `parts`. Parts have categories, bounded locations and
 exact bytes or encoding parameters. Categories cover table form/order, value
-prefixes, gaps, overlaps, header extensions and nested compression. Named record
-padding remains `$padding`, not a duplicate editable value. The codec is
+prefixes, gaps, overlaps, header extensions and nested compression. Nonzero padding of a
+version 3 record is `$reserved` on that record, one hex string of every residue byte. It is
+not a second copy of a named field. Envelope `$padding` does not occur. The codec is
 `property-table-1`, and the code names six categories (`src/Formats/Original/Layout.cs`):
 `table-form-order` (a stored table that the writer does not make from the data order, which
 also places overlapping values at their stored offsets), `gaps`, `value-prefixes`,
@@ -365,7 +368,8 @@ long table entries with a gap after a Boolean, a noncanonical table order, the H
 header extensions, an edit that invalidates the layout and an export that rebuilds it,
 `--exact-layout` refusing a stale layout, a part that does not fit, and a campaign save whose
 nested map keeps its compressed bytes until an edit recompresses it and rebuilds its size.
-Nonzero padding has no fixture, since version 1 maps no record (2.3). A class change is
+Nonzero padding has no corpus fixture, since version 1 maps no record (2.3). Version 3 proves a
+nonzero `$reserved` on `TSetupPlayerBehavior` in `RecordShapeTests`. A class change is
 `GameSwitchTests.AllowedClassChangeValidatesTheNewClassFields`. Over the pinned corpus the
 residue is 3142 parts in 61 files: `table-form-order` 3136, `gaps` 5, `header-extensions` 1.
 `tactical-hsm` holds 2999 parts in 52 files, because 52 of the 59 tactical maps store field
@@ -395,18 +399,22 @@ A test checks them against the current version. Golden binary/document pairs pin
 behavior too, since unchanged mapping names do not prove unchanged code. Mapping
 implementation changes receive format-change review.
 
-Version 2 is the current version. `MigrationChain.Default` holds one step,
-`1-symbolic-enum-set-array`, from version 1 to version 2. The step rewrites the hex of an enum,
-a set and a fixed integer array into the names and lists of 2.3, by the enum catalog. It recomputes
-every `$layout` fingerprint so the retained parts still match the visible values, and it leaves
-every other value in place. A nested campaign map's fingerprint uses that map's profile.
-A version 1 document still loads. The converter writes version 2.
+Version 3 is the current version. `MigrationChain.Default` holds two steps.
+`1-symbolic-enum-set-array` rewrites version 1 hex of an enum, a set and a fixed integer array
+into the names and lists of 2.3, by the enum catalog. `2-record-bit-primitive` rewrites version 2
+hex of a padded record, the ability bit array and a raw primitive into the version 3 shapes of 2.3.
+It walks the pinned version 2 schema and decodes each of 39 pinned properties through an
+embedded version 3 codec spec. The three record layouts are embedded field lists. Enum and set
+names still come from the enum catalog. Neither step reads `FormatSchema.Current` and neither
+embeds the current schema. Each recomputes every `$layout` fingerprint so the retained parts still match the visible
+values, and leaves every other value in place. A nested campaign map's fingerprint uses that map's
+profile. A version 1 document and a version 2 document still load. The converter writes version 3.
 `MigrationTests` run a test chain from version 1 to 3 over the golden hero lists of
 `src/Formats.Tests/Golden`, check that every step runs and names the values it synthesizes, and
 that a newer version fails with both numbers. `THeroLibrary` is a schema class. Those hero lists
-hold no reannotated member, so the version 2 step leaves their bodies unchanged. The step walks
-a pinned copy of the version 2 schema and switches on the codec type. That switch stays inside
-this frozen step. Document value rules have no switch on a kind (`persistence-tree.md`).
+hold no reannotated member, so both steps leave their bodies unchanged apart from the version.
+Each frozen step switches on the codec type. That switch stays inside the step. Document value
+rules have no switch on a kind (`persistence-tree.md`).
 `SymbolicTests` migrates constructed hex and that golden file. The production order and
 diplomatic proposal mappings landed inside 9.7-3, before any game wrote a document, so they are
 part of version 1 and no flat-field migration exists.
@@ -1037,14 +1045,15 @@ mods-design's proposal to stabilize them and the roadmap's deferral of named
 persistence until after milestone 10. 9.6 is not blocked by exit implementation.
 Mod work that still uses the bridge carries the stated temporary costs.
 
-Step 1 is implemented for the pilot classes in `persistence-tree.md`. Step 2 is implemented for
-three shapes: enum bytes, sets and fixed integer arrays. They are symbolic names and lists in
-version 2, and the original backend maps one object's tree to the property-table image and back
-with no `ReadWrite` on that path (`persistence-tree.md`). Padded records and bit arrays are
-PE-2b. The `stream` callbacks, map blobs and run-length lists are PE-2c. Steps 3 to 5 are not
-implemented. `ReadWrite` and the converter remain the game's path until step 3. The private
-roadmap allocates the five steps as briefs PE-1 to PE-5 in its phase 8, before 10.4 publishes
-the API baseline, and `milestones.md` section 10 names them as that step's prerequisite.
+Step 1 is implemented for the pilot classes in `persistence-tree.md`. Step 2 is implemented
+except for the PE-2c shapes. Version 2 stores enum bytes, sets and fixed integer arrays as names
+and lists. Version 3 stores padded records, the ability bit array and raw primitive values, and
+the original backend writes one object's tree to the property-table image and back with no
+`ReadWrite` on that path (`persistence-tree.md`). The `stream` callbacks, map blobs and
+run-length lists are PE-2c. Steps 3 to 5 are not implemented. `ReadWrite` and the converter
+remain the game's path until step 3. The private roadmap allocates the five steps as briefs
+PE-1 to PE-5 in its phase 8, before 10.4 publishes the API baseline, and `milestones.md`
+section 10 names them as that step's prerequisite.
 
 ### 6.4 Cross-document reconciliation
 
@@ -1273,14 +1282,16 @@ pins the rule to exactly one occurrence in that file.
   semantics included, is milestone 10 work (step 10.1, 6.2).
 - The transition cost (6.1). Every own load and save passes through the Delphi image:
   property numbers, widths, call order, record layouts and the stream code stay the engine's
-  protocol, every `rwData` record stays exact hex, and conversion adds the time and memory of
-  section 9.3.
+  protocol, and conversion adds the time and memory of
+  section 9.3. Version 3 stores a padded record's fields, the ability bits and a raw primitive
+  as names, lists and plain values. The other `rwData` payloads stay exact hex until PE-2c.
   A persisted array keeps its original size until an adapter of X28 gives its extra entries a
   port-features property.
 - The exit (6.3). Step 1, the typed persistence tree and its direct document backend, is
-  implemented for the pilot scope in `persistence-tree.md`. Step 2 is implemented for enum bytes,
-  sets and fixed integer arrays (version 2 and the original backend). PE-2b (padded records and
-  bit arrays), PE-2c (`stream` callbacks, map blobs and run-length lists) and steps 3 to 5 are
+  implemented for the pilot scope in `persistence-tree.md`. Step 2 is implemented except PE-2c.
+  Version 2 stores enum bytes, sets and fixed integer arrays. Version 3 stores padded records,
+  the ability bit array and raw primitives, and the original backend is the direct tree-to-image
+  path. PE-2c (`stream` callbacks, map blobs and run-length lists) and steps 3 to 5 are
   not implemented. `ReadWrite` and the converter remain the game's path until step 3. The exit is a
   prerequisite of milestone 10: no persistence interface becomes stable mod API before it, and
   the private roadmap allocates it as briefs PE-1 to PE-5 before step 10.4 publishes the API

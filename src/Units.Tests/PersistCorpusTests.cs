@@ -5,7 +5,9 @@ using Aow.Formats.Migrations;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
+using Aow.Units.AoWE;
 using Aow.Units.Engine;
+using Aow.Units.HSEngine;
 using Xunit.Abstractions;
 
 namespace Aow.Units.Tests;
@@ -18,7 +20,7 @@ public sealed class CorpusFactAttribute : FactAttribute
     }
 }
 
-/// <summary>Every pilot instance in the installed corpus matches the converter after an engine rewrite.</summary>
+/// <summary>Every tree-persistable instance in the installed corpus matches the converter after an engine rewrite.</summary>
 [Collection("Engine")]
 [EngineState]
 public sealed class PersistCorpusTests
@@ -26,60 +28,102 @@ public sealed class PersistCorpusTests
     private static readonly string[] Patterns =
         ["Scenario/Custom/*.hsm", "Scenario/Campaign/*.csm", "Scenario/Campaign/*.cam", "Release/*.ahl", "Release/*.hss", "TCMaps/*.hsm", "Save/*.asg"];
 
-    private static readonly string[] Pilots =
+    // These subclasses are in the installed scenarios and saves. TRaidAG, TScoutAG and the other
+    // behavior groups are absent from those files. TAbilityList shares class id 80, so a created
+    // object is not named that class, and no property fixes it. TSetupSettings is not a member of
+    // a map, campaign, hero list or save. Storm and animation sprites are absent from these files.
+    private static readonly string[] Required =
     [
-        "TEControlStyleObject", "TEResource", "TEResourceEditSettings", "TEnchantment", "TEventLog", "TGlobalEnchantment",
-        "TItemGFX", "TMessageEventLog", "TAIBudget", "TAIBudgetList", "TAIBudgetManager", "TAISavingsBudget",
-        "TAITransporterBudget", "TAICityFortifyBudget", "TAICityResearchBudget", "TAICityUpgradeBudget",
-        "TCosmeticSurgeryEnchantment", "TFloodControl", "TFloodEnchantment", "TFrozenWaterHS",
-        "TUnitEnchantment", "TUnitEnchantmentAbilityData",
-        "TDiplomaticRelationHistoryItem", "TChangeGlobalMagicTE", "TUnitSpellCA", "TGlobalMagicControl",
-        "TSingleTargetCA", "TCityEnchantment", "THatredEnchantment", "THarmonyEnchantment",
+        "TGuardAG", "TPassiveAG", "TFortifyAG", "TNormalAG", "TSkirmishAG",
+        "TAIBudgetManager", "TEResourceEditSettings", "TGlobalMagicControl",
+    ];
+
+    private static readonly string[] Watched =
+    [
+        "TAbilityList", "TGuardAG", "TPassiveAG", "TFortifyAG", "TRaidAG", "TScoutAG", "TNormalAG", "TSkirmishAG",
+        "TGuardAreaAG", "TPatrolAG", "TRefugeAG", "TDefenderAG", "TAggressorAG", "TExpanderAG", "TScorcherAG",
+        "TSuicidalAG", "TTransportAG", "TAbstractBehaviorAG",
+        "TStorm", "TIceStorm", "TDeathStorm", "TDivineStorm", "TFireStorm", "TLightningStorm", "TPestilenceStorm", "TBlastStorm",
+        "TAnimation", "TBloodShrineAnimation", "TImageSequenceAnimation", "TSpringOfLifeAnimation", "TTwinkleAnimation",
+        "TDamageCA", "TSelfDestructCA", "TTurnUndeadCA", "TRemotePlayer", "TCustomAbilityList", "TSetupSettings", "TAIGroup",
+        "TAIBudgetManager", "TEResourceEditSettings", "TGlobalMagicControl",
     ];
 
     private readonly ITestOutputHelper output;
+
+    // TArmy.Destroy notifies AoWHSMap unless that map is being destroyed. A blank instance has no map.
+    private static TAoWHSMap? reaper;
 
     public PersistCorpusTests(ITestOutputHelper output) => this.output = output;
 
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
-        var schema = FormatSchema.Current;
-        var factory = EnginePersistableFactory.Instance;
-        var counts = Pilots.ToDictionary(name => name, _ => 0, StringComparer.Ordinal);
-        var pilots = counts.Keys.ToHashSet(StringComparer.Ordinal);
-        foreach (var relative in Files())
+        var previous = AoWEUnit.AoWHSMap;
+        var map = new TAoWHSMap(null!);
+        map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
+        reaper = map;
+        blocked.Clear();
+        try
         {
-            var path = Path.Combine(Root, relative);
-            var bytes = File.ReadAllBytes(path);
-            var found = GameFiles.Classify(bytes, Path.GetExtension(path));
-            if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null) continue;
-            var imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
-            Assert.Equal(2, ((JsonInteger)imported.Document["$version"]!).Value);
-            var migrated = GameFiles.Read(GameFiles.Write(Version1Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
-            EqualJson(imported.Document, migrated, relative + " migration");
-            var root = (JsonObject)imported.Document["root"]!;
-            var cls = found.Profile.RootHasClass
-                ? schema.Get(((JsonString)root["$class"]!).Value)
-                : schema.Get(found.Profile.RootFamily);
-            Walk(root, cls, found.Profile.Engine, relative, schema, factory, pilots, counts);
+            var schema = FormatSchema.Current;
+            var factory = new EnginePersistableFactory(EngineFixture.Engine);
+            var counts = new Dictionary<string, int>(StringComparer.Ordinal);
+            foreach (var relative in Files())
+            {
+                var path = Path.Combine(Root, relative);
+                var bytes = File.ReadAllBytes(path);
+                var found = GameFiles.Classify(bytes, Path.GetExtension(path));
+                if (found.Format != DetectedFormat.Original || found.Profile is null || found.Kind is null) continue;
+                var imported = GameFiles.Import(bytes, found.Profile, found.Kind, relative);
+                Assert.Equal(3, ((JsonInteger)imported.Document["$version"]!).Value);
+                var fromVersion1 = GameFiles.Read(GameFiles.Write(Version1Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
+                var fromVersion2 = GameFiles.Read(GameFiles.Write(Version2Document(bytes, found.Profile, found.Kind, relative)), relative).Document;
+                // Import decodes with FormatSchema.Current. The version 2 step decodes the 39 pinned
+                // properties through embedded codec specs, so the two documents are not one codec compared with itself.
+                EqualJson(imported.Document, fromVersion1, relative + " version 1 migration");
+                EqualJson(imported.Document, fromVersion2, relative + " version 2 migration");
+                var root = (JsonObject)imported.Document["root"]!;
+                var cls = found.Profile.RootHasClass
+                    ? schema.Get(((JsonString)root["$class"]!).Value)
+                    : schema.Get(found.Profile.RootFamily);
+                Walk(root, cls, found.Profile.Engine, relative, schema, factory, counts);
+            }
+            var printed = new SortedSet<string>(StringComparer.Ordinal);
+            foreach (var pair in counts)
+                if (pair.Value > 0) printed.Add(pair.Key);
+            foreach (var name in Watched) printed.Add(name);
+            foreach (var name in printed)
+            {
+                counts.TryGetValue(name, out int count);
+                blocked.TryGetValue(name, out var held);
+                string line = held.Count == 0
+                    ? name + " " + count
+                    : name + " " + (count - held.Count) + " blocked " + held.Count + " " + held.Reason;
+                output.WriteLine(line);
+                Console.WriteLine(line);
+            }
+            foreach (var name in Required)
+            {
+                counts.TryGetValue(name, out int count);
+                blocked.TryGetValue(name, out var held);
+                Assert.True(count - held.Count > 0, name + " has no proved instance in the corpus. " + (held.Reason ?? ""));
+            }
         }
-        foreach (var name in Pilots)
+        finally
         {
-            string line = name + " " + counts[name];
-            output.WriteLine(line);
-            Console.WriteLine(line);
+            reaper = null;
+            AoWEUnit.AoWHSMap = previous;
+            map.Destroy();
         }
-        // Every install holds these, so a walker that finds nothing fails here.
-        foreach (var name in (string[])["TAIBudgetManager", "TUnitEnchantmentAbilityData", "TEResourceEditSettings", "TGlobalMagicControl"])
-            Assert.True(counts[name] > 0, name + " has no instance in the corpus.");
     }
 
-    private static void Walk(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, HashSet<string> pilots, Dictionary<string, int> counts)
+    private static void Walk(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
-        if (pilots.Contains(cls.Name))
+        if (EngineTypes.TryGetValue(cls.Name, out var type) && TEObject.TreePersistenceRefusal(type) == null)
         {
-            counts[cls.Name]++;
+            counts.TryGetValue(cls.Name, out int seen);
+            counts[cls.Name] = seen + 1;
             Prove(obj, cls, engine, file, schema, factory);
         }
         foreach (var prop in cls.Properties)
@@ -89,24 +133,24 @@ public sealed class PersistCorpusTests
             if (prop.IsDynamic)
             {
                 if (member.Value is JsonArray array)
-                    foreach (var item in array.Items) Visit(cls, prop, item, engine, file, schema, factory, pilots, counts);
+                    foreach (var item in array.Items) Visit(cls, prop, item, engine, file, schema, factory, counts);
                 continue;
             }
-            Visit(cls, prop, member.Value, engine, file, schema, factory, pilots, counts);
+            Visit(cls, prop, member.Value, engine, file, schema, factory, counts);
         }
     }
 
-    private static void Visit(SchemaClass cls, SchemaProperty prop, JsonValue value, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, HashSet<string> pilots, Dictionary<string, int> counts)
+    private static void Visit(SchemaClass cls, SchemaProperty prop, JsonValue value, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
         if (prop.Codec is FixedObjectCodec fixedObject && value is JsonObject nested)
-            Walk(nested, schema.Get(fixedObject.ClassName), engine, file, schema, factory, pilots, counts);
+            Walk(nested, schema.Get(fixedObject.ClassName), engine, file, schema, factory, counts);
         else if (prop.Codec is CreatedObjectCodec && value is JsonObject created && created["$class"] is JsonString name)
-            Walk(created, schema.Get(name.Value), engine, file, schema, factory, pilots, counts);
+            Walk(created, schema.Get(name.Value), engine, file, schema, factory, counts);
         else if (prop.Codec is ChildrenCodec && value is JsonArray children)
         {
             foreach (var item in children.Items)
                 if (item is JsonObject child && child["$class"] is JsonString childName)
-                    Walk(child, schema.Get(childName.Value), engine, file, schema, factory, pilots, counts);
+                    Walk(child, schema.Get(childName.Value), engine, file, schema, factory, counts);
         }
         else if (prop.Codec is MapFieldsCodec && value is JsonArray rows)
         {
@@ -115,12 +159,12 @@ public sealed class PersistCorpusTests
                 if (row is JsonArray cells)
                     foreach (var cell in cells.Items)
                         if (cell is JsonObject fieldObject)
-                            Walk(fieldObject, field, engine, file, schema, factory, pilots, counts);
+                            Walk(fieldObject, field, engine, file, schema, factory, counts);
         }
         else if (prop.Codec is CampaignMapCodec && value is JsonObject map && map["root"] is JsonObject campaignRoot)
         {
             var campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Get(nestedName.Value) : schema.Get("TAoWHSMap");
-            Walk(campaignRoot, campaignClass, engine, file, schema, factory, pilots, counts);
+            Walk(campaignRoot, campaignClass, engine, file, schema, factory, counts);
         }
     }
 
@@ -129,7 +173,7 @@ public sealed class PersistCorpusTests
         try
         {
             var image = PilotImage.Encode(obj, cls.Name, engine);
-            var loaded = (TEObject)factory.Create(cls.Name);
+            var loaded = Blank(cls.Name);
             try
             {
                 Load(loaded, image);
@@ -138,8 +182,18 @@ public sealed class PersistCorpusTests
                 var tree = TreeWriter.Write(loaded, factory);
                 var actual = DocumentBackend.Write(tree, cls, schema, engine);
                 EqualJson(expected, actual, file + " " + cls.Name + " write");
-                EqualBytes(rewritten, OriginalBackend.Write(tree, cls, schema, engine), file + " " + cls.Name + " original");
-                var again = (TEObject)factory.Create(cls.Name);
+                byte[] direct;
+                try
+                {
+                    direct = OriginalBackend.Write(tree, cls, schema, engine);
+                }
+                catch (ConversionException error) when (IsDirectRefusal(error))
+                {
+                    Block(cls.Name, error);
+                    return;
+                }
+                EqualBytes(rewritten, direct, file + " " + cls.Name + " original");
+                var again = Blank(cls.Name);
                 try
                 {
                     TreeReader.Read(DocumentBackend.Read(expected, cls, schema, engine), again, factory);
@@ -147,22 +201,32 @@ public sealed class PersistCorpusTests
                 }
                 finally
                 {
-                    again.Destroy();
+                    Release(again);
                 }
-                var fromImage = (TEObject)factory.Create(cls.Name);
+                var fromImage = Blank(cls.Name);
                 try
                 {
-                    TreeReader.Read(OriginalBackend.Read(image, cls, schema, engine), fromImage, factory);
+                    ObjectNode read;
+                    try
+                    {
+                        read = OriginalBackend.Read(image, cls, schema, engine);
+                    }
+                    catch (ConversionException error) when (IsDirectRefusal(error))
+                    {
+                        Block(cls.Name, error);
+                        return;
+                    }
+                    TreeReader.Read(read, fromImage, factory);
                     EqualBytes(Image(loaded), Image(fromImage), file + " " + cls.Name + " readwrite");
                 }
                 finally
                 {
-                    fromImage.Destroy();
+                    Release(fromImage);
                 }
             }
             finally
             {
-                loaded.Destroy();
+                Release(loaded);
             }
         }
         catch (InvalidOperationException error) when (IsTreeRefusal(error))
@@ -174,6 +238,27 @@ public sealed class PersistCorpusTests
         {
             throw new InvalidOperationException(file + " " + cls.Name + " failed. " + error.Message, error);
         }
+    }
+
+    // An image that still holds a run list, a map blob, a dynamic member or a case mapping.
+    // The direct path refuses those shapes. The instance stays in the count and is not a proved round trip.
+    private static readonly Dictionary<string, (int Count, string Reason)> blocked = new(StringComparer.Ordinal);
+
+    private static void Block(string className, ConversionException error)
+    {
+        string reason = error.Diagnostic.Message;
+        if (blocked.TryGetValue(className, out var seen)) blocked[className] = (seen.Count + 1, seen.Reason);
+        else blocked[className] = (1, reason);
+    }
+
+    private static bool IsDirectRefusal(ConversionException error)
+    {
+        string message = error.Diagnostic.Message;
+        return message.StartsWith("The direct path does not store", StringComparison.Ordinal)
+            || message.StartsWith("PE-2c still needs", StringComparison.Ordinal)
+            || message.StartsWith("PE-3 still needs", StringComparison.Ordinal)
+            || message.StartsWith("A record has no image.", StringComparison.Ordinal)
+            || message.Contains("uses a case mapping.", StringComparison.Ordinal);
     }
 
     private static readonly Dictionary<string, Type> EngineTypes = BuildEngineTypes();
@@ -200,23 +285,41 @@ public sealed class PersistCorpusTests
         return EngineTypes.TryGetValue(name, out var type) && TEObject.TreePersistenceRefusal(type) == message;
     }
 
+    private static void Release(TEObject obj)
+    {
+        var previous = AoWEUnit.AoWHSMap;
+        AoWEUnit.AoWHSMap = reaper;
+        try
+        {
+            obj.Destroy();
+        }
+        finally
+        {
+            AoWEUnit.AoWHSMap = previous;
+        }
+    }
+
+    private static TEObject Blank(string className)
+    {
+        foreach (var eclass in EClass.All)
+            if (eclass.ClassName == className) return eclass.Create(null!);
+        throw new InvalidOperationException("The engine has no class " + className + ".");
+    }
+
     private static void Load(TEObject obj, byte[] image)
     {
-        EngineFixture.WithRegisteredClasses(() =>
+        using var memory = new TMemoryStream();
+        memory.Write(image);
+        memory.Position = 0;
+        var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
+        try
         {
-            using var memory = new TMemoryStream();
-            memory.Write(image);
-            memory.Position = 0;
-            var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
-            try
-            {
-                obj.MainReadWrite(reader);
-            }
-            finally
-            {
-                reader.Destroy();
-            }
-        });
+            obj.MainReadWrite(reader);
+        }
+        finally
+        {
+            reader.Destroy();
+        }
     }
 
     private static byte[] Image(TEObject obj)
@@ -289,11 +392,17 @@ public sealed class PersistCorpusTests
         Assert.Fail(label + " at " + expected.AsSpan().CommonPrefixLength(actual));
     }
 
-    private static JsonObject Version1Document(byte[] file, FileProfile profile, string kind, string relative)
+    private static JsonObject Version2Document(byte[] file, FileProfile profile, string kind, string relative) =>
+        VersionDocument(file, profile, kind, relative, RecordMigration.Version2, 2);
+
+    private static JsonObject Version1Document(byte[] file, FileProfile profile, string kind, string relative) =>
+        VersionDocument(file, profile, kind, relative, SymbolicMigration.Version1, 1);
+
+    private static JsonObject VersionDocument(byte[] file, FileProfile profile, string kind, string relative, FormatSchema schema, int version)
     {
         var session = new ImportSession
         {
-            Schema = SymbolicMigration.Version1,
+            Schema = schema,
             Limits = FormatLimits.Default,
             Counts = new LayoutCounts(),
             File = relative,
@@ -301,7 +410,7 @@ public sealed class PersistCorpusTests
         var (container, root) = profile.Import(file, session);
         return new JsonObject()
             .Add("$format", new JsonString(OwnFormat.FormatName))
-            .Add("$version", new JsonInteger(1))
+            .Add("$version", new JsonInteger(version))
             .Add("$kind", new JsonString(kind))
             .Add("$container", container)
             .Add("root", root);

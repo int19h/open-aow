@@ -1,5 +1,6 @@
 // Translated from Animation.pas.
 using System.Runtime.CompilerServices;
+using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.Engine;
 using Aow.Units.GFXE;
@@ -96,6 +97,16 @@ public partial class TAnimation : THexagonSprite
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FYhx), 12);
         Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FLhx), 13);
         Stream.rwInteger(ref FFrameCounter, 14);
+    }
+
+    public override void PersistFields(IPersister persister)
+    {
+        base.PersistFields(persister);
+        PersistSupport.Record(persister, "Dimensions", ref FDimensions);
+        PersistSupport.UnsignedByte(persister, "Xhx", ref FXhx);
+        PersistSupport.UnsignedByte(persister, "Yhx", ref FYhx);
+        PersistSupport.UnsignedByte(persister, "Lhx", ref FLhx);
+        persister.Int("FrameCounter", ref FFrameCounter);
     }
 
     // Animation.pas:127

@@ -14,6 +14,9 @@ internal sealed class DocumentSite
     public required EncodeContext Context { get; init; }
     public bool Element { get; init; }
 
+    /// <summary>The object being read. A bit array takes its count from a sibling on this object.</summary>
+    public JsonObject? Owner { get; init; }
+
     public DocumentSite For(SchemaProperty property) => new()
     {
         Property = property,
@@ -21,6 +24,7 @@ internal sealed class DocumentSite
         Schema = Schema,
         Engine = Engine,
         Context = Context,
+        Owner = Owner,
     };
 
     public DocumentSite At(DocPath path, bool element) => new()
@@ -31,6 +35,18 @@ internal sealed class DocumentSite
         Engine = Engine,
         Context = Context,
         Element = element,
+        Owner = Owner,
+    };
+
+    public DocumentSite WithOwner(JsonObject owner) => new()
+    {
+        Property = Property,
+        Path = Path,
+        Schema = Schema,
+        Engine = Engine,
+        Context = Context,
+        Element = Element,
+        Owner = owner,
     };
 
     public ConversionException Fail(string code, string message, JsonValue? at = null, string? value = null, string? constraint = null) =>

@@ -1,6 +1,33 @@
+using System.Runtime.CompilerServices;
 using Aow.Rtl;
 
 namespace Aow.Formats.Tree;
+
+/// <summary>
+/// The load's <see cref="LoadErrorHandler"/>, with the same stop flag as the original stream.
+/// A null handler continues. Once a handler stops the load, later exceptions stop too.
+/// An empty message is reported as "Error Reading EObject".
+/// </summary>
+sealed class LoadErrorPolicy
+{
+    private readonly LoadErrorHandler? handler;
+    private bool stopped;
+
+    internal LoadErrorPolicy(LoadErrorHandler? handler) => this.handler = handler;
+
+    internal bool Continue(System.Exception error)
+    {
+        if (stopped) return false;
+        bool continueLoad = true;
+        if (handler is not null)
+        {
+            string message = error.Message.Length == 0 ? "Error Reading EObject" : error.Message;
+            handler(message, ref continueLoad);
+        }
+        if (!continueLoad) stopped = true;
+        return !stopped;
+    }
+}
 
 /// <summary>Writes one object into a tree. The root carries no class name. Created objects and children do.</summary>
 public static class TreeWriter
@@ -20,9 +47,9 @@ public static class TreeWriter
 /// </summary>
 public static class TreeReader
 {
-    public static void Read(ObjectNode node, IPersistable obj, IPersistableFactory factory)
+    public static void Read(ObjectNode node, IPersistable obj, IPersistableFactory factory, LoadErrorHandler? onError = null)
     {
-        var persister = new MemberPersister(node, true, factory, DocPath.Root);
+        var persister = new MemberPersister(node, true, factory, DocPath.Root, new LoadErrorPolicy(onError));
         obj.Persist(persister);
         persister.Finish();
     }
@@ -35,24 +62,26 @@ sealed class MemberPersister : IPersister
     private readonly Action<string, TreeValue>? add;
     private readonly HashSet<string> consumed = new(StringComparer.Ordinal);
     private readonly DocPath path;
+    private readonly LoadErrorPolicy? errors;
 
-    public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocPath path)
-        : this(node.Members, loading ? null : node.Add, loading, factory, path)
+    public MemberPersister(ObjectNode node, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors = null)
+        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
     {
     }
 
-    public MemberPersister(RecordNode node, bool loading, IPersistableFactory factory, DocPath path)
-        : this(node.Members, loading ? null : node.Add, loading, factory, path)
+    public MemberPersister(RecordNode node, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors = null)
+        : this(node.Members, loading ? null : node.Add, loading, factory, path, errors)
     {
     }
 
-    private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocPath path)
+    private MemberPersister(IReadOnlyList<(string Name, TreeValue Value)> existing, Action<string, TreeValue>? add, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors)
     {
         this.existing = existing;
         this.add = add;
         Loading = loading;
         Factory = factory;
         this.path = path;
+        this.errors = errors;
     }
 
     public bool Loading { get; }
@@ -79,6 +108,12 @@ sealed class MemberPersister : IPersister
 
     public void UShort(string name, ref ushort value, ushort fallback = 0) =>
         value = (ushort)Integer(name, value, fallback, 2, false);
+
+    public void Short(string name, ref short value, short fallback = 0) =>
+        value = (short)Integer(name, value, fallback, 2, true);
+
+    public void UInt(string name, ref uint value, uint fallback = 0) =>
+        value = (uint)Integer(name, value, fallback, 4, false);
 
     public void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum
     {
@@ -200,6 +235,65 @@ sealed class MemberPersister : IPersister
         Store(name, new BytesNode(data.ToArray()));
     }
 
+    public void RawInt(string name, ref int value) => value = (int)RawInteger(name, value, 4, true);
+
+    public void RawByte(string name, ref byte value) => value = (byte)RawInteger(name, value, 1, false);
+
+    public void RawSByte(string name, ref sbyte value) => value = (sbyte)RawInteger(name, value, 1, true);
+
+    public void RawBool(string name, ref bool value)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return;
+            if (found is BoolNode node) Unsafe.As<bool, byte>(ref value) = node.Value ? (byte)1 : (byte)0;
+            else if (found is IntegerNode { Width: 1, Signed: false } number && number.Value is >= 0 and <= 255)
+                Unsafe.As<bool, byte>(ref value) = (byte)number.Value;
+            else throw Type(name, "a boolean");
+            return;
+        }
+        byte stored = Unsafe.As<bool, byte>(ref value);
+        if (stored is 0 or 1) Store(name, new BoolNode(stored != 0));
+        else Store(name, new IntegerNode(1, false, stored));
+    }
+
+    public void BitArray(string name, int count, Span<byte> bits)
+    {
+        int length = count < 0 ? -1 : (count + 7) >> 3;
+        if (length < 0)
+            throw TreeErrors.Fail(Codes.Range, name + " has a negative count.", path.Member(name), value: count.ToString(System.Globalization.CultureInfo.InvariantCulture));
+        if (bits.Length != length)
+            throw TreeErrors.Fail(Codes.Range, name + " holds exactly " + length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes.", path.Member(name), value: bits.Length.ToString(System.Globalization.CultureInfo.InvariantCulture), constraint: length.ToString(System.Globalization.CultureInfo.InvariantCulture) + " bytes");
+        if (Loading)
+        {
+            var found = Take(name);
+            if (length == 0)
+            {
+                if (found is not null) throw Type(name, "omitted when the count is zero");
+                return;
+            }
+            if (found is null) return;
+            if (found is not BitArrayNode node || node.Count != count) throw Type(name, "a bit array");
+            bits.Clear();
+            foreach (var index in node.Indices)
+            {
+                if ((uint)index >= (uint)count)
+                    throw TreeErrors.Fail(Codes.Range, name + " is outside its storage range.", path.Member(name), value: index.ToString(System.Globalization.CultureInfo.InvariantCulture));
+                bits[index >> 3] |= (byte)(1 << (index & 7));
+            }
+            if ((count & 7) != 0) bits[length - 1] |= node.Residue;
+            return;
+        }
+        if (length == 0) return;
+        var indices = new List<int>();
+        for (int i = 0; i < count; i++)
+            if ((bits[i >> 3] & (1 << (i & 7))) != 0) indices.Add(i);
+        byte residue = 0;
+        if ((count & 7) != 0) residue = (byte)(bits[length - 1] & (byte)(0xFF << (count & 7)));
+        Store(name, new BitArrayNode(count, indices.ToArray(), residue));
+    }
+
     public void Object(string name, IPersistable obj)
     {
         if (Loading)
@@ -209,13 +303,13 @@ sealed class MemberPersister : IPersister
             if (found is null) nested = new ObjectNode(null, null);
             else if (found is ObjectNode node) nested = node;
             else throw Type(name, "an object");
-            var child = new MemberPersister(nested, true, Factory, path.Member(name));
+            var child = new MemberPersister(nested, true, Factory, path.Member(name), errors);
             obj.Persist(child);
             child.Finish();
             return;
         }
         var written = new ObjectNode(null, null);
-        obj.Persist(new MemberPersister(written, false, Factory, path.Member(name)));
+        obj.Persist(new MemberPersister(written, false, Factory, path.Member(name), errors));
         Store(name, written);
     }
 
@@ -231,11 +325,21 @@ sealed class MemberPersister : IPersister
             }
             if (found is not ObjectNode node || node.ClassName is not string className)
                 throw Type(name, "a created object");
-            var created = Factory.Create(className);
-            var child = new MemberPersister(node, true, Factory, path.Member(name));
-            created.Persist(child);
-            child.Finish();
-            obj = created;
+            IPersistable? created = null;
+            try
+            {
+                created = Factory.Create(className);
+                var child = new MemberPersister(node, true, Factory, path.Member(name), errors);
+                created.Persist(child);
+                child.Finish();
+                obj = created;
+            }
+            catch (System.Exception error)
+            {
+                if (created is not null) Factory.Release(created);
+                obj = null;
+                if (!Continue(error)) throw;
+            }
             return;
         }
         if (obj is null)
@@ -244,7 +348,7 @@ sealed class MemberPersister : IPersister
             return;
         }
         var written = new ObjectNode(Factory.ClassName(obj), null);
-        obj.Persist(new MemberPersister(written, false, Factory, path.Member(name)));
+        obj.Persist(new MemberPersister(written, false, Factory, path.Member(name), errors));
         Store(name, written);
     }
 
@@ -270,12 +374,21 @@ sealed class MemberPersister : IPersister
             {
                 if (child.ClassName is not string className || child.Slot is not int slot)
                     throw TreeErrors.Fail(Codes.MissingMember, "A child needs a class and a slot.", path.Member(name));
-                var created = Factory.Create(className);
-                children.Attach(created);
-                var reader = new MemberPersister(child, true, Factory, path.Member(name).Item(slot));
-                created.Persist(reader);
-                reader.Finish();
-                children.Place(slot, created);
+                IPersistable? created = null;
+                try
+                {
+                    created = Factory.Create(className);
+                    children.Attach(created);
+                    var reader = new MemberPersister(child, true, Factory, path.Member(name).Item(slot), errors);
+                    created.Persist(reader);
+                    reader.Finish();
+                    children.Place(slot, created);
+                }
+                catch (System.Exception error)
+                {
+                    if (created is not null) Factory.Release(created);
+                    if (!Continue(error)) throw;
+                }
             }
             return;
         }
@@ -285,7 +398,7 @@ sealed class MemberPersister : IPersister
             if (!children.IsStored(i)) continue;
             var child = children.Get(i) ?? throw TreeErrors.Fail(Codes.Corrupt, "A stored child is missing.", path.Member(name).Item(i));
             var node = new ObjectNode(Factory.ClassName(child), children.Slot(i));
-            child.Persist(new MemberPersister(node, false, Factory, path.Member(name).Item(children.Slot(i))));
+            child.Persist(new MemberPersister(node, false, Factory, path.Member(name).Item(children.Slot(i)), errors));
             written.Add(node);
         }
         Store(name, new ChildListNode(written));
@@ -327,13 +440,13 @@ sealed class MemberPersister : IPersister
             if (found is null) record = new RecordNode();
             else if (found is RecordNode node) record = node;
             else throw Type(name, "a record");
-            var child = new MemberPersister(record, true, Factory, path.Member(name));
+            var child = new MemberPersister(record, true, Factory, path.Member(name), errors);
             body(child);
             child.Finish();
             return;
         }
         var written = new RecordNode();
-        body(new MemberPersister(written, false, Factory, path.Member(name)));
+        body(new MemberPersister(written, false, Factory, path.Member(name), errors));
         Store(name, written);
     }
 
@@ -348,7 +461,7 @@ sealed class MemberPersister : IPersister
             for (int i = 0; i < list.Items.Count; i++)
             {
                 T value = default!;
-                var slot = new ItemSlot(list.Items[i], true, Factory, path.Member(name).Item(i));
+                var slot = new ItemSlot(list.Items[i], true, Factory, path.Member(name).Item(i), errors);
                 transfer(slot, ref value);
                 slot.Finish();
                 items.Add(value);
@@ -360,7 +473,7 @@ sealed class MemberPersister : IPersister
         for (int i = 0; i < items.Count; i++)
         {
             T value = items[i];
-            var slot = new ItemSlot(null, false, Factory, path.Member(name).Item(i));
+            var slot = new ItemSlot(null, false, Factory, path.Member(name).Item(i), errors);
             transfer(slot, ref value);
             items[i] = value;
             written.Items.Add(slot.Finish());
@@ -406,6 +519,21 @@ sealed class MemberPersister : IPersister
     private ConversionException Type(string name, string expected) =>
         TreeErrors.Fail(Codes.Type, $"{name} is {expected}.", path.Member(name));
 
+    private long RawInteger(string name, long current, int width, bool signed)
+    {
+        if (Loading)
+        {
+            var found = Take(name);
+            if (found is null) return current;
+            if (found is IntegerNode node && node.Width == width && node.Signed == signed) return node.Value;
+            throw Type(name, "an integer");
+        }
+        Store(name, new IntegerNode(width, signed, current));
+        return current;
+    }
+
+    private bool Continue(System.Exception error) => errors is null || errors.Continue(RtlUnit.Wrap(error));
+
     private static List<string> Split(string text)
     {
         var lines = new List<string>();
@@ -429,15 +557,17 @@ sealed class ItemSlot : IItemSlot
     private readonly bool loading;
     private readonly IPersistableFactory factory;
     private readonly DocPath path;
+    private readonly LoadErrorPolicy? errors;
     private TreeValue? stored;
     private bool used;
 
-    public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocPath path)
+    public ItemSlot(TreeValue? loaded, bool loading, IPersistableFactory factory, DocPath path, LoadErrorPolicy? errors = null)
     {
         this.loaded = loaded;
         this.loading = loading;
         this.factory = factory;
         this.path = path;
+        this.errors = errors;
     }
 
     public TreeValue Finish()
@@ -453,6 +583,10 @@ sealed class ItemSlot : IItemSlot
     public void SByte(ref sbyte value) => value = (sbyte)Integer(value, 1, true);
 
     public void UShort(ref ushort value) => value = (ushort)Integer(value, 2, false);
+
+    public void Short(ref short value) => value = (short)Integer(value, 2, true);
+
+    public void UInt(ref uint value) => value = (uint)Integer(value, 4, false);
 
     public void Bool(ref bool value)
     {
@@ -484,13 +618,13 @@ sealed class ItemSlot : IItemSlot
         if (loading)
         {
             if (loaded is not RecordNode node) throw TreeErrors.Fail(Codes.Type, "A list item is a record.", path);
-            var child = new MemberPersister(node, true, factory, path);
+            var child = new MemberPersister(node, true, factory, path, errors);
             body(child);
             child.Finish();
             return;
         }
         var written = new RecordNode();
-        body(new MemberPersister(written, false, factory, path));
+        body(new MemberPersister(written, false, factory, path, errors));
         stored = written;
     }
 
@@ -506,10 +640,21 @@ sealed class ItemSlot : IItemSlot
             }
             if (loaded is not ObjectNode node || node.ClassName is not string className)
                 throw TreeErrors.Fail(Codes.Type, "A list item is an object.", path);
-            value = factory.Create(className);
-            var child = new MemberPersister(node, true, factory, path);
-            value.Persist(child);
-            child.Finish();
+            IPersistable? created = null;
+            try
+            {
+                created = factory.Create(className);
+                var child = new MemberPersister(node, true, factory, path, errors);
+                created.Persist(child);
+                child.Finish();
+                value = created;
+            }
+            catch (System.Exception error)
+            {
+                if (created is not null) factory.Release(created);
+                value = null;
+                if (errors is not null && !errors.Continue(RtlUnit.Wrap(error))) throw;
+            }
             return;
         }
         if (value is null)
@@ -518,7 +663,7 @@ sealed class ItemSlot : IItemSlot
             return;
         }
         var written = new ObjectNode(factory.ClassName(value), null);
-        value.Persist(new MemberPersister(written, false, factory, path));
+        value.Persist(new MemberPersister(written, false, factory, path, errors));
         stored = written;
     }
 

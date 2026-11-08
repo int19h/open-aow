@@ -271,19 +271,22 @@ stage and become plain `record struct` types with explicit serialization when th
 
 Milestone 9.7 (`own-formats.md`) moved the disk format and kept the engine image (1.7). Every own
 load and save still passes through the property tables, the widths and the record layouts above,
-so a persisted `rwData` record keeps its explicit layout, and the own document holds it as exact
-hex. A persisted record becomes a plain type only when step 2 of the exit from the image
-(`own-formats.md` 6.3) gives it an explicit field adapter. Until that exit, `ReadWrite`, the
-numeric `rw*` calls and raw `rwData` are transitional and no stable mod API.
+so a persisted `rwData` record keeps its explicit layout in the engine image. Version 3 of the
+own document names that record's fields. The struct stays explicit-layout, because `ReadWrite`
+still copies the bytes. Until the exit finishes, `ReadWrite`, the numeric `rw*` calls and raw
+`rwData` are transitional and no stable mod API.
 
 Step 1 of that exit is implemented for the pilot classes named in `persistence-tree.md`. It adds
 `PersistFields` beside `ReadWrite` on those classes, a typed tree in `Aow.Formats.Tree`, and a
-direct document backend. Step 2 is implemented for enum bytes, sets and fixed integer arrays.
-Version 2 stores those as C# member names, name lists and integer lists. The original backend
-maps one object's tree to the property-table image and back. Other `rwData` values stay exact
-hex until PE-2b (padded records and bit arrays) and PE-2c (`stream` callbacks, map blobs and
-run-length lists). The game still loads and saves through `ReadWrite` and the converter.
-Step 3 is the switch.
+direct document backend. Step 2 is implemented except for the PE-2c shapes. Version 2 stores
+enum bytes, sets and fixed integer arrays as C# member names, name lists and integer lists.
+Version 3 stores a padded record as named fields, the ability bit array as ascending indices,
+and a primitive `rwData` value as a plain integer or boolean. The original backend writes the
+tree to the property-table image and back. `TFloodControl.OriginalTerrain` and
+`TDiplomaticAction.ActionType` stay exact hex. Stream callbacks, map blobs and run-length lists
+stay for PE-2c. The C# record structs keep their explicit layout while `ReadWrite` still copies
+their bytes. The catalog names the fields. It does not replace the struct with a plain record.
+The game still loads and saves through `ReadWrite` and the converter. Step 3 is the switch.
 
 Milestone 9.6 (`unions-and-kinds.md` section 4) changed the model of two persisted classes and no
 byte of a file:
