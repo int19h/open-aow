@@ -165,7 +165,7 @@ internal sealed partial class IntegerCodec(int width, bool signed, string? domai
         {
             1 => signed ? (sbyte)bytes[0] : bytes[0],
             2 => signed ? BinaryPrimitives.ReadInt16LittleEndian(bytes) : BinaryPrimitives.ReadUInt16LittleEndian(bytes),
-            _ => BinaryPrimitives.ReadInt32LittleEndian(bytes),
+            _ => signed ? BinaryPrimitives.ReadInt32LittleEndian(bytes) : BinaryPrimitives.ReadUInt32LittleEndian(bytes),
         };
         return new JsonInteger(value);
     }

@@ -685,13 +685,13 @@ public sealed class PersistEquivalenceTests
         bool added = EngineFixture.Engine.ClassTable.Find(descriptor.ClassID) == null;
         if (added) EngineFixture.Engine.RegisterEClasses([descriptor]);
         var control = new TGlobalMagicControl(null!);
+        Func<TECustomNode, TEObject>? previous = null;
         try
         {
             var hatred = new THatredEnchantment(null!) { FDaysActive = 12 };
             hatred.SetOwner(control.FEnchantments);
             var image = Image(control);
-            PersistenceFault.Type = typeof(THatredEnchantment);
-            PersistenceFault.Error = new InvalidOperationException("hatred failed");
+            previous = descriptor.SubstituteCreate(static owner => new ThrowingHatred(owner));
             var cls = Schema.Get("TGlobalMagicControl");
             var continued = (TGlobalMagicControl)Blank("TGlobalMagicControl");
             var continuedTree = (TGlobalMagicControl)Blank("TGlobalMagicControl");
@@ -728,11 +728,84 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            PersistenceFault.Type = null;
-            PersistenceFault.Error = null;
+            if (previous is not null) descriptor.SubstituteCreate(previous);
             control.Destroy();
             if (added) EngineFixture.Engine.UnregisterEClasses([descriptor]);
         }
+    }
+
+    [Fact]
+    public void AFixedObjectWhosePersistThrowsStaysUnlessTheHandlerStops()
+    {
+        var source = new TGlobalMagicControl(null!);
+        try
+        {
+            source.FNextEnchantmentID = 9;
+            source.FDoubleSphereManaCount[0] = 3;
+            var image = Image(source);
+            var cls = Schema.Get("TGlobalMagicControl");
+            var continued = Faulted(4);
+            var continuedTree = Faulted(4);
+            var continuedList = continued.FEnchantments;
+            var continuedTreeList = continuedTree.FEnchantments;
+            try
+            {
+                Load(continued, image);
+                TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), continuedTree, Factory);
+                Assert.Same(continuedList, continued.FEnchantments);
+                Assert.Same(continuedTreeList, continuedTree.FEnchantments);
+                Assert.Equal(9, continued.FNextEnchantmentID);
+                Assert.Equal(9, continuedTree.FNextEnchantmentID);
+                Assert.Equal(3, continued.FDoubleSphereManaCount[0]);
+                Assert.Equal(3, continuedTree.FDoubleSphereManaCount[0]);
+                for (int i = 1; i < 9; i++)
+                {
+                    Assert.Equal(0, continued.FDoubleSphereManaCount[i]);
+                    Assert.Equal(continued.FDoubleSphereManaCount[i], continuedTree.FDoubleSphereManaCount[i]);
+                }
+            }
+            finally
+            {
+                continuedTree.Destroy();
+                continued.Destroy();
+            }
+            var stopped = Faulted(4);
+            var stoppedTree = Faulted(4);
+            var stoppedList = stopped.FEnchantments;
+            var stoppedTreeList = stoppedTree.FEnchantments;
+            try
+            {
+                var streamError = Assert.Throws<InvalidOperationException>(() =>
+                    Load(stopped, image, static (TEStorageStream _, string _, ref bool cont) => cont = false));
+                var treeError = Assert.Throws<InvalidOperationException>(() =>
+                    TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), stoppedTree, Factory,
+                        static (string _, ref bool cont) => cont = false));
+                Assert.Equal("enchantments failed", streamError.Message);
+                Assert.Equal("enchantments failed", treeError.Message);
+                Assert.Same(stoppedList, stopped.FEnchantments);
+                Assert.Same(stoppedTreeList, stoppedTree.FEnchantments);
+                Assert.Equal(4, stopped.FNextEnchantmentID);
+                Assert.Equal(4, stoppedTree.FNextEnchantmentID);
+            }
+            finally
+            {
+                stoppedTree.Destroy();
+                stopped.Destroy();
+            }
+        }
+        finally
+        {
+            source.Destroy();
+        }
+    }
+
+    private static TGlobalMagicControl Faulted(int sentinel)
+    {
+        var control = new TGlobalMagicControl(null!);
+        control.FEnchantments.Free();
+        control.FEnchantments = new ThrowingEnchantments(null!);
+        control.FNextEnchantmentID = sentinel;
+        return control;
     }
 
     [Fact]
@@ -911,6 +984,28 @@ public sealed class PersistEquivalenceTests
         int id = ability.FAbilityID;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability)) list[id] = null;
         ability.Destroy();
+    }
+
+    private sealed class ThrowingHatred : THatredEnchantment
+    {
+        public ThrowingHatred(TECustomNode owner) : base(owner)
+        {
+        }
+
+        public override void ReadWrite(TEStorageStream Stream) => throw new InvalidOperationException("hatred failed");
+
+        public override void PersistFields(IPersister persister) => throw new InvalidOperationException("hatred failed");
+    }
+
+    private sealed class ThrowingEnchantments : TGlobalEnchantmentList
+    {
+        public ThrowingEnchantments(TECustomNode owner) : base(owner)
+        {
+        }
+
+        public override void ReadWrite(TEStorageStream Stream) => throw new InvalidOperationException("enchantments failed");
+
+        public override void PersistFields(IPersister persister) => throw new InvalidOperationException("enchantments failed");
     }
 
     private sealed class BehaviorProbe : IPersistable

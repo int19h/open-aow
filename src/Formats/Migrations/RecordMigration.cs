@@ -11,7 +11,9 @@ namespace Aow.Formats.Migrations;
 /// The step rewrites those properties and recomputes each $layout fingerprint so it covers the
 /// rewritten values. Parts stay. It walks the pinned version 2 schema. Each pinned property
 /// decodes through an embedded version 3 codec spec, and the three record layouts are embedded
-/// field lists. A later schema version or a C# field rename does not change this step.
+/// field lists. The codec specs and the record layouts are pinned. The codec implementations are
+/// live code. A later schema reannotation or a C# field rename does not change this step. A change
+/// to a live codec implementation does.
 /// Enum and set names still come from the enum catalog, as the version 1 step does.
 /// The walk switches on the codec type.
 /// </summary>

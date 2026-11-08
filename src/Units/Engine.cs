@@ -4244,22 +4244,6 @@ public partial class TPropertyTable : TObject
     public int First { get => FFirst; }
 }
 
-/// <summary>
-/// A test asks one class to throw from both <see cref="TEObject.MainReadWrite"/> and
-/// <see cref="IPersistable.Persist"/>. Production leaves both fields null.
-/// </summary>
-internal static class PersistenceFault
-{
-    internal static Type Type;
-    internal static System.Exception Error;
-
-    internal static void Check(object obj)
-    {
-        if (Type is not null && Error is not null && Type.IsAssignableFrom(obj.GetType()))
-            throw Error;
-    }
-}
-
 // FOwner
 public partial class TEObject : TObject, IPersistable
 {
@@ -4348,7 +4332,6 @@ public partial class TEObject : TObject, IPersistable
 
     void IPersistable.Persist(IPersister persister)
     {
-        PersistenceFault.Check(this);
         if (TreePersistenceRefusal(GetType()) is string reason)
             throw new InvalidOperationException(reason);
         MainPersist(persister);
@@ -4390,7 +4373,6 @@ public partial class TEObject : TObject, IPersistable
     // Engine.pas:2594
     public virtual void MainReadWrite(TEStorageStream Stream)
     {
-        PersistenceFault.Check(this);
         if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, EngineUnit.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
         {
             Clear();
@@ -4567,7 +4549,6 @@ public partial class TECustomNode : TEObject
     // Engine.pas:2666
     public override void MainReadWrite(TEStorageStream Stream)
     {
-        PersistenceFault.Check(this);
         if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
         {
             if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(EngineUnit.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of())

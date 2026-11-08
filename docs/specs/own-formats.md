@@ -404,7 +404,10 @@ Version 3 is the current version. `MigrationChain.Default` holds two steps.
 into the names and lists of 2.3, by the enum catalog. `2-record-bit-primitive` rewrites version 2
 hex of a padded record, the ability bit array and a raw primitive into the version 3 shapes of 2.3.
 It walks the pinned version 2 schema and decodes each of 39 pinned properties through an
-embedded version 3 codec spec. The three record layouts are embedded field lists. Enum and set
+embedded version 3 codec spec. The three record layouts are embedded field lists. The codec specs
+and the record layouts are pinned. The codec implementations are live code. A later schema
+reannotation or a C# field rename does not change the step. A change to a live codec implementation
+does. Enum and set
 names still come from the enum catalog. Neither step reads `FormatSchema.Current` and neither
 embeds the current schema. Each recomputes every `$layout` fingerprint so the retained parts still match the visible
 values, and leaves every other value in place. A nested campaign map's fingerprint uses that map's

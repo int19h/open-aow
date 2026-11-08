@@ -29,9 +29,12 @@ public sealed class PersistCorpusTests
         ["Scenario/Custom/*.hsm", "Scenario/Campaign/*.csm", "Scenario/Campaign/*.cam", "Release/*.ahl", "Release/*.hss", "TCMaps/*.hsm", "Save/*.asg"];
 
     // These subclasses are in the installed scenarios and saves. TRaidAG, TScoutAG and the other
-    // behavior groups are absent from those files. TAbilityList shares class id 80, so a created
-    // object is not named that class, and no property fixes it. TSetupSettings is not a member of
-    // a map, campaign, hero list or save. Storm and animation sprites are absent from these files.
+    // behavior groups are absent from those files. TCustomAbilityList.PersistFields has no corpus
+    // coverage. Every class that stores the bit array descends from TAbilityOwner, which overrides
+    // ReadWrite and has no PersistFields, so the closure is refused before that method runs.
+    // Class id 80 is shared with TEObject, so a created object is not named TAbilityList. The
+    // constructed tests cover the bit array. TSetupSettings is not a member of a map, campaign,
+    // hero list or save. Storm and animation sprites are absent from these files.
     private static readonly string[] Required =
     [
         "TGuardAG", "TPassiveAG", "TFortifyAG", "TNormalAG", "TSkirmishAG",
@@ -64,6 +67,8 @@ public sealed class PersistCorpusTests
         map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
         reaper = map;
         blocked.Clear();
+        proved.Clear();
+        refusers.Clear();
         try
         {
             var schema = FormatSchema.Current;
@@ -95,19 +100,25 @@ public sealed class PersistCorpusTests
             foreach (var name in Watched) printed.Add(name);
             foreach (var name in printed)
             {
-                counts.TryGetValue(name, out int count);
+                proved.TryGetValue(name, out int ok);
                 blocked.TryGetValue(name, out var held);
                 string line = held.Count == 0
-                    ? name + " " + count
-                    : name + " " + (count - held.Count) + " blocked " + held.Count + " " + held.Reason;
+                    ? name + " " + ok
+                    : name + " " + ok + " blocked " + held.Count + " " + held.Reason;
+                output.WriteLine(line);
+                Console.WriteLine(line);
+            }
+            foreach (var pair in refusers.OrderByDescending(pair => pair.Value).ThenBy(pair => pair.Key, StringComparer.Ordinal))
+            {
+                string line = "refused " + pair.Value + " " + pair.Key;
                 output.WriteLine(line);
                 Console.WriteLine(line);
             }
             foreach (var name in Required)
             {
-                counts.TryGetValue(name, out int count);
+                proved.TryGetValue(name, out int ok);
                 blocked.TryGetValue(name, out var held);
-                Assert.True(count - held.Count > 0, name + " has no proved instance in the corpus. " + (held.Reason ?? ""));
+                Assert.True(ok > 0, name + " has no proved instance in the corpus. " + (held.Reason ?? ""));
             }
         }
         finally
@@ -124,7 +135,11 @@ public sealed class PersistCorpusTests
         {
             counts.TryGetValue(cls.Name, out int seen);
             counts[cls.Name] = seen + 1;
-            Prove(obj, cls, engine, file, schema, factory);
+            if (Prove(obj, cls, engine, file, schema, factory))
+            {
+                proved.TryGetValue(cls.Name, out int ok);
+                proved[cls.Name] = ok + 1;
+            }
         }
         foreach (var prop in cls.Properties)
         {
@@ -168,7 +183,7 @@ public sealed class PersistCorpusTests
         }
     }
 
-    private static void Prove(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory)
+    private static bool Prove(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory)
     {
         try
         {
@@ -189,8 +204,8 @@ public sealed class PersistCorpusTests
                 }
                 catch (ConversionException error) when (IsDirectRefusal(error))
                 {
-                    Block(cls.Name, error);
-                    return;
+                    Block(cls.Name, error.Diagnostic.Message);
+                    return false;
                 }
                 EqualBytes(rewritten, direct, file + " " + cls.Name + " original");
                 var again = Blank(cls.Name);
@@ -213,8 +228,8 @@ public sealed class PersistCorpusTests
                     }
                     catch (ConversionException error) when (IsDirectRefusal(error))
                     {
-                        Block(cls.Name, error);
-                        return;
+                        Block(cls.Name, error.Diagnostic.Message);
+                        return false;
                     }
                     TreeReader.Read(read, fromImage, factory);
                     EqualBytes(Image(loaded), Image(fromImage), file + " " + cls.Name + " readwrite");
@@ -228,11 +243,12 @@ public sealed class PersistCorpusTests
             {
                 Release(loaded);
             }
+            return true;
         }
         catch (InvalidOperationException error) when (IsTreeRefusal(error))
         {
-            // A refusing class overrides ReadWrite with no PersistFields, or MainReadWrite with no
-            // MainPersist. The write throws that class's refusal. The count stands.
+            Block(cls.Name, RefusalName(error));
+            return false;
         }
         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
         {
@@ -240,15 +256,25 @@ public sealed class PersistCorpusTests
         }
     }
 
-    // An image that still holds a run list, a map blob, a dynamic member or a case mapping.
-    // The direct path refuses those shapes. The instance stays in the count and is not a proved round trip.
+    // An instance is proved only when the write and both reads finish. A refusal anywhere in the
+    // closure blocks it. The label is the refusing class, or the direct-path diagnostic when no class is named.
+    private static readonly Dictionary<string, int> proved = new(StringComparer.Ordinal);
     private static readonly Dictionary<string, (int Count, string Reason)> blocked = new(StringComparer.Ordinal);
+    private static readonly Dictionary<string, int> refusers = new(StringComparer.Ordinal);
 
-    private static void Block(string className, ConversionException error)
+    private static void Block(string className, string label)
     {
-        string reason = error.Diagnostic.Message;
         if (blocked.TryGetValue(className, out var seen)) blocked[className] = (seen.Count + 1, seen.Reason);
-        else blocked[className] = (1, reason);
+        else blocked[className] = (1, label);
+        refusers.TryGetValue(label, out int count);
+        refusers[label] = count + 1;
+    }
+
+    private static string RefusalName(InvalidOperationException error)
+    {
+        const string prefix = "Class ";
+        int nameEnd = error.Message.IndexOf(' ', prefix.Length);
+        return error.Message.Substring(prefix.Length, nameEnd - prefix.Length);
     }
 
     private static bool IsDirectRefusal(ConversionException error)

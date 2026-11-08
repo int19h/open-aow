@@ -48,23 +48,59 @@ public sealed class RecordMigrationTests : FormatsTest
         var ctx = new EncodeContext(FormatSchema.Current, "game", "world-hsm", "record-migration.json", FormatLimits.Default, ExportOptions.Default);
         Assert.NotNull(LayoutReader.Read(ctx, root, DocPath.Root));
         var fingerprint = ((JsonObject)root["$layout"]!).Find("fingerprint")!;
+        string current = ((JsonString)fingerprint.Value).Value;
+        string wrong = current[0] == '0' ? new string('f', 64) : new string('0', 64);
+        fingerprint.Value = new JsonString(wrong);
+        var exact = new EncodeContext(FormatSchema.Current, "game", "world-hsm", "record-migration.json", FormatLimits.Default, new ExportOptions { ExactLayout = true });
+        var compared = Assert.Throws<ConversionException>(() => LayoutReader.Read(exact, root, DocPath.Root));
+        Assert.Equal(Codes.Layout, compared.Diagnostic.Code);
+        Assert.Equal("The retained exact layout is stale after an edit. --exact-layout refuses to rebuild it.", compared.Diagnostic.Message);
         fingerprint.Value = new JsonString("stale");
-        var error = Assert.Throws<ConversionException>(() => LayoutReader.Read(ctx, root, DocPath.Root));
-        Assert.Equal(Codes.Layout, error.Diagnostic.Code);
+        var malformed = Assert.Throws<ConversionException>(() => LayoutReader.Read(ctx, root, DocPath.Root));
+        Assert.Equal(Codes.Layout, malformed.Diagnostic.Code);
+        Assert.Equal("The $layout fingerprint is not 64 lowercase hexadecimal digits.", malformed.Diagnostic.Message);
     }
 
     [Fact]
     public void TheVersion2StepDoesNotReadTheCurrentSchema()
     {
-        JsonObject Document() => Envelope("hero-list", new JsonObject()
-            .Add("$class", new JsonString("TSetupSettings"))
-            .Add("PlayMode", new JsonString("03")));
-        var first = JsonWriter.ToUtf8(RecordMigration.Apply(Document()));
+        JsonObject[] Documents() =>
+        [
+            Envelope("hero-list", new JsonObject()
+                .Add("$class", new JsonString("TSetupSettings"))
+                .Add("PlayMode", new JsonString("03"))),
+            Envelope("world-hsm", new JsonObject()
+                .Add("$class", new JsonString("TPlayerSetupSettings"))
+                .Add("Behavior", new JsonString("0201000209000000"))),
+            Envelope("hero-list", new JsonObject()
+                .Add("$class", new JsonString("TCustomAbilityList"))
+                .Add("AbCount", new JsonInteger(1))
+                .Add("AbilityCount", new JsonString("81"))),
+            Envelope("hero-list", new JsonObject()
+                .Add("$class", new JsonString("TUnitResource"))
+                .Add("Champion", new JsonString("02"))),
+            Envelope("hero-list", new JsonObject()
+                .Add("$class", new JsonString("TUnitResource"))
+                .Add("Champion", new JsonString("00"))),
+        ];
+        var applied = Documents().Select(RecordMigration.Apply).ToArray();
+        Assert.Equal(3, ((JsonInteger)((JsonObject)applied[0]["root"]!)["PlayMode"]!).Value);
+        var behavior = (JsonObject)((JsonObject)applied[1]["root"]!)["Behavior"]!;
+        Assert.Equal(2, ((JsonInteger)behavior["PlayerType"]!).Value);
+        Assert.Equal("010002", ((JsonString)behavior["$reserved"]!).Value);
+        Assert.Equal(9, ((JsonInteger)behavior["Flags"]!).Value);
+        var ability = (JsonObject)((JsonObject)applied[2]["root"]!)["AbilityCount"]!;
+        Assert.Equal([0L], ((JsonArray)ability["values"]!).Items.Select(item => ((JsonInteger)item).Value).ToList());
+        Assert.Equal("80", ((JsonString)ability["$reserved"]!).Value);
+        Assert.Equal(2, ((JsonInteger)((JsonObject)applied[3]["root"]!)["Champion"]!).Value);
+        Assert.False(((JsonBool)((JsonObject)applied[4]["root"]!)["Champion"]!).Value);
+        var first = applied.Select(JsonWriter.ToUtf8).ToArray();
         FormatSchema.Substituted = FormatSchema.Load(Encoding.UTF8.GetBytes("""{"version":3,"classes":[]}"""), "empty.json");
         try
         {
-            var second = JsonWriter.ToUtf8(RecordMigration.Apply(Document()));
-            Assert.Equal(first, second);
+            var second = Documents().Select(doc => JsonWriter.ToUtf8(RecordMigration.Apply(doc))).ToArray();
+            Assert.Equal(first.Length, second.Length);
+            for (int i = 0; i < first.Length; i++) Assert.Equal(first[i], second[i]);
         }
         finally
         {
@@ -176,7 +212,4 @@ public sealed class RecordMigrationTests : FormatsTest
         while (at < target.Members.Count && target.Members[at].Name.StartsWith('$')) at++;
         target.Members.Insert(at, new JsonMember("$layout", layout));
     }
-
-    private static string Fingerprint(JsonObject obj) =>
-        ((JsonString)((JsonObject)obj["$layout"]!)["fingerprint"]!).Value;
 }

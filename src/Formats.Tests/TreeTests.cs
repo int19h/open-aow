@@ -174,6 +174,50 @@ public sealed class TreeTests : FormatsTest
     }
 
     [Fact]
+    public void ANestedRefusalIsSwallowedUnlessTheHandlerStops()
+    {
+        var made = new ObjectNode(nameof(TInner), null);
+        made.Add("N", new IntegerNode(4, true, 2));
+        made.Add("Extra", new IntegerNode(4, true, 1));
+        var created = new ObjectNode(null, null);
+        created.Add("Made", made);
+        created.Add("Number", new IntegerNode(4, true, 6));
+        var continued = new TSample { Number = 1 };
+        TreeReader.Read(created, continued, new TestFactory());
+        Assert.Null(continued.Made);
+        Assert.Equal(6, continued.Number);
+        var stopped = new TSample { Number = 1 };
+        var createdError = Assert.Throws<ConversionException>(() =>
+            TreeReader.Read(created, stopped, new TestFactory(), static (string _, ref bool cont) => cont = false));
+        Assert.Equal(Codes.Required, createdError.Diagnostic.Code);
+        Assert.Equal("root.Made.Extra", createdError.Diagnostic.Path);
+        Assert.Equal(1, stopped.Number);
+
+        var nested = new ObjectNode(null, null);
+        nested.Add("N", new BoolNode(true));
+        var parent = new ObjectNode(null, null);
+        parent.Add("Fixed", nested);
+        parent.Add("Number", new IntegerNode(4, true, 6));
+        var kept = new TSample { Number = 1 };
+        kept.Fixed.N = 4;
+        var instance = kept.Fixed;
+        TreeReader.Read(parent, kept, new TestFactory());
+        Assert.Same(instance, kept.Fixed);
+        Assert.Equal(4, kept.Fixed.N);
+        Assert.Equal(6, kept.Number);
+        var refused = new TSample { Number = 1 };
+        refused.Fixed.N = 4;
+        var refusedFixed = refused.Fixed;
+        var fixedError = Assert.Throws<ConversionException>(() =>
+            TreeReader.Read(parent, refused, new TestFactory(), static (string _, ref bool cont) => cont = false));
+        Assert.Equal(Codes.Type, fixedError.Diagnostic.Code);
+        Assert.Equal("root.Fixed.N", fixedError.Diagnostic.Path);
+        Assert.Same(refusedFixed, refused.Fixed);
+        Assert.Equal(4, refused.Fixed.N);
+        Assert.Equal(1, refused.Number);
+    }
+
+    [Fact]
     public void AnUnknownMemberIsAnErrorWithItsPath()
     {
         var document = Write(new TSample());

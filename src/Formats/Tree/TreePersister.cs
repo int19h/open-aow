@@ -304,8 +304,16 @@ sealed class MemberPersister : IPersister
             else if (found is ObjectNode node) nested = node;
             else throw Type(name, "an object");
             var child = new MemberPersister(nested, true, Factory, path.Member(name), errors);
-            obj.Persist(child);
-            child.Finish();
+            // rwEObject wraps MainReadWrite and leaves the caller's instance in place.
+            try
+            {
+                obj.Persist(child);
+                child.Finish();
+            }
+            catch (System.Exception error)
+            {
+                if (!Continue(error)) throw;
+            }
             return;
         }
         var written = new ObjectNode(null, null);

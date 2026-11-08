@@ -1,3 +1,4 @@
+using System.Buffers.Binary;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -31,6 +32,9 @@ public sealed class RecordShapeTests : FormatsTest
           ]},
           {"name": "TPlain", "parent": "TEObject", "id": 8, "engines": ["game"], "properties": [
             {"name": "Pair", "id": 1, "codec": "record", "fields": [{"name": "A", "codec": "i32"}]}
+          ]},
+          {"name": "TWide", "parent": "TEObject", "id": 9, "engines": ["game"], "properties": [
+            {"name": "Value", "id": 1, "codec": "record", "record": "TEveryWidth", "size": 14}
           ]}
         ]}
         """;
@@ -285,6 +289,47 @@ public sealed class RecordShapeTests : FormatsTest
         var again = new Holder();
         TreeReader.Read(round, again, Factory);
         Assert.Equal(2, Unsafe.As<bool, byte>(ref again.Flag));
+    }
+
+    [Fact]
+    public void AnUnsigned32BitRecordFieldRoundTripsAboveTheSignedRange()
+    {
+        var schema = Sample;
+        var cls = schema.Get("TWide");
+        var property = cls.PropertyByName("Value")!;
+        var codec = new IntegerCodec(4, false);
+        foreach (uint number in new uint[] { 0x80000000, 0xFFFFFFFF })
+        {
+            var bytes = new byte[4];
+            BinaryPrimitives.WriteUInt32LittleEndian(bytes, number);
+            var site = new ValueSite { Property = property, Id = property.Id ?? 0, Path = DocPath.Root.Member("Value").Member("U32"), Owner = new JsonObject() };
+            var decoded = codec.Decode(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts()), 0, 4, site);
+            Assert.Equal((long)number, ((JsonInteger)decoded).Value);
+            var encode = new EncodeContext(schema, "game", "game", null, FormatLimits.Default, ExportOptions.Default);
+            var buffer = new ByteBuffer();
+            codec.Encode(encode, decoded, buffer, site);
+            Assert.Equal(bytes, buffer.ToArray());
+            var frame = new ImageFrame { Property = property, Id = property.Id ?? 0, Path = site.Path };
+            var read = (IntegerNode)codec.ReadImage(new DecodeContext(bytes, schema, "game", "game", null, FormatLimits.Default, new LayoutCounts()), 0, 4, frame);
+            Assert.Equal(4, read.Width);
+            Assert.False(read.Signed);
+            Assert.Equal((long)number, read.Value);
+            var written = new ByteBuffer();
+            codec.WriteImage(read, encode, written, frame);
+            Assert.Equal(bytes, written.ToArray());
+
+            var record = new RecordNode();
+            record.Add("U32", new IntegerNode(4, false, number));
+            var node = new ObjectNode(null, null);
+            node.Add("Value", record);
+            var image = OriginalBackend.Write(node, cls, schema, "game");
+            var back = OriginalBackend.Read(image, cls, schema, "game");
+            Assert.Equal((long)number, ((IntegerNode)((RecordNode)back.Find("Value")!).Find("U32")!).Value);
+            var document = DocumentBackend.Write(back, cls, schema, "game");
+            Assert.Equal((long)number, ((JsonInteger)((JsonObject)document["Value"]!)["U32"]!).Value);
+            var again = DocumentBackend.Read(document, cls, schema, "game");
+            Assert.Equal(image, OriginalBackend.Write(again, cls, schema, "game"));
+        }
     }
 
     [Fact]
