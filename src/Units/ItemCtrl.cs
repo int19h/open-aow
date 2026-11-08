@@ -19,7 +19,7 @@ public partial class TItemControlGrid : TCustomImageDrawGrid
     public bool FShowStatus;
     public TAoWHSMap FMap;
     public byte FSort;
-    public TNotifyEvent FOnUnselect;
+    public TNotifyEvent<TObject> FOnUnselect;
 
     // ItemCtrl.pas:135
     public override void Destroy()
@@ -189,7 +189,7 @@ public partial class TItemControlGrid : TCustomImageDrawGrid
     public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
 
     [Published]
-    public TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
+    public TNotifyEvent<TObject> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
 }
 
 public partial class TGridMapView : TObject

@@ -73,8 +73,8 @@ public static partial class AoWWinManUnit
         MWindow.MapViewer.SceneHeight = MWindow.MapWindow.WinHeight - 24;
         AoWHSMap.Activate();
         RealmWin.Dlg.Visible = false;
-        aowMapEventsUnit.MapEvents.TheMapArmyDeselected(null);
-        aowMapEventsUnit.MapEvents.TheMapStructureDeselected(null);
+        aowMapEventsUnit.MapEvents.TheMapArmyDeselected();
+        aowMapEventsUnit.MapEvents.TheMapStructureDeselected();
         // The original call at targets the indicator sizing routine
         TBWindow.UpdatePlayerIndicator();
         PInfoW.UpdatePlayer();

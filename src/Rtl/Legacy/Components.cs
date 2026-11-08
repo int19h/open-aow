@@ -29,7 +29,7 @@ public enum TOperation : byte { opInsert, opRemove }
 
 public enum TComponentState : byte { csLoading, csReading, csWriting, csDestroying, csDesigning, csAncestor, csUpdating, csFixups }
 
-public delegate void TNotifyEvent(TObject sender);
+public delegate void TNotifyEvent<in TSender>(TSender sender);
 public delegate void TGetChildProc(TComponent child);
 
 public class TComponent : TPersistent

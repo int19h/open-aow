@@ -133,7 +133,7 @@ public partial class TSendEmailGameDlg : TDataModule
     }
 
     // AoWSendEmailGameDlg.pas:125
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

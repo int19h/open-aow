@@ -594,7 +594,7 @@ public partial class TTokenExecuter : TObject
     internal TSet<TTokenExecuterState> FState;
     internal TEventList FOnEventsExecuted;
     internal TEventList FOnActivateTC;
-    internal TNotifyEvent FOnSyncError;
+    internal TNotifyEvent<TObject> FOnSyncError;
     internal TGetSyncValueEvent FOnGetSyncValue;
     internal TTokenEventEvent FOnExecuteTokenEvent;
     internal bool FExecuting;
@@ -930,7 +930,7 @@ public partial class TTokenExecuter : TObject
     public bool Executing { get => FExecuting; }
     public TEventList OnEventsExecuted { get => FOnEventsExecuted; }
     public TEventList OnActivateTC { get => FOnActivateTC; }
-    public TNotifyEvent OnSyncError { get => FOnSyncError; set => FOnSyncError = value; }
+    public TNotifyEvent<TObject> OnSyncError { get => FOnSyncError; set => FOnSyncError = value; }
     public TGetSyncValueEvent OnGetSyncValue { get => FOnGetSyncValue; set => FOnGetSyncValue = value; }
     public TTokenEventEvent OnExecuteTokenEvent { get => FOnExecuteTokenEvent; set => FOnExecuteTokenEvent = value; }
 

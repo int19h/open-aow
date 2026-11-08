@@ -40,7 +40,7 @@ public partial class TGeneral
         }
     }
 
-    public void MapProgress(TEObject sender, string message, int progression)
+    public void MapProgress(string message, int progression)
     {
         var progress = E2GlobalsUnit.ProgressDialog;
         progress.StatusLbl.Text = message;

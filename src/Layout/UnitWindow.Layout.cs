@@ -32,23 +32,23 @@ public partial class TUnitWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "UnitWindow";
-        LayoutOnCreate = UnitWindowCreate;
+        LayoutOnCreate = _ => UnitWindowCreate();
         UnitWin = new TAOWWindow(this);
         session.BeginRead(UnitWin);
         UnitWin.Name = "UnitWin";
-        UnitWin.OnMouseDown = UnitWinMouseDown;
-        UnitWin.OnKeyDown = UnitWinKeyDown;
-        UnitWin.OnUpdate = UnitWinUpdate;
+        UnitWin.OnMouseDown = (_, button, shift, x, y) => UnitWinMouseDown(button, shift, x, y);
+        UnitWin.OnKeyDown = (_, ref key, shift) => UnitWinKeyDown(ref key, shift);
+        UnitWin.OnUpdate = _ => UnitWinUpdate();
         UnitWin.Visible = false;
         UnitWin.Priority = 300;
         UnitWin.WinLeft = 110;
         UnitWin.WinTop = 8;
         UnitWin.WinWidth = 420;
-        UnitWin.OnEnter = UnitWinEnter;
-        UnitWin.OnExit = UnitWinExit;
+        UnitWin.OnEnter = _ => UnitWinEnter();
+        UnitWin.OnExit = _ => UnitWinExit();
         UnitWin.Masked = true;
-        UnitWin.OnHide = UnitWinShow;
-        UnitWin.OnShow = UnitWinShow;
+        UnitWin.OnHide = _ => UnitWinShow();
+        UnitWin.OnShow = _ => UnitWinShow();
         UnitWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         UnitWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         UnitWin.Alignment.HeightPercent = 0;
@@ -74,8 +74,8 @@ public partial class TUnitWindow : ILayoutModule
         UnitWin.DragHeight = 20;
         UnitWin.Draggable = true;
         UnitWin.Resizable = false;
-        UnitWin.OnDrag = UnitWinResize;
-        UnitWin.OnResize = UnitWinResize;
+        UnitWin.OnDrag = _ => UnitWinResize();
+        UnitWin.OnResize = _ => UnitWinResize();
         UnitWin.MinWidth = 420;
         UnitWin.MinHeight = 417;
         UnitWin.MaxWidth = 0;
@@ -134,7 +134,7 @@ public partial class TUnitWindow : ILayoutModule
         UnitTab.Alignment.BottomOffset = 0;
         UnitTab.Masked = true;
         UnitTab.BorderHeight = 6;
-        UnitTab.OnChange = UnitTabChange;
+        UnitTab.OnChange = _ => UnitTabChange();
         UnitTab.Selected = -1;
         UnitTab.WinWidth = 379;
         UnitTab.TextColor = 0;
@@ -175,7 +175,7 @@ public partial class TUnitWindow : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = CloseClick;
+        Close.OnClick = _ => CloseClick();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -233,7 +233,7 @@ public partial class TUnitWindow : ILayoutModule
         Help.TextColor = 0;
         Help.TextSelColor = 0;
         Help.WinWidth = 15;
-        Help.OnClick = HelpClick;
+        Help.OnClick = _ => HelpClick();
         session.EndRead(Help);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -292,7 +292,7 @@ public partial class TUnitWindow : ILayoutModule
         BCloseBtn.TextColor = 0;
         BCloseBtn.TextSelColor = 16777215;
         BCloseBtn.WinWidth = 119;
-        BCloseBtn.OnClick = CloseClick;
+        BCloseBtn.OnClick = _ => CloseClick();
         session.EndRead(BCloseBtn);
         CeltLineR = new TAOWImage(this);
         session.BeginRead(CeltLineR);
@@ -417,7 +417,7 @@ public partial class TUnitWindow : ILayoutModule
         T1AbilityLB = new TAOWListBox(this);
         session.BeginRead(T1AbilityLB);
         T1AbilityLB.Name = "T1AbilityLB";
-        T1AbilityLB.OnMouseDown = T1AbilityLBMouseDown;
+        T1AbilityLB.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
         T1AbilityLB.Priority = 100;
         T1AbilityLB.WinLeft = 1;
         T1AbilityLB.WinTop = 14;
@@ -440,7 +440,7 @@ public partial class TUnitWindow : ILayoutModule
         T1AbilityLB.BorderWidth = 4;
         T1AbilityLB.BorderHeight = 4;
         T1AbilityLB.OnChange = T1AbilityLBChange;
-        T1AbilityLB.OnDoubleClick = Layout_UseAbility_0;
+        T1AbilityLB.OnDoubleClick = _ => Layout_UseAbility_0();
         T1AbilityLB.Selected = -1;
         T1AbilityLB.OnPreDrawItem = PreDrawAbilityItem;
         T1AbilityLB.TextColor = 14679807;
@@ -480,7 +480,7 @@ public partial class TUnitWindow : ILayoutModule
         T1UseBut.TextColor = 0;
         T1UseBut.TextSelColor = 16777215;
         T1UseBut.WinWidth = 250;
-        T1UseBut.OnClick = Layout_UseAbility_0;
+        T1UseBut.OnClick = _ => Layout_UseAbility_0();
         session.EndRead(T1UseBut);
         T1SortName = new TAOWButton(this);
         session.BeginRead(T1SortName);
@@ -511,7 +511,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SortName.TextColor = 0;
         T1SortName.TextSelColor = 16777215;
         T1SortName.WinWidth = 168;
-        T1SortName.OnClick = Layout_T1SortNameClick_1;
+        T1SortName.OnClick = _ => Layout_T1SortNameClick_1();
         session.EndRead(T1SortName);
         T1SortType = new TAOWButton(this);
         session.BeginRead(T1SortType);
@@ -542,7 +542,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SortType.TextColor = 0;
         T1SortType.TextSelColor = 16777215;
         T1SortType.WinWidth = 85;
-        T1SortType.OnClick = Layout_T1SortTypeClick_2;
+        T1SortType.OnClick = _ => Layout_T1SortTypeClick_2();
         session.EndRead(T1SortType);
         T1SortSource = new TAOWButton(this);
         session.BeginRead(T1SortSource);
@@ -573,7 +573,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SortSource.TextColor = 0;
         T1SortSource.TextSelColor = 16777215;
         T1SortSource.WinWidth = 118;
-        T1SortSource.OnClick = Layout_T1SortSourceClick_3;
+        T1SortSource.OnClick = _ => Layout_T1SortSourceClick_3();
         session.EndRead(T1SortSource);
         T1UseMsg = new TAOWLabel(this);
         session.BeginRead(T1UseMsg);
@@ -657,7 +657,7 @@ public partial class TUnitWindow : ILayoutModule
         T1TypeLB = new TAOWListBox(this);
         session.BeginRead(T1TypeLB);
         T1TypeLB.Name = "T1TypeLB";
-        T1TypeLB.OnMouseDown = T1AbilityLBMouseDown;
+        T1TypeLB.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
         T1TypeLB.Priority = 80;
         T1TypeLB.WinLeft = 164;
         T1TypeLB.WinTop = 14;
@@ -680,7 +680,7 @@ public partial class TUnitWindow : ILayoutModule
         T1TypeLB.BorderWidth = 4;
         T1TypeLB.BorderHeight = 4;
         T1TypeLB.OnChange = T1AbilityLBChange;
-        T1TypeLB.OnDoubleClick = Layout_UseAbility_0;
+        T1TypeLB.OnDoubleClick = _ => Layout_UseAbility_0();
         T1TypeLB.Selected = -1;
         T1TypeLB.OnPreDrawItem = PreDrawAbilityItem;
         T1TypeLB.TextColor = 9415072;
@@ -694,7 +694,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SrcLB = new TAOWListBox(this);
         session.BeginRead(T1SrcLB);
         T1SrcLB.Name = "T1SrcLB";
-        T1SrcLB.OnMouseDown = T1AbilityLBMouseDown;
+        T1SrcLB.OnMouseDown = (_, button, shift, x, y) => T1AbilityLBMouseDown(button, shift, x, y);
         T1SrcLB.Priority = 40;
         T1SrcLB.WinLeft = 248;
         T1SrcLB.WinTop = 14;
@@ -717,7 +717,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SrcLB.BorderWidth = 4;
         T1SrcLB.BorderHeight = 4;
         T1SrcLB.OnChange = T1AbilityLBChange;
-        T1SrcLB.OnDoubleClick = Layout_UseAbility_0;
+        T1SrcLB.OnDoubleClick = _ => Layout_UseAbility_0();
         T1SrcLB.Selected = -1;
         T1SrcLB.OnPreDrawItem = PreDrawAbilityItem;
         T1SrcLB.TextColor = 9415072;
@@ -784,7 +784,7 @@ public partial class TUnitWindow : ILayoutModule
         T1SBar.WinHeight = 141;
         T1SBar.WinWidth = 17;
         T1SBar.NumberVisible = 1;
-        T1SBar.OnChange = T1SbarChange;
+        T1SBar.OnChange = _ => T1SbarChange();
         T1SBar.VanishWhenFull = true;
         T1SBar.ILIndexIncUp = 96;
         T1SBar.ILIndexIncDown = 97;
@@ -2275,7 +2275,7 @@ public partial class TUnitWindow : ILayoutModule
         DisbandBtn.TextColor = 89;
         DisbandBtn.TextSelColor = 16777215;
         DisbandBtn.WinWidth = 119;
-        DisbandBtn.OnClick = Layout_DisbandBtnClick_4;
+        DisbandBtn.OnClick = _ => Layout_DisbandBtnClick_4();
         session.EndRead(DisbandBtn);
         ItemUsePnl = new TAOWPanel(this);
         session.BeginRead(ItemUsePnl);
@@ -2337,7 +2337,7 @@ public partial class TUnitWindow : ILayoutModule
         ItemUseBtn.TextColor = 0;
         ItemUseBtn.TextSelColor = 16777215;
         ItemUseBtn.WinWidth = 210;
-        ItemUseBtn.OnClick = UseItemClick;
+        ItemUseBtn.OnClick = _ => UseItemClick();
         session.EndRead(ItemUseBtn);
         ItemPic = new TAOWImage(this);
         session.BeginRead(ItemPic);
@@ -3235,7 +3235,7 @@ public partial class TUnitWindow : ILayoutModule
         GroundL.TextColor = 0;
         GroundL.TextSelColor = 0;
         GroundL.WinWidth = 13;
-        GroundL.OnClick = GroundLClick;
+        GroundL.OnClick = _ => GroundLClick();
         session.EndRead(GroundL);
         GroundR = new TAOWButton(this);
         session.BeginRead(GroundR);
@@ -3270,7 +3270,7 @@ public partial class TUnitWindow : ILayoutModule
         GroundR.TextColor = 0;
         GroundR.TextSelColor = 0;
         GroundR.WinWidth = 13;
-        GroundR.OnClick = GroundRClick;
+        GroundR.OnClick = _ => GroundRClick();
         session.EndRead(GroundR);
         RelationIcn = new TAOWImage(this);
         session.BeginRead(RelationIcn);
@@ -3531,7 +3531,7 @@ public partial class TUnitWindow : ILayoutModule
         PNext.TextColor = 0;
         PNext.TextSelColor = 16777215;
         PNext.WinWidth = 12;
-        PNext.OnClick = Layout_PNextClick_5;
+        PNext.OnClick = _ => Layout_PNextClick_5();
         session.EndRead(PNext);
         PPrev = new TAOWButton(this);
         session.BeginRead(PPrev);
@@ -3565,7 +3565,7 @@ public partial class TUnitWindow : ILayoutModule
         PPrev.TextColor = 0;
         PPrev.TextSelColor = 16777215;
         PPrev.WinWidth = 12;
-        PPrev.OnClick = Layout_PPrevClick_6;
+        PPrev.OnClick = _ => Layout_PPrevClick_6();
         session.EndRead(PPrev);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -4016,37 +4016,37 @@ public partial class TUnitWindow : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_UseAbility_0(TObject p0)
+    private void Layout_UseAbility_0()
     {
         UseAbility();
     }
 
-    private void Layout_T1SortNameClick_1(TObject p0)
+    private void Layout_T1SortNameClick_1()
     {
-        T1SortNameClick(default(TObject), default(int));
+        T1SortNameClick(default(int));
     }
 
-    private void Layout_T1SortTypeClick_2(TObject p0)
+    private void Layout_T1SortTypeClick_2()
     {
-        T1SortTypeClick(default(TObject), default(int));
+        T1SortTypeClick(default(int));
     }
 
-    private void Layout_T1SortSourceClick_3(TObject p0)
+    private void Layout_T1SortSourceClick_3()
     {
-        T1SortSourceClick(default(TObject), default(int));
+        T1SortSourceClick(default(int));
     }
 
-    private void Layout_DisbandBtnClick_4(TObject p0)
+    private void Layout_DisbandBtnClick_4()
     {
         DisbandBtnClick();
     }
 
-    private void Layout_PNextClick_5(TObject p0)
+    private void Layout_PNextClick_5()
     {
         PNextClick();
     }
 
-    private void Layout_PPrevClick_6(TObject p0)
+    private void Layout_PPrevClick_6()
     {
         PPrevClick();
     }

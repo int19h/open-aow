@@ -298,7 +298,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         CastBut.TextColor = 0;
         CastBut.TextSelColor = 16777215;
         CastBut.WinWidth = 128;
-        CastBut.OnClick = Layout_CastButClick_0;
+        CastBut.OnClick = _ => Layout_CastButClick_0();
         session.EndRead(CastBut);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -360,7 +360,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_1;
+        Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -414,19 +414,19 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         CancelBut.TextColor = 0;
         CancelBut.TextSelColor = 16777215;
         CancelBut.WinWidth = 128;
-        CancelBut.OnClick = Layout_CloseClick_1;
+        CancelBut.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(CancelBut);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnUpdate = Layout_DlgUpdate_2;
+        Dlg.OnUpdate = _ => Layout_DlgUpdate_2();
         Dlg.Visible = false;
         Dlg.Priority = 520;
         Dlg.WinLeft = 74;
         Dlg.WinTop = 98;
         Dlg.WinWidth = 492;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_3;
+        Dlg.OnHide = _ => Layout_DlgHide_3();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -679,8 +679,8 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U1 = new TAOWCheckBox(this);
         session.BeginRead(U1);
         U1.Name = "U1";
-        U1.OnPreDraw = U1PreDraw;
-        U1.OnDraw = Layout_U1Draw_4;
+        U1.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
+        U1.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U1.Priority = 0;
         U1.WinLeft = 0;
         U1.WinTop = 0;
@@ -707,15 +707,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U1.TextSelColor = 0;
         U1.WinWidth = 50;
         U1.Checked = false;
-        U1.OnChange = Layout_U1Change_5;
+        U1.OnChange = sender => U1Change(sender, 0);
         U1.RadioIndex = 0;
         session.EndRead(U1);
         U2 = new TAOWCheckBox(this);
         session.BeginRead(U2);
         U2.Name = "U2";
         U2.Tag = 1;
-        U2.OnPreDraw = U1PreDraw;
-        U2.OnDraw = Layout_U1Draw_4;
+        U2.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 1);
+        U2.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U2.Priority = 0;
         U2.WinLeft = 55;
         U2.WinTop = 0;
@@ -742,15 +742,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U2.TextSelColor = 0;
         U2.WinWidth = 50;
         U2.Checked = false;
-        U2.OnChange = Layout_U1Change_5;
+        U2.OnChange = sender => U1Change(sender, 1);
         U2.RadioIndex = 0;
         session.EndRead(U2);
         U3 = new TAOWCheckBox(this);
         session.BeginRead(U3);
         U3.Name = "U3";
         U3.Tag = 2;
-        U3.OnPreDraw = U1PreDraw;
-        U3.OnDraw = Layout_U1Draw_4;
+        U3.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 2);
+        U3.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U3.Priority = 0;
         U3.WinLeft = 110;
         U3.WinTop = 0;
@@ -777,15 +777,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U3.TextSelColor = 0;
         U3.WinWidth = 50;
         U3.Checked = false;
-        U3.OnChange = Layout_U1Change_5;
+        U3.OnChange = sender => U1Change(sender, 2);
         U3.RadioIndex = 0;
         session.EndRead(U3);
         U4 = new TAOWCheckBox(this);
         session.BeginRead(U4);
         U4.Name = "U4";
         U4.Tag = 3;
-        U4.OnPreDraw = U1PreDraw;
-        U4.OnDraw = Layout_U1Draw_4;
+        U4.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 3);
+        U4.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U4.Priority = 0;
         U4.WinLeft = 165;
         U4.WinTop = 0;
@@ -812,15 +812,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U4.TextSelColor = 0;
         U4.WinWidth = 50;
         U4.Checked = false;
-        U4.OnChange = Layout_U1Change_5;
+        U4.OnChange = sender => U1Change(sender, 3);
         U4.RadioIndex = 0;
         session.EndRead(U4);
         U5 = new TAOWCheckBox(this);
         session.BeginRead(U5);
         U5.Name = "U5";
         U5.Tag = 4;
-        U5.OnPreDraw = U1PreDraw;
-        U5.OnDraw = Layout_U1Draw_4;
+        U5.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 4);
+        U5.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U5.Priority = 0;
         U5.WinLeft = 220;
         U5.WinTop = 0;
@@ -847,15 +847,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U5.TextSelColor = 0;
         U5.WinWidth = 50;
         U5.Checked = false;
-        U5.OnChange = Layout_U1Change_5;
+        U5.OnChange = sender => U1Change(sender, 4);
         U5.RadioIndex = 0;
         session.EndRead(U5);
         U6 = new TAOWCheckBox(this);
         session.BeginRead(U6);
         U6.Name = "U6";
         U6.Tag = 5;
-        U6.OnPreDraw = U1PreDraw;
-        U6.OnDraw = Layout_U1Draw_4;
+        U6.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 5);
+        U6.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U6.Priority = 0;
         U6.WinLeft = 275;
         U6.WinTop = 0;
@@ -882,15 +882,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U6.TextSelColor = 0;
         U6.WinWidth = 50;
         U6.Checked = false;
-        U6.OnChange = Layout_U1Change_5;
+        U6.OnChange = sender => U1Change(sender, 5);
         U6.RadioIndex = 0;
         session.EndRead(U6);
         U7 = new TAOWCheckBox(this);
         session.BeginRead(U7);
         U7.Name = "U7";
         U7.Tag = 6;
-        U7.OnPreDraw = U1PreDraw;
-        U7.OnDraw = Layout_U1Draw_4;
+        U7.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 6);
+        U7.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U7.Priority = 0;
         U7.WinLeft = 330;
         U7.WinTop = 0;
@@ -917,15 +917,15 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U7.TextSelColor = 0;
         U7.WinWidth = 50;
         U7.Checked = false;
-        U7.OnChange = Layout_U1Change_5;
+        U7.OnChange = sender => U1Change(sender, 6);
         U7.RadioIndex = 0;
         session.EndRead(U7);
         U8 = new TAOWCheckBox(this);
         session.BeginRead(U8);
         U8.Name = "U8";
         U8.Tag = 7;
-        U8.OnPreDraw = U1PreDraw;
-        U8.OnDraw = Layout_U1Draw_4;
+        U8.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 7);
+        U8.OnDraw = (_, SurfDesc) => Layout_U1Draw_4(SurfDesc);
         U8.Priority = 0;
         U8.WinLeft = 386;
         U8.WinTop = 0;
@@ -952,7 +952,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         U8.TextSelColor = 0;
         U8.WinWidth = 50;
         U8.Checked = false;
-        U8.OnChange = Layout_U1Change_5;
+        U8.OnChange = sender => U1Change(sender, 7);
         U8.RadioIndex = 0;
         session.EndRead(U8);
         DecoL = new TAOWImage(this);
@@ -1014,7 +1014,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SpellFr = new TAOWImage(this);
         session.BeginRead(SpellFr);
         SpellFr.Name = "SpellFr";
-        SpellFr.OnPreDraw = SpellFrPreDraw;
+        SpellFr.OnPreDraw = (_, SurfDesc) => SpellFrPreDraw(SurfDesc);
         SpellFr.Priority = 0;
         SpellFr.WinLeft = 0;
         SpellFr.WinTop = 0;
@@ -1043,7 +1043,7 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         FaceFrame = new TAOWImage(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnPreDraw = FaceFramePreDraw;
+        FaceFrame.OnPreDraw = (_, SurfDesc) => FaceFramePreDraw(SurfDesc);
         FaceFrame.Priority = 0;
         FaceFrame.WinLeft = 382;
         FaceFrame.WinTop = 0;
@@ -1285,33 +1285,29 @@ public partial class TCastUnitSpellDlg : ILayoutModule
         SelectionInfoLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10;
     }
 
-    private void Layout_CastButClick_0(TObject p0)
+    private void Layout_CastButClick_0()
     {
         CastButClick();
     }
 
-    private void Layout_CloseClick_1(TObject p0)
+    private void Layout_CloseClick_1()
     {
         CloseClick();
     }
 
-    private void Layout_DlgUpdate_2(TObject p0)
+    private void Layout_DlgUpdate_2()
     {
         DlgUpdate();
     }
 
-    private void Layout_DlgHide_3(TObject p0)
+    private void Layout_DlgHide_3()
     {
         DlgHide();
     }
 
-    private void Layout_U1Draw_4(TAoWComponent p0, TSurfaceDesc p1)
+    private void Layout_U1Draw_4(TSurfaceDesc p1)
     {
         U1Draw();
     }
 
-    private void Layout_U1Change_5(TObject p0)
-    {
-        U1Change((TAOWCheckBox)p0);
-    }
 }

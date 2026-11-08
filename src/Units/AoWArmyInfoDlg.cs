@@ -129,12 +129,12 @@ public partial class TArmyInfoDlg : TDataModule
     }
 
     // AoWArmyInfoDlg.pas:121
-    public void U1MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void U1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
     {
         var count = FEvent.FArmyView.GetCount();
-        if (((TComponent)Sender).Tag < count)
+        if (Slot < count)
         {
-            var unit = FEvent.FArmyView.GetUnit(((TComponent)Sender).Tag);
+            var unit = FEvent.FArmyView.GetUnit(Slot);
             General.FSelectedUnit = unit;
             if (Button == TMouseButton.mbLeft)
             {
@@ -146,18 +146,18 @@ public partial class TArmyInfoDlg : TDataModule
     }
 
     // AoWArmyInfoDlg.pas:134
-    public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void U1PreDraw(TAoWFrame Sender, TSurfaceDesc SD, int Slot)
     {
         TRect R = default;
         R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
         R.Right = Sender.WinWidth + R.Left;
         R.Top = Sender.WinTop + UnitPnl.WinTop;
         R.Bottom = Sender.WinHeight + R.Top;
-        DrawUnit(Sender.Tag, R, ref SD);
+        DrawUnit(Slot, R, ref SD);
     }
 
     // AoWArmyInfoDlg.pas:146
-    public void FaceFramePreDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void FaceFramePreDraw(TSurfaceDesc SD)
     {
         TRect R = default;
         int I;
@@ -185,7 +185,7 @@ public partial class TArmyInfoDlg : TDataModule
     }
 
     // AoWArmyInfoDlg.pas:166
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {

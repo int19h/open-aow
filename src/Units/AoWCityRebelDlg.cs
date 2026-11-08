@@ -76,7 +76,7 @@ public partial class TCityRebelDlg : TDataModule
     }
 
     // AoWCityRebelDlg.pas:77
-    public void RebelWinKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void RebelWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {

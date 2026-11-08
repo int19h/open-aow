@@ -1374,7 +1374,7 @@ public partial class TProductionControl : TEObject
         Clear();
     }
 
-    public TNotifyEvent FOnChange;
+    public TNotifyEvent<TObject> FOnChange;
     public int FUpdateCount;
     public TProductionQueue FQueue;
     public bool FLoopQueue;
@@ -5026,7 +5026,7 @@ public partial class TLeaderSetupControl : TEObject
     public TLeader FOriginalLeader;
     public TIntegerList FItems;
     public TLeaderSetupStatus FStatus;
-    public TNotifyEvent FOnDone;
+    public TNotifyEvent<TObject> FOnDone;
 
     // Player.PAS:1766
     public override void Destroy()
@@ -19904,7 +19904,7 @@ public partial class TItemList : TEChangeNotifyNode
 
     }
 
-    public TNotifyEvent FOnChanged;
+    public TNotifyEvent<TObject> FOnChanged;
 
     // Army.PAS:4537
     // code, data
@@ -30702,7 +30702,7 @@ public partial class TArmy : TUnitList
     public sbyte FIndependentRelation;
     public byte FUnfogRange;
     public byte FUpkeep;
-    public TNotifyEvent FOnUpdate;
+    public TNotifyEvent<TObject> FOnUpdate;
     public TGroupBehavior FOldAIBehavior;
     public sbyte FDestinationX;
     public sbyte FDestinationY;
@@ -45136,7 +45136,7 @@ public partial class TCombat : TEObject
     public int FExecutedLock;
     public TCombatExecutedEvent FOnExecuted;
     public bool FTerminated;
-    public TNotifyEvent FOnTerminated;
+    public TNotifyEvent<TObject> FOnTerminated;
     // EndCombat also receives a form sender
     public byte FExplorationSite;
     public TEObject FItems;
@@ -47396,7 +47396,7 @@ public partial class TAIMoveControlSettings : TEObject
     public int FDestinationY;
     public int FDestinationL;
     public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
-    public TNotifyEvent FOnDone;
+    public TNotifyEvent<TObject> FOnDone;
     public TAbstractUnit FTransporter;
     public int FMovePointsMax;
     public int FQuickMovePointsMax;
@@ -55056,13 +55056,13 @@ public partial class TAIGroupControl : TEObject
     }
 
     // AIGroup.pas:1155
-    public virtual void RecruitmentGroupFoundEvent(TAIGroupControlPlugin Sender, TAIRecruitmentGroup Group, ref bool SearchDone)
+    public virtual void RecruitmentGroupFoundEvent(TAIRecruitmentGroup Group, ref bool SearchDone)
     {
         FRecruitmentGroups.Add(Group);
     }
 
     // AIGroup.pas:1160
-    public virtual void ProductionLocationFoundEvent(TAIGroupControlPlugin Sender, TAIGroupProductionLocation Location, ref bool SearchDone)
+    public virtual void ProductionLocationFoundEvent(TAIGroupProductionLocation Location, ref bool SearchDone)
     {
         FProductionLocations.Add(Location);
     }
@@ -56039,7 +56039,7 @@ public partial class TAIRecruitmentGroupFinder : TAIGroupControlPlugin
                         Group.FPathStrength = AoWEUnit.GetMovepathBattleFieldStrength(FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Target.FMovepath, FTargetRange, FRange, FStep);
                     }
 
-                    FControl.RecruitmentGroupFoundEvent(this, Group, ref SearchDone);
+                    FControl.RecruitmentGroupFoundEvent(Group, ref SearchDone);
                     Group.Release();
                 }
             }
@@ -56780,7 +56780,7 @@ public partial class TAIProductionLocationFinder : TAIGroupControlPlugin
                 Location.FPathStrength = AoWEUnit.GetMovepathBattleFieldStrength(FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Target.FMovepath, FTargetRange, FRange, FStep);
             }
 
-            FControl.ProductionLocationFoundEvent(this, Location, ref SearchDone);
+            FControl.ProductionLocationFoundEvent(Location, ref SearchDone);
             Location.Release();
         }
     }

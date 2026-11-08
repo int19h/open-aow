@@ -31,12 +31,12 @@ public partial class TLeaderSetupWin : ILayoutModule
     {
         session.Begin(this);
         Name = "LeaderSetupWin";
-        LayoutOnCreate = Layout_LeaderSetupWinCreate_0;
-        LayoutOnDestroy = Layout_LeaderSetupWinDestroy_1;
+        LayoutOnCreate = _ => Layout_LeaderSetupWinCreate_0();
+        LayoutOnDestroy = _ => Layout_LeaderSetupWinDestroy_1();
         SelectedAbilities = new TAOWListBox(this);
         session.BeginRead(SelectedAbilities);
         SelectedAbilities.Name = "SelectedAbilities";
-        SelectedAbilities.OnMouseDown = SelectedAbilitiesCostMouseDown;
+        SelectedAbilities.OnMouseDown = (_, button, shift, x, y) => SelectedAbilitiesCostMouseDown(button, shift, x, y);
         SelectedAbilities.Priority = 10000;
         SelectedAbilities.WinLeft = 10;
         SelectedAbilities.WinTop = 252;
@@ -62,7 +62,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelectedAbilities.WinHeight = 87;
         SelectedAbilities.BorderWidth = 6;
         SelectedAbilities.BorderHeight = 4;
-        SelectedAbilities.OnChange = Layout_SelectedAbilitiesChange_2;
+        SelectedAbilities.OnChange = _ => Layout_SelectedAbilitiesChange_2();
         SelectedAbilities.Selected = -1;
         SelectedAbilities.TextColor = 8421504;
         SelectedAbilities.TextSelColor = 0;
@@ -126,7 +126,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AvailableAbilities = new TAOWListBox(this);
         session.BeginRead(AvailableAbilities);
         AvailableAbilities.Name = "AvailableAbilities";
-        AvailableAbilities.OnMouseDown = AvailableAbilitiesMouseDown;
+        AvailableAbilities.OnMouseDown = (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
         AvailableAbilities.Priority = 10000;
         AvailableAbilities.WinLeft = 235;
         AvailableAbilities.WinTop = 64;
@@ -152,7 +152,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AvailableAbilities.WinHeight = 275;
         AvailableAbilities.BorderWidth = 6;
         AvailableAbilities.BorderHeight = 4;
-        AvailableAbilities.OnChange = Layout_AvailableAbilitiesChange_3;
+        AvailableAbilities.OnChange = _ => Layout_AvailableAbilitiesChange_3();
         AvailableAbilities.Selected = -1;
         AvailableAbilities.TextColor = 8421504;
         AvailableAbilities.TextSelColor = 0;
@@ -191,7 +191,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         NextBtn.TextColor = 15134446;
         NextBtn.TextSelColor = 0;
         NextBtn.WinWidth = 135;
-        NextBtn.OnClick = Layout_NextBtnClick_4;
+        NextBtn.OnClick = _ => Layout_NextBtnClick_4();
         session.EndRead(NextBtn);
         PrevBtn = new TAOWButton(this);
         session.BeginRead(PrevBtn);
@@ -222,7 +222,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         PrevBtn.TextColor = 15134446;
         PrevBtn.TextSelColor = 0;
         PrevBtn.WinWidth = 125;
-        PrevBtn.OnClick = Layout_PrevBtnClick_5;
+        PrevBtn.OnClick = _ => Layout_PrevBtnClick_5();
         session.EndRead(PrevBtn);
         ClearBtn = new TAOWButton(this);
         session.BeginRead(ClearBtn);
@@ -257,7 +257,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         ClearBtn.TextColor = 15134446;
         ClearBtn.TextSelColor = 0;
         ClearBtn.WinWidth = 135;
-        ClearBtn.OnClick = Layout_ClearBtnClick_6;
+        ClearBtn.OnClick = _ => Layout_ClearBtnClick_6();
         session.EndRead(ClearBtn);
         DefaultBtn = new TAOWButton(this);
         session.BeginRead(DefaultBtn);
@@ -292,7 +292,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         DefaultBtn.TextColor = 15134446;
         DefaultBtn.TextSelColor = 0;
         DefaultBtn.WinWidth = 135;
-        DefaultBtn.OnClick = DefaultBtnClick;
+        DefaultBtn.OnClick = _ => DefaultBtnClick();
         session.EndRead(DefaultBtn);
         LMainPnl = new TAOWPanel(this);
         session.BeginRead(LMainPnl);
@@ -2074,7 +2074,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         RemoveAbility.TextColor = 15134446;
         RemoveAbility.TextSelColor = 0;
         RemoveAbility.WinWidth = 215;
-        RemoveAbility.OnClick = Layout_RemoveAbilityClick_7;
+        RemoveAbility.OnClick = _ => Layout_RemoveAbilityClick_7();
         session.EndRead(RemoveAbility);
         AddAbility = new TAOWButton(this);
         session.BeginRead(AddAbility);
@@ -2109,7 +2109,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AddAbility.TextColor = 15134446;
         AddAbility.TextSelColor = 0;
         AddAbility.WinWidth = 215;
-        AddAbility.OnClick = Layout_AddAbilityClick_8;
+        AddAbility.OnClick = _ => Layout_AddAbilityClick_8();
         session.EndRead(AddAbility);
         MainFace = new TAOWImage(this);
         session.BeginRead(MainFace);
@@ -2386,7 +2386,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         NameEdit.Text = "########";
         NameEdit.BorderWidth = 8;
         NameEdit.BorderHeight = 6;
-        NameEdit.OnChange = Layout_NameEditChange_9;
+        NameEdit.OnChange = _ => Layout_NameEditChange_9();
         NameEdit.MaxChars = 0;
         NameEdit.CursorChar = 95;
         NameEdit.BlinkDelay = 2;
@@ -2530,7 +2530,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AvailableAbilitiesLB.WinHeight = 275;
         AvailableAbilitiesLB.WinWidth = 17;
         AvailableAbilitiesLB.NumberVisible = 1;
-        AvailableAbilitiesLB.OnChange = Layout_AvailableAbilitiesLBChange_10;
+        AvailableAbilitiesLB.OnChange = _ => Layout_AvailableAbilitiesLBChange_10();
         AvailableAbilitiesLB.VanishWhenFull = true;
         AvailableAbilitiesLB.ILIndexIncUp = 58;
         AvailableAbilitiesLB.ILIndexIncDown = 59;
@@ -2568,7 +2568,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelectedAbilitiesLB.WinHeight = 87;
         SelectedAbilitiesLB.WinWidth = 17;
         SelectedAbilitiesLB.NumberVisible = 1;
-        SelectedAbilitiesLB.OnChange = Layout_SelectedAbilitiesLBChange_11;
+        SelectedAbilitiesLB.OnChange = _ => Layout_SelectedAbilitiesLBChange_11();
         SelectedAbilitiesLB.VanishWhenFull = true;
         SelectedAbilitiesLB.ILIndexIncUp = 58;
         SelectedAbilitiesLB.ILIndexIncDown = 59;
@@ -2660,7 +2660,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelDeath.TextColor = 0;
         SelDeath.TextSelColor = 0;
         SelDeath.WinWidth = 52;
-        SelDeath.OnClick = Layout_SelDeathClick_12;
+        SelDeath.OnClick = _ => Layout_SelDeathClick_12();
         session.EndRead(SelDeath);
         SpherePnl = new TAOWPanel(this);
         session.BeginRead(SpherePnl);
@@ -2721,7 +2721,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelLife.TextColor = 0;
         SelLife.TextSelColor = 0;
         SelLife.WinWidth = 52;
-        SelLife.OnClick = Layout_SelLifeClick_13;
+        SelLife.OnClick = _ => Layout_SelLifeClick_13();
         session.EndRead(SelLife);
         SelFire = new TAOWButton(this);
         session.BeginRead(SelFire);
@@ -2755,7 +2755,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelFire.TextColor = 0;
         SelFire.TextSelColor = 0;
         SelFire.WinWidth = 52;
-        SelFire.OnClick = Layout_SelFireClick_14;
+        SelFire.OnClick = _ => Layout_SelFireClick_14();
         session.EndRead(SelFire);
         SelEarth = new TAOWButton(this);
         session.BeginRead(SelEarth);
@@ -2789,7 +2789,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelEarth.TextColor = 0;
         SelEarth.TextSelColor = 0;
         SelEarth.WinWidth = 52;
-        SelEarth.OnClick = Layout_SelEarthClick_15;
+        SelEarth.OnClick = _ => Layout_SelEarthClick_15();
         session.EndRead(SelEarth);
         SelAir = new TAOWButton(this);
         session.BeginRead(SelAir);
@@ -2823,7 +2823,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelAir.TextColor = 0;
         SelAir.TextSelColor = 0;
         SelAir.WinWidth = 52;
-        SelAir.OnClick = Layout_SelAirClick_16;
+        SelAir.OnClick = _ => Layout_SelAirClick_16();
         session.EndRead(SelAir);
         SelWater = new TAOWButton(this);
         session.BeginRead(SelWater);
@@ -2857,7 +2857,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelWater.TextColor = 0;
         SelWater.TextSelColor = 0;
         SelWater.WinWidth = 52;
-        SelWater.OnClick = Layout_SelWaterClick_17;
+        SelWater.OnClick = _ => Layout_SelWaterClick_17();
         session.EndRead(SelWater);
         LifeLbl = new TAOWLabel(this);
         session.BeginRead(LifeLbl);
@@ -2915,7 +2915,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         Sel4.TextColor = 0;
         Sel4.TextSelColor = 0;
         Sel4.WinWidth = 52;
-        Sel4.OnClick = DeleteSphereClick;
+        Sel4.OnClick = _ => DeleteSphereClick(3);
         session.EndRead(Sel4);
         SphereSelectionPnl = new TAOWPanel(this);
         session.BeginRead(SphereSelectionPnl);
@@ -2977,7 +2977,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         Sel3.TextColor = 0;
         Sel3.TextSelColor = 0;
         Sel3.WinWidth = 52;
-        Sel3.OnClick = DeleteSphereClick;
+        Sel3.OnClick = _ => DeleteSphereClick(2);
         session.EndRead(Sel3);
         Sel2 = new TAOWButton(this);
         session.BeginRead(Sel2);
@@ -3012,7 +3012,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         Sel2.TextColor = 0;
         Sel2.TextSelColor = 0;
         Sel2.WinWidth = 52;
-        Sel2.OnClick = DeleteSphereClick;
+        Sel2.OnClick = _ => DeleteSphereClick(1);
         session.EndRead(Sel2);
         Sel1 = new TAOWButton(this);
         session.BeginRead(Sel1);
@@ -3046,7 +3046,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         Sel1.TextColor = 0;
         Sel1.TextSelColor = 0;
         Sel1.WinWidth = 52;
-        Sel1.OnClick = DeleteSphereClick;
+        Sel1.OnClick = _ => DeleteSphereClick(0);
         session.EndRead(Sel1);
         Sel5 = new TAOWButton(this);
         session.BeginRead(Sel5);
@@ -3081,7 +3081,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         Sel5.TextColor = 0;
         Sel5.TextSelColor = 0;
         Sel5.WinWidth = 52;
-        Sel5.OnClick = DeleteSphereClick;
+        Sel5.OnClick = _ => DeleteSphereClick(4);
         session.EndRead(Sel5);
         Sel6 = new TAOWButton(this);
         session.BeginRead(Sel6);
@@ -3116,7 +3116,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         Sel6.TextColor = 0;
         Sel6.TextSelColor = 0;
         Sel6.WinWidth = 52;
-        Sel6.OnClick = DeleteSphereClick;
+        Sel6.OnClick = _ => DeleteSphereClick(5);
         session.EndRead(Sel6);
         Sel7 = new TAOWButton(this);
         session.BeginRead(Sel7);
@@ -3151,7 +3151,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         Sel7.TextColor = 0;
         Sel7.TextSelColor = 0;
         Sel7.WinWidth = 52;
-        Sel7.OnClick = DeleteSphereClick;
+        Sel7.OnClick = _ => DeleteSphereClick(6);
         session.EndRead(Sel7);
         DeathLbl = new TAOWLabel(this);
         session.BeginRead(DeathLbl);
@@ -3324,7 +3324,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         FaceNextBtn.TextColor = 15134446;
         FaceNextBtn.TextSelColor = 0;
         FaceNextBtn.WinWidth = 60;
-        FaceNextBtn.OnClick = Layout_FaceNextBtnClick_18;
+        FaceNextBtn.OnClick = _ => Layout_FaceNextBtnClick_18();
         session.EndRead(FaceNextBtn);
         FacePrevBtn = new TAOWButton(this);
         session.BeginRead(FacePrevBtn);
@@ -3359,7 +3359,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         FacePrevBtn.TextColor = 15134446;
         FacePrevBtn.TextSelColor = 0;
         FacePrevBtn.WinWidth = 60;
-        FacePrevBtn.OnClick = Layout_FacePrevBtnClick_19;
+        FacePrevBtn.OnClick = _ => Layout_FacePrevBtnClick_19();
         session.EndRead(FacePrevBtn);
         LeaderLbl = new TAOWLabel(this);
         session.BeginRead(LeaderLbl);
@@ -3410,7 +3410,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelectedAbilitiesCost = new TAOWListBox(this);
         session.BeginRead(SelectedAbilitiesCost);
         SelectedAbilitiesCost.Name = "SelectedAbilitiesCost";
-        SelectedAbilitiesCost.OnMouseDown = SelectedAbilitiesCostMouseDown;
+        SelectedAbilitiesCost.OnMouseDown = (_, button, shift, x, y) => SelectedAbilitiesCostMouseDown(button, shift, x, y);
         SelectedAbilitiesCost.Priority = 10001;
         SelectedAbilitiesCost.WinLeft = 180;
         SelectedAbilitiesCost.WinTop = 252;
@@ -3436,7 +3436,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelectedAbilitiesCost.WinHeight = 87;
         SelectedAbilitiesCost.BorderWidth = 6;
         SelectedAbilitiesCost.BorderHeight = 4;
-        SelectedAbilitiesCost.OnChange = Layout_SelectedAbilitiesCostChange_20;
+        SelectedAbilitiesCost.OnChange = _ => Layout_SelectedAbilitiesCostChange_20();
         SelectedAbilitiesCost.Selected = -1;
         SelectedAbilitiesCost.TextColor = 8421504;
         SelectedAbilitiesCost.TextSelColor = 0;
@@ -3449,7 +3449,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AvailableAbilitiesCost = new TAOWListBox(this);
         session.BeginRead(AvailableAbilitiesCost);
         AvailableAbilitiesCost.Name = "AvailableAbilitiesCost";
-        AvailableAbilitiesCost.OnMouseDown = AvailableAbilitiesMouseDown;
+        AvailableAbilitiesCost.OnMouseDown = (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
         AvailableAbilitiesCost.Priority = 100001;
         AvailableAbilitiesCost.WinLeft = 405;
         AvailableAbilitiesCost.WinTop = 64;
@@ -3475,7 +3475,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AvailableAbilitiesCost.WinHeight = 275;
         AvailableAbilitiesCost.BorderWidth = 6;
         AvailableAbilitiesCost.BorderHeight = 4;
-        AvailableAbilitiesCost.OnChange = Layout_AvailableAbilitiesCostChange_21;
+        AvailableAbilitiesCost.OnChange = _ => Layout_AvailableAbilitiesCostChange_21();
         AvailableAbilitiesCost.Selected = -1;
         AvailableAbilitiesCost.TextColor = 8421504;
         AvailableAbilitiesCost.TextSelColor = 0;
@@ -3513,7 +3513,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AttUp.TextColor = 0;
         AttUp.TextSelColor = 0;
         AttUp.WinWidth = 9;
-        AttUp.OnClick = Layout_AttUpClick_22;
+        AttUp.OnClick = _ => Layout_AttUpClick_22();
         session.EndRead(AttUp);
         AttDn = new TAOWButton(this);
         session.BeginRead(AttDn);
@@ -3543,7 +3543,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AttDn.TextColor = 0;
         AttDn.TextSelColor = 0;
         AttDn.WinWidth = 9;
-        AttDn.OnClick = Layout_AttDnClick_23;
+        AttDn.OnClick = _ => Layout_AttDnClick_23();
         session.EndRead(AttDn);
         DamUp = new TAOWButton(this);
         session.BeginRead(DamUp);
@@ -3573,7 +3573,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         DamUp.TextColor = 0;
         DamUp.TextSelColor = 0;
         DamUp.WinWidth = 9;
-        DamUp.OnClick = Layout_DamUpClick_24;
+        DamUp.OnClick = _ => Layout_DamUpClick_24();
         session.EndRead(DamUp);
         DamDn = new TAOWButton(this);
         session.BeginRead(DamDn);
@@ -3603,7 +3603,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         DamDn.TextColor = 0;
         DamDn.TextSelColor = 0;
         DamDn.WinWidth = 9;
-        DamDn.OnClick = Layout_DamDnClick_25;
+        DamDn.OnClick = _ => Layout_DamDnClick_25();
         session.EndRead(DamDn);
         DefUp = new TAOWButton(this);
         session.BeginRead(DefUp);
@@ -3633,7 +3633,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         DefUp.TextColor = 0;
         DefUp.TextSelColor = 0;
         DefUp.WinWidth = 9;
-        DefUp.OnClick = Layout_DefUpClick_26;
+        DefUp.OnClick = _ => Layout_DefUpClick_26();
         session.EndRead(DefUp);
         DefDn = new TAOWButton(this);
         session.BeginRead(DefDn);
@@ -3663,7 +3663,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         DefDn.TextColor = 0;
         DefDn.TextSelColor = 0;
         DefDn.WinWidth = 9;
-        DefDn.OnClick = Layout_DefDnClick_27;
+        DefDn.OnClick = _ => Layout_DefDnClick_27();
         session.EndRead(DefDn);
         ResUp = new TAOWButton(this);
         session.BeginRead(ResUp);
@@ -3693,7 +3693,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         ResUp.TextColor = 0;
         ResUp.TextSelColor = 0;
         ResUp.WinWidth = 9;
-        ResUp.OnClick = Layout_ResUpClick_28;
+        ResUp.OnClick = _ => Layout_ResUpClick_28();
         session.EndRead(ResUp);
         ResDn = new TAOWButton(this);
         session.BeginRead(ResDn);
@@ -3723,7 +3723,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         ResDn.TextColor = 0;
         ResDn.TextSelColor = 0;
         ResDn.WinWidth = 9;
-        ResDn.OnClick = Layout_ResDnClick_29;
+        ResDn.OnClick = _ => Layout_ResDnClick_29();
         session.EndRead(ResDn);
         HitUp = new TAOWButton(this);
         session.BeginRead(HitUp);
@@ -3753,7 +3753,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         HitUp.TextColor = 0;
         HitUp.TextSelColor = 0;
         HitUp.WinWidth = 9;
-        HitUp.OnClick = Layout_HitUpClick_30;
+        HitUp.OnClick = _ => Layout_HitUpClick_30();
         session.EndRead(HitUp);
         HitDn = new TAOWButton(this);
         session.BeginRead(HitDn);
@@ -3783,7 +3783,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         HitDn.TextColor = 0;
         HitDn.TextSelColor = 0;
         HitDn.WinWidth = 9;
-        HitDn.OnClick = Layout_HitDnClick_31;
+        HitDn.OnClick = _ => Layout_HitDnClick_31();
         session.EndRead(HitDn);
         MovUp = new TAOWButton(this);
         session.BeginRead(MovUp);
@@ -3813,7 +3813,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         MovUp.TextColor = 0;
         MovUp.TextSelColor = 0;
         MovUp.WinWidth = 9;
-        MovUp.OnClick = Layout_MovUpClick_32;
+        MovUp.OnClick = _ => Layout_MovUpClick_32();
         session.EndRead(MovUp);
         MovDn = new TAOWButton(this);
         session.BeginRead(MovDn);
@@ -3843,7 +3843,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         MovDn.TextColor = 0;
         MovDn.TextSelColor = 0;
         MovDn.WinWidth = 9;
-        MovDn.OnClick = Layout_MovDnClick_33;
+        MovDn.OnClick = _ => Layout_MovDnClick_33();
         session.EndRead(MovDn);
         AttIc = new TAOWImage(this);
         session.BeginRead(AttIc);
@@ -4042,7 +4042,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SBase.TextColor = 0;
         SBase.TextSelColor = 16777215;
         SBase.WinWidth = 115;
-        SBase.OnClick = Layout_SBaseClick_34;
+        SBase.OnClick = _ => Layout_SBaseClick_34();
         session.EndRead(SBase);
         SExtra = new TAOWButton(this);
         session.BeginRead(SExtra);
@@ -4073,7 +4073,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SExtra.TextColor = 0;
         SExtra.TextSelColor = 16777215;
         SExtra.WinWidth = 50;
-        SExtra.OnClick = Layout_SExtraClick_35;
+        SExtra.OnClick = _ => Layout_SExtraClick_35();
         session.EndRead(SExtra);
         SFinal = new TAOWButton(this);
         session.BeginRead(SFinal);
@@ -4104,7 +4104,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SFinal.TextColor = 0;
         SFinal.TextSelColor = 16777215;
         SFinal.WinWidth = 50;
-        SFinal.OnClick = Layout_SFinalClick_36;
+        SFinal.OnClick = _ => Layout_SFinalClick_36();
         session.EndRead(SFinal);
         SelectedAbilitiesSort = new TAOWButton(this);
         session.BeginRead(SelectedAbilitiesSort);
@@ -4135,7 +4135,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelectedAbilitiesSort.TextColor = 0;
         SelectedAbilitiesSort.TextSelColor = 16777215;
         SelectedAbilitiesSort.WinWidth = 170;
-        SelectedAbilitiesSort.OnClick = Layout_SelectedAbilitiesSortClick_37;
+        SelectedAbilitiesSort.OnClick = _ => Layout_SelectedAbilitiesSortClick_37();
         session.EndRead(SelectedAbilitiesSort);
         SelectedAbilitiesCostSort = new TAOWButton(this);
         session.BeginRead(SelectedAbilitiesCostSort);
@@ -4166,7 +4166,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         SelectedAbilitiesCostSort.TextColor = 0;
         SelectedAbilitiesCostSort.TextSelColor = 16777215;
         SelectedAbilitiesCostSort.WinWidth = 45;
-        SelectedAbilitiesCostSort.OnClick = Layout_SelectedAbilitiesCostSortClick_38;
+        SelectedAbilitiesCostSort.OnClick = _ => Layout_SelectedAbilitiesCostSortClick_38();
         session.EndRead(SelectedAbilitiesCostSort);
         AvailableAbilitiesSort = new TAOWButton(this);
         session.BeginRead(AvailableAbilitiesSort);
@@ -4197,7 +4197,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AvailableAbilitiesSort.TextColor = 0;
         AvailableAbilitiesSort.TextSelColor = 16777215;
         AvailableAbilitiesSort.WinWidth = 170;
-        AvailableAbilitiesSort.OnClick = Layout_AvailableAbilitiesSortClick_39;
+        AvailableAbilitiesSort.OnClick = _ => Layout_AvailableAbilitiesSortClick_39();
         session.EndRead(AvailableAbilitiesSort);
         AvailableAbilitiesCostSort = new TAOWButton(this);
         session.BeginRead(AvailableAbilitiesCostSort);
@@ -4228,7 +4228,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         AvailableAbilitiesCostSort.TextColor = 0;
         AvailableAbilitiesCostSort.TextSelColor = 16777215;
         AvailableAbilitiesCostSort.WinWidth = 45;
-        AvailableAbilitiesCostSort.OnClick = Layout_AvailableAbilitiesCostSortClick_40;
+        AvailableAbilitiesCostSort.OnClick = _ => Layout_AvailableAbilitiesCostSortClick_40();
         session.EndRead(AvailableAbilitiesCostSort);
         MainFaceFr = new TAoWFrame(this);
         session.BeginRead(MainFaceFr);
@@ -4262,7 +4262,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         session.BeginRead(FFr1);
         FFr1.Name = "FFr1";
         FFr1.Tag = -3;
-        FFr1.OnDraw = DrawSelectionFace;
+        FFr1.OnDraw = (sender, surface) => DrawSelectionFace(sender, surface, -3);
         FFr1.Priority = 10;
         FFr1.WinLeft = 28;
         FFr1.WinTop = 50;
@@ -4291,7 +4291,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         session.BeginRead(FFr7);
         FFr7.Name = "FFr7";
         FFr7.Tag = 3;
-        FFr7.OnDraw = DrawSelectionFace;
+        FFr7.OnDraw = (sender, surface) => DrawSelectionFace(sender, surface, 3);
         FFr7.Priority = 10;
         FFr7.WinLeft = 412;
         FFr7.WinTop = 50;
@@ -4320,7 +4320,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         session.BeginRead(FFr2);
         FFr2.Name = "FFr2";
         FFr2.Tag = -2;
-        FFr2.OnDraw = DrawSelectionFace;
+        FFr2.OnDraw = (sender, surface) => DrawSelectionFace(sender, surface, -2);
         FFr2.Priority = 10;
         FFr2.WinLeft = 55;
         FFr2.WinTop = 50;
@@ -4349,7 +4349,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         session.BeginRead(FFr6);
         FFr6.Name = "FFr6";
         FFr6.Tag = 2;
-        FFr6.OnDraw = DrawSelectionFace;
+        FFr6.OnDraw = (sender, surface) => DrawSelectionFace(sender, surface, 2);
         FFr6.Priority = 10;
         FFr6.WinLeft = 370;
         FFr6.WinTop = 50;
@@ -4378,7 +4378,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         session.BeginRead(FFr3);
         FFr3.Name = "FFr3";
         FFr3.Tag = -1;
-        FFr3.OnDraw = DrawSelectionFace;
+        FFr3.OnDraw = (sender, surface) => DrawSelectionFace(sender, surface, -1);
         FFr3.Priority = 10;
         FFr3.WinLeft = 98;
         FFr3.WinTop = 50;
@@ -4407,7 +4407,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         session.BeginRead(FFr5);
         FFr5.Name = "FFr5";
         FFr5.Tag = 1;
-        FFr5.OnDraw = DrawSelectionFace;
+        FFr5.OnDraw = (sender, surface) => DrawSelectionFace(sender, surface, 1);
         FFr5.Priority = 10;
         FFr5.WinLeft = 290;
         FFr5.WinTop = 50;
@@ -4435,7 +4435,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         FFr4 = new TAoWFrame(this);
         session.BeginRead(FFr4);
         FFr4.Name = "FFr4";
-        FFr4.OnDraw = DrawSelectionFace;
+        FFr4.OnDraw = (sender, surface) => DrawSelectionFace(sender, surface, 0);
         FFr4.Priority = 10;
         FFr4.WinLeft = 179;
         FFr4.WinTop = 50;
@@ -4563,7 +4563,7 @@ public partial class TLeaderSetupWin : ILayoutModule
         RaceCB.ListBorderWidth = 6;
         RaceCB.ListBorderHeight = 2;
         RaceCB.NumberVisible = 5;
-        RaceCB.OnChange = Layout_RaceCBChange_41;
+        RaceCB.OnChange = _ => Layout_RaceCBChange_41();
         RaceCB.Selected = -1;
         RaceCB.PriorityOpened = 150;
         RaceCB.TextColor = 15134446;
@@ -5181,212 +5181,212 @@ public partial class TLeaderSetupWin : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_LeaderSetupWinCreate_0(TObject p0)
+    private void Layout_LeaderSetupWinCreate_0()
     {
         LeaderSetupWinCreate();
     }
 
-    private void Layout_LeaderSetupWinDestroy_1(TObject p0)
+    private void Layout_LeaderSetupWinDestroy_1()
     {
         LeaderSetupWinDestroy();
     }
 
-    private void Layout_SelectedAbilitiesChange_2(TObject p0)
+    private void Layout_SelectedAbilitiesChange_2()
     {
         SelectedAbilitiesChange();
     }
 
-    private void Layout_AvailableAbilitiesChange_3(TObject p0)
+    private void Layout_AvailableAbilitiesChange_3()
     {
         AvailableAbilitiesChange();
     }
 
-    private void Layout_NextBtnClick_4(TObject p0)
+    private void Layout_NextBtnClick_4()
     {
         NextBtnClick();
     }
 
-    private void Layout_PrevBtnClick_5(TObject p0)
+    private void Layout_PrevBtnClick_5()
     {
         PrevBtnClick();
     }
 
-    private void Layout_ClearBtnClick_6(TObject p0)
+    private void Layout_ClearBtnClick_6()
     {
         ClearBtnClick();
     }
 
-    private void Layout_RemoveAbilityClick_7(TObject p0)
+    private void Layout_RemoveAbilityClick_7()
     {
         RemoveAbilityClick();
     }
 
-    private void Layout_AddAbilityClick_8(TObject p0)
+    private void Layout_AddAbilityClick_8()
     {
         AddAbilityClick();
     }
 
-    private void Layout_NameEditChange_9(TObject p0)
+    private void Layout_NameEditChange_9()
     {
         NameEditChange();
     }
 
-    private void Layout_AvailableAbilitiesLBChange_10(TObject p0)
+    private void Layout_AvailableAbilitiesLBChange_10()
     {
         AvailableAbilitiesLBChange();
     }
 
-    private void Layout_SelectedAbilitiesLBChange_11(TObject p0)
+    private void Layout_SelectedAbilitiesLBChange_11()
     {
         SelectedAbilitiesLBChange();
     }
 
-    private void Layout_SelDeathClick_12(TObject p0)
+    private void Layout_SelDeathClick_12()
     {
         SelDeathClick();
     }
 
-    private void Layout_SelLifeClick_13(TObject p0)
+    private void Layout_SelLifeClick_13()
     {
         SelLifeClick();
     }
 
-    private void Layout_SelFireClick_14(TObject p0)
+    private void Layout_SelFireClick_14()
     {
         SelFireClick();
     }
 
-    private void Layout_SelEarthClick_15(TObject p0)
+    private void Layout_SelEarthClick_15()
     {
         SelEarthClick();
     }
 
-    private void Layout_SelAirClick_16(TObject p0)
+    private void Layout_SelAirClick_16()
     {
         SelAirClick();
     }
 
-    private void Layout_SelWaterClick_17(TObject p0)
+    private void Layout_SelWaterClick_17()
     {
         SelWaterClick();
     }
 
-    private void Layout_FaceNextBtnClick_18(TObject p0)
+    private void Layout_FaceNextBtnClick_18()
     {
         FaceNextBtnClick();
     }
 
-    private void Layout_FacePrevBtnClick_19(TObject p0)
+    private void Layout_FacePrevBtnClick_19()
     {
         FacePrevBtnClick();
     }
 
-    private void Layout_SelectedAbilitiesCostChange_20(TObject p0)
+    private void Layout_SelectedAbilitiesCostChange_20()
     {
         SelectedAbilitiesCostChange();
     }
 
-    private void Layout_AvailableAbilitiesCostChange_21(TObject p0)
+    private void Layout_AvailableAbilitiesCostChange_21()
     {
         AvailableAbilitiesCostChange();
     }
 
-    private void Layout_AttUpClick_22(TObject p0)
+    private void Layout_AttUpClick_22()
     {
         AttUpClick();
     }
 
-    private void Layout_AttDnClick_23(TObject p0)
+    private void Layout_AttDnClick_23()
     {
         AttDnClick();
     }
 
-    private void Layout_DamUpClick_24(TObject p0)
+    private void Layout_DamUpClick_24()
     {
         DamUpClick();
     }
 
-    private void Layout_DamDnClick_25(TObject p0)
+    private void Layout_DamDnClick_25()
     {
         DamDnClick();
     }
 
-    private void Layout_DefUpClick_26(TObject p0)
+    private void Layout_DefUpClick_26()
     {
         DefUpClick();
     }
 
-    private void Layout_DefDnClick_27(TObject p0)
+    private void Layout_DefDnClick_27()
     {
         DefDnClick();
     }
 
-    private void Layout_ResUpClick_28(TObject p0)
+    private void Layout_ResUpClick_28()
     {
         ResUpClick();
     }
 
-    private void Layout_ResDnClick_29(TObject p0)
+    private void Layout_ResDnClick_29()
     {
         ResDnClick();
     }
 
-    private void Layout_HitUpClick_30(TObject p0)
+    private void Layout_HitUpClick_30()
     {
         HitUpClick();
     }
 
-    private void Layout_HitDnClick_31(TObject p0)
+    private void Layout_HitDnClick_31()
     {
         HitDnClick();
     }
 
-    private void Layout_MovUpClick_32(TObject p0)
+    private void Layout_MovUpClick_32()
     {
         MovUpClick();
     }
 
-    private void Layout_MovDnClick_33(TObject p0)
+    private void Layout_MovDnClick_33()
     {
         MovDnClick();
     }
 
-    private void Layout_SBaseClick_34(TObject p0)
+    private void Layout_SBaseClick_34()
     {
         SBaseClick();
     }
 
-    private void Layout_SExtraClick_35(TObject p0)
+    private void Layout_SExtraClick_35()
     {
         SExtraClick();
     }
 
-    private void Layout_SFinalClick_36(TObject p0)
+    private void Layout_SFinalClick_36()
     {
         SFinalClick();
     }
 
-    private void Layout_SelectedAbilitiesSortClick_37(TObject p0)
+    private void Layout_SelectedAbilitiesSortClick_37()
     {
         SelectedAbilitiesSortClick();
     }
 
-    private void Layout_SelectedAbilitiesCostSortClick_38(TObject p0)
+    private void Layout_SelectedAbilitiesCostSortClick_38()
     {
         SelectedAbilitiesCostSortClick();
     }
 
-    private void Layout_AvailableAbilitiesSortClick_39(TObject p0)
+    private void Layout_AvailableAbilitiesSortClick_39()
     {
         AvailableAbilitiesSortClick();
     }
 
-    private void Layout_AvailableAbilitiesCostSortClick_40(TObject p0)
+    private void Layout_AvailableAbilitiesCostSortClick_40()
     {
         AvailableAbilitiesCostSortClick();
     }
 
-    private void Layout_RaceCBChange_41(TObject p0)
+    private void Layout_RaceCBChange_41()
     {
         RaceCBChange();
     }

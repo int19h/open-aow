@@ -709,7 +709,7 @@ public partial class TSpellBook : TDataModule
                         if (FEvent == null || FEvent.FMode != TPlayerMagicEventMode.pmemStartResearch)
                         {
                             FMode = 2;
-                            InfoBtnClick(this);
+                            InfoBtnClick();
                         }
                         else
                         {
@@ -734,7 +734,7 @@ public partial class TSpellBook : TDataModule
                     {
                         if (FHero.CastSpell(Spell.FSpellID, ref Reason))
                         {
-                            InfoBtnClick(this);
+                            InfoBtnClick();
                         }
                         else
                         {
@@ -1007,17 +1007,17 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:236
-    public void SpellIconDraw(TObject Sender, TSurfaceDesc SD)
+    public void SpellIconDraw(TAOWImage Sender, TSurfaceDesc SD, int Slot)
     {
         int Index;
         int X;
         int Y;
-        Index = FPage * 8 + (((TComponent)Sender).Tag & 15);
+        Index = FPage * 8 + Slot;
         if (Index >= 0 && Index < FSpells.GetCount())
         {
             if (FSpells.GetSpell(Index).FCastImages.GetImageSequence(10) != null)
             {
-                var image = (AoWControl.TAOWControl)Sender;
+                var image = Sender;
                 X = image.FAOWWindow.WinLeft;
                 Y = image.FAOWWindow.WinTop;
                 FSpells.GetSpell(Index).FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
@@ -1026,13 +1026,13 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:249
-    public void SelectSpellBtnClick(TObject Sender)
+    public void SelectSpellBtnClick(int Slot)
     {
-        SelectSpell(FSpells.GetSpell(FPage * 8 + ((TComponent)Sender).Tag));
+        SelectSpell(FSpells.GetSpell(FPage * 8 + Slot));
     }
 
     // AoWSpellBook.pas:254
-    public void GlobalBtnClick(TObject Sender)
+    public void GlobalBtnClick()
     {
         if (FSpellType != TSpellType.stGlobal || FPage != 0 || FPageKind != 1)
         {
@@ -1090,7 +1090,7 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:285
-    public void InfoBtnClick(TObject Sender)
+    public void InfoBtnClick()
     {
         if (FPageKind != 0)
         {
@@ -1199,7 +1199,7 @@ public partial class TSpellBook : TDataModule
             }
             else
             {
-                GlobalBtnClick(this);
+                GlobalBtnClick();
             }
         }
     }
@@ -1229,7 +1229,7 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:375
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

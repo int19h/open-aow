@@ -66,8 +66,8 @@ public partial class TIWindow : ILayoutModule
         InfoWin.DragHeight = 20;
         InfoWin.Draggable = true;
         InfoWin.Resizable = true;
-        InfoWin.OnDrag = Layout_InfoWinResize_0;
-        InfoWin.OnResize = Layout_InfoWinResize_0;
+        InfoWin.OnDrag = _ => Layout_InfoWinResize_0();
+        InfoWin.OnResize = _ => Layout_InfoWinResize_0();
         InfoWin.MinWidth = 200;
         InfoWin.MinHeight = 216;
         InfoWin.MaxWidth = 0;
@@ -109,7 +109,7 @@ public partial class TIWindow : ILayoutModule
         Min.TextColor = 0;
         Min.TextSelColor = 0;
         Min.WinWidth = 15;
-        Min.OnClick = Layout_MinClick_1;
+        Min.OnClick = _ => Layout_MinClick_1();
         session.EndRead(Min);
         Close = new TAOWButton(this);
         session.BeginRead(Close);
@@ -143,7 +143,7 @@ public partial class TIWindow : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = CloseClick;
+        Close.OnClick = _ => CloseClick();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -225,7 +225,7 @@ public partial class TIWindow : ILayoutModule
         MainBtn.TextColor = 0;
         MainBtn.TextSelColor = 16777215;
         MainBtn.WinWidth = 108;
-        MainBtn.OnClick = Layout_MainBtnClick_2;
+        MainBtn.OnClick = _ => Layout_MainBtnClick_2();
         session.EndRead(MainBtn);
         CeltFrame = new TAoWFrame(this);
         session.BeginRead(CeltFrame);
@@ -757,7 +757,7 @@ public partial class TIWindow : ILayoutModule
         ProdOrb = new TAOWImage(this);
         session.BeginRead(ProdOrb);
         ProdOrb.Name = "ProdOrb";
-        ProdOrb.OnDraw = Layout_ProdOrb2Draw_3;
+        ProdOrb.OnDraw = (_, SurfDesc) => Layout_ProdOrb2Draw_3(SurfDesc);
         ProdOrb.Priority = 5;
         ProdOrb.WinLeft = 20;
         ProdOrb.WinTop = 102;
@@ -1318,7 +1318,7 @@ public partial class TIWindow : ILayoutModule
         Center.TextColor = 0;
         Center.TextSelColor = 0;
         Center.WinWidth = 15;
-        Center.OnClick = Layout_CenterClick_4;
+        Center.OnClick = _ => Layout_CenterClick_4();
         session.EndRead(Center);
         ConstructionPnl = new TAOWPanel(this);
         session.BeginRead(ConstructionPnl);
@@ -1515,7 +1515,7 @@ public partial class TIWindow : ILayoutModule
         RazeBtn.TextColor = 0;
         RazeBtn.TextSelColor = 0;
         RazeBtn.WinWidth = 43;
-        RazeBtn.OnClick = Layout_RazeBtnClick_5;
+        RazeBtn.OnClick = _ => Layout_RazeBtnClick_5();
         session.EndRead(RazeBtn);
         CivilStatusLbl = new TAOWLabel(this);
         session.BeginRead(CivilStatusLbl);
@@ -2222,7 +2222,7 @@ public partial class TIWindow : ILayoutModule
         ItembagLB.BorderWidth = 6;
         ItembagLB.BorderHeight = 3;
         ItembagLB.Selected = -1;
-        ItembagLB.OnDrawItem = Layout_ItembagLBDrawItem_6;
+        ItembagLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => Layout_ItembagLBDrawItem_6(in DrawRect, DrawItem, ref SurfDesc);
         ItembagLB.TextColor = 9415072;
         ItembagLB.TextSelColor = 0;
         ItembagLB.ILIndexFrame = 40;
@@ -2469,7 +2469,7 @@ public partial class TIWindow : ILayoutModule
         ESSB.WinHeight = 92;
         ESSB.WinWidth = 17;
         ESSB.NumberVisible = 1;
-        ESSB.OnChange = Layout_ESSBChange_7;
+        ESSB.OnChange = _ => Layout_ESSBChange_7();
         ESSB.VanishWhenFull = true;
         ESSB.ILIndexIncUp = 96;
         ESSB.ILIndexIncDown = 97;
@@ -2556,7 +2556,7 @@ public partial class TIWindow : ILayoutModule
         Help.TextColor = 0;
         Help.TextSelColor = 0;
         Help.WinWidth = 15;
-        Help.OnClick = Layout_HelpClick_8;
+        Help.OnClick = _ => Layout_HelpClick_8();
         session.EndRead(Help);
         PopulationRaceLbl = new TAOWLabel(this);
         session.BeginRead(PopulationRaceLbl);
@@ -2926,47 +2926,47 @@ public partial class TIWindow : ILayoutModule
         PopulationLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8s;
     }
 
-    private void Layout_InfoWinResize_0(TObject p0)
+    private void Layout_InfoWinResize_0()
     {
         InfoWinResize();
     }
 
-    private void Layout_MinClick_1(TObject p0)
+    private void Layout_MinClick_1()
     {
         MinClick();
     }
 
-    private void Layout_MainBtnClick_2(TObject p0)
+    private void Layout_MainBtnClick_2()
     {
         MainBtnClick();
     }
 
-    private void Layout_ProdOrb2Draw_3(TAoWComponent p0, TSurfaceDesc p1)
+    private void Layout_ProdOrb2Draw_3(TSurfaceDesc p1)
     {
         ProdOrb2Draw();
     }
 
-    private void Layout_CenterClick_4(TObject p0)
+    private void Layout_CenterClick_4()
     {
         CenterClick();
     }
 
-    private void Layout_RazeBtnClick_5(TObject p0)
+    private void Layout_RazeBtnClick_5()
     {
         RazeBtnClick();
     }
 
-    private void Layout_ItembagLBDrawItem_6(TAoWComponent p0, in TRect p1, int p2, ref TSurfaceDesc p3)
+    private void Layout_ItembagLBDrawItem_6(in TRect p1, int p2, ref TSurfaceDesc p3)
     {
-        ItembagLBDrawItem(default(TObject), p1, default(int), p3);
+        ItembagLBDrawItem(p1, default(int), p3);
     }
 
-    private void Layout_ESSBChange_7(TObject p0)
+    private void Layout_ESSBChange_7()
     {
         ESSBChange();
     }
 
-    private void Layout_HelpClick_8(TObject p0)
+    private void Layout_HelpClick_8()
     {
         HelpClick();
     }

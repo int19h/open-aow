@@ -80,7 +80,7 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:42
-    public void TitleWinDrawSurface(TObject Sender, TSurface Surface, int X, int Y)
+    public void TitleWinDrawSurface(TSurface Surface, int X, int Y)
     {
         TSurfaceDesc SD = default;
         if (SelFactionWin.FactionPnl.Visible && SelFactionWin.FFade >= 0)
@@ -100,7 +100,7 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:61
-    public void TitlePnlDrawBack(TObject Sender, TSurfaceDesc SD)
+    public void TitlePnlDrawBack(TSurfaceDesc SD)
     {
         aowIntGfxModUnit.IntGfxMod.FactionWin[0].Show(SelFactionWin.FactionPnl.WinLeft, SelFactionWin.FactionPnl.WinTop, SD);
     }
@@ -116,7 +116,7 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:121
-    public void SplashPnlKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void SplashPnlKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -133,7 +133,7 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:131
-    public void SplashPnlMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void SplashPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         NextSplash();
     }

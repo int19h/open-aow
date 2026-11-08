@@ -166,7 +166,7 @@ public static partial class E3EventDialogsUnit
     // E3EventDialogs.pas:751
     public static void ShowInformationBook(TWorldMap Dialog, TShowBookEventLog Event, TExecuteDoneEvent Done)
     {
-        Dialog.FOnBookClosed = RebindDelegate<TNotifyEvent>(Done);
+        Dialog.FOnBookClosed = RebindDelegate<TNotifyEvent<TObject>>(Done);
         Dialog.FBookContext = Event;
         if (Dialog.FBookContext != null)
         {
@@ -271,7 +271,7 @@ public static partial class E3EventDialogsUnit
         {
             Dialog.FRequest = Event;
             Dialog.FRequest.AddRef();
-            Dialog.FOnDone = RebindDelegate<TNotifyEvent>(Done);
+            Dialog.FOnDone = RebindDelegate<TNotifyEvent<TObject>>(Done);
             General.Manager.OverlayPriority = 49;
             if (Dialog.TCchk.Checked)
             {

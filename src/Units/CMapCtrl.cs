@@ -1,6 +1,7 @@
 // Translated from CMapCtrl.pas.
 using Aow.Rtl;
 using Aow.Units.AoWE;
+using Aow.Units.AoWTC;
 using Aow.Units.Engine;
 using Aow.Units.EventLog;
 using Aow.Units.HSEngine;
@@ -15,8 +16,8 @@ public partial class TAoWCombatMapControl : TComponent
 {
     public TSelectHSEvent FOnSelected;
     public TSelectHSEvent FOnDeselected;
-    public TNotifyEvent FOnActivateHSM;
-    public TNotifyEvent FOnDeactivateHSM;
+    public TNotifyEvent<TObject> FOnActivateHSM;
+    public TNotifyEvent<TObject> FOnDeactivateHSM;
     public TPlayerChangedEvent FOnIncomeChanged;
     public TPlayerChangedEvent FOnUpkeepChanged;
     public TPlayerChangedEvent FOnGemsChanged;
@@ -27,10 +28,10 @@ public partial class TAoWCombatMapControl : TComponent
     public TOnExecuteEventLogEvent FOnExecuteEventLog;
     public TMapChangedEvent FOnMapChanged;
     public TPlayerChangedEvent FOnLogbookChanged;
-    public TNotifyEvent FOnActivateMap;
-    public TNotifyEvent FOnDeActivateMap;
+    public TNotifyEvent<TObject> FOnActivateMap;
+    public TNotifyEvent<TObject> FOnDeActivateMap;
     public TSelectHSEvent FOnMouseOverTarget;
-    public TSelectHSEvent FOnUnitChanged;
+    public TSelectCombatUnitEvent FOnUnitChanged;
     public TCastCombatSpellEvent FOnCastSpell;
     public TActivateCombatAbilityEvent FOnActivateAbility;
 
@@ -388,10 +389,10 @@ public partial class TAoWCombatMapControl : TComponent
     public TSelectHSEvent OnDeselected { get => FOnDeselected; set => FOnDeselected = value; }
 
     [Published]
-    public TNotifyEvent OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
+    public TNotifyEvent<TObject> OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
 
     [Published]
-    public TNotifyEvent OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
+    public TNotifyEvent<TObject> OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
 
     [Published]
     public TPlayerChangedEvent OnIncomeChanged { get => FOnIncomeChanged; set => FOnIncomeChanged = value; }
@@ -424,16 +425,16 @@ public partial class TAoWCombatMapControl : TComponent
     public TPlayerChangedEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
 
     [Published]
-    public TNotifyEvent OnActivateMap { get => FOnActivateMap; set => FOnActivateMap = value; }
+    public TNotifyEvent<TObject> OnActivateMap { get => FOnActivateMap; set => FOnActivateMap = value; }
 
     [Published]
-    public TNotifyEvent OnDeActivateMap { get => FOnDeActivateMap; set => FOnDeActivateMap = value; }
+    public TNotifyEvent<TObject> OnDeActivateMap { get => FOnDeActivateMap; set => FOnDeActivateMap = value; }
 
     [Published]
     public TSelectHSEvent OnMouseOverTarget { get => FOnMouseOverTarget; set => FOnMouseOverTarget = value; }
 
     [Published]
-    public TSelectHSEvent OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
+    public TSelectCombatUnitEvent OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
 
     [Published]
     public TCastCombatSpellEvent OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
@@ -458,7 +459,7 @@ public partial class TAoWCombatMapControl : TComponent
     {
         try
         {
-            if (FOnMapChanged is not null) FOnMapChanged(((MapChangedNotification)sender).Info);
+            if (FOnMapChanged is not null && sender is MapChangedNotification changed) FOnMapChanged(changed.Info);
         }
         catch
         {
@@ -468,13 +469,14 @@ public partial class TAoWCombatMapControl : TComponent
 
     public void ShowMessage(TObject sender)
     {
-        try { FOnShowMessage?.Invoke(((ShowMessageNotification)sender).Info); }
+        try { if (sender is ShowMessageNotification message) FOnShowMessage?.Invoke(message.Info); }
         catch { RtlUnit.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)"); }
     }
 }
 
 public delegate void TOnMessageEvent(ref TEMsg EMsg);
 public delegate void TSelectHSEvent(THexagonSprite HS);
+public delegate void TSelectCombatUnitEvent(TTacticalCombatUnitHS HS);
 public delegate void TDeselectHSEvent(THexagonSprite HS);
 public delegate void TPlayerChangedEvent(sbyte Player);
 public delegate void TShowMessageEvent(in TShowMessageInfo Info);

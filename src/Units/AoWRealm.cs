@@ -418,7 +418,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:388
-    public void T2WallLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
+    public void T2WallLBDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
     {
         string text = T2WallLB.Items[DrawItem];
         switch (IsEmpty(text) ? (byte)0 : Cp1252.Byte(text[0]))
@@ -435,9 +435,9 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:398
-    public void Unit1LBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
+    public void Unit1LBDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc, int Slot)
     {
-        DrawArmyUnit(Sender.Tag, DrawRect, DrawItem, ref SurfDesc);
+        DrawArmyUnit(Slot, DrawRect, DrawItem, ref SurfDesc);
     }
 
     // AoWRealm.pas:403
@@ -461,67 +461,35 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:421
-    public void Unit1LBChange(TObject Sender)
+    public void Unit1LBChange(TAOWListBox ListBox, int Slot)
     {
-        var listBox = (TAOWListBox)Sender;
-        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(listBox.Selected).GetCount() > 0)
+        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetCount() > 0)
         {
-            listBox.PopupMenu = UnitBanner.BannerPopup;
-            var unit = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(listBox.Selected).GetUnit(listBox.Tag);
+            ListBox.PopupMenu = UnitBanner.BannerPopup;
+            var unit = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetUnit(Slot);
             General.FSelectedUnit = unit;
-            var armyHS = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(listBox.Selected).GetArmyHS();
+            var armyHS = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(ListBox.Selected).GetArmyHS();
             AoWHSMap.Select(armyHS, true);
             Dlg.Priority = Dlg.Priority;
         }
         else
         {
-            listBox.PopupMenu = null;
-            listBox.Selected = -1;
+            ListBox.PopupMenu = null;
+            ListBox.Selected = -1;
         }
 
-        if (Sender != Unit1LB)
+        TAOWListBox[] lists = [Unit1LB, Unit2LB, Unit3LB, Unit4LB, Unit5LB, Unit6LB, Unit7LB, Unit8LB];
+        for (int index = 0; index < lists.Length; index++)
         {
-            Unit1LB.Selected = -1;
-        }
-
-        if (Sender != Unit2LB)
-        {
-            Unit2LB.Selected = -1;
-        }
-
-        if (Sender != Unit3LB)
-        {
-            Unit3LB.Selected = -1;
-        }
-
-        if (Sender != Unit4LB)
-        {
-            Unit4LB.Selected = -1;
-        }
-
-        if (Sender != Unit5LB)
-        {
-            Unit5LB.Selected = -1;
-        }
-
-        if (Sender != Unit6LB)
-        {
-            Unit6LB.Selected = -1;
-        }
-
-        if (Sender != Unit7LB)
-        {
-            Unit7LB.Selected = -1;
-        }
-
-        if (Sender != Unit8LB)
-        {
-            Unit8LB.Selected = -1;
+            if (index != Slot)
+            {
+                lists[index].Selected = -1;
+            }
         }
     }
 
     // AoWRealm.pas:448
-    public void T2MorLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
+    public void T2MorLBDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
     {
         int Icon;
         string text = T2MorLB.Items[DrawItem];
@@ -549,9 +517,9 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:469
-    public void CityListChange(TObject Sender)
+    public void CityListChange(TAOWListBox Sender)
     {
-        var listBox = (TAOWListBox)Sender;
+        var listBox = Sender;
         T2NameLB.Selected = listBox.Selected;
         T2RaceLB.Selected = listBox.Selected;
         T2IncomeLB.Selected = listBox.Selected;
@@ -565,28 +533,28 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:486
-    public void CityDoubleClick(TObject Sender)
+    public void CityDoubleClick(TAOWListBox Sender)
     {
-        if (((TAOWListBox)Sender).Selected != -1)
+        if (Sender.Selected != -1)
         {
-            var city = T2NameLB.Items.Objects[((TAOWListBox)Sender).Selected];
+            var city = T2NameLB.Items.Objects[Sender.Selected];
             CityScreen.ShowCity((TCity)city);
         }
     }
 
     // AoWRealm.pas:492
-    public void PlaceListDoubleClick(TObject Sender)
+    public void PlaceListDoubleClick(TAOWListBox Sender)
     {
-        if (((TAOWListBox)Sender).Selected != -1)
+        if (Sender.Selected != -1)
         {
-            if (T3Name.Items.Objects[((TAOWListBox)Sender).Selected] is TProductionPlace)
+            if (T3Name.Items.Objects[Sender.Selected] is TProductionPlace)
             {
-                var productionPlace = T3Name.Items.Objects[((TAOWListBox)Sender).Selected];
+                var productionPlace = T3Name.Items.Objects[Sender.Selected];
                 ProductionScreen.ShowPlace((TProductionPlace)productionPlace);
             }
             else
             {
-                var hexagonSprite = T3Name.Items.Objects[((TAOWListBox)Sender).Selected];
+                var hexagonSprite = T3Name.Items.Objects[Sender.Selected];
                 AoWHSMap.Select((THexagonSprite)hexagonSprite, true);
             }
         }
@@ -611,9 +579,9 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:513
-    public void HeroListDoubleClick(TObject Sender)
+    public void HeroListDoubleClick(TAOWListBox Sender)
     {
-        var listBox = (TAOWListBox)Sender;
+        var listBox = Sender;
         if (listBox.Selected != -1)
         {
             var armyHS = ((TArmy)T5Name.Items.Objects[listBox.Selected]).GetArmyHS();
@@ -622,11 +590,11 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:522
-    public void HeroListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void HeroListMouseDown(TAOWListBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAOWListBox List;
         THexagonSprite Sprite;
-        List = (TAOWListBox)Sender;
+        List = Sender;
         if (List.Selected != -1)
         {
             Sprite = ((TArmy)T5Name.Items.Objects[List.Selected]).GetArmyHS();
@@ -678,7 +646,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:567
-    public void T2ActLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
+    public void T2ActLBDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
     {
         byte Icon;
         string text = T2ActLB.Items[DrawItem];
@@ -698,7 +666,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:583
-    public void T2RelLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
+    public void T2RelLBDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
     {
         int Icon;
         string text = T2RelLB.Items[DrawItem];
@@ -731,10 +699,10 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:616
-    public void T3NameChange(TObject Sender)
+    public void T3NameChange(TAOWListBox Sender)
     {
         TAOWListBox List;
-        List = (TAOWListBox)Sender;
+        List = Sender;
         T3Name.Selected = List.Selected;
         T3ActLB.Selected = List.Selected;
     }
@@ -746,7 +714,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:630
-    public void T2SNameClick(TObject Sender, int Button)
+    public void T2SNameClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -765,7 +733,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:649
-    public void T2SRaceClick(TObject Sender, int Button)
+    public void T2SRaceClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -784,7 +752,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:668
-    public void T2SInClick(TObject Sender, int Button)
+    public void T2SInClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -803,7 +771,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:687
-    public void T2SLvlClick(TObject Sender, int Button)
+    public void T2SLvlClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -822,7 +790,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:706
-    public void T2SWallClick(TObject Sender, int Button)
+    public void T2SWallClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -841,7 +809,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:725
-    public void T2SSizeClick(TObject Sender, int Button)
+    public void T2SSizeClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -860,7 +828,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:744
-    public void T2SRelClick(TObject Sender, int Button)
+    public void T2SRelClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -879,7 +847,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:763
-    public void T2SMorClick(TObject Sender, int Button)
+    public void T2SMorClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -898,7 +866,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:782
-    public void T2SActClick(TObject Sender, int Button)
+    public void T2SActClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -917,7 +885,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:801
-    public void T2SEncClick(TObject Sender, int Button)
+    public void T2SEncClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -936,7 +904,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:820
-    public void T3SNameClick(TObject Sender, int Button)
+    public void T3SNameClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -947,10 +915,10 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:831
-    public void HeroListChange(TObject Sender)
+    public void HeroListChange(TAOWListBox Sender)
     {
         TAOWListBox List;
-        List = (TAOWListBox)Sender;
+        List = Sender;
         T5Name.Selected = List.Selected;
         T5Health.Selected = List.Selected;
         T5Level.Selected = List.Selected;
@@ -966,7 +934,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:849
-    public void T5HeroInfDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void T5HeroInfDraw(TSurfaceDesc SurfDesc)
     {
         int Index;
         THero Hero;
@@ -984,18 +952,18 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:866
-    public void Unit1LBDoubleClick(TObject Sender)
+    public void Unit1LBDoubleClick(TAOWListBox Sender, int Slot)
     {
-        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(((TAOWListBox)Sender).Selected).GetCount() > 0)
+        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(Sender.Selected).GetCount() > 0)
         {
-            var unit = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(((TAOWListBox)Sender).Selected).GetUnit(((TComponent)Sender).Tag);
+            var unit = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetArmy(Sender.Selected).GetUnit(Slot);
             General.FSelectedUnit = unit;
             UnitWindow.ShowUnit();
         }
     }
 
     // AoWRealm.pas:875
-    public void T5SNameClick(TObject Sender, int Button)
+    public void T5SNameClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -1007,7 +975,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:887
-    public void T5SHealthClick(TObject Sender, int Button)
+    public void T5SHealthClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -1019,7 +987,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:899
-    public void T5SLevelClick(TObject Sender, int Button)
+    public void T5SLevelClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -1037,7 +1005,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:916
-    public void T4PnlShow(TObject Sender)
+    public void T4PnlShow()
     {
         for (int I = 0, last = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
         {
@@ -1050,7 +1018,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:926
-    public void T4PnlHide(TObject Sender)
+    public void T4PnlHide()
     {
         for (int I = 0, last = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FArmies.GetCount() - 1; I <= last; I++)
         {
@@ -1067,7 +1035,7 @@ public partial class TRealmWin : TDataModule
     {
         if (T4Pnl.Visible)
         {
-            T4PnlShow(this);
+            T4PnlShow();
         }
     }
 
@@ -1076,7 +1044,7 @@ public partial class TRealmWin : TDataModule
     {
         if (T4Pnl.Visible)
         {
-            T4PnlHide(this);
+            T4PnlHide();
         }
     }
 
@@ -1087,7 +1055,7 @@ public partial class TRealmWin : TDataModule
     }
 
     // AoWRealm.pas:951
-    public void T3ActivityClick(TObject Sender, int Button)
+    public void T3ActivityClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);

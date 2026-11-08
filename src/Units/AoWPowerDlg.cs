@@ -148,7 +148,7 @@ public partial class TPowerDlg : TDataModule
     }
 
     // AoWPowerDlg.pas:141
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

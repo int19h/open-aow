@@ -49,7 +49,7 @@ public partial class TTitleScene
         TitleSceneIL.ReleaseDiscardableImageData();
     }
 
-    public void WindowMouseUp(TObject sender, TMouseButton button, TSet<TShiftState> shift, int x, int y)
+    public void WindowMouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y)
     {
         FMouseX = x;
         FMouseY = y;

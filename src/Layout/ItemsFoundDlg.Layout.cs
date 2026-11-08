@@ -32,14 +32,14 @@ public partial class TItemsFoundDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 128;
         Dlg.WinTop = 109;
         Dlg.WinWidth = 385;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -153,7 +153,7 @@ public partial class TItemsFoundDlg : ILayoutModule
         PickupBtn.TextColor = 0;
         PickupBtn.TextSelColor = 16777215;
         PickupBtn.WinWidth = 105;
-        PickupBtn.OnClick = Layout_PickupBtnClick_1;
+        PickupBtn.OnClick = _ => Layout_PickupBtnClick_1();
         session.EndRead(PickupBtn);
         CloseBtn = new TAOWButton(this);
         session.BeginRead(CloseBtn);
@@ -184,7 +184,7 @@ public partial class TItemsFoundDlg : ILayoutModule
         CloseBtn.TextColor = 0;
         CloseBtn.TextSelColor = 16777215;
         CloseBtn.WinWidth = 105;
-        CloseBtn.OnClick = Layout_CloseBtn2Click_2;
+        CloseBtn.OnClick = _ => Layout_CloseBtn2Click_2();
         session.EndRead(CloseBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -353,7 +353,7 @@ public partial class TItemsFoundDlg : ILayoutModule
         CloseBtn2.TextColor = 0;
         CloseBtn2.TextSelColor = 16777215;
         CloseBtn2.WinWidth = 130;
-        CloseBtn2.OnClick = Layout_CloseBtn2Click_2;
+        CloseBtn2.OnClick = _ => Layout_CloseBtn2Click_2();
         session.EndRead(CloseBtn2);
         OKPnl = new TAOWPanel(this);
         session.BeginRead(OKPnl);
@@ -500,8 +500,8 @@ public partial class TItemsFoundDlg : ILayoutModule
         session.BeginRead(Gnd3);
         Gnd3.Name = "Gnd3";
         Gnd3.Tag = 2;
-        Gnd3.OnMouseDown = Layout_Gnd3MouseDown_3;
-        Gnd3.OnDraw = Gnd3Draw;
+        Gnd3.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 2);
+        Gnd3.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 2);
         Gnd3.Priority = 1000;
         Gnd3.WinLeft = 172;
         Gnd3.WinTop = 123;
@@ -534,8 +534,8 @@ public partial class TItemsFoundDlg : ILayoutModule
         session.BeginRead(Gnd2);
         Gnd2.Name = "Gnd2";
         Gnd2.Tag = 1;
-        Gnd2.OnMouseDown = Layout_Gnd3MouseDown_3;
-        Gnd2.OnDraw = Gnd3Draw;
+        Gnd2.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 1);
+        Gnd2.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 1);
         Gnd2.Priority = 1000;
         Gnd2.WinLeft = 124;
         Gnd2.WinTop = 123;
@@ -567,8 +567,8 @@ public partial class TItemsFoundDlg : ILayoutModule
         Gnd1 = new TAOWCheckBox(this);
         session.BeginRead(Gnd1);
         Gnd1.Name = "Gnd1";
-        Gnd1.OnMouseDown = Layout_Gnd3MouseDown_3;
-        Gnd1.OnDraw = Gnd3Draw;
+        Gnd1.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 0);
+        Gnd1.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 0);
         Gnd1.Priority = 1000;
         Gnd1.WinLeft = 80;
         Gnd1.WinTop = 123;
@@ -601,8 +601,8 @@ public partial class TItemsFoundDlg : ILayoutModule
         session.BeginRead(Gnd4);
         Gnd4.Name = "Gnd4";
         Gnd4.Tag = 3;
-        Gnd4.OnMouseDown = Layout_Gnd3MouseDown_3;
-        Gnd4.OnDraw = Gnd3Draw;
+        Gnd4.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 3);
+        Gnd4.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 3);
         Gnd4.Priority = 1000;
         Gnd4.WinLeft = 221;
         Gnd4.WinTop = 123;
@@ -635,8 +635,8 @@ public partial class TItemsFoundDlg : ILayoutModule
         session.BeginRead(Gnd5);
         Gnd5.Name = "Gnd5";
         Gnd5.Tag = 4;
-        Gnd5.OnMouseDown = Layout_Gnd3MouseDown_3;
-        Gnd5.OnDraw = Gnd3Draw;
+        Gnd5.OnMouseDown = (sender, button, shift, x, y) => Gnd3MouseDown(sender, button, shift, x, y, 4);
+        Gnd5.OnDraw = (sender, surface) => Gnd3Draw(sender, surface, 4);
         Gnd5.Priority = 1000;
         Gnd5.WinLeft = 265;
         Gnd5.WinTop = 123;
@@ -693,7 +693,7 @@ public partial class TItemsFoundDlg : ILayoutModule
         LeftBtn.TextColor = 0;
         LeftBtn.TextSelColor = 0;
         LeftBtn.WinWidth = 13;
-        LeftBtn.OnClick = Layout_LeftBtnClick_4;
+        LeftBtn.OnClick = _ => Layout_LeftBtnClick_4();
         session.EndRead(LeftBtn);
         RightBtn = new TAOWButton(this);
         session.BeginRead(RightBtn);
@@ -723,7 +723,7 @@ public partial class TItemsFoundDlg : ILayoutModule
         RightBtn.TextColor = 0;
         RightBtn.TextSelColor = 0;
         RightBtn.WinWidth = 13;
-        RightBtn.OnClick = Layout_RightBtnClick_5;
+        RightBtn.OnClick = _ => Layout_RightBtnClick_5();
         session.EndRead(RightBtn);
         session.EndRead(this);
         TitleLbl.AOWWindow = Dlg;
@@ -809,32 +809,27 @@ public partial class TItemsFoundDlg : ILayoutModule
         RightBtn.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericS;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_PickupBtnClick_1(TObject p0)
+    private void Layout_PickupBtnClick_1()
     {
         PickupBtnClick();
     }
 
-    private void Layout_CloseBtn2Click_2(TObject p0)
+    private void Layout_CloseBtn2Click_2()
     {
         CloseBtn2Click();
     }
 
-    private void Layout_Gnd3MouseDown_3(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        Gnd3MouseDown((TAOWCheckBox)p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_LeftBtnClick_4(TObject p0)
+    private void Layout_LeftBtnClick_4()
     {
         LeftBtnClick();
     }
 
-    private void Layout_RightBtnClick_5(TObject p0)
+    private void Layout_RightBtnClick_5()
     {
         RightBtnClick();
     }

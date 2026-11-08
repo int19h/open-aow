@@ -37,7 +37,7 @@ public partial class TTCFCDialog : ILayoutModule
         Dlg.WinTop = 41;
         Dlg.WinWidth = 421;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -151,7 +151,7 @@ public partial class TTCFCDialog : ILayoutModule
         FightBtn.TextColor = 0;
         FightBtn.TextSelColor = 16777215;
         FightBtn.WinWidth = 130;
-        FightBtn.OnClick = Layout_FightBtnClick_1;
+        FightBtn.OnClick = _ => Layout_FightBtnClick_1();
         session.EndRead(FightBtn);
         CancelBtn = new TAOWButton(this);
         session.BeginRead(CancelBtn);
@@ -186,7 +186,7 @@ public partial class TTCFCDialog : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 130;
-        CancelBtn.OnClick = Layout_CancelBtnClick_2;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_2();
         session.EndRead(CancelBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -478,7 +478,7 @@ public partial class TTCFCDialog : ILayoutModule
         session.BeginRead(MapView);
         MapView.Name = "MapView";
         MapView.OnDraw = MapViewDraw;
-        MapView.OnUpdate = Layout_MapViewUpdate_3;
+        MapView.OnUpdate = _ => Layout_MapViewUpdate_3();
         MapView.Priority = 50;
         MapView.WinLeft = 21;
         MapView.WinTop = 50;
@@ -599,22 +599,22 @@ public partial class TTCFCDialog : ILayoutModule
         InfoSep.ImageLib = aowIntGfxModUnit.IntGfxMod.CityWin;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_FightBtnClick_1(TObject p0)
+    private void Layout_FightBtnClick_1()
     {
         FightBtnClick();
     }
 
-    private void Layout_CancelBtnClick_2(TObject p0)
+    private void Layout_CancelBtnClick_2()
     {
         CancelBtnClick();
     }
 
-    private void Layout_MapViewUpdate_3(TObject p0)
+    private void Layout_MapViewUpdate_3()
     {
         MapViewUpdate();
     }

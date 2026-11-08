@@ -23,8 +23,8 @@ public partial class TTitleScene : ILayoutModule
     {
         session.Begin(this);
         Name = "TitleScene";
-        LayoutOnCreate = Layout_TitleSceneCreate_0;
-        LayoutOnDestroy = Layout_TitleSceneDestroy_1;
+        LayoutOnCreate = _ => Layout_TitleSceneCreate_0();
+        LayoutOnDestroy = _ => Layout_TitleSceneDestroy_1();
         TitleSceneIL = new TImageLibrary(this);
         session.BeginRead(TitleSceneIL);
         TitleSceneIL.Name = "TitleSceneIL";
@@ -34,17 +34,17 @@ public partial class TTitleScene : ILayoutModule
         Window = new TAoWUserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
-        Window.OnMouseDown = WindowMouseDown;
-        Window.OnMouseUp = WindowMouseUp;
-        Window.OnMouseMove = WindowMouseMove;
-        Window.OnUpdate = Layout_WindowUpdate_2;
+        Window.OnMouseDown = (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
+        Window.OnMouseUp = (_, button, shift, x, y) => WindowMouseUp(button, shift, x, y);
+        Window.OnMouseMove = (_, shift, x, y) => WindowMouseMove(shift, x, y);
+        Window.OnUpdate = _ => Layout_WindowUpdate_2();
         Window.Visible = false;
         Window.Priority = 0;
         Window.WinLeft = 0;
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = false;
-        Window.OnHide = Layout_WindowHide_3;
+        Window.OnHide = _ => Layout_WindowHide_3();
         Window.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
         Window.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
         Window.Alignment.HeightPercent = 0;
@@ -239,22 +239,22 @@ public partial class TTitleScene : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_TitleSceneCreate_0(TObject p0)
+    private void Layout_TitleSceneCreate_0()
     {
         TitleSceneCreate();
     }
 
-    private void Layout_TitleSceneDestroy_1(TObject p0)
+    private void Layout_TitleSceneDestroy_1()
     {
         TitleSceneDestroy();
     }
 
-    private void Layout_WindowUpdate_2(TObject p0)
+    private void Layout_WindowUpdate_2()
     {
         WindowUpdate();
     }
 
-    private void Layout_WindowHide_3(TObject p0)
+    private void Layout_WindowHide_3()
     {
         WindowHide();
     }

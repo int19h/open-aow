@@ -951,67 +951,67 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:302
-    public void ActivityChange(TObject Sender)
+    public void ActivityChange(TAOWCheckBox Sender, int Slot)
     {
         General.PlayButtonSound(1);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             ResetChecks();
-            SelectAction((TCityAction)((byte)((TComponent)Sender).Tag + 1));
-            ((TAOWCheckBox)Sender).Checked = true;
+            SelectAction((TCityAction)((byte)Slot + 1));
+            Sender.Checked = true;
         }
     }
 
     // AoWCityScreen.pas:313
-    public void ActivityDoubleClick(TObject Sender)
+    public void ActivityDoubleClick(TAOWCheckBox Sender, int Slot)
     {
-        if ((TCityAction)((byte)((TComponent)Sender).Tag + 1) != TCityAction.caMigrate)
+        if ((TCityAction)((byte)Slot + 1) != TCityAction.caMigrate)
         {
             ResetChecks();
-            SelectAction((TCityAction)((byte)((TComponent)Sender).Tag + 1));
-            ((TAOWCheckBox)Sender).Checked = true;
-            CityBtn1Click(null);
+            SelectAction((TCityAction)((byte)Slot + 1));
+            Sender.Checked = true;
+            CityBtn1Click();
         }
     }
 
     // AoWCityScreen.pas:324
-    public void ProductionChange(TObject Sender)
+    public void ProductionChange(TAOWCheckBox Sender, int Slot)
     {
         General.PlayButtonSound(1);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             ResetChecks();
-            SelectProduction(((TComponent)Sender).Tag);
-            ((TAOWCheckBox)Sender).Checked = true;
+            SelectProduction(Slot);
+            Sender.Checked = true;
         }
     }
 
     // AoWCityScreen.pas:335
-    public void ProductionDoubleClick(TObject Sender)
+    public void ProductionDoubleClick(TAOWCheckBox Sender, int Slot)
     {
         ResetChecks();
-        SelectProduction(((TComponent)Sender).Tag);
-        ((TAOWCheckBox)Sender).Checked = true;
-        CityBtn1Click(null);
+        SelectProduction(Slot);
+        Sender.Checked = true;
+        CityBtn1Click();
     }
 
     // AoWCityScreen.pas:343
-    public void ProductionsUpdate(TObject Sender)
+    public void ProductionsUpdate(TAOWCheckBox Sender, int Slot)
     {
-        var unitProduction = FCity.FProduction.FUnitProductions.GetItem(((TComponent)Sender).Tag);
-        ((TAoWComponent)Sender).CaptureInput = unitProduction != null;
+        var unitProduction = FCity.FProduction.FUnitProductions.GetItem(Slot);
+        Sender.CaptureInput = unitProduction != null;
     }
 
     // AoWCityScreen.pas:348
-    public void ActivityPreDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void ActivityPreDraw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
     {
         int Image;
-        Image = ActivityImage((TCityAction)((byte)Sender.Tag + 1));
+        Image = ActivityImage((TCityAction)((byte)Slot + 1));
         aowIntGfxModUnit.IntGfxMod.CityWin[Image].Show(ActivityPnl2.WinLeft + Sender.WinLeft + 2, ActivityPnl2.WinTop + Sender.WinTop + 2, SD);
     }
 
     // AoWCityScreen.pas:354
-    public void CityBtn1Click(TObject Sender)
+    public void CityBtn1Click()
     {
         string Reason = "";
         sbyte Race;
@@ -1234,18 +1234,18 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:472
-    public void PreDrawProductions(TObject Sender, TSurfaceDesc SD)
+    public void PreDrawProductions(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
     {
         TRect R;
         TP2UnitShowInfo Info = default;
         TUnit U;
         TUnitProduction P;
-        R = Rect(ActivityPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActivityPnl2.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+        R = Rect(ActivityPnl.WinLeft + Sender.WinLeft, ActivityPnl.WinTop + Sender.WinTop, ActivityPnl2.WinLeft + Sender.WinLeft + Sender.WinWidth, ActivityPnl.WinTop + Sender.WinTop + Sender.WinHeight);
         // { Original uses two different panels. }
-        P = FCity.FProduction.FUnitProductions.GetItem(((TComponent)Sender).Tag);
+        P = FCity.FProduction.FUnitProductions.GetItem(Slot);
         if (P != null)
         {
-            U = FCity.FProduction.CreateUnitProduction(((TComponent)Sender).Tag);
+            U = FCity.FProduction.CreateUnitProduction(Slot);
             Info.Direction = 3;
             Info.Overlays = TSet<TUnitOverlayModesElement>.Of();
             Info.Animation = 0;
@@ -1338,22 +1338,22 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:534
-    public void MigrationSBChange(TObject Sender)
+    public void MigrationSBChange(TAOWVScrollBar Sender)
     {
-        MigrationRaceLB.ListOffset = ((TAOWScrollBar)Sender).Position;
-        MigrationTurnsLB.ListOffset = ((TAOWScrollBar)Sender).Position;
-        MigrationRelationLB.ListOffset = ((TAOWScrollBar)Sender).Position;
+        MigrationRaceLB.ListOffset = Sender.Position;
+        MigrationTurnsLB.ListOffset = Sender.Position;
+        MigrationRelationLB.ListOffset = Sender.Position;
     }
 
     // AoWCityScreen.pas:541
-    public void UFaceDraw(TObject Sender, TSurfaceDesc SD)
+    public void UFaceDraw(TaowUserDrawBox Sender, TSurfaceDesc SD)
     {
         TUnit U;
         TRect R;
         U = FCity.FProduction.CreateUnitProduction(FProductionIndex);
         if (U != null)
         {
-            R = Rect(UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + 2, UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 4, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
+            R = Rect(UPictureFramePnl.WinLeft + Sender.WinLeft + 2, UPictureFramePnl.WinTop + Sender.WinTop + 2, UPictureFramePnl.WinLeft + Sender.WinLeft + Sender.WinWidth - 4, UPictureFramePnl.WinTop + Sender.WinTop + Sender.WinHeight - 2);
             U.ShowFace(R, SD);
             U.Release();
         }
@@ -1427,7 +1427,7 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:597
-    public void CurrentActionImageDraw(TObject Sender, TSurfaceDesc SD)
+    public void CurrentActionImageDraw(TAOWImage Sender, TSurfaceDesc SD)
     {
         TP2UnitShowInfo Info = default;
         TRect R;
@@ -1436,7 +1436,7 @@ public partial class TCityScreen : TDataModule
         {
             if (FCity.FProduction.FQueue.GetItem(0).Order.UnitProductionIndex is int Index)
             {
-                R = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+                R = Rect(ActiveActionPnl.WinLeft + Sender.WinLeft, ActiveActionPnl.WinTop + Sender.WinTop, ActiveActionPnl.WinLeft + Sender.WinLeft + Sender.WinWidth, ActiveActionPnl.WinTop + Sender.WinTop + Sender.WinHeight);
                 U = FCity.FProduction.CreateUnitProduction(Index);
                 if (U != null)
                 {
@@ -1464,15 +1464,15 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:631
-    public void RacePortraitDraw(TObject Sender, TSurfaceDesc SD)
+    public void RacePortraitDraw(TAOWImage Sender, TSurfaceDesc SD)
     {
         TRect R;
-        R = Rect(IPPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, IPPnl.WinTop + ((TAoWComponent)Sender).WinTop, IPPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, IPPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+        R = Rect(IPPnl.WinLeft + Sender.WinLeft, IPPnl.WinTop + Sender.WinTop, IPPnl.WinLeft + Sender.WinLeft + Sender.WinWidth, IPPnl.WinTop + Sender.WinTop + Sender.WinHeight);
         AoWHSSet.FRaceResources.GetRaceResource(FCity.FRace).GetFace().ShowStretched(R, SD);
     }
 
     // AoWCityScreen.pas:641
-    public void MapViewDraw(TObject Sender, TSurfaceDesc SD)
+    public void MapViewDraw(TaowUserDrawBox Sender, TSurfaceDesc SD)
     {
         TSurfaceDesc ViewSD = default;
         TRect R;
@@ -1481,7 +1481,7 @@ public partial class TCityScreen : TDataModule
         int Width;
         if (FPreview != null)
         {
-            R = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+            R = Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
             Width = R.Right - R.Left;
             W = Width;
             H = R.Bottom - R.Top;
@@ -1519,7 +1519,7 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:668
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         switch (Key)
         {
@@ -1565,7 +1565,7 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:693
-    public void UAbilitiesLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void UAbilitiesLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility A;
         if (Button == TMouseButton.mbRight && UAbilitiesLB.Selected > -1)

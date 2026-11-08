@@ -42,7 +42,7 @@ public partial class TAOWMemo : TAOWControl
     public int FNumVisible;
     public int FTopItem;
     public bool FScrollSet;
-    public TNotifyEvent FOnDrawItem;
+    public TNotifyEvent<TAOWMemo> FOnDrawItem;
     public int FScrollWidth;
     public bool FScrollVisible;
     public byte FCursorChar;
@@ -1022,7 +1022,7 @@ public partial class TAOWMemo : TAOWControl
     public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public TNotifyEvent<TAOWMemo> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
     public byte CursorChar { get => FCursorChar; set => FCursorChar = value; }
@@ -1053,6 +1053,60 @@ public partial class TAOWMemo : TAOWControl
 
     [Published]
     public TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
+
+    public new TNotifyEvent<TAOWMemo> OnChange
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAOWMemo> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWMemo> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWMemo> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWMemo> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWMemo> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWMemo> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWMemo> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWMemo> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWMemo.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMemo.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AoWMemoUnit

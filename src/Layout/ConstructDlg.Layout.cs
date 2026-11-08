@@ -88,7 +88,7 @@ public partial class TConstructDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CancelBtnClick_0;
+        Close.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -169,7 +169,7 @@ public partial class TConstructDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 130;
-        CancelBtn.OnClick = Layout_CancelBtnClick_0;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(CancelBtn);
         ConstructBtn = new TAOWButton(this);
         session.BeginRead(ConstructBtn);
@@ -200,19 +200,19 @@ public partial class TConstructDlg : ILayoutModule
         ConstructBtn.TextColor = 0;
         ConstructBtn.TextSelColor = 16777215;
         ConstructBtn.WinWidth = 130;
-        ConstructBtn.OnClick = ConstructBtnClick;
+        ConstructBtn.OnClick = _ => ConstructBtnClick();
         session.EndRead(ConstructBtn);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 140;
         Dlg.WinTop = 112;
         Dlg.WinWidth = 360;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_1;
+        Dlg.OnHide = _ => Layout_DlgHide_1();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -298,8 +298,8 @@ public partial class TConstructDlg : ILayoutModule
         ConstructionList.WinHeight = 88;
         ConstructionList.BorderWidth = 22;
         ConstructionList.BorderHeight = 4;
-        ConstructionList.OnChange = Layout_ConstructionListChange_2;
-        ConstructionList.OnDoubleClick = ConstructBtnClick;
+        ConstructionList.OnChange = _ => Layout_ConstructionListChange_2();
+        ConstructionList.OnDoubleClick = _ => ConstructBtnClick();
         ConstructionList.Selected = -1;
         ConstructionList.TextColor = 9402970;
         ConstructionList.TextSelColor = 0;
@@ -338,7 +338,7 @@ public partial class TConstructDlg : ILayoutModule
         SortConstructionsBtn.TextColor = 0;
         SortConstructionsBtn.TextSelColor = 16777215;
         SortConstructionsBtn.WinWidth = 210;
-        SortConstructionsBtn.OnClick = Layout_SortConstructionsBtnClick_3;
+        SortConstructionsBtn.OnClick = _ => Layout_SortConstructionsBtnClick_3();
         session.EndRead(SortConstructionsBtn);
         SortConstructionCostBtn = new TAOWButton(this);
         session.BeginRead(SortConstructionCostBtn);
@@ -369,7 +369,7 @@ public partial class TConstructDlg : ILayoutModule
         SortConstructionCostBtn.TextColor = 0;
         SortConstructionCostBtn.TextSelColor = 16777215;
         SortConstructionCostBtn.WinWidth = 48;
-        SortConstructionCostBtn.OnClick = Layout_SortConstructionCostBtnClick_4;
+        SortConstructionCostBtn.OnClick = _ => Layout_SortConstructionCostBtnClick_4();
         session.EndRead(SortConstructionCostBtn);
         ConstructionCostList = new TAOWListBox(this);
         session.BeginRead(ConstructionCostList);
@@ -395,8 +395,8 @@ public partial class TConstructDlg : ILayoutModule
         ConstructionCostList.WinHeight = 88;
         ConstructionCostList.BorderWidth = 10;
         ConstructionCostList.BorderHeight = 4;
-        ConstructionCostList.OnChange = Layout_ConstructionCostListChange_5;
-        ConstructionCostList.OnDoubleClick = ConstructBtnClick;
+        ConstructionCostList.OnChange = _ => Layout_ConstructionCostListChange_5();
+        ConstructionCostList.OnDoubleClick = _ => ConstructBtnClick();
         ConstructionCostList.Selected = -1;
         ConstructionCostList.TextColor = 9402970;
         ConstructionCostList.TextSelColor = 0;
@@ -430,8 +430,8 @@ public partial class TConstructDlg : ILayoutModule
         ConstructionTurnsList.WinHeight = 88;
         ConstructionTurnsList.BorderWidth = 10;
         ConstructionTurnsList.BorderHeight = 4;
-        ConstructionTurnsList.OnChange = Layout_ConstructionTurnsListChange_6;
-        ConstructionTurnsList.OnDoubleClick = ConstructBtnClick;
+        ConstructionTurnsList.OnChange = _ => Layout_ConstructionTurnsListChange_6();
+        ConstructionTurnsList.OnDoubleClick = _ => ConstructBtnClick();
         ConstructionTurnsList.Selected = -1;
         ConstructionTurnsList.TextColor = 9402970;
         ConstructionTurnsList.TextSelColor = 0;
@@ -470,7 +470,7 @@ public partial class TConstructDlg : ILayoutModule
         SortConstructionTurnsBtn.TextColor = 0;
         SortConstructionTurnsBtn.TextSelColor = 16777215;
         SortConstructionTurnsBtn.WinWidth = 43;
-        SortConstructionTurnsBtn.OnClick = Layout_SortConstructionTurnsBtnClick_7;
+        SortConstructionTurnsBtn.OnClick = _ => Layout_SortConstructionTurnsBtnClick_7();
         session.EndRead(SortConstructionTurnsBtn);
         AOWLabel1 = new TAOWLabel(this);
         session.BeginRead(AOWLabel1);
@@ -723,42 +723,42 @@ public partial class TConstructDlg : ILayoutModule
         T4VSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
     }
 
-    private void Layout_CancelBtnClick_0(TObject p0)
+    private void Layout_CancelBtnClick_0()
     {
         CancelBtnClick();
     }
 
-    private void Layout_DlgHide_1(TObject p0)
+    private void Layout_DlgHide_1()
     {
         DlgHide();
     }
 
-    private void Layout_ConstructionListChange_2(TObject p0)
+    private void Layout_ConstructionListChange_2()
     {
         ConstructionListChange();
     }
 
-    private void Layout_SortConstructionsBtnClick_3(TObject p0)
+    private void Layout_SortConstructionsBtnClick_3()
     {
         SortConstructionsBtnClick();
     }
 
-    private void Layout_SortConstructionCostBtnClick_4(TObject p0)
+    private void Layout_SortConstructionCostBtnClick_4()
     {
         SortConstructionCostBtnClick();
     }
 
-    private void Layout_ConstructionCostListChange_5(TObject p0)
+    private void Layout_ConstructionCostListChange_5()
     {
         ConstructionCostListChange();
     }
 
-    private void Layout_ConstructionTurnsListChange_6(TObject p0)
+    private void Layout_ConstructionTurnsListChange_6()
     {
         ConstructionTurnsListChange();
     }
 
-    private void Layout_SortConstructionTurnsBtnClick_7(TObject p0)
+    private void Layout_SortConstructionTurnsBtnClick_7()
     {
         SortConstructionTurnsBtnClick();
     }

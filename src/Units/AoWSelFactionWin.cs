@@ -50,24 +50,17 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:72
-    public void LStartClick(TObject Sender)
+    public void LStartClick(int Side)
     {
         General.PlayButtonSound(0);
         aowIntGfxModUnit.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
         FactionPnl.Visible = false;
         FFade = 0;
-        if (Sender == LStart)
-        {
-            StartCampaignJoin(CampaignJoinDlg, 0);
-        }
-        else
-        {
-            StartCampaignJoin(CampaignJoinDlg, 1);
-        }
+        StartCampaignJoin(CampaignJoinDlg, Side);
     }
 
     // AoWSelFactionWin.pas:82
-    public void LightPnlMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void LightPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!DName.Visible && !LName.Visible)
         {
@@ -86,7 +79,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:100
-    public void DarkPnlMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void DarkPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!LName.Visible && !DName.Visible)
         {
@@ -127,7 +120,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:138
-    public void FactionPnlMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void FactionPnlMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         if (!LightPnl.FHandled && !DName.Visible && !DarkPnl.FHandled && !LName.Visible)
         {
@@ -139,7 +132,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:148
-    public void LightPnlMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void LightPnlMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         if (!LName.Visible && !DSphere.Visible)
         {
@@ -151,7 +144,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:158
-    public void DarkPnlMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void DarkPnlMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         if (!DName.Visible && !LSphere.Visible)
         {
@@ -214,7 +207,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:210
-    public void FactionPnlKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void FactionPnlKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         switch (Key)
         {

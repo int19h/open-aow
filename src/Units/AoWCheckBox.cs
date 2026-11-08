@@ -1,6 +1,7 @@
 // Translated from AoWCheckBox.pas.
 using Aow.Rtl;
 using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.AoWCheckBox;
@@ -15,7 +16,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
     public TAOWCheckBox(TComponent owner) : base(owner)
     { }
 
-    public TNotifyEvent FOnDoubleClick;
+    public TNotifyEvent<TAOWCheckBox> FOnDoubleClick;
 
     // AoWCheckBox.pas:51
     public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
@@ -163,7 +164,61 @@ public partial class TAOWCheckBox : TAOWBaseButton
     public int RadioIndex { get => FRadioIndex; set => FRadioIndex = value; }
 
     [Published]
-    public TNotifyEvent OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+    public TNotifyEvent<TAOWCheckBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+
+    public new TNotifyEvent<TAOWCheckBox> OnChange
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAOWCheckBox> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWCheckBox> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWCheckBox> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWCheckBox> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWCheckBox> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWCheckBox> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWCheckBox> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWCheckBox> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWCheckBox.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWCheckBox.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AoWCheckBoxUnit

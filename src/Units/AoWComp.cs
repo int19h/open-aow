@@ -63,14 +63,14 @@ public partial class TAoWComponent : TComponent
     public bool FAligned;
     public bool FSized;
     public int FCursor;
-    public TAoWOnDrawEvent FOnDraw;
-    public TAoWOnDrawEvent FOnPreDraw;
-    public TMouseEvent FOnMouseDown;
-    public TMouseEvent FOnMouseUp;
-    public TMouseMoveEvent FOnMouseMove;
-    public TKeyPressEvent FOnKeyPress;
-    public TKeyEvent FOnKeyDown;
-    public TNotifyEvent FOnChange;
+    public TAoWOnDrawEvent<TAoWComponent> FOnDraw;
+    public TAoWOnDrawEvent<TAoWComponent> FOnPreDraw;
+    public TMouseEvent<TAoWComponent> FOnMouseDown;
+    public TMouseEvent<TAoWComponent> FOnMouseUp;
+    public TMouseMoveEvent<TAoWComponent> FOnMouseMove;
+    public TKeyPressEvent<TAoWComponent> FOnKeyPress;
+    public TKeyEvent<TAoWComponent> FOnKeyDown;
+    public TNotifyEvent<TAoWComponent> FOnChange;
     public bool FMouseDown;
     public bool FVisible;
     public bool FHandled;
@@ -91,7 +91,7 @@ public partial class TAoWComponent : TComponent
     public int FRadioIndex;
     public bool FChecked;
     public int FOwnerItem;
-    public TNotifyEvent FOnUpdate;
+    public TNotifyEvent<TAoWComponent> FOnUpdate;
     public bool FCaptureInput;
     public TAoWOnDebugEvent FOnDebugMessage;
     public TAoWComponent FAOWOwner;
@@ -1012,31 +1012,31 @@ public partial class TAoWComponent : TComponent
     public TAOWAlignment Alignment { get => FAlignment; set => SetAlign(value); }
     public bool Masked { get => FMasked; set => FMasked = value; }
     public bool CaptureInput { get => FCaptureInput; set => FCaptureInput = value; }
-    public TNotifyEvent OnChange { get => FOnChange; set => FOnChange = value; }
+    public TNotifyEvent<TAoWComponent> OnChange { get => FOnChange; set => FOnChange = value; }
 
     [Published]
-    public TMouseEvent OnMouseDown { get => FOnMouseDown; set => FOnMouseDown = value; }
+    public TMouseEvent<TAoWComponent> OnMouseDown { get => FOnMouseDown; set => FOnMouseDown = value; }
 
     [Published]
-    public TMouseEvent OnMouseUp { get => FOnMouseUp; set => FOnMouseUp = value; }
+    public TMouseEvent<TAoWComponent> OnMouseUp { get => FOnMouseUp; set => FOnMouseUp = value; }
 
     [Published]
-    public TMouseMoveEvent OnMouseMove { get => FOnMouseMove; set => FOnMouseMove = value; }
+    public TMouseMoveEvent<TAoWComponent> OnMouseMove { get => FOnMouseMove; set => FOnMouseMove = value; }
 
     [Published]
-    public TKeyPressEvent OnKeyPress { get => FOnKeyPress; set => FOnKeyPress = value; }
+    public TKeyPressEvent<TAoWComponent> OnKeyPress { get => FOnKeyPress; set => FOnKeyPress = value; }
 
     [Published]
-    public TKeyEvent OnKeyDown { get => FOnKeyDown; set => FOnKeyDown = value; }
+    public TKeyEvent<TAoWComponent> OnKeyDown { get => FOnKeyDown; set => FOnKeyDown = value; }
 
     [Published]
-    public TAoWOnDrawEvent OnPreDraw { get => FOnPreDraw; set => FOnPreDraw = value; }
+    public TAoWOnDrawEvent<TAoWComponent> OnPreDraw { get => FOnPreDraw; set => FOnPreDraw = value; }
 
     [Published]
-    public TAoWOnDrawEvent OnDraw { get => FOnDraw; set => FOnDraw = value; }
+    public TAoWOnDrawEvent<TAoWComponent> OnDraw { get => FOnDraw; set => FOnDraw = value; }
 
     [Published]
-    public TNotifyEvent OnUpdate { get => FOnUpdate; set => FOnUpdate = value; }
+    public TNotifyEvent<TAoWComponent> OnUpdate { get => FOnUpdate; set => FOnUpdate = value; }
 
     [Published]
     [DefaultValue(true)]
@@ -1046,9 +1046,9 @@ public partial class TAoWComponent : TComponent
     public TAoWOnDebugEvent OnDebugMessage { get => FOnDebugMessage; set => FOnDebugMessage = value; }
 }
 
-public delegate void TAoWOnDrawEvent(TAoWComponent Sender, TSurfaceDesc SurfDesc);
-public delegate void TAoWOnDrawBackEvent(TAoWComponent Sender, TSurfaceDesc SurfDesc);
-public delegate void TAoWOnDrawItemEvent(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc);
+public delegate void TAoWOnDrawEvent<in TSender>(TSender Sender, TSurfaceDesc SurfDesc);
+public delegate void TAoWOnDrawBackEvent<in TSender>(TSender Sender, TSurfaceDesc SurfDesc);
+public delegate void TAoWOnDrawItemEvent<in TSender>(TSender Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc);
 public delegate void TAoWOnDebugEvent(string Dtext);
 
 // how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,

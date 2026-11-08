@@ -60,8 +60,8 @@ public partial class TTCScanner : ILayoutModule
         TCScannerWin.DragHeight = 20;
         TCScannerWin.Draggable = true;
         TCScannerWin.Resizable = true;
-        TCScannerWin.OnDrag = Layout_TCScannerWinDrag_0;
-        TCScannerWin.OnResize = Layout_TCScannerWinDrag_0;
+        TCScannerWin.OnDrag = _ => Layout_TCScannerWinDrag_0();
+        TCScannerWin.OnResize = _ => Layout_TCScannerWinDrag_0();
         TCScannerWin.MinWidth = 150;
         TCScannerWin.MinHeight = 170;
         TCScannerWin.MaxWidth = 0;
@@ -128,7 +128,7 @@ public partial class TTCScanner : ILayoutModule
         Scanner.Buildings = true;
         Scanner.Armies = true;
         Scanner.Naturals = true;
-        Scanner.OnChangeTileBox = Layout_ScannerChangeTileBox_1;
+        Scanner.OnChangeTileBox = _ => Layout_ScannerChangeTileBox_1();
         Scanner.MapDrawSteps = 5;
         Scanner.ILIndexFrame = 20;
         session.EndRead(Scanner);
@@ -215,7 +215,7 @@ public partial class TTCScanner : ILayoutModule
         SMinIcon.TextColor = 0;
         SMinIcon.TextSelColor = 0;
         SMinIcon.WinWidth = 15;
-        SMinIcon.OnClick = Layout_SMinIconClick_2;
+        SMinIcon.OnClick = _ => Layout_SMinIconClick_2();
         session.EndRead(SMinIcon);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -256,17 +256,17 @@ public partial class TTCScanner : ILayoutModule
         SMinIcon.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_TCScannerWinDrag_0(TObject p0)
+    private void Layout_TCScannerWinDrag_0()
     {
         TCScannerWinDrag();
     }
 
-    private void Layout_ScannerChangeTileBox_1(TObject p0)
+    private void Layout_ScannerChangeTileBox_1()
     {
         ScannerChangeTileBox();
     }
 
-    private void Layout_SMinIconClick_2(TObject p0)
+    private void Layout_SMinIconClick_2()
     {
         SMinIconClick();
     }

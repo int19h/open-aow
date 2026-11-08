@@ -674,7 +674,7 @@ public partial class TGeneral : TDataModule
     }
 
     // AoWWinMan.pas:351
-    public void ManagerKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void ManagerKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         TPlayer Player;
         string S;
@@ -756,7 +756,7 @@ public static partial class AoWWinManUnit
         SongPlayer.Stop(false);
         SongPlayer.Songs.Clear();
         FadeMusicVolume(0, 1);
-        AoWEngine.LoadHSM(Name, false, Controller.MapProgress, Aow.Formats.GameProfile.WorldMap);
+        AoWEngine.LoadHSM(Name, false, (_, Message, Progression) => Controller.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
         if (AoWEngine.FDemo && AoWHSMap != null && !AoWHSMap.FShowAllPlayers)
         {
             Controller.ReturnToTitle();
@@ -801,7 +801,7 @@ public static partial class AoWWinManUnit
                 SongPlayer.Stop(false);
                 SongPlayer.Songs.Clear();
                 FadeMusicVolume(0, 1);
-                AoWEngine.LoadCampaignMap(Controller.MapProgress);
+                AoWEngine.LoadCampaignMap((_, Message, Progression) => Controller.MapProgress(Message, Progression));
                 General.Manager.OverlayPriority = 0;
                 ProgressDialog.ProgDlg.Visible = false;
             }

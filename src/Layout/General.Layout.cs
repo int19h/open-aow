@@ -21,16 +21,16 @@ public partial class TGeneral : ILayoutModule
     {
         session.Begin(this);
         Name = "General";
-        LayoutOnCreate = Layout_GeneralCreate_0;
-        LayoutOnDestroy = Layout_GeneralDestroy_1;
+        LayoutOnCreate = _ => Layout_GeneralCreate_0();
+        LayoutOnDestroy = _ => Layout_GeneralDestroy_1();
         Manager = new TAOWWinManager(this);
         session.BeginRead(Manager);
         Manager.Name = "Manager";
-        Manager.OnKeyDown = ManagerKeyDown;
-        Manager.OnUpdate = Layout_ManagerUpdate_2;
+        Manager.OnKeyDown = (_, ref key, shift) => ManagerKeyDown(ref key, shift);
+        Manager.OnUpdate = _ => Layout_ManagerUpdate_2();
         Manager.OnDebugMessage = ManagerDebugMessage;
         Manager.Cursor = 0;
-        Manager.OnChangeCursor = Layout_ManagerChangeCursor_3;
+        Manager.OnChangeCursor = _ => Layout_ManagerChangeCursor_3();
         Manager.WinLeft = 0;
         Manager.WinTop = 0;
         Manager.WinWidth = 640;
@@ -96,22 +96,22 @@ public partial class TGeneral : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_GeneralCreate_0(TObject p0)
+    private void Layout_GeneralCreate_0()
     {
         GeneralCreate();
     }
 
-    private void Layout_GeneralDestroy_1(TObject p0)
+    private void Layout_GeneralDestroy_1()
     {
         GeneralDestroy();
     }
 
-    private void Layout_ManagerUpdate_2(TObject p0)
+    private void Layout_ManagerUpdate_2()
     {
         ManagerUpdate();
     }
 
-    private void Layout_ManagerChangeCursor_3(TObject p0)
+    private void Layout_ManagerChangeCursor_3()
     {
         ManagerChangeCursor();
     }

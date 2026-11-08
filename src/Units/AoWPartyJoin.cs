@@ -200,7 +200,7 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:179
-    public void FaceFramePreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
+    public void FaceFramePreDraw(TSurfaceDesc Surface)
     {
         TRect R = default;
         if (ValidateJoin())
@@ -220,7 +220,7 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:194
-    public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
+    public void U1PreDraw(TAoWFrame Sender, TSurfaceDesc Surface, int Slot)
     {
         TRect R = default;
         if (ValidateJoin())
@@ -230,19 +230,19 @@ public partial class TPartyJoinDlg : TDataModule
             R.Top = Sender.WinTop + UnitPnl.WinTop;
             R.Bottom = Sender.WinHeight + R.Top;
 
-            DrawUnit(Sender.Tag, R, ref Surface);
+            DrawUnit(Slot, R, ref Surface);
         }
     }
 
     // AoWPartyJoin.pas:211
-    public void U1MouseDown(TComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void U1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
     {
         if (ValidateJoin())
         {
             var count = FUnits.GetCount();
-            if (Sender.Tag < count)
+            if (Slot < count)
             {
-                var unit = FUnits.GetUnit(Sender.Tag);
+                var unit = FUnits.GetUnit(Slot);
                 General.FSelectedUnit = unit;
                 if (Button == TMouseButton.mbLeft)
                 {
@@ -261,7 +261,7 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:231
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

@@ -63,8 +63,8 @@ public partial class TControlWin : ILayoutModule
         ControlWindow.DragHeight = 20;
         ControlWindow.Draggable = true;
         ControlWindow.Resizable = true;
-        ControlWindow.OnDrag = Layout_ControlWindowResize_0;
-        ControlWindow.OnResize = Layout_ControlWindowResize_0;
+        ControlWindow.OnDrag = _ => Layout_ControlWindowResize_0();
+        ControlWindow.OnResize = _ => Layout_ControlWindowResize_0();
         ControlWindow.MinWidth = 200;
         ControlWindow.MinHeight = 216;
         ControlWindow.MaxWidth = 400;
@@ -129,13 +129,13 @@ public partial class TControlWin : ILayoutModule
         CWMinIcon.TextColor = 0;
         CWMinIcon.TextSelColor = 0;
         CWMinIcon.WinWidth = 15;
-        CWMinIcon.OnClick = Layout_CWMinIconClick_1;
+        CWMinIcon.OnClick = _ => Layout_CWMinIconClick_1();
         session.EndRead(CWMinIcon);
         Unit1Frame = new TAoWFrame(this);
         session.BeginRead(Unit1Frame);
         Unit1Frame.Name = "Unit1Frame";
-        Unit1Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit1Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit1Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 0);
+        Unit1Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 0);
         Unit1Frame.Priority = 0;
         Unit1Frame.WinLeft = 1;
         Unit1Frame.WinTop = 0;
@@ -164,8 +164,8 @@ public partial class TControlWin : ILayoutModule
         session.BeginRead(Unit2Frame);
         Unit2Frame.Name = "Unit2Frame";
         Unit2Frame.Tag = 1;
-        Unit2Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit2Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit2Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 1);
+        Unit2Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 1);
         Unit2Frame.Priority = 0;
         Unit2Frame.WinLeft = 49;
         Unit2Frame.WinTop = 0;
@@ -194,8 +194,8 @@ public partial class TControlWin : ILayoutModule
         session.BeginRead(Unit3Frame);
         Unit3Frame.Name = "Unit3Frame";
         Unit3Frame.Tag = 2;
-        Unit3Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit3Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit3Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 2);
+        Unit3Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 2);
         Unit3Frame.Priority = 0;
         Unit3Frame.WinLeft = 97;
         Unit3Frame.WinTop = 0;
@@ -224,8 +224,8 @@ public partial class TControlWin : ILayoutModule
         session.BeginRead(Unit4Frame);
         Unit4Frame.Name = "Unit4Frame";
         Unit4Frame.Tag = 3;
-        Unit4Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit4Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit4Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 3);
+        Unit4Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 3);
         Unit4Frame.Priority = 0;
         Unit4Frame.WinLeft = 145;
         Unit4Frame.WinTop = 0;
@@ -254,8 +254,8 @@ public partial class TControlWin : ILayoutModule
         session.BeginRead(Unit5Frame);
         Unit5Frame.Name = "Unit5Frame";
         Unit5Frame.Tag = 4;
-        Unit5Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit5Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit5Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 4);
+        Unit5Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 4);
         Unit5Frame.Priority = 0;
         Unit5Frame.WinLeft = 1;
         Unit5Frame.WinTop = 0;
@@ -284,8 +284,8 @@ public partial class TControlWin : ILayoutModule
         session.BeginRead(Unit6Frame);
         Unit6Frame.Name = "Unit6Frame";
         Unit6Frame.Tag = 5;
-        Unit6Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit6Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit6Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 5);
+        Unit6Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 5);
         Unit6Frame.Priority = 0;
         Unit6Frame.WinLeft = 49;
         Unit6Frame.WinTop = 0;
@@ -314,8 +314,8 @@ public partial class TControlWin : ILayoutModule
         session.BeginRead(Unit7Frame);
         Unit7Frame.Name = "Unit7Frame";
         Unit7Frame.Tag = 6;
-        Unit7Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit7Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit7Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 6);
+        Unit7Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 6);
         Unit7Frame.Priority = 0;
         Unit7Frame.WinLeft = 97;
         Unit7Frame.WinTop = 0;
@@ -344,8 +344,8 @@ public partial class TControlWin : ILayoutModule
         session.BeginRead(Unit8Frame);
         Unit8Frame.Name = "Unit8Frame";
         Unit8Frame.Tag = 7;
-        Unit8Frame.OnMouseDown = Layout_Unit1FrameMouseDown_2;
-        Unit8Frame.OnPreDraw = Unit1FramePreDraw;
+        Unit8Frame.OnMouseDown = (_, button, shift, x, y) => Unit1FrameMouseDown(button, shift, x, y, 7);
+        Unit8Frame.OnPreDraw = (sender, surface) => Unit1FramePreDraw(sender, surface, 7);
         Unit8Frame.Priority = 0;
         Unit8Frame.WinLeft = 145;
         Unit8Frame.WinTop = 0;
@@ -482,7 +482,7 @@ public partial class TControlWin : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = CloseClick;
+        Close.OnClick = _ => CloseClick();
         session.EndRead(Close);
         U1MIcon = new TAOWImage(this);
         session.BeginRead(U1MIcon);
@@ -1139,7 +1139,7 @@ public partial class TControlWin : ILayoutModule
         Unit1Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit1Chk);
         Unit1Chk.Name = "Unit1Chk";
-        Unit1Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit1Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit1Chk.Priority = 0;
         Unit1Chk.WinLeft = 1;
         Unit1Chk.WinTop = 0;
@@ -1176,7 +1176,7 @@ public partial class TControlWin : ILayoutModule
         Unit2Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit2Chk);
         Unit2Chk.Name = "Unit2Chk";
-        Unit2Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit2Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit2Chk.Priority = 0;
         Unit2Chk.WinLeft = 49;
         Unit2Chk.WinTop = 0;
@@ -1213,7 +1213,7 @@ public partial class TControlWin : ILayoutModule
         Unit3Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit3Chk);
         Unit3Chk.Name = "Unit3Chk";
-        Unit3Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit3Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit3Chk.Priority = 0;
         Unit3Chk.WinLeft = 97;
         Unit3Chk.WinTop = 0;
@@ -1250,7 +1250,7 @@ public partial class TControlWin : ILayoutModule
         Unit5Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit5Chk);
         Unit5Chk.Name = "Unit5Chk";
-        Unit5Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit5Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit5Chk.Priority = 0;
         Unit5Chk.WinLeft = 1;
         Unit5Chk.WinTop = 0;
@@ -1287,7 +1287,7 @@ public partial class TControlWin : ILayoutModule
         Unit6Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit6Chk);
         Unit6Chk.Name = "Unit6Chk";
-        Unit6Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit6Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit6Chk.Priority = 0;
         Unit6Chk.WinLeft = 49;
         Unit6Chk.WinTop = 0;
@@ -1324,7 +1324,7 @@ public partial class TControlWin : ILayoutModule
         Unit7Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit7Chk);
         Unit7Chk.Name = "Unit7Chk";
-        Unit7Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit7Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit7Chk.Priority = 0;
         Unit7Chk.WinLeft = 97;
         Unit7Chk.WinTop = 0;
@@ -1361,7 +1361,7 @@ public partial class TControlWin : ILayoutModule
         Unit4Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit4Chk);
         Unit4Chk.Name = "Unit4Chk";
-        Unit4Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit4Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit4Chk.Priority = 0;
         Unit4Chk.WinLeft = 145;
         Unit4Chk.WinTop = 0;
@@ -1398,7 +1398,7 @@ public partial class TControlWin : ILayoutModule
         Unit8Chk = new TAOWCheckBox(this);
         session.BeginRead(Unit8Chk);
         Unit8Chk.Name = "Unit8Chk";
-        Unit8Chk.OnMouseDown = Unit1ChkMouseDown;
+        Unit8Chk.OnMouseDown = (_, button, shift, x, y) => Unit1ChkMouseDown(button, shift, x, y);
         Unit8Chk.Priority = 0;
         Unit8Chk.WinLeft = 145;
         Unit8Chk.WinTop = 0;
@@ -1945,7 +1945,7 @@ public partial class TControlWin : ILayoutModule
         Center.TextColor = 0;
         Center.TextSelColor = 0;
         Center.WinWidth = 15;
-        Center.OnClick = Layout_CenterClick_3;
+        Center.OnClick = _ => Layout_CenterClick_3();
         session.EndRead(Center);
         Help = new TAOWButton(this);
         session.BeginRead(Help);
@@ -1979,7 +1979,7 @@ public partial class TControlWin : ILayoutModule
         Help.TextColor = 0;
         Help.TextSelColor = 0;
         Help.WinWidth = 15;
-        Help.OnClick = Layout_HelpClick_4;
+        Help.OnClick = _ => Layout_HelpClick_4();
         session.EndRead(Help);
         PPrev = new TAOWButton(this);
         session.BeginRead(PPrev);
@@ -2014,7 +2014,7 @@ public partial class TControlWin : ILayoutModule
         PPrev.TextColor = 0;
         PPrev.TextSelColor = 16777215;
         PPrev.WinWidth = 29;
-        PPrev.OnClick = Layout_PPrevClick_5;
+        PPrev.OnClick = _ => Layout_PPrevClick_5();
         session.EndRead(PPrev);
         PMove = new TAOWButton(this);
         session.BeginRead(PMove);
@@ -2049,7 +2049,7 @@ public partial class TControlWin : ILayoutModule
         PMove.TextColor = 0;
         PMove.TextSelColor = 16777215;
         PMove.WinWidth = 69;
-        PMove.OnClick = Layout_PMoveClick_6;
+        PMove.OnClick = _ => Layout_PMoveClick_6();
         session.EndRead(PMove);
         PNext = new TAOWButton(this);
         session.BeginRead(PNext);
@@ -2084,7 +2084,7 @@ public partial class TControlWin : ILayoutModule
         PNext.TextColor = 0;
         PNext.TextSelColor = 16777215;
         PNext.WinWidth = 29;
-        PNext.OnClick = Layout_PNextClick_7;
+        PNext.OnClick = _ => Layout_PNextClick_7();
         session.EndRead(PNext);
         PControlPnl = new TAOWPanel(this);
         session.BeginRead(PControlPnl);
@@ -2147,7 +2147,7 @@ public partial class TControlWin : ILayoutModule
         PGuard.TextSelColor = 16777215;
         PGuard.WinWidth = 68;
         PGuard.Checked = false;
-        PGuard.OnChange = Layout_PGuardChange_8;
+        PGuard.OnChange = _ => Layout_PGuardChange_8();
         PGuard.RadioIndex = 0;
         session.EndRead(PGuard);
         AoWFrame2 = new TAoWFrame(this);
@@ -2575,47 +2575,42 @@ public partial class TControlWin : ILayoutModule
         PartyActionLbl2.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
     }
 
-    private void Layout_ControlWindowResize_0(TObject p0)
+    private void Layout_ControlWindowResize_0()
     {
         ControlWindowResize();
     }
 
-    private void Layout_CWMinIconClick_1(TObject p0)
+    private void Layout_CWMinIconClick_1()
     {
         CWMinIconClick();
     }
 
-    private void Layout_Unit1FrameMouseDown_2(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        Unit1FrameMouseDown((TComponent)p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_CenterClick_3(TObject p0)
+    private void Layout_CenterClick_3()
     {
         CenterClick();
     }
 
-    private void Layout_HelpClick_4(TObject p0)
+    private void Layout_HelpClick_4()
     {
         HelpClick();
     }
 
-    private void Layout_PPrevClick_5(TObject p0)
+    private void Layout_PPrevClick_5()
     {
         PPrevClick();
     }
 
-    private void Layout_PMoveClick_6(TObject p0)
+    private void Layout_PMoveClick_6()
     {
         PMoveClick();
     }
 
-    private void Layout_PNextClick_7(TObject p0)
+    private void Layout_PNextClick_7()
     {
         PNextClick();
     }
 
-    private void Layout_PGuardChange_8(TObject p0)
+    private void Layout_PGuardChange_8()
     {
         PGuardChange();
     }

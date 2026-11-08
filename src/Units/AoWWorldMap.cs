@@ -109,7 +109,7 @@ public partial class TWorldMap : TDataModule
     public int FEnemyDelay;
     public bool FDescriptionHandled;
     public TEObject FBookContext;
-    public TNotifyEvent FOnBookClosed;
+    public TNotifyEvent<TObject> FOnBookClosed;
     public byte FBookAction;
 
     // AoWWorldMap.pas:152
@@ -635,7 +635,7 @@ public partial class TWorldMap : TDataModule
     // AoWWorldMap.pas:428
     public void BookClosed()
     {
-        TNotifyEvent Done;
+        TNotifyEvent<TObject> Done;
         TEObject Context;
         Done = FOnBookClosed;
         Context = FBookContext;
@@ -863,7 +863,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:566
-    public void Path1MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Path1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
@@ -877,7 +877,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:578
-    public void Path2MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Path2MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
@@ -891,7 +891,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:590
-    public void Path3MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Path3MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
@@ -972,7 +972,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:643
-    public void Path1MouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void Path1MouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         int Index;
         if (GetCampaign().FState == 1)
@@ -993,7 +993,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:661
-    public void Path2MouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void Path2MouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         int Index;
         if (GetCampaign().FState == 1)
@@ -1014,7 +1014,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:679
-    public void Path3MouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void Path3MouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         int Index;
         if (GetCampaign().FState == 1)
@@ -1035,7 +1035,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:697
-    public void WorldPnlMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void WorldPnlMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         if (!FDescriptionHandled)
         {
@@ -1172,13 +1172,13 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:800
-    public void StarImgDraw(TObject Sender, TSurfaceDesc Surface)
+    public void StarImgDraw(TSurfaceDesc Surface)
     {
         aowIntGfxModUnit.IntGfxMod.WorldMap[FStarImage].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, Surface, IntensityBlendTable.LookupTables[FStarIntensity]);
     }
 
     // AoWWorldMap.pas:806
-    public void Ally1PnlPreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void Ally1PnlPreDraw(TSurfaceDesc Surface)
     {
         TRect R;
         R = Rect(InfoPnl.WinLeft + Ally1Pnl.WinLeft, InfoPnl.WinTop + Ally1Pnl.WinTop, InfoPnl.WinLeft + Ally1Pnl.WinLeft + Ally1Pnl.WinWidth, InfoPnl.WinTop + Ally1Pnl.WinTop + Ally1Pnl.WinHeight);
@@ -1190,7 +1190,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:818
-    public void Ally2PnlPreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void Ally2PnlPreDraw(TSurfaceDesc Surface)
     {
         TRect R;
         R = Rect(InfoPnl.WinLeft + Ally2Pnl.WinLeft, InfoPnl.WinTop + Ally2Pnl.WinTop, InfoPnl.WinLeft + Ally2Pnl.WinLeft + Ally2Pnl.WinWidth, InfoPnl.WinTop + Ally2Pnl.WinTop + Ally2Pnl.WinHeight);
@@ -1202,7 +1202,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:830
-    public void Ally3PnlPreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void Ally3PnlPreDraw(TSurfaceDesc Surface)
     {
         TRect R;
         R = Rect(InfoPnl.WinLeft + Ally3Pnl.WinLeft, InfoPnl.WinTop + Ally3Pnl.WinTop, InfoPnl.WinLeft + Ally3Pnl.WinLeft + Ally3Pnl.WinWidth, InfoPnl.WinTop + Ally3Pnl.WinTop + Ally3Pnl.WinHeight);
@@ -1214,7 +1214,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:842
-    public void HeroPnlPreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void HeroPnlPreDraw(TSurfaceDesc Surface)
     {
         TRect R;
         R = Rect(InfoPnl.WinLeft + HeroPnl.WinLeft, InfoPnl.WinTop + HeroPnl.WinTop, InfoPnl.WinLeft + HeroPnl.WinLeft + HeroPnl.WinWidth, InfoPnl.WinTop + HeroPnl.WinTop + HeroPnl.WinHeight);

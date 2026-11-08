@@ -28,14 +28,14 @@ public partial class TDeformFaceDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 5000;
         Dlg.WinLeft = 120;
         Dlg.WinTop = 91;
         Dlg.WinWidth = 400;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -73,7 +73,7 @@ public partial class TDeformFaceDlg : ILayoutModule
         FaceFrame = new TAoWFrame(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnDraw = DrawFace;
+        FaceFrame.OnDraw = (sender, surface) => DrawFace(sender, surface, 0);
         FaceFrame.Priority = 500;
         FaceFrame.WinLeft = 152;
         FaceFrame.WinTop = 75;
@@ -127,7 +127,7 @@ public partial class TDeformFaceDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 100;
-        CancelBtn.OnClick = Layout_CancelBtnClick_1;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_1();
         session.EndRead(CancelBtn);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -209,7 +209,7 @@ public partial class TDeformFaceDlg : ILayoutModule
         CastBtn.TextColor = 0;
         CastBtn.TextSelColor = 16777215;
         CastBtn.WinWidth = 100;
-        CastBtn.OnClick = Layout_CastBtnClick_2;
+        CastBtn.OnClick = _ => Layout_CastBtnClick_2();
         session.EndRead(CastBtn);
         SelectNewFaceLbl = new TAOWLabel(this);
         session.BeginRead(SelectNewFaceLbl);
@@ -266,13 +266,13 @@ public partial class TDeformFaceDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CastBtnClick_2;
+        Close.OnClick = _ => Layout_CastBtnClick_2();
         session.EndRead(Close);
         LeftFace = new TAoWFrame(this);
         session.BeginRead(LeftFace);
         LeftFace.Name = "LeftFace";
         LeftFace.Tag = -1;
-        LeftFace.OnDraw = DrawFace;
+        LeftFace.OnDraw = (sender, surface) => DrawFace(sender, surface, -1);
         LeftFace.Priority = 500;
         LeftFace.WinLeft = 60;
         LeftFace.WinTop = 75;
@@ -301,7 +301,7 @@ public partial class TDeformFaceDlg : ILayoutModule
         session.BeginRead(RightFace);
         RightFace.Name = "RightFace";
         RightFace.Tag = 1;
-        RightFace.OnDraw = DrawFace;
+        RightFace.OnDraw = (sender, surface) => DrawFace(sender, surface, 1);
         RightFace.Priority = 500;
         RightFace.WinLeft = 266;
         RightFace.WinTop = 75;
@@ -466,7 +466,7 @@ public partial class TDeformFaceDlg : ILayoutModule
         PrevFaceBtn.TextColor = 0;
         PrevFaceBtn.TextSelColor = 16777215;
         PrevFaceBtn.WinWidth = 50;
-        PrevFaceBtn.OnClick = Layout_PrevFaceBtnClick_3;
+        PrevFaceBtn.OnClick = _ => Layout_PrevFaceBtnClick_3();
         session.EndRead(PrevFaceBtn);
         NextFaceBtn = new TAOWButton(this);
         session.BeginRead(NextFaceBtn);
@@ -497,7 +497,7 @@ public partial class TDeformFaceDlg : ILayoutModule
         NextFaceBtn.TextColor = 0;
         NextFaceBtn.TextSelColor = 16777215;
         NextFaceBtn.WinWidth = 50;
-        NextFaceBtn.OnClick = Layout_NextFaceBtnClick_4;
+        NextFaceBtn.OnClick = _ => Layout_NextFaceBtnClick_4();
         session.EndRead(NextFaceBtn);
         UnitNameLbl = new TAOWLabel(this);
         session.BeginRead(UnitNameLbl);
@@ -597,27 +597,27 @@ public partial class TDeformFaceDlg : ILayoutModule
         UnitNameLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_CancelBtnClick_1(TObject p0)
+    private void Layout_CancelBtnClick_1()
     {
         CancelBtnClick();
     }
 
-    private void Layout_CastBtnClick_2(TObject p0)
+    private void Layout_CastBtnClick_2()
     {
         CastBtnClick();
     }
 
-    private void Layout_PrevFaceBtnClick_3(TObject p0)
+    private void Layout_PrevFaceBtnClick_3()
     {
         PrevFaceBtnClick();
     }
 
-    private void Layout_NextFaceBtnClick_4(TObject p0)
+    private void Layout_NextFaceBtnClick_4()
     {
         NextFaceBtnClick();
     }

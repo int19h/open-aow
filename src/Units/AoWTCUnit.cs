@@ -114,7 +114,7 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:123
-    public void UAbilLBPreDrawItem(TObject Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void UAbilLBPreDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
     {
         if (General.FCombatUnit != null)
         {
@@ -145,7 +145,7 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:138
-    public void TCUnitPnlDrawBack(TObject Sender, TSurfaceDesc SD)
+    public void TCUnitPnlDrawBack(TSurfaceDesc SD)
     {
         if (General.FCombatUnit != null)
         {
@@ -163,7 +163,7 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:152
-    public void UAbilLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void UAbilLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility Ability;
         if (UAbilLB.Selected > -1)
@@ -191,7 +191,7 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:168
-    public void UAbilLBMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void UAbilLBMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         if (General.FCombatUnit != null)
         {
@@ -216,7 +216,7 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:187
-    public void HeroSMapMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void HeroSMapMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         General.FSelectedUnit = General.FCombatUnit.FUnit.FUnit;
         AoWUnitWindowUnit.UnitWindow.ShowUnit();

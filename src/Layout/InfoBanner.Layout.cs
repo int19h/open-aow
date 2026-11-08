@@ -87,7 +87,7 @@ public partial class TInfoBanner : ILayoutModule
         BannerPopup = new TAOWMenu(this);
         session.BeginRead(BannerPopup);
         BannerPopup.Name = "BannerPopup";
-        BannerPopup.OnMouseDown = BannerPopupMouseDown;
+        BannerPopup.OnMouseDown = (_, button, shift, x, y) => BannerPopupMouseDown(button, shift, x, y);
         BannerPopup.Visible = false;
         BannerPopup.Priority = 350;
         BannerPopup.WinLeft = 0;

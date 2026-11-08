@@ -86,7 +86,7 @@ public partial class TChatWindow : TDataModule
     }
 
     // AOWChatWin.pas:97
-    public void PlayerListPreDrawItem(TObject Sender, in TRect DrawRect, int DrawItem, in TSurfaceDesc SD)
+    public void PlayerListPreDrawItem(in TRect DrawRect, int DrawItem, in TSurfaceDesc SD)
     {
         sbyte Player;
         if (DrawItem != 0)

@@ -1,5 +1,6 @@
 // Translated from AoWArnoLine.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.GFXE;
@@ -126,6 +127,60 @@ public partial class TAoWArnoLine : TAOWControl
 
     [Published]
     public ImageLib.TLibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
+
+    public new TNotifyEvent<TAoWArnoLine> OnChange
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAoWArnoLine> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAoWArnoLine> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAoWArnoLine> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAoWArnoLine> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAoWArnoLine> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAoWArnoLine> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAoWArnoLine> OnDraw
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAoWArnoLine> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAoWArnoLine.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAoWArnoLine.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AoWArnoLineUnit

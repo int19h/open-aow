@@ -2165,7 +2165,7 @@ public partial class TGlobalTargetSpellCalls : TSpell
     }
 
     // GlobalTargetSpells.pas:305
-    public virtual void SelectionChanged(TObject Sender)
+    public virtual void SelectionChanged()
     {
         throw EAbstractError.Create("Abstract Error");
     }

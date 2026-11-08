@@ -614,7 +614,7 @@ public partial class TTitleScene : TDataModule
     }
 
     // AoWTitleScene.pas:462
-    public void WindowMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void WindowMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         FMouseX = X;
         FMouseY = Y;
@@ -623,7 +623,7 @@ public partial class TTitleScene : TDataModule
     }
 
     // AoWTitleScene.pas:470
-    public void WindowMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void WindowMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         FMouseX = X;
         FMouseY = Y;

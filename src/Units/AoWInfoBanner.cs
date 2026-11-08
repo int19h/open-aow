@@ -26,7 +26,7 @@ public partial class TInfoBanner : TDataModule
     }
 
     // AoWInfoBanner.pas:41
-    public void BannerPopupMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void BannerPopupMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {

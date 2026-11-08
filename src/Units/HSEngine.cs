@@ -5050,7 +5050,7 @@ public partial class THSMapViewer : TComponent
     internal int FSceneY;
     internal int FSceneL;
     internal bool FStaticSurfaceValid;
-    internal TNotifyEvent FOnSceneChanged;
+    internal TNotifyEvent<TObject> FOnSceneChanged;
     internal THSMap FHSMap;
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
     internal TSurface FCenteredSurface;
@@ -5481,7 +5481,7 @@ public partial class THSMapViewer : TComponent
     public int SceneHeight { get => FSceneHeight; set => SetSceneHeight(value); }
 
     [Published]
-    public TNotifyEvent OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
+    public TNotifyEvent<TObject> OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
 }
 
 // FHSEngine, FTries, FResources, FMOClass. The map object resources of one kind

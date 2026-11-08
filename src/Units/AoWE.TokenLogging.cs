@@ -57,7 +57,7 @@ public partial class TAoWHSMap
                 "/D:" + RtlUnit.IntToStr(AoWEUnit.AoWHSMap.FDay) + "/AIPC:" + RtlUnit.IntToStr(AoWEUnit.AoWHSMap.FAIExecuter.FProcessCycles), true);
     }
 
-    public void OnTokenManagerMessage(TObject sender, string message)
+    public void OnTokenManagerMessage(TObject Sender, string message)
     {
         if (FTokenEventLogging) WriteTokenLog(message);
         AoWEUnit.AoWEngine.OutputDebugStr(message);

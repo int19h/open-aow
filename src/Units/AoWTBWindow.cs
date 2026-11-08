@@ -121,13 +121,9 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:134
-    public void OVButtonClick(TObject Sender)
+    public void OVButtonClick()
     {
-        if (Sender != null)
-        {
-            General.PlayButtonSound(0);
-        }
-
+        General.PlayButtonSound(0);
         RealmWin.Dlg.Visible = !RealmWin.Dlg.Visible;
         if (RealmWin.Dlg.Visible)
         {
@@ -164,7 +160,7 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:165
-    public void InfoBtnClick(TObject Sender)
+    public void InfoBtnClick()
     {
         General.PlayButtonSound(0);
         if (PInfoW.PInfoWin.Visible)
@@ -212,7 +208,7 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:195
-    public void PIndDraw(TObject Sender, TSurfaceDesc Surface)
+    public void PIndDraw(TSurfaceDesc Surface)
     {
         int Position;
         int Race;
@@ -293,7 +289,7 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:244
-    public void TCPIndDraw(TObject Sender, TSurfaceDesc Surface)
+    public void TCPIndDraw(TSurfaceDesc Surface)
     {
         int Position;
         int Race;
@@ -352,7 +348,7 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:285
-    public void TBWorldUpdate(TObject Sender)
+    public void TBWorldUpdate()
     {
         ushort Hour = default;
         ushort Minute = default;
@@ -412,7 +408,7 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:317
-    public void TBCombatUpdate(TObject Sender)
+    public void TBCombatUpdate()
     {
         ushort Hour = default;
         ushort Minute = default;
@@ -474,7 +470,7 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:355
-    public void RelationsBtnClick(TObject Sender)
+    public void RelationsBtnClick()
     {
         General.PlayButtonSound(0);
         var relWindow = RelWindow;
@@ -489,7 +485,7 @@ public partial class TTBWindow : TDataModule
     }
 
     // AoWTBWindow.pas:363
-    public void ChatBtnUpdate(TObject Sender)
+    public void ChatBtnUpdate(TAOWButton Sender)
     {
         if (FChatFlash > 0)
         {
@@ -500,24 +496,16 @@ public partial class TTBWindow : TDataModule
                 case 61:
                 case 91:
                 case 121:
-                    {
-                        var button = (TAOWBaseButton)Sender;
-                        button.FDrawn = false;
-                        button.ILIndexUp = 14;
-                    }
-
+                    Sender.FDrawn = false;
+                    Sender.ILIndexUp = 14;
                     break;
                 case 16:
                 case 46:
                 case 76:
                 case 106:
                 case 136:
-                    {
-                        var button = (TAOWBaseButton)Sender;
-                        button.FDrawn = false;
-                        button.ILIndexUp = 20;
-                    }
-
+                    Sender.FDrawn = false;
+                    Sender.ILIndexUp = 20;
                     break;
             }
 

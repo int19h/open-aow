@@ -30,15 +30,15 @@ public partial class TCityJoinDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 5000;
         Dlg.WinLeft = 93;
         Dlg.WinTop = 91;
         Dlg.WinWidth = 455;
-        Dlg.OnDrawBack = DlgDrawBack;
+        Dlg.OnDrawBack = (_, SurfDesc) => DlgDrawBack(SurfDesc);
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -243,7 +243,7 @@ public partial class TCityJoinDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 119;
-        CancelBtn.OnClick = Layout_CancelBtnClick_1;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_1();
         session.EndRead(CancelBtn);
         AttackBtn = new TAOWButton(this);
         session.BeginRead(AttackBtn);
@@ -274,7 +274,7 @@ public partial class TCityJoinDlg : ILayoutModule
         AttackBtn.TextColor = 328543;
         AttackBtn.TextSelColor = 16777215;
         AttackBtn.WinWidth = 125;
-        AttackBtn.OnClick = Layout_AttackBtnClick_2;
+        AttackBtn.OnClick = _ => Layout_AttackBtnClick_2();
         session.EndRead(AttackBtn);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -356,7 +356,7 @@ public partial class TCityJoinDlg : ILayoutModule
         AcceptBtn.TextColor = 0;
         AcceptBtn.TextSelColor = 16777215;
         AcceptBtn.WinWidth = 119;
-        AcceptBtn.OnClick = Layout_AcceptBtnClick_3;
+        AcceptBtn.OnClick = _ => Layout_AcceptBtnClick_3();
         session.EndRead(AcceptBtn);
         WhatLbl = new TAOWLabel(this);
         session.BeginRead(WhatLbl);
@@ -435,7 +435,7 @@ public partial class TCityJoinDlg : ILayoutModule
         CloseBtn.TextColor = 0;
         CloseBtn.TextSelColor = 0;
         CloseBtn.WinWidth = 15;
-        CloseBtn.OnClick = Layout_CloseBtnClick_4;
+        CloseBtn.OnClick = _ => Layout_CloseBtnClick_4();
         session.EndRead(CloseBtn);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -500,27 +500,27 @@ public partial class TCityJoinDlg : ILayoutModule
         CloseBtn.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_CancelBtnClick_1(TObject p0)
+    private void Layout_CancelBtnClick_1()
     {
         CancelBtnClick();
     }
 
-    private void Layout_AttackBtnClick_2(TObject p0)
+    private void Layout_AttackBtnClick_2()
     {
         AttackBtnClick();
     }
 
-    private void Layout_AcceptBtnClick_3(TObject p0)
+    private void Layout_AcceptBtnClick_3()
     {
         AcceptBtnClick();
     }
 
-    private void Layout_CloseBtnClick_4(TObject p0)
+    private void Layout_CloseBtnClick_4()
     {
         CloseBtnClick();
     }

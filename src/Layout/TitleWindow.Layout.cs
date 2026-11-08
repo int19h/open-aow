@@ -50,7 +50,7 @@ public partial class TTitleWindow : ILayoutModule
         TitleWin.Cursor = 0;
         TitleWin.DoubleBuffered = true;
         TitleWin.MaskColor = 0;
-        TitleWin.OnDrawSurface = TitleWinDrawSurface;
+        TitleWin.OnDrawSurface = (_, Surface, Left, Top) => TitleWinDrawSurface(Surface, Left, Top);
         TitleWin.FreeSurfaceOnHide = true;
         TitleWin.ILIndexFrame = 0;
         TitleWin.ILIndexTexture = 18;
@@ -74,7 +74,7 @@ public partial class TTitleWindow : ILayoutModule
         TitlePnl.WinLeft = 482;
         TitlePnl.WinTop = 0;
         TitlePnl.WinWidth = 640;
-        TitlePnl.OnDrawBack = TitlePnlDrawBack;
+        TitlePnl.OnDrawBack = (_, SurfDesc) => TitlePnlDrawBack(SurfDesc);
         TitlePnl.Masked = false;
         TitlePnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         TitlePnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
@@ -98,9 +98,9 @@ public partial class TTitleWindow : ILayoutModule
         SplashPnl = new TAOWPanel(this);
         session.BeginRead(SplashPnl);
         SplashPnl.Name = "SplashPnl";
-        SplashPnl.OnMouseDown = SplashPnlMouseDown;
-        SplashPnl.OnKeyDown = SplashPnlKeyDown;
-        SplashPnl.OnUpdate = Layout_SplashPnlUpdate_0;
+        SplashPnl.OnMouseDown = (_, button, shift, x, y) => SplashPnlMouseDown(button, shift, x, y);
+        SplashPnl.OnKeyDown = (_, ref key, shift) => SplashPnlKeyDown(ref key, shift);
+        SplashPnl.OnUpdate = _ => Layout_SplashPnlUpdate_0();
         SplashPnl.Visible = false;
         SplashPnl.Priority = 10;
         SplashPnl.WinLeft = 0;
@@ -147,7 +147,7 @@ public partial class TTitleWindow : ILayoutModule
         SplashPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.TitleScreen;
     }
 
-    private void Layout_SplashPnlUpdate_0(TObject p0)
+    private void Layout_SplashPnlUpdate_0()
     {
         SplashPnlUpdate();
     }

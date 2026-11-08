@@ -141,9 +141,9 @@ public partial class TVideoDialog : TDataModule
     }
 
     // AoWVideoDlg.pas:233
-    public void ResCBChange(TObject Sender)
+    public void ResCBChange(TAOWCheckBox Sender)
     {
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -156,7 +156,7 @@ public partial class TVideoDialog : TDataModule
     }
 
     // AoWVideoDlg.pas:239
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         General.Manager.FAligned = false;
         if (Key == 27)

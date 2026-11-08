@@ -111,7 +111,7 @@ public partial class TPopupWindows : ILayoutModule
         OverViewsMenu.ItemHeight = 20;
         OverViewsMenu.OwnerItem = 0;
         OverViewsMenu.SubMenuShowDelay = 0;
-        OverViewsMenu.OnSelect = Layout_OverViewsMenuSelect_0;
+        OverViewsMenu.OnSelect = OverViewsMenuSelect;
         OverViewsMenu.WinHeight = 0;
         session.EndRead(OverViewsMenu);
         SettingsMenu = new TAOWMenu(this);
@@ -159,7 +159,7 @@ public partial class TPopupWindows : ILayoutModule
         SettingsMenu.ItemHeight = 20;
         SettingsMenu.OwnerItem = 1;
         SettingsMenu.SubMenuShowDelay = 0;
-        SettingsMenu.OnSelect = Layout_SettingsMenuSelect_1;
+        SettingsMenu.OnSelect = SettingsMenuSelect;
         SettingsMenu.WinHeight = 112;
         session.EndRead(SettingsMenu);
         EndMenu = new TAOWMenu(this);
@@ -205,7 +205,7 @@ public partial class TPopupWindows : ILayoutModule
         EndMenu.ItemHeight = 20;
         EndMenu.OwnerItem = 2;
         EndMenu.SubMenuShowDelay = 0;
-        EndMenu.OnSelect = Layout_EndMenuSelect_2;
+        EndMenu.OnSelect = EndMenuSelect;
         EndMenu.WinHeight = 92;
         session.EndRead(EndMenu);
         DiskMenu = new TAOWMenu(this);
@@ -250,7 +250,7 @@ public partial class TPopupWindows : ILayoutModule
         DiskMenu.ItemHeight = 20;
         DiskMenu.OwnerItem = 3;
         DiskMenu.SubMenuShowDelay = 0;
-        DiskMenu.OnSelect = Layout_DiskMenuSelect_3;
+        DiskMenu.OnSelect = DiskMenuSelect;
         DiskMenu.WinHeight = 0;
         session.EndRead(DiskMenu);
         TCStartMenu = new TStartMenu(this);
@@ -352,7 +352,7 @@ public partial class TPopupWindows : ILayoutModule
         HelpMenu.ItemHeight = 20;
         HelpMenu.OwnerItem = 4;
         HelpMenu.SubMenuShowDelay = 0;
-        HelpMenu.OnSelect = Layout_HelpMenuSelect_4;
+        HelpMenu.OnSelect = HelpMenuSelect;
         HelpMenu.WinHeight = 0;
         session.EndRead(HelpMenu);
         TCOVMenu = new TAOWMenu(this);
@@ -396,7 +396,7 @@ public partial class TPopupWindows : ILayoutModule
         TCOVMenu.ItemHeight = 20;
         TCOVMenu.OwnerItem = 0;
         TCOVMenu.SubMenuShowDelay = 0;
-        TCOVMenu.OnSelect = Layout_OverViewsMenuSelect_0;
+        TCOVMenu.OnSelect = OverViewsMenuSelect;
         TCOVMenu.WinHeight = 0;
         session.EndRead(TCOVMenu);
         TCDiskMenu = new TAOWMenu(this);
@@ -440,7 +440,7 @@ public partial class TPopupWindows : ILayoutModule
         TCDiskMenu.ItemHeight = 20;
         TCDiskMenu.OwnerItem = 3;
         TCDiskMenu.SubMenuShowDelay = 0;
-        TCDiskMenu.OnSelect = Layout_DiskMenuSelect_3;
+        TCDiskMenu.OnSelect = DiskMenuSelect;
         TCDiskMenu.WinHeight = 0;
         session.EndRead(TCDiskMenu);
         TCHelpMenu = new TAOWMenu(this);
@@ -486,7 +486,7 @@ public partial class TPopupWindows : ILayoutModule
         TCHelpMenu.ItemHeight = 20;
         TCHelpMenu.OwnerItem = 4;
         TCHelpMenu.SubMenuShowDelay = 0;
-        TCHelpMenu.OnSelect = Layout_HelpMenuSelect_4;
+        TCHelpMenu.OnSelect = HelpMenuSelect;
         TCHelpMenu.WinHeight = 0;
         session.EndRead(TCHelpMenu);
         TCSettingsMenu = new TAOWMenu(this);
@@ -534,7 +534,7 @@ public partial class TPopupWindows : ILayoutModule
         TCSettingsMenu.ItemHeight = 20;
         TCSettingsMenu.OwnerItem = 1;
         TCSettingsMenu.SubMenuShowDelay = 0;
-        TCSettingsMenu.OnSelect = Layout_SettingsMenuSelect_1;
+        TCSettingsMenu.OnSelect = SettingsMenuSelect;
         TCSettingsMenu.WinHeight = 0;
         session.EndRead(TCSettingsMenu);
         TCEndMenu = new TAOWMenu(this);
@@ -578,7 +578,7 @@ public partial class TPopupWindows : ILayoutModule
         TCEndMenu.ItemHeight = 20;
         TCEndMenu.OwnerItem = 2;
         TCEndMenu.SubMenuShowDelay = 0;
-        TCEndMenu.OnSelect = Layout_TCEndMenuSelect_5;
+        TCEndMenu.OnSelect = TCEndMenuSelect;
         TCEndMenu.WinHeight = 0;
         session.EndRead(TCEndMenu);
         session.EndRead(this);
@@ -673,33 +673,4 @@ public partial class TPopupWindows : ILayoutModule
         TCEndMenu.AOWFont = AoWExeFormsUnit.FontModule.Age10;
     }
 
-    private void Layout_OverViewsMenuSelect_0(TObject p0)
-    {
-        OverViewsMenuSelect((TAOWMenu)p0);
-    }
-
-    private void Layout_SettingsMenuSelect_1(TObject p0)
-    {
-        SettingsMenuSelect((TAOWMenu)p0);
-    }
-
-    private void Layout_EndMenuSelect_2(TObject p0)
-    {
-        EndMenuSelect((TAOWMenu)p0);
-    }
-
-    private void Layout_DiskMenuSelect_3(TObject p0)
-    {
-        DiskMenuSelect((TAOWMenu)p0);
-    }
-
-    private void Layout_HelpMenuSelect_4(TObject p0)
-    {
-        HelpMenuSelect((TAOWMenu)p0);
-    }
-
-    private void Layout_TCEndMenuSelect_5(TObject p0)
-    {
-        TCEndMenuSelect((TAOWMenu)p0);
-    }
 }

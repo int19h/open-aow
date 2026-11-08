@@ -32,8 +32,8 @@ public partial class TPOP3Dlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
-        Dlg.OnUpdate = Layout_DlgUpdate_0;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Dlg.OnUpdate = _ => Layout_DlgUpdate_0();
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 117;
@@ -305,7 +305,7 @@ public partial class TPOP3Dlg : ILayoutModule
         FoundEmailGames.WinHeight = 125;
         FoundEmailGames.BorderWidth = 6;
         FoundEmailGames.BorderHeight = 4;
-        FoundEmailGames.OnChange = Layout_FoundEmailGamesChange_1;
+        FoundEmailGames.OnChange = _ => Layout_FoundEmailGamesChange_1();
         FoundEmailGames.Selected = -1;
         FoundEmailGames.TextColor = 9415072;
         FoundEmailGames.TextSelColor = 0;
@@ -372,7 +372,7 @@ public partial class TPOP3Dlg : ILayoutModule
         Exit2Btn.TextColor = 0;
         Exit2Btn.TextSelColor = 16777215;
         Exit2Btn.WinWidth = 115;
-        Exit2Btn.OnClick = Layout_ExitBtnClick_2;
+        Exit2Btn.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(Exit2Btn);
         StartExitPnl = new TAOWPanel(this);
         session.BeginRead(StartExitPnl);
@@ -430,7 +430,7 @@ public partial class TPOP3Dlg : ILayoutModule
         StartBtn.TextColor = 0;
         StartBtn.TextSelColor = 16777215;
         StartBtn.WinWidth = 115;
-        StartBtn.OnClick = Layout_StartBtnClick_3;
+        StartBtn.OnClick = _ => Layout_StartBtnClick_3();
         session.EndRead(StartBtn);
         ExitBtn = new TAOWButton(this);
         session.BeginRead(ExitBtn);
@@ -461,7 +461,7 @@ public partial class TPOP3Dlg : ILayoutModule
         ExitBtn.TextColor = 0;
         ExitBtn.TextSelColor = 16777215;
         ExitBtn.WinWidth = 115;
-        ExitBtn.OnClick = Layout_ExitBtnClick_2;
+        ExitBtn.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(ExitBtn);
         LocalEmailAddressEdit = new TAOWEdit(this);
         session.BeginRead(LocalEmailAddressEdit);
@@ -763,22 +763,22 @@ public partial class TPOP3Dlg : ILayoutModule
         Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_DlgUpdate_0(TObject p0)
+    private void Layout_DlgUpdate_0()
     {
         DlgUpdate();
     }
 
-    private void Layout_FoundEmailGamesChange_1(TObject p0)
+    private void Layout_FoundEmailGamesChange_1()
     {
         FoundEmailGamesChange();
     }
 
-    private void Layout_ExitBtnClick_2(TObject p0)
+    private void Layout_ExitBtnClick_2()
     {
         ExitBtnClick();
     }
 
-    private void Layout_StartBtnClick_3(TObject p0)
+    private void Layout_StartBtnClick_3()
     {
         StartBtnClick();
     }

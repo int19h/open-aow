@@ -321,7 +321,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:257
-    public void ExitGameClick(TObject Sender)
+    public void ExitGameClick()
     {
         int I;
         TSetupSettings Settings;
@@ -375,7 +375,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:295
-    public void PlayerListDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void PlayerListDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
     {
         int I;
         if (DrawItem < PlayerList.Items.Count)
@@ -463,9 +463,9 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:399
-    public void PlayerListChange(TObject Sender)
+    public void PlayerListChange(TAOWListBox Sender)
     {
-        SelectPlayer(((TAOWListBox)Sender).Selected);
+        SelectPlayer(Sender.Selected);
     }
 
     // AoWScenSetup.pas:404
@@ -476,10 +476,10 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:409
-    public void TurnsCBChange(TObject Sender)
+    public void TurnsCBChange(TAOWCheckBox Sender)
     {
-        TurnsSlChange(this);
-        if (((TAOWCheckBox)Sender).Checked)
+        TurnsSlChange();
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -490,7 +490,7 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:415
-    public void TurnsSlChange(TObject Sender)
+    public void TurnsSlChange()
     {
         if (TurnsSl.Position == 0)
         {
@@ -513,15 +513,15 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:428
-    public void RacePlayerCBChange(TObject Sender)
+    public void RacePlayerCBChange(TAOWComboBox Sender, int Slot)
     {
         TSetupPlayerBehavior Behavior = default;
         TAOWComboBox Combo;
-        Combo = (TAOWComboBox)Sender;
+        Combo = Sender;
         var item = Combo.Items[Combo.Selected];
         if (FSetupControl.PlayerNameToPlayerID(item, ref Behavior))
         {
-            var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Combo.Tag);
+            var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Slot);
             FSetupControl.hSetPlayerID(indexOfRace, Behavior, true);
         }
 
@@ -529,20 +529,20 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:437
-    public void RaceBehaviorCBChange(TAOWComboBox Sender)
+    public void RaceBehaviorCBChange(TAOWComboBox Sender, int Slot)
     {
         TAOWComboBox Control;
         Control = Sender;
-        var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Control.Tag);
+        var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Slot);
         FSetupControl.hSetPlayerBehavior(indexOfRace, (byte)Control.Selected);
         E2GlobalsUnit.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWScenSetup.pas:444
-    public void LeadersOnMapCBChange(TObject Sender)
+    public void LeadersOnMapCBChange(TAOWCheckBox Sender)
     {
         FSetupControl.hSetLeadersOnMap(LeadersOnMapCB.Checked);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -553,10 +553,10 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:450
-    public void CustomizeLeadersChange(TObject Sender)
+    public void CustomizeLeadersChange(TAOWCheckBox Sender)
     {
         FSetupControl.hSetCustomizeLeaders(CustomizeLeaders.Checked);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -567,10 +567,10 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:456
-    public void AlliedVictoryCBChange(TObject Sender)
+    public void AlliedVictoryCBChange(TAOWCheckBox Sender)
     {
         FSetupControl.hSetAlliedVictory(AlliedVictoryCB.Checked);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -581,10 +581,10 @@ public partial class TScenSetup : TDataModule
     }
 
     // AoWScenSetup.pas:462
-    public void ExplorationChange(TObject Sender)
+    public void ExplorationChange(TAOWCheckBox Sender)
     {
         FSetupControl.hSetExplorationEnabled(Exploration.Checked);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }

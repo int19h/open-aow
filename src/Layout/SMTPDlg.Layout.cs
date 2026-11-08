@@ -31,14 +31,14 @@ public partial class TSMTPDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnUpdate = Layout_DlgUpdate_0;
+        Dlg.OnUpdate = _ => Layout_DlgUpdate_0();
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 127;
         Dlg.WinTop = 111;
         Dlg.WinWidth = 386;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_1;
+        Dlg.OnHide = _ => Layout_DlgHide_1();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -241,7 +241,7 @@ public partial class TSMTPDlg : ILayoutModule
         ExitBtn.TextColor = 0;
         ExitBtn.TextSelColor = 16777215;
         ExitBtn.WinWidth = 130;
-        ExitBtn.OnClick = Layout_ExitBtnClick_2;
+        ExitBtn.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(ExitBtn);
         SendingGameLbl = new TAOWLabel(this);
         session.BeginRead(SendingGameLbl);
@@ -269,7 +269,7 @@ public partial class TSMTPDlg : ILayoutModule
         ProgressBar = new TAoWGauge(this);
         session.BeginRead(ProgressBar);
         ProgressBar.Name = "ProgressBar";
-        ProgressBar.OnUpdate = Layout_ProgressBarUpdate_3;
+        ProgressBar.OnUpdate = _ => Layout_ProgressBarUpdate_3();
         ProgressBar.Priority = 0;
         ProgressBar.WinLeft = 0;
         ProgressBar.WinTop = 65;
@@ -442,7 +442,7 @@ public partial class TSMTPDlg : ILayoutModule
         SettingsBtn.TextColor = 0;
         SettingsBtn.TextSelColor = 16777215;
         SettingsBtn.WinWidth = 110;
-        SettingsBtn.OnClick = Layout_SettingsBtnClick_4;
+        SettingsBtn.OnClick = _ => Layout_SettingsBtnClick_4();
         session.EndRead(SettingsBtn);
         RetryBtn = new TAOWButton(this);
         session.BeginRead(RetryBtn);
@@ -473,7 +473,7 @@ public partial class TSMTPDlg : ILayoutModule
         RetryBtn.TextColor = 0;
         RetryBtn.TextSelColor = 16777215;
         RetryBtn.WinWidth = 110;
-        RetryBtn.OnClick = Layout_RetryBtnClick_5;
+        RetryBtn.OnClick = _ => Layout_RetryBtnClick_5();
         session.EndRead(RetryBtn);
         ExitBtn2 = new TAOWButton(this);
         session.BeginRead(ExitBtn2);
@@ -504,7 +504,7 @@ public partial class TSMTPDlg : ILayoutModule
         ExitBtn2.TextColor = 0;
         ExitBtn2.TextSelColor = 16777215;
         ExitBtn2.WinWidth = 110;
-        ExitBtn2.OnClick = Layout_ExitBtnClick_2;
+        ExitBtn2.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(ExitBtn2);
         TitleLbl = new TAOWLabel(this);
         session.BeginRead(TitleLbl);
@@ -600,8 +600,8 @@ public partial class TSMTPDlg : ILayoutModule
         session.BeginRead(IMSSMTP);
         IMSSMTP.Name = "IMSSMTP";
         IMSSMTP.DefaultPort = 25;
-        IMSSMTP.OnError = IMSSMTPError;
-        IMSSMTP.OnProgress = IMSSMTPProgress;
+        IMSSMTP.OnError = (_, ref error) => IMSSMTPError(ref error);
+        IMSSMTP.OnProgress = (_, progress, total) => IMSSMTPProgress(progress, total);
         session.EndRead(IMSSMTP);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -683,32 +683,32 @@ public partial class TSMTPDlg : ILayoutModule
         TitleIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
     }
 
-    private void Layout_DlgUpdate_0(TObject p0)
+    private void Layout_DlgUpdate_0()
     {
         DlgUpdate();
     }
 
-    private void Layout_DlgHide_1(TObject p0)
+    private void Layout_DlgHide_1()
     {
         DlgHide();
     }
 
-    private void Layout_ExitBtnClick_2(TObject p0)
+    private void Layout_ExitBtnClick_2()
     {
         ExitBtnClick();
     }
 
-    private void Layout_ProgressBarUpdate_3(TObject p0)
+    private void Layout_ProgressBarUpdate_3()
     {
         ProgressBarUpdate();
     }
 
-    private void Layout_SettingsBtnClick_4(TObject p0)
+    private void Layout_SettingsBtnClick_4()
     {
         SettingsBtnClick();
     }
 
-    private void Layout_RetryBtnClick_5(TObject p0)
+    private void Layout_RetryBtnClick_5()
     {
         RetryBtnClick();
     }

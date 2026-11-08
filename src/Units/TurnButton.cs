@@ -1,5 +1,6 @@
 // Translated from TurnButton.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
@@ -18,8 +19,8 @@ public partial class TAOWTurnButton : TAOWControl
     public bool FAnimating;
     public int FAnimationPhase;
     public int FFrameOffset;
-    public TNotifyEvent FOnAnimDone;
-    public TNotifyEvent FOnPlayerChange;
+    public TNotifyEvent<TAOWTurnButton> FOnAnimDone;
+    public TNotifyEvent<TAOWTurnButton> FOnPlayerChange;
     public bool FButtonChecked;
     public int FAnimationFrame;
 
@@ -231,13 +232,61 @@ public partial class TAOWTurnButton : TAOWControl
     public bool Animating { get => FAnimating; set => FAnimating = value; }
 
     [Published]
-    public TNotifyEvent OnAnimDone { get => FOnAnimDone; set => FOnAnimDone = value; }
+    public TNotifyEvent<TAOWTurnButton> OnAnimDone { get => FOnAnimDone; set => FOnAnimDone = value; }
 
     [Published]
-    public new TNotifyEvent OnChange { get => FOnPlayerChange; set => FOnPlayerChange = value; }
+    public new TNotifyEvent<TAOWTurnButton> OnChange { get => FOnPlayerChange; set => FOnPlayerChange = value; }
 
     [Published]
     public bool Checked { get => FButtonChecked; set => FButtonChecked = value; }
+
+    public new TMouseEvent<TAOWTurnButton> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWTurnButton> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWTurnButton> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWTurnButton> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWTurnButton> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWTurnButton> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWTurnButton> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWTurnButton> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWTurnButton.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWTurnButton.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public enum TButtonType : byte

@@ -53,7 +53,7 @@ public partial class TSynchronizeDlg : TDataModule
     }
 
     // AoWSyncDlg.pas:54
-    public void FaceFramePreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void FaceFramePreDraw(TSurfaceDesc Surface)
     {
         TPlayerSetupSettings Settings;
         TRect R;

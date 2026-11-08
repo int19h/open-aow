@@ -1,5 +1,6 @@
 // Translated from AoWLenLine.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.GFXE;
@@ -126,6 +127,60 @@ public partial class TAoWLenLine : TAOWControl
 
     [Published]
     public TInterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
+
+    public new TNotifyEvent<TAoWLenLine> OnChange
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAoWLenLine> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAoWLenLine> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAoWLenLine> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAoWLenLine> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAoWLenLine> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAoWLenLine> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAoWLenLine> OnDraw
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAoWLenLine> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAoWLenLine.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAoWLenLine.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AoWLenLineUnit

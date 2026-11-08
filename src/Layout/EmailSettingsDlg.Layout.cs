@@ -30,7 +30,7 @@ public partial class TEmailSettingsDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 530;
         Dlg.WinLeft = 128;
@@ -288,7 +288,7 @@ public partial class TEmailSettingsDlg : ILayoutModule
         OKBtn.TextColor = 0;
         OKBtn.TextSelColor = 16777215;
         OKBtn.WinWidth = 105;
-        OKBtn.OnClick = OKBtnClick;
+        OKBtn.OnClick = _ => OKBtnClick();
         session.EndRead(OKBtn);
         CancelBtn = new TAOWButton(this);
         session.BeginRead(CancelBtn);
@@ -319,7 +319,7 @@ public partial class TEmailSettingsDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 105;
-        CancelBtn.OnClick = CancelBtnClick;
+        CancelBtn.OnClick = _ => CancelBtnClick();
         session.EndRead(CancelBtn);
         LocalEmailAddressLbl = new TAOWLabel(this);
         session.BeginRead(LocalEmailAddressLbl);
@@ -515,7 +515,7 @@ public partial class TEmailSettingsDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = CancelBtnClick;
+        Close.OnClick = _ => CancelBtnClick();
         session.EndRead(Close);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);

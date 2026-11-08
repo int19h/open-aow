@@ -4,6 +4,7 @@ using Aow.Units.AoWBaseWin;
 using Aow.Units.AoWComp;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AOWMenuBar;
+using Aow.Units.AoWWinControl;
 using Aow.Units.AoWWinGeneric;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
@@ -34,12 +35,12 @@ public partial class TAOWMenu : TAOWGenericWindow
     public TInterfaceIL FILTextureSelected;
     public TStringList FItems;
     public TStringList FItemTypes;
-    public TNotifyEvent FOnDrawItem;
+    public TNotifyEvent<TAOWMenu> FOnDrawItem;
     public int FItemHeight;
     public TAOWMenuBar FOwnerMenuBar;
     public TAOWMenu FOwnerMenu;
     public int FSubMenuShowDelay;
-    public TNotifyEvent FOnSelect;
+    public TNotifyEvent<TAOWMenu> FOnSelect;
     public int FHighlighted;
     public int FSubMenuItem;
     public TList FSubMenus;
@@ -974,7 +975,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     public TStringList ItemTypes { get => FItemTypes; set => SetITStrings(value); }
 
     [Published]
-    public TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public TNotifyEvent<TAOWMenu> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
     public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
@@ -995,7 +996,109 @@ public partial class TAOWMenu : TAOWGenericWindow
     public int SubMenuShowDelay { get => FSubMenuShowDelay; set => FSubMenuShowDelay = value; }
 
     [Published]
-    public TNotifyEvent OnSelect { get => FOnSelect; set => FOnSelect = value; }
+    public TNotifyEvent<TAOWMenu> OnSelect { get => FOnSelect; set => FOnSelect = value; }
+
+    public new TNotifyEvent<TAOWMenu> OnChange
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAOWMenu> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWMenu> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWMenu> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWMenu> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWMenu> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWMenu> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWMenu> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWMenu> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
+
+    public new TAoWOnDrawBackEvent<TAOWMenu> OnDrawBack
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnDrawBack", FOnDrawBack, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnDrawBack", ref FOnDrawBack, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWMenu> OnEnter
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnEnter", FOnEnter, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnEnter", ref FOnEnter, value, handler => sender => handler(this));
+    }
+
+    public new TNotifyEvent<TAOWMenu> OnExit
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnExit", FOnExit, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnExit", ref FOnExit, value, handler => sender => handler(this));
+    }
+
+    public new TNotifyEvent<TAOWMenu> OnChangeCursor
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnChangeCursor", FOnChangeCursor, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnChangeCursor", ref FOnChangeCursor, value, handler => sender => handler(this));
+    }
+
+    public new TAoWOnDrawSurface<TAOWMenu> OnDrawSurface
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnDrawSurface", FOnDrawSurface, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnDrawSurface", ref FOnDrawSurface, value, handler => (sender, surface, left, top) => handler(this, surface, left, top));
+    }
+
+    public new TAoWOnDrawSurface<TAOWMenu> OnPreDrawSurface
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnPreDrawSurface", FOnPreDrawSurface, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnPreDrawSurface", ref FOnPreDrawSurface, value, handler => (sender, surface, left, top) => handler(this, surface, left, top));
+    }
+
+    public new TNotifyEvent<TAOWMenu> OnHide
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnHide", FOnHide, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnHide", ref FOnHide, value, handler => sender => handler(this));
+    }
+
+    public new TNotifyEvent<TAOWMenu> OnShow
+    {
+        get => EventSlot.Get(this, "TAOWMenu.FOnShow", FOnShow, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenu.FOnShow", ref FOnShow, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AOWMenuUnit

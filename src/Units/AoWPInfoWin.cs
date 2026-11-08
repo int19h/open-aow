@@ -105,7 +105,7 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:78
-    public void EventListPreDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void EventListPreDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
     {
         if (DrawItem != EventList.Selected)
         {
@@ -116,7 +116,7 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:85
-    public void EventListDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void EventListDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
     {
         int LeftIcon;
         int MiddleIcon;
@@ -159,7 +159,7 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:109
-    public void EventListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void EventListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (EventList.Selected > -1 && Button == TMouseButton.mbRight)
         {
@@ -169,7 +169,7 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:116
-    public void LeaderBtnClick(TObject Sender)
+    public void LeaderBtnClick()
     {
         sbyte X = default;
         sbyte Y = default;
@@ -193,7 +193,7 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:137
-    public void FaceFrDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void FaceFrDraw(TSurfaceDesc SD)
     {
         TRect R;
         if (AoWHSMap.FSeatedPlayer > -1)
@@ -207,7 +207,7 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:149
-    public void FaceFrMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void FaceFrMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         sbyte Xhx = default;
         sbyte Yhx = default;
@@ -225,7 +225,7 @@ public partial class TPInfoW : TDataModule
                         AoWUnitWindowUnit.UnitWindow.ShowUnit();
                         break;
                     case TMouseButton.mbRight:
-                        LeaderBtnClick(this);
+                        LeaderBtnClick();
                         break;
                 }
             }

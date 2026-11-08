@@ -119,7 +119,7 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:152
-    public void FaceFramePreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void FaceFramePreDraw(TSurfaceDesc Surface)
     {
         TRect R = default;
         THero Hero;
@@ -150,7 +150,7 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:175
-    public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
+    public void U1PreDraw(TAoWFrame Sender, TSurfaceDesc Surface, int Slot)
     {
         TRect R = default;
         R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
@@ -158,16 +158,16 @@ public partial class THeroInfoDlg : TDataModule
         R.Top = Sender.WinTop + UnitPnl.WinTop;
         R.Bottom = Sender.WinHeight + R.Top;
 
-        DrawUnit(Sender.Tag, R, ref Surface);
+        DrawUnit(Slot, R, ref Surface);
     }
 
     // AoWHeroInfoDlg.pas:189
-    public void U1MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void U1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
     {
         var count = FArmyInfo.FArmyView.GetCount();
-        if (((TComponent)Sender).Tag < count)
+        if (Slot < count)
         {
-            var unit = FArmyInfo.FArmyView.GetUnit(((TComponent)Sender).Tag);
+            var unit = FArmyInfo.FArmyView.GetUnit(Slot);
             General.FSelectedUnit = unit;
             if (Button == TMouseButton.mbLeft)
             {
@@ -185,7 +185,7 @@ public partial class THeroInfoDlg : TDataModule
     }
 
     // AoWHeroInfoDlg.pas:208
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {

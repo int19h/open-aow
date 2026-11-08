@@ -235,7 +235,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:210
-    public void EnchantmentListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void EnchantmentListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {
@@ -392,7 +392,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:323
-    public void PowerValueListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void PowerValueListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {
@@ -601,7 +601,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:462
-    public void GlobalEnchantmentMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void GlobalEnchantmentMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {

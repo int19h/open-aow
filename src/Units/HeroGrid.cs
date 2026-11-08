@@ -133,7 +133,7 @@ public partial class THeroGrid : TCustomImageDrawGrid
     }
 
     // HeroGrid.pas:212
-    public void HeroesUpdated(TObject Sender)
+    public void HeroesUpdated()
     {
         UpdateHeroes();
     }

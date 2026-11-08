@@ -331,7 +331,7 @@ public partial class TFileDlgWindow : TDataModule
     }
 
     // AoWFileDialog.pas:316
-    public void OpenbutClick(TObject Sender)
+    public void OpenbutClick()
     {
         string Path = "";
         string Directory = "";
@@ -562,7 +562,7 @@ public partial class TFileDlgWindow : TDataModule
     }
 
     // AoWFileDialog.pas:586
-    public void FileLBDrawItem(TAoWComponent Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
+    public void FileLBDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc)
     {
         if (AoWFileDialogUnit.Directories.Count > DrawItem)
         {
@@ -657,18 +657,18 @@ public partial class TFileDlgWindow : TDataModule
     // AoWFileDialog.pas:511
     public void SFileNameReturn()
     {
-        OpenbutClick(this);
+        OpenbutClick();
     }
 
     // AoWFileDialog.pas:516
-    public void SFileNameChange(TObject Sender)
+    public void SFileNameChange()
     {
         FileLB.Selected = -1;
         FileLBChange(FileLB);
     }
 
     // AoWFileDialog.pas:522
-    public void SaveBtnClick(TObject Sender)
+    public void SaveBtnClick()
     {
         General.PlayButtonSound(0);
         RememberSortByDate(false);
@@ -719,7 +719,7 @@ public partial class TFileDlgWindow : TDataModule
     }
 
     // AoWFileDialog.pas:549
-    public void DateBtnClick(TObject Sender)
+    public void DateBtnClick()
     {
         General.PlayButtonSound(0);
         RememberSortByDate(true);
@@ -780,7 +780,7 @@ public partial class TFileDlgWindow : TDataModule
     }
 
     // AoWFileDialog.pas:580
-    public void FileDialogKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void FileDialogKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

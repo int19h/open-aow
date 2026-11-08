@@ -12,52 +12,52 @@ namespace Aow.Units.MapCtrl;
 
 public partial class TAoWMapControl : TComponent
 {
-    public TMapObjectEvent FOnSelectArmy;
-    public TMapObjectEvent FOnDeselectArmy;
-    public TMapObjectEvent FOnDblClickArmy;
-    public TMapObjectEvent FOnArmyChanged;
-    public TMapObjectEvent FOnArmyDestroyed;
-    public TMapObjectEvent FOnSelectStructure;
-    public TMapObjectEvent FOnDeselectStructure;
-    public TMapObjectEvent FOnDblClickStructure;
-    public TMapObjectEvent FOnStructureChanged;
-    public TMapObjectEvent FOnStructureDestroyed;
-    public TMapObjectEvent FOnSelectItem;
-    public TMapObjectEvent FOnDeselectItem;
-    public TMapObjectEvent FOnUnitChanged;
-    public TMapObjectEvent FOnUnitDestroyed;
-    public TNotifyEvent FOnActivateAbility;
-    public TNotifyEvent FOnDiplomaticChange;
-    public TNotifyEvent FOnActivateHSM;
-    public TNotifyEvent FOnDeactivateHSM;
+    public TMapObjectEvent<TArmy> FOnSelectArmy;
+    public TMapObjectEvent<TArmy> FOnDeselectArmy;
+    public TMapObjectEvent<TArmy> FOnDblClickArmy;
+    public TMapObjectEvent<TArmy> FOnArmyChanged;
+    public TMapObjectEvent<TArmy> FOnArmyDestroyed;
+    public TMapObjectEvent<TStructure> FOnSelectStructure;
+    public TMapObjectEvent<TStructure> FOnDeselectStructure;
+    public TMapObjectEvent<TStructure> FOnDblClickStructure;
+    public TMapObjectEvent<TStructure> FOnStructureChanged;
+    public TMapObjectEvent<TStructure> FOnStructureDestroyed;
+    public TMapObjectEvent<TItemHS> FOnSelectItem;
+    public TMapObjectEvent<TItemHS> FOnDeselectItem;
+    public TMapObjectEvent<TAbstractUnit> FOnUnitChanged;
+    public TMapObjectEvent<TAbstractUnit> FOnUnitDestroyed;
+    public TMapObjectEvent<TActivateAbilityInfo> FOnActivateAbility;
+    public TNotifyEvent<TObject> FOnDiplomaticChange;
+    public TNotifyEvent<TObject> FOnActivateHSM;
+    public TNotifyEvent<TObject> FOnDeactivateHSM;
     public TMapPlayerEvent FOnIncomeChanged;
     public TMapPlayerEvent FOnUpkeepChanged;
     public TMapPlayerEvent FOnGemsChanged;
     public TMapPlayerEvent FOnPlayerMagicChanged;
-    public TNotifyEvent FOnGlobalMagicChanged;
-    public TNotifyEvent FOnShowMessage;
+    public TNotifyEvent<TObject> FOnGlobalMagicChanged;
+    public TMapRefEvent<TShowMessageInfo> FOnShowMessage;
     public TMapDayEvent FOnChangeDay;
-    public TNotifyEvent FOnNewTurn;
+    public TNotifyEvent<TObject> FOnNewTurn;
     public TMapPlayerEvent FOnPlayerChanged;
     public TMapPlayerEvent FOnSeatedPlayerChanged;
-    public TNotifyEvent FOnCombatEvent;
+    public TNotifyEvent<TObject> FOnCombatEvent;
     public TMapExecuteLogEvent FOnExecuteEventLog;
-    public TNotifyEvent FOnMapChanged;
-    public TNotifyEvent FOnScannerIconsChanged;
-    public TNotifyEvent FOnMapSettingsChanged;
+    public TMapRefEvent<TMapChangedInfo> FOnMapChanged;
+    public TMapRefEvent<TMapChangedInfo> FOnScannerIconsChanged;
+    public TNotifyEvent<TObject> FOnMapSettingsChanged;
     public TMapPlayerEvent FOnLogbookChanged;
-    public TNotifyEvent FOnGameOver;
+    public TNotifyEvent<TObject> FOnGameOver;
     public TMapPlayerEvent FOnGameTerminated;
-    public TNotifyEvent FOnPlayerTerminated;
-    public TNotifyEvent FOnActivateCombatMap;
-    public TNotifyEvent FOnDeactivateCombatMap;
+    public TMapPlayerEvent FOnPlayerTerminated;
+    public TNotifyEvent<TObject> FOnActivateCombatMap;
+    public TNotifyEvent<TObject> FOnDeactivateCombatMap;
     public TMapTargetEvent FOnTargetSelectionChange;
-    public TNotifyEvent FOnViewPortChange;
-    public TNotifyEvent FOnCastSpell;
+    public TNotifyEvent<TObject> FOnViewPortChange;
+    public TMapObjectEvent<TSpellCaster> FOnCastSpell;
     public TMapEndTurnEvent FOnEndTurn;
-    public TNotifyEvent FOnRelationsChanged;
-    public TNotifyEvent FOnExitGameEvent;
-    public TNotifyEvent FOnHSChanged;
+    public TNotifyEvent<TObject> FOnRelationsChanged;
+    public TNotifyEvent<TObject> FOnExitGameEvent;
+    public TMapObjectEvent<THexagonSprite> FOnHSChanged;
 
     // MapCtrl.pas:186
     public override void Destroy()
@@ -217,18 +217,18 @@ public partial class TAoWMapControl : TComponent
         if (FOnDblClickArmy != null)
         {
             HS = AoWHSMap.Selection.FindClass(typeof(TArmyHS));
-            if (HS != null)
+            if (HS is TArmyHS armyHS)
             {
-                FOnDblClickArmy(((TArmyHS)(object)HS).FArmy);
+                FOnDblClickArmy(armyHS.FArmy);
             }
         }
 
         if (FOnDblClickStructure != null)
         {
             HS = AoWHSMap.Selection.FindClass(typeof(TStructure));
-            if (HS != null)
+            if (HS is TStructure structure)
             {
-                FOnDblClickStructure(HS);
+                FOnDblClickStructure(structure);
             }
         }
     }
@@ -238,9 +238,9 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnMapChanged != null)
+            if (FOnMapChanged != null && Sender is MapChangedNotification mapChanged)
             {
-                FOnMapChanged(Sender);
+                FOnMapChanged(ref mapChanged.Info);
             }
         }
         catch
@@ -254,9 +254,9 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnScannerIconsChanged != null)
+            if (FOnScannerIconsChanged != null && Sender is MapChangedNotification scannerChanged)
             {
-                FOnScannerIconsChanged(Sender);
+                FOnScannerIconsChanged(ref scannerChanged.Info);
             }
         }
         catch
@@ -288,19 +288,19 @@ public partial class TAoWMapControl : TComponent
         try
         {
             Selection = AoWHSMap.Selection;
-            if (FOnSelectArmy != null && Selection.EventHS is TArmyHS && AoWHSMap.FSelectedArmy.GetArmyHS() != null)
+            if (FOnSelectArmy != null && Selection.EventHS is TArmyHS armyHS && AoWHSMap.FSelectedArmy.GetArmyHS() != null)
             {
-                FOnSelectArmy(((TArmyHS)(object)Selection.EventHS).FArmy);
+                FOnSelectArmy(armyHS.FArmy);
             }
 
-            if (FOnSelectStructure != null && Selection.EventHS is TStructure)
+            if (FOnSelectStructure != null && Selection.EventHS is TStructure structure)
             {
-                FOnSelectStructure(Selection.EventHS);
+                FOnSelectStructure(structure);
             }
 
-            if (FOnSelectItem != null && Selection.EventHS is TItemHS)
+            if (FOnSelectItem != null && Selection.EventHS is TItemHS item)
             {
-                FOnSelectItem(Selection.EventHS);
+                FOnSelectItem(item);
             }
         }
         catch
@@ -316,19 +316,19 @@ public partial class TAoWMapControl : TComponent
         try
         {
             Selection = AoWHSMap.Selection;
-            if (FOnDeselectArmy != null && Selection.EventHS is TArmyHS)
+            if (FOnDeselectArmy != null && Selection.EventHS is TArmyHS armyHS)
             {
-                FOnDeselectArmy(((TArmyHS)(object)Selection.EventHS).FArmy);
+                FOnDeselectArmy(armyHS.FArmy);
             }
 
-            if (FOnDeselectStructure != null && Selection.EventHS is TStructure)
+            if (FOnDeselectStructure != null && Selection.EventHS is TStructure structure)
             {
-                FOnDeselectStructure(Selection.EventHS);
+                FOnDeselectStructure(structure);
             }
 
-            if (FOnDeselectItem != null && Selection.EventHS is TItemHS)
+            if (FOnDeselectItem != null && Selection.EventHS is TItemHS item)
             {
-                FOnDeselectItem(Selection.EventHS);
+                FOnDeselectItem(item);
             }
         }
         catch
@@ -503,9 +503,9 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnShowMessage != null)
+            if (FOnShowMessage != null && Sender is ShowMessageNotification message)
             {
-                FOnShowMessage(Sender);
+                FOnShowMessage(ref message.Info);
             }
         }
         catch
@@ -567,10 +567,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnStructureChanged != null)
-            {
-                FOnStructureChanged(Obj);
-            }
+            Raise(FOnStructureChanged, Obj);
         }
         catch
         {
@@ -583,10 +580,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnStructureDestroyed != null)
-            {
-                FOnStructureDestroyed(Obj);
-            }
+            Raise(FOnStructureDestroyed, Obj);
         }
         catch
         {
@@ -599,10 +593,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnArmyChanged != null)
-            {
-                FOnArmyChanged(Obj);
-            }
+            Raise(FOnArmyChanged, Obj);
         }
         catch
         {
@@ -615,10 +606,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnArmyDestroyed != null)
-            {
-                FOnArmyDestroyed(Obj);
-            }
+            Raise(FOnArmyDestroyed, Obj);
         }
         catch
         {
@@ -631,10 +619,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnHSChanged != null)
-            {
-                FOnHSChanged(Sender);
-            }
+            Raise(FOnHSChanged, Sender);
         }
         catch
         {
@@ -647,10 +632,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnUnitChanged != null)
-            {
-                FOnUnitChanged(Obj);
-            }
+            Raise(FOnUnitChanged, Obj);
         }
         catch
         {
@@ -663,10 +645,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnUnitDestroyed != null)
-            {
-                FOnUnitDestroyed(Obj);
-            }
+            Raise(FOnUnitDestroyed, Obj);
         }
         catch
         {
@@ -713,7 +692,7 @@ public partial class TAoWMapControl : TComponent
         {
             if (FOnPlayerTerminated != null)
             {
-                FOnPlayerTerminated(Sender);
+                FOnPlayerTerminated((sbyte)ObjectToInt(Sender));
             }
         }
         catch
@@ -775,9 +754,9 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnTargetSelectionChange != null && (((int)AoWHSMap.FTargetSelection.FTargetMode.Image) & 8) != 0)
+            if (FOnTargetSelectionChange != null && Control is TTargetSelectionControl control && (((int)AoWHSMap.FTargetSelection.FTargetMode.Image) & 8) != 0)
             {
-                FOnTargetSelectionChange((TTargetSelectionControl)Control, ((TTargetSelectionControl)Control).FChange);
+                FOnTargetSelectionChange(control, control.FChange);
             }
         }
         catch
@@ -791,10 +770,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnCastSpell != null)
-            {
-                FOnCastSpell(Sender);
-            }
+            Raise(FOnCastSpell, Sender);
         }
         catch
         {
@@ -823,10 +799,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnActivateAbility != null)
-            {
-                FOnActivateAbility(Sender);
-            }
+            Raise(FOnActivateAbility, Sender);
         }
         catch
         {
@@ -866,47 +839,67 @@ public partial class TAoWMapControl : TComponent
         }
     }
 
-    [Published]
-    public TMapObjectEvent OnArmySelected { get => FOnSelectArmy; set => FOnSelectArmy = value; }
+    // A null payload stays null. Any other object is delivered when it is the event's class.
+    static void Raise<T>(TMapObjectEvent<T> handler, TObject value) where T : class
+    {
+        if (handler == null)
+        {
+            return;
+        }
+
+        if (value == null)
+        {
+            handler(null);
+            return;
+        }
+
+        if (value is T typed)
+        {
+            handler(typed);
+        }
+    }
 
     [Published]
-    public TMapObjectEvent OnArmyDeselected { get => FOnDeselectArmy; set => FOnDeselectArmy = value; }
+    public TMapObjectEvent<TArmy> OnArmySelected { get => FOnSelectArmy; set => FOnSelectArmy = value; }
 
     [Published]
-    public TMapObjectEvent OnArmyDblClick { get => FOnDblClickArmy; set => FOnDblClickArmy = value; }
+    public TMapObjectEvent<TArmy> OnArmyDeselected { get => FOnDeselectArmy; set => FOnDeselectArmy = value; }
 
     [Published]
-    public TMapObjectEvent OnArmyChanged { get => FOnArmyChanged; set => FOnArmyChanged = value; }
+    public TMapObjectEvent<TArmy> OnArmyDblClick { get => FOnDblClickArmy; set => FOnDblClickArmy = value; }
 
     [Published]
-    public TMapObjectEvent OnArmyDestroyed { get => FOnArmyDestroyed; set => FOnArmyDestroyed = value; }
+    public TMapObjectEvent<TArmy> OnArmyChanged { get => FOnArmyChanged; set => FOnArmyChanged = value; }
 
     [Published]
-    public TMapObjectEvent OnStructureSelected { get => FOnSelectStructure; set => FOnSelectStructure = value; }
+    public TMapObjectEvent<TArmy> OnArmyDestroyed { get => FOnArmyDestroyed; set => FOnArmyDestroyed = value; }
 
     [Published]
-    public TMapObjectEvent OnStructureDeselected { get => FOnDeselectStructure; set => FOnDeselectStructure = value; }
+    public TMapObjectEvent<TStructure> OnStructureSelected { get => FOnSelectStructure; set => FOnSelectStructure = value; }
 
     [Published]
-    public TMapObjectEvent OnStructureDblClick { get => FOnDblClickStructure; set => FOnDblClickStructure = value; }
+    public TMapObjectEvent<TStructure> OnStructureDeselected { get => FOnDeselectStructure; set => FOnDeselectStructure = value; }
 
     [Published]
-    public TMapObjectEvent OnStructureChanged { get => FOnStructureChanged; set => FOnStructureChanged = value; }
+    public TMapObjectEvent<TStructure> OnStructureDblClick { get => FOnDblClickStructure; set => FOnDblClickStructure = value; }
 
     [Published]
-    public TMapObjectEvent OnStructureDestroyed { get => FOnStructureDestroyed; set => FOnStructureDestroyed = value; }
+    public TMapObjectEvent<TStructure> OnStructureChanged { get => FOnStructureChanged; set => FOnStructureChanged = value; }
 
     [Published]
-    public TMapObjectEvent OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
+    public TMapObjectEvent<TStructure> OnStructureDestroyed { get => FOnStructureDestroyed; set => FOnStructureDestroyed = value; }
 
     [Published]
-    public TMapObjectEvent OnUnitDestroyed { get => FOnUnitDestroyed; set => FOnUnitDestroyed = value; }
+    public TMapObjectEvent<TAbstractUnit> OnUnitChanged { get => FOnUnitChanged; set => FOnUnitChanged = value; }
 
     [Published]
-    public TNotifyEvent OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
+    public TMapObjectEvent<TAbstractUnit> OnUnitDestroyed { get => FOnUnitDestroyed; set => FOnUnitDestroyed = value; }
 
     [Published]
-    public TNotifyEvent OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
+    public TNotifyEvent<TObject> OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
+
+    [Published]
+    public TNotifyEvent<TObject> OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
 
     [Published]
     public TMapPlayerEvent OnGemsChanged { get => FOnGemsChanged; set => FOnGemsChanged = value; }
@@ -918,7 +911,7 @@ public partial class TAoWMapControl : TComponent
     public TMapPlayerEvent OnUpkeepChanged { get => FOnUpkeepChanged; set => FOnUpkeepChanged = value; }
 
     [Published]
-    public TNotifyEvent OnShowMessage { get => FOnShowMessage; set => FOnShowMessage = value; }
+    public TMapRefEvent<TShowMessageInfo> OnShowMessage { get => FOnShowMessage; set => FOnShowMessage = value; }
 
     [Published]
     public TMapDayEvent OnDayChanged { get => FOnChangeDay; set => FOnChangeDay = value; }
@@ -927,28 +920,28 @@ public partial class TAoWMapControl : TComponent
     public TMapPlayerEvent OnPlayerChanged { get => FOnPlayerChanged; set => FOnPlayerChanged = value; }
 
     [Published]
-    public TNotifyEvent OnNewTurn { get => FOnNewTurn; set => FOnNewTurn = value; }
+    public TNotifyEvent<TObject> OnNewTurn { get => FOnNewTurn; set => FOnNewTurn = value; }
 
     [Published]
     public TMapEndTurnEvent OnEndTurn { get => FOnEndTurn; set => FOnEndTurn = value; }
 
     [Published]
-    public TNotifyEvent OnHSChanged { get => FOnHSChanged; set => FOnHSChanged = value; }
+    public TMapObjectEvent<THexagonSprite> OnHSChanged { get => FOnHSChanged; set => FOnHSChanged = value; }
 
     [Published]
     public TMapPlayerEvent OnSeatedPlayerChanged { get => FOnSeatedPlayerChanged; set => FOnSeatedPlayerChanged = value; }
 
     [Published]
-    public TNotifyEvent OnMapChanged { get => FOnMapChanged; set => FOnMapChanged = value; }
+    public TMapRefEvent<TMapChangedInfo> OnMapChanged { get => FOnMapChanged; set => FOnMapChanged = value; }
 
     [Published]
-    public TNotifyEvent OnScannerIconsChanged { get => FOnScannerIconsChanged; set => FOnScannerIconsChanged = value; }
+    public TMapRefEvent<TMapChangedInfo> OnScannerIconsChanged { get => FOnScannerIconsChanged; set => FOnScannerIconsChanged = value; }
 
     [Published]
-    public TNotifyEvent OnMapSettingsChanged { get => FOnMapSettingsChanged; set => FOnMapSettingsChanged = value; }
+    public TNotifyEvent<TObject> OnMapSettingsChanged { get => FOnMapSettingsChanged; set => FOnMapSettingsChanged = value; }
 
     [Published]
-    public TNotifyEvent OnCombat { get => FOnCombatEvent; set => FOnCombatEvent = value; }
+    public TNotifyEvent<TObject> OnCombat { get => FOnCombatEvent; set => FOnCombatEvent = value; }
 
     [Published]
     public TMapPlayerEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
@@ -957,58 +950,59 @@ public partial class TAoWMapControl : TComponent
     public TMapTargetEvent OnTargetSelectionChange { get => FOnTargetSelectionChange; set => FOnTargetSelectionChange = value; }
 
     [Published]
-    public TNotifyEvent OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
+    public TMapObjectEvent<TSpellCaster> OnCastSpell { get => FOnCastSpell; set => FOnCastSpell = value; }
 
     [Published]
-    public TNotifyEvent OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
+    public TMapObjectEvent<TActivateAbilityInfo> OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
 
     [Published]
     public TMapPlayerEvent OnPlayerMagicChanged { get => FOnPlayerMagicChanged; set => FOnPlayerMagicChanged = value; }
 
     [Published]
-    public TNotifyEvent OnGlobalMagicChanged { get => FOnGlobalMagicChanged; set => FOnGlobalMagicChanged = value; }
+    public TNotifyEvent<TObject> OnGlobalMagicChanged { get => FOnGlobalMagicChanged; set => FOnGlobalMagicChanged = value; }
 
     [Published]
-    public TNotifyEvent OnRelationsChanged { get => FOnRelationsChanged; set => FOnRelationsChanged = value; }
+    public TNotifyEvent<TObject> OnRelationsChanged { get => FOnRelationsChanged; set => FOnRelationsChanged = value; }
 
     [Published]
-    public TNotifyEvent OnActivateCombatMap { get => FOnActivateCombatMap; set => FOnActivateCombatMap = value; }
+    public TNotifyEvent<TObject> OnActivateCombatMap { get => FOnActivateCombatMap; set => FOnActivateCombatMap = value; }
 
     [Published]
-    public TNotifyEvent OnDeactivateCombatMap { get => FOnDeactivateCombatMap; set => FOnDeactivateCombatMap = value; }
+    public TNotifyEvent<TObject> OnDeactivateCombatMap { get => FOnDeactivateCombatMap; set => FOnDeactivateCombatMap = value; }
 
     [Published]
-    public TMapObjectEvent OnItemsSelected { get => FOnSelectItem; set => FOnSelectItem = value; }
+    public TMapObjectEvent<TItemHS> OnItemsSelected { get => FOnSelectItem; set => FOnSelectItem = value; }
 
     [Published]
-    public TMapObjectEvent OnItemsDeselected { get => FOnDeselectItem; set => FOnDeselectItem = value; }
+    public TMapObjectEvent<TItemHS> OnItemsDeselected { get => FOnDeselectItem; set => FOnDeselectItem = value; }
 
     [Published]
-    public TNotifyEvent OnGameOver { get => FOnGameOver; set => FOnGameOver = value; }
+    public TNotifyEvent<TObject> OnGameOver { get => FOnGameOver; set => FOnGameOver = value; }
 
     [Published]
     public TMapPlayerEvent OnGameTerminated { get => FOnGameTerminated; set => FOnGameTerminated = value; }
 
     [Published]
-    public TNotifyEvent OnPlayerTerminated { get => FOnPlayerTerminated; set => FOnPlayerTerminated = value; }
+    public TMapPlayerEvent OnPlayerTerminated { get => FOnPlayerTerminated; set => FOnPlayerTerminated = value; }
 
     [Published]
     public TMapExecuteLogEvent OnExecuteEventLog { get => FOnExecuteEventLog; set => FOnExecuteEventLog = value; }
 
     [Published]
-    public TNotifyEvent OnViewPortChange { get => FOnViewPortChange; set => FOnViewPortChange = value; }
+    public TNotifyEvent<TObject> OnViewPortChange { get => FOnViewPortChange; set => FOnViewPortChange = value; }
 
     [Published]
-    public TNotifyEvent OnDiplomaticChange { get => FOnDiplomaticChange; set => FOnDiplomaticChange = value; }
+    public TNotifyEvent<TObject> OnDiplomaticChange { get => FOnDiplomaticChange; set => FOnDiplomaticChange = value; }
 
     [Published]
-    public TNotifyEvent OnExitGame { get => FOnExitGameEvent; set => FOnExitGameEvent = value; }
+    public TNotifyEvent<TObject> OnExitGame { get => FOnExitGameEvent; set => FOnExitGameEvent = value; }
 }
 
 public delegate void TMapEvent();
 public delegate void TMapPlayerEvent(sbyte Player);
 public delegate void TMapDayEvent(int Day);
-public delegate void TMapObjectEvent(TObject Obj);
+public delegate void TMapObjectEvent<in TSender>(TSender Obj);
+public delegate void TMapRefEvent<TInfo>(ref TInfo Info);
 public delegate void TMapEndTurnEvent(sbyte Player, bool Automatic);
 public delegate void TMapExecuteLogEvent(TEventLog Log, bool Immediate, TExecuteDoneEvent Done);
 public delegate void TMapTargetEvent(TTargetSelectionControl Control, TTargetSelectionChange Change);

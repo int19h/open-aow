@@ -148,7 +148,7 @@ public partial class TSMTPDlg : TDataModule
     }
 
     // AoWSMTPDlg.pas:154
-    public void IMSThreadTerminatedEvent(TObject Sender)
+    public void IMSThreadTerminatedEvent()
     {
         FEvent.FSuccess = FThread.FSuccess;
         FFinished = true;
@@ -171,7 +171,7 @@ public partial class TSMTPDlg : TDataModule
     }
 
     // AoWSMTPDlg.pas:171
-    public void IMSSMTPProgress(TObject Sender, int Progress, int Total)
+    public void IMSSMTPProgress(int Progress, int Total)
     {
         if (Progress > FProgress)
         {
@@ -190,7 +190,7 @@ public partial class TSMTPDlg : TDataModule
     }
 
     // AoWSMTPDlg.pas:185
-    public void IMSSMTPError(TObject Sender, ref string Error)
+    public void IMSSMTPError(ref string Error)
     {
         if (FEvent != null)
         {

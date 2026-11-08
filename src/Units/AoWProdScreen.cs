@@ -616,7 +616,7 @@ public partial class TProductionScreen : TDataModule
 
                 break;
             case 2:
-                QueueLBChange(this);
+                QueueLBChange();
                 break;
         }
 
@@ -689,37 +689,37 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:231
-    public void ActivityChange(TObject Sender)
+    public void ActivityChange(TAOWCheckBox Sender, int Slot)
     {
         General.PlayButtonSound(1);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             ResetChecks();
-            SelectProduction(((TComponent)Sender).Tag);
-            ((TAOWCheckBox)Sender).Checked = true;
+            SelectProduction(Slot);
+            Sender.Checked = true;
         }
     }
 
     // AoWProdScreen.pas:242
-    public void ActivityDoubleClick(TObject Sender)
+    public void ActivityDoubleClick(TAOWCheckBox Sender, int Slot)
     {
         ResetChecks();
-        SelectProduction(((TComponent)Sender).Tag);
-        ((TAOWCheckBox)Sender).Checked = true;
-        MainBtn1Click(null);
+        SelectProduction(Slot);
+        Sender.Checked = true;
+        MainBtn1Click();
     }
 
     // AoWProdScreen.pas:250
-    public void ActivityPreDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void ActivityPreDraw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
     {
         TP2UnitShowInfo Info = default;
         TRect R;
         TUnit U;
         R = Rect(ActivityPnl2.WinLeft + Sender.WinLeft, ActivityPnl2.WinTop + Sender.WinTop, ActivityPnl2.WinLeft + Sender.WinLeft + Sender.WinWidth, ActivityPnl2.WinTop + Sender.WinTop + Sender.WinHeight);
-        switch (Sender.Tag)
+        switch (Slot)
         {
             case >= 0 and <= 3:
-                U = FPlace.FProductionControl.CreateUnitProduction(Sender.Tag);
+                U = FPlace.FProductionControl.CreateUnitProduction(Slot);
                 if (U != null)
                 {
                     Info.Direction = 3;
@@ -727,7 +727,7 @@ public partial class TProductionScreen : TDataModule
                     Info.Animation = 0;
                     Info.Frame = 0;
                     Info.Looped = false;
-                    if (!FPlace.FProductionControl.FUnitProductions.GetItem(Sender.Tag).FResearched)
+                    if (!FPlace.FProductionControl.FUnitProductions.GetItem(Slot).FResearched)
                     {
                         aowIntGfxModUnit.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
                         Info.Direction = 5;
@@ -775,7 +775,7 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:299
-    public void MainBtn1Click(TObject Sender)
+    public void MainBtn1Click()
     {
         string Reason = "";
         switch (FMode)
@@ -931,21 +931,21 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:389
-    public void UFaceDraw(TObject Sender, TSurfaceDesc SD)
+    public void UFaceDraw(TaowUserDrawBox Sender, TSurfaceDesc SD)
     {
         TUnit U;
         TRect R;
         U = FPlace.FProductionControl.CreateUnitProduction(FProductionIndex);
         if (U != null)
         {
-            R = Rect(UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + 2, UPictureFramePnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 4, UPictureFramePnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
+            R = Rect(UPictureFramePnl.WinLeft + Sender.WinLeft + 2, UPictureFramePnl.WinTop + Sender.WinTop + 2, UPictureFramePnl.WinLeft + Sender.WinLeft + Sender.WinWidth - 4, UPictureFramePnl.WinTop + Sender.WinTop + Sender.WinHeight - 2);
             U.ShowFace(R, SD);
             U.Release();
         }
     }
 
     // AoWProdScreen.pas:406
-    public void QueueLBChange(TObject Sender)
+    public void QueueLBChange()
     {
         var count = FPlace.FProductionControl.FQueue.GetCount();
         if (QueueLB.Selected < count && FMode != 0)
@@ -1001,12 +1001,12 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:439
-    public void B4CBUpdate(TObject Sender)
+    public void B4CBUpdate(TAOWCheckBox Sender, int Slot)
     {
-        if (((TComponent)Sender).Tag <= 3)
+        if (Slot <= 3)
         {
-            var unitProduction = FPlace.FProductionControl.FUnitProductions.GetItem(((TComponent)Sender).Tag);
-            ((TAoWComponent)Sender).CaptureInput = unitProduction != null;
+            var unitProduction = FPlace.FProductionControl.FUnitProductions.GetItem(Slot);
+            Sender.CaptureInput = unitProduction != null;
         }
     }
 
@@ -1017,7 +1017,7 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:450
-    public void CurrentActionImageDraw(TObject Sender, TSurfaceDesc SD)
+    public void CurrentActionImageDraw(TAOWImage Sender, TSurfaceDesc SD)
     {
         TP2UnitShowInfo Info = default;
         TRect R;
@@ -1026,7 +1026,7 @@ public partial class TProductionScreen : TDataModule
         {
             if (FPlace.FProductionControl.FQueue.GetItem(0).Order.UnitProductionIndex != null)
             {
-                R = Rect(ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActiveActionPnl.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActiveActionPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+                R = Rect(ActiveActionPnl.WinLeft + Sender.WinLeft, ActiveActionPnl.WinTop + Sender.WinTop, ActiveActionPnl.WinLeft + Sender.WinLeft + Sender.WinWidth, ActiveActionPnl.WinTop + Sender.WinTop + Sender.WinHeight);
                 var productionPlaceControl = FPlace.FProductionControl;
                 if (productionPlaceControl.FUnitProductions.GetItem(productionPlaceControl.FSettings.FUnitProductionIndex) != null)
                 {
@@ -1047,7 +1047,7 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:483
-    public void MapViewDraw(TObject Sender, TSurfaceDesc SD)
+    public void MapViewDraw(TaowUserDrawBox Sender, TSurfaceDesc SD)
     {
         TSurfaceDesc ViewSD = default;
         TRect R;
@@ -1056,7 +1056,7 @@ public partial class TProductionScreen : TDataModule
         int Width;
         if (FPreview != null)
         {
-            R = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+            R = Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
             Width = R.Right - R.Left;
             W = Width;
             H = R.Bottom - R.Top;
@@ -1094,7 +1094,7 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:510
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         switch (Key)
         {
@@ -1140,7 +1140,7 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:535
-    public void UAbilitiesLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void UAbilitiesLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility A;
         if (Button == TMouseButton.mbRight && UAbilitiesLB.Selected > -1)

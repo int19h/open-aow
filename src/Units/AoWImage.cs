@@ -1,5 +1,6 @@
 // Translated from AoWImage.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using static Aow.Rtl.RtlUnit;
 
@@ -180,6 +181,60 @@ public partial class TAOWImage : TAOWControl
 
     [Published]
     public int AnimFrameDelay { get => FAnimFrameDelay; set => FAnimFrameDelay = value; }
+
+    public new TNotifyEvent<TAOWImage> OnChange
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAOWImage> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWImage> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWImage> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWImage> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWImage> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWImage> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWImage> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWImage> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWImage.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWImage.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AoWImageUnit

@@ -38,8 +38,8 @@ public partial class TMagicWin : ILayoutModule
         Dlg.WinTop = 272;
         Dlg.WinWidth = 440;
         Dlg.Masked = false;
-        Dlg.OnHide = Layout_DlgHide_0;
-        Dlg.OnShow = Layout_DlgShow_1;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
+        Dlg.OnShow = _ => Layout_DlgShow_1();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
         Dlg.Alignment.HeightPercent = 0;
@@ -65,7 +65,7 @@ public partial class TMagicWin : ILayoutModule
         Dlg.DragHeight = 20;
         Dlg.Draggable = true;
         Dlg.Resizable = true;
-        Dlg.OnResize = Layout_DlgResize_2;
+        Dlg.OnResize = _ => Layout_DlgResize_2();
         Dlg.MinWidth = 440;
         Dlg.MinHeight = 160;
         Dlg.MaxWidth = 1280;
@@ -154,7 +154,7 @@ public partial class TMagicWin : ILayoutModule
             "POWER"
         };
         HeaderTab.BorderHeight = 6;
-        HeaderTab.OnChange = Layout_HeaderTabChange_3;
+        HeaderTab.OnChange = _ => Layout_HeaderTabChange_3();
         HeaderTab.Selected = 0;
         HeaderTab.WinWidth = 433;
         HeaderTab.TextColor = 0;
@@ -350,7 +350,7 @@ public partial class TMagicWin : ILayoutModule
         EnchantmentList = new TAOWListBox(this);
         session.BeginRead(EnchantmentList);
         EnchantmentList.Name = "EnchantmentList";
-        EnchantmentList.OnMouseDown = EnchantmentListMouseDown;
+        EnchantmentList.OnMouseDown = (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
         EnchantmentList.Priority = 30;
         EnchantmentList.WinLeft = 1;
         EnchantmentList.WinTop = 14;
@@ -372,8 +372,8 @@ public partial class TMagicWin : ILayoutModule
         EnchantmentList.WinHeight = 73;
         EnchantmentList.BorderWidth = 6;
         EnchantmentList.BorderHeight = 3;
-        EnchantmentList.OnChange = Layout_EnchantmentListChange_4;
-        EnchantmentList.OnDoubleClick = Layout_EnchantmentListDoubleClick_5;
+        EnchantmentList.OnChange = _ => Layout_EnchantmentListChange_4();
+        EnchantmentList.OnDoubleClick = _ => Layout_EnchantmentListDoubleClick_5();
         EnchantmentList.Selected = -1;
         EnchantmentList.TextColor = 9415072;
         EnchantmentList.TextSelColor = 0;
@@ -412,12 +412,12 @@ public partial class TMagicWin : ILayoutModule
         EnchantmentSortBtn.TextColor = 0;
         EnchantmentSortBtn.TextSelColor = 16777215;
         EnchantmentSortBtn.WinWidth = 160;
-        EnchantmentSortBtn.OnClick = Layout_EnchantmentSortBtnClick_6;
+        EnchantmentSortBtn.OnClick = _ => Layout_EnchantmentSortBtnClick_6();
         session.EndRead(EnchantmentSortBtn);
         UpkeepList = new TAOWListBox(this);
         session.BeginRead(UpkeepList);
         UpkeepList.Name = "UpkeepList";
-        UpkeepList.OnMouseDown = EnchantmentListMouseDown;
+        UpkeepList.OnMouseDown = (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
         UpkeepList.Priority = 10;
         UpkeepList.WinLeft = 344;
         UpkeepList.WinTop = 14;
@@ -439,8 +439,8 @@ public partial class TMagicWin : ILayoutModule
         UpkeepList.WinHeight = 73;
         UpkeepList.BorderWidth = 6;
         UpkeepList.BorderHeight = 3;
-        UpkeepList.OnChange = Layout_UpkeepListChange_7;
-        UpkeepList.OnDoubleClick = Layout_EnchantmentListDoubleClick_5;
+        UpkeepList.OnChange = _ => Layout_UpkeepListChange_7();
+        UpkeepList.OnDoubleClick = _ => Layout_EnchantmentListDoubleClick_5();
         UpkeepList.Selected = -1;
         UpkeepList.TextColor = 9415072;
         UpkeepList.TextSelColor = 0;
@@ -479,12 +479,12 @@ public partial class TMagicWin : ILayoutModule
         UpkeepSortBtn.TextColor = 0;
         UpkeepSortBtn.TextSelColor = 16777215;
         UpkeepSortBtn.WinWidth = 77;
-        UpkeepSortBtn.OnClick = Layout_UpkeepSortBtnClick_8;
+        UpkeepSortBtn.OnClick = _ => Layout_UpkeepSortBtnClick_8();
         session.EndRead(UpkeepSortBtn);
         BindingList = new TAOWListBox(this);
         session.BeginRead(BindingList);
         BindingList.Name = "BindingList";
-        BindingList.OnMouseDown = EnchantmentListMouseDown;
+        BindingList.OnMouseDown = (_, button, shift, x, y) => EnchantmentListMouseDown(button, shift, x, y);
         BindingList.Priority = 20;
         BindingList.WinLeft = 160;
         BindingList.WinTop = 14;
@@ -506,8 +506,8 @@ public partial class TMagicWin : ILayoutModule
         BindingList.WinHeight = 73;
         BindingList.BorderWidth = 6;
         BindingList.BorderHeight = 3;
-        BindingList.OnChange = Layout_BindingListChange_9;
-        BindingList.OnDoubleClick = Layout_EnchantmentListDoubleClick_5;
+        BindingList.OnChange = _ => Layout_BindingListChange_9();
+        BindingList.OnDoubleClick = _ => Layout_EnchantmentListDoubleClick_5();
         BindingList.Selected = -1;
         BindingList.TextColor = 9415072;
         BindingList.TextSelColor = 0;
@@ -546,7 +546,7 @@ public partial class TMagicWin : ILayoutModule
         BindingSortBtn.TextColor = 0;
         BindingSortBtn.TextSelColor = 16777215;
         BindingSortBtn.WinWidth = 186;
-        BindingSortBtn.OnClick = Layout_BindingSortBtnClick_10;
+        BindingSortBtn.OnClick = _ => Layout_BindingSortBtnClick_10();
         session.EndRead(BindingSortBtn);
         ResPnl = new TAOWPanel(this);
         session.BeginRead(ResPnl);
@@ -706,7 +706,7 @@ public partial class TMagicWin : ILayoutModule
         GlobalEnchantmentList = new TAOWListBox(this);
         session.BeginRead(GlobalEnchantmentList);
         GlobalEnchantmentList.Name = "GlobalEnchantmentList";
-        GlobalEnchantmentList.OnMouseDown = GlobalEnchantmentMouseDown;
+        GlobalEnchantmentList.OnMouseDown = (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
         GlobalEnchantmentList.Priority = 30;
         GlobalEnchantmentList.WinLeft = 1;
         GlobalEnchantmentList.WinTop = 14;
@@ -728,7 +728,7 @@ public partial class TMagicWin : ILayoutModule
         GlobalEnchantmentList.WinHeight = 73;
         GlobalEnchantmentList.BorderWidth = 6;
         GlobalEnchantmentList.BorderHeight = 3;
-        GlobalEnchantmentList.OnChange = Layout_GlobalEnchantmentListChange_11;
+        GlobalEnchantmentList.OnChange = _ => Layout_GlobalEnchantmentListChange_11();
         GlobalEnchantmentList.Selected = -1;
         GlobalEnchantmentList.TextColor = 9415072;
         GlobalEnchantmentList.TextSelColor = 0;
@@ -767,12 +767,12 @@ public partial class TMagicWin : ILayoutModule
         GlobalEnchantmentSortBtn.TextColor = 0;
         GlobalEnchantmentSortBtn.TextSelColor = 16777215;
         GlobalEnchantmentSortBtn.WinWidth = 160;
-        GlobalEnchantmentSortBtn.OnClick = Layout_GlobalEnchantmentSortBtnClick_12;
+        GlobalEnchantmentSortBtn.OnClick = _ => Layout_GlobalEnchantmentSortBtnClick_12();
         session.EndRead(GlobalEnchantmentSortBtn);
         GlobalUpkeepList = new TAOWListBox(this);
         session.BeginRead(GlobalUpkeepList);
         GlobalUpkeepList.Name = "GlobalUpkeepList";
-        GlobalUpkeepList.OnMouseDown = GlobalEnchantmentMouseDown;
+        GlobalUpkeepList.OnMouseDown = (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
         GlobalUpkeepList.Priority = 10;
         GlobalUpkeepList.WinLeft = 344;
         GlobalUpkeepList.WinTop = 14;
@@ -794,7 +794,7 @@ public partial class TMagicWin : ILayoutModule
         GlobalUpkeepList.WinHeight = 73;
         GlobalUpkeepList.BorderWidth = 6;
         GlobalUpkeepList.BorderHeight = 3;
-        GlobalUpkeepList.OnChange = Layout_GlobalUpkeepListChange_13;
+        GlobalUpkeepList.OnChange = _ => Layout_GlobalUpkeepListChange_13();
         GlobalUpkeepList.Selected = -1;
         GlobalUpkeepList.TextColor = 9415072;
         GlobalUpkeepList.TextSelColor = 0;
@@ -833,12 +833,12 @@ public partial class TMagicWin : ILayoutModule
         GlobalUpkeepSortBtn.TextColor = 0;
         GlobalUpkeepSortBtn.TextSelColor = 16777215;
         GlobalUpkeepSortBtn.WinWidth = 77;
-        GlobalUpkeepSortBtn.OnClick = Layout_GlobalUpkeepSortBtnClick_14;
+        GlobalUpkeepSortBtn.OnClick = _ => Layout_GlobalUpkeepSortBtnClick_14();
         session.EndRead(GlobalUpkeepSortBtn);
         GlobalNameList = new TAOWListBox(this);
         session.BeginRead(GlobalNameList);
         GlobalNameList.Name = "GlobalNameList";
-        GlobalNameList.OnMouseDown = GlobalEnchantmentMouseDown;
+        GlobalNameList.OnMouseDown = (_, button, shift, x, y) => GlobalEnchantmentMouseDown(button, shift, x, y);
         GlobalNameList.Priority = 20;
         GlobalNameList.WinLeft = 160;
         GlobalNameList.WinTop = 14;
@@ -860,7 +860,7 @@ public partial class TMagicWin : ILayoutModule
         GlobalNameList.WinHeight = 73;
         GlobalNameList.BorderWidth = 6;
         GlobalNameList.BorderHeight = 3;
-        GlobalNameList.OnChange = Layout_GlobalNameListChange_15;
+        GlobalNameList.OnChange = _ => Layout_GlobalNameListChange_15();
         GlobalNameList.Selected = -1;
         GlobalNameList.TextColor = 9415072;
         GlobalNameList.TextSelColor = 0;
@@ -899,7 +899,7 @@ public partial class TMagicWin : ILayoutModule
         GlobalNameSortBtn.TextColor = 0;
         GlobalNameSortBtn.TextSelColor = 16777215;
         GlobalNameSortBtn.WinWidth = 186;
-        GlobalNameSortBtn.OnClick = Layout_GlobalNameSortBtnClick_16;
+        GlobalNameSortBtn.OnClick = _ => Layout_GlobalNameSortBtnClick_16();
         session.EndRead(GlobalNameSortBtn);
         RightPnl = new TAOWPanel(this);
         session.BeginRead(RightPnl);
@@ -981,7 +981,7 @@ public partial class TMagicWin : ILayoutModule
         GlobalDispelBtn.TextColor = 0;
         GlobalDispelBtn.TextSelColor = 16777215;
         GlobalDispelBtn.WinWidth = 160;
-        GlobalDispelBtn.OnClick = Layout_GlobalDispelBtnClick_17;
+        GlobalDispelBtn.OnClick = _ => Layout_GlobalDispelBtnClick_17();
         session.EndRead(GlobalDispelBtn);
         DispelBtn = new TAOWButton(this);
         session.BeginRead(DispelBtn);
@@ -1013,7 +1013,7 @@ public partial class TMagicWin : ILayoutModule
         DispelBtn.TextColor = 0;
         DispelBtn.TextSelColor = 16777215;
         DispelBtn.WinWidth = 160;
-        DispelBtn.OnClick = Layout_DispelBtnClick_18;
+        DispelBtn.OnClick = _ => Layout_DispelBtnClick_18();
         session.EndRead(DispelBtn);
         ResearchBtn = new TAOWButton(this);
         session.BeginRead(ResearchBtn);
@@ -1048,7 +1048,7 @@ public partial class TMagicWin : ILayoutModule
         ResearchBtn.TextColor = 0;
         ResearchBtn.TextSelColor = 16777215;
         ResearchBtn.WinWidth = 183;
-        ResearchBtn.OnClick = Layout_ResearchBtnClick_19;
+        ResearchBtn.OnClick = _ => Layout_ResearchBtnClick_19();
         session.EndRead(ResearchBtn);
         ResearchTurnsLeft = new TAOWLabel(this);
         session.BeginRead(ResearchTurnsLeft);
@@ -1207,7 +1207,7 @@ public partial class TMagicWin : ILayoutModule
         Minimize.TextColor = 0;
         Minimize.TextSelColor = 0;
         Minimize.WinWidth = 15;
-        Minimize.OnClick = Layout_MinimizeClick_20;
+        Minimize.OnClick = _ => Layout_MinimizeClick_20();
         session.EndRead(Minimize);
         ChangePowerBut = new TAOWButton(this);
         session.BeginRead(ChangePowerBut);
@@ -1242,7 +1242,7 @@ public partial class TMagicWin : ILayoutModule
         ChangePowerBut.TextColor = 0;
         ChangePowerBut.TextSelColor = 16777215;
         ChangePowerBut.WinWidth = 183;
-        ChangePowerBut.OnClick = Layout_ChangePowerButClick_21;
+        ChangePowerBut.OnClick = _ => Layout_ChangePowerButClick_21();
         session.EndRead(ChangePowerBut);
         Power = new TAOWLabel(this);
         session.BeginRead(Power);
@@ -1452,7 +1452,7 @@ public partial class TMagicWin : ILayoutModule
         PowerValueList = new TAOWListBox(this);
         session.BeginRead(PowerValueList);
         PowerValueList.Name = "PowerValueList";
-        PowerValueList.OnMouseDown = PowerValueListMouseDown;
+        PowerValueList.OnMouseDown = (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
         PowerValueList.Priority = 10;
         PowerValueList.WinLeft = 344;
         PowerValueList.WinTop = 14;
@@ -1474,8 +1474,8 @@ public partial class TMagicWin : ILayoutModule
         PowerValueList.WinHeight = 92;
         PowerValueList.BorderWidth = 6;
         PowerValueList.BorderHeight = 3;
-        PowerValueList.OnChange = Layout_PowerValueListChange_22;
-        PowerValueList.OnDoubleClick = Layout_PowerSourceListDoubleClick_23;
+        PowerValueList.OnChange = _ => Layout_PowerValueListChange_22();
+        PowerValueList.OnDoubleClick = _ => Layout_PowerSourceListDoubleClick_23();
         PowerValueList.Selected = -1;
         PowerValueList.TextColor = 9415072;
         PowerValueList.TextSelColor = 0;
@@ -1514,12 +1514,12 @@ public partial class TMagicWin : ILayoutModule
         PowerValueSortBtn.TextColor = 0;
         PowerValueSortBtn.TextSelColor = 16777215;
         PowerValueSortBtn.WinWidth = 78;
-        PowerValueSortBtn.OnClick = Layout_PowerValueSortBtnClick_24;
+        PowerValueSortBtn.OnClick = _ => Layout_PowerValueSortBtnClick_24();
         session.EndRead(PowerValueSortBtn);
         PowerSourceList = new TAOWListBox(this);
         session.BeginRead(PowerSourceList);
         PowerSourceList.Name = "PowerSourceList";
-        PowerSourceList.OnMouseDown = PowerValueListMouseDown;
+        PowerSourceList.OnMouseDown = (_, button, shift, x, y) => PowerValueListMouseDown(button, shift, x, y);
         PowerSourceList.Priority = 20;
         PowerSourceList.WinLeft = 1;
         PowerSourceList.WinTop = 14;
@@ -1541,8 +1541,8 @@ public partial class TMagicWin : ILayoutModule
         PowerSourceList.WinHeight = 92;
         PowerSourceList.BorderWidth = 6;
         PowerSourceList.BorderHeight = 3;
-        PowerSourceList.OnChange = Layout_PowerSourceListChange_25;
-        PowerSourceList.OnDoubleClick = Layout_PowerSourceListDoubleClick_23;
+        PowerSourceList.OnChange = _ => Layout_PowerSourceListChange_25();
+        PowerSourceList.OnDoubleClick = _ => Layout_PowerSourceListDoubleClick_23();
         PowerSourceList.Selected = -1;
         PowerSourceList.TextColor = 9415072;
         PowerSourceList.TextSelColor = 0;
@@ -1581,7 +1581,7 @@ public partial class TMagicWin : ILayoutModule
         PowerSourceSortBtn.TextColor = 0;
         PowerSourceSortBtn.TextSelColor = 16777215;
         PowerSourceSortBtn.WinWidth = 344;
-        PowerSourceSortBtn.OnClick = Layout_PowerSourceSortBtnClick_26;
+        PowerSourceSortBtn.OnClick = _ => Layout_PowerSourceSortBtnClick_26();
         session.EndRead(PowerSourceSortBtn);
         T2BottonPnl = new TAOWPanel(this);
         session.BeginRead(T2BottonPnl);
@@ -1639,7 +1639,7 @@ public partial class TMagicWin : ILayoutModule
         EnchantmentSB.WinHeight = 73;
         EnchantmentSB.WinWidth = 17;
         EnchantmentSB.NumberVisible = 1;
-        EnchantmentSB.OnChange = Layout_EnchantmentSBChange_27;
+        EnchantmentSB.OnChange = _ => Layout_EnchantmentSBChange_27();
         EnchantmentSB.VanishWhenFull = true;
         EnchantmentSB.ILIndexIncUp = 96;
         EnchantmentSB.ILIndexIncDown = 97;
@@ -1677,7 +1677,7 @@ public partial class TMagicWin : ILayoutModule
         GlobalEnchantmentSB.WinHeight = 73;
         GlobalEnchantmentSB.WinWidth = 17;
         GlobalEnchantmentSB.NumberVisible = 1;
-        GlobalEnchantmentSB.OnChange = Layout_GlobalEnchantmentSBChange_28;
+        GlobalEnchantmentSB.OnChange = _ => Layout_GlobalEnchantmentSBChange_28();
         GlobalEnchantmentSB.VanishWhenFull = true;
         GlobalEnchantmentSB.ILIndexIncUp = 96;
         GlobalEnchantmentSB.ILIndexIncDown = 97;
@@ -1715,7 +1715,7 @@ public partial class TMagicWin : ILayoutModule
         PowerSB.WinHeight = 92;
         PowerSB.WinWidth = 17;
         PowerSB.NumberVisible = 1;
-        PowerSB.OnChange = Layout_PowerSBChange_29;
+        PowerSB.OnChange = _ => Layout_PowerSBChange_29();
         PowerSB.VanishWhenFull = true;
         PowerSB.ILIndexIncUp = 96;
         PowerSB.ILIndexIncDown = 97;
@@ -1873,7 +1873,7 @@ public partial class TMagicWin : ILayoutModule
         Help.TextColor = 0;
         Help.TextSelColor = 0;
         Help.WinWidth = 15;
-        Help.OnClick = Layout_HelpClick_30;
+        Help.OnClick = _ => Layout_HelpClick_30();
         session.EndRead(Help);
         session.EndRead(this);
         OWTitle.AOWWindow = Dlg;
@@ -2131,157 +2131,157 @@ public partial class TMagicWin : ILayoutModule
         Help.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_DlgShow_1(TObject p0)
+    private void Layout_DlgShow_1()
     {
         DlgShow();
     }
 
-    private void Layout_DlgResize_2(TObject p0)
+    private void Layout_DlgResize_2()
     {
         DlgResize();
     }
 
-    private void Layout_HeaderTabChange_3(TObject p0)
+    private void Layout_HeaderTabChange_3()
     {
         HeaderTabChange();
     }
 
-    private void Layout_EnchantmentListChange_4(TObject p0)
+    private void Layout_EnchantmentListChange_4()
     {
         EnchantmentListChange();
     }
 
-    private void Layout_EnchantmentListDoubleClick_5(TObject p0)
+    private void Layout_EnchantmentListDoubleClick_5()
     {
         EnchantmentListDoubleClick();
     }
 
-    private void Layout_EnchantmentSortBtnClick_6(TObject p0)
+    private void Layout_EnchantmentSortBtnClick_6()
     {
         EnchantmentSortBtnClick();
     }
 
-    private void Layout_UpkeepListChange_7(TObject p0)
+    private void Layout_UpkeepListChange_7()
     {
         UpkeepListChange();
     }
 
-    private void Layout_UpkeepSortBtnClick_8(TObject p0)
+    private void Layout_UpkeepSortBtnClick_8()
     {
         UpkeepSortBtnClick();
     }
 
-    private void Layout_BindingListChange_9(TObject p0)
+    private void Layout_BindingListChange_9()
     {
         BindingListChange();
     }
 
-    private void Layout_BindingSortBtnClick_10(TObject p0)
+    private void Layout_BindingSortBtnClick_10()
     {
         BindingSortBtnClick();
     }
 
-    private void Layout_GlobalEnchantmentListChange_11(TObject p0)
+    private void Layout_GlobalEnchantmentListChange_11()
     {
         GlobalEnchantmentListChange();
     }
 
-    private void Layout_GlobalEnchantmentSortBtnClick_12(TObject p0)
+    private void Layout_GlobalEnchantmentSortBtnClick_12()
     {
         GlobalEnchantmentSortBtnClick();
     }
 
-    private void Layout_GlobalUpkeepListChange_13(TObject p0)
+    private void Layout_GlobalUpkeepListChange_13()
     {
         GlobalUpkeepListChange();
     }
 
-    private void Layout_GlobalUpkeepSortBtnClick_14(TObject p0)
+    private void Layout_GlobalUpkeepSortBtnClick_14()
     {
         GlobalUpkeepSortBtnClick();
     }
 
-    private void Layout_GlobalNameListChange_15(TObject p0)
+    private void Layout_GlobalNameListChange_15()
     {
         GlobalNameListChange();
     }
 
-    private void Layout_GlobalNameSortBtnClick_16(TObject p0)
+    private void Layout_GlobalNameSortBtnClick_16()
     {
         GlobalNameSortBtnClick();
     }
 
-    private void Layout_GlobalDispelBtnClick_17(TObject p0)
+    private void Layout_GlobalDispelBtnClick_17()
     {
         GlobalDispelBtnClick();
     }
 
-    private void Layout_DispelBtnClick_18(TObject p0)
+    private void Layout_DispelBtnClick_18()
     {
         DispelBtnClick();
     }
 
-    private void Layout_ResearchBtnClick_19(TObject p0)
+    private void Layout_ResearchBtnClick_19()
     {
         ResearchBtnClick();
     }
 
-    private void Layout_MinimizeClick_20(TObject p0)
+    private void Layout_MinimizeClick_20()
     {
         MinimizeClick();
     }
 
-    private void Layout_ChangePowerButClick_21(TObject p0)
+    private void Layout_ChangePowerButClick_21()
     {
         ChangePowerButClick();
     }
 
-    private void Layout_PowerValueListChange_22(TObject p0)
+    private void Layout_PowerValueListChange_22()
     {
         PowerValueListChange();
     }
 
-    private void Layout_PowerSourceListDoubleClick_23(TObject p0)
+    private void Layout_PowerSourceListDoubleClick_23()
     {
         PowerSourceListDoubleClick();
     }
 
-    private void Layout_PowerValueSortBtnClick_24(TObject p0)
+    private void Layout_PowerValueSortBtnClick_24()
     {
         PowerValueSortBtnClick();
     }
 
-    private void Layout_PowerSourceListChange_25(TObject p0)
+    private void Layout_PowerSourceListChange_25()
     {
         PowerSourceListChange();
     }
 
-    private void Layout_PowerSourceSortBtnClick_26(TObject p0)
+    private void Layout_PowerSourceSortBtnClick_26()
     {
         PowerSourceSortBtnClick();
     }
 
-    private void Layout_EnchantmentSBChange_27(TObject p0)
+    private void Layout_EnchantmentSBChange_27()
     {
         EnchantmentSBChange();
     }
 
-    private void Layout_GlobalEnchantmentSBChange_28(TObject p0)
+    private void Layout_GlobalEnchantmentSBChange_28()
     {
         GlobalEnchantmentSBChange();
     }
 
-    private void Layout_PowerSBChange_29(TObject p0)
+    private void Layout_PowerSBChange_29()
     {
         PowerSBChange();
     }
 
-    private void Layout_HelpClick_30(TObject p0)
+    private void Layout_HelpClick_30()
     {
         HelpClick();
     }

@@ -1,6 +1,7 @@
 // Translated from Scanner.pas.
 using System.Runtime.CompilerServices;
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AoWE;
 using Aow.Units.AOWInterfaceImgLib;
@@ -32,7 +33,7 @@ public partial class TScanner : TAOWControl
     public bool FBuildings;
     public bool FArmies;
     public bool FNaturals;
-    public TNotifyEvent FOnMapPositionChange;
+    public TNotifyEvent<TScanner> FOnMapPositionChange;
     public int FSteps;
     public AoWE.TAbstractAoWHSMap FMap;
     public TInterfaceIL FILFrame;
@@ -968,7 +969,7 @@ public partial class TScanner : TAOWControl
     public bool Naturals { get => FNaturals; set => SetNaturals(value); }
 
     [Published]
-    public TNotifyEvent OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
+    public TNotifyEvent<TScanner> OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
 
     [Published]
     public int MapDrawSteps { get => FSteps; set => SetSteps(value); }
@@ -978,6 +979,60 @@ public partial class TScanner : TAOWControl
 
     [Published]
     public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
+
+    public new TNotifyEvent<TScanner> OnChange
+    {
+        get => EventSlot.Get(this, "TScanner.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TScanner> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TScanner.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TScanner> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TScanner.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TScanner> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TScanner.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TScanner> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TScanner.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TScanner> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TScanner.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TScanner> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TScanner.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TScanner> OnDraw
+    {
+        get => EventSlot.Get(this, "TScanner.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TScanner> OnUpdate
+    {
+        get => EventSlot.Get(this, "TScanner.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TScanner.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public enum TOType : byte

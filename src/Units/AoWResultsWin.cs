@@ -419,7 +419,7 @@ public partial class TResultsWin : TDataModule
     }
 
     // AoWResultsWin.pas:324
-    public void AxisDraw(TObject Sender, TSurfaceDesc Surface)
+    public void AxisDraw(TSurfaceDesc Surface)
     {
         DrawGraphs(Surface);
     }
@@ -437,36 +437,36 @@ public partial class TResultsWin : TDataModule
     }
 
     // AoWResultsWin.pas:339
-    public void P1CBPreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void P1CBPreDraw(TAOWCheckBox Sender, TSurfaceDesc Surface, int Slot)
     {
         TRect R;
-        var component = (TAoWComponent)Sender;
-        if (component.Tag < FPlayers.Count)
+        var component = Sender;
+        if (Slot < FPlayers.Count)
         {
             R = Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
-            var player = FPlayers[component.Tag];
+            var player = FPlayers[Slot];
             if (AoWHSMap.FPlayers.GetPlayers(player).GetFace() != null)
             {
-                var player2 = FPlayers[component.Tag];
+                var player2 = FPlayers[Slot];
                 AoWHSMap.FPlayers.GetPlayers(player2).FLeader.ShowFace(R, Surface);
             }
 
-            var player3 = FPlayers[component.Tag];
+            var player3 = FPlayers[Slot];
             var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player3);
             IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
         }
     }
 
     // AoWResultsWin.pas:355
-    public void P1CBChange(TObject Sender)
+    public void P1CBChange(TAOWCheckBox Sender, int Slot)
     {
         TAOWCheckBox Control;
-        Control = (TAOWCheckBox)Sender;
+        Control = Sender;
         if (Control.Checked)
         {
-            if (FPlayers.Count > Control.Tag)
+            if (FPlayers.Count > Slot)
             {
-                var player = FPlayers[Control.Tag];
+                var player = FPlayers[Slot];
                 var nameEx = AoWHSMap.FPlayers.GetPlayers(player).GetNameEx();
                 SideLbl.Text = nameEx;
             }

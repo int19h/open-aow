@@ -818,7 +818,7 @@ public partial class TSongPlayer : TObject
     internal TStringList FSongs;
     internal TStringList FSongNames;
     internal int FCurrentIndex;
-    internal TNotifyEvent FOnSongChange;
+    internal TNotifyEvent<TObject> FOnSongChange;
     internal TSongStatus FBackup;
     internal int FPauseCount;
 
@@ -1066,7 +1066,7 @@ public partial class TSongPlayer : TObject
     public TStringList Songs { get => FSongs; set => SetSongs(value); }
     public TStringList SongNames { get => FSongNames; }
     public int CurrentIndex { get => FCurrentIndex; }
-    public TNotifyEvent OnSongChange { get => FOnSongChange; set => FOnSongChange = value; }
+    public TNotifyEvent<TObject> OnSongChange { get => FOnSongChange; set => FOnSongChange = value; }
 
 }
 

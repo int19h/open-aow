@@ -34,7 +34,7 @@ public partial class TMsgReceiveDlg : ILayoutModule
         MsgReceiveWin.WinTop = 85;
         MsgReceiveWin.WinWidth = 384;
         MsgReceiveWin.Masked = true;
-        MsgReceiveWin.OnHide = Layout_MsgReceiveWinHide_0;
+        MsgReceiveWin.OnHide = _ => Layout_MsgReceiveWinHide_0();
         MsgReceiveWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         MsgReceiveWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         MsgReceiveWin.Alignment.HeightPercent = 0;
@@ -137,7 +137,7 @@ public partial class TMsgReceiveDlg : ILayoutModule
         Close.TextColor = 855324;
         Close.TextSelColor = 16777215;
         Close.WinWidth = 140;
-        Close.OnClick = Layout_CloseClick_1;
+        Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
         MessageSB = new TAOWVScrollBar(this);
         session.BeginRead(MessageSB);
@@ -325,12 +325,12 @@ public partial class TMsgReceiveDlg : ILayoutModule
         HeaderMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
     }
 
-    private void Layout_MsgReceiveWinHide_0(TObject p0)
+    private void Layout_MsgReceiveWinHide_0()
     {
         MsgReceiveWinHide();
     }
 
-    private void Layout_CloseClick_1(TObject p0)
+    private void Layout_CloseClick_1()
     {
         CloseClick();
     }

@@ -1,5 +1,6 @@
 // Translated from AoWFrame.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AOWMenu;
@@ -352,6 +353,60 @@ public partial class TAoWFrame : TAOWControl
 
     [Published]
     public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+
+    public new TNotifyEvent<TAoWFrame> OnChange
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAoWFrame> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAoWFrame> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAoWFrame> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAoWFrame> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAoWFrame> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAoWFrame> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAoWFrame> OnDraw
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAoWFrame> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAoWFrame.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAoWFrame.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AoWFrameUnit

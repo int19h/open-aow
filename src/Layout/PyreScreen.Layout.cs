@@ -25,9 +25,9 @@ public partial class TPyreScreen : ILayoutModule
         DeadPnl = new TAOWPanel(this);
         session.BeginRead(DeadPnl);
         DeadPnl.Name = "DeadPnl";
-        DeadPnl.OnMouseDown = DeadPnlMouseDown;
-        DeadPnl.OnKeyDown = DeadPnlKeyDown;
-        DeadPnl.OnUpdate = Layout_DeadPnlUpdate_0;
+        DeadPnl.OnMouseDown = (_, button, shift, x, y) => DeadPnlMouseDown(button, shift, x, y);
+        DeadPnl.OnKeyDown = (_, ref key, shift) => DeadPnlKeyDown(ref key, shift);
+        DeadPnl.OnUpdate = _ => Layout_DeadPnlUpdate_0();
         DeadPnl.Visible = false;
         DeadPnl.Priority = 5;
         DeadPnl.WinLeft = 0;
@@ -84,7 +84,7 @@ public partial class TPyreScreen : ILayoutModule
         LeaderFaceFr = new TAOWImage(this);
         session.BeginRead(LeaderFaceFr);
         LeaderFaceFr.Name = "LeaderFaceFr";
-        LeaderFaceFr.OnPreDraw = LeaderFaceFrPreDraw;
+        LeaderFaceFr.OnPreDraw = (_, SurfDesc) => LeaderFaceFrPreDraw(SurfDesc);
         LeaderFaceFr.Priority = 1000;
         LeaderFaceFr.WinLeft = 225;
         LeaderFaceFr.WinTop = 5;
@@ -113,8 +113,8 @@ public partial class TPyreScreen : ILayoutModule
         PyreAnimation = new TaowUserDrawBox(this);
         session.BeginRead(PyreAnimation);
         PyreAnimation.Name = "PyreAnimation";
-        PyreAnimation.OnDraw = PyreAnimationDraw;
-        PyreAnimation.OnUpdate = Layout_PyreAnimationUpdate_1;
+        PyreAnimation.OnDraw = (_, SurfDesc) => PyreAnimationDraw(SurfDesc);
+        PyreAnimation.OnUpdate = _ => Layout_PyreAnimationUpdate_1();
         PyreAnimation.Priority = 10;
         PyreAnimation.WinLeft = 0;
         PyreAnimation.WinTop = 0;
@@ -150,12 +150,12 @@ public partial class TPyreScreen : ILayoutModule
         LeaderFaceFr.ImageLib = aowIntGfxModUnit.IntGfxMod.PyreFrames;
     }
 
-    private void Layout_DeadPnlUpdate_0(TObject p0)
+    private void Layout_DeadPnlUpdate_0()
     {
         DeadPnlUpdate();
     }
 
-    private void Layout_PyreAnimationUpdate_1(TObject p0)
+    private void Layout_PyreAnimationUpdate_1()
     {
         PyreAnimationUpdate();
     }

@@ -31,14 +31,14 @@ public partial class TSendEmailGameDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 130;
         Dlg.WinTop = 81;
         Dlg.WinWidth = 380;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -290,7 +290,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         OKBtn.TextColor = 0;
         OKBtn.TextSelColor = 16777215;
         OKBtn.WinWidth = 120;
-        OKBtn.OnClick = Layout_OKBtnClick_1;
+        OKBtn.OnClick = _ => Layout_OKBtnClick_1();
         session.EndRead(OKBtn);
         ExitBtn = new TAOWButton(this);
         session.BeginRead(ExitBtn);
@@ -325,7 +325,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ExitBtn.TextColor = 0;
         ExitBtn.TextSelColor = 16777215;
         ExitBtn.WinWidth = 120;
-        ExitBtn.OnClick = Layout_ExitBtnClick_2;
+        ExitBtn.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(ExitBtn);
         EmailAddressEdit = new TAOWEdit(this);
         session.BeginRead(EmailAddressEdit);
@@ -355,7 +355,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         EmailAddressEdit.WinWidth = 279;
         EmailAddressEdit.BorderWidth = 8;
         EmailAddressEdit.BorderHeight = 5;
-        EmailAddressEdit.OnChange = Layout_EmailAddressEditChange_3;
+        EmailAddressEdit.OnChange = _ => Layout_EmailAddressEditChange_3();
         EmailAddressEdit.MaxChars = 0;
         EmailAddressEdit.CursorChar = 95;
         EmailAddressEdit.BlinkDelay = 1;
@@ -667,7 +667,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_ExitBtnClick_2;
+        Close.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(Close);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -760,22 +760,22 @@ public partial class TSendEmailGameDlg : ILayoutModule
         Close.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_OKBtnClick_1(TObject p0)
+    private void Layout_OKBtnClick_1()
     {
         OKBtnClick();
     }
 
-    private void Layout_ExitBtnClick_2(TObject p0)
+    private void Layout_ExitBtnClick_2()
     {
         ExitBtnClick();
     }
 
-    private void Layout_EmailAddressEditChange_3(TObject p0)
+    private void Layout_EmailAddressEditChange_3()
     {
         EmailAddressEditChange();
     }

@@ -130,7 +130,7 @@ public partial class TTargetSelectionDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_0;
+        Close.OnClick = _ => Layout_CloseClick_0();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -212,7 +212,7 @@ public partial class TTargetSelectionDlg : ILayoutModule
         MainBtn.TextColor = 0;
         MainBtn.TextSelColor = 16777215;
         MainBtn.WinWidth = 110;
-        MainBtn.OnClick = Layout_MainBtnClick_1;
+        MainBtn.OnClick = _ => Layout_MainBtnClick_1();
         session.EndRead(MainBtn);
         DefaultMemo = new TAOWMemo(this);
         session.BeginRead(DefaultMemo);
@@ -517,12 +517,12 @@ public partial class TTargetSelectionDlg : ILayoutModule
         TargetLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
     }
 
-    private void Layout_CloseClick_0(TObject p0)
+    private void Layout_CloseClick_0()
     {
         CloseClick();
     }
 
-    private void Layout_MainBtnClick_1(TObject p0)
+    private void Layout_MainBtnClick_1()
     {
         MainBtnClick();
     }

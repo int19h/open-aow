@@ -28,8 +28,8 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "EmailGameSettingsDlg";
-        LayoutOnCreate = Layout_EmailGameSettingsDlgCreate_0;
-        LayoutOnDestroy = Layout_EmailGameSettingsDlgDestroy_1;
+        LayoutOnCreate = _ => Layout_EmailGameSettingsDlgCreate_0();
+        LayoutOnDestroy = _ => Layout_EmailGameSettingsDlgDestroy_1();
         OKBtn = new TAOWButton(this);
         session.BeginRead(OKBtn);
         OKBtn.Name = "OKBtn";
@@ -59,7 +59,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         OKBtn.TextColor = 0;
         OKBtn.TextSelColor = 16777215;
         OKBtn.WinWidth = 110;
-        OKBtn.OnClick = OKBtnClick;
+        OKBtn.OnClick = _ => OKBtnClick();
         session.EndRead(OKBtn);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -141,12 +141,12 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         CancelBut.TextColor = 0;
         CancelBut.TextSelColor = 16777215;
         CancelBut.WinWidth = 110;
-        CancelBut.OnClick = Layout_CancelButClick_2;
+        CancelBut.OnClick = _ => Layout_CancelButClick_2();
         session.EndRead(CancelBut);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 520;
         Dlg.WinLeft = 95;
@@ -296,7 +296,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         LocalEmailAddressEdit = new TAOWEdit(this);
         session.BeginRead(LocalEmailAddressEdit);
         LocalEmailAddressEdit.Name = "LocalEmailAddressEdit";
-        LocalEmailAddressEdit.OnUpdate = Layout_LocalEmailAddressEditUpdate_3;
+        LocalEmailAddressEdit.OnUpdate = _ => Layout_LocalEmailAddressEditUpdate_3();
         LocalEmailAddressEdit.Priority = 0;
         LocalEmailAddressEdit.WinLeft = 1;
         LocalEmailAddressEdit.WinTop = 0;
@@ -371,7 +371,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         EmailAddressEdit1.WinWidth = 230;
         EmailAddressEdit1.BorderWidth = 8;
         EmailAddressEdit1.BorderHeight = 5;
-        EmailAddressEdit1.OnChange = EmailAddressEdit1Change;
+        EmailAddressEdit1.OnChange = sender => EmailAddressEdit1Change(sender, 0);
         EmailAddressEdit1.MaxChars = 0;
         EmailAddressEdit1.CursorChar = 95;
         EmailAddressEdit1.BlinkDelay = 1;
@@ -457,7 +457,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         PlayerSB.WinHeight = 121;
         PlayerSB.WinWidth = 17;
         PlayerSB.NumberVisible = 4;
-        PlayerSB.OnChange = Layout_PlayerSBChange_4;
+        PlayerSB.OnChange = _ => Layout_PlayerSBChange_4();
         PlayerSB.VanishWhenFull = true;
         PlayerSB.ILIndexIncUp = 96;
         PlayerSB.ILIndexIncDown = 97;
@@ -534,7 +534,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         EmailAddressEdit2.WinWidth = 230;
         EmailAddressEdit2.BorderWidth = 8;
         EmailAddressEdit2.BorderHeight = 6;
-        EmailAddressEdit2.OnChange = EmailAddressEdit1Change;
+        EmailAddressEdit2.OnChange = sender => EmailAddressEdit1Change(sender, 1);
         EmailAddressEdit2.MaxChars = 0;
         EmailAddressEdit2.CursorChar = 95;
         EmailAddressEdit2.BlinkDelay = 1;
@@ -567,7 +567,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         EmailAddressEdit3.WinWidth = 230;
         EmailAddressEdit3.BorderWidth = 8;
         EmailAddressEdit3.BorderHeight = 6;
-        EmailAddressEdit3.OnChange = EmailAddressEdit1Change;
+        EmailAddressEdit3.OnChange = sender => EmailAddressEdit1Change(sender, 2);
         EmailAddressEdit3.MaxChars = 0;
         EmailAddressEdit3.CursorChar = 95;
         EmailAddressEdit3.BlinkDelay = 1;
@@ -622,7 +622,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         EmailAddressEdit4.WinWidth = 230;
         EmailAddressEdit4.BorderWidth = 8;
         EmailAddressEdit4.BorderHeight = 6;
-        EmailAddressEdit4.OnChange = EmailAddressEdit1Change;
+        EmailAddressEdit4.OnChange = sender => EmailAddressEdit1Change(sender, 3);
         EmailAddressEdit4.MaxChars = 0;
         EmailAddressEdit4.CursorChar = 95;
         EmailAddressEdit4.BlinkDelay = 1;
@@ -714,7 +714,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         SettingsBtn.TextColor = 0;
         SettingsBtn.TextSelColor = 16777215;
         SettingsBtn.WinWidth = 135;
-        SettingsBtn.OnClick = Layout_SettingsBtnClick_5;
+        SettingsBtn.OnClick = _ => Layout_SettingsBtnClick_5();
         session.EndRead(SettingsBtn);
         Player1Pnl = new TAOWPanel(this);
         session.BeginRead(Player1Pnl);
@@ -723,7 +723,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         Player1Pnl.WinLeft = 1;
         Player1Pnl.WinTop = 0;
         Player1Pnl.WinWidth = 120;
-        Player1Pnl.OnDrawBack = Player6PnlDrawBack;
+        Player1Pnl.OnDrawBack = (sender, surface) => Player6PnlDrawBack(sender, surface, 0);
         Player1Pnl.Masked = true;
         Player1Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Player1Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -779,7 +779,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         Player2Pnl.WinLeft = 1;
         Player2Pnl.WinTop = 20;
         Player2Pnl.WinWidth = 120;
-        Player2Pnl.OnDrawBack = Player6PnlDrawBack;
+        Player2Pnl.OnDrawBack = (sender, surface) => Player6PnlDrawBack(sender, surface, 1);
         Player2Pnl.Masked = true;
         Player2Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Player2Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -808,7 +808,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         Player3Pnl.WinLeft = 1;
         Player3Pnl.WinTop = 40;
         Player3Pnl.WinWidth = 120;
-        Player3Pnl.OnDrawBack = Player6PnlDrawBack;
+        Player3Pnl.OnDrawBack = (sender, surface) => Player6PnlDrawBack(sender, surface, 2);
         Player3Pnl.Masked = true;
         Player3Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Player3Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -837,7 +837,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         Player4Pnl.WinLeft = 1;
         Player4Pnl.WinTop = 60;
         Player4Pnl.WinWidth = 120;
-        Player4Pnl.OnDrawBack = Player6PnlDrawBack;
+        Player4Pnl.OnDrawBack = (sender, surface) => Player6PnlDrawBack(sender, surface, 3);
         Player4Pnl.Masked = true;
         Player4Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Player4Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -904,7 +904,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         EmailAddressEdit5.WinWidth = 230;
         EmailAddressEdit5.BorderWidth = 8;
         EmailAddressEdit5.BorderHeight = 6;
-        EmailAddressEdit5.OnChange = EmailAddressEdit1Change;
+        EmailAddressEdit5.OnChange = sender => EmailAddressEdit1Change(sender, 4);
         EmailAddressEdit5.MaxChars = 0;
         EmailAddressEdit5.CursorChar = 95;
         EmailAddressEdit5.BlinkDelay = 1;
@@ -959,7 +959,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         EmailAddressEdit6.WinWidth = 230;
         EmailAddressEdit6.BorderWidth = 8;
         EmailAddressEdit6.BorderHeight = 6;
-        EmailAddressEdit6.OnChange = EmailAddressEdit1Change;
+        EmailAddressEdit6.OnChange = sender => EmailAddressEdit1Change(sender, 5);
         EmailAddressEdit6.MaxChars = 0;
         EmailAddressEdit6.CursorChar = 95;
         EmailAddressEdit6.BlinkDelay = 1;
@@ -976,7 +976,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         Player5Pnl.WinLeft = 1;
         Player5Pnl.WinTop = 80;
         Player5Pnl.WinWidth = 120;
-        Player5Pnl.OnDrawBack = Player6PnlDrawBack;
+        Player5Pnl.OnDrawBack = (sender, surface) => Player6PnlDrawBack(sender, surface, 4);
         Player5Pnl.Masked = true;
         Player5Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Player5Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -1005,7 +1005,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         Player6Pnl.WinLeft = 1;
         Player6Pnl.WinTop = 100;
         Player6Pnl.WinWidth = 120;
-        Player6Pnl.OnDrawBack = Player6PnlDrawBack;
+        Player6Pnl.OnDrawBack = (sender, surface) => Player6PnlDrawBack(sender, surface, 5);
         Player6Pnl.Masked = true;
         Player6Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Player6Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -1112,7 +1112,7 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
         CloseBtn.TextColor = 0;
         CloseBtn.TextSelColor = 0;
         CloseBtn.WinWidth = 15;
-        CloseBtn.OnClick = Layout_CancelButClick_2;
+        CloseBtn.OnClick = _ => Layout_CancelButClick_2();
         session.EndRead(CloseBtn);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -1265,32 +1265,32 @@ public partial class TEmailGameSettingsDlg : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_EmailGameSettingsDlgCreate_0(TObject p0)
+    private void Layout_EmailGameSettingsDlgCreate_0()
     {
         EmailGameSettingsDlgCreate();
     }
 
-    private void Layout_EmailGameSettingsDlgDestroy_1(TObject p0)
+    private void Layout_EmailGameSettingsDlgDestroy_1()
     {
         EmailGameSettingsDlgDestroy();
     }
 
-    private void Layout_CancelButClick_2(TObject p0)
+    private void Layout_CancelButClick_2()
     {
         CancelButClick();
     }
 
-    private void Layout_LocalEmailAddressEditUpdate_3(TObject p0)
+    private void Layout_LocalEmailAddressEditUpdate_3()
     {
         LocalEmailAddressEditUpdate();
     }
 
-    private void Layout_PlayerSBChange_4(TObject p0)
+    private void Layout_PlayerSBChange_4()
     {
         PlayerSBChange();
     }
 
-    private void Layout_SettingsBtnClick_5(TObject p0)
+    private void Layout_SettingsBtnClick_5()
     {
         SettingsBtnClick();
     }

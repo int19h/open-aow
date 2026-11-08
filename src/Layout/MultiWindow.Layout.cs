@@ -80,8 +80,8 @@ public partial class TMultiWindow : ILayoutModule
         GamesLB.WinHeight = 146;
         GamesLB.BorderWidth = 8;
         GamesLB.BorderHeight = 5;
-        GamesLB.OnChange = Layout_GamesLBChange_0;
-        GamesLB.OnDoubleClick = Layout_JoinBtnClick_1;
+        GamesLB.OnChange = _ => Layout_GamesLBChange_0();
+        GamesLB.OnDoubleClick = _ => Layout_JoinBtnClick_1();
         GamesLB.Selected = -1;
         GamesLB.TextColor = 12632256;
         GamesLB.TextSelColor = 16777215;
@@ -161,12 +161,12 @@ public partial class TMultiWindow : ILayoutModule
         JoinBtn.TextColor = 5046289;
         JoinBtn.TextSelColor = 9505286;
         JoinBtn.WinWidth = 158;
-        JoinBtn.OnClick = Layout_JoinBtnClick_1;
+        JoinBtn.OnClick = _ => Layout_JoinBtnClick_1();
         session.EndRead(JoinBtn);
         MultiPnl = new TAOWPanel(this);
         session.BeginRead(MultiPnl);
         MultiPnl.Name = "MultiPnl";
-        MultiPnl.OnUpdate = Layout_MultiWinUpdate_2;
+        MultiPnl.OnUpdate = _ => Layout_MultiWinUpdate_2();
         MultiPnl.Visible = false;
         MultiPnl.Priority = 5;
         MultiPnl.WinLeft = 0;
@@ -221,7 +221,7 @@ public partial class TMultiWindow : ILayoutModule
         BackBtn.TextColor = 5046289;
         BackBtn.TextSelColor = 9505286;
         BackBtn.WinWidth = 158;
-        BackBtn.OnClick = Layout_BackBtnClick_3;
+        BackBtn.OnClick = _ => Layout_BackBtnClick_3();
         session.EndRead(BackBtn);
         GamePanel = new TAOWPanel(this);
         session.BeginRead(GamePanel);
@@ -283,7 +283,7 @@ public partial class TMultiWindow : ILayoutModule
         TCPBtn.TextColor = 5046289;
         TCPBtn.TextSelColor = 9505286;
         TCPBtn.WinWidth = 158;
-        TCPBtn.OnClick = Layout_TCPBtnClick_4;
+        TCPBtn.OnClick = _ => Layout_TCPBtnClick_4();
         session.EndRead(TCPBtn);
         IPXBtn = new TAOWButton(this);
         session.BeginRead(IPXBtn);
@@ -318,7 +318,7 @@ public partial class TMultiWindow : ILayoutModule
         IPXBtn.TextColor = 5046289;
         IPXBtn.TextSelColor = 9505286;
         IPXBtn.WinWidth = 158;
-        IPXBtn.OnClick = Layout_IPXBtnClick_5;
+        IPXBtn.OnClick = _ => Layout_IPXBtnClick_5();
         session.EndRead(IPXBtn);
         SingleBtn = new TAOWButton(this);
         session.BeginRead(SingleBtn);
@@ -353,7 +353,7 @@ public partial class TMultiWindow : ILayoutModule
         SingleBtn.TextColor = 5046289;
         SingleBtn.TextSelColor = 9505286;
         SingleBtn.WinWidth = 158;
-        SingleBtn.OnClick = Layout_SingleBtnClick_6;
+        SingleBtn.OnClick = _ => Layout_SingleBtnClick_6();
         session.EndRead(SingleBtn);
         EmailBtn = new TAOWButton(this);
         session.BeginRead(EmailBtn);
@@ -388,7 +388,7 @@ public partial class TMultiWindow : ILayoutModule
         EmailBtn.TextColor = 5046289;
         EmailBtn.TextSelColor = 9505286;
         EmailBtn.WinWidth = 158;
-        EmailBtn.OnClick = Layout_EmailBtnClick_7;
+        EmailBtn.OnClick = _ => Layout_EmailBtnClick_7();
         session.EndRead(EmailBtn);
         TCPPnl = new TAOWPanel(this);
         session.BeginRead(TCPPnl);
@@ -520,7 +520,7 @@ public partial class TMultiWindow : ILayoutModule
         CancelTCP.TextColor = 5046289;
         CancelTCP.TextSelColor = 9505286;
         CancelTCP.WinWidth = 158;
-        CancelTCP.OnClick = Layout_CancelTCPClick_8;
+        CancelTCP.OnClick = _ => Layout_CancelTCPClick_8();
         session.EndRead(CancelTCP);
         Host = new TAOWButton(this);
         session.BeginRead(Host);
@@ -555,7 +555,7 @@ public partial class TMultiWindow : ILayoutModule
         Host.TextColor = 5046289;
         Host.TextSelColor = 9505286;
         Host.WinWidth = 158;
-        Host.OnClick = HostClick;
+        Host.OnClick = _ => HostClick();
         session.EndRead(Host);
         Find = new TAOWButton(this);
         session.BeginRead(Find);
@@ -590,7 +590,7 @@ public partial class TMultiWindow : ILayoutModule
         Find.TextColor = 5046289;
         Find.TextSelColor = 9505286;
         Find.WinWidth = 158;
-        Find.OnClick = Layout_FindClick_9;
+        Find.OnClick = _ => Layout_FindClick_9();
         session.EndRead(Find);
         GameLbl = new TAOWLabel(this);
         session.BeginRead(GameLbl);
@@ -639,7 +639,7 @@ public partial class TMultiWindow : ILayoutModule
         TCPName.Text = "Name";
         TCPName.BorderWidth = 15;
         TCPName.BorderHeight = 7;
-        TCPName.OnChange = Layout_TCPNameChange_10;
+        TCPName.OnChange = _ => Layout_TCPNameChange_10();
         TCPName.MaxChars = 15;
         TCPName.CursorChar = 95;
         TCPName.BlinkDelay = 0;
@@ -744,7 +744,7 @@ public partial class TMultiWindow : ILayoutModule
         LANFind.TextColor = 5046289;
         LANFind.TextSelColor = 9505286;
         LANFind.WinWidth = 158;
-        LANFind.OnClick = Layout_LANFindClick_11;
+        LANFind.OnClick = _ => Layout_LANFindClick_11();
         session.EndRead(LANFind);
         JoinLbl = new TAOWLabel(this);
         session.BeginRead(JoinLbl);
@@ -825,7 +825,7 @@ public partial class TMultiWindow : ILayoutModule
         BackButn.TextColor = 5046289;
         BackButn.TextSelColor = 9505286;
         BackButn.WinWidth = 158;
-        BackButn.OnClick = Layout_CloseBtnClick_12;
+        BackButn.OnClick = _ => Layout_CloseBtnClick_12();
         session.EndRead(BackButn);
         MsgPnl = new TAOWPanel(this);
         session.BeginRead(MsgPnl);
@@ -884,7 +884,7 @@ public partial class TMultiWindow : ILayoutModule
         CancelOKBut.TextColor = 5046289;
         CancelOKBut.TextSelColor = 9505286;
         CancelOKBut.WinWidth = 158;
-        CancelOKBut.OnClick = Layout_CancelOKButClick_13;
+        CancelOKBut.OnClick = _ => Layout_CancelOKButClick_13();
         session.EndRead(CancelOKBut);
         MessageMemo = new TAOWMemo(this);
         session.BeginRead(MessageMemo);
@@ -953,7 +953,7 @@ public partial class TMultiWindow : ILayoutModule
         LANCancel.TextColor = 5046289;
         LANCancel.TextSelColor = 9505286;
         LANCancel.WinWidth = 158;
-        LANCancel.OnClick = Layout_CancelTCPClick_8;
+        LANCancel.OnClick = _ => Layout_CancelTCPClick_8();
         session.EndRead(LANCancel);
         AOWLabel1 = new TAOWLabel(this);
         session.BeginRead(AOWLabel1);
@@ -1025,7 +1025,7 @@ public partial class TMultiWindow : ILayoutModule
         IPXName.Text = "Name";
         IPXName.BorderWidth = 15;
         IPXName.BorderHeight = 7;
-        IPXName.OnChange = Layout_IPXNameChange_14;
+        IPXName.OnChange = _ => Layout_IPXNameChange_14();
         IPXName.MaxChars = 15;
         IPXName.CursorChar = 95;
         IPXName.BlinkDelay = 0;
@@ -1067,7 +1067,7 @@ public partial class TMultiWindow : ILayoutModule
         LANHost.TextColor = 5046289;
         LANHost.TextSelColor = 9505286;
         LANHost.WinWidth = 158;
-        LANHost.OnClick = LANHostClick;
+        LANHost.OnClick = _ => LANHostClick();
         session.EndRead(LANHost);
         PBEMPnl = new TAOWPanel(this);
         session.BeginRead(PBEMPnl);
@@ -1126,7 +1126,7 @@ public partial class TMultiWindow : ILayoutModule
         CancelPBEMBtn.TextColor = 5046289;
         CancelPBEMBtn.TextSelColor = 9505286;
         CancelPBEMBtn.WinWidth = 158;
-        CancelPBEMBtn.OnClick = Layout_CancelPBEMBtnClick_15;
+        CancelPBEMBtn.OnClick = _ => Layout_CancelPBEMBtnClick_15();
         session.EndRead(CancelPBEMBtn);
         CheckEmailBtn = new TAOWButton(this);
         session.BeginRead(CheckEmailBtn);
@@ -1157,7 +1157,7 @@ public partial class TMultiWindow : ILayoutModule
         CheckEmailBtn.TextColor = 5046289;
         CheckEmailBtn.TextSelColor = 9505286;
         CheckEmailBtn.WinWidth = 158;
-        CheckEmailBtn.OnClick = Layout_CheckEmailBtnClick_16;
+        CheckEmailBtn.OnClick = _ => Layout_CheckEmailBtnClick_16();
         session.EndRead(CheckEmailBtn);
         NewPBEMGameBtn = new TAOWButton(this);
         session.BeginRead(NewPBEMGameBtn);
@@ -1188,7 +1188,7 @@ public partial class TMultiWindow : ILayoutModule
         NewPBEMGameBtn.TextColor = 5046289;
         NewPBEMGameBtn.TextSelColor = 9505286;
         NewPBEMGameBtn.WinWidth = 158;
-        NewPBEMGameBtn.OnClick = Layout_NewPBEMGameBtnClick_17;
+        NewPBEMGameBtn.OnClick = _ => Layout_NewPBEMGameBtnClick_17();
         session.EndRead(NewPBEMGameBtn);
         LoadPBEMGameBtn = new TAOWButton(this);
         session.BeginRead(LoadPBEMGameBtn);
@@ -1219,7 +1219,7 @@ public partial class TMultiWindow : ILayoutModule
         LoadPBEMGameBtn.TextColor = 5046289;
         LoadPBEMGameBtn.TextSelColor = 9505286;
         LoadPBEMGameBtn.WinWidth = 158;
-        LoadPBEMGameBtn.OnClick = Layout_LoadPBEMGameBtnClick_18;
+        LoadPBEMGameBtn.OnClick = _ => Layout_LoadPBEMGameBtnClick_18();
         session.EndRead(LoadPBEMGameBtn);
         EmailSettingsBtn = new TAOWButton(this);
         session.BeginRead(EmailSettingsBtn);
@@ -1250,7 +1250,7 @@ public partial class TMultiWindow : ILayoutModule
         EmailSettingsBtn.TextColor = 5046289;
         EmailSettingsBtn.TextSelColor = 9505286;
         EmailSettingsBtn.WinWidth = 158;
-        EmailSettingsBtn.OnClick = Layout_EmailSettingsBtnClick_19;
+        EmailSettingsBtn.OnClick = _ => Layout_EmailSettingsBtnClick_19();
         session.EndRead(EmailSettingsBtn);
         HeatNetBtn = new TAOWButton(this);
         session.BeginRead(HeatNetBtn);
@@ -1284,7 +1284,7 @@ public partial class TMultiWindow : ILayoutModule
         HeatNetBtn.TextColor = 5046289;
         HeatNetBtn.TextSelColor = 9505286;
         HeatNetBtn.WinWidth = 66;
-        HeatNetBtn.OnClick = Layout_HeatNetBtnClick_20;
+        HeatNetBtn.OnClick = _ => Layout_HeatNetBtnClick_20();
         session.EndRead(HeatNetBtn);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -1474,107 +1474,107 @@ public partial class TMultiWindow : ILayoutModule
         HeatNetBtn.ILIcon = aowIntGfxModUnit.IntGfxMod.TitleScreen;
     }
 
-    private void Layout_GamesLBChange_0(TObject p0)
+    private void Layout_GamesLBChange_0()
     {
         GamesLBChange();
     }
 
-    private void Layout_JoinBtnClick_1(TObject p0)
+    private void Layout_JoinBtnClick_1()
     {
         JoinBtnClick();
     }
 
-    private void Layout_MultiWinUpdate_2(TObject p0)
+    private void Layout_MultiWinUpdate_2()
     {
         MultiWinUpdate();
     }
 
-    private void Layout_BackBtnClick_3(TObject p0)
+    private void Layout_BackBtnClick_3()
     {
         BackBtnClick();
     }
 
-    private void Layout_TCPBtnClick_4(TObject p0)
+    private void Layout_TCPBtnClick_4()
     {
         TCPBtnClick();
     }
 
-    private void Layout_IPXBtnClick_5(TObject p0)
+    private void Layout_IPXBtnClick_5()
     {
         IPXBtnClick();
     }
 
-    private void Layout_SingleBtnClick_6(TObject p0)
+    private void Layout_SingleBtnClick_6()
     {
         SingleBtnClick();
     }
 
-    private void Layout_EmailBtnClick_7(TObject p0)
+    private void Layout_EmailBtnClick_7()
     {
         EmailBtnClick();
     }
 
-    private void Layout_CancelTCPClick_8(TObject p0)
+    private void Layout_CancelTCPClick_8()
     {
         CancelTCPClick();
     }
 
-    private void Layout_FindClick_9(TObject p0)
+    private void Layout_FindClick_9()
     {
         FindClick();
     }
 
-    private void Layout_TCPNameChange_10(TObject p0)
+    private void Layout_TCPNameChange_10()
     {
         TCPNameChange();
     }
 
-    private void Layout_LANFindClick_11(TObject p0)
+    private void Layout_LANFindClick_11()
     {
         LANFindClick();
     }
 
-    private void Layout_CloseBtnClick_12(TObject p0)
+    private void Layout_CloseBtnClick_12()
     {
         CloseBtnClick();
     }
 
-    private void Layout_CancelOKButClick_13(TObject p0)
+    private void Layout_CancelOKButClick_13()
     {
         CancelOKButClick();
     }
 
-    private void Layout_IPXNameChange_14(TObject p0)
+    private void Layout_IPXNameChange_14()
     {
         IPXNameChange();
     }
 
-    private void Layout_CancelPBEMBtnClick_15(TObject p0)
+    private void Layout_CancelPBEMBtnClick_15()
     {
         CancelPBEMBtnClick();
     }
 
-    private void Layout_CheckEmailBtnClick_16(TObject p0)
+    private void Layout_CheckEmailBtnClick_16()
     {
         CheckEmailBtnClick();
     }
 
-    private void Layout_NewPBEMGameBtnClick_17(TObject p0)
+    private void Layout_NewPBEMGameBtnClick_17()
     {
         NewPBEMGameBtnClick();
     }
 
-    private void Layout_LoadPBEMGameBtnClick_18(TObject p0)
+    private void Layout_LoadPBEMGameBtnClick_18()
     {
         LoadPBEMGameBtnClick();
     }
 
-    private void Layout_EmailSettingsBtnClick_19(TObject p0)
+    private void Layout_EmailSettingsBtnClick_19()
     {
         EmailSettingsBtnClick();
     }
 
-    private void Layout_HeatNetBtnClick_20(TObject p0)
+    private void Layout_HeatNetBtnClick_20()
     {
         HeatNetBtnClick();
     }

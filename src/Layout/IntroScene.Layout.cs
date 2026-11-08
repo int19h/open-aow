@@ -22,16 +22,16 @@ public partial class TIntroScene : ILayoutModule
         Window = new TAoWUserWindow(this);
         session.BeginRead(Window);
         Window.Name = "Window";
-        Window.OnMouseDown = WindowMouseDown;
-        Window.OnKeyDown = WindowKeyDown;
-        Window.OnUpdate = Layout_WindowUpdate_0;
+        Window.OnMouseDown = (_, button, shift, x, y) => WindowMouseDown(button, shift, x, y);
+        Window.OnKeyDown = (_, ref key, shift) => WindowKeyDown(ref key, shift);
+        Window.OnUpdate = _ => Layout_WindowUpdate_0();
         Window.Visible = false;
         Window.Priority = 0;
         Window.WinLeft = 0;
         Window.WinTop = 0;
         Window.WinWidth = 640;
         Window.Masked = false;
-        Window.OnHide = Layout_WindowHide_1;
+        Window.OnHide = _ => Layout_WindowHide_1();
         Window.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
         Window.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
         Window.Alignment.HeightPercent = 0;
@@ -83,12 +83,12 @@ public partial class TIntroScene : ILayoutModule
         Window.WinManager = AoWWinManUnit.General.Manager;
     }
 
-    private void Layout_WindowUpdate_0(TObject p0)
+    private void Layout_WindowUpdate_0()
     {
         WindowUpdate();
     }
 
-    private void Layout_WindowHide_1(TObject p0)
+    private void Layout_WindowHide_1()
     {
         WindowHide();
     }

@@ -45,7 +45,7 @@ public partial class TCampaignSettingsDlg : ILayoutModule
         Dlg.WinTop = 126;
         Dlg.WinWidth = 325;
         Dlg.Masked = true;
-        Dlg.OnShow = DlgShow;
+        Dlg.OnShow = _ => DlgShow();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -109,7 +109,7 @@ public partial class TCampaignSettingsDlg : ILayoutModule
         OKBtn.TextColor = 0;
         OKBtn.TextSelColor = 16777215;
         OKBtn.WinWidth = 120;
-        OKBtn.OnClick = Layout_OKBtnClick_0;
+        OKBtn.OnClick = _ => Layout_OKBtnClick_0();
         session.EndRead(OKBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -193,7 +193,7 @@ public partial class TCampaignSettingsDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CancelBtnClick_1;
+        Close.OnClick = _ => Layout_CancelBtnClick_1();
         session.EndRead(Close);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -473,7 +473,7 @@ public partial class TCampaignSettingsDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 120;
-        CancelBtn.OnClick = Layout_CancelBtnClick_1;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_1();
         session.EndRead(CancelBtn);
         TCeltLineL = new TAOWImage(this);
         session.BeginRead(TCeltLineL);
@@ -573,12 +573,12 @@ public partial class TCampaignSettingsDlg : ILayoutModule
         TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
     }
 
-    private void Layout_OKBtnClick_0(TObject p0)
+    private void Layout_OKBtnClick_0()
     {
         OKBtnClick();
     }
 
-    private void Layout_CancelBtnClick_1(TObject p0)
+    private void Layout_CancelBtnClick_1()
     {
         CancelBtnClick();
     }

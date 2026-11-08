@@ -30,20 +30,20 @@ public partial class TFileDlgWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "FileDlgWindow";
-        LayoutOnCreate = Layout_FileDlgWindowCreate_0;
-        LayoutOnDestroy = Layout_FileDlgWindowDestroy_1;
+        LayoutOnCreate = _ => Layout_FileDlgWindowCreate_0();
+        LayoutOnDestroy = _ => Layout_FileDlgWindowDestroy_1();
         FileDialog = new TAOWWindow(this);
         session.BeginRead(FileDialog);
         FileDialog.Name = "FileDialog";
-        FileDialog.OnKeyDown = FileDialogKeyDown;
+        FileDialog.OnKeyDown = (_, ref key, shift) => FileDialogKeyDown(ref key, shift);
         FileDialog.Visible = false;
         FileDialog.Priority = 300;
         FileDialog.WinLeft = 130;
         FileDialog.WinTop = 35;
         FileDialog.WinWidth = 380;
         FileDialog.Masked = true;
-        FileDialog.OnHide = Layout_FileDialogHide_2;
-        FileDialog.OnShow = Layout_FileDialogShow_3;
+        FileDialog.OnHide = _ => Layout_FileDialogHide_2();
+        FileDialog.OnShow = _ => Layout_FileDialogShow_3();
         FileDialog.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         FileDialog.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         FileDialog.Alignment.HeightPercent = 0;
@@ -107,7 +107,7 @@ public partial class TFileDlgWindow : ILayoutModule
         CancelBut.TextColor = 0;
         CancelBut.TextSelColor = 16777215;
         CancelBut.WinWidth = 122;
-        CancelBut.OnClick = Layout_CloseClick_4;
+        CancelBut.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(CancelBut);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -165,7 +165,7 @@ public partial class TFileDlgWindow : ILayoutModule
         Openbut.TextColor = 0;
         Openbut.TextSelColor = 16777215;
         Openbut.WinWidth = 122;
-        Openbut.OnClick = OpenbutClick;
+        Openbut.OnClick = _ => OpenbutClick();
         session.EndRead(Openbut);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -214,10 +214,10 @@ public partial class TFileDlgWindow : ILayoutModule
         FileLB.WinHeight = 140;
         FileLB.BorderWidth = 21;
         FileLB.BorderHeight = 3;
-        FileLB.OnChange = Layout_FileLBChange_5;
-        FileLB.OnDoubleClick = OpenbutClick;
+        FileLB.OnChange = FileLBChange;
+        FileLB.OnDoubleClick = _ => OpenbutClick();
         FileLB.Selected = -1;
-        FileLB.OnDrawItem = FileLBDrawItem;
+        FileLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => FileLBDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         FileLB.TextColor = 9415072;
         FileLB.TextSelColor = 0;
         FileLB.ILIndexFrame = 113;
@@ -307,7 +307,7 @@ public partial class TFileDlgWindow : ILayoutModule
         DriveCmb.ListBorderWidth = 7;
         DriveCmb.ListBorderHeight = 5;
         DriveCmb.NumberVisible = 4;
-        DriveCmb.OnChange = Layout_DriveCmbChange_6;
+        DriveCmb.OnChange = _ => Layout_DriveCmbChange_6();
         DriveCmb.Selected = -1;
         DriveCmb.PriorityOpened = 2000;
         DriveCmb.TextColor = 11002593;
@@ -373,7 +373,7 @@ public partial class TFileDlgWindow : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_4;
+        Close.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(Close);
         UpDirBtn = new TAOWButton(this);
         session.BeginRead(UpDirBtn);
@@ -407,7 +407,7 @@ public partial class TFileDlgWindow : ILayoutModule
         UpDirBtn.TextColor = 9402970;
         UpDirBtn.TextSelColor = 12632256;
         UpDirBtn.WinWidth = 32;
-        UpDirBtn.OnClick = Layout_UpDirBtnClick_7;
+        UpDirBtn.OnClick = _ => Layout_UpDirBtnClick_7();
         session.EndRead(UpDirBtn);
         PathL = new TAOWLabel(this);
         session.BeginRead(PathL);
@@ -1154,10 +1154,10 @@ public partial class TFileDlgWindow : ILayoutModule
         SaveLB.WinHeight = 125;
         SaveLB.BorderWidth = 21;
         SaveLB.BorderHeight = 4;
-        SaveLB.OnChange = Layout_FileLBChange_5;
-        SaveLB.OnDoubleClick = OpenbutClick;
+        SaveLB.OnChange = FileLBChange;
+        SaveLB.OnDoubleClick = _ => OpenbutClick();
         SaveLB.Selected = -1;
-        SaveLB.OnDrawItem = FileLBDrawItem;
+        SaveLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => FileLBDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         SaveLB.TextColor = 9415072;
         SaveLB.TextSelColor = 0;
         SaveLB.ILIndexFrame = 113;
@@ -1189,14 +1189,14 @@ public partial class TFileDlgWindow : ILayoutModule
         SFileName.WinWidth = 309;
         SFileName.BorderWidth = 7;
         SFileName.BorderHeight = 5;
-        SFileName.OnChange = Layout_SFileNameChange_8;
+        SFileName.OnChange = _ => SFileNameChange();
         SFileName.MaxChars = 0;
         SFileName.CursorChar = 95;
         SFileName.BlinkDelay = 2;
         SFileName.TextColor = 11002593;
         SFileName.Editable = true;
         SFileName.ILIndex = 15;
-        SFileName.OnReturn = Layout_SFileNameReturn_9;
+        SFileName.OnReturn = _ => Layout_SFileNameReturn_9();
         SFileName.PassWordChar = 0;
         session.EndRead(SFileName);
         SavedInfo = new TAOWLabel(this);
@@ -1274,8 +1274,8 @@ public partial class TFileDlgWindow : ILayoutModule
         DateLB.WinHeight = 125;
         DateLB.BorderWidth = 8;
         DateLB.BorderHeight = 4;
-        DateLB.OnChange = Layout_FileLBChange_5;
-        DateLB.OnDoubleClick = OpenbutClick;
+        DateLB.OnChange = FileLBChange;
+        DateLB.OnDoubleClick = _ => OpenbutClick();
         DateLB.Selected = -1;
         DateLB.TextColor = 9415072;
         DateLB.TextSelColor = 0;
@@ -1314,7 +1314,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SaveBtn.TextColor = 0;
         SaveBtn.TextSelColor = 16777215;
         SaveBtn.WinWidth = 180;
-        SaveBtn.OnClick = SaveBtnClick;
+        SaveBtn.OnClick = _ => SaveBtnClick();
         session.EndRead(SaveBtn);
         DateBtn = new TAOWButton(this);
         session.BeginRead(DateBtn);
@@ -1345,7 +1345,7 @@ public partial class TFileDlgWindow : ILayoutModule
         DateBtn.TextColor = 0;
         DateBtn.TextSelColor = 16777215;
         DateBtn.WinWidth = 130;
-        DateBtn.OnClick = DateBtnClick;
+        DateBtn.OnClick = _ => DateBtnClick();
         session.EndRead(DateBtn);
         NSBar = new TAOWVScrollBar(this);
         session.BeginRead(NSBar);
@@ -1658,7 +1658,7 @@ public partial class TFileDlgWindow : ILayoutModule
         SSBar.WinHeight = 125;
         SSBar.WinWidth = 17;
         SSBar.NumberVisible = 7;
-        SSBar.OnChange = Layout_SSBarChange_10;
+        SSBar.OnChange = _ => Layout_SSBarChange_10();
         SSBar.VanishWhenFull = true;
         SSBar.ILIndexIncUp = 96;
         SSBar.ILIndexIncDown = 97;
@@ -2037,57 +2037,47 @@ public partial class TFileDlgWindow : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_FileDlgWindowCreate_0(TObject p0)
+    private void Layout_FileDlgWindowCreate_0()
     {
         FileDlgWindowCreate();
     }
 
-    private void Layout_FileDlgWindowDestroy_1(TObject p0)
+    private void Layout_FileDlgWindowDestroy_1()
     {
         FileDlgWindowDestroy();
     }
 
-    private void Layout_FileDialogHide_2(TObject p0)
+    private void Layout_FileDialogHide_2()
     {
         FileDialogHide();
     }
 
-    private void Layout_FileDialogShow_3(TObject p0)
+    private void Layout_FileDialogShow_3()
     {
         FileDialogShow();
     }
 
-    private void Layout_CloseClick_4(TObject p0)
+    private void Layout_CloseClick_4()
     {
         CloseClick();
     }
 
-    private void Layout_FileLBChange_5(TObject p0)
-    {
-        FileLBChange((TAOWListBox)p0);
-    }
-
-    private void Layout_DriveCmbChange_6(TObject p0)
+    private void Layout_DriveCmbChange_6()
     {
         DriveCmbChange();
     }
 
-    private void Layout_UpDirBtnClick_7(TObject p0)
+    private void Layout_UpDirBtnClick_7()
     {
         UpDirBtnClick();
     }
 
-    private void Layout_SFileNameChange_8(TObject p0)
-    {
-        SFileNameChange(p0);
-    }
-
-    private void Layout_SFileNameReturn_9(TObject p0)
+    private void Layout_SFileNameReturn_9()
     {
         SFileNameReturn();
     }
 
-    private void Layout_SSBarChange_10(TObject p0)
+    private void Layout_SSBarChange_10()
     {
         SSBarChange();
     }

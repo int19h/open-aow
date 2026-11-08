@@ -87,7 +87,7 @@ public partial class TPowerDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CancelBtnClick_0;
+        Close.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -168,7 +168,7 @@ public partial class TPowerDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 120;
-        CancelBtn.OnClick = Layout_CancelBtnClick_0;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(CancelBtn);
         SetBtn = new TAOWButton(this);
         session.BeginRead(SetBtn);
@@ -199,12 +199,12 @@ public partial class TPowerDlg : ILayoutModule
         SetBtn.TextColor = 0;
         SetBtn.TextSelColor = 16777215;
         SetBtn.WinWidth = 120;
-        SetBtn.OnClick = Layout_SetBtnClick_1;
+        SetBtn.OnClick = _ => Layout_SetBtnClick_1();
         session.EndRead(SetBtn);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 159;
@@ -638,7 +638,7 @@ public partial class TPowerDlg : ILayoutModule
         PowerSlider.WinHeight = 11;
         PowerSlider.WinWidth = 78;
         PowerSlider.NumberVisible = 1;
-        PowerSlider.OnChange = Layout_PowerSliderChange_2;
+        PowerSlider.OnChange = _ => Layout_PowerSliderChange_2();
         PowerSlider.VanishWhenFull = false;
         PowerSlider.ILIndexIncUp = 0;
         PowerSlider.ILIndexIncDown = 0;
@@ -804,17 +804,17 @@ public partial class TPowerDlg : ILayoutModule
         PARes.ImageLib = aowIntGfxModUnit.IntGfxMod.MiscArt;
     }
 
-    private void Layout_CancelBtnClick_0(TObject p0)
+    private void Layout_CancelBtnClick_0()
     {
         CancelBtnClick();
     }
 
-    private void Layout_SetBtnClick_1(TObject p0)
+    private void Layout_SetBtnClick_1()
     {
         SetBtnClick();
     }
 
-    private void Layout_PowerSliderChange_2(TObject p0)
+    private void Layout_PowerSliderChange_2()
     {
         PowerSliderChange();
     }

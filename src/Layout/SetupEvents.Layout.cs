@@ -17,7 +17,7 @@ public partial class TSetupEvents : ILayoutModule
     {
         session.Begin(this);
         Name = "SetupEvents";
-        LayoutOnCreate = Layout_SetupEventsCreate_0;
+        LayoutOnCreate = _ => Layout_SetupEventsCreate_0();
         var created__DPlay = new LayoutTGDPlay(this);
         DPlay = created__DPlay;
         session.BeginRead(created__DPlay);
@@ -36,7 +36,7 @@ public partial class TSetupEvents : ILayoutModule
         created__DPlay.OnMessageError = Layout_DPlayMessageError_1;
         created__DPlay.GauranteeMsgs = true;
         created__DPlay.UseCodes = true;
-        created__DPlay.OnEjected = Layout_DPlayEjected_2;
+        created__DPlay.OnEjected = _ => Layout_DPlayEjected_2();
         created__DPlay.UseSetupDialogs = false;
         created__DPlay.FilePacketSize = 1000;
         session.EndRead(created__DPlay);
@@ -45,15 +45,15 @@ public partial class TSetupEvents : ILayoutModule
         SetupControl.Name = "SetupControl";
         SetupControl.OnSendMap = SetupControlSendMap;
         SetupControl.OnSendData = SetupControlSendData;
-        SetupControl.OnPlayerSetupDone = Layout_SetupControlPlayerSetupDone_3;
-        SetupControl.OnSettingChanged = Layout_SetupControlSettingChanged_4;
+        SetupControl.OnPlayerSetupDone = _ => Layout_SetupControlPlayerSetupDone_3();
+        SetupControl.OnSettingChanged = _ => Layout_SetupControlSettingChanged_4();
         SetupControl.OnCustomizeLeader = SetupControlCustomizeLeader;
         SetupControl.OnLoadMap = SetupControlLoadMap;
-        SetupControl.OnStart = Layout_SetupControlStart_5;
+        SetupControl.OnStart = _ => Layout_SetupControlStart_5();
         SetupControl.OnSynchronize = SetupControlSynchronize;
         SetupControl.OnEjectPlayer = SetupControlEjectPlayer;
         SetupControl.OnIncompatibleVersion = SetupControlIncompatibleVersion;
-        SetupControl.OnSendingMaps = Layout_SetupControlSendingMaps_6;
+        SetupControl.OnSendingMaps = _ => Layout_SetupControlSendingMaps_6();
         session.EndRead(SetupControl);
         session.EndRead(this);
         Loaded();
@@ -64,7 +64,7 @@ public partial class TSetupEvents : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_SetupEventsCreate_0(TObject p0)
+    private void Layout_SetupEventsCreate_0()
     {
         SetupEventsCreate();
     }
@@ -74,27 +74,27 @@ public partial class TSetupEvents : ILayoutModule
         DPlayMessageError();
     }
 
-    private void Layout_DPlayEjected_2(TObject p0)
+    private void Layout_DPlayEjected_2()
     {
         DPlayEjected();
     }
 
-    private void Layout_SetupControlPlayerSetupDone_3(TSetupControl p0)
+    private void Layout_SetupControlPlayerSetupDone_3()
     {
         SetupControlPlayerSetupDone();
     }
 
-    private void Layout_SetupControlSettingChanged_4(TSetupControl p0)
+    private void Layout_SetupControlSettingChanged_4()
     {
         SetupControlSettingChanged();
     }
 
-    private void Layout_SetupControlStart_5(TSetupControl p0)
+    private void Layout_SetupControlStart_5()
     {
         SetupControlStart();
     }
 
-    private void Layout_SetupControlSendingMaps_6(TSetupControl p0)
+    private void Layout_SetupControlSendingMaps_6()
     {
         SetupControlSendingMaps();
     }

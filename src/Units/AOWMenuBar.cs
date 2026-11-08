@@ -336,6 +336,60 @@ public partial class TAOWMenuBar : TAOWControl
 
     [Published]
     public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
+
+    public new TNotifyEvent<TAOWMenuBar> OnChange
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAOWMenuBar> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWMenuBar> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWMenuBar> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWMenuBar> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWMenuBar> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWMenuBar> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWMenuBar> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWMenuBar> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWMenuBar.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWMenuBar.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AOWMenuBarUnit

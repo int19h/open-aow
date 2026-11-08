@@ -30,14 +30,14 @@ public partial class TPasswordDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 600;
         Dlg.WinLeft = 160;
         Dlg.WinTop = 129;
         Dlg.WinWidth = 320;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -233,7 +233,7 @@ public partial class TPasswordDlg : ILayoutModule
         OKBtn.TextColor = 0;
         OKBtn.TextSelColor = 16777215;
         OKBtn.WinWidth = 105;
-        OKBtn.OnClick = OKBtnClick;
+        OKBtn.OnClick = _ => OKBtnClick();
         session.EndRead(OKBtn);
         CancelBtn = new TAOWButton(this);
         session.BeginRead(CancelBtn);
@@ -264,7 +264,7 @@ public partial class TPasswordDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 105;
-        CancelBtn.OnClick = CancelBtnClick;
+        CancelBtn.OnClick = _ => CancelBtnClick();
         session.EndRead(CancelBtn);
         PasswordLbl = new TAOWLabel(this);
         session.BeginRead(PasswordLbl);
@@ -368,7 +368,7 @@ public partial class TPasswordDlg : ILayoutModule
         PasswordEdit.ILEdit = aowIntGfxModUnit.IntGfxMod.GenericE;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }

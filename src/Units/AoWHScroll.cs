@@ -1,5 +1,6 @@
 // Translated from AoWHScroll.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWVScroll;
 using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
@@ -440,6 +441,60 @@ public partial class TAOWHScrollBar : TAOWScrollBar
                 FOnMouseMove(this, Shift, X, Y);
             }
         }
+    }
+
+    public new TNotifyEvent<TAOWHScrollBar> OnChange
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAOWHScrollBar> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWHScrollBar> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWHScrollBar> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWHScrollBar> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWHScrollBar> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWHScrollBar> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWHScrollBar> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWHScrollBar> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWHScrollBar.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWHScrollBar.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
     }
 }
 

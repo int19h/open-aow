@@ -62,8 +62,8 @@ public partial class TSWindow : ILayoutModule
         ScannerWindow.DragHeight = 20;
         ScannerWindow.Draggable = true;
         ScannerWindow.Resizable = true;
-        ScannerWindow.OnDrag = Layout_ScannerWindowResize_0;
-        ScannerWindow.OnResize = Layout_ScannerWindowResize_0;
+        ScannerWindow.OnDrag = _ => Layout_ScannerWindowResize_0();
+        ScannerWindow.OnResize = _ => Layout_ScannerWindowResize_0();
         ScannerWindow.MinWidth = 200;
         ScannerWindow.MinHeight = 216;
         ScannerWindow.MaxWidth = 0;
@@ -103,7 +103,7 @@ public partial class TSWindow : ILayoutModule
         ScannerTab = new TAOWTabPanel(this);
         session.BeginRead(ScannerTab);
         ScannerTab.Name = "ScannerTab";
-        ScannerTab.OnMouseDown = ScannerTabMouseDown;
+        ScannerTab.OnMouseDown = (_, button, shift, x, y) => ScannerTabMouseDown(button, shift, x, y);
         ScannerTab.Priority = 10000;
         ScannerTab.WinLeft = 31;
         ScannerTab.WinTop = 182;
@@ -126,7 +126,7 @@ public partial class TSWindow : ILayoutModule
         ScannerTab.Alignment.BottomOffset = 19;
         ScannerTab.Masked = false;
         ScannerTab.BorderHeight = 3;
-        ScannerTab.OnChange = Layout_ScannerTabChange_1;
+        ScannerTab.OnChange = _ => Layout_ScannerTabChange_1();
         ScannerTab.Selected = 1;
         ScannerTab.WinWidth = 145;
         ScannerTab.TextColor = 1777703;
@@ -168,7 +168,7 @@ public partial class TSWindow : ILayoutModule
         BuildingCheck.TextSelColor = 0;
         BuildingCheck.WinWidth = 15;
         BuildingCheck.Checked = true;
-        BuildingCheck.OnChange = Layout_BuildingCheckChange_2;
+        BuildingCheck.OnChange = BuildingCheckChange;
         BuildingCheck.RadioIndex = 0;
         session.EndRead(BuildingCheck);
         ArmyCheck = new TAOWCheckBox(this);
@@ -204,7 +204,7 @@ public partial class TSWindow : ILayoutModule
         ArmyCheck.TextSelColor = 0;
         ArmyCheck.WinWidth = 15;
         ArmyCheck.Checked = true;
-        ArmyCheck.OnChange = Layout_ArmyCheckChange_3;
+        ArmyCheck.OnChange = ArmyCheckChange;
         ArmyCheck.RadioIndex = 0;
         session.EndRead(ArmyCheck);
         NaturalCheck = new TAOWCheckBox(this);
@@ -240,7 +240,7 @@ public partial class TSWindow : ILayoutModule
         NaturalCheck.TextSelColor = 0;
         NaturalCheck.WinWidth = 15;
         NaturalCheck.Checked = true;
-        NaturalCheck.OnChange = Layout_NaturalCheckChange_4;
+        NaturalCheck.OnChange = NaturalCheckChange;
         NaturalCheck.RadioIndex = 0;
         session.EndRead(NaturalCheck);
         Scanner = new TScanner(this);
@@ -273,7 +273,7 @@ public partial class TSWindow : ILayoutModule
         Scanner.Buildings = true;
         Scanner.Armies = true;
         Scanner.Naturals = true;
-        Scanner.OnChangeTileBox = Layout_ScannerChangeTileBox_5;
+        Scanner.OnChangeTileBox = _ => Layout_ScannerChangeTileBox_5();
         Scanner.MapDrawSteps = 5;
         Scanner.ILIndexFrame = 20;
         session.EndRead(Scanner);
@@ -360,7 +360,7 @@ public partial class TSWindow : ILayoutModule
         SMinIcon.TextColor = 0;
         SMinIcon.TextSelColor = 0;
         SMinIcon.WinWidth = 15;
-        SMinIcon.OnClick = Layout_SMinIconClick_6;
+        SMinIcon.OnClick = _ => Layout_SMinIconClick_6();
         session.EndRead(SMinIcon);
         Help = new TAOWButton(this);
         session.BeginRead(Help);
@@ -394,7 +394,7 @@ public partial class TSWindow : ILayoutModule
         Help.TextColor = 0;
         Help.TextSelColor = 0;
         Help.WinWidth = 15;
-        Help.OnClick = Layout_HelpClick_7;
+        Help.OnClick = _ => Layout_HelpClick_7();
         session.EndRead(Help);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -456,42 +456,27 @@ public partial class TSWindow : ILayoutModule
         Help.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_ScannerWindowResize_0(TObject p0)
+    private void Layout_ScannerWindowResize_0()
     {
         ScannerWindowResize();
     }
 
-    private void Layout_ScannerTabChange_1(TObject p0)
+    private void Layout_ScannerTabChange_1()
     {
         ScannerTabChange();
     }
 
-    private void Layout_BuildingCheckChange_2(TObject p0)
-    {
-        BuildingCheckChange((TAOWCheckBox)p0);
-    }
-
-    private void Layout_ArmyCheckChange_3(TObject p0)
-    {
-        ArmyCheckChange((TAOWCheckBox)p0);
-    }
-
-    private void Layout_NaturalCheckChange_4(TObject p0)
-    {
-        NaturalCheckChange((TAOWCheckBox)p0);
-    }
-
-    private void Layout_ScannerChangeTileBox_5(TObject p0)
+    private void Layout_ScannerChangeTileBox_5()
     {
         ScannerChangeTileBox();
     }
 
-    private void Layout_SMinIconClick_6(TObject p0)
+    private void Layout_SMinIconClick_6()
     {
         SMinIconClick();
     }
 
-    private void Layout_HelpClick_7(TObject p0)
+    private void Layout_HelpClick_7()
     {
         HelpClick();
     }

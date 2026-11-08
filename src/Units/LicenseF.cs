@@ -17,7 +17,7 @@ public partial class TLicenseForm : TForm
     public TImage Image2;
 
     // LicenseF.pas:35
-    public void FormCreate(TObject Sender)
+    public void FormCreate()
     {
         /* TODO: Implement StdCtrls.Lines in the platform or editor service. */
         throw new NotImplementedException();

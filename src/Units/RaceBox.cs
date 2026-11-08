@@ -8,7 +8,7 @@ namespace Aow.Units.RaceBox;
 
 public partial class TRaceBox : TComboBox
 {
-    public TNotifyEvent FOnGenerateItems;
+    public TNotifyEvent<TObject> FOnGenerateItems;
     public sbyte FRace;
     public bool FAllowRandom;
     public bool FAllowNone;
@@ -71,7 +71,7 @@ public partial class TRaceBox : TComboBox
     public bool AllowNoRace { get => FAllowNone; set => FAllowNone = value; }
 
     [Published]
-    public TNotifyEvent OnGenerateItems { get => FOnGenerateItems; set => FOnGenerateItems = value; }
+    public TNotifyEvent<TObject> OnGenerateItems { get => FOnGenerateItems; set => FOnGenerateItems = value; }
 }
 
 public struct TObjectFields

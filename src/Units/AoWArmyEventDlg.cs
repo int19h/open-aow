@@ -175,7 +175,7 @@ public partial class TArmyEventDlg : TDataModule
     }
 
     // AoWArmyEventDlg.pas:187
-    public void UnitPnlDrawBack(TAoWComponent Sender, TSurfaceDesc SD)
+    public void UnitPnlDrawBack(TSurfaceDesc SD)
     {
         if (FFrame < 1000)
         {
@@ -199,7 +199,7 @@ public partial class TArmyEventDlg : TDataModule
     }
 
     // AoWArmyEventDlg.pas:203
-    public void ArmyEventWinKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void ArmyEventWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {

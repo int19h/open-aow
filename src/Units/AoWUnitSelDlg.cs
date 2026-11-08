@@ -176,23 +176,23 @@ public partial class TUnitSelectionDlg : TDataModule
     }
 
     // AoWUnitSelDlg.pas:120
-    public void U1Change(TObject Sender)
+    public void U1Change(TAOWCheckBox Sender, int Slot)
     {
         string Reason = "";
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             if (!FEvent.FCanceled)
             {
-                FEvent.SetSelection((byte)(1 << ((TComponent)Sender).Tag));
+                FEvent.SetSelection((byte)(1 << Slot));
             }
             else
             {
-                FEvent.SetSelection((byte)(FEvent.FSelection | (1 << ((TComponent)Sender).Tag)));
+                FEvent.SetSelection((byte)(FEvent.FSelection | (1 << Slot)));
             }
         }
         else
         {
-            FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << ((TComponent)Sender).Tag)));
+            FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << Slot)));
         }
 
         U1.Checked = (FEvent.FSelection & 1) != 0;
@@ -203,9 +203,9 @@ public partial class TUnitSelectionDlg : TDataModule
         U6.Checked = (FEvent.FSelection & 32) != 0;
         U7.Checked = (FEvent.FSelection & 64) != 0;
         U8.Checked = (FEvent.FSelection & 128) != 0;
-        if ((FEvent.FSelectable & (1 << ((TComponent)Sender).Tag)) != 0)
+        if ((FEvent.FSelectable & (1 << Slot)) != 0)
         {
-            if (((TAOWCheckBox)Sender).Checked)
+            if (Sender.Checked)
             {
                 General.PlayButtonSound(1);
             }
@@ -233,13 +233,13 @@ public partial class TUnitSelectionDlg : TDataModule
     }
 
     // AoWUnitSelDlg.pas:146
-    public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void U1PreDraw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
     {
-        DrawUnit(Sender.Tag, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
+        DrawUnit(Slot, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
     }
 
     // AoWUnitSelDlg.pas:151
-    public void SourceFacePreDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void SourceFacePreDraw(TSurfaceDesc SD)
     {
         TRect R = default;
         TAbstractUnit U;

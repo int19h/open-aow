@@ -446,7 +446,7 @@ public partial class TFastCombatWindow : TDataModule
     }
 
     // FastCombatWin.pas:405
-    public void FCWinDrawSurface(TObject Sender, TSurface Surface, int Left, int Top)
+    public void FCWinDrawSurface(TSurface Surface, int Left, int Top)
     {
         TSurfaceDesc SD = default;
         try
@@ -480,7 +480,7 @@ public partial class TFastCombatWindow : TDataModule
     }
 
     // FastCombatWin.pas:424
-    public void FCWinUpdate(TObject Sender)
+    public void FCWinUpdate()
     {
         int Image;
         try
@@ -677,7 +677,7 @@ public partial class TFastCombatWindow : TDataModule
     }
 
     // FastCombatWin.pas:544
-    public void FCWinKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void FCWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {

@@ -26,8 +26,8 @@ public enum TWindowType : byte
 public partial class TAOWWindowControl : TAoWComponent
 {
     public bool FModal;
-    public TAoWOnDrawSurface FOnDrawSurface;
-    public TAoWOnDrawSurface FOnPreDrawSurface;
+    public TAoWOnDrawSurface<TAOWWindowControl> FOnDrawSurface;
+    public TAoWOnDrawSurface<TAOWWindowControl> FOnPreDrawSurface;
     public byte FDragging;
     public int FDragX;
     public int FDragY;
@@ -35,13 +35,13 @@ public partial class TAOWWindowControl : TAoWComponent
     public bool FResizable;
     public byte FResizingX;
     public byte FResizingY;
-    public TNotifyEvent FOnResize;
-    public TNotifyEvent FOnInternalResize;
+    public TNotifyEvent<TAOWWindowControl> FOnResize;
+    public TNotifyEvent<TAOWWindowControl> FOnInternalResize;
     public int FDragHeight;
     public bool FOverlapTopCorners;
     public int FOldCursor;
     public int FWindowCursor;
-    public TNotifyEvent FOnChangeCursor;
+    public TNotifyEvent<TAOWWindowControl> FOnChangeCursor;
     public int FMinWidth;
     public int FMinHeight;
     public int FMaxWidth;
@@ -61,9 +61,9 @@ public partial class TAOWWindowControl : TAoWComponent
     public int F190;
     public TRect FBackRect;
     public int F1A4;
-    public TAoWOnDrawBackEvent FOnDrawBack;
-    public TNotifyEvent FOnEnter;
-    public TNotifyEvent FOnExit;
+    public TAoWOnDrawBackEvent<TAOWWindowControl> FOnDrawBack;
+    public TNotifyEvent<TAOWWindowControl> FOnEnter;
+    public TNotifyEvent<TAOWWindowControl> FOnExit;
     public bool FMouseInside;
     public int FILIndexFrame;
     public int FILIndexTexture;
@@ -308,16 +308,70 @@ public partial class TAOWWindowControl : TAoWComponent
     }
 
     [Published]
-    public TAoWOnDrawBackEvent OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
+    public TAoWOnDrawBackEvent<TAOWWindowControl> OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
 
     [Published]
-    public TNotifyEvent OnEnter { get => FOnEnter; set => FOnEnter = value; }
+    public TNotifyEvent<TAOWWindowControl> OnEnter { get => FOnEnter; set => FOnEnter = value; }
 
     [Published]
-    public TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
+    public TNotifyEvent<TAOWWindowControl> OnExit { get => FOnExit; set => FOnExit = value; }
+
+    public new TNotifyEvent<TAOWWindowControl> OnChange
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAOWWindowControl> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAOWWindowControl> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAOWWindowControl> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAOWWindowControl> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAOWWindowControl> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAOWWindowControl> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAOWWindowControl> OnDraw
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAOWWindowControl> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAOWWindowControl.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAOWWindowControl.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
-public delegate void TAoWOnDrawSurface(TAOWWindowControl Sender, TSurface Surface, int Left, int Top);
+public delegate void TAoWOnDrawSurface<in TSender>(TSender Sender, TSurface Surface, int Left, int Top);
 
 public static partial class AoWWinControlUnit
 {

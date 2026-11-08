@@ -37,7 +37,7 @@ public partial class TMessageDlg : ILayoutModule
         Dlg.WinTop = 119;
         Dlg.WinWidth = 385;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -152,7 +152,7 @@ public partial class TMessageDlg : ILayoutModule
         YesBtn.TextColor = 0;
         YesBtn.TextSelColor = 16777215;
         YesBtn.WinWidth = 105;
-        YesBtn.OnClick = Layout_YesBtnClick_1;
+        YesBtn.OnClick = _ => Layout_YesBtnClick_1();
         session.EndRead(YesBtn);
         NoBtn = new TAOWButton(this);
         session.BeginRead(NoBtn);
@@ -183,7 +183,7 @@ public partial class TMessageDlg : ILayoutModule
         NoBtn.TextColor = 0;
         NoBtn.TextSelColor = 16777215;
         NoBtn.WinWidth = 105;
-        NoBtn.OnClick = Layout_NoBtnClick_2;
+        NoBtn.OnClick = _ => Layout_NoBtnClick_2();
         session.EndRead(NoBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -352,7 +352,7 @@ public partial class TMessageDlg : ILayoutModule
         OKBtn.TextColor = 0;
         OKBtn.TextSelColor = 16777215;
         OKBtn.WinWidth = 130;
-        OKBtn.OnClick = Layout_OKBtnClick_3;
+        OKBtn.OnClick = _ => Layout_OKBtnClick_3();
         session.EndRead(OKBtn);
         OKPnl = new TAOWPanel(this);
         session.BeginRead(OKPnl);
@@ -439,7 +439,7 @@ public partial class TMessageDlg : ILayoutModule
         OKBtn2.TextColor = 0;
         OKBtn2.TextSelColor = 16777215;
         OKBtn2.WinWidth = 105;
-        OKBtn2.OnClick = Layout_OKBtn2Click_4;
+        OKBtn2.OnClick = _ => Layout_OKBtn2Click_4();
         session.EndRead(OKBtn2);
         CancelBtn = new TAOWButton(this);
         session.BeginRead(CancelBtn);
@@ -470,7 +470,7 @@ public partial class TMessageDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 105;
-        CancelBtn.OnClick = Layout_CancelBtnClick_5;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_5();
         session.EndRead(CancelBtn);
         MessageMemo = new TAOWMemo(this);
         session.BeginRead(MessageMemo);
@@ -599,7 +599,7 @@ public partial class TMessageDlg : ILayoutModule
         YesBtn2.TextColor = 0;
         YesBtn2.TextSelColor = 16777215;
         YesBtn2.WinWidth = 105;
-        YesBtn2.OnClick = Layout_YesBtnClick_1;
+        YesBtn2.OnClick = _ => Layout_YesBtnClick_1();
         session.EndRead(YesBtn2);
         NoBtn2 = new TAOWButton(this);
         session.BeginRead(NoBtn2);
@@ -630,7 +630,7 @@ public partial class TMessageDlg : ILayoutModule
         NoBtn2.TextColor = 0;
         NoBtn2.TextSelColor = 16777215;
         NoBtn2.WinWidth = 105;
-        NoBtn2.OnClick = Layout_NoBtnClick_2;
+        NoBtn2.OnClick = _ => Layout_NoBtnClick_2();
         session.EndRead(NoBtn2);
         CancelBtn2 = new TAOWButton(this);
         session.BeginRead(CancelBtn2);
@@ -661,7 +661,7 @@ public partial class TMessageDlg : ILayoutModule
         CancelBtn2.TextColor = 0;
         CancelBtn2.TextSelColor = 16777215;
         CancelBtn2.WinWidth = 105;
-        CancelBtn2.OnClick = Layout_CancelBtnClick_5;
+        CancelBtn2.OnClick = _ => Layout_CancelBtnClick_5();
         session.EndRead(CancelBtn2);
         MemoPnl = new TAOWPanel(this);
         session.BeginRead(MemoPnl);
@@ -915,32 +915,32 @@ public partial class TMessageDlg : ILayoutModule
         HeaderLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_YesBtnClick_1(TObject p0)
+    private void Layout_YesBtnClick_1()
     {
         YesBtnClick();
     }
 
-    private void Layout_NoBtnClick_2(TObject p0)
+    private void Layout_NoBtnClick_2()
     {
         NoBtnClick();
     }
 
-    private void Layout_OKBtnClick_3(TObject p0)
+    private void Layout_OKBtnClick_3()
     {
         OKBtnClick();
     }
 
-    private void Layout_OKBtn2Click_4(TObject p0)
+    private void Layout_OKBtn2Click_4()
     {
         OKBtn2Click();
     }
 
-    private void Layout_CancelBtnClick_5(TObject p0)
+    private void Layout_CancelBtnClick_5()
     {
         CancelBtnClick();
     }

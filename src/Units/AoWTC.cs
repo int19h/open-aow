@@ -7617,7 +7617,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     }
 
     // AoWTC.pas:2807
-    public void MoveSelectionEvent(TObject Sender)
+    public void MoveSelectionEvent()
     {
         if (AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer)
         {
@@ -8876,7 +8876,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     }
 
     // AoWTC.pas:2489
-    public void EndCombat(TObject Sender)
+    public void EndCombat()
     {
         TTerminateCombatTE TE;
         TE = new TTerminateCombatTE(null);
@@ -9153,7 +9153,7 @@ public partial class TTacticalCombat : TCombat
                     var turnOrder = FCombatData.FTurnOrder[0];
                     AoWTCUnit.AoWCombatMap.NewTurn((sbyte)turnOrder);
                     Result = TCombatResult.crBusy;
-                    FOnTerminated = AoWTCUnit.AoWCombatMap.EndCombat;
+                    FOnTerminated = _ => AoWTCUnit.AoWCombatMap.EndCombat();
                     SetLogCombatActions(1);
                 }
             }

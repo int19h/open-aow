@@ -1,5 +1,6 @@
 // Translated from AOWGauge.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.GFXE;
@@ -344,6 +345,60 @@ public partial class TAoWGauge : TAOWControl
 
     [Published]
     public int ILIndexTSelected { get => FILIndexTSelected; set => SetILTsIndex(value); }
+
+    public new TNotifyEvent<TAoWGauge> OnChange
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnChange", FOnChange, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+    }
+
+    public new TMouseEvent<TAoWGauge> OnMouseDown
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnMouseDown", FOnMouseDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseEvent<TAoWGauge> OnMouseUp
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnMouseUp", FOnMouseUp, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+    }
+
+    public new TMouseMoveEvent<TAoWGauge> OnMouseMove
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnMouseMove", FOnMouseMove, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+    }
+
+    public new TKeyPressEvent<TAoWGauge> OnKeyPress
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnKeyPress", FOnKeyPress, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+    }
+
+    public new TKeyEvent<TAoWGauge> OnKeyDown
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnKeyDown", FOnKeyDown, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+    }
+
+    public new TAoWOnDrawEvent<TAoWGauge> OnPreDraw
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnPreDraw", FOnPreDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TAoWOnDrawEvent<TAoWGauge> OnDraw
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnDraw", FOnDraw, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+    }
+
+    public new TNotifyEvent<TAoWGauge> OnUpdate
+    {
+        get => EventSlot.Get(this, "TAoWGauge.FOnUpdate", FOnUpdate, static slot => slot);
+        set => EventSlot.Set(this, "TAoWGauge.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+    }
 }
 
 public static partial class AOWGaugeUnit

@@ -20,7 +20,7 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
     public TMemoryStream FStream;
     public TAoWHSMap FMap;
     public byte FSort;
-    public TNotifyEvent FOnUnselect;
+    public TNotifyEvent<TObject> FOnUnselect;
 
     // HeroCtrl.pas:134
     public override void Destroy()
@@ -193,7 +193,7 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
     public bool OnlyFreeHeroes { get => FUnplacedOnly; set => FUnplacedOnly = value; }
 
     [Published]
-    public TNotifyEvent OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
+    public TNotifyEvent<TObject> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
 
     [Published]
     public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }

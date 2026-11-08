@@ -10,12 +10,12 @@ public enum TShiftState : byte { ssShift, ssAlt, ssCtrl, ssLeft, ssRight, ssMidd
 
 public enum TPropertyAttribute : byte { paValueList, paSubProperties, paDialog, paMultiSelect, paAutoUpdate, paSortList, paReadOnly, paRevertable }
 
-public delegate void TDrawCellEvent(TObject sender, int col, int row, TRect rect, TSet<TGridDrawState> state);
-public delegate void TSelectCellEvent(TObject sender, int col, int row, ref bool select);
-public delegate void TMouseEvent(TObject sender, TMouseButton button, TSet<TShiftState> shift, int x, int y);
-public delegate void TMouseMoveEvent(TObject sender, TSet<TShiftState> shift, int x, int y);
-public delegate void TKeyPressEvent(TObject sender, ref byte key);
-public delegate void TKeyEvent(TObject sender, ref ushort key, TSet<TShiftState> shift);
+public delegate void TDrawCellEvent<in TSender>(TSender sender, int col, int row, TRect rect, TSet<TGridDrawState> state);
+public delegate void TSelectCellEvent<in TSender>(TSender sender, int col, int row, ref bool select);
+public delegate void TMouseEvent<in TSender>(TSender sender, TMouseButton button, TSet<TShiftState> shift, int x, int y);
+public delegate void TMouseMoveEvent<in TSender>(TSender sender, TSet<TShiftState> shift, int x, int y);
+public delegate void TKeyPressEvent<in TSender>(TSender sender, ref byte key);
+public delegate void TKeyEvent<in TSender>(TSender sender, ref ushort key, TSet<TShiftState> shift);
 
 public enum TBltMode : byte { bmNone, bmStretch, bmStretchToFit, bmCenter }
 

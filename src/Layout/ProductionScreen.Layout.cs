@@ -33,19 +33,19 @@ public partial class TProductionScreen : ILayoutModule
     {
         session.Begin(this);
         Name = "ProductionScreen";
-        LayoutOnCreate = Layout_ProductionScreenCreate_0;
-        LayoutOnDestroy = Layout_ProductionScreenDestroy_1;
+        LayoutOnCreate = _ => Layout_ProductionScreenCreate_0();
+        LayoutOnDestroy = _ => Layout_ProductionScreenDestroy_1();
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 55;
         Dlg.WinLeft = 0;
         Dlg.WinTop = 0;
         Dlg.WinWidth = 640;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_2;
+        Dlg.OnHide = _ => Layout_DlgHide_2();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -110,7 +110,7 @@ public partial class TProductionScreen : ILayoutModule
         UAbilitiesLB = new TAOWListBox(this);
         session.BeginRead(UAbilitiesLB);
         UAbilitiesLB.Name = "UAbilitiesLB";
-        UAbilitiesLB.OnMouseDown = UAbilitiesLBMouseDown;
+        UAbilitiesLB.OnMouseDown = (_, button, shift, x, y) => UAbilitiesLBMouseDown(button, shift, x, y);
         UAbilitiesLB.Priority = 200;
         UAbilitiesLB.WinLeft = 2;
         UAbilitiesLB.WinTop = 1;
@@ -774,8 +774,8 @@ public partial class TProductionScreen : ILayoutModule
         session.BeginRead(B4CB);
         B4CB.Name = "B4CB";
         B4CB.Tag = 3;
-        B4CB.OnPreDraw = ActivityPreDraw;
-        B4CB.OnUpdate = B4CBUpdate;
+        B4CB.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 3);
+        B4CB.OnUpdate = sender => B4CBUpdate(sender, 3);
         B4CB.Priority = 1700;
         B4CB.WinLeft = 153;
         B4CB.WinTop = 0;
@@ -802,16 +802,16 @@ public partial class TProductionScreen : ILayoutModule
         B4CB.TextSelColor = 0;
         B4CB.WinWidth = 52;
         B4CB.Checked = false;
-        B4CB.OnChange = ActivityChange;
+        B4CB.OnChange = sender => ActivityChange(sender, 3);
         B4CB.RadioIndex = 1;
-        B4CB.OnDoubleClick = ActivityDoubleClick;
+        B4CB.OnDoubleClick = sender => ActivityDoubleClick(sender, 3);
         session.EndRead(B4CB);
         B5CB = new TAOWCheckBox(this);
         session.BeginRead(B5CB);
         B5CB.Name = "B5CB";
         B5CB.Tag = 4;
-        B5CB.OnPreDraw = ActivityPreDraw;
-        B5CB.OnUpdate = B4CBUpdate;
+        B5CB.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 4);
+        B5CB.OnUpdate = sender => B4CBUpdate(sender, 4);
         B5CB.Priority = 1600;
         B5CB.WinLeft = 204;
         B5CB.WinTop = 0;
@@ -838,16 +838,16 @@ public partial class TProductionScreen : ILayoutModule
         B5CB.TextSelColor = 0;
         B5CB.WinWidth = 52;
         B5CB.Checked = false;
-        B5CB.OnChange = ActivityChange;
+        B5CB.OnChange = sender => ActivityChange(sender, 4);
         B5CB.RadioIndex = 1;
-        B5CB.OnDoubleClick = ActivityDoubleClick;
+        B5CB.OnDoubleClick = sender => ActivityDoubleClick(sender, 4);
         session.EndRead(B5CB);
         B6CB = new TAOWCheckBox(this);
         session.BeginRead(B6CB);
         B6CB.Name = "B6CB";
         B6CB.Tag = 5;
-        B6CB.OnPreDraw = ActivityPreDraw;
-        B6CB.OnUpdate = B4CBUpdate;
+        B6CB.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 5);
+        B6CB.OnUpdate = sender => B4CBUpdate(sender, 5);
         B6CB.Priority = 1500;
         B6CB.WinLeft = 255;
         B6CB.WinTop = 0;
@@ -874,15 +874,15 @@ public partial class TProductionScreen : ILayoutModule
         B6CB.TextSelColor = 0;
         B6CB.WinWidth = 52;
         B6CB.Checked = false;
-        B6CB.OnChange = ActivityChange;
+        B6CB.OnChange = sender => ActivityChange(sender, 5);
         B6CB.RadioIndex = 1;
-        B6CB.OnDoubleClick = ActivityDoubleClick;
+        B6CB.OnDoubleClick = sender => ActivityDoubleClick(sender, 5);
         session.EndRead(B6CB);
         B1CB = new TAOWCheckBox(this);
         session.BeginRead(B1CB);
         B1CB.Name = "B1CB";
-        B1CB.OnPreDraw = ActivityPreDraw;
-        B1CB.OnUpdate = B4CBUpdate;
+        B1CB.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 0);
+        B1CB.OnUpdate = sender => B4CBUpdate(sender, 0);
         B1CB.Priority = 2000;
         B1CB.WinLeft = 0;
         B1CB.WinTop = 0;
@@ -909,16 +909,16 @@ public partial class TProductionScreen : ILayoutModule
         B1CB.TextSelColor = 0;
         B1CB.WinWidth = 52;
         B1CB.Checked = false;
-        B1CB.OnChange = ActivityChange;
+        B1CB.OnChange = sender => ActivityChange(sender, 0);
         B1CB.RadioIndex = 1;
-        B1CB.OnDoubleClick = ActivityDoubleClick;
+        B1CB.OnDoubleClick = sender => ActivityDoubleClick(sender, 0);
         session.EndRead(B1CB);
         B2CB = new TAOWCheckBox(this);
         session.BeginRead(B2CB);
         B2CB.Name = "B2CB";
         B2CB.Tag = 1;
-        B2CB.OnPreDraw = ActivityPreDraw;
-        B2CB.OnUpdate = B4CBUpdate;
+        B2CB.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 1);
+        B2CB.OnUpdate = sender => B4CBUpdate(sender, 1);
         B2CB.Priority = 1900;
         B2CB.WinLeft = 51;
         B2CB.WinTop = 0;
@@ -945,16 +945,16 @@ public partial class TProductionScreen : ILayoutModule
         B2CB.TextSelColor = 0;
         B2CB.WinWidth = 52;
         B2CB.Checked = false;
-        B2CB.OnChange = ActivityChange;
+        B2CB.OnChange = sender => ActivityChange(sender, 1);
         B2CB.RadioIndex = 1;
-        B2CB.OnDoubleClick = ActivityDoubleClick;
+        B2CB.OnDoubleClick = sender => ActivityDoubleClick(sender, 1);
         session.EndRead(B2CB);
         B3CB = new TAOWCheckBox(this);
         session.BeginRead(B3CB);
         B3CB.Name = "B3CB";
         B3CB.Tag = 2;
-        B3CB.OnPreDraw = ActivityPreDraw;
-        B3CB.OnUpdate = B4CBUpdate;
+        B3CB.OnPreDraw = (sender, surface) => ActivityPreDraw(sender, surface, 2);
+        B3CB.OnUpdate = sender => B4CBUpdate(sender, 2);
         B3CB.Priority = 1800;
         B3CB.WinLeft = 102;
         B3CB.WinTop = 0;
@@ -981,9 +981,9 @@ public partial class TProductionScreen : ILayoutModule
         B3CB.TextSelColor = 0;
         B3CB.WinWidth = 52;
         B3CB.Checked = false;
-        B3CB.OnChange = ActivityChange;
+        B3CB.OnChange = sender => ActivityChange(sender, 2);
         B3CB.RadioIndex = 1;
-        B3CB.OnDoubleClick = ActivityDoubleClick;
+        B3CB.OnDoubleClick = sender => ActivityDoubleClick(sender, 2);
         session.EndRead(B3CB);
         T2SBar = new TAOWVScrollBar(this);
         session.BeginRead(T2SBar);
@@ -1328,7 +1328,7 @@ public partial class TProductionScreen : ILayoutModule
         MainBtn3.TextColor = 0;
         MainBtn3.TextSelColor = 0;
         MainBtn3.WinWidth = 153;
-        MainBtn3.OnClick = Layout_MainBtn3Click_3;
+        MainBtn3.OnClick = _ => Layout_MainBtn3Click_3();
         session.EndRead(MainBtn3);
         MainBtn1 = new TAOWButton(this);
         session.BeginRead(MainBtn1);
@@ -1359,7 +1359,7 @@ public partial class TProductionScreen : ILayoutModule
         MainBtn1.TextColor = 0;
         MainBtn1.TextSelColor = 0;
         MainBtn1.WinWidth = 153;
-        MainBtn1.OnClick = MainBtn1Click;
+        MainBtn1.OnClick = _ => MainBtn1Click();
         session.EndRead(MainBtn1);
         QueueLB = new TAOWListBox(this);
         session.BeginRead(QueueLB);
@@ -1389,7 +1389,7 @@ public partial class TProductionScreen : ILayoutModule
         QueueLB.WinHeight = 63;
         QueueLB.BorderWidth = 3;
         QueueLB.BorderHeight = 1;
-        QueueLB.OnChange = QueueLBChange;
+        QueueLB.OnChange = _ => QueueLBChange();
         QueueLB.Selected = -1;
         QueueLB.TextColor = 6783862;
         QueueLB.TextSelColor = 0;
@@ -1614,7 +1614,7 @@ public partial class TProductionScreen : ILayoutModule
         MainBtn2.TextColor = 0;
         MainBtn2.TextSelColor = 0;
         MainBtn2.WinWidth = 153;
-        MainBtn2.OnClick = Layout_MainBtn2Click_4;
+        MainBtn2.OnClick = _ => Layout_MainBtn2Click_4();
         session.EndRead(MainBtn2);
         InfoPnl = new TAOWPanel(this);
         session.BeginRead(InfoPnl);
@@ -2014,7 +2014,7 @@ public partial class TProductionScreen : ILayoutModule
         LoopQueueBox.TextSelColor = 0;
         LoopQueueBox.WinWidth = 12;
         LoopQueueBox.Checked = false;
-        LoopQueueBox.OnChange = Layout_LoopQueueBoxChange_5;
+        LoopQueueBox.OnChange = _ => Layout_LoopQueueBoxChange_5();
         LoopQueueBox.RadioIndex = 0;
         session.EndRead(LoopQueueBox);
         RepeatLbl = new TAOWLabel(this);
@@ -2831,7 +2831,7 @@ public partial class TProductionScreen : ILayoutModule
         session.BeginRead(MapView);
         MapView.Name = "MapView";
         MapView.OnDraw = MapViewDraw;
-        MapView.OnUpdate = Layout_MapViewUpdate_6;
+        MapView.OnUpdate = _ => Layout_MapViewUpdate_6();
         MapView.Priority = 50;
         MapView.WinLeft = 11;
         MapView.WinTop = 12;
@@ -2885,7 +2885,7 @@ public partial class TProductionScreen : ILayoutModule
         PNext.TextColor = 0;
         PNext.TextSelColor = 16777215;
         PNext.WinWidth = 77;
-        PNext.OnClick = Layout_PNextClick_7;
+        PNext.OnClick = _ => Layout_PNextClick_7();
         session.EndRead(PNext);
         PPrev = new TAOWButton(this);
         session.BeginRead(PPrev);
@@ -2920,7 +2920,7 @@ public partial class TProductionScreen : ILayoutModule
         PPrev.TextColor = 0;
         PPrev.TextSelColor = 16777215;
         PPrev.WinWidth = 77;
-        PPrev.OnClick = Layout_PPrevClick_8;
+        PPrev.OnClick = _ => Layout_PPrevClick_8();
         session.EndRead(PPrev);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -3300,47 +3300,47 @@ public partial class TProductionScreen : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_ProductionScreenCreate_0(TObject p0)
+    private void Layout_ProductionScreenCreate_0()
     {
         ProductionScreenCreate();
     }
 
-    private void Layout_ProductionScreenDestroy_1(TObject p0)
+    private void Layout_ProductionScreenDestroy_1()
     {
         ProductionScreenDestroy();
     }
 
-    private void Layout_DlgHide_2(TObject p0)
+    private void Layout_DlgHide_2()
     {
         DlgHide();
     }
 
-    private void Layout_MainBtn3Click_3(TObject p0)
+    private void Layout_MainBtn3Click_3()
     {
         MainBtn3Click();
     }
 
-    private void Layout_MainBtn2Click_4(TObject p0)
+    private void Layout_MainBtn2Click_4()
     {
         MainBtn2Click();
     }
 
-    private void Layout_LoopQueueBoxChange_5(TObject p0)
+    private void Layout_LoopQueueBoxChange_5()
     {
         LoopQueueBoxChange();
     }
 
-    private void Layout_MapViewUpdate_6(TObject p0)
+    private void Layout_MapViewUpdate_6()
     {
         MapViewUpdate();
     }
 
-    private void Layout_PNextClick_7(TObject p0)
+    private void Layout_PNextClick_7()
     {
         PNextClick();
     }
 
-    private void Layout_PPrevClick_8(TObject p0)
+    private void Layout_PPrevClick_8()
     {
         PPrevClick();
     }

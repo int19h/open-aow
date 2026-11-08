@@ -118,7 +118,7 @@ public partial class TWizardsTowerDlg : TDataModule
     }
 
     // AoWWizardsTowerDlg.pas:101
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

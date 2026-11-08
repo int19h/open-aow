@@ -97,7 +97,7 @@ public partial class TScenSetup : ILayoutModule
         ChatSB = new TAOWVScrollBar(this);
         session.BeginRead(ChatSB);
         ChatSB.Name = "ChatSB";
-        ChatSB.OnUpdate = Layout_ChatSBUpdate_0;
+        ChatSB.OnUpdate = _ => Layout_ChatSBUpdate_0();
         ChatSB.Visible = false;
         ChatSB.Priority = 2;
         ChatSB.WinLeft = 292;
@@ -161,7 +161,7 @@ public partial class TScenSetup : ILayoutModule
         ChatEdit.TextColor = 15134446;
         ChatEdit.Editable = true;
         ChatEdit.ILIndex = 23;
-        ChatEdit.OnReturn = Layout_ChatEditReturn_1;
+        ChatEdit.OnReturn = _ => Layout_ChatEditReturn_1();
         ChatEdit.PassWordChar = 0;
         session.EndRead(ChatEdit);
         SidesPnl = new TAOWPanel(this);
@@ -248,7 +248,7 @@ public partial class TScenSetup : ILayoutModule
         PlayerList.BorderHeight = 3;
         PlayerList.OnChange = PlayerListChange;
         PlayerList.Selected = -1;
-        PlayerList.OnDrawItem = PlayerListDrawItem;
+        PlayerList.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => PlayerListDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         PlayerList.TextColor = 15134446;
         PlayerList.TextSelColor = 0;
         PlayerList.ILIndexFrame = 64;
@@ -290,7 +290,7 @@ public partial class TScenSetup : ILayoutModule
         EjectBtn.TextColor = 15134446;
         EjectBtn.TextSelColor = 16777215;
         EjectBtn.WinWidth = 70;
-        EjectBtn.OnClick = Layout_EjectBtnClick_2;
+        EjectBtn.OnClick = _ => Layout_EjectBtnClick_2();
         session.EndRead(EjectBtn);
         R1Pnl = new TAOWPanel(this);
         session.BeginRead(R1Pnl);
@@ -299,7 +299,7 @@ public partial class TScenSetup : ILayoutModule
         R1Pnl.WinLeft = 0;
         R1Pnl.WinTop = 0;
         R1Pnl.WinWidth = 156;
-        R1Pnl.OnDrawBack = RacePnlDrawBack;
+        R1Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 0);
         R1Pnl.Masked = true;
         R1Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R1Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -328,7 +328,7 @@ public partial class TScenSetup : ILayoutModule
         R5Pnl.WinLeft = 164;
         R5Pnl.WinTop = 0;
         R5Pnl.WinWidth = 156;
-        R5Pnl.OnDrawBack = RacePnlDrawBack;
+        R5Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 4);
         R5Pnl.Masked = true;
         R5Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R5Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -357,7 +357,7 @@ public partial class TScenSetup : ILayoutModule
         R9Pnl.WinLeft = 328;
         R9Pnl.WinTop = 0;
         R9Pnl.WinWidth = 156;
-        R9Pnl.OnDrawBack = RacePnlDrawBack;
+        R9Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 8);
         R9Pnl.Masked = true;
         R9Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R9Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -386,7 +386,7 @@ public partial class TScenSetup : ILayoutModule
         R2Pnl.WinLeft = 0;
         R2Pnl.WinTop = 70;
         R2Pnl.WinWidth = 156;
-        R2Pnl.OnDrawBack = RacePnlDrawBack;
+        R2Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 1);
         R2Pnl.Masked = true;
         R2Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R2Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -415,7 +415,7 @@ public partial class TScenSetup : ILayoutModule
         R6Pnl.WinLeft = 164;
         R6Pnl.WinTop = 70;
         R6Pnl.WinWidth = 156;
-        R6Pnl.OnDrawBack = RacePnlDrawBack;
+        R6Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 5);
         R6Pnl.Masked = true;
         R6Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R6Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -444,7 +444,7 @@ public partial class TScenSetup : ILayoutModule
         R10Pnl.WinLeft = 328;
         R10Pnl.WinTop = 70;
         R10Pnl.WinWidth = 156;
-        R10Pnl.OnDrawBack = RacePnlDrawBack;
+        R10Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 9);
         R10Pnl.Masked = true;
         R10Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R10Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -473,7 +473,7 @@ public partial class TScenSetup : ILayoutModule
         R3Pnl.WinLeft = 0;
         R3Pnl.WinTop = 140;
         R3Pnl.WinWidth = 156;
-        R3Pnl.OnDrawBack = RacePnlDrawBack;
+        R3Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 2);
         R3Pnl.Masked = true;
         R3Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R3Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -502,7 +502,7 @@ public partial class TScenSetup : ILayoutModule
         R7Pnl.WinLeft = 164;
         R7Pnl.WinTop = 140;
         R7Pnl.WinWidth = 156;
-        R7Pnl.OnDrawBack = RacePnlDrawBack;
+        R7Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 6);
         R7Pnl.Masked = true;
         R7Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R7Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -531,7 +531,7 @@ public partial class TScenSetup : ILayoutModule
         R11Pnl.WinLeft = 328;
         R11Pnl.WinTop = 140;
         R11Pnl.WinWidth = 156;
-        R11Pnl.OnDrawBack = RacePnlDrawBack;
+        R11Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 10);
         R11Pnl.Masked = true;
         R11Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R11Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -560,7 +560,7 @@ public partial class TScenSetup : ILayoutModule
         R4Pnl.WinLeft = 0;
         R4Pnl.WinTop = 210;
         R4Pnl.WinWidth = 156;
-        R4Pnl.OnDrawBack = RacePnlDrawBack;
+        R4Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 3);
         R4Pnl.Masked = true;
         R4Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R4Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -589,7 +589,7 @@ public partial class TScenSetup : ILayoutModule
         R8Pnl.WinLeft = 164;
         R8Pnl.WinTop = 210;
         R8Pnl.WinWidth = 156;
-        R8Pnl.OnDrawBack = RacePnlDrawBack;
+        R8Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 7);
         R8Pnl.Masked = true;
         R8Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R8Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -618,7 +618,7 @@ public partial class TScenSetup : ILayoutModule
         R12Pnl.WinLeft = 328;
         R12Pnl.WinTop = 210;
         R12Pnl.WinWidth = 156;
-        R12Pnl.OnDrawBack = RacePnlDrawBack;
+        R12Pnl.OnDrawBack = (sender, surface) => RacePnlDrawBack(sender, surface, 11);
         R12Pnl.Masked = true;
         R12Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         R12Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -672,7 +672,7 @@ public partial class TScenSetup : ILayoutModule
         ExitGame.TextColor = 15134446;
         ExitGame.TextSelColor = 16777215;
         ExitGame.WinWidth = 114;
-        ExitGame.OnClick = ExitGameClick;
+        ExitGame.OnClick = _ => ExitGameClick();
         session.EndRead(ExitGame);
         PickScenarioBtn = new TAOWButton(this);
         session.BeginRead(PickScenarioBtn);
@@ -707,7 +707,7 @@ public partial class TScenSetup : ILayoutModule
         PickScenarioBtn.TextColor = 15134446;
         PickScenarioBtn.TextSelColor = 16777215;
         PickScenarioBtn.WinWidth = 114;
-        PickScenarioBtn.OnClick = Layout_PickScenarioBtnClick_3;
+        PickScenarioBtn.OnClick = _ => Layout_PickScenarioBtnClick_3();
         session.EndRead(PickScenarioBtn);
         StartBtn = new TAOWButton(this);
         session.BeginRead(StartBtn);
@@ -742,7 +742,7 @@ public partial class TScenSetup : ILayoutModule
         StartBtn.TextColor = 15134446;
         StartBtn.TextSelColor = 16777215;
         StartBtn.WinWidth = 114;
-        StartBtn.OnClick = Layout_StartBtnClick_4;
+        StartBtn.OnClick = _ => Layout_StartBtnClick_4();
         session.EndRead(StartBtn);
         MiscLbl = new TAOWLabel(this);
         session.BeginRead(MiscLbl);
@@ -770,7 +770,7 @@ public partial class TScenSetup : ILayoutModule
         ScenSetupPnl = new TAOWPanel(this);
         session.BeginRead(ScenSetupPnl);
         ScenSetupPnl.Name = "ScenSetupPnl";
-        ScenSetupPnl.OnUpdate = Layout_ScenSetupPnlUpdate_5;
+        ScenSetupPnl.OnUpdate = _ => Layout_ScenSetupPnlUpdate_5();
         ScenSetupPnl.Visible = false;
         ScenSetupPnl.Priority = 10;
         ScenSetupPnl.WinLeft = 0;
@@ -873,7 +873,7 @@ public partial class TScenSetup : ILayoutModule
         R1PlayerCB.ListBorderWidth = 6;
         R1PlayerCB.ListBorderHeight = 2;
         R1PlayerCB.NumberVisible = 7;
-        R1PlayerCB.OnChange = RacePlayerCBChange;
+        R1PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 0);
         R1PlayerCB.Selected = -1;
         R1PlayerCB.PriorityOpened = 170;
         R1PlayerCB.TextColor = 14316400;
@@ -1043,7 +1043,7 @@ public partial class TScenSetup : ILayoutModule
         TurnTimeSl.WinHeight = 11;
         TurnTimeSl.WinWidth = 50;
         TurnTimeSl.NumberVisible = 1;
-        TurnTimeSl.OnChange = Layout_TurnTimeSlChange_6;
+        TurnTimeSl.OnChange = _ => Layout_TurnTimeSlChange_6();
         TurnTimeSl.VanishWhenFull = false;
         TurnTimeSl.ILIndexIncUp = 0;
         TurnTimeSl.ILIndexIncDown = 0;
@@ -1138,7 +1138,7 @@ public partial class TScenSetup : ILayoutModule
         TurnsSl.WinHeight = 11;
         TurnsSl.WinWidth = 50;
         TurnsSl.NumberVisible = 1;
-        TurnsSl.OnChange = TurnsSlChange;
+        TurnsSl.OnChange = _ => TurnsSlChange();
         TurnsSl.VanishWhenFull = false;
         TurnsSl.ILIndexIncUp = 0;
         TurnsSl.ILIndexIncDown = 0;
@@ -1200,7 +1200,7 @@ public partial class TScenSetup : ILayoutModule
         R1BehaviorCB.ListBorderWidth = 6;
         R1BehaviorCB.ListBorderHeight = 2;
         R1BehaviorCB.NumberVisible = 6;
-        R1BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R1BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 0);
         R1BehaviorCB.Selected = -1;
         R1BehaviorCB.PriorityOpened = 160;
         R1BehaviorCB.TextColor = 14316400;
@@ -1311,7 +1311,7 @@ public partial class TScenSetup : ILayoutModule
         PlayModeCB.ListBorderWidth = 6;
         PlayModeCB.ListBorderHeight = 2;
         PlayModeCB.NumberVisible = 2;
-        PlayModeCB.OnChange = Layout_PlayModeCBChange_8;
+        PlayModeCB.OnChange = _ => Layout_PlayModeCBChange_8();
         PlayModeCB.Selected = -1;
         PlayModeCB.PriorityOpened = 500;
         PlayModeCB.TextColor = 15134446;
@@ -1458,7 +1458,7 @@ public partial class TScenSetup : ILayoutModule
         R3BehaviorCB.ListBorderWidth = 6;
         R3BehaviorCB.ListBorderHeight = 2;
         R3BehaviorCB.NumberVisible = 6;
-        R3BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R3BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 2);
         R3BehaviorCB.Selected = -1;
         R3BehaviorCB.PriorityOpened = 120;
         R3BehaviorCB.TextColor = 9347661;
@@ -1583,7 +1583,7 @@ public partial class TScenSetup : ILayoutModule
         R3PlayerCB.ListBorderWidth = 6;
         R3PlayerCB.ListBorderHeight = 2;
         R3PlayerCB.NumberVisible = 7;
-        R3PlayerCB.OnChange = RacePlayerCBChange;
+        R3PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 2);
         R3PlayerCB.Selected = -1;
         R3PlayerCB.PriorityOpened = 130;
         R3PlayerCB.TextColor = 9347661;
@@ -1730,7 +1730,7 @@ public partial class TScenSetup : ILayoutModule
         R2BehaviorCB.ListBorderWidth = 6;
         R2BehaviorCB.ListBorderHeight = 2;
         R2BehaviorCB.NumberVisible = 6;
-        R2BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R2BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 1);
         R2BehaviorCB.Selected = -1;
         R2BehaviorCB.PriorityOpened = 140;
         R2BehaviorCB.TextColor = 7845352;
@@ -1855,7 +1855,7 @@ public partial class TScenSetup : ILayoutModule
         R2PlayerCB.ListBorderWidth = 6;
         R2PlayerCB.ListBorderHeight = 2;
         R2PlayerCB.NumberVisible = 7;
-        R2PlayerCB.OnChange = RacePlayerCBChange;
+        R2PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 1);
         R2PlayerCB.Selected = -1;
         R2PlayerCB.PriorityOpened = 150;
         R2PlayerCB.TextColor = 7845352;
@@ -2083,7 +2083,7 @@ public partial class TScenSetup : ILayoutModule
         R4PlayerCB.ListBorderWidth = 6;
         R4PlayerCB.ListBorderHeight = 2;
         R4PlayerCB.NumberVisible = 7;
-        R4PlayerCB.OnChange = RacePlayerCBChange;
+        R4PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 3);
         R4PlayerCB.Selected = -1;
         R4PlayerCB.PriorityOpened = 110;
         R4PlayerCB.TextColor = 15188376;
@@ -2237,7 +2237,7 @@ public partial class TScenSetup : ILayoutModule
         R5PlayerCB.ListBorderWidth = 6;
         R5PlayerCB.ListBorderHeight = 2;
         R5PlayerCB.NumberVisible = 7;
-        R5PlayerCB.OnChange = RacePlayerCBChange;
+        R5PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 4);
         R5PlayerCB.Selected = -1;
         R5PlayerCB.PriorityOpened = 170;
         R5PlayerCB.TextColor = 4830826;
@@ -2302,7 +2302,7 @@ public partial class TScenSetup : ILayoutModule
         R5BehaviorCB.ListBorderWidth = 6;
         R5BehaviorCB.ListBorderHeight = 2;
         R5BehaviorCB.NumberVisible = 6;
-        R5BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R5BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 4);
         R5BehaviorCB.Selected = -1;
         R5BehaviorCB.PriorityOpened = 160;
         R5BehaviorCB.TextColor = 4830826;
@@ -2508,7 +2508,7 @@ public partial class TScenSetup : ILayoutModule
         R6BehaviorCB.ListBorderWidth = 6;
         R6BehaviorCB.ListBorderHeight = 2;
         R6BehaviorCB.NumberVisible = 6;
-        R6BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R6BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 5);
         R6BehaviorCB.Selected = -1;
         R6BehaviorCB.PriorityOpened = 140;
         R6BehaviorCB.TextColor = 7464174;
@@ -2633,7 +2633,7 @@ public partial class TScenSetup : ILayoutModule
         R6PlayerCB.ListBorderWidth = 6;
         R6PlayerCB.ListBorderHeight = 2;
         R6PlayerCB.NumberVisible = 7;
-        R6PlayerCB.OnChange = RacePlayerCBChange;
+        R6PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 5);
         R6PlayerCB.Selected = -1;
         R6PlayerCB.PriorityOpened = 150;
         R6PlayerCB.TextColor = 7464174;
@@ -2780,7 +2780,7 @@ public partial class TScenSetup : ILayoutModule
         R7BehaviorCB.ListBorderWidth = 6;
         R7BehaviorCB.ListBorderHeight = 2;
         R7BehaviorCB.NumberVisible = 6;
-        R7BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R7BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 6);
         R7BehaviorCB.Selected = -1;
         R7BehaviorCB.PriorityOpened = 120;
         R7BehaviorCB.TextColor = 9351120;
@@ -2905,7 +2905,7 @@ public partial class TScenSetup : ILayoutModule
         R7PlayerCB.ListBorderWidth = 6;
         R7PlayerCB.ListBorderHeight = 2;
         R7PlayerCB.NumberVisible = 7;
-        R7PlayerCB.OnChange = RacePlayerCBChange;
+        R7PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 6);
         R7PlayerCB.Selected = -1;
         R7PlayerCB.PriorityOpened = 130;
         R7PlayerCB.TextColor = 9351120;
@@ -3096,7 +3096,7 @@ public partial class TScenSetup : ILayoutModule
         R8BehaviorCB.ListBorderWidth = 6;
         R8BehaviorCB.ListBorderHeight = 2;
         R8BehaviorCB.NumberVisible = 6;
-        R8BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R8BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 7);
         R8BehaviorCB.Selected = -1;
         R8BehaviorCB.PriorityOpened = 100;
         R8BehaviorCB.TextColor = 14346733;
@@ -3171,7 +3171,7 @@ public partial class TScenSetup : ILayoutModule
         R8PlayerCB.ListBorderWidth = 6;
         R8PlayerCB.ListBorderHeight = 2;
         R8PlayerCB.NumberVisible = 7;
-        R8PlayerCB.OnChange = RacePlayerCBChange;
+        R8PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 7);
         R8PlayerCB.Selected = -1;
         R8PlayerCB.PriorityOpened = 110;
         R8PlayerCB.TextColor = 14346733;
@@ -3325,7 +3325,7 @@ public partial class TScenSetup : ILayoutModule
         R9PlayerCB.ListBorderWidth = 6;
         R9PlayerCB.ListBorderHeight = 2;
         R9PlayerCB.NumberVisible = 7;
-        R9PlayerCB.OnChange = RacePlayerCBChange;
+        R9PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 8);
         R9PlayerCB.Selected = -1;
         R9PlayerCB.PriorityOpened = 170;
         R9PlayerCB.TextColor = 12215222;
@@ -3390,7 +3390,7 @@ public partial class TScenSetup : ILayoutModule
         R9BehaviorCB.ListBorderWidth = 6;
         R9BehaviorCB.ListBorderHeight = 2;
         R9BehaviorCB.NumberVisible = 6;
-        R9BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R9BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 8);
         R9BehaviorCB.Selected = -1;
         R9BehaviorCB.PriorityOpened = 160;
         R9BehaviorCB.TextColor = 12215222;
@@ -3596,7 +3596,7 @@ public partial class TScenSetup : ILayoutModule
         R10BehaviorCB.ListBorderWidth = 6;
         R10BehaviorCB.ListBorderHeight = 2;
         R10BehaviorCB.NumberVisible = 6;
-        R10BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R10BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 9);
         R10BehaviorCB.Selected = -1;
         R10BehaviorCB.PriorityOpened = 140;
         R10BehaviorCB.TextColor = 4408305;
@@ -3721,7 +3721,7 @@ public partial class TScenSetup : ILayoutModule
         R10PlayerCB.ListBorderWidth = 6;
         R10PlayerCB.ListBorderHeight = 2;
         R10PlayerCB.NumberVisible = 7;
-        R10PlayerCB.OnChange = RacePlayerCBChange;
+        R10PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 9);
         R10PlayerCB.Selected = -1;
         R10PlayerCB.PriorityOpened = 150;
         R10PlayerCB.TextColor = 4408305;
@@ -3868,7 +3868,7 @@ public partial class TScenSetup : ILayoutModule
         R11BehaviorCB.ListBorderWidth = 6;
         R11BehaviorCB.ListBorderHeight = 2;
         R11BehaviorCB.NumberVisible = 6;
-        R11BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R11BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 10);
         R11BehaviorCB.Selected = -1;
         R11BehaviorCB.PriorityOpened = 120;
         R11BehaviorCB.TextColor = 5731259;
@@ -3993,7 +3993,7 @@ public partial class TScenSetup : ILayoutModule
         R11PlayerCB.ListBorderWidth = 6;
         R11PlayerCB.ListBorderHeight = 2;
         R11PlayerCB.NumberVisible = 7;
-        R11PlayerCB.OnChange = RacePlayerCBChange;
+        R11PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 10);
         R11PlayerCB.Selected = -1;
         R11PlayerCB.PriorityOpened = 130;
         R11PlayerCB.TextColor = 5731259;
@@ -4184,7 +4184,7 @@ public partial class TScenSetup : ILayoutModule
         R12BehaviorCB.ListBorderWidth = 6;
         R12BehaviorCB.ListBorderHeight = 2;
         R12BehaviorCB.NumberVisible = 6;
-        R12BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R12BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 11);
         R12BehaviorCB.Selected = -1;
         R12BehaviorCB.PriorityOpened = 100;
         R12BehaviorCB.TextColor = 7765394;
@@ -4259,7 +4259,7 @@ public partial class TScenSetup : ILayoutModule
         R12PlayerCB.ListBorderWidth = 6;
         R12PlayerCB.ListBorderHeight = 2;
         R12PlayerCB.NumberVisible = 7;
-        R12PlayerCB.OnChange = RacePlayerCBChange;
+        R12PlayerCB.OnChange = sender => RacePlayerCBChange(sender, 11);
         R12PlayerCB.Selected = -1;
         R12PlayerCB.PriorityOpened = 110;
         R12PlayerCB.TextColor = 7765394;
@@ -4366,7 +4366,7 @@ public partial class TScenSetup : ILayoutModule
         PreferredRaceCB.ListBorderWidth = 6;
         PreferredRaceCB.ListBorderHeight = 2;
         PreferredRaceCB.NumberVisible = 2;
-        PreferredRaceCB.OnChange = Layout_PreferredRaceCBChange_9;
+        PreferredRaceCB.OnChange = _ => Layout_PreferredRaceCBChange_9();
         PreferredRaceCB.Selected = 0;
         PreferredRaceCB.PriorityOpened = 99990;
         PreferredRaceCB.TextColor = 15134446;
@@ -4554,7 +4554,7 @@ public partial class TScenSetup : ILayoutModule
         R4BehaviorCB.ListBorderWidth = 6;
         R4BehaviorCB.ListBorderHeight = 2;
         R4BehaviorCB.NumberVisible = 6;
-        R4BehaviorCB.OnChange = Layout_RaceBehaviorCBChange_7;
+        R4BehaviorCB.OnChange = sender => RaceBehaviorCBChange(sender, 3);
         R4BehaviorCB.Selected = -1;
         R4BehaviorCB.PriorityOpened = 100;
         R4BehaviorCB.TextColor = 15188376;
@@ -5092,7 +5092,7 @@ public partial class TScenSetup : ILayoutModule
         PingList.BorderHeight = 3;
         PingList.OnChange = PlayerListChange;
         PingList.Selected = -1;
-        PingList.OnDrawItem = PingListDrawItem;
+        PingList.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => PingListDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         PingList.TextColor = 15134446;
         PingList.TextSelColor = 0;
         PingList.ILIndexFrame = 64;
@@ -5130,7 +5130,7 @@ public partial class TScenSetup : ILayoutModule
         PlayerListSB.WinHeight = 78;
         PlayerListSB.WinWidth = 17;
         PlayerListSB.NumberVisible = 1;
-        PlayerListSB.OnChange = Layout_PlayerListSBChange_10;
+        PlayerListSB.OnChange = _ => Layout_PlayerListSBChange_10();
         PlayerListSB.VanishWhenFull = true;
         PlayerListSB.ILIndexIncUp = 58;
         PlayerListSB.ILIndexIncDown = 59;
@@ -5350,7 +5350,7 @@ public partial class TScenSetup : ILayoutModule
         MakeHostBtn.TextColor = 15134446;
         MakeHostBtn.TextSelColor = 16777215;
         MakeHostBtn.WinWidth = 70;
-        MakeHostBtn.OnClick = Layout_MakeHostBtnClick_11;
+        MakeHostBtn.OnClick = _ => Layout_MakeHostBtnClick_11();
         session.EndRead(MakeHostBtn);
         RestartSettingsFogPnl = new TAOWPanel(this);
         session.BeginRead(RestartSettingsFogPnl);
@@ -5606,7 +5606,7 @@ public partial class TScenSetup : ILayoutModule
         TacticalCombatCB.ListBorderWidth = 6;
         TacticalCombatCB.ListBorderHeight = 2;
         TacticalCombatCB.NumberVisible = 5;
-        TacticalCombatCB.OnChange = Layout_TacticalCombatCBChange_12;
+        TacticalCombatCB.OnChange = _ => Layout_TacticalCombatCBChange_12();
         TacticalCombatCB.Selected = -1;
         TacticalCombatCB.PriorityOpened = 199999;
         TacticalCombatCB.TextColor = 15134446;
@@ -5673,7 +5673,7 @@ public partial class TScenSetup : ILayoutModule
         AlwaysViewTCCB.TextSelColor = 0;
         AlwaysViewTCCB.WinWidth = 12;
         AlwaysViewTCCB.Checked = false;
-        AlwaysViewTCCB.OnChange = Layout_AlwaysViewTCCBChange_13;
+        AlwaysViewTCCB.OnChange = _ => Layout_AlwaysViewTCCBChange_13();
         AlwaysViewTCCB.RadioIndex = 0;
         session.EndRead(AlwaysViewTCCB);
         AlwaysViewTCLbl = new TAOWLabel(this);
@@ -6541,72 +6541,67 @@ public partial class TScenSetup : ILayoutModule
         AlwaysViewTCLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8s;
     }
 
-    private void Layout_ChatSBUpdate_0(TObject p0)
+    private void Layout_ChatSBUpdate_0()
     {
         ChatSBUpdate();
     }
 
-    private void Layout_ChatEditReturn_1(TObject p0)
+    private void Layout_ChatEditReturn_1()
     {
         ChatEditReturn();
     }
 
-    private void Layout_EjectBtnClick_2(TObject p0)
+    private void Layout_EjectBtnClick_2()
     {
         EjectBtnClick();
     }
 
-    private void Layout_PickScenarioBtnClick_3(TObject p0)
+    private void Layout_PickScenarioBtnClick_3()
     {
         PickScenarioBtnClick();
     }
 
-    private void Layout_StartBtnClick_4(TObject p0)
+    private void Layout_StartBtnClick_4()
     {
         StartBtnClick();
     }
 
-    private void Layout_ScenSetupPnlUpdate_5(TObject p0)
+    private void Layout_ScenSetupPnlUpdate_5()
     {
         ScenSetupPnlUpdate();
     }
 
-    private void Layout_TurnTimeSlChange_6(TObject p0)
+    private void Layout_TurnTimeSlChange_6()
     {
         TurnTimeSlChange();
     }
 
-    private void Layout_RaceBehaviorCBChange_7(TObject p0)
-    {
-        RaceBehaviorCBChange((TAOWComboBox)p0);
-    }
-
-    private void Layout_PlayModeCBChange_8(TObject p0)
+    private void Layout_PlayModeCBChange_8()
     {
         PlayModeCBChange();
     }
 
-    private void Layout_PreferredRaceCBChange_9(TObject p0)
+    private void Layout_PreferredRaceCBChange_9()
     {
         PreferredRaceCBChange();
     }
 
-    private void Layout_PlayerListSBChange_10(TObject p0)
+    private void Layout_PlayerListSBChange_10()
     {
         PlayerListSBChange();
     }
 
-    private void Layout_MakeHostBtnClick_11(TObject p0)
+    private void Layout_MakeHostBtnClick_11()
     {
         MakeHostBtnClick();
     }
 
-    private void Layout_TacticalCombatCBChange_12(TObject p0)
+    private void Layout_TacticalCombatCBChange_12()
     {
         TacticalCombatCBChange();
     }
 
-    private void Layout_AlwaysViewTCCBChange_13(TObject p0)
+    private void Layout_AlwaysViewTCCBChange_13()
     {
         AlwaysViewTCCBChange();
     }

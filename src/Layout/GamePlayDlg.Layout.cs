@@ -34,14 +34,14 @@ public partial class TGamePlayDlg : ILayoutModule
         GamePlayDlg = new TAOWWindow(this);
         session.BeginRead(GamePlayDlg);
         GamePlayDlg.Name = "GamePlayDlg";
-        GamePlayDlg.OnKeyDown = GamePlayDlgKeyDown;
+        GamePlayDlg.OnKeyDown = (_, ref key, shift) => GamePlayDlgKeyDown(ref key, shift);
         GamePlayDlg.Visible = false;
         GamePlayDlg.Priority = 300;
         GamePlayDlg.WinLeft = 150;
         GamePlayDlg.WinTop = 71;
         GamePlayDlg.WinWidth = 340;
         GamePlayDlg.Masked = true;
-        GamePlayDlg.OnShow = GamePlayDlgShow;
+        GamePlayDlg.OnShow = _ => GamePlayDlgShow();
         GamePlayDlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         GamePlayDlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         GamePlayDlg.Alignment.HeightPercent = 0;
@@ -105,7 +105,7 @@ public partial class TGamePlayDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 110;
-        CancelBtn.OnClick = CancelClick;
+        CancelBtn.OnClick = _ => CancelClick();
         session.EndRead(CancelBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -189,7 +189,7 @@ public partial class TGamePlayDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = CancelClick;
+        Close.OnClick = _ => CancelClick();
         session.EndRead(Close);
         TCeltLR = new TAOWImage(this);
         session.BeginRead(TCeltLR);
@@ -1313,7 +1313,7 @@ public partial class TGamePlayDlg : ILayoutModule
         ChangePasswordBtn.TextColor = 0;
         ChangePasswordBtn.TextSelColor = 16777215;
         ChangePasswordBtn.WinWidth = 90;
-        ChangePasswordBtn.OnClick = Layout_ChangePasswordBtnClick_0;
+        ChangePasswordBtn.OnClick = _ => Layout_ChangePasswordBtnClick_0();
         session.EndRead(ChangePasswordBtn);
         MovementSpeedCB = new TAOWComboBox(this);
         session.BeginRead(MovementSpeedCB);
@@ -1387,7 +1387,7 @@ public partial class TGamePlayDlg : ILayoutModule
         OKBtn.TextColor = 0;
         OKBtn.TextSelColor = 16777215;
         OKBtn.WinWidth = 110;
-        OKBtn.OnClick = OKBtnClick;
+        OKBtn.OnClick = _ => OKBtnClick();
         session.EndRead(OKBtn);
         Classic8CB = new TAOWCheckBox(this);
         session.BeginRead(Classic8CB);
@@ -1929,7 +1929,7 @@ public partial class TGamePlayDlg : ILayoutModule
         CeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
     }
 
-    private void Layout_ChangePasswordBtnClick_0(TObject p0)
+    private void Layout_ChangePasswordBtnClick_0()
     {
         ChangePasswordBtnClick();
     }
