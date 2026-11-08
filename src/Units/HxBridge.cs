@@ -212,14 +212,15 @@ public partial class THexagonBridge : TAbstractRoad
             Road.Destroy();
         }
 
-        Road = (THexagonSprite)(object)Owner;
+        TECustomNode previous = Owner;
         Owner = MapField;
         FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
         FTerrain = MapField.TerrainType;
         // { Original bug: refresh the old owner's owner as a map field. }
-        if (Road != null)
+        // A sprite is not a node. The test goes through object, and a node owner skips the refresh.
+        if ((object)previous is THexagonSprite sprite && sprite.Owner is TMapField field)
         {
-            ((TMapField)Road.Owner).UpdateOverlayType();
+            field.UpdateOverlayType();
         }
 
         MapField.UpdateOverlayType();

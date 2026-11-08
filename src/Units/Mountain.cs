@@ -240,8 +240,8 @@ public partial class TRaisedMountain : TILTerrainMO
         var lhx = Anim.GetLhx();
         var yhx = Anim.GetYhx();
         var xhx = Anim.GetXhx();
-        Anim = (TAnimation)(object)AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-        if (((TECustomNode)(object)Anim).FindOwnedChild(131434) == this && FrameCounter == 9)
+        var field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+        if (field.FindOwnedChild(131434) == this && FrameCounter == 9)
         {
             FMode = FMode - TSet<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.rmRaising);
         }

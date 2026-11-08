@@ -21146,6 +21146,9 @@ public partial class TUnitControl : TEObject
     // Unit.PAS:35
     public TAbstractUnit FindUnit(int ID) => (TAbstractUnit)FUnitTable.Find(ID);
 
+    // Null when the id is missing or the stored unit is not a T.
+    public T FindUnit<T>(int id) where T : TAbstractUnit => FUnitTable.Find(id) is T found ? found : null;
+
     // Unit.PAS:39
     public int GetFreeID()
     {
@@ -23019,7 +23022,6 @@ public partial class TAbstractUnit : TAbilityOwner
         {
             if (this.ExpandAbility(153))
             {
-                _ = (TP2EnchantmentCalls)(object)((TUnitEnchantmentAbilityData)this.GetAbilityData(153)).FEnchantment;
                 ((TUnitEnchantmentAbilityData)this.GetAbilityData(153)).FEnchantment.SetUpkeep(0);
                 ((TUnitEnchantmentAbilityData)this.GetAbilityData(153)).FEnchantment.SetSource(-2);
                 var spell = AoWEUnit.AoWHSSet.FSpellControl.GetSpell(17);
@@ -23047,7 +23049,6 @@ public partial class TAbstractUnit : TAbilityOwner
         {
             if (this.ExpandAbility(167))
             {
-                _ = (TP2EnchantmentCalls)(object)((TUnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment;
                 ((TUnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment.SetUpkeep(0);
                 ((TUnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment.SetSource(-2);
                 ((TUnitEnchantmentAbilityData)this.GetAbilityData(167)).FEnchantment.FDispelResistance = 7;
@@ -23074,7 +23075,6 @@ public partial class TAbstractUnit : TAbilityOwner
         {
             if (this.ExpandAbility(158))
             {
-                _ = (TP2EnchantmentCalls)(object)((TUnitEnchantmentAbilityData)this.GetAbilityData(158)).FEnchantment;
                 ((TUnitEnchantmentAbilityData)this.GetAbilityData(158)).FEnchantment.SetUpkeep(0);
                 ((TUnitEnchantmentAbilityData)this.GetAbilityData(158)).FEnchantment.SetSource(-2);
                 var spell = AoWEUnit.AoWHSSet.FSpellControl.GetSpell(56);
@@ -26042,7 +26042,7 @@ public partial class THeroUpgradeTE : TTokenEvent
     {
         THero Hero;
         TExecuteResult Result = base.Execute(TE);
-        Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FUnitID);
+        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FUnitID);
         if (Hero != null && Hero.GetHitPoints() != 0 && Hero.FPlayer == FPlayer)
         {
             Hero.SetUnitAttack((sbyte)(Hero.FUnitAttack + FAttack));
@@ -26099,8 +26099,8 @@ public partial class THeroUpdateTE : TTokenEvent
         bool Success;
         THero Hero;
         Success = false;
-        Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FUnitID);
-        if (AoWEUnit.AoWHSMap.FCombat == null && AoWEUnit.AoWHSMap.FCurrentPlayer == Hero.FPlayer || AoWEUnit.AoWHSMap.FCombat != null && AoWEUnit.AoWHSMap.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWEUnit.AoWHSMap.FCombat.FCombatData.FCurrentPlayer).FPlayer == Hero.FPlayer)
+        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FUnitID);
+        if (Hero != null && ((AoWEUnit.AoWHSMap.FCombat == null && AoWEUnit.AoWHSMap.FCurrentPlayer == Hero.FPlayer) || (AoWEUnit.AoWHSMap.FCombat != null && AoWEUnit.AoWHSMap.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWEUnit.AoWHSMap.FCombat.FCombatData.FCurrentPlayer).FPlayer == Hero.FPlayer)))
         {
             switch (FMode)
             {
@@ -26205,7 +26205,7 @@ public partial class THeroUpgradeEventLog : TEventLog
     {
         string Result = "";
         THero Hero;
-        Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FUnitID);
+        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FUnitID);
         if (Hero != null)
         {
             if (FNewLevel - FOldLevel == 1)
@@ -26509,7 +26509,7 @@ public partial class THeroJoinEventLog : TJoinEventLog
         THero Hero;
         string ErrorText = "";
         bool Result = false;
-        Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FFirstUnitID);
+        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FFirstUnitID);
         if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
         {
             var players = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer);
@@ -26572,7 +26572,7 @@ public partial class THeroEmergeEventLog : TEventLog
         }
         else
         {
-            Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FUnitID);
+            Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FUnitID);
             if (Hero != null)
             {
                 if (Hero.FPlayer == FPlayer)
@@ -26634,7 +26634,7 @@ public partial class THeroEmergeEventLog : TEventLog
     {
         THeroJoinEventLog Result;
         THero Hero;
-        Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FUnitID);
+        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FUnitID);
         if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
         {
             Result = new THeroJoinEventLog(null);
@@ -63588,10 +63588,9 @@ public partial class TStrikeAbility : TAdjustableAbility
         int Attack;
         int Damage;
         int Repeats;
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
             Repeats = 2;
-            var unit = (TAbstractUnit)Owner;
             Attack = unit.GetAttack();
             Damage = unit.GetDamage();
             if (unit.GetAbilityEnabled(115))
@@ -64654,9 +64653,9 @@ public partial class TPossessAbility : TTouchAbility
     // AoWAb.PAS:2664
     public override void GetOffensiveStrength(TAbilityOwner Owner, ref int Strength, ref TSet<TDamageType> Types)
     {
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            Strength = Round((double)(((TAbstractUnit)Owner).GetAttack() * 25) * 0.1);
+            Strength = Round((double)(unit.GetAttack() * 25) * 0.1);
             Types = TSet<TDamageType>.Of(TDamageType.dtNone);
         }
     }
@@ -64969,9 +64968,9 @@ public partial class TWebAbility : TTouchAbility
     // AoWAb.PAS:2833
     public override void GetOffensiveStrength(TAbilityOwner Owner, ref int Strength, ref TSet<TDamageType> Types)
     {
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            Strength = Round((double)(((TAbstractUnit)Owner).GetAttack() * 4 * 4) * 0.1);
+            Strength = Round((double)(unit.GetAttack() * 4 * 4) * 0.1);
             Types = TSet<TDamageType>.Of(TDamageType.dtNone);
         }
     }
@@ -65178,9 +65177,9 @@ public partial class TEntangleAbility : TTouchAbility
     // AoWAb.PAS:2991
     public override void GetOffensiveStrength(TAbilityOwner Owner, ref int Strength, ref TSet<TDamageType> Types)
     {
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            Strength = Round((double)(((TAbstractUnit)Owner).GetAttack() * 7 * 5) * 0.1);
+            Strength = Round((double)(unit.GetAttack() * 7 * 5) * 0.1);
             Types = TSet<TDamageType>.Of(TDamageType.dtNone);
         }
     }
@@ -65384,9 +65383,9 @@ public partial class TInvokeDeathAbility : TTouchAbility
     // AoWAb.PAS:3456
     public override void GetOffensiveStrength(TAbilityOwner Owner, ref int Strength, ref TSet<TDamageType> Types)
     {
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            Strength = Round((double)(((TAbstractUnit)Owner).GetAttack() * 6 * 5) * 0.1);
+            Strength = Round((double)(unit.GetAttack() * 6 * 5) * 0.1);
             Types = TSet<TDamageType>.Of(TDamageType.dtDeath);
         }
     }
@@ -65743,15 +65742,15 @@ public partial class TTurnUndeadAbility : TTouchAbility
     public override void GetOffensiveStrength(TAbilityOwner Owner, ref int Strength, ref TSet<TDamageType> Types)
     {
         int Damage;
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            Damage = GetTurnUndeadDamage(GetLevel(Owner));
+            Damage = GetTurnUndeadDamage(GetLevel(unit));
             if (Damage > 5)
             {
                 Damage = 5;
             }
 
-            Strength = Round((double)(((TAbstractUnit)Owner).GetAttack() * 4 * Damage) * 0.1);
+            Strength = Round((double)(unit.GetAttack() * 4 * Damage) * 0.1);
             // { Original reports death damage here, although the attack deals holy damage. }
             Types = TSet<TDamageType>.Of(TDamageType.dtDeath);
         }
@@ -66059,9 +66058,8 @@ public partial class TRoundAttackAbility : TTouchAbility
     {
         int Attack;
         int Damage;
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            var unit = (TAbstractUnit)Owner;
             Attack = unit.GetAttack();
             Damage = unit.GetDamage();
 
@@ -66534,9 +66532,9 @@ public partial class TCommandAbility : TTouchAbility
     // AoWAb.PAS:5205
     public override void GetOffensiveStrength(TAbilityOwner Owner, ref int Strength, ref TSet<TDamageType> Types)
     {
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            Strength = Round((double)(GetTouchAttack(GetLevel(Owner)) * (((TAbstractUnit)Owner).GetAttack() * 5)) * 0.1);
+            Strength = Round((double)(GetTouchAttack(GetLevel(unit)) * (unit.GetAttack() * 5)) * 0.1);
             Types = TSet<TDamageType>.Of(TDamageType.dtNone);
         }
     }
@@ -67067,9 +67065,9 @@ public partial class TWallCrushingAbility : TTouchAbility
     // AoWAb.PAS:2096
     public override void GetOffensiveStrength(TAbilityOwner Owner, ref int Strength, ref TSet<TDamageType> Types)
     {
-        if (Owner != null)
+        if (Owner is TAbstractUnit unit)
         {
-            Strength = AoWEUnit.P3LimitedDamage(((TAbstractUnit)Owner).GetAttack(), 6, 1);
+            Strength = AoWEUnit.P3LimitedDamage(unit.GetAttack(), 6, 1);
             Types = TSet<TDamageType>.Of(TDamageType.dtWall);
         }
     }
@@ -67481,19 +67479,19 @@ public partial class THealingAbility : TTouchAbility
         {
             Info = new TUnitSelectorAAI(null);
             Info.FAbilityID = FAbilityID;
-            if (Owner is TAbstractUnit)
+            Selector = new THealingUnitSelector();
+            var healing = AoWEUnit.TranslateRStr(AoWEUnit.HealingRStr);
+            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [healing]);
+            if (Owner is TAbstractUnit unit)
             {
-                Info.FUnitID = ((TAbstractUnit)Owner).FUnitID;
+                Info.FUnitID = unit.FUnitID;
+                Selector.Setup(unit, (TUnitList)unit.Owner);
             }
             else
             {
                 Info.FUnitID = 0;
             }
 
-            Selector = new THealingUnitSelector();
-            var healing = AoWEUnit.TranslateRStr(AoWEUnit.HealingRStr);
-            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [healing]);
-            Selector.Setup((TAbstractUnit)Owner, (TUnitList)Owner.Owner);
             Info.SetUnitSelector(Selector);
             // { Original omits Selector.Release here. }
             AoWEUnit.AoWHSMap.FOnActivateAbility.TriggerNotifyEvents(Info);
@@ -68183,19 +68181,19 @@ public partial class TDispelMagicAbility : TTouchAbility
         {
             Info = new TUnitSelectorAAI(null);
             Info.FAbilityID = FAbilityID;
-            if (Owner is TAbstractUnit)
+            Selector = new TDispelMagicAbilityUnitSelector();
+            var dispelMagic = AoWEUnit.TranslateRStr(AoWEUnit.DispelMagicRStr);
+            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [dispelMagic]);
+            if (Owner is TAbstractUnit unit)
             {
-                Info.FUnitID = ((TAbstractUnit)Owner).FUnitID;
+                Info.FUnitID = unit.FUnitID;
+                Selector.Setup(unit, (TUnitList)unit.Owner);
             }
             else
             {
                 Info.FUnitID = 0;
             }
 
-            Selector = new TDispelMagicAbilityUnitSelector();
-            var dispelMagic = AoWEUnit.TranslateRStr(AoWEUnit.DispelMagicRStr);
-            Selector.FCaption = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.SelectUnitForXRStr), [dispelMagic]);
-            Selector.Setup((TAbstractUnit)Owner, (TUnitList)Owner.Owner);
             Info.SetUnitSelector(Selector);
             Selector.Release();
             AoWEUnit.AoWHSMap.FOnActivateAbility.TriggerNotifyEvents(Info);
@@ -69007,17 +69005,18 @@ public partial class TUnitEnchantmentAbility : TAdjustableAbility
     {
         TUnitEnchantmentAbilityData Data;
         TUnitEnchantment Enchantment;
-        if (!(Owner is TAbstractUnit))
+        if (Owner is not TAbstractUnit unit)
         {
             // { Preserve the original assertion diagnostic. }
             Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46175);
+            return false;
         }
 
         bool Result = false;
         Data = (TUnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
         if (Data == null)
         {
-            if (((TAbstractUnit)Owner).FUnitID <= 0)
+            if (unit.FUnitID <= 0)
             {
                 // { Preserve the original assertion diagnostic. }
                 Assert(false, "Assertion failure", "D:\\AoWDev\\AoWE\\inc\\AoWAb.PAS", 46181);
@@ -69029,7 +69028,7 @@ public partial class TUnitEnchantmentAbility : TAdjustableAbility
             Enchantment = CreateEnchantment();
             Data.FEnchantment = Enchantment;
             Enchantment.FEnchantmentAbilityID = FAbilityID;
-            Enchantment.FUnitID = ((TAbstractUnit)Owner).FUnitID;
+            Enchantment.FUnitID = unit.FUnitID;
             SetAb(Owner, FAbilityID, 1);
             Owner.AddAbilityData(Data);
             Result = true;
@@ -70455,7 +70454,7 @@ public partial class TUnitSpellCaster : TSpellCaster
         bool Result;
         THero Hero;
         int Mana;
-        Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
+        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(FCasterSourceID);
         if (Hero != null && !Hero.FUnitStatus.Contains(TUnitStatusElement.usKilled))
         {
             if (FSelectionMask != 0)
@@ -70566,7 +70565,7 @@ public partial class TUnitSpellCaster : TSpellCaster
     {
         bool Result;
         TAbstractUnit Source;
-        Source = (TAbstractUnit)(TObject)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
+        Source = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<TAbstractUnit>(FCasterSourceID);
         if (Source == null || (((byte)Source.FUnitStatus.Image) & 16) != 0)
         {
             Result = false;
@@ -71422,7 +71421,7 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
                 {
                     Done = false;
                     var item = FPendingHeroes[0];
-                    Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(item);
+                    Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(item);
                     if (Hero != null && Hero.Owner != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
                     {
                         if (Hero.FCastingSpellID != 0)
@@ -71464,7 +71463,7 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
                 if (FPendingHeroes.Count != 0)
                 {
                     var item = FPendingHeroes[0];
-                    Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(item);
+                    Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(item);
                     if (Hero != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
                     {
                         PrefetchCastSpellActions(Hero);
@@ -71503,7 +71502,7 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
 
                         Index = AoWEUnit.AoWHSMap.Random(I);
                         var castSpellActions2 = FCastSpellActions.GetCastSpellActions(Index);
-                        Hero = (THero)AoWEUnit.AoWHSMap.FUnitControl.FindUnit(castSpellActions2.FSourceUnitID);
+                        Hero = AoWEUnit.AoWHSMap.FUnitControl.FindUnit<THero>(castSpellActions2.FSourceUnitID);
                         if (Hero != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
                         {
                             var castSpellActions = FCastSpellActions.GetCastSpellActions(Index);

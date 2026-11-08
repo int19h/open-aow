@@ -849,7 +849,7 @@ public static partial class aowMapEventsUnit
 
         Dialog.FCaster = Caster;
         Dialog.FCaster.AddRef();
-        Hero = (THero)AoWHSMap.FUnitControl.FindUnit(Dialog.FCaster.FCasterSourceID);
+        Hero = AoWHSMap.FUnitControl.FindUnit<THero>(Dialog.FCaster.FCasterSourceID);
         if (Hero != null)
         {
             var name = Hero.GetName();

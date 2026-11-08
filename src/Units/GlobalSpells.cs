@@ -1292,8 +1292,8 @@ public partial class TDisjunctionSpellCaster : TSpellCaster
     {
         THero Source;
         bool Result = base.CanCast(ref Reason);
-        Source = (THero)AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
-        if (Result && SelectedEnchantment() != null)
+        Source = AoWHSMap.FUnitControl.FindUnit<THero>(FCasterSourceID);
+        if (Result && SelectedEnchantment() != null && Source != null)
         {
             if (!AoWHSMap.FGlobalMagicControl.FActiveEnchantments.Contains(TGlobalEnchantmentType.getSpellWard) || SelectedEnchantment().FEnchantmentType == TGlobalEnchantmentType.getSpellWard)
             {
@@ -1431,8 +1431,8 @@ public partial class TDisjunctionSpellCaster : TSpellCaster
         THero Source;
         int Mana;
         bool Result = false;
-        Source = (THero)AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
-        if (SelectedEnchantment() != null)
+        Source = AoWHSMap.FUnitControl.FindUnit<THero>(FCasterSourceID);
+        if (SelectedEnchantment() != null && Source != null)
         {
             if (!AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
             {
