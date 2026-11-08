@@ -170,32 +170,10 @@ public partial class TAOWScrollBar : TAOWControl
                 switch (F151)
                 {
                     case 1:
-                        FPosition = FPosition - FSmallChange;
-                        if (FMin > FPosition)
-                        {
-                            FPosition = FMin;
-                        }
-
-                        FDrawn = false;
-                        if (FOnChange != null)
-                        {
-                            FOnChange(this);
-                        }
-
+                        ApplySmallStep(true);
                         break;
                     case 4:
-                        FPosition = FPosition + FSmallChange;
-                        if (FMax + 1 - FNumberVisible < FPosition)
-                        {
-                            FPosition = FMax + 1 - FNumberVisible;
-                        }
-
-                        FDrawn = false;
-                        if (FOnChange != null)
-                        {
-                            FOnChange(this);
-                        }
-
+                        ApplySmallStep(false);
                         break;
                     case 2:
                         FPosition = FPosition - FLargeChange;
@@ -768,34 +746,14 @@ public partial class TAOWVScrollBar : TAOWScrollBar
                     if (Y < FAOWWindow.FWinTop + FWinTop + iliDec.Height - 1)
                     {
                         F151 = 1;
-                        FPosition = FPosition - FSmallChange;
-                        if (FMin > FPosition)
-                        {
-                            FPosition = FMin;
-                        }
-
-                        FDrawn = false;
-                        if (FOnChange != null)
-                        {
-                            FOnChange(this);
-                        }
+                        ApplySmallStep(true);
                     }
 
                     var iliInc = FILIInc[FILIndexIncUp];
                     if (Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - iliInc.Height)
                     {
                         F151 = 4;
-                        FPosition = FPosition + FSmallChange;
-                        if (FMax + 1 - FNumberVisible < FPosition)
-                        {
-                            FPosition = FMax + 1 - FNumberVisible;
-                        }
-
-                        FDrawn = false;
-                        if (FOnChange != null)
-                        {
-                            FOnChange(this);
-                        }
+                        ApplySmallStep(false);
                     }
                 }
 

@@ -31,6 +31,9 @@ public interface IDisplayEvents
 
     void MouseMove(TSet<TShiftState> shift, int x, int y) { }
 
+    // Positive steps are a roll away from the user. A port addition the original does not have.
+    void MouseWheel(int steps, TSet<TShiftState> shift, int x, int y) { }
+
     void DoubleClick() { }
 
     void KeyDown(ushort key, TSet<TShiftState> shift) { }

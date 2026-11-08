@@ -942,6 +942,8 @@ public partial class TCityScreen : TDataModule
     public void CityScreenCreate()
     {
         FImages = new TIntegerList();
+        if (MigrationRaceLB != null) MigrationRaceLB.WheelScrollBar = MigrationSB;
+        if (MigrationTurnsLB != null) MigrationTurnsLB.WheelScrollBar = MigrationSB;
     }
 
     // AoWCityScreen.pas:297

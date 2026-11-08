@@ -10,6 +10,7 @@ public sealed class InputMapper
     private bool inside;
     private (byte Button, ulong Time, float X, float Y)? firstPress;
     private byte doubleButton;
+    private float wheelY;
 
     public void Reset()
     {
@@ -18,6 +19,7 @@ public sealed class InputMapper
         firstPress = null;
         doubleButton = 0;
         inside = false;
+        wheelY = 0;
     }
 
     public void SetModifiers(int value) => modifiers = value;
@@ -46,6 +48,20 @@ public sealed class InputMapper
     {
         if (inside) sink.MouseMove(default, -1, -1);
         inside = false;
+    }
+
+    // direction 1 is SDL_MOUSEWHEEL_FLIPPED. Positive y, after that correction, is away from the user.
+    // Fractional y accumulates until it makes a whole step. A point outside the output is ignored
+    // and does not add to the remainder.
+    public void Wheel(float y, int direction, float x, float yPosition, DisplayViewport viewport, IDisplayEvents sink)
+    {
+        if (direction == 1) y = -y;
+        var point = viewport.Map(x, yPosition);
+        if (!point.Inside) return;
+        wheelY += y;
+        int steps = (int)Math.Truncate(wheelY);
+        wheelY -= steps;
+        if (steps != 0) sink.MouseWheel(steps, Shift(), point.X, point.Y);
     }
 
     public void Button(byte button, bool down, ulong milliseconds, float x, float y, DisplayViewport viewport, IDisplayEvents sink)

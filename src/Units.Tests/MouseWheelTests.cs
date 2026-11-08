@@ -1,0 +1,327 @@
+using Aow.Platform;
+using Aow.Units.AoWBookWindow;
+using Aow.Units.AoWButton;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWLabel;
+using Aow.Units.AoWListBox;
+using Aow.Units.AoWPanel;
+using Aow.Units.AoWVScroll;
+using Aow.Units.AoWWindow;
+using Aow.Units.AOWWinManager;
+
+namespace Aow.Units.Tests;
+
+/// <summary>
+/// The mouse wheel is a port addition. These cases drive the mapper, the headless host and the
+/// window routing without a display.
+/// </summary>
+public sealed class MouseWheelTests
+{
+    private sealed class Sink : IDisplayEvents
+    {
+        internal readonly List<(int Steps, TSet<TShiftState> Shift, int X, int Y)> Rolls = [];
+
+        public void MouseWheel(int steps, TSet<TShiftState> shift, int x, int y) => Rolls.Add((steps, shift, x, y));
+    }
+
+    private static void Place(TAoWComponent component, TAoWComponent owner, int left, int top, int width, int height, int priority = 0)
+    {
+        component.FWinLeft = left;
+        component.FWinTop = top;
+        component.FWinWidth = width;
+        component.FWinHeight = height;
+        component.FPriority = priority;
+        component.SetOwner(owner);
+    }
+
+    private static void Fill(TAOWListBox list, int count, int shown)
+    {
+        list.F11C = shown;
+        for (int i = 0; i < count; i++) list.FItems.Add("item" + i);
+    }
+
+    private static TAOWVScrollBar Bar(TAoWComponent owner, int left, int top, int width, int height, int max, int visible)
+    {
+        var bar = new TAOWVScrollBar(null);
+        Place(bar, owner, left, top, width, height);
+        bar.FMin = 0;
+        bar.FMax = max;
+        bar.FNumberVisible = visible;
+        bar.FSmallChange = 1;
+        return bar;
+    }
+
+    [Fact]
+    public void MapperCountsWholeStepsFlipsDirectionAndMapsThePointer()
+    {
+        var mapper = new InputMapper();
+        var sink = new Sink();
+        var view = new DisplayViewport(100, 100, 2, 10, 20, 220, 240);
+        mapper.SetModifiers(1);
+        mapper.Wheel(2, 0, 20, 34, view, sink);
+        mapper.Wheel(2, 1, 20, 34, view, sink);
+        // The margin around the image is still inside the output, so it lands on the nearest edge.
+        mapper.Wheel(1, 0, 0, 20, view, sink);
+        mapper.Wheel(1, 0, -1, 20, view, sink);
+        Assert.Equal([(2, true, 5, 7), (-2, true, 5, 7), (1, true, 0, 0)], sink.Rolls.Select(r => (r.Steps, r.Shift.Contains(TShiftState.ssShift), r.X, r.Y)));
+    }
+
+    [Fact]
+    public void MapperAccumulatesFractionsAndDropsARollOutsideTheOutput()
+    {
+        var mapper = new InputMapper();
+        var sink = new Sink();
+        var view = new DisplayViewport(100, 100, 1, 0, 0, 100, 100);
+        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        mapper.Wheel(0.5f, 1, 10, 10, view, sink);
+        mapper.Wheel(0.5f, 1, 10, 10, view, sink);
+        mapper.Wheel(0.5f, 0, -1, 10, view, sink);
+        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        mapper.Reset();
+        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        Assert.Equal([1, -1, 1], sink.Rolls.Select(r => r.Steps));
+    }
+
+    [Fact]
+    public void HeadlessHostUsesTheSameMapper()
+    {
+        var host = new HeadlessDisplayHost(Path.Combine(Path.GetTempPath(), "open-aow-wheel-unused"));
+        var sink = new Sink();
+        host.Wheel(0.5f, 0, 12, 34, sink);
+        host.Wheel(0.5f, 0, 12, 34, sink);
+        host.Wheel(3, 1, 12, 34, sink);
+        host.Wheel(4, 0, -1, 34, sink);
+        host.Wheel(1, 0, 640, 10, sink);
+        Assert.Equal([(1, 12, 34), (-3, 12, 34)], sink.Rolls.Select(r => (r.Steps, r.X, r.Y)));
+    }
+
+    [Fact]
+    public void DeepestChildWinsAndAnEmptyPanelReachesItsOneBar()
+    {
+        var manager = new TAOWWinManager(null);
+        var window = new TAOWWindow(null);
+        Place(window, manager, 100, 50, 400, 400, 1);
+        var panel = new TAOWPanel(null);
+        Place(panel, window, 20, 30, 220, 160);
+        var list = new TAOWListBox(null);
+        Place(list, panel, 10, 15, 80, 40);
+        Fill(list, 10, 3);
+        var bar = Bar(panel, 180, 10, 16, 80, 9, 3);
+        TSet<TShiftState> shift = default;
+
+        Assert.True(manager.CheckMouseWheel(-1, shift, 140, 100));
+        Assert.Equal(1, list.F15C);
+        Assert.Equal(0, bar.FPosition);
+
+        Assert.True(manager.CheckMouseWheel(-1, shift, 125, 90));
+        Assert.Equal(1, list.F15C);
+        Assert.Equal(1, bar.FPosition);
+
+        Assert.False(manager.CheckMouseWheel(0, shift, 140, 100));
+        Assert.Equal(1, list.F15C);
+    }
+
+    [Fact]
+    public void AChildThatDoesNotScrollLeavesTheWheelWithItsParent()
+    {
+        var manager = new TAOWWinManager(null);
+        var window = new TAOWWindow(null);
+        Place(window, manager, 0, 0, 400, 400, 1);
+        var panel = new TAOWPanel(null);
+        Place(panel, window, 0, 0, 300, 200);
+        var list = new TAOWListBox(null);
+        Place(list, panel, 0, 0, 40, 40);
+        Fill(list, 8, 3);
+        var bar = Bar(panel, 200, 0, 16, 80, 9, 3);
+        var label = new TAOWLabel(null);
+        Place(label, panel, 80, 80, 40, 20);
+        TSet<TShiftState> shift = default;
+
+        Assert.True(manager.CheckMouseWheel(-2, shift, 90, 90));
+        Assert.Equal(0, list.F15C);
+        Assert.Equal(2, bar.FPosition);
+    }
+
+    [Fact]
+    public void TwoVisibleBarsStayPutAndAHiddenBarIsNotCounted()
+    {
+        var manager = new TAOWWinManager(null);
+        var window = new TAOWWindow(null);
+        Place(window, manager, 0, 0, 400, 400, 1);
+        var panel = new TAOWPanel(null);
+        Place(panel, window, 0, 0, 300, 200);
+        var first = Bar(panel, 200, 0, 16, 40, 9, 3);
+        var second = Bar(panel, 200, 50, 16, 40, 9, 3);
+        TSet<TShiftState> shift = default;
+
+        // The window contains the pointer, so the manager accepts the wheel. Two bars mean the panel scrolls neither.
+        Assert.False(window.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.Equal(0, first.FPosition);
+        Assert.Equal(0, second.FPosition);
+
+        Assert.True(manager.CheckMouseWheel(-1, shift, 205, 10));
+        Assert.Equal(1, first.FPosition);
+        Assert.Equal(0, second.FPosition);
+
+        second.FVisible = false;
+        Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.Equal(2, first.FPosition);
+        Assert.Equal(0, second.FPosition);
+    }
+
+    [Fact]
+    public void AModalWindowBlocksEveryWindowUnderTheOverlay()
+    {
+        var manager = new TAOWWinManager(null);
+        manager.FOverlayPriority = 10;
+        var back = new TAOWWindow(null);
+        Place(back, manager, 0, 0, 400, 300, 1);
+        var backList = new TAOWListBox(null);
+        Place(backList, back, 0, 0, 400, 40);
+        Fill(backList, 10, 3);
+        var modal = new TAOWWindow(null);
+        Place(modal, manager, 0, 0, 100, 100, 10);
+        var modalList = new TAOWListBox(null);
+        Place(modalList, modal, 0, 0, 80, 40);
+        Fill(modalList, 10, 3);
+        TSet<TShiftState> shift = default;
+
+        Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.Equal(1, modalList.F15C);
+        Assert.Equal(0, backList.F15C);
+
+        Assert.False(manager.CheckMouseWheel(-1, shift, 200, 20));
+        Assert.Equal(0, backList.F15C);
+
+        modalList.SetOwner(null);
+        Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.Equal(0, backList.F15C);
+    }
+
+    [Fact]
+    public void ScrollBarAndLinkedListClampAtBothEndsAndFireOnChange()
+    {
+        var manager = new TAOWWinManager(null);
+        var window = new TAOWWindow(null);
+        Place(window, manager, 0, 0, 200, 120, 1);
+        var list = new TAOWListBox(null);
+        Place(list, window, 0, 0, 80, 40);
+        Fill(list, 10, 3);
+        var bar = Bar(window, 90, 0, 16, 40, 9, 3);
+        bar.FSmallChange = 2;
+        list.FVScrollBar = bar;
+        int changes = 0;
+        bar.FOnChange = _ =>
+        {
+            changes++;
+            list.ListOffset = bar.FPosition;
+        };
+        TSet<TShiftState> shift = default;
+
+        Assert.True(list.CheckMouseWheel(-4, shift, 10, 10));
+        Assert.Equal(7, bar.FPosition);
+        Assert.Equal(7, list.F15C);
+        Assert.Equal(4, changes);
+
+        Assert.True(list.CheckMouseWheel(-1, shift, 10, 10));
+        Assert.Equal(7, bar.FPosition);
+        Assert.Equal(5, changes);
+
+        Assert.True(bar.CheckMouseWheel(4, shift, 95, 10));
+        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(0, list.F15C);
+        Assert.Equal(9, changes);
+
+        Assert.True(bar.CheckMouseWheel(1, shift, 95, 10));
+        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(10, changes);
+    }
+
+    [Fact]
+    public void ListBoxWithoutABarScrollsItsOwnOffset()
+    {
+        var manager = new TAOWWinManager(null);
+        var window = new TAOWWindow(null);
+        Place(window, manager, 0, 0, 200, 120, 1);
+        var panel = new TAOWPanel(null);
+        Place(panel, window, 0, 0, 180, 100);
+        var list = new TAOWListBox(null);
+        Place(list, panel, 10, 10, 80, 40);
+        Fill(list, 10, 4);
+        var bar = Bar(panel, 140, 10, 16, 40, 9, 3);
+        int changes = 0;
+        list.FOnChange = _ => changes++;
+        TSet<TShiftState> shift = default;
+
+        Assert.True(manager.CheckMouseWheel(-1, shift, 30, 30));
+        Assert.Equal(1, list.F15C);
+        Assert.True(manager.CheckMouseWheel(-100, shift, 30, 30));
+        Assert.Equal(6, list.F15C);
+        Assert.True(manager.CheckMouseWheel(1, shift, 30, 30));
+        Assert.Equal(5, list.F15C);
+        Assert.True(manager.CheckMouseWheel(100, shift, 30, 30));
+        Assert.Equal(0, list.F15C);
+        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(0, changes);
+    }
+
+    [Fact]
+    public void BookTurnsOnePagePerStepAndStopsAtTheEnds()
+    {
+        var manager = new TAOWWinManager(null);
+        var book = new TAoWBookWindow(null);
+        Place(book, manager, 0, 0, 200, 160, 1);
+        int page = 0;
+        var back = new TAOWButton(null);
+        var forward = new TAOWButton(null);
+        back.FVisible = false;
+        back.FOnClick = _ =>
+        {
+            page--;
+            forward.FVisible = true;
+            if (page == 0) back.FVisible = false;
+        };
+        forward.FOnClick = _ =>
+        {
+            page++;
+            back.FVisible = true;
+            if (page == 2) forward.FVisible = false;
+        };
+        book.PageBack = back;
+        book.PageForward = forward;
+        var list = new TAOWListBox(null);
+        Place(list, book, 10, 10, 60, 30);
+        Fill(list, 8, 3);
+        TSet<TShiftState> shift = default;
+
+        Assert.True(manager.CheckMouseWheel(-1, shift, 120, 80));
+        Assert.Equal(1, page);
+        Assert.True(back.FVisible);
+        Assert.True(forward.FVisible);
+        Assert.True(manager.CheckMouseWheel(-5, shift, 120, 80));
+        Assert.Equal(2, page);
+        Assert.False(forward.FVisible);
+        Assert.False(book.CheckMouseWheel(-1, shift, 120, 80));
+        Assert.True(manager.CheckMouseWheel(-1, shift, 120, 80));
+        Assert.Equal(2, page);
+
+        Assert.True(manager.CheckMouseWheel(5, shift, 120, 80));
+        Assert.Equal(0, page);
+        Assert.False(back.FVisible);
+        Assert.False(book.CheckMouseWheel(1, shift, 120, 80));
+        Assert.True(manager.CheckMouseWheel(1, shift, 120, 80));
+        Assert.Equal(0, page);
+
+        Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.Equal(0, page);
+        Assert.Equal(1, list.F15C);
+
+        book.FAnimating = true;
+        Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.Equal(0, page);
+        Assert.Equal(1, list.F15C);
+    }
+}

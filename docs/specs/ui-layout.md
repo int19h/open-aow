@@ -316,7 +316,26 @@ with a Windows virtual key code, and `CheckKeyPress(Key)` with a code page 1252 
 (`platform.md` maps SDL events to these). `RestoreWindowLayout` and `General.SaveLayout` read and
 write window positions through the registry wrapper (`rtl-shim.md`, settings store).
 
-Nothing in this path is new code except the reader and the tables: the toolkit, the window
+The mouse wheel is a port addition the original does not have. The host calls
+`CheckMouseWheel(Steps, Shift, X, Y)` in back-surface pixels. Positive Steps is a roll away from the
+user. The window manager gives the wheel to the topmost visible window at or above `OverlayPriority`
+that contains the pointer. A window below `OverlayPriority` is left out, on the same rule as a mouse
+down. A window or a panel
+then gives it to the topmost visible child under the pointer that takes input. A child that handles
+the wheel stops the search. A child that does not handle it leaves the wheel with its parent. A
+vertical scroll bar moves by `SmallChange` for each step on the same path as its arrow buttons,
+clamped, with `OnChange` fired. A list that has a scroll bar, or a `WheelScrollBar`, forwards the
+wheel to that bar. A list with neither scrolls its own offset. A panel or a window that owns exactly
+one visible vertical scroll bar forwards a wheel that none of its children handled to that bar. A
+window with `PageBack` and `PageForward` turns one page per step by calling that button's handler. A
+list under the pointer scrolls instead of turning the page.
+
+The open and save dialogs remember the last sort button under the setting `OpenAoW` / `File Dialog
+Sort By Date`. That setting is a port addition the original does not have. Name order is the default
+and directories stay first in both orders.
+
+Nothing in this path is new code except the reader, the tables, the mouse wheel and the remembered
+file-dialog sort: the toolkit, the window
 manager, the module handlers and the game flow units (`E1GameFlow`, `E2GameFlow`, `E3EventDialogs`
 and the others of `AoW/`) are transpiled. The executable's own code is verified to the same standard
 as the packages: of its 1,334 functions, 1,258 byte-match the original, 1 is proven equivalent, 30
