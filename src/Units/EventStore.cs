@@ -13,7 +13,7 @@ namespace Aow.Units.Engine;
 // and runs again. A handler appended during the raise sits past the captured
 // bound. A null entry is skipped. Clear drops the array, so a later index fails
 // the way a nil list did in the original.
-internal struct EventStore<TSender>
+internal sealed class EventStore<TSender>
 {
     private TNotifyEvent<TSender>[] items;
     private int count;

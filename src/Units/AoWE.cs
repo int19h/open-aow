@@ -2717,6 +2717,7 @@ public partial class TPlayerMagicControl : TEObject
         TExternalPowerSource Source;
 
         FSpells = new TIntegerList();
+        FChangedEventsStore = new();
         FEnchantments = new TEnchantmentList(null);
         FPowerSources = new TPowerSourceList(null);
         Source = new TExternalPowerSource(null);
@@ -4052,6 +4053,7 @@ public partial class TGlobalMagicControl : TEObject
     public TGlobalMagicControl(TECustomNode owner) : base(owner)
     {
         FEnchantments = new TGlobalEnchantmentList(null);
+        FChangedEventsStore = new();
         FNextEnchantmentID = 1;
     }
 
@@ -5258,6 +5260,9 @@ public partial class TPlayer : TEObject
     // Player.PAS:261
     public TPlayer(TECustomNode owner) : base(owner)
     {
+        FIncomeChangedEventsStore = new();
+        FGemsChangedEventsStore = new();
+        FUpkeepChangedEventsStore = new();
         FStructures = new TPlayerStructureList(null);
         FStructures.FPlayer = this;
         FArmies = new TArmyList(null);
@@ -5278,6 +5283,7 @@ public partial class TPlayer : TEObject
         FParticipating = false;
         FEventLogbook = new TEventLogbook(null);
         FEventLogbook.SetOnChanged(LogbookChangedEvent);
+        FLogbookChangedEventsStore = new();
         FDiplomaticRelations = new TPlayerDiplomaticRelations(null);
         FDiplomaticRelations.FPlayer = this;
         FLegacyNewRelations = new TDiplomaticRelationList();
@@ -12529,6 +12535,7 @@ public partial class TTargetSelectionControl : TObject
     // change, target, text, title, cancel text, images
     public TTargetSelectionControl()
     {
+        FOnChangeStore = new();
         FHNs = new TShortIntList();
         FText = new TStringList();
     }
@@ -13092,6 +13099,7 @@ public partial class TAbstractAoWHSMapMouse : THSMapMouse
     public TAbstractAoWHSMapMouse() : base()
     {
         ResetRectangleSelection();
+        FRectangleSelectEventsStore = new();
     }
 
     public TRect FSelectionRectangle;
@@ -13385,6 +13393,9 @@ public partial class TAbstractAoWHSMap : THSMap
 
     public TAbstractAoWHSMap(TECustomNode owner) : base(owner)
     {
+        FShowMessageEventsStore = new();
+        FMapChangedEventsStore = new();
+        FScannerIconsChangedEventsStore = new();
         FBackHexagonSelector = new TCustomFixedVisibleHS(null);
         FBackHexagonSelector.OnShow = ShowBackHexagonSelector;
         FFrontHexagonSelector = new TCustomFixedVisibleHS(null);
@@ -14130,6 +14141,8 @@ public partial class TAbstractAoWCombatMap : TAbstractAoWHSMap
     // AoWHSMap.PAS:907
     public TAbstractAoWCombatMap(TECustomNode owner) : base(owner)
     {
+        FCombatStartedEventsStore = new();
+        FAbilityActivatedEventsStore = new();
     }
 
 }
@@ -14819,6 +14832,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FIndependentAIMode = TIndependentAIMode.iaNormal;
         FPlayers = new TPlayerList(null);
         FRaces = new TRaceList(null);
+        FPlayerChangedEventsStore = new();
         FFixedLeaders = true;
         FAlliedVictory = false;
         FCurrentPlayer = 0;
@@ -14837,12 +14851,37 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FHeroControl = new THeroControl(null);
         FUnitControl = new TUnitControl(null);
         FStructureControl = new TStructureControl(null);
+        FOnLeaderChangedStore = new();
         FTextControl = new TTextControl(null);
+        FNewDayEventsStore = new();
+        FNewTurnEventsStore = new();
+        FEndTurnEventsStore = new();
+        FCurrentPlayerChangedEventsStore = new();
+        FSeatedPlayerChangedEventsStore = new();
+        FArmyChangedEventsStore = new();
+        FStructureChangedEventsStore = new();
+        FTokenControlActivatedEventsStore = new();
+        FUnitChangedEventsStore = new();
+        FArmyDestroyedEventsStore = new();
+        FStructureDestroyedEventsStore = new();
+        FUnitDestroyedEventsStore = new();
+        FCombatEventsStore = new();
+        FExecuteEventLogEventsStore = new();
         FUnitChangedEvents += FTargetSelection.UnitChanged;
         FArmyDestroyedEvents += FSelectedArmy.OnDestroyArmy;
         FExecuteEventLogCallBacks = new TExecuteEventLogCallBackList();
+        FCosmeticSurgeryEventsStore = new();
+        FOnActivateAbilityStore = new();
         FStartupSongs = new TStartupSongList(null);
         FGameSongs = new TSonglist(null);
+        FPlayerTerminatedEventsStore = new();
+        FGameOverEventsStore = new();
+        FGameTerminatedEventsStore = new();
+        FDiplomaticRelationsChangedEventsStore = new();
+        FUpdateVisibilityEventsStore = new();
+        FCombatMapCreatedEventsStore = new();
+        FCombatMapDestroyedEventsStore = new();
+        FExitEventsStore = new();
         FCampaignSettings = new TAoWMapCampaignSettings(null);
         Mouse.OnMove += MouseMoved;
     }
@@ -20615,6 +20654,8 @@ public partial class TItemControl : TEObject
     public TItemControl(TECustomNode owner) : base(owner)
     {
         FItems = new TList();
+        FOnChangedStore = new();
+        FOnItemChangedStore = new();
     }
 
     public TList FItems;
@@ -29932,6 +29973,8 @@ public partial class THeroControl : TEObject
     // Hero.PAS:2413
     public THeroControl(TECustomNode owner) : base(owner)
     {
+        FOnChangedStore = new();
+        FOnHeroChangedStore = new();
         FHeroes = new THeroList(null);
     }
 
@@ -45378,6 +45421,7 @@ public partial class TCombat : TEObject
     // Combat.pas:6067
     public TCombat(TECustomNode owner) : base(owner)
     {
+        FExecutedEventsStore = new();
         var combatSide = new TCombatSide(null);
         FSides[(int)TCombatSideIndex.csAttacker] = combatSide;
         var combatSide2 = new TCombatSide(null);
@@ -45409,8 +45453,7 @@ public partial class TCombat : TEObject
     public int FExecutedLock;
     public TCombatExecutedEvent FOnExecuted;
     public bool FTerminated;
-    public TNotifyEvent<TObject> FOnTerminated;
-    // EndCombat also receives a form sender
+    public TNotifyEvent<TCombat> FOnTerminated;
     public byte FExplorationSite;
     public TEObject FItems;
 

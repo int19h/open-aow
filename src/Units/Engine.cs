@@ -4934,6 +4934,7 @@ public partial class TEngine : TENode
     {
         UpdateStartupDirectory();
         FOptions = TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+        FDebugEventsStore = new();
         FEClasses = new TEObjectClassList();
         FClassTable = new TIntegerHashTable256();
         FEditors = new TEObjectEditorList();
@@ -7887,6 +7888,7 @@ public partial class TEChangeNotifyEventList : TEChangeNotifyNode
 
     public TEChangeNotifyEventList(TECustomNode owner) : base(owner)
     {
+        FEventsStore = new();
     }
 
     internal EventStore<TEChangeNotifyEventList> FEventsStore;

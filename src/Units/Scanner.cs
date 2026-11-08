@@ -982,56 +982,56 @@ public partial class TScanner : TAOWControl
 
     public new TNotifyEvent<TScanner> OnChange
     {
-        get => EventSlot.Get(this, "TScanner.FOnChange", FOnChange, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     public new TMouseEvent<TScanner> OnMouseDown
     {
-        get => EventSlot.Get(this, "TScanner.FOnMouseDown", FOnMouseDown, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseDown, static slot => (TMouseEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
     public new TMouseEvent<TScanner> OnMouseUp
     {
-        get => EventSlot.Get(this, "TScanner.FOnMouseUp", FOnMouseUp, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseUp, static slot => (TMouseEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
     public new TMouseMoveEvent<TScanner> OnMouseMove
     {
-        get => EventSlot.Get(this, "TScanner.FOnMouseMove", FOnMouseMove, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseMove, static slot => (TMouseMoveEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
     public new TKeyPressEvent<TScanner> OnKeyPress
     {
-        get => EventSlot.Get(this, "TScanner.FOnKeyPress", FOnKeyPress, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+        get => EventSlot.Get(this, FOnKeyPress, static slot => (TKeyPressEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
     public new TKeyEvent<TScanner> OnKeyDown
     {
-        get => EventSlot.Get(this, "TScanner.FOnKeyDown", FOnKeyDown, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+        get => EventSlot.Get(this, FOnKeyDown, static slot => (TKeyEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
     public new TAoWOnDrawEvent<TScanner> OnPreDraw
     {
-        get => EventSlot.Get(this, "TScanner.FOnPreDraw", FOnPreDraw, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnPreDraw, static slot => (TAoWOnDrawEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
     public new TAoWOnDrawEvent<TScanner> OnDraw
     {
-        get => EventSlot.Get(this, "TScanner.FOnDraw", FOnDraw, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnDraw, static slot => (TAoWOnDrawEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
     public new TNotifyEvent<TScanner> OnUpdate
     {
-        get => EventSlot.Get(this, "TScanner.FOnUpdate", FOnUpdate, static slot => slot);
-        set => EventSlot.Set(this, "TScanner.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnUpdate, static slot => (TNotifyEvent<TScanner>)slot);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
 

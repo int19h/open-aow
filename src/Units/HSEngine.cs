@@ -770,6 +770,11 @@ public partial class THSMap : TENode
         FDynamicFixedVisibleHS = new TVisibilityList(this);
         FDynamicFixedVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
         FTimer = new TETimerNode(this);
+        FHSChangedEventsStore = new();
+        FTerrainChangedEventsStore = new();
+        FViewPortChangedEventsStore = new();
+        FNewFrameEventsStore = new();
+        FDestroyEventsStore = new();
     }
 
     internal THSMapMouse FMouse;
@@ -1842,6 +1847,10 @@ public partial class THSEngine : TEngine
 
     private protected THSEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
     {
+        FOnHSMLoadedStore = new();
+        FOnHSMCloseStore = new();
+        FOnHSSLoadedStore = new();
+        FOnHSSCloseStore = new();
         RegisterEClasses([EClass.Of<TMapContainer>(), EClass.Of<TMapLevel>(), EClass.Of<THSMap>(), EClass.Of<THSSet>()]);
         RegisterEClasses([EClass.Of<TMapObjectResource>(), EClass.Of<TMultiHexMOR>()]);
         RegisterEClasses([EClass.Of<TAbstractHexagon>(), EClass.Of<TAbstractBorderHexagon>(), EClass.Of<TAbstractRoad>()]);
@@ -4669,6 +4678,8 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
     public THexagonSpriteSelection(TECustomNode owner) : base(owner)
     {
         FLocationHS = new TList();
+        FOnSelectStore = new();
+        FOnDeselectStore = new();
     }
 
     // HSEngine.pas:3689
@@ -4821,6 +4832,11 @@ public partial class THSMapMouse : TObject
 
     public THSMapMouse()
     {
+        FOnUpStore = new();
+        FOnDownStore = new();
+        FOnMoveStore = new();
+        FOnDblClickStore = new();
+        FOnCaptureChangedStore = new();
         Reset();
     }
 

@@ -38,8 +38,8 @@ public sealed class UiConstructionTests
             Game.AoWEngine = EngineFixture.Engine;
             loaded = Game.AoWEngine.FOnHSMLoadedStore;
             closed = Game.AoWEngine.FOnHSMCloseStore;
-            Game.AoWEngine.FOnHSMLoadedStore = default;
-            Game.AoWEngine.FOnHSMCloseStore = default;
+            Game.AoWEngine.FOnHSMLoadedStore = new EventStore<THSMap>();
+            Game.AoWEngine.FOnHSMCloseStore = new EventStore<THSMap>();
             Game.AoWHSMap = null!;
             AoWTC.AoWTCUnit.AoWCombatMap = null!;
         }

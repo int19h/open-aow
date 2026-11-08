@@ -37,8 +37,10 @@ public partial class TPlayerCommunicator : TEObject
     public TPlayerCommunicator(TECustomNode owner) : base(owner)
     {
         FReceivedPackage = null;
+        FOnReceiveStore = new();
         FSendStream = new TMemoryStream();
         FReceiveStream = new TMemoryStream();
+        FOnProcessStore = new();
     }
 
     // NetworkE.pas:629
@@ -673,6 +675,8 @@ public partial class TTokenExecuter : TObject
         FTokenManager = AManager;
         FEvents = new TTokenEventList(null);
         FTCList = new TList();
+        FOnEventsExecutedStore = new();
+        FOnActivateTCStore = new();
         FSystemEvents = new TTokenEventList(null);
     }
 

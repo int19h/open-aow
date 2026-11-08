@@ -86,6 +86,7 @@ public partial class TRealmWin : TDataModule
     public TAOWListBox Unit6LB;
     public TAOWListBox Unit7LB;
     public TAOWListBox Unit8LB;
+    private TAOWListBox[] partyLists;
     public TAOWVScrollBar PartySb;
     public TAOWPanel HeroPnl;
     public TAOWPanel T5MainPnl;
@@ -478,12 +479,12 @@ public partial class TRealmWin : TDataModule
             ListBox.Selected = -1;
         }
 
-        TAOWListBox[] lists = [Unit1LB, Unit2LB, Unit3LB, Unit4LB, Unit5LB, Unit6LB, Unit7LB, Unit8LB];
-        for (int index = 0; index < lists.Length; index++)
+        partyLists ??= [Unit1LB, Unit2LB, Unit3LB, Unit4LB, Unit5LB, Unit6LB, Unit7LB, Unit8LB];
+        for (int index = 0; index < partyLists.Length; index++)
         {
             if (index != Slot)
             {
-                lists[index].Selected = -1;
+                partyLists[index].Selected = -1;
             }
         }
     }

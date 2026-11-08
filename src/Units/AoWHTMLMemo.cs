@@ -1047,86 +1047,86 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
 
     public new TNotifyEvent<TaowHTMLMemo> OnChange
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnChange", FOnChange, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     public new TMouseEvent<TaowHTMLMemo> OnMouseDown
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnMouseDown", FOnMouseDown, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseDown, static slot => (TMouseEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
     public new TMouseEvent<TaowHTMLMemo> OnMouseUp
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnMouseUp", FOnMouseUp, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseUp, static slot => (TMouseEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
     public new TMouseMoveEvent<TaowHTMLMemo> OnMouseMove
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnMouseMove", FOnMouseMove, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseMove, static slot => (TMouseMoveEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
     public new TKeyPressEvent<TaowHTMLMemo> OnKeyPress
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnKeyPress", FOnKeyPress, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+        get => EventSlot.Get(this, FOnKeyPress, static slot => (TKeyPressEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
     public new TKeyEvent<TaowHTMLMemo> OnKeyDown
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnKeyDown", FOnKeyDown, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+        get => EventSlot.Get(this, FOnKeyDown, static slot => (TKeyEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
     public new TAoWOnDrawEvent<TaowHTMLMemo> OnPreDraw
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnPreDraw", FOnPreDraw, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnPreDraw, static slot => (TAoWOnDrawEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
     public new TAoWOnDrawEvent<TaowHTMLMemo> OnDraw
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnDraw", FOnDraw, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnDraw, static slot => (TAoWOnDrawEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
     public new TNotifyEvent<TaowHTMLMemo> OnUpdate
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnUpdate", FOnUpdate, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnUpdate, static slot => (TNotifyEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
     public new TAoWOnDrawBackEvent<TaowHTMLMemo> OnDrawBack
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnDrawBack", FOnDrawBack, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnDrawBack", ref FOnDrawBack, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnDrawBack, static slot => (TAoWOnDrawBackEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
     public new TNotifyEvent<TaowHTMLMemo> OnEnter
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnEnter", FOnEnter, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnEnter", ref FOnEnter, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnEnter, static slot => (TNotifyEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
     public new TNotifyEvent<TaowHTMLMemo> OnExit
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnExit", FOnExit, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnExit", ref FOnExit, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnExit, static slot => (TNotifyEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnExit, value);
     }
 
     public new TNotifyEvent<TaowHTMLMemo> OnHide
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnHide", FOnHide, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnHide", ref FOnHide, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnHide, static slot => (TNotifyEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnHide, value);
     }
 
     public new TNotifyEvent<TaowHTMLMemo> OnShow
     {
-        get => EventSlot.Get(this, "TaowHTMLMemo.FOnShow", FOnShow, static slot => slot);
-        set => EventSlot.Set(this, "TaowHTMLMemo.FOnShow", ref FOnShow, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnShow, static slot => (TNotifyEvent<TaowHTMLMemo>)slot);
+        set => EventSlot.Set(this, ref FOnShow, value);
     }
 }
 

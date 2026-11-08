@@ -238,7 +238,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnMapChanged != null && Sender != null)
+            if (FOnMapChanged != null)
             {
                 FOnMapChanged(ref Sender.Info);
             }
@@ -254,7 +254,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnScannerIconsChanged != null && Sender != null)
+            if (FOnScannerIconsChanged != null)
             {
                 FOnScannerIconsChanged(ref Sender.Info);
             }
@@ -503,7 +503,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnShowMessage != null && Sender != null)
+            if (FOnShowMessage != null)
             {
                 FOnShowMessage(ref Sender.Info);
             }

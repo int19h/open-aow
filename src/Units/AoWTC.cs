@@ -8416,7 +8416,14 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     public TAoWCombatMap(TECustomNode owner) : base(owner)
     {
         FUnitPositions = new TUnitPositionControl(null);
+        FChangeTurnEventsStore = new();
+        FPlayerChangedEventsStore = new();
+        FSeatedPlayerChangedEventsStore = new();
         FMoveControl = new TCombatMoveControl(this);
+        FSelectEventsStore = new();
+        FDeselectEventsStore = new();
+        FMouseOverTargetEventsStore = new();
+        FUnitChangedEventsStore = new();
         FPlayers = new TTacticalCombatPlayerList();
         FUnitSelection = new TCombatUnitSelectionControl();
         ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents += FUnitSelection.RectangleSelectEvent;

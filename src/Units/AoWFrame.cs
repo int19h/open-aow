@@ -356,56 +356,56 @@ public partial class TAoWFrame : TAOWControl
 
     public new TNotifyEvent<TAoWFrame> OnChange
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnChange", FOnChange, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     public new TMouseEvent<TAoWFrame> OnMouseDown
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnMouseDown", FOnMouseDown, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseDown, static slot => (TMouseEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
     public new TMouseEvent<TAoWFrame> OnMouseUp
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnMouseUp", FOnMouseUp, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseUp, static slot => (TMouseEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
     public new TMouseMoveEvent<TAoWFrame> OnMouseMove
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnMouseMove", FOnMouseMove, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseMove, static slot => (TMouseMoveEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
     public new TKeyPressEvent<TAoWFrame> OnKeyPress
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnKeyPress", FOnKeyPress, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+        get => EventSlot.Get(this, FOnKeyPress, static slot => (TKeyPressEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
     public new TKeyEvent<TAoWFrame> OnKeyDown
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnKeyDown", FOnKeyDown, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+        get => EventSlot.Get(this, FOnKeyDown, static slot => (TKeyEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
     public new TAoWOnDrawEvent<TAoWFrame> OnPreDraw
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnPreDraw", FOnPreDraw, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnPreDraw, static slot => (TAoWOnDrawEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
     public new TAoWOnDrawEvent<TAoWFrame> OnDraw
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnDraw", FOnDraw, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnDraw, static slot => (TAoWOnDrawEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
     public new TNotifyEvent<TAoWFrame> OnUpdate
     {
-        get => EventSlot.Get(this, "TAoWFrame.FOnUpdate", FOnUpdate, static slot => slot);
-        set => EventSlot.Set(this, "TAoWFrame.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnUpdate, static slot => (TNotifyEvent<TAoWFrame>)slot);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
 

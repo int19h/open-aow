@@ -352,7 +352,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:296
-    public void SpellIcnDraw(TObject Sender, TSurfaceDesc Surface)
+    public void SpellIcnDraw(TAOWImage Sender, TSurfaceDesc Surface)
     {
         TPlayerMagicControl Magic;
         TSpell Spell;
@@ -366,10 +366,9 @@ public partial class TMagicWin : TDataModule
             {
                 if (Spell.FCastImages.GetImageSequence(10) != null)
                 {
-                    var image = (AoWControl.TAOWControl)Sender;
-                    X = image.FAOWWindow.WinLeft;
-                    Y = image.FAOWWindow.WinTop + image.WinTop;
-                    Spell.FCastImages.Show(10, image.WinLeft + X, Y, 0, Surface);
+                    X = Sender.FAOWWindow.WinLeft;
+                    Y = Sender.FAOWWindow.WinTop + Sender.WinTop;
+                    Spell.FCastImages.Show(10, Sender.WinLeft + X, Y, 0, Surface);
                 }
             }
         }

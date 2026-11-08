@@ -1138,11 +1138,10 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:315
-    public void FaceDraw(TObject Sender, TSurfaceDesc SD)
+    public void FaceDraw(TAOWImage Sender, TSurfaceDesc SD)
     {
         TRect R;
-        var image = (AoWComp.TAoWComponent)Sender;
-        R = Rect(LeftInfoPage.WinLeft + image.WinLeft, LeftInfoPage.WinTop + image.WinTop, LeftInfoPage.WinLeft + image.WinLeft + image.WinWidth, LeftInfoPage.WinTop + image.WinTop + image.WinHeight);
+        R = Rect(LeftInfoPage.WinLeft + Sender.WinLeft, LeftInfoPage.WinTop + Sender.WinTop, LeftInfoPage.WinLeft + Sender.WinLeft + Sender.WinWidth, LeftInfoPage.WinTop + Sender.WinTop + Sender.WinHeight);
 
         FHero.GetFace().ShowStretched(R, SD);
     }

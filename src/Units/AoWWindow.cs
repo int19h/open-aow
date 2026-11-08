@@ -842,22 +842,22 @@ public partial class TAOWWindow : TAOWGenericWindow
     [Published]
     public TNotifyEvent<TAOWWindow> OnDrag
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnChange", FOnChange, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     [Published]
     public TNotifyEvent<TAOWWindow> OnResize
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnResize", FOnResize, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnResize", ref FOnResize, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnResize, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnResize, value);
     }
 
     [Published]
     public TNotifyEvent<TAOWWindow> OnInternalResize
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnInternalResize", FOnInternalResize, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnInternalResize", ref FOnInternalResize, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnInternalResize, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnInternalResize, value);
     }
 
     [Published]
@@ -883,104 +883,104 @@ public partial class TAOWWindow : TAOWGenericWindow
 
     public new TNotifyEvent<TAOWWindow> OnChange
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnChange", FOnChange, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     public new TMouseEvent<TAOWWindow> OnMouseDown
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnMouseDown", FOnMouseDown, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseDown, static slot => (TMouseEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
     public new TMouseEvent<TAOWWindow> OnMouseUp
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnMouseUp", FOnMouseUp, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseUp, static slot => (TMouseEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
     public new TMouseMoveEvent<TAOWWindow> OnMouseMove
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnMouseMove", FOnMouseMove, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseMove, static slot => (TMouseMoveEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
     public new TKeyPressEvent<TAOWWindow> OnKeyPress
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnKeyPress", FOnKeyPress, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+        get => EventSlot.Get(this, FOnKeyPress, static slot => (TKeyPressEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
     public new TKeyEvent<TAOWWindow> OnKeyDown
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnKeyDown", FOnKeyDown, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+        get => EventSlot.Get(this, FOnKeyDown, static slot => (TKeyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
     public new TAoWOnDrawEvent<TAOWWindow> OnPreDraw
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnPreDraw", FOnPreDraw, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnPreDraw, static slot => (TAoWOnDrawEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
     public new TAoWOnDrawEvent<TAOWWindow> OnDraw
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnDraw", FOnDraw, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnDraw, static slot => (TAoWOnDrawEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
     public new TNotifyEvent<TAOWWindow> OnUpdate
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnUpdate", FOnUpdate, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnUpdate, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
     public new TAoWOnDrawBackEvent<TAOWWindow> OnDrawBack
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnDrawBack", FOnDrawBack, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnDrawBack", ref FOnDrawBack, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnDrawBack, static slot => (TAoWOnDrawBackEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
     public new TNotifyEvent<TAOWWindow> OnEnter
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnEnter", FOnEnter, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnEnter", ref FOnEnter, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnEnter, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
     public new TNotifyEvent<TAOWWindow> OnExit
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnExit", FOnExit, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnExit", ref FOnExit, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnExit, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnExit, value);
     }
 
     public new TNotifyEvent<TAOWWindow> OnChangeCursor
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnChangeCursor", FOnChangeCursor, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnChangeCursor", ref FOnChangeCursor, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnChangeCursor, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnChangeCursor, value);
     }
 
     public new TAoWOnDrawSurface<TAOWWindow> OnDrawSurface
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnDrawSurface", FOnDrawSurface, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnDrawSurface", ref FOnDrawSurface, value, handler => (sender, surface, left, top) => handler(this, surface, left, top));
+        get => EventSlot.Get(this, FOnDrawSurface, static slot => (TAoWOnDrawSurface<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
     public new TAoWOnDrawSurface<TAOWWindow> OnPreDrawSurface
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnPreDrawSurface", FOnPreDrawSurface, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnPreDrawSurface", ref FOnPreDrawSurface, value, handler => (sender, surface, left, top) => handler(this, surface, left, top));
+        get => EventSlot.Get(this, FOnPreDrawSurface, static slot => (TAoWOnDrawSurface<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
     }
 
     public new TNotifyEvent<TAOWWindow> OnHide
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnHide", FOnHide, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnHide", ref FOnHide, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnHide, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnHide, value);
     }
 
     public new TNotifyEvent<TAOWWindow> OnShow
     {
-        get => EventSlot.Get(this, "TAOWWindow.FOnShow", FOnShow, static slot => slot);
-        set => EventSlot.Set(this, "TAOWWindow.FOnShow", ref FOnShow, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnShow, static slot => (TNotifyEvent<TAOWWindow>)slot);
+        set => EventSlot.Set(this, ref FOnShow, value);
     }
 }
 

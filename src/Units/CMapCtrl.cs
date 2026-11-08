@@ -455,11 +455,11 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:198. The notification carries the changed map area.
-    public void MapChanged(MapChangedNotification sender)
+    public void MapChanged(TObject sender)
     {
         try
         {
-            if (FOnMapChanged is not null && sender is not null) FOnMapChanged(sender.Info);
+            if (FOnMapChanged is not null) FOnMapChanged(((MapChangedNotification)sender).Info);
         }
         catch
         {
@@ -467,9 +467,9 @@ public partial class TAoWCombatMapControl : TComponent
         }
     }
 
-    public void ShowMessage(ShowMessageNotification sender)
+    public void ShowMessage(TObject sender)
     {
-        try { if (sender is not null) FOnShowMessage?.Invoke(sender.Info); }
+        try { FOnShowMessage?.Invoke(((ShowMessageNotification)sender).Info); }
         catch { RtlUnit.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)"); }
     }
 }

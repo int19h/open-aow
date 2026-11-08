@@ -249,8 +249,8 @@ public partial class TWorldMap : ILayoutModule
         EPawn = new TAOWImage(this);
         session.BeginRead(EPawn);
         EPawn.Name = "EPawn";
-        EPawn.OnMouseDown = PPawnMouseDown;
-        EPawn.OnMouseMove = PPawnMouseMove;
+        EPawn.OnMouseDown = EPawnMouseDown;
+        EPawn.OnMouseMove = EPawnMouseMove;
         EPawn.Visible = false;
         EPawn.Priority = 0;
         EPawn.WinLeft = 0;

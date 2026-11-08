@@ -130,56 +130,56 @@ public partial class TAoWArnoLine : TAOWControl
 
     public new TNotifyEvent<TAoWArnoLine> OnChange
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnChange", FOnChange, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnChange", ref FOnChange, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnChange, static slot => (TNotifyEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnChange, value);
     }
 
     public new TMouseEvent<TAoWArnoLine> OnMouseDown
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnMouseDown", FOnMouseDown, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnMouseDown", ref FOnMouseDown, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseDown, static slot => (TMouseEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
     public new TMouseEvent<TAoWArnoLine> OnMouseUp
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnMouseUp", FOnMouseUp, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnMouseUp", ref FOnMouseUp, value, handler => (sender, button, shift, x, y) => handler(this, button, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseUp, static slot => (TMouseEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
     public new TMouseMoveEvent<TAoWArnoLine> OnMouseMove
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnMouseMove", FOnMouseMove, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnMouseMove", ref FOnMouseMove, value, handler => (sender, shift, x, y) => handler(this, shift, x, y));
+        get => EventSlot.Get(this, FOnMouseMove, static slot => (TMouseMoveEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
     public new TKeyPressEvent<TAoWArnoLine> OnKeyPress
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnKeyPress", FOnKeyPress, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnKeyPress", ref FOnKeyPress, value, handler => (sender, ref key) => handler(this, ref key));
+        get => EventSlot.Get(this, FOnKeyPress, static slot => (TKeyPressEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
     public new TKeyEvent<TAoWArnoLine> OnKeyDown
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnKeyDown", FOnKeyDown, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnKeyDown", ref FOnKeyDown, value, handler => (sender, ref key, shift) => handler(this, ref key, shift));
+        get => EventSlot.Get(this, FOnKeyDown, static slot => (TKeyEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
     public new TAoWOnDrawEvent<TAoWArnoLine> OnPreDraw
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnPreDraw", FOnPreDraw, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnPreDraw", ref FOnPreDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnPreDraw, static slot => (TAoWOnDrawEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
     public new TAoWOnDrawEvent<TAoWArnoLine> OnDraw
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnDraw", FOnDraw, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnDraw", ref FOnDraw, value, handler => (sender, surface) => handler(this, surface));
+        get => EventSlot.Get(this, FOnDraw, static slot => (TAoWOnDrawEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
     public new TNotifyEvent<TAoWArnoLine> OnUpdate
     {
-        get => EventSlot.Get(this, "TAoWArnoLine.FOnUpdate", FOnUpdate, static slot => slot);
-        set => EventSlot.Set(this, "TAoWArnoLine.FOnUpdate", ref FOnUpdate, value, handler => sender => handler(this));
+        get => EventSlot.Get(this, FOnUpdate, static slot => (TNotifyEvent<TAoWArnoLine>)slot);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
 

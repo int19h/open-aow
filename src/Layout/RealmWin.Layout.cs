@@ -1410,7 +1410,7 @@ public partial class TRealmWin : ILayoutModule
         Unit1LB.OnChange = sender => Unit1LBChange(sender, 0);
         Unit1LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 0);
         Unit1LB.Selected = -1;
-        Unit1LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 0);
+        Unit1LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 0);
         Unit1LB.TextColor = 9415072;
         Unit1LB.TextSelColor = 0;
         Unit1LB.ILIndexFrame = 40;
@@ -1447,7 +1447,7 @@ public partial class TRealmWin : ILayoutModule
         Unit2LB.OnChange = sender => Unit1LBChange(sender, 1);
         Unit2LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 1);
         Unit2LB.Selected = -1;
-        Unit2LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 1);
+        Unit2LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 1);
         Unit2LB.TextColor = 9415072;
         Unit2LB.TextSelColor = 0;
         Unit2LB.ILIndexFrame = 40;
@@ -1484,7 +1484,7 @@ public partial class TRealmWin : ILayoutModule
         Unit3LB.OnChange = sender => Unit1LBChange(sender, 2);
         Unit3LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 2);
         Unit3LB.Selected = -1;
-        Unit3LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 2);
+        Unit3LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 2);
         Unit3LB.TextColor = 9415072;
         Unit3LB.TextSelColor = 0;
         Unit3LB.ILIndexFrame = 40;
@@ -1521,7 +1521,7 @@ public partial class TRealmWin : ILayoutModule
         Unit4LB.OnChange = sender => Unit1LBChange(sender, 3);
         Unit4LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 3);
         Unit4LB.Selected = -1;
-        Unit4LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 3);
+        Unit4LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 3);
         Unit4LB.TextColor = 9415072;
         Unit4LB.TextSelColor = 0;
         Unit4LB.ILIndexFrame = 40;
@@ -1558,7 +1558,7 @@ public partial class TRealmWin : ILayoutModule
         Unit5LB.OnChange = sender => Unit1LBChange(sender, 4);
         Unit5LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 4);
         Unit5LB.Selected = -1;
-        Unit5LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 4);
+        Unit5LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 4);
         Unit5LB.TextColor = 9415072;
         Unit5LB.TextSelColor = 0;
         Unit5LB.ILIndexFrame = 40;
@@ -1595,7 +1595,7 @@ public partial class TRealmWin : ILayoutModule
         Unit6LB.OnChange = sender => Unit1LBChange(sender, 5);
         Unit6LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 5);
         Unit6LB.Selected = -1;
-        Unit6LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 5);
+        Unit6LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 5);
         Unit6LB.TextColor = 9415072;
         Unit6LB.TextSelColor = 0;
         Unit6LB.ILIndexFrame = 40;
@@ -1632,7 +1632,7 @@ public partial class TRealmWin : ILayoutModule
         Unit7LB.OnChange = sender => Unit1LBChange(sender, 6);
         Unit7LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 6);
         Unit7LB.Selected = -1;
-        Unit7LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 6);
+        Unit7LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 6);
         Unit7LB.TextColor = 9415072;
         Unit7LB.TextSelColor = 0;
         Unit7LB.ILIndexFrame = 40;
@@ -1669,7 +1669,7 @@ public partial class TRealmWin : ILayoutModule
         Unit8LB.OnChange = sender => Unit1LBChange(sender, 7);
         Unit8LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 7);
         Unit8LB.Selected = -1;
-        Unit8LB.OnDrawItem = (sender, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 7);
+        Unit8LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 7);
         Unit8LB.TextColor = 9415072;
         Unit8LB.TextSelColor = 0;
         Unit8LB.ILIndexFrame = 40;

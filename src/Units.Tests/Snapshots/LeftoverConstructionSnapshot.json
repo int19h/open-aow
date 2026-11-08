@@ -8397,121 +8397,57 @@
               "TAbstractAoWHSMap.FFogEnabled": false,
               "TAbstractAoWHSMap.FFrontHexagonSelector": null,
               "TAbstractAoWHSMap.FHexagonSelectorVisible": false,
-              "TAbstractAoWHSMap.FMapChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAbstractAoWHSMap.FMapChangedEventsStore": null,
               "TAbstractAoWHSMap.FMapChangedLockCount": 0,
               "TAbstractAoWHSMap.FMessageFrame": 0,
               "TAbstractAoWHSMap.FMessageText": "",
-              "TAbstractAoWHSMap.FScannerIconsChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.MapChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAbstractAoWHSMap.FScannerIconsChangedEventsStore": null,
               "TAbstractAoWHSMap.FScannerIconsChangedLockCount": 0,
               "TAbstractAoWHSMap.FSeatedPlayer": 0,
               "TAbstractAoWHSMap.FSelectorX": 0,
               "TAbstractAoWHSMap.FSelectorY": 0,
               "TAbstractAoWHSMap.FShowGrid": false,
-              "TAbstractAoWHSMap.FShowMessageEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.ShowMessageNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAbstractAoWHSMap.FShowMessageEventsStore": null,
               "TAoWHSMap.FAIExecuter": null,
               "TAoWHSMap.FAIGroupManager": null,
               "TAoWHSMap.FAILockCount": 0,
               "TAoWHSMap.FAIPlayerActionManager": null,
               "TAoWHSMap.FAlliedVictory": false,
-              "TAoWHSMap.FArmyChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TArmy, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
-              "TAoWHSMap.FArmyDestroyedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TArmy, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FArmyChangedEventsStore": null,
+              "TAoWHSMap.FArmyDestroyedEventsStore": null,
               "TAoWHSMap.FArmyUpdateCount": 0,
               "TAoWHSMap.FAuthor": "",
               "TAoWHSMap.FCampaignSettings": null,
               "TAoWHSMap.FCombat": null,
-              "TAoWHSMap.FCombatEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FCombatEventsStore": null,
               "TAoWHSMap.FCombatMap": null,
-              "TAoWHSMap.FCombatMapCreatedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
-              "TAoWHSMap.FCombatMapDestroyedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FCombatMapCreatedEventsStore": null,
+              "TAoWHSMap.FCombatMapDestroyedEventsStore": null,
               "TAoWHSMap.FConnectionType": 0,
-              "TAoWHSMap.FCosmeticSurgeryEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TSpellCaster, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
-              "TAoWHSMap.FCurrentPlayerChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FCosmeticSurgeryEventsStore": null,
+              "TAoWHSMap.FCurrentPlayerChangedEventsStore": null,
               "TAoWHSMap.FDay": 0,
               "TAoWHSMap.FDayLimit": 0,
               "TAoWHSMap.FDebugSave": false,
               "TAoWHSMap.FDefendersSeed": 0,
               "TAoWHSMap.FDescription": null,
-              "TAoWHSMap.FDiplomaticRelationsChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.Engine.TEObject, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FDiplomaticRelationsChangedEventsStore": null,
               "TAoWHSMap.FEditorPlayer": 0,
               "TAoWHSMap.FEffects": null,
-              "TAoWHSMap.FEndTurnEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FEndTurnEventsStore": null,
               "TAoWHSMap.FExecuteEventLogBuffer": null,
               "TAoWHSMap.FExecuteEventLogCallBacks": null,
               "TAoWHSMap.FExecuteEventLogDelay": 0,
-              "TAoWHSMap.FExecuteEventLogEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.ExecuteEventLogNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
-              "TAoWHSMap.FExitEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FExecuteEventLogEventsStore": null,
+              "TAoWHSMap.FExitEventsStore": null,
               "TAoWHSMap.FExitPending": false,
               "TAoWHSMap.FFixedLeaders": false,
-              "TAoWHSMap.FGameOverEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FGameOverEventsStore": null,
               "TAoWHSMap.FGameOverLockCount": 0,
               "TAoWHSMap.FGameResult": 0,
               "TAoWHSMap.FGameSongs": null,
               "TAoWHSMap.FGameStatus": 0,
-              "TAoWHSMap.FGameTerminatedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FGameTerminatedEventsStore": null,
               "TAoWHSMap.FGameType": 0,
               "TAoWHSMap.FGlobalMagicControl": null,
               "TAoWHSMap.FHeroControl": null,
@@ -8524,49 +8460,21 @@
               "TAoWHSMap.FLeadersFixed": false,
               "TAoWHSMap.FMapName": "",
               "TAoWHSMap.FMoveControl": null,
-              "TAoWHSMap.FNewDayEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TPlayerControl, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
-              "TAoWHSMap.FNewTurnEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FNewDayEventsStore": null,
+              "TAoWHSMap.FNewTurnEventsStore": null,
               "TAoWHSMap.FObjectives": null,
-              "TAoWHSMap.FOnActivateAbilityStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TActivateAbilityInfo, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
-              "TAoWHSMap.FOnLeaderChangedStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TLeader, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FOnActivateAbilityStore": null,
+              "TAoWHSMap.FOnLeaderChangedStore": null,
               "TAoWHSMap.FPlayMode": 0,
-              "TAoWHSMap.FPlayerChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FPlayerChangedEventsStore": null,
               "TAoWHSMap.FPlayerCommunicator": null,
               "TAoWHSMap.FPlayerControl": null,
-              "TAoWHSMap.FPlayerTerminatedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[System.SByte, System.Private.CoreLib, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FPlayerTerminatedEventsStore": null,
               "TAoWHSMap.FPlayers": null,
               "TAoWHSMap.FRaces": null,
               "TAoWHSMap.FRelationsChangedLockCount": 0,
               "TAoWHSMap.FRequestCombatType": false,
-              "TAoWHSMap.FSeatedPlayerChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FSeatedPlayerChangedEventsStore": null,
               "TAoWHSMap.FSelectedArmy": null,
               "TAoWHSMap.FSessionName": "",
               "TAoWHSMap.FShowAllPlayers": false,
@@ -8575,26 +8483,14 @@
               "TAoWHSMap.FSphereCount": 0,
               "TAoWHSMap.FStartingGame": false,
               "TAoWHSMap.FStartupSongs": null,
-              "TAoWHSMap.FStructureChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TStructure, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FStructureChangedEventsStore": null,
               "TAoWHSMap.FStructureControl": null,
-              "TAoWHSMap.FStructureDestroyedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TStructure, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FStructureDestroyedEventsStore": null,
               "TAoWHSMap.FStructureUpdateCount": 0,
               "TAoWHSMap.FSynchroniseCount": 0,
               "TAoWHSMap.FTargetSelection": null,
               "TAoWHSMap.FTextControl": null,
-              "TAoWHSMap.FTokenControlActivatedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FTokenControlActivatedEventsStore": null,
               "TAoWHSMap.FTokenEventLog": null,
               "TAoWHSMap.FTokenEventLogging": false,
               "TAoWHSMap.FTokenManager": null,
@@ -8605,24 +8501,12 @@
               "TAoWHSMap.FTurnTimeElapsed": 0,
               "TAoWHSMap.FTurnTimerStart": 0,
               "TAoWHSMap.FTutorialControl": null,
-              "TAoWHSMap.FUnitChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAbstractUnit, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FUnitChangedEventsStore": null,
               "TAoWHSMap.FUnitControl": null,
-              "TAoWHSMap.FUnitDestroyedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAbstractUnit, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FUnitDestroyedEventsStore": null,
               "TAoWHSMap.FUnitUpdateCount": 0,
               "TAoWHSMap.FUnlimitedMoves": false,
-              "TAoWHSMap.FUpdateVisibilityEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TAoWHSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TAoWHSMap.FUpdateVisibilityEventsStore": null,
               "TAoWHSMap.FUpdateVisibilityLockCount": 0,
               "TAoWHSMap.FUseTurnTimer": false,
               "TAoWHSMap.FVictoryCondition": 0,
@@ -8633,30 +8517,18 @@
               "TAoWHSMap.tokenLog": null,
               "TENode.FChildren": null,
               "TEObject.FOwner": "$owner",
-              "THSMap.FDestroyEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.HSEngine.THSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "THSMap.FDestroyEventsStore": null,
               "THSMap.FDynamicFixedVisibleHS": null,
               "THSMap.FDynamicSceneInvalid": false,
               "THSMap.FDynamicVisibleHS": null,
               "THSMap.FEngine": null,
               "THSMap.FFileName": "",
               "THSMap.FFrame": 0,
-              "THSMap.FHSChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.HSEngine.THexagonSprite, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "THSMap.FHSChangedEventsStore": null,
               "THSMap.FHSSFileName": "",
               "THSMap.FMapContainer": null,
               "THSMap.FMouse": null,
-              "THSMap.FNewFrameEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.HSEngine.THSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "THSMap.FNewFrameEventsStore": null,
               "THSMap.FOnCenterView": null,
               "THSMap.FOnChangeView": null,
               "THSMap.FOnProgress": null,
@@ -8675,22 +8547,14 @@
                 "TSet\u00601.high": 0,
                 "TSet\u00601.low": 0
               },
-              "THSMap.FTerrainChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.HSEngine.TerrainChangedNotification, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "THSMap.FTerrainChangedEventsStore": null,
               "THSMap.FTerrainChangedLockCounter": 0,
               "THSMap.FTimer": null,
               "THSMap.FVersion": 0,
               "THSMap.FViewHeight": 0,
               "THSMap.FViewHeightHX": 0,
               "THSMap.FViewL": 0,
-              "THSMap.FViewPortChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.HSEngine.THSMap, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "THSMap.FViewPortChangedEventsStore": null,
               "THSMap.FViewWidth": 0,
               "THSMap.FViewWidthHX": 0,
               "THSMap.FViewXhp": 0,
@@ -10579,11 +10443,7 @@
               "$type": "Aow.Units.AoWE.TCombat",
               "TCombat.FCombatData": null,
               "TCombat.FCombatResult": 0,
-              "TCombat.FExecutedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TCombat, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TCombat.FExecutedEventsStore": null,
               "TCombat.FExecutedLock": 0,
               "TCombat.FExplorationSite": 0,
               "TCombat.FItems": null,
@@ -15147,11 +15007,7 @@
                 "TSet\u00601.high": 0,
                 "TSet\u00601.low": 0
               },
-              "TPlayerMagicControl.FChangedEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.AoWE.TPlayerMagicControl, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TPlayerMagicControl.FChangedEventsStore": null,
               "TPlayerMagicControl.FCheatEnabled": false,
               "TPlayerMagicControl.FEnchantments": null,
               "TPlayerMagicControl.FEnemyEnchantments": {
@@ -17456,11 +17312,7 @@
           {
             "$jsonText": {
               "$type": "Aow.Units.Engine.TEChangeNotifyEventList",
-              "TEChangeNotifyEventList.FEventsStore": {
-                "$type": "Aow.Units.Engine.EventStore\u00601[[Aow.Units.Engine.TEChangeNotifyEventList, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "EventStore\u00601.count": 0,
-                "EventStore\u00601.items": null
-              },
+              "TEChangeNotifyEventList.FEventsStore": null,
               "TEChangeNotifyNode.FChildren": null,
               "TEChangeNotifyNode.FUpdateCount": 0,
               "TEObject.FOwner": "$owner"

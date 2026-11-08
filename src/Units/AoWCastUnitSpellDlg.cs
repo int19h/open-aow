@@ -216,7 +216,7 @@ public partial class TCastUnitSpellDlg : TDataModule
             ": " + IntToStr(FCaster.GetRequiredMana());
     }
 
-    // AoWCastUnitSpellDlg.pas:183. The sender is a unit checkbox.
+    // AoWCastUnitSpellDlg.pas:183
     public void U1PreDraw(TAOWCheckBox sender, TSurfaceDesc surface, int slot) =>
         DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref surface);
 }

@@ -912,12 +912,10 @@ public partial class TWorldMap : TDataModule
         UpdateCampaignState();
     }
 
-    // AoWWorldMap.pas:611
-    public void PPawnMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    // AoWWorldMap.pas:611. Bound to the player pawn.
+    public void PPawnMouseDown(TAOWImage Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
-        TObject Control;
-        Control = Sender;
-        if (X > 20 && Control == PPawn)
+        if (X > 20)
         {
             if (GetCampaign().FState == 1)
             {
@@ -928,38 +926,57 @@ public partial class TWorldMap : TDataModule
         }
 
         // { Original hit test uses X. }
-        ((TAoWComponent)Control).FHandled = false;
+        Sender.FHandled = false;
     }
 
-    // AoWWorldMap.pas:624
-    public void PPawnMouseMove(TAoWComponent Sender, TSet<TShiftState> Shift, int X, int Y)
+    // AoWWorldMap.pas:611. Bound to the enemy pawn.
+    public void EPawnMouseDown(TAOWImage Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    {
+        Sender.FHandled = false;
+    }
+
+    // AoWWorldMap.pas:624. Bound to the player pawn.
+    public void PPawnMouseMove(TAOWImage Sender, TSet<TShiftState> Shift, int X, int Y)
     {
         string Description = "";
-        TAoWComponent Pawn;
-        Pawn = Sender;
         // { Original hit test uses X. }
         if (X > 20)
         {
             if (GetCampaign().FState == 1)
             {
-                if (Pawn == PPawn)
+                Description = TranslateRStr(ViewSummaryRStr);
+            }
+        }
+
+        ShowPawnDescription(Sender, Description);
+    }
+
+    // AoWWorldMap.pas:624. Bound to the enemy pawn.
+    public void EPawnMouseMove(TAOWImage Sender, TSet<TShiftState> Shift, int X, int Y)
+    {
+        string Description = "";
+        // { Original hit test uses X. }
+        if (X > 20)
+        {
+            if (GetCampaign().FState == 1)
+            {
+                if (GetCampaign().FFaction == 0)
                 {
-                    Description = TranslateRStr(ViewSummaryRStr);
+                    Description = TranslateRStr(CultOfStormsRStr);
                 }
                 else
                 {
-                    if (GetCampaign().FFaction == 0)
-                    {
-                        Description = TranslateRStr(CultOfStormsRStr);
-                    }
-                    else
-                    {
-                        Description = TranslateRStr(KeepersRStr);
-                    }
+                    Description = TranslateRStr(KeepersRStr);
                 }
             }
         }
 
+        ShowPawnDescription(Sender, Description);
+    }
+
+    // AoWWorldMap.pas:624. The label update both pawn moves share.
+    private void ShowPawnDescription(TAOWImage Pawn, string Description)
+    {
         if (DescLbl.Text != Description && !IsEmpty(Description))
         {
             DescLbl.Text = Description;

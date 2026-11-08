@@ -19103,7 +19103,8 @@
             "TRealmWin.UpkeepMem": null,
             "TRealmWin.UpkeepPnl": null,
             "TRealmWin.UpkeepSB": null,
-            "TRealmWin.UpkeepValue": null
+            "TRealmWin.UpkeepValue": null,
+            "TRealmWin.partyLists": null
           }
         }
       },
@@ -19218,7 +19219,8 @@
             "TRealmWin.UpkeepMem": null,
             "TRealmWin.UpkeepPnl": null,
             "TRealmWin.UpkeepSB": null,
-            "TRealmWin.UpkeepValue": null
+            "TRealmWin.UpkeepValue": null,
+            "TRealmWin.partyLists": null
           }
         }
       },
@@ -19328,7 +19330,8 @@
               "TRealmWin.UpkeepMem": null,
               "TRealmWin.UpkeepPnl": null,
               "TRealmWin.UpkeepSB": null,
-              "TRealmWin.UpkeepValue": null
+              "TRealmWin.UpkeepValue": null,
+              "TRealmWin.partyLists": null
             }
           }
         ]

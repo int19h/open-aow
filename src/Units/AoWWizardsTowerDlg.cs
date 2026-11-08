@@ -95,7 +95,7 @@ public partial class TWizardsTowerDlg : TDataModule
     }
 
     // AoWWizardsTowerDlg.pas:87
-    public void SpellIcnDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void SpellIcnDraw(TAOWImage Sender, TSurfaceDesc SD)
     {
         TSpell S;
         int X;
@@ -108,10 +108,9 @@ public partial class TWizardsTowerDlg : TDataModule
             {
                 if (S.FCastImages.GetImageSequence(10) != null)
                 {
-                    var image = (AoWControl.TAOWControl)Sender;
-                    X = image.AOWWindow.WinLeft;
-                    Y = image.AOWWindow.WinTop;
-                    S.FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
+                    X = Sender.AOWWindow.WinLeft;
+                    Y = Sender.AOWWindow.WinTop;
+                    S.FCastImages.Show(10, Sender.WinLeft + X, Sender.WinTop + Y, 0, SD);
                 }
             }
         }
