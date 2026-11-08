@@ -15,6 +15,8 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     public long Frame { get; private set; }
     public (int X, int Y) Mouse { get; set; } = (-1, -1);
 
+    private readonly InputMapper input = new();
+
     public (int X, int Y, bool Inside) PointerPosition() => HasFocus && Mouse.X >= 0 && Mouse.Y >= 0 && Mouse.X < ClientSize.Width && Mouse.Y < ClientSize.Height ? (Mouse.X, Mouse.Y, true) : (-1, -1, false);
 
     public Func<bool>? CaptureWhen { get; set; }
@@ -27,6 +29,14 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
     public void ResizeImage(int width, int height) => ClientSize = (width, height);
 
     public void PumpEvents(IDisplayEvents sink) { }
+
+    // The same mapper entry the SDL host uses, over a 1:1 view of the client, so a test can roll the wheel.
+    public void Wheel(float y, int direction, float x, float yPosition, IDisplayEvents sink)
+    {
+        var size = ClientSize;
+        var viewport = new DisplayViewport(size.Width, size.Height, 1, 0, 0, size.Width, size.Height);
+        input.Wheel(y, direction, x, yPosition, viewport, sink);
+    }
 
     public void Present(in TSurfaceDesc surface)
     {

@@ -271,6 +271,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
             if (type == SDL_EVENT_TEXT_INPUT && ev.text.windowID != SDL_GetWindowID(window)) continue;
             if (type == SDL_EVENT_MOUSE_MOTION && ev.motion.windowID != SDL_GetWindowID(window)) continue;
             if (type is SDL_EVENT_MOUSE_BUTTON_DOWN or SDL_EVENT_MOUSE_BUTTON_UP && ev.button.windowID != SDL_GetWindowID(window)) continue;
+            if (type == SDL_EVENT_MOUSE_WHEEL && ev.wheel.windowID != SDL_GetWindowID(window)) continue;
             switch (type)
             {
                 case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
@@ -313,6 +314,11 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
                     input.SetModifiers((int)SDL_GetModState());
                     var press = ToOutput(ev.button.x, ev.button.y);
                     input.Button(ev.button.button, type == SDL_EVENT_MOUSE_BUTTON_DOWN, ev.button.timestamp / 1_000_000, press.X, press.Y, Viewport, sink);
+                    break;
+                case SDL_EVENT_MOUSE_WHEEL:
+                    input.SetModifiers((int)SDL_GetModState());
+                    var rolled = ToOutput(ev.wheel.mouse_x, ev.wheel.mouse_y);
+                    input.Wheel(ev.wheel.y, (int)ev.wheel.direction, rolled.X, rolled.Y, Viewport, sink);
                     break;
                 case SDL_EVENT_KEY_DOWN:
                 case SDL_EVENT_KEY_UP:
