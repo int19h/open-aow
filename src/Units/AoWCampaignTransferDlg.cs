@@ -209,7 +209,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:173
-    public void BookStartClick(TObject Sender)
+    public void BookStartClick()
     {
         TransBookWin.Visible = false;
         PlaySample("Sfx\\Int\\BookClse.wav");
@@ -229,7 +229,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:190
-    public void GoldSliderChange(TObject Sender)
+    public void GoldSliderChange()
     {
         var aoWCampaignTransferSettings = AoWEngine.FCampaign.FTransferSettings;
         aoWCampaignTransferSettings.SetSelectedTransferGold(GoldSlider.Position);
@@ -238,7 +238,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:197
-    public void ManaSliderChange(TObject Sender)
+    public void ManaSliderChange()
     {
         var aoWCampaignTransferSettings = AoWEngine.FCampaign.FTransferSettings;
         aoWCampaignTransferSettings.SetSelectedTransferMana(ManaSlider.Position);
@@ -247,7 +247,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:204
-    public void LHeroLBClick(TObject Sender)
+    public void LHeroLBClick()
     {
         if (FLeftHero != 0)
         {
@@ -259,7 +259,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:211
-    public void LHeroRBClick(TObject Sender)
+    public void LHeroRBClick()
     {
         if (AoWEngine.FCampaign.FTransferSettings.FHeroes.Count > FLeftHero + 4)
         {
@@ -271,7 +271,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:218
-    public void LItemLBClick(TObject Sender)
+    public void LItemLBClick()
     {
         if (FLeftItem != 0)
         {
@@ -283,7 +283,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:225
-    public void LItemRBClick(TObject Sender)
+    public void LItemRBClick()
     {
         if (AoWEngine.FCampaign.FTransferSettings.FItems.Count > FLeftItem + 4)
         {
@@ -295,7 +295,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:232
-    public void LUnitLBClick(TObject Sender)
+    public void LUnitLBClick()
     {
         if (FLeftUnit != 0)
         {
@@ -307,7 +307,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:239
-    public void LUnitRBClick(TObject Sender)
+    public void LUnitRBClick()
     {
         if (AoWEngine.FCampaign.FTransferSettings.FUnits.Count > FLeftUnit + 4)
         {
@@ -319,7 +319,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:246
-    public void RHeroLBClick(TObject Sender)
+    public void RHeroLBClick()
     {
         if (FRightHero != 0)
         {
@@ -331,7 +331,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:253
-    public void RHeroRBClick(TObject Sender)
+    public void RHeroRBClick()
     {
         if (FRightHero + 4 < AoWEngine.FCampaign.FTransferSettings.FSelectedHeroes.Count)
         {
@@ -343,7 +343,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:260
-    public void RItemLBClick(TObject Sender)
+    public void RItemLBClick()
     {
         if (FRightItem != 0)
         {
@@ -355,7 +355,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:267
-    public void RItemRBClick(TObject Sender)
+    public void RItemRBClick()
     {
         if (FRightItem + 4 < AoWEngine.FCampaign.FTransferSettings.FSelectedItems.Count)
         {
@@ -367,7 +367,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:274
-    public void RUnitLBClick(TObject Sender)
+    public void RUnitLBClick()
     {
         if (FRightUnit != 0)
         {
@@ -379,7 +379,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:281
-    public void RUnitRBClick(TObject Sender)
+    public void RUnitRBClick()
     {
         if (FRightUnit + 4 < AoWEngine.FCampaign.FTransferSettings.FSelectedUnits.Count)
         {
@@ -391,13 +391,13 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:288
-    public void LHeroesDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void LHeroesDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
     {
         THero Obj;
         TAoWCampaignTransferSettings S;
         TRect R;
         S = AoWEngine.FCampaign.FTransferSettings;
-        Obj = S.FHeroes.GetHero(FLeftHero + Sender.Tag);
+        Obj = S.FHeroes.GetHero(FLeftHero + Slot);
         if (Obj != null)
         {
             var checkBox = Sender;
@@ -406,12 +406,12 @@ public partial class TCampaignTransferDlg : TDataModule
             R.Left += 1;
             Obj.ShowFace(R, SurfDesc);
             R.Left -= 1;
-            if (S.FSelectedHeroes.IndexOf(FLeftHero + Sender.Tag) != -1)
+            if (S.FSelectedHeroes.IndexOf(FLeftHero + Slot) != -1)
             {
                 aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
             }
 
-            if (((TAOWBaseButton)Sender).FLit)
+            if (Sender.FLit)
             {
                 aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
             }
@@ -424,15 +424,15 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:316
-    public void RHeroesDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void RHeroesDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
     {
         THero Obj;
         TAoWCampaignTransferSettings S;
         TRect R;
         S = AoWEngine.FCampaign.FTransferSettings;
-        if (FRightHero + Sender.Tag < S.FSelectedHeroes.Count)
+        if (FRightHero + Slot < S.FSelectedHeroes.Count)
         {
-            var selectedHeroe = S.FSelectedHeroes[FRightHero + Sender.Tag];
+            var selectedHeroe = S.FSelectedHeroes[FRightHero + Slot];
             Obj = S.FHeroes.GetHero(selectedHeroe);
             if (Obj != null)
             {
@@ -442,7 +442,7 @@ public partial class TCampaignTransferDlg : TDataModule
                 R.Left += 1;
                 Obj.ShowFace(R, SurfDesc);
                 R.Left -= 1;
-                if (((TAOWBaseButton)Sender).FLit)
+                if (Sender.FLit)
                 {
                     aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
@@ -456,7 +456,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:345
-    public void LUnitsDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void LUnitsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
     {
         TAbstractUnit Obj;
         TAoWCampaignTransferSettings S;
@@ -464,9 +464,9 @@ public partial class TCampaignTransferDlg : TDataModule
         TRect R;
         S = AoWEngine.FCampaign.FTransferSettings;
         var count = S.FUnits.Count;
-        if (FLeftUnit + Sender.Tag < count)
+        if (FLeftUnit + Slot < count)
         {
-            Obj = S.FUnits.GetUnit(FLeftUnit + Sender.Tag);
+            Obj = S.FUnits.GetUnit(FLeftUnit + Slot);
             if (Obj != null)
             {
                 var checkBox = Sender;
@@ -479,12 +479,12 @@ public partial class TCampaignTransferDlg : TDataModule
                 Info.Frame = 0;
                 Info.Looped = false;
                 Obj.ShowEx(R.Left - 8, R.Top, SurfDesc, Info);
-                if (S.FSelectedUnits.IndexOf(FLeftUnit + Sender.Tag) != -1)
+                if (S.FSelectedUnits.IndexOf(FLeftUnit + Slot) != -1)
                 {
                     aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
                 }
 
-                if (((TAOWBaseButton)Sender).FLit)
+                if (Sender.FLit)
                 {
                     aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
@@ -498,16 +498,16 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:381
-    public void RUnitsDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void RUnitsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
     {
         TAbstractUnit Obj;
         TAoWCampaignTransferSettings S;
         TP2UnitShowInfo Info = default;
         TRect R;
         S = AoWEngine.FCampaign.FTransferSettings;
-        if (FRightUnit + Sender.Tag < S.FSelectedUnits.Count)
+        if (FRightUnit + Slot < S.FSelectedUnits.Count)
         {
-            var selectedUnit = S.FSelectedUnits[FRightUnit + Sender.Tag];
+            var selectedUnit = S.FSelectedUnits[FRightUnit + Slot];
             Obj = S.FUnits.GetUnit(selectedUnit);
             if (Obj != null)
             {
@@ -521,7 +521,7 @@ public partial class TCampaignTransferDlg : TDataModule
                 Info.Frame = 0;
                 Info.Looped = false;
                 Obj.ShowEx(R.Left - 8, R.Top, SurfDesc, Info);
-                if (((TAOWBaseButton)Sender).FLit)
+                if (Sender.FLit)
                 {
                     aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
@@ -535,13 +535,13 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:415
-    public void LItemsDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void LItemsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
     {
         TItem Obj;
         TAoWCampaignTransferSettings S;
         TRect R;
         S = AoWEngine.FCampaign.FTransferSettings;
-        Obj = S.FItems.GetItem(FLeftItem + Sender.Tag);
+        Obj = S.FItems.GetItem(FLeftItem + Slot);
         if (Obj != null)
         {
             var checkBox = Sender;
@@ -549,12 +549,12 @@ public partial class TCampaignTransferDlg : TDataModule
 
             aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
             Obj.Show(R.Left + 5, R.Top + 10, SurfDesc);
-            if (S.FSelectedItems.IndexOf(FLeftItem + Sender.Tag) != -1)
+            if (S.FSelectedItems.IndexOf(FLeftItem + Slot) != -1)
             {
                 aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left, R.Top, SurfDesc, AlphaBlendTable.LookupTables[65]);
             }
 
-            if (((TAOWBaseButton)Sender).FLit)
+            if (Sender.FLit)
             {
                 aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
             }
@@ -567,15 +567,15 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:442
-    public void RItemsDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void RItemsDraw(TAOWCheckBox Sender, TSurfaceDesc SurfDesc, int Slot)
     {
         TItem Obj;
         TAoWCampaignTransferSettings S;
         TRect R;
         S = AoWEngine.FCampaign.FTransferSettings;
-        if (FRightItem + Sender.Tag < S.FSelectedItems.Count)
+        if (FRightItem + Slot < S.FSelectedItems.Count)
         {
-            var selectedItem = S.FSelectedItems[FRightItem + Sender.Tag];
+            var selectedItem = S.FSelectedItems[FRightItem + Slot];
             Obj = S.FItems.GetItem(selectedItem);
             if (Obj != null)
             {
@@ -584,7 +584,7 @@ public partial class TCampaignTransferDlg : TDataModule
 
                 aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left, R.Top, SurfDesc);
                 Obj.Show(R.Left + 5, R.Top + 10, SurfDesc);
-                if (((TAOWBaseButton)Sender).FLit)
+                if (Sender.FLit)
                 {
                     aowIntGfxModUnit.IntGfxMod.CampaignTrans[20].ShowBlended(R.Left - 1, R.Top - 2, SurfDesc, IntensityBlendTable.LookupTables[50]);
                 }
@@ -598,70 +598,70 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:470
-    public void LHeroesSelect(TObject Sender)
+    public void LHeroesSelect(TAOWCheckBox Sender, int Slot)
     {
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             ClearLeftSelection();
-            var checkBox = (TAOWCheckBox)Sender;
+            var checkBox = Sender;
             checkBox.Checked = true;
             FLeftKind = 1;
-            FLeftSelection = checkBox.Tag + FLeftHero;
+            FLeftSelection = Slot + FLeftHero;
         }
     }
 
     // AoWCampaignTransferDlg.pas:484
-    public void LItemsSelect(TObject Sender)
+    public void LItemsSelect(TAOWCheckBox Sender, int Slot)
     {
         ClearLeftSelection();
-        var checkBox = (TAOWCheckBox)Sender;
+        var checkBox = Sender;
         checkBox.Checked = true;
         FLeftKind = 2;
-        FLeftSelection = checkBox.Tag + FLeftItem;
+        FLeftSelection = Slot + FLeftItem;
     }
 
     // AoWCampaignTransferDlg.pas:495
-    public void LUnitSelect(TObject Sender)
+    public void LUnitSelect(TAOWCheckBox Sender, int Slot)
     {
         ClearLeftSelection();
-        var checkBox = (TAOWCheckBox)Sender;
+        var checkBox = Sender;
         checkBox.Checked = true;
         FLeftKind = 3;
-        FLeftSelection = checkBox.Tag + FLeftUnit;
+        FLeftSelection = Slot + FLeftUnit;
     }
 
     // AoWCampaignTransferDlg.pas:506
-    public void RHeroesSelect(TObject Sender)
+    public void RHeroesSelect(TAOWCheckBox Sender, int Slot)
     {
         ClearRightSelection();
-        var checkBox = (TAOWCheckBox)Sender;
+        var checkBox = Sender;
         checkBox.Checked = true;
         FRightKind = 1;
-        FRightSelection = checkBox.Tag + FRightHero;
+        FRightSelection = Slot + FRightHero;
     }
 
     // AoWCampaignTransferDlg.pas:517
-    public void RItemsSelect(TObject Sender)
+    public void RItemsSelect(TAOWCheckBox Sender, int Slot)
     {
         ClearRightSelection();
-        var checkBox = (TAOWCheckBox)Sender;
+        var checkBox = Sender;
         checkBox.Checked = true;
         FRightKind = 2;
-        FRightSelection = checkBox.Tag + FRightItem;
+        FRightSelection = Slot + FRightItem;
     }
 
     // AoWCampaignTransferDlg.pas:528
-    public void RUnitsSelect(TObject Sender)
+    public void RUnitsSelect(TAOWCheckBox Sender, int Slot)
     {
         ClearRightSelection();
-        var checkBox = (TAOWCheckBox)Sender;
+        var checkBox = Sender;
         checkBox.Checked = true;
         FRightKind = 3;
-        FRightSelection = checkBox.Tag + FRightUnit;
+        FRightSelection = Slot + FRightUnit;
     }
 
     // AoWCampaignTransferDlg.pas:539
-    public void AddBtnClick(TObject Sender)
+    public void AddBtnClick()
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
@@ -701,7 +701,7 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:569
-    public void RemoveBtnClick(TObject Sender)
+    public void RemoveBtnClick()
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
@@ -747,67 +747,67 @@ public partial class TCampaignTransferDlg : TDataModule
     }
 
     // AoWCampaignTransferDlg.pas:605
-    public void LHeroesUpdate(TObject Sender)
+    public void LHeroesUpdate(TAOWCheckBox Sender, int Slot)
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
-        ((TAOWCheckBox)Sender).Checked = FLeftKind == 1 && ((TComponent)Sender).Tag + FLeftHero == FLeftSelection;
-        var checkBox = (TAOWCheckBox)Sender;
-        checkBox.FCaptureInput = !checkBox.Checked && S.FHeroes.Count > checkBox.Tag + FLeftHero && S.FSelectedHeroes.IndexOf(checkBox.Tag + FLeftHero) == -1;
+        Sender.Checked = FLeftKind == 1 && Slot + FLeftHero == FLeftSelection;
+        var checkBox = Sender;
+        checkBox.FCaptureInput = !checkBox.Checked && S.FHeroes.Count > Slot + FLeftHero && S.FSelectedHeroes.IndexOf(Slot + FLeftHero) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:617
-    public void LItemsUpdate(TObject Sender)
+    public void LItemsUpdate(TAOWCheckBox Sender, int Slot)
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
-        ((TAOWCheckBox)Sender).Checked = FLeftKind == 2 && ((TComponent)Sender).Tag + FLeftItem == FLeftSelection;
-        var checkBox = (TAOWCheckBox)Sender;
-        checkBox.FCaptureInput = !checkBox.Checked && S.FItems.Count > checkBox.Tag + FLeftItem && S.FSelectedItems.IndexOf(checkBox.Tag + FLeftItem) == -1;
+        Sender.Checked = FLeftKind == 2 && Slot + FLeftItem == FLeftSelection;
+        var checkBox = Sender;
+        checkBox.FCaptureInput = !checkBox.Checked && S.FItems.Count > Slot + FLeftItem && S.FSelectedItems.IndexOf(Slot + FLeftItem) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:629
-    public void LUnitsUpdate(TObject Sender)
+    public void LUnitsUpdate(TAOWCheckBox Sender, int Slot)
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
-        ((TAOWCheckBox)Sender).Checked = FLeftKind == 3 && ((TComponent)Sender).Tag + FLeftUnit == FLeftSelection;
-        var checkBox = (TAOWCheckBox)Sender;
-        checkBox.FCaptureInput = !checkBox.Checked && S.FUnits.Count > checkBox.Tag + FLeftUnit && S.FSelectedUnits.IndexOf(checkBox.Tag + FLeftUnit) == -1;
+        Sender.Checked = FLeftKind == 3 && Slot + FLeftUnit == FLeftSelection;
+        var checkBox = Sender;
+        checkBox.FCaptureInput = !checkBox.Checked && S.FUnits.Count > Slot + FLeftUnit && S.FSelectedUnits.IndexOf(Slot + FLeftUnit) == -1;
     }
 
     // AoWCampaignTransferDlg.pas:641
-    public void RHeroesUpdate(TObject Sender)
+    public void RHeroesUpdate(TAOWCheckBox Sender, int Slot)
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
-        ((TAOWCheckBox)Sender).Checked = FRightKind == 1 && ((TComponent)Sender).Tag + FRightHero == FRightSelection;
-        var checkBox = (TAOWCheckBox)Sender;
-        checkBox.FCaptureInput = !checkBox.Checked && checkBox.Tag + FRightHero < S.FSelectedHeroes.Count;
+        Sender.Checked = FRightKind == 1 && Slot + FRightHero == FRightSelection;
+        var checkBox = Sender;
+        checkBox.FCaptureInput = !checkBox.Checked && Slot + FRightHero < S.FSelectedHeroes.Count;
     }
 
     // AoWCampaignTransferDlg.pas:652
-    public void RItemsUpdate(TObject Sender)
+    public void RItemsUpdate(TAOWCheckBox Sender, int Slot)
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
-        ((TAOWCheckBox)Sender).Checked = FRightKind == 2 && ((TComponent)Sender).Tag + FRightItem == FRightSelection;
-        var checkBox = (TAOWCheckBox)Sender;
-        checkBox.FCaptureInput = !checkBox.Checked && checkBox.Tag + FRightItem < S.FSelectedItems.Count;
+        Sender.Checked = FRightKind == 2 && Slot + FRightItem == FRightSelection;
+        var checkBox = Sender;
+        checkBox.FCaptureInput = !checkBox.Checked && Slot + FRightItem < S.FSelectedItems.Count;
     }
 
     // AoWCampaignTransferDlg.pas:663
-    public void RUnitsUpdate(TObject Sender)
+    public void RUnitsUpdate(TAOWCheckBox Sender, int Slot)
     {
         TAoWCampaignTransferSettings S;
         S = AoWEngine.FCampaign.FTransferSettings;
-        ((TAOWCheckBox)Sender).Checked = FRightKind == 3 && ((TComponent)Sender).Tag + FRightUnit == FRightSelection;
-        var checkBox = (TAOWCheckBox)Sender;
-        checkBox.FCaptureInput = !checkBox.Checked && checkBox.Tag + FRightUnit < S.FSelectedUnits.Count;
+        Sender.Checked = FRightKind == 3 && Slot + FRightUnit == FRightSelection;
+        var checkBox = Sender;
+        checkBox.FCaptureInput = !checkBox.Checked && Slot + FRightUnit < S.FSelectedUnits.Count;
     }
 
     // AoWCampaignTransferDlg.pas:674
-    public void AutoBtnClick(TObject Sender)
+    public void AutoBtnClick()
     {
         AoWEngine.FCampaign.FTransferSettings.AutoSelect();
         UpdateControls();
@@ -828,7 +828,7 @@ public partial class TCampaignTransferDlg : TDataModule
             UpdateControls();
             TransBookWin.Visible = true;
         }
-        else BookStartClick(this);
+        else BookStartClick();
     }
 }
 

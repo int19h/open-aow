@@ -128,7 +128,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
 
     private void FormShow(string argument)
     {
-        SoundUnit.SongPlayer.OnSongChange = SoundDlg.SongChange;
+        SoundUnit.SongPlayer.OnSongChange = _ => SoundDlg.SongChange();
         AoWEngine.OutputDebugStr("ParamStr: " + argument);
         if (argument.Length != 0 && RtlUnit.FileExists(argument) && IsSaveName(argument))
         {

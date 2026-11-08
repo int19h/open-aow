@@ -770,11 +770,11 @@ public partial class THSMap : TENode
         FDynamicFixedVisibleHS = new TVisibilityList(this);
         FDynamicFixedVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
         FTimer = new TETimerNode(this);
-        FHSChangedEvents = new TEventList();
-        FTerrainChangedEvents = new TEventList();
-        FViewPortChangedEvents = new TEventList();
-        FNewFrameEvents = new TEventList();
-        FDestroyEvents = new TEventList();
+        FHSChangedEventsStore = new();
+        FTerrainChangedEventsStore = new();
+        FViewPortChangedEventsStore = new();
+        FNewFrameEventsStore = new();
+        FDestroyEventsStore = new();
     }
 
     internal THSMapMouse FMouse;
@@ -792,16 +792,53 @@ public partial class THSMap : TENode
     internal string FHSSFileName = "";
     internal TSet<THSMapStatusElement> FStatus;
     internal int FFrame;
-    internal TEventList FTerrainChangedEvents;
+
+    internal EventStore<TerrainChangedNotification> FTerrainChangedEventsStore;
+
+    internal event TNotifyEvent<TerrainChangedNotification> FTerrainChangedEvents
+    {
+        add => FTerrainChangedEventsStore.Add(value);
+        remove => FTerrainChangedEventsStore.Remove(value);
+    }
+
     internal TCenterViewEvent FOnCenterView;
     internal TChangeViewEvent FOnChangeView;
     internal TViewLevelEvent FOnViewLevel;
     internal Engine.TProgressEvent FOnProgress;
     internal int FTerrainChangedLockCounter;
-    internal TEventList FNewFrameEvents;
-    internal TEventList FViewPortChangedEvents;
-    internal TEventList FDestroyEvents;
-    internal TEventList FHSChangedEvents;
+
+    internal EventStore<THSMap> FNewFrameEventsStore;
+
+    internal event TNotifyEvent<THSMap> FNewFrameEvents
+    {
+        add => FNewFrameEventsStore.Add(value);
+        remove => FNewFrameEventsStore.Remove(value);
+    }
+
+    internal EventStore<THSMap> FViewPortChangedEventsStore;
+
+    internal event TNotifyEvent<THSMap> FViewPortChangedEvents
+    {
+        add => FViewPortChangedEventsStore.Add(value);
+        remove => FViewPortChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<THSMap> FDestroyEventsStore;
+
+    internal event TNotifyEvent<THSMap> FDestroyEvents
+    {
+        add => FDestroyEventsStore.Add(value);
+        remove => FDestroyEventsStore.Remove(value);
+    }
+
+    internal EventStore<THexagonSprite> FHSChangedEventsStore;
+
+    internal event TNotifyEvent<THexagonSprite> FHSChangedEvents
+    {
+        add => FHSChangedEventsStore.Add(value);
+        remove => FHSChangedEventsStore.Remove(value);
+    }
+
     internal string FFileName = "";
     protected internal int FViewXhp;
     protected internal int FViewYhp;
@@ -819,26 +856,26 @@ public partial class THSMap : TENode
         TEMsg Msg = default;
         LockTerrainChangedEvent();
         FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
-        FSelection.FOnSelect.Clear();
-        FSelection.FOnDeselect.Clear();
+        FSelection.FOnSelectStore.Clear();
+        FSelection.FOnDeselectStore.Clear();
         FSelection.SetControlStyle(TSet<TEControlStyleElement>.Of(csShared));
         FSelection.UnselectAll();
-        FDestroyEvents.TriggerNotifyEvents(this);
-        FHSChangedEvents.Clear();
+        FDestroyEventsStore.Raise(this);
+        FHSChangedEventsStore.Clear();
         FStaticVisibleHS.QuickClear();
         FDynamicVisibleHS.QuickClear();
         FStaticFixedVisibleHS.QuickClear();
         FDynamicFixedVisibleHS.QuickClear();
         InitMsg(ref Msg, 536936471, this);
         SendMsg(ref Msg, this);
-        FNewFrameEvents.Clear();
+        FNewFrameEventsStore.Clear();
         base.Destroy();
-        FHSChangedEvents.Free();
-        FTerrainChangedEvents.Free();
-        FViewPortChangedEvents.Free();
-        FNewFrameEvents.Free();
+        FHSChangedEventsStore.Clear();
+        FTerrainChangedEventsStore.Clear();
+        FViewPortChangedEventsStore.Clear();
+        FNewFrameEventsStore.Clear();
         FMouse.Free();
-        FDestroyEvents.Free();
+        FDestroyEventsStore.Clear();
         UnlockTerrainChangedEvent();
     }
 
@@ -931,7 +968,7 @@ public partial class THSMap : TENode
         Info.Level = L;
         var mapLevel = FMapContainer.GetMapLevel(L);
         Info.MapLevel = mapLevel;
-        FTerrainChangedEvents.TriggerNotifyEvents(notification);
+        FTerrainChangedEventsStore.Raise(notification);
     }
 
     // HSMAP.PAS:705
@@ -1378,7 +1415,7 @@ public partial class THSMap : TENode
             FFrame = 0;
         }
 
-        FNewFrameEvents.TriggerNotifyEvents(this);
+        FNewFrameEventsStore.Raise(this);
     }
 
     // HSMAP.PAS:91
@@ -1609,7 +1646,7 @@ public partial class THSMap : TENode
             FViewXhx = X1;
             FViewYhx = Y1;
             Result = true;
-            FViewPortChangedEvents.TriggerNotifyEvents(this);
+            FViewPortChangedEventsStore.Raise(this);
         }
         else
         {
@@ -1697,15 +1734,42 @@ public partial class THSMap : TENode
     public string HSSFileName { get => FHSSFileName; set => SetHSSFileName(value); }
     public TSet<THSMapStatusElement> Status { get => FStatus; set => FStatus = value; }
     public int Frame { get => FFrame; }
-    public TEventList TerrainChangedEvents { get => FTerrainChangedEvents; }
+
+    public event TNotifyEvent<TerrainChangedNotification> TerrainChangedEvents
+    {
+        add => FTerrainChangedEventsStore.Add(value);
+        remove => FTerrainChangedEventsStore.Remove(value);
+    }
+
     public TCenterViewEvent OnCenterView { get => FOnCenterView; set => FOnCenterView = value; }
     public TChangeViewEvent OnChangeView { get => FOnChangeView; set => FOnChangeView = value; }
     public TViewLevelEvent OnViewLevel { get => FOnViewLevel; set => FOnViewLevel = value; }
     public Engine.TProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
-    public TEventList NewFrameEvents { get => FNewFrameEvents; }
-    public TEventList ViewPortChangedEvents { get => FViewPortChangedEvents; }
-    public TEventList DestroyEvents { get => FDestroyEvents; }
-    public TEventList HSChangedEvents { get => FHSChangedEvents; }
+
+    public event TNotifyEvent<THSMap> NewFrameEvents
+    {
+        add => FNewFrameEventsStore.Add(value);
+        remove => FNewFrameEventsStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSMap> ViewPortChangedEvents
+    {
+        add => FViewPortChangedEventsStore.Add(value);
+        remove => FViewPortChangedEventsStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSMap> DestroyEvents
+    {
+        add => FDestroyEventsStore.Add(value);
+        remove => FDestroyEventsStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THexagonSprite> HSChangedEvents
+    {
+        add => FHSChangedEventsStore.Add(value);
+        remove => FHSChangedEventsStore.Remove(value);
+    }
+
     public string FileName { get => FFileName; set => FFileName = value; }
     public int ViewXhp { get => FViewXhp; }
     public int ViewYhp { get => FViewYhp; }
@@ -1735,34 +1799,58 @@ public partial class THSEngine : TEngine
     protected internal THSMap FHSMap;
     internal string FHSSetSearchPath = "";
     internal string FHSSFileName = "";
-    internal TEventList FOnHSMLoaded;
-    internal TEventList FOnHSMClose;
-    internal TEventList FOnHSSLoaded;
-    internal TEventList FOnHSSClose;
+
+    internal EventStore<THSMap> FOnHSMLoadedStore;
+
+    internal event TNotifyEvent<THSMap> FOnHSMLoaded
+    {
+        add => FOnHSMLoadedStore.Add(value);
+        remove => FOnHSMLoadedStore.Remove(value);
+    }
+
+    internal EventStore<THSMap> FOnHSMCloseStore;
+
+    internal event TNotifyEvent<THSMap> FOnHSMClose
+    {
+        add => FOnHSMCloseStore.Add(value);
+        remove => FOnHSMCloseStore.Remove(value);
+    }
+
+    internal EventStore<THSEngine> FOnHSSLoadedStore;
+
+    internal event TNotifyEvent<THSEngine> FOnHSSLoaded
+    {
+        add => FOnHSSLoadedStore.Add(value);
+        remove => FOnHSSLoadedStore.Remove(value);
+    }
+
+    internal EventStore<THSEngine> FOnHSSCloseStore;
+
+    internal event TNotifyEvent<THSEngine> FOnHSSClose
+    {
+        add => FOnHSSCloseStore.Add(value);
+        remove => FOnHSSCloseStore.Remove(value);
+    }
 
     // HSEngine.pas:4941
     public override void Destroy()
     {
-        FOnHSMLoaded.Clear();
-        FOnHSMClose.Clear();
+        FOnHSMLoadedStore.Clear();
+        FOnHSMCloseStore.Clear();
         CloseHSM(null);
         base.Destroy();
-        FOnHSMLoaded.Free();
-        FOnHSMLoaded = null;
-        FOnHSMClose.Free();
-        FOnHSMClose = null;
-        FOnHSSLoaded.Free();
-        FOnHSSLoaded = null;
-        FOnHSSClose.Free();
-        FOnHSSClose = null;
+        FOnHSMLoadedStore.Clear();
+        FOnHSMCloseStore.Clear();
+        FOnHSSLoadedStore.Clear();
+        FOnHSSCloseStore.Clear();
     }
 
     private protected THSEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
     {
-        FOnHSMLoaded = new TEventList();
-        FOnHSMClose = new TEventList();
-        FOnHSSLoaded = new TEventList();
-        FOnHSSClose = new TEventList();
+        FOnHSMLoadedStore = new();
+        FOnHSMCloseStore = new();
+        FOnHSSLoadedStore = new();
+        FOnHSSCloseStore = new();
         RegisterEClasses([EClass.Of<TMapContainer>(), EClass.Of<TMapLevel>(), EClass.Of<THSMap>(), EClass.Of<THSSet>()]);
         RegisterEClasses([EClass.Of<TMapObjectResource>(), EClass.Of<TMultiHexMOR>()]);
         RegisterEClasses([EClass.Of<TAbstractHexagon>(), EClass.Of<TAbstractBorderHexagon>(), EClass.Of<TAbstractRoad>()]);
@@ -1827,7 +1915,7 @@ public partial class THSEngine : TEngine
                         ReadEObject(Stream, FHSMap, AProgress);
                         ActivateEObject(FHSMap);
                         FHSMap.FOnProgress = null;
-                        FOnHSMLoaded.TriggerNotifyEvents(FHSMap);
+                        FOnHSMLoadedStore.Raise(FHSMap);
                     }
                     catch
                     {
@@ -1938,7 +2026,7 @@ public partial class THSEngine : TEngine
         if (FHSMap != null)
         {
             FHSMap.FOnProgress = AProgress;
-            FOnHSMClose.TriggerNotifyEvents(FHSMap);
+            FOnHSMCloseStore.Raise(FHSMap);
             FHSMap.Free();
             SetHSMap(null);
         }
@@ -1947,7 +2035,7 @@ public partial class THSEngine : TEngine
     // HSEngine.pas:5093
     public virtual void CloseHSS()
     {
-        FOnHSSClose.TriggerNotifyEvents(this);
+        FOnHSSCloseStore.Raise(this);
         FHSSet.Clear();
         FHSSFileName = "noname.hss";
     }
@@ -2044,7 +2132,7 @@ public partial class THSEngine : TEngine
             InitMsg(ref Msg, 65556, this);
             FHSSet.MsgProc(ref Msg, this);
             ControlNode.MsgProc(ref Msg, this);
-            FOnHSSLoaded.TriggerNotifyEvents(this);
+            FOnHSSLoadedStore.Raise(this);
         }
         finally
         {
@@ -2178,7 +2266,7 @@ public partial class THSEngine : TEngine
                         ReadEObject(Stream, Result, AProgress);
                         ActivateEObject(Result);
                         Result.FOnProgress = null;
-                        FOnHSMLoaded.TriggerNotifyEvents(Result);
+                        FOnHSMLoadedStore.Raise(Result);
                     }
                     catch
                     {
@@ -2235,7 +2323,7 @@ public partial class THSEngine : TEngine
                         ReadEObject(CStream, FHSMap, AProgress);
                         ActivateEObject(FHSMap);
                         FHSMap.FOnProgress = null;
-                        FOnHSMLoaded.TriggerNotifyEvents(FHSMap);
+                        FOnHSMLoadedStore.Raise(FHSMap);
                     }
                     catch
                     {
@@ -2315,7 +2403,7 @@ public partial class THSEngine : TEngine
         SetHSMap((THSMap)CreateEObject(AClassID, this));
         FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
         ActivateEObject(FHSMap);
-        FOnHSMLoaded.TriggerNotifyEvents(FHSMap);
+        FOnHSMLoadedStore.Raise(FHSMap);
         return FHSMap;
     }
 
@@ -2324,10 +2412,30 @@ public partial class THSEngine : TEngine
     public THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
     public string HSSetSearchPath { get => FHSSetSearchPath; set => FHSSetSearchPath = value; }
     public string HSSFileName { get => FHSSFileName; }
-    public TEventList OnHSMLoaded { get => FOnHSMLoaded; }
-    public TEventList OnHSMClose { get => FOnHSMClose; }
-    public TEventList OnHSSLoaded { get => FOnHSSLoaded; }
-    public TEventList OnHSSClose { get => FOnHSSClose; }
+
+    public event TNotifyEvent<THSMap> OnHSMLoaded
+    {
+        add => FOnHSMLoadedStore.Add(value);
+        remove => FOnHSMLoadedStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSMap> OnHSMClose
+    {
+        add => FOnHSMCloseStore.Add(value);
+        remove => FOnHSMCloseStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSEngine> OnHSSLoaded
+    {
+        add => FOnHSSLoadedStore.Add(value);
+        remove => FOnHSSLoadedStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSEngine> OnHSSClose
+    {
+        add => FOnHSSCloseStore.Add(value);
+        remove => FOnHSSCloseStore.Remove(value);
+    }
 
     // HSEngine.pas:803
     public static THSEngine Create(TECustomNode owner) =>
@@ -2534,7 +2642,7 @@ public partial class THexagonSprite : TEObject
         MapF = (TMapField)Owner;
         if (MapF != null)
         {
-            ((THSEngine)((TMapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEvents.TriggerNotifyEvents(this);
+            ((THSEngine)((TMapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEventsStore.Raise(this);
         }
     }
 
@@ -4547,16 +4655,31 @@ public partial class TMapLevel : TECustomNode
 public partial class THexagonSpriteSelection : TEControlStyleNode
 {
     internal TList FLocationHS;
-    internal TEventList FOnSelect;
-    internal TEventList FOnDeselect;
+
+    internal EventStore<TECustomNode> FOnSelectStore;
+
+    internal event TNotifyEvent<TECustomNode> FOnSelect
+    {
+        add => FOnSelectStore.Add(value);
+        remove => FOnSelectStore.Remove(value);
+    }
+
+    internal EventStore<TECustomNode> FOnDeselectStore;
+
+    internal event TNotifyEvent<TECustomNode> FOnDeselect
+    {
+        add => FOnDeselectStore.Add(value);
+        remove => FOnDeselectStore.Remove(value);
+    }
+
     internal THexagonSprite FEventHS;
 
     // HSEngine.pas:3681
     public THexagonSpriteSelection(TECustomNode owner) : base(owner)
     {
         FLocationHS = new TList();
-        FOnSelect = new TEventList();
-        FOnDeselect = new TEventList();
+        FOnSelectStore = new();
+        FOnDeselectStore = new();
     }
 
     // HSEngine.pas:3689
@@ -4564,10 +4687,8 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
     {
         base.Destroy();
         FLocationHS.Free();
-        FOnSelect.Free();
-        FOnSelect = null;
-        FOnDeselect.Free();
-        FOnDeselect = null;
+        FOnSelectStore.Clear();
+        FOnDeselectStore.Clear();
     }
 
     // HSEngine.pas:3761
@@ -4581,14 +4702,14 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
     public void TriggerDeselectEvent(THexagonSprite HS)
     {
         FEventHS = HS;
-        FOnDeselect.TriggerNotifyEvents(Owner);
+        FOnDeselectStore.Raise(Owner);
     }
 
     // HSEngine.pas:3705
     public void TriggerSelectEvent(THexagonSprite HS)
     {
         FEventHS = HS;
-        FOnSelect.TriggerNotifyEvents(Owner);
+        FOnSelectStore.Raise(Owner);
     }
 
     // HSEngine.pas:3711
@@ -4685,8 +4806,19 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
 
     public HSAccessor HS => new HSAccessor(this);
     public TList LocationHS { get => FLocationHS; }
-    public TEventList OnSelect { get => FOnSelect; }
-    public TEventList OnDeselect { get => FOnDeselect; }
+
+    public event TNotifyEvent<TECustomNode> OnSelect
+    {
+        add => FOnSelectStore.Add(value);
+        remove => FOnSelectStore.Remove(value);
+    }
+
+    public event TNotifyEvent<TECustomNode> OnDeselect
+    {
+        add => FOnDeselectStore.Add(value);
+        remove => FOnDeselectStore.Remove(value);
+    }
+
     public THexagonSprite EventHS { get => FEventHS; }
 
 }
@@ -4700,11 +4832,11 @@ public partial class THSMapMouse : TObject
 
     public THSMapMouse()
     {
-        FOnUp = new TEventList();
-        FOnDown = new TEventList();
-        FOnMove = new TEventList();
-        FOnDblClick = new TEventList();
-        FOnCaptureChanged = new TEventList();
+        FOnUpStore = new();
+        FOnDownStore = new();
+        FOnMoveStore = new();
+        FOnDblClickStore = new();
+        FOnCaptureChangedStore = new();
         Reset();
     }
 
@@ -4712,11 +4844,47 @@ public partial class THSMapMouse : TObject
     internal int FX;
     internal int FY;
     internal TMouseButton FButton;
-    internal TEventList FOnUp;
-    internal TEventList FOnDown;
-    internal TEventList FOnMove;
-    internal TEventList FOnDblClick;
-    internal TEventList FOnCaptureChanged;
+
+    internal EventStore<THSMapMouse> FOnUpStore;
+
+    internal event TNotifyEvent<THSMapMouse> FOnUp
+    {
+        add => FOnUpStore.Add(value);
+        remove => FOnUpStore.Remove(value);
+    }
+
+    internal EventStore<THSMapMouse> FOnDownStore;
+
+    internal event TNotifyEvent<THSMapMouse> FOnDown
+    {
+        add => FOnDownStore.Add(value);
+        remove => FOnDownStore.Remove(value);
+    }
+
+    internal EventStore<THSMapMouse> FOnMoveStore;
+
+    internal event TNotifyEvent<THSMapMouse> FOnMove
+    {
+        add => FOnMoveStore.Add(value);
+        remove => FOnMoveStore.Remove(value);
+    }
+
+    internal EventStore<THSMapMouse> FOnDblClickStore;
+
+    internal event TNotifyEvent<THSMapMouse> FOnDblClick
+    {
+        add => FOnDblClickStore.Add(value);
+        remove => FOnDblClickStore.Remove(value);
+    }
+
+    internal EventStore<THSMapMouse> FOnCaptureChangedStore;
+
+    internal event TNotifyEvent<THSMapMouse> FOnCaptureChanged
+    {
+        add => FOnCaptureChangedStore.Add(value);
+        remove => FOnCaptureChangedStore.Remove(value);
+    }
+
     internal TObject FCapture;
     internal TSet<TMouseStatusElement> FStatus;
     internal int FCursor;
@@ -4730,11 +4898,11 @@ public partial class THSMapMouse : TObject
     // HSEngine.pas:3486
     public override void Destroy()
     {
-        FOnUp.Free();
-        FOnDown.Free();
-        FOnMove.Free();
-        FOnDblClick.Free();
-        FOnCaptureChanged.Free();
+        FOnUpStore.Clear();
+        FOnDownStore.Clear();
+        FOnMoveStore.Clear();
+        FOnDblClickStore.Clear();
+        FOnCaptureChangedStore.Clear();
         base.Destroy();
     }
 
@@ -4803,7 +4971,7 @@ public partial class THSMapMouse : TObject
             FShift = Shift;
             if (MouseDown())
             {
-                FOnDown.TriggerNotifyEvents(this);
+                FOnDownStore.Raise(this);
             }
         }
         else
@@ -4830,7 +4998,7 @@ public partial class THSMapMouse : TObject
         FShift = Shift;
         if (MouseUp())
         {
-            FOnUp.TriggerNotifyEvents(this);
+            FOnUpStore.Raise(this);
         }
     }
 
@@ -4852,7 +5020,7 @@ public partial class THSMapMouse : TObject
 
         if (MouseMove())
         {
-            FOnMove.TriggerNotifyEvents(this);
+            FOnMoveStore.Raise(this);
         }
     }
 
@@ -4863,7 +5031,7 @@ public partial class THSMapMouse : TObject
         {
             if (MouseDblClick())
             {
-                FOnDblClick.TriggerNotifyEvents(this);
+                FOnDblClickStore.Raise(this);
             }
         }
     }
@@ -4973,7 +5141,7 @@ public partial class THSMapMouse : TObject
                 FCursor = 0;
             }
 
-            FOnCaptureChanged.TriggerNotifyEvents(this);
+            FOnCaptureChangedStore.Raise(this);
             FStatus = FStatus - TSet<TMouseStatusElement>.Of(TMouseStatusElement.msChangingCapture);
         }
     }
@@ -4987,11 +5155,37 @@ public partial class THSMapMouse : TObject
     public int Yhx { get => GetYhx(); }
     public TMouseButton Button { get => FButton; }
     public TSet<TShiftState> Shift { get => FShift; }
-    public TEventList OnUp { get => FOnUp; }
-    public TEventList OnDown { get => FOnDown; }
-    public TEventList OnMove { get => FOnMove; }
-    public TEventList OnDblClick { get => FOnDblClick; }
-    public TEventList OnCaptureChanged { get => FOnCaptureChanged; }
+
+    public event TNotifyEvent<THSMapMouse> OnUp
+    {
+        add => FOnUpStore.Add(value);
+        remove => FOnUpStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSMapMouse> OnDown
+    {
+        add => FOnDownStore.Add(value);
+        remove => FOnDownStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSMapMouse> OnMove
+    {
+        add => FOnMoveStore.Add(value);
+        remove => FOnMoveStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSMapMouse> OnDblClick
+    {
+        add => FOnDblClickStore.Add(value);
+        remove => FOnDblClickStore.Remove(value);
+    }
+
+    public event TNotifyEvent<THSMapMouse> OnCaptureChanged
+    {
+        add => FOnCaptureChangedStore.Add(value);
+        remove => FOnCaptureChangedStore.Remove(value);
+    }
+
     public TObject Capture { get => FCapture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public int CursorMode { get => FCursorMode; set => FCursorMode = value; }
@@ -5050,7 +5244,7 @@ public partial class THSMapViewer : TComponent
     internal int FSceneY;
     internal int FSceneL;
     internal bool FStaticSurfaceValid;
-    internal TNotifyEvent FOnSceneChanged;
+    internal TNotifyEvent<TObject> FOnSceneChanged;
     internal THSMap FHSMap;
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
     internal TSurface FCenteredSurface;
@@ -5481,7 +5675,7 @@ public partial class THSMapViewer : TComponent
     public int SceneHeight { get => FSceneHeight; set => SetSceneHeight(value); }
 
     [Published]
-    public TNotifyEvent OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
+    public TNotifyEvent<TObject> OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
 }
 
 // FHSEngine, FTries, FResources, FMOClass. The map object resources of one kind

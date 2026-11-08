@@ -27,8 +27,8 @@ public partial class THeroJoinDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "HeroJoinDlg";
-        LayoutOnCreate = Layout_HeroJoinDlgCreate_0;
-        LayoutOnDestroy = Layout_HeroJoinDlgDestroy_1;
+        LayoutOnCreate = _ => Layout_HeroJoinDlgCreate_0();
+        LayoutOnDestroy = _ => Layout_HeroJoinDlgDestroy_1();
         UnitPnl = new TAOWPanel(this);
         session.BeginRead(UnitPnl);
         UnitPnl.Name = "UnitPnl";
@@ -59,8 +59,8 @@ public partial class THeroJoinDlg : ILayoutModule
         U1 = new TAoWFrame(this);
         session.BeginRead(U1);
         U1.Name = "U1";
-        U1.OnMouseDown = Layout_U1MouseDown_2;
-        U1.OnPreDraw = U1PreDraw;
+        U1.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 0);
+        U1.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
         U1.Priority = 0;
         U1.WinLeft = 0;
         U1.WinTop = 0;
@@ -89,8 +89,8 @@ public partial class THeroJoinDlg : ILayoutModule
         session.BeginRead(U2);
         U2.Name = "U2";
         U2.Tag = 1;
-        U2.OnMouseDown = Layout_U1MouseDown_2;
-        U2.OnPreDraw = U1PreDraw;
+        U2.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 1);
+        U2.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 1);
         U2.Priority = 0;
         U2.WinLeft = 43;
         U2.WinTop = 0;
@@ -119,8 +119,8 @@ public partial class THeroJoinDlg : ILayoutModule
         session.BeginRead(U4);
         U4.Name = "U4";
         U4.Tag = 3;
-        U4.OnMouseDown = Layout_U1MouseDown_2;
-        U4.OnPreDraw = U1PreDraw;
+        U4.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 3);
+        U4.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 3);
         U4.Priority = 0;
         U4.WinLeft = 129;
         U4.WinTop = 0;
@@ -149,8 +149,8 @@ public partial class THeroJoinDlg : ILayoutModule
         session.BeginRead(U5);
         U5.Name = "U5";
         U5.Tag = 4;
-        U5.OnMouseDown = Layout_U1MouseDown_2;
-        U5.OnPreDraw = U1PreDraw;
+        U5.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 4);
+        U5.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 4);
         U5.Priority = 0;
         U5.WinLeft = 172;
         U5.WinTop = 0;
@@ -179,8 +179,8 @@ public partial class THeroJoinDlg : ILayoutModule
         session.BeginRead(U3);
         U3.Name = "U3";
         U3.Tag = 2;
-        U3.OnMouseDown = Layout_U1MouseDown_2;
-        U3.OnPreDraw = U1PreDraw;
+        U3.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 2);
+        U3.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 2);
         U3.Priority = 0;
         U3.WinLeft = 86;
         U3.WinTop = 0;
@@ -209,8 +209,8 @@ public partial class THeroJoinDlg : ILayoutModule
         session.BeginRead(U6);
         U6.Name = "U6";
         U6.Tag = 5;
-        U6.OnMouseDown = Layout_U1MouseDown_2;
-        U6.OnPreDraw = U1PreDraw;
+        U6.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 5);
+        U6.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 5);
         U6.Priority = 0;
         U6.WinLeft = 215;
         U6.WinTop = 0;
@@ -239,8 +239,8 @@ public partial class THeroJoinDlg : ILayoutModule
         session.BeginRead(U7);
         U7.Name = "U7";
         U7.Tag = 6;
-        U7.OnMouseDown = Layout_U1MouseDown_2;
-        U7.OnPreDraw = U1PreDraw;
+        U7.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 6);
+        U7.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 6);
         U7.Priority = 0;
         U7.WinLeft = 258;
         U7.WinTop = 0;
@@ -269,8 +269,8 @@ public partial class THeroJoinDlg : ILayoutModule
         session.BeginRead(U8);
         U8.Name = "U8";
         U8.Tag = 7;
-        U8.OnMouseDown = Layout_U1MouseDown_2;
-        U8.OnPreDraw = U1PreDraw;
+        U8.OnMouseDown = (_, button, shift, x, y) => U1MouseDown(button, shift, x, y, 7);
+        U8.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 7);
         U8.Priority = 0;
         U8.WinLeft = 302;
         U8.WinTop = 0;
@@ -324,7 +324,7 @@ public partial class THeroJoinDlg : ILayoutModule
         MiddleBtn.TextColor = 328543;
         MiddleBtn.TextSelColor = 16777215;
         MiddleBtn.WinWidth = 112;
-        MiddleBtn.OnClick = Layout_MiddleBtnClick_3;
+        MiddleBtn.OnClick = _ => Layout_MiddleBtnClick_3();
         session.EndRead(MiddleBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -382,7 +382,7 @@ public partial class THeroJoinDlg : ILayoutModule
         RightBtn.TextColor = 0;
         RightBtn.TextSelColor = 16777215;
         RightBtn.WinWidth = 112;
-        RightBtn.OnClick = Layout_RightBtnClick_4;
+        RightBtn.OnClick = _ => Layout_RightBtnClick_4();
         session.EndRead(RightBtn);
         LeftBtn = new TAOWButton(this);
         session.BeginRead(LeftBtn);
@@ -413,19 +413,19 @@ public partial class THeroJoinDlg : ILayoutModule
         LeftBtn.TextColor = 0;
         LeftBtn.TextSelColor = 16777215;
         LeftBtn.WinWidth = 112;
-        LeftBtn.OnClick = Layout_LeftBtnClick_5;
+        LeftBtn.OnClick = _ => Layout_LeftBtnClick_5();
         session.EndRead(LeftBtn);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 80;
         Dlg.WinTop = 28;
         Dlg.WinWidth = 480;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_6;
+        Dlg.OnHide = _ => Layout_DlgHide_6();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -509,7 +509,7 @@ public partial class THeroJoinDlg : ILayoutModule
         FaceFrame = new TAOWImage(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnPreDraw = FaceFramePreDraw;
+        FaceFrame.OnPreDraw = (_, SurfDesc) => FaceFramePreDraw(SurfDesc);
         FaceFrame.Priority = 2000;
         FaceFrame.WinLeft = 186;
         FaceFrame.WinTop = 35;
@@ -676,37 +676,32 @@ public partial class THeroJoinDlg : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_HeroJoinDlgCreate_0(TObject p0)
+    private void Layout_HeroJoinDlgCreate_0()
     {
         HeroJoinDlgCreate();
     }
 
-    private void Layout_HeroJoinDlgDestroy_1(TObject p0)
+    private void Layout_HeroJoinDlgDestroy_1()
     {
         HeroJoinDlgDestroy();
     }
 
-    private void Layout_U1MouseDown_2(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        U1MouseDown((TComponent)p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_MiddleBtnClick_3(TObject p0)
+    private void Layout_MiddleBtnClick_3()
     {
         MiddleBtnClick();
     }
 
-    private void Layout_RightBtnClick_4(TObject p0)
+    private void Layout_RightBtnClick_4()
     {
         RightBtnClick();
     }
 
-    private void Layout_LeftBtnClick_5(TObject p0)
+    private void Layout_LeftBtnClick_5()
     {
         LeftBtnClick();
     }
 
-    private void Layout_DlgHide_6(TObject p0)
+    private void Layout_DlgHide_6()
     {
         DlgHide();
     }

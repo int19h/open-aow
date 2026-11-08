@@ -63,7 +63,7 @@ public partial class TPasswordDlg : TDataModule
     }
 
     // AoWPasswordDlg.pas:58
-    public void OKBtnClick(TObject Sender)
+    public void OKBtnClick()
     {
         FPasswordEvent.FPassword = PasswordEdit.Text;
         FPasswordEvent.FPressedButton = TPressedEventLogButton.pebOk;
@@ -71,7 +71,7 @@ public partial class TPasswordDlg : TDataModule
     }
 
     // AoWPasswordDlg.pas:65
-    public void CancelBtnClick(TObject Sender)
+    public void CancelBtnClick()
     {
         FPasswordEvent.FPassword = "";
         FPasswordEvent.FPressedButton = TPressedEventLogButton.pebCancel;
@@ -79,11 +79,11 @@ public partial class TPasswordDlg : TDataModule
     }
 
     // AoWPasswordDlg.pas:72
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {
-            CancelBtnClick(null);
+            CancelBtnClick();
         }
     }
 }

@@ -33,14 +33,14 @@ public partial class THeroUpgradeDlg : ILayoutModule
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 117;
         Dlg.WinTop = 0;
         Dlg.WinWidth = 407;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -108,7 +108,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 135;
-        CancelBtn.OnClick = Layout_CloseClick_1;
+        CancelBtn.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(CancelBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -170,7 +170,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         Done.TextColor = 0;
         Done.TextSelColor = 16777215;
         Done.WinWidth = 135;
-        Done.OnClick = Layout_DoneClick_2;
+        Done.OnClick = _ => Layout_DoneClick_2();
         session.EndRead(Done);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -227,7 +227,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_1;
+        Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -472,7 +472,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AvailableAbilities = new TAOWListBox(this);
         session.BeginRead(AvailableAbilities);
         AvailableAbilities.Name = "AvailableAbilities";
-        AvailableAbilities.OnMouseDown = AvailableAbilitiesMouseDown;
+        AvailableAbilities.OnMouseDown = (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
         AvailableAbilities.Priority = 50;
         AvailableAbilities.WinLeft = 185;
         AvailableAbilities.WinTop = 15;
@@ -494,7 +494,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AvailableAbilities.WinHeight = 107;
         AvailableAbilities.BorderWidth = 4;
         AvailableAbilities.BorderHeight = 4;
-        AvailableAbilities.OnChange = Layout_AvailableAbilitiesChange_3;
+        AvailableAbilities.OnChange = _ => Layout_AvailableAbilitiesChange_3();
         AvailableAbilities.Selected = -1;
         AvailableAbilities.TextColor = 9402970;
         AvailableAbilities.TextSelColor = 0;
@@ -533,7 +533,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AvailableAbilitiesSB.WinHeight = 107;
         AvailableAbilitiesSB.WinWidth = 17;
         AvailableAbilitiesSB.NumberVisible = 1;
-        AvailableAbilitiesSB.OnChange = Layout_AvailableAbilitiesSBChange_4;
+        AvailableAbilitiesSB.OnChange = _ => Layout_AvailableAbilitiesSBChange_4();
         AvailableAbilitiesSB.VanishWhenFull = true;
         AvailableAbilitiesSB.ILIndexIncUp = 74;
         AvailableAbilitiesSB.ILIndexIncDown = 75;
@@ -545,7 +545,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         SelectedAbilities = new TAOWListBox(this);
         session.BeginRead(SelectedAbilities);
         SelectedAbilities.Name = "SelectedAbilities";
-        SelectedAbilities.OnMouseDown = SelectedAbilitiesMouseDown;
+        SelectedAbilities.OnMouseDown = (_, button, shift, x, y) => SelectedAbilitiesMouseDown(button, shift, x, y);
         SelectedAbilities.Priority = 50;
         SelectedAbilities.WinLeft = 5;
         SelectedAbilities.WinTop = 15;
@@ -567,7 +567,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         SelectedAbilities.WinHeight = 107;
         SelectedAbilities.BorderWidth = 4;
         SelectedAbilities.BorderHeight = 4;
-        SelectedAbilities.OnChange = Layout_SelectedAbilitiesChange_5;
+        SelectedAbilities.OnChange = _ => Layout_SelectedAbilitiesChange_5();
         SelectedAbilities.Selected = -1;
         SelectedAbilities.TextColor = 9402970;
         SelectedAbilities.TextSelColor = 0;
@@ -606,7 +606,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         SelectedAbilitiesSB.WinHeight = 107;
         SelectedAbilitiesSB.WinWidth = 17;
         SelectedAbilitiesSB.NumberVisible = 1;
-        SelectedAbilitiesSB.OnChange = Layout_SelectedAbilitiesSBChange_6;
+        SelectedAbilitiesSB.OnChange = _ => Layout_SelectedAbilitiesSBChange_6();
         SelectedAbilitiesSB.VanishWhenFull = true;
         SelectedAbilitiesSB.ILIndexIncUp = 74;
         SelectedAbilitiesSB.ILIndexIncDown = 75;
@@ -644,7 +644,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         SelectedAbilitiesSort.TextColor = 0;
         SelectedAbilitiesSort.TextSelColor = 16777215;
         SelectedAbilitiesSort.WinWidth = 123;
-        SelectedAbilitiesSort.OnClick = Layout_SelectedAbilitiesSortClick_7;
+        SelectedAbilitiesSort.OnClick = _ => Layout_SelectedAbilitiesSortClick_7();
         session.EndRead(SelectedAbilitiesSort);
         AvailableAbilityCostSort = new TAOWButton(this);
         session.BeginRead(AvailableAbilityCostSort);
@@ -675,12 +675,12 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AvailableAbilityCostSort.TextColor = 0;
         AvailableAbilityCostSort.TextSelColor = 16777215;
         AvailableAbilityCostSort.WinWidth = 44;
-        AvailableAbilityCostSort.OnClick = Layout_AvailableAbilityCostSortClick_8;
+        AvailableAbilityCostSort.OnClick = _ => Layout_AvailableAbilityCostSortClick_8();
         session.EndRead(AvailableAbilityCostSort);
         AvailableAbilitiesCost = new TAOWListBox(this);
         session.BeginRead(AvailableAbilitiesCost);
         AvailableAbilitiesCost.Name = "AvailableAbilitiesCost";
-        AvailableAbilitiesCost.OnMouseDown = AvailableAbilitiesMouseDown;
+        AvailableAbilitiesCost.OnMouseDown = (_, button, shift, x, y) => AvailableAbilitiesMouseDown(button, shift, x, y);
         AvailableAbilitiesCost.Priority = 40;
         AvailableAbilitiesCost.WinLeft = 308;
         AvailableAbilitiesCost.WinTop = 15;
@@ -702,7 +702,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AvailableAbilitiesCost.WinHeight = 107;
         AvailableAbilitiesCost.BorderWidth = 4;
         AvailableAbilitiesCost.BorderHeight = 4;
-        AvailableAbilitiesCost.OnChange = Layout_AvailableAbilitiesCostChange_9;
+        AvailableAbilitiesCost.OnChange = _ => Layout_AvailableAbilitiesCostChange_9();
         AvailableAbilitiesCost.Selected = -1;
         AvailableAbilitiesCost.TextColor = 9402970;
         AvailableAbilitiesCost.TextSelColor = 0;
@@ -741,7 +741,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AvailableAbilitiesSort.TextColor = 0;
         AvailableAbilitiesSort.TextSelColor = 16777215;
         AvailableAbilitiesSort.WinWidth = 125;
-        AvailableAbilitiesSort.OnClick = Layout_AvailableAbilitiesSortClick_10;
+        AvailableAbilitiesSort.OnClick = _ => Layout_AvailableAbilitiesSortClick_10();
         session.EndRead(AvailableAbilitiesSort);
         AddAbilityBtn = new TAOWButton(this);
         session.BeginRead(AddAbilityBtn);
@@ -776,7 +776,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AddAbilityBtn.TextColor = 0;
         AddAbilityBtn.TextSelColor = 16777215;
         AddAbilityBtn.WinWidth = 140;
-        AddAbilityBtn.OnClick = Layout_AddAbilityBtnClick_11;
+        AddAbilityBtn.OnClick = _ => Layout_AddAbilityBtnClick_11();
         session.EndRead(AddAbilityBtn);
         RemoveBtn = new TAOWButton(this);
         session.BeginRead(RemoveBtn);
@@ -811,7 +811,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         RemoveBtn.TextColor = 0;
         RemoveBtn.TextSelColor = 16777215;
         RemoveBtn.WinWidth = 140;
-        RemoveBtn.OnClick = Layout_RemoveBtnClick_12;
+        RemoveBtn.OnClick = _ => Layout_RemoveBtnClick_12();
         session.EndRead(RemoveBtn);
         FaceFrame = new TAOWImage(this);
         session.BeginRead(FaceFrame);
@@ -1978,7 +1978,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AttUp.TextColor = 0;
         AttUp.TextSelColor = 0;
         AttUp.WinWidth = 9;
-        AttUp.OnClick = Layout_AttUpClick_13;
+        AttUp.OnClick = _ => Layout_AttUpClick_13();
         session.EndRead(AttUp);
         AttDn = new TAOWButton(this);
         session.BeginRead(AttDn);
@@ -2008,7 +2008,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         AttDn.TextColor = 0;
         AttDn.TextSelColor = 0;
         AttDn.WinWidth = 9;
-        AttDn.OnClick = Layout_AttDnClick_14;
+        AttDn.OnClick = _ => Layout_AttDnClick_14();
         session.EndRead(AttDn);
         DamUp = new TAOWButton(this);
         session.BeginRead(DamUp);
@@ -2038,7 +2038,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         DamUp.TextColor = 0;
         DamUp.TextSelColor = 0;
         DamUp.WinWidth = 9;
-        DamUp.OnClick = Layout_DamUpClick_15;
+        DamUp.OnClick = _ => Layout_DamUpClick_15();
         session.EndRead(DamUp);
         DamDn = new TAOWButton(this);
         session.BeginRead(DamDn);
@@ -2068,7 +2068,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         DamDn.TextColor = 0;
         DamDn.TextSelColor = 0;
         DamDn.WinWidth = 9;
-        DamDn.OnClick = Layout_DamDnClick_16;
+        DamDn.OnClick = _ => Layout_DamDnClick_16();
         session.EndRead(DamDn);
         DefUp = new TAOWButton(this);
         session.BeginRead(DefUp);
@@ -2098,7 +2098,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         DefUp.TextColor = 0;
         DefUp.TextSelColor = 0;
         DefUp.WinWidth = 9;
-        DefUp.OnClick = Layout_DefUpClick_17;
+        DefUp.OnClick = _ => Layout_DefUpClick_17();
         session.EndRead(DefUp);
         DefDn = new TAOWButton(this);
         session.BeginRead(DefDn);
@@ -2128,7 +2128,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         DefDn.TextColor = 0;
         DefDn.TextSelColor = 0;
         DefDn.WinWidth = 9;
-        DefDn.OnClick = Layout_DefDnClick_18;
+        DefDn.OnClick = _ => Layout_DefDnClick_18();
         session.EndRead(DefDn);
         ResUp = new TAOWButton(this);
         session.BeginRead(ResUp);
@@ -2158,7 +2158,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         ResUp.TextColor = 0;
         ResUp.TextSelColor = 0;
         ResUp.WinWidth = 9;
-        ResUp.OnClick = Layout_ResUpClick_19;
+        ResUp.OnClick = _ => Layout_ResUpClick_19();
         session.EndRead(ResUp);
         ResDn = new TAOWButton(this);
         session.BeginRead(ResDn);
@@ -2188,7 +2188,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         ResDn.TextColor = 0;
         ResDn.TextSelColor = 0;
         ResDn.WinWidth = 9;
-        ResDn.OnClick = Layout_ResDnClick_20;
+        ResDn.OnClick = _ => Layout_ResDnClick_20();
         session.EndRead(ResDn);
         HitUp = new TAOWButton(this);
         session.BeginRead(HitUp);
@@ -2218,7 +2218,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         HitUp.TextColor = 0;
         HitUp.TextSelColor = 0;
         HitUp.WinWidth = 9;
-        HitUp.OnClick = Layout_HitUpClick_21;
+        HitUp.OnClick = _ => Layout_HitUpClick_21();
         session.EndRead(HitUp);
         HitDn = new TAOWButton(this);
         session.BeginRead(HitDn);
@@ -2248,7 +2248,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         HitDn.TextColor = 0;
         HitDn.TextSelColor = 0;
         HitDn.WinWidth = 9;
-        HitDn.OnClick = Layout_HitDnClick_22;
+        HitDn.OnClick = _ => Layout_HitDnClick_22();
         session.EndRead(HitDn);
         MovUp = new TAOWButton(this);
         session.BeginRead(MovUp);
@@ -2278,7 +2278,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         MovUp.TextColor = 0;
         MovUp.TextSelColor = 0;
         MovUp.WinWidth = 9;
-        MovUp.OnClick = Layout_MovUpClick_23;
+        MovUp.OnClick = _ => Layout_MovUpClick_23();
         session.EndRead(MovUp);
         MovDn = new TAOWButton(this);
         session.BeginRead(MovDn);
@@ -2308,7 +2308,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         MovDn.TextColor = 0;
         MovDn.TextSelColor = 0;
         MovDn.WinWidth = 9;
-        MovDn.OnClick = Layout_MovDnClick_24;
+        MovDn.OnClick = _ => Layout_MovDnClick_24();
         session.EndRead(MovDn);
         AttIc = new TAOWImage(this);
         session.BeginRead(AttIc);
@@ -2507,12 +2507,12 @@ public partial class THeroUpgradeDlg : ILayoutModule
         SelectedAbilitiesCostSort.TextColor = 0;
         SelectedAbilitiesCostSort.TextSelColor = 16777215;
         SelectedAbilitiesCostSort.WinWidth = 47;
-        SelectedAbilitiesCostSort.OnClick = Layout_SelectedAbilitiesCostSortClick_25;
+        SelectedAbilitiesCostSort.OnClick = _ => Layout_SelectedAbilitiesCostSortClick_25();
         session.EndRead(SelectedAbilitiesCostSort);
         SelectedAbilitiesCost = new TAOWListBox(this);
         session.BeginRead(SelectedAbilitiesCost);
         SelectedAbilitiesCost.Name = "SelectedAbilitiesCost";
-        SelectedAbilitiesCost.OnMouseDown = SelectedAbilitiesMouseDown;
+        SelectedAbilitiesCost.OnMouseDown = (_, button, shift, x, y) => SelectedAbilitiesMouseDown(button, shift, x, y);
         SelectedAbilitiesCost.Priority = 41;
         SelectedAbilitiesCost.WinLeft = 128;
         SelectedAbilitiesCost.WinTop = 15;
@@ -2534,7 +2534,7 @@ public partial class THeroUpgradeDlg : ILayoutModule
         SelectedAbilitiesCost.WinHeight = 107;
         SelectedAbilitiesCost.BorderWidth = 4;
         SelectedAbilitiesCost.BorderHeight = 4;
-        SelectedAbilitiesCost.OnChange = Layout_SelectedAbilitiesCostChange_26;
+        SelectedAbilitiesCost.OnChange = _ => Layout_SelectedAbilitiesCostChange_26();
         SelectedAbilitiesCost.Selected = -1;
         SelectedAbilitiesCost.TextColor = 9402970;
         SelectedAbilitiesCost.TextSelColor = 0;
@@ -2963,137 +2963,137 @@ public partial class THeroUpgradeDlg : ILayoutModule
         SkillPoints.AOWFont = AoWExeFormsUnit.FontModule.Age10b;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_CloseClick_1(TObject p0)
+    private void Layout_CloseClick_1()
     {
         CloseClick();
     }
 
-    private void Layout_DoneClick_2(TObject p0)
+    private void Layout_DoneClick_2()
     {
         DoneClick();
     }
 
-    private void Layout_AvailableAbilitiesChange_3(TObject p0)
+    private void Layout_AvailableAbilitiesChange_3()
     {
         AvailableAbilitiesChange();
     }
 
-    private void Layout_AvailableAbilitiesSBChange_4(TObject p0)
+    private void Layout_AvailableAbilitiesSBChange_4()
     {
         AvailableAbilitiesSBChange();
     }
 
-    private void Layout_SelectedAbilitiesChange_5(TObject p0)
+    private void Layout_SelectedAbilitiesChange_5()
     {
         SelectedAbilitiesChange();
     }
 
-    private void Layout_SelectedAbilitiesSBChange_6(TObject p0)
+    private void Layout_SelectedAbilitiesSBChange_6()
     {
         SelectedAbilitiesSBChange();
     }
 
-    private void Layout_SelectedAbilitiesSortClick_7(TObject p0)
+    private void Layout_SelectedAbilitiesSortClick_7()
     {
         SelectedAbilitiesSortClick();
     }
 
-    private void Layout_AvailableAbilityCostSortClick_8(TObject p0)
+    private void Layout_AvailableAbilityCostSortClick_8()
     {
         AvailableAbilityCostSortClick();
     }
 
-    private void Layout_AvailableAbilitiesCostChange_9(TObject p0)
+    private void Layout_AvailableAbilitiesCostChange_9()
     {
         AvailableAbilitiesCostChange();
     }
 
-    private void Layout_AvailableAbilitiesSortClick_10(TObject p0)
+    private void Layout_AvailableAbilitiesSortClick_10()
     {
         AvailableAbilitiesSortClick();
     }
 
-    private void Layout_AddAbilityBtnClick_11(TObject p0)
+    private void Layout_AddAbilityBtnClick_11()
     {
         AddAbilityBtnClick();
     }
 
-    private void Layout_RemoveBtnClick_12(TObject p0)
+    private void Layout_RemoveBtnClick_12()
     {
         RemoveBtnClick();
     }
 
-    private void Layout_AttUpClick_13(TObject p0)
+    private void Layout_AttUpClick_13()
     {
         AttUpClick();
     }
 
-    private void Layout_AttDnClick_14(TObject p0)
+    private void Layout_AttDnClick_14()
     {
         AttDnClick();
     }
 
-    private void Layout_DamUpClick_15(TObject p0)
+    private void Layout_DamUpClick_15()
     {
         DamUpClick();
     }
 
-    private void Layout_DamDnClick_16(TObject p0)
+    private void Layout_DamDnClick_16()
     {
         DamDnClick();
     }
 
-    private void Layout_DefUpClick_17(TObject p0)
+    private void Layout_DefUpClick_17()
     {
         DefUpClick();
     }
 
-    private void Layout_DefDnClick_18(TObject p0)
+    private void Layout_DefDnClick_18()
     {
         DefDnClick();
     }
 
-    private void Layout_ResUpClick_19(TObject p0)
+    private void Layout_ResUpClick_19()
     {
         ResUpClick();
     }
 
-    private void Layout_ResDnClick_20(TObject p0)
+    private void Layout_ResDnClick_20()
     {
         ResDnClick();
     }
 
-    private void Layout_HitUpClick_21(TObject p0)
+    private void Layout_HitUpClick_21()
     {
         HitUpClick();
     }
 
-    private void Layout_HitDnClick_22(TObject p0)
+    private void Layout_HitDnClick_22()
     {
         HitDnClick();
     }
 
-    private void Layout_MovUpClick_23(TObject p0)
+    private void Layout_MovUpClick_23()
     {
         MovUpClick();
     }
 
-    private void Layout_MovDnClick_24(TObject p0)
+    private void Layout_MovDnClick_24()
     {
         MovDnClick();
     }
 
-    private void Layout_SelectedAbilitiesCostSortClick_25(TObject p0)
+    private void Layout_SelectedAbilitiesCostSortClick_25()
     {
         SelectedAbilitiesCostSortClick();
     }
 
-    private void Layout_SelectedAbilitiesCostChange_26(TObject p0)
+    private void Layout_SelectedAbilitiesCostChange_26()
     {
         SelectedAbilitiesCostChange();
     }

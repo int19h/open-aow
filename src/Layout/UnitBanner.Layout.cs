@@ -350,14 +350,14 @@ public partial class TUnitBanner : ILayoutModule
         BannerPopup = new TAOWMenu(this);
         session.BeginRead(BannerPopup);
         BannerPopup.Name = "BannerPopup";
-        BannerPopup.OnMouseDown = Layout_BannerPopupMouseDown_0;
+        BannerPopup.OnMouseDown = (_, button, shift, x, y) => Layout_BannerPopupMouseDown_0(button, shift, x, y);
         BannerPopup.Visible = false;
         BannerPopup.Priority = 350;
         BannerPopup.WinLeft = 0;
         BannerPopup.WinTop = 0;
         BannerPopup.WinWidth = 160;
         BannerPopup.Masked = true;
-        BannerPopup.OnShow = BannerPopupShow;
+        BannerPopup.OnShow = _ => BannerPopupShow();
         BannerPopup.Alignment.AlignWidth = TAOWAlignWidth.awNone;
         BannerPopup.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
         BannerPopup.Alignment.HeightPercent = 0;
@@ -391,9 +391,9 @@ public partial class TUnitBanner : ILayoutModule
         AbLB = new TAOWListBox(this);
         session.BeginRead(AbLB);
         AbLB.Name = "AbLB";
-        AbLB.OnMouseDown = AbLBMouseDown;
-        AbLB.OnMouseMove = AbLBMouseMove;
-        AbLB.OnUpdate = Layout_AbLBUpdate_1;
+        AbLB.OnMouseDown = (_, button, shift, x, y) => AbLBMouseDown(button, shift, x, y);
+        AbLB.OnMouseMove = (_, shift, x, y) => AbLBMouseMove(shift, x, y);
+        AbLB.OnUpdate = _ => Layout_AbLBUpdate_1();
         AbLB.Priority = 0;
         AbLB.WinLeft = 25;
         AbLB.WinTop = 110;
@@ -526,12 +526,12 @@ public partial class TUnitBanner : ILayoutModule
         AbVSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
     }
 
-    private void Layout_BannerPopupMouseDown_0(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
+    private void Layout_BannerPopupMouseDown_0(TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
         BannerPopupMouseDown(default(int), (byte)p1, default(int), default(int), default(int));
     }
 
-    private void Layout_AbLBUpdate_1(TObject p0)
+    private void Layout_AbLBUpdate_1()
     {
         AbLBUpdate();
     }

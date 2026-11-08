@@ -44,12 +44,12 @@ public partial class TTCFCDialog : TDataModule
     public TAOWImage InfoSep;
     public TIvTranslator Translator;
     public TCombatTypeRequestEventLog FRequest;
-    public TNotifyEvent FOnDone;
+    public TNotifyEvent<TObject> FOnDone;
 
     // TCFCDlg.pas:119
     public void Finish()
     {
-        TNotifyEvent Done;
+        TNotifyEvent<TObject> Done;
         TCombatTypeRequestEventLog Request;
         General.Manager.OverlayPriority = 0;
         Done = FOnDone;
@@ -83,9 +83,9 @@ public partial class TTCFCDialog : TDataModule
     }
 
     // TCFCDlg.pas:70
-    public void FCchkChange(TObject Sender)
+    public void FCchkChange(TAOWCheckBox Sender)
     {
-        var checkBox = (TAOWCheckBox)Sender;
+        var checkBox = Sender;
         if (checkBox.Checked)
         {
             FRequest.Select((TCombatType)1);
@@ -102,9 +102,9 @@ public partial class TTCFCDialog : TDataModule
     }
 
     // TCFCDlg.pas:79
-    public void TCchkChange(TObject Sender)
+    public void TCchkChange(TAOWCheckBox Sender)
     {
-        var checkBox = (TAOWCheckBox)Sender;
+        var checkBox = Sender;
         if (checkBox.Checked)
         {
             FRequest.Select((TCombatType)2);
@@ -121,7 +121,7 @@ public partial class TTCFCDialog : TDataModule
     }
 
     // TCFCDlg.pas:88
-    public void MapViewDraw(TObject Sender, TSurfaceDesc SD)
+    public void MapViewDraw(TaowUserDrawBox Sender, TSurfaceDesc SD)
     {
         int X = default;
         int Y = default;
@@ -129,7 +129,7 @@ public partial class TTCFCDialog : TDataModule
         TRect R;
         int W;
         int H;
-        R = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
+        R = Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);
@@ -166,9 +166,9 @@ public partial class TTCFCDialog : TDataModule
     }
 
     // TCFCDlg.pas:133
-    public void TCchkDoubleClick(TObject Sender)
+    public void TCchkDoubleClick(TAOWCheckBox Sender)
     {
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             FRequest.Select((TCombatType)2);
         }
@@ -177,9 +177,9 @@ public partial class TTCFCDialog : TDataModule
     }
 
     // TCFCDlg.pas:139
-    public void FCchkDoubleClick(TObject Sender)
+    public void FCchkDoubleClick(TAOWCheckBox Sender)
     {
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             FRequest.Select((TCombatType)1);
         }

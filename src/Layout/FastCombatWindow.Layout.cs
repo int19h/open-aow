@@ -29,20 +29,20 @@ public partial class TFastCombatWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "FastCombatWindow";
-        LayoutOnCreate = Layout_FastCombatWindowCreate_0;
-        LayoutOnDestroy = Layout_FastCombatWindowDestroy_1;
+        LayoutOnCreate = _ => Layout_FastCombatWindowCreate_0();
+        LayoutOnDestroy = _ => Layout_FastCombatWindowDestroy_1();
         FCWin = new TAOWWindow(this);
         session.BeginRead(FCWin);
         FCWin.Name = "FCWin";
-        FCWin.OnKeyDown = FCWinKeyDown;
-        FCWin.OnUpdate = FCWinUpdate;
+        FCWin.OnKeyDown = (_, ref key, shift) => FCWinKeyDown(ref key, shift);
+        FCWin.OnUpdate = _ => FCWinUpdate();
         FCWin.Visible = false;
         FCWin.Priority = 55;
         FCWin.WinLeft = 31;
         FCWin.WinTop = 10;
         FCWin.WinWidth = 579;
         FCWin.Masked = true;
-        FCWin.OnHide = Layout_FCWinHide_2;
+        FCWin.OnHide = _ => Layout_FCWinHide_2();
         FCWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         FCWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         FCWin.Alignment.HeightPercent = 0;
@@ -62,7 +62,7 @@ public partial class TFastCombatWindow : ILayoutModule
         FCWin.Cursor = 0;
         FCWin.DoubleBuffered = true;
         FCWin.MaskColor = 7346272;
-        FCWin.OnDrawSurface = FCWinDrawSurface;
+        FCWin.OnDrawSurface = (_, Surface, Left, Top) => FCWinDrawSurface(Surface, Left, Top);
         FCWin.FreeSurfaceOnHide = true;
         FCWin.ILIndexFrame = 0;
         FCWin.ILIndexTexture = 8;
@@ -405,7 +405,7 @@ public partial class TFastCombatWindow : ILayoutModule
         CloseBut.TextColor = 9236989;
         CloseBut.TextSelColor = 16777215;
         CloseBut.WinWidth = 73;
-        CloseBut.OnClick = Layout_CloseButClick_3;
+        CloseBut.OnClick = _ => Layout_CloseButClick_3();
         session.EndRead(CloseBut);
         Party1Pnl = new TAOWPanel(this);
         session.BeginRead(Party1Pnl);
@@ -1166,7 +1166,7 @@ public partial class TFastCombatWindow : ILayoutModule
         InitialView.TextColor = 0;
         InitialView.TextSelColor = 0;
         InitialView.WinWidth = 24;
-        InitialView.OnClick = Layout_InitialViewClick_4;
+        InitialView.OnClick = _ => Layout_InitialViewClick_4();
         session.EndRead(InitialView);
         FinalView = new TAOWButton(this);
         session.BeginRead(FinalView);
@@ -1200,7 +1200,7 @@ public partial class TFastCombatWindow : ILayoutModule
         FinalView.TextColor = 0;
         FinalView.TextSelColor = 0;
         FinalView.WinWidth = 24;
-        FinalView.OnClick = Layout_FinalViewClick_5;
+        FinalView.OnClick = _ => Layout_FinalViewClick_5();
         session.EndRead(FinalView);
         PlayBtn = new TAOWButton(this);
         session.BeginRead(PlayBtn);
@@ -1234,7 +1234,7 @@ public partial class TFastCombatWindow : ILayoutModule
         PlayBtn.TextColor = 0;
         PlayBtn.TextSelColor = 0;
         PlayBtn.WinWidth = 48;
-        PlayBtn.OnClick = Layout_PlayBtnClick_6;
+        PlayBtn.OnClick = _ => Layout_PlayBtnClick_6();
         session.EndRead(PlayBtn);
         PauseBtn = new TAOWButton(this);
         session.BeginRead(PauseBtn);
@@ -1268,7 +1268,7 @@ public partial class TFastCombatWindow : ILayoutModule
         PauseBtn.TextColor = 0;
         PauseBtn.TextSelColor = 0;
         PauseBtn.WinWidth = 24;
-        PauseBtn.OnClick = Layout_PauseBtnClick_7;
+        PauseBtn.OnClick = _ => Layout_PauseBtnClick_7();
         session.EndRead(PauseBtn);
         SequencePositionSld = new TAOWHScrollBar(this);
         session.BeginRead(SequencePositionSld);
@@ -1298,7 +1298,7 @@ public partial class TFastCombatWindow : ILayoutModule
         SequencePositionSld.WinHeight = 11;
         SequencePositionSld.WinWidth = 40;
         SequencePositionSld.NumberVisible = 1;
-        SequencePositionSld.OnChange = Layout_SequencePositionSldChange_8;
+        SequencePositionSld.OnChange = _ => Layout_SequencePositionSldChange_8();
         SequencePositionSld.VanishWhenFull = false;
         SequencePositionSld.ILIndexIncUp = 0;
         SequencePositionSld.ILIndexIncDown = 0;
@@ -1335,7 +1335,7 @@ public partial class TFastCombatWindow : ILayoutModule
         SequenceSpeedSld.WinHeight = 11;
         SequenceSpeedSld.WinWidth = 40;
         SequenceSpeedSld.NumberVisible = 1;
-        SequenceSpeedSld.OnChange = Layout_SequenceSpeedSldChange_9;
+        SequenceSpeedSld.OnChange = _ => Layout_SequenceSpeedSldChange_9();
         SequenceSpeedSld.VanishWhenFull = false;
         SequenceSpeedSld.ILIndexIncUp = 0;
         SequenceSpeedSld.ILIndexIncDown = 0;
@@ -1785,52 +1785,52 @@ public partial class TFastCombatWindow : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_FastCombatWindowCreate_0(TObject p0)
+    private void Layout_FastCombatWindowCreate_0()
     {
         FastCombatWindowCreate();
     }
 
-    private void Layout_FastCombatWindowDestroy_1(TObject p0)
+    private void Layout_FastCombatWindowDestroy_1()
     {
         FastCombatWindowDestroy();
     }
 
-    private void Layout_FCWinHide_2(TObject p0)
+    private void Layout_FCWinHide_2()
     {
         FCWinHide();
     }
 
-    private void Layout_CloseButClick_3(TObject p0)
+    private void Layout_CloseButClick_3()
     {
         CloseButClick();
     }
 
-    private void Layout_InitialViewClick_4(TObject p0)
+    private void Layout_InitialViewClick_4()
     {
         InitialViewClick();
     }
 
-    private void Layout_FinalViewClick_5(TObject p0)
+    private void Layout_FinalViewClick_5()
     {
         FinalViewClick();
     }
 
-    private void Layout_PlayBtnClick_6(TObject p0)
+    private void Layout_PlayBtnClick_6()
     {
         PlayBtnClick();
     }
 
-    private void Layout_PauseBtnClick_7(TObject p0)
+    private void Layout_PauseBtnClick_7()
     {
         PauseBtnClick();
     }
 
-    private void Layout_SequencePositionSldChange_8(TObject p0)
+    private void Layout_SequencePositionSldChange_8()
     {
         SequencePositionSldChange();
     }
 
-    private void Layout_SequenceSpeedSldChange_9(TObject p0)
+    private void Layout_SequenceSpeedSldChange_9()
     {
         SequenceSpeedSldChange();
     }

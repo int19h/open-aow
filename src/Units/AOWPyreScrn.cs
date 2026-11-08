@@ -92,13 +92,13 @@ public partial class TPyreScreen : TDataModule
     }
 
     // AOWPyreScrn.pas:51
-    public void DeadPnlMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void DeadPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         FinishScreen();
     }
 
     // AOWPyreScrn.pas:54
-    public void LeaderFaceFrPreDraw(TObject Sender, TSurfaceDesc SD)
+    public void LeaderFaceFrPreDraw(TSurfaceDesc SD)
     {
         TRect R = default;
         if (AoWHSMap != null)
@@ -129,7 +129,7 @@ public partial class TPyreScreen : TDataModule
     }
 
     // AOWPyreScrn.pas:77
-    public void PyreAnimationDraw(TObject Sender, TSurfaceDesc SD)
+    public void PyreAnimationDraw(TSurfaceDesc SD)
     {
         int X;
         int Y;
@@ -166,7 +166,7 @@ public partial class TPyreScreen : TDataModule
     }
 
     // AOWPyreScrn.pas:110
-    public void DeadPnlKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DeadPnlKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         switch (Key)
         {

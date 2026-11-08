@@ -123,19 +123,17 @@ public partial class TCityTargetSpell : TSpell
     }
 
     // CitySpells.pas:288
-    public virtual void OnTargetSelectionChange(TObject Sender)
+    public virtual void OnTargetSelectionChange(TTargetSelectionControl TargetSelection)
     {
-        TTargetSelectionControl TargetSelection = default;
         TAbstractUnit Source = default;
         bool Valid = default;
-        TargetSelection = (TTargetSelectionControl)Sender;
         Source = AoWHSMap.FUnitControl.FindUnit(FSourceID);
         if (Source != null)
         {
             switch (TargetSelection.FChange)
             {
                 case TTargetSelectionChange.tscDeactivated:
-                    TargetSelection.FOnChange.Remove(OnTargetSelectionChange);
+                    TargetSelection.FOnChange -= OnTargetSelectionChange;
                     TargetSelection.Deactivate();
                     break;
                 case TTargetSelectionChange.tscSelected:
@@ -144,7 +142,7 @@ public partial class TCityTargetSpell : TSpell
                     {
                         if (TargetSelected(Source, TargetSelection.FTargetX, TargetSelection.FTargetY, TargetSelection.FTargetL))
                         {
-                            TargetSelection.FOnChange.Remove(OnTargetSelectionChange);
+                            TargetSelection.FOnChange -= OnTargetSelectionChange;
                             TargetSelection.Deactivate();
                         }
                     }
@@ -154,7 +152,7 @@ public partial class TCityTargetSpell : TSpell
         }
         else
         {
-            TargetSelection.FOnChange.Remove(OnTargetSelectionChange);
+            TargetSelection.FOnChange -= OnTargetSelectionChange;
             TargetSelection.Deactivate();
         }
     }
@@ -235,13 +233,13 @@ public partial class TCityTargetSpell : TSpell
         TargetSelection.FSourceY = Y;
         TargetSelection.FSourceL = L;
         TargetSelection.FRange = 12;
-        if (TargetSelection.FOnChange.Count > 1)
+        if (TargetSelection.FOnChangeStore.Count > 1)
         {
             // { Original rejects two existing listeners. }
             throw Exception.Create("oohps");
         }
 
-        TargetSelection.FOnChange.Add(OnTargetSelectionChange);
+        TargetSelection.FOnChange += OnTargetSelectionChange;
         TargetSelection.FOnValidateTarget = ValidateTarget;
     }
 

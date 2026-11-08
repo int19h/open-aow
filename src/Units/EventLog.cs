@@ -451,7 +451,7 @@ public partial class TEventLogList : TENode
     { }
 
     public int FUpdateCount;
-    public TNotifyEvent FOnChanged;
+    public TNotifyEvent<TObject> FOnChanged;
 
     // EventLog.pas:481
     public override void MainReadWrite(TEStorageStream Stream)
@@ -625,10 +625,10 @@ public partial class TEventLogbook : TEObject
     public int GetCount() => FEvents.GetCount();
 
     // EventLog.pas:541
-    public TNotifyEvent GetOnChanged() => FEvents.FOnChanged;
+    public TNotifyEvent<TObject> GetOnChanged() => FEvents.FOnChanged;
 
     // EventLog.pas:544
-    public void SetOnChanged(TNotifyEvent Value)
+    public void SetOnChanged(TNotifyEvent<TObject> Value)
     {
         FEvents.FOnChanged = Value;
     }

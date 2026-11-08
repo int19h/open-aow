@@ -131,18 +131,18 @@ public partial class TGamePlayDlg : TDataModule
     }
 
     // AoWGamePlayDlg.pas:95
-    public void GamePlayDlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void GamePlayDlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         switch (Key)
         {
             case 27:
-                CancelClick(this);
+                CancelClick();
                 break;
         }
     }
 
     // AoWGamePlayDlg.pas:100
-    public void GamePlayDlgShow(TObject Sender)
+    public void GamePlayDlgShow()
     {
         TCombatResolveMode Mode;
         TSet<TWindowPopupEvent> Events;
@@ -199,7 +199,7 @@ public partial class TGamePlayDlg : TDataModule
     }
 
     // AoWGamePlayDlg.pas:147
-    public void OKBtnClick(TObject Sender)
+    public void OKBtnClick()
     {
         string Error = "";
         TSet<TWindowPopupEvent> Events;
@@ -317,7 +317,7 @@ public partial class TGamePlayDlg : TDataModule
     }
 
     // AoWGamePlayDlg.pas:194
-    public void CancelClick(TObject Sender)
+    public void CancelClick()
     {
         General.PlayButtonSound(0);
         GamePlayDlg.Visible = false;

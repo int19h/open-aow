@@ -186,7 +186,7 @@ public sealed class OfflineStubTests
         window.TCPName.Text = "Gorbag";
 
         window.FindClick();
-        window.HostClick(null!);
+        window.HostClick();
 
         Assert.Equal([AOWMultiWinUnit.NetworkPlayNotAvailableText, AOWMultiWinUnit.NetworkPlayNotAvailableText], messages);
         Assert.Equal("Network play is not available in this version.", AOWMultiWinUnit.NetworkPlayNotAvailableText);
@@ -212,7 +212,7 @@ public sealed class OfflineStubTests
         window.MultiPnl.Visible = false;
         window.TCPBtn.Visible = false;
 
-        setup.ExitGameClick(null!);
+        setup.ExitGameClick();
 
         Assert.False(setup.ScenSetupPnl.Visible);
         Assert.Null(setup.FSetupControl);

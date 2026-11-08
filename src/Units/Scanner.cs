@@ -1,6 +1,7 @@
 // Translated from Scanner.pas.
 using System.Runtime.CompilerServices;
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AoWE;
 using Aow.Units.AOWInterfaceImgLib;
@@ -32,7 +33,7 @@ public partial class TScanner : TAOWControl
     public bool FBuildings;
     public bool FArmies;
     public bool FNaturals;
-    public TNotifyEvent FOnMapPositionChange;
+    public TNotifyEvent<TScanner> FOnMapPositionChange;
     public int FSteps;
     public AoWE.TAbstractAoWHSMap FMap;
     public TInterfaceIL FILFrame;
@@ -968,7 +969,7 @@ public partial class TScanner : TAOWControl
     public bool Naturals { get => FNaturals; set => SetNaturals(value); }
 
     [Published]
-    public TNotifyEvent OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
+    public TNotifyEvent<TScanner> OnChangeTileBox { get => FOnMapPositionChange; set => FOnMapPositionChange = value; }
 
     [Published]
     public int MapDrawSteps { get => FSteps; set => SetSteps(value); }
@@ -978,6 +979,60 @@ public partial class TScanner : TAOWControl
 
     [Published]
     public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
+
+    public new TNotifyEvent<TScanner> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TScanner> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TScanner> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TScanner> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TScanner> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TScanner> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TScanner> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TScanner> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TScanner> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
 }
 
 public enum TOType : byte

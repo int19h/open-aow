@@ -44,7 +44,7 @@ public partial class TLeaderGrid : TCustomImageDrawGrid
     }
 
     // LeadrGrd.pas:118
-    public void LeadersUpdated(TObject Sender)
+    public void LeadersUpdated()
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();

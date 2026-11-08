@@ -128,7 +128,7 @@ public partial class TCastUnitSpellDlg : TDataModule
     }
 
     // AoWCastUnitSpellDlg.pas:163
-    public void FaceFramePreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
+    public void FaceFramePreDraw(TSurfaceDesc Surface)
     {
         TAbstractUnit U;
         TRect R = default;
@@ -153,7 +153,7 @@ public partial class TCastUnitSpellDlg : TDataModule
     }
 
     // AoWCastUnitSpellDlg.pas:191
-    public void SpellFrPreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
+    public void SpellFrPreDraw(TSurfaceDesc Surface)
     {
         TSpell Spell;
         TRect R = default;
@@ -193,10 +193,10 @@ public partial class TCastUnitSpellDlg : TDataModule
         }
     }
 
-    public void U1Change(TAOWCheckBox sender)
+    public void U1Change(TAOWCheckBox sender, int slot)
     {
         byte oldSelection = FCaster.FSelectionMask;
-        int bit = 1 << sender.Tag;
+        int bit = 1 << slot;
         FCaster.SetSelection((byte)(sender.Checked
             ? FCaster.FAllowMultipleTargets ? FCaster.FSelectionMask | bit : bit
             : FCaster.FSelectionMask & ~bit));
@@ -216,9 +216,9 @@ public partial class TCastUnitSpellDlg : TDataModule
             ": " + IntToStr(FCaster.GetRequiredMana());
     }
 
-    // AoWCastUnitSpellDlg.pas:183. The sender is a unit checkbox.
-    public void U1PreDraw(TAoWComponent sender, TSurfaceDesc surface) =>
-        DrawUnit(sender.Tag, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref surface);
+    // AoWCastUnitSpellDlg.pas:183
+    public void U1PreDraw(TAOWCheckBox sender, TSurfaceDesc surface, int slot) =>
+        DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref surface);
 }
 
 public static partial class AoWCastUnitSpellDlgUnit

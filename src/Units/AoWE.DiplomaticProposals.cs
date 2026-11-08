@@ -198,7 +198,7 @@ public abstract record DiplomaticProposal
         AoWHSMap.FPlayers.GetPlayers(Action.FTarget).FEventLogbook.AddEvent(Log);
         ShowTo(Log, Action.FTarget);
         Log.Release();
-        AoWHSMap.FDiplomaticRelationsChangedEvents.TriggerNotifyEvents(Action);
+        AoWHSMap.FDiplomaticRelationsChangedEventsStore.Raise(Action);
     }
 
     // Drops the target's logbook entry of the answered proposal.

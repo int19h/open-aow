@@ -1516,7 +1516,7 @@ public partial class TDisjunction : TSpell
             Caster = new TDisjunctionSpellCaster(null);
             Caster.FCasterSpellID = FSpellID;
             Caster.FCasterSourceID = Source.FUnitID;
-            AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
+            AoWHSMap.FCosmeticSurgeryEventsStore.Raise(Caster);
             Caster.Release();
             Result = true;
         }

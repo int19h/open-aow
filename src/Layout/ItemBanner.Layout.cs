@@ -51,14 +51,14 @@ public partial class TItemBanner : ILayoutModule
         IBannerPopup = new TAOWMenu(this);
         session.BeginRead(IBannerPopup);
         IBannerPopup.Name = "IBannerPopup";
-        IBannerPopup.OnMouseDown = Layout_IBannerPopupMouseDown_0;
+        IBannerPopup.OnMouseDown = (_, button, shift, x, y) => Layout_IBannerPopupMouseDown_0(button, shift, x, y);
         IBannerPopup.Visible = false;
         IBannerPopup.Priority = 350;
         IBannerPopup.WinLeft = 0;
         IBannerPopup.WinTop = 0;
         IBannerPopup.WinWidth = 160;
         IBannerPopup.Masked = true;
-        IBannerPopup.OnShow = IBannerPopupShow;
+        IBannerPopup.OnShow = _ => IBannerPopupShow();
         IBannerPopup.Alignment.AlignWidth = TAOWAlignWidth.awNone;
         IBannerPopup.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
         IBannerPopup.Alignment.HeightPercent = 0;
@@ -292,7 +292,7 @@ public partial class TItemBanner : ILayoutModule
         DrawBox = new TaowUserDrawBox(this);
         session.BeginRead(DrawBox);
         DrawBox.Name = "DrawBox";
-        DrawBox.OnPreDraw = DrawBoxPreDraw;
+        DrawBox.OnPreDraw = (_, SurfDesc) => DrawBoxPreDraw(SurfDesc);
         DrawBox.Priority = 0;
         DrawBox.WinLeft = 0;
         DrawBox.WinTop = 0;
@@ -436,7 +436,7 @@ public partial class TItemBanner : ILayoutModule
         AbVSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
     }
 
-    private void Layout_IBannerPopupMouseDown_0(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
+    private void Layout_IBannerPopupMouseDown_0(TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
         IBannerPopupMouseDown(default(int), (byte)p1, default(int), default(int), default(int));
     }

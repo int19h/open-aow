@@ -31,7 +31,7 @@ public partial class TDWin : ILayoutModule
         Dialog = new TAOWWindow(this);
         session.BeginRead(Dialog);
         Dialog.Name = "Dialog";
-        Dialog.OnKeyDown = DialogKeyDown;
+        Dialog.OnKeyDown = (_, ref key, shift) => DialogKeyDown(ref key, shift);
         Dialog.Visible = false;
         Dialog.Priority = 300;
         Dialog.WinLeft = 157;
@@ -145,7 +145,7 @@ public partial class TDWin : ILayoutModule
         DButton.TextColor = 7921903;
         DButton.TextSelColor = 16777215;
         DButton.WinWidth = 140;
-        DButton.OnClick = DButtonClick;
+        DButton.OnClick = _ => DButtonClick();
         session.EndRead(DButton);
         DebugWin = new TAOWWindow(this);
         session.BeginRead(DebugWin);
@@ -242,7 +242,7 @@ public partial class TDWin : ILayoutModule
         DebugDOkBtn.TextColor = 0;
         DebugDOkBtn.TextSelColor = 0;
         DebugDOkBtn.WinWidth = 160;
-        DebugDOkBtn.OnClick = Layout_DebugDOkBtnClick_0;
+        DebugDOkBtn.OnClick = _ => Layout_DebugDOkBtnClick_0();
         session.EndRead(DebugDOkBtn);
         FrameLbl = new TAOWLabel(this);
         session.BeginRead(FrameLbl);
@@ -443,7 +443,7 @@ public partial class TDWin : ILayoutModule
         yesBtn.TextColor = 0;
         yesBtn.TextSelColor = 16777215;
         yesBtn.WinWidth = 105;
-        yesBtn.OnClick = yesBtnClick;
+        yesBtn.OnClick = _ => yesBtnClick();
         session.EndRead(yesBtn);
         noBtn = new TAOWButton(this);
         session.BeginRead(noBtn);
@@ -474,7 +474,7 @@ public partial class TDWin : ILayoutModule
         noBtn.TextColor = 0;
         noBtn.TextSelColor = 16777215;
         noBtn.WinWidth = 105;
-        noBtn.OnClick = DButtonClick;
+        noBtn.OnClick = _ => DButtonClick();
         session.EndRead(noBtn);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -790,7 +790,7 @@ public partial class TDWin : ILayoutModule
         SIcon.ImageLib = aowIntGfxModUnit.IntGfxMod.TitleIcons;
     }
 
-    private void Layout_DebugDOkBtnClick_0(TObject p0)
+    private void Layout_DebugDOkBtnClick_0()
     {
         DebugDOkBtnClick();
     }

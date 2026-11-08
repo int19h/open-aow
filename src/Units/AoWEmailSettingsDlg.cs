@@ -37,7 +37,7 @@ public partial class TEmailSettingsDlg : TDataModule
     public TIvTranslator Translator;
 
     // AoWEmailSettingsDlg.pas:49
-    public void OKBtnClick(TObject Sender)
+    public void OKBtnClick()
     {
         AoWEngine.FRegistry.SetLocalEmailAddress(LocalEmailAddressEdit.Text);
         AoWEngine.FRegistry.SetSMTPServer(SMTPServerEdit.Text);
@@ -46,13 +46,13 @@ public partial class TEmailSettingsDlg : TDataModule
     }
 
     // AoWEmailSettingsDlg.pas:57
-    public void CancelBtnClick(TObject Sender)
+    public void CancelBtnClick()
     {
         Dlg.Visible = false;
     }
 
     // AoWEmailSettingsDlg.pas:60
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

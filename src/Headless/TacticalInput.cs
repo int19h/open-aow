@@ -8,13 +8,13 @@ internal static class TacticalInput
 {
     public static void Install(TAoWHSMap world, THSMapViewer viewer)
     {
-        world.FCombatMapCreatedEvents.Add(_ =>
+        world.FCombatMapCreatedEvents += _ =>
         {
             var combat = (TAoWCombatMap)world.FCombatMap;
             viewer.HSMap = combat;
             // TTBWindow.TCTurnButtonAnimDone completes the turn banner before CPU input.
-            combat.FChangeTurnEvents.Add(_ => combat.FEndTurnPending = true);
-        });
-        world.FCombatMapDestroyedEvents.Add(_ => viewer.HSMap = world);
+            combat.FChangeTurnEvents += _ => combat.FEndTurnPending = true;
+        };
+        world.FCombatMapDestroyedEvents += _ => viewer.HSMap = world;
     }
 }

@@ -36,7 +36,7 @@ public partial class TCampaignSettingsDlg : TDataModule
     public TAOWImage TCeltLineL;
 
     // AoWCampaignSettings.pas:45
-    public void DlgShow(TObject Sender)
+    public void DlgShow()
     {
         TCampaignDifficultyLevel Level;
         DifficultyLevelCB.Items.Clear();

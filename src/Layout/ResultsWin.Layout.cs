@@ -27,12 +27,12 @@ public partial class TResultsWin : ILayoutModule
     {
         session.Begin(this);
         Name = "ResultsWin";
-        LayoutOnCreate = Layout_ResultsWinCreate_0;
-        LayoutOnDestroy = Layout_ResultsWinDestroy_1;
+        LayoutOnCreate = _ => Layout_ResultsWinCreate_0();
+        LayoutOnDestroy = _ => Layout_ResultsWinDestroy_1();
         P1CB = new TAOWCheckBox(this);
         session.BeginRead(P1CB);
         P1CB.Name = "P1CB";
-        P1CB.OnPreDraw = P1CBPreDraw;
+        P1CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 0);
         P1CB.Priority = 800;
         P1CB.WinLeft = 14;
         P1CB.WinTop = 375;
@@ -63,14 +63,14 @@ public partial class TResultsWin : ILayoutModule
         P1CB.TextSelColor = 0;
         P1CB.WinWidth = 52;
         P1CB.Checked = false;
-        P1CB.OnChange = P1CBChange;
+        P1CB.OnChange = sender => P1CBChange(sender, 0);
         P1CB.RadioIndex = 1;
         session.EndRead(P1CB);
         P2CB = new TAOWCheckBox(this);
         session.BeginRead(P2CB);
         P2CB.Name = "P2CB";
         P2CB.Tag = 1;
-        P2CB.OnPreDraw = P1CBPreDraw;
+        P2CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 1);
         P2CB.Priority = 800;
         P2CB.WinLeft = 65;
         P2CB.WinTop = 375;
@@ -101,14 +101,14 @@ public partial class TResultsWin : ILayoutModule
         P2CB.TextSelColor = 0;
         P2CB.WinWidth = 52;
         P2CB.Checked = false;
-        P2CB.OnChange = P1CBChange;
+        P2CB.OnChange = sender => P1CBChange(sender, 1);
         P2CB.RadioIndex = 1;
         session.EndRead(P2CB);
         P3CB = new TAOWCheckBox(this);
         session.BeginRead(P3CB);
         P3CB.Name = "P3CB";
         P3CB.Tag = 2;
-        P3CB.OnPreDraw = P1CBPreDraw;
+        P3CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 2);
         P3CB.Priority = 800;
         P3CB.WinLeft = 116;
         P3CB.WinTop = 375;
@@ -139,14 +139,14 @@ public partial class TResultsWin : ILayoutModule
         P3CB.TextSelColor = 0;
         P3CB.WinWidth = 52;
         P3CB.Checked = false;
-        P3CB.OnChange = P1CBChange;
+        P3CB.OnChange = sender => P1CBChange(sender, 2);
         P3CB.RadioIndex = 1;
         session.EndRead(P3CB);
         P4CB = new TAOWCheckBox(this);
         session.BeginRead(P4CB);
         P4CB.Name = "P4CB";
         P4CB.Tag = 3;
-        P4CB.OnPreDraw = P1CBPreDraw;
+        P4CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 3);
         P4CB.Priority = 800;
         P4CB.WinLeft = 167;
         P4CB.WinTop = 375;
@@ -177,14 +177,14 @@ public partial class TResultsWin : ILayoutModule
         P4CB.TextSelColor = 0;
         P4CB.WinWidth = 52;
         P4CB.Checked = false;
-        P4CB.OnChange = P1CBChange;
+        P4CB.OnChange = sender => P1CBChange(sender, 3);
         P4CB.RadioIndex = 1;
         session.EndRead(P4CB);
         P5CB = new TAOWCheckBox(this);
         session.BeginRead(P5CB);
         P5CB.Name = "P5CB";
         P5CB.Tag = 4;
-        P5CB.OnPreDraw = P1CBPreDraw;
+        P5CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 4);
         P5CB.Priority = 800;
         P5CB.WinLeft = 218;
         P5CB.WinTop = 375;
@@ -215,14 +215,14 @@ public partial class TResultsWin : ILayoutModule
         P5CB.TextSelColor = 0;
         P5CB.WinWidth = 52;
         P5CB.Checked = false;
-        P5CB.OnChange = P1CBChange;
+        P5CB.OnChange = sender => P1CBChange(sender, 4);
         P5CB.RadioIndex = 1;
         session.EndRead(P5CB);
         P6CB = new TAOWCheckBox(this);
         session.BeginRead(P6CB);
         P6CB.Name = "P6CB";
         P6CB.Tag = 5;
-        P6CB.OnPreDraw = P1CBPreDraw;
+        P6CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 5);
         P6CB.Priority = 800;
         P6CB.WinLeft = 269;
         P6CB.WinTop = 375;
@@ -253,14 +253,14 @@ public partial class TResultsWin : ILayoutModule
         P6CB.TextSelColor = 0;
         P6CB.WinWidth = 52;
         P6CB.Checked = false;
-        P6CB.OnChange = P1CBChange;
+        P6CB.OnChange = sender => P1CBChange(sender, 5);
         P6CB.RadioIndex = 1;
         session.EndRead(P6CB);
         P7CB = new TAOWCheckBox(this);
         session.BeginRead(P7CB);
         P7CB.Name = "P7CB";
         P7CB.Tag = 6;
-        P7CB.OnPreDraw = P1CBPreDraw;
+        P7CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 6);
         P7CB.Priority = 800;
         P7CB.WinLeft = 320;
         P7CB.WinTop = 375;
@@ -291,14 +291,14 @@ public partial class TResultsWin : ILayoutModule
         P7CB.TextSelColor = 0;
         P7CB.WinWidth = 52;
         P7CB.Checked = false;
-        P7CB.OnChange = P1CBChange;
+        P7CB.OnChange = sender => P1CBChange(sender, 6);
         P7CB.RadioIndex = 1;
         session.EndRead(P7CB);
         P8CB = new TAOWCheckBox(this);
         session.BeginRead(P8CB);
         P8CB.Name = "P8CB";
         P8CB.Tag = 7;
-        P8CB.OnPreDraw = P1CBPreDraw;
+        P8CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 7);
         P8CB.Priority = 800;
         P8CB.WinLeft = 371;
         P8CB.WinTop = 375;
@@ -329,14 +329,14 @@ public partial class TResultsWin : ILayoutModule
         P8CB.TextSelColor = 0;
         P8CB.WinWidth = 52;
         P8CB.Checked = false;
-        P8CB.OnChange = P1CBChange;
+        P8CB.OnChange = sender => P1CBChange(sender, 7);
         P8CB.RadioIndex = 1;
         session.EndRead(P8CB);
         P9CB = new TAOWCheckBox(this);
         session.BeginRead(P9CB);
         P9CB.Name = "P9CB";
         P9CB.Tag = 8;
-        P9CB.OnPreDraw = P1CBPreDraw;
+        P9CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 8);
         P9CB.Priority = 800;
         P9CB.WinLeft = 422;
         P9CB.WinTop = 375;
@@ -367,14 +367,14 @@ public partial class TResultsWin : ILayoutModule
         P9CB.TextSelColor = 0;
         P9CB.WinWidth = 52;
         P9CB.Checked = false;
-        P9CB.OnChange = P1CBChange;
+        P9CB.OnChange = sender => P1CBChange(sender, 8);
         P9CB.RadioIndex = 1;
         session.EndRead(P9CB);
         P10CB = new TAOWCheckBox(this);
         session.BeginRead(P10CB);
         P10CB.Name = "P10CB";
         P10CB.Tag = 9;
-        P10CB.OnPreDraw = P1CBPreDraw;
+        P10CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 9);
         P10CB.Priority = 800;
         P10CB.WinLeft = 473;
         P10CB.WinTop = 375;
@@ -405,14 +405,14 @@ public partial class TResultsWin : ILayoutModule
         P10CB.TextSelColor = 0;
         P10CB.WinWidth = 52;
         P10CB.Checked = false;
-        P10CB.OnChange = P1CBChange;
+        P10CB.OnChange = sender => P1CBChange(sender, 9);
         P10CB.RadioIndex = 1;
         session.EndRead(P10CB);
         P11CB = new TAOWCheckBox(this);
         session.BeginRead(P11CB);
         P11CB.Name = "P11CB";
         P11CB.Tag = 10;
-        P11CB.OnPreDraw = P1CBPreDraw;
+        P11CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 10);
         P11CB.Priority = 800;
         P11CB.WinLeft = 524;
         P11CB.WinTop = 375;
@@ -443,14 +443,14 @@ public partial class TResultsWin : ILayoutModule
         P11CB.TextSelColor = 0;
         P11CB.WinWidth = 52;
         P11CB.Checked = false;
-        P11CB.OnChange = P1CBChange;
+        P11CB.OnChange = sender => P1CBChange(sender, 10);
         P11CB.RadioIndex = 1;
         session.EndRead(P11CB);
         P12CB = new TAOWCheckBox(this);
         session.BeginRead(P12CB);
         P12CB.Name = "P12CB";
         P12CB.Tag = 11;
-        P12CB.OnPreDraw = P1CBPreDraw;
+        P12CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 11);
         P12CB.Priority = 800;
         P12CB.WinLeft = 575;
         P12CB.WinTop = 375;
@@ -481,7 +481,7 @@ public partial class TResultsWin : ILayoutModule
         P12CB.TextSelColor = 0;
         P12CB.WinWidth = 52;
         P12CB.Checked = false;
-        P12CB.OnChange = P1CBChange;
+        P12CB.OnChange = sender => P1CBChange(sender, 11);
         P12CB.RadioIndex = 1;
         session.EndRead(P12CB);
         StrLbl = new TAOWLabel(this);
@@ -625,7 +625,7 @@ public partial class TResultsWin : ILayoutModule
         Axis = new TAOWImage(this);
         session.BeginRead(Axis);
         Axis.Name = "Axis";
-        Axis.OnDraw = AxisDraw;
+        Axis.OnDraw = (_, SurfDesc) => AxisDraw(SurfDesc);
         Axis.Priority = 200;
         Axis.WinLeft = 149;
         Axis.WinTop = 48;
@@ -681,7 +681,7 @@ public partial class TResultsWin : ILayoutModule
         ExitBtn.TextColor = 0;
         ExitBtn.TextSelColor = 0;
         ExitBtn.WinWidth = 120;
-        ExitBtn.OnClick = Layout_ExitBtnClick_2;
+        ExitBtn.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(ExitBtn);
         FaceGrid = new TAOWImage(this);
         session.BeginRead(FaceGrid);
@@ -771,19 +771,19 @@ public partial class TResultsWin : ILayoutModule
         ContinueBtn.TextColor = 0;
         ContinueBtn.TextSelColor = 0;
         ContinueBtn.WinWidth = 119;
-        ContinueBtn.OnClick = Layout_ContinueBtnClick_3;
+        ContinueBtn.OnClick = _ => Layout_ContinueBtnClick_3();
         session.EndRead(ContinueBtn);
         ResultsPnl = new TAOWPanel(this);
         session.BeginRead(ResultsPnl);
         ResultsPnl.Name = "ResultsPnl";
-        ResultsPnl.OnUpdate = Layout_ResultsPnlUpdate_4;
+        ResultsPnl.OnUpdate = _ => Layout_ResultsPnlUpdate_4();
         ResultsPnl.Visible = false;
         ResultsPnl.Priority = 5;
         ResultsPnl.WinLeft = 0;
         ResultsPnl.WinTop = 0;
         ResultsPnl.WinWidth = 640;
         ResultsPnl.Masked = true;
-        ResultsPnl.OnShow = Layout_ResultsPnlShow_5;
+        ResultsPnl.OnShow = _ => Layout_ResultsPnlShow_5();
         ResultsPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         ResultsPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         ResultsPnl.Alignment.HeightPercent = 0;
@@ -836,7 +836,7 @@ public partial class TResultsWin : ILayoutModule
         StrengthCB.TextSelColor = 0;
         StrengthCB.WinWidth = 12;
         StrengthCB.Checked = true;
-        StrengthCB.OnChange = Layout_AgendaChange_6;
+        StrengthCB.OnChange = _ => Layout_AgendaChange_6();
         StrengthCB.RadioIndex = 1;
         session.EndRead(StrengthCB);
         AgendaPnl = new TAOWPanel(this);
@@ -922,7 +922,7 @@ public partial class TResultsWin : ILayoutModule
         GoldCB.TextSelColor = 0;
         GoldCB.WinWidth = 12;
         GoldCB.Checked = false;
-        GoldCB.OnChange = Layout_AgendaChange_6;
+        GoldCB.OnChange = _ => Layout_AgendaChange_6();
         GoldCB.RadioIndex = 1;
         session.EndRead(GoldCB);
         GoldLbl = new TAOWLabel(this);
@@ -981,7 +981,7 @@ public partial class TResultsWin : ILayoutModule
         ArmiesCB.TextSelColor = 0;
         ArmiesCB.WinWidth = 12;
         ArmiesCB.Checked = false;
-        ArmiesCB.OnChange = Layout_AgendaChange_6;
+        ArmiesCB.OnChange = _ => Layout_AgendaChange_6();
         ArmiesCB.RadioIndex = 1;
         session.EndRead(ArmiesCB);
         ArmiesLbl = new TAOWLabel(this);
@@ -1040,7 +1040,7 @@ public partial class TResultsWin : ILayoutModule
         HeroesCB.TextSelColor = 0;
         HeroesCB.WinWidth = 12;
         HeroesCB.Checked = false;
-        HeroesCB.OnChange = Layout_AgendaChange_6;
+        HeroesCB.OnChange = _ => Layout_AgendaChange_6();
         HeroesCB.RadioIndex = 1;
         session.EndRead(HeroesCB);
         HeroesLbl = new TAOWLabel(this);
@@ -1099,7 +1099,7 @@ public partial class TResultsWin : ILayoutModule
         StructuresCB.TextSelColor = 0;
         StructuresCB.WinWidth = 12;
         StructuresCB.Checked = false;
-        StructuresCB.OnChange = Layout_AgendaChange_6;
+        StructuresCB.OnChange = _ => Layout_AgendaChange_6();
         StructuresCB.RadioIndex = 1;
         session.EndRead(StructuresCB);
         StructuresLbl = new TAOWLabel(this);
@@ -1393,37 +1393,37 @@ public partial class TResultsWin : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_ResultsWinCreate_0(TObject p0)
+    private void Layout_ResultsWinCreate_0()
     {
         ResultsWinCreate();
     }
 
-    private void Layout_ResultsWinDestroy_1(TObject p0)
+    private void Layout_ResultsWinDestroy_1()
     {
         ResultsWinDestroy();
     }
 
-    private void Layout_ExitBtnClick_2(TObject p0)
+    private void Layout_ExitBtnClick_2()
     {
         ExitBtnClick();
     }
 
-    private void Layout_ContinueBtnClick_3(TObject p0)
+    private void Layout_ContinueBtnClick_3()
     {
         ContinueBtnClick();
     }
 
-    private void Layout_ResultsPnlUpdate_4(TObject p0)
+    private void Layout_ResultsPnlUpdate_4()
     {
         ResultsPnlUpdate();
     }
 
-    private void Layout_ResultsPnlShow_5(TObject p0)
+    private void Layout_ResultsPnlShow_5()
     {
         ResultsPnlShow();
     }
 
-    private void Layout_AgendaChange_6(TObject p0)
+    private void Layout_AgendaChange_6()
     {
         AgendaChange();
     }

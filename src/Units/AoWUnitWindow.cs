@@ -281,18 +281,18 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:502
-    public void HelpClick(TObject Sender)
+    public void HelpClick()
     {
         General.PlayButtonSound(0);
     }
 
     // AoWUnitWindow.pas:507
-    public void T1AbilityLBChange(TObject Sender)
+    public void T1AbilityLBChange(TAOWListBox Sender)
     {
         TAbility A;
-        T1AbilityLB.Selected = ((TAOWListBox)Sender).Selected;
-        T1TypeLB.Selected = ((TAOWListBox)Sender).Selected;
-        T1SrcLB.Selected = ((TAOWListBox)Sender).Selected;
+        T1AbilityLB.Selected = Sender.Selected;
+        T1TypeLB.Selected = Sender.Selected;
+        T1SrcLB.Selected = Sender.Selected;
         if (AoWHSMap.FCombatMap == null)
         {
             if (General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer && T1AbilityLB.Selected > -1)
@@ -369,22 +369,22 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:562
-    public void T1SbarChange(TObject Sender)
+    public void T1SbarChange()
     {
         T1AbilityLB.ListOffset = T1SBar.Position;
         T1TypeLB.ListOffset = T1SBar.Position;
     }
 
     // AoWUnitWindow.pas:568
-    public void ItemRHMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void ItemRHMouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAOWCheckBox Check;
-        Check = (TAOWCheckBox)Sender;
+        Check = Sender;
         AoWItemBannerUnit.ItemID = Check.Tag;
     }
 
     // AoWUnitWindow.pas:575
-    public void UnitWinResize(TObject Sender)
+    public void UnitWinResize()
     {
         this.UnitWin.Alignment.LeftOffset = this.UnitWin.WinLeft;
         this.UnitWin.Alignment.TopOffset = this.UnitWin.WinTop;
@@ -393,13 +393,13 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:586
-    public void UnitWindowCreate(TObject Sender)
+    public void UnitWindowCreate()
     {
         FItemType = (TItemType)6;
     }
 
     // AoWUnitWindow.pas:591
-    public void UnitWinUpdate(TObject Sender)
+    public void UnitWinUpdate()
     {
         if (UnitWin.Visible)
         {
@@ -443,7 +443,7 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:620
-    public void T1SortNameClick(TObject Sender, int Button)
+    public void T1SortNameClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -456,7 +456,7 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:631
-    public void T1SortTypeClick(TObject Sender, int Button)
+    public void T1SortTypeClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -469,7 +469,7 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:642
-    public void T1SortSourceClick(TObject Sender, int Button)
+    public void T1SortSourceClick(int Button)
     {
         TList Lists;
         General.PlayButtonSound(0);
@@ -523,7 +523,7 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:676
-    public void UseItemClick(TObject Sender)
+    public void UseItemClick()
     {
         string Reason = "";
         General.PlayButtonSound(0);
@@ -541,13 +541,13 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:688
-    public void UnitTabChange(TObject Sender)
+    public void UnitTabChange()
     {
         General.PlayButtonSound(0);
     }
 
     // AoWUnitWindow.pas:693
-    public void UnitWinMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void UnitWinMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight && AoWUnitWindowUnit.SelectedItem != null)
         {
@@ -556,19 +556,19 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:714
-    public void GroundRClick(TObject Sender)
+    public void GroundRClick()
     {
         UpdateGround(FGroundOffset + 1);
     }
 
     // AoWUnitWindow.pas:719
-    public void GroundLClick(TObject Sender)
+    public void GroundLClick()
     {
         UpdateGround(FGroundOffset - 1);
     }
 
     // AoWUnitWindow.pas:724
-    public void CloseClick(TObject Sender)
+    public void CloseClick()
     {
         General.PlayButtonSound(0);
         UnitWin.Visible = false;
@@ -646,7 +646,7 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:855
-    public void Gnd3MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Gnd3MouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (General.FSelectedUnit != null)
         {
@@ -654,16 +654,16 @@ public partial class TUnitWindow : TDataModule
             {
                 if (Button == TMouseButton.mbRight)
                 {
-                    if (((TComponent)Sender).Tag == -1)
+                    if (Sender.Tag == -1)
                     {
-                        ((TAOWBaseButton)Sender).PopupMenu = null;
+                        Sender.PopupMenu = null;
                     }
                     else
                     {
-                        ((TAOWBaseButton)Sender).PopupMenu = AoWItemBannerUnit.ItemBanner.IBannerPopup;
+                        Sender.PopupMenu = AoWItemBannerUnit.ItemBanner.IBannerPopup;
                     }
 
-                    AoWItemBannerUnit.ItemID = ((TComponent)Sender).Tag;
+                    AoWItemBannerUnit.ItemID = Sender.Tag;
                 }
                 else
                 {
@@ -740,7 +740,7 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:926
-    public void T1AbilityLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void T1AbilityLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility A;
         if (Button == TMouseButton.mbRight && General.FSelectedUnit != null && T1AbilityLB.Selected != -1)
@@ -756,7 +756,7 @@ public partial class TUnitWindow : TDataModule
     }
 
     // AoWUnitWindow.pas:937
-    public void UnitWinKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void UnitWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         switch (Key)
         {

@@ -142,16 +142,16 @@ public partial class TArenaDlg : TDataModule
     }
 
     // AoWArenaDlg.pas:170
-    public void U1Change(TObject Sender)
+    public void U1Change(TAOWCheckBox Sender, int Slot)
     {
         string Reason = "";
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
-            FEvent.SetSelection((byte)(FEvent.FSelection | (1 << ((TComponent)Sender).Tag)));
+            FEvent.SetSelection((byte)(FEvent.FSelection | (1 << Slot)));
         }
         else
         {
-            FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << ((TComponent)Sender).Tag)));
+            FEvent.SetSelection((byte)(FEvent.FSelection & ~(1 << Slot)));
         }
 
         U1.Checked = (FEvent.FSelection & 1) != 0;
@@ -162,9 +162,9 @@ public partial class TArenaDlg : TDataModule
         U6.Checked = (FEvent.FSelection & 32) != 0;
         U7.Checked = (FEvent.FSelection & 64) != 0;
         U8.Checked = (FEvent.FSelection & 128) != 0;
-        if ((FEvent.FTrainable & (1 << ((TComponent)Sender).Tag)) != 0)
+        if ((FEvent.FTrainable & (1 << Slot)) != 0)
         {
-            if (((TAOWCheckBox)Sender).Checked)
+            if (Sender.Checked)
             {
                 General.PlayButtonSound(1);
             }
@@ -195,9 +195,9 @@ public partial class TArenaDlg : TDataModule
     }
 
     // AoWArenaDlg.pas:196
-    public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void U1PreDraw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
     {
-        DrawUnit(Sender.Tag, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
+        DrawUnit(Slot, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
     }
 
     // AoWArenaDlg.pas:201
@@ -253,7 +253,7 @@ public partial class TArenaDlg : TDataModule
     }
 
     // AoWArenaDlg.pas:232
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

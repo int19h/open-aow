@@ -8,13 +8,13 @@ namespace Aow.Units.AoWScenSetup;
 
 public partial class TScenSetup
 {
-    public void RacePnlDrawBack(TAoWComponent sender, TSurfaceDesc surface)
+    public void RacePnlDrawBack(TAOWPanel sender, TSurfaceDesc surface, int Slot)
     {
         var panel = sender;
-        aowIntGfxModUnit.IntGfxMod.Shields[sender.Tag].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
+        aowIntGfxModUnit.IntGfxMod.Shields[Slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
     }
 
     public void ScenSetupPnlUpdate() { }
 
-    public void PingListDrawItem(TAoWComponent sender, in TRect drawRect, int drawItem, ref TSurfaceDesc surface) { }
+    public void PingListDrawItem(in TRect drawRect, int drawItem, ref TSurfaceDesc surface) { }
 }

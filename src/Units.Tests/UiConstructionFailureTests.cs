@@ -1,6 +1,7 @@
 using Aow.Units.AoWE;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.CMapCtrl;
+using Aow.Units.Engine;
 using Aow.Units.HSEngine;
 using Aow.Units.HSLib;
 using Aow.Units.MapCtrl;
@@ -22,10 +23,10 @@ public sealed class UiConstructionFailureTests
     public void PlainComponentsPublishCompletedState(int family)
     {
         var engine = EngineFixture.Engine;
-        var previousLoaded = engine.FOnHSMLoaded;
-        var previousClose = engine.FOnHSMClose;
-        engine.FOnHSMLoaded = new Aow.Units.Engine.TEventList();
-        engine.FOnHSMClose = new Aow.Units.Engine.TEventList();
+        var previousLoaded = engine.FOnHSMLoadedStore;
+        var previousClose = engine.FOnHSMCloseStore;
+        engine.FOnHSMLoadedStore = new EventStore<THSMap>();
+        engine.FOnHSMCloseStore = new EventStore<THSMap>();
         Game.AoWEngine = engine;
         Game.AoWHSMap = null!;
         AoWTC.AoWTCUnit.AoWCombatMap = null!;
@@ -50,10 +51,8 @@ public sealed class UiConstructionFailureTests
         finally
         {
             owner.Destroy();
-            engine.FOnHSMLoaded.Destroy();
-            engine.FOnHSMClose.Destroy();
-            engine.FOnHSMLoaded = previousLoaded;
-            engine.FOnHSMClose = previousClose;
+            engine.FOnHSMLoadedStore = previousLoaded;
+            engine.FOnHSMCloseStore = previousClose;
         }
     }
 }

@@ -75,7 +75,7 @@ public partial class TDWin : TDataModule
     }
 
     // AOWDialogWin.pas:60
-    public void DButtonClick(TObject Sender)
+    public void DButtonClick()
     {
         General.PlayButtonSound(0);
         Dialog.Visible = false;
@@ -89,7 +89,7 @@ public partial class TDWin : TDataModule
     }
 
     // AOWDialogWin.pas:73
-    public void yesBtnClick(TObject Sender)
+    public void yesBtnClick()
     {
         string Reason = "";
         TStructure Structure;
@@ -108,7 +108,7 @@ public partial class TDWin : TDataModule
                     if (General.FCity.Raze(AoWHSMap.FSeatedPlayer))
                     {
                         Structure = General.FStructure;
-                        aowMapEventsUnit.MapEvents.TheMapStructureDeselected(General.FStructure);
+                        aowMapEventsUnit.MapEvents.TheMapStructureDeselected();
                         aowMapEventsUnit.MapEvents.TheMapStructureSelected(Structure);
                     }
                 }
@@ -155,21 +155,21 @@ public partial class TDWin : TDataModule
     }
 
     // AOWDialogWin.pas:104
-    public void DialogKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DialogKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         switch (Key)
         {
             case 27:
-                DButtonClick(this);
+                DButtonClick();
                 break;
             case 13:
                 if (yesPnl.Visible)
                 {
-                    yesBtnClick(this);
+                    yesBtnClick();
                 }
                 else
                 {
-                    DButtonClick(this);
+                    DButtonClick();
                 }
 
                 break;

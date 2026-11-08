@@ -31,12 +31,12 @@ public partial class TSoundDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "SoundDlg";
-        LayoutOnCreate = Layout_SoundDlgWindowCreate_0;
-        LayoutOnDestroy = Layout_SoundDlgWindowDestroy_1;
+        LayoutOnCreate = _ => Layout_SoundDlgWindowCreate_0();
+        LayoutOnDestroy = _ => Layout_SoundDlgWindowDestroy_1();
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 110;
@@ -106,7 +106,7 @@ public partial class TSoundDlg : ILayoutModule
         CloseBut.TextColor = 0;
         CloseBut.TextSelColor = 16777215;
         CloseBut.WinWidth = 136;
-        CloseBut.OnClick = Layout_CloseClick_2;
+        CloseBut.OnClick = _ => Layout_CloseClick_2();
         session.EndRead(CloseBut);
         TCeltLL = new TAOWImage(this);
         session.BeginRead(TCeltLL);
@@ -210,8 +210,8 @@ public partial class TSoundDlg : ILayoutModule
         SongLB.WinHeight = 114;
         SongLB.BorderWidth = 6;
         SongLB.BorderHeight = 3;
-        SongLB.OnChange = Layout_SongLBChange_3;
-        SongLB.OnDoubleClick = AddBtnClick;
+        SongLB.OnChange = _ => Layout_SongLBChange_3();
+        SongLB.OnDoubleClick = _ => AddBtnClick();
         SongLB.Selected = -1;
         SongLB.TextColor = 9415072;
         SongLB.TextSelColor = 0;
@@ -276,7 +276,7 @@ public partial class TSoundDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_2;
+        Close.OnClick = _ => Layout_CloseClick_2();
         session.EndRead(Close);
         PlayListPnl = new TAOWPanel(this);
         session.BeginRead(PlayListPnl);
@@ -331,7 +331,7 @@ public partial class TSoundDlg : ILayoutModule
             "SOUND OPTIONS"
         };
         SoundTab.BorderHeight = 6;
-        SoundTab.OnChange = Layout_SoundTabChange_4;
+        SoundTab.OnChange = _ => Layout_SoundTabChange_4();
         SoundTab.Selected = 0;
         SoundTab.WinWidth = 380;
         SoundTab.TextColor = 0;
@@ -364,10 +364,10 @@ public partial class TSoundDlg : ILayoutModule
         PlayLB.WinHeight = 114;
         PlayLB.BorderWidth = 20;
         PlayLB.BorderHeight = 3;
-        PlayLB.OnChange = Layout_PlayLBChange_5;
-        PlayLB.OnDoubleClick = Layout_PlayBtnClick_6;
+        PlayLB.OnChange = _ => Layout_PlayLBChange_5();
+        PlayLB.OnDoubleClick = _ => Layout_PlayBtnClick_6();
         PlayLB.Selected = -1;
-        PlayLB.OnDrawItem = PlayLBDrawItem;
+        PlayLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => PlayLBDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         PlayLB.TextColor = 9415072;
         PlayLB.TextSelColor = 0;
         PlayLB.ILIndexFrame = 113;
@@ -409,7 +409,7 @@ public partial class TSoundDlg : ILayoutModule
         AddBtn.TextColor = 0;
         AddBtn.TextSelColor = 16777215;
         AddBtn.WinWidth = 173;
-        AddBtn.OnClick = AddBtnClick;
+        AddBtn.OnClick = _ => AddBtnClick();
         session.EndRead(AddBtn);
         RemoveBtn = new TAOWButton(this);
         session.BeginRead(RemoveBtn);
@@ -444,7 +444,7 @@ public partial class TSoundDlg : ILayoutModule
         RemoveBtn.TextColor = 0;
         RemoveBtn.TextSelColor = 16777215;
         RemoveBtn.WinWidth = 80;
-        RemoveBtn.OnClick = RemoveBtnClick;
+        RemoveBtn.OnClick = _ => RemoveBtnClick();
         session.EndRead(RemoveBtn);
         PlayBtn = new TAOWButton(this);
         session.BeginRead(PlayBtn);
@@ -479,7 +479,7 @@ public partial class TSoundDlg : ILayoutModule
         PlayBtn.TextColor = 0;
         PlayBtn.TextSelColor = 16777215;
         PlayBtn.WinWidth = 87;
-        PlayBtn.OnClick = Layout_PlayBtnClick_6;
+        PlayBtn.OnClick = _ => Layout_PlayBtnClick_6();
         session.EndRead(PlayBtn);
         PlayLbl = new TAOWLabel(this);
         session.BeginRead(PlayLbl);
@@ -1285,7 +1285,7 @@ public partial class TSoundDlg : ILayoutModule
         MusicVolume.WinHeight = 18;
         MusicVolume.WinWidth = 92;
         MusicVolume.NumberVisible = 10;
-        MusicVolume.OnChange = Layout_MusicVolumeChange_7;
+        MusicVolume.OnChange = _ => Layout_MusicVolumeChange_7();
         MusicVolume.VanishWhenFull = false;
         MusicVolume.ILIndexIncUp = 0;
         MusicVolume.ILIndexIncDown = 0;
@@ -1326,7 +1326,7 @@ public partial class TSoundDlg : ILayoutModule
         SFXVolume.WinHeight = 18;
         SFXVolume.WinWidth = 92;
         SFXVolume.NumberVisible = 10;
-        SFXVolume.OnChange = Layout_SFXVolumeChange_8;
+        SFXVolume.OnChange = _ => Layout_SFXVolumeChange_8();
         SFXVolume.VanishWhenFull = false;
         SFXVolume.ILIndexIncUp = 0;
         SFXVolume.ILIndexIncDown = 0;
@@ -1773,47 +1773,47 @@ public partial class TSoundDlg : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_SoundDlgWindowCreate_0(TObject p0)
+    private void Layout_SoundDlgWindowCreate_0()
     {
         SoundDlgWindowCreate();
     }
 
-    private void Layout_SoundDlgWindowDestroy_1(TObject p0)
+    private void Layout_SoundDlgWindowDestroy_1()
     {
         SoundDlgWindowDestroy();
     }
 
-    private void Layout_CloseClick_2(TObject p0)
+    private void Layout_CloseClick_2()
     {
         CloseClick();
     }
 
-    private void Layout_SongLBChange_3(TObject p0)
+    private void Layout_SongLBChange_3()
     {
         SongLBChange();
     }
 
-    private void Layout_SoundTabChange_4(TObject p0)
+    private void Layout_SoundTabChange_4()
     {
         SoundTabChange();
     }
 
-    private void Layout_PlayLBChange_5(TObject p0)
+    private void Layout_PlayLBChange_5()
     {
         PlayLBChange();
     }
 
-    private void Layout_PlayBtnClick_6(TObject p0)
+    private void Layout_PlayBtnClick_6()
     {
         PlayBtnClick();
     }
 
-    private void Layout_MusicVolumeChange_7(TObject p0)
+    private void Layout_MusicVolumeChange_7()
     {
         MusicVolumeChange();
     }
 
-    private void Layout_SFXVolumeChange_8(TObject p0)
+    private void Layout_SFXVolumeChange_8()
     {
         SFXVolumeChange();
     }

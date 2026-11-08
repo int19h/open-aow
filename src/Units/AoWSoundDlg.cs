@@ -102,7 +102,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:124
-    public void RemoveBtnClick(TObject Sender)
+    public void RemoveBtnClick()
     {
         General.PlayButtonSound(0);
         SongPlayer.Songs.Delete(PlayLB.Selected);
@@ -172,7 +172,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:172
-    public void SongChange(TObject Sender)
+    public void SongChange()
     {
         var songName = SongPlayer.SongNames[SongPlayer.CurrentIndex];
         CurrentSongLbl.Text = songName;
@@ -228,7 +228,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:211
-    public void AddBtnClick(TObject Sender)
+    public void AddBtnClick()
     {
         General.PlayButtonSound(0);
         var songFile = AoWSoundDlgUnit.SongFiles[SongLB.Selected];
@@ -259,7 +259,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:237
-    public void SQCB1Change(TObject Sender)
+    public void SQCB1Change(TAOWCheckBox Sender)
     {
         if (SQCB1.Checked)
         {
@@ -270,7 +270,7 @@ public partial class TSoundDlg : TDataModule
             MainPnl.FDrawn = false;
         }
 
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -281,7 +281,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:251
-    public void SQCB2Change(TObject Sender)
+    public void SQCB2Change(TAOWCheckBox Sender)
     {
         if (SQCB2.Checked)
         {
@@ -300,7 +300,7 @@ public partial class TSoundDlg : TDataModule
             }
         }
 
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -311,7 +311,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:273
-    public void SQCB3Change(TObject Sender)
+    public void SQCB3Change(TAOWCheckBox Sender)
     {
         if (SQCB3.Checked)
         {
@@ -330,7 +330,7 @@ public partial class TSoundDlg : TDataModule
             }
         }
 
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -341,7 +341,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:295
-    public void SQCB4Change(TObject Sender)
+    public void SQCB4Change(TAOWCheckBox Sender)
     {
         if (SQCB4.Checked)
         {
@@ -360,7 +360,7 @@ public partial class TSoundDlg : TDataModule
             }
         }
 
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -371,7 +371,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:317
-    public void PlayLBDrawItem(TObject Sender, in TRect R, int Index, ref TSurfaceDesc SurfDesc)
+    public void PlayLBDrawItem(in TRect R, int Index, ref TSurfaceDesc SurfDesc)
     {
         if (SongPlayer.CurrentIndex == Index)
         {
@@ -380,7 +380,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:322
-    public void MusicEnabledChkChange(TObject Sender)
+    public void MusicEnabledChkChange(TAOWCheckBox Sender)
     {
         FSettings.MusicEnabled = MusicEnabledChk.Checked;
         SetMusicEnabled(FSettings.MusicEnabled);
@@ -389,7 +389,7 @@ public partial class TSoundDlg : TDataModule
             SongPlayer.Play(0);
         }
 
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -400,11 +400,11 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:331
-    public void SFXEnabledChkChange(TObject Sender)
+    public void SFXEnabledChkChange(TAOWCheckBox Sender)
     {
         FSettings.SFXEnabled = SFXEnabledChk.Checked;
         SetSFXEnabled(FSettings.SFXEnabled);
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -415,7 +415,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:339
-    public void DirectSoundEnabledChkChange(TObject Sender)
+    public void DirectSoundEnabledChkChange(TAOWCheckBox Sender)
     {
         FSettings.UseDirectSound = DirectSoundEnabledChk.Checked;
         if (SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
@@ -423,7 +423,7 @@ public partial class TSoundDlg : TDataModule
             SetSoundSettings(FSettings);
         }
 
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -440,7 +440,7 @@ public partial class TSoundDlg : TDataModule
     }
 
     // AoWSoundDlg.pas:352
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

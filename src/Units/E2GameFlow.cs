@@ -467,7 +467,7 @@ public static partial class E2GameFlowUnit
         SongPlayer.Stop(false);
         SongPlayer.Songs.Clear();
         FadeMusicVolume(0, 1);
-        AoWEngine.LoadHSM(FileName, false, Controller.MapProgress, Aow.Formats.GameProfile.WorldMap);
+        AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => Controller.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
         if (AoWEngine.FDemo && AoWHSMap != null && !AoWHSMap.FShowAllPlayers)
         {
             CloseGame(Controller);
@@ -562,9 +562,9 @@ public static partial class E2GameFlowUnit
         MWindow.MapViewer.SceneHeight = MWindow.MapWindow.WinHeight - 24;
         AoWHSMap.Activate();
         AOWControlWinUnit.ControlWin.ControlWindow.Visible = false;
-        aowMapEventsUnit.MapEvents.TheMapArmyDeselected(null);
-        aowMapEventsUnit.MapEvents.TheMapStructureDeselected(null);
-        TBWindow.TBWorldUpdate(null);
+        aowMapEventsUnit.MapEvents.TheMapArmyDeselected();
+        aowMapEventsUnit.MapEvents.TheMapStructureDeselected();
+        TBWindow.TBWorldUpdate();
         PInfoW.UpdatePlayer();
         if (AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
         {

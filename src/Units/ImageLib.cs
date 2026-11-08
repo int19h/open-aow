@@ -919,7 +919,7 @@ public partial class TCustomImageLibrary : TComponent
 {
 
     internal TSet<TImageLibraryStatusElement> FStatus;
-    internal TNotifyEvent FOnChange;
+    internal TNotifyEvent<TObject> FOnChange;
     internal byte FChangeLock;
     internal bool FReloading;
     internal bool FLoadOnDemand;
@@ -2151,7 +2151,7 @@ public partial class TCustomImageLibrary : TComponent
     public int DataOffset { get => FDataOffset; }
     public bool Reloading { get => FReloading; }
     public bool LoadOnDemand { get => FLoadOnDemand; set => SetLoadOnDemand(value); }
-    public TNotifyEvent OnChange { get => FOnChange; set => FOnChange = value; }
+    public TNotifyEvent<TObject> OnChange { get => FOnChange; set => FOnChange = value; }
     public string FileName { get => FFileName; set => SetFileName(value); }
 
 }
@@ -5568,7 +5568,7 @@ public partial class TCustomImageLibraryPanel : TCustomPanel
     internal int FScaleX;
     internal int FScaleY;
     internal TBltMode FBltMode;
-    internal TNotifyEvent FOnUpdated;
+    internal TNotifyEvent<TObject> FOnUpdated;
     internal TCustomImageLibrary FImageLibrary;
     internal int FImageIndex;
 
@@ -5617,7 +5617,7 @@ public partial class TCustomImageLibraryPanel : TCustomPanel
     protected internal TCustomImageLibrary ImageLibrary { get => FImageLibrary; set => SetImageLibrary(value); }
     protected internal int ImageIndex { get => FImageIndex; set => SetImageIndex(value); }
     protected internal TBltMode BltMode { get => FBltMode; set => SetBltMode(value); }
-    protected internal TNotifyEvent OnUpdated { get => FOnUpdated; set => FOnUpdated = value; }
+    protected internal TNotifyEvent<TObject> OnUpdated { get => FOnUpdated; set => FOnUpdated = value; }
     protected internal int ScaleX { get => FScaleX; set => SetScaleX(value); }
     protected internal int ScaleY { get => FScaleY; set => SetScaleY(value); }
 
@@ -5655,8 +5655,8 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     internal int FScaleY;
     internal TBltMode FBltMode;
     internal TSet<TILGridEditModeElement> FEditMode;
-    internal TDrawCellEvent FOnCellUpdated;
-    internal TSelectCellEvent FOnSelectCell;
+    internal TDrawCellEvent<TObject> FOnCellUpdated;
+    internal TSelectCellEvent<TObject> FOnSelectCell;
     internal int FFocusColor;
     internal TILGrowDirection FGrowDirection;
     internal bool FSelectionEnabled;
@@ -5795,8 +5795,8 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     protected internal bool SelectionEnabled { get => FSelectionEnabled; set => SetSelectionEnabled(value); }
     protected internal int FocusColor { get => FFocusColor; set => SetFocusColor(value); }
     protected internal TBltMode BltMode { get => FBltMode; set => SetBltMode(value); }
-    protected internal TDrawCellEvent OnCellUpdated { get => FOnCellUpdated; set => FOnCellUpdated = value; }
-    protected internal TSelectCellEvent OnSelectCell { get => FOnSelectCell; set => FOnSelectCell = value; }
+    protected internal TDrawCellEvent<TObject> OnCellUpdated { get => FOnCellUpdated; set => FOnCellUpdated = value; }
+    protected internal TSelectCellEvent<TObject> OnSelectCell { get => FOnSelectCell; set => FOnSelectCell = value; }
     protected internal int ScaleX { get => FScaleX; set => SetScaleX(value); }
     protected internal int ScaleY { get => FScaleY; set => SetScaleY(value); }
     protected internal new int ColCount { get => GetColCount(); set => SetColCount(value); }

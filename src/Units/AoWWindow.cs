@@ -840,13 +840,25 @@ public partial class TAOWWindow : TAOWGenericWindow
     public bool Resizable { get => FResizable; set => FResizable = value; }
 
     [Published]
-    public TNotifyEvent OnDrag { get => FOnChange; set => FOnChange = value; }
+    public TNotifyEvent<TAOWWindow> OnDrag
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
 
     [Published]
-    public TNotifyEvent OnResize { get => FOnResize; set => FOnResize = value; }
+    public TNotifyEvent<TAOWWindow> OnResize
+    {
+        get => EventSlot.Get(this, FOnResize);
+        set => EventSlot.Set(this, ref FOnResize, value);
+    }
 
     [Published]
-    public TNotifyEvent OnInternalResize { get => FOnInternalResize; set => FOnInternalResize = value; }
+    public TNotifyEvent<TAOWWindow> OnInternalResize
+    {
+        get => EventSlot.Get(this, FOnInternalResize);
+        set => EventSlot.Set(this, ref FOnInternalResize, value);
+    }
 
     [Published]
     public int MinWidth { get => FMinWidth; set => FMinWidth = value; }
@@ -868,6 +880,108 @@ public partial class TAOWWindow : TAOWGenericWindow
 
     [Published]
     public bool Dockable { get => FDockable; set => FDockable = value; }
+
+    public new TNotifyEvent<TAOWWindow> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWWindow> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWWindow> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWWindow> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWWindow> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWWindow> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWWindow> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWWindow> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWWindow> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
+
+    public new TAoWOnDrawBackEvent<TAOWWindow> OnDrawBack
+    {
+        get => EventSlot.Get(this, FOnDrawBack);
+        set => EventSlot.Set(this, ref FOnDrawBack, value);
+    }
+
+    public new TNotifyEvent<TAOWWindow> OnEnter
+    {
+        get => EventSlot.Get(this, FOnEnter);
+        set => EventSlot.Set(this, ref FOnEnter, value);
+    }
+
+    public new TNotifyEvent<TAOWWindow> OnExit
+    {
+        get => EventSlot.Get(this, FOnExit);
+        set => EventSlot.Set(this, ref FOnExit, value);
+    }
+
+    public new TNotifyEvent<TAOWWindow> OnChangeCursor
+    {
+        get => EventSlot.Get(this, FOnChangeCursor);
+        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+    }
+
+    public new TAoWOnDrawSurface<TAOWWindow> OnDrawSurface
+    {
+        get => EventSlot.Get(this, FOnDrawSurface);
+        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+    }
+
+    public new TAoWOnDrawSurface<TAOWWindow> OnPreDrawSurface
+    {
+        get => EventSlot.Get(this, FOnPreDrawSurface);
+        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+    }
+
+    public new TNotifyEvent<TAOWWindow> OnHide
+    {
+        get => EventSlot.Get(this, FOnHide);
+        set => EventSlot.Set(this, ref FOnHide, value);
+    }
+
+    public new TNotifyEvent<TAOWWindow> OnShow
+    {
+        get => EventSlot.Get(this, FOnShow);
+        set => EventSlot.Set(this, ref FOnShow, value);
+    }
 }
 
 public static partial class AoWWindowUnit

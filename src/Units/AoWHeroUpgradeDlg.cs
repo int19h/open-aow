@@ -652,7 +652,7 @@ public partial class THeroUpgradeDlg : TDataModule
     }
 
     // AoWHeroUpgradeDlg.pas:544
-    public void AvailableAbilitiesMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void AvailableAbilitiesMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility Ability;
         if (Button == TMouseButton.mbRight && AvailableAbilities.Selected != -1)
@@ -668,7 +668,7 @@ public partial class THeroUpgradeDlg : TDataModule
     }
 
     // AoWHeroUpgradeDlg.pas:556
-    public void SelectedAbilitiesMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void SelectedAbilitiesMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility Ability;
         if (Button == TMouseButton.mbRight && SelectedAbilities.Selected != -1)
@@ -684,7 +684,7 @@ public partial class THeroUpgradeDlg : TDataModule
     }
 
     // AoWHeroUpgradeDlg.pas:568
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

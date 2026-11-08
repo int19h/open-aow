@@ -3,6 +3,7 @@ using Aow.Rtl;
 using Aow.Units.AGCPlugins;
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
+using Aow.Units.HSEngine;
 using static Aow.Units.AoWE.AoWEUnit;
 
 namespace Aow.Units.BehaviorAG;
@@ -987,7 +988,7 @@ public partial class TScorcherAGC : TAbstractBehaviorAGC
 public partial class TRegistrator : TObject
 {
     // BehaviorAG.pas:136
-    public static void MapLoaded(TObject Sender)
+    public static void MapLoaded(THSMap Sender)
     {
         if (Sender == AoWHSMap)
         {
@@ -1004,7 +1005,7 @@ public static partial class BehaviorAGUnit
         if (ValidateAoWEngine())
         {
             AoWEngine.RegisterEClasses([EClass.Of<TDefenderAG>(), EClass.Of<TAggressorAG>(), EClass.Of<TExpanderAG>(), EClass.Of<TScorcherAG>(), EClass.Of<TNormalAG>(), EClass.Of<TSkirmishAG>()]);
-            AoWEngine.OnHSMLoaded.Add(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded += TRegistrator.MapLoaded;
         }
     }
 
@@ -1012,7 +1013,7 @@ public static partial class BehaviorAGUnit
     {
         if (AoWEngine != null)
         {
-            AoWEngine.OnHSMLoaded.Remove(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded -= TRegistrator.MapLoaded;
         }
     }
 }

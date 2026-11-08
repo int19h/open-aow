@@ -116,20 +116,20 @@ public partial class TItemsFoundDlg : TDataModule
     }
 
     // AoWItemsFoundDlg.pas:95
-    public void Gnd3Draw(TObject Sender, TSurfaceDesc SD)
+    public void Gnd3Draw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
     {
         TItemExplorationSiteEventLog Event;
         TItem Item;
         Event = FEvent;
         if (Event != null)
         {
-            if (((TComponent)Sender).Tag + FItemOffset < Event.FItemIDs.Count)
+            if (Slot + FItemOffset < Event.FItemIDs.Count)
             {
-                var itemID = FEvent.FItemIDs[((TComponent)Sender).Tag + FItemOffset];
+                var itemID = FEvent.FItemIDs[Slot + FItemOffset];
                 Item = AoWHSMap.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
-                    Item.Show(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, SD);
+                    Item.Show(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, SD);
                 }
             }
         }
@@ -165,7 +165,7 @@ public partial class TItemsFoundDlg : TDataModule
     }
 
     // AoWItemsFoundDlg.pas:136
-    public void Gnd3MouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Gnd3MouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
     {
         TItem Item;
         TAOWCheckBox Box;
@@ -173,9 +173,9 @@ public partial class TItemsFoundDlg : TDataModule
         if (Button == TMouseButton.mbRight)
         {
             Box.PopupMenu = null;
-            if (FItemOffset + Box.Tag < FEvent.FItemIDs.Count)
+            if (FItemOffset + Slot < FEvent.FItemIDs.Count)
             {
-                var itemID = FEvent.FItemIDs[FItemOffset + Box.Tag];
+                var itemID = FEvent.FItemIDs[FItemOffset + Slot];
                 Item = AoWHSMap.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
@@ -207,7 +207,7 @@ public partial class TItemsFoundDlg : TDataModule
     }
 
     // AoWItemsFoundDlg.pas:173
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

@@ -127,7 +127,7 @@ public partial class TSWindow : TDataModule
     }
 
     // AoWSWindow.pas:107
-    public void ScannerTabMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void ScannerTabMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         General.PlayButtonSound(0);
     }

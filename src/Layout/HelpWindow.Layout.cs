@@ -35,7 +35,7 @@ public partial class THelpWindow : ILayoutModule
         HelpWin.WinTop = 16;
         HelpWin.WinWidth = 370;
         HelpWin.Masked = false;
-        HelpWin.OnHide = Layout_HelpWinHide_0;
+        HelpWin.OnHide = _ => Layout_HelpWinHide_0();
         HelpWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         HelpWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         HelpWin.Alignment.HeightPercent = 0;
@@ -61,7 +61,7 @@ public partial class THelpWindow : ILayoutModule
         HelpWin.DragHeight = 20;
         HelpWin.Draggable = true;
         HelpWin.Resizable = true;
-        HelpWin.OnResize = Layout_HelpWinResize_1;
+        HelpWin.OnResize = _ => Layout_HelpWinResize_1();
         HelpWin.MinWidth = 200;
         HelpWin.MinHeight = 200;
         HelpWin.MaxWidth = 400;
@@ -126,7 +126,7 @@ public partial class THelpWindow : ILayoutModule
         CloseBtn.TextColor = 0;
         CloseBtn.TextSelColor = 0;
         CloseBtn.WinWidth = 15;
-        CloseBtn.OnClick = Layout_CloseBtnClick_2;
+        CloseBtn.OnClick = _ => Layout_CloseBtnClick_2();
         session.EndRead(CloseBtn);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -241,7 +241,7 @@ public partial class THelpWindow : ILayoutModule
         BCloseBut.TextColor = 0;
         BCloseBut.TextSelColor = 16777215;
         BCloseBut.WinWidth = 134;
-        BCloseBut.OnClick = Layout_CloseBtnClick_2;
+        BCloseBut.OnClick = _ => Layout_CloseBtnClick_2();
         session.EndRead(BCloseBut);
         CeltLineR = new TAOWImage(this);
         session.BeginRead(CeltLineR);
@@ -496,17 +496,17 @@ public partial class THelpWindow : ILayoutModule
         HelpMemo.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
     }
 
-    private void Layout_HelpWinHide_0(TObject p0)
+    private void Layout_HelpWinHide_0()
     {
         HelpWinHide();
     }
 
-    private void Layout_HelpWinResize_1(TObject p0)
+    private void Layout_HelpWinResize_1()
     {
         HelpWinResize();
     }
 
-    private void Layout_CloseBtnClick_2(TObject p0)
+    private void Layout_CloseBtnClick_2()
     {
         CloseBtnClick();
     }

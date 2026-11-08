@@ -29,19 +29,19 @@ public partial class TVideoDialog : ILayoutModule
     {
         session.Begin(this);
         Name = "VideoDialog";
-        LayoutOnCreate = Layout_VideoDlgWindowCreate_0;
-        LayoutOnDestroy = Layout_VideoDlgWindowDestroy_1;
+        LayoutOnCreate = _ => Layout_VideoDlgWindowCreate_0();
+        LayoutOnDestroy = _ => Layout_VideoDlgWindowDestroy_1();
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 150;
         Dlg.WinTop = 76;
         Dlg.WinWidth = 340;
         Dlg.Masked = true;
-        Dlg.OnShow = Layout_DlgShow_2;
+        Dlg.OnShow = _ => Layout_DlgShow_2();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -105,7 +105,7 @@ public partial class TVideoDialog : ILayoutModule
         CloseBut.TextColor = 0;
         CloseBut.TextSelColor = 16777215;
         CloseBut.WinWidth = 136;
-        CloseBut.OnClick = Layout_CloseButClick_3;
+        CloseBut.OnClick = _ => Layout_CloseButClick_3();
         session.EndRead(CloseBut);
         BCeltL = new TAoWFrame(this);
         session.BeginRead(BCeltL);
@@ -189,7 +189,7 @@ public partial class TVideoDialog : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseButClick_3;
+        Close.OnClick = _ => Layout_CloseButClick_3();
         session.EndRead(Close);
         TCeltLR = new TAOWImage(this);
         session.BeginRead(TCeltLR);
@@ -381,7 +381,7 @@ public partial class TVideoDialog : ILayoutModule
         };
         DisplayModesLB.BorderWidth = 6;
         DisplayModesLB.BorderHeight = 4;
-        DisplayModesLB.OnDoubleClick = Layout_ApplyBtnClick_4;
+        DisplayModesLB.OnDoubleClick = _ => Layout_ApplyBtnClick_4();
         DisplayModesLB.Selected = 0;
         DisplayModesLB.TextColor = 9415072;
         DisplayModesLB.TextSelColor = 0;
@@ -479,7 +479,7 @@ public partial class TVideoDialog : ILayoutModule
         ApplyBtn.TextColor = 0;
         ApplyBtn.TextSelColor = 16777215;
         ApplyBtn.WinWidth = 136;
-        ApplyBtn.OnClick = Layout_ApplyBtnClick_4;
+        ApplyBtn.OnClick = _ => Layout_ApplyBtnClick_4();
         session.EndRead(ApplyBtn);
         T3LBPnl = new TAOWPanel(this);
         session.BeginRead(T3LBPnl);
@@ -625,27 +625,27 @@ public partial class TVideoDialog : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_VideoDlgWindowCreate_0(TObject p0)
+    private void Layout_VideoDlgWindowCreate_0()
     {
         VideoDlgWindowCreate();
     }
 
-    private void Layout_VideoDlgWindowDestroy_1(TObject p0)
+    private void Layout_VideoDlgWindowDestroy_1()
     {
         VideoDlgWindowDestroy();
     }
 
-    private void Layout_DlgShow_2(TObject p0)
+    private void Layout_DlgShow_2()
     {
         DlgShow();
     }
 
-    private void Layout_CloseButClick_3(TObject p0)
+    private void Layout_CloseButClick_3()
     {
         CloseButClick();
     }
 
-    private void Layout_ApplyBtnClick_4(TObject p0)
+    private void Layout_ApplyBtnClick_4()
     {
         ApplyBtnClick();
     }

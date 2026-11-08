@@ -1,6 +1,7 @@
 // Translated from AoWVScroll.pas.
 using System.ComponentModel;
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.GFXE;
@@ -481,6 +482,60 @@ public partial class TAOWScrollBar : TAOWControl
 
     [Published]
     public int ILIndexTab { get => FILIndexTab; set => SetILTIndex(value); }
+
+    public new TNotifyEvent<TAOWScrollBar> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWScrollBar> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWScrollBar> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWScrollBar> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWScrollBar> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWScrollBar> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWScrollBar> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWScrollBar> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWScrollBar> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
 }
 
 // the vertical scroll bar, the decrement button at the top and the increment button at the
@@ -927,6 +982,60 @@ public partial class TAOWVScrollBar : TAOWScrollBar
                 FOnMouseMove(this, Shift, X, Y);
             }
         }
+    }
+
+    public new TNotifyEvent<TAOWVScrollBar> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWVScrollBar> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWVScrollBar> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWVScrollBar> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWVScrollBar> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWVScrollBar> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWVScrollBar> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWVScrollBar> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWVScrollBar> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
 

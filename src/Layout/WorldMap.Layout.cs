@@ -29,7 +29,7 @@ public partial class TWorldMap : ILayoutModule
     {
         session.Begin(this);
         Name = "WorldMap";
-        LayoutOnCreate = Layout_WorldMapCreate_0;
+        LayoutOnCreate = _ => Layout_WorldMapCreate_0();
         MemoL = new TAOWMemo(this);
         session.BeginRead(MemoL);
         MemoL.Name = "MemoL";
@@ -95,8 +95,8 @@ public partial class TWorldMap : ILayoutModule
         WorldPnl = new TAOWPanel(this);
         session.BeginRead(WorldPnl);
         WorldPnl.Name = "WorldPnl";
-        WorldPnl.OnMouseMove = Layout_WorldPnlMouseMove_1;
-        WorldPnl.OnUpdate = Layout_WorldPnlUpdate_2;
+        WorldPnl.OnMouseMove = (_, shift, x, y) => WorldPnlMouseMove(shift, x, y);
+        WorldPnl.OnUpdate = _ => Layout_WorldPnlUpdate_2();
         WorldPnl.Visible = false;
         WorldPnl.Priority = 10;
         WorldPnl.WinLeft = 0;
@@ -125,8 +125,8 @@ public partial class TWorldMap : ILayoutModule
         Path1 = new TAOWImage(this);
         session.BeginRead(Path1);
         Path1.Name = "Path1";
-        Path1.OnMouseDown = Layout_Path1MouseDown_3;
-        Path1.OnMouseMove = Layout_Path1MouseMove_4;
+        Path1.OnMouseDown = (_, button, shift, x, y) => Path1MouseDown(button, shift, x, y);
+        Path1.OnMouseMove = (_, shift, x, y) => Path1MouseMove(shift, x, y);
         Path1.Visible = false;
         Path1.Priority = 0;
         Path1.WinLeft = 0;
@@ -156,8 +156,8 @@ public partial class TWorldMap : ILayoutModule
         Path2 = new TAOWImage(this);
         session.BeginRead(Path2);
         Path2.Name = "Path2";
-        Path2.OnMouseDown = Layout_Path2MouseDown_5;
-        Path2.OnMouseMove = Layout_Path2MouseMove_6;
+        Path2.OnMouseDown = (_, button, shift, x, y) => Path2MouseDown(button, shift, x, y);
+        Path2.OnMouseMove = (_, shift, x, y) => Path2MouseMove(shift, x, y);
         Path2.Visible = false;
         Path2.Priority = 0;
         Path2.WinLeft = 0;
@@ -187,8 +187,8 @@ public partial class TWorldMap : ILayoutModule
         Path3 = new TAOWImage(this);
         session.BeginRead(Path3);
         Path3.Name = "Path3";
-        Path3.OnMouseDown = Layout_Path3MouseDown_7;
-        Path3.OnMouseMove = Layout_Path3MouseMove_8;
+        Path3.OnMouseDown = (_, button, shift, x, y) => Path3MouseDown(button, shift, x, y);
+        Path3.OnMouseMove = (_, shift, x, y) => Path3MouseMove(shift, x, y);
         Path3.Visible = false;
         Path3.Priority = 0;
         Path3.WinLeft = 0;
@@ -219,7 +219,7 @@ public partial class TWorldMap : ILayoutModule
         session.BeginRead(PPawn);
         PPawn.Name = "PPawn";
         PPawn.OnMouseDown = PPawnMouseDown;
-        PPawn.OnMouseMove = Layout_PPawnMouseMove_9;
+        PPawn.OnMouseMove = PPawnMouseMove;
         PPawn.Visible = false;
         PPawn.Priority = 1;
         PPawn.WinLeft = 0;
@@ -249,8 +249,8 @@ public partial class TWorldMap : ILayoutModule
         EPawn = new TAOWImage(this);
         session.BeginRead(EPawn);
         EPawn.Name = "EPawn";
-        EPawn.OnMouseDown = PPawnMouseDown;
-        EPawn.OnMouseMove = Layout_PPawnMouseMove_9;
+        EPawn.OnMouseDown = EPawnMouseDown;
+        EPawn.OnMouseMove = EPawnMouseMove;
         EPawn.Visible = false;
         EPawn.Priority = 0;
         EPawn.WinLeft = 0;
@@ -331,7 +331,7 @@ public partial class TWorldMap : ILayoutModule
         Back.TextColor = 0;
         Back.TextSelColor = 0;
         Back.WinWidth = 55;
-        Back.OnClick = Layout_BackClick_10;
+        Back.OnClick = _ => Layout_BackClick_10();
         session.EndRead(Back);
         Next = new TAOWButton(this);
         session.BeginRead(Next);
@@ -365,7 +365,7 @@ public partial class TWorldMap : ILayoutModule
         Next.TextColor = 0;
         Next.TextSelColor = 0;
         Next.WinWidth = 55;
-        Next.OnClick = Layout_NextStartClick_11;
+        Next.OnClick = _ => Layout_NextStartClick_11();
         session.EndRead(Next);
         Cancel = new TAOWButton(this);
         session.BeginRead(Cancel);
@@ -399,7 +399,7 @@ public partial class TWorldMap : ILayoutModule
         Cancel.TextColor = 0;
         Cancel.TextSelColor = 0;
         Cancel.WinWidth = 39;
-        Cancel.OnClick = Layout_CancelClick_12;
+        Cancel.OnClick = _ => Layout_CancelClick_12();
         session.EndRead(Cancel);
         BookStart = new TAOWButton(this);
         session.BeginRead(BookStart);
@@ -433,7 +433,7 @@ public partial class TWorldMap : ILayoutModule
         BookStart.TextColor = 0;
         BookStart.TextSelColor = 0;
         BookStart.WinWidth = 39;
-        BookStart.OnClick = Layout_BookStartClick_13;
+        BookStart.OnClick = _ => Layout_BookStartClick_13();
         session.EndRead(BookStart);
         LabelL = new TAOWLabel(this);
         session.BeginRead(LabelL);
@@ -544,15 +544,15 @@ public partial class TWorldMap : ILayoutModule
         BookWin = new TAoWBookWindow(this);
         session.BeginRead(BookWin);
         BookWin.Name = "BookWin";
-        BookWin.OnUpdate = Layout_BookWinUpdate_14;
+        BookWin.OnUpdate = _ => Layout_BookWinUpdate_14();
         BookWin.Visible = false;
         BookWin.Priority = 275;
         BookWin.WinLeft = 21;
         BookWin.WinTop = 8;
         BookWin.WinWidth = 599;
         BookWin.Masked = true;
-        BookWin.OnHide = Layout_BookWinHide_15;
-        BookWin.OnShow = Layout_BookWinShow_16;
+        BookWin.OnHide = _ => Layout_BookWinHide_15();
+        BookWin.OnShow = _ => Layout_BookWinShow_16();
         BookWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         BookWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         BookWin.Alignment.HeightPercent = 0;
@@ -586,7 +586,7 @@ public partial class TWorldMap : ILayoutModule
         BookWin.Modal = true;
         BookWin.WinHeight = 465;
         BookWin.Dockable = false;
-        BookWin.OnAnimDone = Layout_BookWinAnimDone_17;
+        BookWin.OnAnimDone = _ => Layout_BookWinAnimDone_17();
         session.EndRead(BookWin);
         InfoPnl = new TAOWPanel(this);
         session.BeginRead(InfoPnl);
@@ -1270,7 +1270,7 @@ public partial class TWorldMap : ILayoutModule
         QuitBtn.TextColor = 0;
         QuitBtn.TextSelColor = 16777215;
         QuitBtn.WinWidth = 130;
-        QuitBtn.OnClick = Layout_QuitBtnClick_18;
+        QuitBtn.OnClick = _ => Layout_QuitBtnClick_18();
         session.EndRead(QuitBtn);
         ShowBtn = new TAOWButton(this);
         session.BeginRead(ShowBtn);
@@ -1305,7 +1305,7 @@ public partial class TWorldMap : ILayoutModule
         ShowBtn.TextColor = 0;
         ShowBtn.TextSelColor = 16777215;
         ShowBtn.WinWidth = 130;
-        ShowBtn.OnClick = Layout_ShowBtnClick_19;
+        ShowBtn.OnClick = _ => Layout_ShowBtnClick_19();
         session.EndRead(ShowBtn);
         SelectLbl = new TAOWLabel(this);
         session.BeginRead(SelectLbl);
@@ -1406,8 +1406,8 @@ public partial class TWorldMap : ILayoutModule
         StarImg = new TAOWImage(this);
         session.BeginRead(StarImg);
         StarImg.Name = "StarImg";
-        StarImg.OnDraw = StarImgDraw;
-        StarImg.OnUpdate = Layout_StarImgUpdate_20;
+        StarImg.OnDraw = (_, SurfDesc) => StarImgDraw(SurfDesc);
+        StarImg.OnUpdate = _ => Layout_StarImgUpdate_20();
         StarImg.Priority = 200;
         StarImg.WinLeft = 461;
         StarImg.WinTop = 193;
@@ -1459,7 +1459,7 @@ public partial class TWorldMap : ILayoutModule
         HeroPnl = new TAoWFrame(this);
         session.BeginRead(HeroPnl);
         HeroPnl.Name = "HeroPnl";
-        HeroPnl.OnPreDraw = HeroPnlPreDraw;
+        HeroPnl.OnPreDraw = (_, SurfDesc) => HeroPnlPreDraw(SurfDesc);
         HeroPnl.Priority = 0;
         HeroPnl.WinLeft = 0;
         HeroPnl.WinTop = 0;
@@ -1487,7 +1487,7 @@ public partial class TWorldMap : ILayoutModule
         Ally1Pnl = new TAoWFrame(this);
         session.BeginRead(Ally1Pnl);
         Ally1Pnl.Name = "Ally1Pnl";
-        Ally1Pnl.OnPreDraw = Ally1PnlPreDraw;
+        Ally1Pnl.OnPreDraw = (_, SurfDesc) => Ally1PnlPreDraw(SurfDesc);
         Ally1Pnl.Priority = 0;
         Ally1Pnl.WinLeft = 0;
         Ally1Pnl.WinTop = 0;
@@ -1515,7 +1515,7 @@ public partial class TWorldMap : ILayoutModule
         Ally2Pnl = new TAoWFrame(this);
         session.BeginRead(Ally2Pnl);
         Ally2Pnl.Name = "Ally2Pnl";
-        Ally2Pnl.OnPreDraw = Ally2PnlPreDraw;
+        Ally2Pnl.OnPreDraw = (_, SurfDesc) => Ally2PnlPreDraw(SurfDesc);
         Ally2Pnl.Priority = 0;
         Ally2Pnl.WinLeft = 0;
         Ally2Pnl.WinTop = 0;
@@ -1543,7 +1543,7 @@ public partial class TWorldMap : ILayoutModule
         Ally3Pnl = new TAoWFrame(this);
         session.BeginRead(Ally3Pnl);
         Ally3Pnl.Name = "Ally3Pnl";
-        Ally3Pnl.OnPreDraw = Ally3PnlPreDraw;
+        Ally3Pnl.OnPreDraw = (_, SurfDesc) => Ally3PnlPreDraw(SurfDesc);
         Ally3Pnl.Priority = 0;
         Ally3Pnl.WinLeft = 0;
         Ally3Pnl.WinTop = 0;
@@ -1601,7 +1601,7 @@ public partial class TWorldMap : ILayoutModule
         SetBtn.TextColor = 0;
         SetBtn.TextSelColor = 16777215;
         SetBtn.WinWidth = 130;
-        SetBtn.OnClick = Layout_SetBtnClick_21;
+        SetBtn.OnClick = _ => Layout_SetBtnClick_21();
         session.EndRead(SetBtn);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -1895,112 +1895,72 @@ public partial class TWorldMap : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_WorldMapCreate_0(TObject p0)
+    private void Layout_WorldMapCreate_0()
     {
         WorldMapCreate();
     }
 
-    private void Layout_WorldPnlMouseMove_1(TObject p0, TSet<TShiftState> p1, int p2, int p3)
-    {
-        WorldPnlMouseMove(p0, p1, p2, p3);
-    }
-
-    private void Layout_WorldPnlUpdate_2(TObject p0)
+    private void Layout_WorldPnlUpdate_2()
     {
         WorldPnlUpdate();
     }
 
-    private void Layout_Path1MouseDown_3(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        Path1MouseDown(p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_Path1MouseMove_4(TObject p0, TSet<TShiftState> p1, int p2, int p3)
-    {
-        Path1MouseMove(p0, p1, p2, p3);
-    }
-
-    private void Layout_Path2MouseDown_5(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        Path2MouseDown(p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_Path2MouseMove_6(TObject p0, TSet<TShiftState> p1, int p2, int p3)
-    {
-        Path2MouseMove(p0, p1, p2, p3);
-    }
-
-    private void Layout_Path3MouseDown_7(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        Path3MouseDown(p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_Path3MouseMove_8(TObject p0, TSet<TShiftState> p1, int p2, int p3)
-    {
-        Path3MouseMove(p0, p1, p2, p3);
-    }
-
-    private void Layout_PPawnMouseMove_9(TObject p0, TSet<TShiftState> p1, int p2, int p3)
-    {
-        PPawnMouseMove((TAoWComponent)p0, p1, p2, p3);
-    }
-
-    private void Layout_BackClick_10(TObject p0)
+    private void Layout_BackClick_10()
     {
         BackClick();
     }
 
-    private void Layout_NextStartClick_11(TObject p0)
+    private void Layout_NextStartClick_11()
     {
         NextStartClick();
     }
 
-    private void Layout_CancelClick_12(TObject p0)
+    private void Layout_CancelClick_12()
     {
         CancelClick();
     }
 
-    private void Layout_BookStartClick_13(TObject p0)
+    private void Layout_BookStartClick_13()
     {
         BookStartClick();
     }
 
-    private void Layout_BookWinUpdate_14(TObject p0)
+    private void Layout_BookWinUpdate_14()
     {
         BookWinUpdate();
     }
 
-    private void Layout_BookWinHide_15(TObject p0)
+    private void Layout_BookWinHide_15()
     {
         BookWinHide();
     }
 
-    private void Layout_BookWinShow_16(TObject p0)
+    private void Layout_BookWinShow_16()
     {
         BookWinShow();
     }
 
-    private void Layout_BookWinAnimDone_17(TObject p0)
+    private void Layout_BookWinAnimDone_17()
     {
         BookWinAnimDone();
     }
 
-    private void Layout_QuitBtnClick_18(TObject p0)
+    private void Layout_QuitBtnClick_18()
     {
         QuitBtnClick();
     }
 
-    private void Layout_ShowBtnClick_19(TObject p0)
+    private void Layout_ShowBtnClick_19()
     {
         ShowBtnClick();
     }
 
-    private void Layout_StarImgUpdate_20(TObject p0)
+    private void Layout_StarImgUpdate_20()
     {
         StarImgUpdate();
     }
 
-    private void Layout_SetBtnClick_21(TObject p0)
+    private void Layout_SetBtnClick_21()
     {
         SetBtnClick();
     }

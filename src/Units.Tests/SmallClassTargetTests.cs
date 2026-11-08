@@ -1,5 +1,6 @@
 using Aow.Units.AoWE;
 using Aow.Units.Engine;
+using Aow.Units.HSEngine;
 using ListObject = Aow.Units.EList.TListObject;
 using ObjectList = Aow.Units.EList.TObjectList;
 
@@ -10,18 +11,17 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void MapLoadedHandlersRemoveByStaticMethodIdentity()
     {
-        var events = new TEventList();
+        var events = new EventStore<THSMap>();
         events.Add(Aow.Units.BehaviorAG.TRegistrator.MapLoaded);
         events.Add(Aow.Units.City.TRegistrator.MapLoaded);
         events.Add(Aow.Units.IndependentAG.TRegistrator.MapLoaded);
         events.Add(Aow.Units.MainAG.TRegistrator.MapLoaded);
         Assert.Equal(4, events.Count);
-        Assert.Equal(0, events.Remove(Aow.Units.BehaviorAG.TRegistrator.MapLoaded));
-        Assert.Equal(0, events.Remove(Aow.Units.City.TRegistrator.MapLoaded));
-        Assert.Equal(0, events.Remove(Aow.Units.IndependentAG.TRegistrator.MapLoaded));
-        Assert.Equal(0, events.Remove(Aow.Units.MainAG.TRegistrator.MapLoaded));
+        events.Remove(Aow.Units.BehaviorAG.TRegistrator.MapLoaded);
+        events.Remove(Aow.Units.City.TRegistrator.MapLoaded);
+        events.Remove(Aow.Units.IndependentAG.TRegistrator.MapLoaded);
+        events.Remove(Aow.Units.MainAG.TRegistrator.MapLoaded);
         Assert.Equal(0, events.Count);
-        events.Destroy();
     }
 
     private sealed class PreviousItem : ListObject

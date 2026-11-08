@@ -3440,14 +3440,14 @@ public partial class TfxHS : TFixedVisibleHS
     public override void Activate()
     {
         base.Activate();
-        AoWTCUnit.AoWCombatMap.NewFrameEvents.Add(NewFrame);
+        AoWTCUnit.AoWCombatMap.NewFrameEvents += NewFrame;
         FFrame = -1;
     }
 
     // AoWTC.pas:5208
     public override void Deactivate()
     {
-        AoWTCUnit.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
+        AoWTCUnit.AoWCombatMap.NewFrameEvents -= NewFrame;
         base.Deactivate();
     }
 
@@ -5540,7 +5540,7 @@ public partial class TCCorpseHS : TSingleHS
         base.Activate();
         if (FSequenceIndex > -1)
         {
-            AoWTCUnit.AoWCombatMap.NewFrameEvents.Add(NewFrame);
+            AoWTCUnit.AoWCombatMap.NewFrameEvents += NewFrame;
         }
 
         FUnitGFX.AddRef();
@@ -5550,7 +5550,7 @@ public partial class TCCorpseHS : TSingleHS
     // AoWTC.pas:3966
     public override void Deactivate()
     {
-        AoWTCUnit.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
+        AoWTCUnit.AoWCombatMap.NewFrameEvents -= NewFrame;
         FUnitGFX.Release();
         base.Deactivate();
     }
@@ -6028,7 +6028,7 @@ public partial class TTacticalCombatUnit : TCombatUnit
             CreateFire(false, 50, FUnitHS.GetXhx(), yhx);
         }
 
-        AoWTCUnit.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(FUnitHS);
+        AoWTCUnit.AoWCombatMap.FUnitChangedEventsStore.Raise(FUnitHS);
     }
 
     // intf_P3_01.inc:244
@@ -6463,7 +6463,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
         SetUnitGFXResourceIndex(FUnit.FUnit.GetUnitGFXResourceIndex());
         FAbilities = new TList();
         CreateTCAbList();
-        AoWTCUnit.AoWCombatMap.NewFrameEvents.Add(NewFrame);
+        AoWTCUnit.AoWCombatMap.NewFrameEvents += NewFrame;
         if (AoWTCUnit.AoWCombatMap.FExplorationEnabled)
         {
             var player = FUnit.GetPlayer();
@@ -6483,7 +6483,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
     {
         if (AoWTCUnit.AoWCombatMap != null)
         {
-            AoWTCUnit.AoWCombatMap.NewFrameEvents.Remove(NewFrame);
+            AoWTCUnit.AoWCombatMap.NewFrameEvents -= NewFrame;
         }
 
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
@@ -6676,7 +6676,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
 
         AoWTCUnit.AoWCombatMap.FUnitSelection.FRangedPath.Clear();
         AoWTCUnit.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
-        AoWTCUnit.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(this);
+        AoWTCUnit.AoWCombatMap.FUnitChangedEventsStore.Raise(this);
         return Result;
     }
 
@@ -6724,7 +6724,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
         }
 
         AoWTCUnit.AoWCombatMap.FUnitSelection.UpdateMoveCursor();
-        AoWTCUnit.AoWCombatMap.FUnitChangedEvents.TriggerNotifyEvents(this);
+        AoWTCUnit.AoWCombatMap.FUnitChangedEventsStore.Raise(this);
         return Result;
     }
 
@@ -7553,7 +7553,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     }
 
     // AoWTC.pas:2777
-    public void RectangleSelectEvent(TObject Sender)
+    public void RectangleSelectEvent(TAbstractAoWHSMapMouse Sender)
     {
         int X1 = default;
         int Y1 = default;
@@ -7567,7 +7567,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         TList Units;
         TRect R;
         Units = new TList();
-        R = ((TAbstractAoWHSMapMouse)Sender).FSelectionRectangle;
+        R = Sender.FSelectionRectangle;
         Level = AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[AoWTCUnit.AoWCombatMap.ViewL];
         HPtoHX(R.Left, R.Top, ref X1, ref Y1);
         HPtoHX(R.Right, R.Bottom, ref X2, ref Y2);
@@ -7617,7 +7617,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     }
 
     // AoWTC.pas:2807
-    public void MoveSelectionEvent(TObject Sender)
+    public void MoveSelectionEvent()
     {
         if (AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer == AoWTCUnit.AoWCombatMap.FCurrentCombatPlayer)
         {
@@ -7637,7 +7637,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                     {
                         FRangedPath.Clear();
                         FMouseOverTarget = null;
-                        AoWTCUnit.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
+                        AoWTCUnit.AoWCombatMap.FMouseOverTargetEventsStore.Raise(FMouseOverTarget);
                     }
                 }
                 else
@@ -8127,7 +8127,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
                                                 var mouseYhx = AoWTCUnit.AoWCombatMap.Mouse.Yhx;
                                                 var xhx = AoWTCUnit.AoWCombatMap.Mouse.Xhx;
                                                 FMouseOverTarget = (THexagonSprite)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[xhx, mouseYhx].FindOwnedChild(2228484);
-                                                AoWTCUnit.AoWCombatMap.FMouseOverTargetEvents.TriggerNotifyEvents(FMouseOverTarget);
+                                                AoWTCUnit.AoWCombatMap.FMouseOverTargetEventsStore.Raise(FMouseOverTarget);
                                             }
                                         }
 
@@ -8303,17 +8303,70 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     public TUnitPositionControl FUnitPositions;
     public sbyte FSeatedCombatPlayer;
     public sbyte FCurrentCombatPlayer;
-    public TEventList FChangeTurnEvents;
-    public TEventList FPlayerChangedEvents;
-    public TEventList FSeatedPlayerChangedEvents;
+
+    internal EventStore<sbyte> FChangeTurnEventsStore;
+
+    public event TNotifyEvent<sbyte> FChangeTurnEvents
+    {
+        add => FChangeTurnEventsStore.Add(value);
+        remove => FChangeTurnEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWCombatMap> FPlayerChangedEventsStore;
+
+    public event TNotifyEvent<TAoWCombatMap> FPlayerChangedEvents
+    {
+        add => FPlayerChangedEventsStore.Add(value);
+        remove => FPlayerChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<sbyte> FSeatedPlayerChangedEventsStore;
+
+    public event TNotifyEvent<sbyte> FSeatedPlayerChangedEvents
+    {
+        add => FSeatedPlayerChangedEventsStore.Add(value);
+        remove => FSeatedPlayerChangedEventsStore.Remove(value);
+    }
+
     public TCombatMoveControl FMoveControl;
     public TCombatUnitSelectionControl FUnitSelection;
-    public TEventList FSelectEvents;
-    public TEventList FDeselectEvents;
+
+    internal EventStore<TTacticalCombat> FSelectEventsStore;
+
+    public event TNotifyEvent<TTacticalCombat> FSelectEvents
+    {
+        add => FSelectEventsStore.Add(value);
+        remove => FSelectEventsStore.Remove(value);
+    }
+
+    internal EventStore<TTacticalCombat> FDeselectEventsStore;
+
+    public event TNotifyEvent<TTacticalCombat> FDeselectEvents
+    {
+        add => FDeselectEventsStore.Add(value);
+        remove => FDeselectEventsStore.Remove(value);
+    }
+
     public TMapObject FCenterViewLocation;
-    public TEventList FMouseOverTargetEvents;
+
+    internal EventStore<THexagonSprite> FMouseOverTargetEventsStore;
+
+    public event TNotifyEvent<THexagonSprite> FMouseOverTargetEvents
+    {
+        add => FMouseOverTargetEventsStore.Add(value);
+        remove => FMouseOverTargetEventsStore.Remove(value);
+    }
+
     // CMapCtrl
-    public TEventList FUnitChangedEvents;
+
+    internal EventStore<TTacticalCombatUnitHS> FUnitChangedEventsStore;
+
+    public event TNotifyEvent<TTacticalCombatUnitHS> FUnitChangedEvents
+    {
+        add => FUnitChangedEventsStore.Add(value);
+        remove => FUnitChangedEventsStore.Remove(value);
+    }
+
     // CMapCtrl
     public TCAI FAI;
     public TList FEffects;
@@ -8340,13 +8393,13 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         base.Destroy();
         AoWTCUnit.AoWCombatMap = null;
         FUnitPositions.Free();
-        FChangeTurnEvents.Free();
-        FPlayerChangedEvents.Free();
-        FSeatedPlayerChangedEvents.Free();
-        FSelectEvents.Free();
-        FDeselectEvents.Free();
-        FMouseOverTargetEvents.Free();
-        FUnitChangedEvents.Free();
+        FChangeTurnEventsStore.Clear();
+        FPlayerChangedEventsStore.Clear();
+        FSeatedPlayerChangedEventsStore.Clear();
+        FSelectEventsStore.Clear();
+        FDeselectEventsStore.Clear();
+        FMouseOverTargetEventsStore.Clear();
+        FUnitChangedEventsStore.Clear();
         FMoveControl.Free();
         FPlayers.Free();
         FUnitSelection.Free();
@@ -8363,23 +8416,23 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     public TAoWCombatMap(TECustomNode owner) : base(owner)
     {
         FUnitPositions = new TUnitPositionControl(null);
-        FChangeTurnEvents = new TEventList();
-        FPlayerChangedEvents = new TEventList();
-        FSeatedPlayerChangedEvents = new TEventList();
+        FChangeTurnEventsStore = new();
+        FPlayerChangedEventsStore = new();
+        FSeatedPlayerChangedEventsStore = new();
         FMoveControl = new TCombatMoveControl(this);
-        FSelectEvents = new TEventList();
-        FDeselectEvents = new TEventList();
-        FMouseOverTargetEvents = new TEventList();
-        FUnitChangedEvents = new TEventList();
+        FSelectEventsStore = new();
+        FDeselectEventsStore = new();
+        FMouseOverTargetEventsStore = new();
+        FUnitChangedEventsStore = new();
         FPlayers = new TTacticalCombatPlayerList();
         FUnitSelection = new TCombatUnitSelectionControl();
-        ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents.Add(FUnitSelection.RectangleSelectEvent);
+        ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents += FUnitSelection.RectangleSelectEvent;
         FEffects = new TList();
         FWalls = new TList();
         FFleeLocations = new TList();
         FAI = new TCAI();
         Mouse.SetCapture(this);
-        Mouse.OnMove.Add(MouseMoveEvent);
+        Mouse.OnMove += MouseMoveEvent;
         Mouse.CursorMode = 256;
         for (int I = 0; I <= 7; I++)
         {
@@ -8618,7 +8671,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
             SetSeatedPlayer(FCombat.FCombatData.FPlayers.GetPlayers(FSeatedCombatPlayer).FPlayer);
         }
 
-        FSeatedPlayerChangedEvents.TriggerNotifyEvents(IntToObject(FCurrentCombatPlayer));
+        FSeatedPlayerChangedEventsStore.Raise(FCurrentCombatPlayer);
     }
 
     // AoWTC.pas:2296
@@ -8698,7 +8751,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         }
 
         FUnitSelection.Unselect();
-        FChangeTurnEvents.TriggerNotifyEvents(IntToObject(FCurrentCombatPlayer));
+        FChangeTurnEventsStore.Raise(FCurrentCombatPlayer);
     }
 
     // AoWTC.pas:2348
@@ -8876,7 +8929,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     }
 
     // AoWTC.pas:2489
-    public void EndCombat(TObject Sender)
+    public void EndCombat()
     {
         TTerminateCombatTE TE;
         TE = new TTerminateCombatTE(null);
@@ -9125,7 +9178,7 @@ public partial class TTacticalCombat : TCombat
                         }
                     }
 
-                    AoWTCUnit.AoWCombatMap.FDeselectEvents.TriggerNotifyEvents(this);
+                    AoWTCUnit.AoWCombatMap.FDeselectEventsStore.Raise(this);
                     Seated = -1;
                     for (int I = 0, last = FCombatData.FPlayers.GetCount() - 1; I <= last; I++)
                     {
@@ -9153,7 +9206,7 @@ public partial class TTacticalCombat : TCombat
                     var turnOrder = FCombatData.FTurnOrder[0];
                     AoWTCUnit.AoWCombatMap.NewTurn((sbyte)turnOrder);
                     Result = TCombatResult.crBusy;
-                    FOnTerminated = AoWTCUnit.AoWCombatMap.EndCombat;
+                    FOnTerminated = _ => AoWTCUnit.AoWCombatMap.EndCombat();
                     SetLogCombatActions(1);
                 }
             }

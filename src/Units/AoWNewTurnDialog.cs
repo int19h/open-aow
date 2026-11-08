@@ -138,7 +138,7 @@ public partial class TNewTurnDlg : TDataModule
     }
 
     // AoWNewTurnDialog.pas:106
-    public void NewTDlgMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void NewTDlgMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (AoWCombatMap == null && FNewTurn.FDialogStyle.Contains(TNewTurnEventLogDialogStyleElement.nsCloseable))
         {
@@ -147,7 +147,7 @@ public partial class TNewTurnDlg : TDataModule
     }
 
     // AoWNewTurnDialog.pas:111
-    public void NewTDlgKeyPress(TObject Sender, ref byte Key)
+    public void NewTDlgKeyPress(ref byte Key)
     {
         if (FNewTurn.FDialogStyle.Contains(TNewTurnEventLogDialogStyleElement.nsCloseable) && (Key == 32 || Key == 13 || Key == 27))
         {
@@ -156,7 +156,7 @@ public partial class TNewTurnDlg : TDataModule
     }
 
     // AoWNewTurnDialog.pas:116
-    public void FaceFramePreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void FaceFramePreDraw(TSurfaceDesc Surface)
     {
         TRect R;
         if (AoWCombatMap != null)

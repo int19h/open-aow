@@ -11,9 +11,8 @@ namespace Aow.Units.AoWUnitWindow;
 public partial class TUnitWindow
 {
     // AoWUnitWindow.pas:773. The cursor belongs to the rewritten main form.
-    public void Gnd1Change(TObject sender)
+    public void Gnd1Change(TAOWCheckBox check)
     {
-        var check = (TAOWCheckBox)sender;
         var hero = (THero)General.FSelectedUnit;
         if (hero is null || AoWEUnit.AoWHSMap.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
         FCursorImage = null;

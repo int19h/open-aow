@@ -1,5 +1,7 @@
 // Translated from AoWBookWindow.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWWinControl;
 using Aow.Units.AoWWindow;
 using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
@@ -11,7 +13,7 @@ namespace Aow.Units.AoWBookWindow;
 // surface, page-turn mode
 public partial class TAoWBookWindow : TAOWWindow
 {
-    public TNotifyEvent FOnAnimationComplete;
+    public TNotifyEvent<TAoWBookWindow> FOnAnimationComplete;
     public bool FFirstAnimationFrame;
     public bool FPreviousSurfaceValid;
     public PageTurnCtrl.TPageTurnControl FPageTurn;
@@ -157,7 +159,127 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     [Published]
-    public TNotifyEvent OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
+    public TNotifyEvent<TAoWBookWindow> OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
+
+    public new TNotifyEvent<TAoWBookWindow> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAoWBookWindow> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAoWBookWindow> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAoWBookWindow> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAoWBookWindow> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAoWBookWindow> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAoWBookWindow> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAoWBookWindow> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
+
+    public new TAoWOnDrawBackEvent<TAoWBookWindow> OnDrawBack
+    {
+        get => EventSlot.Get(this, FOnDrawBack);
+        set => EventSlot.Set(this, ref FOnDrawBack, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnEnter
+    {
+        get => EventSlot.Get(this, FOnEnter);
+        set => EventSlot.Set(this, ref FOnEnter, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnExit
+    {
+        get => EventSlot.Get(this, FOnExit);
+        set => EventSlot.Set(this, ref FOnExit, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnChangeCursor
+    {
+        get => EventSlot.Get(this, FOnChangeCursor);
+        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+    }
+
+    public new TAoWOnDrawSurface<TAoWBookWindow> OnDrawSurface
+    {
+        get => EventSlot.Get(this, FOnDrawSurface);
+        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+    }
+
+    public new TAoWOnDrawSurface<TAoWBookWindow> OnPreDrawSurface
+    {
+        get => EventSlot.Get(this, FOnPreDrawSurface);
+        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnDrag
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnResize
+    {
+        get => EventSlot.Get(this, FOnResize);
+        set => EventSlot.Set(this, ref FOnResize, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnInternalResize
+    {
+        get => EventSlot.Get(this, FOnInternalResize);
+        set => EventSlot.Set(this, ref FOnInternalResize, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnHide
+    {
+        get => EventSlot.Get(this, FOnHide);
+        set => EventSlot.Set(this, ref FOnHide, value);
+    }
+
+    public new TNotifyEvent<TAoWBookWindow> OnShow
+    {
+        get => EventSlot.Get(this, FOnShow);
+        set => EventSlot.Set(this, ref FOnShow, value);
+    }
 }
 
 public static partial class AoWBookWindowUnit

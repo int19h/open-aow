@@ -77,10 +77,10 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:145
-    public void LeaderCustomized(TObject Sender)
+    public void LeaderCustomized(TLeaderSetupControl Sender)
     {
         TLeader Leader;
-        var leaderSetupControl = (TLeaderSetupControl)Sender;
+        var leaderSetupControl = Sender;
         if (leaderSetupControl.FStatus == TLeaderSetupStatus.lssDone)
         {
             Leader = (TLeader)leaderSetupControl.FOriginalLeader.Copy(AoWEngine);
@@ -137,7 +137,7 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:71
-    public void CharGenPnlMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void CharGenPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (FStage == 0)
         {
@@ -146,7 +146,7 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:77
-    public void DefaultFacePnlDraw(TObject Sender, TSurfaceDesc SD)
+    public void DefaultFacePnlDraw(TSurfaceDesc SD)
     {
         TRect R;
         R = Rect(DefaultFacePnl.WinLeft + 1, DefaultFacePnl.WinTop + 1, DefaultFacePnl.WinLeft + DefaultFacePnl.WinWidth - 2, DefaultFacePnl.WinTop + DefaultFacePnl.WinHeight - 2);
@@ -190,7 +190,7 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:114
-    public void ScrollTextDBDraw(TObject Sender, TSurfaceDesc SD)
+    public void ScrollTextDBDraw(TSurfaceDesc SD)
     {
         int X;
         int Y;

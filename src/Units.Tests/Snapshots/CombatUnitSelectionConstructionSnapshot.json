@@ -15,14 +15,14 @@
             "TList.items": []
           },
           "TCombatUnitSelectionControl.FPathInvalid": {
-            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWTC.AnonymousEnum_piMove, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "TSet`1.a": 0,
-            "TSet`1.b": 0,
-            "TSet`1.bounded": false,
-            "TSet`1.c": 0,
-            "TSet`1.d": 0,
-            "TSet`1.high": 0,
-            "TSet`1.low": 0
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWTC.AnonymousEnum_piMove, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet\u00601.a": 0,
+            "TSet\u00601.b": 0,
+            "TSet\u00601.bounded": false,
+            "TSet\u00601.c": 0,
+            "TSet\u00601.d": 0,
+            "TSet\u00601.high": 0,
+            "TSet\u00601.low": 0
           },
           "TCombatUnitSelectionControl.FRangedPath": {
             "$offset": 11,
@@ -47,18 +47,18 @@
             "TRangedPathHS.FTargetImages": {
               "$offset": -3,
               "$type": "Aow.Units.ImageLib.TImageLibrary",
-              "TComponent.<ComponentState>k__BackingField": {
-                "$type": "Aow.Rtl.TSet`1[[Aow.Rtl.TComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "TSet`1.a": 0,
-                "TSet`1.b": 0,
-                "TSet`1.bounded": false,
-                "TSet`1.c": 0,
-                "TSet`1.d": 0,
-                "TSet`1.high": 0,
-                "TSet`1.low": 0
+              "TComponent.\u003CComponentState\u003Ek__BackingField": {
+                "$type": "Aow.Rtl.TSet\u00601[[Aow.Rtl.TComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "TSet\u00601.a": 0,
+                "TSet\u00601.b": 0,
+                "TSet\u00601.bounded": false,
+                "TSet\u00601.c": 0,
+                "TSet\u00601.d": 0,
+                "TSet\u00601.high": 0,
+                "TSet\u00601.low": 0
               },
-              "TComponent.<Owner>k__BackingField": null,
-              "TComponent.<Tag>k__BackingField": 0,
+              "TComponent.\u003COwner\u003Ek__BackingField": null,
+              "TComponent.\u003CTag\u003Ek__BackingField": 0,
               "TComponent.children": [],
               "TComponent.freeNotifies": null,
               "TComponent.name": "",
@@ -83,14 +83,14 @@
               },
               "TCustomImageLibrary.FReloading": false,
               "TCustomImageLibrary.FStatus": {
-                "$type": "Aow.Rtl.TSet`1[[Aow.Units.ImageLib.TImageLibraryStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "TSet`1.a": 0,
-                "TSet`1.b": 0,
-                "TSet`1.bounded": false,
-                "TSet`1.c": 0,
-                "TSet`1.d": 0,
-                "TSet`1.high": 0,
-                "TSet`1.low": 0
+                "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.ImageLib.TImageLibraryStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "TSet\u00601.a": 0,
+                "TSet\u00601.b": 0,
+                "TSet\u00601.bounded": false,
+                "TSet\u00601.c": 0,
+                "TSet\u00601.d": 0,
+                "TSet\u00601.high": 0,
+                "TSet\u00601.low": 0
               }
             }
           },
@@ -103,14 +103,14 @@
             "$offset": 2,
             "$type": "Aow.Units.AoWTC.TCombatMoveControlSettings",
             "TCombatMoveControlSettings.FMoveFlags": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWTC.TCombatMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+              "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWTC.TCombatMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet\u00601.a": 0,
+              "TSet\u00601.b": 0,
+              "TSet\u00601.bounded": false,
+              "TSet\u00601.c": 0,
+              "TSet\u00601.d": 0,
+              "TSet\u00601.high": 0,
+              "TSet\u00601.low": 0
             },
             "TEObject.FOwner": null,
             "TMoveControlSettings.FArmyHS": null,
@@ -125,14 +125,14 @@
             "TMoveControlSettings.FLevelCount": 0,
             "TMoveControlSettings.FLevelData": [],
             "TMoveControlSettings.FMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+              "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "TSet\u00601.a": 0,
+              "TSet\u00601.b": 0,
+              "TSet\u00601.bounded": false,
+              "TSet\u00601.c": 0,
+              "TSet\u00601.d": 0,
+              "TSet\u00601.high": 0,
+              "TSet\u00601.low": 0
             },
             "TMoveControlSettings.FMovePointTable": {
               "$type": "Aow.Units.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
@@ -217,14 +217,14 @@
             "TEObject.FOwner": null
           },
           "TMoveSelector.FStatus": {
-            "$type": "Aow.Rtl.TSet`1[[Aow.Units.AoWE.TMoveSelectorStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "TSet`1.a": 0,
-            "TSet`1.b": 0,
-            "TSet`1.bounded": false,
-            "TSet`1.c": 0,
-            "TSet`1.d": 0,
-            "TSet`1.high": 0,
-            "TSet`1.low": 0
+            "$type": "Aow.Rtl.TSet\u00601[[Aow.Units.AoWE.TMoveSelectorStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "TSet\u00601.a": 0,
+            "TSet\u00601.b": 0,
+            "TSet\u00601.bounded": false,
+            "TSet\u00601.c": 0,
+            "TSet\u00601.d": 0,
+            "TSet\u00601.high": 0,
+            "TSet\u00601.low": 0
           }
         }
       },

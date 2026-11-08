@@ -34,7 +34,7 @@ public partial class TSynchronizeDlg : ILayoutModule
         Dlg.WinTop = 45;
         Dlg.WinWidth = 480;
         Dlg.Masked = true;
-        Dlg.OnShow = Layout_DlgShow_0;
+        Dlg.OnShow = _ => Layout_DlgShow_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -379,7 +379,7 @@ public partial class TSynchronizeDlg : ILayoutModule
         FaceFrame = new TAOWImage(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnPreDraw = FaceFramePreDraw;
+        FaceFrame.OnPreDraw = (_, SurfDesc) => FaceFramePreDraw(SurfDesc);
         FaceFrame.Priority = 2000;
         FaceFrame.WinLeft = 186;
         FaceFrame.WinTop = 35;
@@ -463,7 +463,7 @@ public partial class TSynchronizeDlg : ILayoutModule
         FaceFrame.ImageLib = aowIntGfxModUnit.IntGfxMod.GenericF;
     }
 
-    private void Layout_DlgShow_0(TObject p0)
+    private void Layout_DlgShow_0()
     {
         DlgShow();
     }

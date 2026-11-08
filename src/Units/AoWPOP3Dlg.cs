@@ -143,7 +143,7 @@ public partial class TPOP3Dlg : TDataModule
     }
 
     // AoWPOP3Dlg.pas:166
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

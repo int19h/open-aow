@@ -31,19 +31,19 @@ public partial class TRelWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "RelWindow";
-        LayoutOnCreate = Layout_RelWindowCreate_0;
-        LayoutOnDestroy = Layout_RelWindowDestroy_1;
+        LayoutOnCreate = _ => Layout_RelWindowCreate_0();
+        LayoutOnDestroy = _ => Layout_RelWindowDestroy_1();
         RelWin = new TAOWWindow(this);
         session.BeginRead(RelWin);
         RelWin.Name = "RelWin";
-        RelWin.OnKeyDown = RelWinKeyDown;
+        RelWin.OnKeyDown = (_, ref key, shift) => RelWinKeyDown(ref key, shift);
         RelWin.Visible = false;
         RelWin.Priority = 55;
         RelWin.WinLeft = 0;
         RelWin.WinTop = 0;
         RelWin.WinWidth = 640;
         RelWin.Masked = true;
-        RelWin.OnHide = Layout_RelWinHide_2;
+        RelWin.OnHide = _ => Layout_RelWinHide_2();
         RelWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         RelWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         RelWin.Alignment.HeightPercent = 0;
@@ -167,7 +167,7 @@ public partial class TRelWindow : ILayoutModule
         MExitBtn.TextColor = 0;
         MExitBtn.TextSelColor = 16777215;
         MExitBtn.WinWidth = 180;
-        MExitBtn.OnClick = Layout_ExitClick_3;
+        MExitBtn.OnClick = _ => Layout_ExitClick_3();
         session.EndRead(MExitBtn);
         RelPnl = new TAOWPanel(this);
         session.BeginRead(RelPnl);
@@ -257,7 +257,7 @@ public partial class TRelWindow : ILayoutModule
         MAcceptBtn.TextColor = 0;
         MAcceptBtn.TextSelColor = 16777215;
         MAcceptBtn.WinWidth = 86;
-        MAcceptBtn.OnClick = Layout_MAcceptBtnClick_4;
+        MAcceptBtn.OnClick = _ => Layout_MAcceptBtnClick_4();
         session.EndRead(MAcceptBtn);
         MRejectBtn = new TAOWButton(this);
         session.BeginRead(MRejectBtn);
@@ -292,7 +292,7 @@ public partial class TRelWindow : ILayoutModule
         MRejectBtn.TextColor = 0;
         MRejectBtn.TextSelColor = 16777215;
         MRejectBtn.WinWidth = 86;
-        MRejectBtn.OnClick = Layout_MRejectBtnClick_5;
+        MRejectBtn.OnClick = _ => Layout_MRejectBtnClick_5();
         session.EndRead(MRejectBtn);
         MScroll = new TAOWVScrollBar(this);
         session.BeginRead(MScroll);
@@ -334,7 +334,7 @@ public partial class TRelWindow : ILayoutModule
         P1I = new TAOWImage(this);
         session.BeginRead(P1I);
         P1I.Name = "P1I";
-        P1I.OnDraw = P1IDraw;
+        P1I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 0);
         P1I.Priority = 600;
         P1I.WinLeft = 14;
         P1I.WinTop = 74;
@@ -364,7 +364,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P2I);
         P2I.Name = "P2I";
         P2I.Tag = 1;
-        P2I.OnDraw = P1IDraw;
+        P2I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 1);
         P2I.Priority = 600;
         P2I.WinLeft = 65;
         P2I.WinTop = 74;
@@ -394,7 +394,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P3I);
         P3I.Name = "P3I";
         P3I.Tag = 2;
-        P3I.OnDraw = P1IDraw;
+        P3I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 2);
         P3I.Priority = 600;
         P3I.WinLeft = 116;
         P3I.WinTop = 74;
@@ -424,7 +424,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P4I);
         P4I.Name = "P4I";
         P4I.Tag = 3;
-        P4I.OnDraw = P1IDraw;
+        P4I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 3);
         P4I.Priority = 600;
         P4I.WinLeft = 167;
         P4I.WinTop = 74;
@@ -454,7 +454,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P5I);
         P5I.Name = "P5I";
         P5I.Tag = 4;
-        P5I.OnDraw = P1IDraw;
+        P5I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 4);
         P5I.Priority = 600;
         P5I.WinLeft = 218;
         P5I.WinTop = 74;
@@ -484,7 +484,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P6I);
         P6I.Name = "P6I";
         P6I.Tag = 5;
-        P6I.OnDraw = P1IDraw;
+        P6I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 5);
         P6I.Priority = 600;
         P6I.WinLeft = 269;
         P6I.WinTop = 74;
@@ -514,7 +514,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P7I);
         P7I.Name = "P7I";
         P7I.Tag = 6;
-        P7I.OnDraw = P1IDraw;
+        P7I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 6);
         P7I.Priority = 600;
         P7I.WinLeft = 320;
         P7I.WinTop = 74;
@@ -544,7 +544,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P8I);
         P8I.Name = "P8I";
         P8I.Tag = 7;
-        P8I.OnDraw = P1IDraw;
+        P8I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 7);
         P8I.Priority = 600;
         P8I.WinLeft = 371;
         P8I.WinTop = 74;
@@ -574,7 +574,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P9I);
         P9I.Name = "P9I";
         P9I.Tag = 8;
-        P9I.OnDraw = P1IDraw;
+        P9I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 8);
         P9I.Priority = 600;
         P9I.WinLeft = 422;
         P9I.WinTop = 74;
@@ -604,7 +604,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P10I);
         P10I.Name = "P10I";
         P10I.Tag = 9;
-        P10I.OnDraw = P1IDraw;
+        P10I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 9);
         P10I.Priority = 600;
         P10I.WinLeft = 473;
         P10I.WinTop = 74;
@@ -634,7 +634,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P11I);
         P11I.Name = "P11I";
         P11I.Tag = 10;
-        P11I.OnDraw = P1IDraw;
+        P11I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 10);
         P11I.Priority = 600;
         P11I.WinLeft = 524;
         P11I.WinTop = 74;
@@ -664,7 +664,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(P12I);
         P12I.Name = "P12I";
         P12I.Tag = 11;
-        P12I.OnDraw = P1IDraw;
+        P12I.OnDraw = (sender, surface) => P1IDraw(sender, surface, 11);
         P12I.Priority = 600;
         P12I.WinLeft = 575;
         P12I.WinTop = 74;
@@ -694,7 +694,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R1I);
         R1I.Name = "R1I";
         R1I.Tag = 20;
-        R1I.OnDraw = R1IDraw;
+        R1I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 20);
         R1I.Priority = 500;
         R1I.WinLeft = 14;
         R1I.WinTop = 126;
@@ -724,7 +724,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R2I);
         R2I.Name = "R2I";
         R2I.Tag = 21;
-        R2I.OnDraw = R1IDraw;
+        R2I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 21);
         R2I.Priority = 500;
         R2I.WinLeft = 65;
         R2I.WinTop = 126;
@@ -754,7 +754,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R3I);
         R3I.Name = "R3I";
         R3I.Tag = 22;
-        R3I.OnDraw = R1IDraw;
+        R3I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 22);
         R3I.Priority = 500;
         R3I.WinLeft = 116;
         R3I.WinTop = 126;
@@ -784,7 +784,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R4I);
         R4I.Name = "R4I";
         R4I.Tag = 23;
-        R4I.OnDraw = R1IDraw;
+        R4I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 23);
         R4I.Priority = 500;
         R4I.WinLeft = 167;
         R4I.WinTop = 126;
@@ -814,7 +814,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R5I);
         R5I.Name = "R5I";
         R5I.Tag = 24;
-        R5I.OnDraw = R1IDraw;
+        R5I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 24);
         R5I.Priority = 500;
         R5I.WinLeft = 218;
         R5I.WinTop = 126;
@@ -844,7 +844,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R6I);
         R6I.Name = "R6I";
         R6I.Tag = 25;
-        R6I.OnDraw = R1IDraw;
+        R6I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 25);
         R6I.Priority = 500;
         R6I.WinLeft = 269;
         R6I.WinTop = 126;
@@ -874,7 +874,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R7I);
         R7I.Name = "R7I";
         R7I.Tag = 26;
-        R7I.OnDraw = R1IDraw;
+        R7I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 26);
         R7I.Priority = 500;
         R7I.WinLeft = 320;
         R7I.WinTop = 126;
@@ -904,7 +904,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R8I);
         R8I.Name = "R8I";
         R8I.Tag = 27;
-        R8I.OnDraw = R1IDraw;
+        R8I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 27);
         R8I.Priority = 500;
         R8I.WinLeft = 371;
         R8I.WinTop = 126;
@@ -934,7 +934,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R9I);
         R9I.Name = "R9I";
         R9I.Tag = 28;
-        R9I.OnDraw = R1IDraw;
+        R9I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 28);
         R9I.Priority = 500;
         R9I.WinLeft = 422;
         R9I.WinTop = 126;
@@ -964,7 +964,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R10I);
         R10I.Name = "R10I";
         R10I.Tag = 29;
-        R10I.OnDraw = R1IDraw;
+        R10I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 29);
         R10I.Priority = 500;
         R10I.WinLeft = 473;
         R10I.WinTop = 126;
@@ -994,7 +994,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R11I);
         R11I.Name = "R11I";
         R11I.Tag = 30;
-        R11I.OnDraw = R1IDraw;
+        R11I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 30);
         R11I.Priority = 500;
         R11I.WinLeft = 524;
         R11I.WinTop = 126;
@@ -1024,7 +1024,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R12I);
         R12I.Name = "R12I";
         R12I.Tag = 31;
-        R12I.OnDraw = R1IDraw;
+        R12I.OnDraw = (sender, surface) => R1IDraw(sender, surface, 31);
         R12I.Priority = 500;
         R12I.WinLeft = 575;
         R12I.WinTop = 126;
@@ -1292,7 +1292,7 @@ public partial class TRelWindow : ILayoutModule
         SMemo.WinHeight = 103;
         SMemo.BorderWidth = 4;
         SMemo.BorderHeight = 5;
-        SMemo.OnChange = Layout_ChangeActionMessage_6;
+        SMemo.OnChange = ChangeActionMessage;
         SMemo.TextColor = 12632256;
         SMemo.CursorChar = 95;
         SMemo.BlinkDelay = 2;
@@ -1335,7 +1335,7 @@ public partial class TRelWindow : ILayoutModule
         SBGoldSlid.WinHeight = 18;
         SBGoldSlid.WinWidth = 80;
         SBGoldSlid.NumberVisible = 1;
-        SBGoldSlid.OnChange = SBGoldSlidChange;
+        SBGoldSlid.OnChange = _ => SBGoldSlidChange();
         SBGoldSlid.VanishWhenFull = false;
         SBGoldSlid.ILIndexIncUp = 0;
         SBGoldSlid.ILIndexIncDown = 0;
@@ -1459,7 +1459,7 @@ public partial class TRelWindow : ILayoutModule
         AExit.TextColor = 0;
         AExit.TextSelColor = 16777215;
         AExit.WinWidth = 91;
-        AExit.OnClick = Layout_ExitClick_3;
+        AExit.OnClick = _ => Layout_ExitClick_3();
         session.EndRead(AExit);
         APlayer = new TAOWLabel(this);
         session.BeginRead(APlayer);
@@ -1588,7 +1588,7 @@ public partial class TRelWindow : ILayoutModule
         P1CB = new TAOWCheckBox(this);
         session.BeginRead(P1CB);
         P1CB.Name = "P1CB";
-        P1CB.OnPreDraw = P1CBPreDraw;
+        P1CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 0);
         P1CB.Priority = 800;
         P1CB.WinLeft = 14;
         P1CB.WinTop = 10;
@@ -1619,14 +1619,14 @@ public partial class TRelWindow : ILayoutModule
         P1CB.TextSelColor = 0;
         P1CB.WinWidth = 52;
         P1CB.Checked = false;
-        P1CB.OnChange = P1CBChange;
+        P1CB.OnChange = sender => P1CBChange(sender, 0);
         P1CB.RadioIndex = 1;
         session.EndRead(P1CB);
         P2CB = new TAOWCheckBox(this);
         session.BeginRead(P2CB);
         P2CB.Name = "P2CB";
         P2CB.Tag = 1;
-        P2CB.OnPreDraw = P1CBPreDraw;
+        P2CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 1);
         P2CB.Priority = 800;
         P2CB.WinLeft = 65;
         P2CB.WinTop = 10;
@@ -1657,14 +1657,14 @@ public partial class TRelWindow : ILayoutModule
         P2CB.TextSelColor = 0;
         P2CB.WinWidth = 52;
         P2CB.Checked = false;
-        P2CB.OnChange = P1CBChange;
+        P2CB.OnChange = sender => P1CBChange(sender, 1);
         P2CB.RadioIndex = 1;
         session.EndRead(P2CB);
         P3CB = new TAOWCheckBox(this);
         session.BeginRead(P3CB);
         P3CB.Name = "P3CB";
         P3CB.Tag = 2;
-        P3CB.OnPreDraw = P1CBPreDraw;
+        P3CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 2);
         P3CB.Priority = 800;
         P3CB.WinLeft = 116;
         P3CB.WinTop = 10;
@@ -1695,14 +1695,14 @@ public partial class TRelWindow : ILayoutModule
         P3CB.TextSelColor = 0;
         P3CB.WinWidth = 52;
         P3CB.Checked = false;
-        P3CB.OnChange = P1CBChange;
+        P3CB.OnChange = sender => P1CBChange(sender, 2);
         P3CB.RadioIndex = 1;
         session.EndRead(P3CB);
         P4CB = new TAOWCheckBox(this);
         session.BeginRead(P4CB);
         P4CB.Name = "P4CB";
         P4CB.Tag = 3;
-        P4CB.OnPreDraw = P1CBPreDraw;
+        P4CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 3);
         P4CB.Priority = 800;
         P4CB.WinLeft = 167;
         P4CB.WinTop = 10;
@@ -1733,14 +1733,14 @@ public partial class TRelWindow : ILayoutModule
         P4CB.TextSelColor = 0;
         P4CB.WinWidth = 52;
         P4CB.Checked = false;
-        P4CB.OnChange = P1CBChange;
+        P4CB.OnChange = sender => P1CBChange(sender, 3);
         P4CB.RadioIndex = 1;
         session.EndRead(P4CB);
         P5CB = new TAOWCheckBox(this);
         session.BeginRead(P5CB);
         P5CB.Name = "P5CB";
         P5CB.Tag = 4;
-        P5CB.OnPreDraw = P1CBPreDraw;
+        P5CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 4);
         P5CB.Priority = 800;
         P5CB.WinLeft = 218;
         P5CB.WinTop = 10;
@@ -1771,14 +1771,14 @@ public partial class TRelWindow : ILayoutModule
         P5CB.TextSelColor = 0;
         P5CB.WinWidth = 52;
         P5CB.Checked = false;
-        P5CB.OnChange = P1CBChange;
+        P5CB.OnChange = sender => P1CBChange(sender, 4);
         P5CB.RadioIndex = 1;
         session.EndRead(P5CB);
         P6CB = new TAOWCheckBox(this);
         session.BeginRead(P6CB);
         P6CB.Name = "P6CB";
         P6CB.Tag = 5;
-        P6CB.OnPreDraw = P1CBPreDraw;
+        P6CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 5);
         P6CB.Priority = 800;
         P6CB.WinLeft = 269;
         P6CB.WinTop = 10;
@@ -1809,14 +1809,14 @@ public partial class TRelWindow : ILayoutModule
         P6CB.TextSelColor = 0;
         P6CB.WinWidth = 52;
         P6CB.Checked = false;
-        P6CB.OnChange = P1CBChange;
+        P6CB.OnChange = sender => P1CBChange(sender, 5);
         P6CB.RadioIndex = 1;
         session.EndRead(P6CB);
         P7CB = new TAOWCheckBox(this);
         session.BeginRead(P7CB);
         P7CB.Name = "P7CB";
         P7CB.Tag = 6;
-        P7CB.OnPreDraw = P1CBPreDraw;
+        P7CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 6);
         P7CB.Priority = 800;
         P7CB.WinLeft = 320;
         P7CB.WinTop = 10;
@@ -1847,14 +1847,14 @@ public partial class TRelWindow : ILayoutModule
         P7CB.TextSelColor = 0;
         P7CB.WinWidth = 52;
         P7CB.Checked = false;
-        P7CB.OnChange = P1CBChange;
+        P7CB.OnChange = sender => P1CBChange(sender, 6);
         P7CB.RadioIndex = 1;
         session.EndRead(P7CB);
         P8CB = new TAOWCheckBox(this);
         session.BeginRead(P8CB);
         P8CB.Name = "P8CB";
         P8CB.Tag = 7;
-        P8CB.OnPreDraw = P1CBPreDraw;
+        P8CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 7);
         P8CB.Priority = 800;
         P8CB.WinLeft = 371;
         P8CB.WinTop = 10;
@@ -1885,14 +1885,14 @@ public partial class TRelWindow : ILayoutModule
         P8CB.TextSelColor = 0;
         P8CB.WinWidth = 52;
         P8CB.Checked = false;
-        P8CB.OnChange = P1CBChange;
+        P8CB.OnChange = sender => P1CBChange(sender, 7);
         P8CB.RadioIndex = 1;
         session.EndRead(P8CB);
         P9CB = new TAOWCheckBox(this);
         session.BeginRead(P9CB);
         P9CB.Name = "P9CB";
         P9CB.Tag = 8;
-        P9CB.OnPreDraw = P1CBPreDraw;
+        P9CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 8);
         P9CB.Priority = 800;
         P9CB.WinLeft = 422;
         P9CB.WinTop = 10;
@@ -1923,14 +1923,14 @@ public partial class TRelWindow : ILayoutModule
         P9CB.TextSelColor = 0;
         P9CB.WinWidth = 52;
         P9CB.Checked = false;
-        P9CB.OnChange = P1CBChange;
+        P9CB.OnChange = sender => P1CBChange(sender, 8);
         P9CB.RadioIndex = 1;
         session.EndRead(P9CB);
         P10CB = new TAOWCheckBox(this);
         session.BeginRead(P10CB);
         P10CB.Name = "P10CB";
         P10CB.Tag = 9;
-        P10CB.OnPreDraw = P1CBPreDraw;
+        P10CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 9);
         P10CB.Priority = 800;
         P10CB.WinLeft = 473;
         P10CB.WinTop = 10;
@@ -1961,14 +1961,14 @@ public partial class TRelWindow : ILayoutModule
         P10CB.TextSelColor = 0;
         P10CB.WinWidth = 52;
         P10CB.Checked = false;
-        P10CB.OnChange = P1CBChange;
+        P10CB.OnChange = sender => P1CBChange(sender, 9);
         P10CB.RadioIndex = 1;
         session.EndRead(P10CB);
         P11CB = new TAOWCheckBox(this);
         session.BeginRead(P11CB);
         P11CB.Name = "P11CB";
         P11CB.Tag = 10;
-        P11CB.OnPreDraw = P1CBPreDraw;
+        P11CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 10);
         P11CB.Priority = 800;
         P11CB.WinLeft = 524;
         P11CB.WinTop = 10;
@@ -1999,14 +1999,14 @@ public partial class TRelWindow : ILayoutModule
         P11CB.TextSelColor = 0;
         P11CB.WinWidth = 52;
         P11CB.Checked = false;
-        P11CB.OnChange = P1CBChange;
+        P11CB.OnChange = sender => P1CBChange(sender, 10);
         P11CB.RadioIndex = 1;
         session.EndRead(P11CB);
         P12CB = new TAOWCheckBox(this);
         session.BeginRead(P12CB);
         P12CB.Name = "P12CB";
         P12CB.Tag = 11;
-        P12CB.OnPreDraw = P1CBPreDraw;
+        P12CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 11);
         P12CB.Priority = 800;
         P12CB.WinLeft = 575;
         P12CB.WinTop = 10;
@@ -2037,13 +2037,13 @@ public partial class TRelWindow : ILayoutModule
         P12CB.TextSelColor = 0;
         P12CB.WinWidth = 52;
         P12CB.Checked = false;
-        P12CB.OnChange = P1CBChange;
+        P12CB.OnChange = sender => P1CBChange(sender, 11);
         P12CB.RadioIndex = 1;
         session.EndRead(P12CB);
         FaceFr = new TAOWImage(this);
         session.BeginRead(FaceFr);
         FaceFr.Name = "FaceFr";
-        FaceFr.OnPreDraw = FaceFrPreDraw;
+        FaceFr.OnPreDraw = (_, SurfDesc) => FaceFrPreDraw(SurfDesc);
         FaceFr.Priority = 20;
         FaceFr.WinLeft = 268;
         FaceFr.WinTop = 269;
@@ -2073,7 +2073,7 @@ public partial class TRelWindow : ILayoutModule
         session.BeginRead(R1CB);
         R1CB.Name = "R1CB";
         R1CB.Tag = 20;
-        R1CB.OnPreDraw = R1CBPreDraw;
+        R1CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 20);
         R1CB.Priority = 800;
         R1CB.WinLeft = 14;
         R1CB.WinTop = 185;
@@ -2104,14 +2104,14 @@ public partial class TRelWindow : ILayoutModule
         R1CB.TextSelColor = 0;
         R1CB.WinWidth = 52;
         R1CB.Checked = false;
-        R1CB.OnChange = R1CBChange;
+        R1CB.OnChange = sender => R1CBChange(sender, 20);
         R1CB.RadioIndex = 1;
         session.EndRead(R1CB);
         R2CB = new TAOWCheckBox(this);
         session.BeginRead(R2CB);
         R2CB.Name = "R2CB";
         R2CB.Tag = 21;
-        R2CB.OnPreDraw = R1CBPreDraw;
+        R2CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 21);
         R2CB.Priority = 800;
         R2CB.WinLeft = 65;
         R2CB.WinTop = 185;
@@ -2142,14 +2142,14 @@ public partial class TRelWindow : ILayoutModule
         R2CB.TextSelColor = 0;
         R2CB.WinWidth = 52;
         R2CB.Checked = false;
-        R2CB.OnChange = R1CBChange;
+        R2CB.OnChange = sender => R1CBChange(sender, 21);
         R2CB.RadioIndex = 1;
         session.EndRead(R2CB);
         R3CB = new TAOWCheckBox(this);
         session.BeginRead(R3CB);
         R3CB.Name = "R3CB";
         R3CB.Tag = 22;
-        R3CB.OnPreDraw = R1CBPreDraw;
+        R3CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 22);
         R3CB.Priority = 800;
         R3CB.WinLeft = 116;
         R3CB.WinTop = 185;
@@ -2180,14 +2180,14 @@ public partial class TRelWindow : ILayoutModule
         R3CB.TextSelColor = 0;
         R3CB.WinWidth = 52;
         R3CB.Checked = false;
-        R3CB.OnChange = R1CBChange;
+        R3CB.OnChange = sender => R1CBChange(sender, 22);
         R3CB.RadioIndex = 1;
         session.EndRead(R3CB);
         R4CB = new TAOWCheckBox(this);
         session.BeginRead(R4CB);
         R4CB.Name = "R4CB";
         R4CB.Tag = 23;
-        R4CB.OnPreDraw = R1CBPreDraw;
+        R4CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 23);
         R4CB.Priority = 800;
         R4CB.WinLeft = 167;
         R4CB.WinTop = 185;
@@ -2218,14 +2218,14 @@ public partial class TRelWindow : ILayoutModule
         R4CB.TextSelColor = 0;
         R4CB.WinWidth = 52;
         R4CB.Checked = false;
-        R4CB.OnChange = R1CBChange;
+        R4CB.OnChange = sender => R1CBChange(sender, 23);
         R4CB.RadioIndex = 1;
         session.EndRead(R4CB);
         R5CB = new TAOWCheckBox(this);
         session.BeginRead(R5CB);
         R5CB.Name = "R5CB";
         R5CB.Tag = 24;
-        R5CB.OnPreDraw = R1CBPreDraw;
+        R5CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 24);
         R5CB.Priority = 800;
         R5CB.WinLeft = 218;
         R5CB.WinTop = 185;
@@ -2256,14 +2256,14 @@ public partial class TRelWindow : ILayoutModule
         R5CB.TextSelColor = 0;
         R5CB.WinWidth = 52;
         R5CB.Checked = false;
-        R5CB.OnChange = R1CBChange;
+        R5CB.OnChange = sender => R1CBChange(sender, 24);
         R5CB.RadioIndex = 1;
         session.EndRead(R5CB);
         R6CB = new TAOWCheckBox(this);
         session.BeginRead(R6CB);
         R6CB.Name = "R6CB";
         R6CB.Tag = 25;
-        R6CB.OnPreDraw = R1CBPreDraw;
+        R6CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 25);
         R6CB.Priority = 800;
         R6CB.WinLeft = 269;
         R6CB.WinTop = 185;
@@ -2294,14 +2294,14 @@ public partial class TRelWindow : ILayoutModule
         R6CB.TextSelColor = 0;
         R6CB.WinWidth = 52;
         R6CB.Checked = false;
-        R6CB.OnChange = R1CBChange;
+        R6CB.OnChange = sender => R1CBChange(sender, 25);
         R6CB.RadioIndex = 1;
         session.EndRead(R6CB);
         R7CB = new TAOWCheckBox(this);
         session.BeginRead(R7CB);
         R7CB.Name = "R7CB";
         R7CB.Tag = 26;
-        R7CB.OnPreDraw = R1CBPreDraw;
+        R7CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 26);
         R7CB.Priority = 800;
         R7CB.WinLeft = 320;
         R7CB.WinTop = 185;
@@ -2332,14 +2332,14 @@ public partial class TRelWindow : ILayoutModule
         R7CB.TextSelColor = 0;
         R7CB.WinWidth = 52;
         R7CB.Checked = false;
-        R7CB.OnChange = R1CBChange;
+        R7CB.OnChange = sender => R1CBChange(sender, 26);
         R7CB.RadioIndex = 1;
         session.EndRead(R7CB);
         R8CB = new TAOWCheckBox(this);
         session.BeginRead(R8CB);
         R8CB.Name = "R8CB";
         R8CB.Tag = 27;
-        R8CB.OnPreDraw = R1CBPreDraw;
+        R8CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 27);
         R8CB.Priority = 800;
         R8CB.WinLeft = 371;
         R8CB.WinTop = 185;
@@ -2370,14 +2370,14 @@ public partial class TRelWindow : ILayoutModule
         R8CB.TextSelColor = 0;
         R8CB.WinWidth = 52;
         R8CB.Checked = false;
-        R8CB.OnChange = R1CBChange;
+        R8CB.OnChange = sender => R1CBChange(sender, 27);
         R8CB.RadioIndex = 1;
         session.EndRead(R8CB);
         R9CB = new TAOWCheckBox(this);
         session.BeginRead(R9CB);
         R9CB.Name = "R9CB";
         R9CB.Tag = 28;
-        R9CB.OnPreDraw = R1CBPreDraw;
+        R9CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 28);
         R9CB.Priority = 800;
         R9CB.WinLeft = 422;
         R9CB.WinTop = 185;
@@ -2408,14 +2408,14 @@ public partial class TRelWindow : ILayoutModule
         R9CB.TextSelColor = 0;
         R9CB.WinWidth = 52;
         R9CB.Checked = false;
-        R9CB.OnChange = R1CBChange;
+        R9CB.OnChange = sender => R1CBChange(sender, 28);
         R9CB.RadioIndex = 1;
         session.EndRead(R9CB);
         R10CB = new TAOWCheckBox(this);
         session.BeginRead(R10CB);
         R10CB.Name = "R10CB";
         R10CB.Tag = 29;
-        R10CB.OnPreDraw = R1CBPreDraw;
+        R10CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 29);
         R10CB.Priority = 800;
         R10CB.WinLeft = 473;
         R10CB.WinTop = 185;
@@ -2446,14 +2446,14 @@ public partial class TRelWindow : ILayoutModule
         R10CB.TextSelColor = 0;
         R10CB.WinWidth = 52;
         R10CB.Checked = false;
-        R10CB.OnChange = R1CBChange;
+        R10CB.OnChange = sender => R1CBChange(sender, 29);
         R10CB.RadioIndex = 1;
         session.EndRead(R10CB);
         R11CB = new TAOWCheckBox(this);
         session.BeginRead(R11CB);
         R11CB.Name = "R11CB";
         R11CB.Tag = 30;
-        R11CB.OnPreDraw = R1CBPreDraw;
+        R11CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 30);
         R11CB.Priority = 800;
         R11CB.WinLeft = 524;
         R11CB.WinTop = 185;
@@ -2484,14 +2484,14 @@ public partial class TRelWindow : ILayoutModule
         R11CB.TextSelColor = 0;
         R11CB.WinWidth = 52;
         R11CB.Checked = false;
-        R11CB.OnChange = R1CBChange;
+        R11CB.OnChange = sender => R1CBChange(sender, 30);
         R11CB.RadioIndex = 1;
         session.EndRead(R11CB);
         R12CB = new TAOWCheckBox(this);
         session.BeginRead(R12CB);
         R12CB.Name = "R12CB";
         R12CB.Tag = 31;
-        R12CB.OnPreDraw = R1CBPreDraw;
+        R12CB.OnPreDraw = (sender, surface) => R1CBPreDraw(sender, surface, 31);
         R12CB.Priority = 800;
         R12CB.WinLeft = 575;
         R12CB.WinTop = 185;
@@ -2522,14 +2522,14 @@ public partial class TRelWindow : ILayoutModule
         R12CB.TextSelColor = 0;
         R12CB.WinWidth = 52;
         R12CB.Checked = false;
-        R12CB.OnChange = R1CBChange;
+        R12CB.OnChange = sender => R1CBChange(sender, 31);
         R12CB.RadioIndex = 1;
         session.EndRead(R12CB);
         PlyrGlow = new TAOWImage(this);
         session.BeginRead(PlyrGlow);
         PlyrGlow.Name = "PlyrGlow";
-        PlyrGlow.OnDraw = PlyrGlowDraw;
-        PlyrGlow.OnUpdate = Layout_PlyrGlowUpdate_7;
+        PlyrGlow.OnDraw = (_, SurfDesc) => PlyrGlowDraw(SurfDesc);
+        PlyrGlow.OnUpdate = _ => Layout_PlyrGlowUpdate_7();
         PlyrGlow.Priority = 1000;
         PlyrGlow.WinLeft = 14;
         PlyrGlow.WinTop = 10;
@@ -2612,7 +2612,7 @@ public partial class TRelWindow : ILayoutModule
         ASelect.TextColor = 0;
         ASelect.TextSelColor = 16777215;
         ASelect.WinWidth = 91;
-        ASelect.OnClick = Layout_ASelectClick_8;
+        ASelect.OnClick = _ => Layout_ASelectClick_8();
         session.EndRead(ASelect);
         ActionsLB = new TAOWListBox(this);
         session.BeginRead(ActionsLB);
@@ -2638,7 +2638,7 @@ public partial class TRelWindow : ILayoutModule
         ActionsLB.WinHeight = 106;
         ActionsLB.BorderWidth = 8;
         ActionsLB.BorderHeight = 3;
-        ActionsLB.OnChange = ActionsLBChange;
+        ActionsLB.OnChange = _ => ActionsLBChange();
         ActionsLB.Selected = -1;
         ActionsLB.TextColor = 9415072;
         ActionsLB.TextSelColor = 0;
@@ -3472,7 +3472,7 @@ public partial class TRelWindow : ILayoutModule
         MsgSendBtn.TextColor = 0;
         MsgSendBtn.TextSelColor = 16777215;
         MsgSendBtn.WinWidth = 92;
-        MsgSendBtn.OnClick = Layout_MsgSendActionBtn_9;
+        MsgSendBtn.OnClick = _ => Layout_MsgSendActionBtn_9();
         session.EndRead(MsgSendBtn);
         MsgCancelBtn = new TAOWButton(this);
         session.BeginRead(MsgCancelBtn);
@@ -3507,7 +3507,7 @@ public partial class TRelWindow : ILayoutModule
         MsgCancelBtn.TextColor = 0;
         MsgCancelBtn.TextSelColor = 16777215;
         MsgCancelBtn.WinWidth = 86;
-        MsgCancelBtn.OnClick = Layout_CancelSelectedAction_10;
+        MsgCancelBtn.OnClick = _ => Layout_CancelSelectedAction_10();
         session.EndRead(MsgCancelBtn);
         RSBribe2 = new TAoWFrame(this);
         session.BeginRead(RSBribe2);
@@ -3782,7 +3782,7 @@ public partial class TRelWindow : ILayoutModule
         SBManaSlid.WinHeight = 18;
         SBManaSlid.WinWidth = 80;
         SBManaSlid.NumberVisible = 1;
-        SBManaSlid.OnChange = SBManaSlidChange;
+        SBManaSlid.OnChange = _ => SBManaSlidChange();
         SBManaSlid.VanishWhenFull = false;
         SBManaSlid.ILIndexIncUp = 0;
         SBManaSlid.ILIndexIncDown = 0;
@@ -3856,7 +3856,7 @@ public partial class TRelWindow : ILayoutModule
         RSBSendBtn.TextColor = 0;
         RSBSendBtn.TextSelColor = 16777215;
         RSBSendBtn.WinWidth = 86;
-        RSBSendBtn.OnClick = Layout_MsgSendActionBtn_9;
+        RSBSendBtn.OnClick = _ => Layout_MsgSendActionBtn_9();
         session.EndRead(RSBSendBtn);
         RBSCanlBtn = new TAOWButton(this);
         session.BeginRead(RBSCanlBtn);
@@ -3891,7 +3891,7 @@ public partial class TRelWindow : ILayoutModule
         RBSCanlBtn.TextColor = 0;
         RBSCanlBtn.TextSelColor = 16777215;
         RBSCanlBtn.WinWidth = 86;
-        RBSCanlBtn.OnClick = Layout_CancelSelectedAction_10;
+        RBSCanlBtn.OnClick = _ => Layout_CancelSelectedAction_10();
         session.EndRead(RBSCanlBtn);
         StatusGlow = new TAOWImage(this);
         session.BeginRead(StatusGlow);
@@ -4064,7 +4064,7 @@ public partial class TRelWindow : ILayoutModule
         RMReplyBtn.TextColor = 0;
         RMReplyBtn.TextSelColor = 16777215;
         RMReplyBtn.WinWidth = 92;
-        RMReplyBtn.OnClick = Layout_ReplyBtnClick_11;
+        RMReplyBtn.OnClick = _ => Layout_ReplyBtnClick_11();
         session.EndRead(RMReplyBtn);
         RMCancelBtn = new TAOWButton(this);
         session.BeginRead(RMCancelBtn);
@@ -4099,7 +4099,7 @@ public partial class TRelWindow : ILayoutModule
         RMCancelBtn.TextColor = 0;
         RMCancelBtn.TextSelColor = 16777215;
         RMCancelBtn.WinWidth = 86;
-        RMCancelBtn.OnClick = Layout_RMCancelBtnClick_12;
+        RMCancelBtn.OnClick = _ => Layout_RMCancelBtnClick_12();
         session.EndRead(RMCancelBtn);
         RMExitBtn = new TAOWButton(this);
         session.BeginRead(RMExitBtn);
@@ -4134,7 +4134,7 @@ public partial class TRelWindow : ILayoutModule
         RMExitBtn.TextColor = 0;
         RMExitBtn.TextSelColor = 16777215;
         RMExitBtn.WinWidth = 191;
-        RMExitBtn.OnClick = Layout_ExitClick_3;
+        RMExitBtn.OnClick = _ => Layout_ExitClick_3();
         session.EndRead(RMExitBtn);
         IncommingInfoPnl = new TAOWPanel(this);
         session.BeginRead(IncommingInfoPnl);
@@ -4193,7 +4193,7 @@ public partial class TRelWindow : ILayoutModule
         IIOkBtn.TextColor = 0;
         IIOkBtn.TextSelColor = 16777215;
         IIOkBtn.WinWidth = 86;
-        IIOkBtn.OnClick = Layout_IIOkBtnClick_13;
+        IIOkBtn.OnClick = _ => Layout_IIOkBtnClick_13();
         session.EndRead(IIOkBtn);
         IIExitBtn = new TAOWButton(this);
         session.BeginRead(IIExitBtn);
@@ -4228,7 +4228,7 @@ public partial class TRelWindow : ILayoutModule
         IIExitBtn.TextColor = 0;
         IIExitBtn.TextSelColor = 16777215;
         IIExitBtn.WinWidth = 86;
-        IIExitBtn.OnClick = Layout_ExitClick_3;
+        IIExitBtn.OnClick = _ => Layout_ExitClick_3();
         session.EndRead(IIExitBtn);
         IRScroll = new TAOWVScrollBar(this);
         session.BeginRead(IRScroll);
@@ -4934,72 +4934,67 @@ public partial class TRelWindow : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_RelWindowCreate_0(TObject p0)
+    private void Layout_RelWindowCreate_0()
     {
         RelWindowCreate();
     }
 
-    private void Layout_RelWindowDestroy_1(TObject p0)
+    private void Layout_RelWindowDestroy_1()
     {
         RelWindowDestroy();
     }
 
-    private void Layout_RelWinHide_2(TObject p0)
+    private void Layout_RelWinHide_2()
     {
         RelWinHide();
     }
 
-    private void Layout_ExitClick_3(TObject p0)
+    private void Layout_ExitClick_3()
     {
         ExitClick();
     }
 
-    private void Layout_MAcceptBtnClick_4(TObject p0)
+    private void Layout_MAcceptBtnClick_4()
     {
         MAcceptBtnClick();
     }
 
-    private void Layout_MRejectBtnClick_5(TObject p0)
+    private void Layout_MRejectBtnClick_5()
     {
         MRejectBtnClick();
     }
 
-    private void Layout_ChangeActionMessage_6(TObject p0)
-    {
-        ChangeActionMessage((TAOWMemo)p0);
-    }
-
-    private void Layout_PlyrGlowUpdate_7(TObject p0)
+    private void Layout_PlyrGlowUpdate_7()
     {
         PlyrGlowUpdate();
     }
 
-    private void Layout_ASelectClick_8(TObject p0)
+    private void Layout_ASelectClick_8()
     {
         ASelectClick();
     }
 
-    private void Layout_MsgSendActionBtn_9(TObject p0)
+    private void Layout_MsgSendActionBtn_9()
     {
         MsgSendActionBtn();
     }
 
-    private void Layout_CancelSelectedAction_10(TObject p0)
+    private void Layout_CancelSelectedAction_10()
     {
         CancelSelectedAction();
     }
 
-    private void Layout_ReplyBtnClick_11(TObject p0)
+    private void Layout_ReplyBtnClick_11()
     {
         ReplyBtnClick();
     }
 
-    private void Layout_RMCancelBtnClick_12(TObject p0)
+    private void Layout_RMCancelBtnClick_12()
     {
         RMCancelBtnClick();
     }
 
-    private void Layout_IIOkBtnClick_13(TObject p0)
+    private void Layout_IIOkBtnClick_13()
     {
         IIOkBtnClick();
     }

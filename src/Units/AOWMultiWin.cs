@@ -207,7 +207,7 @@ public partial class TMultiWindow : TDataModule
     }
 
     // AOWMultiWin.pas:215
-    public void HostClick(TObject Sender)
+    public void HostClick()
     {
         General.PlayButtonSound(0);
         if (ConnectProvider(TConnectionType.conTCP) == 0)
@@ -248,7 +248,7 @@ public partial class TMultiWindow : TDataModule
     }
 
     // AOWMultiWin.pas:259
-    public void LANHostClick(TObject Sender)
+    public void LANHostClick()
     {
         /* TODO: Implement aowDPlayComp.PlayerName in the platform or editor service. */
         throw new NotImplementedException();

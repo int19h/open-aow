@@ -56,7 +56,7 @@ public partial class TUnitSelectionDlg : ILayoutModule
         SelectBtn.TextColor = 0;
         SelectBtn.TextSelColor = 16777215;
         SelectBtn.WinWidth = 128;
-        SelectBtn.OnClick = Layout_SelectBtnClick_0;
+        SelectBtn.OnClick = _ => Layout_SelectBtnClick_0();
         session.EndRead(SelectBtn);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -118,7 +118,7 @@ public partial class TUnitSelectionDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_1;
+        Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -172,7 +172,7 @@ public partial class TUnitSelectionDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 128;
-        CancelBtn.OnClick = Layout_CloseClick_1;
+        CancelBtn.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(CancelBtn);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
@@ -183,7 +183,7 @@ public partial class TUnitSelectionDlg : ILayoutModule
         Dlg.WinTop = 98;
         Dlg.WinWidth = 492;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_2;
+        Dlg.OnHide = _ => Layout_DlgHide_2();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -298,7 +298,7 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U1 = new TAOWCheckBox(this);
         session.BeginRead(U1);
         U1.Name = "U1";
-        U1.OnPreDraw = U1PreDraw;
+        U1.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 0);
         U1.Priority = 0;
         U1.WinLeft = 0;
         U1.WinTop = 0;
@@ -325,14 +325,14 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U1.TextSelColor = 0;
         U1.WinWidth = 50;
         U1.Checked = false;
-        U1.OnChange = U1Change;
+        U1.OnChange = sender => U1Change(sender, 0);
         U1.RadioIndex = 0;
         session.EndRead(U1);
         U2 = new TAOWCheckBox(this);
         session.BeginRead(U2);
         U2.Name = "U2";
         U2.Tag = 1;
-        U2.OnPreDraw = U1PreDraw;
+        U2.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 1);
         U2.Priority = 0;
         U2.WinLeft = 55;
         U2.WinTop = 0;
@@ -359,14 +359,14 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U2.TextSelColor = 0;
         U2.WinWidth = 50;
         U2.Checked = false;
-        U2.OnChange = U1Change;
+        U2.OnChange = sender => U1Change(sender, 1);
         U2.RadioIndex = 0;
         session.EndRead(U2);
         U3 = new TAOWCheckBox(this);
         session.BeginRead(U3);
         U3.Name = "U3";
         U3.Tag = 2;
-        U3.OnPreDraw = U1PreDraw;
+        U3.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 2);
         U3.Priority = 0;
         U3.WinLeft = 110;
         U3.WinTop = 0;
@@ -393,14 +393,14 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U3.TextSelColor = 0;
         U3.WinWidth = 50;
         U3.Checked = false;
-        U3.OnChange = U1Change;
+        U3.OnChange = sender => U1Change(sender, 2);
         U3.RadioIndex = 0;
         session.EndRead(U3);
         U4 = new TAOWCheckBox(this);
         session.BeginRead(U4);
         U4.Name = "U4";
         U4.Tag = 3;
-        U4.OnPreDraw = U1PreDraw;
+        U4.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 3);
         U4.Priority = 0;
         U4.WinLeft = 165;
         U4.WinTop = 0;
@@ -427,14 +427,14 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U4.TextSelColor = 0;
         U4.WinWidth = 50;
         U4.Checked = false;
-        U4.OnChange = U1Change;
+        U4.OnChange = sender => U1Change(sender, 3);
         U4.RadioIndex = 0;
         session.EndRead(U4);
         U5 = new TAOWCheckBox(this);
         session.BeginRead(U5);
         U5.Name = "U5";
         U5.Tag = 4;
-        U5.OnPreDraw = U1PreDraw;
+        U5.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 4);
         U5.Priority = 0;
         U5.WinLeft = 220;
         U5.WinTop = 0;
@@ -461,14 +461,14 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U5.TextSelColor = 0;
         U5.WinWidth = 50;
         U5.Checked = false;
-        U5.OnChange = U1Change;
+        U5.OnChange = sender => U1Change(sender, 4);
         U5.RadioIndex = 0;
         session.EndRead(U5);
         U6 = new TAOWCheckBox(this);
         session.BeginRead(U6);
         U6.Name = "U6";
         U6.Tag = 5;
-        U6.OnPreDraw = U1PreDraw;
+        U6.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 5);
         U6.Priority = 0;
         U6.WinLeft = 275;
         U6.WinTop = 0;
@@ -495,14 +495,14 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U6.TextSelColor = 0;
         U6.WinWidth = 50;
         U6.Checked = false;
-        U6.OnChange = U1Change;
+        U6.OnChange = sender => U1Change(sender, 5);
         U6.RadioIndex = 0;
         session.EndRead(U6);
         U7 = new TAOWCheckBox(this);
         session.BeginRead(U7);
         U7.Name = "U7";
         U7.Tag = 6;
-        U7.OnPreDraw = U1PreDraw;
+        U7.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 6);
         U7.Priority = 0;
         U7.WinLeft = 330;
         U7.WinTop = 0;
@@ -529,14 +529,14 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U7.TextSelColor = 0;
         U7.WinWidth = 50;
         U7.Checked = false;
-        U7.OnChange = U1Change;
+        U7.OnChange = sender => U1Change(sender, 6);
         U7.RadioIndex = 0;
         session.EndRead(U7);
         U8 = new TAOWCheckBox(this);
         session.BeginRead(U8);
         U8.Name = "U8";
         U8.Tag = 7;
-        U8.OnPreDraw = U1PreDraw;
+        U8.OnPreDraw = (sender, surface) => U1PreDraw(sender, surface, 7);
         U8.Priority = 0;
         U8.WinLeft = 386;
         U8.WinTop = 0;
@@ -563,7 +563,7 @@ public partial class TUnitSelectionDlg : ILayoutModule
         U8.TextSelColor = 0;
         U8.WinWidth = 50;
         U8.Checked = false;
-        U8.OnChange = U1Change;
+        U8.OnChange = sender => U1Change(sender, 7);
         U8.RadioIndex = 0;
         session.EndRead(U8);
         DecoL = new TAOWImage(this);
@@ -625,7 +625,7 @@ public partial class TUnitSelectionDlg : ILayoutModule
         SourceFace = new TAOWImage(this);
         session.BeginRead(SourceFace);
         SourceFace.Name = "SourceFace";
-        SourceFace.OnPreDraw = SourceFacePreDraw;
+        SourceFace.OnPreDraw = (_, SurfDesc) => SourceFacePreDraw(SurfDesc);
         SourceFace.Priority = 0;
         SourceFace.WinLeft = 0;
         SourceFace.WinTop = 0;
@@ -840,17 +840,17 @@ public partial class TUnitSelectionDlg : ILayoutModule
         SelectionLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
     }
 
-    private void Layout_SelectBtnClick_0(TObject p0)
+    private void Layout_SelectBtnClick_0()
     {
         SelectBtnClick();
     }
 
-    private void Layout_CloseClick_1(TObject p0)
+    private void Layout_CloseClick_1()
     {
         CloseClick();
     }
 
-    private void Layout_DlgHide_2(TObject p0)
+    private void Layout_DlgHide_2()
     {
         DlgHide();
     }

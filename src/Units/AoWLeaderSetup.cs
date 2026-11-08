@@ -763,15 +763,13 @@ public partial class TLeaderSetupWin : TDataModule
     }
 
     // AoWLeaderSetup.pas:312
-    public void DrawSelectionFace(TObject Sender, TSurfaceDesc SD)
+    public void DrawSelectionFace(TAoWFrame Sender, TSurfaceDesc SD, int Offset)
     {
         TLeaderSetupControl Setup;
         int Index;
-        int Offset;
         TRect R;
         TFaceResource Face;
         Setup = FSetup;
-        Offset = ((TComponent)Sender).Tag;
         Index = FLeader.FFaceIndex;
         while (Offset < 0)
         {
@@ -785,7 +783,7 @@ public partial class TLeaderSetupWin : TDataModule
             Index = AoWHSSet.FFaceResources.NextFace(Index);
         }
 
-        var image = (TAoWComponent)Sender;
+        var image = Sender;
         R = Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
 
         if (Setup.FOriginalLeader.GetFace() != null)
@@ -913,14 +911,14 @@ public partial class TLeaderSetupWin : TDataModule
     }
 
     // AoWLeaderSetup.pas:405
-    public void MainFaceFrPreDraw(TObject Sender, TSurfaceDesc SD)
+    public void MainFaceFrPreDraw(TAoWFrame Sender, TSurfaceDesc SD)
     {
         TLeaderSetupControl Setup;
         TRect R;
         Setup = FSetup;
         if (FPhase > 1)
         {
-            var frame = (TAoWComponent)Sender;
+            var frame = Sender;
             R = Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
 
             if (Setup.FOriginalLeader.GetFace() != null)
@@ -1107,7 +1105,7 @@ public partial class TLeaderSetupWin : TDataModule
     }
 
     // AoWLeaderSetup.pas:568
-    public void DefaultBtnClick(TObject Sender)
+    public void DefaultBtnClick()
     {
         General.PlayButtonSound(0);
         TitleWindow.TitleWin.FDrawn = false;
@@ -1221,13 +1219,13 @@ public partial class TLeaderSetupWin : TDataModule
     }
 
     // AoWLeaderSetup.pas:664
-    public void DeleteSphereClick(TObject Sender)
+    public void DeleteSphereClick(int Slot)
     {
         General.PlayButtonSound(0);
         var sphereCount = FLeader.GetSphereCount();
-        if (((TComponent)Sender).Tag < sphereCount)
+        if (Slot < sphereCount)
         {
-            FLeader.DeleteSphereIndex(((TComponent)Sender).Tag);
+            FLeader.DeleteSphereIndex(Slot);
         }
 
         UpdateSpheres();
@@ -1324,7 +1322,7 @@ public partial class TLeaderSetupWin : TDataModule
     }
 
     // AoWLeaderSetup.pas:725
-    public void SelectedAbilitiesCostMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void SelectedAbilitiesCostMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility Ability;
         if (Button == TMouseButton.mbRight && SelectedAbilities.Selected != -1)
@@ -1340,7 +1338,7 @@ public partial class TLeaderSetupWin : TDataModule
     }
 
     // AoWLeaderSetup.pas:737
-    public void AvailableAbilitiesMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void AvailableAbilitiesMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility Ability;
         if (Button == TMouseButton.mbRight && AvailableAbilities.Selected != -1)

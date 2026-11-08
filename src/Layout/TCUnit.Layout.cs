@@ -65,8 +65,8 @@ public partial class TTCUnit : ILayoutModule
         TCUnitWin.DragHeight = 20;
         TCUnitWin.Draggable = true;
         TCUnitWin.Resizable = true;
-        TCUnitWin.OnDrag = Layout_TCUnitWinResize_0;
-        TCUnitWin.OnResize = Layout_TCUnitWinResize_0;
+        TCUnitWin.OnDrag = _ => Layout_TCUnitWinResize_0();
+        TCUnitWin.OnResize = _ => Layout_TCUnitWinResize_0();
         TCUnitWin.MinWidth = 150;
         TCUnitWin.MinHeight = 262;
         TCUnitWin.MaxWidth = 0;
@@ -136,7 +136,7 @@ public partial class TTCUnit : ILayoutModule
         Min.TextColor = 0;
         Min.TextSelColor = 0;
         Min.WinWidth = 15;
-        Min.OnClick = Layout_MinClick_1;
+        Min.OnClick = _ => Layout_MinClick_1();
         session.EndRead(Min);
         Close = new TAOWButton(this);
         session.BeginRead(Close);
@@ -170,7 +170,7 @@ public partial class TTCUnit : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_2;
+        Close.OnClick = _ => Layout_CloseClick_2();
         session.EndRead(Close);
         IWTitle = new TAOWLabel(this);
         session.BeginRead(IWTitle);
@@ -607,9 +607,9 @@ public partial class TTCUnit : ILayoutModule
         UAbilLB = new TAOWListBox(this);
         session.BeginRead(UAbilLB);
         UAbilLB.Name = "UAbilLB";
-        UAbilLB.OnMouseDown = UAbilLBMouseDown;
-        UAbilLB.OnMouseMove = UAbilLBMouseMove;
-        UAbilLB.OnUpdate = Layout_UAbilLBUpdate_3;
+        UAbilLB.OnMouseDown = (_, button, shift, x, y) => UAbilLBMouseDown(button, shift, x, y);
+        UAbilLB.OnMouseMove = (_, shift, x, y) => UAbilLBMouseMove(shift, x, y);
+        UAbilLB.OnUpdate = _ => Layout_UAbilLBUpdate_3();
         UAbilLB.Priority = 0;
         UAbilLB.WinLeft = 1;
         UAbilLB.WinTop = 113;
@@ -632,7 +632,7 @@ public partial class TTCUnit : ILayoutModule
         UAbilLB.BorderWidth = 20;
         UAbilLB.BorderHeight = 3;
         UAbilLB.Selected = -1;
-        UAbilLB.OnPreDrawItem = UAbilLBPreDrawItem;
+        UAbilLB.OnPreDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => UAbilLBPreDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         UAbilLB.TextColor = 9415072;
         UAbilLB.TextSelColor = 0;
         UAbilLB.ILIndexFrame = 113;
@@ -1674,7 +1674,7 @@ public partial class TTCUnit : ILayoutModule
         Center.TextColor = 0;
         Center.TextSelColor = 0;
         Center.WinWidth = 15;
-        Center.OnClick = Layout_CenterClick_4;
+        Center.OnClick = _ => Layout_CenterClick_4();
         session.EndRead(Center);
         AbilSB = new TAOWVScrollBar(this);
         session.BeginRead(AbilSB);
@@ -1896,7 +1896,7 @@ public partial class TTCUnit : ILayoutModule
         UnitFr = new TAOWPanel(this);
         session.BeginRead(UnitFr);
         UnitFr.Name = "UnitFr";
-        UnitFr.OnMouseDown = HeroSMapMouseDown;
+        UnitFr.OnMouseDown = (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
         UnitFr.Priority = 30;
         UnitFr.WinLeft = 1;
         UnitFr.WinTop = 2;
@@ -1924,8 +1924,8 @@ public partial class TTCUnit : ILayoutModule
         UnitBox = new TaowUserDrawBox(this);
         session.BeginRead(UnitBox);
         UnitBox.Name = "UnitBox";
-        UnitBox.OnMouseDown = HeroSMapMouseDown;
-        UnitBox.OnDraw = TCUnitPnlDrawBack;
+        UnitBox.OnMouseDown = (_, button, shift, x, y) => HeroSMapMouseDown(button, shift, x, y);
+        UnitBox.OnDraw = (_, SurfDesc) => TCUnitPnlDrawBack(SurfDesc);
         UnitBox.Priority = 10;
         UnitBox.WinLeft = 5;
         UnitBox.WinTop = 0;
@@ -2212,27 +2212,27 @@ public partial class TTCUnit : ILayoutModule
         UnitFr.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
     }
 
-    private void Layout_TCUnitWinResize_0(TObject p0)
+    private void Layout_TCUnitWinResize_0()
     {
         TCUnitWinResize();
     }
 
-    private void Layout_MinClick_1(TObject p0)
+    private void Layout_MinClick_1()
     {
         MinClick();
     }
 
-    private void Layout_CloseClick_2(TObject p0)
+    private void Layout_CloseClick_2()
     {
         CloseClick();
     }
 
-    private void Layout_UAbilLBUpdate_3(TObject p0)
+    private void Layout_UAbilLBUpdate_3()
     {
         UAbilLBUpdate();
     }
 
-    private void Layout_CenterClick_4(TObject p0)
+    private void Layout_CenterClick_4()
     {
         CenterClick();
     }

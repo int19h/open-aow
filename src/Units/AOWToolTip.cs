@@ -1,5 +1,7 @@
 // Translated from AOWToolTip.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
+using Aow.Units.AoWWinControl;
 using Aow.Units.AoWWinGeneric;
 using Aow.Units.GFXE;
 using Aow.Units.ImageLib;
@@ -16,7 +18,7 @@ namespace Aow.Units.AOWToolTip;
 public partial class TAOWToolTip : TAOWGenericWindow
 {
     public TStringList FItems;
-    public TNotifyEvent FOnDrawItem;
+    public TNotifyEvent<TAOWToolTip> FOnDrawItem;
     public bool FToolTipStatic;
     public int FToolTipDelay;
     public int FShowDuration;
@@ -373,7 +375,7 @@ public partial class TAOWToolTip : TAOWGenericWindow
     public TStringList Items { get => FItems; set => SetFStrings(value); }
 
     [Published]
-    public TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public TNotifyEvent<TAOWToolTip> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
     public bool ToolTipStatic { get => FToolTipStatic; set => FToolTipStatic = value; }
@@ -386,6 +388,108 @@ public partial class TAOWToolTip : TAOWGenericWindow
 
     [Published]
     public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
+
+    public new TNotifyEvent<TAOWToolTip> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWToolTip> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWToolTip> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWToolTip> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWToolTip> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWToolTip> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWToolTip> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWToolTip> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWToolTip> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
+
+    public new TAoWOnDrawBackEvent<TAOWToolTip> OnDrawBack
+    {
+        get => EventSlot.Get(this, FOnDrawBack);
+        set => EventSlot.Set(this, ref FOnDrawBack, value);
+    }
+
+    public new TNotifyEvent<TAOWToolTip> OnEnter
+    {
+        get => EventSlot.Get(this, FOnEnter);
+        set => EventSlot.Set(this, ref FOnEnter, value);
+    }
+
+    public new TNotifyEvent<TAOWToolTip> OnExit
+    {
+        get => EventSlot.Get(this, FOnExit);
+        set => EventSlot.Set(this, ref FOnExit, value);
+    }
+
+    public new TNotifyEvent<TAOWToolTip> OnChangeCursor
+    {
+        get => EventSlot.Get(this, FOnChangeCursor);
+        set => EventSlot.Set(this, ref FOnChangeCursor, value);
+    }
+
+    public new TAoWOnDrawSurface<TAOWToolTip> OnDrawSurface
+    {
+        get => EventSlot.Get(this, FOnDrawSurface);
+        set => EventSlot.Set(this, ref FOnDrawSurface, value);
+    }
+
+    public new TAoWOnDrawSurface<TAOWToolTip> OnPreDrawSurface
+    {
+        get => EventSlot.Get(this, FOnPreDrawSurface);
+        set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
+    }
+
+    public new TNotifyEvent<TAOWToolTip> OnHide
+    {
+        get => EventSlot.Get(this, FOnHide);
+        set => EventSlot.Set(this, ref FOnHide, value);
+    }
+
+    public new TNotifyEvent<TAOWToolTip> OnShow
+    {
+        get => EventSlot.Get(this, FOnShow);
+        set => EventSlot.Set(this, ref FOnShow, value);
+    }
 }
 
 public static partial class AOWToolTipUnit

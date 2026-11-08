@@ -198,8 +198,8 @@ public class TStringList : TStrings
     // CLASSES.PAS TStringList.SetCapacity.
     public override int Capacity { get => items.Length; set { if (value < count) Error("List capacity out of bounds (%d)", value); Array.Resize(ref items, value); } }
     public TDuplicates Duplicates { get; set; }
-    public TNotifyEvent? OnChange { get; set; }
-    public TNotifyEvent? OnChanging { get; set; }
+    public TNotifyEvent<TStringList>? OnChange { get; set; }
+    public TNotifyEvent<TStringList>? OnChanging { get; set; }
 
     // CLASSES.PAS TStringList.Changed, Changing and SetUpdateState.
     protected virtual void Changed() { if (UpdateCount == 0) OnChange?.Invoke(this); }

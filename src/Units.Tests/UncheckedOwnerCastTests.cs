@@ -99,13 +99,13 @@ public sealed class UncheckedOwnerCastTests
         int id = -1;
         int source = -1;
         bool fired = false;
-        scope.Map.FOnActivateAbility.Add(sender =>
+        scope.Map.FOnActivateAbility += sender =>
         {
             var info = (TUnitSelectorAAI)sender;
             fired = true;
             id = info.FUnitID;
             source = info.FUnitSelector.FSourceUnitID;
-        });
+        };
         var ability = new THealingAbility(null!);
         string reason = "";
         Assert.True(ability.Activate(new TItem(null!), ref reason));

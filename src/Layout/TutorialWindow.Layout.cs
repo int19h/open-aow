@@ -33,7 +33,7 @@ public partial class TTutorialWindow : ILayoutModule
         Dlg.WinTop = 85;
         Dlg.WinWidth = 390;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_0;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -135,7 +135,7 @@ public partial class TTutorialWindow : ILayoutModule
         Close.TextColor = 855324;
         Close.TextSelColor = 16777215;
         Close.WinWidth = 140;
-        Close.OnClick = Layout_CloseClick_1;
+        Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
         HeaderMemo = new TAOWMemo(this);
         session.BeginRead(HeaderMemo);
@@ -245,12 +245,12 @@ public partial class TTutorialWindow : ILayoutModule
         AbVSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_CloseClick_1(TObject p0)
+    private void Layout_CloseClick_1()
     {
         CloseClick();
     }

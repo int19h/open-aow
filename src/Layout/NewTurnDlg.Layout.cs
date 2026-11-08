@@ -27,15 +27,15 @@ public partial class TNewTurnDlg : ILayoutModule
         NewTDlg = new TAOWWindow(this);
         session.BeginRead(NewTDlg);
         NewTDlg.Name = "NewTDlg";
-        NewTDlg.OnMouseDown = NewTDlgMouseDown;
-        NewTDlg.OnKeyPress = NewTDlgKeyPress;
+        NewTDlg.OnMouseDown = (_, button, shift, x, y) => NewTDlgMouseDown(button, shift, x, y);
+        NewTDlg.OnKeyPress = (_, ref key) => NewTDlgKeyPress(ref key);
         NewTDlg.Visible = false;
         NewTDlg.Priority = 1000;
         NewTDlg.WinLeft = 80;
         NewTDlg.WinTop = 45;
         NewTDlg.WinWidth = 480;
         NewTDlg.Masked = true;
-        NewTDlg.OnHide = Layout_NewTDlgHide_0;
+        NewTDlg.OnHide = _ => Layout_NewTDlgHide_0();
         NewTDlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         NewTDlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         NewTDlg.Alignment.HeightPercent = 0;
@@ -354,7 +354,7 @@ public partial class TNewTurnDlg : ILayoutModule
         FaceFrame = new TAOWImage(this);
         session.BeginRead(FaceFrame);
         FaceFrame.Name = "FaceFrame";
-        FaceFrame.OnPreDraw = FaceFramePreDraw;
+        FaceFrame.OnPreDraw = (_, SurfDesc) => FaceFramePreDraw(SurfDesc);
         FaceFrame.Priority = 2000;
         FaceFrame.WinLeft = 186;
         FaceFrame.WinTop = 35;
@@ -426,7 +426,7 @@ public partial class TNewTurnDlg : ILayoutModule
         FaceFrame.ImageLib = aowIntGfxModUnit.IntGfxMod.GenericF;
     }
 
-    private void Layout_NewTDlgHide_0(TObject p0)
+    private void Layout_NewTDlgHide_0()
     {
         NewTDlgHide();
     }

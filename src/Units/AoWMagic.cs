@@ -235,7 +235,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:210
-    public void EnchantmentListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void EnchantmentListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {
@@ -352,7 +352,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:296
-    public void SpellIcnDraw(TObject Sender, TSurfaceDesc Surface)
+    public void SpellIcnDraw(TAOWImage Sender, TSurfaceDesc Surface)
     {
         TPlayerMagicControl Magic;
         TSpell Spell;
@@ -366,10 +366,9 @@ public partial class TMagicWin : TDataModule
             {
                 if (Spell.FCastImages.GetImageSequence(10) != null)
                 {
-                    var image = (AoWControl.TAOWControl)Sender;
-                    X = image.FAOWWindow.WinLeft;
-                    Y = image.FAOWWindow.WinTop + image.WinTop;
-                    Spell.FCastImages.Show(10, image.WinLeft + X, Y, 0, Surface);
+                    X = Sender.FAOWWindow.WinLeft;
+                    Y = Sender.FAOWWindow.WinTop + Sender.WinTop;
+                    Spell.FCastImages.Show(10, Sender.WinLeft + X, Y, 0, Surface);
                 }
             }
         }
@@ -392,7 +391,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:323
-    public void PowerValueListMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void PowerValueListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {
@@ -601,7 +600,7 @@ public partial class TMagicWin : TDataModule
     }
 
     // AoWMagic.pas:462
-    public void GlobalEnchantmentMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void GlobalEnchantmentMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {

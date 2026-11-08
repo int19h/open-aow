@@ -36,7 +36,7 @@ public partial class TUnitBanner : TDataModule
     public TAOWVScrollBar AbVSB;
 
     // AoWUnitBanner.pas:53
-    public void BannerPopupShow(TObject Sender)
+    public void BannerPopupShow()
     {
         TTCAbility A;
         if (General.FSelectedUnit != null)
@@ -86,7 +86,7 @@ public partial class TUnitBanner : TDataModule
     }
 
     // AoWUnitBanner.pas:85
-    public void AbLBMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void AbLBMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
         if (General.FSelectedUnit != null && AbLB.F188 >= General.FActiveAbilityCount)
         {
@@ -104,7 +104,7 @@ public partial class TUnitBanner : TDataModule
     }
 
     // AoWUnitBanner.pas:95
-    public void AbLBMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void AbLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         string Reason = "";
         if (General.FSelectedUnit != null)

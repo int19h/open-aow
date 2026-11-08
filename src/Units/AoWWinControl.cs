@@ -26,8 +26,8 @@ public enum TWindowType : byte
 public partial class TAOWWindowControl : TAoWComponent
 {
     public bool FModal;
-    public TAoWOnDrawSurface FOnDrawSurface;
-    public TAoWOnDrawSurface FOnPreDrawSurface;
+    public TAoWOnDrawSurface<TAOWWindowControl> FOnDrawSurface;
+    public TAoWOnDrawSurface<TAOWWindowControl> FOnPreDrawSurface;
     public byte FDragging;
     public int FDragX;
     public int FDragY;
@@ -35,13 +35,13 @@ public partial class TAOWWindowControl : TAoWComponent
     public bool FResizable;
     public byte FResizingX;
     public byte FResizingY;
-    public TNotifyEvent FOnResize;
-    public TNotifyEvent FOnInternalResize;
+    public TNotifyEvent<TAOWWindowControl> FOnResize;
+    public TNotifyEvent<TAOWWindowControl> FOnInternalResize;
     public int FDragHeight;
     public bool FOverlapTopCorners;
     public int FOldCursor;
     public int FWindowCursor;
-    public TNotifyEvent FOnChangeCursor;
+    public TNotifyEvent<TAOWWindowControl> FOnChangeCursor;
     public int FMinWidth;
     public int FMinHeight;
     public int FMaxWidth;
@@ -61,9 +61,9 @@ public partial class TAOWWindowControl : TAoWComponent
     public int F190;
     public TRect FBackRect;
     public int F1A4;
-    public TAoWOnDrawBackEvent FOnDrawBack;
-    public TNotifyEvent FOnEnter;
-    public TNotifyEvent FOnExit;
+    public TAoWOnDrawBackEvent<TAOWWindowControl> FOnDrawBack;
+    public TNotifyEvent<TAOWWindowControl> FOnEnter;
+    public TNotifyEvent<TAOWWindowControl> FOnExit;
     public bool FMouseInside;
     public int FILIndexFrame;
     public int FILIndexTexture;
@@ -308,16 +308,70 @@ public partial class TAOWWindowControl : TAoWComponent
     }
 
     [Published]
-    public TAoWOnDrawBackEvent OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
+    public TAoWOnDrawBackEvent<TAOWWindowControl> OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
 
     [Published]
-    public TNotifyEvent OnEnter { get => FOnEnter; set => FOnEnter = value; }
+    public TNotifyEvent<TAOWWindowControl> OnEnter { get => FOnEnter; set => FOnEnter = value; }
 
     [Published]
-    public TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
+    public TNotifyEvent<TAOWWindowControl> OnExit { get => FOnExit; set => FOnExit = value; }
+
+    public new TNotifyEvent<TAOWWindowControl> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWWindowControl> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWWindowControl> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWWindowControl> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWWindowControl> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWWindowControl> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWWindowControl> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWWindowControl> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWWindowControl> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
 }
 
-public delegate void TAoWOnDrawSurface(TAOWWindowControl Sender, TSurface Surface, int Left, int Top);
+public delegate void TAoWOnDrawSurface<in TSender>(TSender Sender, TSurface Surface, int Left, int Top);
 
 public static partial class AoWWinControlUnit
 {

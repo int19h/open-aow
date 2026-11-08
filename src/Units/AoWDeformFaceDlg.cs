@@ -91,13 +91,11 @@ public partial class TDeformFaceDlg : TDataModule
     }
 
     // AoWDeformFaceDlg.pas:73
-    public void DrawFace(TObject Sender, TSurfaceDesc SD)
+    public void DrawFace(TAoWFrame Sender, TSurfaceDesc SD, int Offset)
     {
         TRect R;
         int Face;
-        int Offset;
         TFaceResource Resource;
-        Offset = ((TComponent)Sender).Tag;
         Face = FCaster.FFaceIndex;
         while (Offset < 0)
         {
@@ -111,7 +109,7 @@ public partial class TDeformFaceDlg : TDataModule
             Face = AoWHSSet.FFaceResources.NextFace(Face);
         }
 
-        R = Rect(Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop, Dlg.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth - 2, Dlg.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight - 2);
+        R = Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
         if (Face != -1)
         {
             Resource = AoWHSSet.FFaceResources.GetFaceResource(Face);
@@ -146,7 +144,7 @@ public partial class TDeformFaceDlg : TDataModule
     }
 
     // AoWDeformFaceDlg.pas:142
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

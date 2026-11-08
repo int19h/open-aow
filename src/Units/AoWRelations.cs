@@ -269,7 +269,7 @@ public partial class TRelWindow : TDataModule
             seatedCheck.Checked = true;
         }
 
-        P1CBChange((TObject)FControls[Index + 24]);
+        P1CBChange((TAoWComponent)FControls[Index + 24], Index);
         AoWHSMap.FTutorialControl.ShowMessage(65, true, true);
     }
 
@@ -313,7 +313,7 @@ public partial class TRelWindow : TDataModule
         }
 
         ActionsLB.Selected = Selected;
-        ActionsLBChange(this);
+        ActionsLBChange();
         ActionPnl.Visible = true;
     }
 
@@ -576,7 +576,7 @@ public partial class TRelWindow : TDataModule
         Check = (TAOWCheckBox)FControls[Index + 36];
         Check.Alignment.TopOffset = 175;
         Check.Checked = true;
-        FSelectedIndex = Check.Tag;
+        FSelectedIndex = 20 + Index;
         for (int I = 0; I <= 11; I++)
         {
             if (I < FPlayers.Count)
@@ -683,7 +683,7 @@ public partial class TRelWindow : TDataModule
         ActionsLB.Items.Clear();
         SMemo.Items.Clear();
         MMemo.Items.Clear();
-        ActionsLBChange(this);
+        ActionsLBChange();
     }
 
     // AoWRelations.pas:540
@@ -760,11 +760,10 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:610
-    public void P1CBChange(TObject Sender)
+    public void P1CBChange(TAoWComponent Sender, int Slot)
     {
         // The original SetChecked call on an image is undefined, so skipped. An image has FChecked and no SetChecked. The action branch runs only for a check box.
-        TAoWComponent component = (TAoWComponent)Sender;
-        if (component.FChecked)
+        if (Sender.FChecked)
         {
             General.PlayButtonSound(1);
         }
@@ -775,24 +774,24 @@ public partial class TRelWindow : TDataModule
 
         RelPnl.FAligned = false;
         RelWin.FDrawn = false;
-        if (component.FChecked && Sender is TAOWCheckBox check)
+        if (Sender.FChecked && Sender is TAOWCheckBox)
         {
             if (FAction == null)
             {
-                ShowPlayerActions((sbyte)FPlayers[check.Tag]);
+                ShowPlayerActions((sbyte)FPlayers[Slot]);
             }
             else
             {
-                HighlightPlayer((sbyte)FPlayers[check.Tag]);
+                HighlightPlayer((sbyte)FPlayers[Slot]);
             }
         }
     }
 
     // AoWRelations.pas:623
-    public void R1CBChange(TObject Sender)
+    public void R1CBChange(TAOWCheckBox Sender, int Slot)
     {
         TAOWCheckBox Check;
-        Check = (TAOWCheckBox)Sender;
+        Check = Sender;
         if (Check.Checked)
         {
             General.PlayButtonSound(1);
@@ -806,25 +805,25 @@ public partial class TRelWindow : TDataModule
         if (FAction == null)
         {
             ClearActions();
-            HighlightRace((sbyte)FRaces[Check.Tag - 20]);
-            ShowRaceInformation((byte)FRaces[Check.Tag - 20]);
+            HighlightRace((sbyte)FRaces[Slot - 20]);
+            ShowRaceInformation((byte)FRaces[Slot - 20]);
         }
         else
         {
-            HighlightRace((sbyte)FRaces[Check.Tag - 20]);
+            HighlightRace((sbyte)FRaces[Slot - 20]);
         }
     }
 
     // AoWRelations.pas:639
-    public void P1CBPreDraw(TAoWComponent Sender, TSurfaceDesc Surface)
+    public void P1CBPreDraw(TAOWCheckBox Sender, TSurfaceDesc Surface, int Slot)
     {
         sbyte Player;
         TRect R;
         TAoWComponent Component;
         Component = Sender;
-        if (Component.Tag < FPlayers.Count)
+        if (Slot < FPlayers.Count)
         {
-            Player = (sbyte)FPlayers[Component.Tag];
+            Player = (sbyte)FPlayers[Slot];
             if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(Player) == -1)
             {
                 IntGfxMod.RelWin[28].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
@@ -844,17 +843,17 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:659
-    public void R1CBPreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void R1CBPreDraw(TAOWCheckBox Sender, TSurfaceDesc Surface, int Slot)
     {
         TAoWComponent Control;
         sbyte Race;
         TRect R;
         TDiplomaticAction Action;
         int Modifier;
-        Control = (TAoWComponent)Sender;
-        if (Control.Tag - 20 < FRaces.Count)
+        Control = Sender;
+        if (Slot - 20 < FRaces.Count)
         {
-            Race = (sbyte)FRaces[Control.Tag - 20];
+            Race = (sbyte)FRaces[Slot - 20];
             R = Rect(Control.WinLeft + 1, Control.WinTop + 1, Control.WinLeft + Control.WinWidth - 1, Control.WinTop + Control.WinHeight - 1);
             AoWHSSet.FRaceResources.GetRaceResource(Race).GetFace().ShowStretched(R, Surface);
             Action = FAction;
@@ -876,15 +875,15 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:689
-    public void P1IDraw(TObject Sender, TSurfaceDesc Surface)
+    public void P1IDraw(TAOWImage Sender, TSurfaceDesc Surface, int Slot)
     {
         int Player;
         TDiplomaticRelation Relation;
         int Image;
-        var component = (TAoWComponent)Sender;
-        if (FPlayers.Count > component.Tag && component.Tag != FSelectedIndex)
+        var component = Sender;
+        if (FPlayers.Count > Slot && Slot != FSelectedIndex)
         {
-            Player = FPlayers[component.Tag];
+            Player = FPlayers[Slot];
             if (FSelectedPlayer != -1)
             {
                 if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
@@ -920,16 +919,16 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:715
-    public void R1IDraw(TAoWComponent Sender, TSurfaceDesc Surface)
+    public void R1IDraw(TAOWImage Sender, TSurfaceDesc Surface, int Slot)
     {
         int RaceIndex;
         TAoWComponent S;
         S = Sender;
-        if (FSelectedPlayer != -1 && S.Tag - 20 < FRaces.Count)
+        if (FSelectedPlayer != -1 && Slot - 20 < FRaces.Count)
         {
             if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
             {
-                RaceIndex = FRaces[S.Tag - 20];
+                RaceIndex = FRaces[Slot - 20];
                 var playerRelation = AoWHSMap.FRaces.GetRace(RaceIndex).GetPlayerRelation(FSelectedPlayer);
                 IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, Surface);
             }
@@ -1006,13 +1005,13 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:763
-    public void PlyrGlowDraw(TObject Sender, TSurfaceDesc Surface)
+    public void PlyrGlowDraw(TSurfaceDesc Surface)
     {
         IntGfxMod.RelWin[44].ShowBlended(PlyrGlow.WinLeft, PlyrGlow.WinTop, Surface, IntensityBlendTable.LookupTables[FGlowIntensity]);
     }
 
     // AoWRelations.pas:768
-    public void FaceFrPreDraw(TObject Sender, TSurfaceDesc Surface)
+    public void FaceFrPreDraw(TSurfaceDesc Surface)
     {
         TRect R;
         R = Rect(FaceFr.WinLeft + 1, FaceFr.WinTop, FaceFr.WinLeft + FaceFr.WinWidth, FaceFr.WinTop + FaceFr.WinHeight);
@@ -1058,13 +1057,13 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:794. The offer enters the proposal when the player sends it (MsgSendActionBtn).
-    public void SBGoldSlidChange(TObject Sender)
+    public void SBGoldSlidChange()
     {
         SBGoldV.Text = IntToStr(SBGoldSlid.Position);
     }
 
     // AoWRelations.pas:800
-    public void SBManaSlidChange(TObject Sender)
+    public void SBManaSlidChange()
     {
         SBManaV.Text = IntToStr(SBManaSlid.Position);
     }
@@ -1101,8 +1100,8 @@ public partial class TRelWindow : TDataModule
                 SBGoldSlid.Max = playerGems.FGems;
                 var playerMagicControl = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
                 SBManaSlid.Max = playerMagicControl.FMagicControl.FMana;
-                SBManaSlidChange(null);
-                SBGoldSlidChange(null);
+                SBManaSlidChange();
+                SBGoldSlidChange();
                 var name = FAction.GetName(AoWHSMap.FSeatedPlayer);
                 BribeHeaderLbl.Text = name;
                 if (FAction.Proposal.Icon >= 0)
@@ -1123,7 +1122,7 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:851
-    public void ActionsLBChange(TObject Sender)
+    public void ActionsLBChange()
     {
         RelPnl.FDrawn = false;
         if (ActionsLB.Selected != -1)
@@ -1229,7 +1228,7 @@ public partial class TRelWindow : TDataModule
     }
 
     // AoWRelations.pas:925
-    public void RelWinKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void RelWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

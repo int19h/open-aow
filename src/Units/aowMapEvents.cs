@@ -120,7 +120,7 @@ public partial class TMapEvents : TDataModule
 
                 if (UnitBanner.BannerPopup.Visible)
                 {
-                    UnitBanner.BannerPopupShow(this);
+                    UnitBanner.BannerPopupShow();
                 }
             }
 
@@ -139,7 +139,7 @@ public partial class TMapEvents : TDataModule
     }
 
     // aowMapEvents.pas:117
-    public void TheMapArmyDeselected(TObject Army)
+    public void TheMapArmyDeselected()
     {
         General.FAbilities.Clear();
         General.FUnitList = null;
@@ -174,7 +174,7 @@ public partial class TMapEvents : TDataModule
     {
         if (Army != null && Army == General.FUnitList)
         {
-            TheMapArmyDeselected(Army);
+            TheMapArmyDeselected();
         }
 
         if (RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected == 3)
@@ -586,7 +586,7 @@ public partial class TMapEvents : TDataModule
     }
 
     // aowMapEvents.pas:457
-    public void TheMapStructureDeselected(TObject Structure)
+    public void TheMapStructureDeselected()
     {
         if (General.FSign != null)
         {
@@ -609,7 +609,7 @@ public partial class TMapEvents : TDataModule
     {
         if (Structure != null && Structure == General.FStructure)
         {
-            TheMapStructureDeselected(Structure);
+            TheMapStructureDeselected();
         }
 
         if (RealmWin.Dlg.Visible)
@@ -660,7 +660,7 @@ public partial class TMapEvents : TDataModule
 
             if (UnitBanner.BannerPopup.Visible)
             {
-                UnitBanner.BannerPopupShow(this);
+                UnitBanner.BannerPopupShow();
             }
         }
 

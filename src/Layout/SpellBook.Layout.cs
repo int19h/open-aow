@@ -27,8 +27,8 @@ public partial class TSpellBook : ILayoutModule
     {
         session.Begin(this);
         Name = "SpellBook";
-        LayoutOnCreate = Layout_SpellBookCreate_0;
-        LayoutOnDestroy = Layout_SpellBookDestroy_1;
+        LayoutOnCreate = _ => Layout_SpellBookCreate_0();
+        LayoutOnDestroy = _ => Layout_SpellBookDestroy_1();
         LeftHeader = new TAOWLabel(this);
         session.BeginRead(LeftHeader);
         LeftHeader.Name = "LeftHeader";
@@ -213,7 +213,7 @@ public partial class TSpellBook : ILayoutModule
         S1Icn = new TAOWImage(this);
         session.BeginRead(S1Icn);
         S1Icn.Name = "S1Icn";
-        S1Icn.OnDraw = SpellIconDraw;
+        S1Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 0);
         S1Icn.Priority = 0;
         S1Icn.WinLeft = 10;
         S1Icn.WinTop = 2;
@@ -378,7 +378,7 @@ public partial class TSpellBook : ILayoutModule
         session.BeginRead(S2Icn);
         S2Icn.Name = "S2Icn";
         S2Icn.Tag = 1;
-        S2Icn.OnDraw = SpellIconDraw;
+        S2Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 1);
         S2Icn.Priority = 0;
         S2Icn.WinLeft = 10;
         S2Icn.WinTop = 2;
@@ -543,7 +543,7 @@ public partial class TSpellBook : ILayoutModule
         session.BeginRead(S3Icn);
         S3Icn.Name = "S3Icn";
         S3Icn.Tag = 2;
-        S3Icn.OnDraw = SpellIconDraw;
+        S3Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 2);
         S3Icn.Priority = 0;
         S3Icn.WinLeft = 10;
         S3Icn.WinTop = 2;
@@ -708,7 +708,7 @@ public partial class TSpellBook : ILayoutModule
         session.BeginRead(S4Icn);
         S4Icn.Name = "S4Icn";
         S4Icn.Tag = 3;
-        S4Icn.OnDraw = SpellIconDraw;
+        S4Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 3);
         S4Icn.Priority = 0;
         S4Icn.WinLeft = 10;
         S4Icn.WinTop = 2;
@@ -924,7 +924,7 @@ public partial class TSpellBook : ILayoutModule
         session.BeginRead(S5Icn);
         S5Icn.Name = "S5Icn";
         S5Icn.Tag = 4;
-        S5Icn.OnDraw = SpellIconDraw;
+        S5Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 4);
         S5Icn.Priority = 0;
         S5Icn.WinLeft = 10;
         S5Icn.WinTop = 2;
@@ -1089,7 +1089,7 @@ public partial class TSpellBook : ILayoutModule
         session.BeginRead(S6Icn);
         S6Icn.Name = "S6Icn";
         S6Icn.Tag = 5;
-        S6Icn.OnDraw = SpellIconDraw;
+        S6Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 5);
         S6Icn.Priority = 0;
         S6Icn.WinLeft = 10;
         S6Icn.WinTop = 2;
@@ -1254,7 +1254,7 @@ public partial class TSpellBook : ILayoutModule
         session.BeginRead(S7Icn);
         S7Icn.Name = "S7Icn";
         S7Icn.Tag = 6;
-        S7Icn.OnDraw = SpellIconDraw;
+        S7Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 6);
         S7Icn.Priority = 0;
         S7Icn.WinLeft = 10;
         S7Icn.WinTop = 2;
@@ -1419,7 +1419,7 @@ public partial class TSpellBook : ILayoutModule
         session.BeginRead(S8Icn);
         S8Icn.Name = "S8Icn";
         S8Icn.Tag = 7;
-        S8Icn.OnDraw = SpellIconDraw;
+        S8Icn.OnDraw = (sender, surface) => SpellIconDraw(sender, surface, 7);
         S8Icn.Priority = 0;
         S8Icn.WinLeft = 10;
         S8Icn.WinTop = 2;
@@ -1473,7 +1473,7 @@ public partial class TSpellBook : ILayoutModule
         S1Btn.TextColor = 0;
         S1Btn.TextSelColor = 0;
         S1Btn.WinWidth = 254;
-        S1Btn.OnClick = SelectSpellBtnClick;
+        S1Btn.OnClick = _ => SelectSpellBtnClick(0);
         session.EndRead(S1Btn);
         CurrentPointsLbl = new TAOWLabel(this);
         session.BeginRead(CurrentPointsLbl);
@@ -1572,7 +1572,7 @@ public partial class TSpellBook : ILayoutModule
         GlobalBtn.TextColor = 16777215;
         GlobalBtn.TextSelColor = 0;
         GlobalBtn.WinWidth = 39;
-        GlobalBtn.OnClick = GlobalBtnClick;
+        GlobalBtn.OnClick = _ => GlobalBtnClick();
         session.EndRead(GlobalBtn);
         UnitBtn = new TAOWButton(this);
         session.BeginRead(UnitBtn);
@@ -1602,7 +1602,7 @@ public partial class TSpellBook : ILayoutModule
         UnitBtn.TextColor = 16777215;
         UnitBtn.TextSelColor = 0;
         UnitBtn.WinWidth = 39;
-        UnitBtn.OnClick = Layout_UnitBtnClick_2;
+        UnitBtn.OnClick = _ => Layout_UnitBtnClick_2();
         session.EndRead(UnitBtn);
         CombatBtn = new TAOWButton(this);
         session.BeginRead(CombatBtn);
@@ -1632,7 +1632,7 @@ public partial class TSpellBook : ILayoutModule
         CombatBtn.TextColor = 16777215;
         CombatBtn.TextSelColor = 0;
         CombatBtn.WinWidth = 39;
-        CombatBtn.OnClick = Layout_CombatBtnClick_3;
+        CombatBtn.OnClick = _ => Layout_CombatBtnClick_3();
         session.EndRead(CombatBtn);
         InfoBtn = new TAOWButton(this);
         session.BeginRead(InfoBtn);
@@ -1662,7 +1662,7 @@ public partial class TSpellBook : ILayoutModule
         InfoBtn.TextColor = 16777215;
         InfoBtn.TextSelColor = 0;
         InfoBtn.WinWidth = 39;
-        InfoBtn.OnClick = InfoBtnClick;
+        InfoBtn.OnClick = _ => InfoBtnClick();
         session.EndRead(InfoBtn);
         PrevBtn = new TAOWButton(this);
         session.BeginRead(PrevBtn);
@@ -1692,7 +1692,7 @@ public partial class TSpellBook : ILayoutModule
         PrevBtn.TextColor = 0;
         PrevBtn.TextSelColor = 0;
         PrevBtn.WinWidth = 55;
-        PrevBtn.OnClick = Layout_PrevBtnClick_4;
+        PrevBtn.OnClick = _ => Layout_PrevBtnClick_4();
         session.EndRead(PrevBtn);
         NextBtn = new TAOWButton(this);
         session.BeginRead(NextBtn);
@@ -1722,7 +1722,7 @@ public partial class TSpellBook : ILayoutModule
         NextBtn.TextColor = 0;
         NextBtn.TextSelColor = 0;
         NextBtn.WinWidth = 55;
-        NextBtn.OnClick = Layout_NextBtnClick_5;
+        NextBtn.OnClick = _ => Layout_NextBtnClick_5();
         session.EndRead(NextBtn);
         Cancel = new TAOWButton(this);
         session.BeginRead(Cancel);
@@ -1752,7 +1752,7 @@ public partial class TSpellBook : ILayoutModule
         Cancel.TextColor = 0;
         Cancel.TextSelColor = 0;
         Cancel.WinWidth = 39;
-        Cancel.OnClick = Layout_CancelClick_6;
+        Cancel.OnClick = _ => Layout_CancelClick_6();
         session.EndRead(Cancel);
         S2Btn = new TAOWButton(this);
         session.BeginRead(S2Btn);
@@ -1783,7 +1783,7 @@ public partial class TSpellBook : ILayoutModule
         S2Btn.TextColor = 0;
         S2Btn.TextSelColor = 0;
         S2Btn.WinWidth = 254;
-        S2Btn.OnClick = SelectSpellBtnClick;
+        S2Btn.OnClick = _ => SelectSpellBtnClick(1);
         session.EndRead(S2Btn);
         S3Btn = new TAOWButton(this);
         session.BeginRead(S3Btn);
@@ -1814,7 +1814,7 @@ public partial class TSpellBook : ILayoutModule
         S3Btn.TextColor = 0;
         S3Btn.TextSelColor = 0;
         S3Btn.WinWidth = 254;
-        S3Btn.OnClick = SelectSpellBtnClick;
+        S3Btn.OnClick = _ => SelectSpellBtnClick(2);
         session.EndRead(S3Btn);
         S4Btn = new TAOWButton(this);
         session.BeginRead(S4Btn);
@@ -1845,7 +1845,7 @@ public partial class TSpellBook : ILayoutModule
         S4Btn.TextColor = 0;
         S4Btn.TextSelColor = 0;
         S4Btn.WinWidth = 254;
-        S4Btn.OnClick = SelectSpellBtnClick;
+        S4Btn.OnClick = _ => SelectSpellBtnClick(3);
         session.EndRead(S4Btn);
         S5btn = new TAOWButton(this);
         session.BeginRead(S5btn);
@@ -1876,7 +1876,7 @@ public partial class TSpellBook : ILayoutModule
         S5btn.TextColor = 0;
         S5btn.TextSelColor = 0;
         S5btn.WinWidth = 254;
-        S5btn.OnClick = SelectSpellBtnClick;
+        S5btn.OnClick = _ => SelectSpellBtnClick(4);
         session.EndRead(S5btn);
         S6Btn = new TAOWButton(this);
         session.BeginRead(S6Btn);
@@ -1907,7 +1907,7 @@ public partial class TSpellBook : ILayoutModule
         S6Btn.TextColor = 0;
         S6Btn.TextSelColor = 0;
         S6Btn.WinWidth = 254;
-        S6Btn.OnClick = SelectSpellBtnClick;
+        S6Btn.OnClick = _ => SelectSpellBtnClick(5);
         session.EndRead(S6Btn);
         S7Btn = new TAOWButton(this);
         session.BeginRead(S7Btn);
@@ -1938,7 +1938,7 @@ public partial class TSpellBook : ILayoutModule
         S7Btn.TextColor = 0;
         S7Btn.TextSelColor = 0;
         S7Btn.WinWidth = 254;
-        S7Btn.OnClick = SelectSpellBtnClick;
+        S7Btn.OnClick = _ => SelectSpellBtnClick(6);
         session.EndRead(S7Btn);
         S8Btn = new TAOWButton(this);
         session.BeginRead(S8Btn);
@@ -1969,7 +1969,7 @@ public partial class TSpellBook : ILayoutModule
         S8Btn.TextColor = 0;
         S8Btn.TextSelColor = 0;
         S8Btn.WinWidth = 254;
-        S8Btn.OnClick = SelectSpellBtnClick;
+        S8Btn.OnClick = _ => SelectSpellBtnClick(7);
         session.EndRead(S8Btn);
         CastingPage = new TAOWPanel(this);
         session.BeginRead(CastingPage);
@@ -2133,7 +2133,7 @@ public partial class TSpellBook : ILayoutModule
         CastingIcn = new TAOWImage(this);
         session.BeginRead(CastingIcn);
         CastingIcn.Name = "CastingIcn";
-        CastingIcn.OnDraw = Layout_CastingIcnDraw_7;
+        CastingIcn.OnDraw = CastingIcnDraw;
         CastingIcn.Priority = 0;
         CastingIcn.WinLeft = 10;
         CastingIcn.WinTop = 2;
@@ -2260,7 +2260,7 @@ public partial class TSpellBook : ILayoutModule
         CastingBtn.TextColor = 1254460;
         CastingBtn.TextSelColor = 0;
         CastingBtn.WinWidth = 254;
-        CastingBtn.OnClick = Layout_CastingBtnClick_8;
+        CastingBtn.OnClick = _ => Layout_CastingBtnClick_8();
         session.EndRead(CastingBtn);
         Sel4 = new TAOWButton(this);
         session.BeginRead(Sel4);
@@ -2290,7 +2290,7 @@ public partial class TSpellBook : ILayoutModule
         Sel4.TextColor = 0;
         Sel4.TextSelColor = 0;
         Sel4.WinWidth = 52;
-        Sel4.OnClick = Layout_Sel1Click_9;
+        Sel4.OnClick = _ => Layout_Sel1Click_9();
         session.EndRead(Sel4);
         SelPnl = new TAOWPanel(this);
         session.BeginRead(SelPnl);
@@ -2347,7 +2347,7 @@ public partial class TSpellBook : ILayoutModule
         Sel3.TextColor = 0;
         Sel3.TextSelColor = 0;
         Sel3.WinWidth = 52;
-        Sel3.OnClick = Layout_Sel1Click_9;
+        Sel3.OnClick = _ => Layout_Sel1Click_9();
         session.EndRead(Sel3);
         Sel2 = new TAOWButton(this);
         session.BeginRead(Sel2);
@@ -2377,7 +2377,7 @@ public partial class TSpellBook : ILayoutModule
         Sel2.TextColor = 0;
         Sel2.TextSelColor = 0;
         Sel2.WinWidth = 52;
-        Sel2.OnClick = Layout_Sel1Click_9;
+        Sel2.OnClick = _ => Layout_Sel1Click_9();
         session.EndRead(Sel2);
         Sel1 = new TAOWButton(this);
         session.BeginRead(Sel1);
@@ -2407,7 +2407,7 @@ public partial class TSpellBook : ILayoutModule
         Sel1.TextColor = 0;
         Sel1.TextSelColor = 0;
         Sel1.WinWidth = 52;
-        Sel1.OnClick = Layout_Sel1Click_9;
+        Sel1.OnClick = _ => Layout_Sel1Click_9();
         session.EndRead(Sel1);
         Sel5 = new TAOWButton(this);
         session.BeginRead(Sel5);
@@ -2437,7 +2437,7 @@ public partial class TSpellBook : ILayoutModule
         Sel5.TextColor = 0;
         Sel5.TextSelColor = 0;
         Sel5.WinWidth = 52;
-        Sel5.OnClick = Layout_Sel1Click_9;
+        Sel5.OnClick = _ => Layout_Sel1Click_9();
         session.EndRead(Sel5);
         Sel6 = new TAOWButton(this);
         session.BeginRead(Sel6);
@@ -2467,7 +2467,7 @@ public partial class TSpellBook : ILayoutModule
         Sel6.TextColor = 0;
         Sel6.TextSelColor = 0;
         Sel6.WinWidth = 52;
-        Sel6.OnClick = Layout_Sel1Click_9;
+        Sel6.OnClick = _ => Layout_Sel1Click_9();
         session.EndRead(Sel6);
         Sel7 = new TAOWButton(this);
         session.BeginRead(Sel7);
@@ -2497,7 +2497,7 @@ public partial class TSpellBook : ILayoutModule
         Sel7.TextColor = 0;
         Sel7.TextSelColor = 0;
         Sel7.WinWidth = 52;
-        Sel7.OnClick = Layout_Sel1Click_9;
+        Sel7.OnClick = _ => Layout_Sel1Click_9();
         session.EndRead(Sel7);
         SelLbl = new TAOWLabel(this);
         session.BeginRead(SelLbl);
@@ -2674,15 +2674,15 @@ public partial class TSpellBook : ILayoutModule
         Dlg = new TAoWBookWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
-        Dlg.OnUpdate = Layout_DlgUpdate_10;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
+        Dlg.OnUpdate = _ => Layout_DlgUpdate_10();
         Dlg.Visible = false;
         Dlg.Priority = 2000;
         Dlg.WinLeft = 21;
         Dlg.WinTop = 8;
         Dlg.WinWidth = 599;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_11;
+        Dlg.OnHide = _ => Layout_DlgHide_11();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -2873,7 +2873,7 @@ public partial class TSpellBook : ILayoutModule
         ResearchIcn = new TAOWImage(this);
         session.BeginRead(ResearchIcn);
         ResearchIcn.Name = "ResearchIcn";
-        ResearchIcn.OnDraw = Layout_ResearchIcnDraw_12;
+        ResearchIcn.OnDraw = ResearchIcnDraw;
         ResearchIcn.Priority = 0;
         ResearchIcn.WinLeft = 10;
         ResearchIcn.WinTop = 2;
@@ -3227,7 +3227,7 @@ public partial class TSpellBook : ILayoutModule
         CancelResearchBtn.TextColor = 1254460;
         CancelResearchBtn.TextSelColor = 16777215;
         CancelResearchBtn.WinWidth = 140;
-        CancelResearchBtn.OnClick = Layout_CancelResearchBtnClick_13;
+        CancelResearchBtn.OnClick = _ => Layout_CancelResearchBtnClick_13();
         session.EndRead(CancelResearchBtn);
         CancelCastingBtn = new TAOWButton(this);
         session.BeginRead(CancelCastingBtn);
@@ -3262,7 +3262,7 @@ public partial class TSpellBook : ILayoutModule
         CancelCastingBtn.TextColor = 1254460;
         CancelCastingBtn.TextSelColor = 16777215;
         CancelCastingBtn.WinWidth = 140;
-        CancelCastingBtn.OnClick = Layout_CancelCastingBtnClick_14;
+        CancelCastingBtn.OnClick = _ => Layout_CancelCastingBtnClick_14();
         session.EndRead(CancelCastingBtn);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -3646,77 +3646,67 @@ public partial class TSpellBook : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_SpellBookCreate_0(TObject p0)
+    private void Layout_SpellBookCreate_0()
     {
         SpellBookCreate();
     }
 
-    private void Layout_SpellBookDestroy_1(TObject p0)
+    private void Layout_SpellBookDestroy_1()
     {
         SpellBookDestroy();
     }
 
-    private void Layout_UnitBtnClick_2(TObject p0)
+    private void Layout_UnitBtnClick_2()
     {
         UnitBtnClick();
     }
 
-    private void Layout_CombatBtnClick_3(TObject p0)
+    private void Layout_CombatBtnClick_3()
     {
         CombatBtnClick();
     }
 
-    private void Layout_PrevBtnClick_4(TObject p0)
+    private void Layout_PrevBtnClick_4()
     {
         PrevBtnClick();
     }
 
-    private void Layout_NextBtnClick_5(TObject p0)
+    private void Layout_NextBtnClick_5()
     {
         NextBtnClick();
     }
 
-    private void Layout_CancelClick_6(TObject p0)
+    private void Layout_CancelClick_6()
     {
         CancelClick();
     }
 
-    private void Layout_CastingIcnDraw_7(TAoWComponent p0, TSurfaceDesc p1)
-    {
-        CastingIcnDraw((AoWControl.TAOWControl)p0, p1);
-    }
-
-    private void Layout_CastingBtnClick_8(TObject p0)
+    private void Layout_CastingBtnClick_8()
     {
         CastingBtnClick();
     }
 
-    private void Layout_Sel1Click_9(TObject p0)
+    private void Layout_Sel1Click_9()
     {
         Sel1Click();
     }
 
-    private void Layout_DlgUpdate_10(TObject p0)
+    private void Layout_DlgUpdate_10()
     {
         DlgUpdate();
     }
 
-    private void Layout_DlgHide_11(TObject p0)
+    private void Layout_DlgHide_11()
     {
         DlgHide();
     }
 
-    private void Layout_ResearchIcnDraw_12(TAoWComponent p0, TSurfaceDesc p1)
-    {
-        ResearchIcnDraw((AoWControl.TAOWControl)p0, p1);
-    }
-
-    private void Layout_CancelResearchBtnClick_13(TObject p0)
+    private void Layout_CancelResearchBtnClick_13()
     {
         CancelResearchBtnClick();
     }
 
-    private void Layout_CancelCastingBtnClick_14(TObject p0)
+    private void Layout_CancelCastingBtnClick_14()
     {
         CancelCastingBtnClick();
     }

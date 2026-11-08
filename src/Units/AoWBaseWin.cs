@@ -24,8 +24,8 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     public TObject FBuffer;
     public bool FFreeSurfaceOnHide;
     public TAOWWinManager FWinManager;
-    public TNotifyEvent FOnShow;
-    public TNotifyEvent FOnHide;
+    public TNotifyEvent<TAOWBaseWindow> FOnShow;
+    public TNotifyEvent<TAOWBaseWindow> FOnHide;
 
     // AoWBaseWin.pas:56
     public override void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
@@ -521,10 +521,82 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     public int ILIndexTexture { get => FILIndexTexture; set => SetILTIndex(value); }
 
     [Published]
-    public TNotifyEvent OnHide { get => FOnHide; set => FOnHide = value; }
+    public TNotifyEvent<TAOWBaseWindow> OnHide { get => FOnHide; set => FOnHide = value; }
 
     [Published]
-    public TNotifyEvent OnShow { get => FOnShow; set => FOnShow = value; }
+    public TNotifyEvent<TAOWBaseWindow> OnShow { get => FOnShow; set => FOnShow = value; }
+
+    public new TNotifyEvent<TAOWBaseWindow> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWBaseWindow> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWBaseWindow> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWBaseWindow> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWBaseWindow> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWBaseWindow> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWBaseWindow> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWBaseWindow> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWBaseWindow> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
+
+    public new TAoWOnDrawBackEvent<TAOWBaseWindow> OnDrawBack
+    {
+        get => EventSlot.Get(this, FOnDrawBack);
+        set => EventSlot.Set(this, ref FOnDrawBack, value);
+    }
+
+    public new TNotifyEvent<TAOWBaseWindow> OnEnter
+    {
+        get => EventSlot.Get(this, FOnEnter);
+        set => EventSlot.Set(this, ref FOnEnter, value);
+    }
+
+    public new TNotifyEvent<TAOWBaseWindow> OnExit
+    {
+        get => EventSlot.Get(this, FOnExit);
+        set => EventSlot.Set(this, ref FOnExit, value);
+    }
 }
 
 public static partial class AoWBaseWinUnit

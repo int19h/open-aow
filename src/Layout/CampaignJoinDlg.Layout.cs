@@ -24,12 +24,12 @@ public partial class TCampaignJoinDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "CampaignJoinDlg";
-        LayoutOnCreate = Layout_CampaignJoinDlgCreate_0;
-        LayoutOnDestroy = Layout_CampaignJoinDlgDestroy_1;
+        LayoutOnCreate = _ => Layout_CampaignJoinDlgCreate_0();
+        LayoutOnDestroy = _ => Layout_CampaignJoinDlgDestroy_1();
         CharGenPnl = new TAOWPanel(this);
         session.BeginRead(CharGenPnl);
         CharGenPnl.Name = "CharGenPnl";
-        CharGenPnl.OnMouseDown = CharGenPnlMouseDown;
+        CharGenPnl.OnMouseDown = (_, button, shift, x, y) => CharGenPnlMouseDown(button, shift, x, y);
         CharGenPnl.Visible = false;
         CharGenPnl.Priority = 5;
         CharGenPnl.WinLeft = 0;
@@ -112,7 +112,7 @@ public partial class TCampaignJoinDlg : ILayoutModule
         CustomBtn.TextColor = 0;
         CustomBtn.TextSelColor = 16777215;
         CustomBtn.WinWidth = 150;
-        CustomBtn.OnClick = Layout_CustomBtnClick_2;
+        CustomBtn.OnClick = _ => Layout_CustomBtnClick_2();
         session.EndRead(CustomBtn);
         DefaultBtn = new TAOWButton(this);
         session.BeginRead(DefaultBtn);
@@ -143,7 +143,7 @@ public partial class TCampaignJoinDlg : ILayoutModule
         DefaultBtn.TextColor = 0;
         DefaultBtn.TextSelColor = 16777215;
         DefaultBtn.WinWidth = 150;
-        DefaultBtn.OnClick = Layout_DefaultBtnClick_3;
+        DefaultBtn.OnClick = _ => Layout_DefaultBtnClick_3();
         session.EndRead(DefaultBtn);
         LeaderTypeMsg = new TAOWMemo(this);
         session.BeginRead(LeaderTypeMsg);
@@ -186,8 +186,8 @@ public partial class TCampaignJoinDlg : ILayoutModule
         DefaultFacePnl = new TAOWPanel(this);
         session.BeginRead(DefaultFacePnl);
         DefaultFacePnl.Name = "DefaultFacePnl";
-        DefaultFacePnl.OnMouseDown = Layout_DefaultFacePnlMouseDown_4;
-        DefaultFacePnl.OnDraw = DefaultFacePnlDraw;
+        DefaultFacePnl.OnMouseDown = (_, button, shift, x, y) => Layout_DefaultFacePnlMouseDown_4(button, shift, x, y);
+        DefaultFacePnl.OnDraw = (_, SurfDesc) => DefaultFacePnlDraw(SurfDesc);
         DefaultFacePnl.Priority = 0;
         DefaultFacePnl.WinLeft = 62;
         DefaultFacePnl.WinTop = 103;
@@ -242,8 +242,8 @@ public partial class TCampaignJoinDlg : ILayoutModule
         ScrollTextDB = new TaowUserDrawBox(this);
         session.BeginRead(ScrollTextDB);
         ScrollTextDB.Name = "ScrollTextDB";
-        ScrollTextDB.OnDraw = ScrollTextDBDraw;
-        ScrollTextDB.OnUpdate = Layout_ScrollTextDBUpdate_5;
+        ScrollTextDB.OnDraw = (_, SurfDesc) => ScrollTextDBDraw(SurfDesc);
+        ScrollTextDB.OnUpdate = _ => Layout_ScrollTextDBUpdate_5();
         ScrollTextDB.Priority = 0;
         ScrollTextDB.WinLeft = 150;
         ScrollTextDB.WinTop = 380;
@@ -309,32 +309,32 @@ public partial class TCampaignJoinDlg : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_CampaignJoinDlgCreate_0(TObject p0)
+    private void Layout_CampaignJoinDlgCreate_0()
     {
         CampaignJoinDlgCreate();
     }
 
-    private void Layout_CampaignJoinDlgDestroy_1(TObject p0)
+    private void Layout_CampaignJoinDlgDestroy_1()
     {
         CampaignJoinDlgDestroy();
     }
 
-    private void Layout_CustomBtnClick_2(TObject p0)
+    private void Layout_CustomBtnClick_2()
     {
         CustomBtnClick();
     }
 
-    private void Layout_DefaultBtnClick_3(TObject p0)
+    private void Layout_DefaultBtnClick_3()
     {
         DefaultBtnClick();
     }
 
-    private void Layout_DefaultFacePnlMouseDown_4(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
+    private void Layout_DefaultFacePnlMouseDown_4(TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
         DefaultFacePnlMouseDown(default(int), default(int), default(int), default(int), default(int));
     }
 
-    private void Layout_ScrollTextDBUpdate_5(TObject p0)
+    private void Layout_ScrollTextDBUpdate_5()
     {
         ScrollTextDBUpdate();
     }

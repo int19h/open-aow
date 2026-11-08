@@ -11,21 +11,36 @@ namespace Aow.Units.NetworkE;
 public partial class TPlayerCommunicator : TEObject
 {
     internal TEngine FEngine;
-    internal TEventList FOnReceive;
+
+    internal EventStore<TPlayerCommunicator> FOnReceiveStore;
+
+    internal event TNotifyEvent<TPlayerCommunicator> FOnReceive
+    {
+        add => FOnReceiveStore.Add(value);
+        remove => FOnReceiveStore.Remove(value);
+    }
+
     internal TDataPackage FReceivedPackage;
     internal TMemoryStream FSendStream;
     internal TMemoryStream FReceiveStream;
     internal TPlayerCommunicationControl FPCC;
-    internal TEventList FOnProcess;
+
+    internal EventStore<TPlayerCommunicator> FOnProcessStore;
+
+    internal event TNotifyEvent<TPlayerCommunicator> FOnProcess
+    {
+        add => FOnProcessStore.Add(value);
+        remove => FOnProcessStore.Remove(value);
+    }
 
     // NetworkE.pas:605
     public TPlayerCommunicator(TECustomNode owner) : base(owner)
     {
         FReceivedPackage = null;
-        FOnReceive = new TEventList();
+        FOnReceiveStore = new();
         FSendStream = new TMemoryStream();
         FReceiveStream = new TMemoryStream();
-        FOnProcess = new TEventList();
+        FOnProcessStore = new();
     }
 
     // NetworkE.pas:629
@@ -64,16 +79,16 @@ public partial class TPlayerCommunicator : TEObject
         {
         }
 
-        FOnProcess.TriggerNotifyEvents(this);
+        FOnProcessStore.Raise(this);
     }
 
     // NetworkE.pas:615
     public override void Destroy()
     {
-        FOnReceive.Free();
+        FOnReceiveStore.Clear();
         FSendStream.Free();
         FReceiveStream.Free();
-        FOnProcess.Free();
+        FOnProcessStore.Clear();
         if (FPCC != null)
         {
             FPCC.Release();
@@ -98,7 +113,7 @@ public partial class TPlayerCommunicator : TEObject
                 if (Obj is TDataPackage)
                 {
                     FReceivedPackage = (TDataPackage)Obj;
-                    FOnReceive.TriggerNotifyEvents(this);
+                    FOnReceiveStore.Raise(this);
                     FReceivedPackage.Release();
                 }
                 else
@@ -133,10 +148,21 @@ public partial class TPlayerCommunicator : TEObject
     }
 
     public TEngine Engine { get => FEngine; set => FEngine = value; }
-    public TEventList OnReceive { get => FOnReceive; }
+
+    public event TNotifyEvent<TPlayerCommunicator> OnReceive
+    {
+        add => FOnReceiveStore.Add(value);
+        remove => FOnReceiveStore.Remove(value);
+    }
+
     public TDataPackage ReceivedPackage { get => FReceivedPackage; }
     public TPlayerCommunicationControl PCC { get => FPCC; }
-    public TEventList OnProcess { get => FOnProcess; }
+
+    public event TNotifyEvent<TPlayerCommunicator> OnProcess
+    {
+        add => FOnProcessStore.Add(value);
+        remove => FOnProcessStore.Remove(value);
+    }
 
 }
 
@@ -592,9 +618,24 @@ public partial class TTokenExecuter : TObject
     internal int FRound;
     internal int FExecuteCount;
     internal TSet<TTokenExecuterState> FState;
-    internal TEventList FOnEventsExecuted;
-    internal TEventList FOnActivateTC;
-    internal TNotifyEvent FOnSyncError;
+
+    internal EventStore<TTokenExecuter> FOnEventsExecutedStore;
+
+    internal event TNotifyEvent<TTokenExecuter> FOnEventsExecuted
+    {
+        add => FOnEventsExecutedStore.Add(value);
+        remove => FOnEventsExecutedStore.Remove(value);
+    }
+
+    internal EventStore<TTokenExecuter> FOnActivateTCStore;
+
+    internal event TNotifyEvent<TTokenExecuter> FOnActivateTC
+    {
+        add => FOnActivateTCStore.Add(value);
+        remove => FOnActivateTCStore.Remove(value);
+    }
+
+    internal TNotifyEvent<TObject> FOnSyncError;
     internal TGetSyncValueEvent FOnGetSyncValue;
     internal TTokenEventEvent FOnExecuteTokenEvent;
     internal bool FExecuting;
@@ -634,8 +675,8 @@ public partial class TTokenExecuter : TObject
         FTokenManager = AManager;
         FEvents = new TTokenEventList(null);
         FTCList = new TList();
-        FOnEventsExecuted = new TEventList();
-        FOnActivateTC = new TEventList();
+        FOnEventsExecutedStore = new();
+        FOnActivateTCStore = new();
         FSystemEvents = new TTokenEventList(null);
     }
 
@@ -645,8 +686,8 @@ public partial class TTokenExecuter : TObject
         Reset();
         FEvents.Free();
         FTCList.Free();
-        FOnEventsExecuted.Free();
-        FOnActivateTC.Free();
+        FOnEventsExecutedStore.Clear();
+        FOnActivateTCStore.Clear();
         FSystemEvents.Free();
         base.Destroy();
     }
@@ -772,7 +813,7 @@ public partial class TTokenExecuter : TObject
         FActiveTC = (TTokenControl)FTCList[Index];
         FActiveTC.FActive = true;
         FActiveTCIndex = Index;
-        FOnActivateTC.TriggerNotifyEvents(this);
+        FOnActivateTCStore.Raise(this);
         if (FState.Contains(TTokenExecuterState.tsExecuting))
         {
             FState = FState + TSet<TTokenExecuterState>.Of(TTokenExecuterState.tsTCActivated);
@@ -903,7 +944,7 @@ public partial class TTokenExecuter : TObject
                     if (FEvents.Count == 0)
                     {
                         FState = FState - TSet<TTokenExecuterState>.Of(TTokenExecuterState.tsExecuting);
-                        FOnEventsExecuted.TriggerNotifyEvents(this);
+                        FOnEventsExecutedStore.Raise(this);
                         if (!FHoldTC && !FState.Contains(TTokenExecuterState.tsTCActivated))
                         {
                             ActivateNextTC();
@@ -928,9 +969,20 @@ public partial class TTokenExecuter : TObject
     public bool Locked { get => GetLocked(); }
     public bool HoldTC { get => FHoldTC; set => FHoldTC = value; }
     public bool Executing { get => FExecuting; }
-    public TEventList OnEventsExecuted { get => FOnEventsExecuted; }
-    public TEventList OnActivateTC { get => FOnActivateTC; }
-    public TNotifyEvent OnSyncError { get => FOnSyncError; set => FOnSyncError = value; }
+
+    public event TNotifyEvent<TTokenExecuter> OnEventsExecuted
+    {
+        add => FOnEventsExecutedStore.Add(value);
+        remove => FOnEventsExecutedStore.Remove(value);
+    }
+
+    public event TNotifyEvent<TTokenExecuter> OnActivateTC
+    {
+        add => FOnActivateTCStore.Add(value);
+        remove => FOnActivateTCStore.Remove(value);
+    }
+
+    public TNotifyEvent<TObject> OnSyncError { get => FOnSyncError; set => FOnSyncError = value; }
     public TGetSyncValueEvent OnGetSyncValue { get => FOnGetSyncValue; set => FOnGetSyncValue = value; }
     public TTokenEventEvent OnExecuteTokenEvent { get => FOnExecuteTokenEvent; set => FOnExecuteTokenEvent = value; }
 
@@ -1792,22 +1844,22 @@ public partial class TTokenPackageDistributer : TObject
     {
         if (FPC != null)
         {
-            FPC.FOnReceive.Remove(DataPackageReceived);
+            FPC.FOnReceive -= DataPackageReceived;
         }
 
         FPC = PC;
         if (FPC != null)
         {
-            FPC.FOnReceive.Add(DataPackageReceived);
+            FPC.FOnReceive += DataPackageReceived;
         }
     }
 
     // NetworkE.pas:1128
-    public void DataPackageReceived(TObject Sender)
+    public void DataPackageReceived(TPlayerCommunicator Sender)
     {
-        if (((TPlayerCommunicator)Sender).FReceivedPackage is TTokenPackage)
+        if (Sender.FReceivedPackage is TTokenPackage package)
         {
-            TokenPackageReceived((TTokenPackage)((TPlayerCommunicator)Sender).FReceivedPackage);
+            TokenPackageReceived(package);
         }
     }
 

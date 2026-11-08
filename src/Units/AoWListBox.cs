@@ -32,15 +32,15 @@ public partial class TAOWListBox : TAOWControl
     public int F11C;
     public int FSelected;
     public int F124;
-    public TAoWOnDrawItemEvent FOnPreDrawItem;
-    public TAoWOnDrawItemEvent FOnDrawItem;
+    public TAoWOnDrawItemEvent<TAOWListBox> FOnPreDrawItem;
+    public TAoWOnDrawItemEvent<TAOWListBox> FOnDrawItem;
     public int F138;
     public bool F13C;
     public TInterfaceIL FILFrame;
     public TInterfaceIL FILTextureNormal;
     public TInterfaceIL FILTextureSelected;
     public int FItemHeight;
-    public TNotifyEvent FOnDoubleClick;
+    public TNotifyEvent<TAOWListBox> FOnDoubleClick;
     public TaowTextAlign FTextAlign;
     public int F15C;
     public byte F160;
@@ -643,16 +643,16 @@ public partial class TAOWListBox : TAOWControl
     public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public TNotifyEvent OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+    public TNotifyEvent<TAOWListBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
 
     [Published]
     public int Selected { get => FSelected; set => SetIndex(value); }
 
     [Published]
-    public TAoWOnDrawItemEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public TAoWOnDrawItemEvent<TAOWListBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
-    public TAoWOnDrawItemEvent OnPreDrawItem { get => FOnPreDrawItem; set => FOnPreDrawItem = value; }
+    public TAoWOnDrawItemEvent<TAOWListBox> OnPreDrawItem { get => FOnPreDrawItem; set => FOnPreDrawItem = value; }
 
     [Published]
     public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
@@ -680,6 +680,60 @@ public partial class TAOWListBox : TAOWControl
 
     [Published]
     public TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
+
+    public new TNotifyEvent<TAOWListBox> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWListBox> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWListBox> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWListBox> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWListBox> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWListBox> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWListBox> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWListBox> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWListBox> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
 }
 
 public static partial class AoWListBoxUnit

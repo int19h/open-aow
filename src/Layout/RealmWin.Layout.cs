@@ -41,8 +41,8 @@ public partial class TRealmWin : ILayoutModule
         Dlg.WinTop = 272;
         Dlg.WinWidth = 440;
         Dlg.Masked = false;
-        Dlg.OnHide = Layout_DlgHide_0;
-        Dlg.OnShow = Layout_DlgShow_1;
+        Dlg.OnHide = _ => Layout_DlgHide_0();
+        Dlg.OnShow = _ => Layout_DlgShow_1();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
         Dlg.Alignment.HeightPercent = 0;
@@ -68,8 +68,8 @@ public partial class TRealmWin : ILayoutModule
         Dlg.DragHeight = 20;
         Dlg.Draggable = true;
         Dlg.Resizable = true;
-        Dlg.OnDrag = Layout_OverWindowResize_2;
-        Dlg.OnResize = Layout_OverWindowResize_2;
+        Dlg.OnDrag = _ => Layout_OverWindowResize_2();
+        Dlg.OnResize = _ => Layout_OverWindowResize_2();
         Dlg.MinWidth = 440;
         Dlg.MinHeight = 160;
         Dlg.MaxWidth = 1280;
@@ -158,7 +158,7 @@ public partial class TRealmWin : ILayoutModule
             "HEROES"
         };
         HeaderTab.BorderHeight = 6;
-        HeaderTab.OnChange = Layout_HeaderTabChange_3;
+        HeaderTab.OnChange = _ => Layout_HeaderTabChange_3();
         HeaderTab.Selected = 0;
         HeaderTab.WinWidth = 433;
         HeaderTab.TextColor = 0;
@@ -336,7 +336,7 @@ public partial class TRealmWin : ILayoutModule
         Minimize.TextColor = 0;
         Minimize.TextSelColor = 0;
         Minimize.WinWidth = 15;
-        Minimize.OnClick = Layout_OWMinIconClick_4;
+        Minimize.OnClick = _ => Layout_OWMinIconClick_4();
         session.EndRead(Minimize);
         T4Pnl = new TAOWPanel(this);
         session.BeginRead(T4Pnl);
@@ -347,8 +347,8 @@ public partial class TRealmWin : ILayoutModule
         T4Pnl.WinTop = 45;
         T4Pnl.WinWidth = 424;
         T4Pnl.Masked = true;
-        T4Pnl.OnHide = T4PnlHide;
-        T4Pnl.OnShow = T4PnlShow;
+        T4Pnl.OnHide = _ => T4PnlHide();
+        T4Pnl.OnShow = _ => T4PnlShow();
         T4Pnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
         T4Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
         T4Pnl.Alignment.HeightPercent = 0;
@@ -398,7 +398,7 @@ public partial class TRealmWin : ILayoutModule
         T2NameLB = new TAOWListBox(this);
         session.BeginRead(T2NameLB);
         T2NameLB.Name = "T2NameLB";
-        T2NameLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2NameLB.OnMouseDown = CityListMouseDown;
         T2NameLB.Priority = 0;
         T2NameLB.WinLeft = 1;
         T2NameLB.WinTop = 14;
@@ -434,7 +434,7 @@ public partial class TRealmWin : ILayoutModule
         T2RaceLB = new TAOWListBox(this);
         session.BeginRead(T2RaceLB);
         T2RaceLB.Name = "T2RaceLB";
-        T2RaceLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2RaceLB.OnMouseDown = CityListMouseDown;
         T2RaceLB.Priority = 0;
         T2RaceLB.WinLeft = 113;
         T2RaceLB.WinTop = 14;
@@ -470,7 +470,7 @@ public partial class TRealmWin : ILayoutModule
         T2IncomeLB = new TAOWListBox(this);
         session.BeginRead(T2IncomeLB);
         T2IncomeLB.Name = "T2IncomeLB";
-        T2IncomeLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2IncomeLB.OnMouseDown = CityListMouseDown;
         T2IncomeLB.Priority = 0;
         T2IncomeLB.WinLeft = 200;
         T2IncomeLB.WinTop = 14;
@@ -506,7 +506,7 @@ public partial class TRealmWin : ILayoutModule
         T2LevelLB = new TAOWListBox(this);
         session.BeginRead(T2LevelLB);
         T2LevelLB.Name = "T2LevelLB";
-        T2LevelLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2LevelLB.OnMouseDown = CityListMouseDown;
         T2LevelLB.Priority = 0;
         T2LevelLB.WinLeft = 225;
         T2LevelLB.WinTop = 14;
@@ -542,7 +542,7 @@ public partial class TRealmWin : ILayoutModule
         T2WallLB = new TAOWListBox(this);
         session.BeginRead(T2WallLB);
         T2WallLB.Name = "T2WallLB";
-        T2WallLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2WallLB.OnMouseDown = CityListMouseDown;
         T2WallLB.Priority = 0;
         T2WallLB.WinLeft = 250;
         T2WallLB.WinTop = 14;
@@ -567,7 +567,7 @@ public partial class TRealmWin : ILayoutModule
         T2WallLB.OnChange = CityListChange;
         T2WallLB.OnDoubleClick = CityDoubleClick;
         T2WallLB.Selected = -1;
-        T2WallLB.OnDrawItem = T2WallLBDrawItem;
+        T2WallLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => T2WallLBDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         T2WallLB.TextColor = 9415072;
         T2WallLB.TextSelColor = 0;
         T2WallLB.ILIndexFrame = 113;
@@ -579,7 +579,7 @@ public partial class TRealmWin : ILayoutModule
         T2SizeLB = new TAOWListBox(this);
         session.BeginRead(T2SizeLB);
         T2SizeLB.Name = "T2SizeLB";
-        T2SizeLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2SizeLB.OnMouseDown = CityListMouseDown;
         T2SizeLB.Priority = 0;
         T2SizeLB.WinLeft = 275;
         T2SizeLB.WinTop = 14;
@@ -615,7 +615,7 @@ public partial class TRealmWin : ILayoutModule
         T2EncLB = new TAOWListBox(this);
         session.BeginRead(T2EncLB);
         T2EncLB.Name = "T2EncLB";
-        T2EncLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2EncLB.OnMouseDown = CityListMouseDown;
         T2EncLB.Priority = 400;
         T2EncLB.WinLeft = 375;
         T2EncLB.WinTop = 14;
@@ -681,7 +681,7 @@ public partial class TRealmWin : ILayoutModule
         T2SName.TextColor = 0;
         T2SName.TextSelColor = 16777215;
         T2SName.WinWidth = 113;
-        T2SName.OnClick = Layout_T2SNameClick_6;
+        T2SName.OnClick = _ => Layout_T2SNameClick_6();
         session.EndRead(T2SName);
         T2SRace = new TAOWButton(this);
         session.BeginRead(T2SRace);
@@ -716,7 +716,7 @@ public partial class TRealmWin : ILayoutModule
         T2SRace.TextColor = 0;
         T2SRace.TextSelColor = 16777215;
         T2SRace.WinWidth = 88;
-        T2SRace.OnClick = Layout_T2SRaceClick_7;
+        T2SRace.OnClick = _ => Layout_T2SRaceClick_7();
         session.EndRead(T2SRace);
         T2SIn = new TAOWButton(this);
         session.BeginRead(T2SIn);
@@ -751,7 +751,7 @@ public partial class TRealmWin : ILayoutModule
         T2SIn.TextColor = 0;
         T2SIn.TextSelColor = 16777215;
         T2SIn.WinWidth = 26;
-        T2SIn.OnClick = Layout_T2SInClick_8;
+        T2SIn.OnClick = _ => Layout_T2SInClick_8();
         session.EndRead(T2SIn);
         T2SWall = new TAOWButton(this);
         session.BeginRead(T2SWall);
@@ -786,7 +786,7 @@ public partial class TRealmWin : ILayoutModule
         T2SWall.TextColor = 0;
         T2SWall.TextSelColor = 16777215;
         T2SWall.WinWidth = 26;
-        T2SWall.OnClick = Layout_T2SWallClick_9;
+        T2SWall.OnClick = _ => Layout_T2SWallClick_9();
         session.EndRead(T2SWall);
         T2SLvl = new TAOWButton(this);
         session.BeginRead(T2SLvl);
@@ -821,7 +821,7 @@ public partial class TRealmWin : ILayoutModule
         T2SLvl.TextColor = 0;
         T2SLvl.TextSelColor = 16777215;
         T2SLvl.WinWidth = 26;
-        T2SLvl.OnClick = Layout_T2SLvlClick_10;
+        T2SLvl.OnClick = _ => Layout_T2SLvlClick_10();
         session.EndRead(T2SLvl);
         T2SSize = new TAOWButton(this);
         session.BeginRead(T2SSize);
@@ -856,7 +856,7 @@ public partial class TRealmWin : ILayoutModule
         T2SSize.TextColor = 0;
         T2SSize.TextSelColor = 16777215;
         T2SSize.WinWidth = 26;
-        T2SSize.OnClick = Layout_T2SSizeClick_11;
+        T2SSize.OnClick = _ => Layout_T2SSizeClick_11();
         session.EndRead(T2SSize);
         T2SEnc = new TAOWButton(this);
         session.BeginRead(T2SEnc);
@@ -891,12 +891,12 @@ public partial class TRealmWin : ILayoutModule
         T2SEnc.TextColor = 0;
         T2SEnc.TextSelColor = 16777215;
         T2SEnc.WinWidth = 47;
-        T2SEnc.OnClick = Layout_T2SEncClick_12;
+        T2SEnc.OnClick = _ => Layout_T2SEncClick_12();
         session.EndRead(T2SEnc);
         T2ActLB = new TAOWListBox(this);
         session.BeginRead(T2ActLB);
         T2ActLB.Name = "T2ActLB";
-        T2ActLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2ActLB.OnMouseDown = CityListMouseDown;
         T2ActLB.Priority = 300;
         T2ActLB.WinLeft = 350;
         T2ActLB.WinTop = 14;
@@ -921,7 +921,7 @@ public partial class TRealmWin : ILayoutModule
         T2ActLB.OnChange = CityListChange;
         T2ActLB.OnDoubleClick = CityDoubleClick;
         T2ActLB.Selected = -1;
-        T2ActLB.OnDrawItem = T2ActLBDrawItem;
+        T2ActLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => T2ActLBDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         T2ActLB.TextColor = 9415072;
         T2ActLB.TextSelColor = 0;
         T2ActLB.ILIndexFrame = 113;
@@ -963,12 +963,12 @@ public partial class TRealmWin : ILayoutModule
         T2SAct.TextColor = 0;
         T2SAct.TextSelColor = 16777215;
         T2SAct.WinWidth = 26;
-        T2SAct.OnClick = Layout_T2SActClick_13;
+        T2SAct.OnClick = _ => Layout_T2SActClick_13();
         session.EndRead(T2SAct);
         T2RelLB = new TAOWListBox(this);
         session.BeginRead(T2RelLB);
         T2RelLB.Name = "T2RelLB";
-        T2RelLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2RelLB.OnMouseDown = CityListMouseDown;
         T2RelLB.Priority = 100;
         T2RelLB.WinLeft = 300;
         T2RelLB.WinTop = 14;
@@ -993,7 +993,7 @@ public partial class TRealmWin : ILayoutModule
         T2RelLB.OnChange = CityListChange;
         T2RelLB.OnDoubleClick = CityDoubleClick;
         T2RelLB.Selected = -1;
-        T2RelLB.OnDrawItem = T2RelLBDrawItem;
+        T2RelLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => T2RelLBDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         T2RelLB.TextColor = 9415072;
         T2RelLB.TextSelColor = 0;
         T2RelLB.ILIndexFrame = 113;
@@ -1035,12 +1035,12 @@ public partial class TRealmWin : ILayoutModule
         T2SRel.TextColor = 0;
         T2SRel.TextSelColor = 16777215;
         T2SRel.WinWidth = 26;
-        T2SRel.OnClick = Layout_T2SRelClick_14;
+        T2SRel.OnClick = _ => Layout_T2SRelClick_14();
         session.EndRead(T2SRel);
         T2MorLB = new TAOWListBox(this);
         session.BeginRead(T2MorLB);
         T2MorLB.Name = "T2MorLB";
-        T2MorLB.OnMouseDown = Layout_CityListMouseDown_5;
+        T2MorLB.OnMouseDown = CityListMouseDown;
         T2MorLB.Priority = 100;
         T2MorLB.WinLeft = 325;
         T2MorLB.WinTop = 14;
@@ -1065,7 +1065,7 @@ public partial class TRealmWin : ILayoutModule
         T2MorLB.OnChange = CityListChange;
         T2MorLB.OnDoubleClick = CityDoubleClick;
         T2MorLB.Selected = -1;
-        T2MorLB.OnDrawItem = T2MorLBDrawItem;
+        T2MorLB.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => T2MorLBDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         T2MorLB.TextColor = 9415072;
         T2MorLB.TextSelColor = 0;
         T2MorLB.ILIndexFrame = 113;
@@ -1107,7 +1107,7 @@ public partial class TRealmWin : ILayoutModule
         T2SMor.TextColor = 0;
         T2SMor.TextSelColor = 16777215;
         T2SMor.WinWidth = 26;
-        T2SMor.OnClick = Layout_T2SMorClick_15;
+        T2SMor.OnClick = _ => Layout_T2SMorClick_15();
         session.EndRead(T2SMor);
         CitySB = new TAOWVScrollBar(this);
         session.BeginRead(CitySB);
@@ -1137,7 +1137,7 @@ public partial class TRealmWin : ILayoutModule
         CitySB.WinHeight = 92;
         CitySB.WinWidth = 17;
         CitySB.NumberVisible = 4;
-        CitySB.OnChange = Layout_T2SBChange_16;
+        CitySB.OnChange = _ => Layout_T2SBChange_16();
         CitySB.VanishWhenFull = true;
         CitySB.ILIndexIncUp = 96;
         CitySB.ILIndexIncDown = 97;
@@ -1149,7 +1149,7 @@ public partial class TRealmWin : ILayoutModule
         T3Name = new TAOWListBox(this);
         session.BeginRead(T3Name);
         T3Name.Name = "T3Name";
-        T3Name.OnMouseDown = Layout_PlacesListMouseDown_17;
+        T3Name.OnMouseDown = PlacesListMouseDown;
         T3Name.Priority = 0;
         T3Name.WinLeft = 1;
         T3Name.WinTop = 14;
@@ -1215,12 +1215,12 @@ public partial class TRealmWin : ILayoutModule
         T3SName.TextColor = 0;
         T3SName.TextSelColor = 16777215;
         T3SName.WinWidth = 209;
-        T3SName.OnClick = Layout_T3SNameClick_18;
+        T3SName.OnClick = _ => Layout_T3SNameClick_18();
         session.EndRead(T3SName);
         T3ActLB = new TAOWListBox(this);
         session.BeginRead(T3ActLB);
         T3ActLB.Name = "T3ActLB";
-        T3ActLB.OnMouseDown = Layout_PlacesListMouseDown_17;
+        T3ActLB.OnMouseDown = PlacesListMouseDown;
         T3ActLB.Priority = 0;
         T3ActLB.WinLeft = 209;
         T3ActLB.WinTop = 14;
@@ -1286,7 +1286,7 @@ public partial class TRealmWin : ILayoutModule
         T3Activity.TextColor = 0;
         T3Activity.TextSelColor = 16777215;
         T3Activity.WinWidth = 213;
-        T3Activity.OnClick = Layout_T3ActivityClick_19;
+        T3Activity.OnClick = _ => Layout_T3ActivityClick_19();
         session.EndRead(T3Activity);
         PlaceSB = new TAOWVScrollBar(this);
         session.BeginRead(PlaceSB);
@@ -1317,7 +1317,7 @@ public partial class TRealmWin : ILayoutModule
         PlaceSB.WinHeight = 92;
         PlaceSB.WinWidth = 17;
         PlaceSB.NumberVisible = 3;
-        PlaceSB.OnChange = Layout_T3SBChange_20;
+        PlaceSB.OnChange = _ => Layout_T3SBChange_20();
         PlaceSB.VanishWhenFull = true;
         PlaceSB.ILIndexIncUp = 96;
         PlaceSB.ILIndexIncDown = 97;
@@ -1407,10 +1407,10 @@ public partial class TRealmWin : ILayoutModule
         Unit1LB.WinHeight = 104;
         Unit1LB.BorderWidth = 0;
         Unit1LB.BorderHeight = 3;
-        Unit1LB.OnChange = Unit1LBChange;
-        Unit1LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit1LB.OnChange = sender => Unit1LBChange(sender, 0);
+        Unit1LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 0);
         Unit1LB.Selected = -1;
-        Unit1LB.OnDrawItem = Unit1LBDrawItem;
+        Unit1LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 0);
         Unit1LB.TextColor = 9415072;
         Unit1LB.TextSelColor = 0;
         Unit1LB.ILIndexFrame = 40;
@@ -1444,10 +1444,10 @@ public partial class TRealmWin : ILayoutModule
         Unit2LB.WinHeight = 104;
         Unit2LB.BorderWidth = 0;
         Unit2LB.BorderHeight = 3;
-        Unit2LB.OnChange = Unit1LBChange;
-        Unit2LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit2LB.OnChange = sender => Unit1LBChange(sender, 1);
+        Unit2LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 1);
         Unit2LB.Selected = -1;
-        Unit2LB.OnDrawItem = Unit1LBDrawItem;
+        Unit2LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 1);
         Unit2LB.TextColor = 9415072;
         Unit2LB.TextSelColor = 0;
         Unit2LB.ILIndexFrame = 40;
@@ -1481,10 +1481,10 @@ public partial class TRealmWin : ILayoutModule
         Unit3LB.WinHeight = 104;
         Unit3LB.BorderWidth = 0;
         Unit3LB.BorderHeight = 3;
-        Unit3LB.OnChange = Unit1LBChange;
-        Unit3LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit3LB.OnChange = sender => Unit1LBChange(sender, 2);
+        Unit3LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 2);
         Unit3LB.Selected = -1;
-        Unit3LB.OnDrawItem = Unit1LBDrawItem;
+        Unit3LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 2);
         Unit3LB.TextColor = 9415072;
         Unit3LB.TextSelColor = 0;
         Unit3LB.ILIndexFrame = 40;
@@ -1518,10 +1518,10 @@ public partial class TRealmWin : ILayoutModule
         Unit4LB.WinHeight = 104;
         Unit4LB.BorderWidth = 0;
         Unit4LB.BorderHeight = 3;
-        Unit4LB.OnChange = Unit1LBChange;
-        Unit4LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit4LB.OnChange = sender => Unit1LBChange(sender, 3);
+        Unit4LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 3);
         Unit4LB.Selected = -1;
-        Unit4LB.OnDrawItem = Unit1LBDrawItem;
+        Unit4LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 3);
         Unit4LB.TextColor = 9415072;
         Unit4LB.TextSelColor = 0;
         Unit4LB.ILIndexFrame = 40;
@@ -1555,10 +1555,10 @@ public partial class TRealmWin : ILayoutModule
         Unit5LB.WinHeight = 104;
         Unit5LB.BorderWidth = 0;
         Unit5LB.BorderHeight = 3;
-        Unit5LB.OnChange = Unit1LBChange;
-        Unit5LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit5LB.OnChange = sender => Unit1LBChange(sender, 4);
+        Unit5LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 4);
         Unit5LB.Selected = -1;
-        Unit5LB.OnDrawItem = Unit1LBDrawItem;
+        Unit5LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 4);
         Unit5LB.TextColor = 9415072;
         Unit5LB.TextSelColor = 0;
         Unit5LB.ILIndexFrame = 40;
@@ -1592,10 +1592,10 @@ public partial class TRealmWin : ILayoutModule
         Unit6LB.WinHeight = 104;
         Unit6LB.BorderWidth = 0;
         Unit6LB.BorderHeight = 3;
-        Unit6LB.OnChange = Unit1LBChange;
-        Unit6LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit6LB.OnChange = sender => Unit1LBChange(sender, 5);
+        Unit6LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 5);
         Unit6LB.Selected = -1;
-        Unit6LB.OnDrawItem = Unit1LBDrawItem;
+        Unit6LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 5);
         Unit6LB.TextColor = 9415072;
         Unit6LB.TextSelColor = 0;
         Unit6LB.ILIndexFrame = 40;
@@ -1629,10 +1629,10 @@ public partial class TRealmWin : ILayoutModule
         Unit7LB.WinHeight = 104;
         Unit7LB.BorderWidth = 0;
         Unit7LB.BorderHeight = 3;
-        Unit7LB.OnChange = Unit1LBChange;
-        Unit7LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit7LB.OnChange = sender => Unit1LBChange(sender, 6);
+        Unit7LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 6);
         Unit7LB.Selected = -1;
-        Unit7LB.OnDrawItem = Unit1LBDrawItem;
+        Unit7LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 6);
         Unit7LB.TextColor = 9415072;
         Unit7LB.TextSelColor = 0;
         Unit7LB.ILIndexFrame = 40;
@@ -1666,10 +1666,10 @@ public partial class TRealmWin : ILayoutModule
         Unit8LB.WinHeight = 104;
         Unit8LB.BorderWidth = 0;
         Unit8LB.BorderHeight = 3;
-        Unit8LB.OnChange = Unit1LBChange;
-        Unit8LB.OnDoubleClick = Unit1LBDoubleClick;
+        Unit8LB.OnChange = sender => Unit1LBChange(sender, 7);
+        Unit8LB.OnDoubleClick = sender => Unit1LBDoubleClick(sender, 7);
         Unit8LB.Selected = -1;
-        Unit8LB.OnDrawItem = Unit1LBDrawItem;
+        Unit8LB.OnDrawItem = (_, in rect, item, ref surface) => Unit1LBDrawItem(rect, item, ref surface, 7);
         Unit8LB.TextColor = 9415072;
         Unit8LB.TextSelColor = 0;
         Unit8LB.ILIndexFrame = 40;
@@ -1707,7 +1707,7 @@ public partial class TRealmWin : ILayoutModule
         PartySb.WinHeight = 104;
         PartySb.WinWidth = 17;
         PartySb.NumberVisible = 1;
-        PartySb.OnChange = Layout_PartyVSBChange_21;
+        PartySb.OnChange = _ => Layout_PartyVSBChange_21();
         PartySb.VanishWhenFull = true;
         PartySb.ILIndexIncUp = 96;
         PartySb.ILIndexIncDown = 97;
@@ -1912,7 +1912,7 @@ public partial class TRealmWin : ILayoutModule
         T5SName.TextColor = 0;
         T5SName.TextSelColor = 16777215;
         T5SName.WinWidth = 230;
-        T5SName.OnClick = Layout_T5SNameClick_22;
+        T5SName.OnClick = _ => Layout_T5SNameClick_22();
         session.EndRead(T5SName);
         T5SHealth = new TAOWButton(this);
         session.BeginRead(T5SHealth);
@@ -1947,7 +1947,7 @@ public partial class TRealmWin : ILayoutModule
         T5SHealth.TextColor = 0;
         T5SHealth.TextSelColor = 16777215;
         T5SHealth.WinWidth = 72;
-        T5SHealth.OnClick = Layout_T5SHealthClick_23;
+        T5SHealth.OnClick = _ => Layout_T5SHealthClick_23();
         session.EndRead(T5SHealth);
         T5SLevel = new TAOWButton(this);
         session.BeginRead(T5SLevel);
@@ -1982,12 +1982,12 @@ public partial class TRealmWin : ILayoutModule
         T5SLevel.TextColor = 0;
         T5SLevel.TextSelColor = 16777215;
         T5SLevel.WinWidth = 54;
-        T5SLevel.OnClick = Layout_T5SLevelClick_24;
+        T5SLevel.OnClick = _ => Layout_T5SLevelClick_24();
         session.EndRead(T5SLevel);
         T5HeroInf = new TAOWPanel(this);
         session.BeginRead(T5HeroInf);
         T5HeroInf.Name = "T5HeroInf";
-        T5HeroInf.OnDraw = T5HeroInfDraw;
+        T5HeroInf.OnDraw = (_, SurfDesc) => T5HeroInfDraw(SurfDesc);
         T5HeroInf.Priority = 10;
         T5HeroInf.WinLeft = 1;
         T5HeroInf.WinTop = 0;
@@ -2068,7 +2068,7 @@ public partial class TRealmWin : ILayoutModule
         HInfoBtn.TextColor = 0;
         HInfoBtn.TextSelColor = 16777215;
         HInfoBtn.WinWidth = 69;
-        HInfoBtn.OnClick = Layout_HeroInfoClick_25;
+        HInfoBtn.OnClick = _ => Layout_HeroInfoClick_25();
         session.EndRead(HInfoBtn);
         HeroSB = new TAOWVScrollBar(this);
         session.BeginRead(HeroSB);
@@ -2098,7 +2098,7 @@ public partial class TRealmWin : ILayoutModule
         HeroSB.WinHeight = 91;
         HeroSB.WinWidth = 17;
         HeroSB.NumberVisible = 4;
-        HeroSB.OnChange = Layout_HeroVSBChange_26;
+        HeroSB.OnChange = _ => Layout_HeroVSBChange_26();
         HeroSB.VanishWhenFull = true;
         HeroSB.ILIndexIncUp = 96;
         HeroSB.ILIndexIncDown = 97;
@@ -2251,7 +2251,7 @@ public partial class TRealmWin : ILayoutModule
         IncomeSB.WinHeight = 76;
         IncomeSB.WinWidth = 17;
         IncomeSB.NumberVisible = 2;
-        IncomeSB.OnChange = Layout_IncomeSBChange_27;
+        IncomeSB.OnChange = _ => Layout_IncomeSBChange_27();
         IncomeSB.VanishWhenFull = true;
         IncomeSB.ILIndexIncUp = 96;
         IncomeSB.ILIndexIncDown = 97;
@@ -2422,7 +2422,7 @@ public partial class TRealmWin : ILayoutModule
         UpkeepSB.WinHeight = 76;
         UpkeepSB.WinWidth = 17;
         UpkeepSB.NumberVisible = 1;
-        UpkeepSB.OnChange = Layout_UpkeepSBChange_28;
+        UpkeepSB.OnChange = _ => Layout_UpkeepSBChange_28();
         UpkeepSB.VanishWhenFull = true;
         UpkeepSB.ILIndexIncUp = 96;
         UpkeepSB.ILIndexIncDown = 97;
@@ -2775,7 +2775,7 @@ public partial class TRealmWin : ILayoutModule
         Help.TextColor = 0;
         Help.TextSelColor = 0;
         Help.WinWidth = 15;
-        Help.OnClick = Layout_HelpClick_29;
+        Help.OnClick = _ => Layout_HelpClick_29();
         session.EndRead(Help);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -3195,152 +3195,142 @@ public partial class TRealmWin : ILayoutModule
         Help.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_DlgHide_0(TObject p0)
+    private void Layout_DlgHide_0()
     {
         DlgHide();
     }
 
-    private void Layout_DlgShow_1(TObject p0)
+    private void Layout_DlgShow_1()
     {
         DlgShow();
     }
 
-    private void Layout_OverWindowResize_2(TObject p0)
+    private void Layout_OverWindowResize_2()
     {
         OverWindowResize();
     }
 
-    private void Layout_HeaderTabChange_3(TObject p0)
+    private void Layout_HeaderTabChange_3()
     {
         HeaderTabChange();
     }
 
-    private void Layout_OWMinIconClick_4(TObject p0)
+    private void Layout_OWMinIconClick_4()
     {
         OWMinIconClick();
     }
 
-    private void Layout_CityListMouseDown_5(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
+    private void Layout_T2SNameClick_6()
     {
-        CityListMouseDown((TAOWListBox)p0, p1, p2, p3, p4);
+        T2SNameClick(default(int));
     }
 
-    private void Layout_T2SNameClick_6(TObject p0)
+    private void Layout_T2SRaceClick_7()
     {
-        T2SNameClick(default(TObject), default(int));
+        T2SRaceClick(default(int));
     }
 
-    private void Layout_T2SRaceClick_7(TObject p0)
+    private void Layout_T2SInClick_8()
     {
-        T2SRaceClick(default(TObject), default(int));
+        T2SInClick(default(int));
     }
 
-    private void Layout_T2SInClick_8(TObject p0)
+    private void Layout_T2SWallClick_9()
     {
-        T2SInClick(default(TObject), default(int));
+        T2SWallClick(default(int));
     }
 
-    private void Layout_T2SWallClick_9(TObject p0)
+    private void Layout_T2SLvlClick_10()
     {
-        T2SWallClick(default(TObject), default(int));
+        T2SLvlClick(default(int));
     }
 
-    private void Layout_T2SLvlClick_10(TObject p0)
+    private void Layout_T2SSizeClick_11()
     {
-        T2SLvlClick(default(TObject), default(int));
+        T2SSizeClick(default(int));
     }
 
-    private void Layout_T2SSizeClick_11(TObject p0)
+    private void Layout_T2SEncClick_12()
     {
-        T2SSizeClick(default(TObject), default(int));
+        T2SEncClick(default(int));
     }
 
-    private void Layout_T2SEncClick_12(TObject p0)
+    private void Layout_T2SActClick_13()
     {
-        T2SEncClick(default(TObject), default(int));
+        T2SActClick(default(int));
     }
 
-    private void Layout_T2SActClick_13(TObject p0)
+    private void Layout_T2SRelClick_14()
     {
-        T2SActClick(default(TObject), default(int));
+        T2SRelClick(default(int));
     }
 
-    private void Layout_T2SRelClick_14(TObject p0)
+    private void Layout_T2SMorClick_15()
     {
-        T2SRelClick(default(TObject), default(int));
+        T2SMorClick(default(int));
     }
 
-    private void Layout_T2SMorClick_15(TObject p0)
-    {
-        T2SMorClick(default(TObject), default(int));
-    }
-
-    private void Layout_T2SBChange_16(TObject p0)
+    private void Layout_T2SBChange_16()
     {
         T2SBChange();
     }
 
-    private void Layout_PlacesListMouseDown_17(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
+    private void Layout_T3SNameClick_18()
     {
-        PlacesListMouseDown((TAOWListBox)p0, p1, p2, p3, p4);
+        T3SNameClick(default(int));
     }
 
-    private void Layout_T3SNameClick_18(TObject p0)
+    private void Layout_T3ActivityClick_19()
     {
-        T3SNameClick(default(TObject), default(int));
+        T3ActivityClick(default(int));
     }
 
-    private void Layout_T3ActivityClick_19(TObject p0)
-    {
-        T3ActivityClick(default(TObject), default(int));
-    }
-
-    private void Layout_T3SBChange_20(TObject p0)
+    private void Layout_T3SBChange_20()
     {
         T3SBChange();
     }
 
-    private void Layout_PartyVSBChange_21(TObject p0)
+    private void Layout_PartyVSBChange_21()
     {
         PartyVSBChange();
     }
 
-    private void Layout_T5SNameClick_22(TObject p0)
+    private void Layout_T5SNameClick_22()
     {
-        T5SNameClick(default(TObject), default(int));
+        T5SNameClick(default(int));
     }
 
-    private void Layout_T5SHealthClick_23(TObject p0)
+    private void Layout_T5SHealthClick_23()
     {
-        T5SHealthClick(default(TObject), default(int));
+        T5SHealthClick(default(int));
     }
 
-    private void Layout_T5SLevelClick_24(TObject p0)
+    private void Layout_T5SLevelClick_24()
     {
-        T5SLevelClick(default(TObject), default(int));
+        T5SLevelClick(default(int));
     }
 
-    private void Layout_HeroInfoClick_25(TObject p0)
+    private void Layout_HeroInfoClick_25()
     {
         HeroInfoClick();
     }
 
-    private void Layout_HeroVSBChange_26(TObject p0)
+    private void Layout_HeroVSBChange_26()
     {
         HeroVSBChange();
     }
 
-    private void Layout_IncomeSBChange_27(TObject p0)
+    private void Layout_IncomeSBChange_27()
     {
         IncomeSBChange();
     }
 
-    private void Layout_UpkeepSBChange_28(TObject p0)
+    private void Layout_UpkeepSBChange_28()
     {
         UpkeepSBChange();
     }
 
-    private void Layout_HelpClick_29(TObject p0)
+    private void Layout_HelpClick_29()
     {
         HelpClick();
     }

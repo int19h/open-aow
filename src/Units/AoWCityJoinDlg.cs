@@ -98,7 +98,7 @@ public partial class TCityJoinDlg : TDataModule
     }
 
     // AoWCityJoinDlg.pas:93
-    public void DlgDrawBack(TObject Sender, TSurfaceDesc Surface)
+    public void DlgDrawBack(TSurfaceDesc Surface)
     {
         ImageLib.TLibraryImage Face;
         Face = AoWHSSet.FRaceResources.GetRaceResource(FRace).GetFace();
@@ -122,7 +122,7 @@ public partial class TCityJoinDlg : TDataModule
     }
 
     // AoWCityJoinDlg.pas:113
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

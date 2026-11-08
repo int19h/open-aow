@@ -35,7 +35,7 @@ namespace Aow.Units.AOWMWindow
 {
     public partial class TMWindow
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
+        public TNotifyEvent<TMWindow> LayoutOnCreate { get; set; }
     }
 }
 
@@ -79,8 +79,8 @@ namespace Aow.Units.AoWArmyEventDlg
 {
     public partial class TArmyEventDlg
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TArmyEventDlg> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TArmyEventDlg> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -115,8 +115,8 @@ namespace Aow.Units.AoWCampaignJoin
 {
     public partial class TCampaignJoinDlg
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TCampaignJoinDlg> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TCampaignJoinDlg> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -151,8 +151,8 @@ namespace Aow.Units.AoWCityScreen
 {
     public partial class TCityScreen
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TCityScreen> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TCityScreen> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -201,8 +201,8 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
 {
     public partial class TEmailGameSettingsDlg
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TEmailGameSettingsDlg> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TEmailGameSettingsDlg> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -223,8 +223,8 @@ namespace Aow.Units.AoWFileDialog
 {
     public partial class TFileDlgWindow
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TFileDlgWindow> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TFileDlgWindow> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -259,8 +259,8 @@ namespace Aow.Units.AoWHeroJoinDlg
 {
     public partial class THeroJoinDlg
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<THeroJoinDlg> LayoutOnCreate { get; set; }
+        public TNotifyEvent<THeroJoinDlg> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -309,8 +309,8 @@ namespace Aow.Units.AoWLeaderSetup
 {
     public partial class TLeaderSetupWin
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TLeaderSetupWin> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TLeaderSetupWin> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -375,8 +375,8 @@ namespace Aow.Units.AoWPartyJoin
 {
     public partial class TPartyJoinDlg
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TPartyJoinDlg> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TPartyJoinDlg> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -397,8 +397,8 @@ namespace Aow.Units.AoWProdScreen
 {
     public partial class TProductionScreen
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TProductionScreen> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TProductionScreen> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -419,8 +419,8 @@ namespace Aow.Units.AoWRelations
 {
     public partial class TRelWindow
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TRelWindow> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TRelWindow> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -441,8 +441,8 @@ namespace Aow.Units.AoWResultsWin
 {
     public partial class TResultsWin
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TResultsWin> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TResultsWin> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -473,8 +473,8 @@ namespace Aow.Units.AoWSMTPDlg
     public partial class TmsSMTP
     {
         public int DefaultPort { get; set; }
-        public SmtpError OnError { get; set; }
-        public SmtpProgress OnProgress { get; set; }
+        public SmtpError<TmsSMTP> OnError { get; set; }
+        public SmtpProgress<TmsSMTP> OnProgress { get; set; }
     }
 }
 
@@ -482,8 +482,8 @@ namespace Aow.Units.AoWSoundDlg
 {
     public partial class TSoundDlg
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TSoundDlg> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TSoundDlg> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -504,8 +504,8 @@ namespace Aow.Units.AoWSpellBook
 {
     public partial class TSpellBook
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TSpellBook> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TSpellBook> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -548,8 +548,8 @@ namespace Aow.Units.AoWTitleScene
 {
     public partial class TTitleScene
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TTitleScene> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TTitleScene> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -570,7 +570,7 @@ namespace Aow.Units.AoWUnitWindow
 {
     public partial class TUnitWindow
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
+        public TNotifyEvent<TUnitWindow> LayoutOnCreate { get; set; }
     }
 }
 
@@ -578,8 +578,8 @@ namespace Aow.Units.AoWVideoDlg
 {
     public partial class TVideoDialog
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TVideoDialog> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TVideoDialog> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -600,8 +600,8 @@ namespace Aow.Units.AoWWinMan
 {
     public partial class TGeneral
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TGeneral> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TGeneral> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -622,7 +622,7 @@ namespace Aow.Units.AoWWorldMap
 {
     public partial class TWorldMap
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
+        public TNotifyEvent<TWorldMap> LayoutOnCreate { get; set; }
     }
 }
 
@@ -630,8 +630,8 @@ namespace Aow.Units.FastCombatWin
 {
     public partial class TFastCombatWindow
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
-        public TNotifyEvent LayoutOnDestroy { get; set; }
+        public TNotifyEvent<TFastCombatWindow> LayoutOnCreate { get; set; }
+        public TNotifyEvent<TFastCombatWindow> LayoutOnDestroy { get; set; }
 
         public override void Destroy()
         {
@@ -699,7 +699,7 @@ namespace Aow.Layout
         public int MaxPlayers { get; set; }
         public TGDChatMessageEvent OnChatMessage { get; set; }
         public TGDDestroyPlayerEvent OnDestroyPlayer { get; set; }
-        public TNotifyEvent OnEjected { get; set; }
+        public TNotifyEvent<LayoutTGDPlay> OnEjected { get; set; }
         public TGDFileDoneMessageEvent OnFileDoneMessage { get; set; }
         public TGDFileProgressMessageEvent OnFileProgressMessage { get; set; }
         public TGDFileStartMessageEvent OnFileStartMessage { get; set; }
@@ -716,7 +716,7 @@ namespace Aow.Units.aowSetupEvents
 {
     public partial class TSetupEvents
     {
-        public TNotifyEvent LayoutOnCreate { get; set; }
+        public TNotifyEvent<TSetupEvents> LayoutOnCreate { get; set; }
     }
 }
 
@@ -744,12 +744,12 @@ namespace Aow.Layout
 
 namespace Aow.Layout
 {
-    public delegate void SmtpError(TObject sender, ref string error);
+    public delegate void SmtpError<in TSender>(TSender sender, ref string error);
 }
 
 namespace Aow.Layout
 {
-    public delegate void SmtpProgress(TObject sender, int progress, int total);
+    public delegate void SmtpProgress<in TSender>(TSender sender, int progress, int total);
 }
 
 namespace Aow.Layout

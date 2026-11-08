@@ -2216,15 +2216,15 @@ public partial class TBitList : TPersistent
 
 public partial class TEventList : TPersistent
 {
-    internal TNotifyEvent[] FList = [];
+    internal TNotifyEvent<TObject>[] FList = [];
     internal int FCount;
     internal int FCapacity;
-    internal TNotifyEvent FDefault;
+    internal TNotifyEvent<TObject> FDefault;
 
     // Engine.pas:4929
-    internal TNotifyEvent Get(int Index)
+    internal TNotifyEvent<TObject> Get(int Index)
     {
-        TNotifyEvent Result;
+        TNotifyEvent<TObject> Result;
         if (Index < 0 || Index >= FCount)
         {
             Result = FDefault;
@@ -2238,7 +2238,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4987
-    internal void Put(int Index, TNotifyEvent Item)
+    internal void Put(int Index, TNotifyEvent<TObject> Item)
     {
         if (Index < 0)
         {
@@ -2344,7 +2344,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4873
-    public int Add(TNotifyEvent Item)
+    public int Add(TNotifyEvent<TObject> Item)
     {
         int Result = FCount;
         if (Result == FCapacity)
@@ -2382,7 +2382,7 @@ public partial class TEventList : TPersistent
     // Engine.pas:4907
     public void Exchange(int Index1, int Index2)
     {
-        TNotifyEvent Item;
+        TNotifyEvent<TObject> Item;
         if (Index1 < 0 || Index1 >= FCount)
         {
             Error("List index out of bounds (%d)", Index1);
@@ -2410,10 +2410,10 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4924
-    public TNotifyEvent First() => Get(0);
+    public TNotifyEvent<TObject> First() => Get(0);
 
     // Engine.pas:4947
-    public int IndexOf(TNotifyEvent Item)
+    public int IndexOf(TNotifyEvent<TObject> Item)
     {
         Delegate M;
         int Result = 0;
@@ -2432,7 +2432,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4958
-    public void Insert(int Index, TNotifyEvent Item)
+    public void Insert(int Index, TNotifyEvent<TObject> Item)
     {
         if (Index < 0 || Index > FCount)
         {
@@ -2454,12 +2454,12 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4969
-    public TNotifyEvent Last() => Get(FCount - 1);
+    public TNotifyEvent<TObject> Last() => Get(FCount - 1);
 
     // Engine.pas:4974
     public void Move(int CurIndex, int NewIndex)
     {
-        TNotifyEvent Item;
+        TNotifyEvent<TObject> Item;
         if (CurIndex != NewIndex)
         {
             if (NewIndex < 0 || NewIndex >= FCount)
@@ -2474,7 +2474,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4994
-    public int Remove(TNotifyEvent Item)
+    public int Remove(TNotifyEvent<TObject> Item)
     {
         int Result = default;
         Result = IndexOf(Item);
@@ -2518,11 +2518,11 @@ public partial class TEventList : TPersistent
 
     public int Capacity { get => FCapacity; set => SetCapacity(value); }
     public int Count { get => FCount; set => SetCount(value); }
-    public TNotifyEvent Default { get => FDefault; set => FDefault = value; }
+    public TNotifyEvent<TObject> Default { get => FDefault; set => FDefault = value; }
 
-    public TNotifyEvent this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public TNotifyEvent<TObject> this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-    public TNotifyEvent[] List { get => FList; }
+    public TNotifyEvent<TObject>[] List { get => FList; }
 
     // Engine.pas:4896
     protected internal static void Error(string Msg, int Data)
@@ -4900,7 +4900,15 @@ public partial class TEngine : TENode
     internal TEControlStyleNode FControlNode;
     public TEComponent FComponent;
     internal TStringList FDebugIDs;
-    internal TEventList FDebugEvents;
+
+    internal EventStore<EngineDebugNotification> FDebugEventsStore;
+
+    internal event TNotifyEvent<EngineDebugNotification> FDebugEvents
+    {
+        add => FDebugEventsStore.Add(value);
+        remove => FDebugEventsStore.Remove(value);
+    }
+
     internal string FStartupDirectory = "";
     public TSet<TEngineUserElement> FUser;
     internal TSet<TEngineModeElement> FOptions;
@@ -4926,7 +4934,7 @@ public partial class TEngine : TENode
     {
         UpdateStartupDirectory();
         FOptions = TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
-        FDebugEvents = new TEventList();
+        FDebugEventsStore = new();
         FEClasses = new TEObjectClassList();
         FClassTable = new TIntegerHashTable256();
         FEditors = new TEObjectEditorList();
@@ -4943,7 +4951,7 @@ public partial class TEngine : TENode
     {
         FEditors.Free();
         EngineUnit.Engines.Remove(this);
-        FDebugEvents.Free();
+        FDebugEventsStore.Clear();
         FDebugIDs.Free();
         base.Destroy();
         FClassTable.Free();
@@ -5013,7 +5021,7 @@ public partial class TEngine : TENode
         ref var Info = ref notification.Info;
         Info.ID = -1;
         Info.Text = S;
-        FDebugEvents.TriggerNotifyEvents(notification);
+        FDebugEventsStore.Raise(notification);
     }
 
     // Engine.pas:8805
@@ -5023,7 +5031,7 @@ public partial class TEngine : TENode
         ref var Info = ref notification.Info;
         Info.ID = ID;
         Info.Text = S;
-        FDebugEvents.TriggerNotifyEvents(notification);
+        FDebugEventsStore.Raise(notification);
     }
 
     // Engine.pas:8819
@@ -5473,7 +5481,13 @@ public partial class TEngine : TENode
     public TEObjectEditorList Editors { get => FEditors; }
     public TEControlStyleNode ControlNode { get => FControlNode; }
     public TStringList DebugIDs { get => FDebugIDs; }
-    public TEventList DebugEvents { get => FDebugEvents; }
+
+    public event TNotifyEvent<EngineDebugNotification> DebugEvents
+    {
+        add => FDebugEventsStore.Add(value);
+        remove => FDebugEventsStore.Remove(value);
+    }
+
     public string StartupDirectory { get => FStartupDirectory; set => SetStartupDirectory(value); }
     public TSet<TEngineModeElement> Options { get => FOptions; set => FOptions = value; }
 
@@ -7874,28 +7888,35 @@ public partial class TEChangeNotifyEventList : TEChangeNotifyNode
 
     public TEChangeNotifyEventList(TECustomNode owner) : base(owner)
     {
-        FEvents = new TEventList();
+        FEventsStore = new();
     }
 
-    internal TEventList FEvents;
+    internal EventStore<TEChangeNotifyEventList> FEventsStore;
+
+    internal event TNotifyEvent<TEChangeNotifyEventList> FEvents
+    {
+        add => FEventsStore.Add(value);
+        remove => FEventsStore.Remove(value);
+    }
 
     // Engine.pas:8131
     public override void Destroy()
     {
-        FEvents.Free();
+        FEventsStore.Clear();
         base.Destroy();
     }
 
     // Engine.pas:8137
     public override void Changed()
     {
-        FEvents.TriggerNotifyEvents(this);
+        FEventsStore.Raise(this);
     }
 
-    public TEventList Events { get => FEvents; }
-
-    // Engine.pas:708
-
+    public event TNotifyEvent<TEChangeNotifyEventList> Events
+    {
+        add => FEventsStore.Add(value);
+        remove => FEventsStore.Remove(value);
+    }
 }
 
 public enum TEditResult : byte
@@ -10423,8 +10444,8 @@ public partial class TEResourceList : TECustomOwner
 // publish the two events
 public partial class TEComponent : TComponent
 {
-    internal TNotifyEvent FOnRegisterClasses;
-    internal TNotifyEvent FOnUnRegisterClasses;
+    internal TNotifyEvent<TObject> FOnRegisterClasses;
+    internal TNotifyEvent<TObject> FOnUnRegisterClasses;
     internal TEngine FEngine;
 
     // Engine.pas:8642
@@ -10437,8 +10458,8 @@ public partial class TEComponent : TComponent
         }
     }
 
-    protected internal TNotifyEvent OnRegisterClasses { get => FOnRegisterClasses; set => FOnRegisterClasses = value; }
-    protected internal TNotifyEvent OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
+    protected internal TNotifyEvent<TObject> OnRegisterClasses { get => FOnRegisterClasses; set => FOnRegisterClasses = value; }
+    protected internal TNotifyEvent<TObject> OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
 
     // Engine.pas:8635
     public override void Destroy()
@@ -10460,7 +10481,7 @@ public partial class TEComponent : TComponent
 
 public struct TCallBackEvent
 {
-    public TNotifyEvent Event;
+    public TNotifyEvent<TObject> Event;
     public int Data;
 }
 

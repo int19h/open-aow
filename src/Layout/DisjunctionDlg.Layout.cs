@@ -141,7 +141,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 120;
-        CancelBtn.OnClick = Layout_CancelBtnClick_0;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(CancelBtn);
         CastBtn = new TAOWButton(this);
         session.BeginRead(CastBtn);
@@ -176,19 +176,19 @@ public partial class TDisjunctionDlg : ILayoutModule
         CastBtn.TextColor = 0;
         CastBtn.TextSelColor = 16777215;
         CastBtn.WinWidth = 120;
-        CastBtn.OnClick = Layout_CastBtnClick_1;
+        CastBtn.OnClick = _ => Layout_CastBtnClick_1();
         session.EndRead(CastBtn);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 120;
         Dlg.WinTop = 6;
         Dlg.WinWidth = 400;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_2;
+        Dlg.OnHide = _ => Layout_DlgHide_2();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -420,7 +420,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         OwnerList.WinHeight = 121;
         OwnerList.BorderWidth = 8;
         OwnerList.BorderHeight = 4;
-        OwnerList.OnChange = Layout_OwnerListChange_3;
+        OwnerList.OnChange = _ => Layout_OwnerListChange_3();
         OwnerList.Selected = -1;
         OwnerList.TextColor = 9402970;
         OwnerList.TextSelColor = 0;
@@ -454,7 +454,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         EnchantmentList.WinHeight = 121;
         EnchantmentList.BorderWidth = 8;
         EnchantmentList.BorderHeight = 4;
-        EnchantmentList.OnChange = Layout_EnchantmentListChange_4;
+        EnchantmentList.OnChange = _ => Layout_EnchantmentListChange_4();
         EnchantmentList.Selected = -1;
         EnchantmentList.TextColor = 9402970;
         EnchantmentList.TextSelColor = 0;
@@ -493,7 +493,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         Sort.TextColor = 0;
         Sort.TextSelColor = 16777215;
         Sort.WinWidth = 170;
-        Sort.OnClick = Layout_SortClick_5;
+        Sort.OnClick = _ => Layout_SortClick_5();
         session.EndRead(Sort);
         SortEnchantment = new TAOWButton(this);
         session.BeginRead(SortEnchantment);
@@ -524,7 +524,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         SortEnchantment.TextColor = 0;
         SortEnchantment.TextSelColor = 16777215;
         SortEnchantment.WinWidth = 169;
-        SortEnchantment.OnClick = Layout_SortEnchantmentClick_6;
+        SortEnchantment.OnClick = _ => Layout_SortEnchantmentClick_6();
         session.EndRead(SortEnchantment);
         EnchantmentsScrollBar = new TAOWVScrollBar(this);
         session.BeginRead(EnchantmentsScrollBar);
@@ -555,7 +555,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         EnchantmentsScrollBar.WinHeight = 121;
         EnchantmentsScrollBar.WinWidth = 17;
         EnchantmentsScrollBar.NumberVisible = 1;
-        EnchantmentsScrollBar.OnChange = Layout_EnchantmentsScrollBarChange_7;
+        EnchantmentsScrollBar.OnChange = _ => Layout_EnchantmentsScrollBarChange_7();
         EnchantmentsScrollBar.VanishWhenFull = true;
         EnchantmentsScrollBar.ILIndexIncUp = 74;
         EnchantmentsScrollBar.ILIndexIncDown = 75;
@@ -616,7 +616,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         ChanceSlider.WinHeight = 18;
         ChanceSlider.WinWidth = 92;
         ChanceSlider.NumberVisible = 1;
-        ChanceSlider.OnChange = Layout_ChanceSliderChange_8;
+        ChanceSlider.OnChange = _ => Layout_ChanceSliderChange_8();
         ChanceSlider.VanishWhenFull = false;
         ChanceSlider.ILIndexIncUp = 0;
         ChanceSlider.ILIndexIncDown = 0;
@@ -657,7 +657,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CancelBtnClick_0;
+        Close.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(Close);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -699,7 +699,7 @@ public partial class TDisjunctionDlg : ILayoutModule
         session.BeginRead(MapView);
         MapView.Name = "MapView";
         MapView.OnDraw = MapViewDraw;
-        MapView.OnUpdate = Layout_MapViewUpdate_9;
+        MapView.OnUpdate = _ => Layout_MapViewUpdate_9();
         MapView.Priority = 50;
         MapView.WinLeft = 31;
         MapView.WinTop = 30;
@@ -815,52 +815,52 @@ public partial class TDisjunctionDlg : ILayoutModule
         MapViewPnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
     }
 
-    private void Layout_CancelBtnClick_0(TObject p0)
+    private void Layout_CancelBtnClick_0()
     {
         CancelBtnClick();
     }
 
-    private void Layout_CastBtnClick_1(TObject p0)
+    private void Layout_CastBtnClick_1()
     {
         CastBtnClick();
     }
 
-    private void Layout_DlgHide_2(TObject p0)
+    private void Layout_DlgHide_2()
     {
         DlgHide();
     }
 
-    private void Layout_OwnerListChange_3(TObject p0)
+    private void Layout_OwnerListChange_3()
     {
         OwnerListChange();
     }
 
-    private void Layout_EnchantmentListChange_4(TObject p0)
+    private void Layout_EnchantmentListChange_4()
     {
         EnchantmentListChange();
     }
 
-    private void Layout_SortClick_5(TObject p0)
+    private void Layout_SortClick_5()
     {
         SortClick();
     }
 
-    private void Layout_SortEnchantmentClick_6(TObject p0)
+    private void Layout_SortEnchantmentClick_6()
     {
         SortEnchantmentClick();
     }
 
-    private void Layout_EnchantmentsScrollBarChange_7(TObject p0)
+    private void Layout_EnchantmentsScrollBarChange_7()
     {
         EnchantmentsScrollBarChange();
     }
 
-    private void Layout_ChanceSliderChange_8(TObject p0)
+    private void Layout_ChanceSliderChange_8()
     {
         ChanceSliderChange();
     }
 
-    private void Layout_MapViewUpdate_9(TObject p0)
+    private void Layout_MapViewUpdate_9()
     {
         MapViewUpdate();
     }

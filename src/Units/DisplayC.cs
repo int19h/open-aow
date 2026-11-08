@@ -121,15 +121,15 @@ public partial class TCustomDisplay : TWinControl
 {
 
     internal TDDrawFSWinControl FFSWinControl;
-    internal TNotifyEvent FOnBltSurface;
+    internal TNotifyEvent<TObject> FOnBltSurface;
     internal TUpdateFrameEvent FOnUpdateFrame;
     internal TSurfaceDataLostEvent FOnSurfaceDataLost;
-    internal TNotifyEvent FOnResize;
+    internal TNotifyEvent<TObject> FOnResize;
     internal TErrorEvent FOnError;
     internal TDCNotifyEvent FOnActivateDC;
     internal TDCNotifyEvent FOnDeactivateDC;
-    internal TNotifyEvent FOnHide;
-    internal TNotifyEvent FOnShow;
+    internal TNotifyEvent<TObject> FOnHide;
+    internal TNotifyEvent<TObject> FOnShow;
     internal TResizeBackSurfaceEvent FOnResizeBackSurface;
     internal TSwapDCEvent FOnSwapDC;
     internal int FFrameRate;
@@ -579,13 +579,13 @@ public partial class TCustomDisplay : TWinControl
     protected internal TAbstractDC PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
     protected internal TAbstractDC SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
     protected internal TUpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
-    protected internal TNotifyEvent OnResize { get => FOnResize; set => FOnResize = value; }
-    protected internal TNotifyEvent OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
+    protected internal TNotifyEvent<TObject> OnResize { get => FOnResize; set => FOnResize = value; }
+    protected internal TNotifyEvent<TObject> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
     protected internal TDCNotifyEvent OnDeactivateDC { get => FOnDeactivateDC; set => FOnDeactivateDC = value; }
     protected internal TDCNotifyEvent OnActivateDC { get => FOnActivateDC; set => FOnActivateDC = value; }
     protected internal TUpdateFrameEvent OnUpdateFrame { get => FOnUpdateFrame; set => FOnUpdateFrame = value; }
-    protected internal TNotifyEvent OnHide { get => FOnHide; set => FOnHide = value; }
-    protected internal TNotifyEvent OnShow { get => FOnShow; set => FOnShow = value; }
+    protected internal TNotifyEvent<TObject> OnHide { get => FOnHide; set => FOnHide = value; }
+    protected internal TNotifyEvent<TObject> OnShow { get => FOnShow; set => FOnShow = value; }
     protected internal TErrorEvent OnError { get => FOnError; set => FOnError = value; }
     protected internal TSurfaceDataLostEvent OnSurfaceDataLost { get => FOnSurfaceDataLost; set => FOnSurfaceDataLost = value; }
     protected internal TResizeBackSurfaceEvent OnResizeBackSurface { get => FOnResizeBackSurface; set => FOnResizeBackSurface = value; }

@@ -62,8 +62,8 @@ public partial class TPInfoW : ILayoutModule
         PInfoWin.DragHeight = 20;
         PInfoWin.Draggable = true;
         PInfoWin.Resizable = true;
-        PInfoWin.OnDrag = Layout_PInfoWinResize_0;
-        PInfoWin.OnResize = Layout_PInfoWinResize_0;
+        PInfoWin.OnDrag = _ => Layout_PInfoWinResize_0();
+        PInfoWin.OnResize = _ => Layout_PInfoWinResize_0();
         PInfoWin.MinWidth = 200;
         PInfoWin.MinHeight = 216;
         PInfoWin.MaxWidth = 0;
@@ -105,7 +105,7 @@ public partial class TPInfoW : ILayoutModule
         Min.TextColor = 0;
         Min.TextSelColor = 0;
         Min.WinWidth = 15;
-        Min.OnClick = Layout_MinClick_1;
+        Min.OnClick = _ => Layout_MinClick_1();
         session.EndRead(Min);
         IWTitle = new TAOWLabel(this);
         session.BeginRead(IWTitle);
@@ -161,7 +161,7 @@ public partial class TPInfoW : ILayoutModule
         EventList = new TAOWListBox(this);
         session.BeginRead(EventList);
         EventList.Name = "EventList";
-        EventList.OnMouseDown = EventListMouseDown;
+        EventList.OnMouseDown = (_, button, shift, x, y) => EventListMouseDown(button, shift, x, y);
         EventList.Priority = 100;
         EventList.WinLeft = 1;
         EventList.WinTop = 1;
@@ -183,10 +183,10 @@ public partial class TPInfoW : ILayoutModule
         EventList.WinHeight = 108;
         EventList.BorderWidth = 37;
         EventList.BorderHeight = 4;
-        EventList.OnDoubleClick = Layout_EventListDoubleClick_2;
+        EventList.OnDoubleClick = _ => Layout_EventListDoubleClick_2();
         EventList.Selected = -1;
-        EventList.OnDrawItem = EventListDrawItem;
-        EventList.OnPreDrawItem = EventListPreDrawItem;
+        EventList.OnDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => EventListDrawItem(in DrawRect, DrawItem, ref SurfDesc);
+        EventList.OnPreDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => EventListPreDrawItem(in DrawRect, DrawItem, ref SurfDesc);
         EventList.TextColor = 9415072;
         EventList.TextSelColor = 0;
         EventList.ILIndexFrame = 113;
@@ -403,8 +403,8 @@ public partial class TPInfoW : ILayoutModule
         FaceFr = new TAOWPanel(this);
         session.BeginRead(FaceFr);
         FaceFr.Name = "FaceFr";
-        FaceFr.OnMouseDown = FaceFrMouseDown;
-        FaceFr.OnDraw = FaceFrDraw;
+        FaceFr.OnMouseDown = (_, button, shift, x, y) => FaceFrMouseDown(button, shift, x, y);
+        FaceFr.OnDraw = (_, SurfDesc) => FaceFrDraw(SurfDesc);
         FaceFr.Priority = 0;
         FaceFr.WinLeft = 1;
         FaceFr.WinTop = 1;
@@ -654,7 +654,7 @@ public partial class TPInfoW : ILayoutModule
         Center.TextColor = 0;
         Center.TextSelColor = 0;
         Center.WinWidth = 15;
-        Center.OnClick = LeaderBtnClick;
+        Center.OnClick = _ => LeaderBtnClick();
         session.EndRead(Center);
         Help = new TAOWButton(this);
         session.BeginRead(Help);
@@ -688,7 +688,7 @@ public partial class TPInfoW : ILayoutModule
         Help.TextColor = 0;
         Help.TextSelColor = 0;
         Help.WinWidth = 15;
-        Help.OnClick = Layout_HelpClick_3;
+        Help.OnClick = _ => Layout_HelpClick_3();
         session.EndRead(Help);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;
@@ -789,22 +789,22 @@ public partial class TPInfoW : ILayoutModule
         Help.ILIcon = aowIntGfxModUnit.IntGfxMod.GenericI;
     }
 
-    private void Layout_PInfoWinResize_0(TObject p0)
+    private void Layout_PInfoWinResize_0()
     {
         PInfoWinResize();
     }
 
-    private void Layout_MinClick_1(TObject p0)
+    private void Layout_MinClick_1()
     {
         MinClick();
     }
 
-    private void Layout_EventListDoubleClick_2(TObject p0)
+    private void Layout_EventListDoubleClick_2()
     {
         EventListDoubleClick();
     }
 
-    private void Layout_HelpClick_3(TObject p0)
+    private void Layout_HelpClick_3()
     {
         HelpClick();
     }

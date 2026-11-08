@@ -139,7 +139,7 @@ public partial class TSetupEvents : TDataModule
     {
         if (ScenSetup.ScenSetupPnl.Visible)
         {
-            ScenSetup.ExitGameClick(null);
+            ScenSetup.ExitGameClick();
             ResetMessageDialog(MessageDlg);
             var warning = TranslateRStr(E2GlobalsUnit.WarningRStr);
             MessageDlg.TitleLbl.Text = warning;
@@ -187,13 +187,13 @@ public partial class TSetupEvents : TDataModule
 
         if (Control.FStream.Size != 0)
         {
-            AoWEngine.LoadHSMfromStream(Control.FStream, false, General.MapProgress);
+            AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => General.MapProgress(Message, Progression));
             var fileName2 = ExtractFileName(FileName);
             AoWHSMap.FileName = AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
         }
         else
         {
-            AoWEngine.LoadHSM(FileName, false, General.MapProgress, Aow.Formats.GameProfile.WorldMap);
+            AoWEngine.LoadHSM(FileName, false, (_, Message, Progression) => General.MapProgress(Message, Progression), Aow.Formats.GameProfile.WorldMap);
         }
 
         General.Manager.OverlayPriority = 0;

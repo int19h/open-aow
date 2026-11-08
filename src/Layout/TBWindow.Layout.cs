@@ -105,7 +105,7 @@ public partial class TTBWindow : ILayoutModule
         TBNextButton.TextColor = 0;
         TBNextButton.TextSelColor = 0;
         TBNextButton.WinWidth = 26;
-        TBNextButton.OnClick = Layout_TBNextButtonClick_0;
+        TBNextButton.OnClick = _ => Layout_TBNextButtonClick_0();
         session.EndRead(TBNextButton);
         StartMenuBar = new TAOWMenuBar(this);
         session.BeginRead(StartMenuBar);
@@ -137,7 +137,7 @@ public partial class TTBWindow : ILayoutModule
         };
         StartMenuBar.BorderWidth = 0;
         StartMenuBar.BorderHeight = 0;
-        StartMenuBar.OnChange = Layout_StartMenuBarChange_1;
+        StartMenuBar.OnChange = _ => Layout_StartMenuBarChange_1();
         StartMenuBar.Selected = -1;
         StartMenuBar.WinWidth = 40;
         StartMenuBar.TextColor = 0;
@@ -259,8 +259,8 @@ public partial class TTBWindow : ILayoutModule
         TurnButton.CurPlayer = 0;
         TurnButton.LastPlayer = 0;
         TurnButton.Animating = false;
-        TurnButton.OnAnimDone = Layout_TurnButtonAnimDone_2;
-        TurnButton.OnChange = Layout_TurnButtonChange_3;
+        TurnButton.OnAnimDone = _ => Layout_TurnButtonAnimDone_2();
+        TurnButton.OnChange = _ => Layout_TurnButtonChange_3();
         TurnButton.Checked = false;
         session.EndRead(TurnButton);
         WMButton = new TAOWButton(this);
@@ -296,7 +296,7 @@ public partial class TTBWindow : ILayoutModule
         WMButton.TextColor = 0;
         WMButton.TextSelColor = 0;
         WMButton.WinWidth = 70;
-        WMButton.OnClick = Layout_WMButtonClick_4;
+        WMButton.OnClick = _ => Layout_WMButtonClick_4();
         session.EndRead(WMButton);
         OVButton = new TAOWButton(this);
         session.BeginRead(OVButton);
@@ -331,7 +331,7 @@ public partial class TTBWindow : ILayoutModule
         OVButton.TextColor = 0;
         OVButton.TextSelColor = 0;
         OVButton.WinWidth = 70;
-        OVButton.OnClick = Layout_OVButtonClick_5;
+        OVButton.OnClick = _ => OVButtonClick();
         session.EndRead(OVButton);
         ConButton = new TAOWButton(this);
         session.BeginRead(ConButton);
@@ -367,7 +367,7 @@ public partial class TTBWindow : ILayoutModule
         ConButton.TextColor = 0;
         ConButton.TextSelColor = 0;
         ConButton.WinWidth = 70;
-        ConButton.OnClick = Layout_ConButtonClick_6;
+        ConButton.OnClick = _ => Layout_ConButtonClick_6();
         session.EndRead(ConButton);
         StructButton = new TAOWButton(this);
         session.BeginRead(StructButton);
@@ -403,7 +403,7 @@ public partial class TTBWindow : ILayoutModule
         StructButton.TextColor = 0;
         StructButton.TextSelColor = 0;
         StructButton.WinWidth = 70;
-        StructButton.OnClick = Layout_StructButtonClick_7;
+        StructButton.OnClick = _ => Layout_StructButtonClick_7();
         session.EndRead(StructButton);
         OV2Btn = new TAOWButton(this);
         session.BeginRead(OV2Btn);
@@ -438,7 +438,7 @@ public partial class TTBWindow : ILayoutModule
         OV2Btn.TextColor = 0;
         OV2Btn.TextSelColor = 0;
         OV2Btn.WinWidth = 70;
-        OV2Btn.OnClick = Layout_OV2BtnClick_8;
+        OV2Btn.OnClick = _ => Layout_OV2BtnClick_8();
         session.EndRead(OV2Btn);
         InfoBtn = new TAOWButton(this);
         session.BeginRead(InfoBtn);
@@ -473,7 +473,7 @@ public partial class TTBWindow : ILayoutModule
         InfoBtn.TextColor = 0;
         InfoBtn.TextSelColor = 0;
         InfoBtn.WinWidth = 70;
-        InfoBtn.OnClick = InfoBtnClick;
+        InfoBtn.OnClick = _ => InfoBtnClick();
         session.EndRead(InfoBtn);
         ChatBtn = new TAOWButton(this);
         session.BeginRead(ChatBtn);
@@ -510,7 +510,7 @@ public partial class TTBWindow : ILayoutModule
         ChatBtn.TextColor = 0;
         ChatBtn.TextSelColor = 0;
         ChatBtn.WinWidth = 70;
-        ChatBtn.OnClick = Layout_ChatBtnClick_9;
+        ChatBtn.OnClick = _ => Layout_ChatBtnClick_9();
         session.EndRead(ChatBtn);
         TaskPanel = new TAOWPanel(this);
         session.BeginRead(TaskPanel);
@@ -678,7 +678,7 @@ public partial class TTBWindow : ILayoutModule
         PInd = new TAoWFrame(this);
         session.BeginRead(PInd);
         PInd.Name = "PInd";
-        PInd.OnDraw = PIndDraw;
+        PInd.OnDraw = (_, SurfDesc) => PIndDraw(SurfDesc);
         PInd.Priority = 10;
         PInd.WinLeft = 290;
         PInd.WinTop = 28;
@@ -706,7 +706,7 @@ public partial class TTBWindow : ILayoutModule
         CurP = new TAOWImage(this);
         session.BeginRead(CurP);
         CurP.Name = "CurP";
-        CurP.OnUpdate = Layout_CurPUpdate_10;
+        CurP.OnUpdate = _ => Layout_CurPUpdate_10();
         CurP.Priority = 15;
         CurP.WinLeft = 0;
         CurP.WinTop = 0;
@@ -739,7 +739,7 @@ public partial class TTBWindow : ILayoutModule
         TBWorld = new TAOWPanel(this);
         session.BeginRead(TBWorld);
         TBWorld.Name = "TBWorld";
-        TBWorld.OnUpdate = TBWorldUpdate;
+        TBWorld.OnUpdate = _ => TBWorldUpdate();
         TBWorld.Priority = 0;
         TBWorld.WinLeft = 0;
         TBWorld.WinTop = 0;
@@ -796,7 +796,7 @@ public partial class TTBWindow : ILayoutModule
         TCNextBtn.TextColor = 0;
         TCNextBtn.TextSelColor = 0;
         TCNextBtn.WinWidth = 26;
-        TCNextBtn.OnClick = Layout_TCNextBtnClick_11;
+        TCNextBtn.OnClick = _ => Layout_TCNextBtnClick_11();
         session.EndRead(TCNextBtn);
         TCStartBar = new TAOWMenuBar(this);
         session.BeginRead(TCStartBar);
@@ -828,7 +828,7 @@ public partial class TTBWindow : ILayoutModule
         };
         TCStartBar.BorderWidth = 0;
         TCStartBar.BorderHeight = 0;
-        TCStartBar.OnChange = Layout_StartMenuBarChange_1;
+        TCStartBar.OnChange = _ => Layout_StartMenuBarChange_1();
         TCStartBar.Selected = -1;
         TCStartBar.WinWidth = 40;
         TCStartBar.TextColor = 0;
@@ -899,8 +899,8 @@ public partial class TTBWindow : ILayoutModule
         TCTurnButton.CurPlayer = 0;
         TCTurnButton.LastPlayer = 0;
         TCTurnButton.Animating = false;
-        TCTurnButton.OnAnimDone = Layout_TCTurnButtonAnimDone_12;
-        TCTurnButton.OnChange = Layout_TCTurnButtonChange_13;
+        TCTurnButton.OnAnimDone = _ => Layout_TCTurnButtonAnimDone_12();
+        TCTurnButton.OnChange = _ => Layout_TCTurnButtonChange_13();
         TCTurnButton.Checked = false;
         session.EndRead(TCTurnButton);
         TCScannerBtn = new TAOWButton(this);
@@ -936,7 +936,7 @@ public partial class TTBWindow : ILayoutModule
         TCScannerBtn.TextColor = 0;
         TCScannerBtn.TextSelColor = 0;
         TCScannerBtn.WinWidth = 70;
-        TCScannerBtn.OnClick = Layout_TCScannerBtnClick_14;
+        TCScannerBtn.OnClick = _ => Layout_TCScannerBtnClick_14();
         session.EndRead(TCScannerBtn);
         TCUnitBtn = new TAOWButton(this);
         session.BeginRead(TCUnitBtn);
@@ -972,7 +972,7 @@ public partial class TTBWindow : ILayoutModule
         TCUnitBtn.TextColor = 0;
         TCUnitBtn.TextSelColor = 0;
         TCUnitBtn.WinWidth = 70;
-        TCUnitBtn.OnClick = Layout_TCUnitBtnClick_15;
+        TCUnitBtn.OnClick = _ => Layout_TCUnitBtnClick_15();
         session.EndRead(TCUnitBtn);
         AoWFrame1 = new TAoWFrame(this);
         session.BeginRead(AoWFrame1);
@@ -1086,7 +1086,7 @@ public partial class TTBWindow : ILayoutModule
         TCPInd = new TAoWFrame(this);
         session.BeginRead(TCPInd);
         TCPInd.Name = "TCPInd";
-        TCPInd.OnDraw = TCPIndDraw;
+        TCPInd.OnDraw = (_, SurfDesc) => TCPIndDraw(SurfDesc);
         TCPInd.Priority = 10;
         TCPInd.WinLeft = 290;
         TCPInd.WinTop = 28;
@@ -1114,7 +1114,7 @@ public partial class TTBWindow : ILayoutModule
         TCCurP = new TAOWImage(this);
         session.BeginRead(TCCurP);
         TCCurP.Name = "TCCurP";
-        TCCurP.OnUpdate = Layout_TCCurPUpdate_16;
+        TCCurP.OnUpdate = _ => Layout_TCCurPUpdate_16();
         TCCurP.Priority = 15;
         TCCurP.WinLeft = 0;
         TCCurP.WinTop = 0;
@@ -1147,7 +1147,7 @@ public partial class TTBWindow : ILayoutModule
         TBCombat = new TAOWPanel(this);
         session.BeginRead(TBCombat);
         TBCombat.Name = "TBCombat";
-        TBCombat.OnUpdate = TBCombatUpdate;
+        TBCombat.OnUpdate = _ => TBCombatUpdate();
         TBCombat.Visible = false;
         TBCombat.Priority = 0;
         TBCombat.WinLeft = 0;
@@ -1235,7 +1235,7 @@ public partial class TTBWindow : ILayoutModule
         TCChatBtn.TextColor = 0;
         TCChatBtn.TextSelColor = 0;
         TCChatBtn.WinWidth = 70;
-        TCChatBtn.OnClick = Layout_ChatBtnClick_9;
+        TCChatBtn.OnClick = _ => Layout_ChatBtnClick_9();
         session.EndRead(TCChatBtn);
         WGoldPnl = new TAOWPanel(this);
         session.BeginRead(WGoldPnl);
@@ -1767,7 +1767,7 @@ public partial class TTBWindow : ILayoutModule
         RelationsBtn.TextColor = 0;
         RelationsBtn.TextSelColor = 0;
         RelationsBtn.WinWidth = 70;
-        RelationsBtn.OnClick = RelationsBtnClick;
+        RelationsBtn.OnClick = _ => RelationsBtnClick();
         session.EndRead(RelationsBtn);
         AutoBtn = new TAOWCheckBox(this);
         session.BeginRead(AutoBtn);
@@ -1803,7 +1803,7 @@ public partial class TTBWindow : ILayoutModule
         AutoBtn.TextSelColor = 0;
         AutoBtn.WinWidth = 70;
         AutoBtn.Checked = false;
-        AutoBtn.OnChange = Layout_AutoBtn2Click_17;
+        AutoBtn.OnChange = _ => Layout_AutoBtn2Click_17();
         AutoBtn.RadioIndex = 0;
         session.EndRead(AutoBtn);
         var created__Translator = new LayoutTIvTranslator(this);
@@ -2039,92 +2039,87 @@ public partial class TTBWindow : ILayoutModule
         AutoBtn.ILButton = aowIntGfxModUnit.IntGfxMod.TBWin;
     }
 
-    private void Layout_TBNextButtonClick_0(TObject p0)
+    private void Layout_TBNextButtonClick_0()
     {
         TBNextButtonClick();
     }
 
-    private void Layout_StartMenuBarChange_1(TObject p0)
+    private void Layout_StartMenuBarChange_1()
     {
         StartMenuBarChange();
     }
 
-    private void Layout_TurnButtonAnimDone_2(TObject p0)
+    private void Layout_TurnButtonAnimDone_2()
     {
         TurnButtonAnimDone();
     }
 
-    private void Layout_TurnButtonChange_3(TObject p0)
+    private void Layout_TurnButtonChange_3()
     {
         TurnButtonChange();
     }
 
-    private void Layout_WMButtonClick_4(TObject p0)
+    private void Layout_WMButtonClick_4()
     {
         WMButtonClick();
     }
 
-    private void Layout_OVButtonClick_5(TObject p0)
-    {
-        OVButtonClick(p0);
-    }
-
-    private void Layout_ConButtonClick_6(TObject p0)
+    private void Layout_ConButtonClick_6()
     {
         ConButtonClick();
     }
 
-    private void Layout_StructButtonClick_7(TObject p0)
+    private void Layout_StructButtonClick_7()
     {
         StructButtonClick();
     }
 
-    private void Layout_OV2BtnClick_8(TObject p0)
+    private void Layout_OV2BtnClick_8()
     {
         OV2BtnClick();
     }
 
-    private void Layout_ChatBtnClick_9(TObject p0)
+    private void Layout_ChatBtnClick_9()
     {
         ChatBtnClick();
     }
 
-    private void Layout_CurPUpdate_10(TObject p0)
+    private void Layout_CurPUpdate_10()
     {
         CurPUpdate();
     }
 
-    private void Layout_TCNextBtnClick_11(TObject p0)
+    private void Layout_TCNextBtnClick_11()
     {
         TCNextBtnClick();
     }
 
-    private void Layout_TCTurnButtonAnimDone_12(TObject p0)
+    private void Layout_TCTurnButtonAnimDone_12()
     {
         TCTurnButtonAnimDone();
     }
 
-    private void Layout_TCTurnButtonChange_13(TObject p0)
+    private void Layout_TCTurnButtonChange_13()
     {
         TCTurnButtonChange();
     }
 
-    private void Layout_TCScannerBtnClick_14(TObject p0)
+    private void Layout_TCScannerBtnClick_14()
     {
         TCScannerBtnClick();
     }
 
-    private void Layout_TCUnitBtnClick_15(TObject p0)
+    private void Layout_TCUnitBtnClick_15()
     {
         TCUnitBtnClick();
     }
 
-    private void Layout_TCCurPUpdate_16(TObject p0)
+    private void Layout_TCCurPUpdate_16()
     {
         TCCurPUpdate();
     }
 
-    private void Layout_AutoBtn2Click_17(TObject p0)
+    private void Layout_AutoBtn2Click_17()
     {
         AutoBtn2Click();
     }

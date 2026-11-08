@@ -1,5 +1,6 @@
 // Translated from AoWComboBox.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWVScroll;
@@ -35,7 +36,7 @@ public partial class TAOWComboBox : TAOWControl
     public int F13C;
     public int FPriorityOpened;
     public int F144;
-    public TNotifyEvent FOnDrawItem;
+    public TNotifyEvent<TAOWComboBox> FOnDrawItem;
     public int F150;
     public bool F154;
     public TInterfaceIL FILEdit;
@@ -43,8 +44,8 @@ public partial class TAOWComboBox : TAOWControl
     public TInterfaceIL FILTextureNormal;
     public TInterfaceIL FILTextureSelected;
     public int FItemHeight;
-    public TNotifyEvent FOnOpen;
-    public TNotifyEvent FOnClose;
+    public TNotifyEvent<TAOWComboBox> FOnOpen;
+    public TNotifyEvent<TAOWComboBox> FOnClose;
     public int FILEIndex;
     public int FILFIndex;
     public int FILTnIndex;
@@ -739,7 +740,7 @@ public partial class TAOWComboBox : TAOWControl
     public int PriorityOpened { get => FPriorityOpened; set => FPriorityOpened = value; }
 
     [Published]
-    public TNotifyEvent OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public TNotifyEvent<TAOWComboBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
     public TInterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
@@ -769,10 +770,64 @@ public partial class TAOWComboBox : TAOWControl
     public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
 
     [Published]
-    public TNotifyEvent OnOpen { get => FOnOpen; set => FOnOpen = value; }
+    public TNotifyEvent<TAOWComboBox> OnOpen { get => FOnOpen; set => FOnOpen = value; }
 
     [Published]
-    public TNotifyEvent OnClose { get => FOnClose; set => FOnClose = value; }
+    public TNotifyEvent<TAOWComboBox> OnClose { get => FOnClose; set => FOnClose = value; }
+
+    public new TNotifyEvent<TAOWComboBox> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWComboBox> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWComboBox> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWComboBox> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWComboBox> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWComboBox> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWComboBox> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWComboBox> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWComboBox> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
+    }
 }
 
 public static partial class AoWComboBoxUnit

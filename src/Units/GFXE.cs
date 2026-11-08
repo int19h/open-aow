@@ -1061,7 +1061,7 @@ public partial class TGDISurface : TSurface
 // FCreationFlags, FStatus, FLockCount, FLockExCount, FSurfaceDesc (the description of the lock)
 public partial class TDDrawSurface : TSurface
 {
-    protected internal TNotifyEvent FOnSurfaceLost;
+    protected internal TNotifyEvent<TObject> FOnSurfaceLost;
     protected internal int FPixelFormatID;
     protected internal int FWidth;
     protected internal int FHeight;
@@ -1082,7 +1082,7 @@ public partial class TDDrawSurface : TSurface
 
     public TSet<TDDrawSurfaceStatusElement> Status { get => FStatus; }
     public TSet<TDDSCreationFlagsElement> CreationFlags { get => FCreationFlags; }
-    public TNotifyEvent OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
+    public TNotifyEvent<TObject> OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
 }
 
 // Rect

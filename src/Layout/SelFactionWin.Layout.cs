@@ -28,9 +28,9 @@ public partial class TSelFactionWin : ILayoutModule
         FactionPnl = new TAOWPanel(this);
         session.BeginRead(FactionPnl);
         FactionPnl.Name = "FactionPnl";
-        FactionPnl.OnMouseMove = FactionPnlMouseMove;
-        FactionPnl.OnKeyDown = FactionPnlKeyDown;
-        FactionPnl.OnUpdate = Layout_FactionPnlUpdate_0;
+        FactionPnl.OnMouseMove = (_, shift, x, y) => FactionPnlMouseMove(shift, x, y);
+        FactionPnl.OnKeyDown = (_, ref key, shift) => FactionPnlKeyDown(ref key, shift);
+        FactionPnl.OnUpdate = _ => Layout_FactionPnlUpdate_0();
         FactionPnl.Visible = false;
         FactionPnl.Priority = 5;
         FactionPnl.WinLeft = 0;
@@ -82,8 +82,8 @@ public partial class TSelFactionWin : ILayoutModule
         LightPnl = new TAOWPanel(this);
         session.BeginRead(LightPnl);
         LightPnl.Name = "LightPnl";
-        LightPnl.OnMouseDown = LightPnlMouseDown;
-        LightPnl.OnMouseMove = LightPnlMouseMove;
+        LightPnl.OnMouseDown = (_, button, shift, x, y) => LightPnlMouseDown(button, shift, x, y);
+        LightPnl.OnMouseMove = (_, shift, x, y) => LightPnlMouseMove(shift, x, y);
         LightPnl.Priority = 5;
         LightPnl.WinLeft = 352;
         LightPnl.WinTop = 0;
@@ -184,7 +184,7 @@ public partial class TSelFactionWin : ILayoutModule
         LStart.TextColor = 0;
         LStart.TextSelColor = 0;
         LStart.WinWidth = 109;
-        LStart.OnClick = LStartClick;
+        LStart.OnClick = _ => LStartClick(0);
         session.EndRead(LStart);
         LBack = new TAOWButton(this);
         session.BeginRead(LBack);
@@ -216,7 +216,7 @@ public partial class TSelFactionWin : ILayoutModule
         LBack.TextColor = 0;
         LBack.TextSelColor = 0;
         LBack.WinWidth = 109;
-        LBack.OnClick = Layout_LBackClick_1;
+        LBack.OnClick = _ => Layout_LBackClick_1();
         session.EndRead(LBack);
         LSphere = new TAOWImage(this);
         session.BeginRead(LSphere);
@@ -250,8 +250,8 @@ public partial class TSelFactionWin : ILayoutModule
         DarkPnl = new TAOWPanel(this);
         session.BeginRead(DarkPnl);
         DarkPnl.Name = "DarkPnl";
-        DarkPnl.OnMouseDown = DarkPnlMouseDown;
-        DarkPnl.OnMouseMove = DarkPnlMouseMove;
+        DarkPnl.OnMouseDown = (_, button, shift, x, y) => DarkPnlMouseDown(button, shift, x, y);
+        DarkPnl.OnMouseMove = (_, shift, x, y) => DarkPnlMouseMove(shift, x, y);
         DarkPnl.Priority = 5;
         DarkPnl.WinLeft = 0;
         DarkPnl.WinTop = 0;
@@ -306,7 +306,7 @@ public partial class TSelFactionWin : ILayoutModule
         DStart.TextColor = 0;
         DStart.TextSelColor = 0;
         DStart.WinWidth = 109;
-        DStart.OnClick = LStartClick;
+        DStart.OnClick = _ => LStartClick(1);
         session.EndRead(DStart);
         DBack = new TAOWButton(this);
         session.BeginRead(DBack);
@@ -338,7 +338,7 @@ public partial class TSelFactionWin : ILayoutModule
         DBack.TextColor = 0;
         DBack.TextSelColor = 0;
         DBack.WinWidth = 109;
-        DBack.OnClick = Layout_DBackClick_2;
+        DBack.OnClick = _ => Layout_DBackClick_2();
         session.EndRead(DBack);
         LName = new TAOWLabel(this);
         session.BeginRead(LName);
@@ -523,17 +523,17 @@ public partial class TSelFactionWin : ILayoutModule
         DSphere.ImageLib = aowIntGfxModUnit.IntGfxMod.FactionWin;
     }
 
-    private void Layout_FactionPnlUpdate_0(TObject p0)
+    private void Layout_FactionPnlUpdate_0()
     {
         FactionPnlUpdate();
     }
 
-    private void Layout_LBackClick_1(TObject p0)
+    private void Layout_LBackClick_1()
     {
         LBackClick();
     }
 
-    private void Layout_DBackClick_2(TObject p0)
+    private void Layout_DBackClick_2()
     {
         DBackClick();
     }

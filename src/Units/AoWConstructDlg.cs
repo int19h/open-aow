@@ -150,7 +150,7 @@ public partial class TConstructDlg : TDataModule
     }
 
     // AoWConstructDlg.pas:77
-    public void ConstructBtnClick(TObject Sender)
+    public void ConstructBtnClick()
     {
         string Reason = "";
         TConstructionControl Control;
@@ -206,7 +206,7 @@ public partial class TConstructDlg : TDataModule
     }
 
     // AoWConstructDlg.pas:169
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

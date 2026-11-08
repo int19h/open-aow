@@ -28,14 +28,14 @@ public partial class TCityRebelDlg : ILayoutModule
         RebelWin = new TAOWWindow(this);
         session.BeginRead(RebelWin);
         RebelWin.Name = "RebelWin";
-        RebelWin.OnKeyDown = RebelWinKeyDown;
+        RebelWin.OnKeyDown = (_, ref key, shift) => RebelWinKeyDown(ref key, shift);
         RebelWin.Visible = false;
         RebelWin.Priority = 300;
         RebelWin.WinLeft = 162;
         RebelWin.WinTop = 54;
         RebelWin.WinWidth = 316;
         RebelWin.Masked = true;
-        RebelWin.OnHide = Layout_RebelWinHide_0;
+        RebelWin.OnHide = _ => Layout_RebelWinHide_0();
         RebelWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         RebelWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         RebelWin.Alignment.HeightPercent = 0;
@@ -125,7 +125,7 @@ public partial class TCityRebelDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_1;
+        Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -211,7 +211,7 @@ public partial class TCityRebelDlg : ILayoutModule
         CenterBut.TextColor = 0;
         CenterBut.TextSelColor = 16777215;
         CenterBut.WinWidth = 161;
-        CenterBut.OnClick = Layout_CenterButClick_2;
+        CenterBut.OnClick = _ => Layout_CenterButClick_2();
         session.EndRead(CenterBut);
         CloseBut = new TAOWButton(this);
         session.BeginRead(CloseBut);
@@ -242,7 +242,7 @@ public partial class TCityRebelDlg : ILayoutModule
         CloseBut.TextColor = 0;
         CloseBut.TextSelColor = 16777215;
         CloseBut.WinWidth = 98;
-        CloseBut.OnClick = Layout_CloseClick_1;
+        CloseBut.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(CloseBut);
         RebelBG = new TAOWImage(this);
         session.BeginRead(RebelBG);
@@ -423,17 +423,17 @@ public partial class TCityRebelDlg : ILayoutModule
         AoWFrame1.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
     }
 
-    private void Layout_RebelWinHide_0(TObject p0)
+    private void Layout_RebelWinHide_0()
     {
         RebelWinHide();
     }
 
-    private void Layout_CloseClick_1(TObject p0)
+    private void Layout_CloseClick_1()
     {
         CloseClick();
     }
 
-    private void Layout_CenterButClick_2(TObject p0)
+    private void Layout_CenterButClick_2()
     {
         CenterButClick();
     }

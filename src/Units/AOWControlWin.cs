@@ -137,13 +137,9 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:318
-    public void CloseClick(TObject Sender)
+    public void CloseClick()
     {
-        if (Sender != null)
-        {
-            General.PlayButtonSound(0);
-        }
-
+        General.PlayButtonSound(0);
         ControlWindow.Visible = false;
         AoWExeFormsUnit.TBWindow.ConButton.Visible = false;
     }
@@ -156,11 +152,11 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:333
-    public void Unit1FrameMouseDown(TComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Unit1FrameMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
     {
-        if (General.FUnitList != null && General.FSelectedUnits[Sender.Tag] > -1 && General.FUnitList.GetUnit(General.FSelectedUnits[Sender.Tag]) != null)
+        if (General.FUnitList != null && General.FSelectedUnits[Slot] > -1 && General.FUnitList.GetUnit(General.FSelectedUnits[Slot]) != null)
         {
-            var unit = General.FUnitList.GetUnit(General.FSelectedUnits[Sender.Tag]);
+            var unit = General.FUnitList.GetUnit(General.FSelectedUnits[Slot]);
             General.FSelectedUnit = unit;
             if (Button == TMouseButton.mbLeft)
             {
@@ -170,12 +166,12 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:348
-    public void Unit1ChkChange(TObject Sender)
+    public void Unit1ChkChange(TAOWCheckBox Sender)
     {
         CheckStart();
         AoWHSMap.FSelectedArmy.SetSelection(FSelection);
         CheckEnd();
-        if (((TAOWCheckBox)Sender).Checked)
+        if (Sender.Checked)
         {
             General.PlayButtonSound(1);
         }
@@ -328,7 +324,7 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:407
-    public void Unit1ChkMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Unit1ChkMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Button == TMouseButton.mbRight)
         {
@@ -350,7 +346,7 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:422
-    public void Unit1FramePreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
+    public void Unit1FramePreDraw(TAoWFrame Sender, TSurfaceDesc SurfDesc, int Slot)
     {
         TRect SaveRect;
         TAoWComponent Component;
@@ -359,7 +355,7 @@ public partial class TControlWin : TDataModule
             Component = Sender;
             SaveRect = SurfDesc.ClipRect;
             var rect = Rect(Component.AOWOwner.WinLeft + Component.WinLeft + 4, Component.AOWOwner.WinTop + Component.WinTop + 3, Component.AOWOwner.WinLeft + Component.WinLeft + Component.WinWidth - 3, Component.AOWOwner.WinTop + Component.WinTop + Component.WinHeight - 7);
-            DrawUnit(Component.Tag, rect, ref SurfDesc);
+            DrawUnit(Slot, rect, ref SurfDesc);
             SurfDesc.ClipRect = SaveRect;
         }
     }

@@ -26,19 +26,19 @@ public partial class TArmyEventDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "ArmyEventDlg";
-        LayoutOnCreate = Layout_ArmyEventDlgCreate_0;
-        LayoutOnDestroy = Layout_ArmyEventDlgDestroy_1;
+        LayoutOnCreate = _ => Layout_ArmyEventDlgCreate_0();
+        LayoutOnDestroy = _ => Layout_ArmyEventDlgDestroy_1();
         ArmyEventWin = new TAOWWindow(this);
         session.BeginRead(ArmyEventWin);
         ArmyEventWin.Name = "ArmyEventWin";
-        ArmyEventWin.OnKeyDown = ArmyEventWinKeyDown;
+        ArmyEventWin.OnKeyDown = (_, ref key, shift) => ArmyEventWinKeyDown(ref key, shift);
         ArmyEventWin.Visible = false;
         ArmyEventWin.Priority = 300;
         ArmyEventWin.WinLeft = 101;
         ArmyEventWin.WinTop = 96;
         ArmyEventWin.WinWidth = 439;
         ArmyEventWin.Masked = true;
-        ArmyEventWin.OnHide = Layout_ArmyEventWinHide_2;
+        ArmyEventWin.OnHide = _ => Layout_ArmyEventWinHide_2();
         ArmyEventWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         ArmyEventWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         ArmyEventWin.Alignment.HeightPercent = 0;
@@ -103,12 +103,12 @@ public partial class TArmyEventDlg : ILayoutModule
         UnitPnl = new TAOWPanel(this);
         session.BeginRead(UnitPnl);
         UnitPnl.Name = "UnitPnl";
-        UnitPnl.OnUpdate = Layout_UnitPnlUpdate_3;
+        UnitPnl.OnUpdate = _ => Layout_UnitPnlUpdate_3();
         UnitPnl.Priority = 1000;
         UnitPnl.WinLeft = 35;
         UnitPnl.WinTop = 100;
         UnitPnl.WinWidth = 369;
-        UnitPnl.OnDrawBack = UnitPnlDrawBack;
+        UnitPnl.OnDrawBack = (_, SurfDesc) => UnitPnlDrawBack(SurfDesc);
         UnitPnl.Masked = true;
         UnitPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
         UnitPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
@@ -213,7 +213,7 @@ public partial class TArmyEventDlg : ILayoutModule
         CloseBut.TextColor = 0;
         CloseBut.TextSelColor = 16777215;
         CloseBut.WinWidth = 120;
-        CloseBut.OnClick = Layout_CloseClick_4;
+        CloseBut.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(CloseBut);
         TitleIcon = new TAOWImage(this);
         session.BeginRead(TitleIcon);
@@ -275,7 +275,7 @@ public partial class TArmyEventDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CloseClick_4;
+        Close.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -440,27 +440,27 @@ public partial class TArmyEventDlg : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_ArmyEventDlgCreate_0(TObject p0)
+    private void Layout_ArmyEventDlgCreate_0()
     {
         ArmyEventDlgCreate();
     }
 
-    private void Layout_ArmyEventDlgDestroy_1(TObject p0)
+    private void Layout_ArmyEventDlgDestroy_1()
     {
         ArmyEventDlgDestroy();
     }
 
-    private void Layout_ArmyEventWinHide_2(TObject p0)
+    private void Layout_ArmyEventWinHide_2()
     {
         ArmyEventWinHide();
     }
 
-    private void Layout_UnitPnlUpdate_3(TObject p0)
+    private void Layout_UnitPnlUpdate_3()
     {
         UnitPnlUpdate();
     }
 
-    private void Layout_CloseClick_4(TObject p0)
+    private void Layout_CloseClick_4()
     {
         CloseClick();
     }

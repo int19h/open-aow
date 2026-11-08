@@ -29,7 +29,7 @@ public sealed class GraphicsBoundaryTests
     public void ProceduralCastsPreserveMethodIdentity()
     {
         int count = 0;
-        TNotifyEvent original = _ => count++;
+        TNotifyEvent<TObject> original = _ => count++;
         var converted = RtlUnit.RebindDelegate<OtherNotify>(original)!;
         Assert.Same(original.Target, converted.Target);
         Assert.Equal(original.Method, converted.Method);

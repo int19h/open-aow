@@ -33,7 +33,7 @@ public partial class TItemBanner : TDataModule
     public TAOWVScrollBar AbVSB;
 
     // AoWItemBanner.pas:46
-    public void IBannerPopupShow(TObject Sender)
+    public void IBannerPopupShow()
     {
         TItem Item;
         int X;
@@ -156,7 +156,7 @@ public partial class TItemBanner : TDataModule
     }
 
     // AoWItemBanner.pas:145
-    public void DrawBoxPreDraw(TObject Sender, TSurfaceDesc SurfDesc)
+    public void DrawBoxPreDraw(TSurfaceDesc SurfDesc)
     {
         TItem Item;
         Item = AoWHSMap.FItemControl.FindItem(AoWItemBannerUnit.ItemID);

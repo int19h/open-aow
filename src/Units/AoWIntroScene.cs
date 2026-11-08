@@ -29,13 +29,13 @@ public partial class TIntroScene : TDataModule
     }
 
     // AoWIntroScene.pas:192
-    public void WindowMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void WindowMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         Finish();
     }
 
     // AoWIntroScene.pas:197
-    public void WindowKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void WindowKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {

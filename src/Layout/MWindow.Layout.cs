@@ -19,21 +19,21 @@ public partial class TMWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "MWindow";
-        LayoutOnCreate = Layout_MWindowCreate_0;
+        LayoutOnCreate = _ => Layout_MWindowCreate_0();
         MapWindow = new TAOWWindow(this);
         session.BeginRead(MapWindow);
         MapWindow.Name = "MapWindow";
-        MapWindow.OnMouseDown = Layout_MapWindowMouseDown_1;
-        MapWindow.OnMouseUp = Layout_MapWindowMouseUp_2;
-        MapWindow.OnMouseMove = Layout_MapWindowMouseMove_3;
-        MapWindow.OnKeyDown = Layout_MapWindowKeyDown_4;
-        MapWindow.OnUpdate = Layout_MapWindowUpdate_5;
+        MapWindow.OnMouseDown = (_, button, shift, x, y) => MapWindowMouseDown(button, shift, x, y);
+        MapWindow.OnMouseUp = (_, button, shift, x, y) => MapWindowMouseUp(button, shift, x, y);
+        MapWindow.OnMouseMove = (_, shift, x, y) => MapWindowMouseMove(shift, x, y);
+        MapWindow.OnKeyDown = MapWindowKeyDown;
+        MapWindow.OnUpdate = _ => Layout_MapWindowUpdate_5();
         MapWindow.Visible = false;
         MapWindow.Priority = 0;
         MapWindow.WinLeft = 0;
         MapWindow.WinTop = 0;
         MapWindow.WinWidth = 440;
-        MapWindow.OnExit = MapWindowExit;
+        MapWindow.OnExit = _ => MapWindowExit();
         MapWindow.Masked = false;
         MapWindow.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
         MapWindow.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
@@ -54,14 +54,14 @@ public partial class TMWindow : ILayoutModule
         MapWindow.Cursor = 0;
         MapWindow.DoubleBuffered = false;
         MapWindow.MaskColor = 0;
-        MapWindow.OnPreDrawSurface = MapWindowPreDrawSurface;
+        MapWindow.OnPreDrawSurface = (_, Surface, Left, Top) => MapWindowPreDrawSurface(Surface, Left, Top);
         MapWindow.FreeSurfaceOnHide = false;
         MapWindow.ILIndexFrame = 8;
         MapWindow.ILIndexTexture = 0;
         MapWindow.DragHeight = 0;
         MapWindow.Draggable = false;
         MapWindow.Resizable = true;
-        MapWindow.OnResize = Layout_MapWindowResize_6;
+        MapWindow.OnResize = _ => Layout_MapWindowResize_6();
         MapWindow.MinWidth = 200;
         MapWindow.MinHeight = 200;
         MapWindow.MaxWidth = 0;
@@ -74,7 +74,7 @@ public partial class TMWindow : ILayoutModule
         MapViewer = new THSMapViewer(this);
         session.BeginRead(MapViewer);
         MapViewer.Name = "MapViewer";
-        MapViewer.OnSceneChanged = Layout_MapViewerSceneChanged_7;
+        MapViewer.OnSceneChanged = _ => Layout_MapViewerSceneChanged_7();
         session.EndRead(MapViewer);
         session.EndRead(this);
         Loaded();
@@ -85,42 +85,22 @@ public partial class TMWindow : ILayoutModule
             LayoutOnCreate?.Invoke(this);
     }
 
-    private void Layout_MWindowCreate_0(TObject p0)
+    private void Layout_MWindowCreate_0()
     {
         MWindowCreate();
     }
 
-    private void Layout_MapWindowMouseDown_1(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        MapWindowMouseDown(p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_MapWindowMouseUp_2(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
-    {
-        MapWindowMouseUp(p0, p1, p2, p3, p4);
-    }
-
-    private void Layout_MapWindowMouseMove_3(TObject p0, TSet<TShiftState> p1, int p2, int p3)
-    {
-        MapWindowMouseMove(p0, p1, p2, p3);
-    }
-
-    private void Layout_MapWindowKeyDown_4(TObject p0, ref ushort p1, TSet<TShiftState> p2)
-    {
-        MapWindowKeyDown((TAoWComponent)p0, ref p1, p2);
-    }
-
-    private void Layout_MapWindowUpdate_5(TObject p0)
+    private void Layout_MapWindowUpdate_5()
     {
         MapWindowUpdate();
     }
 
-    private void Layout_MapWindowResize_6(TObject p0)
+    private void Layout_MapWindowResize_6()
     {
         MapWindowResize();
     }
 
-    private void Layout_MapViewerSceneChanged_7(TObject p0)
+    private void Layout_MapViewerSceneChanged_7()
     {
         MapViewerSceneChanged();
     }

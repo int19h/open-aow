@@ -88,18 +88,18 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:100
-    public void EmailAddressEdit1Change(TObject Sender)
+    public void EmailAddressEdit1Change(TAOWEdit Sender, int Slot)
     {
         int I;
-        I = ((TComponent)Sender).Tag + PlayerSB.Position;
+        I = Slot + PlayerSB.Position;
         if (I < FEmailAddresses.Count)
         {
-            FEmailAddresses[I] = ((TAOWEdit)Sender).Text;
+            FEmailAddresses[I] = Sender.Text;
         }
     }
 
     // AoWEmailGameSettingsDlg.pas:108
-    public void OKBtnClick(TObject Sender)
+    public void OKBtnClick()
     {
         int Index;
         if (SettingsComplete())
@@ -153,12 +153,12 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:152
-    public void Player6PnlDrawBack(TAoWComponent Sender, TSurfaceDesc SD)
+    public void Player6PnlDrawBack(TAOWPanel Sender, TSurfaceDesc SD, int Slot)
     {
         TRaceResource R;
         int I;
         var panel = Sender;
-        I = panel.Tag + PlayerSB.Position;
+        I = Slot + PlayerSB.Position;
         if (I < FEmailAddresses.Count)
         {
             var objectValue = FEmailAddresses.Objects[I];
@@ -170,7 +170,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:167
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {

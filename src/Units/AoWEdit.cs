@@ -1,5 +1,6 @@
 // Translated from AoWEdit.pas.
 using Aow.Rtl;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWControl;
 using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.GFXE;
@@ -30,8 +31,8 @@ public partial class TAOWEdit : TAOWControl
     public int FFirstChar;
     public bool FEditable;
     public TInterfaceIL FILEdit;
-    public TNotifyEvent FOnExit;
-    public TNotifyEvent FOnReturn;
+    public TNotifyEvent<TAOWEdit> FOnExit;
+    public TNotifyEvent<TAOWEdit> FOnReturn;
     public int FILIndex;
     public int FCursorPos;
 
@@ -420,10 +421,10 @@ public partial class TAOWEdit : TAOWControl
     public int ILIndex { get => FILIndex; set => SetILIndex(value); }
 
     [Published]
-    public TNotifyEvent OnExit { get => FOnExit; set => FOnExit = value; }
+    public TNotifyEvent<TAOWEdit> OnExit { get => FOnExit; set => FOnExit = value; }
 
     [Published]
-    public TNotifyEvent OnReturn { get => FOnReturn; set => FOnReturn = value; }
+    public TNotifyEvent<TAOWEdit> OnReturn { get => FOnReturn; set => FOnReturn = value; }
 
     [Published]
     public byte PassWordChar { get => FPassWordChar; set => FPassWordChar = value; }
@@ -460,6 +461,60 @@ public partial class TAOWEdit : TAOWControl
         FDrawn = false;
         FOnKeyDown?.Invoke(this, ref key, shift);
         FOnChange?.Invoke(this);
+    }
+
+    public new TNotifyEvent<TAOWEdit> OnChange
+    {
+        get => EventSlot.Get(this, FOnChange);
+        set => EventSlot.Set(this, ref FOnChange, value);
+    }
+
+    public new TMouseEvent<TAOWEdit> OnMouseDown
+    {
+        get => EventSlot.Get(this, FOnMouseDown);
+        set => EventSlot.Set(this, ref FOnMouseDown, value);
+    }
+
+    public new TMouseEvent<TAOWEdit> OnMouseUp
+    {
+        get => EventSlot.Get(this, FOnMouseUp);
+        set => EventSlot.Set(this, ref FOnMouseUp, value);
+    }
+
+    public new TMouseMoveEvent<TAOWEdit> OnMouseMove
+    {
+        get => EventSlot.Get(this, FOnMouseMove);
+        set => EventSlot.Set(this, ref FOnMouseMove, value);
+    }
+
+    public new TKeyPressEvent<TAOWEdit> OnKeyPress
+    {
+        get => EventSlot.Get(this, FOnKeyPress);
+        set => EventSlot.Set(this, ref FOnKeyPress, value);
+    }
+
+    public new TKeyEvent<TAOWEdit> OnKeyDown
+    {
+        get => EventSlot.Get(this, FOnKeyDown);
+        set => EventSlot.Set(this, ref FOnKeyDown, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWEdit> OnPreDraw
+    {
+        get => EventSlot.Get(this, FOnPreDraw);
+        set => EventSlot.Set(this, ref FOnPreDraw, value);
+    }
+
+    public new TAoWOnDrawEvent<TAOWEdit> OnDraw
+    {
+        get => EventSlot.Get(this, FOnDraw);
+        set => EventSlot.Set(this, ref FOnDraw, value);
+    }
+
+    public new TNotifyEvent<TAOWEdit> OnUpdate
+    {
+        get => EventSlot.Get(this, FOnUpdate);
+        set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
 

@@ -159,13 +159,9 @@ public partial class TIWindow : TDataModule
     }
 
     // AoWInfoWin.pas:152
-    public void CloseClick(TObject Sender)
+    public void CloseClick()
     {
-        if (Sender != null)
-        {
-            General.PlayButtonSound(0);
-        }
-
+        General.PlayButtonSound(0);
         InfoWin.Visible = false;
         TBWindow.StructButton.Visible = false;
     }
@@ -257,7 +253,7 @@ public partial class TIWindow : TDataModule
     }
 
     // AoWInfoWin.pas:226
-    public void ItembagLBDrawItem(TObject Sender, in TRect DrawRect, int DrawItem, in TSurfaceDesc Surface)
+    public void ItembagLBDrawItem(in TRect DrawRect, int DrawItem, in TSurfaceDesc Surface)
     {
         if (FItemBag != null)
         {

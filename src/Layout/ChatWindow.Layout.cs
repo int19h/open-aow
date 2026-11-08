@@ -39,8 +39,8 @@ public partial class TChatWindow : ILayoutModule
         ChatWin.WinTop = 272;
         ChatWin.WinWidth = 440;
         ChatWin.Masked = false;
-        ChatWin.OnHide = Layout_ChatWinHide_0;
-        ChatWin.OnShow = Layout_ChatWinShow_1;
+        ChatWin.OnHide = _ => Layout_ChatWinHide_0();
+        ChatWin.OnShow = _ => Layout_ChatWinShow_1();
         ChatWin.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
         ChatWin.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
         ChatWin.Alignment.HeightPercent = 0;
@@ -66,8 +66,8 @@ public partial class TChatWindow : ILayoutModule
         ChatWin.DragHeight = 20;
         ChatWin.Draggable = true;
         ChatWin.Resizable = true;
-        ChatWin.OnDrag = Layout_ChatWinResize_2;
-        ChatWin.OnResize = Layout_ChatWinResize_2;
+        ChatWin.OnDrag = _ => Layout_ChatWinResize_2();
+        ChatWin.OnResize = _ => Layout_ChatWinResize_2();
         ChatWin.MinWidth = 440;
         ChatWin.MinHeight = 160;
         ChatWin.MaxWidth = 0;
@@ -80,7 +80,7 @@ public partial class TChatWindow : ILayoutModule
         ChatMemo = new TAOWMemo(this);
         session.BeginRead(ChatMemo);
         ChatMemo.Name = "ChatMemo";
-        ChatMemo.OnUpdate = Layout_ChatMemoUpdate_3;
+        ChatMemo.OnUpdate = _ => Layout_ChatMemoUpdate_3();
         ChatMemo.Priority = 0;
         ChatMemo.WinLeft = 1;
         ChatMemo.WinTop = 0;
@@ -141,7 +141,7 @@ public partial class TChatWindow : ILayoutModule
         ChatEdit.TextColor = 11002593;
         ChatEdit.Editable = true;
         ChatEdit.ILIndex = 15;
-        ChatEdit.OnReturn = Layout_ChatEditReturn_4;
+        ChatEdit.OnReturn = _ => Layout_ChatEditReturn_4();
         ChatEdit.PassWordChar = 0;
         session.EndRead(ChatEdit);
         PlayerList = new TAOWListBox(this);
@@ -169,7 +169,7 @@ public partial class TChatWindow : ILayoutModule
         PlayerList.BorderWidth = 8;
         PlayerList.BorderHeight = 2;
         PlayerList.Selected = -1;
-        PlayerList.OnPreDrawItem = Layout_PlayerListPreDrawItem_5;
+        PlayerList.OnPreDrawItem = (_, in DrawRect, DrawItem, ref SurfDesc) => Layout_PlayerListPreDrawItem_5(in DrawRect, DrawItem, ref SurfDesc);
         PlayerList.TextColor = 9415072;
         PlayerList.TextSelColor = 16777215;
         PlayerList.ILIndexFrame = 113;
@@ -261,7 +261,7 @@ public partial class TChatWindow : ILayoutModule
         Min.TextColor = 0;
         Min.TextSelColor = 0;
         Min.WinWidth = 15;
-        Min.OnClick = Layout_MinClick_6;
+        Min.OnClick = _ => Layout_MinClick_6();
         session.EndRead(Min);
         ChatPnl = new TAOWPanel(this);
         session.BeginRead(ChatPnl);
@@ -425,37 +425,37 @@ public partial class TChatWindow : ILayoutModule
         ChatSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
     }
 
-    private void Layout_ChatWinHide_0(TObject p0)
+    private void Layout_ChatWinHide_0()
     {
         ChatWinHide();
     }
 
-    private void Layout_ChatWinShow_1(TObject p0)
+    private void Layout_ChatWinShow_1()
     {
         ChatWinShow();
     }
 
-    private void Layout_ChatWinResize_2(TObject p0)
+    private void Layout_ChatWinResize_2()
     {
         ChatWinResize();
     }
 
-    private void Layout_ChatMemoUpdate_3(TObject p0)
+    private void Layout_ChatMemoUpdate_3()
     {
         ChatMemoUpdate();
     }
 
-    private void Layout_ChatEditReturn_4(TObject p0)
+    private void Layout_ChatEditReturn_4()
     {
         ChatEditReturn();
     }
 
-    private void Layout_PlayerListPreDrawItem_5(TAoWComponent p0, in TRect p1, int p2, ref TSurfaceDesc p3)
+    private void Layout_PlayerListPreDrawItem_5(in TRect p1, int p2, ref TSurfaceDesc p3)
     {
-        PlayerListPreDrawItem(default(TObject), default(TRect), p2, default(TSurfaceDesc));
+        PlayerListPreDrawItem(default(TRect), p2, default(TSurfaceDesc));
     }
 
-    private void Layout_MinClick_6(TObject p0)
+    private void Layout_MinClick_6()
     {
         MinClick();
     }

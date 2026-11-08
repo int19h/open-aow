@@ -25,14 +25,14 @@ public sealed class EngineSupportTests
         var calls = new List<int>();
         EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
         EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
-        var cast = R.RebindDelegate<TNotifyEvent>(first + second)!;
+        var cast = R.RebindDelegate<TNotifyEvent<TObject>>(first + second)!;
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
         Assert.Throws<InvalidCastException>(() => cast(new TObject()));
         EventDone nullable = value => Assert.Null(value);
-        R.RebindDelegate<TNotifyEvent>(nullable)!(null!);
-        Assert.Null(R.RebindDelegate<TNotifyEvent>(null));
-        Assert.Same(cast, R.RebindDelegate<TNotifyEvent>(cast));
+        R.RebindDelegate<TNotifyEvent<TObject>>(nullable)!(null!);
+        Assert.Null(R.RebindDelegate<TNotifyEvent<TObject>>(null));
+        Assert.Same(cast, R.RebindDelegate<TNotifyEvent<TObject>>(cast));
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public sealed class EngineSupportTests
     public void DelegateHalvesRemainDistinctFromFullDelegateEquality()
     {
         var a = new Receiver(); var b = new Receiver();
-        TNotifyEvent first = a.Event, second = b.Event;
+        TNotifyEvent<TObject> first = a.Event, second = b.Event;
         Assert.Equal(R.MethodCode(first), R.MethodCode(second));
         Assert.NotSame(R.MethodTarget(first), R.MethodTarget(second));
         Assert.Null(R.MethodCode(null)); Assert.Null(R.MethodTarget(null));

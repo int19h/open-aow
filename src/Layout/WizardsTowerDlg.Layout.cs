@@ -87,7 +87,7 @@ public partial class TWizardsTowerDlg : ILayoutModule
         Close.TextColor = 0;
         Close.TextSelColor = 0;
         Close.WinWidth = 15;
-        Close.OnClick = Layout_CancelBtnClick_0;
+        Close.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(Close);
         Title = new TAOWLabel(this);
         session.BeginRead(Title);
@@ -168,7 +168,7 @@ public partial class TWizardsTowerDlg : ILayoutModule
         CancelBtn.TextColor = 0;
         CancelBtn.TextSelColor = 16777215;
         CancelBtn.WinWidth = 120;
-        CancelBtn.OnClick = Layout_CancelBtnClick_0;
+        CancelBtn.OnClick = _ => Layout_CancelBtnClick_0();
         session.EndRead(CancelBtn);
         BuyBtn = new TAOWButton(this);
         session.BeginRead(BuyBtn);
@@ -199,19 +199,19 @@ public partial class TWizardsTowerDlg : ILayoutModule
         BuyBtn.TextColor = 0;
         BuyBtn.TextSelColor = 16777215;
         BuyBtn.WinWidth = 120;
-        BuyBtn.OnClick = Layout_BuyBtnClick_1;
+        BuyBtn.OnClick = _ => Layout_BuyBtnClick_1();
         session.EndRead(BuyBtn);
         Dlg = new TAOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
-        Dlg.OnKeyDown = DlgKeyDown;
+        Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
         Dlg.Visible = false;
         Dlg.Priority = 300;
         Dlg.WinLeft = 162;
         Dlg.WinTop = 54;
         Dlg.WinWidth = 316;
         Dlg.Masked = true;
-        Dlg.OnHide = Layout_DlgHide_2;
+        Dlg.OnHide = _ => Layout_DlgHide_2();
         Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
         Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
         Dlg.Alignment.HeightPercent = 0;
@@ -547,17 +547,17 @@ public partial class TWizardsTowerDlg : ILayoutModule
         PicPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.MiscArt;
     }
 
-    private void Layout_CancelBtnClick_0(TObject p0)
+    private void Layout_CancelBtnClick_0()
     {
         CancelBtnClick();
     }
 
-    private void Layout_BuyBtnClick_1(TObject p0)
+    private void Layout_BuyBtnClick_1()
     {
         BuyBtnClick();
     }
 
-    private void Layout_DlgHide_2(TObject p0)
+    private void Layout_DlgHide_2()
     {
         DlgHide();
     }

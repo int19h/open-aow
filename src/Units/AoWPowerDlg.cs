@@ -122,33 +122,31 @@ public partial class TPowerDlg : TDataModule
     }
 
     // AoWPowerDlg.pas:115
-    public void PAManaDraw(TObject Sender, TSurfaceDesc SD)
+    public void PAManaDraw(TAOWImage Sender, TSurfaceDesc SD)
     {
         int X;
         int Y;
         int Intensity;
-        var image = (AoWControl.TAOWControl)Sender;
-        X = image.AOWWindow.WinLeft;
-        Y = image.AOWWindow.WinTop;
+        X = Sender.AOWWindow.WinLeft;
+        Y = Sender.AOWWindow.WinTop;
         Intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-        aowIntGfxModUnit.IntGfxMod.MiscArt[7].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+        aowIntGfxModUnit.IntGfxMod.MiscArt[7].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
     }
 
     // AoWPowerDlg.pas:128
-    public void PAResDraw(TObject Sender, TSurfaceDesc SD)
+    public void PAResDraw(TAOWImage Sender, TSurfaceDesc SD)
     {
         int X;
         int Y;
         int Intensity;
-        var image = (AoWControl.TAOWControl)Sender;
-        X = image.AOWWindow.WinLeft;
-        Y = image.AOWWindow.WinTop;
+        X = Sender.AOWWindow.WinLeft;
+        Y = Sender.AOWWindow.WinTop;
         Intensity = Round((double)(PowerSlider.Position * 50) / 100);
-        aowIntGfxModUnit.IntGfxMod.MiscArt[8].ShowBlended(image.WinLeft + X, image.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+        aowIntGfxModUnit.IntGfxMod.MiscArt[8].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
     }
 
     // AoWPowerDlg.pas:141
-    public void DlgKeyDown(TObject Sender, ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
     {
         if (Key == 27)
         {
