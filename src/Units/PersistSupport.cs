@@ -14,7 +14,7 @@ public sealed class EnginePersistableFactory : IPersistableFactory
 
     public EnginePersistableFactory()
     {
-        byName = new Dictionary<string, EClass>(StringComparer.Ordinal);
+        byName = new Dictionary<string, EClass>();
         foreach (var eclass in EClass.All)
             if (!byName.TryAdd(eclass.ClassName, eclass))
                 throw new InvalidOperationException("Two engine classes are named " + eclass.ClassName + ".");
