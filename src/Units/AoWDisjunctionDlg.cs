@@ -305,7 +305,7 @@ public partial class TDisjunctionDlg : TDataModule
         TRect R;
         int W;
         int H;
-        R = Rect(Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + 1, Dlg.WinTop + ((TAOWImage)Sender).WinTop + 1, Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + ((TAOWImage)Sender).WinWidth - 2, Dlg.WinTop + ((TAOWImage)Sender).WinTop + ((TAOWImage)Sender).WinHeight - 2);
+        R = Rect(Dlg.WinLeft + Sender.WinLeft + 1, Dlg.WinTop + Sender.WinTop + 1, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         HXtoHP(FMapX, FMapY, ref X, ref Y);

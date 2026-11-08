@@ -149,11 +149,10 @@ public partial class TArmyInfoDlg : TDataModule
     public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
     {
         TRect R = default;
-        var image = (TAOWImage)Sender;
-        R.Left = image.WinLeft + UnitPnl.WinLeft + 1;
-        R.Right = image.WinWidth + R.Left;
-        R.Top = image.WinTop + UnitPnl.WinTop;
-        R.Bottom = image.WinHeight + R.Top;
+        R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
+        R.Right = Sender.WinWidth + R.Left;
+        R.Top = Sender.WinTop + UnitPnl.WinTop;
+        R.Bottom = Sender.WinHeight + R.Top;
         DrawUnit(Sender.Tag, R, ref SD);
     }
 

@@ -2,6 +2,7 @@
 using Aow.Rtl;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWComboBox;
+using Aow.Units.AoWComp;
 using Aow.Units.AoWE;
 using Aow.Units.AoWEdit;
 using Aow.Units.AoWFrame;
@@ -784,7 +785,7 @@ public partial class TLeaderSetupWin : TDataModule
             Index = AoWHSSet.FFaceResources.NextFace(Index);
         }
 
-        var image = (TAOWImage)Sender;
+        var image = (TAoWComponent)Sender;
         R = Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
 
         if (Setup.FOriginalLeader.GetFace() != null)
