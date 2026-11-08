@@ -51,13 +51,15 @@ public sealed class InputMapper
     }
 
     // direction 1 is SDL_MOUSEWHEEL_FLIPPED. Positive y, after that correction, is away from the user.
-    // Fractional y accumulates until it makes a whole step. A point outside the output is ignored
-    // and does not add to the remainder.
+    // Fractional y accumulates until it makes a whole step. A roll whose sign differs from the
+    // remainder clears the remainder first. A point outside the output is ignored and does not add
+    // to the remainder.
     public void Wheel(float y, int direction, float x, float yPosition, DisplayViewport viewport, IDisplayEvents sink)
     {
         if (direction == 1) y = -y;
         var point = viewport.Map(x, yPosition);
         if (!point.Inside) return;
+        if (y != 0 && wheelY != 0 && Math.Sign(y) != Math.Sign(wheelY)) wheelY = 0;
         wheelY += y;
         int steps = (int)Math.Truncate(wheelY);
         wheelY -= steps;

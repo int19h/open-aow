@@ -396,8 +396,6 @@ public partial class TUnitWindow : TDataModule
     public void UnitWindowCreate(TObject Sender)
     {
         FItemType = (TItemType)6;
-        if (T1AbilityLB != null) T1AbilityLB.WheelScrollBar = T1SBar;
-        if (T1TypeLB != null) T1TypeLB.WheelScrollBar = T1SBar;
     }
 
     // AoWUnitWindow.pas:591

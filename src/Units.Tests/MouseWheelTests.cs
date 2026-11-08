@@ -2,12 +2,15 @@ using Aow.Platform;
 using Aow.Units.AoWBookWindow;
 using Aow.Units.AoWButton;
 using Aow.Units.AoWComp;
+using Aow.Units.AOWInterfaceImgLib;
 using Aow.Units.AoWLabel;
 using Aow.Units.AoWListBox;
+using Aow.Units.AoWMemo;
 using Aow.Units.AoWPanel;
 using Aow.Units.AoWVScroll;
 using Aow.Units.AoWWindow;
 using Aow.Units.AOWWinManager;
+using Aow.Units.ImageLib;
 
 namespace Aow.Units.Tests;
 
@@ -78,10 +81,13 @@ public sealed class MouseWheelTests
         mapper.Wheel(0.5f, 1, 10, 10, view, sink);
         mapper.Wheel(0.5f, 0, -1, 10, view, sink);
         mapper.Wheel(0.5f, 0, 10, 10, view, sink);
+        // The leftover +0.5 is dropped when the roll reverses, so the next two halves make one step down.
+        mapper.Wheel(-0.5f, 0, 10, 10, view, sink);
+        mapper.Wheel(-0.5f, 0, 10, 10, view, sink);
         mapper.Reset();
         mapper.Wheel(0.5f, 0, 10, 10, view, sink);
         mapper.Wheel(0.5f, 0, 10, 10, view, sink);
-        Assert.Equal([1, -1, 1], sink.Rolls.Select(r => r.Steps));
+        Assert.Equal([1, -1, -1, 1], sink.Rolls.Select(r => r.Steps));
     }
 
     [Fact]
@@ -269,7 +275,7 @@ public sealed class MouseWheelTests
     }
 
     [Fact]
-    public void BookTurnsOnePagePerStepAndStopsAtTheEnds()
+    public void BookTurnsOnePagePerEventAndStopsAtTheEnds()
     {
         var manager = new TAOWWinManager(null);
         var book = new TAoWBookWindow(null);
@@ -297,11 +303,11 @@ public sealed class MouseWheelTests
         Fill(list, 8, 3);
         TSet<TShiftState> shift = default;
 
-        Assert.True(manager.CheckMouseWheel(-1, shift, 120, 80));
+        Assert.True(manager.CheckMouseWheel(-5, shift, 120, 80));
         Assert.Equal(1, page);
         Assert.True(back.FVisible);
         Assert.True(forward.FVisible);
-        Assert.True(manager.CheckMouseWheel(-5, shift, 120, 80));
+        Assert.True(manager.CheckMouseWheel(-1, shift, 120, 80));
         Assert.Equal(2, page);
         Assert.False(forward.FVisible);
         Assert.False(book.CheckMouseWheel(-1, shift, 120, 80));
@@ -309,6 +315,8 @@ public sealed class MouseWheelTests
         Assert.Equal(2, page);
 
         Assert.True(manager.CheckMouseWheel(5, shift, 120, 80));
+        Assert.Equal(1, page);
+        Assert.True(manager.CheckMouseWheel(1, shift, 120, 80));
         Assert.Equal(0, page);
         Assert.False(back.FVisible);
         Assert.False(book.CheckMouseWheel(1, shift, 120, 80));
@@ -323,5 +331,83 @@ public sealed class MouseWheelTests
         Assert.True(manager.CheckMouseWheel(-1, shift, 20, 20));
         Assert.Equal(0, page);
         Assert.Equal(1, list.F15C);
+    }
+
+    [Fact]
+    public void ShortListAndShortMemoLeaveTheWheelWithTheParent()
+    {
+        var manager = new TAOWWinManager(null);
+        var window = new TAOWWindow(null);
+        Place(window, manager, 0, 0, 200, 120, 1);
+        var parent = Bar(window, 170, 10, 16, 80, 9, 3);
+        var list = new TAOWListBox(null);
+        Place(list, window, 10, 10, 70, 40);
+        Fill(list, 2, 4);
+        var memo = new TAOWMemo(null);
+        Place(memo, window, 90, 10, 70, 40);
+        memo.FCaptureInput = false;
+        var memoBar = Bar(window, 140, 10, 16, 40, 0, 1);
+        memoBar.FVisible = false;
+        memo.FVScrollBar = memoBar;
+        TSet<TShiftState> shift = default;
+
+        Assert.False(list.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.True(window.CheckMouseWheel(-1, shift, 20, 20));
+        Assert.Equal(0, list.F15C);
+        Assert.Equal(1, parent.FPosition);
+
+        Assert.False(memo.CheckMouseWheel(-1, shift, 100, 20));
+        Assert.True(window.CheckMouseWheel(-1, shift, 100, 20));
+        Assert.Equal(0, memoBar.FPosition);
+        Assert.Equal(2, parent.FPosition);
+
+        memoBar.FMax = 8;
+        memoBar.FNumberVisible = 3;
+        memoBar.FVisible = true;
+        Assert.True(window.CheckMouseWheel(-1, shift, 100, 20));
+        Assert.Equal(1, memoBar.FPosition);
+        Assert.Equal(2, parent.FPosition);
+    }
+
+    [Fact]
+    public void ArrowClickAndHeldArrowStepClampAndFireOnChange()
+    {
+        var window = new TAOWWindow(null);
+        var manager = new TAOWWinManager(null);
+        Place(window, manager, 0, 0, 80, 80);
+        var bar = new TAOWVScrollBar(null);
+        Place(bar, window, 10, 10, 16, 40);
+        bar.FMin = 0;
+        bar.FMax = 5;
+        bar.FNumberVisible = 2;
+        bar.FSmallChange = 2;
+        bar.F14C = bar.FMax - bar.FMin + 1;
+        bar.FDelay = 1;
+        var library = new TInterfaceIL(null);
+        var image = new TPicture16(library);
+        image.SetHeight(8);
+        library.SetImage(0, image);
+        bar.FILIDec = library;
+        bar.FILIInc = library;
+        int changes = 0;
+        bar.FOnChange = _ => changes++;
+        int x = window.FWinLeft + bar.FWinLeft + 1;
+        int top = window.FWinTop + bar.FWinTop;
+
+        bar.CheckMouseDown(TMouseButton.mbLeft, default, x, top + 1);
+        Assert.Equal(0, bar.FPosition);
+        Assert.Equal(1, changes);
+
+        bar.CheckMouseDown(TMouseButton.mbLeft, default, x, top + bar.FWinHeight - 1);
+        Assert.Equal(2, bar.FPosition);
+        Assert.Equal(2, changes);
+        Assert.Equal(4, bar.F151);
+
+        bar.Update();
+        Assert.Equal(4, bar.FPosition);
+        Assert.Equal(3, changes);
+        bar.Update();
+        Assert.Equal(4, bar.FPosition);
+        Assert.Equal(4, changes);
     }
 }

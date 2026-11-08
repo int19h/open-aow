@@ -25,7 +25,7 @@ public partial class TaowHTMLMemo
     {
         if (Steps == 0 || !ContainsPoint(X, Y)) return false;
         TAOWVScrollBar bar = WheelScrollBar ?? FVScrollBar;
-        if (bar == null) return false;
+        if (bar == null || !bar.HasWheelRange()) return false;
         bar.ScrollSteps(Steps);
         FTopItem = bar.FPosition;
         return true;

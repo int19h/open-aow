@@ -718,8 +718,6 @@ public partial class TLeaderSetupWin : TDataModule
     public void LeaderSetupWinCreate()
     {
         FLeader = new TLeader(null);
-        if (SelectedAbilities != null) SelectedAbilities.WheelScrollBar = SelectedAbilitiesLB;
-        if (AvailableAbilities != null) AvailableAbilities.WheelScrollBar = AvailableAbilitiesLB;
     }
 
     // AoWLeaderSetup.pas:274

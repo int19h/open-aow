@@ -312,7 +312,6 @@ public partial class TFileDlgWindow : TDataModule
         AoWFileDialogUnit.Files = new TStringList();
         FDirectory = AoWEngine.StartupDirectory + "Save\\";
         FLastFileName = "";
-        if (SaveLB != null) SaveLB.WheelScrollBar = SSBar;
     }
 
     // AoWFileDialog.pas:305
@@ -676,7 +675,7 @@ public partial class TFileDlgWindow : TDataModule
         SortByName();
     }
 
-    public void SortByName()
+    internal void SortByName()
     {
         string Selected = "";
         if (FileLB.Selected != -1)
@@ -727,7 +726,7 @@ public partial class TFileDlgWindow : TDataModule
         SortByDate();
     }
 
-    public void SortByDate()
+    internal void SortByDate()
     {
         string Selected = "";
         if (FileLB.Selected != -1)

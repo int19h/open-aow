@@ -4,6 +4,9 @@ namespace Aow.Units.AoWVScroll;
 
 public partial class TAOWScrollBar
 {
+    // The highest position is above FMin when a step can move the bar.
+    internal bool HasWheelRange() => FMax + 1 - FNumberVisible > FMin;
+
     // One arrow step. The wheel, the arrow buttons and a held arrow all come through here.
     protected void ApplySmallStep(bool up)
     {

@@ -9,8 +9,11 @@ public partial class TFileDlgWindow
 {
     private void RememberSortByDate(bool byDate) => AoWEngine.FRegistry.SetFileDialogSortByDate(byDate);
 
+    // The sort buttons sit on the open and save pages. Mode 2 is the map picker, which has no
+    // sort buttons. Restoring date order there rewrites the map name the dialog already filled in.
     private void RestoreSortOrder()
     {
+        if (FMode != 0 && FMode != 1) return;
         if (AoWEngine.FRegistry.GetFileDialogSortByDate())
         {
             SortByDate();

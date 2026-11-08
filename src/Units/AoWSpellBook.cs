@@ -959,11 +959,6 @@ public partial class TSpellBook : TDataModule
         Defaults.B = 0;
         FPlayerPages = new TDoubleItemList();
         FPlayerPages.Default = Defaults;
-        if (Dlg != null)
-        {
-            Dlg.PageBack = PrevBtn;
-            Dlg.PageForward = NextBtn;
-        }
     }
 
     // AoWSpellBook.pas:206

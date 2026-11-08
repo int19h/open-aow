@@ -720,11 +720,6 @@ public partial class TWorldMap : TDataModule
     public void WorldMapCreate()
     {
         RegisterWorldMapCampaign(AoWEngine);
-        if (BookWin != null)
-        {
-            BookWin.PageBack = Back;
-            BookWin.PageForward = Next;
-        }
     }
 
     // AoWWorldMap.pas:461

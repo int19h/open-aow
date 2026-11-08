@@ -12,20 +12,22 @@ public partial class TAOWListBox
         return PointInside(X, Y, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - F138, FWinHeight);
     }
 
-    // The linked bar scrolls even when it is hidden, so a shared column does not drift. With no bar
-    // the list moves its own offset and does not fire OnChange.
+    // A linked bar with room to move scrolls even when it is hidden, so shared columns stay together.
+    // A bar with no room, or no bar when every item fits, leaves the wheel for the parent.
     public override bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y)
     {
         if (Steps == 0 || !ContainsPoint(X, Y)) return false;
         TAOWVScrollBar bar = WheelScrollBar ?? FVScrollBar;
         if (bar != null)
         {
+            if (!bar.HasWheelRange()) return false;
             bar.ScrollSteps(Steps);
             return true;
         }
 
         int limit = FItems.Count - F11C;
         if (limit < 0) limit = 0;
+        if (limit == 0) return false;
         int next = F15C - Steps;
         if (next < 0) next = 0;
         if (next > limit) next = limit;

@@ -323,16 +323,26 @@ that contains the pointer. A window below `OverlayPriority` is left out, on the 
 down. A window or a panel
 then gives it to the topmost visible child under the pointer that takes input. A child that handles
 the wheel stops the search. A child that does not handle it leaves the wheel with its parent. A
-vertical scroll bar moves by `SmallChange` for each step on the same path as its arrow buttons,
-clamped, with `OnChange` fired. A list that has a scroll bar, or a `WheelScrollBar`, forwards the
-wheel to that bar. A list with neither scrolls its own offset. A panel or a window that owns exactly
-one visible vertical scroll bar forwards a wheel that none of its children handled to that bar. A
-window with `PageBack` and `PageForward` turns one page per step by calling that button's handler. A
-list under the pointer scrolls instead of turning the page.
+button or a label on top of a list is that child, so the wheel goes to the parent and not through
+to the list. A vertical scroll bar moves by `SmallChange` for each step on the same path as its
+arrow buttons, clamped, with `OnChange` fired. A list that has a scroll bar, or a `WheelScrollBar`,
+forwards the wheel to that bar when the bar has room to move. A list with neither scrolls its own
+offset when the items do not fit. A memo takes the wheel while it is visible, including a memo that
+does not take clicks. A memo or a list with nothing to scroll leaves the wheel for its parent, so a
+page still turns and a parent bar still scrolls over short content. Nothing to scroll means the
+bar's range is empty, the state left when fitting text hides the bar, or there is no bar and every
+item fits. A panel or a window that owns exactly one visible vertical scroll bar forwards a wheel
+that none of its children handled to that bar. A window with `PageBack` and `PageForward` turns a
+page by calling that button's handler. A book animates the turn, so one wheel event turns one page
+and further steps in that event do not turn another page. A list under the pointer scrolls instead
+of turning the page. The child under the pointer is asked first, and the page turns only when no
+child handles the wheel.
 
 The open and save dialogs remember the last sort button under the setting `OpenAoW` / `File Dialog
 Sort By Date`. That setting is a port addition the original does not have. Name order is the default
-and directories stay first in both orders.
+and directories stay first in both orders. The remembered order is restored for the open and save
+modes only. The map picker stays in name order and keeps the map name already written in the file
+name field.
 
 Nothing in this path is new code except the reader, the tables, the mouse wheel and the remembered
 file-dialog sort: the toolkit, the window

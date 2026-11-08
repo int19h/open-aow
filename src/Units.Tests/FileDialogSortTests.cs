@@ -87,6 +87,22 @@ public sealed class FileDialogSortTests
         });
     }
 
+    [Fact]
+    public void MapPickerKeepsNameOrderAndTheFilledMapNameWhenDateIsRemembered()
+    {
+        WithDialog((dialog, _) =>
+        {
+            Game.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
+            dialog.FMode = 2;
+            dialog.FileName.Text = "valley.map";
+            dialog.SFileName.Text = "stale.asg";
+            Assert.True(Runtime.SetCurrentDir("one"));
+            dialog.FindFiles();
+            Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileLB));
+            Assert.Equal("valley.map", dialog.FileName.Text);
+        });
+    }
+
     private static string[] Names(TAOWListBox list)
     {
         var names = new string[list.Items.Count];

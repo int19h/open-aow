@@ -17,7 +17,7 @@ public partial class TAoWComponent
 
     private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<TAoWComponent, WheelLink> wheelLinks = new();
 
-    public static bool PointInside(int X, int Y, int Left, int Top, int Width, int Height) =>
+    internal static bool PointInside(int X, int Y, int Left, int Top, int Width, int Height) =>
         X > Left - 1 && X < Left + Width && Y > Top - 1 && Y < Top + Height;
 
     public virtual bool ContainsPoint(int X, int Y) => false;
@@ -27,19 +27,19 @@ public partial class TAoWComponent
 
     public virtual bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y) => false;
 
-    public TAOWVScrollBar WheelScrollBar
+    internal TAOWVScrollBar WheelScrollBar
     {
         get => wheelLinks.TryGetValue(this, out var link) ? link.Bar : null;
         set => Link().Bar = value;
     }
 
-    public TAOWButton PageBack
+    internal TAOWButton PageBack
     {
         get => wheelLinks.TryGetValue(this, out var link) ? link.Back : null;
         set => Link().Back = value;
     }
 
-    public TAOWButton PageForward
+    internal TAOWButton PageForward
     {
         get => wheelLinks.TryGetValue(this, out var link) ? link.Forward : null;
         set => Link().Forward = value;
