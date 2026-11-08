@@ -199,9 +199,9 @@ public partial class TFortifyAGC : TAIGroupControl
     }
 
     // MainAG.pas:278
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
-        switch (((TAIGroupTargetFinder)Sender).FSelector.FTargetInfo.Mode)
+        switch (Sender.FSelector.FTargetInfo.Mode)
         {
             case TAITargetMode.tmFortify:
                 base.TargetFoundEvent(Sender, Target, ref SearchDone);
@@ -905,7 +905,7 @@ public partial class TSuicidalAGC : TAIGroupControl
     }
 
     // MainAG.pas:738
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         SetupCP(Target);
         var execute = FCombatPredictor.Execute();
@@ -1009,7 +1009,7 @@ public partial class TTransportAGC : TAIGroupControl
     }
 
     // MainAG.pas:810
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         SetupCP(Target);
         var execute = FCombatPredictor.Execute();
@@ -1103,7 +1103,7 @@ public partial class TTransportAGC : TAIGroupControl
 public partial class TRegistrator : TObject
 {
     // MainAG.pas:115
-    public static void MapLoaded(TObject Sender)
+    public static void MapLoaded(THSMap Sender)
     {
         if (Sender == AoWHSMap)
         {
@@ -1141,7 +1141,7 @@ public static partial class MainAGUnit
         if (ValidateAoWEngine())
         {
             AoWEngine.RegisterEClasses([EClass.Of<TSuicidalAG>(), EClass.Of<TFortifyAG>(), EClass.Of<TPassiveAG>(), EClass.Of<TTransportAG>()]);
-            AoWEngine.OnHSMLoaded.Add(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded += TRegistrator.MapLoaded;
         }
     }
 
@@ -1149,7 +1149,7 @@ public static partial class MainAGUnit
     {
         if (AoWEngine != null)
         {
-            AoWEngine.OnHSMLoaded.Remove(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded -= TRegistrator.MapLoaded;
         }
     }
 }

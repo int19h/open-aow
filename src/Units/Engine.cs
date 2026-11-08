@@ -4900,7 +4900,15 @@ public partial class TEngine : TENode
     internal TEControlStyleNode FControlNode;
     public TEComponent FComponent;
     internal TStringList FDebugIDs;
-    internal TEventList FDebugEvents;
+
+    internal EventStore<EngineDebugNotification> FDebugEventsStore;
+
+    internal event TNotifyEvent<EngineDebugNotification> FDebugEvents
+    {
+        add => FDebugEventsStore.Add(value);
+        remove => FDebugEventsStore.Remove(value);
+    }
+
     internal string FStartupDirectory = "";
     public TSet<TEngineUserElement> FUser;
     internal TSet<TEngineModeElement> FOptions;
@@ -4926,7 +4934,6 @@ public partial class TEngine : TENode
     {
         UpdateStartupDirectory();
         FOptions = TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
-        FDebugEvents = new TEventList();
         FEClasses = new TEObjectClassList();
         FClassTable = new TIntegerHashTable256();
         FEditors = new TEObjectEditorList();
@@ -4943,7 +4950,7 @@ public partial class TEngine : TENode
     {
         FEditors.Free();
         EngineUnit.Engines.Remove(this);
-        FDebugEvents.Free();
+        FDebugEventsStore.Clear();
         FDebugIDs.Free();
         base.Destroy();
         FClassTable.Free();
@@ -5013,7 +5020,7 @@ public partial class TEngine : TENode
         ref var Info = ref notification.Info;
         Info.ID = -1;
         Info.Text = S;
-        FDebugEvents.TriggerNotifyEvents(notification);
+        FDebugEventsStore.Raise(notification);
     }
 
     // Engine.pas:8805
@@ -5023,7 +5030,7 @@ public partial class TEngine : TENode
         ref var Info = ref notification.Info;
         Info.ID = ID;
         Info.Text = S;
-        FDebugEvents.TriggerNotifyEvents(notification);
+        FDebugEventsStore.Raise(notification);
     }
 
     // Engine.pas:8819
@@ -5473,7 +5480,13 @@ public partial class TEngine : TENode
     public TEObjectEditorList Editors { get => FEditors; }
     public TEControlStyleNode ControlNode { get => FControlNode; }
     public TStringList DebugIDs { get => FDebugIDs; }
-    public TEventList DebugEvents { get => FDebugEvents; }
+
+    public event TNotifyEvent<EngineDebugNotification> DebugEvents
+    {
+        add => FDebugEventsStore.Add(value);
+        remove => FDebugEventsStore.Remove(value);
+    }
+
     public string StartupDirectory { get => FStartupDirectory; set => SetStartupDirectory(value); }
     public TSet<TEngineModeElement> Options { get => FOptions; set => FOptions = value; }
 
@@ -7874,28 +7887,34 @@ public partial class TEChangeNotifyEventList : TEChangeNotifyNode
 
     public TEChangeNotifyEventList(TECustomNode owner) : base(owner)
     {
-        FEvents = new TEventList();
     }
 
-    internal TEventList FEvents;
+    internal EventStore<TEChangeNotifyEventList> FEventsStore;
+
+    internal event TNotifyEvent<TEChangeNotifyEventList> FEvents
+    {
+        add => FEventsStore.Add(value);
+        remove => FEventsStore.Remove(value);
+    }
 
     // Engine.pas:8131
     public override void Destroy()
     {
-        FEvents.Free();
+        FEventsStore.Clear();
         base.Destroy();
     }
 
     // Engine.pas:8137
     public override void Changed()
     {
-        FEvents.TriggerNotifyEvents(this);
+        FEventsStore.Raise(this);
     }
 
-    public TEventList Events { get => FEvents; }
-
-    // Engine.pas:708
-
+    public event TNotifyEvent<TEChangeNotifyEventList> Events
+    {
+        add => FEventsStore.Add(value);
+        remove => FEventsStore.Remove(value);
+    }
 }
 
 public enum TEditResult : byte

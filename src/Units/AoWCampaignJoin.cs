@@ -77,10 +77,10 @@ public partial class TCampaignJoinDlg : TDataModule
     }
 
     // AoWCampaignJoin.pas:145
-    public void LeaderCustomized(TObject Sender)
+    public void LeaderCustomized(TLeaderSetupControl Sender)
     {
         TLeader Leader;
-        var leaderSetupControl = (TLeaderSetupControl)Sender;
+        var leaderSetupControl = Sender;
         if (leaderSetupControl.FStatus == TLeaderSetupStatus.lssDone)
         {
             Leader = (TLeader)leaderSetupControl.FOriginalLeader.Copy(AoWEngine);

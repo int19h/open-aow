@@ -957,7 +957,7 @@ public partial class TStormSpell : TSpell
             Selection.FTitle = FSpellName;
             Selection.FCancelText = TranslateRStr(CancelRStr);
             Selection.FRange = 12;
-            Selection.FOnChange.Add(OnTargetSelectionChange);
+            Selection.FOnChange += OnTargetSelectionChange;
             Selection.FSourceImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
             Selection.FValidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
             Selection.FInvalidTargetImage = AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
@@ -1043,19 +1043,17 @@ public partial class TStormSpell : TSpell
     }
 
     // Storms.pas:786
-    public void OnTargetSelectionChange(TObject Sender)
+    public void OnTargetSelectionChange(TTargetSelectionControl Selection)
     {
-        TTargetSelectionControl Selection = default;
-        Selection = (TTargetSelectionControl)Sender;
         switch (Selection.FChange)
         {
             case TTargetSelectionChange.tscDeactivated:
                 FTargetStorm.Free();
                 FTargetStorm = null;
-                Selection.FOnChange.Remove(OnTargetSelectionChange);
+                Selection.FOnChange -= OnTargetSelectionChange;
                 break;
             case TTargetSelectionChange.tscSelected:
-                Selection.FOnChange.Remove(OnTargetSelectionChange);
+                Selection.FOnChange -= OnTargetSelectionChange;
                 if (ExecuteStormSpell(FSource, Selection.FTargetX, Selection.FTargetY, Selection.FTargetL))
                 {
                     Selection.Deactivate();

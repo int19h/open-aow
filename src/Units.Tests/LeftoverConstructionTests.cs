@@ -334,7 +334,7 @@ public sealed class LeftoverConstructionTests
         var mouse = new TAoWHSMapMouse();
         Assert.Equal((-1, -1, -1, -1), (mouse.FSelectionRectangle.Left, mouse.FSelectionRectangle.Top,
             mouse.FSelectionRectangle.Right, mouse.FSelectionRectangle.Bottom));
-        Assert.NotNull(mouse.FRectangleSelectEvents);
+        Assert.Equal(0, mouse.FRectangleSelectEventsStore.Count);
         mouse.Destroy();
         settings.Destroy();
     }

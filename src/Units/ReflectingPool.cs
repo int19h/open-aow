@@ -253,7 +253,7 @@ public partial class TReflectingPool : TPlayerStructure
     {
         DeactivatePoolCentering();
         FCenterFrame = 0;
-        AoWHSMap.NewFrameEvents.Add(NewFrame);
+        AoWHSMap.NewFrameEvents += NewFrame;
     }
 
     // ReflectingPool.pas:134
@@ -261,7 +261,7 @@ public partial class TReflectingPool : TPlayerStructure
     {
         if (FCenterFrame != -1)
         {
-            AoWHSMap.NewFrameEvents.Remove(NewFrame);
+            AoWHSMap.NewFrameEvents -= NewFrame;
             FCenterFrame = -1;
         }
     }

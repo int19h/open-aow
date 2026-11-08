@@ -85,15 +85,15 @@ public partial class TItemControlGrid : TCustomImageDrawGrid
         {
             if (FMap != null)
             {
-                FMap.FItemControl.FOnChanged.Remove(ItemControlChanged);
-                FMap.FItemControl.FOnItemChanged.Remove(ItemChanged);
+                FMap.FItemControl.FOnChanged -= ItemControlChanged;
+                FMap.FItemControl.FOnItemChanged -= ItemChanged;
             }
 
             FMap = Value;
             if (FMap != null)
             {
-                FMap.FItemControl.FOnChanged.Add(ItemControlChanged);
-                FMap.FItemControl.FOnItemChanged.Add(ItemChanged);
+                FMap.FItemControl.FOnChanged += ItemControlChanged;
+                FMap.FItemControl.FOnItemChanged += ItemChanged;
             }
 
             UpdateItems();

@@ -169,7 +169,7 @@ public partial class TGlobalTargetSpell : TSpell
         TargetSelection.FSourceY = UnitY;
         TargetSelection.FSourceL = UnitLayer;
         TargetSelection.FRange = 12;
-        TargetSelection.FOnChange.Add(OnTargetSelectionChange);
+        TargetSelection.FOnChange += OnTargetSelectionChange;
         TargetSelection.FOnShow = ShowTargetSelection;
         var format = RtlUnit.Format(TranslateRStr(SelectTargetLocationForXOnMapRStr), [FSpellName]);
         TargetSelection.FText.Text = format;
@@ -202,19 +202,18 @@ public partial class TGlobalTargetSpell : TSpell
     public virtual bool ValidTargetMapF(TMapField Field) => true;
 
     // GlobalTargetSpells.pas:492. The recovered view aliases this control.
-    public virtual void OnTargetSelectionChange(TObject sender)
+    public virtual void OnTargetSelectionChange(TTargetSelectionControl target)
     {
-        var target = (TTargetSelectionControl)sender;
         var caster = AoWHSMap.FUnitControl.FindUnit(FCasterID);
         if (caster is null || target.FChange == TTargetSelectionChange.tscDeactivated)
         {
-            target.FOnChange.Remove(OnTargetSelectionChange);
+            target.FOnChange -= OnTargetSelectionChange;
             target.Deactivate();
         }
         else if (target.FChange == TTargetSelectionChange.tscSelected && ValidTargetSelection(target) &&
             TargetSelected(caster, target.FTargetX, target.FTargetY, target.FTargetL))
         {
-            target.FOnChange.Remove(OnTargetSelectionChange);
+            target.FOnChange -= OnTargetSelectionChange;
             target.Deactivate();
         }
     }

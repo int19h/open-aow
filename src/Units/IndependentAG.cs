@@ -109,7 +109,7 @@ public partial class TGuardAreaAGC : TAIGroupControl
     }
 
     // IndependentAG.pas:176
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         SetupCP(Target);
         // { Original also accepts crDefeat when the subsequent efficiency tests pass. }
@@ -299,7 +299,7 @@ public partial class TPatrolAGC : TAIGroupControl
     }
 
     // IndependentAG.pas:426
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         TAoWMapField MapF;
         MapF = (TAoWMapField)AoWHSMap.MapContainer.GetFieldXYL(Target.FLocation.XYL);
@@ -670,7 +670,7 @@ public partial class TRaidAGC : TAIGroupControl
     }
 
     // IndependentAG.pas:576
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         SetupCP(Target);
         // { Original also accepts crDefeat when the efficiency test passes. }
@@ -773,7 +773,7 @@ public partial class TScoutAGC : TAIGroupControl
     }
 
     // IndependentAG.pas:659
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         SetupCP(Target);
         var execute = FCombatPredictor.Execute();
@@ -854,7 +854,7 @@ public partial class TScoutAGC : TAIGroupControl
 public partial class TRegistrator : TObject
 {
     // IndependentAG.pas:136
-    public static void MapLoaded(TObject Sender)
+    public static void MapLoaded(THSMap Sender)
     {
         if (Sender == AoWHSMap)
         {
@@ -886,7 +886,7 @@ public static partial class IndependentAGUnit
         if (ValidateAoWEngine())
         {
             AoWEngine.RegisterEClasses([EClass.Of<TGuardAG>(), EClass.Of<TGuardAreaAG>(), EClass.Of<TPatrolAG>(), EClass.Of<TRefugeAG>(), EClass.Of<TRaidAG>(), EClass.Of<TScoutAG>()]);
-            AoWEngine.OnHSMLoaded.Add(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded += TRegistrator.MapLoaded;
         }
     }
 
@@ -894,7 +894,7 @@ public static partial class IndependentAGUnit
     {
         if (AoWEngine != null)
         {
-            AoWEngine.OnHSMLoaded.Remove(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded -= TRegistrator.MapLoaded;
         }
     }
 }

@@ -24,7 +24,7 @@ public partial class TTacticalCombat
         if (AoWTCUnit.AoWCombatMap != null)
         {
             AoWTCUnit.AoWCombatMap.FUnitSelection.Clear();
-            AoWTCUnit.AoWCombatMap.FSelectEvents.TriggerNotifyEvents(this);
+            AoWTCUnit.AoWCombatMap.FSelectEventsStore.Raise(this);
             AoWEUnit.AoWHSMap.ReleaseCombatMap();
         }
         base.Finalize();

@@ -126,10 +126,10 @@ internal static class Program
             HeadlessHooks.TacticalBattles = tacticalBattles;
             directed = new(map, exerciseItems, globalSpell);
             if (globalSpell != 0) HeadlessHooks.BeforeAIPlayerProcess = directed.BeforeFrame;
-            map.FGameOverEvents.Add(_ => ended = true);
-            map.FExecuteEventLogEvents.Add(sender =>
+            map.FGameOverEvents += _ => ended = true;
+            map.FExecuteEventLogEvents += notification =>
             {
-                var info = ((Aow.Units.AoWE.ExecuteEventLogNotification)sender).Info;
+                var info = notification.Info;
                 if (info.Log is Aow.Units.EventLog.TMessageEventLog message)
                 {
                     bool yes = message.FButtons is Aow.Units.EventLog.TMessageEventLogButtons.mebYesNo or Aow.Units.EventLog.TMessageEventLogButtons.mebYesNoCancel;
@@ -137,7 +137,7 @@ internal static class Program
                     if (yes) message.Yes(); else message.OK();
                 }
                 info.Done?.Invoke(info.Log);
-            });
+            };
             void CheckTodos()
             {
                 if (todos.Count != 0) throw new InvalidOperationException("reached TODO: " + string.Join("\n", todos));

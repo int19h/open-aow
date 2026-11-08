@@ -253,7 +253,7 @@ public partial class TAnimation : THexagonSprite
         FState = FState + TSet<TAnimationStateElement>.Of(TAnimationStateElement.asActivated);
         if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToNewFrame))
         {
-            FAnimationMap.NewFrameEvents.Add(NewFrameEvent);
+            FAnimationMap.NewFrameEvents += NewFrameEvent;
         }
 
         if (AnimationControlMode().Contains(TAnimationControlModeElement.amFixedVisible))
@@ -263,7 +263,7 @@ public partial class TAnimation : THexagonSprite
 
         if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToOnDestroy))
         {
-            FAnimationMap.DestroyEvents.Add(DestroyEvent);
+            FAnimationMap.DestroyEvents += DestroyEvent;
         }
     }
 
@@ -282,12 +282,12 @@ public partial class TAnimation : THexagonSprite
 
             if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToNewFrame))
             {
-                FAnimationMap.NewFrameEvents.Remove(NewFrameEvent);
+                FAnimationMap.NewFrameEvents -= NewFrameEvent;
             }
 
             if (AnimationControlMode().Contains(TAnimationControlModeElement.amLinkToOnDestroy))
             {
-                FAnimationMap.DestroyEvents.Remove(DestroyEvent);
+                FAnimationMap.DestroyEvents -= DestroyEvent;
             }
         }
     }

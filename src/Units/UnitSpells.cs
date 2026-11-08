@@ -1073,7 +1073,7 @@ public partial class TCosmeticSurgery : TUnitSpell
                 Caster.FFaceIndex = 0;
             }
 
-            AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
+            AoWHSMap.FCosmeticSurgeryEventsStore.Raise(Caster);
             Caster.Release();
             Result = true;
         }

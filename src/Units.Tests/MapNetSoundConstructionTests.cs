@@ -90,11 +90,11 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Same(map, map.Mouse.FHSMap);
                 Assert.Same(map, map.Selection.Owner);
                 Assert.Same(map, map.Timer.Owner);
-                Assert.Equal(0, map.HSChangedEvents.Count);
-                Assert.Equal(0, map.TerrainChangedEvents.Count);
-                Assert.Equal(0, map.ViewPortChangedEvents.Count);
-                Assert.Equal(0, map.NewFrameEvents.Count);
-                Assert.Equal(0, map.DestroyEvents.Count);
+                Assert.Equal(0, map.FHSChangedEventsStore.Count);
+                Assert.Equal(0, map.FTerrainChangedEventsStore.Count);
+                Assert.Equal(0, map.FViewPortChangedEventsStore.Count);
+                Assert.Equal(0, map.FNewFrameEventsStore.Count);
+                Assert.Equal(0, map.FDestroyEventsStore.Count);
                 Assert.Equal(0, map.StaticVisibleHS.Count);
                 Assert.Equal(0, map.DynamicVisibleHS.Count);
                 Assert.Equal(0, map.StaticFixedVisibleHS.Count);
@@ -117,8 +117,8 @@ public sealed class MapNetSoundConstructionTests
                 break;
             case THexagonSpriteSelection selection:
                 Assert.Equal(0, selection.LocationHS.Count);
-                Assert.Equal(0, selection.OnSelect.Count);
-                Assert.Equal(0, selection.OnDeselect.Count);
+                Assert.Equal(0, selection.FOnSelectStore.Count);
+                Assert.Equal(0, selection.FOnDeselectStore.Count);
                 break;
             case TMORTerrainControl control:
                 Assert.Equal(typeof(TMapObject), control.MOClass);
@@ -157,8 +157,8 @@ public sealed class MapNetSoundConstructionTests
                 Assert.Null(player.FReceivedPackage);
                 Assert.Equal(0, player.FSendStream.Size);
                 Assert.Equal(0, player.FReceiveStream.Size);
-                Assert.Equal(0, player.OnReceive.Count);
-                Assert.Equal(0, player.OnProcess.Count);
+                Assert.Equal(0, player.FOnReceiveStore.Count);
+                Assert.Equal(0, player.FOnProcessStore.Count);
                 break;
             case TTokenEvent token:
                 Assert.Equal(1, token.FRefCount);
@@ -245,8 +245,11 @@ public sealed class MapNetSoundConstructionTests
                 case THSMapMouse mouse:
                     Assert.Equal(int.MinValue, mouse.FX);
                     Assert.Equal(int.MinValue, mouse.FY);
-                    foreach (var list in new[] { mouse.FOnUp, mouse.FOnDown, mouse.FOnMove, mouse.FOnDblClick, mouse.FOnCaptureChanged })
-                        Assert.Equal(0, list.Count);
+                    Assert.Equal(0, mouse.FOnUpStore.Count);
+                    Assert.Equal(0, mouse.FOnDownStore.Count);
+                    Assert.Equal(0, mouse.FOnMoveStore.Count);
+                    Assert.Equal(0, mouse.FOnDblClickStore.Count);
+                    Assert.Equal(0, mouse.FOnCaptureChangedStore.Count);
                     break;
                 case TXYLList list:
                     Assert.Equal(-1, list.FDefault.X);
@@ -264,8 +267,8 @@ public sealed class MapNetSoundConstructionTests
                     Assert.Equal(0, executer.FEvents.Count);
                     Assert.Equal(0, executer.FSystemEvents.Count);
                     Assert.Equal(0, executer.FTCList.Count);
-                    Assert.Equal(0, executer.OnEventsExecuted.Count);
-                    Assert.Equal(0, executer.OnActivateTC.Count);
+                    Assert.Equal(0, executer.FOnEventsExecutedStore.Count);
+                    Assert.Equal(0, executer.FOnActivateTCStore.Count);
                     break;
                 case TTokenManager manager:
                     Assert.Null(manager.Owner);

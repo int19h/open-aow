@@ -64,15 +64,15 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
         {
             if (FMap != null)
             {
-                FMap.FHeroControl.FOnChanged.Remove(HeroControlChanged);
-                FMap.FHeroControl.FOnHeroChanged.Remove(HeroChanged);
+                FMap.FHeroControl.FOnChanged -= HeroControlChanged;
+                FMap.FHeroControl.FOnHeroChanged -= HeroChanged;
             }
 
             FMap = Value;
             if (FMap != null)
             {
-                FMap.FHeroControl.FOnChanged.Add(HeroControlChanged);
-                FMap.FHeroControl.FOnHeroChanged.Add(HeroChanged);
+                FMap.FHeroControl.FOnChanged += HeroControlChanged;
+                FMap.FHeroControl.FOnHeroChanged += HeroChanged;
             }
 
             UpdateHeroes();

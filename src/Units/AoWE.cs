@@ -708,14 +708,14 @@ public partial class TWorldFXHS : TFixedVisibleHS
     public override void Activate()
     {
         base.Activate();
-        AoWEUnit.AoWHSMap.NewFrameEvents.Add(NewFrame);
+        AoWEUnit.AoWHSMap.NewFrameEvents += NewFrame;
         FFrame = -1;
     }
 
     // Army.PAS:5347
     public override void Deactivate()
     {
-        AoWEUnit.AoWHSMap.NewFrameEvents.Remove(NewFrame);
+        AoWEUnit.AoWHSMap.NewFrameEvents -= NewFrame;
         base.Deactivate();
     }
 
@@ -2717,7 +2717,6 @@ public partial class TPlayerMagicControl : TEObject
         TExternalPowerSource Source;
 
         FSpells = new TIntegerList();
-        FChangedEvents = new TEventList();
         FEnchantments = new TEnchantmentList(null);
         FPowerSources = new TPowerSourceList(null);
         Source = new TExternalPowerSource(null);
@@ -2748,7 +2747,14 @@ public partial class TPlayerMagicControl : TEObject
     public TPowerSourceList FPowerSources;
     public TSet<TPlayerEnchantmentType> FActiveEnchantments;
     public TSet<TPlayerEnchantmentType> FEnemyEnchantments;
-    public TEventList FChangedEvents;
+
+    internal EventStore<TPlayerMagicControl> FChangedEventsStore;
+
+    public event TNotifyEvent<TPlayerMagicControl> FChangedEvents
+    {
+        add => FChangedEventsStore.Add(value);
+        remove => FChangedEventsStore.Remove(value);
+    }
 
     // Spells.PAS:1927
     public override void Destroy()
@@ -2757,7 +2763,7 @@ public partial class TPlayerMagicControl : TEObject
         {
             FSpells.Free();
             FEnchantments.Free();
-            FChangedEvents.Free();
+            FChangedEventsStore.Clear();
             FPowerSources.RemoveChild(FExternalPowerSource);
             if (FPowerSources.GetCount() != 0 && AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
             {
@@ -3275,7 +3281,7 @@ public partial class TPlayerMagicControl : TEObject
         if (FUpdateCount == 0)
         {
             UpdateEnemyEnchantments();
-            FChangedEvents.TriggerNotifyEvents(this);
+            FChangedEventsStore.Raise(this);
         }
     }
 
@@ -4046,7 +4052,6 @@ public partial class TGlobalMagicControl : TEObject
     public TGlobalMagicControl(TECustomNode owner) : base(owner)
     {
         FEnchantments = new TGlobalEnchantmentList(null);
-        FChangedEvents = new TEventList();
         FNextEnchantmentID = 1;
     }
 
@@ -4055,14 +4060,21 @@ public partial class TGlobalMagicControl : TEObject
     public TSet<TGlobalEnchantmentType> FActiveEnchantments;
     public TGlobalEnchantmentList FEnchantments;
     public FixedArray_int_9 FDoubleSphereManaCount;
-    public TEventList FChangedEvents;
+
+    internal EventStore<TGlobalMagicControl> FChangedEventsStore;
+
+    public event TNotifyEvent<TGlobalMagicControl> FChangedEvents
+    {
+        add => FChangedEventsStore.Add(value);
+        remove => FChangedEventsStore.Remove(value);
+    }
 
     // Spells.PAS:2675
     public override void Destroy()
     {
         base.Destroy();
         FEnchantments.Free();
-        FChangedEvents.Free();
+        FChangedEventsStore.Clear();
     }
 
     // Spells.PAS:2677
@@ -4178,7 +4190,7 @@ public partial class TGlobalMagicControl : TEObject
     {
         if (FUpdateCount == 0)
         {
-            FChangedEvents.TriggerNotifyEvents(this);
+            FChangedEventsStore.Raise(this);
         }
     }
 
@@ -4186,7 +4198,7 @@ public partial class TGlobalMagicControl : TEObject
     public void Update()
     {
         UpdateActiveEnchantments();
-        FChangedEvents.TriggerNotifyEvents(this);
+        FChangedEventsStore.Raise(this);
     }
 
     // Spells.PAS:2700
@@ -5026,7 +5038,7 @@ public partial class TLeaderSetupControl : TEObject
     public TLeader FOriginalLeader;
     public TIntegerList FItems;
     public TLeaderSetupStatus FStatus;
-    public TNotifyEvent<TObject> FOnDone;
+    public TNotifyEvent<TLeaderSetupControl> FOnDone;
 
     // Player.PAS:1766
     public override void Destroy()
@@ -5246,9 +5258,6 @@ public partial class TPlayer : TEObject
     // Player.PAS:261
     public TPlayer(TECustomNode owner) : base(owner)
     {
-        FIncomeChangedEvents = new TEventList();
-        FGemsChangedEvents = new TEventList();
-        FUpkeepChangedEvents = new TEventList();
         FStructures = new TPlayerStructureList(null);
         FStructures.FPlayer = this;
         FArmies = new TArmyList(null);
@@ -5261,7 +5270,7 @@ public partial class TPlayer : TEObject
         FMagicControl.FPlayer = this;
         FStatistics = new TPlayerStatistics(null);
         FArmies.FPlayer = this;
-        FArmies.Events.Add(ArmiesChanged);
+        FArmies.Events += ArmiesChanged;
         FHeroes = new THeroList(null);
         FInitialGold = 250;
         FBaseIncome = 0;
@@ -5269,7 +5278,6 @@ public partial class TPlayer : TEObject
         FParticipating = false;
         FEventLogbook = new TEventLogbook(null);
         FEventLogbook.SetOnChanged(LogbookChangedEvent);
-        FLogbookChangedEvents = new TEventList();
         FDiplomaticRelations = new TPlayerDiplomaticRelations(null);
         FDiplomaticRelations.FPlayer = this;
         FLegacyNewRelations = new TDiplomaticRelationList();
@@ -5298,10 +5306,39 @@ public partial class TPlayer : TEObject
     }
 
     public int FUpdateCount;
-    public TEventList FGemsChangedEvents;
-    public TEventList FIncomeChangedEvents;
-    public TEventList FUpkeepChangedEvents;
-    public TEventList FLogbookChangedEvents;
+
+    internal EventStore<TPlayer> FGemsChangedEventsStore;
+
+    public event TNotifyEvent<TPlayer> FGemsChangedEvents
+    {
+        add => FGemsChangedEventsStore.Add(value);
+        remove => FGemsChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TPlayer> FIncomeChangedEventsStore;
+
+    public event TNotifyEvent<TPlayer> FIncomeChangedEvents
+    {
+        add => FIncomeChangedEventsStore.Add(value);
+        remove => FIncomeChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TPlayer> FUpkeepChangedEventsStore;
+
+    public event TNotifyEvent<TPlayer> FUpkeepChangedEvents
+    {
+        add => FUpkeepChangedEventsStore.Add(value);
+        remove => FUpkeepChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TPlayer> FLogbookChangedEventsStore;
+
+    public event TNotifyEvent<TPlayer> FLogbookChangedEvents
+    {
+        add => FLogbookChangedEventsStore.Add(value);
+        remove => FLogbookChangedEventsStore.Remove(value);
+    }
+
     public TPlayerStructureList FStructures;
     public TPlayerStructureList FVictoryLocations;
     public TProductionControlList FProductionControls;
@@ -5366,9 +5403,9 @@ public partial class TPlayer : TEObject
         TArmyList Armies;
         try
         {
-            FIncomeChangedEvents.Clear();
-            FGemsChangedEvents.Clear();
-            FUpkeepChangedEvents.Clear();
+            FIncomeChangedEventsStore.Clear();
+            FGemsChangedEventsStore.Clear();
+            FUpkeepChangedEventsStore.Clear();
             try
             {
                 if (AoWEUnit.AoWHSMap != null && AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
@@ -5405,9 +5442,9 @@ public partial class TPlayer : TEObject
             FLegacyRelations.Free();
             try
             {
-                FLogbookChangedEvents.Clear();
+                FLogbookChangedEventsStore.Clear();
                 FEventLogbook.Free();
-                FLogbookChangedEvents.Free();
+                FLogbookChangedEventsStore.Clear();
             }
             catch
             {
@@ -5503,12 +5540,9 @@ public partial class TPlayer : TEObject
 
             FPBEMSettings.Free();
             FPBEMSettings = null;
-            FIncomeChangedEvents.Free();
-            FIncomeChangedEvents = null;
-            FGemsChangedEvents.Free();
-            FGemsChangedEvents = null;
-            FUpkeepChangedEvents.Free();
-            FUpkeepChangedEvents = null;
+            FIncomeChangedEventsStore.Clear();
+            FGemsChangedEventsStore.Clear();
+            FUpkeepChangedEventsStore.Clear();
         }
         catch
         {
@@ -5948,7 +5982,7 @@ public partial class TPlayer : TEObject
     {
         if (FUpdateCount == 0)
         {
-            FLogbookChangedEvents.TriggerNotifyEvents(this);
+            FLogbookChangedEventsStore.Raise(this);
         }
     }
 
@@ -5967,10 +6001,10 @@ public partial class TPlayer : TEObject
         FUpdateCount -= 1;
         if (FUpdateCount == 0)
         {
-            FGemsChangedEvents.TriggerNotifyEvents(this);
-            FUpkeepChangedEvents.TriggerNotifyEvents(this);
+            FGemsChangedEventsStore.Raise(this);
+            FUpkeepChangedEventsStore.Raise(this);
             UpdateIncome();
-            FLogbookChangedEvents.TriggerNotifyEvents(this);
+            FLogbookChangedEventsStore.Raise(this);
         }
 
         FStructures.EndUpdate();
@@ -5993,7 +6027,7 @@ public partial class TPlayer : TEObject
         FGems = Value;
         if (FUpdateCount == 0)
         {
-            FGemsChangedEvents.TriggerNotifyEvents(this);
+            FGemsChangedEventsStore.Raise(this);
         }
 
         if (AoWEUnit.AoWHSMap.FVictoryCondition == TVictoryCondition.vcAccumulateGold && AoWEUnit.AoWHSMap.FVictoryGold <= FGems)
@@ -6040,7 +6074,7 @@ public partial class TPlayer : TEObject
 
         if (FUpdateCount == 0)
         {
-            FIncomeChangedEvents.TriggerNotifyEvents(this);
+            FIncomeChangedEventsStore.Raise(this);
         }
     }
 
@@ -6075,7 +6109,7 @@ public partial class TPlayer : TEObject
         FArmyUpkeep = Value;
         if (FUpdateCount == 0)
         {
-            FUpkeepChangedEvents.TriggerNotifyEvents(this);
+            FUpkeepChangedEventsStore.Raise(this);
         }
     }
 
@@ -6085,7 +6119,7 @@ public partial class TPlayer : TEObject
         FMagicUpkeep = Value;
         if (FUpdateCount == 0)
         {
-            FUpkeepChangedEvents.TriggerNotifyEvents(this);
+            FUpkeepChangedEventsStore.Raise(this);
         }
     }
 
@@ -7107,7 +7141,7 @@ public partial class TPlayerList : TEControlStyleNode
                 ((TPlayer)FChildren.List[OtherPlayer]).FAIValidAttackPlayers[Player] = false;
             }
 
-            AoWEUnit.AoWHSMap.FDiplomaticRelationsChangedEvents.TriggerNotifyEvents(this);
+            AoWEUnit.AoWHSMap.FDiplomaticRelationsChangedEventsStore.Raise(this);
             for (int J = Count - 1; J >= 1; J--)
             {
                 ((TPlayer)FChildren.List[J]).FMagicControl.UpdateEnemyEnchantments();
@@ -8948,7 +8982,7 @@ public partial class TPlayerControl : TEObject
 
         try
         {
-            AoWEUnit.AoWHSMap.FNewDayEvents.TriggerNotifyEvents(this);
+            AoWEUnit.AoWHSMap.FNewDayEventsStore.Raise(this);
         }
         catch
         {
@@ -9010,7 +9044,7 @@ public partial class TPlayerControl : TEObject
         InitMsg(ref Msg, 537001986, this);
         Msg.Payload = Player;
         AoWEUnit.AoWHSMap.SendMsg(ref Msg, this);
-        AoWEUnit.AoWHSMap.FNewTurnEvents.TriggerNotifyEvents(IntToObject(Player));
+        AoWEUnit.AoWHSMap.FNewTurnEventsStore.Raise(Player);
         InitMsg(ref Msg, 537001987, this);
         Msg.Payload = Player;
         AoWEUnit.AoWHSMap.SendMsg(ref Msg, this);
@@ -11313,9 +11347,9 @@ public partial class TMoveSelector : TObject
 
         FMap = Map;
         FMap.Mouse.SetCapture(this);
-        FMap.Mouse.OnDown.Add(MouseDownEvent);
-        FMap.Mouse.OnMove.Add(MouseMoveEvent);
-        FMap.Mouse.OnCaptureChanged.Add(MouseDownEvent);
+        FMap.Mouse.OnDown += MouseDownEvent;
+        FMap.Mouse.OnMove += MouseMoveEvent;
+        FMap.Mouse.OnCaptureChanged += MouseDownEvent;
         FMap.Mouse.CursorMode = 256;
         UpdateMoveCursor();
         FStatus = FStatus + TSet<TMoveSelectorStatusElement>.Of(TMoveSelectorStatusElement.mssActivated);
@@ -11328,9 +11362,9 @@ public partial class TMoveSelector : TObject
         if (FStatus.Contains(TMoveSelectorStatusElement.mssActivated))
         {
             FStatus = FStatus - TSet<TMoveSelectorStatusElement>.Of(TMoveSelectorStatusElement.mssActivated);
-            FMap.Mouse.OnDown.Remove(MouseDownEvent);
-            FMap.Mouse.OnMove.Remove(MouseMoveEvent);
-            FMap.Mouse.OnCaptureChanged.Remove(MouseDownEvent);
+            FMap.Mouse.OnDown -= MouseDownEvent;
+            FMap.Mouse.OnMove -= MouseMoveEvent;
+            FMap.Mouse.OnCaptureChanged -= MouseDownEvent;
             if (FMap.Mouse.Capture == this)
             {
                 FMap.Mouse.SetCapture(null);
@@ -12135,14 +12169,14 @@ public partial class TSelectedArmy : TMoveSelector
     }
 
     // Army.PAS:3673
-    public void OnDestroyArmy(TObject Sender)
+    public void OnDestroyArmy(TArmy Sender)
     {
         int Index;
         if (FStatus.Contains(TMoveSelectorStatusElement.mssActivated))
         {
             if (Sender != null)
             {
-                var armyHS = ((TArmy)Sender).GetArmyHS();
+                var armyHS = Sender.GetArmyHS();
                 Index = FMoveSettingsList.IndexOfMoveObject(armyHS);
                 if (Index != -1)
                 {
@@ -12157,7 +12191,7 @@ public partial class TSelectedArmy : TMoveSelector
     }
 
     // Army.PAS:3685
-    public void RectangleSelectEvent(TObject Sender)
+    public void RectangleSelectEvent(TAbstractAoWHSMapMouse Sender)
     {
         int X1 = default;
         int Y1 = default;
@@ -12170,7 +12204,7 @@ public partial class TSelectedArmy : TMoveSelector
         TMapLevel Level;
         TArmyHS ArmyHS;
         Armies = new TArmyHSList(null);
-        R = ((TAbstractAoWHSMapMouse)Sender).FSelectionRectangle;
+        R = Sender.FSelectionRectangle;
         Level = AoWEUnit.AoWHSMap.MapContainer.GetMapLevel(AoWEUnit.AoWHSMap.ViewL);
         HPtoHX(R.Left, R.Top, ref X1, ref Y1);
         HPtoHX(R.Right, R.Bottom, ref X2, ref Y2);
@@ -12495,7 +12529,6 @@ public partial class TTargetSelectionControl : TObject
     // change, target, text, title, cancel text, images
     public TTargetSelectionControl()
     {
-        FOnChange = new TEventList();
         FHNs = new TShortIntList();
         FText = new TStringList();
     }
@@ -12511,7 +12544,15 @@ public partial class TTargetSelectionControl : TObject
     public int FSourceY;
     public int FSourceL;
     public TObject FSource;
-    public TEventList FOnChange;
+
+    internal EventStore<TTargetSelectionControl> FOnChangeStore;
+
+    public event TNotifyEvent<TTargetSelectionControl> FOnChange
+    {
+        add => FOnChangeStore.Add(value);
+        remove => FOnChangeStore.Remove(value);
+    }
+
     public TTargetSelectionChange FChange;
     public sbyte FTargetX;
     public sbyte FTargetY;
@@ -12528,8 +12569,7 @@ public partial class TTargetSelectionControl : TObject
     public override void Destroy()
     {
         FText.Free();
-        FOnChange.Free();
-        FOnChange = null;
+        FOnChangeStore.Clear();
         FHNs.Free();
         FHNs = null;
         if (FImageLibrary != null)
@@ -12546,7 +12586,7 @@ public partial class TTargetSelectionControl : TObject
     public void TriggerOnChangeEvent(TTargetSelectionChange Change)
     {
         FChange = Change;
-        FOnChange.TriggerNotifyEvents(this);
+        FOnChangeStore.Raise(this);
         FChange = TTargetSelectionChange.tscNone;
     }
 
@@ -12733,10 +12773,10 @@ public partial class TTargetSelectionControl : TObject
         {
             FStatus = FStatus + TSet<TTargetSelectionStatusElement>.Of(TTargetSelectionStatusElement.tsActivated);
             AoWEUnit.AoWHSMap.Mouse.SetCapture(this);
-            AoWEUnit.AoWHSMap.Mouse.OnDown.Add(MouseDownEvent);
-            AoWEUnit.AoWHSMap.Mouse.OnMove.Add(MouseMoveEvent);
-            AoWEUnit.AoWHSMap.NewFrameEvents.Add(NewFrameEvent);
-            AoWEUnit.AoWHSMap.Selection.OnDeselect.Add(DeselectHS);
+            AoWEUnit.AoWHSMap.Mouse.OnDown += MouseDownEvent;
+            AoWEUnit.AoWHSMap.Mouse.OnMove += MouseMoveEvent;
+            AoWEUnit.AoWHSMap.NewFrameEvents += NewFrameEvent;
+            AoWEUnit.AoWHSMap.Selection.OnDeselect += DeselectHS;
             AoWEUnit.AoWHSMap.Mouse.CursorMode = 256;
             AoWEUnit.AoWHSMap.FKeyboard.Lock();
             TriggerOnChangeEvent(TTargetSelectionChange.tscActivated);
@@ -12755,10 +12795,10 @@ public partial class TTargetSelectionControl : TObject
         if (FStatus.Contains(TTargetSelectionStatusElement.tsActivated))
         {
             FStatus = FStatus - TSet<TTargetSelectionStatusElement>.Of(TTargetSelectionStatusElement.tsActivated);
-            AoWEUnit.AoWHSMap.Mouse.OnDown.Remove(MouseDownEvent);
-            AoWEUnit.AoWHSMap.Mouse.OnMove.Remove(MouseMoveEvent);
-            AoWEUnit.AoWHSMap.NewFrameEvents.Remove(NewFrameEvent);
-            AoWEUnit.AoWHSMap.Selection.OnDeselect.Remove(DeselectHS);
+            AoWEUnit.AoWHSMap.Mouse.OnDown -= MouseDownEvent;
+            AoWEUnit.AoWHSMap.Mouse.OnMove -= MouseMoveEvent;
+            AoWEUnit.AoWHSMap.NewFrameEvents -= NewFrameEvent;
+            AoWEUnit.AoWHSMap.Selection.OnDeselect -= DeselectHS;
             if (AoWEUnit.AoWHSMap.Mouse.Capture == this)
             {
                 if (AoWEUnit.AoWHSMap.FSelectedArmy.GetArmyHS() != null)
@@ -13052,17 +13092,23 @@ public partial class TAbstractAoWHSMapMouse : THSMapMouse
     public TAbstractAoWHSMapMouse() : base()
     {
         ResetRectangleSelection();
-        FRectangleSelectEvents = new TEventList();
     }
 
     public TRect FSelectionRectangle;
-    public TEventList FRectangleSelectEvents;
+
+    internal EventStore<TAbstractAoWHSMapMouse> FRectangleSelectEventsStore;
+
+    public event TNotifyEvent<TAbstractAoWHSMapMouse> FRectangleSelectEvents
+    {
+        add => FRectangleSelectEventsStore.Add(value);
+        remove => FRectangleSelectEventsStore.Remove(value);
+    }
 
     // AoWHSMap.PAS:1057
     public override void Destroy()
     {
         base.Destroy();
-        FRectangleSelectEvents.Free();
+        FRectangleSelectEventsStore.Clear();
     }
 
     // AoWHSMap.PAS:1123
@@ -13216,7 +13262,7 @@ public partial class TAbstractAoWHSMapMouse : THSMapMouse
         }
 
         FSelectionRectangle = R;
-        FRectangleSelectEvents.TriggerNotifyEvents(this);
+        FRectangleSelectEventsStore.Raise(this);
         ResetRectangleSelection();
     }
 
@@ -13339,9 +13385,6 @@ public partial class TAbstractAoWHSMap : THSMap
 
     public TAbstractAoWHSMap(TECustomNode owner) : base(owner)
     {
-        FShowMessageEvents = new TEventList();
-        FMapChangedEvents = new TEventList();
-        FScannerIconsChangedEvents = new TEventList();
         FBackHexagonSelector = new TCustomFixedVisibleHS(null);
         FBackHexagonSelector.OnShow = ShowBackHexagonSelector;
         FFrontHexagonSelector = new TCustomFixedVisibleHS(null);
@@ -13355,13 +13398,36 @@ public partial class TAbstractAoWHSMap : THSMap
 
     public sbyte FCurrentPlayer;
     public sbyte FSeatedPlayer;
-    public TEventList FShowMessageEvents;
+
+    internal EventStore<ShowMessageNotification> FShowMessageEventsStore;
+
+    public event TNotifyEvent<ShowMessageNotification> FShowMessageEvents
+    {
+        add => FShowMessageEventsStore.Add(value);
+        remove => FShowMessageEventsStore.Remove(value);
+    }
+
     public string FMessageText = "";
     public byte FMessageFrame;
     public int FFPS;
     public int FMapChangedLockCount;
-    public TEventList FMapChangedEvents;
-    public TEventList FScannerIconsChangedEvents;
+
+    internal EventStore<MapChangedNotification> FMapChangedEventsStore;
+
+    public event TNotifyEvent<MapChangedNotification> FMapChangedEvents
+    {
+        add => FMapChangedEventsStore.Add(value);
+        remove => FMapChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<MapChangedNotification> FScannerIconsChangedEventsStore;
+
+    public event TNotifyEvent<MapChangedNotification> FScannerIconsChangedEvents
+    {
+        add => FScannerIconsChangedEventsStore.Add(value);
+        remove => FScannerIconsChangedEventsStore.Remove(value);
+    }
+
     public int FScannerIconsChangedLockCount;
     public bool FFogEnabled;
     public bool FExplorationEnabled;
@@ -13375,15 +13441,15 @@ public partial class TAbstractAoWHSMap : THSMap
     // AoWHSMap.PAS:383
     public override void Destroy()
     {
-        FShowMessageEvents.Clear();
-        FMapChangedEvents.Clear();
+        FShowMessageEventsStore.Clear();
+        FMapChangedEventsStore.Clear();
         HideHexagonSelector();
         FBackHexagonSelector.Free();
         FFrontHexagonSelector.Free();
-        FScannerIconsChangedEvents.Free();
+        FScannerIconsChangedEventsStore.Clear();
         base.Destroy();
-        FShowMessageEvents.Free();
-        FMapChangedEvents.Free();
+        FShowMessageEventsStore.Clear();
+        FMapChangedEventsStore.Clear();
     }
 
     // AoWHSMap.PAS:396
@@ -13631,7 +13697,7 @@ public partial class TAbstractAoWHSMap : THSMap
 
         Info.Text = Text;
         Info.Color = 16777215;
-        FShowMessageEvents.TriggerNotifyEvents(notification);
+        FShowMessageEventsStore.Raise(notification);
         FMessageText = Text;
         FMessageFrame = 128;
     }
@@ -13648,7 +13714,7 @@ public partial class TAbstractAoWHSMap : THSMap
 
         Info.Text = Text;
         Info.Color = 16777215;
-        FShowMessageEvents.TriggerNotifyEvents(notification);
+        FShowMessageEventsStore.Raise(notification);
         FMessageText = Text;
         FMessageFrame = 160;
     }
@@ -13741,7 +13807,7 @@ public partial class TAbstractAoWHSMap : THSMap
         Info.Level = L;
         var mapLevel = MapContainer.GetMapLevel(L);
         Info.MapLevel = mapLevel;
-        FMapChangedEvents.TriggerNotifyEvents(notification);
+        FMapChangedEventsStore.Raise(notification);
     }
 
     // AoWHSMap.PAS:490
@@ -13822,7 +13888,7 @@ public partial class TAbstractAoWHSMap : THSMap
         Info.Level = L;
         var mapLevel = MapContainer.GetMapLevel(L);
         Info.MapLevel = mapLevel;
-        FScannerIconsChangedEvents.TriggerNotifyEvents(notification);
+        FScannerIconsChangedEventsStore.Raise(notification);
     }
 
     // AoWHSMap.PAS:542
@@ -13846,14 +13912,14 @@ public partial class TAbstractAoWHSMap : THSMap
                     Info.Color = 16777215;
                 }
 
-                FShowMessageEvents.TriggerNotifyEvents(notification);
+                FShowMessageEventsStore.Raise(notification);
             }
 
             if (FMessageFrame == 0)
             {
                 Info.Text = "";
                 Info.Color = 16777215;
-                FShowMessageEvents.TriggerNotifyEvents(notification);
+                FShowMessageEventsStore.Raise(notification);
             }
         }
     }
@@ -14037,22 +14103,33 @@ public partial class TAbstractAoWHSMap : THSMap
 public partial class TAbstractAoWCombatMap : TAbstractAoWHSMap
 {
 
-    public TEventList FCombatStartedEvents;
-    public TEventList FAbilityActivatedEvents;
+    internal EventStore<TCombatSpellCaster> FCombatStartedEventsStore;
+
+    public event TNotifyEvent<TCombatSpellCaster> FCombatStartedEvents
+    {
+        add => FCombatStartedEventsStore.Add(value);
+        remove => FCombatStartedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TActivateAbilityInfo> FAbilityActivatedEventsStore;
+
+    public event TNotifyEvent<TActivateAbilityInfo> FAbilityActivatedEvents
+    {
+        add => FAbilityActivatedEventsStore.Add(value);
+        remove => FAbilityActivatedEventsStore.Remove(value);
+    }
 
     // AoWHSMap.PAS:914
     public override void Destroy()
     {
         base.Destroy();
-        FCombatStartedEvents.Free();
-        FAbilityActivatedEvents.Free();
+        FCombatStartedEventsStore.Clear();
+        FAbilityActivatedEventsStore.Clear();
     }
 
     // AoWHSMap.PAS:907
     public TAbstractAoWCombatMap(TECustomNode owner) : base(owner)
     {
-        FCombatStartedEvents = new TEventList();
-        FAbilityActivatedEvents = new TEventList();
     }
 
 }
@@ -14196,7 +14273,15 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     public TByteList FTurnOrder;
     public int FDay;
     public string FSessionName = "";
-    public TEventList FOnLeaderChanged;
+
+    internal EventStore<TLeader> FOnLeaderChangedStore;
+
+    public event TNotifyEvent<TLeader> FOnLeaderChanged
+    {
+        add => FOnLeaderChangedStore.Add(value);
+        remove => FOnLeaderChangedStore.Remove(value);
+    }
+
     public bool FShowIndependentMoves;
     public TMoveControl FMoveControl;
     public TGlobalMagicControl FGlobalMagicControl;
@@ -14204,43 +14289,223 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     public sbyte FEditorPlayer;
     public bool FShowAllPlayers;
     public int FRelationsChangedLockCount;
-    public TEventList FPlayerChangedEvents;
-    public TEventList FNewDayEvents;
-    public TEventList FNewTurnEvents;
-    public TEventList FEndTurnEvents;
-    public TEventList FCurrentPlayerChangedEvents;
-    public TEventList FSeatedPlayerChangedEvents;
-    public TEventList FCombatEvents;
-    public TEventList FPlayerTerminatedEvents;
-    public TEventList FGameOverEvents;
-    public TEventList FGameTerminatedEvents;
+
+    internal EventStore<TAoWHSMap> FPlayerChangedEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FPlayerChangedEvents
+    {
+        add => FPlayerChangedEventsStore.Add(value);
+        remove => FPlayerChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TPlayerControl> FNewDayEventsStore;
+
+    public event TNotifyEvent<TPlayerControl> FNewDayEvents
+    {
+        add => FNewDayEventsStore.Add(value);
+        remove => FNewDayEventsStore.Remove(value);
+    }
+
+    internal EventStore<sbyte> FNewTurnEventsStore;
+
+    public event TNotifyEvent<sbyte> FNewTurnEvents
+    {
+        add => FNewTurnEventsStore.Add(value);
+        remove => FNewTurnEventsStore.Remove(value);
+    }
+
+    internal EventStore<sbyte> FEndTurnEventsStore;
+
+    public event TNotifyEvent<sbyte> FEndTurnEvents
+    {
+        add => FEndTurnEventsStore.Add(value);
+        remove => FEndTurnEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FCurrentPlayerChangedEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FCurrentPlayerChangedEvents
+    {
+        add => FCurrentPlayerChangedEventsStore.Add(value);
+        remove => FCurrentPlayerChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FSeatedPlayerChangedEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FSeatedPlayerChangedEvents
+    {
+        add => FSeatedPlayerChangedEventsStore.Add(value);
+        remove => FSeatedPlayerChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TCombat> FCombatEventsStore;
+
+    public event TNotifyEvent<TCombat> FCombatEvents
+    {
+        add => FCombatEventsStore.Add(value);
+        remove => FCombatEventsStore.Remove(value);
+    }
+
+    internal EventStore<sbyte> FPlayerTerminatedEventsStore;
+
+    public event TNotifyEvent<sbyte> FPlayerTerminatedEvents
+    {
+        add => FPlayerTerminatedEventsStore.Add(value);
+        remove => FPlayerTerminatedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FGameOverEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FGameOverEvents
+    {
+        add => FGameOverEventsStore.Add(value);
+        remove => FGameOverEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FGameTerminatedEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FGameTerminatedEvents
+    {
+        add => FGameTerminatedEventsStore.Add(value);
+        remove => FGameTerminatedEventsStore.Remove(value);
+    }
+
     public bool FExitPending;
-    public TEventList FExitEvents;
+
+    internal EventStore<TAoWHSMap> FExitEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FExitEvents
+    {
+        add => FExitEventsStore.Add(value);
+        remove => FExitEventsStore.Remove(value);
+    }
+
     public int FGameOverLockCount;
     public TEventLogList FExecuteEventLogBuffer;
-    public TEventList FExecuteEventLogEvents;
+
+    internal EventStore<ExecuteEventLogNotification> FExecuteEventLogEventsStore;
+
+    public event TNotifyEvent<ExecuteEventLogNotification> FExecuteEventLogEvents
+    {
+        add => FExecuteEventLogEventsStore.Add(value);
+        remove => FExecuteEventLogEventsStore.Remove(value);
+    }
+
     public TExecuteEventLogCallBackList FExecuteEventLogCallBacks;
     public int FAILockCount;
     public int FExecuteEventLogDelay;
-    public TEventList FCosmeticSurgeryEvents;
-    public TEventList FOnActivateAbility;
-    public TEventList FDiplomaticRelationsChangedEvents;
-    public TEventList FUpdateVisibilityEvents;
+
+    internal EventStore<TSpellCaster> FCosmeticSurgeryEventsStore;
+
+    public event TNotifyEvent<TSpellCaster> FCosmeticSurgeryEvents
+    {
+        add => FCosmeticSurgeryEventsStore.Add(value);
+        remove => FCosmeticSurgeryEventsStore.Remove(value);
+    }
+
+    internal EventStore<TActivateAbilityInfo> FOnActivateAbilityStore;
+
+    public event TNotifyEvent<TActivateAbilityInfo> FOnActivateAbility
+    {
+        add => FOnActivateAbilityStore.Add(value);
+        remove => FOnActivateAbilityStore.Remove(value);
+    }
+
+    internal EventStore<TEObject> FDiplomaticRelationsChangedEventsStore;
+
+    public event TNotifyEvent<TEObject> FDiplomaticRelationsChangedEvents
+    {
+        add => FDiplomaticRelationsChangedEventsStore.Add(value);
+        remove => FDiplomaticRelationsChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FUpdateVisibilityEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FUpdateVisibilityEvents
+    {
+        add => FUpdateVisibilityEventsStore.Add(value);
+        remove => FUpdateVisibilityEventsStore.Remove(value);
+    }
+
     public TList FEffects;
     public int FUpdateVisibilityLockCount;
     public bool FVisibilityChanged;
     public int FArmyUpdateCount;
     public int FStructureUpdateCount;
     public int FUnitUpdateCount;
-    public TEventList FUnitChangedEvents;
-    public TEventList FArmyChangedEvents;
-    public TEventList FStructureChangedEvents;
-    public TEventList FUnitDestroyedEvents;
-    public TEventList FArmyDestroyedEvents;
-    public TEventList FStructureDestroyedEvents;
-    public TEventList FTokenControlActivatedEvents;
-    public TEventList FCombatMapCreatedEvents;
-    public TEventList FCombatMapDestroyedEvents;
+
+    internal EventStore<TAbstractUnit> FUnitChangedEventsStore;
+
+    public event TNotifyEvent<TAbstractUnit> FUnitChangedEvents
+    {
+        add => FUnitChangedEventsStore.Add(value);
+        remove => FUnitChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TArmy> FArmyChangedEventsStore;
+
+    public event TNotifyEvent<TArmy> FArmyChangedEvents
+    {
+        add => FArmyChangedEventsStore.Add(value);
+        remove => FArmyChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TStructure> FStructureChangedEventsStore;
+
+    public event TNotifyEvent<TStructure> FStructureChangedEvents
+    {
+        add => FStructureChangedEventsStore.Add(value);
+        remove => FStructureChangedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAbstractUnit> FUnitDestroyedEventsStore;
+
+    public event TNotifyEvent<TAbstractUnit> FUnitDestroyedEvents
+    {
+        add => FUnitDestroyedEventsStore.Add(value);
+        remove => FUnitDestroyedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TArmy> FArmyDestroyedEventsStore;
+
+    public event TNotifyEvent<TArmy> FArmyDestroyedEvents
+    {
+        add => FArmyDestroyedEventsStore.Add(value);
+        remove => FArmyDestroyedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TStructure> FStructureDestroyedEventsStore;
+
+    public event TNotifyEvent<TStructure> FStructureDestroyedEvents
+    {
+        add => FStructureDestroyedEventsStore.Add(value);
+        remove => FStructureDestroyedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FTokenControlActivatedEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FTokenControlActivatedEvents
+    {
+        add => FTokenControlActivatedEventsStore.Add(value);
+        remove => FTokenControlActivatedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FCombatMapCreatedEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FCombatMapCreatedEvents
+    {
+        add => FCombatMapCreatedEventsStore.Add(value);
+        remove => FCombatMapCreatedEventsStore.Remove(value);
+    }
+
+    internal EventStore<TAoWHSMap> FCombatMapDestroyedEventsStore;
+
+    public event TNotifyEvent<TAoWHSMap> FCombatMapDestroyedEvents
+    {
+        add => FCombatMapDestroyedEventsStore.Add(value);
+        remove => FCombatMapDestroyedEventsStore.Remove(value);
+    }
+
     public int FInitialRandomSeed;
     public int FDefendersSeed;
     public int FSynchroniseCount;
@@ -14277,29 +14542,29 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FEffects.Free();
         FTutorialControl.Free();
         FPlayers.BeginUpdate();
-        FArmyChangedEvents.Clear();
-        FStructureChangedEvents.Clear();
-        FUnitChangedEvents.Clear();
-        FSeatedPlayerChangedEvents.Clear();
-        FCurrentPlayerChangedEvents.Clear();
-        FNewTurnEvents.Clear();
-        FNewDayEvents.Clear();
-        FOnLeaderChanged.Clear();
+        FArmyChangedEventsStore.Clear();
+        FStructureChangedEventsStore.Clear();
+        FUnitChangedEventsStore.Clear();
+        FSeatedPlayerChangedEventsStore.Clear();
+        FCurrentPlayerChangedEventsStore.Clear();
+        FNewTurnEventsStore.Clear();
+        FNewDayEventsStore.Clear();
+        FOnLeaderChangedStore.Clear();
         FDescription.Clear();
         FObjectives.Clear();
         FTurnOrder.Clear();
-        FStructureDestroyedEvents.Clear();
-        FUnitDestroyedEvents.Clear();
-        FCombatMapCreatedEvents.Clear();
-        FCombatMapDestroyedEvents.Clear();
-        FUpdateVisibilityEvents.Clear();
-        FDiplomaticRelationsChangedEvents.Clear();
-        FCosmeticSurgeryEvents.Clear();
-        FOnActivateAbility.Clear();
-        FTokenControlActivatedEvents.Clear();
-        FPlayerChangedEvents.Clear();
-        FExitEvents.Clear();
-        Mouse.OnMove.Remove(MouseMoved);
+        FStructureDestroyedEventsStore.Clear();
+        FUnitDestroyedEventsStore.Clear();
+        FCombatMapCreatedEventsStore.Clear();
+        FCombatMapDestroyedEventsStore.Clear();
+        FUpdateVisibilityEventsStore.Clear();
+        FDiplomaticRelationsChangedEventsStore.Clear();
+        FCosmeticSurgeryEventsStore.Clear();
+        FOnActivateAbilityStore.Clear();
+        FTokenControlActivatedEventsStore.Clear();
+        FPlayerChangedEventsStore.Clear();
+        FExitEventsStore.Clear();
+        Mouse.OnMove -= MouseMoved;
         if (FCombat != null)
         {
             DestroyCombat();
@@ -14321,33 +14586,33 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FCampaignSettings.Free();
         FAIExecuter.Free();
         FSelectedArmy.Free();
-        FSeatedPlayerChangedEvents.Free();
+        FSeatedPlayerChangedEventsStore.Clear();
         FExecuteEventLogBuffer.Free();
-        FNewTurnEvents.Free();
-        FEndTurnEvents.Free();
-        FCurrentPlayerChangedEvents.Free();
-        FNewDayEvents.Free();
-        FArmyChangedEvents.Free();
-        FStructureChangedEvents.Free();
-        FUnitChangedEvents.Free();
-        FArmyDestroyedEvents.Free();
-        FStructureDestroyedEvents.Free();
-        FUnitDestroyedEvents.Free();
-        FOnLeaderChanged.Free();
+        FNewTurnEventsStore.Clear();
+        FEndTurnEventsStore.Clear();
+        FCurrentPlayerChangedEventsStore.Clear();
+        FNewDayEventsStore.Clear();
+        FArmyChangedEventsStore.Clear();
+        FStructureChangedEventsStore.Clear();
+        FUnitChangedEventsStore.Clear();
+        FArmyDestroyedEventsStore.Clear();
+        FStructureDestroyedEventsStore.Clear();
+        FUnitDestroyedEventsStore.Clear();
+        FOnLeaderChangedStore.Clear();
         FDescription.Free();
         FObjectives.Free();
         FTurnOrder.Free();
         FPlayerControl.Free();
         FTextControl.Free();
-        FCombatEvents.Free();
-        FPlayerChangedEvents.Free();
-        FExecuteEventLogEvents.Free();
+        FCombatEventsStore.Clear();
+        FPlayerChangedEventsStore.Clear();
+        FExecuteEventLogEventsStore.Clear();
         FExecuteEventLogCallBacks.Free();
-        FCosmeticSurgeryEvents.Free();
-        FOnActivateAbility.Free();
+        FCosmeticSurgeryEventsStore.Clear();
+        FOnActivateAbilityStore.Clear();
         FGameSongs.Free();
         FStartupSongs.Free();
-        FExitEvents.Free();
+        FExitEventsStore.Clear();
         FItemControl.Free();
         FItemControl = null;
         FHeroControl.Free();
@@ -14361,16 +14626,16 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FAIPlayerActionManager.Free();
         FPlayers.Free();
         FRaces.Free();
-        FPlayerTerminatedEvents.Free();
-        FGameOverEvents.Free();
-        FGameTerminatedEvents.Free();
+        FPlayerTerminatedEventsStore.Clear();
+        FGameOverEventsStore.Clear();
+        FGameTerminatedEventsStore.Clear();
         FTargetSelection.Free();
-        FCombatMapCreatedEvents.Free();
-        FCombatMapDestroyedEvents.Free();
-        FDiplomaticRelationsChangedEvents.Free();
+        FCombatMapCreatedEventsStore.Clear();
+        FCombatMapDestroyedEventsStore.Clear();
+        FDiplomaticRelationsChangedEventsStore.Clear();
         FKeyboard.Free();
-        FUpdateVisibilityEvents.Free();
-        FTokenControlActivatedEvents.Free();
+        FUpdateVisibilityEventsStore.Clear();
+        FTokenControlActivatedEventsStore.Clear();
         UnlockMapChangedEvent();
     }
 
@@ -14521,7 +14786,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     {
         FItemControl = new TItemControl(null);
         FTokenManager = new TAoWTokenManager(AoWEUnit.AoWEngine);
-        FTokenManager.TokenExecuter.OnActivateTC.Add(TokenControlActivatedEvent);
+        FTokenManager.TokenExecuter.OnActivateTC += TokenControlActivatedEvent;
         FTokenManager.TokenExecuter.OnExecuteTokenEvent = OnExecuteTokenEvent;
         FTokenManager.OnMessage = OnTokenManagerMessage;
         FPlayerCommunicator = new TPlayerCommunicator(null);
@@ -14531,7 +14796,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FAIGroupManager = new TAIGroupManager(null);
         FAIPlayerActionManager = new TAIPlayerActionManager(null);
         FAIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<TEndTurnAIPA>(), AIPlayerActionClass.Of<TGroupControlAIPA>(), AIPlayerActionClass.Of<TGroupControlLoopAIPA>(), AIPlayerActionClass.Of<TInitializeAIPA>(), AIPlayerActionClass.Of<TBudgetManagerAIPA>(), AIPlayerActionClass.Of<TAutoProduceAIPA>(), AIPlayerActionClass.Of<TDiplomacyAIPA>(), AIPlayerActionClass.Of<TProcessEventlogAIPA>(), AIPlayerActionClass.Of<TResearchSpellAIPA>(), AIPlayerActionClass.Of<TCastSpellAIPA>(), AIPlayerActionClass.Of<TStructurePhase1AIPA>(), AIPlayerActionClass.Of<TStructurePhase2AIPA>()]);
-        FTokenManager.TokenExecuter.OnEventsExecuted.Add(FAIExecuter.TokenControlDoneEvent);
+        FTokenManager.TokenExecuter.OnEventsExecuted += FAIExecuter.TokenControlDoneEvent;
         FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<THuntAG>()]);
         FPlayMode = TPlayMode.pmNone;
         FKeyboard = new TAoWHSMapKeyboard(null);
@@ -14540,7 +14805,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FDefendersSeed = 0;
         FHeroCountMax = 5;
         FSelectedArmy = new TSelectedArmy();
-        ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents.Add(FSelectedArmy.RectangleSelectEvent);
+        ((TAbstractAoWHSMapMouse)Mouse).FRectangleSelectEvents += FSelectedArmy.RectangleSelectEvent;
         FMoveControl = new TMoveControl(this);
         FGlobalMagicControl = new TGlobalMagicControl(null);
         FMapName = "noname";
@@ -14554,7 +14819,6 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FIndependentAIMode = TIndependentAIMode.iaNormal;
         FPlayers = new TPlayerList(null);
         FRaces = new TRaceList(null);
-        FPlayerChangedEvents = new TEventList();
         FFixedLeaders = true;
         FAlliedVictory = false;
         FCurrentPlayer = 0;
@@ -14573,39 +14837,14 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FHeroControl = new THeroControl(null);
         FUnitControl = new TUnitControl(null);
         FStructureControl = new TStructureControl(null);
-        FOnLeaderChanged = new TEventList();
         FTextControl = new TTextControl(null);
-        FNewDayEvents = new TEventList();
-        FNewTurnEvents = new TEventList();
-        FEndTurnEvents = new TEventList();
-        FCurrentPlayerChangedEvents = new TEventList();
-        FSeatedPlayerChangedEvents = new TEventList();
-        FArmyChangedEvents = new TEventList();
-        FStructureChangedEvents = new TEventList();
-        FTokenControlActivatedEvents = new TEventList();
-        FUnitChangedEvents = new TEventList();
-        FUnitChangedEvents.Add(FTargetSelection.UnitChanged);
-        FArmyDestroyedEvents = new TEventList();
-        FArmyDestroyedEvents.Add(FSelectedArmy.OnDestroyArmy);
-        FStructureDestroyedEvents = new TEventList();
-        FUnitDestroyedEvents = new TEventList();
-        FCombatEvents = new TEventList();
-        FExecuteEventLogEvents = new TEventList();
+        FUnitChangedEvents += FTargetSelection.UnitChanged;
+        FArmyDestroyedEvents += FSelectedArmy.OnDestroyArmy;
         FExecuteEventLogCallBacks = new TExecuteEventLogCallBackList();
-        FCosmeticSurgeryEvents = new TEventList();
-        FOnActivateAbility = new TEventList();
         FStartupSongs = new TStartupSongList(null);
         FGameSongs = new TSonglist(null);
-        FPlayerTerminatedEvents = new TEventList();
-        FGameOverEvents = new TEventList();
-        FGameTerminatedEvents = new TEventList();
-        FDiplomaticRelationsChangedEvents = new TEventList();
-        FUpdateVisibilityEvents = new TEventList();
-        FCombatMapCreatedEvents = new TEventList();
-        FCombatMapDestroyedEvents = new TEventList();
-        FExitEvents = new TEventList();
         FCampaignSettings = new TAoWMapCampaignSettings(null);
-        Mouse.OnMove.Add(MouseMoved);
+        Mouse.OnMove += MouseMoved;
     }
 
     // AoWHSMap.PAS:2826
@@ -14640,7 +14879,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         {
             if (Msg.MsgID == 537001989)
             {
-                FUpdateVisibilityEvents.TriggerNotifyEvents(this);
+                FUpdateVisibilityEventsStore.Raise(this);
             }
         }
     }
@@ -14937,20 +15176,20 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     // AoWHSMap.PAS:1887
     public virtual void TriggerCombatEvent(TCombat Combat)
     {
-        FCombatEvents.TriggerNotifyEvents(Combat);
+        FCombatEventsStore.Raise(Combat);
     }
 
     // AoWHSMap.PAS:1892
     public virtual void TriggerGameTerminatedEvent()
     {
         FGameStatus = TGameStatus.gsTerminated;
-        FGameOverEvents.TriggerNotifyEvents(this);
+        FGameOverEventsStore.Raise(this);
     }
 
     // AoWHSMap.PAS:2012
     public virtual void TriggerPlayerTerminatedEvent(int Player)
     {
-        FPlayerTerminatedEvents.TriggerNotifyEvents(IntToObject(Player));
+        FPlayerTerminatedEventsStore.Raise((sbyte)Player);
     }
 
     // AoWHSMap.PAS:2586
@@ -15021,7 +15260,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         }
         else
         {
-            FExecuteEventLogEvents.TriggerNotifyEvents(notification);
+            FExecuteEventLogEventsStore.Raise(notification);
         }
     }
 
@@ -15416,7 +15655,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         MapContainer.SendMsg(ref Msg, this);
         InitMsg(ref Msg, 537001993, this);
         MapContainer.SendMsg(ref Msg, this);
-        FSeatedPlayerChangedEvents.TriggerNotifyEvents(AoWEUnit.AoWHSMap);
+        FSeatedPlayerChangedEventsStore.Raise(AoWEUnit.AoWHSMap);
         ShowMessage("");
     }
 
@@ -15441,7 +15680,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     {
         if (FUnitUpdateCount == 0)
         {
-            FUnitChangedEvents.TriggerNotifyEvents(AUnit);
+            FUnitChangedEventsStore.Raise(AUnit);
         }
     }
 
@@ -15450,7 +15689,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     {
         if (!AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
         {
-            FUnitDestroyedEvents.TriggerNotifyEvents(AUnit);
+            FUnitDestroyedEventsStore.Raise(AUnit);
         }
     }
 
@@ -15475,7 +15714,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     {
         if (FArmyUpdateCount == 0)
         {
-            FArmyChangedEvents.TriggerNotifyEvents(Army);
+            FArmyChangedEventsStore.Raise(Army);
         }
     }
 
@@ -15483,7 +15722,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     public void ArmyDestroyed(TArmy Army)
     {
         // TArmy.Destroy passes its Self pointer
-        FArmyDestroyedEvents.TriggerNotifyEvents(Army);
+        FArmyDestroyedEventsStore.Raise(Army);
     }
 
     // AoWHSMap.PAS:1866
@@ -15508,21 +15747,21 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     {
         if (FStructureUpdateCount == 0)
         {
-            FStructureChangedEvents.TriggerNotifyEvents(Structure);
+            FStructureChangedEventsStore.Raise(Structure);
         }
     }
 
     // AoWHSMap.PAS:1882
     public void StructureDestroyed(TStructure Structure)
     {
-        FStructureDestroyedEvents.TriggerNotifyEvents(Structure);
+        FStructureDestroyedEventsStore.Raise(Structure);
     }
 
     // AoWHSMap.PAS:1898
     public void ExecuteExitGame()
     {
         FExitPending = true;
-        FExitEvents.TriggerNotifyEvents(this);
+        FExitEventsStore.Raise(this);
     }
 
     // AoWHSMap.PAS:1904
@@ -15557,7 +15796,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     // AoWHSMap.PAS:1921
     public void TriggerEndTurnEvent(sbyte Player)
     {
-        FEndTurnEvents.TriggerNotifyEvents(IntToObject(Player));
+        FEndTurnEventsStore.Raise(Player);
     }
 
     // AoWHSMap.PAS:1926
@@ -15586,7 +15825,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
             FAILockCount += 1;
             Info = FExecuteEventLogCallBacks.GetItem(0);
             Info.Done = ExecuteEventLogDone;
-            FExecuteEventLogEvents.TriggerNotifyEvents(notification);
+            FExecuteEventLogEventsStore.Raise(notification);
         }
     }
 
@@ -16094,7 +16333,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     // AoWHSMap.PAS:2546
     public void PlayerChanged()
     {
-        FCurrentPlayerChangedEvents.TriggerNotifyEvents(this);
+        FCurrentPlayerChangedEventsStore.Raise(this);
     }
 
     // AoWHSMap.PAS:2552
@@ -16335,7 +16574,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
             }
 
             FCombatMap = (TAbstractAoWCombatMap)AoWEUnit.AoWEngine.LoadHSMEx(FileBoundary.ReadName(AoWEUnit.AoWEngine.StartupDirectory + FileName), false, null, Aow.Formats.GameProfile.TacticalMap);
-            FCombatMapCreatedEvents.TriggerNotifyEvents(this);
+            FCombatMapCreatedEventsStore.Raise(this);
         }
     }
 
@@ -16344,7 +16583,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     {
         if (FCombatMap != null)
         {
-            FCombatMapDestroyedEvents.TriggerNotifyEvents(this);
+            FCombatMapDestroyedEventsStore.Raise(this);
             FCombatMap.Free();
             FCombatMap = null;
             ResetSeatedPlayerView();
@@ -16464,7 +16703,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         {
             BeginUnitUpdate();
             FUnitControl.TriggerUnitsChanged();
-            FPlayerChangedEvents.TriggerNotifyEvents(this);
+            FPlayerChangedEventsStore.Raise(this);
             EndUnitUpdate();
         }
     }
@@ -17810,7 +18049,7 @@ public partial class TAbility : TEObject
                 Info.FUnitID = 0;
             }
 
-            AoWEUnit.AoWHSMap.FOnActivateAbility.TriggerNotifyEvents(Info);
+            AoWEUnit.AoWHSMap.FOnActivateAbilityStore.Raise(Info);
             Info.Release();
             Result = true;
         }
@@ -17847,7 +18086,7 @@ public partial class TAbility : TEObject
                 Info.FUnitID = 0;
             }
 
-            AoWEUnit.AoWHSMap.FCombatMap.FAbilityActivatedEvents.TriggerNotifyEvents(Info);
+            AoWEUnit.AoWHSMap.FCombatMap.FAbilityActivatedEventsStore.Raise(Info);
             Info.Release();
             Result = true;
         }
@@ -20376,14 +20615,28 @@ public partial class TItemControl : TEObject
     public TItemControl(TECustomNode owner) : base(owner)
     {
         FItems = new TList();
-        FOnChanged = new TEventList();
-        FOnItemChanged = new TEventList();
     }
 
     public TList FItems;
-    public TEventList FOnChanged;
+
+    internal EventStore<TItemControl> FOnChangedStore;
+
+    public event TNotifyEvent<TItemControl> FOnChanged
+    {
+        add => FOnChangedStore.Add(value);
+        remove => FOnChangedStore.Remove(value);
+    }
+
     public int FUpdateLock;
-    public TEventList FOnItemChanged;
+
+    internal EventStore<TItem> FOnItemChangedStore;
+
+    public event TNotifyEvent<TItem> FOnItemChanged
+    {
+        add => FOnItemChangedStore.Add(value);
+        remove => FOnItemChangedStore.Remove(value);
+    }
+
     public int FLastID;
     public TSet<TItemControlStatusElement> FStatus;
 
@@ -20399,8 +20652,8 @@ public partial class TItemControl : TEObject
         FItems.Clear();
         Changed();
         FItems.Free();
-        FOnItemChanged.Free();
-        FOnChanged.Free();
+        FOnItemChangedStore.Clear();
+        FOnChangedStore.Clear();
         base.Destroy();
     }
 
@@ -20488,7 +20741,7 @@ public partial class TItemControl : TEObject
     // Army.PAS:4733
     public void ItemChanged(TItem Item)
     {
-        FOnItemChanged.TriggerNotifyEvents(Item);
+        FOnItemChangedStore.Raise(Item);
     }
 
     // Army.PAS:4738
@@ -20496,7 +20749,7 @@ public partial class TItemControl : TEObject
     {
         if (FUpdateLock == 0)
         {
-            FOnChanged.TriggerNotifyEvents(this);
+            FOnChangedStore.Raise(this);
         }
     }
 
@@ -29259,7 +29512,7 @@ public partial class TLeader : THero
         base.Changed();
         if (AoWEUnit.AoWHSMap != null && !AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
         {
-            AoWEUnit.AoWHSMap.FOnLeaderChanged.TriggerNotifyEvents(this);
+            AoWEUnit.AoWHSMap.FOnLeaderChangedStore.Raise(this);
         }
     }
 
@@ -29679,14 +29932,27 @@ public partial class THeroControl : TEObject
     // Hero.PAS:2413
     public THeroControl(TECustomNode owner) : base(owner)
     {
-        FOnChanged = new TEventList();
-        FOnHeroChanged = new TEventList();
         FHeroes = new THeroList(null);
     }
 
-    public TEventList FOnChanged;
+    internal EventStore<THeroControl> FOnChangedStore;
+
+    public event TNotifyEvent<THeroControl> FOnChanged
+    {
+        add => FOnChangedStore.Add(value);
+        remove => FOnChangedStore.Remove(value);
+    }
+
     public int FUpdateCount;
-    public TEventList FOnHeroChanged;
+
+    internal EventStore<THero> FOnHeroChangedStore;
+
+    public event TNotifyEvent<THero> FOnHeroChanged
+    {
+        add => FOnHeroChangedStore.Add(value);
+        remove => FOnHeroChangedStore.Remove(value);
+    }
+
     public THeroList FHeroes;
 
     // Hero.PAS:2421
@@ -29699,8 +29965,8 @@ public partial class THeroControl : TEObject
         }
 
         FHeroes.Free();
-        FOnHeroChanged.Free();
-        FOnChanged.Free();
+        FOnHeroChangedStore.Clear();
+        FOnChangedStore.Clear();
         base.Destroy();
     }
 
@@ -29751,7 +30017,7 @@ public partial class THeroControl : TEObject
     {
         if (FUpdateCount == 0)
         {
-            FOnChanged.TriggerNotifyEvents(this);
+            FOnChangedStore.Raise(this);
         }
     }
 
@@ -29897,7 +30163,7 @@ public partial class THeroControl : TEObject
     {
         if (!AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
         {
-            FOnHeroChanged.TriggerNotifyEvents(Hero);
+            FOnHeroChangedStore.Raise(Hero);
         }
     }
 
@@ -45112,7 +45378,6 @@ public partial class TCombat : TEObject
     // Combat.pas:6067
     public TCombat(TECustomNode owner) : base(owner)
     {
-        FExecutedEvents = new TEventList();
         var combatSide = new TCombatSide(null);
         FSides[(int)TCombatSideIndex.csAttacker] = combatSide;
         var combatSide2 = new TCombatSide(null);
@@ -45132,7 +45397,15 @@ public partial class TCombat : TEObject
     public TCombatResult FCombatResult;
     public TCombatLogbook FLogbook;
     public FixedArray_Aow_Units_AoWE_TCombatSide_2 FSides;
-    public TEventList FExecutedEvents;
+
+    internal EventStore<TCombat> FExecutedEventsStore;
+
+    public event TNotifyEvent<TCombat> FExecutedEvents
+    {
+        add => FExecutedEventsStore.Add(value);
+        remove => FExecutedEventsStore.Remove(value);
+    }
+
     public int FExecutedLock;
     public TCombatExecutedEvent FOnExecuted;
     public bool FTerminated;
@@ -45155,7 +45428,7 @@ public partial class TCombat : TEObject
             Finalize();
         }
 
-        FExecutedEvents.Free();
+        FExecutedEventsStore.Clear();
         FSides[(int)TCombatSideIndex.csAttacker].Free();
         FSides[(int)TCombatSideIndex.csDefender].Free();
         FCombatData.Free();
@@ -45241,7 +45514,7 @@ public partial class TCombat : TEObject
             FCombatData.GetObjects(I).ObjectDestroyed(CombatObject);
         }
 
-        FExecutedEvents.TriggerNotifyEvents(this);
+        FExecutedEventsStore.Raise(this);
         CheckTerminate();
     }
 
@@ -55050,7 +55323,7 @@ public partial class TAIGroupControl : TEObject
     }
 
     // AIGroup.pas:1165
-    public virtual void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public virtual void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         FTargets.Add(Target);
     }
@@ -58759,7 +59032,7 @@ public partial class THuntAGC : TAIGroupControl
     { }
 
     // AIGroup.pas:1479
-    public override void TargetFoundEvent(TAIGroupControlPlugin Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+    public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
     {
         TAoWMapField Field;
         TArmyHS Army;
@@ -67539,7 +67812,7 @@ public partial class THealingAbility : TTouchAbility
             Selector.Setup((TAbstractUnit)Owner, (TUnitList)Owner.Owner);
             Info.SetUnitSelector(Selector);
             // { Original omits Selector.Release here. }
-            AoWEUnit.AoWHSMap.FOnActivateAbility.TriggerNotifyEvents(Info);
+            AoWEUnit.AoWHSMap.FOnActivateAbilityStore.Raise(Info);
             Info.Release();
             Result = true;
         }
@@ -68241,7 +68514,7 @@ public partial class TDispelMagicAbility : TTouchAbility
             Selector.Setup((TAbstractUnit)Owner, (TUnitList)Owner.Owner);
             Info.SetUnitSelector(Selector);
             Selector.Release();
-            AoWEUnit.AoWHSMap.FOnActivateAbility.TriggerNotifyEvents(Info);
+            AoWEUnit.AoWHSMap.FOnActivateAbilityStore.Raise(Info);
             Info.Release();
             Result = true;
         }
@@ -69863,7 +70136,7 @@ public partial class TSpell : TEObject
             Caster = new TCombatSpellCaster(null);
             Caster.FCombatCasterSpellID = FSpellID;
             Caster.FCombatCasterSourceID = Source.FUnitID;
-            AoWEUnit.AoWHSMap.FCombatMap.FCombatStartedEvents.TriggerNotifyEvents(Caster);
+            AoWEUnit.AoWHSMap.FCombatMap.FCombatStartedEventsStore.Raise(Caster);
             Caster.Release();
             Result = true;
         }
@@ -70920,7 +71193,7 @@ public partial class TUnitSpell : TSpell
             {
                 Caster = new TUnitSpellCaster(null);
                 SetupUSC(Caster, Source, (TUnitList)Source.Owner);
-                AoWEUnit.AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
+                AoWEUnit.AoWHSMap.FCosmeticSurgeryEventsStore.Raise(Caster);
                 Caster.Release();
             }
             else
@@ -71067,7 +71340,7 @@ public partial class TUnitSpell : TSpell
         TUnitSpellCaster Caster;
         Caster = new TUnitSpellCaster(null);
         SetupUSC(Caster, Source, Party.FArmy);
-        AoWEUnit.AoWHSMap.FCosmeticSurgeryEvents.TriggerNotifyEvents(Caster);
+        AoWEUnit.AoWHSMap.FCosmeticSurgeryEventsStore.Raise(Caster);
         Caster.Release();
     }
 
@@ -71176,12 +71449,10 @@ public partial class TUnitSpell : TSpell
     }
 
     // Spells.PAS:1289
-    public void OnTargetSelectionChange(TObject Sender)
+    public void OnTargetSelectionChange(TTargetSelectionControl Control)
     {
-        TTargetSelectionControl Control;
         TAbstractUnit Source;
         TArmyHS Party;
-        Control = (TTargetSelectionControl)Sender;
         Source = AoWEUnit.AoWHSMap.FUnitControl.FindUnit(Control.FSourceUnitID);
         if (Source != null)
         {
@@ -71213,7 +71484,7 @@ public partial class TUnitSpell : TSpell
     public void ResetTargetSelection()
     {
         var targetSelectionControl = AoWEUnit.AoWHSMap.FTargetSelection;
-        targetSelectionControl.FOnChange.Remove(OnTargetSelectionChange);
+        targetSelectionControl.FOnChange -= OnTargetSelectionChange;
         targetSelectionControl.Deactivate();
     }
 
@@ -71239,7 +71510,7 @@ public partial class TUnitSpell : TSpell
         Control.FSourceX = X;
         Control.FSourceY = Y;
         Control.FSourceL = L;
-        Control.FOnChange.Add(OnTargetSelectionChange);
+        Control.FOnChange += OnTargetSelectionChange;
         Control.FOnValidateTarget = OnValidateTarget;
         var format = AoWEUnit.Format(AoWEUnit.TranslateRStr(AoWEUnit.P4SelectTargetPartyForXRStr), [FSpellName]);
         Control.FText.Text = format;

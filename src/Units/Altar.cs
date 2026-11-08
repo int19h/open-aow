@@ -249,7 +249,7 @@ public partial class TAltar : TPlayerStructure
             Selection.FSourceY = GetYhx();
             Selection.FSourceL = GetLhx();
             Selection.FRange = 12;
-            Selection.FOnChange.Add(OnTargetSelectionChange);
+            Selection.FOnChange += OnTargetSelectionChange;
             FStorm = CreateStorm();
             FStorm.UpdateTargetSelection(AoWHSMap.FTargetSelection);
             var name = FStorm.Name();
@@ -294,20 +294,18 @@ public partial class TAltar : TPlayerStructure
     public virtual int TargetMana() => (GetRechargeDays() - FRechargeDays) * 50;
 
     // Altar.pas:128
-    public void OnTargetSelectionChange(TObject Sender)
+    public void OnTargetSelectionChange(TTargetSelectionControl Selection)
     {
-        TTargetSelectionControl Selection = default;
-        Selection = (TTargetSelectionControl)Sender;
         switch (Selection.FChange)
         {
             case TTargetSelectionChange.tscDeactivated:
                 FStorm.Free();
                 FStorm = null;
-                Selection.FOnChange.Remove(OnTargetSelectionChange);
+                Selection.FOnChange -= OnTargetSelectionChange;
                 Update();
                 break;
             case TTargetSelectionChange.tscSelected:
-                Selection.FOnChange.Remove(OnTargetSelectionChange);
+                Selection.FOnChange -= OnTargetSelectionChange;
                 if (StormTargetSelected(Selection.FTargetX, Selection.FTargetY, Selection.FTargetL))
                 {
                     Selection.Deactivate();

@@ -29,21 +29,25 @@ public sealed class UiConstructionTests
         private readonly TAoWEngine previousEngine = Game.AoWEngine;
         private readonly TAoWHSMap previousMap = Game.AoWHSMap;
         private readonly Aow.Units.AoWTC.TAoWCombatMap previousCombat = AoWTC.AoWTCUnit.AoWCombatMap;
+        private readonly EventStore<THSMap> loaded;
+        private readonly EventStore<THSMap> closed;
 
         internal Fixture()
         {
             if (EngineUnit.Engines is null) EngineUnit.Initialize();
             Game.AoWEngine = EngineFixture.Engine;
-            Game.AoWEngine.FOnHSMLoaded = new TEventList();
-            Game.AoWEngine.FOnHSMClose = new TEventList();
+            loaded = Game.AoWEngine.FOnHSMLoadedStore;
+            closed = Game.AoWEngine.FOnHSMCloseStore;
+            Game.AoWEngine.FOnHSMLoadedStore = default;
+            Game.AoWEngine.FOnHSMCloseStore = default;
             Game.AoWHSMap = null!;
             AoWTC.AoWTCUnit.AoWCombatMap = null!;
         }
 
         public void Dispose()
         {
-            Game.AoWEngine.FOnHSMLoaded.Free();
-            Game.AoWEngine.FOnHSMClose.Free();
+            Game.AoWEngine.FOnHSMLoadedStore = loaded;
+            Game.AoWEngine.FOnHSMCloseStore = closed;
             Game.AoWEngine = previousEngine;
             Game.AoWHSMap = previousMap;
             AoWTC.AoWTCUnit.AoWCombatMap = previousCombat;
@@ -274,7 +278,7 @@ public sealed class UiConstructionTests
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + Game.AoWEngine.FOnHSMLoaded.Count + ":" + Game.AoWEngine.FOnHSMClose.Count);
+            states.Add("subscriptions:" + Game.AoWEngine.FOnHSMLoadedStore.Count + ":" + Game.AoWEngine.FOnHSMCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

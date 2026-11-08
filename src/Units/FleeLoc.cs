@@ -64,7 +64,7 @@ public partial class TFleeLocation : TMapObject
     public override void Activate()
     {
         base.Activate();
-        AoWCombatMap.NewFrameEvents.Add(NewFrame);
+        AoWCombatMap.NewFrameEvents += NewFrame;
         FHighlighted = AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting);
         if (FHighlighted)
         {
@@ -81,7 +81,7 @@ public partial class TFleeLocation : TMapObject
     // FleeLoc.pas:65
     public override void Deactivate()
     {
-        AoWCombatMap.NewFrameEvents.Remove(NewFrame);
+        AoWCombatMap.NewFrameEvents -= NewFrame;
         base.Deactivate();
     }
 

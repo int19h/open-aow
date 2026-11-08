@@ -611,11 +611,10 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:386
-    public void SpheresDone(TObject Sender)
+    public void SpheresDone(TLeaderSetupControl Sender)
     {
         TLeader Leader;
-        _ = (TLeaderSetupControl)Sender;
-        var leaderSetupControl = (TLeaderSetupControl)Sender;
+        var leaderSetupControl = Sender;
         if (leaderSetupControl.FStatus == TLeaderSetupStatus.lssDone)
         {
             Leader = (TLeader)leaderSetupControl.FOriginalLeader.Copy(AoWEngine);

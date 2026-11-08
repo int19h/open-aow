@@ -3999,7 +3999,7 @@ public partial class TCityProductionEventLog : TProductionEventLog
 public partial class TRegistrator : TObject
 {
     // City.pas:3306
-    public static void MapLoaded(TObject Sender)
+    public static void MapLoaded(THSMap Sender)
     {
         if (Sender == AoWHSMap)
         {
@@ -4211,7 +4211,7 @@ public static partial class CityUnit
         if (ValidateAoWEngine())
         {
             AoWEngine.RegisterEClasses([EClass.Of<TCityEnchantment>(), EClass.Of<TCity>(), EClass.Of<TCityResource>(), EClass.Of<TCityRebellionEventLog>(), EClass.Of<TAICityUpgradeBudget>(), EClass.Of<TAICityResearchBudget>(), EClass.Of<TAICityFortifyBudget>(), EClass.Of<TCityProductionEventLog>()]);
-            AoWEngine.OnHSMLoaded.Add(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded += TRegistrator.MapLoaded;
         }
     }
 
@@ -4219,7 +4219,7 @@ public static partial class CityUnit
     {
         if (AoWEngine != null)
         {
-            AoWEngine.OnHSMLoaded.Remove(TRegistrator.MapLoaded);
+            AoWEngine.OnHSMLoaded -= TRegistrator.MapLoaded;
         }
     }
 }
