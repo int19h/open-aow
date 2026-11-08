@@ -6578,7 +6578,7 @@ public partial class TImageSequenceList : TList
         {
             if (List[I] != null)
             {
-                ((TImageSequence)List[I]).Destroy();
+                ((TObject)List[I]).Destroy();
             }
 
             base.Delete(I);
@@ -6707,7 +6707,7 @@ public partial class TImageSequenceList : TList
 
         if (List[Index] != null)
         {
-            ((TImageSequence)List[Index]).Destroy();
+            ((TObject)List[Index]).Destroy();
         }
 
         List[Index] = Value;

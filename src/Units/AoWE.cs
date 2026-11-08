@@ -7044,7 +7044,7 @@ public partial class TPlayerList : TEControlStyleNode
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
             var players = ((TPlayerList)Source).GetPlayers(I);
-            ((TPlayer)FChildren.List[I]).Assign(players, AoWEUnit.AoWEngine);
+            ((TEObject)FChildren.List[I]).Assign(players, AoWEUnit.AoWEngine);
         }
     }
 
@@ -14027,7 +14027,7 @@ public partial class TAbstractAoWHSMap : THSMap
             xhp = xhp - ViewXhp - 8;
             yhp = yhp - ViewYhp - 4 + 4;
             for (int y = ViewYhx; y <= maxY; y++, yhp += 32)
-                if (((TAoWMapField)level.GetField(x, y)).TerrainType != 15)
+                if (level.GetField(x, y).TerrainType != 15)
                     AoWEUnit.AoWHSSet.FFlagControl.FFlags[7].Show(xhp, yhp, surface);
         }
     }
@@ -14268,9 +14268,9 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         for (int I = FEffects.Count - 1; I >= 0; I--)
         {
             var animation = FEffects[I];
-            DynamicFixedVisibleHS.RemoveChild((TAnimation)animation);
+            DynamicFixedVisibleHS.RemoveChild((TEObject)animation);
             var fEffectsItem = FEffects[I];
-            DynamicVisibleHS.RemoveChild((TAnimation)fEffectsItem);
+            DynamicVisibleHS.RemoveChild((TEObject)fEffectsItem);
             ((TObject)FEffects[I]).Free();
         }
 
@@ -18993,7 +18993,7 @@ public partial class TAbilityControl : TEObject
         {
             if (FAbilities[I] != null)
             {
-                Stream.rwEObject((TAbility)FAbilities[I], I + 10);
+                Stream.rwEObject((TEObject)FAbilities[I], I + 10);
             }
         }
     }
@@ -20436,7 +20436,7 @@ public partial class TItemControl : TEObject
                     ID = 10;
                     for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                     {
-                        if (((TItem)FItems.List[I]).Owner == null)
+                        if (((TEObject)FItems.List[I]).Owner == null)
                         {
                             Stream.rwCreateEObject(ref FItems.List[I], null, ID);
                             ID += 1;
@@ -21136,7 +21136,7 @@ public partial class TUnitControl : TEObject
     {
         for (int I = FUnits.Count - 1; I >= 0; I--)
         {
-            ((TAbstractUnit)FUnits.List[I]).Changed();
+            ((TAbilityOwner)FUnits.List[I]).Changed();
         }
     }
 
@@ -21408,7 +21408,7 @@ public partial class TAbstractUnit : TAbilityOwner
 
         if (Owner != null && Owner is TUnitList)
         {
-            ((TUnitList)Owner).Changed();
+            ((TEChangeNotifyNode)Owner).Changed();
         }
     }
 
@@ -22245,9 +22245,9 @@ public partial class TAbstractUnit : TAbilityOwner
                 Value += AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FMoraleValue;
             }
 
-            for (int I = ((TArmy)Owner).Count - 1; I >= 0; I--)
+            for (int I = Owner.Count - 1; I >= 0; I--)
             {
-                AUnit = (TAbstractUnit)((TArmy)(object)Owner).FChildren.List[I];
+                AUnit = (TAbstractUnit)((TEChangeNotifyNode)(object)Owner).FChildren.List[I];
                 if (AUnit.GetAbilityEnabled(37) && AUnit != this)
                 {
                     Value += 30;
@@ -24542,7 +24542,7 @@ public partial class TUnitList : TEChangeNotifyNode
     public override int AddChild(TEObject Child)
     {
         int Result;
-        var unit = (TAbstractUnit)Child;
+        var unit = Child;
         if (this.CanAddUnit((TAbstractUnit)Child))
         {
             unit.AddRef();
@@ -25104,9 +25104,9 @@ public partial class TUnitCategoryList : TList
             List[Category] = unitIndexList;
         }
 
-        if (((TUnitIndexList)List[Category]).IndexOf(UnitIndex) == -1)
+        if (((TIntegerList)List[Category]).IndexOf(UnitIndex) == -1)
         {
-            ((TUnitIndexList)List[Category]).Add(UnitIndex);
+            ((TIntegerList)List[Category]).Add(UnitIndex);
         }
     }
 
@@ -29627,7 +29627,7 @@ public partial class THeroList : TEReferenceNode
         THero Result = null;
         while (I != FChildren.Count && Result == null)
         {
-            if (ID == ((THero)FChildren.List[I]).FUnitID)
+            if (ID == ((TAbstractUnit)FChildren.List[I]).FUnitID)
             {
                 Result = (THero)FChildren.List[I];
             }
@@ -29722,9 +29722,9 @@ public partial class THeroControl : TEObject
             {
                 for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
                 {
-                    if (((THero)FHeroes.FChildren.List[I]).Owner == null)
+                    if (((TEObject)FHeroes.FChildren.List[I]).Owner == null)
                     {
-                        ((THero)FHeroes.FChildren.List[I]).MsgProc(ref Msg, Sender);
+                        ((TEObject)FHeroes.FChildren.List[I]).MsgProc(ref Msg, Sender);
                     }
                 }
             }
@@ -30829,11 +30829,11 @@ public partial class TArmy : TUnitList
     public override int RemoveChild(TEObject Child)
     {
         BeginUpdate();
-        var unit = (TAbstractUnit)Child;
+        var unit = Child;
         unit.AddRef();
 
         int Result = base.RemoveChild(Child);
-        var unit2 = (TAbstractUnit)Child;
+        var unit2 = Child;
         unit2.Release();
 
         EndUpdate();
@@ -32494,7 +32494,7 @@ public partial class TArmy : TUnitList
         {
             if ((Selection & 1) != 0)
             {
-                if (((TAbstractUnit)FChildren.List[I]).EClass.ClassID == 131634)
+                if (((TEObject)FChildren.List[I]).EClass.ClassID == 131634)
                 {
                     Result = (TLeader)FChildren.List[I];
                 }
@@ -33009,7 +33009,7 @@ public partial class TArmy : TUnitList
                 }
 
                 var race2 = AUnit.GetRace();
-                ((TArmy)Races.List[race2]).AddUnit(AUnit);
+                ((TUnitList)Races.List[race2]).AddUnit(AUnit);
                 Units.Delete(I);
             }
         }
@@ -33024,7 +33024,7 @@ public partial class TArmy : TUnitList
                 if (Races.List[J] != null && AoWEUnit.AoWHSSet.FRaceResources.GetRaceResource(J).FAlignments.Contains(Alignment))
                 {
                     // { Original chooses the largest compatible race group. }
-                    if (Race == -1 || ((TArmy)Races.List[Race]).GetCount() <= ((TArmy)Races.List[J]).GetCount())
+                    if (Race == -1 || ((TECustomNode)Races.List[Race]).GetCount() <= ((TECustomNode)Races.List[J]).GetCount())
                     {
                         Race = J;
                     }
@@ -33033,7 +33033,7 @@ public partial class TArmy : TUnitList
 
             if (Race != -1)
             {
-                ((TArmy)Races.List[Race]).AddUnit(AUnit);
+                ((TUnitList)Races.List[Race]).AddUnit(AUnit);
                 Units.Delete(I);
             }
             else
@@ -37690,7 +37690,7 @@ public partial class TPlayerStructure : TStructure
             }
         }
 
-        ((TPlayerStructureResource)FResource).Show(XhpSurf, YhpSurf, SurfaceDesc, this);
+        ((TStructureResource)FResource).Show(XhpSurf, YhpSurf, SurfaceDesc, this);
     }
 
     // Structur.PAS:2370
@@ -39889,7 +39889,7 @@ public partial class TFire : TILTerrainMO
         TFire Fire;
         if (FAge > 0)
         {
-            MapLevel = (TMapLevel)((TMapField)Owner).Owner;
+            MapLevel = (TMapLevel)Owner.Owner;
             var yhx = GetYhx();
             var xhx = GetXhx();
             InitHNWalk(ref Walk, xhx, yhx, 1);
@@ -49103,7 +49103,7 @@ public partial class TAIMoveExecuterMoveQueue : TENode
     {
         for (int I = FChildren.Count - 1; I >= 0; I--)
         {
-            ((TAIMoveExecuterMove)FChildren.List[I]).SetStatus(255, TAIMoveExecuterUnitStatus.esReady);
+            ((TAIMoveExecuterUnitList)FChildren.List[I]).SetStatus(255, TAIMoveExecuterUnitStatus.esReady);
         }
 
         Clear();
@@ -61409,7 +61409,7 @@ public partial class TDisbandUnitTE : TTokenEvent
             {
                 AUnit.GetLocation(ref X, ref Y, ref L);
                 Structure = (TPlayerStructure)AoWEUnit.AoWHSMap.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(TPlayerStructure));
-                if (!(AUnit.Owner is TArmy) || ((TArmy)AUnit.Owner).Count > 1 || (Structure != null && Structure.FPlayer > 0))
+                if (!(AUnit.Owner is TArmy) || AUnit.Owner.Count > 1 || (Structure != null && Structure.FPlayer > 0))
                 {
                     AUnit.GetLocation(ref X, ref Y, ref L);
                     AUnit.SetOwner(null);
@@ -62019,7 +62019,7 @@ public partial class TFastCombatUnit : TCombatUnit
     }
 
     // AIGroup.pas:7029
-    public override bool fcWallInBetween(byte Target) => !FState.Contains(TFastCombatUnitStateElement.fsOutsideWall) && ((TFastCombat)FCombat).GetWallInBetween(FPosition, Target);
+    public override bool fcWallInBetween(byte Target) => !FState.Contains(TFastCombatUnitStateElement.fsOutsideWall) && FCombat.GetWallInBetween(FPosition, Target);
 
     // AIGroup.pas:6830
     public override void Show(int Frame, int Direction, int X, int Y, in TSurfaceDesc Surface)
@@ -63600,7 +63600,7 @@ public partial class TStrikeAbility : TAdjustableAbility
             }
 
             Strength = AoWEUnit.P3LimitedDamage(Attack, Damage, Repeats);
-            Types = GetDamageTypes((TAbstractUnit)Owner);
+            Types = GetDamageTypes(Owner);
         }
         else
         {
@@ -69997,7 +69997,7 @@ public partial class TSpellControl : TEObject
         {
             if (FRegisteredSpells[I] != null)
             {
-                Stream.rwEObject((TSpell)FRegisteredSpells[I], I + 10);
+                Stream.rwEObject((TEObject)FRegisteredSpells[I], I + 10);
             }
         }
     }

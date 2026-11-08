@@ -345,7 +345,7 @@ public partial class THeroUpgradeDlg : TDataModule
         TRect R;
         if (ValidateHero())
         {
-            var image = (TAOWImage)Sender;
+            var image = Sender;
             R = Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
 
             FHero.GetFace().ShowStretched(R, SurfDesc);

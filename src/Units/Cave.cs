@@ -118,7 +118,7 @@ public partial class TCave : TStructure
     public override void Activate()
     {
         base.Activate();
-        ((TAoWMapField)Owner).UpdateMapField();
+        ((TMapField)Owner).UpdateMapField();
     }
 
     // Cave.pas:285
@@ -126,7 +126,7 @@ public partial class TCave : TStructure
     {
         base.Deactivate();
         FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moActivated);
-        ((TAoWMapField)Owner).UpdateMapField();
+        ((TMapField)Owner).UpdateMapField();
     }
 
     // Cave.pas:250

@@ -175,7 +175,7 @@ public partial class TCombatStructure : TCombatFixedILTerrain
         {
             if (FHitPoints == 0)
             {
-                MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
+                MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
             }
             else
             {
@@ -185,7 +185,7 @@ public partial class TCombatStructure : TCombatFixedILTerrain
                 }
                 else
                 {
-                    MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
+                    MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
                 }
             }
 

@@ -204,15 +204,15 @@ public partial class TRelWindow : TDataModule
         {
             if (I <= FPlayers.Count)
             {
-                ((TAOWCheckBox)FControls[I + 23]).Visible = true;
-                ((TAOWCheckBox)FControls[I + 23]).ToolTipText.Clear();
+                ((TAoWComponent)FControls[I + 23]).Visible = true;
+                ((AoWControl.TAOWControl)FControls[I + 23]).ToolTipText.Clear();
                 var player = FPlayers[I - 1];
                 var name = AoWHSMap.FPlayers.GetPlayers(player).GetName();
-                ((TAOWCheckBox)FControls[I + 23]).ToolTipText.Add(name);
+                ((AoWControl.TAOWControl)FControls[I + 23]).ToolTipText.Add(name);
             }
             else
             {
-                ((TAOWCheckBox)FControls[I + 23]).Visible = false;
+                ((TAoWComponent)FControls[I + 23]).Visible = false;
             }
         }
 
@@ -241,16 +241,16 @@ public partial class TRelWindow : TDataModule
         {
             if (I < FRaces.Count)
             {
-                ((TAOWCheckBox)FControls[I + 36]).Visible = true;
-                ((TAOWCheckBox)FControls[I + 36]).ToolTipText.Clear();
+                ((TAoWComponent)FControls[I + 36]).Visible = true;
+                ((AoWControl.TAOWControl)FControls[I + 36]).ToolTipText.Clear();
                 var race = FRaces[I];
                 var fRacesRace = AoWHSMap.FRaces.GetRace(race);
                 var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[fRacesRace.FRace]);
-                ((TAOWCheckBox)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
+                ((AoWControl.TAOWControl)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
             }
             else
             {
-                ((TAOWCheckBox)FControls[I + 36]).Visible = false;
+                ((TAoWComponent)FControls[I + 36]).Visible = false;
             }
         }
 
@@ -261,7 +261,7 @@ public partial class TRelWindow : TDataModule
         ((TAOWCheckBox)FControls[Player + 23]).Checked = true;
         Index = FPlayers.IndexOf(AoWHSMap.FSeatedPlayer);
         ((TAOWCheckBox)FControls[Index + 24]).Checked = true;
-        P1CBChange((TAOWCheckBox)FControls[Index + 24]);
+        P1CBChange((TObject)FControls[Index + 24]);
         AoWHSMap.FTutorialControl.ShowMessage(65, true, true);
     }
 
@@ -428,7 +428,7 @@ public partial class TRelWindow : TDataModule
         {
             if (I < FPlayers.Count)
             {
-                ((TAOWImage)FControls[I]).Visible = true;
+                ((TAoWComponent)FControls[I]).Visible = true;
                 if (FPlayers[I] == Player)
                 {
                     ((TAOWImage)FControls[I]).CurrentImage = 2;
@@ -453,7 +453,7 @@ public partial class TRelWindow : TDataModule
             switch (((TAOWImage)FControls[I]).CurrentImage)
             {
                 case 1:
-                    ((TAOWImage)FControls[I]).ToolTipText.Clear();
+                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
                         if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
@@ -466,7 +466,7 @@ public partial class TRelWindow : TDataModule
                                 {
                                     var player3 = FPlayers[I];
                                     var diplomaticRelation = AoWHSMap.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)player3);
-                                    ((TAOWImage)FControls[I]).ToolTipText.Add(TDiplomaticRelationRStr[(int)diplomaticRelation]);
+                                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Add(TDiplomaticRelationRStr[(int)diplomaticRelation]);
                                 }
                             }
                         }
@@ -474,7 +474,7 @@ public partial class TRelWindow : TDataModule
 
                     break;
                 default:
-                    ((TAOWImage)FControls[I]).ToolTipText.Clear();
+                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
                     break;
             }
         }
@@ -493,7 +493,7 @@ public partial class TRelWindow : TDataModule
             switch (((TAOWImage)FControls[I + 12]).CurrentImage)
             {
                 case 4:
-                    ((TAOWImage)FControls[I + 12]).ToolTipText.Clear();
+                    ((AoWControl.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
                         if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
@@ -503,13 +503,13 @@ public partial class TRelWindow : TDataModule
                             var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
                             var race2 = FRaces[I];
                             var playerRelationValue = AoWHSMap.FRaces.GetRace(race2).GetPlayerRelationValue(FSelectedPlayer);
-                            ((TAOWImage)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                            ((AoWControl.TAOWControl)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
                     }
 
                     break;
                 default:
-                    ((TAOWImage)FControls[I + 12]).ToolTipText.Clear();
+                    ((AoWControl.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
                     break;
             }
         }
@@ -583,7 +583,7 @@ public partial class TRelWindow : TDataModule
             switch (((TAOWImage)FControls[I]).CurrentImage)
             {
                 case 1:
-                    ((TAOWImage)FControls[I]).ToolTipText.Clear();
+                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
                     var player = FPlayers[I];
                     if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                     {
@@ -592,12 +592,12 @@ public partial class TRelWindow : TDataModule
                         var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
                         var player3 = FPlayers[I];
                         var playerRelationValue = AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelationValue((sbyte)player3);
-                        ((TAOWImage)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                        ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                     }
 
                     break;
                 default:
-                    ((TAOWImage)FControls[I]).ToolTipText.Clear();
+                    ((AoWControl.TAOWControl)FControls[I]).ToolTipText.Clear();
                     break;
             }
         }
@@ -605,7 +605,7 @@ public partial class TRelWindow : TDataModule
         for (int I = 0; I <= 11; I++)
         {
             ((TAOWImage)FControls[I + 12]).CurrentImage = 5;
-            ((TAOWImage)FControls[I + 12]).ToolTipText.Clear();
+            ((AoWControl.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
         }
     }
 

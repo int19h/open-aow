@@ -688,7 +688,7 @@ public partial class TEventLogbook : TEObject
     public int FindFirstLogEx(int AClassID, int Player, int Day)
     {
         int Result = 0;
-        while (Result != this.FEvents.FChildren.Count && (((TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day || ((TEventLog)this.FEvents.FChildren.List[Result]).EClass.ClassID != AClassID))
+        while (Result != this.FEvents.FChildren.Count && (((TEventLog)this.FEvents.FChildren.List[Result]).FPlayer != Player || ((TEventLog)this.FEvents.FChildren.List[Result]).FDay != Day || ((TEObject)this.FEvents.FChildren.List[Result]).EClass.ClassID != AClassID))
         {
             Result += 1;
         }

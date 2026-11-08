@@ -695,7 +695,7 @@ public partial class TProductionScreen : TDataModule
         if (((TAOWCheckBox)Sender).Checked)
         {
             ResetChecks();
-            SelectProduction(((TAOWCheckBox)Sender).Tag);
+            SelectProduction(((TComponent)Sender).Tag);
             ((TAOWCheckBox)Sender).Checked = true;
         }
     }
@@ -704,7 +704,7 @@ public partial class TProductionScreen : TDataModule
     public void ActivityDoubleClick(TObject Sender)
     {
         ResetChecks();
-        SelectProduction(((TAOWCheckBox)Sender).Tag);
+        SelectProduction(((TComponent)Sender).Tag);
         ((TAOWCheckBox)Sender).Checked = true;
         MainBtn1Click(null);
     }
@@ -1003,10 +1003,10 @@ public partial class TProductionScreen : TDataModule
     // AoWProdScreen.pas:439
     public void B4CBUpdate(TObject Sender)
     {
-        if (((TAOWCheckBox)Sender).Tag <= 3)
+        if (((TComponent)Sender).Tag <= 3)
         {
-            var unitProduction = FPlace.FProductionControl.FUnitProductions.GetItem(((TAOWCheckBox)Sender).Tag);
-            ((TAOWCheckBox)Sender).CaptureInput = unitProduction != null;
+            var unitProduction = FPlace.FProductionControl.FUnitProductions.GetItem(((TComponent)Sender).Tag);
+            ((TAoWComponent)Sender).CaptureInput = unitProduction != null;
         }
     }
 

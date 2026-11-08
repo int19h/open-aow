@@ -729,7 +729,7 @@ public partial class TAOWMenu : TAOWGenericWindow
                 FShowDelay = 0;
                 if (OldHighlighted > -1 && FSubMenus.Count > OldHighlighted)
                 {
-                    ((TAOWMenu)FSubMenus[OldHighlighted]).SetVisible(false);
+                    ((TAoWComponent)FSubMenus[OldHighlighted]).SetVisible(false);
                 }
 
                 FDrawn = false;

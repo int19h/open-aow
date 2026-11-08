@@ -480,7 +480,7 @@ public partial class TPanickedAbility : TDurationAbility
         bool Result = base.Expand(Owner);
         if (Owner is TAbstractUnit)
         {
-            ((TAbstractUnit)Owner).Changed();
+            Owner.Changed();
         }
 
         return Result;

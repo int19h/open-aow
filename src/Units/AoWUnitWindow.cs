@@ -600,7 +600,7 @@ public partial class TUnitWindow : TDataModule
 
             if (Item != null)
             {
-                var checkBox = (TAOWCheckBox)Component;
+                var checkBox = Component;
                 if (Item.GetImage() != null)
                 {
                     Item.GetImage().ShowClipped(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc);
@@ -617,7 +617,7 @@ public partial class TUnitWindow : TDataModule
         {
             if (General.FSelectedUnit.GetFace() != null)
             {
-                var image = (TAOWImage)Sender;
+                var image = Sender;
                 R = Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
 
                 General.FSelectedUnit.ShowFace(R, SurfDesc);
@@ -640,7 +640,7 @@ public partial class TUnitWindow : TDataModule
                 FShowInfo.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoRank);
             }
 
-            var image = (TAOWImage)Sender;
+            var image = Sender;
             General.FSelectedUnit.ShowEx(image.WinLeft + 49, image.WinTop + 78, SurfDesc, FShowInfo);
         }
     }
@@ -654,16 +654,16 @@ public partial class TUnitWindow : TDataModule
             {
                 if (Button == TMouseButton.mbRight)
                 {
-                    if (((TAOWCheckBox)Sender).Tag == -1)
+                    if (((TComponent)Sender).Tag == -1)
                     {
-                        ((TAOWCheckBox)Sender).PopupMenu = null;
+                        ((TAOWBaseButton)Sender).PopupMenu = null;
                     }
                     else
                     {
-                        ((TAOWCheckBox)Sender).PopupMenu = AoWItemBannerUnit.ItemBanner.IBannerPopup;
+                        ((TAOWBaseButton)Sender).PopupMenu = AoWItemBannerUnit.ItemBanner.IBannerPopup;
                     }
 
-                    AoWItemBannerUnit.ItemID = ((TAOWCheckBox)Sender).Tag;
+                    AoWItemBannerUnit.ItemID = ((TComponent)Sender).Tag;
                 }
                 else
                 {
@@ -682,7 +682,7 @@ public partial class TUnitWindow : TDataModule
         Gnd1Draw(Sender, SurfDesc);
         if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == 0)
         {
-            var checkBox = (TAOWCheckBox)Sender;
+            var checkBox = Sender;
             aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
@@ -693,7 +693,7 @@ public partial class TUnitWindow : TDataModule
         Gnd1Draw(Sender, SurfDesc);
         if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)1)
         {
-            var checkBox = (TAOWCheckBox)Sender;
+            var checkBox = Sender;
             aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
@@ -704,7 +704,7 @@ public partial class TUnitWindow : TDataModule
         Gnd1Draw(Sender, SurfDesc);
         if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)2)
         {
-            var checkBox = (TAOWCheckBox)Sender;
+            var checkBox = Sender;
             aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
@@ -715,7 +715,7 @@ public partial class TUnitWindow : TDataModule
         Gnd1Draw(Sender, SurfDesc);
         if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)3)
         {
-            var checkBox = (TAOWCheckBox)Sender;
+            var checkBox = Sender;
             aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
@@ -726,7 +726,7 @@ public partial class TUnitWindow : TDataModule
         Gnd1Draw(Sender, SurfDesc);
         if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)4)
         {
-            var checkBox = (TAOWCheckBox)Sender;
+            var checkBox = Sender;
             aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
         }
     }

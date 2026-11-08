@@ -317,7 +317,7 @@ public partial class TAOWPanel : TAOWBaseWindow
                 {
                     if (C is TAOWBaseWindow)
                     {
-                        ((TAOWBaseWindow)C).InvalidateRect(0, ref ARect, this);
+                        C.InvalidateRect(0, ref ARect, this);
                     }
                     else
                     {
@@ -528,7 +528,7 @@ public partial class TAOWPanel : TAOWBaseWindow
                         C.FDrawn = false;
                         if (!FDrawn && C is TAOWBaseWindow)
                         {
-                            ((TAOWBaseWindow)C).FSurfaceValid = false;
+                            C.FSurfaceValid = false;
                         }
 
                         C.Draw(SurfDesc);

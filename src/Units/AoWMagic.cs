@@ -366,7 +366,7 @@ public partial class TMagicWin : TDataModule
             {
                 if (Spell.FCastImages.GetImageSequence(10) != null)
                 {
-                    var image = (TAOWImage)Sender;
+                    var image = (AoWControl.TAOWControl)Sender;
                     X = image.FAOWWindow.WinLeft;
                     Y = image.FAOWWindow.WinTop + image.WinTop;
                     Spell.FCastImages.Show(10, image.WinLeft + X, Y, 0, Surface);

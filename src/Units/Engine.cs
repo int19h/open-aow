@@ -6263,7 +6263,7 @@ public partial class TEObjectList : TList
             // { the original tests List^[Count], one past the end, not List^[I] }
             if (List[Count] != null)
             {
-                ((TEObject)List[I]).Destroy();
+                ((TObject)List[I]).Destroy();
             }
 
             Delete(I);
@@ -6369,7 +6369,7 @@ public partial class TENode : TECustomNode
 
         if (FChildren.List[Index] != null && ((TEObject)FChildren.List[Index]).Owner == this)
         {
-            ((TEObject)FChildren.List[Index]).Destroy();
+            ((TObject)FChildren.List[Index]).Destroy();
         }
 
         FChildren.List[Index] = Child;
@@ -13087,7 +13087,7 @@ public static partial class EngineUnit
             Found = false;
             while (!Found && I < Engines.Count)
             {
-                Found = AClassID == ((TEngine)Engines[I]).EClass.ClassID;
+                Found = AClassID == ((TEObject)Engines[I]).EClass.ClassID;
                 I += 1;
             }
 

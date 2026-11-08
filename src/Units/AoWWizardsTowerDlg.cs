@@ -108,7 +108,7 @@ public partial class TWizardsTowerDlg : TDataModule
             {
                 if (S.FCastImages.GetImageSequence(10) != null)
                 {
-                    var image = (TAOWImage)Sender;
+                    var image = (AoWControl.TAOWControl)Sender;
                     X = image.AOWWindow.WinLeft;
                     Y = image.AOWWindow.WinTop;
                     S.FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);

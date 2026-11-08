@@ -2094,14 +2094,14 @@ public partial class TSmokeCloudSpell : TGlobalTargetSpell
     {
         TEResource Resource;
         TSmokeCloud Cloud;
-        var source = ((TGlobalTargetSpellTE)Event).GetSource();
+        var source = Event.GetSource();
         AoWHSMap.ValidateObservation(source.FPlayer, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Layer, 2);
-        if (((TGlobalTargetSpellTE)Event).GetSource().FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Layer, 2))
+        if (Event.GetSource().FPlayer == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Layer, 2))
         {
-            AoWHSSet.FSpellControl.GetSpell(((TGlobalTargetSpellTE)Event).FEventSpellID).FCastSounds.Play(0);
+            AoWHSSet.FSpellControl.GetSpell(Event.FEventSpellID).FCastSounds.Play(0);
         }
 
-        Resource = (TEResource)((TMapObjectResourceList)(TObject)AoWHSSet.MapObjectResourceList).FindChild(135747);
+        Resource = (TEResource)((TECustomNode)(TObject)AoWHSSet.MapObjectResourceList).FindChild(135747);
         if (Resource != null)
         {
             Cloud = (TSmokeCloud)Resource.CreateResourceUser();

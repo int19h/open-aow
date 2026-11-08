@@ -92,17 +92,17 @@ public partial class TMWindow : ILayoutModule
 
     private void Layout_MapWindowMouseDown_1(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
-        MapWindowMouseDown((TAoWComponent)p0, p1, p2, p3, p4);
+        MapWindowMouseDown(p0, p1, p2, p3, p4);
     }
 
     private void Layout_MapWindowMouseUp_2(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
-        MapWindowMouseUp((TAoWComponent)p0, p1, p2, p3, p4);
+        MapWindowMouseUp(p0, p1, p2, p3, p4);
     }
 
     private void Layout_MapWindowMouseMove_3(TObject p0, TSet<TShiftState> p1, int p2, int p3)
     {
-        MapWindowMouseMove((TAoWComponent)p0, p1, p2, p3);
+        MapWindowMouseMove(p0, p1, p2, p3);
     }
 
     private void Layout_MapWindowKeyDown_4(TObject p0, ref ushort p1, TSet<TShiftState> p2)

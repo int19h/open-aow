@@ -920,7 +920,7 @@ public partial class TLeaderSetupWin : TDataModule
         Setup = FSetup;
         if (FPhase > 1)
         {
-            var frame = (TAoWFrame)Sender;
+            var frame = (TAoWComponent)Sender;
             R = Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
 
             if (Setup.FOriginalLeader.GetFace() != null)
