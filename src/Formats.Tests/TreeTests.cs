@@ -8,13 +8,22 @@ namespace Aow.Formats.Tests;
 /// <summary>
 /// The persistence tree against a version 3 test schema. Version 1 of the game schema has no
 /// list and no record, so those shapes are proven here. Version 2 stores a fixed integer array
-/// and still refuses a record.
+/// and still refuses a record. Version 3 stores a record, so an unknown record member is an
+/// unknown member.
 /// </summary>
 public sealed class TreeTests : FormatsTest
 {
     private static FormatSchema Schema { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchema.json")), "TreeSchema.json");
 
     private static FormatSchema Version1 { get; } = FormatSchema.Load(File.ReadAllBytes(Path.Combine(AppContext.BaseDirectory, "TreeSchemaV1.json")), "TreeSchemaV1.json");
+
+    private static FormatSchema Frozen(string resource, string file)
+    {
+        using var stream = typeof(FormatSchema).Assembly.GetManifestResourceStream(resource)!;
+        using var memory = new MemoryStream();
+        stream.CopyTo(memory);
+        return FormatSchema.Load(memory.ToArray(), file);
+    }
 
     private static SchemaClass SampleClass => Schema.Get("TSample");
 
@@ -165,6 +174,50 @@ public sealed class TreeTests : FormatsTest
     }
 
     [Fact]
+    public void ANestedRefusalIsSwallowedUnlessTheHandlerStops()
+    {
+        var made = new ObjectNode(nameof(TInner), null);
+        made.Add("N", new IntegerNode(4, true, 2));
+        made.Add("Extra", new IntegerNode(4, true, 1));
+        var created = new ObjectNode(null, null);
+        created.Add("Made", made);
+        created.Add("Number", new IntegerNode(4, true, 6));
+        var continued = new TSample { Number = 1 };
+        TreeReader.Read(created, continued, new TestFactory());
+        Assert.Null(continued.Made);
+        Assert.Equal(6, continued.Number);
+        var stopped = new TSample { Number = 1 };
+        var createdError = Assert.Throws<ConversionException>(() =>
+            TreeReader.Read(created, stopped, new TestFactory(), static (string _, ref bool cont) => cont = false));
+        Assert.Equal(Codes.Required, createdError.Diagnostic.Code);
+        Assert.Equal("root.Made.Extra", createdError.Diagnostic.Path);
+        Assert.Equal(1, stopped.Number);
+
+        var nested = new ObjectNode(null, null);
+        nested.Add("N", new BoolNode(true));
+        var parent = new ObjectNode(null, null);
+        parent.Add("Fixed", nested);
+        parent.Add("Number", new IntegerNode(4, true, 6));
+        var kept = new TSample { Number = 1 };
+        kept.Fixed.N = 4;
+        var instance = kept.Fixed;
+        TreeReader.Read(parent, kept, new TestFactory());
+        Assert.Same(instance, kept.Fixed);
+        Assert.Equal(4, kept.Fixed.N);
+        Assert.Equal(6, kept.Number);
+        var refused = new TSample { Number = 1 };
+        refused.Fixed.N = 4;
+        var refusedFixed = refused.Fixed;
+        var fixedError = Assert.Throws<ConversionException>(() =>
+            TreeReader.Read(parent, refused, new TestFactory(), static (string _, ref bool cont) => cont = false));
+        Assert.Equal(Codes.Type, fixedError.Diagnostic.Code);
+        Assert.Equal("root.Fixed.N", fixedError.Diagnostic.Path);
+        Assert.Same(refusedFixed, refused.Fixed);
+        Assert.Equal(4, refused.Fixed.N);
+        Assert.Equal(1, refused.Number);
+    }
+
+    [Fact]
     public void AnUnknownMemberIsAnErrorWithItsPath()
     {
         var document = Write(new TSample());
@@ -240,16 +293,21 @@ public sealed class TreeTests : FormatsTest
         var upkeepError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(upkeep, enchantment, current, "game"));
         Assert.Equal(Codes.Type, upkeepError.Diagnostic.Code);
         Assert.Equal("root.Upkeep", upkeepError.Diagnostic.Path);
-        Assert.Equal("Version 2 stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
+        Assert.Equal("Version 3 stores a list only for a fixed integer array.", upkeepError.Diagnostic.Message);
         var record = new ObjectNode(null, null);
         record.Add("Extra", new RecordNode());
         var recordError = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, enchantment, current, "game"));
         Assert.Equal("root.Extra", recordError.Diagnostic.Path);
-        Assert.Equal("Version 2 does not store a record.", recordError.Diagnostic.Message);
+        Assert.Equal(Codes.UnknownMember, recordError.Diagnostic.Code);
+        Assert.Equal("Class TEnchantment has no member \"Extra\".", recordError.Diagnostic.Message);
+        var version2 = Frozen("Aow.Formats.Migrations.schema-v2.json", "schema-v2.json");
+        var oldRecord = Assert.Throws<ConversionException>(() => DocumentBackend.Write(record, version2.Get("TEnchantment"), version2, "game"));
+        Assert.Equal("root.Extra", oldRecord.Diagnostic.Path);
+        Assert.Equal("Version 2 does not store a record.", oldRecord.Diagnostic.Message);
         var upkeepDocument = Assert.Throws<ConversionException>(() => DocumentBackend.Read(
             (JsonObject)JsonReader.Parse("""{"Upkeep":[1,2]}""", "upkeep.json"), enchantment, current, "game"));
         Assert.Equal("root.Upkeep", upkeepDocument.Diagnostic.Path);
-        Assert.Equal("Version 2 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
+        Assert.Equal("Version 3 stores a list only for a fixed integer array.", upkeepDocument.Diagnostic.Message);
 
         var schema = Version1;
         var cls = schema.Get("TRefuse");

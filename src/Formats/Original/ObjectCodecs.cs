@@ -201,6 +201,8 @@ internal sealed partial class ChildrenCodec : PropertyCodec
 /// </summary>
 internal sealed class MapFieldsCodec : PropertyCodec
 {
+    internal override string? ImageRefusal => "PE-2c still needs map fields. The direct path does not store them.";
+
     internal override bool AcceptsDocumentArray(int version) => true;
 
     private static int Dimension(JsonObject owner, string name) => owner[name] is JsonInteger n ? (int)n.Value : 0;
@@ -271,6 +273,8 @@ internal sealed class MapFieldsCodec : PropertyCodec
 /// </summary>
 internal sealed class CampaignMapCodec : PropertyCodec
 {
+    internal override string? ImageRefusal => "PE-2c still needs a campaign map. The direct path does not store it.";
+
     private static HsmProfile Nested => (HsmProfile)FileProfile.Find("world-hsm")!;
 
     internal override JsonValue Decode(DecodeContext ctx, int start, int end, ValueSite site) =>

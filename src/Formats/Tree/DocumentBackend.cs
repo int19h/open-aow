@@ -61,6 +61,7 @@ public static class DocumentBackend
 
     internal static ObjectNode ReadObject(JsonObject document, SchemaClass cls, DocumentSite site, bool created, bool slotted)
     {
+        site = site.WithOwner(document);
         RefuseMapping(cls, site);
         var seen = new HashSet<string>(StringComparer.Ordinal);
         foreach (var member in document.Members)
