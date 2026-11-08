@@ -197,8 +197,7 @@ public partial class TArenaDlg : TDataModule
     // AoWArenaDlg.pas:196
     public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
     {
-        var image = (TAOWImage)Sender;
-        DrawUnit(Sender.Tag, UnitPnl.WinLeft + image.WinLeft, UnitPnl.WinTop + image.WinTop, ref SD);
+        DrawUnit(Sender.Tag, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
     }
 
     // AoWArenaDlg.pas:201
@@ -216,7 +215,7 @@ public partial class TArenaDlg : TDataModule
         TRect R;
         int W;
         int H;
-        R = Rect(Dlg.WinLeft + ((TAOWImage)Sender).WinLeft, Dlg.WinTop + ((TAOWImage)Sender).WinTop, Dlg.WinLeft + ((TAOWImage)Sender).WinLeft + ((TAOWImage)Sender).WinWidth, Dlg.WinTop + ((TAOWImage)Sender).WinTop + ((TAOWImage)Sender).WinHeight);
+        R = Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var yhx = FEvent.FArena.GetYhx();

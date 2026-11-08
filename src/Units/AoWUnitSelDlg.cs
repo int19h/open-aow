@@ -235,8 +235,7 @@ public partial class TUnitSelectionDlg : TDataModule
     // AoWUnitSelDlg.pas:146
     public void U1PreDraw(TAoWComponent Sender, TSurfaceDesc SD)
     {
-        var image = (TAOWImage)Sender;
-        DrawUnit(Sender.Tag, UnitPnl.WinLeft + image.WinLeft, UnitPnl.WinTop + image.WinTop, ref SD);
+        DrawUnit(Sender.Tag, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
     }
 
     // AoWUnitSelDlg.pas:151
