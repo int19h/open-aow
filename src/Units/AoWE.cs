@@ -25413,7 +25413,7 @@ public partial class TUnitSelector : TObject
     }
 
     // Ability.PAS:656
-    public virtual bool CanSelectUnit(TUnit AUnit) => true;
+    public virtual bool CanSelectUnit(TAbstractUnit AUnit) => true;
 
     // Ability.PAS:662
     public virtual void Setup(TAbstractUnit Source, TUnitList Units)
@@ -25430,7 +25430,8 @@ public partial class TUnitSelector : TObject
         // { Original accumulates FSelectable rather than clearing it on a new setup. }
         for (int I = FUnits.GetCount() - 1; I >= 0; I--)
         {
-            if (CanSelectUnit((TUnit)FUnits.GetUnit(I)))
+            // { The original hard-casts to TUnit, which a hero passes through to the virtual calls. }
+            if (CanSelectUnit(FUnits.GetUnit(I)))
             {
                 FSelectable = (byte)(FSelectable | (1 << I));
             }
@@ -67307,7 +67308,7 @@ public partial class THealingUnitSelector : TUnitSelector
     { }
 
     // AoWAb.PAS:3894
-    public override bool CanSelectUnit(TUnit AUnit)
+    public override bool CanSelectUnit(TAbstractUnit AUnit)
     {
         var unitType = AUnit.GetUnitType();
         if (!(TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature).Contains(unitType) && AUnit.GetHits() != AUnit.GetHitPoints()))
@@ -67983,7 +67984,7 @@ public partial class TDispelMagicAbilityUnitSelector : TUnitSelector
     { }
 
     // AoWAb.PAS:4403
-    public override bool CanSelectUnit(TUnit AUnit) => AUnit.CanDispelEnchantment(FPlayer);
+    public override bool CanSelectUnit(TAbstractUnit AUnit) => AUnit.CanDispelEnchantment(FPlayer);
 
     // AoWAb.PAS:4407
     public override bool Select()
