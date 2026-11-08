@@ -10,7 +10,7 @@ public partial class TScenSetup
 {
     public void RacePnlDrawBack(TAoWComponent sender, TSurfaceDesc surface)
     {
-        var panel = (TAOWPanel)sender;
+        var panel = sender;
         aowIntGfxModUnit.IntGfxMod.Shields[sender.Tag].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
     }
 

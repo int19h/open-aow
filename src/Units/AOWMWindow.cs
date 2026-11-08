@@ -44,7 +44,7 @@ public partial class TMWindow : TDataModule
     }
 
     // AOWMWindow.pas:68
-    public void MapWindowMouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void MapWindowMouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (InsideMap(X, Y))
         {
@@ -59,7 +59,7 @@ public partial class TMWindow : TDataModule
     }
 
     // AOWMWindow.pas:74
-    public void MapWindowMouseUp(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void MapWindowMouseUp(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (InsideMap(X, Y))
         {
@@ -82,7 +82,7 @@ public partial class TMWindow : TDataModule
     }
 
     // AOWMWindow.pas:82
-    public void MapWindowMouseMove(TAoWComponent Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void MapWindowMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
     {
         var window = MapWindow;
         if (X > window.WinLeft + 11 && X < MapWindow.WinLeft + window.WinWidth - 11 && Y > window.WinTop + 11 && Y < window.WinTop + window.WinHeight - 11)

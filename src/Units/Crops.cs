@@ -414,7 +414,7 @@ public partial class TPlayerCropStructure : TPlayerStructure
                     while (Crops.Count != Value && Crops.Count != 0)
                     {
                         I = AoWHSMap.Random(Crops.Count);
-                        ((TCrop)Crops[I]).Destroy();
+                        ((TObject)Crops[I]).Destroy();
                         Crops.Delete(I);
                     }
                 }

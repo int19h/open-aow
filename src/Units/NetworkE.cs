@@ -262,7 +262,7 @@ public partial class TTokenEventList : TEObject
         int C;
         int Result = 0;
         C = FList.Count;
-        while (Result != C && ((TTokenEvent)FList.FChildren.List[Result]).EClass.ClassID != AClassID)
+        while (Result != C && ((TEObject)FList.FChildren.List[Result]).EClass.ClassID != AClassID)
         {
             Result += 1;
         }

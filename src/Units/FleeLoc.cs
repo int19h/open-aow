@@ -53,7 +53,7 @@ public partial class TFleeLocation : TMapObject
             }
             else
             {
-                MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
+                MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][Info.MapField.OverlayType - -1];
             }
 
             MoveResult.Done = true;

@@ -172,9 +172,9 @@ public partial class TCityTargetSpell : TSpell
         var yhx = TargetCity.GetYhx();
         var xhx = TargetCity.GetXhx();
         InitHNWalk(ref Walk, xhx, yhx, 0);
-        while (Walk.HN < ((TStructureResource)TargetCity.Resource).TerrainList.Count)
+        while (Walk.HN < TargetCity.Resource.TerrainList.Count)
         {
-            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height && ((TStructureResource)TargetCity.Resource).TerrainList.Used[Walk.HN])
+            if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height && TargetCity.Resource.TerrainList.Used[Walk.HN])
             {
                 bool condition = Source.FPlayer == AoWHSMap.FSeatedPlayer;
                 if (!condition)

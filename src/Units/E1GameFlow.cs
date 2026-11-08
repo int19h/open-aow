@@ -113,7 +113,7 @@ public static partial class E1GameFlowUnit
             {
                 if (General.Manager.FChildren[I] != TBWindow.TaskWindow)
                 {
-                    ((TAOWWindow)General.Manager.FChildren[I]).Visible = false;
+                    ((AoWComp.TAoWComponent)General.Manager.FChildren[I]).Visible = false;
                 }
             }
         }

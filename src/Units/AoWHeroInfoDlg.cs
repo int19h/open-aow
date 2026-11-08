@@ -165,9 +165,9 @@ public partial class THeroInfoDlg : TDataModule
     public void U1MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         var count = FArmyInfo.FArmyView.GetCount();
-        if (((TAoWComponent)Sender).Tag < count)
+        if (((TComponent)Sender).Tag < count)
         {
-            var unit = FArmyInfo.FArmyView.GetUnit(((TAoWComponent)Sender).Tag);
+            var unit = FArmyInfo.FArmyView.GetUnit(((TComponent)Sender).Tag);
             General.FSelectedUnit = unit;
             if (Button == TMouseButton.mbLeft)
             {

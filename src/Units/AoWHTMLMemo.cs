@@ -997,7 +997,7 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
         I = 0;
         while (I < FFonts.Count && Font == null)
         {
-            if (((TImageLibraryFont)FFonts[I]).FileName == FileName)
+            if (((TCustomImageLibrary)FFonts[I]).FileName == FileName)
             {
                 Font = (TImageLibraryFont)FFonts[I];
             }

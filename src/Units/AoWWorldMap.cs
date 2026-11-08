@@ -863,7 +863,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:566
-    public void Path1MouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Path1MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
@@ -877,7 +877,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:578
-    public void Path2MouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Path2MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
@@ -891,7 +891,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:590
-    public void Path3MouseDown(TAoWComponent Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Path3MouseDown(TObject Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!BookWin.Visible)
         {
@@ -972,7 +972,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:643
-    public void Path1MouseMove(TAoWComponent Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void Path1MouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
     {
         int Index;
         if (GetCampaign().FState == 1)
@@ -993,7 +993,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:661
-    public void Path2MouseMove(TAoWComponent Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void Path2MouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
     {
         int Index;
         if (GetCampaign().FState == 1)
@@ -1014,7 +1014,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:679
-    public void Path3MouseMove(TAoWComponent Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void Path3MouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
     {
         int Index;
         if (GetCampaign().FState == 1)
@@ -1035,7 +1035,7 @@ public partial class TWorldMap : TDataModule
     }
 
     // AoWWorldMap.pas:697
-    public void WorldPnlMouseMove(TAoWComponent Sender, TSet<TShiftState> Shift, int X, int Y)
+    public void WorldPnlMouseMove(TObject Sender, TSet<TShiftState> Shift, int X, int Y)
     {
         if (!FDescriptionHandled)
         {

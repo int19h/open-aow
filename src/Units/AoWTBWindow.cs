@@ -501,7 +501,7 @@ public partial class TTBWindow : TDataModule
                 case 91:
                 case 121:
                     {
-                        var button = (TAOWButton)Sender;
+                        var button = (TAOWBaseButton)Sender;
                         button.FDrawn = false;
                         button.ILIndexUp = 14;
                     }
@@ -513,7 +513,7 @@ public partial class TTBWindow : TDataModule
                 case 106:
                 case 136:
                     {
-                        var button = (TAOWButton)Sender;
+                        var button = (TAOWBaseButton)Sender;
                         button.FDrawn = false;
                         button.ILIndexUp = 20;
                     }

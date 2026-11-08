@@ -688,7 +688,7 @@ public partial class THeroJoinDlg : ILayoutModule
 
     private void Layout_U1MouseDown_2(TObject p0, TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
     {
-        U1MouseDown((TAoWComponent)p0, p1, p2, p3, p4);
+        U1MouseDown((TComponent)p0, p1, p2, p3, p4);
     }
 
     private void Layout_MiddleBtnClick_3(TObject p0)

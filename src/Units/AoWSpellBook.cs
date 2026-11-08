@@ -1017,7 +1017,7 @@ public partial class TSpellBook : TDataModule
         {
             if (FSpells.GetSpell(Index).FCastImages.GetImageSequence(10) != null)
             {
-                var image = (TAOWImage)Sender;
+                var image = (AoWControl.TAOWControl)Sender;
                 X = image.FAOWWindow.WinLeft;
                 Y = image.FAOWWindow.WinTop;
                 FSpells.GetSpell(Index).FCastImages.Show(10, image.WinLeft + X, image.WinTop + Y, 0, SD);
@@ -1141,14 +1141,14 @@ public partial class TSpellBook : TDataModule
     public void FaceDraw(TObject Sender, TSurfaceDesc SD)
     {
         TRect R;
-        var image = (TAOWImage)Sender;
+        var image = (AoWComp.TAoWComponent)Sender;
         R = Rect(LeftInfoPage.WinLeft + image.WinLeft, LeftInfoPage.WinTop + image.WinTop, LeftInfoPage.WinLeft + image.WinLeft + image.WinWidth, LeftInfoPage.WinTop + image.WinTop + image.WinHeight);
 
         FHero.GetFace().ShowStretched(R, SD);
     }
 
     // AoWSpellBook.pas:325
-    public void ResearchIcnDraw(TAOWImage Sender, TSurfaceDesc SD)
+    public void ResearchIcnDraw(AoWControl.TAOWControl Sender, TSurfaceDesc SD)
     {
         TSpell Spell;
         int X;
@@ -1167,7 +1167,7 @@ public partial class TSpellBook : TDataModule
     }
 
     // AoWSpellBook.pas:337
-    public void CastingIcnDraw(TAOWImage Sender, TSurfaceDesc SD)
+    public void CastingIcnDraw(AoWControl.TAOWControl Sender, TSurfaceDesc SD)
     {
         TSpell Spell;
         int X;

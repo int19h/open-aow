@@ -170,7 +170,7 @@ public partial class TCityWall : TCombatILTerrain
         {
             if (FHitPoints == 0)
             {
-                MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
+                MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
             }
             else
             {
@@ -181,7 +181,7 @@ public partial class TCityWall : TCombatILTerrain
                 }
                 else
                 {
-                    if (((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmWallCrushing) && GetXhx() == ((TCombatMoveControl)Info.Sender).FDestinationX && GetYhx() == ((TCombatMoveControl)Info.Sender).FDestinationY)
+                    if (((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmWallCrushing) && GetXhx() == ((TMoveControl)Info.Sender).FDestinationX && GetYhx() == ((TMoveControl)Info.Sender).FDestinationY)
                     {
                         MoveResult.Code = 0;
                     }
@@ -189,7 +189,7 @@ public partial class TCityWall : TCombatILTerrain
                     {
                         if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1) || ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66) || ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(36))
                         {
-                            MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
+                            MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
                         }
                         else
                         {
@@ -199,7 +199,7 @@ public partial class TCityWall : TCombatILTerrain
                             }
                             else
                             {
-                                MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
+                                MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
                             }
                         }
                     }
@@ -228,7 +228,7 @@ public partial class TCityWall : TCombatILTerrain
                 }
                 else
                 {
-                    if (((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1] != 0)
+                    if (((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1] != 0)
                     {
                         Result = 1;
                     }
@@ -560,7 +560,7 @@ public partial class TCityWallDoor : TCityWall
         {
             if (FHitPoints == 0)
             {
-                MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
+                MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][6 - -1];
             }
             else
             {
@@ -571,7 +571,7 @@ public partial class TCityWallDoor : TCityWall
                 }
                 else
                 {
-                    if (((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmWallCrushing) && GetXhx() == ((TCombatMoveControl)Info.Sender).FDestinationX && GetYhx() == ((TCombatMoveControl)Info.Sender).FDestinationY)
+                    if (((TCombatMoveControl)Info.Sender).FMoveFlags.Contains(TCombatMoveModeElement.mmWallCrushing) && GetXhx() == ((TMoveControl)Info.Sender).FDestinationX && GetYhx() == ((TMoveControl)Info.Sender).FDestinationY)
                     {
                         MoveResult.Code = 0;
                     }
@@ -579,7 +579,7 @@ public partial class TCityWallDoor : TCityWall
                     {
                         if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(1) || ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(66) || ((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetSide() == TCombatSideIndex.csDefender)
                         {
-                            MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
+                            MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][-1 - -1];
                         }
                         else
                         {
@@ -589,7 +589,7 @@ public partial class TCityWallDoor : TCityWall
                             }
                             else
                             {
-                                MoveResult.Code = ((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
+                                MoveResult.Code = ((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1];
                             }
                         }
                     }
@@ -618,7 +618,7 @@ public partial class TCityWallDoor : TCityWall
                 }
                 else
                 {
-                    if (((TCombatMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1] != 0)
+                    if (((TMoveControl)Info.Sender).FMovePointTable[Info.MapField.TerrainType][8 - -1] != 0)
                     {
                         Result = 1;
                     }

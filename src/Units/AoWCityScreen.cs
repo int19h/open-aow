@@ -957,7 +957,7 @@ public partial class TCityScreen : TDataModule
         if (((TAOWCheckBox)Sender).Checked)
         {
             ResetChecks();
-            SelectAction((TCityAction)((byte)((TAOWCheckBox)Sender).Tag + 1));
+            SelectAction((TCityAction)((byte)((TComponent)Sender).Tag + 1));
             ((TAOWCheckBox)Sender).Checked = true;
         }
     }
@@ -965,10 +965,10 @@ public partial class TCityScreen : TDataModule
     // AoWCityScreen.pas:313
     public void ActivityDoubleClick(TObject Sender)
     {
-        if ((TCityAction)((byte)((TAOWCheckBox)Sender).Tag + 1) != TCityAction.caMigrate)
+        if ((TCityAction)((byte)((TComponent)Sender).Tag + 1) != TCityAction.caMigrate)
         {
             ResetChecks();
-            SelectAction((TCityAction)((byte)((TAOWCheckBox)Sender).Tag + 1));
+            SelectAction((TCityAction)((byte)((TComponent)Sender).Tag + 1));
             ((TAOWCheckBox)Sender).Checked = true;
             CityBtn1Click(null);
         }
@@ -981,7 +981,7 @@ public partial class TCityScreen : TDataModule
         if (((TAOWCheckBox)Sender).Checked)
         {
             ResetChecks();
-            SelectProduction(((TAOWCheckBox)Sender).Tag);
+            SelectProduction(((TComponent)Sender).Tag);
             ((TAOWCheckBox)Sender).Checked = true;
         }
     }
@@ -990,7 +990,7 @@ public partial class TCityScreen : TDataModule
     public void ProductionDoubleClick(TObject Sender)
     {
         ResetChecks();
-        SelectProduction(((TAOWCheckBox)Sender).Tag);
+        SelectProduction(((TComponent)Sender).Tag);
         ((TAOWCheckBox)Sender).Checked = true;
         CityBtn1Click(null);
     }
@@ -998,8 +998,8 @@ public partial class TCityScreen : TDataModule
     // AoWCityScreen.pas:343
     public void ProductionsUpdate(TObject Sender)
     {
-        var unitProduction = FCity.FProduction.FUnitProductions.GetItem(((TAOWCheckBox)Sender).Tag);
-        ((TAOWCheckBox)Sender).CaptureInput = unitProduction != null;
+        var unitProduction = FCity.FProduction.FUnitProductions.GetItem(((TComponent)Sender).Tag);
+        ((TAoWComponent)Sender).CaptureInput = unitProduction != null;
     }
 
     // AoWCityScreen.pas:348
@@ -1242,10 +1242,10 @@ public partial class TCityScreen : TDataModule
         TUnitProduction P;
         R = Rect(ActivityPnl.WinLeft + ((TAoWComponent)Sender).WinLeft, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop, ActivityPnl2.WinLeft + ((TAoWComponent)Sender).WinLeft + ((TAoWComponent)Sender).WinWidth, ActivityPnl.WinTop + ((TAoWComponent)Sender).WinTop + ((TAoWComponent)Sender).WinHeight);
         // { Original uses two different panels. }
-        P = FCity.FProduction.FUnitProductions.GetItem(((TAoWComponent)Sender).Tag);
+        P = FCity.FProduction.FUnitProductions.GetItem(((TComponent)Sender).Tag);
         if (P != null)
         {
-            U = FCity.FProduction.CreateUnitProduction(((TAoWComponent)Sender).Tag);
+            U = FCity.FProduction.CreateUnitProduction(((TComponent)Sender).Tag);
             Info.Direction = 3;
             Info.Overlays = TSet<TUnitOverlayModesElement>.Of();
             Info.Animation = 0;
@@ -1340,9 +1340,9 @@ public partial class TCityScreen : TDataModule
     // AoWCityScreen.pas:534
     public void MigrationSBChange(TObject Sender)
     {
-        MigrationRaceLB.ListOffset = ((TAOWVScrollBar)Sender).Position;
-        MigrationTurnsLB.ListOffset = ((TAOWVScrollBar)Sender).Position;
-        MigrationRelationLB.ListOffset = ((TAOWVScrollBar)Sender).Position;
+        MigrationRaceLB.ListOffset = ((TAOWScrollBar)Sender).Position;
+        MigrationTurnsLB.ListOffset = ((TAOWScrollBar)Sender).Position;
+        MigrationRelationLB.ListOffset = ((TAOWScrollBar)Sender).Position;
     }
 
     // AoWCityScreen.pas:541

@@ -134,7 +134,7 @@ public partial class TArena : TStructure
     {
         if (AUnit is THero)
         {
-            var hero = (THero)AUnit;
+            var hero = AUnit;
             hero.SetExperience(hero.GetNextLevelExperience());
             hero.Changed();
 
@@ -143,7 +143,7 @@ public partial class TArena : TStructure
 
         if (AUnit is TUnit)
         {
-            var unit = (TUnit)AUnit;
+            var unit = AUnit;
             unit.SetExperience(unit.GetNextLevelExperience());
             unit.Changed();
         }

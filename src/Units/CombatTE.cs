@@ -1962,14 +1962,14 @@ public partial class TCAbRangedTE : TTokenEvent
                                                                         {
                                                                             if (Effect.FCombatAction is TEntangleSpellCA)
                                                                             {
-                                                                                if (((TEntangleSpellCA)Effect.FCombatAction).FSucceeded)
+                                                                                if (((TExclusiveCombatSpellCA)Effect.FCombatAction).FSucceeded)
                                                                                 {
                                                                                     ((TTacticalCombatUnit)Effect.FTarget).FUnitHS.SetAction(TTCAction.caHit);
                                                                                 }
                                                                             }
                                                                             else
                                                                             {
-                                                                                if (Effect.FCombatAction is TMindDecayCA && ((TMindDecayCA)Effect.FCombatAction).FSucceeded)
+                                                                                if (Effect.FCombatAction is TMindDecayCA && ((TExclusiveCombatSpellCA)Effect.FCombatAction).FSucceeded)
                                                                                 {
                                                                                     ((TTacticalCombatUnit)Effect.FTarget).FUnitHS.SetAction(TTCAction.caHit);
                                                                                 }

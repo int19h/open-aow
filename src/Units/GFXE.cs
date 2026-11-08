@@ -1117,7 +1117,7 @@ public partial class TRectangleList : TList
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((TRectangle)this[I]).Destroy();
+            ((TObject)this[I]).Destroy();
             Delete(I);
         }
     }

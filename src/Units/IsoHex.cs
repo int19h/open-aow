@@ -158,7 +158,7 @@ public partial class TIsometricHexagonResource : TAbstractHexagonResource
             {
                 Result.SetResource(this);
                 MapField.UpdateTerrainType();
-                ((TIsometricHexagon)Result).UpdateTransitions();
+                ((TAbstractHexagon)Result).UpdateTransitions();
             }
             else
             {

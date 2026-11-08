@@ -509,7 +509,7 @@ public static partial class AoWResultsWinUnit
 
         for (int I = 0; I <= 11; I++)
         {
-            ((TAOWCheckBox)Window.FControls[I]).Visible = I < Window.FPlayers.Count;
+            ((TAoWComponent)Window.FControls[I]).Visible = I < Window.FPlayers.Count;
             bool condition = I < Window.FPlayers.Count && Window.FPlayers[I] == AoWHSMap.FSeatedPlayer;
             ((TAOWCheckBox)Window.FControls[I]).Checked = condition;
         }

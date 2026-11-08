@@ -127,7 +127,7 @@ public partial class TPowerDlg : TDataModule
         int X;
         int Y;
         int Intensity;
-        var image = (TAOWImage)Sender;
+        var image = (AoWControl.TAOWControl)Sender;
         X = image.AOWWindow.WinLeft;
         Y = image.AOWWindow.WinTop;
         Intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
@@ -140,7 +140,7 @@ public partial class TPowerDlg : TDataModule
         int X;
         int Y;
         int Intensity;
-        var image = (TAOWImage)Sender;
+        var image = (AoWControl.TAOWControl)Sender;
         X = image.AOWWindow.WinLeft;
         Y = image.AOWWindow.WinTop;
         Intensity = Round((double)(PowerSlider.Position * 50) / 100);
