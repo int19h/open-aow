@@ -153,16 +153,16 @@ public sealed class EndTurnShortcutTests
 
         public void Dispose()
         {
-            combat?.Destroy();
+            combat?.Dispose();
             Combat.AoWCombatMap = previousCombat;
-            Window.MapViewer.Destroy();
-            Window.MapWindow.Destroy();
-            Window.Destroy();
-            Button.Destroy();
-            Bar.Destroy();
+            Window.MapViewer.Dispose();
+            Window.MapWindow.Dispose();
+            Window.Dispose();
+            Button.Dispose();
+            Bar.Dispose();
             AoWExeFormsUnit.TBWindow = previousWindow;
             Game.AoWHSMap = previousMap;
-            Map.Destroy();
+            Map.Dispose();
         }
     }
 }
