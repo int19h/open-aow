@@ -36,7 +36,6 @@ public sealed class CombatUnitSelectionConstructionTests
             var set = Game.AoWHSSet;
             if (fail == 1) Game.AoWHSSet = null!;
             int before = entry.RefCount;
-            int origin = new TObject().InstanceId;
             TCombatUnitSelectionControl? value = null;
             string state;
             try
@@ -44,7 +43,7 @@ public sealed class CombatUnitSelectionConstructionTests
                 value = Create();
                 Assert.IsType<TCombatMoveControlSettings>(value.FMoveControlSettings);
                 Assert.Same(entry.ImageLibrary, value.FTargetImages);
-                state = OrderingRecording.Snapshot(value, origin);
+                state = OrderingRecording.Snapshot(value);
             }
             catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
             finally { Game.AoWHSSet = set; }

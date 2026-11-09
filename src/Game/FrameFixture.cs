@@ -423,6 +423,7 @@ internal sealed class FrameFixture
         {
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.WaterVariantPhase = null;
+            FrameFixtureInputs.PinnedAddress = null;
             FrameFixtureInputs.Tactical = false;
             FrameFixtureInputs.MeasuredFrameRate = null;
             FrameFixtureInputs.TacticalInitialized = null;

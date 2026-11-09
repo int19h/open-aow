@@ -14,12 +14,11 @@ public sealed class ArmySpriteConstructionTests
     private sealed class ArmyOwner() : EngineFixture.Owner
     {
         internal readonly List<string> Events = [];
-        internal int Origin;
 
         public override int AddChild(TEObject child)
         {
             base.AddChild(child);
-            Events.Add(OrderingRecording.Snapshot(child, Origin));
+            Events.Add(OrderingRecording.Snapshot(child));
             return Members.Count - 1;
         }
 
@@ -39,15 +38,13 @@ public sealed class ArmySpriteConstructionTests
             {
                 using var fixture = new OrderingRecording.Fixture(typeof(TArmyHS));
                 var owner = owned == 0 ? null : new ArmyOwner();
-                int origin = new TObject().InstanceId;
-                if (owner is not null) owner.Origin = origin;
                 TArmyHS? value = null;
                 string state;
                 int destroyEntries = 0;
                 try
                 {
                     value = Assert.IsType<TArmyHS>(OrderingRecording.Create(typeof(TArmyHS), owner, route, fixture.Engine));
-                    state = OrderingRecording.Snapshot(value, origin);
+                    state = OrderingRecording.Snapshot(value);
                 }
                 catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
                 {
@@ -82,7 +79,7 @@ public sealed class ArmySpriteConstructionTests
             try { loaded.ReadWrite(reader); }
             finally { reader.Destroy(); }
             Assert.IsType<TArmyHS>(loaded);
-            Assert.Equal(OrderingRecording.Snapshot(source, source.InstanceId), OrderingRecording.Snapshot(loaded, loaded.InstanceId));
+            Assert.Equal(OrderingRecording.Snapshot(source), OrderingRecording.Snapshot(loaded));
         }
         finally
         {

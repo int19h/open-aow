@@ -20,15 +20,16 @@ public static partial class RtlUnit
         }
     }
 
-    // Integer(Obj): the value of an integer box, 0 for nil, and the InstanceId of any other object.
+    // Integer(Obj): the value of an integer box, 0 for nil, and the address stand-in of any other object.
     // Product code stores integers in object slots and reads them back. It does not recover an object from the id.
+    // A fixture process uses construction order. Every other process uses the identity hash.
     public static int ObjectToInt(TObject? value)
     {
         switch (value)
         {
             case null: return 0;
             case IntegerObject box: return box.Value;
-            default: return value.InstanceId;
+            default: return CaptureAddress.Of(value);
         }
     }
 }

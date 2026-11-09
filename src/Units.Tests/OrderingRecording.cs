@@ -89,7 +89,7 @@ internal static class OrderingRecording
         }
     }
 
-    internal static string Snapshot(object value, int origin)
+    internal static string Snapshot(object value)
     {
         var visited = new Dictionary<object, string>(ReferenceEqualityComparer.Instance);
         object? State(object? item, string path)
@@ -109,7 +109,6 @@ internal static class OrderingRecording
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-            if (item is TObject obj) fields["$offset"] = obj.InstanceId - origin;
             for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {

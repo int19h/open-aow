@@ -142,11 +142,9 @@ public sealed partial class SpellConstructionTests
     {
         using var fixture = new Fixture();
         var owner = new SpellOwner();
-        int before = new TObject().InstanceId;
         var raw = (TSpell)EClass.Of(type).Create(owner);
         Assert.IsType(type, raw);
         Assert.NotNull(raw.FSpellText);
-        Assert.Equal(6, new TObject().InstanceId - before);
         try
         {
             Assert.Same(raw, Assert.Single(owner.Members));

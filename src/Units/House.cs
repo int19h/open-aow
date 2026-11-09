@@ -94,7 +94,7 @@ public partial class THouse : TCombatStructure
             {
                 do
                 {
-                    ImageIndex = Sequence.GetUnloopedFrameIndex(InstanceId % 3 + TerrainOffset * 3);
+                    ImageIndex = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3) + TerrainOffset * 3);
                     if (ImageIndex != -1)
                     {
                         Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift + 16, YhpSurf + Sequence.dYshift + 16, SurfaceDesc);

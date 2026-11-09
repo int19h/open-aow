@@ -12,9 +12,7 @@ namespace Aow.Units.Tests;
 
 public sealed partial class EngineFixture
 {
-    private static readonly FieldInfo Counter = typeof(TObject).GetField("nextId", BindingFlags.Static | BindingFlags.NonPublic)!;
-
-    internal sealed record Entry(string Call, string Argument, int? Engine, int? Set, int Counter, int Engines, string[] DestroyFrames);
+    internal sealed record Entry(string Call, string Argument, bool Engine, bool Set, int Engines, string[] DestroyFrames);
 
     internal sealed class RecordingHost : IRtlHost, IFileSystem, ISettingsStore, IDialogService, IDisposable
     {
@@ -31,7 +29,6 @@ public sealed partial class EngineFixture
         private readonly Action<string> previousMessage = Runtime.MessageHandler;
         private readonly string previousLocalization = LocalizationRuntime.StartupDirectory;
         internal readonly List<Entry> Events = [];
-        internal int Origin;
 
         internal RecordingHost(string fault)
         {
@@ -57,13 +54,13 @@ public sealed partial class EngineFixture
         }
 
         internal string Relative(string value) => value.Replace(root, "$root", StringComparison.OrdinalIgnoreCase).Replace('\\', '/');
-        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), Game.AoWEngine?.InstanceId, Game.AoWHSSet?.InstanceId, (int)Counter.GetValue(null)!, Core.Engines.Count, destroy ?? []);
+        internal Entry Event(string call, string argument, string[]? destroy = null) => new(call, Relative(argument), Game.AoWEngine is not null, Game.AoWHSSet is not null, Core.Engines.Count, destroy ?? []);
         private void Record(string call, string argument) => Events.Add(Event(call, argument));
 
         internal JsonObject State() => new()
         {
-            ["AoWEngine"] = Game.AoWEngine is null ? null : Game.AoWEngine.InstanceId - Origin,
-            ["AoWHSSet"] = Game.AoWHSSet is null ? null : Game.AoWHSSet.InstanceId - Origin,
+            ["AoWEngine"] = Game.AoWEngine is not null,
+            ["AoWHSSet"] = Game.AoWHSSet is not null,
             ["HSEngineDID"] = Hex.HSEngineDID,
             ["CombatDID"] = Game.CombatDID,
             ["AIDID"] = Game.AIDID,
@@ -72,14 +69,13 @@ public sealed partial class EngineFixture
             ["BaseImageLibraryPath"] = Relative(Images.BaseImageLibraryPath),
             ["BaseSoundEnginePath"] = Relative(SoundApi.BaseSoundEnginePath),
             ["LocalizationStartupDirectory"] = Relative(LocalizationRuntime.StartupDirectory),
-            ["Engines"] = JsonSerializer.SerializeToNode(Enumerable.Range(0, Core.Engines.Count).Select(i => ((TObject)Core.Engines[i]!).InstanceId - Origin)),
-            ["Counter"] = (int)Counter.GetValue(null)! - Origin
+            ["Engines"] = Core.Engines.Count
         };
 
         public IFileSystem Files => this;
         public ISettingsStore Settings => this;
         public IDialogService Dialogs => this;
-        // Engine tests record an address and never open a browser.
+        // Engine tests record startup calls and never open a browser.
         public IShellService Shell { get; } = new RecordingShell();
         public IClock Clock => previousClock;
         public string ExeName => Path.Combine(root, "AoW.exe");

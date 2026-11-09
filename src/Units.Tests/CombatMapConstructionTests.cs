@@ -52,7 +52,6 @@ public sealed class CombatMapConstructionTests
                         if (failure == 2) Game.AoWHSSet = null!;
                         Combat.AoWCombatMap = null!;
                         var owner = owned == 1 || failure == 1 ? new MapPublicationOwner(failure == 1) : null;
-                        int origin = new TObject().InstanceId;
                         TAoWCombatMap? value = null;
                         System.Exception? caught = null;
                         try
@@ -64,19 +63,17 @@ public sealed class CombatMapConstructionTests
                         Assert.Equal(failure == 0, value is not null);
                         var published = Combat.AoWCombatMap;
                         Assert.NotNull(published);
-                        Assert.Equal(origin + 1, published.InstanceId);
                         if (owner is not null) Assert.Equal([true], owner.PublishedAtInsertion);
                         int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TAoWCombatMap) && x.GetMethod()?.Name == "Destroy");
                         var record = new JsonObject
                         {
                             ["GlobalType"] = published.GetType().FullName,
-                            ["GlobalOffset"] = published.InstanceId - origin,
                             ["OwnerMembership"] = owner?.Members.Contains(published),
                             ["PublishedAtInsertion"] = JsonSerializer.SerializeToNode(owner?.PublishedAtInsertion),
                             ["ExceptionType"] = caught?.GetType().FullName,
                             ["ExceptionMessage"] = caught?.Message,
                             ["DestroyEntries"] = destroyEntries,
-                            ["FieldGraph"] = failure == 0 ? JsonNode.Parse(OrderingRecording.Snapshot(value!, origin)) : null
+                            ["FieldGraph"] = failure == 0 ? JsonNode.Parse(OrderingRecording.Snapshot(value!)) : null
                         };
                         string key = $"failure{failure}.owner{owned}.route{route}";
                         actual.Add(key, record);

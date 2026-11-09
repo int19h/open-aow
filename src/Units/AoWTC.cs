@@ -5617,7 +5617,7 @@ public partial class TCOozeHS : TSingleHS
         while (Sequence != null)
         {
             var totalSequenceFrames = Sequence.GetTotalSequenceFrames();
-            Frame = Sequence.GetUnloopedFrameIndex(InstanceId % totalSequenceFrames);
+            Frame = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, totalSequenceFrames));
             if (Frame != -1)
             {
                 Sequence.ImageLibrary[Frame].Show(XhpSurf, YhpSurf, SurfaceDesc);
