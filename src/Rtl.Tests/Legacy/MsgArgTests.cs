@@ -76,7 +76,7 @@ public sealed class MsgArgTests
         Assert.Equal(0, ((MsgArg)0).Int);
         Assert.Equal(0, default(MsgArg).Int);
         Assert.Equal(0, ((MsgArg)(TObject?)null).Int);
-        // A reference no longer offers its InstanceId as an integer.
+        // A reference no longer offers its address as an integer.
         var obj = new SampleObject();
         Assert.Throws<InvalidCastException>(() => ((MsgArg)obj).Int);
     }
@@ -113,7 +113,7 @@ public sealed class MsgArgTests
         Assert.True(reference == (MsgArg)obj);
         Assert.True(reference != (MsgArg)other);
         Assert.True(reference != empty);
-        Assert.True(reference != (MsgArg)obj.InstanceId);
+        Assert.True(reference != (MsgArg)RuntimeHelpers.GetHashCode(obj));
         Assert.True(reference.Equals((object)(MsgArg)obj));
         Assert.False(reference.Equals((object)obj));
     }

@@ -76,7 +76,7 @@ public sealed class EngineSupportTests
             Assert.Equal(value, R.ObjectToInt(R.IntToObject(value)));
         }
         var instance = new TObject();
-        Assert.Equal(instance.InstanceId, R.ObjectToInt(instance));
+        Assert.Equal(RuntimeHelpers.GetHashCode(instance), R.ObjectToInt(instance));
         Assert.Equal(0, R.ObjectToInt(null));
     }
 

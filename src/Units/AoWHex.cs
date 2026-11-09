@@ -308,7 +308,7 @@ public partial class TAoWWaterHexagon : TLowerIsometricHexagon
         x -= xSurface + 8;
         y -= ySurface;
         var library = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        int phase = FrameFixtureInputs.WaterVariantPhase ?? (int)((uint)Owner.InstanceId >> 3);
+        int phase = FrameFixtureInputs.WaterBasePhase(Owner);
         library[((phase + field.Xhx + field.Yhx * 2 + (FSides >> 6)) & 15) + 140].Show(x, y, surface);
         x -= 6;
         y -= 9;

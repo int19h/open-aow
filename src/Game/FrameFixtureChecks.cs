@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
@@ -27,7 +28,7 @@ internal static class FrameFixtureChecks
         Check(!RtlUnit.WritesOwnExtensions && Aow.Units.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
             && Aow.Units.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
         var instance = new TObject();
-        Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)instance.InstanceId >> 2) & 65535), "ordinary animation phase");
+        Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
         Check(!new TGDPlay().Connected && new TGDPlay().ConnectionType == TConnectionType.conNone, "offline connection queries");
         Check(Aow.Units.AOWControlWin.TControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
         FrameFixtureInputs.AddressAnimationPhase = 0;

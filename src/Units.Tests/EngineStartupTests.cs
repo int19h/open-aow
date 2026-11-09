@@ -17,8 +17,6 @@ namespace Aow.Units.Tests;
 
 public sealed class EngineStartupTests
 {
-    private static readonly FieldInfo Counter = typeof(TObject).GetField("nextId", BindingFlags.Static | BindingFlags.NonPublic)!;
-
     [Fact]
     public async Task RealStartupSideEffectsStateAndFourFailuresMatchBaseCommit()
     {
@@ -70,22 +68,19 @@ public sealed class EngineStartupTests
                 catch (System.Exception error) { caught = error; }
                 var engine = value ?? Game.AoWEngine;
                 Assert.NotNull(engine);
-                fixture.Origin = engine.InstanceId;
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
                 var result = new JsonObject
                 {
                     ["ExceptionType"] = caught?.GetType().FullName,
                     ["ExceptionMessage"] = caught is null ? null : fixture.Relative(caught.Message),
                     ["StateAtCaller"] = fixture.State(),
-                    ["ObjectsAtCaller"] = Objects(engine, fixture.Origin),
+                    ["ObjectsAtCaller"] = Objects(engine),
                     ["DestroyExceptionFrames"] = caught is null ? null : JsonSerializer.SerializeToNode(new StackTrace(caught).GetFrames()
                         .Where(x => x.GetMethod()?.Name == "Destroy").Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray())
                 };
                 if (route == "AoW")
                 {
-                    int before = (int)Counter.GetValue(null)!;
                     Assert.True(Game.ValidateAoWEngine());
-                    Assert.Equal(before, (int)Counter.GetValue(null)!);
                     Assert.Same(value, Game.AoWEngine);
                     result["ValidateAgain"] = true;
                     result["FinalSnapshot"] = Snapshot((TAoWEngine)value!, fixture);
@@ -112,9 +107,8 @@ public sealed class EngineStartupTests
                 {
                     x.Call,
                     x.Argument,
-                    Engine = x.Engine is null ? (int?)null : x.Engine - fixture.Origin,
-                    Set = x.Set is null ? (int?)null : x.Set - fixture.Origin,
-                    Counter = x.Counter - fixture.Origin,
+                    x.Engine,
+                    x.Set,
                     x.Engines,
                     x.DestroyFrames
                 }));
@@ -131,16 +125,14 @@ public sealed class EngineStartupTests
         Assert.Equal(expected.Count, actual.Count);
     }
 
-    private static JsonObject Objects(TObject root, int origin)
+    private static JsonObject Objects(TObject root)
     {
         var result = new JsonObject();
         var seen = new HashSet<TObject>(ReferenceEqualityComparer.Instance);
         void Visit(TObject value, string path)
         {
             if (!seen.Add(value)) return;
-            result[path] = new JsonObject { ["Type"] = value.GetType().FullName, ["Id"] = value.InstanceId - origin };
-            // The unchanged hash constructors allocate bucket[i] at table.Id + i + 1.
-            // Assert every bucket offset against the table offset in the pinned snapshot.
+            result[path] = new JsonObject { ["Type"] = value.GetType().FullName };
             if (value.GetType().Name is "TIntegerHashTable256" or "TStringHashTable256")
             {
                 object buckets = value.GetType().GetField("FLists", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
@@ -152,9 +144,13 @@ public sealed class EngineStartupTests
                     Aow.Units.FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
                     _ => throw new InvalidOperationException("Unknown hash bucket layout")
                 };
+                var lists = new HashSet<TObject>(ReferenceEqualityComparer.Instance);
                 for (int i = 0; i < 256; i++)
-                    Assert.True(Bucket(i).InstanceId - origin == value.InstanceId - origin + i + 1,
-                        path + $".FLists[{i}] allocation offset");
+                {
+                    TObject bucket = Bucket(i);
+                    Assert.NotNull(bucket);
+                    Assert.True(lists.Add(bucket), path + " bucket " + i + " repeats an earlier list");
+                }
             }
             if (value is TList list)
                 for (int i = 0; i < list.Count; i++)

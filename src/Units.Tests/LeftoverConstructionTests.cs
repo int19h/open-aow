@@ -342,9 +342,8 @@ public sealed class LeftoverConstructionTests
     [Theory]
     [InlineData(false)]
     [InlineData(true)]
-    public void HashTablesAllocateEachBucketOnceInOrder(bool strings)
+    public void HashTablesAllocateADistinctListPerBucket(bool strings)
     {
-        int before = new TObject().InstanceId;
         TObject table;
         var buckets = new List<TObject>();
         if (strings)
@@ -359,9 +358,9 @@ public sealed class LeftoverConstructionTests
             table = value;
             for (int i = 0; i < 256; i++) buckets.Add(value.FLists[i]);
         }
-        Assert.Equal(before + 1, table.InstanceId);
-        Assert.Equal(258, new TObject().InstanceId - before);
-        for (int i = 0; i < buckets.Count; i++) Assert.Equal(before + i + 2, buckets[i].InstanceId);
+        Assert.Equal(256, buckets.Count);
+        Assert.Equal(256, new HashSet<TObject>(buckets, ReferenceEqualityComparer.Instance).Count);
+        Assert.DoesNotContain(table, buckets);
         table.Destroy();
     }
 }

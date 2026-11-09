@@ -247,9 +247,8 @@ public partial class TSummonSpell : TSpell
         return ((TSummonedAbility)AoWHSSet.FAbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndice);
     }
 
-    // SummonSpells.pas:255 calls PassiveAb.pas:1115 on a nil receiver.
-    // The native routine reads only the unit argument.
-    public int GetDispelResistance(TAbstractUnit unit) => unit is TUnit ? unit.GetUnitLevel() + 3 : 0;
+    // SummonSpells.pas:255
+    public int GetDispelResistance(TAbstractUnit unit) => TSummonedAbility.GetDefaultDispelResistance(unit);
 }
 
 public partial class TSummonSyron : TSummonSpell

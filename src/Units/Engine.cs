@@ -387,6 +387,23 @@ public partial class TIntegerList : TPersistent
         }
     }
 
+    // Keeps the order of equal items. HeroGrid.SortHeroes is the only caller.
+    public void SortStable(TIntegerSortCompare Compare)
+    {
+        for (int I = 1; I < Count; I++)
+        {
+            int Item = FList[I];
+            int J = I - 1;
+            while (J >= 0 && Compare(FList[J], Item) > 0)
+            {
+                FList[J + 1] = FList[J];
+                J -= 1;
+            }
+
+            FList[J + 1] = Item;
+        }
+    }
+
     // Engine.pas:3471
     public bool Compare(TIntegerList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
@@ -7636,6 +7653,14 @@ public partial class TEChangeNotifyNode : TECustomNode
     {
         BeginUpdate();
         FChildren.Sort(Compare);
+        EndUpdate();
+    }
+
+    // Keeps the order of equal items. Reflecting pool ordering is the only caller.
+    public void SortStable(TListSortCompare Compare)
+    {
+        BeginUpdate();
+        FChildren.SortStable(Compare);
         EndUpdate();
     }
 

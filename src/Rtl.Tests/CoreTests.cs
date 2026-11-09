@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
 using static Aow.Rtl.RtlUnit;
@@ -35,8 +36,7 @@ public sealed class CoreTests
         Assert.Equal("TSampleChild", TObject.ClassNameOf(typeof(TSampleChild)));
         var fresh = new TSampleChild(0);
         var next = new TSampleChild(3);
-        Assert.Equal(fresh.InstanceId + 1, next.InstanceId);
-        Assert.True(fresh.InstanceId >= 1);
+        Assert.NotSame(fresh, next);
         Assert.Equal(13, next.Value);
         Assert.Equal(2, next.ClassID);
         Assert.Throws<EAbstractError>(next.AbstractCall);
@@ -186,13 +186,13 @@ public sealed class CoreTests
         IntOrRef reference = obj;
         Assert.Same(obj, reference.Ref);
         Assert.Same(obj, reference.As<TObject>());
-        Assert.Equal(obj.InstanceId, reference.Value);
-        IntOrRef text = "abc";
-        Assert.Equal(obj.InstanceId + 1, text.Value);
+        Assert.Equal(RuntimeHelpers.GetHashCode(obj), reference.Value);
+        string literal = "abc";
+        IntOrRef text = literal;
+        Assert.Equal(RuntimeHelpers.GetHashCode(literal), text.Value);
         Assert.Equal("abc", text.As<string>());
         var copy = text;
         Assert.Equal(text.Value, copy.Value);
-        Assert.Equal(text.Value + 1, new TObject().InstanceId);
         IntOrRef nil = (TObject?)null;
         Assert.Null(nil.Ref);
         Assert.Equal(0, nil.Value);

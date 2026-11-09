@@ -18,7 +18,6 @@ public sealed class EventLogConstructionTests
         internal int Changes;
         internal int DestroyEntries;
         internal readonly List<string> Observations = [];
-        internal int Origin;
 
         internal EventListOwner() : base(null!)
         {
@@ -30,7 +29,7 @@ public sealed class EventLogConstructionTests
                 for (Type? type = child.GetType(); type != typeof(TEventLog); type = type!.BaseType)
                     foreach (var field in type!.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
                         if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null) nil = false;
-                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.FDay, child.FPlayer, child.FID, child.FRefCount, AddRefReturn = child.FRefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child, Origin) }));
+                Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.FDay, child.FPlayer, child.FID, child.FRefCount, AddRefReturn = child.FRefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
             };
         }
 
@@ -112,15 +111,13 @@ public sealed class EventLogConstructionTests
                         using var fixture = new OrderingRecording.Fixture(type);
                         if (mapped == 1) Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
                         var owner = owned == 1 ? new EventListOwner() : null;
-                        int origin = new TObject().InstanceId;
-                        if (owner is not null) owner.Origin = origin;
                         TEventLog? value = null;
                         string state;
                         try
                         {
                             value = (TEventLog)OrderingRecording.Create(type, owner, route, fixture.Engine);
                             Assert.IsType(type, value);
-                            state = OrderingRecording.Snapshot(value, origin);
+                            state = OrderingRecording.Snapshot(value);
                         }
                         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
                         Assert.NotNull(value);

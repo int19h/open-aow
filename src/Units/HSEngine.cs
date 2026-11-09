@@ -112,11 +112,6 @@ public partial class TMapField : TECustomNode
     internal sbyte FTerrainType;
     internal sbyte FOverlayType;
 
-    // HSEngine.pas:1919
-    public override void FreeInstance()
-    {
-    }
-
     // HSEngine.pas:1907
     public override void Destroy()
     {

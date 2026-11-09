@@ -220,7 +220,7 @@ public partial class TReflectingPool : TPlayerStructure
                 List = new TPlayerStructureList(null);
                 ListReflectingPools(ref List);
                 List.RemoveChild(this);
-                List.Sort(ReflectingPoolUnit.ComparePools);
+                List.SortStable(ReflectingPoolUnit.ComparePools);
                 var count = List.Count;
                 if (FCenterFrame / 8 < count)
                 {
@@ -350,7 +350,13 @@ public static partial class ReflectingPoolUnit
     }
 
     // ReflectingPool.pas:96
-    public static int ComparePools(object Item1, object Item2) => (((TObject)Item1)?.InstanceId ?? 0) - (((TObject)Item2)?.InstanceId ?? 0);
+    // Equal pools stay in the order the stable sort started from. The address key is gone.
+    public static int ComparePools(object Item1, object Item2)
+    {
+        _ = Item1;
+        _ = Item2;
+        return 0;
+    }
 
     public static void Initialize()
     {
