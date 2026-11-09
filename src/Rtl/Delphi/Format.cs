@@ -34,7 +34,7 @@ public static partial class RtlUnit
             int precision = -1;
             if (i < text.Length && text[i] == '.') { i++; precision = ReadNumber(text, ref i, args, ref next); }
             if (i >= text.Length) break;
-            if (next < 0 || next >= args.Length) throw new EConvertError("Missing format argument");
+            if (next < 0 || next >= args.Length) throw new FormatException("Missing format argument");
             char conversion = UpCase(text[i]);
             string output = args[next++] switch
             {
@@ -75,11 +75,11 @@ public static partial class RtlUnit
     private static string Truncate(string value, int precision) =>
         precision >= 0 && value.Length > precision ? value[..precision] : value;
 
-    private static EConvertError Mismatch(char conversion, int start) => conversion switch
+    private static FormatException Mismatch(char conversion, int start) => conversion switch
     {
-        'D' or 'U' or 'X' => new EConvertError("Integer format argument required"),
-        'S' => new EConvertError("String format argument required"),
-        'P' => new EConvertError("Pointer format argument required"),
-        _ => new EConvertError($"Unsupported format at {start}"),
+        'D' or 'U' or 'X' => new FormatException("Integer format argument required"),
+        'S' => new FormatException("String format argument required"),
+        'P' => new FormatException("Pointer format argument required"),
+        _ => new FormatException($"Unsupported format at {start}"),
     };
 }

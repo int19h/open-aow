@@ -540,7 +540,7 @@ sealed class MemberPersister : IPersister
         return current;
     }
 
-    private bool Continue(System.Exception error) => errors is null || errors.Continue(RtlUnit.Wrap(error));
+    private bool Continue(System.Exception error) => errors is null || errors.Continue(error);
 
     private static List<string> Split(string text)
     {
@@ -661,7 +661,7 @@ sealed class ItemSlot : IItemSlot
             {
                 if (created is not null) factory.Release(created);
                 value = null;
-                if (errors is not null && !errors.Continue(RtlUnit.Wrap(error))) throw;
+                if (errors is not null && !errors.Continue(error)) throw;
             }
             return;
         }

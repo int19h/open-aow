@@ -61,7 +61,7 @@ public sealed class StringBufferTests
     {
         using var stream = Input(shape, -1, []);
         string text = "old";
-        Assert.Throws<ERangeError>(() => Read(shape, ref text, stream));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Read(shape, ref text, stream));
         Assert.Equal(shape == 1 ? "" : "old", text);
     }
 
@@ -73,7 +73,7 @@ public sealed class StringBufferTests
         {
             if (Position < BodyPosition) return base.Read(buffer);
             if (!buffer.IsEmpty) buffer[0] = 0x80;
-            throw new EReadError("body failure");
+            throw new IOException("body failure");
         }
     }
 
@@ -88,7 +88,7 @@ public sealed class StringBufferTests
         stream.Write(input.Memory.AsSpan(0, input.Size));
         stream.Position = 0;
         string text = "seedtail";
-        Assert.Throws<EReadError>(() => Read(shape, ref text, stream));
+        Assert.Throws<IOException>(() => Read(shape, ref text, stream));
         Assert.Equal(shape == 1 ? new byte[6] : "seedta"u8.ToArray(), Cp1252.Encode(text).ToArray());
     }
 
@@ -169,6 +169,6 @@ public sealed class StringBufferTests
             FAOWFont = new TImageLibraryFont(null!)
         };
         memo.FItems.Add("<INT>text");
-        Assert.IsType<ERangeError>(Runtime.Wrap(Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize())));
+        Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize());
     }
 }

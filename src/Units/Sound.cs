@@ -4,7 +4,6 @@ using Aow.Rtl;
 using Aow.Units.Engine;
 using static Aow.Rtl.RtlUnit;
 using static Aow.Units.Engine.EngineUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Sound;
 
@@ -1550,7 +1549,7 @@ public static partial class SoundUnit
         }
         else
         {
-            throw Exception.Create("Sound System with name: " + AClass.Name + " already registered");
+            throw new InvalidOperationException("Sound System with name: " + AClass.Name + " already registered");
         }
     }
 

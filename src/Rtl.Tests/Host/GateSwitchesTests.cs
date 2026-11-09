@@ -22,9 +22,9 @@ public sealed class GateSwitchesTests
     {
         Assert.Equal(0, ExceptionCensus.KindOf(new NullReferenceException()));
         Assert.Equal(1, ExceptionCensus.KindOf(new IndexOutOfRangeException()));
-        Assert.Equal(2, ExceptionCensus.KindOf(new ERangeError("range")));
-        Assert.Equal(3, ExceptionCensus.KindOf(new EAccessViolation("access")));
-        Assert.Equal(4, ExceptionCensus.KindOf(new EConvertError("convert")));
+        Assert.Equal(2, ExceptionCensus.KindOf(new ArgumentOutOfRangeException(paramName: null, "range")));
+        Assert.Equal(3, ExceptionCensus.KindOf(new AccessViolationException("access")));
+        Assert.Equal(4, ExceptionCensus.KindOf(new FormatException("convert")));
         Assert.Equal(5, ExceptionCensus.KindOf(new NullStringException()));
         Assert.Equal(2, ExceptionCensus.KindOf(new DerivedRange()));
         Assert.Equal(-1, ExceptionCensus.KindOf(new InvalidOperationException()));
@@ -57,5 +57,5 @@ public sealed class GateSwitchesTests
         }
     }
 
-    private sealed class DerivedRange() : ERangeError("derived");
+    private sealed class DerivedRange() : ArgumentOutOfRangeException(paramName: null, "derived");
 }

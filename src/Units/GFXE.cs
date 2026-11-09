@@ -4,7 +4,6 @@ using System.Runtime.InteropServices;
 using Aow.Graphics;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.GFXE;
 
@@ -1706,7 +1705,7 @@ public static partial class GFXEUnit
             }
             else
             {
-                throw Exception.Create("ImageFile class with " + AClasses[I].Extension + " extension is already registered");
+                throw new InvalidOperationException("ImageFile class with " + AClasses[I].Extension + " extension is already registered");
             }
         }
     }
@@ -1906,7 +1905,7 @@ public static partial class GFXEUnit
                 Result = (int)SD.View().Dword(X * 4 + SD.Pitch * Y);
                 break;
             default:
-                throw Exception.Create("PixelFormat is not supported");
+                throw new NotSupportedException("PixelFormat is not supported");
         }
 
         return Result;
@@ -2061,7 +2060,7 @@ public static partial class GFXEUnit
                     Result = (int)SD.View().Dword((X << 2) + SD.Pitch * Y);
                     break;
                 default:
-                    throw Exception.Create("PixelFormat is not supported");
+                    throw new NotSupportedException("PixelFormat is not supported");
             }
 
             return Result;
@@ -2174,7 +2173,7 @@ public static partial class GFXEUnit
                     Result = (int)SD__value.View().Dword(X * 4 + SD__value.Pitch * Y);
                     break;
                 default:
-                    throw Exception.Create("PixelFormat is not supported");
+                    throw new NotSupportedException("PixelFormat is not supported");
             }
 
             return Result;
@@ -2275,7 +2274,7 @@ public static partial class GFXEUnit
                     Result = (int)SD__value.View().Dword(X * 4 + SD__value.Pitch * Y);
                     break;
                 default:
-                    throw Exception.Create("PixelFormat is not supported");
+                    throw new NotSupportedException("PixelFormat is not supported");
             }
 
             return Result;
@@ -2674,7 +2673,7 @@ public static partial class GFXEUnit
                 }
                 else
                 {
-                    throw Exception.Create("Source Palette needed (GFXE)");
+                    throw new InvalidOperationException("Source Palette needed (GFXE)");
                 }
 
                 break;
@@ -2715,7 +2714,7 @@ public static partial class GFXEUnit
                 B = (byte)(PixelInfo & 255);
                 break;
             default:
-                throw Exception.Create("Source PixelFormat not supported");
+                throw new NotSupportedException("Source PixelFormat not supported");
         }
 
         switch (DestPixelFormatID)
@@ -2727,7 +2726,7 @@ public static partial class GFXEUnit
                 }
                 else
                 {
-                    throw Exception.Create("Destination Palette needed");
+                    throw new InvalidOperationException("Destination Palette needed");
                 }
 
                 break;
@@ -2750,7 +2749,7 @@ public static partial class GFXEUnit
                 Result = (A << 24) + (R << 16) + (G << 8) + B;
                 break;
             default:
-                throw Exception.Create("Destination PixelFormat not supported");
+                throw new NotSupportedException("Destination PixelFormat not supported");
         }
 
         return Result;
@@ -2780,7 +2779,7 @@ public static partial class GFXEUnit
         }
         else
         {
-            throw Exception.Create("BlendTable format not supported");
+            throw new NotSupportedException("BlendTable format not supported");
         }
     }
 
@@ -2971,7 +2970,7 @@ public static partial class GFXEUnit
         }
         else
         {
-            throw Exception.Create("BlendTable format not supported");
+            throw new NotSupportedException("BlendTable format not supported");
         }
     }
 

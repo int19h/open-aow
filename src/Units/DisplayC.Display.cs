@@ -73,7 +73,7 @@ public partial class TCustomDisplay
     public virtual void StartUpdateFrameLoop()
     {
         if (FStatus.Contains(dsFrameLoopActive)) return;
-        if (FUpdateFrameMode != TUpdateFrameMode.umSynchrone) throw new ENotSupported("Asynchronous display loop");
+        if (FUpdateFrameMode != TUpdateFrameMode.umSynchrone) throw new NotSupportedException("Asynchronous display loop");
         FStatus = FStatus.With(dsFrameLoopActive);
         try
         {

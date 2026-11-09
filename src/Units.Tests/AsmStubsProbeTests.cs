@@ -40,6 +40,18 @@ public sealed class AsmStubsProbeTests
 
     private static readonly string[] Lines = File.ReadAllLines(Path.Combine(AppContext.BaseDirectory, "Probes", "asm-stubs.txt"));
 
+    // The recording names the Delphi class. A type missing from this table fails the test.
+    private static readonly Dictionary<Type, string> DelphiNames = new()
+    {
+        [typeof(ArgumentOutOfRangeException)] = "EListError",
+        [typeof(AccessViolationException)] = "EAccessViolation",
+    };
+
+    private static string DelphiName(System.Exception error) =>
+        DelphiNames.TryGetValue(error.GetType(), out string? name)
+            ? name
+            : throw new Xunit.Sdk.XunitException("asm-stubs has no Delphi name for " + error.GetType().Name);
+
     [Fact]
     public void EngineFills() => Check(0, EngineFillLines());
 
@@ -229,7 +241,7 @@ public sealed class AsmStubsProbeTests
             }
             catch (System.Exception e)
             {
-                AddText(lines, "Engine.TBitList.Put_negative", e.GetType().Name);
+                AddText(lines, "Engine.TBitList.Put_negative", DelphiName(e));
             }
 
             AddHex(lines, "Engine.TBitList.Put_negative_guard", guard[31]);
@@ -243,7 +255,7 @@ public sealed class AsmStubsProbeTests
             }
             catch (System.Exception e)
             {
-                AddText(lines, "Engine.TBitList.Put_negative_two", e.GetType().Name);
+                AddText(lines, "Engine.TBitList.Put_negative_two", DelphiName(e));
             }
         }
         finally
@@ -414,7 +426,7 @@ public sealed class AsmStubsProbeTests
         }
         catch (System.Exception e)
         {
-            AddText(lines, "GFXE.FillTrippleByte_zero", e.GetType().Name);
+            AddText(lines, "GFXE.FillTrippleByte_zero", DelphiName(e));
         }
 
         return lines;

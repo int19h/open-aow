@@ -4,7 +4,7 @@ namespace Aow.Rtl;
 
 public sealed class IndexedProperty<TKey, TValue>(Func<TKey, TValue> get, Action<TKey, TValue>? set = null) where TKey : notnull
 {
-    public TValue this[TKey key] { get => get(key); set { if (set is null) throw new EInvalidOperation("Read-only property"); set(key, value); } }
+    public TValue this[TKey key] { get => get(key); set { if (set is null) throw new InvalidOperationException("Read-only property"); set(key, value); } }
 }
 
 public abstract class TStrings : TPersistent
@@ -180,8 +180,17 @@ public abstract class TStrings : TPersistent
 
     public void SaveToFile(string name) { using var stream = new TFileStream(name, fmCreate); SaveToStream(stream); }
 
-    // CLASSES.PAS TStrings.Error.
-    public static void Error(string message, int data) => throw EStringListError.CreateFmt(message, data);
+    // CLASSES.PAS TStrings.Error. The message selects the .NET exception.
+    public static void Error(string message, int data)
+    {
+        string text = Format(message, data);
+        if (message.AsSpan().StartsWith("List index out of bounds")
+            || message.AsSpan().StartsWith("List capacity out of bounds"))
+            throw new ArgumentOutOfRangeException(paramName: null, text);
+        if (message.AsSpan().StartsWith("Operation not allowed on sorted string list"))
+            throw new InvalidOperationException(text);
+        throw new ArgumentException(text);
+    }
 }
 
 public enum TDuplicates : byte { dupIgnore, dupAccept, dupError }

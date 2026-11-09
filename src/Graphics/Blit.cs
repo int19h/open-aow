@@ -182,7 +182,7 @@ public static partial class Blit
     {
         for (uint i = 0; i < unchecked((uint)count); i++)
         {
-            if (i >= (uint)(d.Length / 4)) throw new EAccessViolation("FillInt crossed the buffer");
+            if (i >= (uint)(d.Length / 4)) throw new AccessViolationException("FillInt crossed the buffer");
             BinaryPrimitives.WriteInt32LittleEndian(d.Slice((int)i * 4, 4), value);
         }
     }
@@ -192,13 +192,13 @@ public static partial class Blit
         uint pair = unchecked(((uint)value << 16) + (uint)value), pairs = (uint)count >> 1;
         for (uint i = 0; i < pairs; i++)
         {
-            if (i >= (uint)(d.Length / 4)) throw new EAccessViolation("FillWord crossed the buffer");
+            if (i >= (uint)(d.Length / 4)) throw new AccessViolationException("FillWord crossed the buffer");
             BinaryPrimitives.WriteUInt32LittleEndian(d.Slice((int)i * 4, 4), pair);
         }
         if ((count & 1) != 0)
         {
             int offset = checked((int)pairs * 4);
-            if (offset > d.Length - 2) throw new EAccessViolation("FillWord crossed the buffer");
+            if (offset > d.Length - 2) throw new AccessViolationException("FillWord crossed the buffer");
             BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), (ushort)pair);
         }
     }
@@ -208,9 +208,9 @@ public static partial class Blit
         int offset = 0;
         do
         {
-            if (offset > d.Length - 2) throw new EAccessViolation("FillTrippleByte crossed the buffer");
+            if (offset > d.Length - 2) throw new AccessViolationException("FillTrippleByte crossed the buffer");
             BinaryPrimitives.WriteUInt16LittleEndian(d.Slice(offset, 2), (ushort)value);
-            if (offset + 2 >= d.Length) throw new EAccessViolation("FillTrippleByte crossed the buffer");
+            if (offset + 2 >= d.Length) throw new AccessViolationException("FillTrippleByte crossed the buffer");
             d[offset + 2] = (byte)(value >> 16); offset += 3;
         } while (--count != 0);
     }
@@ -220,7 +220,7 @@ public static partial class Blit
     private static void CheckShortRows(SurfaceView s, SurfaceView d, int w, int h)
     {
         if (w > 0 && w < 4 && h > 0 && ((s.Start | d.Start) & 3) == 0)
-            throw new EAccessViolation("Original aligned remapper overruns short rows");
+            throw new AccessViolationException("Original aligned remapper overruns short rows");
     }
 
     public static void RemapSurface16to16(SurfaceView s, SurfaceView d, ReadOnlySpan<byte> table, int w, int h)

@@ -254,7 +254,7 @@ public sealed class GraphicsConstructionTests
         palette.Entries[0].R = 29;
         Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB08Surface(-1, 4, palette));
         Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB16Surface(-1, 4, G.pfRGB555));
-        Assert.Throws<ENotSupported>(() => new TDIB16Surface(7, 4, G.pfPAL8));
+        Assert.Throws<NotSupportedException>(() => new TDIB16Surface(7, 4, G.pfPAL8));
         Assert.Equal((byte)29, palette.Entries[0].R);
         palette.Destroy();
     }
@@ -312,7 +312,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal("# Rule", System.Text.Encoding.UTF8.GetString(bytes));
         Assert.Equal(0, stream.Seek(0, 0));
         stream.Destroy();
-        Assert.Throws<EFOpenError>(() => new TFastLoadFileStream(path + ".absent"));
+        Assert.Throws<FileNotFoundException>(() => new TFastLoadFileStream(path + ".absent"));
     }
 
     [Fact]

@@ -71,7 +71,7 @@ internal static class OrderingRecording
             foreach (var descriptor in EClass.All.Where(x => x.Type == type))
             {
                 try { Engine.UnregisterEClasses([Engine.GetEClass(descriptor.ClassID)]); }
-                catch (Aow.Rtl.Exception) { }
+                catch (System.Exception error) when (PortedExceptions.Is(error)) { }
                 Engine.RegisterEClasses([descriptor]);
             }
         }

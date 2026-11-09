@@ -87,7 +87,7 @@ public sealed class ImageClassTests
                 Assert.Same(image.ImageClass, image.ImageClass);
             }
             Assert.Null(Images.FindLibraryImageClass(-1));
-            Assert.Throws<Aow.Rtl.Exception>(() => Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>()]));
+            Assert.Throws<InvalidOperationException>(() => Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>()]));
         }
         finally
         {

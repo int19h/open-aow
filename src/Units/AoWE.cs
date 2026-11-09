@@ -23,7 +23,6 @@ using static Aow.Units.HSEngine.HSEngineUnit;
 using static Aow.Units.ImageLib.ImageLibUnit;
 using static Aow.Units.NetworkE.NetworkEUnit;
 using static Aow.Units.Sound.SoundUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.AoWE;
 
@@ -2770,7 +2769,7 @@ public partial class TPlayerMagicControl : TEObject
             {
                 try
                 {
-                    throw Exception.Create("oohps");
+                    throw new InvalidOperationException("oohps");
                 }
                 catch
                 {
@@ -9123,7 +9122,7 @@ public partial class TPlayerControl : TEObject
         {
             if (AoWEUnit.AoWHSMap.FPlayerCommunicator.PCC == null)
             {
-                throw Exception.Create("Please setup DirectPlayPCC");
+                throw new InvalidOperationException("Please setup DirectPlayPCC");
             }
 
             var tokenExecuter = AoWEUnit.AoWHSMap.FTokenManager.TokenExecuter;
@@ -12769,7 +12768,7 @@ public partial class TTargetSelectionControl : TObject
         }
         else
         {
-            throw Exception.Create("please deactivate before initializing (TTargetSelectionControl)");
+            throw new InvalidOperationException("please deactivate before initializing (TTargetSelectionControl)");
         }
     }
 
@@ -12791,7 +12790,7 @@ public partial class TTargetSelectionControl : TObject
         }
         else
         {
-            throw Exception.Create("Already activated");
+            throw new InvalidOperationException("Already activated");
         }
     }
 
@@ -16643,7 +16642,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         }
         else
         {
-            throw Exception.Create("Combat already created");
+            throw new InvalidOperationException("Combat already created");
         }
 
         return Result;
@@ -19294,7 +19293,7 @@ public partial class TAbilityControl : TEObject
         {
             if (ID < this.FAbilities.Count && this.FAbilities[ID] != null)
             {
-                throw Exception.Create("Ability already registered (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Ability already registered (" + IntToStr(ID) + ")");
             }
 
             while (ID >= FAbilities.Count)
@@ -19309,7 +19308,7 @@ public partial class TAbilityControl : TEObject
         }
         else
         {
-            throw Exception.Create("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
+            throw new ArgumentException("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
         }
     }
 
@@ -19322,7 +19321,7 @@ public partial class TAbilityControl : TEObject
         {
             if (ID < 0 || ID >= FAbilities.Count || FAbilities[ID] != Ability)
             {
-                throw Exception.Create("Cannot Unregister Ability (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Cannot Unregister Ability (" + IntToStr(ID) + ")");
             }
 
             if (FAbilities.List[ID] != null)
@@ -19336,7 +19335,7 @@ public partial class TAbilityControl : TEObject
         }
         else
         {
-            throw Exception.Create("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
+            throw new ArgumentException("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
         }
     }
 
@@ -21499,7 +21498,7 @@ public partial class TUnitControl : TEObject
                         {
                             try
                             {
-                                throw Exception.Create("UnitID Failure");
+                                throw new InvalidOperationException("UnitID Failure");
                             }
                             catch
                             {
@@ -24331,7 +24330,7 @@ public partial class TUnit : TAbstractUnit
                     FUnitResource = Resource;
                     if (Resource == null)
                     {
-                        throw Exception.Create("unit resource missing (" + IntToStr(ResourceIndex) + ")");
+                        throw new KeyNotFoundException("unit resource missing (" + IntToStr(ResourceIndex) + ")");
                     }
                 }
                 else
@@ -29631,7 +29630,7 @@ public partial class TLeader : THero
                 {
                     try
                     {
-                        throw Exception.Create("Double leader used");
+                        throw new InvalidOperationException("Double leader used");
                     }
                     catch
                     {
@@ -30302,7 +30301,7 @@ public partial class THeroLibrary : THeroList
         FChildren.Add(Child);
         if (Child.AddRef() == -1)
         {
-            throw Exception.Create("EObject doesn't support ReferenceCounting");
+            throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
         return FChildren.Count - 1;
@@ -39295,7 +39294,7 @@ public partial class TAoWHSSet : THSSet
                 Loaded = Loaded && AoWEUnit.AoWEngine.ReadFromFileCRC(Path + "TEXT.PFS", FTextControl, null);
                 if (!Loaded)
                 {
-                    throw Exception.Create("CRC-CHECK FAILED");
+                    throw new InvalidOperationException("CRC-CHECK FAILED");
                 }
 
                 Stream.ShowProgress(this, AoWEUnit.TranslateRStr(AoWEUnit.GamePackLoadedRStr), 100);
@@ -45052,7 +45051,7 @@ public partial class TCombatPartyList : TENode
         }
         else
         {
-            throw Exception.Create("CombatParty already exists!");
+            throw new InvalidOperationException("CombatParty already exists!");
         }
 
         return P;
@@ -46664,7 +46663,7 @@ public partial class TAIPlayerActionManager : TEObject
         {
             if (FRegisteredClasses.IndexOf(Classes[I]) != -1)
             {
-                throw Exception.Create("AIPlayerAction already Registered");
+                throw new InvalidOperationException("AIPlayerAction already Registered");
             }
 
             FRegisteredClasses.Add(Classes[I]);
@@ -49107,7 +49106,7 @@ public partial class TAIMoveExecuterArmy : TAIMoveExecuterUnitList
                     }
                     else
                     {
-                        throw Exception.Create("Unit missing!");
+                        throw new KeyNotFoundException("Unit missing!");
                     }
                 }
 
@@ -49400,7 +49399,7 @@ public partial class TAIMoveExecuterMove : TAIMoveExecuterUnitList
                 }
                 else
                 {
-                    throw Exception.Create("Unit missing!");
+                    throw new KeyNotFoundException("Unit missing!");
                 }
             }
 
@@ -51418,13 +51417,13 @@ public partial class TAIMoveExecuter : TEObject
         {
             if (FPlayer != AUnit.FPlayer)
             {
-                throw Exception.Create("Player mismatch!");
+                throw new InvalidOperationException("Player mismatch!");
             }
         }
 
         if (FUnits.IndexOfUnitID(AUnit.FUnitID) != -1)
         {
-            throw Exception.Create("Unit already exists! (TAIMoveExecuter)");
+            throw new InvalidOperationException("Unit already exists! (TAIMoveExecuter)");
         }
 
         AUnit.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
@@ -51464,7 +51463,7 @@ public partial class TAIMoveExecuter : TEObject
         int Index;
         if (FTransporter != null)
         {
-            throw Exception.Create("Transporter already exists! (TAIMoveExecuter)");
+            throw new InvalidOperationException("Transporter already exists! (TAIMoveExecuter)");
         }
 
         Index = FUnits.IndexOfUnitID(AUnit.FUnitID);
@@ -51654,7 +51653,7 @@ public partial class TAIMoveExecuter : TEObject
                         var moves = FMoves.GetMoves(I);
                         if (!Move.Setup(Army, Selection, moves.FPath, TSet<TArmyMoveModeElement>.Of()))
                         {
-                            throw Exception.Create("FAILURE: TAIMoveExecuter.ExecuteMoves");
+                            throw new InvalidOperationException("FAILURE: TAIMoveExecuter.ExecuteMoves");
                         }
 
                         FMoves.GetMoves(I).SetUnitStatus(TAIMoveExecuterUnitStatus.esMoving);
@@ -53957,7 +53956,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
             // { Original diagnostic raises and immediately swallows its exception. }
             try
             {
-                throw Exception.Create("oohps");
+                throw new InvalidOperationException("oohps");
             }
             catch
             {
@@ -55275,7 +55274,7 @@ public partial class TAIGroupControlPlugin : TEObject
         }
         catch
         {
-            throw Exception.Create(ClassNameOf(this.GetType()) + " exception during state (" + IntToStr(FState) + ")");
+            throw new InvalidOperationException(ClassNameOf(this.GetType()) + " exception during state (" + IntToStr(FState) + ")");
         }
 
         return FState != -1;
@@ -69629,7 +69628,7 @@ public partial class TConstructAbility : TAdjustableAbility
         var id = Control.ID();
         if (FConstructionControls.FindID(id) != null)
         {
-            throw Exception.Create("Construction Control ID already used");
+            throw new InvalidOperationException("Construction Control ID already used");
         }
 
         Control.SetOwner(FConstructionControls);
@@ -70404,7 +70403,7 @@ public partial class TSpellControl : TEObject
         {
             if (ID < FRegisteredSpells.Count && FRegisteredSpells[ID] != null)
             {
-                throw Exception.Create("Spell already registered (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Spell already registered (" + IntToStr(ID) + ")");
             }
 
             while (FRegisteredSpells.Count <= ID)
@@ -70417,7 +70416,7 @@ public partial class TSpellControl : TEObject
         }
         else
         {
-            throw Exception.Create("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
+            throw new ArgumentException("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
         }
     }
 
@@ -70430,7 +70429,7 @@ public partial class TSpellControl : TEObject
         {
             if (ID < 0 || ID >= FRegisteredSpells.Count || FRegisteredSpells[ID] != Spell)
             {
-                throw Exception.Create("Cannot Unregister Spell (" + IntToStr(ID) + ")");
+                throw new InvalidOperationException("Cannot Unregister Spell (" + IntToStr(ID) + ")");
             }
 
             if (FRegisteredSpells.List[ID] != null)
@@ -70442,7 +70441,7 @@ public partial class TSpellControl : TEObject
         }
         else
         {
-            throw Exception.Create("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
+            throw new ArgumentException("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
         }
     }
 
@@ -74198,7 +74197,7 @@ public partial class TAoWEngine : THSEngine
         }
         catch
         {
-            throw Exception.Create("exception occurred during CloseHSM");
+            throw new InvalidOperationException("exception occurred during CloseHSM");
         }
     }
 
@@ -79276,7 +79275,7 @@ public static partial class AoWEUnit
             default:
                 Result = 50;
                 // { Original constructs and leaks this exception without raising it. }
-                Exception.Create("Invalid TStatus Value");
+                new ArgumentException("Invalid TStatus Value");
                 break;
         }
 
@@ -79313,7 +79312,7 @@ public static partial class AoWEUnit
                     default:
                         Result = TStatus.sNeutral;
                         // { Original constructs and leaks this exception without raising it. }
-                        Exception.Create("Invalid StatusValue");
+                        new ArgumentException("Invalid StatusValue");
                         break;
                 }
             }
@@ -79346,7 +79345,7 @@ public static partial class AoWEUnit
             default:
                 Result = 50;
                 // { Original leaks the exception without raising it. }
-                Exception.Create("Invalid TMoral Value");
+                new ArgumentException("Invalid TMoral Value");
                 break;
         }
 
@@ -79383,7 +79382,7 @@ public static partial class AoWEUnit
                     default:
                         Result = TMorale.mOK;
                         // { Original leaks the exception without raising it. }
-                        Exception.Create("Invalid MoralValue");
+                        new ArgumentException("Invalid MoralValue");
                         break;
                 }
             }

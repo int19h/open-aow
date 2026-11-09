@@ -8,7 +8,6 @@ using Aow.Units.Engine;
 using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.Sound.SoundUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.EventLog;
 
@@ -513,7 +512,7 @@ public partial class TEventLogList : TENode
         FChildren.Add(Child);
         if (Child.AddRef() == -1)
         {
-            throw Exception.Create("EObject doesn't support ReferenceCounting");
+            throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
         int Result = FChildren.Count - 1;

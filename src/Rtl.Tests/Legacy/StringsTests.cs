@@ -30,7 +30,7 @@ public sealed class StringsTests
         list.Move(0, 2); Assert.Equal("FIRST=updated", list[2]); Assert.Same(obj, list.Objects[2]);
         list.Exchange(0, 2); Assert.Equal("FIRST=updated", list[0]); Assert.Same(obj, list.Objects[0]);
         list.Move(-1, -1);
-        Assert.Throws<EConvertError>(() => copy.Assign(new TPersistent()));
+        Assert.Throws<FormatException>(() => copy.Assign(new TPersistent()));
         copy.Assign(copy); Assert.Equal(0, copy.Count);
         list.Destroy(); Assert.False(obj.Destroyed); Assert.False(other.Destroyed);
     }
@@ -46,19 +46,19 @@ public sealed class StringsTests
         list.BeginUpdate(); list.BeginUpdate(); list.Add("b"); list.Add("a"); list.EndUpdate(); Assert.Equal(new[] { "changing" }, events); list.EndUpdate(); Assert.Equal(new[] { "changing", "changed" }, events);
         events.Clear(); list.Sorted = true; Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal("a", list[0]);
         events.Clear(); list.Sort(); list.Sorted = true; Assert.Empty(events);
-        Assert.Throws<EStringListError>(() => list[0] = "z"); Assert.Throws<EStringListError>(() => list.Insert(0, "z"));
+        Assert.Throws<InvalidOperationException>(() => list[0] = "z"); Assert.Throws<InvalidOperationException>(() => list.Insert(0, "z"));
         list.Objects[0] = new TObject(); list.Exchange(0, 1); Assert.Equal(4, events.Count);
         list.Sorted = false; events.Clear(); list[0] = "x"; list.Delete(1); Assert.Equal(4, events.Count);
         events.Clear(); list.Clear(); Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal(0, list.Capacity);
         list.Capacity = 8; list.Clear(); Assert.Equal(8, list.Capacity);
-        list.Add("a"); Assert.Throws<EStringListError>(() => list.Capacity = 0);
+        list.Add("a"); Assert.Throws<ArgumentOutOfRangeException>(() => list.Capacity = 0);
         foreach (int i in new[] { -1, 1 })
         {
-            Assert.Throws<EStringListError>(() => list[i]); Assert.Throws<EStringListError>(() => list[i] = "x");
-            Assert.Throws<EStringListError>(() => list.Objects[i]); Assert.Throws<EStringListError>(() => list.Objects[i] = null);
-            Assert.Throws<EStringListError>(() => list.Delete(i)); Assert.Throws<EStringListError>(() => list.Exchange(0, i));
+            Assert.Throws<ArgumentOutOfRangeException>(() => list[i]); Assert.Throws<ArgumentOutOfRangeException>(() => list[i] = "x");
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i]); Assert.Throws<ArgumentOutOfRangeException>(() => list.Objects[i] = null);
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(i)); Assert.Throws<ArgumentOutOfRangeException>(() => list.Exchange(0, i));
         }
-        Assert.Throws<EStringListError>(() => list.Insert(-1, "x")); Assert.Throws<EStringListError>(() => list.Insert(2, "x"));
+        Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, "x")); Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(2, "x"));
         list.Duplicates = TDuplicates.dupIgnore; list.Sorted = true; list.AddObject("A", new TObject()); Assert.Equal(1, list.Count);
         events.Clear(); list.Destroy(); Assert.Empty(events); Assert.Null(list.OnChange); Assert.Null(list.OnChanging);
     }
@@ -110,8 +110,8 @@ public sealed class StringsTests
         copy.LoadFromStream(memory); Assert.Equal("a\r\nb\r\n", copy.Text);
         memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.Memory.Take(memory.Size));
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);
-        Assert.Equal("error 1", Assert.Throws<EStringListError>(() => TStrings.Error("error %d", 1)).Message);
+        Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => TStrings.Error("error %d", 1)).Message);
         copy.BeginUpdate(); copy.EndUpdate(); copy.Destroy();
-        var readOnly = new IndexedProperty<int, int>(i => i + 1); Assert.Equal(3, readOnly[2]); Assert.Throws<EInvalidOperation>(() => readOnly[2] = 4);
+        var readOnly = new IndexedProperty<int, int>(i => i + 1); Assert.Equal(3, readOnly[2]); Assert.Throws<InvalidOperationException>(() => readOnly[2] = 4);
     }
 }

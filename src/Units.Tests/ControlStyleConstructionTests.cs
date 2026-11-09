@@ -277,7 +277,7 @@ public sealed class ControlStyleConstructionTests
     {
         using var fixture = new FlagFixture(loaded: false);
         Assert.Equal(0, fixture.Entry.RefCount);
-        var error = Assert.Throws<Aow.Rtl.Exception>(() => CreateFlag(fixture.Owner, throughMeta));
+        var error = Assert.Throws<IOException>(() => CreateFlag(fixture.Owner, throughMeta));
         Assert.Equal("Error loading: 9.3b-2-missing/FLAGS.ILB", error.Message);
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Empty(fixture.Owner.Members);
@@ -302,10 +302,10 @@ public sealed class ControlStyleConstructionTests
             ImageLibUnit.LibraryImageClasses = classes!;
             using var fixture = new FlagFixture(loaded: false, directory);
             var library = new TImageLibrary(null!);
-            try { Assert.Throws<EReadError>(() => library.LoadFromFile(path)); }
+            try { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
             finally { library.Destroy(); }
             fixture.Files.OpenedPaths.Clear();
-            var error = Assert.Throws<Aow.Rtl.Exception>(() => TFlagControl.Create(fixture.Owner));
+            var error = Assert.Throws<IOException>(() => TFlagControl.Create(fixture.Owner));
             Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);
             Assert.Equal(path.ToUpperInvariant(), Assert.Single(fixture.Files.OpenedPaths).ToUpperInvariant());
             Assert.Contains(fixture.Files.EnumeratedDirectories, entry => entry.Equals(directory, StringComparison.OrdinalIgnoreCase));
@@ -339,7 +339,7 @@ public sealed class ControlStyleConstructionTests
         public override int Read(Span<byte> buffer)
         {
             int count = base.Read(buffer);
-            if (count != buffer.Length) throw new EReadError("Stream read error");
+            if (count != buffer.Length) throw new EndOfStreamException("Stream read error");
             return count;
         }
     }
@@ -379,10 +379,64 @@ public sealed class ControlStyleConstructionTests
             try
             {
                 if (propagate)
-                    Assert.Equal("Stream read error", Assert.Throws<EReadError>(() => reader.rwCreateEObject(ref result, owner, 7)).Message);
+                    Assert.Equal("Stream read error", Assert.Throws<EndOfStreamException>(() => reader.rwCreateEObject(ref result, owner, 7)).Message);
                 else
                     reader.rwCreateEObject(ref result, owner, 7);
                 Assert.Equal("Stream read error", message);
+                Assert.Null(result);
+                Assert.IsType<TEControlStyleObject>(engine.Created);
+                Assert.Null(engine.Created!.Owner);
+                Assert.Same(existing, Assert.Single(owner.Members));
+                Assert.Equal(1, owner.Removals);
+            }
+            finally { reader.Destroy(); }
+        }
+        finally { source.Destroy(); existing.Destroy(); engine.Destroy(); }
+    }
+
+    // A child read that fails with an empty message is reported as the stream default.
+    private sealed class EmptyMessageStream : TMemoryStream
+    {
+        public override int Read(Span<byte> buffer)
+        {
+            int count = base.Read(buffer);
+            if (count != buffer.Length) throw new EndOfStreamException("");
+            return count;
+        }
+    }
+
+    [Theory]
+    [InlineData(false)]
+    [InlineData(true)]
+    public void EmptyChildReadUsesTheDefaultMessageAndHonorsContinuation(bool propagate)
+    {
+        var engine = CreateEngine();
+        var owner = new EngineFixture.Owner();
+        var existing = new TEObject(owner);
+        TEObject source = EClass.Of<TEControlStyleObject>().Create(null!);
+        using var stream = new EmptyMessageStream();
+        try
+        {
+            var writer = new TEWriteStorageStream(stream, engine, false);
+            writer.rwCreateEObject(ref source, null!, 7);
+            writer.Destroy();
+            stream.Size--;
+            stream.Position = 0;
+            var reader = new TEReadStorageStream(stream, engine, false);
+            string message = "";
+            reader.OnError = (TEStorageStream _, string text, ref bool proceed) =>
+            {
+                message = text;
+                proceed = !propagate;
+            };
+            TEObject result = null!;
+            try
+            {
+                if (propagate)
+                    Assert.Equal("", Assert.Throws<EndOfStreamException>(() => reader.rwCreateEObject(ref result, owner, 7)).Message);
+                else
+                    reader.rwCreateEObject(ref result, owner, 7);
+                Assert.Equal("Error Reading EObject", message);
                 Assert.Null(result);
                 Assert.IsType<TEControlStyleObject>(engine.Created);
                 Assert.Null(engine.Created!.Owner);

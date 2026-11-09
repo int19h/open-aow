@@ -78,7 +78,7 @@ public sealed class MsgArgTests
         Assert.Equal(0, ((MsgArg)(TObject?)null).Int);
         // A reference no longer offers its address as an integer.
         var obj = new SampleObject();
-        Assert.Throws<EInvalidCast>(() => ((MsgArg)obj).Int);
+        Assert.Throws<InvalidCastException>(() => ((MsgArg)obj).Int);
     }
 
     [Fact]

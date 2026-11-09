@@ -1,7 +1,6 @@
 // Translated from HashTabU.pas.
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.HashTabU;
 
@@ -80,7 +79,7 @@ public partial class TIntegerHashList : THashList
         THashItem H = default;
         if (Find(Key) != null)
         {
-            throw Exception.Create("ID already in HashTable");
+            throw new InvalidOperationException("ID already in HashTable");
         }
 
         H.Key = Key;
@@ -254,7 +253,7 @@ public partial class TStringHashList : THashList
         THashItem H = default;
         if (Find(Key) != null)
         {
-            throw Exception.Create("ID already in HashTable");
+            throw new InvalidOperationException("ID already in HashTable");
         }
 
         H.Key = 0;

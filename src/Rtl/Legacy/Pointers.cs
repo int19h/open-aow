@@ -52,7 +52,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     {
         if (IsNull) return default;
         if (RuntimeHelpers.IsReferenceOrContainsReferences<T>() || RuntimeHelpers.IsReferenceOrContainsReferences<U>())
-            throw new EInvalidCast("Pointer view requires unmanaged elements");
+            throw new InvalidCastException("Pointer view requires unmanaged elements");
         // The same type at the same address is the pointer itself, so a box, unbox and offset
         // round trip builds no view.
         if (typeof(U) == typeof(T) && offset == 0) return Unsafe.As<Ptr<T>, Ptr<U>>(ref Unsafe.AsRef(in this));
@@ -92,7 +92,7 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
 
     public static int operator -(Ptr<T> a, Ptr<T> b)
     {
-        if (!ReferenceEquals(a.Storage, b.Storage)) throw new EInvalidOperation("Pointers have different backing arrays");
+        if (!ReferenceEquals(a.Storage, b.Storage)) throw new InvalidOperationException("Pointers have different backing arrays");
         return (a.ByteIndex - b.ByteIndex) / Unsafe.SizeOf<T>();
     }
 
@@ -117,10 +117,10 @@ public struct Ptr<T> : IEquatable<Ptr<T>>, IPointerBox
     public readonly Ptr<U> As<U>() => Reinterpret<U>();
 
     public static Ptr<T> Unbox(object? value) => value is PtrBox<T> box ? box.Pointer
-        : throw new EInvalidCast("Object is not a box of the requested pointer type");
+        : throw new InvalidCastException("Object is not a box of the requested pointer type");
 
     public static Ptr<T> Unbox(string value) => typeof(T) == typeof(byte) ? (Ptr<T>)(object)Ptr<byte>.To([.. Cp1252.Encode(value), 0], 0)
-        : throw new EInvalidCast("A string pointer requires byte elements");
+        : throw new InvalidCastException("A string pointer requires byte elements");
 }
 
 public interface IPointerBox
@@ -148,7 +148,7 @@ public static class Bytes
     public static Span<byte> Of<T>(ref T value, int count) where T : unmanaged
     {
         var bytes = Of(ref value);
-        if (count < 0 || count > bytes.Length) throw new ERangeError("Buffer size exceeds the record");
+        if (count < 0 || count > bytes.Length) throw new ArgumentOutOfRangeException(paramName: null, "Buffer size exceeds the record");
         return bytes[..count];
     }
 }

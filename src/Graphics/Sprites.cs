@@ -173,7 +173,7 @@ public static partial class Blit
             int right = x + w - skip * 32 - clipRight;
             if (right >= 0) { limit -= right * 2; words -= (right >> 5) + 1; }
         }
-        if (clipped && words == 0 && left == 0) throw new EAccessViolation("Original clipped mask loop underflows its word count");
+        if (clipped && words == 0 && left == 0) throw new AccessViolationException("Original clipped mask loop underflows its word count");
         int m1 = rgb565 ? 0x7BEF : 0x3DEF, m2 = rgb565 ? 0xE79C : 0x739C;
         uint pair1 = rgb565 ? 0x7BEF7BEFu : 0x3DEF3DEFu, pair2 = rgb565 ? 0xE79CE79Cu : 0x739C739Cu;
         for (int ry = first; ry < last; ry++)

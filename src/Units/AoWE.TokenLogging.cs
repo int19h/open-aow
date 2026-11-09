@@ -66,7 +66,7 @@ public partial class TAoWHSMap
     public void OnStreamError(TEStorageStream stream, string message, ref bool handled)
     {
         if (FIgnoreStreamErrors) return;
-        int answer = (RtlUnit.Dialogs ?? throw new EInvalidOperation(message)).Show(new(message + " Ignore failure?", "Error", 0, 7));
+        int answer = (RtlUnit.Dialogs ?? throw new InvalidOperationException(message)).Show(new(message + " Ignore failure?", "Error", 0, 7));
         handled = answer is 6 or 8;
         FIgnoreStreamErrors = answer == 8;
     }

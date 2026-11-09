@@ -14,7 +14,6 @@ using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.EventLog.EventLogUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
 using static Aow.Units.Sound.SoundUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.CitySpells;
 
@@ -236,7 +235,7 @@ public partial class TCityTargetSpell : TSpell
         if (TargetSelection.FOnChangeStore.Count > 1)
         {
             // { Original rejects two existing listeners. }
-            throw Exception.Create("oohps");
+            throw new InvalidOperationException("oohps");
         }
 
         TargetSelection.FOnChange += OnTargetSelectionChange;

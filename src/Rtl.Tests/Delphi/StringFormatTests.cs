@@ -12,8 +12,8 @@ public sealed class StringFormatTests
         string ansi = format;
         var error = Record.Exception(() => RtlUnit.Format(ansi, args));
         if (error is null) Assert.Equal(RtlUnit.Format(ansi, args), RtlUnit.Format(format, args));
-        else Assert.Equal(Assert.IsType<EConvertError>(error).Message,
-            Assert.Throws<EConvertError>(() => RtlUnit.Format(format, args)).Message);
+        else Assert.Equal(Assert.IsType<FormatException>(error).Message,
+            Assert.Throws<FormatException>(() => RtlUnit.Format(format, args)).Message);
     }
 
     [Fact]
@@ -212,7 +212,7 @@ public sealed class StringFormatTests
         FormatArg value = Argument(argument);
         string actual;
         try { actual = RtlUnit.Format(format, value); }
-        catch (EConvertError error) { actual = error.Message; }
+        catch (FormatException error) { actual = error.Message; }
         Assert.Equal(expected, actual);
     }
 

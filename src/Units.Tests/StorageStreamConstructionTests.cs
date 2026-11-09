@@ -28,7 +28,7 @@ public sealed class StorageStreamConstructionTests
         public override int Read(Span<byte> buffer)
         {
             int count = base.Read(buffer);
-            if (count != buffer.Length) throw new EReadError("Stream read error");
+            if (count != buffer.Length) throw new EndOfStreamException("Stream read error");
             return count;
         }
     }
@@ -204,7 +204,7 @@ public sealed class StorageStreamConstructionTests
         using var memory = new ExactReadStream();
         memory.Write([1, 7]);
         memory.Position = 0;
-        var error = Assert.Throws<EReadError>(() =>
+        var error = Assert.Throws<EndOfStreamException>(() =>
         {
             if (kind == 0) _ = new TEReadStorageStream(memory, null!, false);
             else if (kind == 1) _ = new TCompareStorageStream(memory, null!);
@@ -230,7 +230,7 @@ public sealed class StorageStreamConstructionTests
     public void MalformedTextConstructionKeepsFailure()
     {
         using var memory = Memory("[::]\r\n[]=broken\r\n"u8);
-        var error = Assert.Throws<EConvertError>(() => new TEReadTextStorageStream(memory, null!, 0));
+        var error = Assert.Throws<FormatException>(() => new TEReadTextStorageStream(memory, null!, 0));
         Assert.Equal("'' is not a valid integer value", ((System.Exception)error).Message);
         Assert.Equal(memory.Size, memory.Position);
         Assert.Equal(1, memory.Write([0x33]));

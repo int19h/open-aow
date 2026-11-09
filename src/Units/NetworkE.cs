@@ -3,7 +3,6 @@ using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.Engine;
 using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.NetworkE;
 
@@ -375,7 +374,7 @@ public partial class TTokenControl : TObject
             {
                 if (FEvents[I].FTokenCounter == TE.FTokenCounter)
                 {
-                    throw Exception.Create("Double TokenCounter defined");
+                    throw new InvalidOperationException("Double TokenCounter defined");
                 }
 
                 FEvents.Insert(I, TE);
@@ -493,7 +492,7 @@ public partial class TTokenControl : TObject
     {
         if (Remote())
         {
-            throw Exception.Create("Cannot Add Remote events");
+            throw new InvalidOperationException("Cannot Add Remote events");
         }
 
         Add(TE);

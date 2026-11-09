@@ -178,7 +178,7 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(2, SoundApi.SoundSystems.Count);
         Assert.Same(sdl, SoundApi.SoundSystems.Find("SDL"));
         Assert.Same(galaxy, SoundApi.SoundSystems.Find("Galaxy"));
-        var error = Assert.Throws<Aow.Rtl.Exception>(() => SoundApi.RegisterSoundSystem(sdl));
+        var error = Assert.Throws<InvalidOperationException>(() => SoundApi.RegisterSoundSystem(sdl));
         Assert.Equal("Sound System with name: SDL already registered", error.Message);
     }
 
