@@ -29,10 +29,10 @@ public partial class TPlayerCropStructure : TPlayerStructure
     public TPlayerStructureIncomeSource FIncomeSource;
 
     // Crops.pas:278
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FIncomeSource.Free();
+        base.Dispose();
+        FIncomeSource?.Dispose();
     }
 
     // Crops.pas:270
@@ -414,15 +414,15 @@ public partial class TPlayerCropStructure : TPlayerStructure
                     while (Crops.Count != Value && Crops.Count != 0)
                     {
                         I = AoWHSMap.Random(Crops.Count);
-                        ((TObject)Crops[I]).Destroy();
+                        ((Crops[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
                         Crops.Delete(I);
                     }
                 }
             }
 
             // { Original frees and clears the recursion guard only on normal completion. }
-            Crops.Free();
-            Locations.Free();
+            Crops?.Dispose();
+            Locations?.Dispose();
             FChangingCrops = false;
             CropsChanged();
         }
@@ -471,11 +471,11 @@ public partial class TPlayerCropStructureResource : TPlayerStructureResource
     public TWordList FCropLocations;
 
     // Crops.pas:592
-    public override void Destroy()
+    public override void Dispose()
     {
-        FCropLocations.Free();
+        FCropLocations?.Dispose();
         FCropLocations = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // Crops.pas:605
@@ -486,7 +486,7 @@ public partial class TPlayerCropStructureResource : TPlayerStructureResource
         {
             if (FCropLocations != null)
             {
-                FCropLocations.Free();
+                FCropLocations?.Dispose();
             }
 
             FCropLocations = TerrainList.CreateSurroundingHNTable();
@@ -509,12 +509,6 @@ public partial class TCrop : TILTerrainMO
     public new const int ClassID = 131946;
 
     public TPlayerCropStructure FCropOwner;
-
-    // Crops.pas:114
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
 
     // Crops.pas:109
 
@@ -546,12 +540,12 @@ public partial class TCrop : TILTerrainMO
                 HS = Info.MapField.GetMaxLevelNoneTransparentHS();
                 if ((HS != null && HS.GetLevel() > GetLevel() && !(HS is TAbstractRoad)) || (Info.OverlayType >= 0 && Info.OverlayType != 4))
                 {
-                    Destroy();
+                    Dispose();
                 }
             }
             else
             {
-                Destroy();
+                Dispose();
             }
         }
         else
@@ -570,7 +564,7 @@ public partial class TCrop : TILTerrainMO
 
         if (Msg.MsgID == 4357)
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -634,7 +628,7 @@ public partial class TCrop : TILTerrainMO
         this.FImageIndex = Index;
         if (!FResource.ImageLibrary.ImageExist(Index))
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -650,7 +644,7 @@ public partial class TCrop : TILTerrainMO
             if (AoWHSMap.FPlayers.GetDiplomaticRelation(FCropOwner.FPlayer, PlayerIndex) == TDiplomaticRelation.drWar)
             {
                 FCropOwner.CropTrampled(PlayerIndex);
-                Destroy();
+                Dispose();
             }
         }
     }
@@ -707,7 +701,7 @@ public partial class TCropResource : TILTerrainMOR
         Result.FCropOwner = CropOwner;
         if (!AoWHSMap.PlaceHX(Result, X, Y, L))
         {
-            Result.Free();
+            Result?.Dispose();
             Result = null;
         }
 

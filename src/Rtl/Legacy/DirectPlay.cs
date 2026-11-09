@@ -49,13 +49,33 @@ public class TGDPlay : TComponent
     public void DisConnect() { }
 }
 
+[LegacyObject]
 // aowDPlayComp.pas: a service provider found by EnumConnections.
-public class TGDConnection : TObject
+public class TGDConnection
 {
     public TGUID FGuid;
     public TConnectionType FType;
+
+    public TGDConnection()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public class TGDFile : TObject { }
+[LegacyObject]
+public class TGDFile
+{
+    public TGDFile()
+    {
+        CaptureAddress.Assign(this);
+    }
+}
 
-public class TGDMessage : TObject { }
+[LegacyObject]
+public class TGDMessage
+{
+    public TGDMessage()
+    {
+        CaptureAddress.Assign(this);
+    }
+}

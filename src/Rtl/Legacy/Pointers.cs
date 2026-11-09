@@ -131,9 +131,16 @@ public interface IPointerBox
     int ByteIndex { get; }
 }
 
-public sealed class PtrBox<T>(Ptr<T> pointer) : TObject, IPointerBox
+[LegacyObjectAttribute]
+public sealed class PtrBox<T> : IPointerBox
 {
-    public Ptr<T> Pointer = pointer;
+    public Ptr<T> Pointer;
+
+    public PtrBox(Ptr<T> pointer)
+    {
+        CaptureAddress.Assign(this);
+        Pointer = pointer;
+    }
 
     public Ptr<U> As<U>() => Pointer.Reinterpret<U>();
 

@@ -218,9 +218,9 @@ public sealed class SystemTests
     [Fact]
     public void ClassCastAbortHaltAndAssertKeepTheirReports()
     {
-        Assert.Null(As<TObject>(null));
-        var obj = new TObject();
-        Assert.Same(obj, As<TObject>(obj));
+        Assert.Null(As<object>(null));
+        var obj = new object();
+        Assert.Same(obj, As<object>(obj));
         Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.TSample>(obj)).Message);
         Assert.Throws<EAbort>(Abort);
         Assert.Equal(0, Assert.Throws<EHalt>(() => Halt()).ExitCode);

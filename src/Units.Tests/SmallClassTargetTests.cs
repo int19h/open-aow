@@ -28,7 +28,7 @@ public sealed class SmallClassTargetTests
     {
         internal bool Destroyed;
 
-        public override void Destroy() { Destroyed = true; base.Destroy(); }
+        public override void Dispose() { Destroyed = true; base.Dispose(); }
     }
 
     [Fact]
@@ -58,7 +58,7 @@ public sealed class SmallClassTargetTests
             output.ReadBuffer(actual);
             Assert.Equal(encoded, actual);
         }
-        finally { list.Destroy(); }
+        finally { list.Dispose(); }
     }
 
     private sealed class TrackedControl(List<string> log) : TAIMoveExecuterControl(null!)
@@ -71,34 +71,30 @@ public sealed class SmallClassTargetTests
 
         public override void Deactivate() { log.Add("deactivate"); base.Deactivate(); }
 
-        public override void Destroy() { log.Add("destroy"); base.Destroy(); }
+        public override void Dispose() { log.Add("destroy"); base.Dispose(); }
     }
 
     [Fact]
     public void MoveControlReplacementCleansUpBeforeConstruction()
     {
         var log = new List<string>();
-        var executer = new TAIMoveExecuter(null!);
-        try
+        using var executer = new TAIMoveExecuter(null!);
+        executer.ActivateMEC(() => new TrackedControl(log));
+        log.Clear();
+        executer.ActivateMEC(() =>
         {
-            executer.ActivateMEC(() => new TrackedControl(log));
-            log.Clear();
-            executer.ActivateMEC(() =>
-            {
-                Assert.Null(executer.FControl);
-                log.Add("construct");
-                return new TrackedControl(log);
-            });
-            Assert.Equal(["deactivate", "destroy", "construct", "activate"], log);
-            Assert.Same(executer, executer.FControl.FExecuter);
-            Assert.Equal(0, executer.FControl.FState);
-            log.Clear();
-            Assert.Throws<InvalidDataException>(() => executer.ActivateMEC(() => throw new InvalidDataException("control")));
-            Assert.Equal(["deactivate", "destroy"], log);
             Assert.Null(executer.FControl);
-            executer.ActivateMEC(null!);
-            Assert.Equal(["deactivate", "destroy"], log);
-        }
-        finally { executer.Destroy(); }
+            log.Add("construct");
+            return new TrackedControl(log);
+        });
+        Assert.Equal(["deactivate", "destroy", "construct", "activate"], log);
+        Assert.Same(executer, executer.FControl.FExecuter);
+        Assert.Equal(0, executer.FControl.FState);
+        log.Clear();
+        Assert.Throws<InvalidDataException>(() => executer.ActivateMEC(() => throw new InvalidDataException("control")));
+        Assert.Equal(["deactivate", "destroy"], log);
+        Assert.Null(executer.FControl);
+        executer.ActivateMEC(null!);
+        Assert.Equal(["deactivate", "destroy"], log);
     }
 }

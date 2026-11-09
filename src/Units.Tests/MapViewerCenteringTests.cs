@@ -91,10 +91,10 @@ public sealed class MapViewerCenteringTests
 
         public void Dispose()
         {
-            Viewer.Destroy();
-            Map.FMapContainer.Free();
-            Map.Destroy();
-            Target.Destroy();
+            Viewer.Dispose();
+            Map.FMapContainer?.Dispose();
+            Map.Dispose();
+            Target.Dispose();
         }
     }
 

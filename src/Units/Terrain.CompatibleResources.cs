@@ -22,7 +22,7 @@ public partial class TTerrainMO
                 candidates.Add(resource);
         }
         TTerrainMOR result = candidates.Count == 0 ? null : (TTerrainMOR)candidates[RtlUnit.Random(candidates.Count)];
-        candidates.Free();
+        candidates?.Dispose();
         return result;
     }
 
@@ -49,7 +49,7 @@ public partial class TTerrainMO
             if (compatible) candidates.Add(resource);
         }
         TTerrainMOR result = candidates.Count == 0 ? null : (TTerrainMOR)candidates[RtlUnit.Random(candidates.Count)];
-        candidates.Free();
+        candidates?.Dispose();
         return result;
     }
 }

@@ -40,7 +40,7 @@ public partial class TMapObject
             stream.rwInteger(ref unlinkedResourceId, 1);
             FResource = null;
             LinkToResource(stream.Engine);
-            if (!GetResourceLinked()) throw new EMapObjectResourceMissing($"Resource Missing {ClassNameOf(GetType())} {unlinkedResourceId}");
+            if (!GetResourceLinked()) throw new EMapObjectResourceMissing($"Resource Missing {ClassNames.ClassNameOf(GetType())} {unlinkedResourceId}");
         }
         else
         {

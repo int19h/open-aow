@@ -38,9 +38,12 @@ public sealed partial class EngineFixture : IDisposable
         Game.ValidateAoWEngine();
         Engine = Game.AoWEngine;
         GameSet = Game.AoWHSSet;
-        for (Type? type = Engine.GetType(); type is not null && type != typeof(TObject); type = type.BaseType)
+        for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+            {
+                if (field.Name == "captureOrdinal") continue;
                 if (!field.IsInitOnly) state.Add(field, field.GetValue(Engine));
+            }
         host.RestoreServices();
     }
 
@@ -85,7 +88,7 @@ public sealed partial class EngineFixture : IDisposable
     public void Dispose()
     {
         RestoreEngine();
-        try { Engine.Destroy(); }
+        try { Engine.Dispose(); }
         finally
         {
             Engine = null!;

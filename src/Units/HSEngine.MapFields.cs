@@ -46,12 +46,12 @@ public partial class TMapLevel
         FFieldsSize = 0;
     }
 
-    public override void Destroy()
+    public override void Dispose()
     {
-        foreach (var field in fields) field.Free();
+        foreach (var field in fields) field?.Dispose();
         FCount = 0;
         DestroyMapFieldList();
-        base.Destroy();
+        base.Dispose();
     }
 
     public override void ReadWrite(TEStorageStream stream)

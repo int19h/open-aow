@@ -262,5 +262,5 @@ internal class SdlSample : TSample
 
     public override void Stop() { lock (mixer.Sync) { if (voice is not null) voice.Playing = false; voice = null; } }
 
-    public override void Destroy() { Stop(); base.Destroy(); }
+    public override void Dispose() { Stop(); base.Dispose(); }
 }

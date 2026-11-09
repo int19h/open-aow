@@ -116,14 +116,14 @@ public partial class TCombatMoveTE : TMoveTE
     public TStrikeCA FStrike;
 
     // CombatTE.pas:214
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FObjects != null)
         {
-            FObjects.Free();
+            FObjects?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // CombatTE.pas:209
@@ -503,7 +503,7 @@ public partial class TCombatMoveTE : TMoveTE
                 var xhx = FUnit.FUnitHS.Xhx;
                 var fUnitHSYhx = FUnit.FUnitHS.Yhx;
                 R = Rect(FUnit.FUnitHS.Xhx, fUnitHSYhx, xhx + 1, yhx + 1);
-                FUnit.FUnitHS.Free();
+                FUnit.FUnitHS?.Dispose();
                 AoWCombatMap.TriggerMapChangedEvent(R, 0);
                 FUnit.FUnitHS = null;
                 Result = TMoveStatus.msDone;
@@ -780,7 +780,7 @@ public partial class TCMeleeMoveTE : TCombatMoveTE
             {
                 if (FMeleeRound != null)
                 {
-                    FMeleeRound.Free();
+                    FMeleeRound?.Dispose();
                 }
 
                 if (FStrike != null)
@@ -1238,7 +1238,7 @@ public partial class TCAbTouchMoveTE : TCombatMoveTE
                                                 FUnit.FUnitHS.SetDirection(FPreviousUnit.FUnitHS.FDirection);
                                                 FUnit.FUnitHS.FOffsetX = 0;
                                                 FUnit.FUnitHS.FOffsetY = 0;
-                                                FPreviousUnit.FUnitHS.Free();
+                                                FPreviousUnit.FUnitHS?.Dispose();
                                                 FPreviousUnit.FUnitHS = null;
                                                 Result = TMoveStatus.msDone;
                                             }
@@ -1427,7 +1427,7 @@ public partial class TCAbRangedTE : TTokenEvent
     public ushort FTargetY;
     public TfxType FEffectType;
     public int FStrikeCount;
-    public TObject FSound;
+    public object FSound;
     public int FDelay;
     public int FStrikeIndex;
     public int FState;
@@ -2159,7 +2159,7 @@ public partial class TCAbRangedTE : TTokenEvent
             {
                 if (FSound != null)
                 {
-                    FSound.Free();
+                    (FSound as IDisposable)?.Dispose();
                 }
 
                 if (FUnit != null && FUnit.GetEnabled())
@@ -2286,19 +2286,19 @@ public partial class TCAbRangedTE : TTokenEvent
 
             if (Used.Count > 0)
             {
-                I = AoWHSMap.Random(Total) - ObjectToInt((TObject)Weights[0]);
+                I = AoWHSMap.Random(Total) - ObjectToInt((object)Weights[0]);
                 Index = 0;
                 while (Index < Used.Count - 1 && I > 0)
                 {
                     Index = Index + 1;
-                    I = I - ObjectToInt((TObject)Weights[Index]);
+                    I = I - ObjectToInt((object)Weights[Index]);
                 }
 
                 Target = (TTacticalCombatUnit)Used[Index];
             }
 
-            Used.Free();
-            Weights.Free();
+            Used?.Dispose();
+            Weights?.Dispose();
         }
 
         if (FStrikeIndex >= FStrikeCount)
@@ -2633,7 +2633,7 @@ public partial class TCAbRangedTE : TTokenEvent
                     Target = FindTarget(Target.FUnitHS.Xhx, yhx5);
                 }
 
-                Used.Free();
+                Used?.Dispose();
                 break;
             case TfxType.fxSwarm:
                 var yhx7 = FUnit.FUnitHS.Yhx;
@@ -2712,7 +2712,7 @@ public partial class TCAbRangedTE : TTokenEvent
                     }
                 }
 
-                Path.Free();
+                Path?.Dispose();
                 break;
             case TfxType.fxScreenSwarm:
                 HS = (TTacticalCombatUnitHS)AoWCombatMap.MapContainer.MapLevels[0].GetField(FTargetX, FTargetY).FindOwnedChild(2228484);
@@ -3011,10 +3011,10 @@ public partial class TCAbRangedTE : TTokenEvent
         int limit = Obstacles.Count - 1;
         for (; I <= limit; I += 1)
         {
-            ((TObject)Obstacles[I]).Free();
+            (Obstacles[I] as IDisposable)?.Dispose();
         }
 
-        Obstacles.Free();
+        Obstacles?.Dispose();
         FStrikeIndex += 1;
     }
 
@@ -3292,7 +3292,7 @@ public static partial class CombatTEUnit
                     Result = true;
                 }
 
-                NewPath.Free();
+                NewPath?.Dispose();
             }
         }
 
@@ -3365,7 +3365,7 @@ public static partial class CombatTEUnit
             }
 
             Multi.Release();
-            Path.Free();
+            Path?.Dispose();
             for (int K = 0, last = AoWCombatMap.FUnitSelection.FMoveSettingsList.Count - 1; K <= last; K++)
             {
                 var moveSettings = AoWCombatMap.FUnitSelection.FMoveSettingsList.GetMoveSettings(K);

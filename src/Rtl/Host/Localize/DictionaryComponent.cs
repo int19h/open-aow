@@ -34,9 +34,9 @@ public partial class TIvDictionary
     public string TranslateContext(string source, string form, string component)
         => dictionary.TranslateContext(source, form, component);
 
-    public override void Destroy()
+    public override void Dispose()
     {
         dictionary.Close();
-        base.Destroy();
+        base.Dispose();
     }
 }

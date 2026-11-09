@@ -43,7 +43,7 @@ public class TCompressionStream : TStream
 
     public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new IOException("Invalid stream operation");
 
-    public override void Destroy() { if (!destroyed) { destroyed = true; stream.Dispose(); } base.Destroy(); }
+    public override void Dispose() { if (!destroyed) { destroyed = true; stream.Dispose(); } base.Dispose(); }
 }
 
 public class TDecompressionStream : TStream
@@ -69,5 +69,5 @@ public class TDecompressionStream : TStream
     public override int Write(ReadOnlySpan<byte> buffer) => throw new IOException("Invalid stream operation");
     public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new IOException("Invalid stream operation");
 
-    public override void Destroy() { stream.Dispose(); base.Destroy(); }
+    public override void Dispose() { stream.Dispose(); base.Dispose(); }
 }

@@ -28,7 +28,10 @@ public sealed class EventLogConstructionTests
                 bool nil = true;
                 for (Type? type = child.GetType(); type != typeof(TEventLog); type = type!.BaseType)
                     foreach (var field in type!.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
+                    {
+                        if (field.Name == "captureOrdinal") continue;
                         if (!field.FieldType.IsValueType && field.FieldType != typeof(string) && field.GetValue(child) is not null) nil = false;
+                    }
                 Observations.Add(JsonSerializer.Serialize(new { Type = child.GetType().FullName, child.FDay, child.FPlayer, child.FID, child.FRefCount, AddRefReturn = child.FRefCount, DescendantReferencesNil = nil, State = OrderingRecording.Snapshot(child) }));
             };
         }
@@ -41,7 +44,7 @@ public sealed class EventLogConstructionTests
 
         public override int RemoveChild(TEObject child)
         {
-            DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Destroy", DeclaringType: { } t } && t == typeof(TEObject)));
+            DestroyEntries = Math.Max(DestroyEntries, new StackTrace().GetFrames().Count(x => x.GetMethod() is { Name: "Dispose", DeclaringType: { } t } && t == typeof(TEObject)));
             // Record removal notifications without indexing an empty list.
             var changed = FOnChanged;
             FOnChanged = _ => Changes++;
@@ -125,8 +128,8 @@ public sealed class EventLogConstructionTests
                         Game.AoWEngine.FDictionary = fixture.Dictionary;
                         Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<Aow.Units.HSEngine.THSMapStatusElement>.Of(Aow.Units.HSEngine.THSMapStatusElement.msDestroying); });
                         if (owner is not null) value?.AddRef();
-                        value?.Destroy();
-                        owner?.Destroy();
+                        value?.Dispose();
+                        owner?.Dispose();
                     }
         OrderingRecording.Check("EventLogConstruction", actual);
     }

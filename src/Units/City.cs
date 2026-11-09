@@ -468,17 +468,17 @@ public partial class TCity : TPlayerCropStructure
     public TDefendersGenerateMode FDefendersMode;
 
     // City.pas:839
-    public override void Destroy()
+    public override void Dispose()
     {
         if (GetVisible())
         {
             AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlay);
         }
 
-        FOverlay.Free();
-        base.Destroy();
-        FProduction.Free();
-        FEnchantmentList.Free();
+        FOverlay?.Dispose();
+        base.Dispose();
+        FProduction?.Dispose();
+        FEnchantmentList?.Dispose();
         FEnchantmentList = null;
     }
 
@@ -1330,7 +1330,7 @@ public partial class TCity : TPlayerCropStructure
             if (GetActiveAction() == TCityAction.caMigrate)
             {
                 FProduction.ExecuteCancelProduction();
-                FProduction.FQueue.GetItem(0).Free();
+                FProduction.FQueue.GetItem(0)?.Dispose();
             }
 
             ValidateAICityAction();
@@ -1853,7 +1853,7 @@ public partial class TCity : TPlayerCropStructure
             AoWHSSet.FAbilityControl.GetAbility(47).FSFXLibrary.Play(0);
         }
 
-        Armies.Free();
+        Armies?.Dispose();
         return Result;
     }
 
@@ -1930,10 +1930,10 @@ public partial class TCity : TPlayerCropStructure
                         Item = new TProductionItem(null);
                         Item.Order = new Migrate(Selection.GetItems(BestIndex).FRace);
                         FProduction.ExecuteAddProduction(Item);
-                        Item.Free();
+                        Item?.Dispose();
                     }
 
-                    Selection.Free();
+                    Selection?.Dispose();
                 }
             }
             else
@@ -2104,7 +2104,7 @@ public partial class TCity : TPlayerCropStructure
             Item = new TProductionItem(null);
             Item.Order = new AoWE.Upgrade();
             FProduction.Produce(Item, Queue);
-            Item.Free();
+            Item?.Dispose();
             Result = true;
         }
         else
@@ -2182,7 +2182,7 @@ public partial class TCity : TPlayerCropStructure
             Item = new TProductionItem(null);
             Item.Order = new AoWE.Fortify();
             FProduction.Produce(Item, Queue);
-            Item.Free();
+            Item?.Dispose();
             Result = true;
         }
         else
@@ -2239,7 +2239,7 @@ public partial class TCity : TPlayerCropStructure
             }
 
             FProduction.Produce(Item, Queue);
-            Item.Free();
+            Item?.Dispose();
             Result = true;
         }
         else
@@ -2267,7 +2267,7 @@ public partial class TCity : TPlayerCropStructure
             Item = new TProductionItem(null);
             Item.Order = new AoWE.Loot();
             FProduction.Produce(Item, false);
-            Item.Free();
+            Item?.Dispose();
             Result = true;
         }
         else
@@ -2366,7 +2366,7 @@ public partial class TCity : TPlayerCropStructure
             Item = new TProductionItem(null);
             Item.Order = new AoWE.Migrate(Race);
             FProduction.Produce(Item, false);
-            Item.Free();
+            Item?.Dispose();
             Result = true;
         }
         else
@@ -2413,7 +2413,7 @@ public partial class TCity : TPlayerCropStructure
                 }
                 else
                 {
-                    Item.Free();
+                    Item?.Dispose();
                 }
             }
         }
@@ -2467,7 +2467,7 @@ public partial class TCity : TPlayerCropStructure
                         Units.GetUnit(I).Place(xhx2, yhx2, lhx2, 0, TSet<TUnitPlaceModeElement>.Of());
                     }
 
-                    Units.Free();
+                    Units?.Dispose();
                     FProduction.ExecuteDeleteProductions();
                 }
             }
@@ -2504,7 +2504,7 @@ public partial class TCity : TPlayerCropStructure
                 PlaceRandomUnits(GetXhx(), yhx, lhx, 0, raceResource.FUnitIndexes, FUpgradeLevel, Value, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature));
             }
 
-            Armies.Free();
+            Armies?.Dispose();
         }
     }
 
@@ -2614,9 +2614,9 @@ public partial class TCity : TPlayerCropStructure
                 List.Add(RtlUnit.Format(TranslateRStr(OccupationForcesXRStr), [weak]));
             }
 
-            Predictor.Free();
-            Units.Free();
-            Armies.Free();
+            Predictor?.Dispose();
+            Units?.Dispose();
+            Armies?.Dispose();
         }
     }
 
@@ -2704,7 +2704,7 @@ public partial class TCity : TPlayerCropStructure
                     }
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 if (TSet<TStatus>.Of(TStatus.sHostile, TStatus.sWary).Contains(Relation))
                 {
                     Units = new TUnitList(null);
@@ -2743,7 +2743,7 @@ public partial class TCity : TPlayerCropStructure
                     }
 
                     Value += Bonus;
-                    Units.Free();
+                    Units?.Dispose();
                 }
                 else
                 {
@@ -2759,7 +2759,7 @@ public partial class TCity : TPlayerCropStructure
                     }
                 }
 
-                Predictor.Free();
+                Predictor?.Dispose();
                 if (Value < -30)
                 {
                     Result = TCivilStatus.csUnruly;
@@ -2966,7 +2966,7 @@ public partial class TCity : TPlayerCropStructure
             }
         }
 
-        Armies.Free();
+        Armies?.Dispose();
         return Result;
     }
 
@@ -3035,7 +3035,7 @@ public partial class TCity : TPlayerCropStructure
                         }
                     }
 
-                    Armies.Free();
+                    Armies?.Dispose();
                     Log = new TLocationTextEventLog(null);
                     Log.FPlayer = FPlayer;
                     var name = GetName();
@@ -3087,7 +3087,7 @@ public partial class TCity : TPlayerCropStructure
 
         // { Original uses the race index as the default relation. }
         sbyte Result = UnitsToIndependentRelation(Units, FRace);
-        Units.Free();
+        Units?.Dispose();
         return Result;
     }
 
@@ -3099,7 +3099,7 @@ public partial class TCity : TPlayerCropStructure
         ListUnits(Units);
         // { Original uses the race index as the default relation. }
         sbyte Result = UnitsToIndependentRelation(Units, FRace);
-        Units.Free();
+        Units?.Dispose();
         return Result;
     }
 
@@ -3608,7 +3608,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
                 Production = new TProductionItem(null);
                 Production.Order = new ResearchSpell(Index);
                 City.FProduction.ExecuteAddProduction(Production);
-                Production.Free();
+                Production?.Dispose();
                 Index = City.ResearchCost(Index);
                 if (Index > ResearchBudget.FGold)
                 {
@@ -3625,7 +3625,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             }
         }
 
-        Cities.Free();
+        Cities?.Dispose();
         return Result;
     }
 
@@ -3704,7 +3704,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             Production = new TProductionItem(null);
             Production.Order = new AoWE.Upgrade();
             City.FProduction.ExecuteAddProduction(Production);
-            Production.Free();
+            Production?.Dispose();
             Player.FAIBudget.BudgetExpenseMade(250, 0, Budget, TBudgetExpenseMode.bemBudget);
 
             Result = true;
@@ -3714,7 +3714,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             Result = false;
         }
 
-        Cities.Free();
+        Cities?.Dispose();
         return Result;
     }
 
@@ -3829,7 +3829,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             Production = new TProductionItem(null);
             Production.Order = new AoWE.Fortify();
             City.FProduction.ExecuteAddProduction(Production);
-            Production.Free();
+            Production?.Dispose();
 
             Result = true;
         }
@@ -3838,7 +3838,7 @@ public partial class TCityAIPA : TAIPlayerAction, IAIPlayerActionClass
             Result = false;
         }
 
-        Cities.Free();
+        Cities?.Dispose();
         return Result;
     }
 
@@ -3996,7 +3996,8 @@ public partial class TCityProductionEventLog : TProductionEventLog
 
 }
 
-public partial class TRegistrator : TObject
+[LegacyObject]
+public partial class TRegistrator
 {
     // City.pas:3306
     public static void MapLoaded(THSMap Sender)
@@ -4005,6 +4006,11 @@ public partial class TRegistrator : TObject
         {
             AoWHSMap.FAIPlayerActionManager.RegisterClasses([AIPlayerActionClass.Of<TCityAIPA>()]);
         }
+    }
+
+    public TRegistrator()
+    {
+        CaptureAddress.Assign(this);
     }
 
 }

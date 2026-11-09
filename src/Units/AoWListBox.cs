@@ -62,10 +62,10 @@ public partial class TAOWListBox : TAOWControl
     }
 
     // AoWListBox.pas:116
-    public override void Destroy()
+    public override void Dispose()
     {
-        FItems.Destroy();
-        base.Destroy();
+        FItems.Dispose();
+        base.Dispose();
     }
 
     // AoWListBox.pas:124

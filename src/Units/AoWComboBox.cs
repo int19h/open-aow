@@ -62,10 +62,10 @@ public partial class TAOWComboBox : TAOWControl
     }
 
     // AoWComboBox.pas:122
-    public override void Destroy()
+    public override void Dispose()
     {
-        FItems.Destroy();
-        base.Destroy();
+        FItems.Dispose();
+        base.Dispose();
     }
 
     // AoWComboBox.pas:128

@@ -66,7 +66,7 @@ public class TIvCustomTranslator : TComponent
     {
         var dictionary = Dictionary ?? LocalizationRuntime.Dictionary(DictionaryName, Language);
         if (Language is int language && dictionary.Language != language) dictionary.SetLanguage(language);
-        string form = TObject.ClassNameOf(module.GetType());
+        string form = ClassNames.ClassNameOf(module.GetType());
         Visit(module);
 
         void Visit(TComponent component)
@@ -101,7 +101,7 @@ public class TIvCustomTranslator : TComponent
     {
         if (name.Length == 0) return true;
         for (Type? current = type; current is not null; current = current.BaseType)
-            if (TObject.ClassNameOf(current) == name) return true;
+            if (ClassNames.ClassNameOf(current) == name) return true;
         return false;
     }
 

@@ -174,7 +174,7 @@ public partial class TManaCrystals : TILTerrainMO
         Log.SetLocation(GetXhx(), yhx2, lhx2);
         AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
         Log.Release();
-        Destroy();
+        Dispose();
     }
 
     // ManaCrystals.pas:28

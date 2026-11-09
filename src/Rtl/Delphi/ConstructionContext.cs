@@ -5,10 +5,10 @@ namespace Aow.Rtl;
 // this failure boundary. Independently allocated children use their own factory and context.
 public sealed class ConstructionContext
 {
-    private TObject? instance;
+    private object? instance;
     private bool finished;
 
-    public static T Create<T>(Func<ConstructionContext, T> construct) where T : TObject
+    public static T Create<T>(Func<ConstructionContext, T> construct) where T : class
     {
         var context = new ConstructionContext();
         try
@@ -24,7 +24,7 @@ public sealed class ConstructionContext
         }
     }
 
-    public static T Create<TArg, T>(TArg arg, Func<ConstructionContext, TArg, T> construct) where T : TObject
+    public static T Create<TArg, T>(TArg arg, Func<ConstructionContext, TArg, T> construct) where T : class
     {
         var context = new ConstructionContext();
         try
@@ -40,7 +40,7 @@ public sealed class ConstructionContext
         }
     }
 
-    public void Capture(TObject value)
+    public void Capture(object value)
     {
         ArgumentNullException.ThrowIfNull(value);
         if (finished || instance is not null)
@@ -57,10 +57,10 @@ public sealed class ConstructionContext
     public void Fail()
     {
         if (finished) return;
-        TObject? failed = instance;
+        object? failed = instance;
         // Release and close before virtual dispatch, including a reentrant or throwing destructor.
         instance = null;
         finished = true;
-        failed?.Destroy();
+        (failed as IDisposable)?.Dispose();
     }
 }

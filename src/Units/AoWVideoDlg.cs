@@ -107,7 +107,7 @@ public partial class TVideoDialog : TDataModule
     // AoWVideoDlg.pas:201
     public void VideoDlgWindowDestroy()
     {
-        FDisplayModes.Free();
+        FDisplayModes?.Dispose();
     }
 
     // AoWVideoDlg.pas:206
@@ -192,10 +192,10 @@ public partial class TWMCampaignScenarioPage : TEObject
     public TStringList FText;
 
     // AoWVideoDlg.pas:257
-    public override void Destroy()
+    public override void Dispose()
     {
-        FText.Free();
-        base.Destroy();
+        FText?.Dispose();
+        base.Dispose();
     }
 
     // AoWVideoDlg.pas:268
@@ -246,12 +246,12 @@ public partial class TWMCampaignScenario : TAoWCampaignScenario
     public byte FMapKind;
 
     // AoWVideoDlg.pas:295
-    public override void Destroy()
+    public override void Dispose()
     {
-        FIntroPages.Free();
-        FOutroPages.Free();
-        FPaths.Free();
-        base.Destroy();
+        FIntroPages?.Dispose();
+        FOutroPages?.Dispose();
+        FPaths?.Dispose();
+        base.Dispose();
     }
 
     // AoWVideoDlg.pas:308
@@ -300,12 +300,6 @@ public partial class TWMCampaign : TAoWCampaign
     public int FFaction;
     public int FState;
     public int FPage;
-
-    // AoWVideoDlg.pas:329
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
 
     // AoWVideoDlg.pas:337
     public override void ReadWrite(TEStorageStream Stream)

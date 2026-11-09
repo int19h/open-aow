@@ -26,7 +26,7 @@ public sealed class PointerViewTests
     public void ExplicitBoxViewsKeepTheOriginalStorageAndOffset()
     {
         var pair = Ptr<Pair>.Alloc(1);
-        IntOrRef payload = new PtrBox<Pair>(pair);
+        IntOrRef payload = new(new PtrBox<Pair>(pair));
         var words = ((IPointerBox)payload.Ref!).As<int>();
         words[1] = 73;
         Assert.Equal(73, pair.Value.Second);
@@ -105,6 +105,7 @@ public sealed class PointerViewTests
         Assert.NotNull(state);
         foreach (var field in state.GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic))
         {
+            if (field.Name == "captureOrdinal") continue;
             object? value = field.GetValue(state);
             Assert.False(value is Delegate or IPointerBox, field.Name);
         }

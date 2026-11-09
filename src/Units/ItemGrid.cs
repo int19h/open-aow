@@ -21,7 +21,7 @@ public partial class TItemGrid : TCustomImageDrawGrid
     public byte FSort;
 
     // ItemGrid.pas:120
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement Grids.Destroy in the platform or editor service. */
         throw new NotImplementedException();

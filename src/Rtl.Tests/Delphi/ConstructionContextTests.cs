@@ -17,7 +17,7 @@ public sealed class ConstructionContextTests
 
     private sealed class ECleanup(string message) : System.Exception(message);
 
-    private class Captured : TObject
+    private class Captured
     {
         protected readonly Trace Trace;
 
@@ -30,6 +30,7 @@ public sealed class ConstructionContextTests
     }
 
     private class Base : Captured
+, IDisposable
     {
         private readonly int baseValue;
 
@@ -41,10 +42,9 @@ public sealed class ConstructionContextTests
             finally { trace.Fact("base_unwind", "done"); }
         }
 
-        public override void Destroy()
+        public virtual void Dispose()
         {
             Trace.Num("base_destroy", baseValue);
-            base.Destroy();
         }
     }
 
@@ -60,10 +60,10 @@ public sealed class ConstructionContextTests
             finally { trace.Fact("middle_unwind", "done"); }
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Trace.Num("middle_destroy", middleValue);
-            base.Destroy();
+            base.Dispose();
         }
     }
 
@@ -81,18 +81,19 @@ public sealed class ConstructionContextTests
 
         internal static Leaf New(Trace trace, int failAt) => ConstructionContext.Create(context => new Leaf(context, trace, failAt));
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Trace.Num("leaf_destroy", leafValue);
-            base.Destroy();
+            base.Dispose();
         }
     }
 
     private sealed class Owned : Captured
+, IDisposable
     {
-        private readonly List<TObject> owner;
+        private readonly List<object> owner;
 
-        private Owned(ConstructionContext context, Trace trace, List<TObject> owner) : base(context, trace)
+        private Owned(ConstructionContext context, Trace trace, List<object> owner) : base(context, trace)
         {
             this.owner = owner;
             owner.Add(this);
@@ -100,18 +101,18 @@ public sealed class ConstructionContextTests
             throw new EConstruct("owner");
         }
 
-        internal static Owned New(Trace trace, List<TObject> owner) => ConstructionContext.Create(context => new Owned(context, trace, owner));
+        internal static Owned New(Trace trace, List<object> owner) => ConstructionContext.Create(context => new Owned(context, trace, owner));
 
-        public override void Destroy()
+        public void Dispose()
         {
             Trace.Num("owner_at_destroy", owner.Count);
             owner.Remove(this);
             Trace.Num("owner_removed", owner.Count);
-            base.Destroy();
         }
     }
 
     private sealed class Parent : Captured
+, IDisposable
     {
         private readonly Leaf? child;
 
@@ -124,11 +125,10 @@ public sealed class ConstructionContextTests
 
         internal static Parent New(Trace trace) => ConstructionContext.Create(context => new Parent(context, trace));
 
-        public override void Destroy()
+        public void Dispose()
         {
             Trace.Num("parent_destroy_child_nil", child is null ? 1 : 0);
-            child.Free();
-            base.Destroy();
+            child?.Dispose();
         }
     }
 
@@ -137,10 +137,10 @@ public sealed class ConstructionContextTests
         private Throwing(ConstructionContext context, Trace trace) : base(context, trace, 0) => throw new EConstruct("original");
         internal static Throwing New(Trace trace) => ConstructionContext.Create(context => new Throwing(context, trace));
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Trace.Fact("throwing_destroy", "enter");
-            base.Destroy();
+            base.Dispose();
             throw new ECleanup("replacement");
         }
     }
@@ -166,6 +166,7 @@ public sealed class ConstructionContextTests
     }
 
     private class PlainBase : Captured
+, IDisposable
     {
         internal int Value;
 
@@ -179,10 +180,9 @@ public sealed class ConstructionContextTests
             if (fail) throw new EConstruct("plain");
         }
 
-        public override void Destroy()
+        public virtual void Dispose()
         {
             Trace.Num("plain_destroy", Value);
-            base.Destroy();
         }
     }
 
@@ -206,7 +206,7 @@ public sealed class ConstructionContextTests
             catch (EConstruct e) { trace.Fact("chain_exception", e.Message); }
             trace.Num("chain_result_nil", obj is null ? 1 : 0);
         }
-        var owner = new List<TObject>();
+        var owner = new List<object>();
         Owned? owned = null;
         try { owned = Owned.New(trace, owner); }
         catch (EConstruct e) { trace.Fact("owner_exception", e.Message); }
@@ -224,7 +224,7 @@ public sealed class ConstructionContextTests
             trace.Fact("throwing_exception", e.Message);
         }
         trace.Num("throwing_result_nil", throwing is null ? 1 : 0);
-        VirtualLeaf.New(trace).Free();
+        _ = VirtualLeaf.New(trace);
         var plain = PlainLeaf.New(trace);
         try
         {
@@ -232,7 +232,7 @@ public sealed class ConstructionContextTests
             catch (EConstruct e) { trace.Fact("plain_exception", e.Message); }
             trace.Num("plain_after", plain.Value);
         }
-        finally { plain.Free(); }
+        finally { plain?.Dispose(); }
         Assert.Equal(62, trace.Facts.Count);
         trace.Facts.Add($"end {trace.Facts.Count}");
         Assert.Equal(Oracle.Split('\n'), trace.Facts);
@@ -240,9 +240,9 @@ public sealed class ConstructionContextTests
         Assert.Equal(trace.Contexts.Count, trace.Contexts.Distinct().Count());
     }
 
-    private sealed class Counted(Action destroy) : TObject
+    private sealed class Counted(Action destroy) : IDisposable
     {
-        public override void Destroy() => destroy();
+        public void Dispose() => destroy();
     }
 
     [Fact]
@@ -260,7 +260,7 @@ public sealed class ConstructionContextTests
         saved!.Fail();
         Assert.Equal(0, destroys);
         Assert.Throws<InvalidOperationException>(() => saved.Capture(obj));
-        obj.Destroy();
+        ((obj ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         Assert.Equal(1, destroys);
     }
 
@@ -293,7 +293,7 @@ public sealed class ConstructionContextTests
     public void FailureBeforeCapturePreservesTheOriginalException()
     {
         var original = new EConstruct("before capture");
-        Assert.Same(original, Assert.Throws<EConstruct>(() => ConstructionContext.Create<TObject>(_ => throw original)));
+        Assert.Same(original, Assert.Throws<EConstruct>(() => ConstructionContext.Create<object>(_ => throw original)));
     }
 
     [Fact]
@@ -302,7 +302,7 @@ public sealed class ConstructionContextTests
         int destroys = 0;
         var context = new ConstructionContext();
         context.Capture(new Counted(() => destroys++));
-        Assert.Throws<InvalidOperationException>(() => context.Capture(new TObject()));
+        Assert.Throws<InvalidOperationException>(() => context.Capture(new object()));
         context.Fail();
         context.Fail();
         Assert.Equal(1, destroys);
@@ -322,11 +322,11 @@ public sealed class ConstructionContextTests
     }
 
     [MethodImpl(MethodImplOptions.NoInlining)]
-    private static (ConstructionContext, WeakReference<TObject>) FinishAndRelease(bool fail)
+    private static (ConstructionContext, WeakReference<object>) FinishAndRelease(bool fail)
     {
         var context = new ConstructionContext();
-        var value = new TObject();
-        var weak = new WeakReference<TObject>(value);
+        var value = new object();
+        var weak = new WeakReference<object>(value);
         context.Capture(value);
         if (fail) context.Fail();
         else context.Complete();

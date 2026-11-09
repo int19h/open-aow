@@ -109,7 +109,7 @@ public partial class TPoisonCloud : TMultiHexMO
                     {
                         if ((byte)Msg.Param[0].Int == 1 && Msg.Param[1].Int == 0 && Msg.HN == 0)
                         {
-                            Destroy();
+                            Dispose();
                         }
                     }
                 }
@@ -317,7 +317,7 @@ public partial class TPoisonCloud : TMultiHexMO
                     }
                 }
 
-                Directions.Free();
+                Directions?.Dispose();
                 if (!Valid)
                 {
                     Tries = 20;
@@ -352,7 +352,7 @@ public partial class TPoisonCloud : TMultiHexMO
         }
         else
         {
-            Destroy();
+            Dispose();
         }
     }
 

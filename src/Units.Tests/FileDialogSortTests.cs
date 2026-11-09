@@ -140,20 +140,20 @@ public sealed class FileDialogSortTests
             if (dialog != null)
             {
                 dialog.FileDlgWindowDestroy();
-                dialog.FileLB.Destroy();
-                dialog.SaveLB.Destroy();
-                dialog.DateLB.Destroy();
-                dialog.PathEdit.Destroy();
-                dialog.SFileName.Destroy();
-                dialog.FileName.Destroy();
-                dialog.SPlayers.Destroy();
-                dialog.SSize.Destroy();
-                dialog.STowns.Destroy();
-                dialog.LPlayers.Destroy();
-                dialog.LSize.Destroy();
-                dialog.LTowns.Destroy();
-                dialog.LTurns.Destroy();
-                dialog.Destroy();
+                dialog.FileLB.Dispose();
+                dialog.SaveLB.Dispose();
+                dialog.DateLB.Dispose();
+                dialog.PathEdit.Dispose();
+                dialog.SFileName.Dispose();
+                dialog.FileName.Dispose();
+                dialog.SPlayers.Dispose();
+                dialog.SSize.Dispose();
+                dialog.STowns.Dispose();
+                dialog.LPlayers.Dispose();
+                dialog.LSize.Dispose();
+                dialog.LTowns.Dispose();
+                dialog.LTurns.Dispose();
+                dialog.Dispose();
             }
 
             AoWFileDialogUnit.Directories = previousDirectories;

@@ -29,7 +29,7 @@ public sealed class WallCrushingFastCombatTests
         {
             Game.AoWHSSet = previousSet;
             Game.AoWEngine = previousEngine;
-            manager.Destroy();
+            manager.Dispose();
         }
     }
 

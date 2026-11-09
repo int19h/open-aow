@@ -52,8 +52,8 @@ public sealed class RemainingConstructionTests
             Game.AoWHSSet = previousSet;
             Game.AoWEngine = previousEngine;
             Game.AoWHSMap = previousMap;
-            CombatResources.Destroy();
-            Manager.Destroy();
+            CombatResources.Dispose();
+            Manager.Dispose();
         }
     }
 
@@ -78,9 +78,10 @@ public sealed class RemainingConstructionTests
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-            for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
+            for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
+                    if (field.Name == "captureOrdinal") continue;
                     if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
@@ -208,34 +209,30 @@ public sealed class RemainingConstructionTests
         }
     }
 
-    private static TObject Create(Type type, TECustomNode owner, int route)
+    private static object Create(Type type, TECustomNode owner, int route)
     {
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
             if (EngineUnit.Engines is null) EngineUnit.Initialize();
-            var engine = new TEngine(null!);
-            try
-            {
-                var meta = EClass.Of(type);
-                engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
-                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-                catch (System.Exception error) when (PortedExceptions.Is(error)) { }
-                engine.RegisterEClasses([EClass.Of(type)]);
-                return engine.CreateEObject(meta.ClassID, owner);
-            }
-            finally { engine.Destroy(); }
+            using var engine = new TEngine(null!);
+            var meta = EClass.Of(type);
+            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
+            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+            engine.RegisterEClasses([EClass.Of(type)]);
+            return engine.CreateEObject(meta.ClassID, owner);
         }
         if (route == 3)
         {
             var meta = Aow.Units.Engine.EClass.Of(type);
-            return (TObject)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         Type[] signature = typeof(TEObject).IsAssignableFrom(type) ? [typeof(TECustomNode)] : [];
         var constructor = type.GetConstructor(signature);
-        if (factory is not null) return (TObject)Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
-        if (constructor is not null) return (TObject)Invoke(() => constructor.Invoke(signature.Length == 0 ? [] : [owner]))!;
+        if (factory is not null) return (object)Invoke(() => factory.Invoke(null, factory.GetParameters().Length == 0 ? [] : [owner]))!;
+        if (constructor is not null) return (object)Invoke(() => constructor.Invoke(signature.Length == 0 ? [] : [owner]))!;
         throw new InvalidOperationException(type.FullName + " has no declared completed construction signature.");
     }
 
@@ -255,7 +252,7 @@ public sealed class RemainingConstructionTests
             {
                 using var fixture = new Fixture();
                 var owner = ownerMode == 0 ? null : new RemainingOwner();
-                TObject? value = null;
+                object? value = null;
                 string state;
                 var states = new List<string>();
                 try
@@ -268,7 +265,7 @@ public sealed class RemainingConstructionTests
                 catch (System.Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
                 finally
                 {
-                    try { value?.Destroy(); }
+                    try { (value as IDisposable)?.Dispose(); }
                     catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
                 }
                 states.Add(state);
@@ -285,7 +282,7 @@ public sealed class RemainingConstructionTests
         var value = new Aow.Units.EList.TListObject();
         Assert.IsType<Aow.Units.EList.TListObject>(value);
         Assert.Equal(Snapshot(new Aow.Units.EList.TListObject()), Snapshot(value));
-        value.Destroy();
+        value.Dispose();
     }
 
     [Theory]
@@ -303,7 +300,7 @@ public sealed class RemainingConstructionTests
             Assert.Same(value, Assert.Single(owner.Members));
             Assert.NotNull(value.FSpellText);
             Assert.NotNull(value.FCastImages);
-            value.Destroy();
+            value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Equal(1, owner.Removals);
         }

@@ -48,12 +48,12 @@ public sealed class PreInheritedTests
             if (fail) throw new InvalidDataException("hook failure");
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Assert.Equal(17, State);
             destroyed++;
             Events.Add("destroy");
-            base.Destroy();
+            base.Dispose();
         }
     }
 

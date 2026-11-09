@@ -440,8 +440,8 @@ public static partial class E2GameFlowUnit
 
         var player = Preview.FPlayers.GetPlayers(I);
         Dialog.FLeader.Assign(player.FLeaderSetup, AoWEngine);
-        Preview.Free();
-        Lines.Free();
+        Preview?.Dispose();
+        Lines?.Dispose();
     }
 
     // E2GameFlow.pas:498

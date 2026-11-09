@@ -22,17 +22,16 @@ public partial class TAoWBookWindow : TAOWWindow
     public PageTurnCtrl.TPageTurnMode FPageTurnMode;
 
     // AoWBookWindow.pas:50
-    public override void Destroy()
+    public override void Dispose()
     {
         TSurface S;
-        FPageTurn.Free();
         S = FPageSurface;
         if (S != null)
         {
-            S.Free();
+            S?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // AoWBookWindow.pas:44
@@ -72,7 +71,7 @@ public partial class TAoWBookWindow : TAOWWindow
                 S = FPageSurface;
                 if (S != null)
                 {
-                    S.Free();
+                    S?.Dispose();
                     FPageSurface = null;
                 }
             }

@@ -68,8 +68,11 @@ public sealed class OfflineStubTests
     private static T Populate<T>(T module) where T : TComponent
     {
         foreach (var field in typeof(T).GetFields(BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly))
+        {
+            if (field.Name == "captureOrdinal") continue;
             if (field.FieldType.IsSubclassOf(typeof(TComponent)) && field.FieldType.GetConstructor([typeof(TComponent)]) is { } constructor)
                 field.SetValue(module, constructor.Invoke([module]));
+        }
         return module;
     }
 
@@ -275,7 +278,7 @@ public sealed class OfflineStubTests
         menu.FSelectedItem = 2;
         popups.HelpMenuSelect(menu);
         Assert.Equal(["http://www.ageofwonders.com"], shell.Urls);
-        text.Free();
+        text?.Dispose();
     }
 
     // Row 5: GlobalEnchantmentSpells.pas:1890 walks each view column one row at a time and
@@ -311,7 +314,7 @@ public sealed class OfflineStubTests
         var cast = new TImageSequenceList(null!, null!);
         ((TList)cast).Add(sequence);
         var spell = new TEarthMastery(null!);
-        spell.FCastImages.Free();
+        spell.FCastImages?.Dispose();
         spell.FCastImages = cast;
         var animation = new FinishedAnimation { FFrameCounter = 100 };
 
@@ -346,6 +349,6 @@ public sealed class OfflineStubTests
     {
         public bool Finished;
 
-        public override void Destroy() => Finished = true;
+        public override void Dispose() => Finished = true;
     }
 }

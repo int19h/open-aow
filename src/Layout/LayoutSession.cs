@@ -60,7 +60,7 @@ public sealed class LayoutSession
         catch (System.Exception error)
         {
             publish(null);
-            try { module.Destroy(); }
+            try { module.Dispose(); }
             catch (System.Exception cleanup) { throw new AggregateException(error, cleanup); }
             throw;
         }
@@ -93,9 +93,8 @@ public sealed class LayoutSession
 
     public static void ReadImageData(TCustomImageLibrary library, byte[] data)
     {
-        var stream = new TMemoryStream();
-        try { stream.WriteBuffer(data); stream.Position = 0; library.LoadFromStream(stream); }
-        finally { stream.Free(); }
+        using var stream = new TMemoryStream();
+        stream.WriteBuffer(data); stream.Position = 0; library.LoadFromStream(stream);
     }
 }
 

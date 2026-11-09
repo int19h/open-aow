@@ -68,7 +68,7 @@ public partial class TMapField
             if (FStaticCount != 0) FStaticCount--;
             else
             {
-                try { throw new ArgumentException($"Invalid StaticCount ({ClassNameOf(sprite.GetType())})"); }
+                try { throw new ArgumentException($"Invalid StaticCount ({ClassNames.ClassNameOf(sprite.GetType())})"); }
                 catch { }
             }
         }
@@ -113,7 +113,7 @@ public partial class TMapField
         int count = FCount;
         for (int i = 0; i < count; i++) HSEngineUnit.LoadedList[i] = FHSList[i];
         for (int i = count - 1; i >= 0; i--)
-            if (HSEngineUnit.LoadedList[i].Owner == this && !HSEngineUnit.LoadedList[i].MainLoaded()) HSEngineUnit.LoadedList[i].Free();
+            if (HSEngineUnit.LoadedList[i].Owner == this && !HSEngineUnit.LoadedList[i].MainLoaded()) HSEngineUnit.LoadedList[i]?.Dispose();
     }
 
     public virtual void UpdateMapField()
@@ -286,7 +286,7 @@ public partial class TMapField
         }
     }
 
-    public int CanMoveOn(TObject sender, int defaultCode, int moveOverCode)
+    public int CanMoveOn(object sender, int defaultCode, int moveOverCode)
     {
         THSMoveOnInfo info = new() { Sender = sender, MapField = this, MoveOverCode = moveOverCode };
         THSMoveOnResult result = new() { Code = defaultCode, Done = false, Data = 0 };
@@ -300,7 +300,7 @@ public partial class TMapField
         return result.Code;
     }
 
-    public int CanMoveOver(TObject sender)
+    public int CanMoveOver(object sender)
     {
         THSSenderInfo info = new() { Sender = sender, MapField = this };
         int result = 1, i = FCount;
@@ -313,7 +313,7 @@ public partial class TMapField
         return result;
     }
 
-    public void MoveExclusive(TObject sender)
+    public void MoveExclusive(object sender)
     {
         THSSenderInfo info = new() { Sender = sender, MapField = this };
         for (int i = FCount - 1; i >= 0; i--)

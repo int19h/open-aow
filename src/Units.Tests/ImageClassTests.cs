@@ -66,8 +66,7 @@ public sealed class ImageClassTests
                 if (image is TImage08 indexed)
                 {
                     var palette = new TGFXEPalette();
-                    try { indexed.CreateLibraryImagePalette(palette); }
-                    finally { palette.Destroy(); }
+                    { indexed.CreateLibraryImagePalette(palette); }
                 }
                 source.SetImage(i, image);
             }
@@ -91,10 +90,10 @@ public sealed class ImageClassTests
         }
         finally
         {
-            stream.Destroy();
-            loaded.Destroy();
-            source.Destroy();
-            Images.LibraryImageClasses.Destroy();
+            stream.Dispose();
+            loaded.Dispose();
+            source.Dispose();
+            Images.LibraryImageClasses.Dispose();
             Images.LibraryImageClasses = previousClasses;
         }
     }
@@ -119,8 +118,6 @@ public sealed class ImageClassTests
         Assert.Equal(value.FileName, copy.FileName);
         Assert.Equal(value.FileIndex, copy.FileIndex);
         Assert.Equal(value.Inverse, copy.Inverse);
-        copy.Destroy();
-        value.Destroy();
     }
 
     [Fact]
@@ -134,12 +131,11 @@ public sealed class ImageClassTests
         Assert.Equal("BMP", descriptor.Extension);
         Assert.Equal("Bitmap files (*.bmp)", descriptor.Description);
         Assert.Throws<EAbstractError>(() => descriptor.Name);
-        var classes = new TImageFileClassList();
+        using var classes = new TImageFileClassList();
         classes.Add(descriptor);
         Assert.Same(descriptor, classes.FindClass(".bmp"));
         Assert.Same(descriptor, classes.Classes[0]);
         Assert.Null(classes.FindClass("png"));
-        classes.Destroy();
     }
 
     [Fact]
@@ -164,11 +160,10 @@ public sealed class ImageClassTests
         }
         finally
         {
-            grab.Destroy();
             surface.Unlock();
-            surface.Destroy();
-            library.Destroy();
-            Images.LibraryImageClasses.Destroy();
+            surface.Dispose();
+            library.Dispose();
+            Images.LibraryImageClasses.Dispose();
             Images.LibraryImageClasses = previousClasses;
         }
     }

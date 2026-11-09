@@ -67,7 +67,7 @@ public partial class TILTerrainMO : TMultiHexMO
             }
             else
             {
-                Destroy();
+                Dispose();
             }
         }
     }
@@ -84,7 +84,7 @@ public partial class TILTerrainMO : TMultiHexMO
             }
             else
             {
-                Destroy();
+                Dispose();
             }
         }
     }
@@ -168,7 +168,7 @@ public partial class TILTerrainMO : TMultiHexMO
             }
 
             CanPlaceHere = CanPlaceHere && MapContainer.Map.CanChangeTerrain(this, Xhx, Yhx, Lhx, TerrainList);
-            TerrainList.Free();
+            TerrainList?.Dispose();
         }
 
         return CanPlaceHere;
@@ -354,7 +354,7 @@ public partial class TFixedILTerrainMO : TILTerrainMO
                 }
                 catch
                 {
-                    Destroy();
+                    Dispose();
                 }
             }
         }

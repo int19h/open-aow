@@ -18,7 +18,7 @@ public partial class TLeaderGrid : TCustomImageDrawGrid
     public TAoWHSMap FMap;
 
     // LeadrGrd.pas:111
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement Grids.Destroy in the platform or editor service. */
         throw new NotImplementedException();
@@ -117,12 +117,18 @@ public partial class TLeaderGrid : TCustomImageDrawGrid
     public bool ShowLevel { get => FShowLevel; set => FShowLevel = value; }
 }
 
-public partial class TGridMapView : TObject
+[LegacyObject]
+public partial class TGridMapView
 {
     public TItemControl ItemControl;
     public THeroControl HeroControl;
     public TPlayerList Players;
     public TEventList LeaderEvent;
+
+    public TGridMapView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public struct TRawView

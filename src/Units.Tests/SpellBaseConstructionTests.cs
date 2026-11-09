@@ -152,7 +152,7 @@ public sealed partial class SpellConstructionTests
             Assert.Equal(1, raw.FResearchCost);
             Assert.Same(fixture.Manager, raw.FCastImages.FILManager);
         }
-        finally { raw.Destroy(); }
+        finally { raw.Dispose(); }
         Assert.Empty(owner.Members);
     }
 }

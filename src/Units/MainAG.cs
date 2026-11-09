@@ -67,7 +67,7 @@ public partial class TPassiveAG : TAIGroup, IAIGroupClass
             Result = true;
         }
 
-        Selector.Free();
+        Selector?.Dispose();
         return Result;
     }
 
@@ -128,7 +128,7 @@ public partial class TPassiveAGC : TAIGroupControl
                     Done();
                 }
 
-                Selector.Free();
+                Selector?.Dispose();
                 break;
         }
     }
@@ -186,10 +186,10 @@ public partial class TFortifyAGC : TAIGroupControl
     public TAIGroupTargetSelector FTargetSelector;
 
     // MainAG.pas:262
-    public override void Destroy()
+    public override void Dispose()
     {
         FTargetSelector.Release();
-        base.Destroy();
+        base.Dispose();
     }
 
     // MainAG.pas:256
@@ -833,8 +833,8 @@ public partial class TFortifyAGC : TAIGroupControl
                 Group.Release();
             }
 
-            Passive.Free();
-            Units.Free();
+            Passive?.Dispose();
+            Units?.Dispose();
         }
     }
 
@@ -883,7 +883,7 @@ public partial class TSuicidalAGC : TAIGroupControl
     { }
 
     // MainAG.pas:750
-    public override void MoveExecuterDone(TObject Sender)
+    public override void MoveExecuterDone(object Sender)
     {
         switch (FState)
         {
@@ -960,12 +960,6 @@ public partial class TTransportAG : TAIGroup, IAIGroupClass
     // MainAG.pas:801
     public new const int ClassID = 136295;
 
-    // MainAG.pas:796
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // MainAG.pas:789
     public TTransportAG(TECustomNode owner) : base(owner)
     {
@@ -987,7 +981,7 @@ public partial class TTransportAGC : TAIGroupControl
     { }
 
     // MainAG.pas:822
-    public override void MoveExecuterDone(TObject Sender)
+    public override void MoveExecuterDone(object Sender)
     {
         switch (FState)
         {
@@ -1099,8 +1093,9 @@ public partial class TTransportAGC : TAIGroupControl
     }
 }
 
+[LegacyObject]
 // no fields. map-load registration callback
-public partial class TRegistrator : TObject
+public partial class TRegistrator
 {
     // MainAG.pas:115
     public static void MapLoaded(THSMap Sender)
@@ -1109,6 +1104,11 @@ public partial class TRegistrator : TObject
         {
             AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<TPassiveAG>(), AIGroupClass.Of<TSuicidalAG>(), AIGroupClass.Of<TFortifyAG>(), AIGroupClass.Of<TTransportAG>()]);
         }
+    }
+
+    public TRegistrator()
+    {
+        CaptureAddress.Assign(this);
     }
 
 }
@@ -1122,13 +1122,13 @@ public static partial class MainAGUnit
         int Strength2;
         Strength1 = ((TAbstractUnit)Item1).GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
         Strength2 = ((TAbstractUnit)Item2).GetStrengthMax(dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
-        if ((TObject)Item1 is TLeader)
+        if ((object)Item1 is TLeader)
         {
             // { Original uses Strength2. }
             Strength1 = Strength2 + 16777215;
         }
 
-        if ((TObject)Item2 is TLeader)
+        if ((object)Item2 is TLeader)
         {
             Strength2 += 16777215;
         }

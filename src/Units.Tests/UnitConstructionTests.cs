@@ -36,16 +36,12 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 2)
         {
             if (EngineUnit.Engines is null) EngineUnit.Initialize();
-            var engine = new TEngine(null!);
-            try
-            {
-                engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
-                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-                catch (System.Exception error) when (PortedExceptions.Is(error)) { }
-                engine.RegisterEClasses([EClass.Of(type)]);
-                return (TAbstractUnit)engine.CreateEObject(meta.ClassID, owner);
-            }
-            finally { engine.Destroy(); }
+            using var engine = new TEngine(null!);
+            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
+            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+            engine.RegisterEClasses([EClass.Of(type)]);
+            return (TAbstractUnit)engine.CreateEObject(meta.ClassID, owner);
         }
         if (route == 3)
             return (TAbstractUnit)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
@@ -79,7 +75,7 @@ public sealed partial class AoWERuleConstructionTests
                     expected ??= state;
                     Assert.Equal(expected, state);
                     if (route == 0) states.Add(state);
-                    value.Destroy();
+                    value.Dispose();
                     Assert.Empty(owner.Members);
                 }
             }
@@ -118,11 +114,9 @@ public sealed partial class AoWERuleConstructionTests
             ((TAbstractUnit)source).FGroupID = 29;
             var writer = new TEWriteStorageStream(memory, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
-            writer.Destroy();
+            writer.Dispose();
             memory.Position = 0;
-            var reader = new TEReadStorageStream(memory, engine, false);
-            try { reader.rwCreateEObject(ref result, owner, 7); }
-            finally { reader.Destroy(); }
+            using (var reader = new TEReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, owner, 7); }
             var loaded = Assert.IsAssignableFrom<TAbstractUnit>(result);
             Assert.IsType(type, loaded);
             Assert.Equal(1, loaded.FRefCount);
@@ -134,12 +128,12 @@ public sealed partial class AoWERuleConstructionTests
         }
         finally
         {
-            result?.Destroy();
-            source.Destroy();
-            engine.Destroy();
-            set.FUnitResources.Destroy();
-            set.FHeroResources.Destroy();
-            set.FAbilityControl.Destroy();
+            result?.Dispose();
+            source.Dispose();
+            engine.Dispose();
+            set.FUnitResources.Dispose();
+            set.FHeroResources.Dispose();
+            set.FAbilityControl.Dispose();
             Game.AoWHSMap = previousMap;
             Game.AoWHSSet = previousSet;
         }
@@ -180,7 +174,7 @@ public sealed partial class AoWERuleConstructionTests
                 : new[] { "add:2", "insert:2:0:0", "release:1" }, owner.Events);
             Assert.Equal(1, value.FRefCount);
             Assert.Same(reject ? null : owner, value.Owner);
-            value.Destroy();
+            value.Dispose();
             Assert.Empty(owner.Members);
         }
         finally { RefcountOwner = null; Game.AoWHSMap = previous; }

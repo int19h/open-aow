@@ -982,7 +982,7 @@ public partial class TTacticalCombatUnitHS
         }
     }
 
-    public void NewFrame(TObject Sender)
+    public void NewFrame(object Sender)
     {
         TImageSequence Sequence;
         if (FActionDone)

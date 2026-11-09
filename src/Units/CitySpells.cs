@@ -347,10 +347,10 @@ public partial class TTownGateTE : TCityTargetSpellTE
     public TXYL FTeleportLocation;
 
     // CitySpells.pas:391
-    public override void Destroy()
+    public override void Dispose()
     {
-        FArmyID.Free();
-        base.Destroy();
+        FArmyID?.Dispose();
+        base.Dispose();
     }
 
     // CitySpells.pas:400
@@ -780,7 +780,7 @@ public partial class TFountainOfLife : TCityEnchantmentSpell
 
         if (Animation.FFrameCounter == 120)
         {
-            Animation.Free();
+            Animation?.Dispose();
         }
     }
 }
@@ -901,7 +901,7 @@ public partial class TTownQuake : TCityTargetSpell
                     TriggerArmyDamage(Source, Armies.GetArmyHS(I));
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 CastingDone(Source, Event.FEventMana);
                 Result = false;
             }

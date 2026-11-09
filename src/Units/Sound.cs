@@ -39,9 +39,10 @@ public enum TSampleCallBackMode : byte
     scDone = 1
 }
 
+[LegacyObject]
 // FDelay (Update ticks before it plays), FSampleData, FCallBack, FStatus. One playing sound
 // effect, in SampleList
-public partial class TSample : TObject
+public partial class TSample : IDisposable
 {
     public static SampleClass Descriptor { get; } = new("TSample", Create);
 
@@ -108,7 +109,7 @@ public partial class TSample : TObject
             {
                 if (!GetLooped())
                 {
-                    Destroy();
+                    Dispose();
                 }
             }
         }
@@ -117,6 +118,7 @@ public partial class TSample : TObject
     // Sound.pas:727
     protected TSample(ConstructionContext context, TSampleData ASampleData)
     {
+        CaptureAddress.Assign(this);
         context.Capture(this);
         SoundUnit.SampleList.Add(this);
         FSampleData = ASampleData;
@@ -134,7 +136,7 @@ public partial class TSample : TObject
     }
 
     // Sound.pas:735
-    public override void Destroy()
+    public virtual void Dispose()
     {
         if (FCallBack != null)
         {
@@ -148,7 +150,6 @@ public partial class TSample : TObject
 
         FSampleData = null;
         SoundUnit.SampleList.Remove(this);
-        base.Destroy();
     }
 
     // Sound.pas:774
@@ -180,12 +181,18 @@ public partial class TSample : TObject
 
 }
 
+[LegacyObject]
 // FFileName. What BackupSongStatus saves. the sound system adds its own position
-public partial class TSongStatus : TObject
+public partial class TSongStatus
 {
     protected internal string FFileName = "";
 
     public string FileName { get => FFileName; }
+
+    public TSongStatus()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public delegate void TSampleCallBack(TSample Sample, TSampleCallBackMode Mode);
@@ -223,9 +230,10 @@ public struct TSoundSettings
     public int SampleVoices;
 }
 
+[LegacyObject]
 // FName, FRefCount. The sound data of one wave file, in SampleDataList while it is loaded.
 // Create counts the first reference
-public partial class TSampleData : TObject
+public partial class TSampleData : IDisposable
 {
     public static SampleDataClass Descriptor { get; } = new("TSampleData", Create, CreateEx);
 
@@ -235,6 +243,7 @@ public partial class TSampleData : TObject
     // Sound.pas:674
     protected TSampleData(ConstructionContext context, string Name)
     {
+        CaptureAddress.Assign(this);
         context.Capture(this);
         FName = Name;
         SoundUnit.SampleDataList.Add(this);
@@ -245,6 +254,7 @@ public partial class TSampleData : TObject
     // { Sound data from memory; it is not put in SampleDataList. }
     protected TSampleData(ConstructionContext context, in TWaveFormatEx Format, object Data, int Size)
     {
+        CaptureAddress.Assign(this);
         context.Capture(this);
         FName = "";
         AddRef();
@@ -256,7 +266,7 @@ public partial class TSampleData : TObject
         FRefCount -= 1;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -267,10 +277,9 @@ public partial class TSampleData : TObject
     }
 
     // Sound.pas:690
-    public override void Destroy()
+    public virtual void Dispose()
     {
         SoundUnit.SampleDataList.Remove(this);
-        base.Destroy();
     }
 
     public string Name { get => FName; }
@@ -287,9 +296,10 @@ public partial class TSampleData : TObject
 
 }
 
+[LegacyObject]
 // FRefCount, FStatus. The abstract sound system. GetName is a class function
 // (RegisterSoundSystem calls it on the class)
-public partial class TSoundSystem : TObject
+public partial class TSoundSystem : IDisposable
 {
     protected internal int FRefCount;
     protected internal TSet<TSoundSystemStatusElement> FStatus;
@@ -363,6 +373,7 @@ public partial class TSoundSystem : TObject
     // Sound.pas:1152
     public TSoundSystem()
     {
+        CaptureAddress.Assign(this);
         FRefCount = 1;
     }
 
@@ -373,7 +384,7 @@ public partial class TSoundSystem : TObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -465,14 +476,12 @@ public partial class TSoundSystem : TObject
     }
 
     // Sound.pas:1158
-    public override void Destroy()
+    public virtual void Dispose()
     {
         if (FStatus.Contains(TSoundSystemStatusElement.ssActivated))
         {
             Deactivate();
         }
-
-        base.Destroy();
     }
 
     public TSet<TSoundSystemStatusElement> Status { get => FStatus; }
@@ -505,11 +514,11 @@ public partial class TSFXManager : TComponent
     }
 
     // Sound.pas:413
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FSFX.Free();
-        base.Destroy();
+        FSFX?.Dispose();
+        base.Dispose();
     }
 
     // Sound.pas:420
@@ -553,7 +562,7 @@ public partial class TSFXManager : TComponent
                 Search(Dirs[I]);
             }
 
-            Dirs.Free();
+            Dirs?.Dispose();
         }
 
         FSFX.Clear();
@@ -742,7 +751,7 @@ public partial class TSonglist : TEObject
 
     // Sound.pas:819
     // { Reads the song titles; a file that cannot be read is dropped from the list. }
-    internal void SongsChanged(TObject Sender)
+    internal void SongsChanged(object Sender)
     {
         FSongNames.Clear();
         for (int I = FSongs.Count - 1; I >= 0; I--)
@@ -772,11 +781,11 @@ public partial class TSonglist : TEObject
     // Sound.pas:786
 
     // Sound.pas:794
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSongs.Free();
-        FSongNames.Free();
-        base.Destroy();
+        FSongs?.Dispose();
+        FSongNames?.Dispose();
+        base.Dispose();
     }
 
     // Sound.pas:832
@@ -808,9 +817,10 @@ public partial class TSonglist : TEObject
 
 }
 
+[LegacyObject]
 // FCurrentSong, FStatus, FSongs, FSongNames, FCurrentIndex, FOnSongChange, FBackup (Pause),
 // FPauseCount. Plays the songs in turn (Update starts the next one)
-public partial class TSongPlayer : TObject
+public partial class TSongPlayer : IDisposable
 {
     internal string FCurrentSong = "";
     internal TSet<TSongPlayerStatusElement> FStatus;
@@ -828,7 +838,7 @@ public partial class TSongPlayer : TObject
     }
 
     // Sound.pas:875
-    internal void SongsChanged(TObject Sender)
+    internal void SongsChanged(object Sender)
     {
         FSongNames.Clear();
         for (int I = FSongs.Count - 1; I >= 0; I--)
@@ -882,6 +892,7 @@ public partial class TSongPlayer : TObject
     // Sound.pas:854
     public TSongPlayer()
     {
+        CaptureAddress.Assign(this);
         FSongs = new TStringList();
         FSongs.OnChange = SongsChanged;
         FSongNames = new TStringList();
@@ -889,11 +900,10 @@ public partial class TSongPlayer : TObject
     }
 
     // Sound.pas:863
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FSongs.Free();
-        FSongNames.Free();
-        base.Destroy();
+        FSongs?.Dispose();
+        FSongNames?.Dispose();
     }
 
     // Sound.pas:909
@@ -1017,7 +1027,6 @@ public partial class TSongPlayer : TObject
         {
             if (FBackup != null)
             {
-                FBackup.Free();
             }
 
             FBackup = SoundUnit.BackupSongStatus();
@@ -1049,8 +1058,6 @@ public partial class TSongPlayer : TObject
                 {
                     SoundUnit.RestoreSongStatus(FBackup);
                 }
-
-                FBackup.Free();
                 FBackup = null;
             }
 
@@ -1281,10 +1288,10 @@ public partial class TSFXLibrary : TENode
 public partial class TSampleList : TList
 {
     // Sound.pas:710
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Sound.pas:716
@@ -1292,7 +1299,7 @@ public partial class TSampleList : TList
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((TObject)List[I]).Destroy();
+            ((List[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
 
         base.Clear();
@@ -1585,7 +1592,7 @@ public static partial class SoundUnit
             SoundSystem = C.Create();
             if (!SoundSystem.Activate(Settings))
             {
-                SoundSystem.Free();
+                SoundSystem?.Dispose();
                 SoundSystem = null;
                 Result = false;
             }
@@ -1862,7 +1869,7 @@ public static partial class SoundUnit
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
 
         return Result;
@@ -1995,22 +2002,22 @@ public static partial class SoundUnit
 
     public static void Finalize()
     {
-        SongPlayer.Free();
+        SongPlayer?.Dispose();
         SongPlayer = null;
-        SampleList.Free();
+        SampleList?.Dispose();
         SampleList = null;
         if (SampleDataList.Count != 0)
         {
             ShowMessage("Inproper use of Sound Engine (SoundData still loaded)!");
         }
 
-        SampleDataList.Free();
+        SampleDataList?.Dispose();
         SampleDataList = null;
         if (SoundSystem != null)
         {
             SoundSystem.Release();
         }
 
-        SoundSystems.Free();
+        SoundSystems?.Dispose();
     }
 }

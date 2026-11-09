@@ -39,11 +39,11 @@ public partial class TCustomDisplay
         SetFrameRate(30);
     }
 
-    public override void Destroy()
+    public override void Dispose()
     {
         StopUpdateFrameLoop();
         DeactivateDC();
-        base.Destroy();
+        base.Dispose();
     }
 
     internal new void SetCursor(int value) { base.SetCursor(value); Host?.ShowSystemCursor(value != -1); }
@@ -137,7 +137,7 @@ public partial class TCustomDisplay
         }
         finally
         {
-            foreach (var surface in saved) surface?.Free();
+            foreach (var surface in saved) surface?.Dispose();
             ResumeFrameUpdateLoop();
         }
     }

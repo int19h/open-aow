@@ -55,7 +55,7 @@ public sealed class MessageSlotTests
     [Fact]
     public void TheDispatcherStopsAtTheFirstAnswerOfEitherCase()
     {
-        var control = new TObject();
+        var control = new object();
         // No answer: every handler runs.
         var (field, handlers) = Field(None, None, None);
         TMapFieldMsg message = default;
@@ -77,9 +77,9 @@ public sealed class MessageSlotTests
         message.Result = 0;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(new[] { 1, 1, 0 }, Calls(handlers));
-        Assert.Same(control, message.Result.As<TObject>());
+        Assert.Same(control, message.Result.As<object>());
         // A handler writing 0 or nil into a slot that holds 0 has not answered, as in the original.
-        (field, handlers) = Field((ref m) => m.Result = 0, (ref m) => m.Result = (TObject?)null, None);
+        (field, handlers) = Field((ref m) => m.Result = 0, (ref m) => m.Result = (object?)null, None);
         message = default;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
@@ -92,7 +92,7 @@ public sealed class MessageSlotTests
         field.SendMapFieldMsg(ref message);
         Assert.Equal(new[] { 1, 1, 1 }, Calls(handlers));
         // Replacing one reference with another is an answer.
-        (field, handlers) = Field((ref m) => m.Result = new TObject(), None);
+        (field, handlers) = Field((ref m) => m.Result = new object(), None);
         message = default;
         message.Result = control;
         field.SendMapFieldMsg(ref message);
@@ -103,25 +103,18 @@ public sealed class MessageSlotTests
     [Fact]
     public void ThePayloadCarriesTheEngineOrThePlayer()
     {
-        var engine = new TEngine(null!);
-        try
-        {
-            TEMsg message = default;
-            EngineUnit.InitMsg(ref message, 0x20000008, engine);
-            message.Payload = engine;
-            Assert.Same(engine, message.Payload.As<TEngine>());
-            Assert.Throws<InvalidCastException>(() => message.Payload.Int);
-            Assert.Equal(-1, message.Result);
-            EngineUnit.InitMsg(ref message, 0x20020002, engine);
-            Assert.False(message.Payload.HasValue);
-            message.Payload = 5;
-            Assert.Equal(5, (sbyte)message.Payload.Int);
-            Assert.Null(message.Payload.As<TEngine>());
-        }
-        finally
-        {
-            engine.Destroy();
-        }
+        using var engine = new TEngine(null!);
+        TEMsg message = default;
+        EngineUnit.InitMsg(ref message, 0x20000008, engine);
+        message.Payload = engine;
+        Assert.Same(engine, message.Payload.As<TEngine>());
+        Assert.Throws<InvalidCastException>(() => message.Payload.Int);
+        Assert.Equal(-1, message.Result);
+        EngineUnit.InitMsg(ref message, 0x20020002, engine);
+        Assert.False(message.Payload.HasValue);
+        message.Payload = 5;
+        Assert.Equal(5, (sbyte)message.Payload.Int);
+        Assert.Null(message.Payload.As<TEngine>());
     }
 
     // TMapFieldMsg.Param[0]: 0x1102 carries the placed army, 0x110a the distance to the viewer.

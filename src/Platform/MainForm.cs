@@ -155,7 +155,7 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
         Display.StartUpdateFrameLoop();
     }
 
-    public void DisplayUpdateFrame(TObject sender, TAbstractDC dc, int surfaceType)
+    public void DisplayUpdateFrame(object sender, TAbstractDC dc, int surfaceType)
     {
         RtlUnit.Clock.WaitMilliseconds(AoWEngine.FRegistry.GetDebugMode() ? 1 : 0);
         switch (GameHost.DeferredSetupAction)
@@ -296,8 +296,8 @@ public sealed class TMainForm : IGameHost, IDisplayEvents, IDisposable
     {
         if (disposed) return;
         disposed = true;
-        Display.Free();
-        WinDC.Free();
+        Display?.Dispose();
+        WinDC?.Dispose();
         SoundUnit.ReleaseSoundSystem();
         if (created)
         {

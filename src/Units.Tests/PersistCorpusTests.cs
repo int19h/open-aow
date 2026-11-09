@@ -125,7 +125,7 @@ public sealed class PersistCorpusTests
         {
             reaper = null;
             AoWEUnit.AoWHSMap = previous;
-            map.Destroy();
+            map.Dispose();
         }
     }
 
@@ -327,7 +327,7 @@ public sealed class PersistCorpusTests
         AoWEUnit.AoWHSMap = reaper;
         try
         {
-            obj.Destroy();
+            obj.Dispose();
         }
         finally
         {
@@ -359,21 +359,16 @@ public sealed class PersistCorpusTests
         }
         finally
         {
-            reader.Destroy();
+            reader.Dispose();
         }
     }
 
     private static byte[] Image(TEObject obj)
     {
         using var memory = new TMemoryStream();
-        var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false);
-        try
+        using (var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false))
         {
             obj.MainReadWrite(writer);
-        }
-        finally
-        {
-            writer.Destroy();
         }
         return memory.Memory[..memory.Size];
     }

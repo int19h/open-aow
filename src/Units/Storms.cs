@@ -748,7 +748,7 @@ public partial class TPestilenceStorm : TStorm
             }
             else
             {
-                Cloud.Free();
+                Cloud?.Dispose();
             }
 
             Result = false;
@@ -812,7 +812,7 @@ public partial class TStormSpellTE : TSpellTE
         if (!FStorm.UpdateStorm())
         {
             FStorm.FinalizeStorm();
-            FStorm.Free();
+            FStorm?.Dispose();
             FStorm = null;
             Result = false;
         }
@@ -886,7 +886,7 @@ public partial class TStormSpell : TSpell
                     Result = false;
                 }
 
-                Storm.Free();
+                Storm?.Dispose();
             }
             else
             {
@@ -1031,7 +1031,7 @@ public partial class TStormSpell : TSpell
                     }
                 }
 
-                Storm.Free();
+                Storm?.Dispose();
             }
         }
         else
@@ -1048,7 +1048,7 @@ public partial class TStormSpell : TSpell
         switch (Selection.FChange)
         {
             case TTargetSelectionChange.tscDeactivated:
-                FTargetStorm.Free();
+                FTargetStorm?.Dispose();
                 FTargetStorm = null;
                 Selection.FOnChange -= OnTargetSelectionChange;
                 break;
@@ -1059,7 +1059,7 @@ public partial class TStormSpell : TSpell
                     Selection.Deactivate();
                 }
 
-                FTargetStorm.Free();
+                FTargetStorm?.Dispose();
                 FTargetStorm = null;
                 break;
         }

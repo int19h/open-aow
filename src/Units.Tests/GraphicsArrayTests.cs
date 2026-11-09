@@ -19,7 +19,7 @@ public sealed class GraphicsArrayTests
     public void HashListGrowsBySixteenAndShiftsOnDelete()
     {
         var list = new TIntegerHashList();
-        var items = Enumerable.Range(0, 40).Select(_ => new TObject()).ToArray();
+        var items = Enumerable.Range(0, 40).Select(_ => new object()).ToArray();
         for (int i = 0; i < 40; i++) list.Add(items[i], 1000 + i);
         Assert.Equal(40, list.Count);
         Assert.Equal(48, list.FCapacity);
@@ -30,7 +30,7 @@ public sealed class GraphicsArrayTests
         Assert.Same(items[6], list.Find(1006));
         Assert.Equal(1006, list.FItems[5].Key.Value);
         Assert.Equal(1039, list.FItems[38].Key.Value);
-        Assert.Throws<InvalidOperationException>(() => list.Add(new TObject(), 1000));
+        Assert.Throws<InvalidOperationException>(() => list.Add(new object(), 1000));
         list.Delete(1039);
         Assert.Equal(38, list.Count);
         Assert.Same(items[38], list.Find(1038));
@@ -47,31 +47,27 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void LibraryItemsGrowInBlocksOfEightAndShift()
     {
-        var library = new TImageLibrary(null!);
-        try
-        {
-            library.SetImageReference(0, 5);
-            Assert.Equal(1, library.FCount);
-            Assert.Equal(7, library.FCapacity);
-            Assert.Equal(7, library.FImages.Length);
-            Assert.All(library.FImages.Skip(1), item => Assert.Equal(-1, item.Reference));
-            library.SetImageReference(1, 6);
-            library.SetImageReference(2, 7);
-            library.InsertItem(1);
-            Assert.Equal(4, library.FCount);
-            Assert.Equal([5, 0, 6, 7, -1, -1, -1], library.FImages.Select(item => item.Reference));
-            library.SetImageReference(8, 9);
-            Assert.Equal(9, library.FCount);
-            Assert.Equal(15, library.FCapacity);
-            Assert.Equal([5, 0, 6, 7, -1, -1, -1, -1, 9, -1, -1, -1, -1, -1, -1], library.FImages.Select(item => item.Reference));
-            library.DeleteItem(0);
-            Assert.Equal(8, library.FCount);
-            Assert.Equal([0, 6, 7, -1, -1, -1, -1, 9, 0, -1, -1, -1, -1, -1, -1], library.FImages.Select(item => item.Reference));
-            library.SetCapacity(0);
-            Assert.Null(library.FImages);
-            Assert.Equal(0, library.FCount);
-        }
-        finally { library.Destroy(); }
+        using var library = new TImageLibrary(null!);
+        library.SetImageReference(0, 5);
+        Assert.Equal(1, library.FCount);
+        Assert.Equal(7, library.FCapacity);
+        Assert.Equal(7, library.FImages.Length);
+        Assert.All(library.FImages.Skip(1), item => Assert.Equal(-1, item.Reference));
+        library.SetImageReference(1, 6);
+        library.SetImageReference(2, 7);
+        library.InsertItem(1);
+        Assert.Equal(4, library.FCount);
+        Assert.Equal([5, 0, 6, 7, -1, -1, -1], library.FImages.Select(item => item.Reference));
+        library.SetImageReference(8, 9);
+        Assert.Equal(9, library.FCount);
+        Assert.Equal(15, library.FCapacity);
+        Assert.Equal([5, 0, 6, 7, -1, -1, -1, -1, 9, -1, -1, -1, -1, -1, -1], library.FImages.Select(item => item.Reference));
+        library.DeleteItem(0);
+        Assert.Equal(8, library.FCount);
+        Assert.Equal([0, 6, 7, -1, -1, -1, -1, 9, 0, -1, -1, -1, -1, -1, -1], library.FImages.Select(item => item.Reference));
+        library.SetCapacity(0);
+        Assert.Null(library.FImages);
+        Assert.Equal(0, library.FCount);
     }
 
     // ImageLib.pas 1313 to 1397: Add grows the node to its count, Insert by one, both move the tail
@@ -104,8 +100,8 @@ public sealed class GraphicsArrayTests
         finally
         {
             node.FCount = 0;
-            node.Destroy();
-            foreach (var image in images) image.Destroy();
+            node.Dispose();
+            foreach (var image in images) image.Dispose();
         }
     }
 
@@ -146,8 +142,8 @@ public sealed class GraphicsArrayTests
         }
         finally
         {
-            list.Destroy();
-            copy.Destroy();
+            list.Dispose();
+            copy.Dispose();
         }
     }
 
@@ -167,7 +163,7 @@ public sealed class GraphicsArrayTests
         Assert.Equal(2, matrix.GetVal(1, 2));
         Assert.Equal(1, matrix.GetVal(3, 0));
         Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetVal(4, 0));
-        matrix.Destroy();
+        matrix.Dispose();
         Assert.Null(matrix.FData);
         var empty = new TMatrix(0, 3);
         Assert.Null(empty.FData);
@@ -185,25 +181,21 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void InvalidBlockSizeFindsTheLargestBlock()
     {
-        var owner = new TComponent(null!);
-        try
-        {
-            var dc = new TDisplayCtrl(owner);
-            var matrix = new TMatrix(4, 4);
-            foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) }) matrix.SetVal((byte)x, (byte)y, 1);
-            int bw = -1, bh = -1;
-            Assert.Equal(4, dc.GetInvBlockSize(0, 0, matrix, ref bw, ref bh));
-            Assert.Equal((2, 2), (bw, bh));
-            Assert.Equal(4, dc.GetInvBlockSize(1, 1, matrix, ref bw, ref bh));
-            Assert.Equal((2, 2), (bw, bh));
-            bw = bh = -1;
-            Assert.Equal(0, dc.GetInvBlockSize(0, 2, matrix, ref bw, ref bh));
-            Assert.Equal((-1, -1), (bw, bh));
-            var column = new TMatrix(4, 4);
-            foreach (int y in new[] { 0, 1, 2 }) column.SetVal(0, (byte)y, 1);
-            Assert.Equal(3, dc.GetInvBlockSize(0, 0, column, ref bw, ref bh));
-            Assert.Equal((1, 3), (bw, bh));
-        }
-        finally { owner.Destroy(); }
+        using var owner = new TComponent(null!);
+        var dc = new TDisplayCtrl(owner);
+        var matrix = new TMatrix(4, 4);
+        foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) }) matrix.SetVal((byte)x, (byte)y, 1);
+        int bw = -1, bh = -1;
+        Assert.Equal(4, dc.GetInvBlockSize(0, 0, matrix, ref bw, ref bh));
+        Assert.Equal((2, 2), (bw, bh));
+        Assert.Equal(4, dc.GetInvBlockSize(1, 1, matrix, ref bw, ref bh));
+        Assert.Equal((2, 2), (bw, bh));
+        bw = bh = -1;
+        Assert.Equal(0, dc.GetInvBlockSize(0, 2, matrix, ref bw, ref bh));
+        Assert.Equal((-1, -1), (bw, bh));
+        var column = new TMatrix(4, 4);
+        foreach (int y in new[] { 0, 1, 2 }) column.SetVal(0, (byte)y, 1);
+        Assert.Equal(3, dc.GetInvBlockSize(0, 0, column, ref bw, ref bh));
+        Assert.Equal((1, 3), (bw, bh));
     }
 }

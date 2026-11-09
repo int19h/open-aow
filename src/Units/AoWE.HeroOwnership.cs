@@ -42,12 +42,12 @@ public partial class THeroInventory
 
 public partial class TPlayerList
 {
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FLocalControlledPlayers.Free();
-        FLocalHumanPlayers.Free();
-        FActivePlayers.Free();
-        FLocalPlayers.Free();
+        base.Dispose();
+        FLocalControlledPlayers?.Dispose();
+        FLocalHumanPlayers?.Dispose();
+        FActivePlayers?.Dispose();
+        FLocalPlayers?.Dispose();
     }
 }

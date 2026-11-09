@@ -53,7 +53,7 @@ public sealed partial class SpellConstructionTests
         {
             Game.AoWHSSet = previousSet;
             Game.AoWEngine = previousEngine;
-            Manager.Destroy();
+            Manager.Dispose();
         }
     }
 
@@ -68,9 +68,10 @@ public sealed partial class SpellConstructionTests
         if (value is Array array) return array.Cast<object?>().Select(x => State(x, depth + 1)).ToArray();
         if (depth > 8) throw new InvalidOperationException("Unexpected constructor-state cycle: " + type);
         var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-        for (Type? current = type; current is not null && current != typeof(TObject); current = current.BaseType)
+        for (Type? current = type; current is not null && current != typeof(object); current = current.BaseType)
             foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
+                if (field.Name == "captureOrdinal") continue;
                 if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
                 object? fieldValue = field.GetValue(value);
                 fields[current.Name + "." + field.Name] = field.Name == "FOwner"
@@ -94,7 +95,7 @@ public sealed partial class SpellConstructionTests
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
         var engine = new TEngine(null!);
         try { engine.RegisterEClasses([EClass.Of(type)]); }
-        catch { engine.Destroy(); throw; }
+        catch { engine.Dispose(); throw; }
         return engine;
     }
 
@@ -132,7 +133,7 @@ public sealed partial class SpellConstructionTests
         {
             return engine.CreateEObject(meta.ClassID, owner);
         }
-        finally { engine.Destroy(); }
+        finally { engine.Dispose(); }
     }
 
     public static IEnumerable<object[]> Classes => ConstructionSnapshot.Keys("SpellConstruction").Select(name => new object[] { name });
@@ -175,7 +176,7 @@ public sealed partial class SpellConstructionTests
                 }
             Assert.Equal(4, owner.Members.Count);
         }
-        finally { foreach (var value in allocated) value.Destroy(); }
+        finally { foreach (var value in allocated) value.Dispose(); }
         Assert.Empty(owner.Members);
         Assert.Equal(4, owner.Removed.Count);
     }
@@ -196,7 +197,7 @@ public sealed partial class SpellConstructionTests
             Assert.Empty(owner.Removed);
             if (value is TSpell spell) Assert.Same(fixture.Manager, spell.FCastImages.FILManager);
             if (value is TAbility ability) Assert.Same(fixture.Manager, ability.FImageSequences.FILManager);
-            value.Destroy();
+            value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Same(value, Assert.Single(owner.Removed));
         }
@@ -213,7 +214,7 @@ public sealed partial class SpellConstructionTests
             Assert.IsType(type, value);
             Assert.Equal(1, ((TCombatAction)value).FRefCount);
             Assert.Same(owner, value.Owner);
-            value.Destroy();
+            value.Dispose();
         }
         Assert.Empty(owner.Members);
     }
@@ -226,7 +227,7 @@ public sealed partial class SpellConstructionTests
             var value = (TNewCombatRoundCA)Create(typeof(TNewCombatRoundCA), null!, route);
             Assert.IsType<TNewCombatRoundCA>(value);
             Assert.Equal(1, value.FRefCount);
-            value.Destroy();
+            value.Dispose();
         }
     }
 
@@ -237,6 +238,6 @@ public sealed partial class SpellConstructionTests
         Assert.NotNull(raw.FSpellText);
         Assert.NotNull(raw.FUnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));
-        raw.Destroy();
+        raw.Dispose();
     }
 }

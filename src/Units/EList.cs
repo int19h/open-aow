@@ -4,9 +4,10 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.EList;
 
+[LegacyObject]
 // no fields. TObjectList.LoadFromStream constructs items with their ordinary constructor. The
 // stream methods are empty here and overridden by the items
-public partial class TListObject : TObject
+public partial class TListObject : IDisposable
 {
     // EList.pas:50
     public virtual void SaveToStream(TStream Stream)
@@ -16,6 +17,15 @@ public partial class TListObject : TObject
     // EList.pas:54
     public virtual void LoadFromStream(TStream Stream)
     {
+    }
+
+    public virtual void Dispose()
+    {
+    }
+
+    public TListObject()
+    {
+        CaptureAddress.Assign(this);
     }
 
 }
@@ -37,17 +47,17 @@ public partial class TObjectList : TList
 
         if (List[Index] != null)
         {
-            ((TObject)List[Index]).Destroy();
+            ((List[Index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
 
         List[Index] = Value;
     }
 
     // EList.pas:60
-    public override void Destroy()
+    public override void Dispose()
     {
         DestroyItems();
-        base.Destroy();
+        base.Dispose();
     }
 
     // EList.pas:78
@@ -57,7 +67,7 @@ public partial class TObjectList : TList
         {
             if (List[I] != null)
             {
-                ((TObject)List[I]).Destroy();
+                ((List[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
 
             Delete(I);

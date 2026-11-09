@@ -38,7 +38,7 @@ public struct TSampleRecord
     }
 }
 
-public class TSample(int value) : TObject
+public class TSample(int value) : IDisposable
 {
     public int Value = value;
     public bool Destroyed;
@@ -46,7 +46,7 @@ public class TSample(int value) : TObject
     public virtual int ClassID => 1;
 
     public virtual void AbstractCall() => throw EAbstractError.Create("Abstract Error");
-    public override void Destroy() => Destroyed = true;
+    public virtual void Dispose() => Destroyed = true;
 }
 
 public sealed class TSampleChild(int value) : TSample(value + 10)
@@ -92,6 +92,6 @@ public static class GeneratedStyleSample
             sampleRecord.Value += instance.ClassID;
             return records[1];
         }
-        finally { instance.Free(); }
+        finally { instance?.Dispose(); }
     }
 }

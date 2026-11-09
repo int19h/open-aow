@@ -87,7 +87,7 @@ public partial class TCombatRoad : TAbstractRoad
         OldRoad = MapField.FindHS(typeof(TAbstractRoad));
         if (OldRoad != null)
         {
-            OldRoad.Destroy();
+            OldRoad.Dispose();
         }
 
         return base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);

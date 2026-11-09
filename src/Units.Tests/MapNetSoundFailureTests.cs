@@ -98,7 +98,7 @@ public sealed class MapNetSoundFailureTests
         Assert.Same(owner, level.Owner);
         Assert.Equal(0, level.Count);
         Assert.Equal(["insert"], owner.Events);
-        level.Destroy();
+        level.Dispose();
         Assert.Empty(owner.Members);
         Assert.Equal(["insert", "remove"], owner.Events);
     }
@@ -114,7 +114,7 @@ public sealed class MapNetSoundFailureTests
             Assert.Same(level, Assert.Single(owner.Members));
             Assert.Same(owner, level.Owner);
             Assert.Equal(0, level.Count);
-            level.Destroy();
+            level.Dispose();
             Assert.Empty(owner.Members);
             Assert.Equal(["insert", "remove"], owner.Events);
         }

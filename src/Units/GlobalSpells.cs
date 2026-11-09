@@ -25,10 +25,10 @@ public partial class TConcealAreaHS : TFixedVisibleHS
     public int FFrame;
 
     // GlobalSpells.pas:205
-    public override void Destroy()
+    public override void Dispose()
     {
-        FHexagons.Free();
-        base.Destroy();
+        FHexagons?.Dispose();
+        base.Dispose();
     }
 
     // GlobalSpells.pas:199
@@ -124,7 +124,7 @@ public partial class TConcealAreaHS : TFixedVisibleHS
     {
         AoWHSMap.DynamicFixedVisibleHS.RemoveChild(this);
         AoWHSMap.DynamicVisibleHS.RemoveChild(this);
-        Destroy();
+        Dispose();
     }
 
     // GlobalSpells.pas:39
@@ -279,10 +279,10 @@ public partial class TBirdsViewHS : TFixedVisibleHS
     public int FFrame;
 
     // GlobalSpells.pas:412
-    public override void Destroy()
+    public override void Dispose()
     {
-        FHexagons.Free();
-        base.Destroy();
+        FHexagons?.Dispose();
+        base.Dispose();
     }
 
     // GlobalSpells.pas:406
@@ -375,7 +375,7 @@ public partial class TBirdsViewHS : TFixedVisibleHS
     {
         AoWHSMap.DynamicFixedVisibleHS.RemoveChild(this);
         AoWHSMap.DynamicVisibleHS.RemoveChild(this);
-        Destroy();
+        Dispose();
     }
 
     // GlobalSpells.pas:67
@@ -472,10 +472,10 @@ public partial class TWarpPartyTE : TSpellTE
     public TXYL FWarpLocation;
 
     // GlobalSpells.pas:558
-    public override void Destroy()
+    public override void Dispose()
     {
-        FArmyID.Free();
-        base.Destroy();
+        FArmyID?.Dispose();
+        base.Dispose();
     }
 
     // GlobalSpells.pas:569
@@ -711,7 +711,7 @@ public partial class TWarpParty : TSpell
             }
         }
 
-        Candidates.Free();
+        Candidates?.Dispose();
         return Result;
     }
 }
@@ -815,7 +815,7 @@ public partial class TResurrectHero : TSpell
             }
 
             CastingDone(Source, Event.FEventMana);
-            Heroes.Free();
+            Heroes?.Dispose();
             Result = false;
         }
         else
@@ -953,7 +953,7 @@ public partial class TAnimateHero : TSpell
             }
 
             CastingDone(Source, Event.FEventMana);
-            Heroes.Free();
+            Heroes?.Dispose();
             Result = false;
         }
         else
@@ -1178,7 +1178,7 @@ public partial class TCallHero : TSpell
             Result = null;
         }
 
-        Heroes.Free();
+        Heroes?.Dispose();
         return Result;
     }
 }
@@ -1582,7 +1582,7 @@ public partial class TCrusade : TSpell
 
                 if (!PlaceParty(Source, Party))
                 {
-                    Party.Free();
+                    Party?.Dispose();
                 }
             }
             else
@@ -1604,7 +1604,7 @@ public partial class TCrusade : TSpell
 
                     if (!PlaceParty(Source, Party))
                     {
-                        Party.Free();
+                        Party?.Dispose();
                     }
                 }
 
@@ -1628,7 +1628,7 @@ public partial class TCrusade : TSpell
 
                 if (!PlaceParty(Source, Party))
                 {
-                    Party.Free();
+                    Party?.Dispose();
                 }
             }
 

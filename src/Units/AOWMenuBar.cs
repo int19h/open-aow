@@ -37,7 +37,7 @@ public partial class TAOWMenuBar : TAOWControl
     }
 
     // AOWMenuBar.pas:74
-    public override void Destroy()
+    public override void Dispose()
     {
         TAOWWindowControl M;
         for (int I = 0, last = FMenus.Count - 1; I <= last; I++)
@@ -46,9 +46,9 @@ public partial class TAOWMenuBar : TAOWControl
             M.DetachMenuBar();
         }
 
-        FMenus.Destroy();
-        FItems.Destroy();
-        base.Destroy();
+        FMenus.Dispose();
+        FItems.Dispose();
+        base.Dispose();
     }
 
     // AOWMenuBar.pas:98

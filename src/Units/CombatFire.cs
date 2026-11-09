@@ -30,12 +30,6 @@ public partial class TCombatFire : TSingleHS
     public int FPlayer;
     public bool FFirstTurn;
 
-    // CombatFire.pas:65
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // CombatFire.pas:60
 
     // CombatFire.pas:119
@@ -148,7 +142,7 @@ public partial class TCombatFire : TSingleHS
                     }
                 }
 
-                this.Free();
+                this.Dispose();
             }
         }
     }
@@ -246,7 +240,7 @@ public static partial class CombatFireUnit
                         Fire = new TCombatFire(null);
                         if (!AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0))
                         {
-                            Fire.Free();
+                            Fire?.Dispose();
                         }
                     }
                 }

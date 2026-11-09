@@ -31,7 +31,7 @@ public sealed class EClassTests
             if (parent.ValueKind == JsonValueKind.Null) Assert.Null(eclass.Parent);
             else Assert.Equal(parent.GetString(), eclass.Parent!.Type.FullName);
             Assert.Same(eclass, EClass.Of(eclass.Type));
-            Assert.Equal(TObject.ClassNameOf(eclass.Type), eclass.ClassName);
+            Assert.Equal(ClassNames.ClassNameOf(eclass.Type), eclass.ClassName);
         }
     }
 
@@ -57,27 +57,23 @@ public sealed class EClassTests
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
-        var engine = new TEngine(null!);
-        try
+        using var engine = new TEngine(null!);
+        var engines = new List<TEngine> { engine };
+        foreach (var other in EngineUnit.Engines!.List.OfType<TEngine>())
+            if (!ReferenceEquals(other, engine)) engines.Add(other);
+        Assert.Contains(EClass.Of<TEControlStyleObject>(), ProductRegistered(engine));
+        foreach (var registered in engines)
         {
-            var engines = new List<TEngine> { engine };
-            foreach (var other in EngineUnit.Engines!.List.OfType<TEngine>())
-                if (!ReferenceEquals(other, engine)) engines.Add(other);
-            Assert.Contains(EClass.Of<TEControlStyleObject>(), ProductRegistered(engine));
-            foreach (var registered in engines)
+            var classes = ProductRegistered(registered);
+            Assert.NotEmpty(classes);
+            foreach (var eclass in classes)
             {
-                var classes = ProductRegistered(registered);
-                Assert.NotEmpty(classes);
-                foreach (var eclass in classes)
-                {
-                    var entry = Baseline.RootElement.GetProperty(eclass.Type.FullName!);
-                    Assert.Equal(entry.GetProperty("id").GetInt32(), eclass.ClassID);
-                    Assert.Same(eclass, registered.GetEClass(eclass.ClassID));
-                    Assert.Same(eclass, EClass.Of(eclass.Type));
-                }
+                var entry = Baseline.RootElement.GetProperty(eclass.Type.FullName!);
+                Assert.Equal(entry.GetProperty("id").GetInt32(), eclass.ClassID);
+                Assert.Same(eclass, registered.GetEClass(eclass.ClassID));
+                Assert.Same(eclass, EClass.Of(eclass.Type));
             }
         }
-        finally { engine.Destroy(); }
     }
 
     private static List<EClass> ProductRegistered(TEngine engine)
@@ -122,7 +118,7 @@ public sealed class EClassTests
             Assert.Equal(TEResourceEditSettings.ClassID, created.EClass.ClassID);
             Assert.Equal(1026, created.EClass.ClassID);
         }
-        finally { created.Free(); }
+        finally { created?.Dispose(); }
     }
 
     [Fact]
@@ -130,10 +126,10 @@ public sealed class EClassTests
     {
         var created = EClass.Of<TEControlStyleObject>().Create(null!);
         try { Assert.IsType<TEControlStyleObject>(created); }
-        finally { created.Free(); }
+        finally { created?.Dispose(); }
         var split = EClass.Of<TEResourceList>().Create(null!);
         try { Assert.IsType<TEResourceList>(split); }
-        finally { split.Free(); }
+        finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EClass.Of(typeof(Unregistered)));
         Assert.Throws<InvalidOperationException>(() => EClass.Register<TEObject>(80, static owner => new TEObject(null!), 8));
     }
@@ -168,7 +164,7 @@ public sealed class EClassTests
         Assert.DoesNotContain(descriptor, previous);
         var instance = descriptor.Create(null!);
         try { Assert.IsType<Registered>(instance); }
-        finally { instance.Destroy(); }
+        finally { instance.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EClass.Register<Registered>(0, static owner => new Registered(owner), 8));
     }
 }

@@ -281,7 +281,7 @@ public partial class TTeleport : TStructure
                 }
 
                 // { Original frees the path only on normal completion. }
-                Path.Free();
+                Path?.Dispose();
             }
             else
             {

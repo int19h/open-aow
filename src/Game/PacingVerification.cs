@@ -51,8 +51,8 @@ internal static class PacingVerification
             if (noGc) GC.EndNoGCRegion();
             Thread.CurrentThread.Priority = priority;
             process.PriorityClass = processPriority;
-            display.Free();
-            controller.Free();
+            display?.Dispose();
+            controller?.Dispose();
             RtlUnit.Clock = savedClock;
         }
         double[] regular = times.Take(300).ToArray();

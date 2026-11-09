@@ -33,7 +33,7 @@ public partial class TCenterViewLocation : TMapObject
         {
             if (AoWCombatMap.FCenterViewLocation != null)
             {
-                AoWCombatMap.FCenterViewLocation.Free();
+                AoWCombatMap.FCenterViewLocation?.Dispose();
             }
 
             AoWCombatMap.FCenterViewLocation = this;

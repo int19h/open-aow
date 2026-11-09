@@ -48,10 +48,10 @@ public partial class TCombatTerrain : TTerrainMO
     public int FDefense;
 
     // CombatTerrain.pas:85
-    public override void Destroy()
+    public override void Dispose()
     {
         DestroyShadow();
-        base.Destroy();
+        base.Dispose();
     }
 
     // CombatTerrain.pas:269
@@ -269,7 +269,7 @@ public partial class TCombatTerrain : TTerrainMO
                 FResource.Engine.HSMap.DynamicVisibleHS.RemoveChild(FShadow);
             }
 
-            FShadow.Free();
+            FShadow?.Dispose();
             FShadow = null;
         }
     }

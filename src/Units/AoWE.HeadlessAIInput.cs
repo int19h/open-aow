@@ -20,7 +20,7 @@ public partial class TAIPlayerControl
                     if (FMoveExecuter.FStatus != TAIMoveExecuterStatus.mesBusy)
                     {
                         while (FAction is null && FActions.Count != 0)
-                            if (!ActivateAction(0)) FActions.GetActions(0).Free();
+                            if (!ActivateAction(0)) FActions.GetActions(0)?.Dispose();
                         if (FAction is not null)
                         {
                             done = FAction.Process();
@@ -28,7 +28,7 @@ public partial class TAIPlayerControl
                             {
                                 var action = FAction;
                                 DeactivateAction();
-                                action.Free();
+                                action?.Dispose();
                             }
                         }
                     }

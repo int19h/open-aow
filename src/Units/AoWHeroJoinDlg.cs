@@ -136,7 +136,7 @@ public partial class THeroJoinDlg : TDataModule
     // AoWHeroJoinDlg.pas:127
     public void HeroJoinDlgDestroy()
     {
-        FUnits.Free();
+        FUnits?.Dispose();
     }
 
     // AoWHeroJoinDlg.pas:132

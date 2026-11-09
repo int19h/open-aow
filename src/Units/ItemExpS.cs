@@ -15,12 +15,6 @@ public partial class TExplorationSiteItemList : TItemList
     public TExplorationSiteItemList(TECustomNode owner) : base(owner)
     { }
 
-    // ItemExpS.pas:83
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // intf_P2_04.inc:118
 
 }
@@ -42,10 +36,10 @@ public partial class TItemExplorationSite : TExplorationSite
     public TExplorationSiteItemList FItems;
 
     // ItemExpS.pas:95
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FItems.Free();
+        base.Dispose();
+        FItems?.Dispose();
         FItems = null;
     }
 
@@ -178,11 +172,11 @@ public partial class TItemExplorationSiteEventLog : TEventLog
     public TXYL FLocation;
 
     // ItemExpS.pas:194
-    public override void Destroy()
+    public override void Dispose()
     {
-        FItemIDs.Free();
-        FMessages.Free();
-        base.Destroy();
+        FItemIDs?.Dispose();
+        FMessages?.Dispose();
+        base.Dispose();
     }
 
     // ItemExpS.pas:204

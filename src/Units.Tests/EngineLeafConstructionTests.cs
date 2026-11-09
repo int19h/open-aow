@@ -100,9 +100,9 @@ public sealed class EngineLeafConstructionTests
         }
         finally
         {
-            copy?.Destroy();
-            foreach (var value in objects) value.Destroy();
-            engine.Destroy();
+            copy?.Dispose();
+            foreach (var value in objects) value.Dispose();
+            engine.Dispose();
         }
         Assert.Empty(owner.Members);
     }
@@ -164,7 +164,7 @@ public sealed class EngineLeafConstructionTests
         var value = (TEControlStyleSortNode)EClass.Of<TEControlStyleSortNode>().Create(null!);
         var other = (TEControlStyleSortNode)EClass.Of<TEControlStyleSortNode>().Create(null!);
         try { AssertLeafState(value); AssertLeafState(other); }
-        finally { value.Destroy(); other.Destroy(); }
+        finally { value.Dispose(); other.Dispose(); }
     }
 
     [Theory]
@@ -182,7 +182,7 @@ public sealed class EngineLeafConstructionTests
     [InlineData(11)]
     public void HelperConstructionKeepsTheFactoryState(int kind)
     {
-        TObject value = kind switch
+        object value = kind switch
         {
             0 => new TBitList(),
             1 => new TCallBackEventList(),
@@ -243,6 +243,6 @@ public sealed class EngineLeafConstructionTests
                 default: Assert.Fail("Missing helper assertion"); break;
             }
         }
-        finally { value.Destroy(); }
+        finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 }

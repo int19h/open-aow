@@ -19,10 +19,10 @@ public partial class TOverviewUnitHS : TUnitHS
     public TAbstractUnit FUnit;
 
     // OverviewUnit.pas:31
-    public override void Destroy()
+    public override void Dispose()
     {
         SetU(null);
-        base.Destroy();
+        base.Dispose();
     }
 
     // OverviewUnit.pas:52
@@ -87,7 +87,7 @@ public static partial class OverviewUnitUnit
         while (!(Overlay != 8 && Occupant == null));
         if (!Map.PlaceHX(HS, X, Y, 0))
         {
-            HS.Free();
+            HS?.Dispose();
         }
     }
 

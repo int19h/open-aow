@@ -27,7 +27,7 @@ public sealed class LibraryImageClass
     }
 
     public Type Type { get; }
-    public string ClassName => TObject.ClassNameOf(Type);
+    public string ClassName => ClassNames.ClassNameOf(Type);
     public int ClassID { get; }
     public byte ClassVersion { get; }
     public string Name { get; } = "";
@@ -90,7 +90,7 @@ public sealed class LibraryImageClass
                 }
                 else
                 {
-                    Image.Free();
+                    Image?.Dispose();
                 }
             }
 
@@ -101,7 +101,7 @@ public sealed class LibraryImageClass
             Result = GFXEUnit.GFXE_ERROR;
         }
 
-        Rects.Free();
+        Rects?.Dispose();
         return Result;
     }
 }

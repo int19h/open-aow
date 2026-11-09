@@ -15,12 +15,12 @@ public abstract class TStrings : TPersistent
     public virtual int Capacity { get => Count; set { } }
     public abstract string this[int index] { get; set; }
 
-    protected virtual TObject? GetObject(int index) => null;
+    protected virtual object? GetObject(int index) => null;
 
-    protected virtual void PutObject(int index, TObject? value) { }
+    protected virtual void PutObject(int index, object? value) { }
 
     public IndexedProperty<int, string> Strings => new(i => this[i], (i, s) => this[i] = s);
-    public IndexedProperty<int, TObject?> Objects => new(GetObject, PutObject);
+    public IndexedProperty<int, object?> Objects => new(GetObject, PutObject);
     // CLASSES.PAS TStrings.GetName, GetValue and SetValue.
     public IndexedProperty<int, string> Names => new(i => { var s = this[i]; return Copy(s, 1, AnsiPos("=", s) - 1); });
 
@@ -37,9 +37,9 @@ public abstract class TStrings : TPersistent
     // CLASSES.PAS TStrings.Add, AddObject and InsertObject.
     public virtual int Add(string value) { int i = Count; Insert(i, value); return i; }
 
-    public int AddObject(string value, TObject? item) { int i = Add(value); PutObject(i, item); return i; }
+    public int AddObject(string value, object? item) { int i = Add(value); PutObject(i, item); return i; }
 
-    public void InsertObject(int index, string value, TObject? item) { Insert(index, value); PutObject(index, item); }
+    public void InsertObject(int index, string value, object? item) { Insert(index, value); PutObject(index, item); }
 
     public abstract void Insert(int index, string value);
     public abstract void Delete(int index);
@@ -54,7 +54,7 @@ public abstract class TStrings : TPersistent
         return -1;
     }
 
-    public int IndexOfObject(TObject? item) { for (int i = 0; i < Count; i++) if (ReferenceEquals(GetObject(i), item)) return i; return -1; }
+    public int IndexOfObject(object? item) { for (int i = 0; i < Count; i++) if (ReferenceEquals(GetObject(i), item)) return i; return -1; }
 
     // CLASSES.PAS TStrings.GetTextStr and SetTextStr. The reader stops at NUL.
     public string Text
@@ -197,7 +197,7 @@ public enum TDuplicates : byte { dupIgnore, dupAccept, dupError }
 
 public class TStringList : TStrings
 {
-    private record struct StringItem(string Text, TObject? Object);
+    private record struct StringItem(string Text, object? Object);
 
     private StringItem[] items = [];
     private int count;
@@ -227,9 +227,9 @@ public class TStringList : TStrings
     }
 
     // CLASSES.PAS TStringList.GetObject and PutObject.
-    protected override TObject? GetObject(int index) { Check(index); return items[index].Object; }
+    protected override object? GetObject(int index) { Check(index); return items[index].Object; }
 
-    protected override void PutObject(int index, TObject? value) { Check(index); Changing(); items[index].Object = value; Changed(); }
+    protected override void PutObject(int index, object? value) { Check(index); Changing(); items[index].Object = value; Changed(); }
 
     // CLASSES.PAS TStringList.SetSorted.
     public bool Sorted { get => sorted; set { if (sorted == value) return; if (value) Sort(); sorted = value; } }
@@ -311,5 +311,5 @@ public class TStringList : TStrings
     }
 
     // CLASSES.PAS TStringList.Destroy does not destroy associated objects.
-    public override void Destroy() { OnChange = null; OnChanging = null; base.Destroy(); count = 0; Capacity = 0; }
+    public override void Dispose() { OnChange = null; OnChanging = null; base.Dispose(); count = 0; Capacity = 0; }
 }

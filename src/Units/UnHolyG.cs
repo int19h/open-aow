@@ -235,7 +235,7 @@ public partial class TUnHolyGround : TILTerrainMO
         sbyte Overlay;
         Field = (TMapField)Owner;
         Overlay = FOriginalOverlay;
-        Destroy();
+        Dispose();
         if (Overlay > 0)
         {
             AoWHSMap.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
@@ -401,7 +401,7 @@ public partial class TUnholyGroundSpellTE : TGlobalTargetSpellTE
                     }
                     else
                     {
-                        Ground.Free();
+                        Ground?.Dispose();
                     }
                 }
             }

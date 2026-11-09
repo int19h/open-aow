@@ -25,10 +25,10 @@ public partial class TMine : TPlayerStructure
     public TPlayerStructureIncomeSource FIncomeSource;
 
     // Mine.pas:76
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FIncomeSource.Free();
+        base.Dispose();
+        FIncomeSource?.Dispose();
     }
 
     // Mine.pas:172

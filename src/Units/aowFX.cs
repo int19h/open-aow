@@ -10,16 +10,23 @@ public enum TSwarmDirection : byte
     sdBackward = 1
 }
 
+[LegacyObject]
 // one point, X, Y, Z
-public partial class TXYZ : TObject
+public partial class TXYZ
 {
     public int X;
     public int Y;
     public int Z;
+
+    public TXYZ()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // FList, the owned points
-public partial class TXYZList : TObject
+public partial class TXYZList : IDisposable
 {
 
     internal TList FList;
@@ -27,19 +34,19 @@ public partial class TXYZList : TObject
     // aowFX.pas:93
     public TXYZList()
     {
+        CaptureAddress.Assign(this);
         FList = new TList();
     }
 
     // aowFX.pas:98
-    public override void Destroy()
+    public virtual void Dispose()
     {
         for (int I = 0, last = FList.Count - 1; I <= last; I++)
         {
-            GetXYZ(I).Free();
+            _ = GetXYZ(I);
         }
 
-        FList.Free();
-        base.Destroy();
+        FList?.Dispose();
     }
 
     // aowFX.pas:108
@@ -47,7 +54,7 @@ public partial class TXYZList : TObject
     {
         for (int I = 0, last = FList.Count - 1; I <= last; I++)
         {
-            GetXYZ(I).Free();
+            _ = GetXYZ(I);
         }
 
         FList.Clear();
@@ -62,7 +69,6 @@ public partial class TXYZList : TObject
     // aowFX.pas:122
     public void Delete(int Index)
     {
-        ((TXYZ)FList[Index]).Free();
         FList.Delete(Index);
     }
 
@@ -91,10 +97,16 @@ public partial class TXYZList : TObject
 
 }
 
+[LegacyObject]
 // no method of the package touches its fields, so only their size is known
-public partial class TfxParticleObject : TObject
+public partial class TfxParticleObject
 {
     internal FixedArray_int_10 FData;
+
+    public TfxParticleObject()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // no fields of its own

@@ -105,7 +105,7 @@ public sealed class ObjectCastCrashTests
 
         public override TMapObjectResourceList GetResourceList(TEngine engine) => Resources;
 
-        public override void Destroy() => Destroyed = true;
+        public override void Dispose() => Destroyed = true;
     }
 
     private static void Own(TMapObject sprite, TMapField field)

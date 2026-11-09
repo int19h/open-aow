@@ -45,12 +45,11 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void MapConstructorKeepsVirtualMouseCreationBeforeChildren()
     {
-        var converted = new ConvertedMap(null!);
+        using var converted = new ConvertedMap(null!);
         Assert.Equal(1, converted.MouseCalls);
         Assert.Same(converted, converted.Mouse.FHSMap);
         Assert.NotNull(converted.FSelection);
         Assert.NotNull(converted.FTimer);
-        converted.Destroy();
     }
 
     [Fact]
@@ -70,7 +69,7 @@ public sealed class MapNetSoundDispatchTests
                 Assert.Equal(y, field.Yhx);
                 Assert.Equal(2, field.Lhx);
             }
-        level.Destroy();
+        level.Dispose();
     }
 
     [Fact]
@@ -84,7 +83,7 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(0, mouse.FOnCaptureChangedStore.Count);
         Assert.Equal(int.MinValue, mouse.FX);
         Assert.Equal(int.MinValue, mouse.FY);
-        mouse.Destroy();
+        mouse.Dispose();
     }
 
     private sealed class SoundState : IDisposable
@@ -151,8 +150,8 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(2, SoundApi.SampleList.Count);
         Assert.Equal(0, sample.Delay);
         Assert.Equal(default, sample.Status);
-        sample.Destroy();
-        dynamicSample.Destroy();
+        sample.Dispose();
+        dynamicSample.Dispose();
         Assert.Equal(1, direct.RefCount);
         Assert.Equal(1, dynamic.RefCount);
         direct.Release();
@@ -192,7 +191,7 @@ public sealed class MapNetSoundDispatchTests
         var system = meta.Create();
         Assert.IsType<TSdlSoundSystem>(system);
         Assert.Equal(1, system.FRefCount);
-        system.Destroy();
+        system.Dispose();
         Assert.True(SoundApi.InitializeSoundSystem(name,
             new TSoundSettings { SampleRate = 8000, SampleVoices = 1, SFXEnabled = true }));
         var sampleDataMeta = TSdlSoundSystem.SampleData;
@@ -209,7 +208,7 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(TSamplePanning.spCenter, sample.Panning);
         Assert.Equal(2, data.RefCount);
         Assert.Equal(1, SoundApi.SampleList.Count);
-        sample.Destroy();
+        sample.Dispose();
         Assert.Equal(1, data.RefCount);
         data.Release();
         Assert.Equal(0, SoundApi.SampleList.Count);
@@ -239,9 +238,9 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal("NullSample", sample.GetType().Name);
         Assert.Equal(2, data.RefCount);
         Assert.False(sample.Playing);
-        sample.Destroy();
+        sample.Dispose();
         Assert.Equal(1, data.RefCount);
         data.Release();
-        system.Destroy();
+        system.Dispose();
     }
 }

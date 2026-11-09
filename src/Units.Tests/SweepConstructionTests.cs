@@ -56,8 +56,8 @@ public sealed class SweepConstructionTests
             Game.AoWHSSet = previousSet;
             Game.AoWEngine = previousEngine;
             Game.AoWHSMap = previousMap;
-            CombatResources.Destroy();
-            Manager.Destroy();
+            CombatResources.Dispose();
+            Manager.Dispose();
         }
     }
 
@@ -82,9 +82,10 @@ public sealed class SweepConstructionTests
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-            for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
+            for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
+                    if (field.Name == "captureOrdinal") continue;
                     if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
@@ -410,7 +411,7 @@ public sealed class SweepConstructionTests
                 catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
                 finally
                 {
-                    try { value?.Destroy(); }
+                    try { value?.Dispose(); }
                     catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
                 }
                 states.Add("owner:" + (owner?.Members.Count ?? 0));
@@ -424,17 +425,13 @@ public sealed class SweepConstructionTests
     private static TEObject Saved(Type type, TECustomNode owner)
     {
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
-        var engine = new TEngine(null!);
-        try
-        {
-            var descriptor = EClass.Of(type);
-            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
-            try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
-            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
-            engine.RegisterEClasses([descriptor]);
-            return engine.CreateEObject(descriptor.ClassID, owner);
-        }
-        finally { engine.Destroy(); }
+        using var engine = new TEngine(null!);
+        var descriptor = EClass.Of(type);
+        engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+        try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
+        catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+        engine.RegisterEClasses([descriptor]);
+        return engine.CreateEObject(descriptor.ClassID, owner);
     }
 
     [Theory]
@@ -449,12 +446,12 @@ public sealed class SweepConstructionTests
         if (name.EndsWith(".TAoWNewCombatMapSettings", StringComparison.Ordinal))
             typeof(THSEngine).GetField("FHSSFileName", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(Game.AoWEngine, "");
         Type[] signature = name.EndsWith(".TCombatMoveControl", StringComparison.Ordinal) ? [typeof(THSMap)] : [];
-        var value = (TObject)Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
+        var value = (object)Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
         try
         {
             ConstructionSnapshot.Check("SweepConstruction", name, Snapshot(value));
         }
-        finally { value.Destroy(); }
+        finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 
 }

@@ -28,11 +28,11 @@ public partial class TSign : TStructure
     public TBitList FTextSeen;
 
     // Sign.pas:92
-    public override void Destroy()
+    public override void Dispose()
     {
-        FText.Free();
-        FTextSeen.Free();
-        base.Destroy();
+        FText?.Dispose();
+        FTextSeen?.Dispose();
+        base.Dispose();
     }
 
     // Sign.pas:105
@@ -197,10 +197,10 @@ public partial class TUpdateSignTE : TTokenEvent
     public sbyte FLhx;
 
     // Sign.pas:199
-    public override void Destroy()
+    public override void Dispose()
     {
-        FText.Free();
-        base.Destroy();
+        FText?.Dispose();
+        base.Dispose();
     }
 
     // Sign.pas:205

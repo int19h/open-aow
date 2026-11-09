@@ -6,7 +6,7 @@ namespace Aow.Rtl.Tests;
 
 public sealed class ClassesTests
 {
-    private sealed class Identical : TObject
+    private sealed class Identical
     {
         public override bool Equals(object? other) => other is Identical;
         public override int GetHashCode() => 0;
@@ -32,7 +32,7 @@ public sealed class ClassesTests
         l.Move(-1, -1);
         Assert.Same(l, l.Expand()); Assert.Equal(9, l.Capacity);
         Assert.Equal("problem 7", Assert.Throws<ArgumentOutOfRangeException>(() => TList.Error("problem %d", 7)).Message);
-        l.Destroy(); Assert.Equal(0, l.Count); Assert.Empty(l.List);
+        l.Dispose(); Assert.Equal(0, l.Count); Assert.Empty(l.List);
     }
 
     private sealed class Assigned : TPersistent
@@ -50,15 +50,15 @@ public sealed class ClassesTests
     [Fact]
     public void PersistentAssignDispatchAndNamePaths()
     {
-        // CLASSES.PAS:1817..1857.
-        var target = new TPersistent(); var source = new Assigned();
+        using         // CLASSES.PAS:1817..1857.
+                var target = new TPersistent(); var source = new Assigned();
         target.Assign(source); Assert.Same(target, source.Target);
         Assert.Equal("Cannot assign a nil to a TPersistent", Assert.Throws<FormatException>(() => target.Assign(null)).Message);
         Assert.Equal("Cannot assign a TPersistent to a TPersistent", Assert.Throws<FormatException>(() => target.Assign(new TPersistent())).Message);
         Assert.Null(target.GetOwner()); Assert.Equal("TPersistent", target.GetNamePath());
         Assert.Equal("TPersistent.Owned", new Owned(target).GetNamePath());
         Assert.Equal("Owned", new Owned(new TComponent(null!)).GetNamePath());
-        target.DefineProperties(null); target.Destroy();
+        target.DefineProperties(null);
     }
 
     private sealed class Watched(List<string> log) : TComponent
@@ -69,10 +69,10 @@ public sealed class ClassesTests
             base.Notification(component, operation);
         }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             log.Add($"destroy {Name} owner={Owner?.Name} state={ComponentState.Contains(TComponentState.csDestroying)}");
-            base.Destroy();
+            base.Dispose();
         }
 
         internal void Loading() => ComponentState = ComponentState.With(TComponentState.csLoading);
@@ -101,9 +101,9 @@ public sealed class ClassesTests
         owner.DefineProperties(null); owner.Loaded();
         owner.RemoveComponent(first); Assert.Null(first.Owner); Assert.Equal(-1, first.ComponentIndex); first.ComponentIndex = 0;
         owner.InsertComponent(first); Assert.Equal(1, first.ComponentIndex);
-        var duplicate = new TComponent(null!) { Name = "B" }; Assert.Throws<ArgumentException>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
+        using var duplicate = new TComponent(null!) { Name = "B" }; Assert.Throws<ArgumentException>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
         owner.DestroyComponents(); Assert.Equal(0, owner.ComponentCount); Assert.Null(first.Owner); Assert.Null(second.Owner);
-        owner.Destroy(); duplicate.Destroy();
+        owner.Dispose();
     }
 
     [Fact]
@@ -113,30 +113,29 @@ public sealed class ClassesTests
         var log = new List<string>();
         var root = new Watched(log) { Name = "root" }; var a = new Watched(log) { Name = "a" }; var b = new Watched(log) { Name = "b" }; var observer = new Watched(log) { Name = "observer" };
         root.InsertComponent(a); root.InsertComponent(b); root.FreeNotification(observer); root.FreeNotification(observer); log.Clear();
-        root.Destroy();
+        root.Dispose();
         Assert.Equal(new[] { "destroy root owner= state=False", "notify observer root opRemove destroying=False", "destroy b owner= state=True", "destroy a owner= state=True" }, log);
         Assert.True(root.ComponentState.Contains(TComponentState.csDestroying)); Assert.True(a.ComponentState.Contains(TComponentState.csDestroying));
         Assert.False(root.ComponentState.Contains(TComponentState.csDesigning));
-        log.Clear(); observer.Destroy(); Assert.Single(log);
+        log.Clear(); observer.Dispose(); Assert.Single(log);
         var loading = new Watched(log); loading.Loading(); Assert.True(loading.ComponentState.Contains(TComponentState.csLoading)); loading.Loaded(); Assert.False(loading.ComponentState.Contains(TComponentState.csLoading));
         var owner = new TComponent(null!); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
-        a.Destroy(); Assert.Equal(1, owner.ComponentCount); Assert.Contains(log, line => line.StartsWith("notify b a opRemove", StringComparison.Ordinal)); owner.Destroy();
-        var tree = new TComponent(null!); var sub = new TComponent(tree); var leaf = new TComponent(sub); tree.Destroying(); tree.Destroying();
-        Assert.True(leaf.ComponentState.Contains(TComponentState.csDestroying)); tree.Destroy();
+        a.Dispose(); Assert.Equal(1, owner.ComponentCount); Assert.Contains(log, line => line.StartsWith("notify b a opRemove", StringComparison.Ordinal)); owner.Dispose();
+        using var tree = new TComponent(null!); var sub = new TComponent(tree); var leaf = new TComponent(sub); tree.Destroying(); tree.Destroying();
+        Assert.True(leaf.ComponentState.Contains(TComponentState.csDestroying));
     }
 
     [Fact]
     public void ComponentConstructorInsertsAndDestroyRemovesOwnerMembership()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var instance = new TComponent(owner);
         Assert.Same(owner, instance.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(instance, owner.Components[0]);
-        instance.Destroy();
+        instance.Dispose();
         Assert.Null(instance.Owner);
         Assert.Equal(0, owner.ComponentCount);
-        owner.Destroy();
     }
 
     private class PublishedBase : TComponent
@@ -162,6 +161,6 @@ public sealed class ClassesTests
         Assert.Equal(19, obj.Amount); Assert.Equal("hello", obj.Caption);
         Assert.Equal(typeof(int), properties[0].Type); Assert.Equal(7, properties[0].DefaultValue); Assert.Equal("base", properties[1].DefaultValue);
         Assert.Null(new PublishedAttribute().DefaultValue);
-        Assert.Empty(Rtti.PublishedProperties(typeof(TObject)));
+        Assert.Empty(Rtti.PublishedProperties(typeof(object)));
     }
 }

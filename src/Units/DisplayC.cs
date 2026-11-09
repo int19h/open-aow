@@ -49,10 +49,11 @@ public enum TDisplayOptionsElement : byte
     doAutoEnableDDraw = 9
 }
 
+[LegacyObject]
 // a byte matrix (the invalidated blocks of a surface). FData, FWidth, FHeight. The port's FData
 // is the array of FWidth * FHeight bytes, row by row, and null for an empty matrix as GetMem of
 // size 0 gives nil.
-public partial class TMatrix : TObject
+public partial class TMatrix : IDisposable
 {
     internal byte[] FData;
     internal byte FWidth;
@@ -62,17 +63,16 @@ public partial class TMatrix : TObject
     // { TMatrix (DCTypes in the original) }
     public TMatrix(byte AWidth, byte AHeight)
     {
+        CaptureAddress.Assign(this);
         FWidth = AWidth;
         FHeight = AHeight;
         FData = FWidth * FHeight == 0 ? null : new byte[FWidth * FHeight];
     }
 
     // DisplayC.pas:3155
-    public override void Destroy()
+    public virtual void Dispose()
     {
         FData = null;
-
-        base.Destroy();
     }
 
     // DisplayC.pas:3166
@@ -120,15 +120,15 @@ public partial class TCustomDisplay : TWinControl
 {
 
     internal TDDrawFSWinControl FFSWinControl;
-    internal TNotifyEvent<TObject> FOnBltSurface;
+    internal TNotifyEvent<object> FOnBltSurface;
     internal TUpdateFrameEvent FOnUpdateFrame;
     internal TSurfaceDataLostEvent FOnSurfaceDataLost;
-    internal TNotifyEvent<TObject> FOnResize;
+    internal TNotifyEvent<object> FOnResize;
     internal TErrorEvent FOnError;
     internal TDCNotifyEvent FOnActivateDC;
     internal TDCNotifyEvent FOnDeactivateDC;
-    internal TNotifyEvent<TObject> FOnHide;
-    internal TNotifyEvent<TObject> FOnShow;
+    internal TNotifyEvent<object> FOnHide;
+    internal TNotifyEvent<object> FOnShow;
     internal TResizeBackSurfaceEvent FOnResizeBackSurface;
     internal TSwapDCEvent FOnSwapDC;
     internal int FFrameRate;
@@ -578,13 +578,13 @@ public partial class TCustomDisplay : TWinControl
     protected internal TAbstractDC PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
     protected internal TAbstractDC SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
     protected internal TUpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
-    protected internal TNotifyEvent<TObject> OnResize { get => FOnResize; set => FOnResize = value; }
-    protected internal TNotifyEvent<TObject> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
+    protected internal TNotifyEvent<object> OnResize { get => FOnResize; set => FOnResize = value; }
+    protected internal TNotifyEvent<object> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
     protected internal TDCNotifyEvent OnDeactivateDC { get => FOnDeactivateDC; set => FOnDeactivateDC = value; }
     protected internal TDCNotifyEvent OnActivateDC { get => FOnActivateDC; set => FOnActivateDC = value; }
     protected internal TUpdateFrameEvent OnUpdateFrame { get => FOnUpdateFrame; set => FOnUpdateFrame = value; }
-    protected internal TNotifyEvent<TObject> OnHide { get => FOnHide; set => FOnHide = value; }
-    protected internal TNotifyEvent<TObject> OnShow { get => FOnShow; set => FOnShow = value; }
+    protected internal TNotifyEvent<object> OnHide { get => FOnHide; set => FOnHide = value; }
+    protected internal TNotifyEvent<object> OnShow { get => FOnShow; set => FOnShow = value; }
     protected internal TErrorEvent OnError { get => FOnError; set => FOnError = value; }
     protected internal TSurfaceDataLostEvent OnSurfaceDataLost { get => FOnSurfaceDataLost; set => FOnSurfaceDataLost = value; }
     protected internal TResizeBackSurfaceEvent OnResizeBackSurface { get => FOnResizeBackSurface; set => FOnResizeBackSurface = value; }
@@ -841,7 +841,7 @@ public partial class TAbstractDC : TComponent
                 }
             }
 
-            M.Destroy();
+            M.Dispose();
         }
         else
         {
@@ -932,7 +932,7 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:1031
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
         {
@@ -941,11 +941,11 @@ public partial class TDisplayCtrl : TAbstractDC
 
         if (FInvMatrix != null)
         {
-            FInvMatrix.Destroy();
+            FInvMatrix.Dispose();
             FInvMatrix = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // DisplayC.pas:634
@@ -1136,7 +1136,7 @@ public partial class TDisplayCtrl : TAbstractDC
     {
         if (FInvMatrix != null)
         {
-            FInvMatrix.Destroy();
+            FInvMatrix.Dispose();
         }
 
         FInvMatrix = new TMatrix(AWidth, AHeight);
@@ -1447,7 +1447,7 @@ public partial class TDDrawFSWinControl : TWinControl
     }
 
     // DisplayC.pas:1121
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement Controls.Handle in the platform or editor service. */
         throw new NotImplementedException();
@@ -1469,8 +1469,8 @@ public enum TBackSurfaceControlMode : byte
     bmNone = 3
 }
 
-public delegate void TUpdateFrameEvent(TObject Sender, TAbstractDC DC, int SurfaceType);
-public delegate void TDCNotifyEvent(TObject Sender, TAbstractDC DC);
+public delegate void TUpdateFrameEvent(object Sender, TAbstractDC DC, int SurfaceType);
+public delegate void TDCNotifyEvent(object Sender, TAbstractDC DC);
 
 public enum TBufferingScheme : byte
 {
@@ -1491,9 +1491,10 @@ public enum TUpdateFrameMode : byte
 public delegate void TResizeBackSurfaceEvent(TAbstractDC DC, int Width, int Height);
 public delegate void TSwapDCEvent(TAbstractDC DC);
 
+[LegacyObject]
 // the asynchronous frame loop. calls TCustomDisplay.UpdateFrame through Synchronize at the
 // frame rate. FDisplay, FBusy, FLastTime
-public partial class TUpdateFrameThread : TObject
+public partial class TUpdateFrameThread
 {
     internal TCustomDisplay FDisplay;
     internal bool FBusy;
@@ -1516,6 +1517,7 @@ public partial class TUpdateFrameThread : TObject
     // DisplayC.pas:1105
     public TUpdateFrameThread(TCustomDisplay ADisplay)
     {
+        CaptureAddress.Assign(this);
         /* TODO: Implement Classes.Create in the platform or editor service. */
         throw new NotImplementedException();
     }
@@ -1667,10 +1669,9 @@ public partial class TWindows08DC : TWindowsDC
     }
 
     // DisplayC.pas:2172
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPalette.Free();
-        base.Destroy();
+        base.Dispose();
     }
 
     // DisplayC.pas:2178
@@ -1707,9 +1708,9 @@ public partial class TWindows08DC : TWindowsDC
     {
         if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
         {
-            FBack1.Free();
+            FBack1?.Dispose();
             FBack1 = null;
-            FBack2.Free();
+            FBack2?.Dispose();
             FBack2 = null;
         }
 
@@ -1816,9 +1817,9 @@ public partial class TWindows16DC : TWindowsDC
     {
         if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
         {
-            FBack1.Free();
+            FBack1?.Dispose();
             FBack1 = null;
-            FBack2.Free();
+            FBack2?.Dispose();
             FBack2 = null;
         }
 
@@ -1875,9 +1876,9 @@ public partial class TWindows24DC : TWindowsDC
     {
         if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
         {
-            FBack1.Free();
+            FBack1?.Dispose();
             FBack1 = null;
-            FBack2.Free();
+            FBack2?.Dispose();
             FBack2 = null;
         }
 
@@ -1930,9 +1931,9 @@ public partial class TWindows32DC : TWindowsDC
     {
         if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
         {
-            FBack1.Free();
+            FBack1?.Dispose();
             FBack1 = null;
-            FBack2.Free();
+            FBack2?.Dispose();
             FBack2 = null;
         }
 
@@ -1966,10 +1967,10 @@ public partial class TWindows08DIBSurface : TSurface
     }
 
     // DisplayC.pas:2018
-    public override void Destroy()
+    public override void Dispose()
     {
         FMem = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // DisplayC.pas:2024

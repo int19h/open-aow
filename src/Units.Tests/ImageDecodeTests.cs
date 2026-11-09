@@ -164,7 +164,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             var image = create();
                             if (!image.SupportGrabPixelFormat(sd.PixelFormatID) || (inverse && image is not TBitMask))
                             {
-                                image.Destroy();
+                                image.Dispose();
                                 continue;
                             }
                             hash.Add($"{image.GetType().Name} {name} {rect.Left} {inverse}");
@@ -187,8 +187,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             }
                             finally
                             {
-                                grab.Destroy();
-                                image.Destroy();
+                                image.Dispose();
                             }
                         }
             entries.Add(new Entry(label, grabs, hash.Value.ToString("X16")));
@@ -199,32 +198,27 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         }
         finally
         {
-            s24.Destroy();
-            s8.Destroy();
-            s565.Destroy();
-            s555.Destroy();
-            palette.Destroy();
+            s24.Dispose();
+            s8.Dispose();
+            s565.Dispose();
+            s555.Dispose();
         }
     }
 
     // Writes the image to a stream, reads it back and pins the copy.
     private static void RoundTrip(LibraryImage image, Fnv hash)
     {
-        var stream = new TMemoryStream();
+        using var stream = new TMemoryStream();
         try
         {
-            try
-            {
-                Images.WriteImageToStream(image, stream);
-                hash.Add(stream.Memory.AsSpan(0, stream.Size));
-                stream.Position = 0;
-                var copy = Images.ReadImageFromStream(stream, null!);
-                try { Pin(copy, hash); }
-                finally { copy.Destroy(); }
-            }
-            catch (System.Exception error) { hash.Add(error.GetType().Name); }
+            Images.WriteImageToStream(image, stream);
+            hash.Add(stream.Memory.AsSpan(0, stream.Size));
+            stream.Position = 0;
+            var copy = Images.ReadImageFromStream(stream, null!);
+            try { Pin(copy, hash); }
+            finally { copy.Dispose(); }
         }
-        finally { stream.Destroy(); }
+        catch (System.Exception error) { hash.Add(error.GetType().Name); }
     }
 
     // The pixel readers of GFXE on every pixel of small surfaces of each format and width: the
@@ -241,7 +235,6 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         var palette = new TGFXEPalette();
         for (int i = 0; i < 256; i++) palette.Entries[i] = new TPaletteEntry { R = (byte)i, G = (byte)(i * 3), B = (byte)(i * 11) };
         palette.PixelFormatID = G.pfBGR24;
-        try
         {
             foreach (int format in new[] { G.pfPAL8, G.pfRGB555, G.pfRGB565, G.pfRGB24, G.pfRGB32 })
                 for (int w = 1; w <= 17; w++)
@@ -283,16 +276,15 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             {
                                 for (int i = 0; i < list.Count; i++)
                                     foreach (int value in new[] { list.GetRectangle(i).Rect.Left, list.GetRectangle(i).Rect.Top, list.GetRectangle(i).Rect.Right, list.GetRectangle(i).Rect.Bottom }) hash.Add(value);
-                                list.Free();
+                                list?.Dispose();
                             }
                         }
                         surface.Unlock();
                     }
-                    finally { surface.Destroy(); }
+                    finally { surface.Dispose(); }
                     entries.Add(new Entry($"{format:X8} {w}", h, hash.Value.ToString("X16")));
                 }
         }
-        finally { palette.Destroy(); }
         Check("Pixels", entries);
     }
 
@@ -314,7 +306,6 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     Assert.Equal(5, table.Bits);
                     hash.Add(table.Bytes);
                     var copy = (TBlendTable5Bit)table.Copy();
-                    try
                     {
                         for (int i = 0; i < 32; i++)
                             for (int j = 0; j < 32; j++)
@@ -326,7 +317,6 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                         Assert.Equal(copy.Table[3][5], copy.Bytes[3 * 32 + 5]);
                         Assert.NotEqual(copy.Table[3][5], table.Table[3][5]);
                     }
-                    finally { copy.Destroy(); }
                 }
                 for (int i = 0; i <= 100; i++) hash.Add(collection.Tables.Count == 0 ? -1 : IndexOf(collection, collection.Lookup[i]));
                 entries.Add(new Entry(name, collection.Tables.Count, hash.Value.ToString("X16")));
@@ -357,15 +347,11 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // Loads a library and hands every image to the action, the images of the nodes in order.
     private static void Decode(string file, bool onDemand, Action<LibraryImage> action)
     {
-        var library = new TImageLibrary(null!);
-        try
-        {
-            library.LoadOnDemand = onDemand;
-            library.LoadFromFile(file);
-            for (int i = 0; i < library.Count; i++)
-                if (!library.IsReference(i)) Visit(library[i], action);
-        }
-        finally { library.Destroy(); }
+        using var library = new TImageLibrary(null!);
+        library.LoadOnDemand = onDemand;
+        library.LoadFromFile(file);
+        for (int i = 0; i < library.Count; i++)
+            if (!library.IsReference(i)) Visit(library[i], action);
     }
 
     private static void Visit(LibraryImage? image, Action<LibraryImage> action)
@@ -453,8 +439,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         }
         finally
         {
-            surface.Destroy();
-            palette.Destroy();
+            surface.Dispose();
         }
         return hash.Value;
     }
@@ -484,14 +469,14 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         }
         finally
         {
-            Images.LibraryImageClasses.Destroy();
+            Images.LibraryImageClasses.Dispose();
             Images.LibraryImageClasses = previousClasses;
             Images.BaseImageLibraryPath = previousBase;
-            G.AlphaBlendTable.Free();
-            G.IntensityBlendTable.Free();
-            G.BrightenBlendTable.Free();
-            G.ShadowBlendTable.Free();
-            G.LinearAlphaBlendTable.Free();
+            G.AlphaBlendTable?.Dispose();
+            G.IntensityBlendTable?.Dispose();
+            G.BrightenBlendTable?.Dispose();
+            G.ShadowBlendTable?.Dispose();
+            G.LinearAlphaBlendTable?.Dispose();
             (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) = previousTables;
         }
     }

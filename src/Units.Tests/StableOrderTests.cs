@@ -10,7 +10,7 @@ public sealed class StableOrderTests
     [Fact]
     public void TextControlKeepsEqualItemsInInsertionOrder()
     {
-        var control = new TTextControl(null!);
+        using var control = new TTextControl(null!);
         var high = Item(control, 2, "high");
         var low = Item(control, 1, "low");
         var tied = Item(control, 1, "tied");
@@ -18,13 +18,12 @@ public sealed class StableOrderTests
         Assert.Same(low, control.GetItem(0));
         Assert.Same(tied, control.GetItem(1));
         Assert.Same(high, control.GetItem(2));
-        control.Destroy();
     }
 
     [Fact]
     public void ItemNameKeepsEqualNamesInInsertionOrder()
     {
-        var list = new TItemList(null!);
+        using var list = new TItemList(null!);
         var high = new TItem(list) { FOwnerName = "m" };
         var low = new TItem(list) { FOwnerName = "a" };
         var tied = new TItem(list) { FOwnerName = "a" };
@@ -32,13 +31,12 @@ public sealed class StableOrderTests
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
         Assert.Same(high, list.FChildren[2]);
-        list.Destroy();
     }
 
     [Fact]
     public void ItemTypeKeepsEqualTypesInInsertionOrder()
     {
-        var list = new TItemList(null!);
+        using var list = new TItemList(null!);
         var high = new TItem(list) { FItemType = TItemType.itScroll };
         var low = new TItem(list) { FItemType = TItemType.itHead };
         var tied = new TItem(list) { FItemType = TItemType.itHead };
@@ -46,7 +44,6 @@ public sealed class StableOrderTests
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
         Assert.Same(high, list.FChildren[2]);
-        list.Destroy();
     }
 
     [Fact]
@@ -65,7 +62,7 @@ public sealed class StableOrderTests
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
-        heroes.Destroy();
+        heroes.Dispose();
     }
 
     [Fact]
@@ -86,13 +83,13 @@ public sealed class StableOrderTests
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
-        heroes.Destroy();
+        heroes.Dispose();
     }
 
     [Fact]
     public void ReflectingPoolsKeepInsertionOrder()
     {
-        var pools = new TPlayerStructureList(null!);
+        using var pools = new TPlayerStructureList(null!);
         var first = new TEObject(pools);
         var second = new TEObject(pools);
         var third = new TEObject(pools);
@@ -101,7 +98,6 @@ public sealed class StableOrderTests
         Assert.Same(first, pools.FChildren[0]);
         Assert.Same(second, pools.FChildren[1]);
         Assert.Same(third, pools.FChildren[2]);
-        pools.Destroy();
     }
 
     private static TTextControlItem Item(TTextControl control, int id, string name)

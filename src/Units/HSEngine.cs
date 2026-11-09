@@ -113,7 +113,7 @@ public partial class TMapField : TECustomNode
     internal sbyte FOverlayType;
 
     // HSEngine.pas:1907
-    public override void Destroy()
+    public override void Dispose()
     {
         Array.Resize(ref FHSList, 0);
         FCount = 0;
@@ -386,7 +386,7 @@ public partial class TMapField : TECustomNode
                 {
                     if (FHSList[I].Owner is TMapField)
                     {
-                        FHSList[I].Destroy();
+                        FHSList[I].Dispose();
                     }
                 }
                 else
@@ -412,7 +412,7 @@ public partial class TMapField : TECustomNode
             {
                 if (FHSList[I].Owner == this)
                 {
-                    FHSList[I].Destroy();
+                    FHSList[I].Dispose();
                 }
             }
         }
@@ -601,7 +601,7 @@ public partial class TMapContainer : TENode
         if (Index >= 0 && Index < FChildren.Count)
         {
             ((TMapLevel)FChildren.List[Index]).DestroyHS();
-            ((TMapLevel)FChildren.List[Index]).Free();
+            ((TMapLevel)FChildren.List[Index])?.Dispose();
             FLevelCount -= 1;
         }
     }
@@ -845,7 +845,7 @@ public partial class THSMap : TENode
     protected internal int FViewHeightHX;
 
     // HSMAP.PAS:37
-    public override void Destroy()
+    public override void Dispose()
     {
         TEMsg Msg = default;
         LockTerrainChangedEvent();
@@ -863,12 +863,12 @@ public partial class THSMap : TENode
         InitMsg(ref Msg, 536936471, this);
         SendMsg(ref Msg, this);
         FNewFrameEventsStore.Clear();
-        base.Destroy();
+        base.Dispose();
         FHSChangedEventsStore.Clear();
         FTerrainChangedEventsStore.Clear();
         FViewPortChangedEventsStore.Clear();
         FNewFrameEventsStore.Clear();
-        FMouse.Free();
+        FMouse?.Dispose();
         FDestroyEventsStore.Clear();
         UnlockTerrainChangedEvent();
     }
@@ -1167,7 +1167,7 @@ public partial class THSMap : TENode
         }
 
         UnlockTerrainChangedEvent();
-        List.Free();
+        List?.Dispose();
         if (Count != 0)
         {
             R.Left = X - Radius;
@@ -1290,9 +1290,9 @@ public partial class THSMap : TENode
             }
 
             UnlockTerrainChangedEvent();
-            Changed.Free();
-            OrgList.Free();
-            NewList.Free();
+            Changed?.Dispose();
+            OrgList?.Dispose();
+            NewList?.Dispose();
             if (Count != 0)
             {
                 R.Left = X - Radius;
@@ -1699,7 +1699,7 @@ public partial class THSMap : TENode
             }
             catch
             {
-                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + ")");
+                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + ClassNames.ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + ")");
             }
         }
 
@@ -1827,12 +1827,12 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:4941
-    public override void Destroy()
+    public override void Dispose()
     {
         FOnHSMLoadedStore.Clear();
         FOnHSMCloseStore.Clear();
         CloseHSM(null);
-        base.Destroy();
+        base.Dispose();
         FOnHSMLoadedStore.Clear();
         FOnHSMCloseStore.Clear();
         FOnHSSLoadedStore.Clear();
@@ -1880,7 +1880,7 @@ public partial class THSEngine : TEngine
 
         if (FHSMap != null)
         {
-            FHSMap.Free();
+            FHSMap?.Dispose();
             SetHSMap(null);
         }
 
@@ -1913,7 +1913,7 @@ public partial class THSEngine : TEngine
                     }
                     catch
                     {
-                        FHSMap.Free();
+                        FHSMap?.Dispose();
                         SetHSMap(null);
                     }
 
@@ -1922,7 +1922,7 @@ public partial class THSEngine : TEngine
             }
             finally
             {
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
         catch
@@ -1964,7 +1964,7 @@ public partial class THSEngine : TEngine
                     }
                     catch
                     {
-                        Result.Free();
+                        Result?.Dispose();
                         Result = null;
                     }
 
@@ -1973,7 +1973,7 @@ public partial class THSEngine : TEngine
             }
             finally
             {
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
         catch
@@ -2009,7 +2009,7 @@ public partial class THSEngine : TEngine
             finally
             {
                 FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
     }
@@ -2021,7 +2021,7 @@ public partial class THSEngine : TEngine
         {
             FHSMap.FOnProgress = AProgress;
             FOnHSMCloseStore.Raise(FHSMap);
-            FHSMap.Free();
+            FHSMap?.Dispose();
             SetHSMap(null);
         }
     }
@@ -2082,7 +2082,7 @@ public partial class THSEngine : TEngine
                 Search(Dirs[I]);
             }
 
-            Dirs.Free();
+            Dirs?.Dispose();
         }
 
         Files = new TStringList();
@@ -2131,7 +2131,7 @@ public partial class THSEngine : TEngine
         finally
         {
             FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSS);
-            Mem.Free();
+            Mem?.Dispose();
         }
     }
 
@@ -2161,7 +2161,7 @@ public partial class THSEngine : TEngine
             finally
             {
                 FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSS);
-                Mem.Free();
+                Mem?.Dispose();
             }
         }
     }
@@ -2179,7 +2179,7 @@ public partial class THSEngine : TEngine
 
         if (FHSMap != null)
         {
-            FHSMap.Free();
+            FHSMap?.Dispose();
             SetHSMap(null);
         }
 
@@ -2204,7 +2204,7 @@ public partial class THSEngine : TEngine
                     }
                     catch
                     {
-                        FHSMap.Free();
+                        FHSMap?.Dispose();
                         SetHSMap(null);
                     }
 
@@ -2213,7 +2213,7 @@ public partial class THSEngine : TEngine
             }
             finally
             {
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
         catch
@@ -2264,7 +2264,7 @@ public partial class THSEngine : TEngine
                     }
                     catch
                     {
-                        Result.Free();
+                        Result?.Dispose();
                         Result = null;
                     }
 
@@ -2273,7 +2273,7 @@ public partial class THSEngine : TEngine
             }
             finally
             {
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
         catch
@@ -2290,7 +2290,7 @@ public partial class THSEngine : TEngine
         THSMHeader Header = default;
         if (FHSMap != null)
         {
-            FHSMap.Free();
+            FHSMap?.Dispose();
             SetHSMap(null);
         }
 
@@ -2321,7 +2321,7 @@ public partial class THSEngine : TEngine
                     }
                     catch
                     {
-                        FHSMap.Free();
+                        FHSMap?.Dispose();
                         SetHSMap(null);
                     }
 
@@ -2330,7 +2330,7 @@ public partial class THSEngine : TEngine
             }
             finally
             {
-                CStream.Free();
+                CStream?.Dispose();
             }
         }
         catch
@@ -2362,7 +2362,7 @@ public partial class THSEngine : TEngine
             finally
             {
                 FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
-                CStream.Free();
+                CStream?.Dispose();
             }
         }
     }
@@ -2390,7 +2390,7 @@ public partial class THSEngine : TEngine
     {
         if (FHSMap != null)
         {
-            FHSMap.Free();
+            FHSMap?.Dispose();
             SetHSMap(null);
         }
 
@@ -2449,10 +2449,10 @@ public partial class THexagonSprite : TEObject
     // HXSPRITE.PAS:6
     // { HXSPRITE.PAS: THexagonSprite, THPBasedHS, TSingleHS, TFixedVisibleHS, TCustomFixedVisibleHS
     //   (include file of HSEngine.pas; the original Asserts name D:\GEngine\HSENGINE\inc\HXSPRITE.PAS) }
-    public override void Destroy()
+    public override void Dispose()
     {
         MainRemove();
-        base.Destroy();
+        base.Dispose();
     }
 
     // HXSPRITE.PAS:116
@@ -3628,7 +3628,7 @@ public partial class TMapObject : THexagonSprite
         {
             if (GetTerrain(Msg.HN) >= 0 || Msg.HN == 0)
             {
-                Destroy();
+                Dispose();
             }
         }
     }
@@ -3761,16 +3761,16 @@ public partial class TMapObjectResource : TEResource
     protected internal string FName = "";
 
     // MAPOBJ.PAS:391
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTerrainList.Free();
-        FImageLibrary.Free();
+        FTerrainList?.Dispose();
+        FImageLibrary?.Dispose();
         if (FImageSequenceList != null)
         {
-            FImageSequenceList.Free();
+            FImageSequenceList?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // MAPOBJ.PAS:405
@@ -3804,7 +3804,7 @@ public partial class TMapObjectResource : TEResource
                 }
                 else
                 {
-                    FImageSequenceList.Free();
+                    FImageSequenceList?.Dispose();
                     FImageSequenceList = null;
                 }
             }
@@ -3955,7 +3955,7 @@ public partial class TMapObjectResource : TEResource
         Yhp += 16;
         if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
         {
-            Result.Free();
+            Result?.Dispose();
             Result = null;
         }
 
@@ -4162,12 +4162,14 @@ public struct THNWalkData
     public int CenterY;
 }
 
+[LegacyObject]
 // the parameters of a new map (THSMap.CreateNewMap)
-public partial class TNewHSMapSettings : TObject
+public partial class TNewHSMapSettings
 {
 
     public TNewHSMapSettings()
     {
+        CaptureAddress.Assign(this);
         Width = 64;
         Height = 64;
         Levels = 1;
@@ -4191,18 +4193,18 @@ public partial class TNewHSMapSettings : TObject
 
 }
 
+[LegacyObject]
 // terrain and overlay types by hexagon number, two bytes per hexagon (terrain type, overlay
 // type. -2: none)
-public partial class TTerrainList : TObject
+public partial class TTerrainList : IDisposable
 {
     internal int FCount;
     internal byte[] FList = [];
 
     // HSEngine.pas:1411
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Array.Resize(ref FList, 0);
-        base.Destroy();
     }
 
     // HSEngine.pas:1417
@@ -4469,6 +4471,11 @@ public partial class TTerrainList : TObject
 
     public UsedAccessor Used => new UsedAccessor(this);
 
+    public TTerrainList()
+    {
+        CaptureAddress.Assign(this);
+    }
+
 }
 
 // { The records a map field passes by reference to the methods of its sprites. }
@@ -4483,7 +4490,7 @@ public struct THSMapFieldInfo
 //     that asks (the sprite that changes the terrain, the mover) }
 public struct THSSenderInfo
 {
-    public TObject Sender;
+    public object Sender;
     public TMapField MapField;
     public sbyte HN;
 }
@@ -4500,7 +4507,7 @@ public struct THSTerrainInfo
 // { THexagonSprite.CanMoveOn (16 and 12 bytes) }
 public struct THSMoveOnInfo
 {
-    public TObject Sender;
+    public object Sender;
     public TMapField MapField;
     public int MoveOverCode;
     public sbyte HN;
@@ -4677,10 +4684,10 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
     }
 
     // HSEngine.pas:3689
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FLocationHS.Free();
+        base.Dispose();
+        FLocationHS?.Dispose();
         FOnSelectStore.Clear();
         FOnDeselectStore.Clear();
     }
@@ -4817,15 +4824,17 @@ public partial class THexagonSpriteSelection : TEControlStyleNode
 
 }
 
+[LegacyObject]
 // the mouse of a map. FHSMap, FX, FY (the position in the view port in pixels, Low(Integer)
 // when outside), FButton, FOnUp, FOnDown, FOnMove, FOnDblClick, FOnCaptureChanged, FCapture
 // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
 // FCursorVisible (and are used by the game only)
-public partial class THSMapMouse : TObject
+public partial class THSMapMouse : IDisposable
 {
 
     public THSMapMouse()
     {
+        CaptureAddress.Assign(this);
         FOnUpStore = new();
         FOnDownStore = new();
         FOnMoveStore = new();
@@ -4879,7 +4888,7 @@ public partial class THSMapMouse : TObject
         remove => FOnCaptureChangedStore.Remove(value);
     }
 
-    internal TObject FCapture;
+    internal object FCapture;
     internal TSet<TMouseStatusElement> FStatus;
     internal int FCursor;
     internal int FCursorMode;
@@ -4890,14 +4899,13 @@ public partial class THSMapMouse : TObject
     // HSEngine.pas:3475
 
     // HSEngine.pas:3486
-    public override void Destroy()
+    public virtual void Dispose()
     {
         FOnUpStore.Clear();
         FOnDownStore.Clear();
         FOnMoveStore.Clear();
         FOnDblClickStore.Clear();
         FOnCaptureChangedStore.Clear();
-        base.Destroy();
     }
 
     // HSEngine.pas:3505
@@ -5124,7 +5132,7 @@ public partial class THSMapMouse : TObject
     }
 
     // HSEngine.pas:3570
-    public void SetCapture(TObject Value)
+    public void SetCapture(object Value)
     {
         if (!FStatus.Contains(TMouseStatusElement.msChangingCapture) && Value != FCapture)
         {
@@ -5180,7 +5188,7 @@ public partial class THSMapMouse : TObject
         remove => FOnCaptureChangedStore.Remove(value);
     }
 
-    public TObject Capture { get => FCapture; set => SetCapture(value); }
+    public object Capture { get => FCapture; set => SetCapture(value); }
     public int Cursor { get => GetCursor(); set => SetCursor(value); }
     public int CursorMode { get => FCursorMode; set => FCursorMode = value; }
     public bool IgnoreDown { get => FIgnoreDown; set => FIgnoreDown = value; }
@@ -5238,7 +5246,7 @@ public partial class THSMapViewer : TComponent
     internal int FSceneY;
     internal int FSceneL;
     internal bool FStaticSurfaceValid;
-    internal TNotifyEvent<TObject> FOnSceneChanged;
+    internal TNotifyEvent<object> FOnSceneChanged;
     internal THSMap FHSMap;
     // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
     internal TSurface FCenteredSurface;
@@ -5252,7 +5260,7 @@ public partial class THSMapViewer : TComponent
 
     // HSEngine.pas:4678
     // { Leaves the map's OnChangeView set (original slip). }
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FHSMap != null)
         {
@@ -5260,9 +5268,9 @@ public partial class THSMapViewer : TComponent
             FHSMap.FOnViewLevel = null;
         }
 
-        FStaticSurface.Free();
-        FCenteredSurface.Free();
-        base.Destroy();
+        FStaticSurface?.Dispose();
+        FCenteredSurface?.Dispose();
+        base.Dispose();
     }
 
     // HSEngine.pas:4718
@@ -5286,7 +5294,7 @@ public partial class THSMapViewer : TComponent
         IsDDraw = FStaticSurface is TDDrawSurface;
         if (FStaticSurface != null && (FStaticSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (Surface is TDDrawSurface) ^ IsDDraw))
         {
-            FStaticSurface.Free();
+            FStaticSurface?.Dispose();
             FStaticSurface = null;
         }
 
@@ -5453,7 +5461,7 @@ public partial class THSMapViewer : TComponent
     // HSEngine.pas:4837
     public void ResetStaticSurface()
     {
-        FStaticSurface.Free();
+        FStaticSurface?.Dispose();
         FStaticSurface = null;
     }
 
@@ -5488,7 +5496,7 @@ public partial class THSMapViewer : TComponent
                 }
                 else if (FCenteredSurface != null)
                 {
-                    FCenteredSurface.Free();
+                    FCenteredSurface?.Dispose();
                     FCenteredSurface = null;
                 }
 
@@ -5618,7 +5626,7 @@ public partial class THSMapViewer : TComponent
     {
         if (FCenteredSurface != null && FCenteredSurface.GetPixelFormatID() != Surface.GetPixelFormatID())
         {
-            FCenteredSurface.Free();
+            FCenteredSurface?.Dispose();
             FCenteredSurface = null;
         }
 
@@ -5669,7 +5677,7 @@ public partial class THSMapViewer : TComponent
     public int SceneHeight { get => FSceneHeight; set => SetSceneHeight(value); }
 
     [Published]
-    public TNotifyEvent<TObject> OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
+    public TNotifyEvent<object> OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
 }
 
 // FHSEngine, FTries, FResources, FMOClass. The map object resources of one kind
@@ -5696,12 +5704,12 @@ public partial class TMORTerrainControl : TEObject
     }
 
     // HSEngine.pas:4497
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FResources.Free();
+        FResources?.Dispose();
         FResources = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // HSEngine.pas:4505
@@ -5722,7 +5730,7 @@ public partial class TMORTerrainControl : TEObject
         {
             for (int I = FResources.Count - 1; I >= 0; I--)
             {
-                ((TObject)FResources[I]).Free();
+                (FResources[I] as IDisposable)?.Dispose();
                 FResources.Delete(I);
             }
         }
@@ -5974,7 +5982,7 @@ public partial class THSSet : TECustomOwner
     internal TStringList FDecorationTypes;
 
     // HSEngine.pas:3368
-    public override void Destroy()
+    public override void Dispose()
     {
         TEMsg Msg = default;
         FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssDestroying);
@@ -5984,17 +5992,17 @@ public partial class THSSet : TECustomOwner
             FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
         }
 
-        base.Destroy();
-        FPlugInControl.Free();
-        FTerrainTypes.Free();
+        base.Dispose();
+        FPlugInControl?.Dispose();
+        FTerrainTypes?.Dispose();
         FTerrainTypes = null;
-        FOverlayTypes.Free();
+        FOverlayTypes?.Dispose();
         FOverlayTypes = null;
-        FDecorationTypes.Free();
+        FDecorationTypes?.Dispose();
         FDecorationTypes = null;
-        FImageLibraryManager.Free();
+        FImageLibraryManager?.Dispose();
         FImageLibraryManager = null;
-        FSFXManager.Free();
+        FSFXManager?.Dispose();
         FSFXManager = null;
         InitMsg(ref Msg, 66565, this);
         if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
@@ -6480,7 +6488,7 @@ public partial class TLibraryImageHS : THexagonSprite
         FImage.Show(FXhp - XhpSurf, FYhp - YhpSurf, SurfaceDesc);
         if (FStatus.Contains(TLibraryImageHSStatusElement.lsDestroyOnShow))
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -7294,7 +7302,7 @@ public partial class TAbstractHexagon : TMapObject
         HS = MapContainer.GetField(Xhx, Yhx, Lhx).FindOwnedHS(typeof(TAbstractHexagon));
         if (HS != null)
         {
-            HS.Destroy();
+            HS.Dispose();
         }
 
         bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
@@ -7402,7 +7410,7 @@ public partial class TAbstractRoad : TMapObject
                 var xhx = GetXhx();
                 if (((TAbstractRoadResource)FResource).GetRoadControl().Place((TMapContainer)Owner.Owner.Owner, xhx, yhx, lhx, Msg.TerrainType) == null)
                 {
-                    Destroy();
+                    Dispose();
                 }
             }
         }
@@ -7484,7 +7492,7 @@ public partial class TAbstractRoadResource : TMapObjectResource
         Yhp += 16;
         if (!HSMap.Place(Result, Xhp, Yhp, Lhx))
         {
-            Result.Free();
+            Result?.Dispose();
             Result = null;
         }
 
@@ -7607,7 +7615,7 @@ public partial class TXYLList : TPersistent
     }
 
     // HSEngine.pas:1587
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -8739,7 +8747,7 @@ public static partial class HSEngineUnit
             Result = false;
         }
 
-        Locations.Free();
+        Locations?.Dispose();
         return Result;
     }
 
@@ -8816,7 +8824,13 @@ public static partial class HSEngineUnit
     public static FixedArray_Aow_Units_HSEngine_THexagonSprite_256 LoadedList;
 }
 
-public sealed class TerrainChangedNotification : TObject
+[LegacyObject]
+public sealed class TerrainChangedNotification
 {
     public TTerrainChangedInfo Info;
+
+    public TerrainChangedNotification()
+    {
+        CaptureAddress.Assign(this);
+    }
 }

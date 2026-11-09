@@ -289,7 +289,7 @@ public sealed class GameSwitchTests
         memory.Position = 0;
         var reader = new Aow.Units.Engine.TEReadStorageStream(memory, EngineFixture.Engine, false);
         try { reader.rwData(Bytes.Of(ref relation, 1), 1, 26); }
-        finally { reader.Destroy(); }
+        finally { reader.Dispose(); }
         Assert.Equal(-1, relation);
     }
 

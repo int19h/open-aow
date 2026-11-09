@@ -15,7 +15,8 @@ public struct THashItem
     public object Item;
 }
 
-public partial class THashList : TObject
+[LegacyObject]
+public partial class THashList : IDisposable
 {
     internal int FCount;
     internal int FCapacity;
@@ -54,10 +55,9 @@ public partial class THashList : TObject
     }
 
     // HashTabU.pas:108
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        base.Destroy();
     }
 
     // HashTabU.pas:114
@@ -68,6 +68,11 @@ public partial class THashList : TObject
     }
 
     public int Count { get => FCount; }
+
+    public THashList()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // items keyed by an integer
@@ -123,8 +128,9 @@ public partial class TIntegerHashList : THashList
 
 }
 
+[LegacyObject]
 // the abstract table interface
-public partial class TIntegerHashTable : TObject
+public partial class TIntegerHashTable
 {
     // HashTabU.pas:47
     public virtual void Add(object Item, int Key)
@@ -149,10 +155,16 @@ public partial class TIntegerHashTable : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TIntegerHashTable()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // 256 lists selected by the low key byte
 public partial class TIntegerHashTable256 : TIntegerHashTable
+, IDisposable
 {
     internal FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 FLists;
 
@@ -167,14 +179,12 @@ public partial class TIntegerHashTable256 : TIntegerHashTable
     }
 
     // HashTabU.pas:194
-    public override void Destroy()
+    public virtual void Dispose()
     {
         for (int I = 0; I <= 255; I++)
         {
-            FLists[I].Free();
+            FLists[I]?.Dispose();
         }
-
-        base.Destroy();
     }
 
     // HashTabU.pas:202
@@ -285,8 +295,9 @@ public partial class TStringHashList : THashList
 
 }
 
+[LegacyObject]
 // the abstract table interface
-public partial class TStringHashTable : TObject
+public partial class TStringHashTable
 {
     // HashTabU.pas:84
     public virtual void Add(object Item, string Key)
@@ -311,10 +322,16 @@ public partial class TStringHashTable : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TStringHashTable()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // 256 lists selected by a hash of the first and the second-to-last character and the length
 public partial class TStringHashTable256 : TStringHashTable
+, IDisposable
 {
     internal FixedArray_Aow_Units_HashTabU_TStringHashList_256 FLists;
 
@@ -329,14 +346,12 @@ public partial class TStringHashTable256 : TStringHashTable
     }
 
     // HashTabU.pas:289
-    public override void Destroy()
+    public virtual void Dispose()
     {
         for (int I = 0; I <= 255; I++)
         {
-            FLists[I].Free();
+            FLists[I]?.Dispose();
         }
-
-        base.Destroy();
     }
 
     // HashTabU.pas:297

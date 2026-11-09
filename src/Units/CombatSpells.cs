@@ -201,10 +201,10 @@ public partial class TMultiTargetCombatSpellCA : TCombatAction
     public int FSpellID;
 
     // CombatSpells.pas:563
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTargetIDs.Free();
-        base.Destroy();
+        FTargetIDs?.Dispose();
+        base.Dispose();
     }
 
     // CombatSpells.pas:569
@@ -526,7 +526,7 @@ public partial class TCombatSpell : TSpell
                 Count -= 1;
             }
 
-            Targets.Free();
+            Targets?.Dispose();
         }
 
         return true;

@@ -18,5 +18,5 @@ public static partial class RtlUnit
         _ => throw new InvalidCastException("Buffer has no byte storage")
     };
 
-    public static T ReadLegacyRecord<T>(TObject value) => Ptr<T>.Unbox(value).Value;
+    public static T ReadLegacyRecord<T>(object value) => Ptr<T>.Unbox(value).Value;
 }

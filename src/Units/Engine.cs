@@ -204,7 +204,7 @@ public partial class TIntegerList : TPersistent
     }
 
     // Engine.pas:3268
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -690,7 +690,7 @@ public partial class TByteList : TPersistent
     }
 
     // Engine.pas:3603
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -1113,7 +1113,7 @@ public partial class TShortIntList : TPersistent
     }
 
     // Engine.pas:3950
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -1535,7 +1535,7 @@ public partial class TWordList : TPersistent
     }
 
     // Engine.pas:4261
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -2007,7 +2007,7 @@ public partial class TBitList : TPersistent
     }
 
     // Engine.pas:4571
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -2232,15 +2232,15 @@ public partial class TBitList : TPersistent
 
 public partial class TEventList : TPersistent
 {
-    internal TNotifyEvent<TObject>[] FList = [];
+    internal TNotifyEvent<object>[] FList = [];
     internal int FCount;
     internal int FCapacity;
-    internal TNotifyEvent<TObject> FDefault;
+    internal TNotifyEvent<object> FDefault;
 
     // Engine.pas:4929
-    internal TNotifyEvent<TObject> Get(int Index)
+    internal TNotifyEvent<object> Get(int Index)
     {
-        TNotifyEvent<TObject> Result;
+        TNotifyEvent<object> Result;
         if (Index < 0 || Index >= FCount)
         {
             Result = FDefault;
@@ -2254,7 +2254,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4987
-    internal void Put(int Index, TNotifyEvent<TObject> Item)
+    internal void Put(int Index, TNotifyEvent<object> Item)
     {
         if (Index < 0)
         {
@@ -2337,7 +2337,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4854
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -2360,7 +2360,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4873
-    public int Add(TNotifyEvent<TObject> Item)
+    public int Add(TNotifyEvent<object> Item)
     {
         int Result = FCount;
         if (Result == FCapacity)
@@ -2398,7 +2398,7 @@ public partial class TEventList : TPersistent
     // Engine.pas:4907
     public void Exchange(int Index1, int Index2)
     {
-        TNotifyEvent<TObject> Item;
+        TNotifyEvent<object> Item;
         if (Index1 < 0 || Index1 >= FCount)
         {
             Error("List index out of bounds (%d)", Index1);
@@ -2426,10 +2426,10 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4924
-    public TNotifyEvent<TObject> First() => Get(0);
+    public TNotifyEvent<object> First() => Get(0);
 
     // Engine.pas:4947
-    public int IndexOf(TNotifyEvent<TObject> Item)
+    public int IndexOf(TNotifyEvent<object> Item)
     {
         Delegate M;
         int Result = 0;
@@ -2448,7 +2448,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4958
-    public void Insert(int Index, TNotifyEvent<TObject> Item)
+    public void Insert(int Index, TNotifyEvent<object> Item)
     {
         if (Index < 0 || Index > FCount)
         {
@@ -2470,12 +2470,12 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4969
-    public TNotifyEvent<TObject> Last() => Get(FCount - 1);
+    public TNotifyEvent<object> Last() => Get(FCount - 1);
 
     // Engine.pas:4974
     public void Move(int CurIndex, int NewIndex)
     {
-        TNotifyEvent<TObject> Item;
+        TNotifyEvent<object> Item;
         if (CurIndex != NewIndex)
         {
             if (NewIndex < 0 || NewIndex >= FCount)
@@ -2490,7 +2490,7 @@ public partial class TEventList : TPersistent
     }
 
     // Engine.pas:4994
-    public int Remove(TNotifyEvent<TObject> Item)
+    public int Remove(TNotifyEvent<object> Item)
     {
         int Result = default;
         Result = IndexOf(Item);
@@ -2521,7 +2521,7 @@ public partial class TEventList : TPersistent
     public bool Compare(TEventList List) => List.FCount == FCount && FList.AsSpan(0, FCount).SequenceEqual(List.FList.AsSpan(0, FCount));
 
     // Engine.pas:5046
-    public void TriggerNotifyEvents(TObject Sender)
+    public void TriggerNotifyEvents(object Sender)
     {
         for (int I = FCount - 1; I >= 0; I--)
         {
@@ -2534,11 +2534,11 @@ public partial class TEventList : TPersistent
 
     public int Capacity { get => FCapacity; set => SetCapacity(value); }
     public int Count { get => FCount; set => SetCount(value); }
-    public TNotifyEvent<TObject> Default { get => FDefault; set => FDefault = value; }
+    public TNotifyEvent<object> Default { get => FDefault; set => FDefault = value; }
 
-    public TNotifyEvent<TObject> this[int Index] { get => Get(Index); set => Put(Index, value); }
+    public TNotifyEvent<object> this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-    public TNotifyEvent<TObject>[] List { get => FList; }
+    public TNotifyEvent<object>[] List { get => FList; }
 
     // Engine.pas:4896
     protected internal static void Error(string Msg, int Data)
@@ -2658,7 +2658,7 @@ public partial class TDoubleItemList : TPersistent
     }
 
     // Engine.pas:5056
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -3203,7 +3203,7 @@ public partial class TQuadItemList : TPersistent
     }
 
     // Engine.pas:5452
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -3689,10 +3689,10 @@ public class TRecordList<TRecord> : TPersistent where TRecord : struct
         SetCapacity(FCapacity + Delta);
     }
 
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     public override void Assign(TPersistent Source)
@@ -4011,7 +4011,8 @@ public struct TPropertySettings
     public int MaxID;
 }
 
-public partial class TPropertyTable : TObject
+[LegacyObject]
+public partial class TPropertyTable : IDisposable
 {
     internal TPropertyItem[] FItems = [];
     internal int FCapacity;
@@ -4043,11 +4044,10 @@ public partial class TPropertyTable : TObject
     }
 
     // Engine.pas:2253
-    public override void Destroy()
+    public virtual void Dispose()
     {
         SetCapacity(0);
         Array.Resize(ref FStack, 0);
-        base.Destroy();
     }
 
     // Engine.pas:2273
@@ -4258,10 +4258,16 @@ public partial class TPropertyTable : TObject
     public TPropertyItem[] Items { get => FItems; }
     public int Count { get => FCount; }
     public int First { get => FFirst; }
+
+    public TPropertyTable()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // FOwner
-public partial class TEObject : TObject, IPersistable
+public partial class TEObject : IDisposable, IPersistable
 {
     // Engine.pas:2461
     public const int ClassID = 80;
@@ -4278,6 +4284,7 @@ public partial class TEObject : TObject, IPersistable
 
     private protected TEObject(ConstructionContext context, TECustomNode owner)
     {
+        CaptureAddress.Assign(this);
         context?.Capture(this);
         InitializeBeforeInherited();
         SetOwner(owner);
@@ -4290,11 +4297,11 @@ public partial class TEObject : TObject, IPersistable
     {
         TEObject P;
         string S;
-        S = ClassNameOf(this.GetType());
+        S = ClassNames.ClassNameOf(this.GetType());
         P = FOwner;
         while (P != null)
         {
-            S = ClassNameOf(P.GetType()) + "" + S;
+            S = ClassNames.ClassNameOf(P.GetType()) + "" + S;
             P = P.FOwner;
         }
 
@@ -4442,8 +4449,8 @@ public partial class TEObject : TObject, IPersistable
         }
         finally
         {
-            S1.Free();
-            S2.Free();
+            S1?.Dispose();
+            S2?.Dispose();
         }
 
         return Result;
@@ -4484,7 +4491,7 @@ public partial class TEObject : TObject, IPersistable
         }
         finally
         {
-            S.Destroy();
+            S.Dispose();
         }
     }
 
@@ -4518,10 +4525,9 @@ public partial class TEObject : TObject, IPersistable
     }
 
     // Engine.pas:2436
-    public override void Destroy()
+    public virtual void Dispose()
     {
         SetOwner(null);
-        base.Destroy();
     }
 
     // Engine.pas:2543
@@ -4539,7 +4545,7 @@ public partial class TEObject : TObject, IPersistable
         }
         finally
         {
-            S.Destroy();
+            S.Dispose();
         }
 
         return Result;
@@ -4601,7 +4607,7 @@ public partial class TECustomNode : TEObject
                 {
                     if (!C.GetControlStyle().Contains(EngineUnit.csShared))
                     {
-                        C.Destroy();
+                        C.Dispose();
                     }
                     else
                     {
@@ -4677,7 +4683,7 @@ public partial class TECustomNode : TEObject
             C = Children[I];
             if (C != null && C.Owner == this)
             {
-                C.Destroy();
+                C.Dispose();
             }
         }
 
@@ -4785,7 +4791,7 @@ public partial class TECustomNode : TEObject
             C = Children[I];
             if (C != null && C.EClass.ClassID == AClassID)
             {
-                C.Destroy();
+                C.Dispose();
                 N += 1;
             }
         }
@@ -4886,10 +4892,10 @@ public partial class TECustomNode : TEObject
     }
 
     // Engine.pas:2602
-    public override void Destroy()
+    public override void Dispose()
     {
         DestroyAllChildren();
-        base.Destroy();
+        base.Dispose();
     }
 
     public int Count { get => GetCount(); }
@@ -4963,15 +4969,14 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8745
-    public override void Destroy()
+    public override void Dispose()
     {
-        FEditors.Free();
         EngineUnit.Engines.Remove(this);
         FDebugEventsStore.Clear();
-        FDebugIDs.Free();
-        base.Destroy();
-        FClassTable.Free();
-        FEClasses.Free();
+        FDebugIDs?.Dispose();
+        base.Dispose();
+        FClassTable?.Dispose();
+        FEClasses?.Dispose();
     }
 
     // Engine.pas:8771
@@ -5141,7 +5146,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            S.Free();
+            S?.Dispose();
         }
     }
 
@@ -5157,7 +5162,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            S.Free();
+            S?.Dispose();
         }
     }
 
@@ -5173,7 +5178,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            S.Free();
+            S?.Dispose();
         }
     }
 
@@ -5189,7 +5194,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            S.Free();
+            S?.Dispose();
         }
     }
 
@@ -5205,7 +5210,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            S.Free();
+            S?.Dispose();
         }
     }
 
@@ -5222,7 +5227,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            S.Free();
+            S?.Dispose();
         }
 
         return Result;
@@ -5248,7 +5253,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
 
         return Result;
@@ -5268,7 +5273,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
     }
 
@@ -5294,7 +5299,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
     }
 
@@ -5309,7 +5314,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
     }
 
@@ -5330,12 +5335,12 @@ public partial class TEngine : TENode
             }
             finally
             {
-                F.Free();
+                F?.Dispose();
             }
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
     }
 
@@ -5352,7 +5357,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            F.Free();
+            F?.Dispose();
         }
 
         M.Position = 0;
@@ -5362,7 +5367,7 @@ public partial class TEngine : TENode
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
     }
 
@@ -5391,12 +5396,12 @@ public partial class TEngine : TENode
             }
             finally
             {
-                F.Free();
+                F?.Dispose();
             }
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
     }
 
@@ -5437,8 +5442,8 @@ public partial class TEngine : TENode
         }
         finally
         {
-            F.Free();
-            M.Free();
+            F?.Dispose();
+            M?.Dispose();
         }
 
         return Result;
@@ -5459,12 +5464,12 @@ public partial class TEngine : TENode
             }
             finally
             {
-                S.Free();
+                S?.Dispose();
             }
         }
         finally
         {
-            F.Free();
+            F?.Dispose();
         }
     }
 
@@ -5483,12 +5488,12 @@ public partial class TEngine : TENode
             }
             finally
             {
-                S.Free();
+                S?.Dispose();
             }
         }
         finally
         {
-            F.Free();
+            F?.Dispose();
         }
     }
 
@@ -5512,14 +5517,15 @@ public partial class TEngine : TENode
     {
         // The native allocator byte total has no corresponding managed heap measure.
         // Exercise the same constructor and destructor without comparing GC generations.
-        type.Create(null).Free();
+        type.Create(null)?.Dispose();
         return true;
     }
 }
 
+[LegacyObject]
 // the base of every storage stream. The rw* methods do nothing here. the subclasses read,
 // write, compare or translate
-public partial class TEStorageStream : TObject
+public partial class TEStorageStream : IDisposable
 {
 
     internal TEngine FEngine;
@@ -5635,6 +5641,7 @@ public partial class TEStorageStream : TObject
     // Engine.pas:9489
     public TEStorageStream(TStream AStream, TEngine AEngine)
     {
+        CaptureAddress.Assign(this);
         FEngine = AEngine;
         FStream = AStream;
         FErrorHandled = false;
@@ -5662,11 +5669,16 @@ public partial class TEStorageStream : TObject
         try { rwCreateEObject(ref result, owner, id); }
         finally { value = (T)(object)result; }
     }
+
+    public virtual void Dispose()
+    {
+    }
 }
 
+[LegacyObject]
 // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
 //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
-public partial class TEObjectEditorList : TObject
+public partial class TEObjectEditorList
 {
     private readonly List<EditorClass> FList = new();
 
@@ -5707,6 +5719,11 @@ public partial class TEObjectEditorList : TObject
         }
 
         return Result;
+    }
+
+    public TEObjectEditorList()
+    {
+        CaptureAddress.Assign(this);
     }
 }
 
@@ -5798,7 +5815,7 @@ public partial class TEResource : TEObject
     public ImageLib.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
     // Engine.pas:8508
-    public virtual string ResourceEditName() => ClassNameOf(GetType());
+    public virtual string ResourceEditName() => ClassNames.ClassNameOf(GetType());
 
 }
 
@@ -5889,7 +5906,7 @@ public partial class TCompressStream : TMemoryStream
             finally
             {
                 Array.Resize(ref Buffer, 0);
-                D.Free();
+                D?.Dispose();
             }
         }
         else
@@ -5920,7 +5937,7 @@ public partial class TCompressStream : TMemoryStream
             }
             finally
             {
-                C.Free();
+                C?.Dispose();
             }
         }
         else
@@ -5949,7 +5966,7 @@ public partial class TCompressStream : TMemoryStream
         }
         finally
         {
-            F.Free();
+            F?.Dispose();
         }
 
         return Result;
@@ -5966,7 +5983,7 @@ public partial class TCompressStream : TMemoryStream
         }
         finally
         {
-            F.Free();
+            F?.Dispose();
         }
     }
 
@@ -5988,14 +6005,15 @@ public partial class TCompressStream : TMemoryStream
         }
         finally
         {
-            F.Free();
+            F?.Dispose();
         }
     }
 }
 
+[LegacyObject]
 // FRefCount, FEngines, FCounts. A plug-in registers itself in PlugIns on creation and counts
 // the engines it is initialized for
-public partial class TPlugIn : TObject
+public partial class TPlugIn : IDisposable
 {
     internal int FRefCount;
     internal TList FEngines;
@@ -6004,6 +6022,7 @@ public partial class TPlugIn : TObject
     // Engine.pas:9144
     public TPlugIn()
     {
+        CaptureAddress.Assign(this);
         FEngines = new TList();
         FCounts = new TIntegerList();
         EngineUnit.RegisterPlugIn(this);
@@ -6011,17 +6030,16 @@ public partial class TPlugIn : TObject
     }
 
     // Engine.pas:9153
-    public override void Destroy()
+    public virtual void Dispose()
     {
         while (FEngines.Count != 0)
         {
             Finalize((TEngine)FEngines[FEngines.Count - 1]);
         }
 
-        FEngines.Free();
-        FCounts.Free();
+        FEngines?.Dispose();
+        FCounts?.Dispose();
         EngineUnit.UnregisterPlugIn(this);
-        base.Destroy();
     }
 
     // Engine.pas:9162
@@ -6036,7 +6054,7 @@ public partial class TPlugIn : TObject
         FRefCount -= 1;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -6132,13 +6150,13 @@ public partial class TPlugInControl : TEObject
     internal TStrings GetUsedPlugIns() => FUsedPlugIns;
 
     // Engine.pas:9289
-    internal void OnChange(TObject Sender)
+    internal void OnChange(object Sender)
     {
         InitializePlugIns();
     }
 
     // Engine.pas:9294
-    internal void OnChanging(TObject Sender)
+    internal void OnChanging(object Sender)
     {
         FinalizePlugIns();
     }
@@ -6190,11 +6208,11 @@ public partial class TPlugInControl : TEObject
     }
 
     // Engine.pas:9262
-    public override void Destroy()
+    public override void Dispose()
     {
         FUsedPlugIns.Clear();
-        FUsedPlugIns.Free();
-        base.Destroy();
+        FUsedPlugIns?.Dispose();
+        base.Dispose();
     }
 
     // Engine.pas:9269
@@ -6289,7 +6307,7 @@ public partial class TEObjectList : TList
             // { the original tests List^[Count], one past the end, not List^[I] }
             if (List[Count] != null)
             {
-                ((TObject)List[I]).Destroy();
+                ((List[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
 
             Delete(I);
@@ -6349,7 +6367,7 @@ public partial class TENode : TECustomNode
             {
                 if (!C.GetControlStyle().Contains(EngineUnit.csShared))
                 {
-                    C.Destroy();
+                    C.Dispose();
                 }
                 else
                 {
@@ -6395,7 +6413,7 @@ public partial class TENode : TECustomNode
 
         if (FChildren.List[Index] != null && ((TEObject)FChildren.List[Index]).Owner == this)
         {
-            ((TObject)FChildren.List[Index]).Destroy();
+            ((FChildren.List[Index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
 
         FChildren.List[Index] = Child;
@@ -6416,7 +6434,7 @@ public partial class TENode : TECustomNode
                 C = (TEObject)FChildren.List[I];
                 if (C != null && C.Owner == this)
                 {
-                    C.Destroy();
+                    C.Dispose();
                 }
             }
         }
@@ -6613,10 +6631,10 @@ public partial class TENode : TECustomNode
     }
 
     // Engine.pas:2813
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FChildren.Free();
+        base.Dispose();
+        FChildren?.Dispose();
     }
 
     // Engine.pas:3022
@@ -6628,7 +6646,7 @@ public partial class TENode : TECustomNode
             C = (TEObject)FChildren.List[I];
             if (C != null && AClassID == C.EClass.ClassID && C.Owner == this)
             {
-                C.Destroy();
+                C.Dispose();
             }
         }
     }
@@ -6684,12 +6702,12 @@ public partial class TETimerNode : TECustomNode
     }
 
     // Engine.pas:1828
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
+        base.Dispose();
         for (int I = 1; I <= 10; I++)
         {
-            FTimerLists[I - 1].Free();
+            FTimerLists[I - 1]?.Dispose();
         }
     }
 
@@ -6864,11 +6882,11 @@ public partial class TEChangeNotifyNode : TECustomNode
     internal int FUpdateCount;
 
     // Engine.pas:7212
-    public override void Destroy()
+    public override void Dispose()
     {
         BeginUpdate();
-        base.Destroy();
-        FChildren.Free();
+        base.Dispose();
+        FChildren?.Dispose();
         FChildren = null;
     }
 
@@ -6885,7 +6903,7 @@ public partial class TEChangeNotifyNode : TECustomNode
             {
                 if (!C.GetControlStyle().Contains(EngineUnit.csShared))
                 {
-                    C.Destroy();
+                    C.Dispose();
                 }
                 else
                 {
@@ -7920,10 +7938,10 @@ public partial class TEChangeNotifyEventList : TEChangeNotifyNode
     }
 
     // Engine.pas:8131
-    public override void Destroy()
+    public override void Dispose()
     {
         FEventsStore.Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Engine.pas:8137
@@ -7975,7 +7993,8 @@ public struct THashItem
     public object Item;
 }
 
-public partial class THashList : TObject
+[LegacyObject]
+public partial class THashList : IDisposable
 {
     internal int FCount;
     internal int FCapacity;
@@ -8020,10 +8039,9 @@ public partial class THashList : TObject
     //   file, D:\GEngine\Engine\inc\HashTab.PAS: the Assert calls carry that file name, and line numbers
     //   counted from the start of Engine.pas (THashList.SetCapacity's Assert is at line 7127 there). The
     //   declarations are in the Engine.pas interface. }
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        base.Destroy();
     }
 
     // HashTab.PAS:12
@@ -8034,6 +8052,11 @@ public partial class THashList : TObject
     }
 
     public int Count { get => FCount; }
+
+    public THashList()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // items keyed by an integer
@@ -8089,8 +8112,9 @@ public partial class TIntegerHashList : THashList
     }
 }
 
+[LegacyObject]
 // the abstract table interface
-public partial class TIntegerHashTable : TObject
+public partial class TIntegerHashTable
 {
     // Engine.pas:771
     public virtual void Add(object Item, int Key)
@@ -8115,10 +8139,16 @@ public partial class TIntegerHashTable : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TIntegerHashTable()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // 256 lists selected by the low key byte
 public partial class TIntegerHashTable256 : TIntegerHashTable
+, IDisposable
 {
     internal FixedArray_Aow_Units_Engine_TIntegerHashList_256 FLists;
 
@@ -8133,14 +8163,12 @@ public partial class TIntegerHashTable256 : TIntegerHashTable
     }
 
     // HashTab.PAS:91
-    public override void Destroy()
+    public virtual void Dispose()
     {
         for (int I = 0; I <= 255; I++)
         {
-            FLists[I].Free();
+            FLists[I]?.Dispose();
         }
-
-        base.Destroy();
     }
 
     // HashTab.PAS:99
@@ -8278,8 +8306,9 @@ public partial class TStringHashList : THashList
     }
 }
 
+[LegacyObject]
 // the abstract table interface
-public partial class TStringHashTable : TObject
+public partial class TStringHashTable
 {
     // Engine.pas:804
     public virtual void Add(object Item, string Key)
@@ -8304,10 +8333,16 @@ public partial class TStringHashTable : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TStringHashTable()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // 256 lists selected by a hash of the first and the second-to-last character and the length
 public partial class TStringHashTable256 : TStringHashTable
+, IDisposable
 {
     internal FixedArray_Aow_Units_Engine_TStringHashList_256 FLists;
 
@@ -8322,14 +8357,12 @@ public partial class TStringHashTable256 : TStringHashTable
     }
 
     // HashTab.PAS:207
-    public override void Destroy()
+    public virtual void Dispose()
     {
         for (int I = 0; I <= 255; I++)
         {
-            FLists[I].Free();
+            FLists[I]?.Dispose();
         }
-
-        base.Destroy();
     }
 
     // HashTab.PAS:215
@@ -8675,10 +8708,10 @@ public partial class TEResourceEditSettings : TEControlStyleObject
     }
 
     // Engine.pas:8656
-    public override void Destroy()
+    public override void Dispose()
     {
-        FEditors.Free();
-        base.Destroy();
+        FEditors?.Dispose();
+        base.Dispose();
     }
 
     // Engine.pas:8667
@@ -8787,9 +8820,9 @@ public partial class TESortNode : TECustomNode
     }
 
     // Engine.pas:1472
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
+        base.Dispose();
         Resize(0);
     }
 
@@ -10337,10 +10370,10 @@ public partial class TEUser : TEObject
     //
     //
     // }
-    public override void Destroy()
+    public override void Dispose()
     {
         Disconnect();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Engine.pas:7118
@@ -10464,8 +10497,8 @@ public partial class TEResourceList : TECustomOwner
 // publish the two events
 public partial class TEComponent : TComponent
 {
-    internal TNotifyEvent<TObject> FOnRegisterClasses;
-    internal TNotifyEvent<TObject> FOnUnRegisterClasses;
+    internal TNotifyEvent<object> FOnRegisterClasses;
+    internal TNotifyEvent<object> FOnUnRegisterClasses;
     internal TEngine FEngine;
 
     // Engine.pas:8642
@@ -10478,19 +10511,19 @@ public partial class TEComponent : TComponent
         }
     }
 
-    protected internal TNotifyEvent<TObject> OnRegisterClasses { get => FOnRegisterClasses; set => FOnRegisterClasses = value; }
-    protected internal TNotifyEvent<TObject> OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
+    protected internal TNotifyEvent<object> OnRegisterClasses { get => FOnRegisterClasses; set => FOnRegisterClasses = value; }
+    protected internal TNotifyEvent<object> OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
 
     // Engine.pas:8635
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FOnUnRegisterClasses != null)
         {
             FOnUnRegisterClasses(this);
         }
 
-        FEngine.Free();
-        base.Destroy();
+        FEngine?.Dispose();
+        base.Dispose();
     }
 
     public TEngine Engine { get => FEngine; set => FEngine = value; }
@@ -10501,11 +10534,12 @@ public partial class TEComponent : TComponent
 
 public struct TCallBackEvent
 {
-    public TNotifyEvent<TObject> Event;
+    public TNotifyEvent<object> Event;
     public int Data;
 }
 
-public partial class TCallBackEventList : TObject
+[LegacyObject]
+public partial class TCallBackEventList : IDisposable
 {
     internal List<TCallBackEvent> FList = [];
 
@@ -10518,14 +10552,14 @@ public partial class TCallBackEventList : TObject
     // Engine.pas:5846
     public TCallBackEventList()
     {
+        CaptureAddress.Assign(this);
         FList = new List<TCallBackEvent>();
     }
 
     // Engine.pas:5852
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        base.Destroy();
     }
 
     // Engine.pas:5859
@@ -10732,12 +10766,12 @@ public partial class TEReadTextStorageStream : TEStorageStream
     }
 
     // Engine.pas:10624
-    public override void Destroy()
+    public override void Dispose()
     {
-        FValues.Free();
-        FPropertyTable.Free();
-        FSections.Free();
-        FText.Free();
+        FValues?.Dispose();
+        FPropertyTable?.Dispose();
+        FSections?.Dispose();
+        FText?.Dispose();
     }
 
     // Engine.pas:10669
@@ -10777,14 +10811,14 @@ public partial class TEReadTextStorageStream : TEStorageStream
         {
             ReadTextBuffer();
             Obj.MainReadWrite(this);
-            FValues.Free();
+            FValues?.Dispose();
             FPropertyTable.RestoreSettings();
             FValues = SavedValues;
             FPath = SavedPath;
         }
         catch
         {
-            FValues.Free();
+            FValues?.Dispose();
             FPropertyTable.RestoreSettings();
             FValues = SavedValues;
             FPath = SavedPath;
@@ -10903,11 +10937,11 @@ public partial class TEWriteTextStorageStream : TEStorageStream
     }
 
     // Engine.pas:10343
-    public override void Destroy()
+    public override void Dispose()
     {
         WriteTextBuffer(FStream);
-        FBuffer.Free();
-        FPropertyTable.Free();
+        FBuffer?.Dispose();
+        FPropertyTable?.Dispose();
     }
 
     // Engine.pas:10350
@@ -10949,7 +10983,7 @@ public partial class TEWriteTextStorageStream : TEStorageStream
             {
                 Obj.MainReadWrite(this);
                 WriteTextBuffer(FStream);
-                FBuffer.Free();
+                FBuffer?.Dispose();
                 FPropertyTable.RestoreSettings();
                 FBuffer = SavedBuffer;
                 FPath = SavedPath;
@@ -10957,7 +10991,7 @@ public partial class TEWriteTextStorageStream : TEStorageStream
             }
             catch
             {
-                FBuffer.Free();
+                FBuffer?.Dispose();
                 FBuffer = SavedBuffer;
                 FPropertyTable.RestoreSettings();
                 FPath = SavedPath;
@@ -11015,16 +11049,12 @@ public partial class TEWriteTextStorageStream : TEStorageStream
             if (Strings.Count != 0)
             {
                 P = Strings.Text;
-                try
                 {
                     Line = "[" + IntToStr(ID) + "]=";
                     Line += NullTerminatedText(P);
 
                     FBuffer.Write(Cp1252.Encode(Line).AsSpan().Slice(1 - 1, Line.Length));
                     FPropertyTable.Add(ID, 0);
-                }
-                finally
-                {
                 }
             }
         }
@@ -11094,10 +11124,10 @@ public partial class TEReadStorageStream : TEStorageStream
     }
 
     // Engine.pas:9977
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPropertyTable.Free();
-        base.Destroy();
+        FPropertyTable?.Dispose();
+        base.Dispose();
     }
 
     // Engine.pas:9983
@@ -11467,7 +11497,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 }
                 catch (System.Exception error)
                 {
-                    Obj.Free();
+                    Obj?.Dispose();
                     Obj = null;
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
@@ -11611,7 +11641,7 @@ public partial class TEWriteStorageStream : TEStorageStream
     // Engine.pas:9592
     internal void PropertyExistError(int ID)
     {
-        throw new EDoublePrioriyID("PropertyID already in use (" + IntToStr(ID) + " / " + ClassNameOf(this.GetType()) + ")");
+        throw new EDoublePrioriyID("PropertyID already in use (" + IntToStr(ID) + " / " + ClassNames.ClassNameOf(this.GetType()) + ")");
     }
 
     // Engine.pas:9565
@@ -11633,13 +11663,13 @@ public partial class TEWriteStorageStream : TEStorageStream
     }
 
     // Engine.pas:9575
-    public override void Destroy()
+    public override void Dispose()
     {
         FPropertyTable.SaveToStream(FStream);
         FBuffer.SaveToStream(FStream);
-        FPropertyTable.Free();
-        FBuffer.Free();
-        base.Destroy();
+        FPropertyTable?.Dispose();
+        FBuffer?.Dispose();
+        base.Dispose();
     }
 
     // Engine.pas:9584
@@ -11975,7 +12005,7 @@ public partial class TEWriteStorageStream : TEStorageStream
                     Outer.Write(Bytes.Of(ref AClassID, 4));
                     FPropertyTable.SaveToStream(Outer);
                     FBuffer.SaveToStream(Outer);
-                    FBuffer.Free();
+                    FBuffer?.Dispose();
                     FPropertyTable.RestoreSettings();
                     FBuffer = Outer;
                     FPropertyTable.Add(ID, Start);
@@ -11983,7 +12013,7 @@ public partial class TEWriteStorageStream : TEStorageStream
                 catch (System.Exception error)
                 {
                     FPropertyTable.RestoreSettings();
-                    FBuffer.Free();
+                    FBuffer?.Dispose();
                     FBuffer = Outer;
                     Outer.Position = Start;
                     if (!HandleException(error))
@@ -12027,7 +12057,7 @@ public partial class TEWriteStorageStream : TEStorageStream
 
             FPropertyTable.SaveToStream(Outer);
             FBuffer.SaveToStream(Outer);
-            FBuffer.Free();
+            FBuffer?.Dispose();
             FPropertyTable.RestoreSettings();
             FBuffer = Outer;
             FPropertyTable.Add(ID, Start);
@@ -12055,14 +12085,14 @@ public partial class TEWriteStorageStream : TEStorageStream
                 FPropertyTable.SaveToStream(Outer);
                 FBuffer.SaveToStream(Outer);
                 FPropertyTable.RestoreSettings();
-                FBuffer.Free();
+                FBuffer?.Dispose();
                 FBuffer = Outer;
                 FPropertyTable.Add(ID, Start);
             }
             catch (System.Exception error)
             {
                 FPropertyTable.RestoreSettings();
-                FBuffer.Free();
+                FBuffer?.Dispose();
                 FBuffer = Outer;
                 Outer.Position = Start;
                 if (!HandleException(error))
@@ -12073,7 +12103,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         }
         else
         {
-            throw new EDoublePrioriyID("Double priorityID found (" + ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
+            throw new EDoublePrioriyID("Double priorityID found (" + ClassNames.ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
         }
     }
 
@@ -12098,12 +12128,12 @@ public partial class TEWriteStorageStream : TEStorageStream
             Outer.Write(Bytes.Of(ref Len, 4));
             Outer.Position = Start + Len + 4;
             FPropertyTable.RestoreSettings();
-            FBuffer.Free();
+            FBuffer?.Dispose();
             FBuffer = Outer;
         }
         catch (System.Exception error)
         {
-            FBuffer.Free();
+            FBuffer?.Dispose();
             FBuffer = Outer;
             FPropertyTable.RestoreSettings();
             Len = 0;
@@ -12128,10 +12158,10 @@ public partial class TDebugWriteStream : TEWriteStorageStream
     { }
 
     // Engine.pas:10499
-    public override void Destroy()
+    public override void Dispose()
     {
         FPropertyTable.SaveToStream(FStream);
-        FPropertyTable.Free();
+        FPropertyTable?.Dispose();
     }
 
     // Engine.pas:10505
@@ -12159,7 +12189,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
                     Obj.MainReadWrite(this);
                     FBuffer.Write(Bytes.Of(ref AClassID, 4));
                     FPropertyTable.SaveToStream(FBuffer);
-                    FBuffer.Free();
+                    FBuffer?.Dispose();
                     FPropertyTable.RestoreSettings();
                     FPropertyTable.Add(ID, FBuffer.Position);
                 }
@@ -12234,7 +12264,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
         }
         else
         {
-            throw new EDoublePrioriyID("Double priorityID found (" + ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
+            throw new EDoublePrioriyID("Double priorityID found (" + ClassNames.ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
         }
     }
 
@@ -12275,10 +12305,10 @@ public partial class TTranslateStorageStream : TEStorageStream
     }
 
     // Engine.pas:10831
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPropertyTable.Free();
-        base.Destroy();
+        FPropertyTable?.Dispose();
+        base.Dispose();
     }
 
     // Engine.pas:10837
@@ -12402,12 +12432,6 @@ public partial class TCompareStorageStream : TEReadStorageStream
     public TCompareStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine, false)
     { }
 
-    // Engine.pas:10923
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Engine.pas:10928
     public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smCompare);
 
@@ -12441,7 +12465,7 @@ public partial class TCompareStorageStream : TEReadStorageStream
                 }
                 catch (System.Exception error)
                 {
-                    Obj.Free();
+                    Obj?.Dispose();
                     Obj = null;
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
@@ -12660,7 +12684,7 @@ public partial class TCompareStorageStream : TEReadStorageStream
 
 }
 
-public delegate int TStringsSortCompare(string S1, string S2, TObject O1, TObject O2);
+public delegate int TStringsSortCompare(string S1, string S2, object O1, object O2);
 
 public struct TStringHashItem
 {
@@ -12681,11 +12705,17 @@ public struct TSortStringsContext
     public TList ExchangeData;
 }
 
+[LegacyObject]
 // { the layout of TList, to write its count field straight from the object }
-public partial class TListFields : TObject
+public partial class TListFields
 {
     public object FList;
     public int FCount;
+
+    public TListFields()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public static partial class EngineUnit
@@ -12770,7 +12800,7 @@ public static partial class EngineUnit
                     LinkedStrings[I].EndUpdate();
                 }
 
-                Lists.Free();
+                Lists?.Dispose();
             }
 
             Strings.EndUpdate();
@@ -12985,7 +13015,7 @@ public static partial class EngineUnit
                 LoadFrom(Dirs[I]);
             }
 
-            Dirs.Free();
+            Dirs?.Dispose();
         }
 
         Dir = ExpandFileName(Directory);
@@ -13070,12 +13100,12 @@ public static partial class EngineUnit
             }
             finally
             {
-                F.Free();
+                F?.Dispose();
             }
         }
         finally
         {
-            M.Free();
+            M?.Dispose();
         }
 
         return Result;
@@ -13294,7 +13324,7 @@ public static partial class EngineUnit
         int I;
         int J;
         int M;
-        TObject PO;
+        object PO;
         string P;
         do
         {
@@ -13356,7 +13386,7 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2059
-    public static int CompareAscending(string S1, string S2, TObject O1, TObject O2)
+    public static int CompareAscending(string S1, string S2, object O1, object O2)
     {
         int Result = CompareText(S1, S2);
         if (Result == 0)
@@ -13368,7 +13398,7 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2070
-    public static int CompareDescending(string S1, string S2, TObject O1, TObject O2)
+    public static int CompareDescending(string S1, string S2, object O1, object O2)
     {
         int Result = CompareText(S2, S1);
         if (Result == 0)
@@ -13380,7 +13410,7 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2081
-    public static int CompareNumericalAscending(string S1, string S2, TObject O1, TObject O2)
+    public static int CompareNumericalAscending(string S1, string S2, object O1, object O2)
     {
         int V1;
         int V2;
@@ -13390,7 +13420,7 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2095
-    public static int CompareNumericalDescending(string S1, string S2, TObject O1, TObject O2)
+    public static int CompareNumericalDescending(string S1, string S2, object O1, object O2)
     {
         int V1;
         int V2;
@@ -13870,8 +13900,8 @@ public static partial class EngineUnit
     {
         ReleaseCRC32Table();
         UnloadExternalPlugIns();
-        Packages.Free();
-        Engines.Free();
-        PlugIns.Free();
+        Packages?.Dispose();
+        Engines?.Dispose();
+        PlugIns?.Dispose();
     }
 }

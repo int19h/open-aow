@@ -146,10 +146,10 @@ public partial class TFlagMessageEvent : TFlagEvent
     public TStringList FMessage;
 
     // FlagEvents.pas:186
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
     // FlagEvents.pas:197
@@ -213,10 +213,10 @@ public partial class TTutorialMessageEvent : TFlagEvent
     public TStringList FMessage;
 
     // FlagEvents.pas:239
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
     // FlagEvents.pas:250

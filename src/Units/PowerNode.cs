@@ -29,10 +29,10 @@ public partial class TPowerNode : TPlayerStructure
     public TPlayerStructurePowerSource FPowerSource;
 
     // PowerNode.pas:58
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FPowerSource.Free();
+        base.Dispose();
+        FPowerSource?.Dispose();
     }
 
     // PowerNode.pas:87

@@ -112,7 +112,7 @@ public sealed class ClassRegistryTests
         {
             // Construction alone leaves abstract nodes and world-linked objects incomplete.
             // Keep those existing teardown outcomes explicit, separate from factory identity.
-            var error = Record.Exception(instance.Destroy);
+            var error = Record.Exception(instance.Dispose);
             if (cleanupError is null) Assert.Null(error);
             else Assert.IsType(cleanupError, error);
         }

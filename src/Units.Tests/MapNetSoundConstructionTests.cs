@@ -64,9 +64,9 @@ public sealed class MapNetSoundConstructionTests
         }
         finally
         {
-            foreach (var value in values) value.Destroy();
-            if (argument is THSMap mapOwner) mapOwner.Destroy();
-            engine.Destroy();
+            foreach (var value in values) value.Dispose();
+            if (argument is THSMap mapOwner) mapOwner.Dispose();
+            engine.Dispose();
         }
         Assert.Empty(owner.Members);
     }
@@ -209,7 +209,7 @@ public sealed class MapNetSoundConstructionTests
     [InlineData(19)]
     public void HelpersKeepTheirFactoryState(int kind)
     {
-        TObject value = kind switch
+        object value = kind switch
         {
             0 => new TNewHSMapSettings(),
             1 => new TTerrainList(),
@@ -296,19 +296,18 @@ public sealed class MapNetSoundConstructionTests
                 case TList list: Assert.Equal(0, list.Count); break;
             }
         }
-        finally { value.Destroy(); }
+        finally { ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 
     [Fact]
     public void TokenControlPublicationHasNoLaterConstructorWork()
     {
-        var manager = new TTokenManager(null!);
+        using var manager = new TTokenManager(null!);
         var control = new TTokenControl(manager, 7);
         Assert.Same(control, manager.FTokenExecuter.FTCList[0]);
         Assert.Equal(1, manager.FTokenExecuter.FTCList.Count);
-        control.Destroy();
+        control.Dispose();
         Assert.Equal(0, manager.FTokenExecuter.FTCList.Count);
-        manager.Destroy();
     }
 
     [Fact]
@@ -319,7 +318,7 @@ public sealed class MapNetSoundConstructionTests
         Assert.True(owner.Observed);
         Assert.Same(owner, value.Owner);
         Assert.Equal(0, value.SFX.Count);
-        value.Destroy();
+        value.Dispose();
         Assert.Equal(0, owner.ComponentCount);
     }
 

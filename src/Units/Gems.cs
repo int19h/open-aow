@@ -149,7 +149,7 @@ public partial class TGems : TILTerrainMO
             Event.SetLocation(GetXhx(), yhx2, lhx2);
             AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
             Event.Release();
-            Destroy();
+            Dispose();
         }
     }
 

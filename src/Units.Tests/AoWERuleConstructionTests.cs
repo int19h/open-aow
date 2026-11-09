@@ -58,10 +58,10 @@ public sealed partial class AoWERuleConstructionTests
             Game.AoWHSSet = previousSet;
             Game.AoWEngine = previousEngine;
             Game.AoWHSMap = previousMap;
-            Manager.Destroy();
-            Map.FRaces.Destroy();
-            Map.FUnitControl.Destroy();
-            Map.FHeroControl.Destroy();
+            Manager.Dispose();
+            Map.FRaces.Dispose();
+            Map.FUnitControl.Dispose();
+            Map.FHeroControl.Dispose();
         }
     }
 
@@ -86,9 +86,10 @@ public sealed partial class AoWERuleConstructionTests
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-            for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
+            for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
+                    if (field.Name == "captureOrdinal") continue;
                     if (field.Name is "eclass" or "actionClass" or "groupClass") continue; // the descriptor caches are not constructor state
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
                     if (item is AIPlayerActionClass actionClass && field.Name == "priority")
@@ -106,7 +107,7 @@ public sealed partial class AoWERuleConstructionTests
         return JsonSerializer.Serialize(State(value, "$"));
     }
 
-    private static void AssertPrivateArrayChildren(TObject value)
+    private static void AssertPrivateArrayChildren(object value)
     {
         if (value is TAbilityControl control)
             for (int i = 0; i < 5; i++) Assert.Equal(0, control.FAbilitiesByType[i].Count);
@@ -129,28 +130,24 @@ public sealed partial class AoWERuleConstructionTests
         if (value is TLeadershipAbility leadership) Assert.Equal(10, leadership.FLevelCosts[1]);
     }
 
-    private static TObject Create(Type type, TECustomNode owner, int route, Fixture fixture)
+    private static object Create(Type type, TECustomNode owner, int route, Fixture fixture)
     {
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
             if (EngineUnit.Engines is null) EngineUnit.Initialize();
-            var engine = new TEngine(null!);
-            try
-            {
-                var meta = EClass.Of(type);
-                engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
-                try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-                catch (System.Exception error) when (PortedExceptions.Is(error)) { }
-                engine.RegisterEClasses([EClass.Of(type)]);
-                return engine.CreateEObject(meta.ClassID, owner);
-            }
-            finally { engine.Destroy(); }
+            using var engine = new TEngine(null!);
+            var meta = EClass.Of(type);
+            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+            try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
+            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+            engine.RegisterEClasses([EClass.Of(type)]);
+            return engine.CreateEObject(meta.ClassID, owner);
         }
         if (route == 3)
         {
             var meta = Aow.Units.Engine.EClass.Of(type);
-            return (TObject)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
+            return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
         var constructor = typeof(TEObject).IsAssignableFrom(type) ? type.GetConstructor([typeof(TECustomNode)]) : type.GetConstructors().OrderByDescending(x => x.GetParameters().Length).FirstOrDefault();
@@ -162,8 +159,8 @@ public sealed partial class AoWERuleConstructionTests
             : p.ParameterType == typeof(TFastCombat) ? new TFastCombat(null!)
             : p.ParameterType == typeof(TCombatSide) ? new TCombatSide(null!)
             : null).ToArray();
-        try { return (TObject)Invoke(() => factory is not null ? factory.Invoke(null, args) : constructor!.Invoke(args))!; }
-        finally { foreach (object? arg in args) if (arg is TFastCombat or TCombatSide) ((TObject)arg).Destroy(); }
+        try { return (object)Invoke(() => factory is not null ? factory.Invoke(null, args) : constructor!.Invoke(args))!; }
+        finally { foreach (object? arg in args) if (arg is TFastCombat or TCombatSide) ((((object)arg) ?? throw new NullReferenceException()) as IDisposable)?.Dispose(); }
     }
 
     private static object? Invoke(Func<object?> action)
@@ -190,7 +187,7 @@ public sealed partial class AoWERuleConstructionTests
         for (int route = 0; route < (engineObject ? 4 : 1); route++)
         {
             var owner = new RuleOwner();
-            TObject? value = null;
+            object? value = null;
             string state;
             var states = new List<string>();
             try
@@ -203,7 +200,7 @@ public sealed partial class AoWERuleConstructionTests
             catch (System.Exception error) { state = "failure:" + error.GetType().FullName + ":" + error.Message; }
             finally
             {
-                try { value?.Destroy(); }
+                try { (value as IDisposable)?.Dispose(); }
                 catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
             }
             states.Add(state);
@@ -226,7 +223,7 @@ public sealed partial class AoWERuleConstructionTests
             Assert.Null(value.Owner);
             Assert.Same(Aow.Units.Engine.EClass.Of(type), value.EClass);
             string state = Snapshot(value);
-            try { value.Destroy(); }
+            try { value.Dispose(); }
             catch (System.Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
             expected ??= state;
             Assert.Equal(expected, state);
@@ -263,23 +260,20 @@ public sealed partial class AoWERuleConstructionTests
         Assert.True(settings.SawInitializedFields);
         Assert.Equal(175, settings.FMovePointsMax);
         Assert.Equal(-1, settings.FDestinationX);
-        settings.Destroy();
-        var selector = new ObservedSelector();
+        settings.Dispose();
+        using var selector = new ObservedSelector();
         Assert.True(selector.SawPreAssignmentFields);
         Assert.NotNull(selector.FMoveControlSettings);
         Assert.NotNull(selector.FMoveSettingsList);
         Assert.Equal(-1, selector.FCurrentMove);
-        selector.Destroy();
     }
 
     [Fact]
     public void DictionaryContinuesToIgnoreItsComponentOwner()
     {
-        var owner = new TComponent(null!);
-        var dictionary = new TAoWDictionary(owner);
+        using var owner = new TComponent(null!);
+        using var dictionary = new TAoWDictionary(owner);
         Assert.Equal(0, owner.ComponentCount);
-        dictionary.Destroy();
-        owner.Destroy();
     }
 
     [Fact]
@@ -296,7 +290,7 @@ public sealed partial class AoWERuleConstructionTests
             Assert.Equal(0, value.FMoveSettingsList.FChildren.Count);
             Assert.Equal(-1, value.FCurrentMove);
         }
-        finally { value.Destroy(); }
+        finally { value.Dispose(); }
     }
 
     [Theory]
@@ -315,7 +309,7 @@ public sealed partial class AoWERuleConstructionTests
             Assert.Equal(0, owner.Removals);
             if (value is TArmyHS army) Assert.NotNull(army.FArmy);
             value.SetOwner(null!);
-            value.Destroy();
+            value.Dispose();
             Assert.Empty(owner.Members);
             Assert.Equal(1, owner.Removals);
         }

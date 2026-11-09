@@ -233,7 +233,7 @@ public partial class THolyGround : TILTerrainMO
         sbyte Overlay;
         Field = (TMapField)Owner;
         Overlay = FOriginalOverlay;
-        Destroy();
+        Dispose();
         if (Overlay > 0)
         {
             AoWHSMap.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
@@ -399,7 +399,7 @@ public partial class THolyGroundSpellTE : TGlobalTargetSpellTE
                         }
                         else
                         {
-                            Ground.Free();
+                            Ground?.Dispose();
                         }
                     }
                 }

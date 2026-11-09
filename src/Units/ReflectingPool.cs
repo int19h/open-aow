@@ -208,7 +208,7 @@ public partial class TReflectingPool : TPlayerStructure
     }
 
     // ReflectingPool.pas:99
-    public void NewFrame(TObject Sender)
+    public void NewFrame(object Sender)
     {
         TPlayerStructureList List = default;
         TPlayerStructure Pool = default;
@@ -239,7 +239,7 @@ public partial class TReflectingPool : TPlayerStructure
                     DeactivatePoolCentering();
                 }
 
-                List.Free();
+                List?.Dispose();
             }
         }
         else

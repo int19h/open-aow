@@ -258,7 +258,7 @@ public partial class TResultsWin : TDataModule
 
         var player = AoWHSMap.FPlayers.GetPlayers(Player);
         DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
-        Values.Free();
+        Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxGold);
     }
 
@@ -276,7 +276,7 @@ public partial class TResultsWin : TDataModule
 
         var player = AoWHSMap.FPlayers.GetPlayers(Player);
         DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
-        Values.Free();
+        Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxMana);
     }
 
@@ -294,7 +294,7 @@ public partial class TResultsWin : TDataModule
 
         var player = AoWHSMap.FPlayers.GetPlayers(Player);
         DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
-        Values.Free();
+        Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxHeroes);
     }
 
@@ -312,7 +312,7 @@ public partial class TResultsWin : TDataModule
 
         var player = AoWHSMap.FPlayers.GetPlayers(Player);
         DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
-        Values.Free();
+        Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxArmies);
     }
 
@@ -330,7 +330,7 @@ public partial class TResultsWin : TDataModule
 
         var player = AoWHSMap.FPlayers.GetPlayers(Player);
         DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
-        Values.Free();
+        Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxStructures);
     }
 
@@ -348,7 +348,7 @@ public partial class TResultsWin : TDataModule
 
         var player = AoWHSMap.FPlayers.GetPlayers(Player);
         DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
-        Values.Free();
+        Values?.Dispose();
         // { Original strength graph labels the structures maximum. }
         KeyMax.Text = IntToStr(FMaxStructures);
     }
@@ -375,8 +375,8 @@ public partial class TResultsWin : TDataModule
     // AoWResultsWin.pas:288
     public void ResultsWinDestroy()
     {
-        FPlayers.Free();
-        FControls.Free();
+        FPlayers?.Dispose();
+        FControls?.Dispose();
     }
 
     // AoWResultsWin.pas:294

@@ -26,15 +26,15 @@ public partial class TIsometricHexagon : TAbstractHexagon
     protected internal byte FSides;
 
     // IsoHex.pas:204
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FDynamic != null)
         {
-            FDynamic.Free();
+            FDynamic?.Dispose();
             FDynamic = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // IsoHex.pas:198
@@ -44,7 +44,7 @@ public partial class TIsometricHexagon : TAbstractHexagon
     {
         if (FDynamic != null)
         {
-            FDynamic.Free();
+            FDynamic?.Dispose();
             FDynamic = null;
         }
 
@@ -172,7 +172,7 @@ public partial class TIsometricHexagonResource : TAbstractHexagonResource
             Result = (TMapObject)CreateResourceUser();
             if (!Map.PlaceHX(Result, Xhx, Yhx, Lhx))
             {
-                Result.Free();
+                Result?.Dispose();
                 Result = null;
             }
         }

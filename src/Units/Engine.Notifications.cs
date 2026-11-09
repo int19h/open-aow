@@ -2,9 +2,15 @@ using Aow.Rtl;
 
 namespace Aow.Units.Engine;
 
-public sealed class EngineDebugNotification : TObject
+[LegacyObject]
+public sealed class EngineDebugNotification
 {
     public TEngineDebugInfo Info;
+
+    public EngineDebugNotification()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public static partial class EngineUnit

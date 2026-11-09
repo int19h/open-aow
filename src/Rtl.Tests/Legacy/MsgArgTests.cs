@@ -7,15 +7,15 @@ namespace Aow.Rtl.Tests;
 // Brief 9.6-4: the message slot union, checked the way StringFormatTests checks FormatArg.
 public sealed class MsgArgTests
 {
-    private sealed class SampleObject : TObject;
+    private sealed class SampleObject;
 
-    private sealed class OtherObject : TObject;
+    private sealed class OtherObject;
 
     // An exhaustive switch over the cases. A case added to MsgArg fails this with CS8509.
     private static string CaseOf(MsgArg argument) => argument switch
     {
         int value => "Integer " + value,
-        TObject value => "Object " + value.GetType().Name,
+        object value => "Object " + value.GetType().Name,
         null => "null",
     };
 
@@ -39,34 +39,34 @@ public sealed class MsgArgTests
         Assert.Equal("Integer 65535", CaseOf((ushort)65535));
         // A reference keeps its runtime type, a nil reference is the union's null.
         Assert.Equal("Object SampleObject", CaseOf(new SampleObject()));
-        Assert.Equal("Object TObject", CaseOf(new TObject()));
-        Assert.Equal("null", CaseOf((TObject?)null));
+        Assert.Equal("Object Object", CaseOf(new object()));
+        Assert.Equal("null", CaseOf((object?)null));
         Assert.Equal("null", CaseOf(default));
         // The same conversions in a collection expression and in a params span.
         var obj = new SampleObject();
-        MsgArg[] list = [7, obj, (TObject?)null, (byte)1];
+        MsgArg[] list = [7, obj, (object?)null, (byte)1];
         Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null", "Integer 1" }, list.Select(CaseOf));
-        Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null" }, Cases(7, obj, (TObject?)null));
+        Assert.Equal(new[] { "Integer 7", "Object SampleObject", "null" }, Cases(7, obj, (object?)null));
     }
 
     [Fact]
     public void EveryCaseHoldsItsValue()
     {
-        var obj = new TObject();
+        var obj = new object();
         Assert.Equal(7, ((MsgArg)7).Value);
-        Assert.Same(obj, ((MsgArg)obj).Value);
-        Assert.Null(((MsgArg)(TObject?)null).Value);
+        Assert.Same(obj, new MsgArg(obj).Value);
+        Assert.Null(new MsgArg((object?)null).Value);
         Assert.Null(default(MsgArg).Value);
         Assert.True(((MsgArg)0).HasValue);
-        Assert.True(((MsgArg)obj).HasValue);
-        Assert.False(((MsgArg)(TObject?)null).HasValue);
+        Assert.True(new MsgArg(obj).HasValue);
+        Assert.False(new MsgArg((object?)null).HasValue);
         Assert.False(default(MsgArg).HasValue);
         Assert.True(((MsgArg)int.MinValue).TryGetValue(out int integer) && integer == int.MinValue);
-        Assert.False(((MsgArg)int.MinValue).TryGetValue(out TObject? _));
-        Assert.True(((MsgArg)obj).TryGetValue(out TObject? reference) && ReferenceEquals(reference, obj));
-        Assert.False(((MsgArg)obj).TryGetValue(out int none) || none != 0);
+        Assert.False(((MsgArg)int.MinValue).TryGetValue(out object? _));
+        Assert.True(new MsgArg(obj).TryGetValue(out object? reference) && ReferenceEquals(reference, obj));
+        Assert.False(new MsgArg(obj).TryGetValue(out int none) || none != 0);
         Assert.False(default(MsgArg).TryGetValue(out int _));
-        Assert.False(default(MsgArg).TryGetValue(out TObject? _));
+        Assert.False(default(MsgArg).TryGetValue(out object? _));
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public sealed class MsgArgTests
         Assert.Equal(-5, ((MsgArg)(-5)).Int);
         Assert.Equal(0, ((MsgArg)0).Int);
         Assert.Equal(0, default(MsgArg).Int);
-        Assert.Equal(0, ((MsgArg)(TObject?)null).Int);
+        Assert.Equal(0, new MsgArg((object?)null).Int);
         // A reference no longer offers its address as an integer.
         var obj = new SampleObject();
         Assert.Throws<InvalidCastException>(() => ((MsgArg)obj).Int);
@@ -86,12 +86,12 @@ public sealed class MsgArgTests
     {
         var obj = new SampleObject();
         Assert.Same(obj, ((MsgArg)obj).As<SampleObject>());
-        Assert.Same(obj, ((MsgArg)obj).As<TObject>());
+        Assert.Same(obj, ((MsgArg)obj).As<object>());
         Assert.Null(((MsgArg)obj).As<OtherObject>());
-        Assert.Null(((MsgArg)7).As<TObject>());
-        Assert.Null(((MsgArg)0).As<TObject>());
-        Assert.Null(default(MsgArg).As<TObject>());
-        Assert.Null(((MsgArg)(TObject?)null).As<SampleObject>());
+        Assert.Null(((MsgArg)7).As<object>());
+        Assert.Null(((MsgArg)0).As<object>());
+        Assert.Null(default(MsgArg).As<object>());
+        Assert.Null(new MsgArg((object?)null).As<SampleObject>());
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public sealed class MsgArgTests
     {
         var obj = new SampleObject();
         var other = new SampleObject();
-        MsgArg empty = default, zero = 0, nil = (TObject?)null, one = 1, reference = obj;
+        MsgArg empty = default, zero = 0, nil = (object?)null, one = 1, reference = obj;
         // Empty, the integer 0 and nil are all the word 0.
         Assert.True(empty == zero);
         Assert.True(zero == nil);
@@ -114,9 +114,13 @@ public sealed class MsgArgTests
         Assert.True(reference != (MsgArg)other);
         Assert.True(reference != empty);
         Assert.True(reference != (MsgArg)RuntimeHelpers.GetHashCode(obj));
-        Assert.True(reference.Equals((object)(MsgArg)obj));
-        Assert.False(reference.Equals((object)obj));
+        // A direct Equals call prefers the MsgArg overload and wraps a reference. The override is the boxed call.
+        object boxed = Box(reference);
+        Assert.True(boxed.Equals(Box(reference)));
+        Assert.False(boxed.Equals(obj));
     }
+
+    private static object Box<T>(T value) where T : struct => value;
 
     [Fact]
     public void TheConversionsAreTheCases()
@@ -127,9 +131,9 @@ public sealed class MsgArgTests
         Assert.True(type.IsDefined(typeof(UnionAttribute)));
         string[] cases = type.GetConstructors().Select(c => c.GetParameters()).Where(p => p.Length == 1)
             .Select(p => p[0].ParameterType.Name).Order(StringComparer.Ordinal).ToArray();
-        Assert.Equal(new[] { "Int32", "TObject" }, cases);
+        Assert.Equal(new[] { "Int32", "Object" }, cases);
         string[] conversions = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "op_Implicit")
             .Select(m => m.GetParameters()[0].ParameterType.Name).Order(StringComparer.Ordinal).ToArray();
-        Assert.Equal(new[] { "Int32", "TObject" }, conversions);
+        Assert.Equal(new[] { "Int32" }, conversions);
     }
 }

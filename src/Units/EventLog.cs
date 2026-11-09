@@ -77,7 +77,7 @@ public partial class TEventLog : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -313,10 +313,10 @@ public partial class TMessageEventLog : TEventLog
     public TPressedEventLogButton FPressedButton;
 
     // EventLog.pas:832
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
     // EventLog.pas:835
@@ -384,29 +384,30 @@ public partial class THelpMessageEventLog : TEventLog
     public byte FMode;
 
     // EventLog.pas:868
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
 }
 
+[LegacyObject]
 // list of -byte callback records
-public partial class TExecuteEventLogCallBackList : TObject
+public partial class TExecuteEventLogCallBackList : IDisposable
 {
     public List<TExecuteEventLogInfo> FList = [];
 
     // EventLog.pas:283
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        base.Destroy();
     }
 
     // EventLog.pas:277
     public TExecuteEventLogCallBackList()
     {
+        CaptureAddress.Assign(this);
         FList = new List<TExecuteEventLogInfo>();
     }
 
@@ -450,7 +451,7 @@ public partial class TEventLogList : TENode
     { }
 
     public int FUpdateCount;
-    public TNotifyEvent<TObject> FOnChanged;
+    public TNotifyEvent<object> FOnChanged;
 
     // EventLog.pas:481
     public override void MainReadWrite(TEStorageStream Stream)
@@ -593,10 +594,10 @@ public partial class TEventLogbook : TEObject
     public int FNextID;
 
     // EventLog.pas:529
-    public override void Destroy()
+    public override void Dispose()
     {
-        FEvents.Free();
-        base.Destroy();
+        FEvents?.Dispose();
+        base.Dispose();
     }
 
     // EventLog.pas:547
@@ -624,10 +625,10 @@ public partial class TEventLogbook : TEObject
     public int GetCount() => FEvents.GetCount();
 
     // EventLog.pas:541
-    public TNotifyEvent<TObject> GetOnChanged() => FEvents.FOnChanged;
+    public TNotifyEvent<object> GetOnChanged() => FEvents.FOnChanged;
 
     // EventLog.pas:544
-    public void SetOnChanged(TNotifyEvent<TObject> Value)
+    public void SetOnChanged(TNotifyEvent<object> Value)
     {
         FEvents.FOnChanged = Value;
     }
@@ -722,7 +723,7 @@ public partial class TUserEventLog : TEventLog
     public TUserEventLog(TECustomNode owner) : base(owner)
     { }
 
-    public TObject FData;
+    public object FData;
 }
 
 public partial class TEndTurnEventLog : TEventLog
@@ -756,10 +757,10 @@ public partial class TShowMessageEventLog : TEventLog
     public TStringList FMessage;
 
     // EventLog.pas:762
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
     // EventLog.pas:768
@@ -787,10 +788,10 @@ public partial class TGameOverEventLog : TEventLog
     public sbyte FTargetPlayer;
 
     // EventLog.pas:774
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
     // EventLog.pas:780

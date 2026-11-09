@@ -16,11 +16,17 @@ public enum TMemoType : byte
     mtBlank = 1
 }
 
+[LegacyObject]
 // the color of a wrapped line. FHasColor, FColor
-public partial class TColorChange : TObject
+public partial class TColorChange
 {
     public bool FHasColor;
     public int FColor;
+
+    public TColorChange()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // Fields: F114 (cleared by CheckMouseUp, not read), FItems (the text, one paragraph a line),
@@ -79,17 +85,16 @@ public partial class TAOWMemo : TAOWControl
     }
 
     // AoWMemo.pas:138
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLines.Free();
-        FItems.Free();
+        FLines?.Dispose();
+        FItems?.Dispose();
         for (int I = 0, last = FColorList.Count - 1; I <= last; I++)
         {
-            ((TColorChange)FColorList[I]).Free();
         }
 
-        FColorList.Free();
-        base.Destroy();
+        FColorList?.Dispose();
+        base.Dispose();
     }
 
     // AoWMemo.pas:150
@@ -179,7 +184,6 @@ public partial class TAOWMemo : TAOWControl
         for (int I = 0, last = FColorList.Count - 1; I <= last; I++)
         {
             CC = (TColorChange)FColorList[I];
-            CC.Free();
         }
 
         FColorList.Clear();

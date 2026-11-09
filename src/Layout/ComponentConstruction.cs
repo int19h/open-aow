@@ -82,7 +82,7 @@ namespace Aow.Units.AoWArmyEventDlg
         public TNotifyEvent<TArmyEventDlg> LayoutOnCreate { get; set; }
         public TNotifyEvent<TArmyEventDlg> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -91,7 +91,7 @@ namespace Aow.Units.AoWArmyEventDlg
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -118,7 +118,7 @@ namespace Aow.Units.AoWCampaignJoin
         public TNotifyEvent<TCampaignJoinDlg> LayoutOnCreate { get; set; }
         public TNotifyEvent<TCampaignJoinDlg> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -127,7 +127,7 @@ namespace Aow.Units.AoWCampaignJoin
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -154,7 +154,7 @@ namespace Aow.Units.AoWCityScreen
         public TNotifyEvent<TCityScreen> LayoutOnCreate { get; set; }
         public TNotifyEvent<TCityScreen> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -163,7 +163,7 @@ namespace Aow.Units.AoWCityScreen
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -204,7 +204,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
         public TNotifyEvent<TEmailGameSettingsDlg> LayoutOnCreate { get; set; }
         public TNotifyEvent<TEmailGameSettingsDlg> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -213,7 +213,7 @@ namespace Aow.Units.AoWEmailGameSettingsDlg
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -226,7 +226,7 @@ namespace Aow.Units.AoWFileDialog
         public TNotifyEvent<TFileDlgWindow> LayoutOnCreate { get; set; }
         public TNotifyEvent<TFileDlgWindow> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -235,7 +235,7 @@ namespace Aow.Units.AoWFileDialog
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -262,7 +262,7 @@ namespace Aow.Units.AoWHeroJoinDlg
         public TNotifyEvent<THeroJoinDlg> LayoutOnCreate { get; set; }
         public TNotifyEvent<THeroJoinDlg> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -271,7 +271,7 @@ namespace Aow.Units.AoWHeroJoinDlg
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -312,7 +312,7 @@ namespace Aow.Units.AoWLeaderSetup
         public TNotifyEvent<TLeaderSetupWin> LayoutOnCreate { get; set; }
         public TNotifyEvent<TLeaderSetupWin> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -321,7 +321,7 @@ namespace Aow.Units.AoWLeaderSetup
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -378,7 +378,7 @@ namespace Aow.Units.AoWPartyJoin
         public TNotifyEvent<TPartyJoinDlg> LayoutOnCreate { get; set; }
         public TNotifyEvent<TPartyJoinDlg> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -387,7 +387,7 @@ namespace Aow.Units.AoWPartyJoin
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -400,7 +400,7 @@ namespace Aow.Units.AoWProdScreen
         public TNotifyEvent<TProductionScreen> LayoutOnCreate { get; set; }
         public TNotifyEvent<TProductionScreen> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -409,7 +409,7 @@ namespace Aow.Units.AoWProdScreen
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -422,7 +422,7 @@ namespace Aow.Units.AoWRelations
         public TNotifyEvent<TRelWindow> LayoutOnCreate { get; set; }
         public TNotifyEvent<TRelWindow> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -431,7 +431,7 @@ namespace Aow.Units.AoWRelations
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -444,7 +444,7 @@ namespace Aow.Units.AoWResultsWin
         public TNotifyEvent<TResultsWin> LayoutOnCreate { get; set; }
         public TNotifyEvent<TResultsWin> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -453,7 +453,7 @@ namespace Aow.Units.AoWResultsWin
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -485,7 +485,7 @@ namespace Aow.Units.AoWSoundDlg
         public TNotifyEvent<TSoundDlg> LayoutOnCreate { get; set; }
         public TNotifyEvent<TSoundDlg> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -494,7 +494,7 @@ namespace Aow.Units.AoWSoundDlg
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -507,7 +507,7 @@ namespace Aow.Units.AoWSpellBook
         public TNotifyEvent<TSpellBook> LayoutOnCreate { get; set; }
         public TNotifyEvent<TSpellBook> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -516,7 +516,7 @@ namespace Aow.Units.AoWSpellBook
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -551,7 +551,7 @@ namespace Aow.Units.AoWTitleScene
         public TNotifyEvent<TTitleScene> LayoutOnCreate { get; set; }
         public TNotifyEvent<TTitleScene> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -560,7 +560,7 @@ namespace Aow.Units.AoWTitleScene
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -581,7 +581,7 @@ namespace Aow.Units.AoWVideoDlg
         public TNotifyEvent<TVideoDialog> LayoutOnCreate { get; set; }
         public TNotifyEvent<TVideoDialog> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -590,7 +590,7 @@ namespace Aow.Units.AoWVideoDlg
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -603,7 +603,7 @@ namespace Aow.Units.AoWWinMan
         public TNotifyEvent<TGeneral> LayoutOnCreate { get; set; }
         public TNotifyEvent<TGeneral> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -612,7 +612,7 @@ namespace Aow.Units.AoWWinMan
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }
@@ -633,7 +633,7 @@ namespace Aow.Units.FastCombatWin
         public TNotifyEvent<TFastCombatWindow> LayoutOnCreate { get; set; }
         public TNotifyEvent<TFastCombatWindow> LayoutOnDestroy { get; set; }
 
-        public override void Destroy()
+        public override void Dispose()
         {
             Destroying();
             try
@@ -642,7 +642,7 @@ namespace Aow.Units.FastCombatWin
             }
             finally
             {
-                base.Destroy();
+                base.Dispose();
             }
         }
     }

@@ -170,11 +170,11 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
     public float FMovePointsFactor;
 
     // AGCPlugins.pas:164
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSelector.Free();
-        FTargets.Free();
-        base.Destroy();
+        FSelector?.Dispose();
+        FTargets?.Dispose();
+        base.Dispose();
     }
 
     // AGCPlugins.pas:157
@@ -379,10 +379,10 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
     public TAIGroupControl FControl;
 
     // AGCPlugins.pas:303
-    public override void Destroy()
+    public override void Dispose()
     {
         FMoveSettings.Release();
-        base.Destroy();
+        base.Dispose();
     }
 
     // AGCPlugins.pas:297
@@ -508,7 +508,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
                         Done();
                     }
 
-                    Fields.Free();
+                    Fields?.Dispose();
                 }
                 else
                 {

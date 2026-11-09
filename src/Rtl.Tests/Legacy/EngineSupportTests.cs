@@ -13,9 +13,9 @@ public sealed class EngineSupportTests
 
     [InlineArray(4)] private struct FourBytes { private byte first; }
 
-    private sealed class Receiver { public void Event(TObject sender) { } }
+    private sealed class Receiver { public void Event(object sender) { } }
 
-    private sealed class EventContext : TObject { }
+    private sealed class EventContext { }
 
     private delegate void EventDone(EventContext context);
 
@@ -26,14 +26,14 @@ public sealed class EngineSupportTests
         var calls = new List<int>();
         EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
         EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
-        var cast = R.RebindDelegate<TNotifyEvent<TObject>>(first + second)!;
+        var cast = R.RebindDelegate<TNotifyEvent<object>>(first + second)!;
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
-        Assert.Throws<InvalidCastException>(() => cast(new TObject()));
+        Assert.Throws<InvalidCastException>(() => cast(new object()));
         EventDone nullable = value => Assert.Null(value);
-        R.RebindDelegate<TNotifyEvent<TObject>>(nullable)!(null!);
-        Assert.Null(R.RebindDelegate<TNotifyEvent<TObject>>(null));
-        Assert.Same(cast, R.RebindDelegate<TNotifyEvent<TObject>>(cast));
+        R.RebindDelegate<TNotifyEvent<object>>(nullable)!(null!);
+        Assert.Null(R.RebindDelegate<TNotifyEvent<object>>(null));
+        Assert.Same(cast, R.RebindDelegate<TNotifyEvent<object>>(cast));
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public sealed class EngineSupportTests
             Assert.Same(R.IntToObject(value), R.IntToObject(value));
             Assert.Equal(value, R.ObjectToInt(R.IntToObject(value)));
         }
-        var instance = new TObject();
+        var instance = new object();
         Assert.Equal(RuntimeHelpers.GetHashCode(instance), R.ObjectToInt(instance));
         Assert.Equal(0, R.ObjectToInt(null));
     }
@@ -84,7 +84,7 @@ public sealed class EngineSupportTests
     public void DelegateHalvesRemainDistinctFromFullDelegateEquality()
     {
         var a = new Receiver(); var b = new Receiver();
-        TNotifyEvent<TObject> first = a.Event, second = b.Event;
+        TNotifyEvent<object> first = a.Event, second = b.Event;
         Assert.Equal(R.MethodCode(first), R.MethodCode(second));
         Assert.NotSame(R.MethodTarget(first), R.MethodTarget(second));
         Assert.Null(R.MethodCode(null)); Assert.Null(R.MethodTarget(null));
@@ -130,7 +130,7 @@ public sealed class EngineSupportTests
             Assert.Equal(expected.Length, compressor.Write(expected));
             Assert.Equal(expected.Length, compressor.Seek(0, 1));
             Assert.Throws<IOException>(() => compressor.Seek(1, 0));
-            compressor.Destroy(); compressor.Destroy();
+            compressor.Dispose(); compressor.Dispose();
             Assert.True(backing.Size > 0);
             backing.Position = 0;
             var reader = new TDecompressionStream(backing);
@@ -138,7 +138,7 @@ public sealed class EngineSupportTests
             Assert.Equal(expected.Length, reader.Read(actual));
             Assert.Equal(expected, actual);
             Assert.Equal(0, reader.Read(actual));
-            reader.Destroy();
+            reader.Dispose();
             backing.Position = 0;
             Assert.True(backing.Read(actual.AsSpan(0, 1)) > 0);
         }

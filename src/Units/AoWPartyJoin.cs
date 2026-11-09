@@ -140,7 +140,7 @@ public partial class TPartyJoinDlg : TDataModule
     // AoWPartyJoin.pas:132
     public void PartyJoinDlgDestroy()
     {
-        FUnits.Free();
+        FUnits?.Dispose();
     }
 
     // AoWPartyJoin.pas:137

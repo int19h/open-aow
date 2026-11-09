@@ -19,7 +19,7 @@ public partial class TECopyComponent : TComponent
         objects = new TEObjectList();
     }
 
-    public override void Destroy() { objects.Free(); base.Destroy(); }
+    public override void Dispose() { objects?.Dispose(); base.Dispose(); }
 
     public IndexedProperty<int, TEObject> EObjects => new(i => objects.EObjects[i], (i, value) => objects.EObjects[i] = value);
     public int Count => objects.Count;

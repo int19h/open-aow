@@ -2,7 +2,8 @@ namespace Aow.Rtl;
 
 public delegate int TListSortCompare(object? left, object? right);
 
-public class TList : TObject
+[LegacyObject]
+public class TList : IDisposable
 {
     private object?[] items = [];
     private int count;
@@ -141,5 +142,10 @@ public class TList : TObject
     }
 
     // CLASSES.PAS TList.Destroy.
-    public override void Destroy() { Clear(); base.Destroy(); }
+    public virtual void Dispose() { Clear(); }
+
+    public TList()
+    {
+        CaptureAddress.Assign(this);
+    }
 }

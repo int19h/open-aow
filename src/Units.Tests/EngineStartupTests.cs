@@ -49,7 +49,7 @@ public sealed class EngineStartupTests
             {
                 if (args.Exception is Xunit.Sdk.XunitException) return;
                 string[] destroy = new StackTrace(args.Exception).GetFrames()
-                    .Where(x => x.GetMethod()?.Name == "Destroy")
+                    .Where(x => x.GetMethod()?.Name == "Dispose")
                     .Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray();
                 events.Add(fixture.Event("throw", args.Exception.GetType().FullName + ": " + fixture.Relative(args.Exception.Message), destroy));
             }
@@ -76,7 +76,7 @@ public sealed class EngineStartupTests
                     ["StateAtCaller"] = fixture.State(),
                     ["ObjectsAtCaller"] = Objects(engine),
                     ["DestroyExceptionFrames"] = caught is null ? null : JsonSerializer.SerializeToNode(new StackTrace(caught).GetFrames()
-                        .Where(x => x.GetMethod()?.Name == "Destroy").Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray())
+                        .Where(x => x.GetMethod()?.Name == "Dispose").Select(x => x.GetMethod()!.DeclaringType!.Name).ToArray())
                 };
                 if (route == "AoW")
                 {
@@ -96,7 +96,7 @@ public sealed class EngineStartupTests
                 if (value is not null)
                 {
                     events.Add(fixture.Event("Destroy.begin", value.GetType().Name));
-                    value.Destroy();
+                    value.Dispose();
                     events.Add(fixture.Event("Destroy.end", value.GetType().Name));
                     Assert.Equal(-1, Core.Engines.IndexOf(value));
                 }
@@ -125,18 +125,18 @@ public sealed class EngineStartupTests
         Assert.Equal(expected.Count, actual.Count);
     }
 
-    private static JsonObject Objects(TObject root)
+    private static JsonObject Objects(object root)
     {
         var result = new JsonObject();
-        var seen = new HashSet<TObject>(ReferenceEqualityComparer.Instance);
-        void Visit(TObject value, string path)
+        var seen = new HashSet<object>(ReferenceEqualityComparer.Instance);
+        void Visit(object value, string path)
         {
             if (!seen.Add(value)) return;
             result[path] = new JsonObject { ["Type"] = value.GetType().FullName };
             if (value.GetType().Name is "TIntegerHashTable256" or "TStringHashTable256")
             {
                 object buckets = value.GetType().GetField("FLists", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
-                TObject Bucket(int i) => buckets switch
+                object Bucket(int i) => buckets switch
                 {
                     Aow.Units.FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
                     Aow.Units.FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
@@ -144,21 +144,24 @@ public sealed class EngineStartupTests
                     Aow.Units.FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
                     _ => throw new InvalidOperationException("Unknown hash bucket layout")
                 };
-                var lists = new HashSet<TObject>(ReferenceEqualityComparer.Instance);
+                var lists = new HashSet<object>(ReferenceEqualityComparer.Instance);
                 for (int i = 0; i < 256; i++)
                 {
-                    TObject bucket = Bucket(i);
+                    object bucket = Bucket(i);
                     Assert.NotNull(bucket);
                     Assert.True(lists.Add(bucket), path + " bucket " + i + " repeats an earlier list");
                 }
             }
             if (value is TList list)
                 for (int i = 0; i < list.Count; i++)
-                    if (list[i] is TObject child) Visit(child, path + $"[{i}]");
-            for (Type? type = value.GetType(); type is not null && type != typeof(TObject); type = type.BaseType)
+                    if (list[i] is object child && IsLegacyObject(child)) Visit(child, path + $"[{i}]");
+            for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
                 foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
-                    if (field.Name != "FOwner" && field.GetValue(value) is TObject child)
+                {
+                    if (field.Name == "captureOrdinal") continue;
+                    if (field.Name != "FOwner" && field.GetValue(value) is object child && IsLegacyObject(child))
                         Visit(child, path + "." + field.Name);
+                }
         }
         Visit(root, "Engine");
         return result;
@@ -197,5 +200,8 @@ public sealed class EngineStartupTests
         }
         return result;
     }
+
+    private static bool IsLegacyObject(object? value) =>
+        value is not null && value.GetType().IsDefined(typeof(Aow.Rtl.LegacyObjectAttribute), true);
 
 }

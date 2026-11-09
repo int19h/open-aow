@@ -22,7 +22,7 @@ public partial class TBloodShrineAnimation : TAnimation
         base.NewFrame();
         if (FFrameCounter > 20)
         {
-            Destroy();
+            Dispose();
         }
     }
 

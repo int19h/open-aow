@@ -316,7 +316,7 @@ public partial class TGeneral : TDataModule
             L.FSized = false;
         }
 
-        Lists.Free();
+        Lists?.Dispose();
     }
 
     // AoWWinMan.pas:152
@@ -382,7 +382,7 @@ public partial class TGeneral : TDataModule
         FActiveAbilityCount = 0;
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
         {
-            ((TObject)FAbilities[I]).Free();
+            (FAbilities[I] as IDisposable)?.Dispose();
         }
 
         FAbilities.Clear();
@@ -499,10 +499,10 @@ public partial class TGeneral : TDataModule
     {
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
         {
-            ((TObject)FAbilities[I]).Free();
+            (FAbilities[I] as IDisposable)?.Dispose();
         }
 
-        FAbilities.Free();
+        FAbilities?.Dispose();
     }
 
     // AoWWinMan.pas:231

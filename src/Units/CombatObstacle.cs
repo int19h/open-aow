@@ -63,11 +63,11 @@ public partial class TCombatObstacle : TMultiHexMO
     public TCombatObstacleOverlay FOverlay;
 
     // CombatObstacle.pas:97
-    public override void Destroy()
+    public override void Dispose()
     {
         DestroyShadow();
         DestroyOverlay();
-        base.Destroy();
+        base.Dispose();
     }
 
     // CombatObstacle.pas:110
@@ -189,7 +189,7 @@ public partial class TCombatObstacle : TMultiHexMO
                 AoWCombatMap.DynamicVisibleHS.RemoveChild(FShadow);
             }
 
-            FShadow.Free();
+            FShadow?.Dispose();
             FShadow = null;
         }
     }
@@ -222,7 +222,7 @@ public partial class TCombatObstacle : TMultiHexMO
                 AoWCombatMap.DynamicVisibleHS.RemoveChild(FOverlay);
             }
 
-            FOverlay.Free();
+            FOverlay?.Dispose();
             FOverlay = null;
         }
     }
