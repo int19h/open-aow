@@ -272,7 +272,7 @@ public sealed class AsmStubsProbeTests
         int[] sizes = [1, 3, 13, 31, 32, 33];
         foreach (int count in sizes)
         {
-            var stream = new TMemoryStream();
+            var stream = new MemoryStream();
             var list = new TBitList();
             bool defaultValue = false;
             var data = new byte[64];
@@ -285,10 +285,10 @@ public sealed class AsmStubsProbeTests
             string tag = Dec(count);
             AddNum(lines, "Engine.TBitList.Load_count_" + tag, list.Count);
             AddNum(lines, "Engine.TBitList.Load_capacity_" + tag, list.Capacity);
-            AddNum(lines, "Engine.TBitList.Load_position_" + tag, stream.Position);
+            AddNum(lines, "Engine.TBitList.Load_position_" + tag, (int)stream.Position);
             stream.Clear();
             list.SaveToStream(stream);
-            AddNum(lines, "Engine.TBitList.Save_size_" + tag, stream.Size);
+            AddNum(lines, "Engine.TBitList.Save_size_" + tag, (int)stream.Length);
             stream.Position = 1;
             int saved = 0;
             stream.Read(ref saved, 4);

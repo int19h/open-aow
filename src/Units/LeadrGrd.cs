@@ -14,7 +14,7 @@ public partial class TLeaderGrid : TCustomImageDrawGrid
     public bool FShowLevel;
     public bool FReserved1DD;
     public bool FShowStatus;
-    public TMemoryStream FStream;
+    public MemoryStream FStream;
     public TAoWHSMap FMap;
 
     // LeadrGrd.pas:111
@@ -33,7 +33,7 @@ public partial class TLeaderGrid : TCustomImageDrawGrid
         DefaultRowHeight = 56;
         GrowDirection = TILGrowDirection.ilVertical;
         ScrollBars = TScrollStyle.ssVertical;
-        FStream = new TMemoryStream();
+        FStream = new MemoryStream();
     }
 
     // LeadrGrd.pas:166

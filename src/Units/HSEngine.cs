@@ -1890,7 +1890,7 @@ public partial class THSEngine : TEngine
             try
             {
                 Stream.LoadImage(Image);
-                Stream.Read(Bytes.Of(ref Header, 16));
+                Stream.ReadBytes(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
@@ -1951,7 +1951,7 @@ public partial class THSEngine : TEngine
             try
             {
                 Stream.LoadImage(Image);
-                Stream.Read(Bytes.Of(ref Header, 16));
+                Stream.ReadBytes(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
@@ -2004,7 +2004,7 @@ public partial class THSEngine : TEngine
             {
                 Stream.Write(Bytes.Of(ref Header, 16));
                 WriteEObject(Stream, FHSMap, AProgress);
-                FileBoundary.Save(FileName, Profile, Stream.Memory.AsSpan(0, Stream.Size).ToArray());
+                FileBoundary.Save(FileName, Profile, Stream.GetBuffer().AsSpan(0, (int)Stream.Length).ToArray());
             }
             finally
             {
@@ -2094,7 +2094,7 @@ public partial class THSEngine : TEngine
     // The preflight raises before the current set is cleared (own-formats.md 2.7).
     public void LoadHSS(string FileName, bool Edit, Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
-        TMemoryStream Mem;
+        MemoryStream Mem;
         THSSHeader Header = default;
         TEMsg Msg = default;
         int CRC;
@@ -2107,13 +2107,13 @@ public partial class THSEngine : TEngine
         {
             Mem.Read(Bytes.Of(ref Header, 52));
             Mem.Position = Header.Size;
-            var size = Mem.Size;
-            CRC = MemoryMarshal.Read<int>(Mem.Memory.AsSpan(size - 4, 4));
+            var size = (int)Mem.Length;
+            CRC = MemoryMarshal.Read<int>(Mem.GetBuffer().AsSpan(size - 4, 4));
             bool condition = Header.ID != "HSS\0";
             if (!condition)
             {
-                var memSize = Mem.Size;
-                condition = CRC != GetCRC32(Mem.Memory, memSize - 4);
+                var memSize = (int)Mem.Length;
+                condition = CRC != GetCRC32(Mem.GetBuffer(), memSize - 4);
             }
 
             if (condition)
@@ -2138,7 +2138,7 @@ public partial class THSEngine : TEngine
     // HSEngine.pas:5060
     public void SaveHSS(string FileName, Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
-        TMemoryStream Mem;
+        MemoryStream Mem;
         int CRC = default;
         THSSHeader Header = default;
         if (FHSSet != null)
@@ -2148,15 +2148,15 @@ public partial class THSEngine : TEngine
             Header.ID = "HSS\0";
             FHSSFileName = ExpandFileName(FileName);
             FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSS);
-            Mem = new TMemoryStream();
+            Mem = new MemoryStream();
             try
             {
                 Mem.Write(Bytes.Of(ref Header, 52));
                 WriteEObject(Mem, FHSSet, AProgress);
-                var size = Mem.Size;
-                CRC = GetCRC32(Mem.Memory, size);
+                var size = (int)Mem.Length;
+                CRC = GetCRC32(Mem.GetBuffer(), size);
                 Mem.Write(Bytes.Of(ref CRC, 4));
-                FileBoundary.Save(FHSSFileName, Profile, Mem.Memory.AsSpan(0, Mem.Size).ToArray());
+                FileBoundary.Save(FHSSFileName, Profile, Mem.GetBuffer().AsSpan(0, (int)Mem.Length).ToArray());
             }
             finally
             {
@@ -2189,7 +2189,7 @@ public partial class THSEngine : TEngine
             try
             {
                 Stream.LoadImage(Image);
-                Stream.Read(Bytes.Of(ref Header, 16));
+                Stream.ReadBytes(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
@@ -2242,7 +2242,7 @@ public partial class THSEngine : TEngine
             try
             {
                 Stream.LoadImage(Image);
-                Stream.Read(Bytes.Of(ref Header, 16));
+                Stream.ReadBytes(Bytes.Of(ref Header, 16));
                 Stream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
@@ -2284,7 +2284,7 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5251
-    public void LoadHSMfromStream(TStream Stream, bool Edit, Engine.TProgressEvent AProgress)
+    public void LoadHSMfromStream(Stream Stream, bool Edit, Engine.TProgressEvent AProgress)
     {
         TCompressStream CStream;
         THSMHeader Header = default;
@@ -2300,7 +2300,7 @@ public partial class THSEngine : TEngine
             try
             {
                 CStream.LoadFromStream(Stream);
-                CStream.Read(Bytes.Of(ref Header, 16));
+                CStream.ReadBytes(Bytes.Of(ref Header, 16));
                 CStream.Position = Header.Size;
                 if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, HSEngineUnit.HSMID))
                 {
@@ -2339,7 +2339,7 @@ public partial class THSEngine : TEngine
     }
 
     // HSEngine.pas:5316
-    public void SaveHSMtoStream(TStream Stream, Engine.TProgressEvent AProgress)
+    public void SaveHSMtoStream(Stream Stream, Engine.TProgressEvent AProgress)
     {
         TCompressStream CStream;
         THSMHeader Header;
@@ -4215,15 +4215,15 @@ public partial class TTerrainList : IDisposable
     }
 
     // HSEngine.pas:1562
-    public virtual void LoadFromStream(TStream Stream)
+    public virtual void LoadFromStream(Stream Stream)
     {
-        Stream.Read(Bytes.Of(ref FCount, 4));
+        Stream.ReadBytes(Bytes.Of(ref FCount, 4));
         SetCount(FCount);
-        Stream.Read(FList.AsSpan(0, FCount * 2));
+        Stream.ReadBytes(FList.AsSpan(0, FCount * 2));
     }
 
     // HSEngine.pas:1569
-    public virtual void SaveToStream(TStream Stream)
+    public virtual void SaveToStream(Stream Stream)
     {
         Pack();
         Stream.Write(Bytes.Of(ref FCount, 4));
@@ -7856,21 +7856,21 @@ public partial class TXYLList : TPersistent
     public bool Compare(TXYLList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
     // HSEngine.pas:1828
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int Count = default;
         int Run = default;
         TXYL Item = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 4));
-        Stream.Read(Bytes.Of(ref Count, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 4));
+        Stream.ReadBytes(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (Count != FCount)
         {
-            Stream.Read(Bytes.Of(ref Item, 4));
+            Stream.ReadBytes(Bytes.Of(ref Item, 4));
             if (Unsafe.As<TXYL, int>(ref Item) == Unsafe.As<TXYL, int>(ref FDefault))
             {
-                Stream.Read(Bytes.Of(ref Run, 4));
+                Stream.ReadBytes(Bytes.Of(ref Run, 4));
                 SetCount(FCount + Run);
             }
             else
@@ -7881,7 +7881,7 @@ public partial class TXYLList : TPersistent
     }
 
     // HSEngine.pas:1850
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int I;
         int Run = default;

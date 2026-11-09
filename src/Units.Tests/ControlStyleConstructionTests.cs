@@ -332,7 +332,7 @@ public sealed class ControlStyleConstructionTests
     }
 
     // An exact-read stream makes a short binary read fail at the truncated payload.
-    private sealed class TruncatedStream : TMemoryStream
+    private sealed class TruncatedStream : MemoryStream
     {
         public override int Read(Span<byte> buffer)
         {
@@ -364,7 +364,7 @@ public sealed class ControlStyleConstructionTests
             var writer = new TEWriteStorageStream(stream, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
             writer.Dispose();
-            stream.Size--;
+            stream.SetLength(stream.Length - 1);
             stream.Position = 0;
             var reader = new TEReadStorageStream(stream, engine, false);
             string message = "";
@@ -393,7 +393,7 @@ public sealed class ControlStyleConstructionTests
     }
 
     // A child read that fails with an empty message is reported as the stream default.
-    private sealed class EmptyMessageStream : TMemoryStream
+    private sealed class EmptyMessageStream : MemoryStream
     {
         public override int Read(Span<byte> buffer)
         {
@@ -418,7 +418,7 @@ public sealed class ControlStyleConstructionTests
             var writer = new TEWriteStorageStream(stream, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
             writer.Dispose();
-            stream.Size--;
+            stream.SetLength(stream.Length - 1);
             stream.Position = 0;
             var reader = new TEReadStorageStream(stream, engine, false);
             string message = "";

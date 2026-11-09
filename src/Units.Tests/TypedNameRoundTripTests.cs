@@ -32,7 +32,7 @@ public sealed class TypedNameRoundTripTests
             Assert.True(saved.AsSpan().IndexOf(Cp1252.Encode(typed)) > 0, "the saved bytes hold the typed name");
 
             loaded = new TLeader(null!);
-            using (var memory = new TMemoryStream())
+            using (var memory = new MemoryStream())
             {
                 memory.Write(saved);
                 memory.Position = 0;
@@ -54,9 +54,9 @@ public sealed class TypedNameRoundTripTests
 
     private static byte[] Save(TLeader leader)
     {
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         using (var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false)) { leader.ReadWrite(writer); }
-        return memory.Memory[..memory.Size];
+        return memory.ToArray();
     }
 
     private sealed class Keyboard(TAOWEdit edit) : IDisplayEvents

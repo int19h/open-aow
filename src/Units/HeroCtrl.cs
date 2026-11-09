@@ -17,7 +17,7 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
     public bool FReservedDisplay;
     public bool FShowStatus;
     public bool FUnplacedOnly;
-    public TMemoryStream FStream;
+    public MemoryStream FStream;
     public TAoWHSMap FMap;
     public byte FSort;
     public TNotifyEvent<object> FOnUnselect;
@@ -39,7 +39,7 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
         GrowDirection = TILGrowDirection.ilVertical;
         ScrollBars = TScrollStyle.ssVertical;
         FIndices = new TIntegerList();
-        FStream = new TMemoryStream();
+        FStream = new MemoryStream();
         FSort = 0;
     }
 

@@ -298,7 +298,7 @@ public sealed class GraphicsConstructionTests
         Span<byte> bytes = stackalloc byte[6];
         Assert.Equal(6, stream.Read(bytes));
         Assert.Equal("# Rule", System.Text.Encoding.UTF8.GetString(bytes));
-        Assert.Equal(0, stream.Seek(0, 0));
+        Assert.Equal(0L, stream.Seek(0, SeekOrigin.Begin));
         stream.Dispose();
         Assert.Throws<FileNotFoundException>(() => new TFastLoadFileStream(path + ".absent"));
     }

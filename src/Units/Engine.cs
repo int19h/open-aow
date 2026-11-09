@@ -1,4 +1,5 @@
 // Translated from Engine.pas.
+using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -408,21 +409,21 @@ public partial class TIntegerList : TPersistent
     public bool Compare(TIntegerList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
     // Engine.pas:3478
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int Count = default;
         int Item = default;
         int Run = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 4));
-        Stream.Read(Bytes.Of(ref Count, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 4));
+        Stream.ReadBytes(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (Count != FCount)
         {
-            Stream.Read(Bytes.Of(ref Item, 4));
+            Stream.ReadBytes(Bytes.Of(ref Item, 4));
             if (Item == FDefault)
             {
-                Stream.Read(Bytes.Of(ref Run, 4));
+                Stream.ReadBytes(Bytes.Of(ref Run, 4));
                 SetCount(FCount + Run);
             }
             else
@@ -433,7 +434,7 @@ public partial class TIntegerList : TPersistent
     }
 
     // Engine.pas:3499
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int I;
         int Run = default;
@@ -877,21 +878,21 @@ public partial class TByteList : TPersistent
     public bool Compare(TByteList List) => List.FCount == FCount && CompareMem(FList.AsSpan(0, FCount * 1), List.FList.AsSpan(0, FCount * 1), FCount * 1);
 
     // Engine.pas:3813
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         byte Item = default;
         byte Run = default;
         int Count = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 1));
-        Stream.Read(Bytes.Of(ref Count, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 1));
+        Stream.ReadBytes(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.Read(Bytes.Of(ref Item, 1));
+            Stream.ReadBytes(Bytes.Of(ref Item, 1));
             if (Item == FDefault)
             {
-                Stream.Read(Bytes.Of(ref Run, 1));
+                Stream.ReadBytes(Bytes.Of(ref Run, 1));
                 SetCount(FCount + Run);
             }
             else
@@ -902,7 +903,7 @@ public partial class TByteList : TPersistent
     }
 
     // Engine.pas:3835
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int I;
         int Run;
@@ -1300,21 +1301,21 @@ public partial class TShortIntList : TPersistent
     public bool Compare(TShortIntList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount * 1)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount * 1)), FCount * 1);
 
     // Engine.pas:4160
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         byte Run = default;
         sbyte Item = default;
         int Count = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 1));
-        Stream.Read(Bytes.Of(ref Count, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 1));
+        Stream.ReadBytes(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.Read(Bytes.Of(ref Item, 1));
+            Stream.ReadBytes(Bytes.Of(ref Item, 1));
             if (Item == FDefault)
             {
-                Stream.Read(Bytes.Of(ref Run, 1));
+                Stream.ReadBytes(Bytes.Of(ref Run, 1));
                 SetCount(FCount + Run);
             }
             else
@@ -1325,7 +1326,7 @@ public partial class TShortIntList : TPersistent
     }
 
     // Engine.pas:4183
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int I;
         int Run;
@@ -1722,21 +1723,21 @@ public partial class TWordList : TPersistent
     public bool Compare(TWordList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 2);
 
     // Engine.pas:4471
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         ushort Item = default;
         ushort Run = default;
         int Count = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 2));
-        Stream.Read(Bytes.Of(ref Count, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 2));
+        Stream.ReadBytes(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.Read(Bytes.Of(ref Item, 2));
+            Stream.ReadBytes(Bytes.Of(ref Item, 2));
             if (Item == FDefault)
             {
-                Stream.Read(Bytes.Of(ref Run, 2));
+                Stream.ReadBytes(Bytes.Of(ref Run, 2));
                 SetCount(FCount + Run);
             }
             else
@@ -1747,7 +1748,7 @@ public partial class TWordList : TPersistent
     }
 
     // Engine.pas:4493
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int I;
         int Run;
@@ -2195,17 +2196,17 @@ public partial class TBitList : TPersistent
     public bool Compare(TBitList List) => List.FCount == FCount && CompareMem(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), List.FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
 
     // Engine.pas:4782
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 1));
-        Stream.Read(Bytes.Of(ref FCount, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 1));
+        Stream.ReadBytes(Bytes.Of(ref FCount, 4));
         SetCapacity(FCount);
-        Stream.Read(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)));
+        Stream.ReadBytes(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)));
     }
 
     // Engine.pas:4791
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         Stream.Write(Bytes.Of(ref FDefault, 1));
         Stream.Write(Bytes.Of(ref FCount, 4));
@@ -2920,21 +2921,21 @@ public partial class TDoubleItemList : TPersistent
     public bool Compare(TDoubleItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 8);
 
     // Engine.pas:5334
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         TDoubleItem Item = default;
         int Run = default;
         int Count = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 8));
-        Stream.Read(Bytes.Of(ref Count, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 8));
+        Stream.ReadBytes(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.Read(Bytes.Of(ref Item, 8));
+            Stream.ReadBytes(Bytes.Of(ref Item, 8));
             if ((double)Unsafe.As<TDoubleItem, long>(ref Item) == Unsafe.As<TDoubleItem, long>(ref FDefault))
             {
-                Stream.Read(Bytes.Of(ref Run, 4));
+                Stream.ReadBytes(Bytes.Of(ref Run, 4));
                 SetCount(FCount + Run);
             }
             else
@@ -2945,7 +2946,7 @@ public partial class TDoubleItemList : TPersistent
     }
 
     // Engine.pas:5356
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int I;
         int Run = default;
@@ -3523,21 +3524,21 @@ public partial class TQuadItemList : TPersistent
     public bool Compare(TQuadItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 16);
 
     // Engine.pas:5784
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int Run = default;
         int Count = default;
         TQuadInteger Item = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefault, 16));
-        Stream.Read(Bytes.Of(ref Count, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefault, 16));
+        Stream.ReadBytes(Bytes.Of(ref Count, 4));
         SetCapacity(Count);
         while (FCount < Count)
         {
-            Stream.Read(Bytes.Of(ref Item, 16));
+            Stream.ReadBytes(Bytes.Of(ref Item, 16));
             if (Item.A == FDefault.A && Item.B == FDefault.B && Item.C == FDefault.C && Item.D == FDefault.D)
             {
-                Stream.Read(Bytes.Of(ref Run, 4));
+                Stream.ReadBytes(Bytes.Of(ref Run, 4));
                 SetCount(FCount + Run);
             }
             else
@@ -3548,7 +3549,7 @@ public partial class TQuadItemList : TPersistent
     }
 
     // Engine.pas:5807
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int I;
         int Run = default;
@@ -4160,18 +4161,18 @@ public partial class TPropertyTable : IDisposable
     }
 
     // Engine.pas:2361
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int LongCount = default;
         int ID = default;
         int Offset = default;
         byte ShortCount = default;
         ushort Pair = default;
-        Stream.Read(Bytes.Of(ref ShortCount, 1));
+        Stream.ReadBytes(Bytes.Of(ref ShortCount, 1));
         if ((ShortCount & 128) != 0)
         {
             ShortCount = (byte)(ShortCount & 127);
-            Stream.Read(Bytes.Of(ref LongCount, 4));
+            Stream.ReadBytes(Bytes.Of(ref LongCount, 4));
         }
         else
         {
@@ -4182,7 +4183,7 @@ public partial class TPropertyTable : IDisposable
         {
             for (int ordinal = 0, last = ShortCount - 1; ordinal <= last; ordinal++)
             {
-                Stream.Read(Bytes.Of(ref Pair, 2));
+                Stream.ReadBytes(Bytes.Of(ref Pair, 2));
                 Add(Pair & 255, (int)(((uint)Pair) >> 8));
             }
         }
@@ -4191,15 +4192,15 @@ public partial class TPropertyTable : IDisposable
         {
             for (int ordinal = 0, last = LongCount - 1; ordinal <= last; ordinal++)
             {
-                Stream.Read(Bytes.Of(ref ID, 4));
-                Stream.Read(Bytes.Of(ref Offset, 4));
+                Stream.ReadBytes(Bytes.Of(ref ID, 4));
+                Stream.ReadBytes(Bytes.Of(ref Offset, 4));
                 Add(ID, Offset);
             }
         }
     }
 
     // Engine.pas:2391
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         int LongCount;
         byte ShortCount;
@@ -4424,25 +4425,25 @@ public partial class TEObject : IDisposable, IPersistable
     // Engine.pas:2511
     public virtual bool Compare(TEObject Obj, TEngine AEngine)
     {
-        TMemoryStream S1;
-        TMemoryStream S2;
+        MemoryStream S1;
+        MemoryStream S2;
         bool Result = false;
         if (EClass.ClassID != Obj.EClass.ClassID)
         {
             return Result;
         }
 
-        S1 = new TMemoryStream();
-        S2 = new TMemoryStream();
+        S1 = new MemoryStream();
+        S2 = new MemoryStream();
         try
         {
             AEngine.WriteEObject(S1, this, null);
             AEngine.WriteEObject(S2, Obj, null);
-            bool condition = S1.Size == S2.Size;
+            bool condition = S1.Length == S2.Length;
             if (condition)
             {
-                var size = S1.Size;
-                condition = CompareMem(S1.Memory.AsSpan(0, size), S2.Memory.AsSpan(0, size), size);
+                var size = (int)S1.Length;
+                condition = CompareMem(S1.GetBuffer().AsSpan(0, size), S2.GetBuffer().AsSpan(0, size), size);
             }
 
             Result = condition;
@@ -4481,8 +4482,8 @@ public partial class TEObject : IDisposable, IPersistable
     // Engine.pas:2529
     public virtual void Assign(TEObject Source, TEngine AEngine)
     {
-        TMemoryStream S;
-        S = new TMemoryStream();
+        MemoryStream S;
+        S = new MemoryStream();
         try
         {
             AEngine.WriteEObject(S, Source, null);
@@ -4534,8 +4535,8 @@ public partial class TEObject : IDisposable, IPersistable
     public TEObject Copy(TEngine AEngine)
     {
         TEObject Result = default;
-        TMemoryStream S;
-        S = new TMemoryStream();
+        MemoryStream S;
+        S = new MemoryStream();
         try
         {
             AEngine.WriteEObject(S, this, null);
@@ -5135,7 +5136,7 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8895
-    public void WriteEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
+    public void WriteEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
     {
         TEStorageStream S;
         S = new TEWriteStorageStream(Stream, this, false);
@@ -5151,7 +5152,7 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8908
-    public void ReadEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
+    public void ReadEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
     {
         TEStorageStream S;
         S = new TEReadStorageStream(Stream, this, false);
@@ -5167,7 +5168,7 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8921
-    public void WritePreviewEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
+    public void WritePreviewEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
     {
         TEStorageStream S;
         S = new TEWriteStorageStream(Stream, this, true);
@@ -5183,7 +5184,7 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8934
-    public void ReadPreviewEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
+    public void ReadPreviewEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
     {
         TEStorageStream S;
         S = new TEReadStorageStream(Stream, this, true);
@@ -5199,7 +5200,7 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8947
-    public void StoreEObject(TStream Stream, TEObject Obj, TProgressEvent AProgress)
+    public void StoreEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
     {
         TEStorageStream S;
         S = new TEWriteStorageStream(Stream, this, false);
@@ -5215,7 +5216,7 @@ public partial class TEngine : TENode
     }
 
     // Engine.pas:8960
-    public TEObject RetrieveEObject(TStream Stream, TProgressEvent AProgress)
+    public TEObject RetrieveEObject(Stream Stream, TProgressEvent AProgress)
     {
         TEObject Result = default;
         TEStorageStream S;
@@ -5245,7 +5246,7 @@ public partial class TEngine : TENode
     public TEObject RetrieveFromImage(byte[] Image, TProgressEvent AProgress)
     {
         TEObject Result = default;
-        TMemoryStream M;
+        MemoryStream M;
         M = ImageStream(Image);
         try
         {
@@ -5264,12 +5265,12 @@ public partial class TEngine : TENode
     // file only after the whole document is serialized.
     public void StoreInFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
-        TMemoryStream M;
-        M = new TMemoryStream();
+        MemoryStream M;
+        M = new MemoryStream();
         try
         {
             StoreEObject(M, Obj, AProgress);
-            FileBoundary.Save(FileName, Profile, M.Memory.AsSpan(0, M.Size).ToArray());
+            FileBoundary.Save(FileName, Profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray());
         }
         finally
         {
@@ -5278,9 +5279,9 @@ public partial class TEngine : TENode
     }
 
     // An engine image in a memory stream at position 0, for the routines that read it.
-    public static TMemoryStream ImageStream(byte[] Image)
+    public static MemoryStream ImageStream(byte[] Image)
     {
-        TMemoryStream M = new TMemoryStream();
+        MemoryStream M = new MemoryStream();
         M.WriteBuffer(Image);
         M.Position = 0;
         return M;
@@ -5290,12 +5291,12 @@ public partial class TEngine : TENode
     // three-argument form below stays the original byte path of the excluded PFS callers.
     public void WriteToFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
-        TMemoryStream M;
-        M = new TMemoryStream();
+        MemoryStream M;
+        M = new MemoryStream();
         try
         {
             WriteEObject(M, Obj, AProgress);
-            FileBoundary.Save(FileName, Profile, M.Memory.AsSpan(0, M.Size).ToArray());
+            FileBoundary.Save(FileName, Profile, M.GetBuffer().AsSpan(0, (int)M.Length).ToArray());
         }
         finally
         {
@@ -5306,7 +5307,7 @@ public partial class TEngine : TENode
     // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
     public void ReadFromFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
     {
-        TMemoryStream M;
+        MemoryStream M;
         M = ImageStream(FileBoundary.LoadOrRaise(FileName, Profile));
         try
         {
@@ -5321,17 +5322,17 @@ public partial class TEngine : TENode
     // Engine.pas:8997
     public void WriteToFile(string FileName, TEObject Obj, TProgressEvent AProgress)
     {
-        TMemoryStream M;
-        TFileStream F = default;
-        M = new TMemoryStream();
+        MemoryStream M;
+        Stream F = default;
+        M = new MemoryStream();
         try
         {
             WriteEObject(M, Obj, AProgress);
-            F = new TFileStream(FileName, 65535);
+            F = OpenFile(FileName, 65535);
             try
             {
                 M.Position = 0;
-                F.CopyFrom(M, M.Size);
+                F.CopyFrom(M, (int)M.Length);
             }
             finally
             {
@@ -5347,10 +5348,10 @@ public partial class TEngine : TENode
     // Engine.pas:9017
     public void ReadFromFile(string FileName, TEObject Obj, TProgressEvent AProgress)
     {
-        TMemoryStream M;
-        TFileStream F;
-        M = new TMemoryStream();
-        F = new TFileStream(FileName, 0 | 32);
+        MemoryStream M;
+        Stream F;
+        M = new MemoryStream();
+        F = OpenFile(FileName, 0 | 32);
         try
         {
             M.LoadFromStream(F);
@@ -5376,23 +5377,23 @@ public partial class TEngine : TENode
     {
         int CRC1 = default;
         int CRC2 = default;
-        TMemoryStream M;
-        TFileStream F = default;
-        M = new TMemoryStream();
+        MemoryStream M;
+        Stream F = default;
+        M = new MemoryStream();
         try
         {
             WriteEObject(M, Obj, AProgress);
-            var size = M.Size;
-            CRC1 = EngineUnit.GetCRC32(M.Memory, size);
+            var size = (int)M.Length;
+            CRC1 = EngineUnit.GetCRC32(M.GetBuffer(), size);
             M.Write(Bytes.Of(ref CRC1, 4));
-            var mSize = M.Size;
-            CRC2 = EngineUnit.GetCRC32(M.Memory, mSize);
-            F = new TFileStream(FileName, 65535);
+            var mSize = (int)M.Length;
+            CRC2 = EngineUnit.GetCRC32(M.GetBuffer(), mSize);
+            F = OpenFile(FileName, 65535);
             try
             {
                 F.Write(Bytes.Of(ref CRC2, 4));
-                var size2 = M.Size;
-                F.Write(M.Memory.AsSpan(0, size2));
+                var size2 = (int)M.Length;
+                F.Write(M.GetBuffer().AsSpan(0, size2));
             }
             finally
             {
@@ -5408,28 +5409,28 @@ public partial class TEngine : TENode
     // Engine.pas:9061
     public bool ReadFromFileCRC(string FileName, TEObject Obj, TProgressEvent AProgress)
     {
-        TMemoryStream M;
-        TFileStream F;
+        MemoryStream M;
+        Stream F;
         int CRC2;
         int CRC1;
         bool Result = false;
-        M = new TMemoryStream();
-        F = new TFileStream(FileName, 0 | 32);
+        M = new MemoryStream();
+        F = OpenFile(FileName, 0 | 32);
         try
         {
             M.LoadFromStream(F);
             M.Position = 0;
-            if (M.Size > 8)
+            if (M.Length > 8)
             {
-                CRC1 = MemoryMarshal.Read<int>(M.Memory.AsSpan(0, 4));
-                var size = M.Size;
-                CRC2 = MemoryMarshal.Read<int>(M.Memory.AsSpan(size - 4, 4));
-                var mSize = M.Size;
-                bool condition = CRC1 == EngineUnit.GetCRC32(M.Memory.AsSpan(4), mSize - 4);
+                CRC1 = MemoryMarshal.Read<int>(M.GetBuffer().AsSpan(0, 4));
+                var size = (int)M.Length;
+                CRC2 = MemoryMarshal.Read<int>(M.GetBuffer().AsSpan(size - 4, 4));
+                var mSize = (int)M.Length;
+                bool condition = CRC1 == EngineUnit.GetCRC32(M.GetBuffer().AsSpan(4), mSize - 4);
                 if (condition)
                 {
-                    var size2 = M.Size;
-                    condition = CRC2 == EngineUnit.GetCRC32(M.Memory.AsSpan(4), size2 - 8);
+                    var size2 = (int)M.Length;
+                    condition = CRC2 == EngineUnit.GetCRC32(M.GetBuffer().AsSpan(4), size2 - 8);
                 }
 
                 if (condition)
@@ -5453,8 +5454,8 @@ public partial class TEngine : TENode
     public void ReadTextFromFile(string FileName, TEObject Obj)
     {
         TEStorageStream S;
-        TFileStream F;
-        F = new TFileStream(FileName, 0 | 32);
+        Stream F;
+        F = OpenFile(FileName, 0 | 32);
         try
         {
             S = new TEReadTextStorageStream(F, this, 0);
@@ -5477,8 +5478,8 @@ public partial class TEngine : TENode
     public void WriteTextToFile(string FileName, TEObject Obj)
     {
         TEStorageStream S;
-        TFileStream F;
-        F = new TFileStream(FileName, 65535);
+        Stream F;
+        F = OpenFile(FileName, 65535);
         try
         {
             S = new TEWriteTextStorageStream(F, this);
@@ -5529,7 +5530,7 @@ public partial class TEStorageStream : IDisposable
 {
 
     internal TEngine FEngine;
-    internal TStream FStream;
+    internal Stream FStream;
     internal bool FErrorHandled;
     internal TPropertyTable FPropertyTable;
     internal TStorageStreamError FOnError;
@@ -5542,7 +5543,7 @@ public partial class TEStorageStream : IDisposable
     }
 
     // Engine.pas:9502
-    public virtual TStream OpenPropertyStream(int ID) => null;
+    public virtual Stream OpenPropertyStream(int ID) => null;
 
     // Engine.pas:1186
     public virtual void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
@@ -5639,7 +5640,7 @@ public partial class TEStorageStream : IDisposable
     }
 
     // Engine.pas:9489
-    public TEStorageStream(TStream AStream, TEngine AEngine)
+    public TEStorageStream(Stream AStream, TEngine AEngine)
     {
         CaptureAddress.Assign(this);
         FEngine = AEngine;
@@ -5657,7 +5658,7 @@ public partial class TEStorageStream : IDisposable
     }
 
     public TEngine Engine { get => FEngine; }
-    public TStream Stream { get => FStream; }
+    public Stream Stream { get => FStream; }
     public TPropertyTable PropertyTable { get => FPropertyTable; }
     public TStorageStreamError OnError { get => FOnError; set => FOnError = value; }
     public TProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
@@ -5868,22 +5869,28 @@ public enum TCompressLevel : byte
     cpMax = 3
 }
 
-public partial class TCompressStream : TMemoryStream
+[LegacyObject]
+public partial class TCompressStream : MemoryStream
 {
+    public TCompressStream()
+    {
+        CaptureAddress.Assign(this);
+    }
+
     // Engine.pas:1715
-    public new void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         bool Compressed = default;
         FixedArray_byte_4 Magic = default;
-        TDecompressionStream D;
+        ZLibStream D;
         byte[] Buffer;
         int Count;
-        Stream.Read(((Span<byte>)Magic).Slice(0, 4));
-        Stream.Read(Bytes.Of(ref Compressed, 1));
+        Stream.ReadBytes(((Span<byte>)Magic).Slice(0, 4));
+        Stream.ReadBytes(Bytes.Of(ref Compressed, 1));
         if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, EngineUnit.CompressMagic))
         {
             Compressed = false;
-            Stream.Seek(0, 0);
+            Stream.Seek(0, SeekOrigin.Begin);
         }
 
         if (Compressed)
@@ -5891,7 +5898,7 @@ public partial class TCompressStream : TMemoryStream
             Buffer = default;
             Count = -1;
             Array.Resize(ref Buffer, 8096);
-            D = new TDecompressionStream(Stream);
+            D = new ZLibStream(Stream, CompressionMode.Decompress, true);
             try
             {
                 while (Count != 0)
@@ -5911,29 +5918,29 @@ public partial class TCompressStream : TMemoryStream
         }
         else
         {
-            CopyFrom(Stream, Stream.Size - Stream.Position);
+            this.CopyFrom(Stream, (int)(Stream.Length - Stream.Position));
         }
 
         Position = 0;
     }
 
     // Engine.pas:1752
-    public int SaveToStreamEx(TStream Stream, TCompressLevel Level)
+    public int SaveToStreamEx(Stream Stream, TCompressLevel Level)
     {
-        TCompressionStream C;
+        ZLibStream C;
         int StartSize;
         Position = 0;
         int Result = 100;
-        StartSize = Stream.Size;
+        StartSize = (int)Stream.Length;
         Stream.Write(((ReadOnlySpan<byte>)EngineUnit.CompressMagic).Slice(0, 4));
         Stream.Write(Bytes.Of(ref Level, 1));
         if (Level != TCompressLevel.cpNone)
         {
-            C = new TCompressionStream(TCompressionStream.CompressionLevelOf((byte)Level), Stream);
+            C = new ZLibStream(Stream, ZLibLevels.ForByte((byte)Level), true);
             try
             {
                 C.CopyFrom(this, 0);
-                Result = Round((double)((double)1 - (double)(Stream.Size - StartSize) / Size) * 100);
+                Result = Round((double)((double)1 - (double)(Stream.Length - StartSize) / Length) * 100);
             }
             finally
             {
@@ -5949,7 +5956,7 @@ public partial class TCompressStream : TMemoryStream
     }
 
     // Engine.pas:1776
-    public new void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         SaveToStreamEx(Stream, TCompressLevel.cpDefault);
     }
@@ -5958,8 +5965,8 @@ public partial class TCompressStream : TMemoryStream
     public int SaveToFileEx(string FileName, TCompressLevel Level)
     {
         int Result = default;
-        TFileStream F;
-        F = new TFileStream(FileName, 65535);
+        Stream F;
+        F = OpenFile(FileName, 65535);
         try
         {
             Result = SaveToStreamEx(F, Level);
@@ -5973,10 +5980,10 @@ public partial class TCompressStream : TMemoryStream
     }
 
     // Engine.pas:1793
-    public new void SaveToFile(string FileName)
+    public void SaveToFile(string FileName)
     {
-        TFileStream F;
-        F = new TFileStream(FileName, 65535);
+        Stream F;
+        F = OpenFile(FileName, 65535);
         try
         {
             SaveToStreamEx(F, TCompressLevel.cpDefault);
@@ -5995,10 +6002,10 @@ public partial class TCompressStream : TMemoryStream
     }
 
     // Engine.pas:1805
-    public new void LoadFromFile(string FileName)
+    public void LoadFromFile(string FileName)
     {
-        TFileStream F;
-        F = new TFileStream(FileName, 0 | 32);
+        Stream F;
+        F = OpenFile(FileName, 0 | 32);
         try
         {
             LoadFromStream(F);
@@ -10627,7 +10634,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
         {
             if (FSize < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
             byte[] buffer = new byte[FSize];
-            FStream.Read(buffer);
+            FStream.ReadBytes(buffer);
             Text.Clear();
             ReadOnlySpan<byte> text = buffer;
             if (!text.IsEmpty)
@@ -10745,12 +10752,12 @@ public partial class TEReadTextStorageStream : TEStorageStream
     }
 
     // Engine.pas:10611
-    public TEReadTextStorageStream(TStream AStream, TEngine AEngine, int ASize) : base(AStream, AEngine)
+    public TEReadTextStorageStream(Stream AStream, TEngine AEngine, int ASize) : base(AStream, AEngine)
     {
         FPath = "";
         if (ASize <= 0)
         {
-            FSize = FStream.Size - FStream.Position;
+            FSize = (int)(FStream.Length - FStream.Position);
         }
         else
         {
@@ -10912,10 +10919,10 @@ public partial class TEWriteTextStorageStream : TEStorageStream
     protected internal TEBufferStream FBuffer;
 
     // Engine.pas:10355
-    internal void WriteTextBuffer(TStream Stream)
+    internal void WriteTextBuffer(Stream Stream)
     {
         string S;
-        if (FPropertyTable.Count != 0 && FBuffer.Size != 0)
+        if (FPropertyTable.Count != 0 && FBuffer.Length != 0)
         {
             S = "[:" + FPath + ":]" + "\r" + "\n";
             if (!IsEmpty(FPath))
@@ -10929,7 +10936,7 @@ public partial class TEWriteTextStorageStream : TEStorageStream
     }
 
     // Engine.pas:10335
-    public TEWriteTextStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine)
+    public TEWriteTextStorageStream(Stream AStream, TEngine AEngine) : base(AStream, AEngine)
     {
         FPath = "";
         FBuffer = new TEBufferStream();
@@ -11115,11 +11122,11 @@ public partial class TEReadStorageStream : TEStorageStream
     internal int FDataBase;
 
     // Engine.pas:9968
-    public TEReadStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
+    public TEReadStorageStream(Stream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
     {
         FPropertyTable = new TPropertyTable();
         FPropertyTable.LoadFromStream(AStream);
-        FDataBase = FStream.Position;
+        FDataBase = (int)(FStream.Position);
         FPartial = APartial;
     }
 
@@ -11158,7 +11165,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref I, 4));
+            FStream.ReadBytes(Bytes.Of(ref I, 4));
         }
         else
         {
@@ -11178,7 +11185,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref B, 1));
+            FStream.ReadBytes(Bytes.Of(ref B, 1));
         }
         else
         {
@@ -11198,7 +11205,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref S, 1));
+            FStream.ReadBytes(Bytes.Of(ref S, 1));
         }
         else
         {
@@ -11218,7 +11225,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref W, 2));
+            FStream.ReadBytes(Bytes.Of(ref W, 2));
         }
         else
         {
@@ -11238,7 +11245,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref I, 4));
+            FStream.ReadBytes(Bytes.Of(ref I, 4));
         }
         else
         {
@@ -11258,7 +11265,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref B, 1));
+            FStream.ReadBytes(Bytes.Of(ref B, 1));
         }
         else
         {
@@ -11278,7 +11285,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref S, 1));
+            FStream.ReadBytes(Bytes.Of(ref S, 1));
         }
         else
         {
@@ -11298,7 +11305,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref W, 2));
+            FStream.ReadBytes(Bytes.Of(ref W, 2));
         }
         else
         {
@@ -11378,7 +11385,7 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Buffer.Slice(0, Size));
+            FStream.ReadBytes(Buffer.Slice(0, Size));
         }
     }
 
@@ -11405,9 +11412,9 @@ public partial class TEReadStorageStream : TEStorageStream
     }
 
     // Engine.pas:10172
-    public override TStream OpenPropertyStream(int ID)
+    public override Stream OpenPropertyStream(int ID)
     {
-        TStream Result;
+        Stream Result;
         int Offset;
         Offset = FPropertyTable.FindOffset(ID);
         if (Offset != -1)
@@ -11478,13 +11485,13 @@ public partial class TEReadStorageStream : TEStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref AClassID, 4));
+            FStream.ReadBytes(Bytes.Of(ref AClassID, 4));
             if (AClassID != 0)
             {
                 SavedBase = FDataBase;
                 FPropertyTable.BackupSettings();
                 FPropertyTable.LoadFromStream(FStream);
-                FDataBase = FStream.Position;
+                FDataBase = (int)(FStream.Position);
                 try
                 {
                     Obj = FEngine.CreateEObject(AClassID, null);
@@ -11528,7 +11535,7 @@ public partial class TEReadStorageStream : TEStorageStream
             }
 
             FPropertyTable.LoadFromStream(FStream);
-            FDataBase = FStream.Position;
+            FDataBase = (int)(FStream.Position);
             if (Node.GetControlStyle().Contains(EngineUnit.csKeepIndex))
             {
                 for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
@@ -11571,7 +11578,7 @@ public partial class TEReadStorageStream : TEStorageStream
             }
 
             FPropertyTable.LoadFromStream(FStream);
-            FDataBase = FStream.Position;
+            FDataBase = (int)(FStream.Position);
         }
 
         try
@@ -11597,8 +11604,8 @@ public partial class TEReadStorageStream : TEStorageStream
         int SavedBase;
         int Start;
         int Size = default;
-        Start = FStream.Position;
-        FStream.Read(Bytes.Of(ref Size, 4));
+        Start = (int)(FStream.Position);
+        FStream.ReadBytes(Bytes.Of(ref Size, 4));
         if (Size != 0)
         {
             SavedBase = FDataBase;
@@ -11606,7 +11613,7 @@ public partial class TEReadStorageStream : TEStorageStream
             try
             {
                 FPropertyTable.LoadFromStream(FStream);
-                FDataBase = FStream.Position;
+                FDataBase = (int)(FStream.Position);
                 Obj.MainReadWrite(this);
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
@@ -11646,14 +11653,14 @@ public partial class TEWriteStorageStream : TEStorageStream
 
     // Engine.pas:9565
     // Engine.pas:10489 TDebugWriteStream borrows the supplied stream as its buffer.
-    private protected TEWriteStorageStream(TStream stream, TEngine engine, TEBufferStream buffer) : base(stream, engine)
+    private protected TEWriteStorageStream(Stream stream, TEngine engine, TEBufferStream buffer) : base(stream, engine)
     {
         FBuffer = buffer;
         FPropertyTable = new TPropertyTable();
         FPartial = false;
     }
 
-    public TEWriteStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
+    public TEWriteStorageStream(Stream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine)
     {
         FEngine = AEngine;
         FStream = AStream;
@@ -11695,7 +11702,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (B != 0)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref B, 1));
             }
         }
@@ -11712,7 +11719,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (W != 0)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref W, 2));
             }
         }
@@ -11729,7 +11736,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (S != 0)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref S, 1));
             }
         }
@@ -11746,7 +11753,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (I != 0)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref I, 4));
             }
         }
@@ -11763,7 +11770,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (B != Default)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref B, 1));
             }
         }
@@ -11780,7 +11787,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (W != Default)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref W, 2));
             }
         }
@@ -11797,7 +11804,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (S != Default)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref S, 1));
             }
         }
@@ -11814,7 +11821,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (I != Default)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Bytes.Of(ref I, 4));
             }
         }
@@ -11831,7 +11838,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (!IsEmpty(S))
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 EngineUnit.SaveStringToStream(S, FBuffer);
             }
         }
@@ -11848,7 +11855,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (Strings.Count != 0)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 EngineUnit.StringsToStream(Strings, FBuffer);
             }
         }
@@ -11865,7 +11872,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (Strings.Count != 0)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 EngineUnit.StringsToStreamEx(Strings, FBuffer);
             }
         }
@@ -11882,7 +11889,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (Size != 0)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 FBuffer.Write(Buffer.Slice(0, Size));
             }
         }
@@ -11897,7 +11904,7 @@ public partial class TEWriteStorageStream : TEStorageStream
     {
         if (!FPropertyTable.PropertyExist(ID))
         {
-            FPropertyTable.Add(ID, FBuffer.Position);
+            FPropertyTable.Add(ID, (int)(FBuffer.Position));
             try
             {
                 SaveProc(FBuffer);
@@ -11913,12 +11920,12 @@ public partial class TEWriteStorageStream : TEStorageStream
     }
 
     // Engine.pas:9779
-    public override TStream OpenPropertyStream(int ID)
+    public override Stream OpenPropertyStream(int ID)
     {
-        TStream Result;
+        Stream Result;
         if (!FPropertyTable.PropertyExist(ID))
         {
-            FPropertyTable.Add(ID, FBuffer.Position);
+            FPropertyTable.Add(ID, (int)(FBuffer.Position));
             Result = FBuffer;
         }
         else
@@ -11937,7 +11944,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         {
             if (B)
             {
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
             }
         }
         else
@@ -11983,7 +11990,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         TEObject O;
         if (!FPropertyTable.PropertyExist(ID))
         {
-            Start = FBuffer.Position;
+            Start = (int)(FBuffer.Position);
             O = Obj;
             if (O != null)
             {
@@ -12042,7 +12049,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         TEObject C = default;
         if (!FPropertyTable.PropertyExist(ID))
         {
-            Start = FBuffer.Position;
+            Start = (int)(FBuffer.Position);
             Outer = FBuffer;
             FBuffer = new TEBufferStream();
             FPropertyTable.BackupSettings();
@@ -12075,7 +12082,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         int Start;
         if (!FPropertyTable.PropertyExist(ID))
         {
-            Start = FBuffer.Position;
+            Start = (int)(FBuffer.Position);
             Outer = FBuffer;
             FBuffer = new TEBufferStream();
             FPropertyTable.BackupSettings();
@@ -12113,7 +12120,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         TEBufferStream Outer;
         int Start;
         int Len = default;
-        Start = FBuffer.Position;
+        Start = (int)(FBuffer.Position);
         Outer = FBuffer;
         FBuffer = new TEBufferStream();
         FPropertyTable.BackupSettings();
@@ -12123,7 +12130,7 @@ public partial class TEWriteStorageStream : TEStorageStream
             Outer.Write(Bytes.Of(ref Len, 4));
             FPropertyTable.SaveToStream(Outer);
             FBuffer.SaveToStream(Outer);
-            Len = Outer.Position - Start - 4;
+            Len = (int)(Outer.Position) - Start - 4;
             Outer.Position = Start;
             Outer.Write(Bytes.Of(ref Len, 4));
             Outer.Position = Start + Len + 4;
@@ -12154,7 +12161,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
 {
     // Engine.pas:10489
     // Retained: The debug writer uses the supplied stream as FBuffer and skips the normal writer buffer allocation. Retire with a replacement-base storage protocol.
-    public TDebugWriteStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine, (TEBufferStream)AStream)
+    public TDebugWriteStream(Stream AStream, TEngine AEngine) : base(AStream, AEngine, (TEBufferStream)AStream)
     { }
 
     // Engine.pas:10499
@@ -12191,7 +12198,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
                     FPropertyTable.SaveToStream(FBuffer);
                     FBuffer?.Dispose();
                     FPropertyTable.RestoreSettings();
-                    FPropertyTable.Add(ID, FBuffer.Position);
+                    FPropertyTable.Add(ID, (int)(FBuffer.Position));
                 }
                 catch (System.Exception error)
                 {
@@ -12205,7 +12212,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
             else
             {
                 FBuffer.Write(Bytes.Of(ref AClassID, 4));
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
             }
         }
         else
@@ -12232,7 +12239,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
 
             FPropertyTable.SaveToStream(FBuffer);
             FPropertyTable.RestoreSettings();
-            FPropertyTable.Add(ID, FBuffer.Position);
+            FPropertyTable.Add(ID, (int)(FBuffer.Position));
         }
         else
         {
@@ -12251,7 +12258,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
                 Obj.MainReadWrite(this);
                 FPropertyTable.SaveToStream(FBuffer);
                 FPropertyTable.RestoreSettings();
-                FPropertyTable.Add(ID, FBuffer.Position);
+                FPropertyTable.Add(ID, (int)(FBuffer.Position));
             }
             catch (System.Exception error)
             {
@@ -12405,7 +12412,7 @@ public partial class TTranslateStorageStream : TEStorageStream
 // a read stream that announces a comparison to come (smSetupCompare)
 public partial class TSetupCompareStorageStream : TEReadStorageStream
 {
-    public TSetupCompareStorageStream(TStream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine, APartial)
+    public TSetupCompareStorageStream(Stream AStream, TEngine AEngine, bool APartial) : base(AStream, AEngine, APartial)
     { }
 
     // Engine.pas:10911
@@ -12429,7 +12436,7 @@ public partial class TCompareStorageStream : TEReadStorageStream
     }
 
     // Engine.pas:10918
-    public TCompareStorageStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine, false)
+    public TCompareStorageStream(Stream AStream, TEngine AEngine) : base(AStream, AEngine, false)
     { }
 
     // Engine.pas:10928
@@ -12449,13 +12456,13 @@ public partial class TCompareStorageStream : TEReadStorageStream
                 FStream.Position = FDataBase + Offset;
             }
 
-            FStream.Read(Bytes.Of(ref AClassID, 4));
+            FStream.ReadBytes(Bytes.Of(ref AClassID, 4));
             if (AClassID != 0)
             {
                 SavedBase = FDataBase;
                 FPropertyTable.BackupSettings();
                 FPropertyTable.LoadFromStream(FStream);
-                FDataBase = FStream.Position;
+                FDataBase = (int)(FStream.Position);
                 // { The original handles read errors by destroying and clearing Obj. }
                 try
                 {
@@ -12497,7 +12504,7 @@ public partial class TCompareStorageStream : TEReadStorageStream
             }
 
             FPropertyTable.LoadFromStream(FStream);
-            FDataBase = FStream.Position;
+            FDataBase = (int)(FStream.Position);
             if (Node.GetControlStyle().Contains(EngineUnit.csKeepIndex))
             {
                 for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
@@ -13086,17 +13093,17 @@ public static partial class EngineUnit
     public static int GetFileCRC32(string FileName)
     {
         int Result = default;
-        TMemoryStream M;
-        TFileStream F;
-        M = new TMemoryStream();
+        MemoryStream M;
+        Stream F;
+        M = new MemoryStream();
         try
         {
-            F = new TFileStream(FileName, 0);
+            F = OpenFile(FileName, 0);
             try
             {
                 M.LoadFromStream(F);
-                var size = M.Size;
-                Result = GetCRC32(M.Memory, size);
+                var size = (int)M.Length;
+                Result = GetCRC32(M.GetBuffer(), size);
             }
             finally
             {
@@ -13167,7 +13174,7 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2132
-    public static void StringToStream(string S, TStream Stream)
+    public static void StringToStream(string S, Stream Stream)
     {
         int Len;
         Len = S.Length;
@@ -13176,21 +13183,21 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2141
-    public static void StringFromStream(ref string S, TStream Stream)
+    public static void StringFromStream(ref string S, Stream Stream)
     {
         int Len = default;
-        Stream.Read(Bytes.Of(ref Len, 4));
+        Stream.ReadBytes(Bytes.Of(ref Len, 4));
         if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[Len];
         Cp1252.Encode(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
         S = Cp1252.Decode(buffer);
-        Stream.Read(buffer);
+        Stream.ReadBytes(buffer);
         S = Cp1252.Decode(buffer);
     }
 
     // Engine.pas:2185
-    public static void StringsToStream(TStrings Strings, TStream Stream)
+    public static void StringsToStream(TStrings Strings, Stream Stream)
     {
         ReadOnlySpan<byte> P;
         int Len;
@@ -13201,16 +13208,16 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2197
-    public static void StringsFromStream(TStrings Strings, TStream Stream)
+    public static void StringsFromStream(TStrings Strings, Stream Stream)
     {
         int Len = default;
         Strings.BeginUpdate();
         try
         {
-            Stream.Read(Bytes.Of(ref Len, 4));
+            Stream.ReadBytes(Bytes.Of(ref Len, 4));
             if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
             byte[] buffer = new byte[Len];
-            Stream.Read(buffer);
+            Stream.ReadBytes(buffer);
             Strings.Text = Cp1252.Decode(buffer);
         }
         finally
@@ -13430,7 +13437,7 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2150
-    public static void SaveStringToStream(string S, TStream Stream)
+    public static void SaveStringToStream(string S, Stream Stream)
     {
         int Len;
         byte B = default;
@@ -13451,15 +13458,15 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2170
-    public static void LoadStringFromStream(ref string S, TStream Stream)
+    public static void LoadStringFromStream(ref string S, Stream Stream)
     {
         int Len = default;
         byte B = default;
         S = "";
-        Stream.Read(Bytes.Of(ref B, 1));
+        Stream.ReadBytes(Bytes.Of(ref B, 1));
         if (B == 255)
         {
-            Stream.Read(Bytes.Of(ref Len, 4));
+            Stream.ReadBytes(Bytes.Of(ref Len, 4));
         }
         else
         {
@@ -13471,12 +13478,12 @@ public static partial class EngineUnit
         Cp1252.Encode(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
         S = Cp1252.Decode(buffer);
-        Stream.Read(buffer);
+        Stream.ReadBytes(buffer);
         S = Cp1252.Decode(buffer);
     }
 
     // Engine.pas:2213
-    public static void StringsToStreamEx(TStrings Strings, TStream Stream)
+    public static void StringsToStreamEx(TStrings Strings, Stream Stream)
     {
         ReadOnlySpan<byte> P;
         int Len;
@@ -13493,21 +13500,21 @@ public static partial class EngineUnit
     }
 
     // Engine.pas:2230
-    public static void StringsFromStreamEx(TStrings Strings, TStream Stream)
+    public static void StringsFromStreamEx(TStrings Strings, Stream Stream)
     {
         int Len = default;
         int Obj = default;
         Strings.BeginUpdate();
         try
         {
-            Stream.Read(Bytes.Of(ref Len, 4));
+            Stream.ReadBytes(Bytes.Of(ref Len, 4));
             if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
             byte[] buffer = new byte[Len];
-            Stream.Read(buffer);
+            Stream.ReadBytes(buffer);
             Strings.Text = Cp1252.Decode(buffer);
             for (int I = 0, last = Strings.Count - 1; I <= last; I++)
             {
-                Stream.Read(Bytes.Of(ref Obj, 4));
+                Stream.ReadBytes(Bytes.Of(ref Obj, 4));
                 Strings.Objects[I] = IntToObject(Obj);
             }
         }

@@ -348,7 +348,7 @@ public sealed class PersistCorpusTests
 
     private static void Load(TEObject obj, byte[] image)
     {
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         memory.Write(image);
         memory.Position = 0;
         var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
@@ -365,12 +365,12 @@ public sealed class PersistCorpusTests
 
     private static byte[] Image(TEObject obj)
     {
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         using (var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false))
         {
             obj.MainReadWrite(writer);
         }
-        return memory.Memory[..memory.Size];
+        return memory.ToArray();
     }
 
     private static void EqualJson(JsonObject expected, JsonObject actual, string label)

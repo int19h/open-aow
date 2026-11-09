@@ -15,7 +15,7 @@ public partial class TItemGrid : TCustomImageDrawGrid
     public FixedArray_byte_4 FDisplayOptions;
     public TIntegerList FIndices;
     public TItemList FItems;
-    public TMemoryStream FStream;
+    public MemoryStream FStream;
     public bool FEditable;
     public bool FShowAvailability;
     public byte FSort;

@@ -42,7 +42,7 @@ public sealed class ImageClassTests
         Images.LibraryImageClasses = new TList();
         var source = new TImageLibrary(null!);
         var loaded = new TImageLibrary(null!);
-        var stream = new TMemoryStream();
+        var stream = new MemoryStream();
         try
         {
             Images.RegisterLibraryImageClasses([

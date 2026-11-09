@@ -66,7 +66,7 @@ public sealed class ArmySpriteConstructionTests
         using var fixture = new OrderingRecording.Fixture(typeof(TArmyHS));
         TEObject source = new TArmyHS(null!);
         TEObject loaded = null!;
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         try
         {
             ((TArmyHS)source).FArmy.FPlayer = 2;

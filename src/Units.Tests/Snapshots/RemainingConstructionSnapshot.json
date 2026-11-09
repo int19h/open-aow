@@ -4039,10 +4039,21 @@
               "TEObject.FOwner": null
             },
             "TAoWCampaign.FStream": {
-              "$type": "Aow.Rtl.TMemoryStream",
-              "TMemoryStream.memory": "$ref:$.TAoWCampaign.FRaceHistory.TByteList.FList",
-              "TMemoryStream.position": 0,
-              "TMemoryStream.size": 0
+              "$type": "System.IO.MemoryStream",
+              "MemoryStream._buffer": "$ref:$.TAoWCampaign.FRaceHistory.TByteList.FList",
+              "MemoryStream._capacity": 0,
+              "MemoryStream._expandable": true,
+              "MemoryStream._exposable": true,
+              "MemoryStream._isOpen": true,
+              "MemoryStream._lastReadTask": {
+                "$type": "System.Threading.Tasks.CachedCompletedInt32Task",
+                "CachedCompletedInt32Task._task": null
+              },
+              "MemoryStream._length": 0,
+              "MemoryStream._origin": 0,
+              "MemoryStream._position": 0,
+              "MemoryStream._writable": true,
+              "Stream._asyncActiveSemaphore": null
             },
             "TAoWCampaign.FTransferSettings": {
               "$type": "Aow.Units.AoWE.TAoWCampaignTransferSettings",
@@ -4180,10 +4191,21 @@
               "TEObject.FOwner": null
             },
             "TAoWCampaign.FStream": {
-              "$type": "Aow.Rtl.TMemoryStream",
-              "TMemoryStream.memory": "$ref:$.TAoWCampaign.FRaceHistory.TByteList.FList",
-              "TMemoryStream.position": 0,
-              "TMemoryStream.size": 0
+              "$type": "System.IO.MemoryStream",
+              "MemoryStream._buffer": "$ref:$.TAoWCampaign.FRaceHistory.TByteList.FList",
+              "MemoryStream._capacity": 0,
+              "MemoryStream._expandable": true,
+              "MemoryStream._exposable": true,
+              "MemoryStream._isOpen": true,
+              "MemoryStream._lastReadTask": {
+                "$type": "System.Threading.Tasks.CachedCompletedInt32Task",
+                "CachedCompletedInt32Task._task": null
+              },
+              "MemoryStream._length": 0,
+              "MemoryStream._origin": 0,
+              "MemoryStream._position": 0,
+              "MemoryStream._writable": true,
+              "Stream._asyncActiveSemaphore": null
             },
             "TAoWCampaign.FTransferSettings": {
               "$type": "Aow.Units.AoWE.TAoWCampaignTransferSettings",

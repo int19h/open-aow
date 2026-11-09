@@ -185,7 +185,7 @@ public partial class TSetupEvents : TDataModule
             FadeMusicVolume(0, 1);
         }
 
-        if (Control.FStream.Size != 0)
+        if (Control.FStream.Length != 0)
         {
             AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => General.MapProgress(Message, Progression));
             var fileName2 = ExtractFileName(FileName);

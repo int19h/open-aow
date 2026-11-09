@@ -169,14 +169,3 @@ public class TStringProperty
         CaptureAddress.Assign(this);
     }
 }
-
-public class THandleStream : TStream
-{
-    // TFastLoadFileStream supplies its own managed file stream and skips handle setup.
-    public int Handle { get; protected set; }
-
-    public THandleStream(int handle) => Handle = handle;
-    public override int Read(Span<byte> buffer) => throw new NotImplementedException("HandleStream.Read");
-    public override int Write(ReadOnlySpan<byte> buffer) => throw new NotImplementedException("HandleStream.Write");
-    public override int Seek(int offset, int origin) => throw new NotImplementedException("HandleStream.Seek");
-}

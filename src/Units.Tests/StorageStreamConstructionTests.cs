@@ -23,7 +23,7 @@ public sealed class StorageStreamConstructionTests
         }
     }
 
-    private sealed class ExactReadStream : TMemoryStream
+    private sealed class ExactReadStream : MemoryStream
     {
         public override int Read(Span<byte> buffer)
         {
@@ -33,9 +33,9 @@ public sealed class StorageStreamConstructionTests
         }
     }
 
-    private static TMemoryStream Memory(ReadOnlySpan<byte> bytes)
+    private static MemoryStream Memory(ReadOnlySpan<byte> bytes)
     {
-        var stream = new TMemoryStream();
+        var stream = new MemoryStream();
         stream.Write(bytes);
         stream.Position = 0;
         return stream;
@@ -85,7 +85,7 @@ public sealed class StorageStreamConstructionTests
             Assert.False(Field<bool>(stream, "FErrorHandled"));
             Assert.Null(stream.OnError);
             Assert.Null(stream.OnProgress);
-            Assert.Equal(kind is >= 1 and <= 4 ? 2 : 1, memory.Position);
+            Assert.Equal(kind is >= 1 and <= 4 ? 2L : 1L, memory.Position);
             if (kind == 0) Assert.Null(stream.PropertyTable);
             else Assert.Equal(0, stream.PropertyTable.Count);
             if (stream is TEReadStorageStream reader)
@@ -98,8 +98,8 @@ public sealed class StorageStreamConstructionTests
                 Assert.True(Field<bool>(stream, "FPartial"));
                 var buffer = Field<TEBufferStream>(stream, "FBuffer");
                 Assert.NotSame(memory, buffer);
-                Assert.Equal(0, buffer.Position);
-                Assert.Equal(0, buffer.Size);
+                Assert.Equal(0L, buffer.Position);
+                Assert.Equal(0L, buffer.Length);
             }
             if (stream is TEWriteTextStorageStream or TEReadTextStorageStream)
                 Assert.Equal("", Field<string>(stream, "FPath"));
@@ -107,8 +107,8 @@ public sealed class StorageStreamConstructionTests
             {
                 var buffer = Field<TEBufferStream>(stream, "FBuffer");
                 Assert.NotSame(memory, buffer);
-                Assert.Equal(0, buffer.Size);
-                Assert.Equal(0, buffer.Position);
+                Assert.Equal(0L, buffer.Length);
+                Assert.Equal(0L, buffer.Position);
             }
             if (stream is TEReadTextStorageStream)
             {
@@ -123,9 +123,10 @@ public sealed class StorageStreamConstructionTests
             stream.Dispose();
             engine.Dispose();
         }
-        Assert.True(memory.Size >= 2);
+        Assert.True(memory.Length >= 2);
         memory.Position = 0;
-        Assert.Equal(1, memory.Write([0x33]));
+        memory.Write([0x33]);
+        Assert.Equal(1L, memory.Position);
     }
 
     [Theory]
@@ -133,14 +134,14 @@ public sealed class StorageStreamConstructionTests
     [InlineData(true)]
     public void BinaryRoundTripKeepsBytesAndPartialState(bool partial)
     {
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         var source = new StoredObject { Name = "Oak", Detail = "Hill" };
         var writer = new TEWriteStorageStream(memory, null!, partial);
-        Assert.Equal(0, memory.Size);
+        Assert.Equal(0L, memory.Length);
         writer.rwEObject(source, 4);
-        Assert.Equal(0, memory.Size);
+        Assert.Equal(0L, memory.Length);
         writer.Dispose();
-        byte[] bytes = memory.Memory[..memory.Size];
+        byte[] bytes = memory.ToArray();
         Assert.Equal("0104000207000904034F616B0448696C6C", Convert.ToHexString(bytes));
         memory.Position = 0;
         var reader = new TEReadStorageStream(memory, null!, partial);
@@ -153,11 +154,11 @@ public sealed class StorageStreamConstructionTests
             Assert.Equal(source.Detail, loaded.Detail);
         }
         finally { reader.Dispose(); }
-        using var second = new TMemoryStream();
+        using var second = new MemoryStream();
         var rewritten = new TEWriteStorageStream(second, null!, partial);
         rewritten.rwEObject(loaded, 4);
         rewritten.Dispose();
-        Assert.Equal(bytes, second.Memory[..second.Size]);
+        Assert.Equal(bytes, second.ToArray());
         loaded.Dispose();
         source.Dispose();
     }
@@ -167,13 +168,13 @@ public sealed class StorageStreamConstructionTests
     [InlineData(true)]
     public void TextRoundTripKeepsText(bool export)
     {
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         var source = new StoredObject { Name = "Oak", Detail = "Hill" };
         TEWriteTextStorageStream writer = export ? new TExportTextStream(memory, null!)
             : new TEWriteTextStorageStream(memory, null!);
         writer.rwEObject(source, 4);
         writer.Dispose();
-        byte[] bytes = memory.Memory[..memory.Size];
+        byte[] bytes = memory.ToArray();
         Assert.Equal(export ? "\r\n[:4:]\r\n[7]=|Oak|\r\n[9]=|Hill|\r\n"
             : "\r\n[:4:]\r\n[7]=Oak\r\n[9]=Hill\r\n", System.Text.Encoding.Latin1.GetString(bytes));
         memory.Position = 0;
@@ -186,11 +187,11 @@ public sealed class StorageStreamConstructionTests
             Assert.Equal(export ? "|Hill|" : source.Detail, loaded.Detail);
         }
         finally { reader.Dispose(); }
-        using var second = new TMemoryStream();
+        using var second = new MemoryStream();
         var rewritten = new TEWriteTextStorageStream(second, null!);
         rewritten.rwEObject(loaded, 4);
         rewritten.Dispose();
-        Assert.Equal(bytes, second.Memory[..second.Size]);
+        Assert.Equal(bytes, second.ToArray());
         loaded.Dispose();
         source.Dispose();
     }
@@ -211,8 +212,8 @@ public sealed class StorageStreamConstructionTests
             else _ = new TSetupCompareStorageStream(memory, null!, true);
         });
         Assert.Equal("Stream read error", ((System.Exception)error).Message);
-        Assert.Equal(2, memory.Position);
-        Assert.Equal(2, memory.Size);
+        Assert.Equal(2L, memory.Position);
+        Assert.Equal(2L, memory.Length);
     }
 
     [Fact]
@@ -231,8 +232,10 @@ public sealed class StorageStreamConstructionTests
         using var memory = Memory("[::]\r\n[]=broken\r\n"u8);
         var error = Assert.Throws<FormatException>(() => new TEReadTextStorageStream(memory, null!, 0));
         Assert.Equal("'' is not a valid integer value", ((System.Exception)error).Message);
-        Assert.Equal(memory.Size, memory.Position);
-        Assert.Equal(1, memory.Write([0x33]));
+        Assert.Equal(memory.Length, memory.Position);
+        long end = memory.Position;
+        memory.Write([0x33]);
+        Assert.Equal(end + 1, memory.Position);
     }
 
     [Fact]
@@ -247,11 +250,13 @@ public sealed class StorageStreamConstructionTests
         int value = 42;
         debug.rwInteger(ref value, 7);
         debug.Dispose();
-        var bytes = new byte[buffer.Size];
+        var bytes = new byte[(int)buffer.Length];
         buffer.Position = 0;
-        buffer.Read(bytes);
+        Assert.Equal(bytes.Length, buffer.Read(bytes));
         Assert.Equal("2A000000010700", Convert.ToHexString(bytes));
-        Assert.Equal(1, buffer.Write([0x33]));
+        long end = buffer.Position;
+        buffer.Write([0x33]);
+        Assert.Equal(end + 1, buffer.Position);
     }
 
     [Theory]

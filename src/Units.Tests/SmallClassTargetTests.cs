@@ -34,7 +34,7 @@ public sealed class SmallClassTargetTests
     [Fact]
     public void ListStreamKeepsNilSlotsAndReplacesOwnedItems()
     {
-        using var input = new TMemoryStream();
+        using var input = new MemoryStream();
         byte[] encoded = [3, 0, 0, 0, 0, 1, 0];
         input.WriteBuffer(encoded);
         input.Position = 0;
@@ -50,9 +50,9 @@ public sealed class SmallClassTargetTests
             Assert.Null(list[1]);
             Assert.IsType<ListObject>(list[2]);
             Assert.NotSame(list[0], list[2]);
-            using var output = new TMemoryStream();
+            using var output = new MemoryStream();
             list.SaveToStream(output);
-            Assert.Equal(encoded.Length, output.Size);
+            Assert.Equal(encoded.Length, (int)output.Length);
             output.Position = 0;
             var actual = new byte[encoded.Length];
             output.ReadBuffer(actual);

@@ -181,26 +181,26 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1702
-    public virtual void ReadImageData(TStream Stream)
+    public virtual void ReadImageData(Stream Stream)
     {
-        Stream.Read(Bytes.Of(ref FVersion, 1));
+        Stream.ReadBytes(Bytes.Of(ref FVersion, 1));
         ImageLibUnit.ReadStringFromStream(ref FFileName, Stream);
-        Stream.Read(Bytes.Of(ref FDataWidth, 4));
-        Stream.Read(Bytes.Of(ref FDataHeight, 4));
-        Stream.Read(Bytes.Of(ref FXshift, 4));
-        Stream.Read(Bytes.Of(ref FYshift, 4));
-        Stream.Read(Bytes.Of(ref FFileIndex, 4));
-        Stream.Read(Bytes.Of(ref FLoadMode, 1));
-        Stream.Read(Bytes.Of(ref FDataSize, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDataWidth, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDataHeight, 4));
+        Stream.ReadBytes(Bytes.Of(ref FXshift, 4));
+        Stream.ReadBytes(Bytes.Of(ref FYshift, 4));
+        Stream.ReadBytes(Bytes.Of(ref FFileIndex, 4));
+        Stream.ReadBytes(Bytes.Of(ref FLoadMode, 1));
+        Stream.ReadBytes(Bytes.Of(ref FDataSize, 4));
         if (FVersion > 0)
         {
             if (FVersion >= 2)
             {
-                Stream.Read(Bytes.Of(ref FDataPosition, 4));
+                Stream.ReadBytes(Bytes.Of(ref FDataPosition, 4));
             }
 
-            Stream.Read(Bytes.Of(ref FWidth, 4));
-            Stream.Read(Bytes.Of(ref FHeight, 4));
+            Stream.ReadBytes(Bytes.Of(ref FWidth, 4));
+            Stream.ReadBytes(Bytes.Of(ref FHeight, 4));
         }
         else
         {
@@ -215,7 +215,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1727
-    public virtual void WriteImageData(TStream Stream)
+    public virtual void WriteImageData(Stream Stream)
     {
         byte V;
         V = ClassVersion();
@@ -235,13 +235,13 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1747
-    public virtual void ReadDiscardableImageData(TStream Stream)
+    public virtual void ReadDiscardableImageData(Stream Stream)
     {
         FDataLoaded = true;
     }
 
     // ImageLib.pas:1752
-    public virtual void WriteDiscardableImageData(TStream Stream)
+    public virtual void WriteDiscardableImageData(Stream Stream)
     {
     }
 
@@ -254,13 +254,13 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     // ImageLib.pas:1761
     public virtual void LoadDiscardableImageData()
     {
-        TStream Stream;
+        Stream Stream;
         if (!FDataLoaded)
         {
             Stream = new TFastLoadFileStream(FOwner.FLoadedFileName);
             try
             {
-                Stream.Seek(FDataPosition + FOwner.FDataOffset, 0);
+                Stream.Seek(FDataPosition + FOwner.FDataOffset, SeekOrigin.Begin);
                 ReadDiscardableImageData(Stream);
                 FDataLoaded = true;
             }
@@ -272,11 +272,11 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1859
-    public virtual void SaveToStreamEx(TStream Stream, TStream DataStream)
+    public virtual void SaveToStreamEx(Stream Stream, Stream DataStream)
     {
         int P;
         P = FDataPosition;
-        FDataPosition = DataStream.Position;
+        FDataPosition = (int)(DataStream.Position);
         WriteImageData(Stream);
         FDataPosition = P;
         if (!FDataLoaded)
@@ -295,7 +295,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1835
-    public virtual void LoadFromStreamEx(TStream Stream, TStream DataStream)
+    public virtual void LoadFromStreamEx(Stream Stream, Stream DataStream)
     {
         ReadImageData(Stream);
         if (FVersion >= 2)
@@ -376,8 +376,8 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     public virtual TLibraryImage Copy()
     {
         TLibraryImage Result = default;
-        TMemoryStream Stream;
-        Stream = new TMemoryStream();
+        MemoryStream Stream;
+        Stream = new MemoryStream();
         try
         {
             ImageLibUnit.WriteImageToStream(this, Stream);
@@ -394,7 +394,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1778
-    public virtual void SaveToStream(TStream Stream)
+    public virtual void SaveToStream(Stream Stream)
     {
         int P;
         P = FDataPosition;
@@ -417,14 +417,14 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     }
 
     // ImageLib.pas:1796
-    public virtual void LoadFromStream(TStream Stream)
+    public virtual void LoadFromStream(Stream Stream)
     {
         int P;
         Clear();
         ReadImageData(Stream);
         if (FVersion < 2)
         {
-            FDataPosition = Stream.Position;
+            FDataPosition = (int)(Stream.Position);
             if (FLoadMode == TLoadMode.lmLoadAlways || FOwner == null || !FOwner.FReloading || !FOwner.FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile))
             {
                 ReadDiscardableImageData(Stream);
@@ -432,7 +432,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
             }
             else
             {
-                Stream.Seek(FDataSize, 1);
+                Stream.Seek(FDataSize, SeekOrigin.Current);
                 FReloadingEnabled = true;
             }
         }
@@ -442,7 +442,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
             {
                 if (FDataPosition != -1)
                 {
-                    P = Stream.Position;
+                    P = (int)(Stream.Position);
                     Stream.Position = FOwner.FDataOffset + FDataPosition;
                     ReadDiscardableImageData(Stream);
                     Stream.Position = P;
@@ -694,13 +694,13 @@ public partial class TLibraryImagePalette : TPersistent
     }
 
     // ImageLib.pas:7097
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         FPalette.SaveToStream(Stream);
     }
 
     // ImageLib.pas:7102
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         FPalette.LoadFromStream(Stream);
     }
@@ -799,12 +799,12 @@ public partial class TPaletteManager : IDisposable
     }
 
     // ImageLib.pas:7001
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int N = default;
         TLibraryImagePalette P;
         Clear();
-        Stream.Read(Bytes.Of(ref N, 4));
+        Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
             P = new TLibraryImagePalette();
@@ -815,7 +815,7 @@ public partial class TPaletteManager : IDisposable
     }
 
     // ImageLib.pas:7017
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         Stream.Write(ValueBytes(FPalettes.Count, 4));
         for (int I = 0, last = FPalettes.Count - 1; I <= last; I++)
@@ -1140,12 +1140,12 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:9960
-    public virtual void LoadFromStream(TStream Stream)
+    public virtual void LoadFromStream(Stream Stream)
     {
         int Index = default;
         int Reference = default;
         int StartPos;
-        TMemoryStream MS;
+        MemoryStream MS;
         TILBHeader Header = default;
         int SubIndex;
         TLibraryImage Image;
@@ -1153,9 +1153,9 @@ public partial class TCustomImageLibrary : TComponent
         FChangeLock = (byte)(FChangeLock + 1);
         Clear();
         FReloading = FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile) && FLoadOnDemand;
-        StartPos = Stream.Position;
-        Stream.Read(Bytes.Of(ref Header, 24));
-        Stream.Seek(Header.HeaderSize + StartPos, 0);
+        StartPos = (int)(Stream.Position);
+        Stream.ReadBytes(Bytes.Of(ref Header, 24));
+        Stream.Seek(Header.HeaderSize + StartPos, SeekOrigin.Begin);
         if ((double)Header.Version < 4)
         {
             FDataOffset = 0;
@@ -1187,7 +1187,7 @@ public partial class TCustomImageLibrary : TComponent
                         Image = ImageLibUnit.ReadImageFromStream(Stream, this);
                     }
 
-                    Stream.Read(Bytes.Of(ref Reference, 4));
+                    Stream.ReadBytes(Bytes.Of(ref Reference, 4));
                     SetImageReference(Index, Reference);
                     Stream.ReadBuffer(Bytes.Of(ref Index, 4));
                 }
@@ -1201,7 +1201,7 @@ public partial class TCustomImageLibrary : TComponent
                     {
                         var readImageFromStream = ImageLibUnit.ReadImageFromStream(Stream, this);
                         SetImage(Index, readImageFromStream);
-                        Stream.Read(Bytes.Of(ref Reference, 4));
+                        Stream.ReadBytes(Bytes.Of(ref Reference, 4));
                         SetImageReference(Index, Reference);
                         Stream.ReadBuffer(Bytes.Of(ref Index, 4));
                     }
@@ -1211,12 +1211,12 @@ public partial class TCustomImageLibrary : TComponent
         else
         {
             FDataOffset = Header.IndexEnd + StartPos;
-            MS = new TMemoryStream();
+            MS = new MemoryStream();
             try
             {
-                MS.SetSize(Header.IndexEnd - Header.HeaderSize);
-                var size = MS.Size;
-                Stream.ReadBuffer(MS.Memory.AsSpan(0, size));
+                MS.SetLength(Header.IndexEnd - Header.HeaderSize);
+                var size = (int)MS.Length;
+                Stream.ReadBuffer(MS.GetBuffer().AsSpan(0, size));
                 FPaletteManager.LoadFromStream(MS);
                 MS.ReadBuffer(Bytes.Of(ref Index, 4));
                 while (Index != -1)
@@ -1235,7 +1235,7 @@ public partial class TCustomImageLibrary : TComponent
 
             if (!FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile))
             {
-                Stream.Seek(Header.Size + StartPos, 0);
+                Stream.Seek(Header.Size + StartPos, SeekOrigin.Begin);
             }
         }
 
@@ -1249,16 +1249,16 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10038
-    public virtual void SaveToStream(TStream Stream)
+    public virtual void SaveToStream(Stream Stream)
     {
-        TFileStream Swap;
+        Stream Swap;
         int StartPos;
         string SwapName;
         int I;
         TILBHeader Header = default;
-        StartPos = Stream.Position;
+        StartPos = (int)(Stream.Position);
         SwapName = ExtractFilePath(Application.ExeName) + "\\SWAP.$$$";
-        Swap = new TFileStream(SwapName, 65535);
+        Swap = OpenFile(SwapName, 65535);
         try
         {
             FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSaving);
@@ -1282,11 +1282,11 @@ public partial class TCustomImageLibrary : TComponent
             I = -1;
             Stream.Write(Bytes.Of(ref I, 4));
             var position = Stream.Position;
-            Header.IndexEnd = position - StartPos;
+            Header.IndexEnd = (int)(position) - StartPos;
             Swap.Position = 0;
-            Stream.CopyFrom(Swap, Swap.Size);
+            Stream.CopyFrom(Swap, (int)Swap.Length);
             var streamPosition = Stream.Position;
-            Header.Size = streamPosition - StartPos;
+            Header.Size = (int)(streamPosition) - StartPos;
             Stream.Position = StartPos;
             Stream.Write(Bytes.Of(ref Header, 24));
             Stream.Position = StartPos + Header.Size;
@@ -1302,7 +1302,7 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:10079
     public virtual void LoadFromFile(string AFileName)
     {
-        TStream Stream;
+        Stream Stream;
         Stream = new TFastLoadFileStream(AFileName);
         try
         {
@@ -1327,7 +1327,7 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:10098
     public virtual void SaveToFile(string AFileName)
     {
-        TFileStream Stream;
+        Stream Stream;
         string Name;
         Name = ExpandFileName(AFileName);
         if (Name == FLoadedFileName)
@@ -1336,7 +1336,7 @@ public partial class TCustomImageLibrary : TComponent
         }
 
         FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSavingToFile);
-        Stream = new TFileStream(Name, 65535);
+        Stream = OpenFile(Name, 65535);
         try
         {
             SaveToStream(Stream);
@@ -1363,8 +1363,8 @@ public partial class TCustomImageLibrary : TComponent
     public virtual TCustomImageLibrary Copy()
     {
         TCustomImageLibrary Result = default;
-        TMemoryStream Stream;
-        Stream = new TMemoryStream();
+        MemoryStream Stream;
+        Stream = new MemoryStream();
         try
         {
             Result = (TCustomImageLibrary)new TComponent(null);
@@ -1523,7 +1523,7 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:10115
-    public void LoadFromFileStream(string AFileName, TStream Stream)
+    public void LoadFromFileStream(string AFileName, Stream Stream)
     {
         FStatus = FStatus + TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoadingFromFile);
         try
@@ -1555,10 +1555,10 @@ public partial class TCustomImageLibrary : TComponent
     // ImageLib.pas:10168
     public override void Assign(TPersistent Source)
     {
-        TMemoryStream Stream;
+        MemoryStream Stream;
         if (Source is TCustomImageLibrary)
         {
-            Stream = new TMemoryStream();
+            Stream = new MemoryStream();
             try
             {
                 ((TCustomImageLibrary)Source).SaveToStream(Stream);
@@ -2181,17 +2181,17 @@ public partial class TGrabInfo
     public int FileIndex;
 
     // ImageLib.pas:9634
-    public virtual void LoadFromStream(TStream Stream)
+    public virtual void LoadFromStream(Stream Stream)
     {
-        Stream.Read(Bytes.Of(ref TransparentColor, 4));
-        Stream.Read(Bytes.Of(ref FindRectangles, 1));
-        Stream.Read(Bytes.Of(ref TransparentPixel, 4));
+        Stream.ReadBytes(Bytes.Of(ref TransparentColor, 4));
+        Stream.ReadBytes(Bytes.Of(ref FindRectangles, 1));
+        Stream.ReadBytes(Bytes.Of(ref TransparentPixel, 4));
         ImageLibUnit.ReadStringFromStream(ref FileName, Stream);
-        Stream.Read(Bytes.Of(ref FileIndex, 4));
+        Stream.ReadBytes(Bytes.Of(ref FileIndex, 4));
     }
 
     // ImageLib.pas:9643
-    public virtual void SaveToStream(TStream Stream)
+    public virtual void SaveToStream(Stream Stream)
     {
         Stream.Write(Bytes.Of(ref TransparentColor, 4));
         Stream.Write(Bytes.Of(ref FindRectangles, 1));
@@ -2207,8 +2207,8 @@ public partial class TGrabInfo
     public virtual TGrabInfo Copy()
     {
         TGrabInfo Result = default;
-        TMemoryStream Stream;
-        Stream = new TMemoryStream();
+        MemoryStream Stream;
+        Stream = new MemoryStream();
         try
         {
             SaveToStream(Stream);
@@ -2274,7 +2274,7 @@ public struct TShowInfo
         return image;
     }
 
-    public int ReadImage(TStream stream, bool exact)
+    public int ReadImage(Stream stream, bool exact)
     {
         byte[] image = Image();
         int count = stream.Read(image);
@@ -2287,10 +2287,11 @@ public struct TShowInfo
         return count;
     }
 
-    public int WriteImage(TStream stream, bool exact)
+    public int WriteImage(Stream stream, bool exact)
     {
         byte[] image = Image();
-        int count = stream.Write(image);
+        stream.Write(image);
+        int count = image.Length;
         if (exact && count != 8)
             throw new IOException("Stream write error");
         return count;
@@ -2483,7 +2484,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1408
-    public override void SaveToStreamEx(TStream Stream, TStream DataStream)
+    public override void SaveToStreamEx(Stream Stream, Stream DataStream)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2494,7 +2495,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1416
-    public override void SaveToStream(TStream Stream)
+    public override void SaveToStream(Stream Stream)
     {
         for (int I = 0, last = FCount - 1; I <= last; I++)
         {
@@ -2505,7 +2506,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1424
-    public override void LoadFromStream(TStream Stream)
+    public override void LoadFromStream(Stream Stream)
     {
         TLibraryImage Image;
         Clear();
@@ -2518,7 +2519,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1437
-    public override void LoadFromStreamEx(TStream Stream, TStream DataStream)
+    public override void LoadFromStreamEx(Stream Stream, Stream DataStream)
     {
         TLibraryImage Image;
         Image = ImageLibUnit.ReadImageFromStreamEx(Stream, DataStream, FOwner);
@@ -2708,11 +2709,11 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:7160
-    public override void ReadImageData(TStream Stream)
+    public override void ReadImageData(Stream Stream)
     {
         int Index = default;
         base.ReadImageData(Stream);
-        Stream.Read(Bytes.Of(ref FOwnPalette, 1));
+        Stream.ReadBytes(Bytes.Of(ref FOwnPalette, 1));
         if (FOwnPalette)
         {
             FImagePalette = new TLibraryImagePalette();
@@ -2720,7 +2721,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
         }
         else
         {
-            Stream.Read(Bytes.Of(ref Index, 4));
+            Stream.ReadBytes(Bytes.Of(ref Index, 4));
             FImagePalette = FOwner.FPaletteManager.LinkToPalette(Index);
         }
 
@@ -2728,7 +2729,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:7179
-    public override void WriteImageData(TStream Stream)
+    public override void WriteImageData(Stream Stream)
     {
         base.WriteImageData(Stream);
         Stream.Write(Bytes.Of(ref FOwnPalette, 1));
@@ -2927,18 +2928,18 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
     }
 
     // ImageLib.pas:7359
-    public override void ReadDiscardableImageData(TStream Stream)
+    public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
         AllocateDiscardableImageData(FDataWidth, FDataHeight);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
         {
-            Stream.Read(FBuffer.AsSpan(Y * FPitch, FDataWidth));
+            Stream.ReadBytes(FBuffer.AsSpan(Y * FPitch, FDataWidth));
         }
     }
 
     // ImageLib.pas:7369
-    public override void WriteDiscardableImageData(TStream Stream)
+    public override void WriteDiscardableImageData(Stream Stream)
     {
         base.WriteDiscardableImageData(Stream);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
@@ -3133,19 +3134,19 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     }
 
     // ImageLib.pas:7561
-    public override void ReadImageData(TStream Stream)
+    public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.Read(Bytes.Of(ref FRLEWidth, 4));
-        Stream.Read(Bytes.Of(ref FRLEHeight, 4));
-        Stream.Read(Bytes.Of(ref FRLELeft, 4));
-        Stream.Read(Bytes.Of(ref FRLETop, 4));
-        Stream.Read(Bytes.Of(ref FTransparentColor, 4));
-        Stream.Read(Bytes.Of(ref FReserved, 4));
+        Stream.ReadBytes(Bytes.Of(ref FRLEWidth, 4));
+        Stream.ReadBytes(Bytes.Of(ref FRLEHeight, 4));
+        Stream.ReadBytes(Bytes.Of(ref FRLELeft, 4));
+        Stream.ReadBytes(Bytes.Of(ref FRLETop, 4));
+        Stream.ReadBytes(Bytes.Of(ref FTransparentColor, 4));
+        Stream.ReadBytes(Bytes.Of(ref FReserved, 4));
     }
 
     // ImageLib.pas:7572
-    public override void WriteImageData(TStream Stream)
+    public override void WriteImageData(Stream Stream)
     {
         base.WriteImageData(Stream);
         Stream.Write(Bytes.Of(ref FRLEWidth, 4));
@@ -3157,15 +3158,15 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
     }
 
     // ImageLib.pas:7583
-    public override void ReadDiscardableImageData(TStream Stream)
+    public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
         FData = MemorySurfaces.Reallocate(FData, FDataSize);
-        Stream.Read(FData.AsSpan(0, FDataSize));
+        Stream.ReadBytes(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:7590
-    public override void WriteDiscardableImageData(TStream Stream)
+    public override void WriteDiscardableImageData(Stream Stream)
     {
         base.WriteDiscardableImageData(Stream);
         Stream.Write(FData.AsSpan(0, FDataSize));
@@ -3400,15 +3401,15 @@ public partial class TImage16 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:2103
-    public override void ReadImageData(TStream Stream)
+    public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.Read(Bytes.Of(ref FStoredPixelFormatID, 4));
+        Stream.ReadBytes(Bytes.Of(ref FStoredPixelFormatID, 4));
         FPixelFormatID = FStoredPixelFormatID;
     }
 
     // ImageLib.pas:2110
-    public override void WriteImageData(TStream Stream)
+    public override void WriteImageData(Stream Stream)
     {
         base.WriteImageData(Stream);
         RemapToPixelFormat(FStoredPixelFormatID);
@@ -3416,14 +3417,14 @@ public partial class TImage16 : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:2117
-    public override void ReadDiscardableImageData(TStream Stream)
+    public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
         FPixelFormatID = FStoredPixelFormatID;
     }
 
     // ImageLib.pas:2123
-    public override void WriteDiscardableImageData(TStream Stream)
+    public override void WriteDiscardableImageData(Stream Stream)
     {
         base.WriteDiscardableImageData(Stream);
     }
@@ -3534,18 +3535,18 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2228
-    public override void ReadDiscardableImageData(TStream Stream)
+    public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
         AllocateDiscardableImageData(FDataWidth, FDataHeight);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
         {
-            Stream.Read(FBuffer.AsSpan(Y * FPitch, FDataWidth * 2));
+            Stream.ReadBytes(FBuffer.AsSpan(Y * FPitch, FDataWidth * 2));
         }
     }
 
     // ImageLib.pas:2238
-    public override void WriteDiscardableImageData(TStream Stream)
+    public override void WriteDiscardableImageData(Stream Stream)
     {
         base.WriteDiscardableImageData(Stream);
         for (int Y = 0, last = FDataHeight - 1; Y <= last; Y++)
@@ -4191,18 +4192,18 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:4324
-    public override void ReadImageData(TStream Stream)
+    public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.Read(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.Read(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.Read(Bytes.Of(ref FSpriteX, 4));
-        Stream.Read(Bytes.Of(ref FSpriteY, 4));
-        Stream.Read(Bytes.Of(ref FTransparentColor, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteWidth, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteHeight, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteX, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteY, 4));
+        Stream.ReadBytes(Bytes.Of(ref FTransparentColor, 4));
     }
 
     // ImageLib.pas:4334
-    public override void WriteImageData(TStream Stream)
+    public override void WriteImageData(Stream Stream)
     {
         base.WriteImageData(Stream);
         Stream.Write(Bytes.Of(ref FSpriteWidth, 4));
@@ -4213,20 +4214,20 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:4344
-    public override void ReadDiscardableImageData(TStream Stream)
+    public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
         AllocateDiscardableImageData(FSpriteWidth, FSpriteHeight);
         for (int Y = 0, last = FSpriteHeight - 1; Y <= last; Y++)
         {
-            Stream.Read(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
+            Stream.ReadBytes(FBuffer.AsSpan(Y * FPitch, FSpriteWidth * 2));
         }
 
         FColorKey = FTransparentColor;
     }
 
     // ImageLib.pas:4355
-    public override void WriteDiscardableImageData(TStream Stream)
+    public override void WriteDiscardableImageData(Stream Stream)
     {
         base.WriteDiscardableImageData(Stream);
         for (int Y = 0, last = FSpriteHeight - 1; Y <= last; Y++)
@@ -4701,20 +4702,20 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     // ImageLib.pas:2947
     // { The last dword of the image data is not used: ReadImageData skips it and WriteImageData
     //   writes an uninitialized local variable (an original bug). }
-    public override void ReadImageData(TStream Stream)
+    public override void ReadImageData(Stream Stream)
     {
         int Reserved = default;
         base.ReadImageData(Stream);
-        Stream.Read(Bytes.Of(ref FSpriteWidth, 4));
-        Stream.Read(Bytes.Of(ref FSpriteHeight, 4));
-        Stream.Read(Bytes.Of(ref FSpriteX, 4));
-        Stream.Read(Bytes.Of(ref FSpriteY, 4));
-        Stream.Read(Bytes.Of(ref FColorKey, 4));
-        Stream.Read(Bytes.Of(ref Reserved, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteWidth, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteHeight, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteX, 4));
+        Stream.ReadBytes(Bytes.Of(ref FSpriteY, 4));
+        Stream.ReadBytes(Bytes.Of(ref FColorKey, 4));
+        Stream.ReadBytes(Bytes.Of(ref Reserved, 4));
     }
 
     // ImageLib.pas:2960
-    public override void WriteImageData(TStream Stream)
+    public override void WriteImageData(Stream Stream)
     {
         int Reserved = default;
         base.WriteImageData(Stream);
@@ -4727,15 +4728,15 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
     }
 
     // ImageLib.pas:2973
-    public override void ReadDiscardableImageData(TStream Stream)
+    public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
         FData = MemorySurfaces.Reallocate(FData, FDataSize);
-        Stream.Read(FData.AsSpan(0, FDataSize));
+        Stream.ReadBytes(FData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:2980
-    public override void WriteDiscardableImageData(TStream Stream)
+    public override void WriteDiscardableImageData(Stream Stream)
     {
         base.WriteDiscardableImageData(Stream);
         Stream.Write(FData.AsSpan(0, FDataSize));
@@ -5042,14 +5043,14 @@ public partial class TBitMaskGrabInfo : TGrabInfo
     public bool Inverse;
 
     // ImageLib.pas:4638
-    public override void LoadFromStream(TStream Stream)
+    public override void LoadFromStream(Stream Stream)
     {
         base.LoadFromStream(Stream);
-        Stream.Read(Bytes.Of(ref Inverse, 1));
+        Stream.ReadBytes(Bytes.Of(ref Inverse, 1));
     }
 
     // ImageLib.pas:4644
-    public override void SaveToStream(TStream Stream)
+    public override void SaveToStream(Stream Stream)
     {
         base.SaveToStream(Stream);
         Stream.Write(Bytes.Of(ref Inverse, 1));
@@ -5130,17 +5131,17 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:4694
-    public override void ReadImageData(TStream Stream)
+    public override void ReadImageData(Stream Stream)
     {
         base.ReadImageData(Stream);
-        Stream.Read(Bytes.Of(ref FMaskWidth, 4));
-        Stream.Read(Bytes.Of(ref FMaskHeight, 4));
-        Stream.Read(Bytes.Of(ref FMaskLeft, 4));
-        Stream.Read(Bytes.Of(ref FMaskTop, 4));
+        Stream.ReadBytes(Bytes.Of(ref FMaskWidth, 4));
+        Stream.ReadBytes(Bytes.Of(ref FMaskHeight, 4));
+        Stream.ReadBytes(Bytes.Of(ref FMaskLeft, 4));
+        Stream.ReadBytes(Bytes.Of(ref FMaskTop, 4));
     }
 
     // ImageLib.pas:4703
-    public override void WriteImageData(TStream Stream)
+    public override void WriteImageData(Stream Stream)
     {
         base.WriteImageData(Stream);
         Stream.Write(Bytes.Of(ref FMaskWidth, 4));
@@ -5157,15 +5158,15 @@ public partial class TBitMask : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:4727
-    public override void ReadDiscardableImageData(TStream Stream)
+    public override void ReadDiscardableImageData(Stream Stream)
     {
         base.ReadDiscardableImageData(Stream);
         AllocateMaskData(FMaskWidth, FMaskHeight);
-        Stream.Read(FMaskData.AsSpan(0, FDataSize));
+        Stream.ReadBytes(FMaskData.AsSpan(0, FDataSize));
     }
 
     // ImageLib.pas:4734
-    public override void WriteDiscardableImageData(TStream Stream)
+    public override void WriteDiscardableImageData(Stream Stream)
     {
         base.WriteDiscardableImageData(Stream);
         Stream.Write(FMaskData.AsSpan(0, FDataSize));
@@ -5393,7 +5394,7 @@ public partial class TImageLibraryFont : TCustomImageLibrary
     }
 
     // ImageLib.pas:6291
-    public override void LoadFromStream(TStream Stream)
+    public override void LoadFromStream(Stream Stream)
     {
         int I;
         base.LoadFromStream(Stream);
@@ -6146,13 +6147,13 @@ public partial class TImageLibraryManager : TComponent
     }
 
     // ImageLib.pas:8361
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         FOwnedList.SaveToStream(Stream);
     }
 
     // ImageLib.pas:8366
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         FOwnedList.LoadFromStream(Stream);
     }
@@ -6342,12 +6343,12 @@ public partial class TILManagerList : TStringList
     }
 
     // ImageLib.pas:8229
-    public override void LoadFromStream(TStream Stream)
+    public override void LoadFromStream(Stream Stream)
     {
         int N = default;
         string Name = "";
         TCustomImageLibrary IL;
-        Stream.Read(Bytes.Of(ref N, 4));
+        Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
             ImageLibUnit.ReadStringFromStream(ref Name, Stream);
@@ -6358,7 +6359,7 @@ public partial class TILManagerList : TStringList
     }
 
     // ImageLib.pas:8245
-    public override void SaveToStream(TStream Stream)
+    public override void SaveToStream(Stream Stream)
     {
         int I;
         I = Count;
@@ -6628,16 +6629,16 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:8959
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int N = default;
         bool IsNil = default;
         TImageSequence Sequence;
         DestroyItems();
-        Stream.Read(Bytes.Of(ref N, 4));
+        Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            Stream.Read(Bytes.Of(ref IsNil, 1));
+            Stream.ReadBytes(Bytes.Of(ref IsNil, 1));
             if (!IsNil)
             {
                 Sequence = new TImageSequence(this);
@@ -6658,7 +6659,7 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:8986
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         bool IsNil = default;
         ReduceCount();
@@ -7384,19 +7385,19 @@ public partial class TFrameTableList : TPersistent
     public bool Compare(TFrameTableList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
     // ImageLib.pas:9566
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int N = default;
         Clear();
-        Stream.Read(Bytes.Of(ref FDefaultValue, 4));
-        Stream.Read(Bytes.Of(ref N, 4));
+        Stream.ReadBytes(Bytes.Of(ref FDefaultValue, 4));
+        Stream.ReadBytes(Bytes.Of(ref N, 4));
         SetCapacity(N);
-        Stream.Read(MemoryMarshal.AsBytes(FList.AsSpan(0, N)));
+        Stream.ReadBytes(MemoryMarshal.AsBytes(FList.AsSpan(0, N)));
         FCount = N;
     }
 
     // ImageLib.pas:9578
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         Stream.Write(Bytes.Of(ref FDefaultValue, 4));
         Stream.Write(Bytes.Of(ref FCount, 4));
@@ -7552,8 +7553,8 @@ public partial class TImageSequence : IDisposable
     public TImageSequence Copy(TImageSequenceList AOwner)
     {
         TImageSequence Result = default;
-        TMemoryStream Stream;
-        Stream = new TMemoryStream();
+        MemoryStream Stream;
+        Stream = new MemoryStream();
         try
         {
             Result = new TImageSequence(AOwner);
@@ -7900,7 +7901,7 @@ public partial class TImageSequence : IDisposable
     }
 
     // ImageLib.pas:8822
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         bool HasNext;
         ImageLibUnit.WriteStringToStream(FImageLibraryName, Stream);
@@ -7924,17 +7925,17 @@ public partial class TImageSequence : IDisposable
     }
 
     // ImageLib.pas:8839
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         bool HasNext = default;
         ReleaseIL();
         ImageLibUnit.ReadStringFromStream(ref FImageLibraryName, Stream);
-        Stream.Read(Bytes.Of(ref FLayer, 1));
-        Stream.Read(Bytes.Of(ref FSequenceSpeed, 1));
-        Stream.Read(Bytes.Of(ref FSequenceMode, 1));
-        Stream.Read(Bytes.Of(ref FImageIndex, 4));
-        Stream.Read(Bytes.Of(ref FdXshift, 4));
-        Stream.Read(Bytes.Of(ref FdYshift, 4));
+        Stream.ReadBytes(Bytes.Of(ref FLayer, 1));
+        Stream.ReadBytes(Bytes.Of(ref FSequenceSpeed, 1));
+        Stream.ReadBytes(Bytes.Of(ref FSequenceMode, 1));
+        Stream.ReadBytes(Bytes.Of(ref FImageIndex, 4));
+        Stream.ReadBytes(Bytes.Of(ref FdXshift, 4));
+        Stream.ReadBytes(Bytes.Of(ref FdYshift, 4));
         if (TSet<TSequenceMode>.Of(TSequenceMode.smFrameTable, TSequenceMode.smRndFrameTable).Contains(FSequenceMode))
         {
             if (FFrameTable == null)
@@ -7946,7 +7947,7 @@ public partial class TImageSequence : IDisposable
             FImageIndex = Random(FFrameTable.Count);
         }
 
-        Stream.Read(Bytes.Of(ref HasNext, 1));
+        Stream.ReadBytes(Bytes.Of(ref HasNext, 1));
         if (HasNext)
         {
             FNext = new TImageSequence(FOwner);
@@ -7985,9 +7986,9 @@ public partial class TImageSequence : IDisposable
 
 public delegate int TFrameTableSortCompare(int Item1, int Item2);
 
-// (declared in the implementation): a read-only file stream opened with
-// FILE_FLAG_SEQUENTIAL_SCAN. Destroy does not call the inherited destructor
-public partial class TFastLoadFileStream : THandleStream
+// A read-only file opened for a sequential load. Dispose releases that file.
+[LegacyObject]
+public partial class TFastLoadFileStream : Stream
 {
 }
 
@@ -8411,12 +8412,12 @@ public static partial class ImageLibUnit
     }
 
     // ImageLib.pas:10595
-    public static TLibraryImage ReadImageFromStream(TStream Stream, TCustomImageLibrary AOwner)
+    public static TLibraryImage ReadImageFromStream(Stream Stream, TCustomImageLibrary AOwner)
     {
         TLibraryImage Result;
         int ID = default;
         LibraryImageClass ImageClass;
-        Stream.Read(Bytes.Of(ref ID, 4));
+        Stream.ReadBytes(Bytes.Of(ref ID, 4));
         ImageClass = FindLibraryImageClass(ID);
         if (ImageClass != null)
         {
@@ -8432,7 +8433,7 @@ public static partial class ImageLibUnit
     }
 
     // ImageLib.pas:10611
-    public static void WriteImageToStream(TLibraryImage Image, TStream Stream)
+    public static void WriteImageToStream(TLibraryImage Image, Stream Stream)
     {
         int ID = default;
         if (Image != null)
@@ -8449,12 +8450,12 @@ public static partial class ImageLibUnit
     }
 
     // ImageLib.pas:10628
-    public static TLibraryImage ReadImageFromStreamEx(TStream Stream, TStream DataStream, TCustomImageLibrary AOwner)
+    public static TLibraryImage ReadImageFromStreamEx(Stream Stream, Stream DataStream, TCustomImageLibrary AOwner)
     {
         TLibraryImage Result;
         int ID = default;
         LibraryImageClass ImageClass;
-        Stream.Read(Bytes.Of(ref ID, 4));
+        Stream.ReadBytes(Bytes.Of(ref ID, 4));
         ImageClass = FindLibraryImageClass(ID);
         if (ImageClass != null)
         {
@@ -8470,7 +8471,7 @@ public static partial class ImageLibUnit
     }
 
     // ImageLib.pas:10644
-    public static void WriteImageToStreamEx(TLibraryImage Image, TStream Stream, TStream DataStream)
+    public static void WriteImageToStreamEx(TLibraryImage Image, Stream Stream, Stream DataStream)
     {
         int ID = default;
         if (Image != null)
@@ -8502,7 +8503,7 @@ public static partial class ImageLibUnit
 
     // ImageLib.pas:1266
     // { The strings of the image sequences: a length and the characters }
-    public static void WriteStringToStream(string S, TStream Stream)
+    public static void WriteStringToStream(string S, Stream Stream)
     {
         int L;
         L = S.Length;
@@ -8511,16 +8512,16 @@ public static partial class ImageLibUnit
     }
 
     // ImageLib.pas:1275
-    public static void ReadStringFromStream(ref string S, TStream Stream)
+    public static void ReadStringFromStream(ref string S, Stream Stream)
     {
         int L = default;
-        Stream.Read(Bytes.Of(ref L, 4));
+        Stream.ReadBytes(Bytes.Of(ref L, 4));
         if (L < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[L];
         Cp1252.Encode(S)[..Math.Min(S.Length, L)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
         S = Cp1252.Decode(buffer);
-        Stream.Read(buffer);
+        Stream.ReadBytes(buffer);
         S = Cp1252.Decode(buffer);
     }
 

@@ -107,7 +107,7 @@ public sealed class EngineSupportTests
     [Fact]
     public void StringReadsCopyBeforeWritingAndKeepPartialTransfers()
     {
-        var stream = new TMemoryStream();
+        var stream = new MemoryStream();
         stream.WriteBuffer(new byte[] { 0, 233 });
         stream.Position = 0;
         string value = "abcd", shared = value;
@@ -125,17 +125,15 @@ public sealed class EngineSupportTests
         foreach (var level in new[] { CompressionLevel.NoCompression, CompressionLevel.Fastest, CompressionLevel.Optimal, CompressionLevel.SmallestSize })
         {
             byte[] expected = Enumerable.Range(0, 8193).Select(i => (byte)(i * 17)).ToArray();
-            var backing = new TMemoryStream();
-            var compressor = new TCompressionStream(level, backing);
-            Assert.Equal(expected.Length, compressor.Write(expected));
-            Assert.Equal(expected.Length, compressor.Seek(0, 1));
-            Assert.Throws<IOException>(() => compressor.Seek(1, 0));
+            var backing = new MemoryStream();
+            var compressor = new ZLibStream(backing, level, true);
+            compressor.Write(expected);
             compressor.Dispose(); compressor.Dispose();
-            Assert.True(backing.Size > 0);
+            Assert.True(backing.Length > 0);
             backing.Position = 0;
-            var reader = new TDecompressionStream(backing);
+            var reader = new ZLibStream(backing, CompressionMode.Decompress, true);
             byte[] actual = new byte[expected.Length];
-            Assert.Equal(expected.Length, reader.Read(actual));
+            reader.ReadExactly(actual);
             Assert.Equal(expected, actual);
             Assert.Equal(0, reader.Read(actual));
             reader.Dispose();
@@ -147,12 +145,12 @@ public sealed class EngineSupportTests
     [Fact]
     public void CompressionLevelByteKeepsTheFormerEnumMapping()
     {
-        Assert.Equal(CompressionLevel.NoCompression, TCompressionStream.CompressionLevelOf(0));
-        Assert.Equal(CompressionLevel.Fastest, TCompressionStream.CompressionLevelOf(1));
-        Assert.Equal(CompressionLevel.Optimal, TCompressionStream.CompressionLevelOf(2));
-        Assert.Equal(CompressionLevel.SmallestSize, TCompressionStream.CompressionLevelOf(3));
-        Assert.Equal(CompressionLevel.Optimal, TCompressionStream.CompressionLevelOf(4));
-        Assert.Equal(CompressionLevel.Optimal, TCompressionStream.CompressionLevelOf(255));
+        Assert.Equal(CompressionLevel.NoCompression, ZLibLevels.ForByte(0));
+        Assert.Equal(CompressionLevel.Fastest, ZLibLevels.ForByte(1));
+        Assert.Equal(CompressionLevel.Optimal, ZLibLevels.ForByte(2));
+        Assert.Equal(CompressionLevel.SmallestSize, ZLibLevels.ForByte(3));
+        Assert.Equal(CompressionLevel.Optimal, ZLibLevels.ForByte(4));
+        Assert.Equal(CompressionLevel.Optimal, ZLibLevels.ForByte(255));
     }
 
     [Fact]

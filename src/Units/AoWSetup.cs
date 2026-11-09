@@ -396,7 +396,7 @@ public partial class TSetupControl : TComponent
     public TSet<TSetupStatusElement> FStatus;
     public TSetupPhase FPhase;
     public TSetupSettings FSettings;
-    public TMemoryStream FStream;
+    public MemoryStream FStream;
     public int FUpdateCount;
     public TRemotePlayer FRemotePlayer;
     public TSetupControlEvent FOnSettingChanged;
@@ -429,7 +429,7 @@ public partial class TSetupControl : TComponent
         FRemotePlayer = new TRemotePlayer(null);
         FRemotePlayer.FRemoteID = 0;
         FRemotePlayer.FPreferredRace = 255;
-        FStream = new TMemoryStream();
+        FStream = new MemoryStream();
     }
 
     // AoWSetup.pas:456
@@ -444,14 +444,14 @@ public partial class TSetupControl : TComponent
     // AoWSetup.pas:461
     public void SendPackage(TSetupPackage Package, int Recipient)
     {
-        TMemoryStream Stream;
-        Stream = new TMemoryStream();
+        MemoryStream Stream;
+        Stream = new MemoryStream();
         try
         {
             AoWEngine.StoreEObject(Stream, Package, null);
-            var size = Stream.Size;
-            SendData(Stream.Memory, size, Recipient);
-            var streamSize = Stream.Size;
+            var size = (int)Stream.Length;
+            SendData(Stream.GetBuffer(), size, Recipient);
+            var streamSize = (int)Stream.Length;
             AoWEngine.OutputDebugMessage(NetworkEngineDID, "SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(Recipient));
         }
         finally
@@ -512,17 +512,17 @@ public partial class TSetupControl : TComponent
     public void DataReceived(object Data, int Size, int SenderID)
     {
         TEObject Obj = default;
-        TMemoryStream Stream;
-        Stream = new TMemoryStream();
-        Stream.Size = Size;
-        Move(BufferBytes(Data)[..Size], Stream.Memory.AsSpan(0, Size), Size);
+        MemoryStream Stream;
+        Stream = new MemoryStream();
+        Stream.SetLength(Size);
+        Move(BufferBytes(Data)[..Size], Stream.GetBuffer().AsSpan(0, Size), Size);
         Stream.Position = 0;
         try
         {
             Obj = AoWEngine.RetrieveEObject(Stream, null);
             if (Obj is TSetupPackage)
             {
-                var size = Stream.Size;
+                var size = (int)Stream.Length;
                 AoWEngine.OutputDebugMessage(NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((TSetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
                 PackageReceived((TSetupPackage)Obj, SenderID);
             }
@@ -688,11 +688,11 @@ public partial class TSetupControl : TComponent
                 Validation = TMapValidationInfo.mviInvalid;
             }
 
-            bool condition = Validation == TMapValidationInfo.mviInvalidMap && FStream.Size != 0;
+            bool condition = Validation == TMapValidationInfo.mviInvalidMap && FStream.Length != 0;
             if (condition)
             {
-                var size = FStream.Size;
-                condition = GetCRC32(FStream.Memory, size) == FSettings.FMapCRC;
+                var size = (int)FStream.Length;
+                condition = GetCRC32(FStream.GetBuffer(), size) == FSettings.FMapCRC;
             }
 
             if (condition)
@@ -853,7 +853,7 @@ public partial class TSetupControl : TComponent
     public bool hValidateSendMap()
     {
         bool Result = default;
-        TMemoryStream Stream;
+        MemoryStream Stream;
         int I;
         int RemoteID;
         int J = default;
@@ -880,8 +880,8 @@ public partial class TSetupControl : TComponent
             Stream = Aow.Units.Engine.TEngine.ImageStream(FileBoundary.LoadOrRaise(AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
             if (FOnSendMap != null)
             {
-                var size = Stream.Size;
-                FOnSendMap(this, Stream.Memory, size, RemoteID);
+                var size = (int)Stream.Length;
+                FOnSendMap(this, Stream.GetBuffer(), size, RemoteID);
             }
 
             Stream?.Dispose();
@@ -917,8 +917,8 @@ public partial class TSetupControl : TComponent
     {
         if (!GetHost())
         {
-            FStream.Size = Size;
-            Move(BufferBytes(Data)[..Size], FStream.Memory.AsSpan(0, Size), Size);
+            FStream.SetLength(Size);
+            Move(BufferBytes(Data)[..Size], FStream.GetBuffer().AsSpan(0, Size), Size);
             ValidateMap();
             SendHostMessage(11, FRemotePlayer, 0, 0);
         }

@@ -106,9 +106,9 @@ public sealed class StringsTests
         source.Exchange(0, 1); Assert.Equal("b", source[0]); source.Move(0, 1); Assert.Equal("a", source[0]); source.Move(-1, -1);
         Assert.Equal(0, source.IndexOf("A")); Assert.Equal(-1, source.IndexOf("c"));
         var copy = new PlainStrings(); copy.Assign(source); copy.AddStrings(source); Assert.Equal("a\r\nb\r\na\r\nb\r\n", copy.Text);
-        using var memory = new TMemoryStream(); memory.WriteBuffer(new byte[] { 0x78, 0x61, 0x0a, 0x62 }); memory.Position = 1;
+        using var memory = new MemoryStream(); memory.WriteBuffer(new byte[] { 0x78, 0x61, 0x0a, 0x62 }); memory.Position = 1;
         copy.LoadFromStream(memory); Assert.Equal("a\r\nb\r\n", copy.Text);
-        memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.Memory.Take(memory.Size));
+        memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.ToArray());
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);
         Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => TStrings.Error("error %d", 1)).Message);
         copy.BeginUpdate(); copy.EndUpdate(); copy.Dispose();

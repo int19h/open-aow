@@ -100,7 +100,7 @@ public sealed partial class AoWERuleConstructionTests
         TEObject source = CreateUnit(type, null!, 0);
         TEObject result = null!;
         var owner = new UnitOwner(false);
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         try
         {
             engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);

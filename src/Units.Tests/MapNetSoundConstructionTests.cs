@@ -155,8 +155,8 @@ public sealed class MapNetSoundConstructionTests
                 break;
             case TPlayerCommunicator player:
                 Assert.Null(player.FReceivedPackage);
-                Assert.Equal(0, player.FSendStream.Size);
-                Assert.Equal(0, player.FReceiveStream.Size);
+                Assert.Equal(0L, player.FSendStream.Length);
+                Assert.Equal(0L, player.FReceiveStream.Length);
                 Assert.Equal(0, player.FOnReceiveStore.Count);
                 Assert.Equal(0, player.FOnProcessStore.Count);
                 break;

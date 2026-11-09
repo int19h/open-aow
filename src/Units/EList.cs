@@ -10,12 +10,12 @@ namespace Aow.Units.EList;
 public partial class TListObject : IDisposable
 {
     // EList.pas:50
-    public virtual void SaveToStream(TStream Stream)
+    public virtual void SaveToStream(Stream Stream)
     {
     }
 
     // EList.pas:54
-    public virtual void LoadFromStream(TStream Stream)
+    public virtual void LoadFromStream(Stream Stream)
     {
     }
 
@@ -75,16 +75,16 @@ public partial class TObjectList : TList
     }
 
     // EList.pas:89
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int N = default;
         bool IsNil = default;
         TListObject Obj;
         DestroyItems();
-        Stream.Read(Bytes.Of(ref N, 4));
+        Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
         {
-            Stream.Read(Bytes.Of(ref IsNil, 1));
+            Stream.ReadBytes(Bytes.Of(ref IsNil, 1));
             if (!IsNil)
             {
                 Obj = new TListObject();
@@ -99,7 +99,7 @@ public partial class TObjectList : TList
     }
 
     // EList.pas:112
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         bool IsNil = default;
         Stream.Write(ValueBytes(Count, 4));

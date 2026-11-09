@@ -31,7 +31,7 @@ public sealed class HostPathTests
 
             foreach (string name in found)
             {
-                using var stream = new TFileStream(name, fmOpenRead);
+                using var stream = OpenFile(name, fmOpenRead);
                 byte[] content = new byte[1];
                 Assert.Equal(1, stream.Read(content));
                 Assert.Equal(Array.IndexOf(Names, name), content[0]);
