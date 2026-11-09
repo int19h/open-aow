@@ -16,8 +16,10 @@ using Aow.Units.HolyG;
 using Aow.Units.HSEngine;
 using Aow.Units.HxBridge;
 using Aow.Units.Mountain;
+using Aow.Units.PassiveAb;
 using Aow.Units.PoisonP;
 using Aow.Units.Sound;
+using Aow.Units.SummonSpells;
 using Aow.Units.Terrain;
 using Aow.Units.UnHolyG;
 using Aow.Units.UnitSpells;
@@ -374,6 +376,19 @@ public sealed class ObjectCastCrashTests
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(4, marker.OverlayType);
         }
+    }
+
+    [Fact]
+    public void MasteryGuardianDefaultsNeedNoSummonedSpell()
+    {
+        // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
+        Assert.Null(Game.AoWHSSet.FSpellControl.GetSpell(155));
+        var unit = new TUnit(null!);
+        unit.FUnitResource = new TUnitResource(null!) { FLevel = 2 };
+        Assert.Equal(6, TSummonedAbility.GetDefaultManaUpkeep(unit));
+        Assert.Equal(5, TSummonedAbility.GetDefaultDispelResistance(unit));
+        Assert.Equal(5, new TSummonSyron(null!).GetDispelResistance(unit));
+        Assert.Equal(0, TSummonedAbility.GetDefaultManaUpkeep(new MasteryUnit()));
     }
 
     [Fact]
