@@ -10,6 +10,7 @@ using Aow.Units.AoWRelations;
 using Aow.Units.AoWWindow;
 using Aow.Units.AoWWinMan;
 using Aow.Units.AOWWinManager;
+using Aow.Units.Bridge;
 using Aow.Units.Engine;
 using Aow.Units.HolyG;
 using Aow.Units.HSEngine;
@@ -372,6 +373,35 @@ public sealed class ObjectCastCrashTests
             Assert.False(bridge.PlaceHX(scope.Map.FMapContainer, 0, 0, 0));
             Assert.Same(scope.Field, bridge.Owner);
             Assert.Equal(4, marker.OverlayType);
+        }
+    }
+
+    [Fact]
+    public void MovingAPlacedBridgeSkipsTheLevelOverlay()
+    {
+        TAoWHSMap previous = Game.AoWHSMap;
+        try
+        {
+            var map = new TAoWHSMap(null!);
+            var container = new TMapContainer(null!);
+            var level = new TMapLevel(container);
+            level.CreateMapFieldList(2, 1);
+            container.FMap = map;
+            map.FMapContainer = container;
+            Game.AoWHSMap = map;
+            var first = container.GetField(0, 0, 0);
+            var second = container.GetField(1, 0, 0);
+            var bridge = new TBridge(null!);
+            bridge.FResource = new TBridgeResource(null!);
+            Assert.True(bridge.PlaceHX(container, 0, 0, 0));
+            Assert.Same(first, bridge.Owner);
+            Assert.True(bridge.PlaceHX(container, 1, 0, 0));
+            Assert.Same(second, bridge.Owner);
+            Assert.Same(level, first.Owner);
+        }
+        finally
+        {
+            Game.AoWHSMap = previous;
         }
     }
 }
