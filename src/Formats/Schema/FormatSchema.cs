@@ -2,6 +2,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
+using Aow.Rtl;
 
 namespace Aow.Formats.Schema;
 
@@ -105,10 +106,16 @@ public sealed class FormatSchema
     public (string Rule, SchemaClass Shape)? LegacyShape(string context, string className) =>
         legacyShapes.TryGetValue((context, className), out var shape) ? shape : null;
 
-    public SchemaClass? Find(string name) => classes.GetValueOrDefault(name);
+    public SchemaClass? Find(string name)
+    {
+        if (classes.TryGetValue(name, out var found)) return found;
+        var resolved = NameTable.ResolveStored(name);
+        if (resolved is null || resolved == name || !classes.TryGetValue(resolved, out found)) return null;
+        return found;
+    }
 
     public SchemaClass Get(string name) =>
-        classes.TryGetValue(name, out var c) ? c : throw new InvalidOperationException($"The schema has no class {name}.");
+        Find(name) ?? throw new InvalidOperationException($"The schema has no class {name}.");
 
     /// <summary>Resolves a stored class id through one engine table only (own-formats.md 2.2).</summary>
     public SchemaClass? Resolve(string engine, int classId) =>

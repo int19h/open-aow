@@ -1,5 +1,6 @@
 using System.Reflection;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Formats;
 
@@ -58,16 +59,25 @@ public static class EnumCatalog
     {
         lock (gate)
         {
-            EnumTypeInfo? found = null;
-            foreach (var catalog in catalogs)
-            {
-                if (!catalog.TryGet(typeName, out var type)) continue;
-                if (found is not null)
-                    throw new InvalidOperationException("The enum " + typeName + " is registered twice.");
-                found = type;
-            }
-            return found;
+            var found = Lookup(typeName);
+            if (found is not null) return found;
+            var resolved = NameTable.ResolveStored(typeName);
+            if (resolved is null || resolved == typeName) return null;
+            return Lookup(resolved);
         }
+    }
+
+    private static EnumTypeInfo? Lookup(string typeName)
+    {
+        EnumTypeInfo? found = null;
+        foreach (var catalog in catalogs)
+        {
+            if (!catalog.TryGet(typeName, out var type)) continue;
+            if (found is not null)
+                throw new InvalidOperationException("The enum " + typeName + " is registered twice.");
+            found = type;
+        }
+        return found;
     }
 
     public static EnumTypeInfo Require(string typeName, string? file, string path) =>
@@ -93,10 +103,11 @@ sealed class ReflectionEnumCatalog : IEnumCatalog
         foreach (var type in found)
         {
             if (type is null || !type.IsEnum || type.IsGenericType) continue;
-            if (!types.TryGetValue(type.Name, out var list))
+            string stored = NameTable.Stored(type);
+            if (!types.TryGetValue(stored, out var list))
             {
                 list = [];
-                types.Add(type.Name, list);
+                types.Add(stored, list);
             }
             list.Add(EnumTypeInfo.Describe(type));
         }

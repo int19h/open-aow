@@ -68,7 +68,7 @@ public partial class TMapField
             if (FStaticCount != 0) FStaticCount--;
             else
             {
-                try { throw new ArgumentException($"Invalid StaticCount ({ClassNames.ClassNameOf(sprite.GetType())})"); }
+                try { throw new ArgumentException($"Invalid StaticCount ({sprite.GetType().Name})"); }
                 catch { }
             }
         }

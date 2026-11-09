@@ -11,13 +11,13 @@ public class TPersistent : IDisposable
     public virtual void Assign(TPersistent? source) { if (source is null) AssignError(null); else source.AssignTo(this); }
 
     protected internal virtual void AssignTo(TPersistent target) => target.AssignError(this);
-    protected void AssignError(TPersistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : ClassNames.ClassNameOf(source.GetType()))} to a {ClassNames.ClassNameOf(GetType())}");
+    protected void AssignError(TPersistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : source.GetType().Name)} to a {GetType().Name}");
     // CLASSES.PAS TPersistent.GetOwner and GetNamePath.
     public virtual TPersistent? GetOwner() => null;
 
     public virtual string GetNamePath()
     {
-        string name = ClassNames.ClassNameOf(GetType());
+        string name = GetType().Name;
         string owner = GetOwner()?.GetNamePath() ?? "";
         return owner.Length == 0 ? name : owner + "." + name;
     }

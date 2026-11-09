@@ -2,6 +2,7 @@ using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
 using Aow.Formats.Tree;
+using Aow.Rtl;
 
 namespace Aow.Formats.Tests;
 
@@ -532,13 +533,13 @@ public sealed class TreeTests : FormatsTest
 
     private sealed class TestFactory : IPersistableFactory
     {
-        public string ClassName(IPersistable obj) => obj.GetType().Name;
+        public string ClassName(IPersistable obj) => NameTable.Stored(obj.GetType());
 
-        public IPersistable Create(string className) => className switch
+        public IPersistable Create(string className)
         {
-            nameof(TInner) => new TInner(),
-            nameof(TSample) => new TSample(),
-            _ => throw new InvalidOperationException("The test factory has no class " + className + "."),
-        };
+            if (NameTable.Names(typeof(TInner), className)) return new TInner();
+            if (NameTable.Names(typeof(TSample), className)) return new TSample();
+            throw new InvalidOperationException("The test factory has no class " + className + ".");
+        }
     }
 }

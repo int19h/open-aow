@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using Aow.Rtl;
 
 namespace Aow.Formats.Tree;
 
@@ -13,7 +14,7 @@ public static class RecordValues
 {
     public static void Transfer<T>(IPersister persister, string name, ref T value) where T : unmanaged
     {
-        var info = RecordCatalog.Require(typeof(T).Name, null, name);
+        var info = RecordCatalog.Require(NameTable.Stored(typeof(T)), null, name);
         var image = new byte[Unsafe.SizeOf<T>()];
         MemoryMarshal.Write(image, in value);
         if (image.Length < info.Size)

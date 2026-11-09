@@ -661,7 +661,7 @@ public partial class TTokenExecuter : IDisposable
         }
         catch
         {
-            ShowMessage("Exception occured during " + ClassNames.ClassNameOf(TE.GetType()));
+            ShowMessage("Exception occured during " + TE.GetType().Name);
             Result = TExecuteResult.erDone;
         }
 
@@ -1255,7 +1255,7 @@ public partial class TDataPackage : TEObject
     }
 
     // NetworkE.pas:586
-    public virtual string Name() => ClassNames.ClassNameOf(this.GetType());
+    public virtual string Name() => this.GetType().Name;
 
     public int Sender { get => FSender; set => FSender = value; }
     public int Receiver { get => FReceiver; set => FReceiver = value; }
