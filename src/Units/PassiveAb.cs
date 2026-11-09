@@ -901,7 +901,9 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1108
-    public int GetDefaultManaUpkeep(TAbstractUnit AUnit)
+    // Static: the original calls this and GetDefaultDispelResistance on the nil result of GetSpell(155)
+    // (PrdPlace.pas:336, SummonSpells.pas:258), which works there because they read only the unit argument.
+    public static int GetDefaultManaUpkeep(TAbstractUnit AUnit)
     {
         int Result;
         if (AUnit is TUnit)
@@ -917,7 +919,7 @@ public partial class TSummonedAbility : TUnitEnchantmentAbility
     }
 
     // PassiveAb.pas:1115
-    public int GetDefaultDispelResistance(TAbstractUnit AUnit)
+    public static int GetDefaultDispelResistance(TAbstractUnit AUnit)
     {
         int Result;
         if (AUnit is TUnit)
