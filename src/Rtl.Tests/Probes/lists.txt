@@ -395,8 +395,8 @@ expand_spare_item_0 5
 expand_spare_item_1 2
 expand_spare_item_2 3
 expand_spare_item_3 0
-delete_outside ArgumentOutOfRangeException
-insert_outside ArgumentOutOfRangeException
+delete_outside EListError
+insert_outside EListError
 expand_capacity8_count 8
 expand_capacity8_capacity 12
 expand_capacity8_item_0 0
@@ -4180,7 +4180,7 @@ sorted_0_after_indexof -1
 sorted_0_empty_lookup_found 1
 sorted_0_empty_lookup_insertion_index 0
 sorted_0_empty_lookup_indexof 0
-sorted_0_insert_error InvalidOperationException
+sorted_0_insert_error EStringListError
 unsorted_1_z_index 0
 unsorted_1_z_count 1
 unsorted_1_z_text_0 [zeta]
@@ -4312,7 +4312,7 @@ sorted_1_after_indexof -1
 sorted_1_empty_lookup_found 1
 sorted_1_empty_lookup_insertion_index 0
 sorted_1_empty_lookup_indexof 0
-sorted_1_insert_error InvalidOperationException
+sorted_1_insert_error EStringListError
 unsorted_2_z_index 0
 unsorted_2_z_count 1
 unsorted_2_z_text_0 [zeta]
@@ -4377,7 +4377,7 @@ sorted_2_a_text_1 [Beta]
 sorted_2_a_object_1 2
 sorted_2_a_text_2 [zeta]
 sorted_2_a_object_2 1
-sorted_2_duplicate_error ArgumentException
+sorted_2_duplicate_error EStringListError
 sorted_2_duplicate_count 3
 sorted_2_duplicate_text_0 [alpha]
 sorted_2_duplicate_object_0 3
@@ -4385,7 +4385,7 @@ sorted_2_duplicate_text_1 [Beta]
 sorted_2_duplicate_object_1 2
 sorted_2_duplicate_text_2 [zeta]
 sorted_2_duplicate_object_2 1
-sorted_2_same_error ArgumentException
+sorted_2_same_error EStringListError
 sorted_2_same_count 3
 sorted_2_same_text_0 [alpha]
 sorted_2_same_object_0 3
@@ -4430,7 +4430,7 @@ sorted_2_after_indexof -1
 sorted_2_empty_lookup_found 1
 sorted_2_empty_lookup_insertion_index 0
 sorted_2_empty_lookup_indexof 0
-sorted_2_insert_error InvalidOperationException
+sorted_2_insert_error EStringListError
 empty_find 0
 empty_find_index 0
 empty_indexof -1

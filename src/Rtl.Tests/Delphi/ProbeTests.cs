@@ -33,6 +33,52 @@ internal sealed class ProbeLines(string name)
         Fact("end", position);
         Assert.Equal(lines.Length, position);
     }
+
+    // The recording names the Delphi class the original raised. The probe selects which class a
+    // .NET type stands for. A type with no row fails the test.
+    private static readonly Dictionary<string, Dictionary<Type, string>> DelphiNames = new()
+    {
+        ["format"] = new()
+        {
+            [typeof(FormatException)] = "EConvertError",
+        },
+        ["strings"] = new()
+        {
+            [typeof(FormatException)] = "EConvertError",
+            [typeof(ArgumentOutOfRangeException)] = "ERangeError",
+        },
+        ["streams"] = new()
+        {
+            [typeof(EndOfStreamException)] = "EReadError",
+            [typeof(IOException)] = "EWriteError",
+        },
+        ["lists"] = new()
+        {
+            [typeof(ArgumentOutOfRangeException)] = "EListError",
+            [typeof(InvalidOperationException)] = "EStringListError",
+            [typeof(ArgumentException)] = "EStringListError",
+        },
+    };
+
+    internal string DelphiName(System.Exception error) =>
+        DelphiNames.TryGetValue(name, out Dictionary<Type, string>? table)
+        && table.TryGetValue(error.GetType(), out string? delphi)
+            ? delphi
+            : throw new Xunit.Sdk.XunitException(name + " has no Delphi name for " + error.GetType().Name);
+
+    internal string Thrown(Action action)
+    {
+        try
+        {
+            action();
+        }
+        catch (System.Exception error)
+        {
+            return DelphiName(error);
+        }
+
+        throw new Xunit.Sdk.XunitException(name + " returned where the recording names an exception");
+    }
 }
 
 public sealed class ProbeTests(ITestOutputHelper output)
