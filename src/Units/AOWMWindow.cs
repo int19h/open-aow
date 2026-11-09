@@ -186,6 +186,7 @@ public partial class TMWindow : TDataModule
         if (AoWHSMap != null && AoWCombatMap == null)
         {
             AoWHSMap.FKeyboard.KeyDown(ref Key, Shift);
+            PressEndTurnShortcut(Key, Shift);
         }
 
         K = Key;
