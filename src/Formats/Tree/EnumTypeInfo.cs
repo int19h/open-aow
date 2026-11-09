@@ -1,3 +1,5 @@
+using Aow.Rtl;
+
 namespace Aow.Formats.Tree;
 
 /// <summary>
@@ -8,6 +10,7 @@ namespace Aow.Formats.Tree;
 public sealed class EnumTypeInfo
 {
     public required string Name { get; init; }
+    internal Type Clr { get; init; } = null!;
     public required int Width { get; init; }
     public required bool Signed { get; init; }
     public required IReadOnlyDictionary<string, long> ByName { get; init; }
@@ -39,7 +42,22 @@ public sealed class EnumTypeInfo
             byName.Add(name, value);
             byValue.TryAdd(value, name);
         }
-        return new EnumTypeInfo { Name = type.Name, Width = width, Signed = signed, ByName = byName, ByValue = byValue };
+        return new EnumTypeInfo
+        {
+            Name = NameTable.Stored(type),
+            Clr = type,
+            Width = width,
+            Signed = signed,
+            ByName = byName,
+            ByValue = byValue,
+        };
+    }
+
+    internal bool TryNumber(string text, out long number)
+    {
+        if (ByName.TryGetValue(text, out number)) return true;
+        if (!NameTable.TryMember(Clr, text, out var member)) return false;
+        return ByName.TryGetValue(member, out number);
     }
 
     internal static long ToInt64(object value) => Convert.ToInt64(value);

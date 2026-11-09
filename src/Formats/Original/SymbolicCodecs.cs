@@ -86,7 +86,7 @@ internal sealed partial class EnumCodec : PropertyCodec
         long number;
         if (value is JsonString text)
         {
-            if (!type.ByName.TryGetValue(text.Value, out number))
+            if (!type.TryNumber(text.Value, out number))
                 throw ctx.Fail(Codes.Type, name + " is not a value of " + TypeName + ".", value, path, text.Value);
         }
         else if (value is JsonInteger integer)
@@ -192,7 +192,7 @@ internal sealed partial class SetCodec : PropertyCodec
             long ordinal;
             if (item is JsonString text)
             {
-                if (!type.ByName.TryGetValue(text.Value, out ordinal))
+                if (!type.TryNumber(text.Value, out ordinal))
                     throw ctx.Fail(Codes.Type, name + " is not a value of " + TypeName + ".", item, at, text.Value);
             }
             else if (item is JsonInteger integer)

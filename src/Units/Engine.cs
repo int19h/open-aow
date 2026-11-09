@@ -4298,11 +4298,11 @@ public partial class TEObject : IDisposable, IPersistable
     {
         TEObject P;
         string S;
-        S = ClassNames.ClassNameOf(this.GetType());
+        S = this.GetType().Name;
         P = FOwner;
         while (P != null)
         {
-            S = ClassNames.ClassNameOf(P.GetType()) + "" + S;
+            S = P.GetType().Name + "" + S;
             P = P.FOwner;
         }
 
@@ -5816,7 +5816,7 @@ public partial class TEResource : TEObject
     public ImageLib.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
     // Engine.pas:8508
-    public virtual string ResourceEditName() => ClassNames.ClassNameOf(GetType());
+    public virtual string ResourceEditName() => GetType().Name;
 
 }
 
@@ -11648,7 +11648,7 @@ public partial class TEWriteStorageStream : TEStorageStream
     // Engine.pas:9592
     internal void PropertyExistError(int ID)
     {
-        throw new EDoublePrioriyID("PropertyID already in use (" + IntToStr(ID) + " / " + ClassNames.ClassNameOf(this.GetType()) + ")");
+        throw new EDoublePrioriyID("PropertyID already in use (" + IntToStr(ID) + " / " + this.GetType().Name + ")");
     }
 
     // Engine.pas:9565
@@ -12110,7 +12110,7 @@ public partial class TEWriteStorageStream : TEStorageStream
         }
         else
         {
-            throw new EDoublePrioriyID("Double priorityID found (" + ClassNames.ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
+            throw new EDoublePrioriyID("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
         }
     }
 
@@ -12271,7 +12271,7 @@ public partial class TDebugWriteStream : TEWriteStorageStream
         }
         else
         {
-            throw new EDoublePrioriyID("Double priorityID found (" + ClassNames.ClassNameOf(Obj.GetType()) + ":" + IntToStr(ID) + ")");
+            throw new EDoublePrioriyID("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
         }
     }
 

@@ -19311,7 +19311,7 @@ public partial class TAbilityControl : TEObject
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + ClassNames.ClassNameOf(Ability.GetType()) + ")");
+            throw new ArgumentException("Invalid AbilityID (" + Ability.GetType().Name + ")");
         }
     }
 
@@ -19338,7 +19338,7 @@ public partial class TAbilityControl : TEObject
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + ClassNames.ClassNameOf(Ability.GetType()) + ")");
+            throw new ArgumentException("Invalid AbilityID (" + Ability.GetType().Name + ")");
         }
     }
 
@@ -44329,7 +44329,7 @@ public partial class TCombatAction : TEObject
     }
 
     // Combat2.pas:713
-    public virtual string GetName() => ClassNames.ClassNameOf(this.GetType());
+    public virtual string GetName() => this.GetType().Name;
 
     // intf_P3_02.inc:42
     public virtual void Execute(TCombat Combat)
@@ -52259,7 +52259,7 @@ public partial class TAIBudget : TEObject
     // AI.pas:1678
     public virtual void OutputDebugInfo()
     {
-        AoWEUnit.AoWEngine.OutputDebugMessage(AoWEUnit.TMPDID, ClassNames.ClassNameOf(this.GetType()) + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
+        AoWEUnit.AoWEngine.OutputDebugMessage(AoWEUnit.TMPDID, this.GetType().Name + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
     }
 
     // AI.pas:1675
@@ -54945,7 +54945,7 @@ public partial class TAIRecruitmentGroupList : TEReferenceNode
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             Group = GetRecruitmentGroups(I);
-            Text = ClassNames.ClassNameOf(Group.FGroup.GetType()) + "(ID:" + IntToStr(Group.FGroup.FGroupID) + ")";
+            Text = Group.FGroup.GetType().Name + "(ID:" + IntToStr(Group.FGroup.FGroupID) + ")";
             Text = Text + "/Loc:(" + IntToStr(Group.FLocation.X) + "," + IntToStr(Group.FLocation.Y) + "," + IntToStr(Group.FLocation.L) + ")";
             Text = Text + "/MP:" + IntToStr(Group.FMovePoints);
             Text = Text + "/MPBFS:" + IntToStr(Group.FPathStrength);
@@ -55243,7 +55243,7 @@ public partial class TAIGroupControlPlugin : TEObject
         }
         catch
         {
-            throw new InvalidOperationException(ClassNames.ClassNameOf(this.GetType()) + " exception during state (" + IntToStr(FState) + ")");
+            throw new InvalidOperationException(this.GetType().Name + " exception during state (" + IntToStr(FState) + ")");
         }
 
         return FState != -1;
@@ -70386,7 +70386,7 @@ public partial class TSpellControl : TEObject
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + ClassNames.ClassNameOf(Spell.GetType()) + ")");
+            throw new ArgumentException("Invalid SpellID (" + Spell.GetType().Name + ")");
         }
     }
 
@@ -70411,7 +70411,7 @@ public partial class TSpellControl : TEObject
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + ClassNames.ClassNameOf(Spell.GetType()) + ")");
+            throw new ArgumentException("Invalid SpellID (" + Spell.GetType().Name + ")");
         }
     }
 

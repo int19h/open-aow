@@ -84,16 +84,25 @@ public static class RecordCatalog
     {
         lock (gate)
         {
-            RecordTypeInfo? found = null;
-            foreach (var catalog in catalogs)
-            {
-                if (!catalog.TryGet(typeName, out var type)) continue;
-                if (found is not null)
-                    throw new InvalidOperationException("The record " + typeName + " is registered twice.");
-                found = type;
-            }
-            return found;
+            var found = Lookup(typeName);
+            if (found is not null) return found;
+            var resolved = NameTable.ResolveStored(typeName);
+            if (resolved is null || resolved == typeName) return null;
+            return Lookup(resolved);
         }
+    }
+
+    private static RecordTypeInfo? Lookup(string typeName)
+    {
+        RecordTypeInfo? found = null;
+        foreach (var catalog in catalogs)
+        {
+            if (!catalog.TryGet(typeName, out var type)) continue;
+            if (found is not null)
+                throw new InvalidOperationException("The record " + typeName + " is registered twice.");
+            found = type;
+        }
+        return found;
     }
 
     internal static RecordTypeInfo Require(string typeName, string? file, string path) =>
@@ -122,10 +131,11 @@ sealed class ReflectionRecordCatalog : IRecordCatalog
             if (type is null || !type.IsValueType || type.IsEnum || type.IsGenericType) continue;
             var layout = type.StructLayoutAttribute;
             if (layout is null || layout.Value != LayoutKind.Explicit || layout.Size <= 0) continue;
-            if (!types.TryGetValue(type.Name, out var list))
+            string stored = NameTable.Stored(type);
+            if (!types.TryGetValue(stored, out var list))
             {
                 list = [];
-                types.Add(type.Name, list);
+                types.Add(stored, list);
             }
             list.Add(type);
         }
@@ -179,7 +189,7 @@ internal sealed partial class RecordTypeInfo
                 Name = property.Name,
                 Offset = offset,
                 Size = fieldSize,
-                ElementType = element.Name,
+                ElementType = NameTable.Stored(element),
                 ElementWidth = fieldSize,
                 ElementClr = element,
             });
@@ -224,7 +234,7 @@ internal sealed partial class RecordTypeInfo
         }
         residue.Sort(static (a, b) => a.Offset.CompareTo(b.Offset));
         bool bare = named.Count == 1 && named[0].Kind == RecordFieldKind.Set && residue.Count == 0;
-        return new RecordTypeInfo { Name = type.Name, Size = size, Fields = named, Residue = residue, BareSet = bare };
+        return new RecordTypeInfo { Name = NameTable.Stored(type), Size = size, Fields = named, Residue = residue, BareSet = bare };
     }
 
     private static RecordFieldInfo DescribeField(Type owner, FieldInfo field, int offset, int size)
@@ -254,7 +264,7 @@ internal sealed partial class RecordTypeInfo
                 Name = field.Name,
                 Offset = offset,
                 Size = size,
-                ElementType = field.FieldType.Name,
+                ElementType = NameTable.Stored(field.FieldType),
                 ElementWidth = width,
                 ElementSigned = signed,
                 ElementClr = field.FieldType,
@@ -269,7 +279,7 @@ internal sealed partial class RecordTypeInfo
                 Name = field.Name,
                 Offset = offset,
                 Size = nested.Size,
-                ElementType = field.FieldType.Name,
+                ElementType = NameTable.Stored(field.FieldType),
                 ElementClr = field.FieldType,
             };
         var (integerWidth, integerSigned) = IntegerLayout(field.FieldType, owner.Name + "." + field.Name);

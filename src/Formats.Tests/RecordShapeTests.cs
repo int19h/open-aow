@@ -469,7 +469,7 @@ public sealed class RecordShapeTests : FormatsTest
 
     private sealed class NamedFactory : IPersistableFactory
     {
-        public string ClassName(IPersistable obj) => obj.GetType().Name;
+        public string ClassName(IPersistable obj) => NameTable.Stored(obj.GetType());
         public IPersistable Create(string className) => throw new InvalidOperationException(className);
     }
 

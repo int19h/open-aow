@@ -27,7 +27,7 @@ public sealed class LibraryImageClass
     }
 
     public Type Type { get; }
-    public string ClassName => ClassNames.ClassNameOf(Type);
+    public string ClassName => NameTable.Stored(Type);
     public int ClassID { get; }
     public byte ClassVersion { get; }
     public string Name { get; } = "";

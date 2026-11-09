@@ -31,7 +31,8 @@ public sealed class EClassTests
             if (parent.ValueKind == JsonValueKind.Null) Assert.Null(eclass.Parent);
             else Assert.Equal(parent.GetString(), eclass.Parent!.Type.FullName);
             Assert.Same(eclass, EClass.Of(eclass.Type));
-            Assert.Equal(ClassNames.ClassNameOf(eclass.Type), eclass.ClassName);
+            Assert.Equal(NameTable.Stored(eclass.Type), eclass.ClassName);
+            Assert.Equal(NameTable.Delphi(eclass.Type), eclass.ClassName);
         }
     }
 

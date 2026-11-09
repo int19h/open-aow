@@ -118,7 +118,7 @@ sealed class MemberPersister : IPersister
     public void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum
     {
         var (width, signed) = EnumTypeInfo.Layout(typeof(TEnum));
-        string typeName = typeof(TEnum).Name;
+        string typeName = NameTable.Stored(typeof(TEnum));
         if (Loading)
         {
             var found = Take(name);
@@ -127,7 +127,7 @@ sealed class MemberPersister : IPersister
                 value = fallback;
                 return;
             }
-            if (found is not EnumNode node || node.TypeName != typeName || node.Width != width || node.Signed != signed)
+            if (found is not EnumNode node || !NameTable.Names(typeof(TEnum), node.TypeName) || node.Width != width || node.Signed != signed)
                 throw Type(name, "a " + typeName);
             value = (TEnum)System.Enum.ToObject(typeof(TEnum), node.Value);
             return;
@@ -138,14 +138,14 @@ sealed class MemberPersister : IPersister
     public void Set<E>(string name, ref TSet<E> value) where E : unmanaged, Enum
     {
         int width = default(TSet<E>).StorageSize;
-        string typeName = typeof(E).Name;
+        string typeName = NameTable.Stored(typeof(E));
         if (width is < 1 or > 8)
             throw new InvalidOperationException("A set image is 1 to 8 bytes.");
         if (Loading)
         {
             var found = Take(name);
             if (found is null) return;
-            if (found is not SetNode node || node.TypeName != typeName || node.Width != width)
+            if (found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width)
                 throw Type(name, "a set of " + typeName);
             value = TSet<E>.FromMask(node.Mask);
             return;

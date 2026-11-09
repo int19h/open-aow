@@ -1699,7 +1699,7 @@ public partial class THSMap : TENode
             }
             catch
             {
-                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + ClassNames.ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + ")");
+                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + FDynamicVisibleHS.FItems[I].Child.GetType().Name + ")");
             }
         }
 

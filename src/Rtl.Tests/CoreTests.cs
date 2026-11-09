@@ -33,7 +33,10 @@ public sealed class CoreTests
     [Fact]
     public void ObjectsAndGeneratedUnit()
     {
-        Assert.Equal("TSampleChild", ClassNames.ClassNameOf(typeof(TSampleChild)));
+        Assert.Equal(nameof(TSampleChild), NameTable.Delphi(typeof(TSampleChild)));
+        Assert.Equal(nameof(TSampleChild), NameTable.Stored(typeof(TSampleChild)));
+        Assert.Equal(nameof(TPersistent), NameTable.Delphi(typeof(TPersistent)));
+        Assert.Equal(nameof(TPersistent), NameTable.Stored(typeof(TPersistent)));
         var fresh = new TSampleChild(0);
         var next = new TSampleChild(3);
         Assert.NotSame(fresh, next);
