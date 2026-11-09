@@ -9,12 +9,36 @@ namespace Aow.Units.FMemStr;
 //   by tools/match.py. TFastMemoryStream is Delphi 3's TMemoryStream with a direct Position field, a
 //   32/128-byte capacity granularity and one-, two- and four-byte fast paths in Read and Write. }
 // FMemory, FSize, FPosition, FCapacity
-public partial class TFastMemoryStream : TStream
+[LegacyObject]
+public partial class TFastMemoryStream : Stream
 {
     internal byte[] FMemory = [];
     internal int FSize;
     internal int FPosition;
     internal int FCapacity;
+
+    public TFastMemoryStream()
+    {
+        CaptureAddress.Assign(this);
+    }
+
+    public override bool CanRead => true;
+
+    public override bool CanSeek => true;
+
+    public override bool CanWrite => true;
+
+    public override long Length => FSize;
+
+    public override long Position
+    {
+        get => FPosition;
+        set => FPosition = (int)value;
+    }
+
+    public override void Flush()
+    {
+    }
 
     // FMemStr.pas:125
     internal void SetCapacity(int NewCapacity)
@@ -43,9 +67,10 @@ public partial class TFastMemoryStream : TStream
         }
     }
 
-    // FMemStr.pas:152
-    public override void SetSize(int NewSize)
+    // FMemStr.pas:152. A shorter length leaves the position at NewSize - 1.
+    public override void SetLength(long value)
     {
+        int NewSize = (int)value;
         if (NewSize < FPosition)
         {
             FPosition = NewSize - 1;
@@ -56,10 +81,16 @@ public partial class TFastMemoryStream : TStream
     }
 
     // FMemStr.pas:90
-    public override void Dispose()
+    protected override void Dispose(bool disposing)
     {
-        Clear();
-        base.Dispose();
+        if (disposing) Clear();
+        base.Dispose(disposing);
+    }
+
+    public override int Read(byte[] buffer, int offset, int count)
+    {
+        if (count < 0) return 0;
+        return Read(buffer.AsSpan(offset, count));
     }
 
     // FMemStr.pas:43
@@ -108,8 +139,14 @@ public partial class TFastMemoryStream : TStream
         return 0;
     }
 
-    // FMemStr.pas:159
-    public override int Write(ReadOnlySpan<byte> Buffer)
+    public override void Write(byte[] buffer, int offset, int count)
+    {
+        if (count < 0) return;
+        Write(buffer.AsSpan(offset, count));
+    }
+
+    // FMemStr.pas:159. A non-empty write that stores nothing raises the stream write error.
+    public override void Write(ReadOnlySpan<byte> Buffer)
     {
         int Count = Buffer.Length;
         int Pos;
@@ -156,25 +193,26 @@ public partial class TFastMemoryStream : TStream
                 }
 
                 FPosition = Pos;
-                return Count;
+                return;
             }
         }
 
-        return 0;
+        if (Count != 0) throw new IOException("Stream write error");
     }
 
     // FMemStr.pas:63
-    public override int Seek(int Offset, int Origin)
+    public override long Seek(long offset, SeekOrigin origin)
     {
-        switch (Origin)
+        int Offset = (int)offset;
+        switch (origin)
         {
-            case 0:
+            case SeekOrigin.Begin:
                 FPosition = Offset;
                 break;
-            case 1:
+            case SeekOrigin.Current:
                 FPosition += Offset;
                 break;
-            case 2:
+            case SeekOrigin.End:
                 FPosition = FSize + Offset;
                 break;
         }
@@ -191,12 +229,12 @@ public partial class TFastMemoryStream : TStream
     }
 
     // FMemStr.pas:103
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         int Count;
         Stream.Position = 0;
-        Count = Stream.Size;
-        SetSize(Count);
+        Count = (int)Stream.Length;
+        SetLength(Count);
         if (Count != 0)
         {
             Stream.ReadBuffer(FMemory.AsSpan(0, Count));
@@ -206,8 +244,8 @@ public partial class TFastMemoryStream : TStream
     // FMemStr.pas:113
     public void LoadFromFile(string FileName)
     {
-        TStream Stream;
-        Stream = new TFileStream(FileName, 0);
+        Stream Stream;
+        Stream = OpenFile(FileName, 0);
         try
         {
             LoadFromStream(Stream);
@@ -219,7 +257,7 @@ public partial class TFastMemoryStream : TStream
     }
 
     // FMemStr.pas:73
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         if (FSize != 0)
         {
@@ -230,8 +268,8 @@ public partial class TFastMemoryStream : TStream
     // FMemStr.pas:78
     public void SaveToFile(string FileName)
     {
-        TStream Stream;
-        Stream = new TFileStream(FileName, 65535);
+        Stream Stream;
+        Stream = OpenFile(FileName, 65535);
         try
         {
             SaveToStream(Stream);
@@ -243,7 +281,6 @@ public partial class TFastMemoryStream : TStream
     }
 
     public byte[] Memory { get => FMemory; }
-    public new int Position { get => FPosition; set => FPosition = value; }
     public int Capacity { get => FCapacity; set => SetCapacity(value); }
 }
 

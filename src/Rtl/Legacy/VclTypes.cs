@@ -19,7 +19,7 @@ public delegate void TKeyEvent<in TSender>(TSender sender, ref ushort key, TSet<
 
 public enum TBltMode : byte { bmNone, bmStretch, bmStretchToFit, bmCenter }
 
-public delegate void TStreamProc(TStream stream);
+public delegate void TStreamProc(Stream stream);
 
 public enum TConnectionType : byte { conNone, conUnknown, conTCP, conIPX, conModem, conSerial }
 

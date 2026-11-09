@@ -2,7 +2,7 @@ namespace Aow.Rtl;
 
 public static partial class RtlUnit
 {
-    public static int ReadString(TStream stream, ref string value, int start, int count, bool exact)
+    public static int ReadString(Stream stream, ref string value, int start, int count, bool exact)
     {
         byte[] bytes = Cp1252.Encode(value).ToArray();
         var buffer = bytes.AsSpan(start, count);

@@ -17,7 +17,7 @@ public partial class THeroGrid : TCustomImageDrawGrid
     public bool FEditable;
     public bool FShowStatus;
     public bool FUnplacedOnly;
-    public TMemoryStream FStream;
+    public MemoryStream FStream;
     public byte FSort;
 
     // HeroGrid.pas:126
@@ -37,7 +37,7 @@ public partial class THeroGrid : TCustomImageDrawGrid
         GrowDirection = TILGrowDirection.ilVertical;
         ScrollBars = TScrollStyle.ssVertical;
         FIndices = new TIntegerList();
-        FStream = new TMemoryStream();
+        FStream = new MemoryStream();
         FSort = 1;
     }
 

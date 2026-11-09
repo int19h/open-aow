@@ -14,7 +14,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     public TUnitList FUnits;
     public bool FEditEnabled;
     public bool FShowUnitLevel;
-    public TMemoryStream FMemoryStream;
+    public MemoryStream FMemoryStream;
 
     // UnitGrid.pas:60
     public override void Dispose()
@@ -28,7 +28,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     public TUnitGrid(TComponent owner) : base(owner)
     {
 
-        FMemoryStream = new TMemoryStream();
+        FMemoryStream = new MemoryStream();
         RowCount = 1;
         ColCount = 8;
         DefaultColWidth = 48;

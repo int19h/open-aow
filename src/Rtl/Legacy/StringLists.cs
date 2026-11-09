@@ -166,19 +166,25 @@ public abstract class TStrings : TPersistent
     }
 
     // CLASSES.PAS TStrings.LoadFromStream and SaveToStream.
-    public virtual void LoadFromStream(TStream stream)
+    public virtual void LoadFromStream(Stream stream)
     {
         BeginUpdate();
-        try { byte[] bytes = new byte[stream.Size - stream.Position]; stream.Read(bytes); Text = Cp1252.Decode(bytes); }
+        try
+        {
+            byte[] bytes = new byte[(int)(stream.Length - stream.Position)];
+            int read = stream.Read(bytes);
+            if (read < bytes.Length) Array.Clear(bytes, read, bytes.Length - read);
+            Text = Cp1252.Decode(bytes);
+        }
         finally { EndUpdate(); }
     }
 
-    public virtual void SaveToStream(TStream stream) => stream.WriteBuffer(Cp1252.Encode(Text));
+    public virtual void SaveToStream(Stream stream) => stream.WriteBuffer(Cp1252.Encode(Text));
 
     // CLASSES.PAS TStrings.LoadFromFile and SaveToFile.
-    public void LoadFromFile(string name) { using var stream = new TFileStream(name, fmOpenRead); LoadFromStream(stream); }
+    public void LoadFromFile(string name) { using var stream = OpenFile(name, fmOpenRead); LoadFromStream(stream); }
 
-    public void SaveToFile(string name) { using var stream = new TFileStream(name, fmCreate); SaveToStream(stream); }
+    public void SaveToFile(string name) { using var stream = OpenFile(name, fmCreate); SaveToStream(stream); }
 
     // CLASSES.PAS TStrings.Error. The message selects the .NET exception.
     public static void Error(string message, int data)

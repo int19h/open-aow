@@ -46,14 +46,14 @@ public partial class TGFXEPalette
     public TPaletteEntry[] Entries = new TPaletteEntry[256];
 
     // GFXE.pas:11050
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
-        Stream.Read(Bytes.Of(ref PixelFormatID, 4));
-        Stream.Read(MemoryMarshal.AsBytes((Span<TPaletteEntry>)Entries).Slice(0, 1024));
+        Stream.ReadBytes(Bytes.Of(ref PixelFormatID, 4));
+        Stream.ReadBytes(MemoryMarshal.AsBytes((Span<TPaletteEntry>)Entries).Slice(0, 1024));
     }
 
     // GFXE.pas:11056
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         Stream.Write(Bytes.Of(ref PixelFormatID, 4));
         Stream.Write(MemoryMarshal.AsBytes((ReadOnlySpan<TPaletteEntry>)Entries).Slice(0, 1024));

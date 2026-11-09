@@ -1834,26 +1834,26 @@ public static partial class SoundUnit
     public static string GetSongName(string FileName)
     {
         string Result = "";
-        TFileStream Stream;
+        Stream Stream;
         string Ext;
         FixedArray_byte_28 Title;
         int P;
-        Stream = new TFileStream(BaseSoundEnginePath + FileName, 0 | 32);
+        Stream = OpenFile(BaseSoundEnginePath + FileName, 0 | 32);
         try
         {
             Ext = UpperCase(ExtractFileExt(FileName));
             Title = default;
             if (Ext == ".IT")
             {
-                Stream.Seek(4, 0);
-                Stream.Read(((Span<byte>)Title).Slice(0, 28));
+                Stream.Seek(4, SeekOrigin.Begin);
+                Stream.ReadBytes(((Span<byte>)Title).Slice(0, 28));
                 Result = StrPasBuffer(Title);
             }
             else
             {
                 if (Ext == ".S3M")
                 {
-                    Stream.Read(((Span<byte>)Title).Slice(0, 28));
+                    Stream.ReadBytes(((Span<byte>)Title).Slice(0, 28));
                     Result = StrPasBuffer(Title);
                 }
                 else

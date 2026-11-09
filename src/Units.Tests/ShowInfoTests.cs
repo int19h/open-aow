@@ -70,14 +70,14 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
     private static byte[] Written(TShowInfo info)
     {
-        using var stream = new TMemoryStream();
+        using var stream = new MemoryStream();
         Assert.Equal(8, info.WriteImage(stream, true));
-        return stream.Memory.AsSpan(0, stream.Size).ToArray();
+        return stream.ToArray();
     }
 
     private static TShowInfo Read(byte[] image)
     {
-        using var stream = new TMemoryStream();
+        using var stream = new MemoryStream();
         stream.Write(image);
         stream.Position = 0;
         TShowInfo info = default;
@@ -129,13 +129,13 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     private static BlendRecorder FromFile(TShowInfo info)
     {
         using var writer = new BlendRecorder(null!);
-        using var stream = new TMemoryStream();
+        using var stream = new MemoryStream();
         writer.ShowInfo = info;
         writer.WriteImageData(stream);
         stream.Position = 0;
         var reader = new BlendRecorder(null!);
         reader.ReadImageData(stream);
-        Assert.Equal(stream.Size, stream.Position);
+        Assert.Equal(stream.Length, stream.Position);
         Assert.Equal(3, reader.FVersion);
         return reader;
     }

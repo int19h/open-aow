@@ -93,7 +93,7 @@ public sealed class LayoutSession
 
     public static void ReadImageData(TCustomImageLibrary library, byte[] data)
     {
-        using var stream = new TMemoryStream();
+        using var stream = new MemoryStream();
         stream.WriteBuffer(data); stream.Position = 0; library.LoadFromStream(stream);
     }
 }

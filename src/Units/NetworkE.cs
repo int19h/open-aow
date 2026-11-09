@@ -20,8 +20,8 @@ public partial class TPlayerCommunicator : TEObject
     }
 
     internal TDataPackage FReceivedPackage;
-    internal TMemoryStream FSendStream;
-    internal TMemoryStream FReceiveStream;
+    internal MemoryStream FSendStream;
+    internal MemoryStream FReceiveStream;
     internal TPlayerCommunicationControl FPCC;
 
     internal EventStore<TPlayerCommunicator> FOnProcessStore;
@@ -37,8 +37,8 @@ public partial class TPlayerCommunicator : TEObject
     {
         FReceivedPackage = null;
         FOnReceiveStore = new();
-        FSendStream = new TMemoryStream();
-        FReceiveStream = new TMemoryStream();
+        FSendStream = new MemoryStream();
+        FReceiveStream = new MemoryStream();
         FOnProcessStore = new();
     }
 
@@ -1334,10 +1334,10 @@ public partial class TPlayerCommunicationControl : IDisposable
     public virtual string Name() => "";
 
     // NetworkE.pas:554
-    public virtual bool ReceivePackageData(TMemoryStream Stream) => false;
+    public virtual bool ReceivePackageData(MemoryStream Stream) => false;
 
     // NetworkE.pas:559
-    public virtual bool SendPackageData(int APlayer, TMemoryStream Stream) => false;
+    public virtual bool SendPackageData(int APlayer, MemoryStream Stream) => false;
 
     // NetworkE.pas:468
     public TPlayerCommunicationControl()
@@ -1453,7 +1453,7 @@ public partial class TPackageDataList : IDisposable
     public int GetCount() => FList.Count;
 
     // NetworkE.pas:888
-    public TMemoryStream GetPackageData(int Index) => (TMemoryStream)FList.List[Index];
+    public MemoryStream GetPackageData(int Index) => (MemoryStream)FList.List[Index];
 
     // NetworkE.pas:893
     public void Clear()
@@ -1468,34 +1468,34 @@ public partial class TPackageDataList : IDisposable
     }
 
     // NetworkE.pas:905
-    public void Add(TMemoryStream Stream)
+    public void Add(MemoryStream Stream)
     {
-        TMemoryStream S;
-        S = new TMemoryStream();
-        S.Size = Stream.Size;
-        var size = S.Size;
-        Move(Stream.Memory.AsSpan(0, size), S.Memory.AsSpan(0, size), size);
+        MemoryStream S;
+        S = new MemoryStream();
+        S.SetLength(Stream.Length);
+        var size = (int)S.Length;
+        Move(Stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
         FList.Add(S);
     }
 
     // NetworkE.pas:915
     public void AddData(object Data, int Size)
     {
-        TMemoryStream S;
-        S = new TMemoryStream();
-        S.Size = Size;
-        Move(BufferBytes(Data)[..Size], S.Memory.AsSpan(0, Size), Size);
+        MemoryStream S;
+        S = new MemoryStream();
+        S.SetLength(Size);
+        Move(BufferBytes(Data)[..Size], S.GetBuffer().AsSpan(0, Size), Size);
         FList.Add(S);
     }
 
     // NetworkE.pas:925
-    public void Insert(int Index, TMemoryStream Stream)
+    public void Insert(int Index, MemoryStream Stream)
     {
-        TMemoryStream S;
-        S = new TMemoryStream();
-        S.Size = Stream.Size;
-        var size = S.Size;
-        Move(Stream.Memory.AsSpan(0, size), S.Memory.AsSpan(0, size), size);
+        MemoryStream S;
+        S = new MemoryStream();
+        S.SetLength(Stream.Length);
+        var size = (int)S.Length;
+        Move(Stream.GetBuffer().AsSpan(0, size), S.GetBuffer().AsSpan(0, size), size);
         FList.Insert(Index, S);
     }
 
@@ -1510,7 +1510,7 @@ public partial class TPackageDataList : IDisposable
 
     public sealed class PackageDataAccessor(TPackageDataList target)
     {
-        public TMemoryStream this[int Index] { get => target.GetPackageData(Index); }
+        public MemoryStream this[int Index] { get => target.GetPackageData(Index); }
     }
 
     public PackageDataAccessor PackageData => new PackageDataAccessor(this);
@@ -1560,14 +1560,14 @@ public partial class TRemotePCC : TPlayerCommunicationControl
     public override string Name() => "Remote";
 
     // NetworkE.pas:824
-    public override bool ReceivePackageData(TMemoryStream Stream)
+    public override bool ReceivePackageData(MemoryStream Stream)
     {
         bool Result;
         if (FPackageDataList.Count != 0)
         {
-            Stream.Size = FPackageDataList.PackageData[0].Size;
-            var size = Stream.Size;
-            Move(FPackageDataList.PackageData[0].Memory.AsSpan(0, size), Stream.Memory.AsSpan(0, size), size);
+            Stream.SetLength(FPackageDataList.PackageData[0].Length);
+            var size = (int)Stream.Length;
+            Move(FPackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), Stream.GetBuffer().AsSpan(0, size), size);
             FPackageDataList.Delete(0);
             Result = true;
         }
@@ -1582,7 +1582,7 @@ public partial class TRemotePCC : TPlayerCommunicationControl
     // NetworkE.pas:852
     // { A package for every player (AllPlayers) goes to system 0, the transport's broadcast; a package
     //   for every player or for a player on this system is also received here. }
-    public override bool SendPackageData(int APlayer, TMemoryStream Stream)
+    public override bool SendPackageData(int APlayer, MemoryStream Stream)
     {
         bool Result;
         int SystemID;
@@ -1597,8 +1597,8 @@ public partial class TRemotePCC : TPlayerCommunicationControl
 
         if (SystemID != FLocalSystemID)
         {
-            var size = Stream.Size;
-            Result = SendData(Stream.Memory, size, SystemID);
+            var size = (int)Stream.Length;
+            Result = SendData(Stream.GetBuffer(), size, SystemID);
         }
         else
         {
@@ -1689,14 +1689,14 @@ public partial class TLocalPCC : TPlayerCommunicationControl
     public override string Name() => "Local";
 
     // NetworkE.pas:724
-    public override bool ReceivePackageData(TMemoryStream Stream)
+    public override bool ReceivePackageData(MemoryStream Stream)
     {
         bool Result;
         if (FPackageDataList.Count != 0)
         {
-            Stream.Size = FPackageDataList.PackageData[0].Size;
-            var size = Stream.Size;
-            Move(FPackageDataList.PackageData[0].Memory.AsSpan(0, size), Stream.Memory.AsSpan(0, size), size);
+            Stream.SetLength(FPackageDataList.PackageData[0].Length);
+            var size = (int)Stream.Length;
+            Move(FPackageDataList.PackageData[0].GetBuffer().AsSpan(0, size), Stream.GetBuffer().AsSpan(0, size), size);
             FPackageDataList.Delete(0);
             Result = true;
         }
@@ -1709,7 +1709,7 @@ public partial class TLocalPCC : TPlayerCommunicationControl
     }
 
     // NetworkE.pas:737
-    public override bool SendPackageData(int APlayer, TMemoryStream Stream)
+    public override bool SendPackageData(int APlayer, MemoryStream Stream)
     {
         FPackageDataList.Add(Stream);
         return true;

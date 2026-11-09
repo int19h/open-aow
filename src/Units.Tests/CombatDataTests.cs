@@ -64,9 +64,9 @@ public sealed class CombatDataTests
 
     private static byte[] Save(TCombatData data)
     {
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         using (var writer = new TEWriteStorageStream(memory, null!, false)) { writer.rwEObject(data, 4); }
-        return memory.Memory[..memory.Size];
+        return memory.ToArray();
     }
 
     [Fact]
@@ -100,7 +100,7 @@ public sealed class CombatDataTests
                 "010400140A000B040C080D0C0E0E0F0F1010111112151319141D15211628172C183019341A3B1B421C431D43" +
                 "0C00000022000000020000000000FF03000700000001010000010100000101000006436F6D62617409000000" +
                 "0800000001000000000200000003050002000000020102000100000004"), before);
-            using var memory = new TMemoryStream();
+            using var memory = new MemoryStream();
             memory.Write(before);
             memory.Position = 0;
             using var loaded = new TCombatData(null!);

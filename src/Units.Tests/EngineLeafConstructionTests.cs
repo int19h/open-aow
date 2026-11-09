@@ -211,7 +211,7 @@ public sealed class EngineLeafConstructionTests
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);
                     break;
                 case TEBufferStream stream:
-                    Assert.Equal(0, stream.Size); Assert.Equal(0, stream.Position);
+                    Assert.Equal(0L, stream.Length); Assert.Equal(0L, stream.Position);
                     Assert.Equal(0, stream.Capacity); Assert.Empty(stream.Memory);
                     break;
                 case TEventList list:

@@ -34,7 +34,7 @@ public sealed class ImageLibraryTruncationTests
     [MemberData(nameof(TruncatedFiles))]
     public void TruncatedLibraryRaisesReadError(string name, byte[] contents)
     {
-        var stream = new TMemoryStream();
+        var stream = new MemoryStream();
         var library = new TImageLibrary(null!);
         var previousClasses = Images.LibraryImageClasses;
         Images.LibraryImageClasses = new TList();

@@ -30,18 +30,24 @@ public sealed class FilesAndStreamsTests
             Assert.Equal(directory.Root, GetCurrentDir());
             Assert.False(FileExists("a")); Assert.False(DirectoryExists("a")); Assert.False(DeleteFile("a")); Assert.False(RenameFile("a", "b")); Assert.Equal(-1, FileAge("a"));
             Assert.False(CreateDir("absent/child")); Assert.True(CreateDir("a")); Assert.False(CreateDir("a")); Assert.True(DirectoryExists("a")); Assert.False(FileExists("a"));
-            using (var f = new TFileStream("a/test.bin", fmCreate)) f.WriteBuffer(new byte[] { 1, 2, 3 });
+            using (var f = OpenFile("a/test.bin", fmCreate)) f.WriteBuffer(new byte[] { 1, 2, 3 });
             Assert.True(FileExists("a\\test.bin")); Assert.True(FileExists("A/TEST.BIN")); Assert.False(DirectoryExists("a/test.bin"));
             var modified = new DateTime(2024, 2, 29, 12, 34, 56); File.SetLastWriteTime("a/test.bin", modified);
             // The native file API uses the current Windows time-zone bias.
             DateTime nativeTime = OperatingSystem.IsWindows() ? modified.ToUniversalTime() + TimeZoneInfo.Local.GetUtcOffset(DateTime.Now) : modified;
             Assert.Equal(EncodeDate(nativeTime.Year, nativeTime.Month, nativeTime.Day) + EncodeTime(nativeTime.Hour, nativeTime.Minute, nativeTime.Second, 0), FileDateToDateTime(FileAge("a/test.bin")));
             Assert.True(RenameFile("a/test.bin", "a/new.bin")); Assert.False(FileExists("a/test.bin"));
-            using (var readwrite = new TFileStream("a/new.bin", fmOpenReadWrite)) { readwrite.Position = 1; Assert.Equal(1, readwrite.Write(new byte[] { 4 })); }
-            using (var write = new TFileStream("a/new.bin", fmOpenWrite)) Assert.Equal(0, write.Read(new byte[1]));
+            using (var readwrite = OpenFile("a/new.bin", fmOpenReadWrite))
+            {
+                readwrite.Position = 1;
+                readwrite.Write(new byte[] { 4 });
+                Assert.Equal(2L, readwrite.Position);
+            }
+
+            using (var write = OpenFile("a/new.bin", fmOpenWrite)) Assert.Throws<NotSupportedException>(() => write.Read(new byte[1]));
             Assert.True(DeleteFile("a/new.bin")); Assert.False(DeleteFile("a/new.bin"));
-            Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => new TFileStream("missing", fmOpenRead)).Message);
-            Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => new TFileStream("absent/file", fmCreate)).Message);
+            Assert.Equal("Cannot open file missing", Assert.Throws<FileNotFoundException>(() => OpenFile("missing", fmOpenRead)).Message);
+            Assert.Equal("Cannot create file absent/file", Assert.Throws<IOException>(() => OpenFile("absent/file", fmCreate)).Message);
             TSearchRec search = default;
             Assert.Equal(3, FindFirst("absent\\*", faAnyFile, ref search));
             File.WriteAllBytes("a/hidden", []); File.SetAttributes("a/hidden", FileAttributes.Hidden);
@@ -96,7 +102,7 @@ public sealed class FilesAndStreamsTests
             Files = files;
             Assert.Equal("fake", GetCurrentDir()); Assert.Equal("fake/a", ExpandFileName("a"));
             Assert.True(FileExists("a")); Assert.True(DirectoryExists("a")); Assert.True(CreateDir("a")); Assert.True(DeleteFile("a")); Assert.True(RenameFile("a", "b"));
-            using (var stream = new TFileStream("virtual", fmCreate)) { stream.WriteBuffer(new byte[] { 7 }); Assert.Equal(new byte[] { 7 }, files.Opened.ToArray()); }
+            using (var stream = OpenFile("virtual", fmCreate)) { stream.WriteBuffer(new byte[] { 7 }); Assert.Equal(new byte[] { 7 }, files.Opened.ToArray()); }
             Assert.Contains("open virtual 65535", files.Calls);
             TSearchRec search = default;
             Assert.Equal(0, FindFirst("*", 0, ref search)); Assert.Equal("A", search.Name); Assert.Equal(1, search.Size); Assert.Equal(FileAge("A"), search.Time);
@@ -113,22 +119,54 @@ public sealed class FilesAndStreamsTests
         [FieldOffset(4)] public byte Tail;
     }
 
-    private sealed class ShortStream : TStream
+    private sealed class ShortStream : Stream
     {
         internal int Calls;
 
-        public override int Read(Span<byte> buffer) { Calls++; return 0; }
+        public override bool CanRead => true;
 
-        public override int Write(ReadOnlySpan<byte> buffer) { Calls++; return 0; }
+        public override bool CanSeek => true;
 
-        public override int Seek(int offset, int origin) => 0;
+        public override bool CanWrite => true;
+
+        public override long Length => 0;
+
+        public override long Position { get => 0; set { } }
+
+        public override void Flush() { }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            Calls++;
+            return 0;
+        }
+
+        public override int Read(Span<byte> buffer)
+        {
+            if (buffer.IsEmpty) return 0;
+            Calls++;
+            return 0;
+        }
+
+        public override void Write(byte[] buffer, int offset, int count) => Write(buffer.AsSpan(offset, count));
+
+        public override void Write(ReadOnlySpan<byte> buffer)
+        {
+            if (buffer.IsEmpty) return;
+            Calls++;
+            throw new IOException("Stream write error");
+        }
+
+        public override long Seek(long offset, SeekOrigin origin) => 0;
+
+        public override void SetLength(long value) { }
     }
 
     [Fact]
     public void TypedStreamBuffersUseRecordBytesAndShortTransfersRaise()
     {
         // CLASSES.PAS:2792..2854. The translated forms preserve the struct's byte layout.
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         var record = new Record { Number = 0x04030201, Tail = 5 };
         Assert.Equal(8, memory.Write(in record)); memory.WriteBuffer(in record); Assert.Equal(2, memory.Write(in record, 2)); memory.WriteBuffer(in record, 2);
         memory.Position = 0; var restored = new Record(); Assert.Equal(8, memory.Read(ref restored)); Assert.Equal(record.Number, restored.Number); Assert.Equal(record.Tail, restored.Tail);
@@ -138,14 +176,13 @@ public sealed class FilesAndStreamsTests
         memory.Clear(); var pointer = Ptr<byte>.To(new byte[] { 1, 2, 3, 4 }, 1);
         Assert.Equal(2, memory.Write(pointer, 2)); memory.WriteBuffer(pointer, 2); memory.Position = 0; Assert.Equal(2, memory.Read(pointer, 2)); memory.ReadBuffer(pointer, 2);
         Assert.Throws<EndOfStreamException>(() => memory.ReadBuffer(pointer, 1));
-        memory.Position = -1; Assert.Throws<IOException>(() => memory.WriteBuffer(pointer, 1)); Assert.Equal(0, memory.Write(pointer, -1)); Assert.Equal(0, memory.Read(pointer, -1));
+        Assert.Equal(0, memory.Write(pointer, -1)); Assert.Equal(0, memory.Read(pointer, -1));
         Assert.Equal(0, memory.Write(new byte[1], -1)); Assert.Equal(0, memory.Read(new byte[1], -1));
         memory.Clear(); Assert.Equal(1, memory.Write(new byte[] { 9, 8 }, 1)); Assert.Equal(0, memory.Read(new byte[2], 1));
         memory.ReadBuffer(default(Ptr<byte>), 0); memory.WriteBuffer(default(Ptr<byte>), 0);
         using var shortStream = new ShortStream();
         shortStream.ReadBuffer([]); shortStream.WriteBuffer([]); Assert.Equal(0, shortStream.Calls);
         Assert.Throws<EndOfStreamException>(() => shortStream.ReadBuffer(new byte[1])); Assert.Throws<IOException>(() => shortStream.WriteBuffer(new byte[1])); Assert.Equal(2, shortStream.Calls);
-        shortStream.Size = 10; shortStream.SetSize(10); Assert.Equal(0, shortStream.Size);
         Assert.Throws<IOException>(() => shortStream.CopyFrom(memory, -1));
     }
 
@@ -154,18 +191,16 @@ public sealed class FilesAndStreamsTests
     {
         // CLASSES.PAS:2985..3134. LoadFromStream preserves the destination position.
         using var directory = new ProbeDirectory();
-        using var source = new TMemoryStream(); using var destination = new TMemoryStream();
-        source.WriteBuffer(new byte[] { 1, 2, 3, 4 }); source.Position = 2; destination.Size = 8; destination.Position = 3; destination.LoadFromStream(source);
-        Assert.Equal(4, source.Position); Assert.Equal(3, destination.Position); Assert.Equal(4, destination.Size);
-        destination.SaveToFile("memory.bin"); Assert.Equal(3, destination.Position); Assert.Equal(new byte[] { 1, 2, 3, 4 }, File.ReadAllBytes("memory.bin"));
-        destination.Clear(); destination.LoadFromFile("memory.bin"); Assert.Equal(0, destination.Position); Assert.Equal(4, destination.Size);
-        using var copy = new TMemoryStream(); destination.SaveToStream(copy); Assert.Equal(4, copy.Position); Assert.Equal(0, destination.Position);
-        destination.Capacity = 8193; Assert.Equal(16384, destination.Capacity); Assert.Equal(4, destination.Size);
-        Assert.Throws<IOException>(() => destination.Capacity = -1); Assert.Throws<IOException>(() => destination.SetSize(-1));
-        source.Clear(); destination.LoadFromStream(source); Assert.Equal(0, destination.Size); Assert.Equal(0, destination.Capacity);
-        using var file = new TFileStream("memory.bin", fmOpenRead | fmShareDenyWrite);
+        using var source = new MemoryStream(); using var destination = new MemoryStream();
+        source.WriteBuffer(new byte[] { 1, 2, 3, 4 }); source.Position = 2; destination.SetLength(8); destination.Position = 3; destination.LoadFromStream(source);
+        Assert.Equal(4L, source.Position); Assert.Equal(3L, destination.Position); Assert.Equal(4L, destination.Length);
+        destination.SaveToFile("memory.bin"); Assert.Equal(3L, destination.Position); Assert.Equal(new byte[] { 1, 2, 3, 4 }, File.ReadAllBytes("memory.bin"));
+        destination.Clear(); destination.LoadFromFile("memory.bin"); Assert.Equal(0L, destination.Position); Assert.Equal(4L, destination.Length);
+        using var copy = new MemoryStream(); destination.WriteTo(copy); Assert.Equal(4L, copy.Position); Assert.Equal(0L, destination.Position);
+        source.Clear(); destination.LoadFromStream(source); Assert.Equal(0L, destination.Length); Assert.Equal(0L, destination.Position);
+        using var file = OpenFile("memory.bin", fmOpenRead | fmShareDenyWrite);
         // .NET enforces share modes between opens only on Windows.
-        if (OperatingSystem.IsWindows()) Assert.Throws<IOException>(() => new TFileStream("memory.bin", fmOpenWrite));
-        Assert.Equal(5, Assert.Throws<System.ComponentModel.Win32Exception>(() => file.Size = 2).NativeErrorCode); Assert.Equal(2, file.Position); Assert.Equal(4, file.Size);
+        if (OperatingSystem.IsWindows()) Assert.Throws<IOException>(() => OpenFile("memory.bin", fmOpenWrite));
+        Assert.Throws<NotSupportedException>(() => file.SetLength(2)); Assert.Equal(0L, file.Position); Assert.Equal(4L, file.Length);
     }
 }

@@ -284,7 +284,7 @@ public sealed class GameSwitchTests
         var group = new Aow.Units.MainAG.TPassiveAG(null!);
         Assert.Equal(-1, group.FIndependentRelation);
         sbyte relation = group.FIndependentRelation;
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         memory.Write(new byte[] { 0 });
         memory.Position = 0;
         var reader = new Aow.Units.Engine.TEReadStorageStream(memory, EngineFixture.Engine, false);

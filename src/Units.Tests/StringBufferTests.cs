@@ -8,16 +8,16 @@ namespace Aow.Units.Tests;
 
 public sealed class StringBufferTests
 {
-    private static void Read(int shape, ref string text, TStream stream)
+    private static void Read(int shape, ref string text, Stream stream)
     {
         if (shape == 0) EngineText.StringFromStream(ref text, stream);
         else if (shape == 1) EngineText.LoadStringFromStream(ref text, stream);
         else Images.ReadStringFromStream(ref text, stream);
     }
 
-    private static TMemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
+    private static MemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
     {
-        var stream = new TMemoryStream();
+        var stream = new MemoryStream();
         if (shape == 1) stream.Write([255]);
         stream.Write(Bytes.Of(ref length));
         stream.Write(bytes);
@@ -37,7 +37,7 @@ public sealed class StringBufferTests
         Read(shape, ref text, stream);
         Assert.Equal(bytes, Cp1252.Encode(text).ToArray());
         Assert.Equal("old", alias);
-        Assert.Equal(stream.Size, stream.Position);
+        Assert.Equal(stream.Length, stream.Position);
     }
 
     [Theory]
@@ -65,7 +65,7 @@ public sealed class StringBufferTests
         Assert.Equal(shape == 1 ? "" : "old", text);
     }
 
-    private sealed class FailingBodyStream : TMemoryStream
+    private sealed class FailingBodyStream : MemoryStream
     {
         internal int BodyPosition;
 
@@ -84,8 +84,8 @@ public sealed class StringBufferTests
     public void FailingReadsPublishOnlyTheResize(int shape)
     {
         using var input = Input(shape, 6, []);
-        using var stream = new FailingBodyStream { BodyPosition = input.Size };
-        stream.Write(input.Memory.AsSpan(0, input.Size));
+        using var stream = new FailingBodyStream { BodyPosition = (int)input.Length };
+        stream.Write(input.ToArray());
         stream.Position = 0;
         string text = "seedtail";
         Assert.Throws<IOException>(() => Read(shape, ref text, stream));
@@ -100,10 +100,10 @@ public sealed class StringBufferTests
         var source = new TStringList();
         source.AddObject("\u20AC\u00FF", Runtime.IntToObject(17));
         source.AddObject("tail\0ignored", Runtime.IntToObject(-23));
-        using var stream = new TMemoryStream();
+        using var stream = new MemoryStream();
         if (extended) EngineText.StringsToStreamEx(source, stream);
         else EngineText.StringsToStream(source, stream);
-        Assert.Equal(new byte[] { 8, 0, 0, 0, 0x80, 0xFF, 13, 10, 116, 97, 105, 108 }, stream.Memory[..12]);
+        Assert.Equal(new byte[] { 8, 0, 0, 0, 0x80, 0xFF, 13, 10, 116, 97, 105, 108 }, stream.GetBuffer()[..12]);
         stream.Position = 0;
         var result = new TStringList();
         if (extended) EngineText.StringsFromStreamEx(result, stream);
@@ -116,7 +116,7 @@ public sealed class StringBufferTests
             Assert.Equal(17, Runtime.ObjectToInt(result.Objects[0]));
             Assert.Equal(-23, Runtime.ObjectToInt(result.Objects[1]));
         }
-        Assert.Equal(stream.Size, stream.Position);
+        Assert.Equal(stream.Length, stream.Position);
     }
 
     [Fact]

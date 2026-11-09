@@ -116,12 +116,12 @@ public sealed class DiplomaticProposalTests
         _ => new UnknownProposal(Kind, Gold, Mana),
     };
 
-    private static string Hex(TMemoryStream memory) => Convert.ToHexString(memory.Memory.AsSpan(0, memory.Size));
+    private static string Hex(MemoryStream memory) => Convert.ToHexString(memory.ToArray());
 
-    private static TMemoryStream Memory(string hex)
+    private static MemoryStream Memory(string hex)
     {
         var bytes = Convert.FromHexString(hex);
-        var memory = new TMemoryStream();
+        var memory = new MemoryStream();
         memory.WriteBuffer(bytes);
         memory.Position = 0;
         return memory;
@@ -138,7 +138,7 @@ public sealed class DiplomaticProposalTests
 
     private static string Write(TEngine engine, TEObject value)
     {
-        using var memory = new TMemoryStream();
+        using var memory = new MemoryStream();
         var writer = new TEWriteStorageStream(memory, engine, false);
         writer.rwCreateEObject(ref value, null!, 7);
         writer.Dispose();

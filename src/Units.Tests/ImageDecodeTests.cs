@@ -208,11 +208,11 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // Writes the image to a stream, reads it back and pins the copy.
     private static void RoundTrip(LibraryImage image, Fnv hash)
     {
-        using var stream = new TMemoryStream();
+        using var stream = new MemoryStream();
         try
         {
             Images.WriteImageToStream(image, stream);
-            hash.Add(stream.Memory.AsSpan(0, stream.Size));
+            hash.Add(stream.GetBuffer().AsSpan(0, (int)stream.Length));
             stream.Position = 0;
             var copy = Images.ReadImageFromStream(stream, null!);
             try { Pin(copy, hash); }

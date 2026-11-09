@@ -4,13 +4,53 @@ namespace Aow.Units.ImageLib;
 
 public partial class TFastLoadFileStream
 {
-    private TFileStream source;
+    private Stream source;
 
-    public TFastLoadFileStream(string name) : base(0) => source = new TFileStream(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
-    public override int Read(Span<byte> buffer) => source.Read(buffer);
-    public override int Write(ReadOnlySpan<byte> buffer) => source.Write(buffer);
-    public override int Seek(int offset, int origin) => source.Seek(offset, origin);
-    public override void SetSize(int size) => source.SetSize(size);
+    public TFastLoadFileStream(string name)
+    {
+        CaptureAddress.Assign(this);
+        source = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
+    }
 
-    public override void Dispose() { source?.Dispose(); source = null; }
+    public override bool CanRead => true;
+
+    public override bool CanSeek => true;
+
+    public override bool CanWrite => false;
+
+    public override long Length => source!.Length;
+
+    public override long Position
+    {
+        get => source!.Position;
+        set => source!.Position = value;
+    }
+
+    public override void Flush()
+    {
+    }
+
+    public override int Read(Span<byte> buffer) => source!.Read(buffer);
+
+    public override int Read(byte[] buffer, int offset, int count) => source!.Read(buffer, offset, count);
+
+    public override void Write(ReadOnlySpan<byte> buffer) => throw new NotSupportedException();
+
+    public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+
+    public override long Seek(long offset, SeekOrigin origin) => source!.Seek(offset, origin);
+
+    public override void SetLength(long value) => source!.SetLength(value);
+
+    // The file closes first. Stream.Dispose(bool) then marks this instance disposed.
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            source?.Dispose();
+            source = null;
+        }
+
+        base.Dispose(disposing);
+    }
 }

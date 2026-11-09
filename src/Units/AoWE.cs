@@ -25234,13 +25234,13 @@ public partial class TUnitIndexListCollection : IDisposable
     }
 
     // Unit.PAS:2424
-    public void LoadFromStream(TStream Stream)
+    public void LoadFromStream(Stream Stream)
     {
         FUnits.LoadFromStream(Stream);
     }
 
     // Unit.PAS:2428
-    public void SaveToStream(TStream Stream)
+    public void SaveToStream(Stream Stream)
     {
         FUnits.SaveToStream(Stream);
     }
@@ -39458,19 +39458,19 @@ public partial class TAoWHSSet : THSSet
     public int GetFileCRC(string FileName, bool AtEnd)
     {
         int Result;
-        TFileStream FileStream;
+        Stream FileStream;
         Result = 0;
-        FileStream = new TFileStream(FileName, 0 | 32);
+        FileStream = OpenFile(FileName, 0 | 32);
         try
         {
             if (AtEnd)
             {
-                FileStream.Position = FileStream.Size - 4;
-                FileStream.Read(Bytes.Of(ref Result, 4));
+                FileStream.Position = FileStream.Length - 4;
+                FileStream.ReadBytes(Bytes.Of(ref Result, 4));
             }
             else
             {
-                FileStream.Read(Bytes.Of(ref Result, 4));
+                FileStream.ReadBytes(Bytes.Of(ref Result, 4));
             }
         }
         finally
@@ -72671,7 +72671,7 @@ public partial class TAoWCampaign : TEObject
     // Diplomacy.pas:2246
     public TAoWCampaign(TECustomNode owner) : base(owner)
     {
-        FStream = new TMemoryStream();
+        FStream = new MemoryStream();
         FTransferSettings = new TAoWCampaignTransferSettings(null);
         FScenarios = new TAoWCampaignScenarioList(null);
         FCompletedScenarios = new TIntegerList();
@@ -72684,7 +72684,7 @@ public partial class TAoWCampaign : TEObject
     }
 
     public string FName = "";
-    public TMemoryStream FStream;
+    public MemoryStream FStream;
     public TAoWCampaignScenarioList FScenarios;
     public TIntegerList FCompletedScenarios;
     public TByteList FRaceHistory;
@@ -72717,14 +72717,14 @@ public partial class TAoWCampaign : TEObject
             if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
             {
                 Stream.rwInteger(ref Size, 5);
-                FStream.Size = Size;
-                Stream.rwData(FStream.Memory.AsSpan(0, Size), Size, 6);
+                FStream.SetLength(Size);
+                Stream.rwData(FStream.GetBuffer().AsSpan(0, Size), Size, 6);
             }
             else
             {
-                Size = FStream.Size;
+                Size = (int)FStream.Length;
                 Stream.rwInteger(ref Size, 5);
-                Stream.rwData(FStream.Memory.AsSpan(0, Size), Size, 6);
+                Stream.rwData(FStream.GetBuffer().AsSpan(0, Size), Size, 6);
             }
         }
 
@@ -72971,7 +72971,7 @@ public partial class TAoWCampaign : TEObject
     }
 
     // Diplomacy.pas:2292
-    public bool GetContainsMap() => FStream.Size != 0;
+    public bool GetContainsMap() => FStream.Length != 0;
 
     // intf_P5_08.inc:107
 
@@ -74222,8 +74222,8 @@ public partial class TAoWEngine : THSEngine
     public void ExportTextToFile(string FileName, TEObject Obj)
     {
         TExportTextStream Stream;
-        TFileStream FileStream;
-        FileStream = new TFileStream(FileName, 65535);
+        Stream FileStream;
+        FileStream = OpenFile(FileName, 65535);
         try
         {
             Stream = new TExportTextStream(FileStream, this);
@@ -74367,14 +74367,14 @@ public partial class TAoWEngine : THSEngine
     {
         bool Result = default;
         bool Registered = default;
-        TMemoryStream Mem;
-        TFileStream FileStream;
+        MemoryStream Mem;
+        Stream FileStream;
         string Name = "";
         try
         {
-            Mem = new TMemoryStream();
+            Mem = new MemoryStream();
             // { Original leaks Mem if opening or loading the file raises. }
-            FileStream = new TFileStream(AoWEUnit.AoWEngine.StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
+            FileStream = OpenFile(AoWEUnit.AoWEngine.StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
             try
             {
                 Mem.LoadFromStream(FileStream);
@@ -74409,11 +74409,11 @@ public partial class TAoWEngine : THSEngine
     {
         string Result = "";
         bool Registered = default;
-        TMemoryStream Mem;
+        MemoryStream Mem;
         string Name = "";
         try
         {
-            Mem = new TMemoryStream();
+            Mem = new MemoryStream();
             try
             {
                 Mem.LoadFromFile(AoWEUnit.AoWEngine.StartupDirectory + "RELEASE\\GENERAL.PFS");
@@ -74790,7 +74790,7 @@ public partial class TExportTextStream : TEWriteTextStorageStream
     }
 
     // Engine.pas:1327
-    public TExportTextStream(TStream AStream, TEngine AEngine) : base(AStream, AEngine)
+    public TExportTextStream(Stream AStream, TEngine AEngine) : base(AStream, AEngine)
     { }
 }
 

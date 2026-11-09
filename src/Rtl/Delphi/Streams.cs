@@ -4,185 +4,165 @@ namespace Aow.Rtl;
 
 public static partial class RtlUnit
 {
-    public const int soFromBeginning = 0, soFromCurrent = 1, soFromEnd = 2;
     public const int fmCreate = 65535, fmOpenRead = 0, fmOpenWrite = 1, fmOpenReadWrite = 2;
     public const int fmShareCompat = 0, fmShareExclusive = 16, fmShareDenyWrite = 32, fmShareDenyRead = 48, fmShareDenyNone = 64;
+
+    // CLASSES.PAS TFileStream.Create. The host maps the mode. These messages stay the Delphi ones.
+    public static Stream OpenFile(string name, int mode)
+    {
+        try
+        {
+            return Files.Open(name, mode);
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
+        {
+            if (mode == fmCreate) throw new IOException($"Cannot create file {name}");
+            if (e is FileNotFoundException or DirectoryNotFoundException) throw new FileNotFoundException($"Cannot open file {name}");
+            throw new IOException($"Cannot open file {name}");
+        }
+    }
 }
 
-[LegacyObject]
-public abstract class TStream : IDisposable
+// CLASSES.PAS helpers that System.IO.Stream does not provide.
+public static class StreamExtensions
 {
-    public abstract int Read(Span<byte> buffer);
-    public abstract int Write(ReadOnlySpan<byte> buffer);
-    public abstract int Seek(int offset, int origin);
+    public static int Read(this Stream stream, Span<byte> buffer, int count) => count < 0 ? 0 : stream.Read(buffer[..count]);
 
-    // CLASSES.PAS TStream.GetPosition and SetPosition.
-    public int Position { get => Seek(0, 1); set => Seek(value, 0); }
-    // CLASSES.PAS TStream.GetSize and SetSize.
-    public virtual int Size { get { int p = Position; int size = Seek(0, 2); Position = p; return size; } set => SetSize(value); }
+    // One Read. Returning the count keeps a short transfer.
+    public static int ReadBytes(this Stream stream, Span<byte> buffer) => stream.Read(buffer);
 
-    public virtual void SetSize(int size) { }
+    public static int Write(this Stream stream, ReadOnlySpan<byte> buffer, int count) => WriteCounted(stream, buffer, count);
 
-    public int Read(Span<byte> buffer, int count) => count < 0 ? 0 : Read(buffer[..count]);
-    public int Write(ReadOnlySpan<byte> buffer, int count) => count < 0 ? 0 : Write(buffer[..count]);
-    public int Read(Ptr<byte> buffer, int count) => count <= 0 ? 0 : Read(buffer.Array!.AsSpan(buffer.Index, count));
-    public int Write(Ptr<byte> buffer, int count) => count < 0 ? 0 : Write(buffer.IsNull ? ReadOnlySpan<byte>.Empty : buffer.Array.AsSpan(buffer.Index, count));
-    public int Read<T>(ref T value) where T : unmanaged => Read(Bytes.Of(ref value));
-    public int Read<T>(ref T value, int count) where T : unmanaged => Read(Bytes.Of(ref value, count));
-    public int Write<T>(in T value) where T : unmanaged => Write(MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1)));
-    public int Write<T>(in T value, int count) where T : unmanaged => Write(MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
+    public static int Read(this Stream stream, Ptr<byte> buffer, int count) => count <= 0 ? 0 : stream.Read(buffer.Array!.AsSpan(buffer.Index, count));
 
-    // CLASSES.PAS TStream.ReadBuffer and WriteBuffer each perform one transfer.
-    public void ReadBuffer(Span<byte> buffer) { if (buffer.Length != 0 && Read(buffer) != buffer.Length) throw new EndOfStreamException("Stream read error"); }
+    public static int Write(this Stream stream, Ptr<byte> buffer, int count) => WritePointer(stream, buffer, count);
 
-    public void WriteBuffer(ReadOnlySpan<byte> buffer) { if (buffer.Length != 0 && Write(buffer) != buffer.Length) throw new IOException("Stream write error"); }
+    public static int Read<T>(this Stream stream, ref T value) where T : unmanaged => stream.Read(Bytes.Of(ref value));
 
-    public void ReadBuffer<T>(ref T value) where T : unmanaged => ReadBuffer(Bytes.Of(ref value));
-    public void WriteBuffer<T>(in T value) where T : unmanaged => WriteBuffer(MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1)));
-    public void ReadBuffer<T>(ref T value, int count) where T : unmanaged => ReadBuffer(Bytes.Of(ref value, count));
-    public void WriteBuffer<T>(in T value, int count) where T : unmanaged => WriteBuffer(MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
+    public static int Read<T>(this Stream stream, ref T value, int count) where T : unmanaged => stream.Read(Bytes.Of(ref value, count));
 
-    public void ReadBuffer(Ptr<byte> buffer, int count) { if (count != 0 && Read(buffer, count) != count) throw new EndOfStreamException("Stream read error"); }
+    public static int Write<T>(this Stream stream, in T value) where T : unmanaged => WriteSpan(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1)));
 
-    public void WriteBuffer(Ptr<byte> buffer, int count) { if (count != 0 && Write(buffer, count) != count) throw new IOException("Stream write error"); }
+    public static int Write<T>(this Stream stream, in T value, int count) where T : unmanaged => WriteSpan(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
 
-    // CLASSES.PAS TStream.CopyFrom.
-    public int CopyFrom(TStream source, int count)
+    // A short transfer raises the Delphi read or write error. An empty buffer does not call Read or Write.
+    public static void ReadBuffer(this Stream stream, Span<byte> buffer) => ReadBufferExact(stream, buffer);
+
+    public static void WriteBuffer(this Stream stream, ReadOnlySpan<byte> buffer) => WriteBufferExact(stream, buffer);
+
+    public static void ReadBuffer<T>(this Stream stream, ref T value) where T : unmanaged => ReadBufferExact(stream, Bytes.Of(ref value));
+
+    public static void WriteBuffer<T>(this Stream stream, in T value) where T : unmanaged => WriteBufferExact(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1)));
+
+    public static void ReadBuffer<T>(this Stream stream, ref T value, int count) where T : unmanaged => ReadBufferExact(stream, Bytes.Of(ref value, count));
+
+    public static void WriteBuffer<T>(this Stream stream, in T value, int count) where T : unmanaged => WriteBufferExact(stream, MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
+
+    public static void ReadBuffer(this Stream stream, Ptr<byte> buffer, int count)
     {
-        if (count == 0) { source.Position = 0; count = source.Size; }
+        if (count == 0) return;
+        if (count < 0) throw new EndOfStreamException("Stream read error");
+        ReadBufferExact(stream, buffer.Array!.AsSpan(buffer.Index, count));
+    }
+
+    public static void WriteBuffer(this Stream stream, Ptr<byte> buffer, int count)
+    {
+        if (count == 0) return;
+        if (count < 0 || WritePointer(stream, buffer, count) != count) throw new IOException("Stream write error");
+    }
+
+    // A zero count rewinds the source and copies its length, 61440 bytes at a time.
+    public static int CopyFrom(this Stream stream, Stream source, int count)
+    {
+        if (count == 0)
+        {
+            source.Position = 0;
+            count = (int)source.Length;
+        }
+
         if (count < 0) throw new IOException("Invalid copy count");
         int result = count;
         byte[] buffer = new byte[Math.Min(count, 61440)];
         while (count != 0)
         {
             int n = Math.Min(count, buffer.Length);
-            source.ReadBuffer(buffer.AsSpan(0, n)); WriteBuffer(buffer.AsSpan(0, n)); count -= n;
+            ReadBufferExact(source, buffer.AsSpan(0, n));
+            WriteBufferExact(stream, buffer.AsSpan(0, n));
+            count -= n;
         }
+
         return result;
     }
 
-    public virtual void Dispose()
+    public static void Clear(this MemoryStream stream)
     {
+        stream.SetLength(0);
+        stream.Capacity = 0;
     }
 
-    public TStream()
+    // Rewinds the source and fills this buffer. This position stays where SetLength left it.
+    public static void LoadFromStream(this MemoryStream stream, Stream source)
     {
-        CaptureAddress.Assign(this);
+        source.Position = 0;
+        int count = (int)source.Length;
+        stream.SetLength(count);
+        if (count != 0) ReadBufferExact(source, stream.GetBuffer().AsSpan(0, count));
     }
-}
 
-public class TMemoryStream : TStream
-{
-    private byte[] memory = [];
-    private int size, position;
-
-    public byte[] Memory => memory;
-
-    public int Capacity
+    public static void LoadFromFile(this MemoryStream stream, string name)
     {
-        get => memory.Length;
-        // CLASSES.PAS TMemoryStream.SetCapacity and Realloc preserve allocated bytes.
-        set
+        using Stream file = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead);
+        stream.LoadFromStream(file);
+    }
+
+    public static void SaveToFile(this MemoryStream stream, string name)
+    {
+        using Stream file = RtlUnit.OpenFile(name, RtlUnit.fmCreate);
+        stream.WriteTo(file);
+    }
+
+    private static int WriteCounted(Stream stream, ReadOnlySpan<byte> buffer, int count)
+    {
+        if (count < 0) return 0;
+        return WriteSpan(stream, buffer[..count]);
+    }
+
+    private static int WriteSpan(Stream stream, ReadOnlySpan<byte> buffer)
+    {
+        stream.Write(buffer);
+        return buffer.Length;
+    }
+
+    private static int WritePointer(Stream stream, Ptr<byte> buffer, int count)
+    {
+        if (count < 0) return 0;
+        ReadOnlySpan<byte> slice = count == 0 || buffer.IsNull ? default : buffer.Array!.AsSpan(buffer.Index, count);
+        return WriteSpan(stream, slice);
+    }
+
+    private static void ReadBufferExact(Stream stream, Span<byte> buffer)
+    {
+        if (buffer.Length == 0) return;
+        try
         {
-            if (value < 0 || value > int.MaxValue - 8191) throw new IOException("Out of memory while expanding memory stream");
-            int capacity = value > 0 ? (value + 8191) & ~8191 : 0;
-            if (capacity != memory.Length) Array.Resize(ref memory, capacity);
+            stream.ReadExactly(buffer);
+        }
+        catch (EndOfStreamException exception) when (exception.Message != "Stream read error")
+        {
+            throw new EndOfStreamException("Stream read error");
         }
     }
 
-    public override int Size { get => size; set => SetSize(value); }
-
-    // CLASSES.PAS TMemoryStream.SetSize.
-    public override void SetSize(int value) { Capacity = value; size = value; if (position > size) Seek(0, 2); }
-
-    // CLASSES.PAS TCustomMemoryStream.Read.
-    public override int Read(Span<byte> buffer)
+    private static void WriteBufferExact(Stream stream, ReadOnlySpan<byte> buffer)
     {
-        if (position < 0 || position >= size) return 0;
-        int n = Math.Min(size - position, buffer.Length);
-        memory.AsSpan(position, n).CopyTo(buffer); position += n; return n;
-    }
-
-    // CLASSES.PAS TMemoryStream.Write, including a zero write past the end.
-    public override int Write(ReadOnlySpan<byte> buffer)
-    {
-        int end = unchecked(position + buffer.Length);
-        if (position < 0 || end <= 0) return 0;
-        if (end > size) { if (end > Capacity) Capacity = end; size = end; }
-        buffer.CopyTo(memory.AsSpan(position)); position = end; return buffer.Length;
-    }
-
-    // CLASSES.PAS TCustomMemoryStream.Seek.
-    public override int Seek(int offset, int origin)
-    {
-        position = origin switch { 0 => offset, 1 => unchecked(position + offset), 2 => unchecked(size + offset), _ => position };
-        return position;
-    }
-
-    // CLASSES.PAS TMemoryStream.Clear.
-    public void Clear() { Capacity = 0; size = 0; position = 0; }
-
-    // CLASSES.PAS TMemoryStream.LoadFromStream resets the source, preserving our position.
-    public void LoadFromStream(TStream source) { source.Position = 0; SetSize(source.Size); source.ReadBuffer(memory.AsSpan(0, size)); }
-
-    // CLASSES.PAS TMemoryStream.LoadFromFile.
-    public void LoadFromFile(string name) { using var stream = new TFileStream(name, RtlUnit.fmOpenRead); LoadFromStream(stream); }
-
-    // CLASSES.PAS TCustomMemoryStream.SaveToStream and SaveToFile.
-    public void SaveToStream(TStream stream) => stream.WriteBuffer(memory.AsSpan(0, size));
-
-    public void SaveToFile(string name) { using var stream = new TFileStream(name, RtlUnit.fmCreate); SaveToStream(stream); }
-
-    // CLASSES.PAS TMemoryStream.Destroy.
-    public override void Dispose() { Clear(); base.Dispose(); }
-}
-
-public class TFileStream : TStream
-{
-    private readonly Stream stream;
-
-    // CLASSES.PAS TFileStream.Create.
-    public TFileStream(string name, int mode)
-    {
-        try { stream = RtlUnit.Files.Open(name, mode); }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
+        if (buffer.Length == 0) return;
+        try
         {
-            if (mode == RtlUnit.fmCreate) throw new IOException($"Cannot create file {name}");
-            if (e is FileNotFoundException or DirectoryNotFoundException)
-                throw new FileNotFoundException($"Cannot open file {name}");
-            throw new IOException($"Cannot open file {name}");
+            stream.Write(buffer);
+        }
+        catch (Exception exception) when (exception is NotSupportedException or UnauthorizedAccessException)
+        {
+            throw new IOException("Stream write error");
         }
     }
-
-    // CLASSES.PAS THandleStream.Read and Write return zero on OS failure.
-    public override int Read(Span<byte> buffer) { try { return stream.Read(buffer); } catch (System.Exception e) when (e is IOException or NotSupportedException) { return 0; } }
-
-    public override int Write(ReadOnlySpan<byte> buffer)
-    {
-        try { if (!stream.CanWrite) return 0; stream.Write(buffer); return buffer.Length; }
-        catch (System.Exception e) when (e is IOException or NotSupportedException) { return 0; }
-    }
-
-    // CLASSES.PAS THandleStream.Seek leaves the OS position intact on failure.
-    public override int Seek(int offset, int origin)
-    {
-        if (origin is < 0 or > 2) return -1;
-        try { return checked((int)stream.Seek(offset, (SeekOrigin)origin)); } catch (IOException) { return -1; }
-    }
-
-    // CLASSES.PAS THandleStream.SetSize seeks before truncating.
-    public override void SetSize(int size)
-    {
-        Position = size;
-        try { stream.SetLength(stream.Position); }
-        catch (System.Exception e) when (e is IOException or NotSupportedException)
-        {
-            int code = e is NotSupportedException ? 5 : e.HResult & 65535;
-            string text = $"Win32 Error.  Code: {code}.\n{new System.ComponentModel.Win32Exception(code).Message}";
-            throw new System.ComponentModel.Win32Exception(code, text);
-        }
-    }
-
-    // CLASSES.PAS TFileStream.Destroy.
-    public override void Dispose() { stream.Dispose(); base.Dispose(); }
 }

@@ -13,7 +13,7 @@ namespace Aow.Units.ItemCtrl;
 public partial class TItemControlGrid : TCustomImageDrawGrid
 {
     public TIntegerList FIndices;
-    public TMemoryStream FStream;
+    public MemoryStream FStream;
     public bool FDisplayMode;
     public bool FUnplacedOnly;
     public bool FShowStatus;
@@ -33,7 +33,7 @@ public partial class TItemControlGrid : TCustomImageDrawGrid
     public TItemControlGrid(TComponent owner) : base(owner)
     {
 
-        FStream = new TMemoryStream();
+        FStream = new MemoryStream();
         DefaultColWidth = 155;
         DefaultRowHeight = 46;
         GrowDirection = TILGrowDirection.ilVertical;
