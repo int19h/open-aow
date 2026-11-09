@@ -70,8 +70,8 @@ public sealed class StringNullTests
         }
         else
         {
-            Assert.Throws<ERangeError>(() => RtlUnit.WithChar(null, 1, 'x'));
-            Assert.Throws<EConvertError>(() => RtlUnit.StrToInt((string?)null));
+            Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
+            Assert.Throws<FormatException>(() => RtlUnit.StrToInt((string?)null));
             Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, (string?)null, "file.pas", 1));
             Assert.Empty(Cp1252.Encode(null));
             Assert.Equal("", Cp1252.Normalize(null));

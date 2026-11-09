@@ -220,7 +220,7 @@ public sealed class RemainingConstructionTests
                 var meta = EClass.Of(type);
                 engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
                 try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
-                catch (Aow.Rtl.Exception) { }
+                catch (System.Exception error) when (PortedExceptions.Is(error)) { }
                 engine.RegisterEClasses([EClass.Of(type)]);
                 return engine.CreateEObject(meta.ClassID, owner);
             }

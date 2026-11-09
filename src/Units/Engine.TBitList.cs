@@ -17,7 +17,7 @@ public partial class TBitList
         if ((uint)index >= (uint)FCount) SetCount(index + 1);
         if (FList.Equals(default(Memory<byte>))) throw new NullReferenceException();
         if (!MemoryMarshal.TryGetArray((ReadOnlyMemory<byte>)FList, out var storage))
-            throw new EInvalidOperation("Bit list storage has no backing array");
+            throw new InvalidOperationException("Bit list storage has no backing array");
         ref byte value = ref storage.Array![storage.Offset + (index >> 3)];
         byte mask = (byte)(1 << (index & 7));
         if (item) value |= mask;

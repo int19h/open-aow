@@ -7,7 +7,6 @@ using Aow.Rtl;
 using Aow.Units.FMemStr;
 using static Aow.Rtl.RtlUnit;
 using static Aow.Units.ImageLib.ImageLibUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Engine;
 
@@ -528,7 +527,7 @@ public partial class TIntegerList : TPersistent
     // Engine.pas:3310
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -1008,7 +1007,7 @@ public partial class TByteList : TPersistent
     // Engine.pas:3645
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -1430,7 +1429,7 @@ public partial class TShortIntList : TPersistent
     // Engine.pas:3992
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -1853,7 +1852,7 @@ public partial class TWordList : TPersistent
     // Engine.pas:4303
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -2226,7 +2225,7 @@ public partial class TBitList : TPersistent
     // Engine.pas:4613
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -2544,7 +2543,7 @@ public partial class TEventList : TPersistent
     // Engine.pas:4896
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -3085,7 +3084,7 @@ public partial class TDoubleItemList : TPersistent
     // Engine.pas:5107
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -3598,7 +3597,7 @@ public partial class TQuadItemList : TPersistent
     // Engine.pas:5505
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -3836,7 +3835,7 @@ public class TRecordList<TRecord> : TPersistent where TRecord : struct
 
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 }
 
@@ -4401,13 +4400,13 @@ public partial class TEObject : TObject, IPersistable
     // Engine.pas:2447
     public virtual int AddRef()
     {
-        throw Exception.Create("Reference counting not supported");
+        throw new NotSupportedException("Reference counting not supported");
     }
 
     // Engine.pas:2452
     public virtual int Release()
     {
-        throw Exception.Create("Reference counting not supported");
+        throw new NotSupportedException("Reference counting not supported");
     }
 
     // Engine.pas:2457
@@ -5003,7 +5002,7 @@ public partial class TEngine : TENode
         EClass Result = (EClass)P;
         if (Result == null)
         {
-            throw Exception.Create("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
+            throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
         }
 
         return Result;
@@ -5085,7 +5084,7 @@ public partial class TEngine : TENode
             var classID = AClasses[I].ClassID;
             if (FClassTable.Find(classID) != null)
             {
-                throw Exception.Create("EObject Class ID double defined!");
+                throw new InvalidOperationException("EObject Class ID double defined!");
             }
 
             FEClasses.Add(AClasses[I]);
@@ -5683,7 +5682,7 @@ public partial class TEObjectEditorList : TObject
         }
         else
         {
-            throw Exception.Create("EObjectEditor Double Defined!");
+            throw new InvalidOperationException("EObjectEditor Double Defined!");
         }
     }
 
@@ -5828,12 +5827,11 @@ public struct TEMsgParams
 public delegate void TStorageStreamError(TEStorageStream StorageStream, string Message, ref bool Handled);
 public delegate void TProgressEvent(TEObject Sender, string Message, int Progression);
 
-public partial class EDoublePrioriyID : Exception
+public partial class EDoublePrioriyID : System.Exception
 {
     // SysUtils.pas:174
-    public EDoublePrioriyID(string Msg)
+    public EDoublePrioriyID(string Msg) : base(Msg)
     {
-        Message = Msg;
     }
 }
 
@@ -5907,7 +5905,6 @@ public partial class TCompressStream : TMemoryStream
     {
         TCompressionStream C;
         int StartSize;
-        TCompressionLevel CompressionLevel;
         Position = 0;
         int Result = 100;
         StartSize = Stream.Size;
@@ -5915,8 +5912,7 @@ public partial class TCompressStream : TMemoryStream
         Stream.Write(Bytes.Of(ref Level, 1));
         if (Level != TCompressLevel.cpNone)
         {
-            CompressionLevel = (TCompressionLevel)Level;
-            C = new TCompressionStream(CompressionLevel, Stream);
+            C = new TCompressionStream(TCompressionStream.CompressionLevelOf((byte)Level), Stream);
             try
             {
                 C.CopyFrom(this, 0);
@@ -6080,7 +6076,7 @@ public partial class TPlugIn : TObject
         {
             if (FCounts[I] == 0)
             {
-                throw Exception.Create("Invalid PlugIn Finalize Usage");
+                throw new ArgumentException("Invalid PlugIn Finalize Usage");
             }
 
             if (FCounts[I] == 1)
@@ -6111,12 +6107,11 @@ public partial class TPlugIn : TObject
 
 }
 
-public partial class EPlugInMissing : Exception
+public partial class EPlugInMissing : System.Exception
 {
     // SysUtils.pas:174
-    public EPlugInMissing(string Msg)
+    public EPlugInMissing(string Msg) : base(Msg)
     {
-        Message = Msg;
     }
 }
 
@@ -6761,7 +6756,7 @@ public partial class TETimerNode : TECustomNode
     // Engine.pas:1910
     public override void SetChild(int Index, TEObject Child)
     {
-        throw Exception.Create("Set Child not supported (TETimerNode)");
+        throw new NotSupportedException("Set Child not supported (TETimerNode)");
     }
 
     // Engine.pas:1915
@@ -8050,7 +8045,7 @@ public partial class TIntegerHashList : THashList
         THashItem H = default;
         if (Find(Key) != null)
         {
-            throw Exception.Create("ID already in HashTable");
+            throw new InvalidOperationException("ID already in HashTable");
         }
 
         Assert(Item != null, "Cannot add nil item to hash table", "HashTab.PAS", 48);
@@ -8251,7 +8246,7 @@ public partial class TStringHashList : THashList
         THashItem H = default;
         if (Find(Key) != null)
         {
-            throw Exception.Create("ID already in HashTable");
+            throw new InvalidOperationException("ID already in HashTable");
         }
 
         Assert(Item != null, "Cannot add nil item to hash table", "HashTab.PAS", 175);
@@ -8602,7 +8597,7 @@ public partial class TEObjectClassList : TList
         EClass Result = FindClass(AClassID);
         if (Result == null)
         {
-            throw Exception.Create("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
+            throw new KeyNotFoundException("Unregistered E-ClassID found (" + IntToStr(AClassID) + ")");
         }
 
         return Result;
@@ -8617,7 +8612,7 @@ public partial class TEObjectClassList : TList
         }
         else
         {
-            throw Exception.Create("EObject Class ID double defined!");
+            throw new InvalidOperationException("EObject Class ID double defined!");
         }
     }
 
@@ -8887,7 +8882,7 @@ public partial class TESortNode : TECustomNode
     // Engine.pas:1565
     public override void ReadWrite(TEStorageStream Stream)
     {
-        throw Exception.Create("Read/Write not supported (TESortNode)");
+        throw new NotSupportedException("Read/Write not supported (TESortNode)");
     }
 
     // Engine.pas:1596
@@ -9106,7 +9101,7 @@ public partial class TEReferenceNode : TENode
         FChildren.Add(Child);
         if (Child.AddRef() == -1)
         {
-            throw Exception.Create("EObject doesn't support ReferenceCounting");
+            throw new NotSupportedException("EObject doesn't support ReferenceCounting");
         }
 
         return FChildren.Count - 1;
@@ -10596,7 +10591,7 @@ public partial class TEReadTextStorageStream : TEStorageStream
         Text.BeginUpdate();
         try
         {
-            if (FSize < 0) throw new ERangeError("Negative string length");
+            if (FSize < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
             byte[] buffer = new byte[FSize];
             FStream.Read(buffer);
             Text.Clear();
@@ -11472,12 +11467,11 @@ public partial class TEReadStorageStream : TEStorageStream
                 }
                 catch (System.Exception error)
                 {
-                    var E = Wrap(error);
                     Obj.Free();
                     Obj = null;
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
-                    if (!HandleException(E))
+                    if (!HandleException(error))
                     {
                         throw;
                     }
@@ -11558,10 +11552,9 @@ public partial class TEReadStorageStream : TEStorageStream
         }
         catch (System.Exception error)
         {
-            var E = Wrap(error);
             FPropertyTable.RestoreSettings();
             FDataBase = SavedBase;
-            if (!HandleException(E))
+            if (!HandleException(error))
             {
                 throw;
             }
@@ -11591,11 +11584,10 @@ public partial class TEReadStorageStream : TEStorageStream
             }
             catch (System.Exception error)
             {
-                var E = Wrap(error);
                 FPropertyTable.RestoreSettings();
                 FDataBase = SavedBase;
                 FStream.Position = Start + Size + 4;
-                if (!HandleException(E))
+                if (!HandleException(error))
                 {
                     throw;
                 }
@@ -11990,12 +11982,11 @@ public partial class TEWriteStorageStream : TEStorageStream
                 }
                 catch (System.Exception error)
                 {
-                    var E = Wrap(error);
                     FPropertyTable.RestoreSettings();
                     FBuffer.Free();
                     FBuffer = Outer;
                     Outer.Position = Start;
-                    if (!HandleException(E))
+                    if (!HandleException(error))
                     {
                         throw;
                     }
@@ -12070,12 +12061,11 @@ public partial class TEWriteStorageStream : TEStorageStream
             }
             catch (System.Exception error)
             {
-                var E = Wrap(error);
                 FPropertyTable.RestoreSettings();
                 FBuffer.Free();
                 FBuffer = Outer;
                 Outer.Position = Start;
-                if (!HandleException(E))
+                if (!HandleException(error))
                 {
                     throw;
                 }
@@ -12113,14 +12103,13 @@ public partial class TEWriteStorageStream : TEStorageStream
         }
         catch (System.Exception error)
         {
-            var E = Wrap(error);
             FBuffer.Free();
             FBuffer = Outer;
             FPropertyTable.RestoreSettings();
             Len = 0;
             Outer.Position = Start;
             Outer.Write(Bytes.Of(ref Len, 4));
-            if (!HandleException(E))
+            if (!HandleException(error))
             {
                 throw;
             }
@@ -12176,9 +12165,8 @@ public partial class TDebugWriteStream : TEWriteStorageStream
                 }
                 catch (System.Exception error)
                 {
-                    var E = Wrap(error);
                     FPropertyTable.RestoreSettings();
-                    if (!HandleException(E))
+                    if (!HandleException(error))
                     {
                         throw;
                     }
@@ -12237,9 +12225,8 @@ public partial class TDebugWriteStream : TEWriteStorageStream
             }
             catch (System.Exception error)
             {
-                var E = Wrap(error);
                 FPropertyTable.RestoreSettings();
-                if (!HandleException(E))
+                if (!HandleException(error))
                 {
                     throw;
                 }
@@ -12266,11 +12253,10 @@ public partial class TDebugWriteStream : TEWriteStorageStream
         }
         catch (System.Exception error)
         {
-            var E = Wrap(error);
             FPropertyTable.RestoreSettings();
             Size = 0;
             FBuffer.Write(Bytes.Of(ref Size, 4));
-            if (!HandleException(E))
+            if (!HandleException(error))
             {
                 throw;
             }
@@ -12405,7 +12391,7 @@ public partial class TCompareStorageStream : TEReadStorageStream
     {
         try
         {
-            throw Exception.Create("Property Mismatch (PropertyID:" + IntToStr(ID) + ")");
+            throw new InvalidOperationException("Property Mismatch (PropertyID:" + IntToStr(ID) + ")");
         }
         catch
         {
@@ -12455,12 +12441,11 @@ public partial class TCompareStorageStream : TEReadStorageStream
                 }
                 catch (System.Exception error)
                 {
-                    var E = Wrap(error);
                     Obj.Free();
                     Obj = null;
                     FPropertyTable.RestoreSettings();
                     FDataBase = SavedBase;
-                    if (!HandleException(E))
+                    if (!HandleException(error))
                     {
                         throw;
                     }
@@ -12881,7 +12866,7 @@ public static partial class EngineUnit
         }
         else
         {
-            throw Exception.Create("PlugIn " + PlugIn.Name() + " already registered");
+            throw new InvalidOperationException("PlugIn " + PlugIn.Name() + " already registered");
         }
     }
 
@@ -12894,7 +12879,7 @@ public static partial class EngineUnit
         }
         else
         {
-            throw Exception.Create("PlugIn not found");
+            throw new KeyNotFoundException("PlugIn not found");
         }
     }
 
@@ -12975,7 +12960,7 @@ public static partial class EngineUnit
                 }
                 catch
                 {
-                    throw Exception.Create("Unable to load PlugIn: " + Dir + SR.Name);
+                    throw new IOException("Unable to load PlugIn: " + Dir + SR.Name);
                 }
 
                 Found = FindNext(ref SR) == 0;
@@ -13030,7 +13015,7 @@ public static partial class EngineUnit
             catch
             {
                 S = "Could not release PlugIn: " + Packages[I];
-                throw Exception.Create(S);
+                throw new InvalidOperationException(S);
             }
         }
 
@@ -13145,7 +13130,7 @@ public static partial class EngineUnit
 
         if (!Found)
         {
-            throw Exception.Create("Cannot access Engine");
+            throw new InvalidOperationException("Cannot access Engine");
         }
 
         return Result;
@@ -13165,7 +13150,7 @@ public static partial class EngineUnit
     {
         int Len = default;
         Stream.Read(Bytes.Of(ref Len, 4));
-        if (Len < 0) throw new ERangeError("Negative string length");
+        if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[Len];
         Cp1252.Encode(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
@@ -13193,7 +13178,7 @@ public static partial class EngineUnit
         try
         {
             Stream.Read(Bytes.Of(ref Len, 4));
-            if (Len < 0) throw new ERangeError("Negative string length");
+            if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
             byte[] buffer = new byte[Len];
             Stream.Read(buffer);
             Strings.Text = Cp1252.Decode(buffer);
@@ -13451,7 +13436,7 @@ public static partial class EngineUnit
             Len = B;
         }
 
-        if (Len < 0) throw new ERangeError("Negative string length");
+        if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[Len];
         Cp1252.Encode(S)[..Math.Min(S.Length, Len)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.
@@ -13486,7 +13471,7 @@ public static partial class EngineUnit
         try
         {
             Stream.Read(Bytes.Of(ref Len, 4));
-            if (Len < 0) throw new ERangeError("Negative string length");
+            if (Len < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
             byte[] buffer = new byte[Len];
             Stream.Read(buffer);
             Strings.Text = Cp1252.Decode(buffer);

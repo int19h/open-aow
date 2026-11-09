@@ -5,7 +5,6 @@ using Aow.Units.GFXE;
 using Aow.Units.HSEngine;
 using Aow.Units.ImageLib;
 using static Aow.Units.HSEngine.HSEngineUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.ILTer;
 
@@ -351,7 +350,7 @@ public partial class TFixedILTerrainMO : TILTerrainMO
             {
                 try
                 {
-                    throw Exception.Create("TILFixedTerrain Failure");
+                    throw new InvalidOperationException("TILFixedTerrain Failure");
                 }
                 catch
                 {

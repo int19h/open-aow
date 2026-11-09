@@ -12,7 +12,7 @@ public sealed class PointerViewTests
         var pointer = Ptr<byte>.Unbox(text);
         Assert.Equal(new byte[] { 65, 233, 0, 66, 0 }, pointer.AsSpan(5).ToArray());
         Assert.Equal("A\u00E9", RtlUnit.StrPas(pointer));
-        Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox(text));
+        Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(text));
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 8)]
@@ -33,7 +33,7 @@ public sealed class PointerViewTests
         var bytes = ((IPointerBox)new PtrBox<int>(words + 1)).As<byte>();
         Assert.Equal(4, bytes.ByteIndex);
         Assert.Equal(pair.StorageIdentity, bytes.StorageIdentity);
-        Assert.Throws<EInvalidCast>(() => ((IPointerBox)new PtrBox<Pair>(pair)).As<string>());
+        Assert.Throws<InvalidCastException>(() => ((IPointerBox)new PtrBox<Pair>(pair)).As<string>());
     }
 
     [Fact]
@@ -53,7 +53,7 @@ public sealed class PointerViewTests
         list.Add(new PtrBox<int>(words + 1));
         Assert.Equal(0, list.IndexOf(new PtrBox<int>(records.Reinterpret<int>(4))));
         Assert.Equal(-1, list.IndexOf(new PtrBox<int>(words)));
-        Assert.Throws<EInvalidCast>(() => Ptr<byte>.Unbox(new PtrBox<int>(words)));
+        Assert.Throws<InvalidCastException>(() => Ptr<byte>.Unbox(new PtrBox<int>(words)));
         Assert.Throws<ArgumentOutOfRangeException>(() => words.AsSpan(5));
         Assert.Throws<IndexOutOfRangeException>(() => words[4]);
         Assert.Throws<IndexOutOfRangeException>(() => words[-1]);
@@ -63,8 +63,8 @@ public sealed class PointerViewTests
     public void ViewsRejectManagedReinterpretationAndKeepNil()
     {
         Assert.True(default(Ptr<int>).Reinterpret<byte>().IsNull);
-        Assert.Throws<EInvalidCast>(() => Ptr<string>.Alloc(1).Reinterpret<int>());
-        Assert.Throws<EInvalidCast>(() => Ptr<int>.Alloc(1).Reinterpret<string>());
+        Assert.Throws<InvalidCastException>(() => Ptr<string>.Alloc(1).Reinterpret<int>());
+        Assert.Throws<InvalidCastException>(() => Ptr<int>.Alloc(1).Reinterpret<string>());
     }
 
     [Fact]

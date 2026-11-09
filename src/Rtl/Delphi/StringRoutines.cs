@@ -19,7 +19,7 @@ public static partial class RtlUnit
     public static string WithChar(string? value, int index, char character)
     {
         value = RequireString(value);
-        if (index < 1 || index > value.Length) throw new ERangeError("String index out of bounds");
+        if (index < 1 || index > value.Length) throw new IndexOutOfRangeException("String index out of bounds");
         return string.Create(value.Length, (value, index, character), (chars, state) =>
         {
             state.value.AsSpan().CopyTo(chars);
@@ -29,7 +29,7 @@ public static partial class RtlUnit
 
     public static string Resized(string? value, int length)
     {
-        if (length < 0) throw new ERangeError("Negative string length");
+        if (length < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         value = RequireString(value);
         return length <= value.Length ? value[..length] : value.PadRight(length, '\0');
     }

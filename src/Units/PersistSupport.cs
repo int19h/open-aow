@@ -3,7 +3,6 @@ using Aow.Formats.Tree;
 using Aow.Rtl;
 using Aow.Units.AoWE;
 using static Aow.Rtl.RtlUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Engine;
 
@@ -31,7 +30,7 @@ public sealed class EnginePersistableFactory : IPersistableFactory
         if (!byName.TryGetValue(className, out var eclass))
             throw new InvalidOperationException("The engine has no class " + className + ".");
         if (engine.ClassTable.Find(eclass.ClassID) is not EClass registered || registered.ClassName != eclass.ClassName)
-            throw Exception.Create("Unregistered E-ClassID found (" + eclass.ClassID.ToString(CultureInfo.InvariantCulture) + ")");
+            throw new KeyNotFoundException("Unregistered E-ClassID found (" + eclass.ClassID.ToString(CultureInfo.InvariantCulture) + ")");
         return registered.Create(null);
     }
 }

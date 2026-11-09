@@ -32,24 +32,24 @@ public abstract class TStream : TObject, IDisposable
     public int Write<T>(in T value, int count) where T : unmanaged => Write(MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
 
     // CLASSES.PAS TStream.ReadBuffer and WriteBuffer each perform one transfer.
-    public void ReadBuffer(Span<byte> buffer) { if (buffer.Length != 0 && Read(buffer) != buffer.Length) throw new EReadError("Stream read error"); }
+    public void ReadBuffer(Span<byte> buffer) { if (buffer.Length != 0 && Read(buffer) != buffer.Length) throw new EndOfStreamException("Stream read error"); }
 
-    public void WriteBuffer(ReadOnlySpan<byte> buffer) { if (buffer.Length != 0 && Write(buffer) != buffer.Length) throw new EWriteError("Stream write error"); }
+    public void WriteBuffer(ReadOnlySpan<byte> buffer) { if (buffer.Length != 0 && Write(buffer) != buffer.Length) throw new IOException("Stream write error"); }
 
     public void ReadBuffer<T>(ref T value) where T : unmanaged => ReadBuffer(Bytes.Of(ref value));
     public void WriteBuffer<T>(in T value) where T : unmanaged => WriteBuffer(MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1)));
     public void ReadBuffer<T>(ref T value, int count) where T : unmanaged => ReadBuffer(Bytes.Of(ref value, count));
     public void WriteBuffer<T>(in T value, int count) where T : unmanaged => WriteBuffer(MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1))[..count]);
 
-    public void ReadBuffer(Ptr<byte> buffer, int count) { if (count != 0 && Read(buffer, count) != count) throw new EReadError("Stream read error"); }
+    public void ReadBuffer(Ptr<byte> buffer, int count) { if (count != 0 && Read(buffer, count) != count) throw new EndOfStreamException("Stream read error"); }
 
-    public void WriteBuffer(Ptr<byte> buffer, int count) { if (count != 0 && Write(buffer, count) != count) throw new EWriteError("Stream write error"); }
+    public void WriteBuffer(Ptr<byte> buffer, int count) { if (count != 0 && Write(buffer, count) != count) throw new IOException("Stream write error"); }
 
     // CLASSES.PAS TStream.CopyFrom.
     public int CopyFrom(TStream source, int count)
     {
         if (count == 0) { source.Position = 0; count = source.Size; }
-        if (count < 0) throw new EStreamError("Invalid copy count");
+        if (count < 0) throw new IOException("Invalid copy count");
         int result = count;
         byte[] buffer = new byte[Math.Min(count, 61440)];
         while (count != 0)
@@ -76,7 +76,7 @@ public class TMemoryStream : TStream
         // CLASSES.PAS TMemoryStream.SetCapacity and Realloc preserve allocated bytes.
         set
         {
-            if (value < 0 || value > int.MaxValue - 8191) throw new EStreamError("Out of memory while expanding memory stream");
+            if (value < 0 || value > int.MaxValue - 8191) throw new IOException("Out of memory while expanding memory stream");
             int capacity = value > 0 ? (value + 8191) & ~8191 : 0;
             if (capacity != memory.Length) Array.Resize(ref memory, capacity);
         }
@@ -139,8 +139,10 @@ public class TFileStream : TStream
         try { stream = RtlUnit.Files.Open(name, mode); }
         catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or NotSupportedException)
         {
-            if (mode == RtlUnit.fmCreate) throw new EFCreateError($"Cannot create file {name}");
-            throw new EFOpenError($"Cannot open file {name}");
+            if (mode == RtlUnit.fmCreate) throw new IOException($"Cannot create file {name}");
+            if (e is FileNotFoundException or DirectoryNotFoundException)
+                throw new FileNotFoundException($"Cannot open file {name}");
+            throw new IOException($"Cannot open file {name}");
         }
     }
 
@@ -168,7 +170,8 @@ public class TFileStream : TStream
         catch (System.Exception e) when (e is IOException or NotSupportedException)
         {
             int code = e is NotSupportedException ? 5 : e.HResult & 65535;
-            throw new EWin32Error($"Win32 Error.  Code: {code}.\n{new System.ComponentModel.Win32Exception(code).Message}") { ErrorCode = code };
+            string text = $"Win32 Error.  Code: {code}.\n{new System.ComponentModel.Win32Exception(code).Message}";
+            throw new System.ComponentModel.Win32Exception(code, text);
         }
     }
 

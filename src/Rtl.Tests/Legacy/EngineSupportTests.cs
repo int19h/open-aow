@@ -1,3 +1,4 @@
+using System.IO.Compression;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using R = Aow.Rtl.RtlUnit;
@@ -52,7 +53,7 @@ public sealed class EngineSupportTests
     public void BufferHelpersPreservePhysicalAndStringBytes()
     {
         Assert.Equal(new byte[] { 0x78, 0x56 }, R.ValueBytes(0x12345678, 2));
-        Assert.Throws<ERangeError>(() => R.ValueBytes(1, 5));
+        Assert.Throws<ArgumentOutOfRangeException>(() => R.ValueBytes(1, 5));
         string value = "\0\u00E9\u00FF";
         Assert.Equal(new byte[] { 0, 233, 255 }, Cp1252.Encode(value).ToArray());
         byte[] bytes = new byte[3];
@@ -114,21 +115,21 @@ public sealed class EngineSupportTests
         Assert.Equal("abcd", shared);
         Assert.Equal("a\0\u00E9d", value);
         stream.Position = 0;
-        Assert.Throws<EReadError>(() => R.ReadString(stream, ref value, 0, 4, true));
+        Assert.Throws<EndOfStreamException>(() => R.ReadString(stream, ref value, 0, 4, true));
         Assert.Equal((byte)0, Cp1252.Byte(value[0])); Assert.Equal((byte)233, Cp1252.Byte(value[1]));
     }
 
     [Fact]
     public void ZlibAdaptersRoundTripAndLeaveTheBackingStreamOpen()
     {
-        foreach (var level in Enum.GetValues<TCompressionLevel>())
+        foreach (var level in new[] { CompressionLevel.NoCompression, CompressionLevel.Fastest, CompressionLevel.Optimal, CompressionLevel.SmallestSize })
         {
             byte[] expected = Enumerable.Range(0, 8193).Select(i => (byte)(i * 17)).ToArray();
             var backing = new TMemoryStream();
             var compressor = new TCompressionStream(level, backing);
             Assert.Equal(expected.Length, compressor.Write(expected));
             Assert.Equal(expected.Length, compressor.Seek(0, 1));
-            Assert.Throws<EStreamError>(() => compressor.Seek(1, 0));
+            Assert.Throws<IOException>(() => compressor.Seek(1, 0));
             compressor.Destroy(); compressor.Destroy();
             Assert.True(backing.Size > 0);
             backing.Position = 0;
@@ -141,6 +142,17 @@ public sealed class EngineSupportTests
             backing.Position = 0;
             Assert.True(backing.Read(actual.AsSpan(0, 1)) > 0);
         }
+    }
+
+    [Fact]
+    public void CompressionLevelByteKeepsTheFormerEnumMapping()
+    {
+        Assert.Equal(CompressionLevel.NoCompression, TCompressionStream.CompressionLevelOf(0));
+        Assert.Equal(CompressionLevel.Fastest, TCompressionStream.CompressionLevelOf(1));
+        Assert.Equal(CompressionLevel.Optimal, TCompressionStream.CompressionLevelOf(2));
+        Assert.Equal(CompressionLevel.SmallestSize, TCompressionStream.CompressionLevelOf(3));
+        Assert.Equal(CompressionLevel.Optimal, TCompressionStream.CompressionLevelOf(4));
+        Assert.Equal(CompressionLevel.Optimal, TCompressionStream.CompressionLevelOf(255));
     }
 
     [Fact]

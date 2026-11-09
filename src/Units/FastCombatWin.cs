@@ -19,7 +19,6 @@ using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.aowIntGfxMod.aowIntGfxModUnit;
 using static Aow.Units.AoWWinMan.AoWWinManUnit;
 using static Aow.Units.GFXE.GFXEUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.FastCombatWin;
 
@@ -475,7 +474,7 @@ public partial class TFastCombatWindow : TDataModule
         }
         catch
         {
-            throw Exception.Create("Exception during FastCombatWin.DrawSurface");
+            throw new InvalidOperationException("Exception during FastCombatWin.DrawSurface");
         }
     }
 
@@ -573,7 +572,7 @@ public partial class TFastCombatWindow : TDataModule
         }
         catch
         {
-            throw Exception.Create("Exception during FastCombatWin.Update");
+            throw new InvalidOperationException("Exception during FastCombatWin.Update");
         }
     }
 

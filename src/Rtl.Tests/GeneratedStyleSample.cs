@@ -62,7 +62,7 @@ public sealed class TFailingSample : TSample
     {
         context.Capture(this);
         LastInstance = this;
-        throw EInvalidOperation.Create("Constructor failure");
+        throw new InvalidOperationException("Constructor failure");
     }
 
     public static TFailingSample Create(int value) =>

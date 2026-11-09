@@ -4,7 +4,6 @@ using Aow.Rtl;
 using Aow.Units.GFXE;
 using static Aow.Rtl.RtlUnit;
 using static Aow.Units.GFXE.GFXEUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.DisplayC;
 
@@ -91,7 +90,7 @@ public partial class TMatrix : TObject
         }
         else
         {
-            throw Exception.Create("TMatrix out of bounds (DCTypes)");
+            throw new ArgumentOutOfRangeException(paramName: null, "TMatrix out of bounds (DCTypes)");
         }
 
         return Result;
@@ -1494,7 +1493,7 @@ public delegate void TSwapDCEvent(TAbstractDC DC);
 
 // the asynchronous frame loop. calls TCustomDisplay.UpdateFrame through Synchronize at the
 // frame rate. FDisplay, FBusy, FLastTime
-public partial class TUpdateFrameThread : TThread
+public partial class TUpdateFrameThread : TObject
 {
     internal TCustomDisplay FDisplay;
     internal bool FBusy;
@@ -1508,7 +1507,7 @@ public partial class TUpdateFrameThread : TThread
     }
 
     // DisplayC.pas:1078
-    protected internal override void Execute()
+    protected internal void Execute()
     {
         /* TODO: Implement Classes.Terminated in the platform or editor service. */
         throw new NotImplementedException();

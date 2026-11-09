@@ -10,7 +10,6 @@ using Aow.Units.NetworkE;
 using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.Animation;
 
@@ -401,7 +400,7 @@ public partial class TAnimation : THexagonSprite
         }
         else
         {
-            throw Exception.Create("Cannot change dimensions when object is places");
+            throw new InvalidOperationException("Cannot change dimensions when object is places");
         }
     }
 

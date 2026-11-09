@@ -21,12 +21,12 @@ public static partial class RtlUnit
     public static int Trunc(double value) => ToInteger(Math.Truncate(value));
 
     private static int ToInteger(double value) => double.IsFinite(value) && value >= int.MinValue && value <= int.MaxValue
-        ? (int)value : throw new EInvalidOp("Invalid floating point operation");
+        ? (int)value : throw new ArithmeticException("Invalid floating point operation");
 
     public static double Int(double value) => Math.Truncate(value);
 
     public static double Frac(double value) => double.IsInfinity(value)
-        ? throw new EInvalidOp("Invalid floating point operation") : value - Math.Truncate(value);
+        ? throw new ArithmeticException("Invalid floating point operation") : value - Math.Truncate(value);
 
     public static int Abs(int value) => value < 0 ? unchecked(-value) : value;
     public static long Abs(long value) => value < 0 ? unchecked(-value) : value;
@@ -35,7 +35,7 @@ public static partial class RtlUnit
     public static double Sqr(double value) => FloatingResult(value * value, double.IsFinite(value));
 
     public static double Sqrt(double value) => value < 0
-        ? throw new EInvalidOp("Invalid floating point operation") : Math.Sqrt(value);
+        ? throw new ArithmeticException("Invalid floating point operation") : Math.Sqrt(value);
 
     // SYSTEM.PAS:1709 and :1750 return zero when the x87 C2 range flag is set.
     public static double Sin(double value) => Trig(value, Math.Sin);
@@ -43,18 +43,18 @@ public static partial class RtlUnit
 
     private static double Trig(double value, Func<double, double> function)
     {
-        if (double.IsInfinity(value)) throw new EInvalidOp("Invalid floating point operation");
+        if (double.IsInfinity(value)) throw new ArithmeticException("Invalid floating point operation");
         return Math.Abs(value) >= 9223372036854775808.0 ? 0 : function(value);
     }
 
     public static double ArcTan(double value) => Math.Atan(value);
 
-    public static double Ln(double value) => value == 0 ? throw new EZeroDivide("Floating point division by zero")
-        : value < 0 ? throw new EInvalidOp("Invalid floating point operation") : Math.Log(value);
+    public static double Ln(double value) => value == 0 ? throw new DivideByZeroException("Floating point division by zero")
+        : value < 0 ? throw new ArithmeticException("Invalid floating point operation") : Math.Log(value);
 
     public static double Exp(double value)
     {
-        if (double.IsInfinity(value)) throw new EInvalidOp("Invalid floating point operation");
+        if (double.IsInfinity(value)) throw new ArithmeticException("Invalid floating point operation");
         return FloatingResult(Math.Exp(value), double.IsFinite(value));
     }
 
@@ -65,12 +65,12 @@ public static partial class RtlUnit
         if (value == 0 && exponent > 0) return 0;
         if (Frac(exponent) == 0 && Math.Abs(exponent) <= int.MaxValue)
         {
-            if (value == 0) throw new EZeroDivide("Floating point division by zero");
+            if (value == 0) throw new DivideByZeroException("Floating point division by zero");
             return FloatingResult(Math.Pow(value, exponent), double.IsFinite(value));
         }
         return Exp(exponent * Ln(value));
     }
 
     private static double FloatingResult(double result, bool finiteInput) => double.IsInfinity(result) && finiteInput
-        ? throw new EOverflow("Floating point overflow") : result;
+        ? throw new OverflowException("Floating point overflow") : result;
 }

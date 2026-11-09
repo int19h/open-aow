@@ -7,7 +7,7 @@ public static partial class RtlUnit
     public static void Move(ReadOnlySpan<byte> source, Span<byte> destination, int count)
     {
         if (count <= 0) return;
-        if (count > source.Length || count > destination.Length) throw new ERangeError("Move exceeds the buffer");
+        if (count > source.Length || count > destination.Length) throw new ArgumentOutOfRangeException(paramName: null, "Move exceeds the buffer");
         source[..count].CopyTo(destination);
     }
 
@@ -41,13 +41,13 @@ public static partial class RtlUnit
 
     public static void FillChar(Span<byte> destination, int count, byte value)
     {
-        if (count > destination.Length) throw new ERangeError("FillChar exceeds the buffer");
+        if (count > destination.Length) throw new ArgumentOutOfRangeException(paramName: null, "FillChar exceeds the buffer");
         if (count > 0) destination[..count].Fill(value);
     }
 
     public static bool CompareMem(ReadOnlySpan<byte> a, ReadOnlySpan<byte> b, int count)
     {
-        if (count > a.Length || count > b.Length) throw new ERangeError("CompareMem exceeds the buffer");
+        if (count > a.Length || count > b.Length) throw new ArgumentOutOfRangeException(paramName: null, "CompareMem exceeds the buffer");
         return count <= 0 || a[..count].SequenceEqual(b[..count]);
     }
 }

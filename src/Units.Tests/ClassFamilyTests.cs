@@ -125,7 +125,7 @@ public sealed class ClassFamilyTests
             foreach (var c in classes) Assert.Contains(c, registered);
             // CompareAIPlayerActionClasses orders by descending priority
             for (int i = 1; i < registered.Count; i++) Assert.True(registered[i - 1].Priority >= registered[i].Priority);
-            var error = Assert.Throws<Aow.Rtl.Exception>(() => manager.RegisterClasses([AIPlayerActionClass.Of<TEndTurnAIPA>()]));
+            var error = Assert.Throws<InvalidOperationException>(() => manager.RegisterClasses([AIPlayerActionClass.Of<TEndTurnAIPA>()]));
             Assert.Equal("AIPlayerAction already Registered", error.Message);
             manager.UnRegisterClasses(classes);
             Assert.Equal(0, manager.GetCount());
@@ -169,7 +169,7 @@ public sealed class ClassFamilyTests
             Assert.Equal(TMapObject.ClassID, mapObjectEditor.EditorClassID);
             Assert.Equal(0, EditorClass.Of<TEObjectEditor>().EditorClassID);
             engine.Editors.RegisterClass(mapObjectEditor);
-            var error = Assert.Throws<Aow.Rtl.Exception>(() => engine.Editors.RegisterClass(mapObjectEditor));
+            var error = Assert.Throws<InvalidOperationException>(() => engine.Editors.RegisterClass(mapObjectEditor));
             Assert.Equal("EObjectEditor Double Defined!", error.Message);
             Assert.Equal(1, engine.Editors.Count);
             Assert.Same(mapObjectEditor, engine.Editors.FindEditor(TMapObject.ClassID));

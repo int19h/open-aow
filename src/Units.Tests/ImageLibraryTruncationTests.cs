@@ -3,7 +3,7 @@ using Images = Aow.Units.ImageLib.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
-// Issue #83: a truncated ILB file raises EReadError in place of an endless index loop. The image
+// Issue #83: a truncated ILB file raises EndOfStreamException in place of an endless index loop. The image
 // classes are registered, so the reader reaches the index loop instead of failing on an empty registry.
 public sealed class ImageLibraryTruncationTests
 {
@@ -45,7 +45,7 @@ public sealed class ImageLibraryTruncationTests
             stream.Position = 0;
             var load = Task.Run(() => library.LoadFromStream(stream));
             Assert.True(((IAsyncResult)load).AsyncWaitHandle.WaitOne(HangTimeout), $"{name}: the load did not end within {HangTimeout}");
-            Assert.IsType<EReadError>(load.Exception?.InnerException);
+            Assert.IsType<EndOfStreamException>(load.Exception?.InnerException);
             Assert.Equal(0, library.Count);
         }
         finally

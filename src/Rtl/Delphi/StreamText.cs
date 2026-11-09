@@ -9,7 +9,7 @@ public static partial class RtlUnit
         if (exact && count == 0) return 0;
         int read = stream.Read(buffer);
         value = Cp1252.Decode(bytes);
-        if (exact && read != count) throw new EReadError("Stream read error");
+        if (exact && read != count) throw new EndOfStreamException("Stream read error");
         return read;
     }
 }

@@ -13,7 +13,7 @@ public sealed class SysUtilsTests
         foreach (string invalid in new string[] { "+$1", "-$1", "\t1", "1 ", "$100000000", "-2147483648", "$G", "$", "  ", "+", "0x1", "1\n", "\0" + "1" })
         {
             Assert.Equal(91, StrToIntDef(invalid, 91));
-            Assert.Equal($"'{invalid}' is not a valid integer value", Assert.Throws<EConvertError>(() => StrToInt(invalid)).Message);
+            Assert.Equal($"'{invalid}' is not a valid integer value", Assert.Throws<FormatException>(() => StrToInt(invalid)).Message);
         }
         foreach (var (text, value) in new[] { ("  +42", 42), ("-0", 0), ("$80000000", int.MinValue), ("$abcdef", 0xabcdef), ("00000000", 0), ("0002147483647", int.MaxValue), ("12\0junk", 12), ("$fF\0junk", 255), ("-2147483647", -int.MaxValue) })
         {
@@ -85,11 +85,11 @@ public sealed class SysUtilsTests
         Assert.Equal("1", Format("%*d", "x", 1));
         Assert.Equal("abcdef", Format("%0:1:s", 7, "abcdef"));
         Assert.Equal("abc", Format("%:s", "abc"));
-        foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<EConvertError>(() => Format(kind, 1.25));
-        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new TObject(), (TObject?)null, new PointerArg(0) }) Assert.Throws<EConvertError>(() => Format("%s", arg));
-        Assert.Throws<EConvertError>(() => Format("%p", 1));
-        Assert.Throws<EConvertError>(() => Format("%d", (byte)'a'));
-        Assert.Throws<EConvertError>(() => Format("%0:1:d", 7, "abcdef"));
+        foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<FormatException>(() => Format(kind, 1.25));
+        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new TObject(), (TObject?)null, new PointerArg(0) }) Assert.Throws<FormatException>(() => Format("%s", arg));
+        Assert.Throws<FormatException>(() => Format("%p", 1));
+        Assert.Throws<FormatException>(() => Format("%d", (byte)'a'));
+        Assert.Throws<FormatException>(() => Format("%0:1:d", 7, "abcdef"));
     }
 
     private sealed class FixedClock : IClock
@@ -136,9 +136,9 @@ public sealed class SysUtilsTests
             DecodeTime(time, ref hourWord, ref minuteWord, ref secondWord, ref msWord);
             Assert.Equal((2024, 2, 29), ((int)yearWord, (int)monthWord, (int)dayWord));
             Assert.Equal((12, 34, 56, 789), ((int)hourWord, (int)minuteWord, (int)secondWord, (int)msWord));
-            Assert.Throws<EConvertError>(() => EncodeDate(1900, 2, 29));
-            Assert.Throws<EConvertError>(() => EncodeDate(0, 1, 1));
-            foreach (var (h, m, s, ms) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) }) Assert.Throws<EConvertError>(() => EncodeTime(h, m, s, ms));
+            Assert.Throws<FormatException>(() => EncodeDate(1900, 2, 29));
+            Assert.Throws<FormatException>(() => EncodeDate(0, 1, 1));
+            foreach (var (h, m, s, ms) in new[] { (-1, 0, 0, 0), (24, 0, 0, 0), (0, 60, 0, 0), (0, 0, 60, 0), (0, 0, 0, 1000) }) Assert.Throws<FormatException>(() => EncodeTime(h, m, s, ms));
         }
         finally { Clock = saved; }
         var system = new SystemClock();

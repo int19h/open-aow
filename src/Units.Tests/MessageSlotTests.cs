@@ -110,7 +110,7 @@ public sealed class MessageSlotTests
             EngineUnit.InitMsg(ref message, 0x20000008, engine);
             message.Payload = engine;
             Assert.Same(engine, message.Payload.As<TEngine>());
-            Assert.Throws<EInvalidCast>(() => message.Payload.Int);
+            Assert.Throws<InvalidCastException>(() => message.Payload.Int);
             Assert.Equal(-1, message.Result);
             EngineUnit.InitMsg(ref message, 0x20020002, engine);
             Assert.False(message.Payload.HasValue);
@@ -141,7 +141,7 @@ public sealed class MessageSlotTests
         message.Param[0] = army;
         field.SendMapFieldMsg(ref message);
         Assert.Same(army, placed);
-        Assert.Throws<EInvalidCast>(() => message.Param[0].Int);
+        Assert.Throws<InvalidCastException>(() => message.Param[0].Int);
         message = default;
         message.MsgID = 0x110a;
         message.Param[0] = 4;
@@ -166,7 +166,7 @@ public sealed class MessageSlotTests
         message.Param[1] = query;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(9, query.Requirements.Strength);
-        Assert.Throws<EInvalidCast>(() => message.Param[1].Int);
+        Assert.Throws<InvalidCastException>(() => message.Param[1].Int);
         message = default;
         message.MsgID = 0x1101;
         message.Param[1] = 1;
@@ -190,7 +190,7 @@ public sealed class MessageSlotTests
         message.Param[2] = query;
         field.SendMapFieldMsg(ref message);
         Assert.Equal(7, query.Info.Player);
-        Assert.Throws<EInvalidCast>(() => message.Param[2].Int);
+        Assert.Throws<InvalidCastException>(() => message.Param[2].Int);
         message = default;
         message.MsgID = 0x1150;
         message.Param[2] = 3;
@@ -214,7 +214,7 @@ public sealed class MessageSlotTests
         message.Result = 0;
         field.SendMapFieldMsg(ref message);
         Assert.Same(control, message.Result.As<TProductionControl>());
-        Assert.Throws<EInvalidCast>(() => message.Result.Int);
+        Assert.Throws<InvalidCastException>(() => message.Result.Int);
         Assert.Equal(new[] { 1, 0 }, Calls(handlers));
         message = default;
         message.MsgID = 0x1100;

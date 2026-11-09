@@ -1054,7 +1054,7 @@ public delegate void TAoWOnDebugEvent(string Dtext);
 // how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,
 // FHeightPercent, FLeftOffPercent, FRightOffPercent, FTopOffPercent, FBottomOffPercent,
 // FLeftOffset, FRightOffset, FTopOffset, FBottomOffset, FAlignWidth, FAlignHeight. It does not
-// override Assign, so TAoWComponent.SetAlign raises EConvertError (original bug)
+// override Assign, so TAoWComponent.SetAlign raises FormatException (original bug)
 public partial class TAOWAlignment : TPersistent
 {
     internal byte FWidthPercent;

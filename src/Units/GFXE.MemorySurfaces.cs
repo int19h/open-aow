@@ -60,13 +60,13 @@ public partial class TDIBSurface
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new ENotSupported("Native device context");
+    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
 
     public override int UpdatePalette() => FPalette != null && FPixelFormatID == GFXEUnit.pfPAL8 ? GFXEUnit.GFXE_OK : GFXEUnit.GFXE_NOTSUPPORTED;
 
-    public int Handle => throw new ENotSupported("Native surface handle");
+    public int Handle => throw new NotSupportedException("Native surface handle");
 }
 
 public partial class TDIB08Surface
@@ -83,7 +83,7 @@ public partial class TDIB08Surface
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new ENotSupported("Native device context");
+    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
 
@@ -97,7 +97,7 @@ public partial class TDIB16Surface
     public TDIB16Surface(int AWidth, int AHeight, int APixelFormatID)
     { SetPixelFormatID(APixelFormatID); Resize(AWidth, AHeight); }
 
-    internal void SetPixelFormatID(int Value) { if (Value != GFXEUnit.pfRGB555 && Value != GFXEUnit.pfRGB565 && Value != GFXEUnit.pfARGB1555) throw new ENotSupported("Pixel format"); if (memoryLocked && Value != FPixelFormatID) throw new EInvalidOperation("Pixel format after Lock"); FPixelFormatID = Value; }
+    internal void SetPixelFormatID(int Value) { if (Value != GFXEUnit.pfRGB555 && Value != GFXEUnit.pfRGB565 && Value != GFXEUnit.pfARGB1555) throw new NotSupportedException("Pixel format"); if (memoryLocked && Value != FPixelFormatID) throw new InvalidOperationException("Pixel format after Lock"); FPixelFormatID = Value; }
 
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return GFXEUnit.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 4); FWidth = AWidth; FHeight = AHeight; return GFXEUnit.GFXE_OK; }
 
@@ -106,11 +106,11 @@ public partial class TDIB16Surface
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new ENotSupported("Native device context");
+    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
 
-    public int Handle => throw new ENotSupported("Native surface handle");
+    public int Handle => throw new NotSupportedException("Native surface handle");
 }
 
 public partial class TDIB24Surface
@@ -125,11 +125,11 @@ public partial class TDIB24Surface
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new ENotSupported("Native device context");
+    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
 
-    public int Handle => throw new ENotSupported("Native surface handle");
+    public int Handle => throw new NotSupportedException("Native surface handle");
 }
 
 public partial class TDIB32Surface
@@ -144,7 +144,7 @@ public partial class TDIB32Surface
     public override int Unlock() => GFXEUnit.GFXE_OK;
     public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new ENotSupported("Native device context");
+    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
 }
@@ -181,7 +181,7 @@ public partial class TDataSurface
 
 public partial class TSurface
 {
-    public virtual int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new ENotSupported("Native device context");
+    public virtual int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
     public virtual int Cls(int Color)
     {
@@ -217,12 +217,12 @@ public static partial class GFXEUnit
         int r = Color & 255, g = (Color >> 8) & 255, b = (Color >> 16) & 255;
         return PixelFormatID switch
         {
-            pfPAL8 => Palette is null ? throw new EInvalidOperation("Palette required") : Palette.GetNearestColor(Color),
+            pfPAL8 => Palette is null ? throw new InvalidOperationException("Palette required") : Palette.GetNearestColor(Color),
             pfRGB555 or pfARGB1555 => ((r & 248) << 7) + ((g & 248) << 2) + (b >> 3),
             pfRGB565 => ((r & 248) << 8) + ((g & 252) << 3) + (b >> 3),
             pfRGB24 or pfRGB32 or pfXRGB32 => (r << 16) + (g << 8) + b,
             pfBGR24 => Color & 0xFFFFFF,
-            _ => throw new ENotSupported("Pixel format")
+            _ => throw new NotSupportedException("Pixel format")
         };
     }
 

@@ -60,11 +60,6 @@ public class TWinControl : TControl
     protected internal virtual void DblClick() { }
 }
 
-public class TThread : TObject
-{
-    protected internal virtual void Execute() => throw new NotImplementedException("VCL.Thread.Execute");
-}
-
 public class TForm : TWinControl { }
 
 public class TButton : TWinControl { }

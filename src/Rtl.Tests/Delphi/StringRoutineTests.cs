@@ -82,10 +82,10 @@ public sealed class StringRoutineTests
                 Assert.Equal(text, ansi);
             }
             foreach (int index in new[] { int.MinValue, -1, 0, text.Length + 1, int.MaxValue })
-                Assert.Throws<ERangeError>(() => RtlUnit.WithChar(text, index, 'X'));
-            Assert.Throws<ERangeError>(() => RtlUnit.Resized(text, -1));
+                Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(text, index, 'X'));
+            Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.Resized(text, -1));
             string invalid = text;
-            Assert.Throws<ERangeError>(() => RtlUnit.SetLength(ref invalid, -1));
+            Assert.Throws<ArgumentOutOfRangeException>(() => RtlUnit.SetLength(ref invalid, -1));
             Assert.Equal(text, invalid);
         }
         string original = "abc";
@@ -149,8 +149,8 @@ public sealed class StringRoutineTests
             Assert.Equal(RtlUnit.StrToIntDef(Ansi(text), 91), RtlUnit.StrToIntDef(text, 91));
             var error = Record.Exception(() => RtlUnit.StrToInt(Ansi(text)));
             if (error is null) Assert.Equal(RtlUnit.StrToInt(Ansi(text)), RtlUnit.StrToInt(text));
-            else Assert.Equal(Assert.IsType<EConvertError>(error).Message,
-                Assert.Throws<EConvertError>(() => RtlUnit.StrToInt(text)).Message);
+            else Assert.Equal(Assert.IsType<FormatException>(error).Message,
+                Assert.Throws<FormatException>(() => RtlUnit.StrToInt(text)).Message);
         }
     }
 
@@ -192,7 +192,7 @@ public sealed class StringRoutineTests
         Assert.Equal(0, RtlUnit.Pos("x", (string?)null));
         Assert.Equal(0, RtlUnit.AnsiPos((string?)null, null));
         Assert.Equal("\0\0", RtlUnit.Resized(null, 2));
-        Assert.Throws<ERangeError>(() => RtlUnit.WithChar(null, 1, 'x'));
+        Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
         string value = null!;
         RtlUnit.Delete(ref value, 1, 3);
         Assert.Equal("", value);
@@ -213,7 +213,7 @@ public sealed class StringRoutineTests
         }
         Assert.Equal("''", RtlUnit.QuotedStr((string?)null));
         Assert.Equal(91, RtlUnit.StrToIntDef((string?)null, 91));
-        Assert.Throws<EConvertError>(() => RtlUnit.StrToInt((string?)null));
+        Assert.Throws<FormatException>(() => RtlUnit.StrToInt((string?)null));
         Assert.Equal("", RtlUnit.Format((string?)null));
         Assert.Equal("", RtlUnit.Format("%s", (string?)null));
     }

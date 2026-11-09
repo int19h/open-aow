@@ -47,7 +47,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
     private static (int, int) GetDefaultBounds()
     {
         if (typeof(E) == typeof(byte)) return (0, 63);
-        if (!typeof(E).IsEnum) throw new EInvalidOperation("Set elements require an enum or byte");
+        if (!typeof(E).IsEnum) throw new InvalidOperationException("Set elements require an enum or byte");
         var values = Enum.GetValues(typeof(E)).Cast<E>().Select(Ordinal).ToArray();
         return values.Length == 0 ? (0, 63) : (values.Min(), values.Max());
     }
@@ -55,7 +55,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
     private static int Ordinal(E value)
     {
         long number = Convert.ToInt64(value);
-        if (number is < 0 or > 255) throw new ERangeError("Set ordinal outside 0..255");
+        if (number is < 0 or > 255) throw new ArgumentOutOfRangeException(paramName: null, "Set ordinal outside 0..255");
         return (int)number;
     }
 
@@ -63,7 +63,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
 
     public static TSet<E> WithBounds(int low, int high)
     {
-        if (low < 0 || high > 255 || low > high) throw new ERangeError("Invalid set bounds");
+        if (low < 0 || high > 255 || low > high) throw new ArgumentOutOfRangeException(paramName: null, "Invalid set bounds");
         return new(0, 0, 0, 0, low, high);
     }
 
@@ -72,7 +72,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
         TSet<E> result = default;
         foreach (E value in values)
         {
-            if (Ordinal(value) > 63) throw new ERangeError("Implicit set ordinal exceeds 63");
+            if (Ordinal(value) > 63) throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
             result = result.With(value);
         }
         return result;
@@ -84,7 +84,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
     public TSet<E> WithRange(E lo, E hi)
     {
         int first = Ordinal(lo), last = Ordinal(hi);
-        if (!bounded && (first > 63 || last > 63)) throw new ERangeError("Implicit set ordinal exceeds 63");
+        if (!bounded && (first > 63 || last > 63)) throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
         var result = this;
         for (int i = first; i <= last; i++) result = result.SetBit(i, true);
         return result;
@@ -92,7 +92,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
 
     private TSet<E> SetBit(int ordinal, bool present)
     {
-        if (ordinal < Low || ordinal > High) throw new ERangeError("Ordinal outside declared set bounds");
+        if (ordinal < Low || ordinal > High) throw new ArgumentOutOfRangeException(paramName: null, "Ordinal outside declared set bounds");
         ulong bit = 1UL << (ordinal % 64);
         ulong change = present ? Word(ordinal / 64) | bit : Word(ordinal / 64) & ~bit;
         return new(ordinal < 64 ? change : a, ordinal is >= 64 and < 128 ? change : b,
@@ -108,7 +108,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
     public TSet<E> With(E value)
     {
         int ordinal = Ordinal(value);
-        if (!bounded && ordinal > 63) throw new ERangeError("Implicit set ordinal exceeds 63");
+        if (!bounded && ordinal > 63) throw new ArgumentOutOfRangeException(paramName: null, "Implicit set ordinal exceeds 63");
         return SetBit(ordinal, true);
     }
 
@@ -120,7 +120,7 @@ public readonly struct TSet<E> : IEquatable<TSet<E>> where E : unmanaged
 
     public void CopyImageTo(Span<byte> destination)
     {
-        if (destination.Length < StorageSize) throw new ERangeError("Set image buffer is too small");
+        if (destination.Length < StorageSize) throw new ArgumentOutOfRangeException(paramName: null, "Set image buffer is too small");
         for (int i = 0; i < StorageSize; i++)
         {
             int bit = (Low / 8 + i) * 8;

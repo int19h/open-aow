@@ -76,7 +76,7 @@ public sealed class LayoutSessionTests
         var session = new LayoutSession();
         var module = new FailingModule();
         FailingGlobal = null;
-        var error = Assert.Throws<EComponentError>(() => session.Load(module, value => FailingGlobal = value));
+        var error = Assert.Throws<ArgumentException>(() => session.Load(module, value => FailingGlobal = value));
         Assert.Contains("Child", error.Message);
         Assert.Null(FailingGlobal);
         Assert.Equal(0, module.ComponentCount);
@@ -97,7 +97,7 @@ public sealed class LayoutSessionTests
         var error = Assert.Throws<AggregateException>(() => session.Load(module, value => FailingGlobal = value));
         Assert.Null(FailingGlobal);
         Assert.Collection(error.InnerExceptions,
-            original => Assert.IsType<EComponentError>(original),
+            original => Assert.IsType<ArgumentException>(original),
             cleanup => Assert.Equal("cleanup", cleanup.Message));
         Assert.Equal(0, module.ComponentCount);
     }

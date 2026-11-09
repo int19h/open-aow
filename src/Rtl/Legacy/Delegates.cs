@@ -18,7 +18,7 @@ public static partial class RtlUnit
         var source = value.GetType().GetMethod("Invoke")!;
         var parameters = target.GetParameters().Select(p => Expression.Parameter(p.ParameterType, p.Name)).ToArray();
         var inputs = source.GetParameters();
-        if (inputs.Length != parameters.Length) throw new EInvalidCast("Method pointer argument count differs");
+        if (inputs.Length != parameters.Length) throw new InvalidCastException("Method pointer argument count differs");
         // Delphi method-pointer casts retain the call and its object argument. Adapt the
         // managed reference type at invocation, including every multicast subscriber.
         var arguments = parameters.Select((p, i) => (Expression)Expression.Convert(p, inputs[i].ParameterType));

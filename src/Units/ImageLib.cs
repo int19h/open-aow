@@ -7,7 +7,6 @@ using Aow.Units.GFXE;
 using Aow.Units.HashTabU;
 using static Aow.Rtl.RtlUnit;
 using static Aow.Units.GFXE.GFXEUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.ImageLib;
 
@@ -131,7 +130,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
 
         if (Value && !FReloadingEnabled)
         {
-            throw Exception.Create("Cannot turn on Reloading when disabled");
+            throw new InvalidOperationException("Cannot turn on Reloading when disabled");
         }
         else
         {
@@ -322,14 +321,14 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         }
         else
         {
-            throw Exception.Create("Invalid image format");
+            throw new ArgumentException("Invalid image format");
         }
     }
 
     // ImageLib.pas:1985
     public virtual int RemapToPixelFormat(int PixelFormatID)
     {
-        throw Exception.Create("Surface format not supported");
+        throw new NotSupportedException("Surface format not supported");
     }
 
     // ImageLib.pas:1685
@@ -758,7 +757,7 @@ public partial class TLibraryImagePalette : TPersistent
         }
         else
         {
-            throw EConvertError.Create("Can only assign to a TLibraryImagePalette descendant");
+            throw new FormatException("Can only assign to a TLibraryImagePalette descendant");
         }
     }
 
@@ -1173,7 +1172,7 @@ public partial class TCustomImageLibrary : TComponent
 
             // The original reads each index with Stream.Read. A short read leaves the index without its
             // terminator, so a truncated file repeats the loop without end. The port reads it with
-            // ReadBuffer, which raises EReadError on a short read. Valid files always end with the -1
+            // ReadBuffer, which raises EndOfStreamException on a short read. Valid files always end with the -1
             // terminator. The version 4 path below reads its index region the same way, so a region
             // without the terminator raises there too.
             if ((double)Header.Version <= 2)
@@ -1581,7 +1580,7 @@ public partial class TCustomImageLibrary : TComponent
         }
         else
         {
-            throw EConvertError.Create("Can only assign to a TCustomImageLibrary descendant");
+            throw new FormatException("Can only assign to a TCustomImageLibrary descendant");
         }
     }
 
@@ -2280,7 +2279,7 @@ public struct TShowInfo
         imagePadding = BinaryPrimitives.ReadUInt16LittleEndian(image.AsSpan(2));
         Blend = BinaryPrimitives.ReadInt32LittleEndian(image.AsSpan(4));
         if (exact && count != 8)
-            throw EReadError.Create("Stream read error");
+            throw new EndOfStreamException("Stream read error");
         return count;
     }
 
@@ -2289,7 +2288,7 @@ public struct TShowInfo
         byte[] image = Image();
         int count = stream.Write(image);
         if (exact && count != 8)
-            throw EWriteError.Create("Stream write error");
+            throw new IOException("Stream write error");
         return count;
     }
 }
@@ -3027,7 +3026,7 @@ public partial class TPicture08 : TImage08, ILibraryImageClass
         {
             if (sd.PixelFormatID != FRemapPalette.PixelFormatID &&
                 RemapToPixelFormat(sd.PixelFormatID) != GFXE_OK)
-                throw new Rtl.Exception("Surface pixel format not supported!");
+                throw new NotSupportedException("Surface pixel format not supported!");
             if (sd.PixelFormatID == pfRGB555)
                 RemapSurface08to555(source, destination, width, height, FRemapPalette);
             else if (sd.PixelFormatID == pfRGB565)
@@ -3185,7 +3184,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
             {
                 if (SD.PixelFormatID != FRemapPalette.PixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != GFXE_OK)
                 {
-                    throw Exception.Create("Surface pixel format not supported!");
+                    throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
                 switch (SD.PixelFormatID)
@@ -3195,7 +3194,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                         ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
-                        throw Exception.Create("PixelFormat not supported");
+                        throw new NotSupportedException("PixelFormat not supported");
                 }
             }
 
@@ -3214,7 +3213,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
             {
                 if (SD.PixelFormatID != FRemapPalette.PixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != GFXE_OK)
                 {
-                    throw Exception.Create("Surface pixel format not supported!");
+                    throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
                 switch (SD.PixelFormatID)
@@ -3224,7 +3223,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                         ImageLibUnit.ShowRLE08to16(X + FXshift + FRLELeft, Y + FYshift + FRLETop, SD, FData, FRLEWidth, FRLEHeight, (byte)FTransparentColor, MemoryMarshal.AsBytes(FRemapPalette.Entries.AsSpan()));
                         break;
                     default:
-                        throw Exception.Create("PixelFormat not supported");
+                        throw new NotSupportedException("PixelFormat not supported");
                 }
             }
         }
@@ -3727,7 +3726,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         BltRect(Src, Dst, W * 2, H);
@@ -3750,7 +3749,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         BltRect(Src, Dst, W * 2, H);
@@ -3836,14 +3835,14 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                         }
                         else
                         {
-                            throw Exception.Create("Invalid BlendTable format");
+                            throw new ArgumentException("Invalid BlendTable format");
                         }
                     }
                     else
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         if (Table.Bits == 5)
@@ -3860,7 +3859,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                         }
                         else
                         {
-                            throw Exception.Create("Invalid BlendTable format");
+                            throw new ArgumentException("Invalid BlendTable format");
                         }
                     }
 
@@ -3889,14 +3888,14 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                         }
                         else
                         {
-                            throw Exception.Create("Invalid BlendTable format");
+                            throw new ArgumentException("Invalid BlendTable format");
                         }
                     }
                     else
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         if (Table.Bits == 5)
@@ -3913,7 +3912,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                         }
                         else
                         {
-                            throw Exception.Create("Invalid BlendTable format");
+                            throw new ArgumentException("Invalid BlendTable format");
                         }
                     }
                 }
@@ -3996,7 +3995,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         if (FPixelFormatID == pfRGB565)
@@ -4033,7 +4032,7 @@ public partial class TPicture16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         if (FPixelFormatID == pfRGB565)
@@ -4332,7 +4331,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         BltColorKey16(Src, Dst, W, H, FColorKey);
@@ -4355,7 +4354,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         BltColorKey16(Src, Dst, W, H, FColorKey);
@@ -4443,7 +4442,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         switch (FPixelFormatID)
@@ -4482,7 +4481,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         switch (FPixelFormatID)
@@ -4545,7 +4544,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
                     var surfaceHeight = Surface.GetHeight();
                     if (RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                     {
-                        throw Exception.Create("Invalid PixelFormat");
+                        throw new ArgumentException("Invalid PixelFormat");
                     }
 
                     FTransparentColor = RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
@@ -4780,7 +4779,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             {
                 if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                 {
-                    throw Exception.Create("Surface pixel format not supported!");
+                    throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
                 ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
@@ -4801,7 +4800,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             {
                 if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                 {
-                    throw Exception.Create("Surface pixel format not supported!");
+                    throw new NotSupportedException("Surface pixel format not supported!");
                 }
 
                 ImageLibUnit.BltRLE16(X + FXshift + FSpriteX, Y + FYshift + FSpriteY, SD, FData, FSpriteWidth, FSpriteHeight, FColorKey);
@@ -4818,7 +4817,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             LoadDiscardableImageData();
             if (SD.PixelFormatID != FPixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != 0)
             {
-                throw Exception.Create("Surface pixel format not supported!");
+                throw new NotSupportedException("Surface pixel format not supported!");
             }
 
             switch (FPixelFormatID)
@@ -4840,7 +4839,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
         {
             if (SD.PixelFormatID != FPixelFormatID && RemapToPixelFormat(SD.PixelFormatID) != 0)
             {
-                throw Exception.Create("Surface pixel format not supported!");
+                throw new NotSupportedException("Surface pixel format not supported!");
             }
 
             switch (FPixelFormatID)
@@ -4940,7 +4939,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
                     var surfaceHeight = Surface.GetHeight();
                     if (RemapSurfacePart(SD, R.Left, R.Top, surfaceWidth, surfaceHeight, LSD, 0, 0) != 0)
                     {
-                        throw Exception.Create("Invalid PixelFormat");
+                        throw new ArgumentException("Invalid PixelFormat");
                     }
 
                     FColorKey = RemapPixelInfo(GrabInfo.TransparentPixel, SD.PixelFormatID, SD.Palette, LSD.PixelFormatID, null);
@@ -5326,7 +5325,7 @@ public partial class TShadow : TBitMask, ILibraryImageClass
                     ImageLibUnit.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
-                    throw Exception.Create("Surface format not supported");
+                    throw new NotSupportedException("Surface format not supported");
             }
 
             if (FLoadMode == TLoadMode.lmLoadFreeOnDemand)
@@ -5345,7 +5344,7 @@ public partial class TShadow : TBitMask, ILibraryImageClass
                     ImageLibUnit.ShowShadow555(X + FXshift + FMaskLeft, Y + FYshift + FMaskTop, SD, FMaskData, FMaskWidth, FMaskHeight);
                     break;
                 default:
-                    throw Exception.Create("Surface format not supported");
+                    throw new NotSupportedException("Surface format not supported");
             }
         }
     }
@@ -6116,7 +6115,7 @@ public partial class TImageLibraryManager : TComponent
         {
             try
             {
-                throw Exception.Create("Missing IL Resource: " + FileName);
+                throw new FileNotFoundException("Missing IL Resource: " + FileName);
             }
             catch
             {
@@ -6295,7 +6294,7 @@ public partial class TILManagerList : TStringList
                 }
                 catch
                 {
-                    throw Exception.Create("Error loading: " + FOwner.FSearchPath + FileName);
+                    throw new IOException("Error loading: " + FOwner.FSearchPath + FileName);
                 }
             }
 
@@ -6818,7 +6817,7 @@ public partial class TImageSequenceList : TList
             {
                 if (S != null && Sequence.FLayer == S.FLayer)
                 {
-                    throw Exception.Create("Layer does already exist");
+                    throw new InvalidOperationException("Layer does already exist");
                 }
 
                 Prev.FNext = Sequence;
@@ -7472,7 +7471,7 @@ public partial class TFrameTableList : TPersistent
     // ImageLib.pas:9401
     public static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -8398,7 +8397,7 @@ public static partial class ImageLibUnit
             }
             else
             {
-                throw Exception.Create("Image ClassID is already used (" + AClasses[I].ClassName + ")");
+                throw new InvalidOperationException("Image ClassID is already used (" + AClasses[I].ClassName + ")");
             }
         }
     }
@@ -8508,7 +8507,7 @@ public static partial class ImageLibUnit
     {
         int L = default;
         Stream.Read(Bytes.Of(ref L, 4));
-        if (L < 0) throw new ERangeError("Negative string length");
+        if (L < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative string length");
         byte[] buffer = new byte[L];
         Cp1252.Encode(S)[..Math.Min(S.Length, L)].CopyTo(buffer);
         // A failed read leaves the resized value in the destination.

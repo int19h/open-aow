@@ -26,7 +26,7 @@ public static partial class RtlUnit
         MessageHandler = message => host.Dialogs.Show(new(message, "", 0, 1));
     }
 
-    public static void OpenUrl(string url) => (Shell ?? throw new EInvalidOperation("No shell service opens " + url)).OpenUrl(url);
+    public static void OpenUrl(string url) => (Shell ?? throw new InvalidOperationException("No shell service opens " + url)).OpenUrl(url);
 
     public static int MessageBox(int handle, string text, string caption, int flags)
     {
@@ -40,6 +40,6 @@ public static partial class RtlUnit
             _ => [1]
         };
         int selected = Math.Min((flags >> 8) & 3, buttons.Length - 1);
-        return (Dialogs ?? throw new EInvalidOperation(text)).Show(new(text, caption, flags, buttons[selected]));
+        return (Dialogs ?? throw new InvalidOperationException(text)).Show(new(text, caption, flags, buttons[selected]));
     }
 }
