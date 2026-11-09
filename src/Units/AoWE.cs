@@ -13011,18 +13011,9 @@ public partial class TAoWHSMapKeyboard : TEObject
                         }
                     }
 
-                    if (Shift.Contains(TShiftState.ssCtrl))
-                    {
-                        switch (Key)
-                        {
-                            case 69:
-                                AoWEUnit.AoWHSMap.EndTurn();
-                                break;
-                            case 13:
-                                AoWEUnit.AoWHSMap.EndTurn();
-                                break;
-                        }
-                    }
+                    // AoWHSMap.PAS:1004 called AoWHSMap.EndTurn for Ctrl+E and Ctrl+Enter.
+                    // The port presses the end-turn button from the map window instead.
+                    // A port addition the original does not have.
 
                     break;
                 case TAoWHSMapKeyboardMode.kmCheat:

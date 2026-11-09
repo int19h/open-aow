@@ -152,23 +152,8 @@ public partial class TAOWTurnButton : TAOWControl
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
         {
             FHandled = true;
-            if (Button == TMouseButton.mbLeft && !FAnimating)
+            if (Button == TMouseButton.mbLeft && Press())
             {
-                if (FButtonChecked)
-                {
-                    FButtonChecked = false;
-                }
-                else
-                {
-                    FButtonChecked = true;
-                }
-
-                FDrawn = false;
-                if (FOnPlayerChange != null)
-                {
-                    FOnPlayerChange(this);
-                }
-
                 if (FOnMouseDown != null)
                 {
                     FOnMouseDown(this, Button, Shift, X, Y);
