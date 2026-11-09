@@ -754,9 +754,9 @@ public partial class TProductionPlace : TPlayerStructure
                     if (AUnit.ExpandAbility(155))
                     {
                         Enchantment = ((TUnitEnchantmentAbilityData)AUnit.GetAbilityData(155)).FEnchantment;
-                        Enchantment.SetUpkeep(((TSummonedAbility)(object)AoWHSSet.FSpellControl.GetSpell(155)).GetDefaultManaUpkeep(AUnit));
+                        Enchantment.SetUpkeep(TSummonedAbility.GetDefaultManaUpkeep(AUnit));
                         Enchantment.SetSource(FPlayer);
-                        Enchantment.FDispelResistance = (sbyte)((TSummonedAbility)(object)AoWHSSet.FSpellControl.GetSpell(155)).GetDefaultDispelResistance(AUnit);
+                        Enchantment.FDispelResistance = (sbyte)TSummonedAbility.GetDefaultDispelResistance(AUnit);
                     }
 
                     var armyHSYhx = ArmyHS.Yhx;
