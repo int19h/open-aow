@@ -307,12 +307,6 @@ public partial class TEnterWizardsTowerEventLog : TEventLog
 
     public TWizardsTower FTower;
 
-    // WizardsTower.pas:73
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
 }
 
 public static partial class WizardsTowerUnit

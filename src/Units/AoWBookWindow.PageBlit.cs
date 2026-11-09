@@ -12,7 +12,7 @@ public partial class TAoWBookWindow
             FPageSurface.Width != FBackSurface.Width || FPageSurface.Height != FBackSurface.Height ||
             FPageSurface is TDDrawSurface != FBackSurface is TDDrawSurface))
         {
-            FPageSurface.Free();
+            FPageSurface?.Dispose();
             FPageSurface = null;
         }
         var area = RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);

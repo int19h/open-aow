@@ -49,13 +49,13 @@ public sealed class ArmySpriteConstructionTests
                 catch (System.Exception error) when (error is not Xunit.Sdk.XunitException)
                 {
                     state = error.GetType().FullName + ":" + error.Message;
-                    destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TArmyHS) && x.GetMethod()?.Name == "Destroy");
+                    destroyEntries = new StackTrace(error).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TArmyHS) && x.GetMethod()?.Name == "Dispose");
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
                 Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
                 value?.SetOwner(null!);
-                value?.Destroy();
+                value?.Dispose();
             }
         OrderingRecording.Check("ArmySpriteConstruction", actual);
     }
@@ -70,22 +70,18 @@ public sealed class ArmySpriteConstructionTests
         try
         {
             ((TArmyHS)source).FArmy.FPlayer = 2;
-            var writer = new TEWriteStorageStream(memory, fixture.Engine, false);
-            try { source.ReadWrite(writer); }
-            finally { writer.Destroy(); }
+            using (var writer = new TEWriteStorageStream(memory, fixture.Engine, false)) { source.ReadWrite(writer); }
             memory.Position = 0;
             loaded = fixture.Engine.CreateEObject(TArmyHS.ClassID, null!);
-            var reader = new TEReadStorageStream(memory, fixture.Engine, false);
-            try { loaded.ReadWrite(reader); }
-            finally { reader.Destroy(); }
+            using (var reader = new TEReadStorageStream(memory, fixture.Engine, false)) { loaded.ReadWrite(reader); }
             Assert.IsType<TArmyHS>(loaded);
             Assert.Equal(OrderingRecording.Snapshot(source), OrderingRecording.Snapshot(loaded));
         }
         finally
         {
             Game.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
-            loaded?.Destroy();
-            source.Destroy();
+            loaded?.Dispose();
+            source.Dispose();
         }
     }
 }

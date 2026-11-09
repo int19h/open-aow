@@ -2,7 +2,8 @@ using Aow.Rtl.Host;
 
 namespace Aow.Rtl;
 
-public class TRegistry : TObject
+[LegacyObject]
+public class TRegistry
 {
     private readonly ISettingsStore values = RtlUnit.Settings ?? new MemorySettingsStore();
     private string key = "";
@@ -28,4 +29,9 @@ public class TRegistry : TObject
     }
 
     public void WriteBinaryData(string name, ReadOnlySpan<byte> buffer, int size) => values.Write(key + "\\" + name, buffer[..size].ToArray());
+
+    public TRegistry()
+    {
+        CaptureAddress.Assign(this);
+    }
 }

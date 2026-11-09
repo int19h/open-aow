@@ -44,12 +44,12 @@ public partial class TTCFCDialog : TDataModule
     public TAOWImage InfoSep;
     public TIvTranslator Translator;
     public TCombatTypeRequestEventLog FRequest;
-    public TNotifyEvent<TObject> FOnDone;
+    public TNotifyEvent<object> FOnDone;
 
     // TCFCDlg.pas:119
     public void Finish()
     {
-        TNotifyEvent<TObject> Done;
+        TNotifyEvent<object> Done;
         TCombatTypeRequestEventLog Request;
         General.Manager.OverlayPriority = 0;
         Done = FOnDone;

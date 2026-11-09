@@ -178,7 +178,7 @@ public partial class TFileDlgWindow : TDataModule
                 }
                 finally
                 {
-                    Map.Free();
+                    Map?.Dispose();
                 }
             }
         }
@@ -228,7 +228,7 @@ public partial class TFileDlgWindow : TDataModule
         {
             if (DateLB.Items.Objects[I] != null)
             {
-                DateLB.Items.Objects[I].Free();
+                (DateLB.Items.Objects[I] as IDisposable)?.Dispose();
             }
         }
 
@@ -321,13 +321,13 @@ public partial class TFileDlgWindow : TDataModule
         {
             if (DateLB.Items.Objects[I] != null)
             {
-                DateLB.Items.Objects[I].Free();
+                (DateLB.Items.Objects[I] as IDisposable)?.Dispose();
             }
         }
 
-        AoWFileDialogUnit.Drives.Free();
-        AoWFileDialogUnit.Directories.Free();
-        AoWFileDialogUnit.Files.Free();
+        AoWFileDialogUnit.Drives?.Dispose();
+        AoWFileDialogUnit.Directories?.Dispose();
+        AoWFileDialogUnit.Files?.Dispose();
     }
 
     // AoWFileDialog.pas:316
@@ -529,7 +529,7 @@ public partial class TFileDlgWindow : TDataModule
 
                     LTowns.Text = IntToStr(Map.FStructureControl.FCityCount);
                     LTurns.Text = IntToStr(Map.FDay);
-                    Map.Free();
+                    Map?.Dispose();
                 }
                 else
                 {
@@ -809,7 +809,7 @@ public static partial class AoWFileDialogUnit
     public static TStringList Files;
 
     // AoWFileDialog.pas:121
-    public static int CompareFileDates(string S1, string S2, TObject O1, TObject O2)
+    public static int CompareFileDates(string S1, string S2, object O1, object O2)
     {
         int Result;
         if (O1 == null && O2 == null)

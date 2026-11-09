@@ -90,11 +90,11 @@ public partial class TMagicSanctuary : TStructure
     public TMagicSanctuaryOverlayHS FOverlayHS;
 
     // MagicSanctuary.pas:117
-    public override void Destroy()
+    public override void Dispose()
     {
         AoWHSMap.DynamicVisibleHS.RemoveChild(FOverlayHS);
-        FOverlayHS.Free();
-        base.Destroy();
+        FOverlayHS?.Dispose();
+        base.Dispose();
     }
 
     // MagicSanctuary.pas:110

@@ -299,7 +299,7 @@ public partial class TCityWall : TCombatILTerrain
                 var yhx = GetYhx();
                 var xhx = GetXhx();
                 UpdateMapFields(AoWCombatMap.MapContainer.GetMapLevel(0), xhx, yhx);
-                this.Free();
+                this.Dispose();
             }
             else
             {

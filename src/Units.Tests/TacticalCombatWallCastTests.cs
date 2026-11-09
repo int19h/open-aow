@@ -71,7 +71,7 @@ public sealed class TacticalCombatWallCastTests
         finally
         {
             map.SetOwner(null!);
-            map.Destroy();
+            map.Dispose();
             Combat.AoWCombatMap = previous;
         }
     }

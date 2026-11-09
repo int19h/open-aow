@@ -36,9 +36,8 @@ public sealed class TypedNameRoundTripTests
             {
                 memory.Write(saved);
                 memory.Position = 0;
-                var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
-                try { loaded.ReadWrite(reader); }
-                finally { reader.Destroy(); }
+                using var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
+                loaded.ReadWrite(reader);
             }
             Assert.Equal(typed, loaded.FHeroName);
             Assert.Equal("Jörg €„äß", loaded.FHeroName);
@@ -46,19 +45,17 @@ public sealed class TypedNameRoundTripTests
         }
         finally
         {
-            loaded?.Destroy();
-            source?.Destroy();
-            edit.Destroy();
-            font.Destroy();
+            loaded?.Dispose();
+            source?.Dispose();
+            edit.Dispose();
+            font.Dispose();
         }
     }
 
     private static byte[] Save(TLeader leader)
     {
         using var memory = new TMemoryStream();
-        var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false);
-        try { leader.ReadWrite(writer); }
-        finally { writer.Destroy(); }
+        using (var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false)) { leader.ReadWrite(writer); }
         return memory.Memory[..memory.Size];
     }
 

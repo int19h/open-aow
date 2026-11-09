@@ -153,6 +153,6 @@ public static partial class aowHelpWinUnit
         }
 
         HelpWindow.HelpWin.Visible = true;
-        Lines.Free();
+        Lines?.Dispose();
     }
 }

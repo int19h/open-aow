@@ -45,10 +45,10 @@ public partial class TDungeon : TExplorationSite
     public TPrisonersMode FPrisonersMode;
 
     // Dungeon.pas:102
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FPrisoners.Free();
+        base.Dispose();
+        FPrisoners?.Dispose();
     }
 
     // Dungeon.pas:114
@@ -177,7 +177,7 @@ public partial class TDungeon : TExplorationSite
             }
 
             FillWithRandomUnits(List, FPrisoners, 4, (int)FPrisonersMode * 50, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature, TUnitType.utMachine));
-            List.Free();
+            List?.Dispose();
         }
     }
 
@@ -272,10 +272,10 @@ public partial class TDungeonResource : TExplorationSiteResource
     public TUnitIndexListCollection FPrisonerCollections;
 
     // Dungeon.pas:271
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPrisonerCollections.Free();
-        base.Destroy();
+        FPrisonerCollections?.Dispose();
+        base.Dispose();
     }
 
     // Dungeon.pas:286

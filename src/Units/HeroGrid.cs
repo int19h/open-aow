@@ -21,7 +21,7 @@ public partial class THeroGrid : TCustomImageDrawGrid
     public byte FSort;
 
     // HeroGrid.pas:126
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement Grids.Destroy in the platform or editor service. */
         throw new NotImplementedException();

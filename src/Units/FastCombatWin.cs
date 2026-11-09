@@ -434,7 +434,7 @@ public partial class TFastCombatWindow : TDataModule
     // FastCombatWin.pas:394
     public void FastCombatWindowDestroy()
     {
-        FViewer.Free();
+        FViewer?.Dispose();
     }
 
     // FastCombatWin.pas:399

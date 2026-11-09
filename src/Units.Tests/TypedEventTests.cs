@@ -59,7 +59,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         list.OnDoubleClick(list);
 
         Assert.Equal(2, runs);
-        owner.Destroy();
+        owner.Dispose();
     }
 
     [Fact]
@@ -67,14 +67,14 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     {
         var owner = new TComponent(null!);
         var button = new TAOWButton(owner);
-        TObject? seen = null;
-        void Ignore(TObject sender) => seen = sender;
+        object? seen = null;
+        void Ignore(object sender) => seen = sender;
         button.OnClick = Ignore;
 
         button.OnClick(button);
 
         Assert.Same(button, seen);
-        owner.Destroy();
+        owner.Dispose();
     }
 
     [Fact]
@@ -112,13 +112,13 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         button.FOnMouseDown(button, TMouseButton.mbLeft, default, 1, 2);
         Assert.Equal(2, runs);
         Assert.Same(button, mouseSender);
-        owner.Destroy();
+        owner.Dispose();
     }
 
     [Fact]
     public void DirectCallPassesNoSender()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var window = new TRelWindow(owner);
         window.SBGoldSlid = new TAOWHScrollBar(owner);
         window.SBGoldV = new TAOWLabel(owner);
@@ -127,7 +127,6 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         window.SBGoldSlidChange();
 
         Assert.Equal("17", window.SBGoldV.Text);
-        owner.Destroy();
     }
 
     [Fact]
@@ -159,7 +158,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         finally
         {
             AoWFileDialogUnit.Directories = previousDirectories;
-            dialog?.Destroy();
+            dialog?.Dispose();
             if (muted) system!.SetSFXEnabled(true);
             ImageLibUnit.BaseImageLibraryPath = previousImagePath;
         }
@@ -168,7 +167,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void TwoLevelMouseDownFiresTheDerivedOwner()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var button = new TAOWButton(owner);
         var other = new TAOWButton(owner);
         TAOWButton? seen = null;
@@ -182,13 +181,12 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         Assert.Same(button, seen);
         read(other, TMouseButton.mbLeft, default, 4, 5);
         Assert.Same(button, seen);
-        owner.Destroy();
     }
 
     [Fact]
     public void BaseReassignmentReplacesTheDerivedHandler()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var button = new TAOWButton(owner);
         TAOWButton? seen = null;
         button.OnMouseDown = (sender, mouseButton, shift, x, y) => seen = sender;
@@ -202,13 +200,12 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
 
         Assert.Null(seen);
         Assert.Same(button, replaced);
-        owner.Destroy();
     }
 
     [Fact]
     public void SavedBaseFieldRestoresTheTypedHandler()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var button = new TAOWButton(owner);
         var other = new TAOWButton(owner);
         TAOWButton? seen = null;
@@ -230,13 +227,12 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
 
         Assert.Equal(66, key);
         Assert.Same(button, seen);
-        owner.Destroy();
     }
 
     [Fact]
     public void CopiedWrapperKeepsTheOriginalOwner()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var button = new TAOWButton(owner);
         var other = new TAOWButton(owner);
         TAOWButton? seen = null;
@@ -249,7 +245,6 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         other.FOnMouseDown(other, TMouseButton.mbLeft, default, 1, 2);
 
         Assert.Same(button, seen);
-        owner.Destroy();
     }
 
     private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : TComponent, ILayoutModule
@@ -300,10 +295,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         {
             try
             {
-                Dialog?.Destroy();
-                general?.Destroy();
-                font?.Destroy();
-                gfx?.Destroy();
+                Dialog?.Dispose();
+                general?.Dispose();
+                font?.Dispose();
+                gfx?.Dispose();
             }
             finally
             {

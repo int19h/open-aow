@@ -187,7 +187,7 @@ public partial class TRaisedMountain : TILTerrainMO
         sbyte Overlay;
         Field = (TMapField)Owner;
         Overlay = FOriginalOverlay;
-        this.Destroy();
+        this.Dispose();
         if (Overlay > 0)
         {
             AoWHSMap.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);

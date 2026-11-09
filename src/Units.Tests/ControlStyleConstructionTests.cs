@@ -74,9 +74,9 @@ public sealed class ControlStyleConstructionTests
         }
         finally
         {
-            copy?.Destroy();
-            foreach (var value in objects) value.Destroy();
-            engine.Destroy();
+            copy?.Dispose();
+            foreach (var value in objects) value.Dispose();
+            engine.Dispose();
         }
         Assert.Empty(owner.Members);
     }
@@ -177,11 +177,11 @@ public sealed class ControlStyleConstructionTests
 
         public void Dispose()
         {
-            try { foreach (var child in Owner.Members.ToArray()) child.Destroy(); }
+            try { foreach (var child in Owner.Members.ToArray()) child.Dispose(); }
             finally
             {
                 Game.AoWHSSet = previous;
-                try { Manager.Destroy(); }
+                try { Manager.Dispose(); }
                 finally { RestoreFiles(); }
             }
         }
@@ -264,7 +264,7 @@ public sealed class ControlStyleConstructionTests
         Assert.Same(fixture.Entry.ImageLibrary, control.FFlags);
         Assert.Equal(1, fixture.Entry.RefCount);
         Assert.Same(control, Assert.Single(fixture.Owner.Members));
-        control.Destroy();
+        control.Dispose();
         Assert.Equal(0, fixture.Entry.RefCount);
         Assert.Null(control.Owner);
         Assert.Empty(fixture.Owner.Members);
@@ -301,9 +301,7 @@ public sealed class ControlStyleConstructionTests
             File.WriteAllBytes(path, Bytes.Of(ref header, 24).ToArray());
             ImageLibUnit.LibraryImageClasses = classes!;
             using var fixture = new FlagFixture(loaded: false, directory);
-            var library = new TImageLibrary(null!);
-            try { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
-            finally { library.Destroy(); }
+            using (var library = new TImageLibrary(null!)) { Assert.Throws<EndOfStreamException>(() => library.LoadFromFile(path)); }
             fixture.Files.OpenedPaths.Clear();
             var error = Assert.Throws<IOException>(() => TFlagControl.Create(fixture.Owner));
             Assert.Contains("Error loading:", error.Message, StringComparison.Ordinal);
@@ -315,7 +313,7 @@ public sealed class ControlStyleConstructionTests
         finally
         {
             ImageLibUnit.LibraryImageClasses = previousClasses;
-            classes?.Destroy();
+            classes?.Dispose();
             Directory.Delete(directory, recursive: true);
         }
     }
@@ -365,7 +363,7 @@ public sealed class ControlStyleConstructionTests
         {
             var writer = new TEWriteStorageStream(stream, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
-            writer.Destroy();
+            writer.Dispose();
             stream.Size--;
             stream.Position = 0;
             var reader = new TEReadStorageStream(stream, engine, false);
@@ -389,9 +387,9 @@ public sealed class ControlStyleConstructionTests
                 Assert.Same(existing, Assert.Single(owner.Members));
                 Assert.Equal(1, owner.Removals);
             }
-            finally { reader.Destroy(); }
+            finally { reader.Dispose(); }
         }
-        finally { source.Destroy(); existing.Destroy(); engine.Destroy(); }
+        finally { source.Dispose(); existing.Dispose(); engine.Dispose(); }
     }
 
     // A child read that fails with an empty message is reported as the stream default.
@@ -419,7 +417,7 @@ public sealed class ControlStyleConstructionTests
         {
             var writer = new TEWriteStorageStream(stream, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
-            writer.Destroy();
+            writer.Dispose();
             stream.Size--;
             stream.Position = 0;
             var reader = new TEReadStorageStream(stream, engine, false);
@@ -443,8 +441,8 @@ public sealed class ControlStyleConstructionTests
                 Assert.Same(existing, Assert.Single(owner.Members));
                 Assert.Equal(1, owner.Removals);
             }
-            finally { reader.Destroy(); }
+            finally { reader.Dispose(); }
         }
-        finally { source.Destroy(); existing.Destroy(); engine.Destroy(); }
+        finally { source.Dispose(); existing.Dispose(); engine.Dispose(); }
     }
 }

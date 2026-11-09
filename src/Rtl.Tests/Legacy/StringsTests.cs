@@ -5,11 +5,11 @@ namespace Aow.Rtl.Tests;
 
 public sealed class StringsTests
 {
-    private sealed class TrackObject : TObject
+    private sealed class TrackObject : IDisposable
     {
         internal bool Destroyed;
 
-        public override void Destroy() => Destroyed = true;
+        public void Dispose() => Destroyed = true;
     }
 
     [Fact]
@@ -19,7 +19,7 @@ public sealed class StringsTests
         var list = new TStringList(); var obj = new TrackObject(); var other = new TrackObject();
         Assert.Equal(0, list.AddObject("First=one", obj)); list.InsertObject(1, "blank", other); list.Add("FIRST=two"); list.Add("=emptyname");
         Assert.Equal("First", list.Names[0]); Assert.Equal("", list.Names[1]); Assert.Equal(0, list.IndexOfName("first")); Assert.Equal(3, list.IndexOfName(""));
-        Assert.Equal(1, list.IndexOfObject(other)); Assert.Equal(2, list.IndexOfObject(null)); Assert.Equal(-1, list.IndexOfObject(new TObject()));
+        Assert.Equal(1, list.IndexOfObject(other)); Assert.Equal(2, list.IndexOfObject(null)); Assert.Equal(-1, list.IndexOfObject(new object()));
         Assert.Equal("one", list.Values["FIRST"]); Assert.Equal("", list.Values["missing"]);
         list.Values["FIRST"] = "updated"; Assert.Equal("FIRST=updated", list.Strings[0]); Assert.Same(obj, list.Objects[0]);
         list.Values["added"] = "new"; Assert.Equal("new", list.Values["added"]); list.Values["added"] = ""; Assert.Equal(-1, list.IndexOfName("added")); list.Values["absent"] = "";
@@ -32,7 +32,7 @@ public sealed class StringsTests
         list.Move(-1, -1);
         Assert.Throws<FormatException>(() => copy.Assign(new TPersistent()));
         copy.Assign(copy); Assert.Equal(0, copy.Count);
-        list.Destroy(); Assert.False(obj.Destroyed); Assert.False(other.Destroyed);
+        list.Dispose(); Assert.False(obj.Destroyed); Assert.False(other.Destroyed);
     }
 
     [Fact]
@@ -47,7 +47,7 @@ public sealed class StringsTests
         events.Clear(); list.Sorted = true; Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal("a", list[0]);
         events.Clear(); list.Sort(); list.Sorted = true; Assert.Empty(events);
         Assert.Throws<InvalidOperationException>(() => list[0] = "z"); Assert.Throws<InvalidOperationException>(() => list.Insert(0, "z"));
-        list.Objects[0] = new TObject(); list.Exchange(0, 1); Assert.Equal(4, events.Count);
+        list.Objects[0] = new object(); list.Exchange(0, 1); Assert.Equal(4, events.Count);
         list.Sorted = false; events.Clear(); list[0] = "x"; list.Delete(1); Assert.Equal(4, events.Count);
         events.Clear(); list.Clear(); Assert.Equal(new[] { "changing", "changed" }, events); Assert.Equal(0, list.Capacity);
         list.Capacity = 8; list.Clear(); Assert.Equal(8, list.Capacity);
@@ -59,8 +59,8 @@ public sealed class StringsTests
             Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(i)); Assert.Throws<ArgumentOutOfRangeException>(() => list.Exchange(0, i));
         }
         Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, "x")); Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(2, "x"));
-        list.Duplicates = TDuplicates.dupIgnore; list.Sorted = true; list.AddObject("A", new TObject()); Assert.Equal(1, list.Count);
-        events.Clear(); list.Destroy(); Assert.Empty(events); Assert.Null(list.OnChange); Assert.Null(list.OnChanging);
+        list.Duplicates = TDuplicates.dupIgnore; list.Sorted = true; list.AddObject("A", new object()); Assert.Equal(1, list.Count);
+        events.Clear(); list.Dispose(); Assert.Empty(events); Assert.Null(list.OnChange); Assert.Null(list.OnChanging);
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public sealed class StringsTests
     {
         // CLASSES.PAS:2119..2540.
         using var directory = new ProbeDirectory();
-        var source = new PlainStrings(); var ignored = new TObject();
+        var source = new PlainStrings(); var ignored = new object();
         source.AddObject("a", ignored); source.InsertObject(1, "b", ignored); Assert.Null(source.Objects[0]); source.Objects[0] = ignored;
         Assert.Equal(0, source.IndexOfObject(null)); Assert.Equal(-1, source.IndexOfObject(ignored));
         Assert.Equal(2, source.Capacity); source.Capacity = 100; Assert.Equal(2, source.Capacity);
@@ -111,7 +111,7 @@ public sealed class StringsTests
         memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.Memory.Take(memory.Size));
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);
         Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => TStrings.Error("error %d", 1)).Message);
-        copy.BeginUpdate(); copy.EndUpdate(); copy.Destroy();
+        copy.BeginUpdate(); copy.EndUpdate(); copy.Dispose();
         var readOnly = new IndexedProperty<int, int>(i => i + 1); Assert.Equal(3, readOnly[2]); Assert.Throws<InvalidOperationException>(() => readOnly[2] = 4);
     }
 }

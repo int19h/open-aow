@@ -19,7 +19,7 @@ public static partial class E2WindowLayoutUnit
 {
     // E2WindowLayout.pas:13
     // The original window placement loader
-    public static void RestoreWindowLayout(TObject Controller)
+    public static void RestoreWindowLayout(object Controller)
     {
         TRect R;
         R = AoWEngine.FRegistry.GetRectangle(6);

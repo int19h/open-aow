@@ -29,11 +29,11 @@ public partial class THexagonBridge : TAbstractRoad
     public TByteList FSideB;
 
     // HxBridge.pas:77
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FSideA.Free();
-        FSideB.Free();
+        base.Dispose();
+        FSideA?.Dispose();
+        FSideB?.Dispose();
     }
 
     // HxBridge.pas:69
@@ -121,7 +121,7 @@ public partial class THexagonBridge : TAbstractRoad
         UpdateTransitions();
         if (FDirection == -1)
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -209,7 +209,7 @@ public partial class THexagonBridge : TAbstractRoad
         Road = MapField.FindHS(typeof(TAbstractRoad));
         if (Road != null)
         {
-            Road.Destroy();
+            Road.Dispose();
         }
 
         TECustomNode previous = Owner;

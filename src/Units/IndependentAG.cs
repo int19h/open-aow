@@ -75,7 +75,7 @@ public partial class TGuardAreaAGC : TAIGroupControl
     { }
 
     // IndependentAG.pas:189
-    public override void MoveExecuterDone(TObject Sender)
+    public override void MoveExecuterDone(object Sender)
     {
         switch (FState)
         {
@@ -277,7 +277,7 @@ public partial class TPatrolAGC : TAIGroupControl
     { }
 
     // IndependentAG.pas:415
-    public override void MoveExecuterDone(TObject Sender)
+    public override void MoveExecuterDone(object Sender)
     {
         switch (FMoveExecuter.FStatus)
         {
@@ -525,7 +525,7 @@ public partial class TPatrolAGC : TAIGroupControl
                 J += 1;
             }
 
-            Lists[I].Free();
+            Lists[I]?.Dispose();
             Lists[I] = NewList;
         }
 
@@ -586,10 +586,10 @@ public partial class TPatrolAGC : TAIGroupControl
 
         for (int I = 0; I < HexDirectionSlotCount; I++)
         {
-            Lists[I].Free();
+            Lists[I]?.Dispose();
         }
 
-        Choices.Free();
+        Choices?.Dispose();
         Settings.Release();
         return Result;
     }
@@ -648,7 +648,7 @@ public partial class TRaidAGC : TAIGroupControl
     { }
 
     // IndependentAG.pas:589
-    public override void MoveExecuterDone(TObject Sender)
+    public override void MoveExecuterDone(object Sender)
     {
         switch (FState)
         {
@@ -751,7 +751,7 @@ public partial class TScoutAGC : TAIGroupControl
     { }
 
     // IndependentAG.pas:671
-    public override void MoveExecuterDone(TObject Sender)
+    public override void MoveExecuterDone(object Sender)
     {
         switch (FState)
         {
@@ -851,7 +851,8 @@ public partial class TScoutAGC : TAIGroupControl
     }
 }
 
-public partial class TRegistrator : TObject
+[LegacyObject]
+public partial class TRegistrator
 {
     // IndependentAG.pas:136
     public static void MapLoaded(THSMap Sender)
@@ -860,6 +861,11 @@ public partial class TRegistrator : TObject
         {
             AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<TGuardAG>(), AIGroupClass.Of<TGuardAreaAG>(), AIGroupClass.Of<TPatrolAG>(), AIGroupClass.Of<TRefugeAG>(), AIGroupClass.Of<TRaidAG>(), AIGroupClass.Of<TScoutAG>()]);
         }
+    }
+
+    public TRegistrator()
+    {
+        CaptureAddress.Assign(this);
     }
 
 }

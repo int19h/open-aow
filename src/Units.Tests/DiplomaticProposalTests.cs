@@ -141,7 +141,7 @@ public sealed class DiplomaticProposalTests
         using var memory = new TMemoryStream();
         var writer = new TEWriteStorageStream(memory, engine, false);
         writer.rwCreateEObject(ref value, null!, 7);
-        writer.Destroy();
+        writer.Dispose();
         return Hex(memory);
     }
 
@@ -149,9 +149,7 @@ public sealed class DiplomaticProposalTests
     {
         using var memory = Memory(hex);
         TEObject result = null!;
-        var reader = new TEReadStorageStream(memory, engine, false);
-        try { reader.rwCreateEObject(ref result, null!, 7); }
-        finally { reader.Destroy(); }
+        using (var reader = new TEReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, null!, 7); }
         return Assert.IsType<T>(result);
     }
 
@@ -196,11 +194,11 @@ public sealed class DiplomaticProposalTests
             te.SetDiplomaticAction(action);
             action.Release();
             Assert.Equal(c.Token, Write(engine, te));
-            te.Destroy();
+            te.Dispose();
 
             var log = new TDiplomaticActionEventLog(null!) { FDay = 5, FAction = Action(c) };
             Assert.Equal(c.Logged, Write(engine, log));
-            log.Destroy();
+            log.Dispose();
 
             var loaded = Read<TDiplomaticAction>(engine, c.Alone);
             AssertCase(c, loaded);
@@ -210,16 +208,16 @@ public sealed class DiplomaticProposalTests
             var loadedEvent = Read<TDiplomaticActionTE>(engine, c.Token);
             AssertCase(c, loadedEvent.FAction);
             Assert.Equal(c.Token, Write(engine, loadedEvent));
-            loadedEvent.Destroy();
+            loadedEvent.Dispose();
 
             var loadedLog = Read<TDiplomaticActionEventLog>(engine, c.Logged);
             AssertCase(c, loadedLog.FAction);
             Assert.Equal(c.Logged, Write(engine, loadedLog));
-            loadedLog.Destroy();
+            loadedLog.Dispose();
         }
         finally
         {
-            engine.Destroy();
+            engine.Dispose();
         }
     }
 
@@ -230,7 +228,7 @@ public sealed class DiplomaticProposalTests
         try
         {
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
-            var log = new TDiplomaticActionEventLog(null!) { FDay = 5 };
+            using var log = new TDiplomaticActionEventLog(null!) { FDay = 5 };
             log.FAction = new TDiplomaticAction(null!) { FSource = 6, FTarget = 11, FOtherPlayer = -1, FEventLogID = 16, FDay = 7, Proposal = new DeclareWar() with { Message = message } };
             string bytes = Write(engine, log);
             var copy = Read<TDiplomaticActionEventLog>(engine, bytes);
@@ -245,13 +243,12 @@ public sealed class DiplomaticProposalTests
             Assert.Equal(message, copy.FAction.Proposal.Message);
             Assert.NotEqual(copy.FAction.Proposal, listed.FAction.Proposal);
             Assert.Equal(new DeclareWar(), listed.FAction.Proposal);
-            copy.Destroy();
-            listed.Destroy();
-            log.Destroy();
+            copy.Dispose();
+            listed.Dispose();
         }
         finally
         {
-            engine.Destroy();
+            engine.Dispose();
         }
     }
 
@@ -500,7 +497,7 @@ public sealed class DiplomaticProposalTests
         }
         finally
         {
-            control.Free();
+            control?.Dispose();
             Game.AoWHSMap = previousMap;
         }
     }

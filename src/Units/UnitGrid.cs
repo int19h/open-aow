@@ -17,7 +17,7 @@ public partial class TUnitGrid : TCustomImageDrawGrid
     public TMemoryStream FMemoryStream;
 
     // UnitGrid.pas:60
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement Grids.Destroy in the platform or editor service. */
         throw new NotImplementedException();

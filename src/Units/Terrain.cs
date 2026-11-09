@@ -22,12 +22,6 @@ public partial class TTerrainMOR : TMultiHexMOR
     internal sbyte FDecorationType;
     internal byte FTerrainType;
 
-    // Terrain.pas:305
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Terrain.pas:310
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -124,7 +118,7 @@ public partial class TTerrainMO : TMultiHexMO
                 }
                 else
                 {
-                    Destroy();
+                    Dispose();
                 }
             }
         }
@@ -143,7 +137,7 @@ public partial class TTerrainMO : TMultiHexMO
             {
                 if (Msg.HN == 0)
                 {
-                    Destroy();
+                    Dispose();
                 }
             }
         }
@@ -210,7 +204,7 @@ public partial class TTerrainMO : TMultiHexMO
                 Lhx = GetLhx();
                 Map = ((TMapLevel)Owner.Owner).Map;
                 TerrainList = FResource.TerrainList;
-                Destroy();
+                Dispose();
                 I = 0;
                 int last = TerrainList.Count - 1;
                 for (; I <= last; I += 1)
@@ -224,12 +218,12 @@ public partial class TTerrainMO : TMultiHexMO
             }
             else
             {
-                Destroy();
+                Dispose();
             }
         }
         else
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -264,7 +258,7 @@ public partial class TTerrainMO : TMultiHexMO
             Result = null;
         }
 
-        Candidates.Free();
+        Candidates?.Dispose();
         return Result;
     }
 

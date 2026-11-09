@@ -266,7 +266,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
             }
             finally
             {
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
     }
@@ -387,7 +387,7 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
 
         return Result;
@@ -629,10 +629,10 @@ public partial class TLibraryImage : TPersistent, ILibraryImageClass
     public virtual TGrabInfo CreateGrabInfo() => new TGrabInfo();
 
     // ImageLib.pas:1607
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // ImageLib.pas:1648
@@ -688,11 +688,9 @@ public partial class TLibraryImagePalette : TPersistent
     }
 
     // ImageLib.pas:7090
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPalette.Free();
-        FRemapPalette.Free();
-        base.Destroy();
+        base.Dispose();
     }
 
     // ImageLib.pas:7097
@@ -752,7 +750,6 @@ public partial class TLibraryImagePalette : TPersistent
             }
             else
             {
-                FRemapPalette.Free();
             }
         }
         else
@@ -767,7 +764,8 @@ public partial class TLibraryImagePalette : TPersistent
 
 }
 
-public partial class TPaletteManager : TObject
+[LegacyObject]
+public partial class TPaletteManager : IDisposable
 {
     internal TList FPalettes;
 
@@ -789,15 +787,15 @@ public partial class TPaletteManager : TObject
     // ImageLib.pas:6971
     public TPaletteManager()
     {
+        CaptureAddress.Assign(this);
         FPalettes = new TList();
     }
 
     // ImageLib.pas:6977
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        FPalettes.Free();
-        base.Destroy();
+        FPalettes?.Dispose();
     }
 
     // ImageLib.pas:7001
@@ -831,7 +829,7 @@ public partial class TPaletteManager : TObject
     {
         for (int I = FPalettes.Count - 1; I >= 0; I--)
         {
-            ((TLibraryImagePalette)FPalettes.List[I]).Free();
+            ((TLibraryImagePalette)FPalettes.List[I])?.Dispose();
         }
 
         FPalettes.Clear();
@@ -889,7 +887,7 @@ public partial class TPaletteManager : TObject
         {
             FPalettes.Delete(Index);
             UpdateIndices();
-            P.Free();
+            P?.Dispose();
         }
     }
 
@@ -918,7 +916,7 @@ public partial class TCustomImageLibrary : TComponent
 {
 
     internal TSet<TImageLibraryStatusElement> FStatus;
-    internal TNotifyEvent<TObject> FOnChange;
+    internal TNotifyEvent<object> FOnChange;
     internal byte FChangeLock;
     internal bool FReloading;
     internal bool FLoadOnDemand;
@@ -1092,11 +1090,11 @@ public partial class TCustomImageLibrary : TComponent
     }
 
     // ImageLib.pas:9679
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FPaletteManager.Free();
-        base.Destroy();
+        FPaletteManager?.Dispose();
+        base.Dispose();
     }
 
     // ImageLib.pas:9686
@@ -1122,7 +1120,7 @@ public partial class TCustomImageLibrary : TComponent
         {
             if (FImages[I].Image != null)
             {
-                FImages[I].Image.Free();
+                FImages[I].Image?.Dispose();
             }
         }
 
@@ -1232,7 +1230,7 @@ public partial class TCustomImageLibrary : TComponent
             }
             finally
             {
-                MS.Free();
+                MS?.Dispose();
             }
 
             if (!FStatus.Contains(TImageLibraryStatusElement.isLoadingFromFile))
@@ -1296,7 +1294,7 @@ public partial class TCustomImageLibrary : TComponent
         finally
         {
             FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSaving);
-            Swap.Free();
+            Swap?.Dispose();
             DeleteFile(SwapName);
         }
     }
@@ -1317,7 +1315,7 @@ public partial class TCustomImageLibrary : TComponent
         finally
         {
             FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isLoadingFromFile);
-            Stream.Free();
+            Stream?.Dispose();
             FChangeLock = (byte)(FChangeLock - 1);
             if (FChangeLock == 0)
             {
@@ -1346,7 +1344,7 @@ public partial class TCustomImageLibrary : TComponent
         finally
         {
             FStatus = FStatus - TSet<TImageLibraryStatusElement>.Of(TImageLibraryStatusElement.isSavingToFile);
-            Stream.Free();
+            Stream?.Dispose();
         }
     }
 
@@ -1377,7 +1375,7 @@ public partial class TCustomImageLibrary : TComponent
         }
         finally
         {
-            Stream.Destroy();
+            Stream.Dispose();
         }
 
         return Result;
@@ -1513,7 +1511,7 @@ public partial class TCustomImageLibrary : TComponent
         {
             if (FImages[Index].Image != null)
             {
-                FImages[Index].Image.Destroy();
+                FImages[Index].Image.Dispose();
             }
 
             FImages[Index].Image = null;
@@ -1575,7 +1573,7 @@ public partial class TCustomImageLibrary : TComponent
             }
             finally
             {
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
         else
@@ -1591,7 +1589,7 @@ public partial class TCustomImageLibrary : TComponent
         {
             if (FImages[Index].Image != null)
             {
-                FImages[Index].Image.Free();
+                FImages[Index].Image?.Dispose();
             }
 
             DeleteItem(Index);
@@ -1610,7 +1608,7 @@ public partial class TCustomImageLibrary : TComponent
         {
             if (FImages[Result].Image != null)
             {
-                FImages[Result].Image.Free();
+                FImages[Result].Image?.Dispose();
             }
 
             DeleteItem(Result);
@@ -1673,7 +1671,7 @@ public partial class TCustomImageLibrary : TComponent
 
         if (FImages[Index].Image != null)
         {
-            FImages[Index].Image.Destroy();
+            FImages[Index].Image.Dispose();
         }
 
         FImages[Index].Image = Image;
@@ -1859,7 +1857,7 @@ public partial class TCustomImageLibrary : TComponent
                         var image = Node.GetImage(0);
                         FImages[Index].Image = image;
                         Node.Delete(0);
-                        Node.Free();
+                        Node?.Dispose();
                     }
 
                     SetModified(true);
@@ -1911,7 +1909,7 @@ public partial class TCustomImageLibrary : TComponent
                     Old = Node.FImages[SubIndex];
                     if (Old != null)
                     {
-                        Old.Destroy();
+                        Old.Dispose();
                     }
 
                     Node.FImages[SubIndex] = Image;
@@ -1959,13 +1957,13 @@ public partial class TCustomImageLibrary : TComponent
         {
             if (Node.ImageClass.ClassID != 256)
             {
-                Node.GetImage(SubIndex).Destroy();
+                Node.GetImage(SubIndex).Dispose();
                 Node.Delete(SubIndex);
                 if (Node.FCount == 1)
                 {
                     FImages[Index].Image = Node.FImages[0];
                     Node.Delete(0);
-                    Node.Destroy();
+                    Node.Dispose();
                 }
 
                 SetModified(true);
@@ -1974,7 +1972,7 @@ public partial class TCustomImageLibrary : TComponent
             {
                 if (SubIndex == 0)
                 {
-                    Node.Free();
+                    Node?.Dispose();
                     FImages[Index].Image = null;
                 }
             }
@@ -2003,7 +2001,7 @@ public partial class TCustomImageLibrary : TComponent
             {
                 if (Old == Image)
                 {
-                    Old.Free();
+                    Old?.Dispose();
                     FImages[Index].Image = null;
                     SetModified(true);
                     Result = 0;
@@ -2150,7 +2148,7 @@ public partial class TCustomImageLibrary : TComponent
     public int DataOffset { get => FDataOffset; }
     public bool Reloading { get => FReloading; }
     public bool LoadOnDemand { get => FLoadOnDemand; set => SetLoadOnDemand(value); }
-    public TNotifyEvent<TObject> OnChange { get => FOnChange; set => FOnChange = value; }
+    public TNotifyEvent<object> OnChange { get => FOnChange; set => FOnChange = value; }
     public string FileName { get => FFileName; set => SetFileName(value); }
 
 }
@@ -2171,7 +2169,8 @@ public enum TLoadMode : byte
     lmLoadFreeOnDemand = 2
 }
 
-public partial class TGrabInfo : TObject
+[LegacyObject]
+public partial class TGrabInfo
 {
     public static GrabInfoClass Descriptor { get; } = new("TGrabInfo", static () => new TGrabInfo());
 
@@ -2219,16 +2218,21 @@ public partial class TGrabInfo : TObject
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
 
         return Result;
     }
 
+    public TGrabInfo()
+    {
+        CaptureAddress.Assign(this);
+    }
+
 }
 
 public delegate void TImagesGrabbedEvent(TCustomImageLibrary GrabbedImages, TGrabInfo UsedGrabInfo);
-public delegate void TGrabProgressEvent(TObject Sender, int Percent, string Msg);
+public delegate void TGrabProgressEvent(object Sender, int Percent, string Msg);
 
 public enum TShowMode : byte
 {
@@ -2337,10 +2341,10 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     }
 
     // ImageLib.pas:1292
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // ImageLib.pas:1308
@@ -2530,7 +2534,7 @@ public partial class TImageNode : TLibraryImage, ILibraryImageClass
     {
         for (int I = FCount - 1; I >= 0; I--)
         {
-            FImages[I].Destroy();
+            FImages[I].Dispose();
         }
 
         FCount = 0;
@@ -2698,7 +2702,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
     public override void Clear()
     {
         UnregisterPalette();
-        FImagePalette.Free();
+        FImagePalette?.Dispose();
         FImagePalette = null;
         base.Clear();
     }
@@ -2746,7 +2750,7 @@ public partial class TImage08 : TLibraryImage, ILibraryImageClass
         {
             Old = FImagePalette;
             FImagePalette = FOwner.FPaletteManager.RegisterPalette(FImagePalette.FPalette);
-            Old.Free();
+            Old?.Dispose();
             FRemapPalette = FImagePalette.FPalette;
             FOwnPalette = false;
         }
@@ -3247,7 +3251,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
         int Pos;
         int LineStart;
         int Count;
-        TObject Temp;
+        object Temp;
         int Line;
         TRect MinRect = default;
         int B;
@@ -3360,7 +3364,7 @@ public partial class TRLESprite08 : TImage08, ILibraryImageClass
                 {
                     if (Temp != null)
                     {
-                        Temp.Destroy();
+                        ((Temp ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
                     }
                 }
             }
@@ -4586,7 +4590,7 @@ public partial class TSprite16 : TImage16, ILibraryImageClass
             {
                 if (Surface != null)
                 {
-                    Surface.Destroy();
+                    Surface.Dispose();
                 }
             }
         }
@@ -4996,7 +5000,7 @@ public partial class TRLESprite16 : TImage16, ILibraryImageClass
             {
                 if (Surface != null)
                 {
-                    Surface.Destroy();
+                    Surface.Dispose();
                 }
             }
         }
@@ -5567,7 +5571,7 @@ public partial class TCustomImageLibraryPanel : TCustomPanel
     internal int FScaleX;
     internal int FScaleY;
     internal TBltMode FBltMode;
-    internal TNotifyEvent<TObject> FOnUpdated;
+    internal TNotifyEvent<object> FOnUpdated;
     internal TCustomImageLibrary FImageLibrary;
     internal int FImageIndex;
 
@@ -5616,7 +5620,7 @@ public partial class TCustomImageLibraryPanel : TCustomPanel
     protected internal TCustomImageLibrary ImageLibrary { get => FImageLibrary; set => SetImageLibrary(value); }
     protected internal int ImageIndex { get => FImageIndex; set => SetImageIndex(value); }
     protected internal TBltMode BltMode { get => FBltMode; set => SetBltMode(value); }
-    protected internal TNotifyEvent<TObject> OnUpdated { get => FOnUpdated; set => FOnUpdated = value; }
+    protected internal TNotifyEvent<object> OnUpdated { get => FOnUpdated; set => FOnUpdated = value; }
     protected internal int ScaleX { get => FScaleX; set => SetScaleX(value); }
     protected internal int ScaleY { get => FScaleY; set => SetScaleY(value); }
 
@@ -5654,8 +5658,8 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     internal int FScaleY;
     internal TBltMode FBltMode;
     internal TSet<TILGridEditModeElement> FEditMode;
-    internal TDrawCellEvent<TObject> FOnCellUpdated;
-    internal TSelectCellEvent<TObject> FOnSelectCell;
+    internal TDrawCellEvent<object> FOnCellUpdated;
+    internal TSelectCellEvent<object> FOnSelectCell;
     internal int FFocusColor;
     internal TILGrowDirection FGrowDirection;
     internal bool FSelectionEnabled;
@@ -5794,8 +5798,8 @@ public partial class TCustomImageDrawGrid : TCustomGrid
     protected internal bool SelectionEnabled { get => FSelectionEnabled; set => SetSelectionEnabled(value); }
     protected internal int FocusColor { get => FFocusColor; set => SetFocusColor(value); }
     protected internal TBltMode BltMode { get => FBltMode; set => SetBltMode(value); }
-    protected internal TDrawCellEvent<TObject> OnCellUpdated { get => FOnCellUpdated; set => FOnCellUpdated = value; }
-    protected internal TSelectCellEvent<TObject> OnSelectCell { get => FOnSelectCell; set => FOnSelectCell = value; }
+    protected internal TDrawCellEvent<object> OnCellUpdated { get => FOnCellUpdated; set => FOnCellUpdated = value; }
+    protected internal TSelectCellEvent<object> OnSelectCell { get => FOnSelectCell; set => FOnSelectCell = value; }
     protected internal int ScaleX { get => FScaleX; set => SetScaleX(value); }
     protected internal int ScaleY { get => FScaleY; set => SetScaleY(value); }
     protected internal new int ColCount { get => GetColCount(); set => SetColCount(value); }
@@ -5965,7 +5969,7 @@ public partial class TCustomImageLibraryGrid : TCustomImageDrawGrid
             }
             finally
             {
-                L.Free();
+                L?.Dispose();
             }
         }
     }
@@ -6009,12 +6013,12 @@ public partial class TImageLibraryManager : TComponent
     }
 
     // ImageLib.pas:8267
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FDiskList.Free();
-        FOwnedList.Free();
-        base.Destroy();
+        FDiskList?.Dispose();
+        FOwnedList?.Dispose();
+        base.Dispose();
     }
 
     // ImageLib.pas:8275
@@ -6074,7 +6078,7 @@ public partial class TImageLibraryManager : TComponent
                 SearchDirectory(List[I]);
             }
 
-            List.Free();
+            List?.Dispose();
         }
 
         FDiskList.Clear();
@@ -6161,15 +6165,21 @@ public partial class TImageLibraryManager : TComponent
 
 }
 
+[LegacyObject]
 // an entry of a TILManagerList. FRefCount (the LinkToIL calls not yet released), FImageLibrary
 // (loaded by the first LinkToIL)
-public partial class TILManagerObject : TObject
+public partial class TILManagerObject
 {
     internal int FRefCount;
     internal TCustomImageLibrary FImageLibrary;
 
     public int RefCount { get => FRefCount; }
     public TCustomImageLibrary ImageLibrary { get => FImageLibrary; }
+
+    public TILManagerObject()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // library file names (upper case, relative to the search path) with their TILManagerObject.
@@ -6189,10 +6199,10 @@ public partial class TILManagerList : TStringList
     // ImageLib.pas:8102
     // { Original bug: the inherited destructor does not call Clear, so the TILManagerObjects and
     //   their libraries are never freed. }
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FHashTable.Free();
+        base.Dispose();
+        FHashTable?.Dispose();
     }
 
     // ImageLib.pas:8108
@@ -6245,8 +6255,7 @@ public partial class TILManagerList : TStringList
         Obj = (TILManagerObject)Objects[Index];
         if (Obj != null)
         {
-            Obj.FImageLibrary.Free();
-            Obj.Free();
+            Obj.FImageLibrary?.Dispose();
         }
 
         var item = Strings[Index];
@@ -6264,8 +6273,7 @@ public partial class TILManagerList : TStringList
             Obj = (TILManagerObject)Objects[I];
             if (Obj != null)
             {
-                Obj.FImageLibrary.Free();
-                Obj.Free();
+                Obj.FImageLibrary?.Dispose();
             }
         }
 
@@ -6543,10 +6551,10 @@ public partial class TImageSequenceList : TList
     }
 
     // ImageLib.pas:8911
-    public override void Destroy()
+    public override void Dispose()
     {
         DestroyItems();
-        base.Destroy();
+        base.Dispose();
     }
 
     // ImageLib.pas:8918
@@ -6577,7 +6585,7 @@ public partial class TImageSequenceList : TList
         {
             if (List[I] != null)
             {
-                ((TObject)List[I]).Destroy();
+                ((List[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
 
             base.Delete(I);
@@ -6706,7 +6714,7 @@ public partial class TImageSequenceList : TList
 
         if (List[Index] != null)
         {
-            ((TObject)List[Index]).Destroy();
+            ((List[Index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
 
         List[Index] = Value;
@@ -7189,7 +7197,7 @@ public partial class TFrameTableList : TPersistent
     }
 
     // ImageLib.pas:9360
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
     }
@@ -7476,13 +7484,14 @@ public partial class TFrameTableList : TPersistent
 
 }
 
+[LegacyObject]
 // an animation of the images of a library, one layer of a chain sorted by layer. FOwner,
 // FLayer, FNext (the next layer), FImageLibrary (linked by LinkToIL: FImageLibraryName from the
 // manager of FOwner, or the library of FOwner), FImageLibraryName, FSequenceSpeed (frames per
 // image - 1), FSequenceMode, FFrameTable (the image indices of smFrameTable and
 // smRndFrameTable), FImageIndex (the image of smNone, the random start of smRandom and
 // smRndFrameTable), FdXshift, FdYshift, FLastFrame, FSpeedCount, FFrameCounter
-public partial class TImageSequence : TObject
+public partial class TImageSequence : IDisposable
 {
     internal TImageSequenceList FOwner;
     internal byte FLayer;
@@ -7524,20 +7533,19 @@ public partial class TImageSequence : TObject
     // ImageLib.pas:8553
     public TImageSequence(TImageSequenceList owner)
     {
+        CaptureAddress.Assign(this);
         FOwner = owner;
     }
 
     // ImageLib.pas:8559
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FFrameTable.Free();
+        FFrameTable?.Dispose();
         ReleaseIL();
         if (FNext != null)
         {
-            FNext.Destroy();
+            FNext.Dispose();
         }
-
-        base.Destroy();
     }
 
     // ImageLib.pas:8567
@@ -7555,7 +7563,7 @@ public partial class TImageSequence : TObject
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
 
         return Result;
@@ -8063,7 +8071,7 @@ public static partial class ImageLibUnit
         Surface.Unlock();
         /* TODO: Implement cell or array backing for this address. */
         throw new NotImplementedException();
-        Surface.Free();
+        Surface?.Dispose();
     }
 
     // ImageLib.pas:5936
@@ -8579,6 +8587,6 @@ public static partial class ImageLibUnit
 
     public static void Finalize()
     {
-        LibraryImageClasses.Free();
+        LibraryImageClasses?.Dispose();
     }
 }

@@ -3,45 +3,93 @@ using Aow.Units.EventLog;
 
 namespace Aow.Units.AoWE;
 
-public sealed class AITargetQuery : TObject
+[LegacyObject]
+public sealed class AITargetQuery
 {
     public TAITargetInfo Info;
     public TAITargetData Data;
+
+    public AITargetQuery()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public sealed class BattleFieldQuery : TObject
+[LegacyObject]
+public sealed class BattleFieldQuery
 {
     public TBattleFieldInfo Info;
+
+    public BattleFieldQuery()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public sealed class DefenseRequirementsQuery : TObject
+[LegacyObject]
+public sealed class DefenseRequirementsQuery
 {
     public TDefenseRequirements Requirements;
+
+    public DefenseRequirementsQuery()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public sealed class StormDamageQuery : TObject
+[LegacyObject]
+public sealed class StormDamageQuery
 {
     public TStormDamageInfo Info;
+
+    public StormDamageQuery()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public sealed class CombatResultQuery : TObject
+[LegacyObject]
+public sealed class CombatResultQuery
 {
     public string Text = "";
+
+    public CombatResultQuery()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public sealed class ShowMessageNotification : TObject
+[LegacyObject]
+public sealed class ShowMessageNotification
 {
     public TShowMessageInfo Info;
+
+    public ShowMessageNotification()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public sealed class MapChangedNotification : TObject
+[LegacyObject]
+public sealed class MapChangedNotification
 {
     public TMapChangedInfo Info;
+
+    public MapChangedNotification()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public sealed class ExecuteEventLogNotification : TObject
+[LegacyObject]
+public sealed class ExecuteEventLogNotification
 {
     public TExecuteEventLogInfo Info;
+
+    public ExecuteEventLogNotification()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public partial class TAIMoveExecuterControl

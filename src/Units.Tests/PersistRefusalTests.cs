@@ -709,15 +709,8 @@ public sealed class PersistRefusalTests
         Assert.Null(TEObject.TreePersistenceRefusal(typeof(TEChangeNotifyNode)));
         Assert.Null(TEObject.TreePersistenceRefusal(typeof(TUnitList)));
         Assert.Null(TEObject.TreePersistenceRefusal(typeof(TArmyView)));
-        var list = new TEventLogList(null!);
-        try
-        {
-            var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(list, new EnginePersistableFactory(EngineFixture.Engine)));
-            Assert.Equal("Class TEventLogList overrides MainReadWrite or ReadWriteChildren and has no MainPersist.", error.Message);
-        }
-        finally
-        {
-            list.Destroy();
-        }
+        using var list = new TEventLogList(null!);
+        var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(list, new EnginePersistableFactory(EngineFixture.Engine)));
+        Assert.Equal("Class TEventLogList overrides MainReadWrite or ReadWriteChildren and has no MainPersist.", error.Message);
     }
 }

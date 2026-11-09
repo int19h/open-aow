@@ -77,10 +77,10 @@ public partial class TAOWWindowControl : TAoWComponent
     }
 
     // AoWWinControl.pas:110
-    public override void Destroy()
+    public override void Dispose()
     {
-        FBackSurface.Free();
-        base.Destroy();
+        FBackSurface?.Dispose();
+        base.Dispose();
     }
 
     // AoWWinControl.pas:120
@@ -259,7 +259,7 @@ public partial class TAOWWindowControl : TAoWComponent
             {
                 if (FBackSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (FBackSurface is TDDrawSurface) ^ (Surface is TDDrawSurface))
                 {
-                    FBackSurface.Free();
+                    FBackSurface?.Dispose();
                     FBackSurface = null;
                 }
             }

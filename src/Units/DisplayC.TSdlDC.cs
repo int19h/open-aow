@@ -35,7 +35,7 @@ public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDispla
 
     public override int Deactivate()
     {
-        for (int i = 0; i < surfaces.Length; i++) { surfaces[i]?.Free(); surfaces[i] = null; }
+        for (int i = 0; i < surfaces.Length; i++) { surfaces[i]?.Dispose(); surfaces[i] = null; }
         return base.Deactivate();
     }
 

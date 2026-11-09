@@ -54,7 +54,6 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         Assert.Equal(0, zero.Percentage);
 
         var table = new TBlendTable5Bit();
-        try
         {
             BlendValue user = table;
             Assert.True(user.HasValue);
@@ -67,32 +66,23 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             Assert.False(nil.HasValue);
             Assert.Equal(0, nil.Percentage);
         }
-        finally { table.Destroy(); }
     }
 
     private static byte[] Written(TShowInfo info)
     {
-        var stream = new TMemoryStream();
-        try
-        {
-            Assert.Equal(8, info.WriteImage(stream, true));
-            return stream.Memory.AsSpan(0, stream.Size).ToArray();
-        }
-        finally { stream.Destroy(); }
+        using var stream = new TMemoryStream();
+        Assert.Equal(8, info.WriteImage(stream, true));
+        return stream.Memory.AsSpan(0, stream.Size).ToArray();
     }
 
     private static TShowInfo Read(byte[] image)
     {
-        var stream = new TMemoryStream();
-        try
-        {
-            stream.Write(image);
-            stream.Position = 0;
-            TShowInfo info = default;
-            Assert.Equal(8, info.ReadImage(stream, true));
-            return info;
-        }
-        finally { stream.Destroy(); }
+        using var stream = new TMemoryStream();
+        stream.Write(image);
+        stream.Position = 0;
+        TShowInfo info = default;
+        Assert.Equal(8, info.ReadImage(stream, true));
+        return info;
     }
 
     [Fact]
@@ -109,7 +99,6 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         Assert.True(Read(new byte[8]).Blend is int read && read == 0);
 
         var table = new TBlendTable5Bit();
-        try
         {
             // A table writes 0 where the original wrote its address, and reads back as the percentage 0.
             var user = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmUser, Blend = table };
@@ -120,7 +109,6 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             Assert.False(back.Blend is TBlendTable);
             Assert.Equal(0, back.Blend.Percentage);
         }
-        finally { table.Destroy(); }
     }
 
     private sealed class BlendRecorder : LibraryImage, ILibraryImageClass
@@ -140,24 +128,16 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     // of an image in a library file (TLibraryImage.ReadImageData).
     private static BlendRecorder FromFile(TShowInfo info)
     {
-        var writer = new BlendRecorder(null!);
-        var stream = new TMemoryStream();
-        try
-        {
-            writer.ShowInfo = info;
-            writer.WriteImageData(stream);
-            stream.Position = 0;
-            var reader = new BlendRecorder(null!);
-            reader.ReadImageData(stream);
-            Assert.Equal(stream.Size, stream.Position);
-            Assert.Equal(3, reader.FVersion);
-            return reader;
-        }
-        finally
-        {
-            stream.Destroy();
-            writer.Destroy();
-        }
+        using var writer = new BlendRecorder(null!);
+        using var stream = new TMemoryStream();
+        writer.ShowInfo = info;
+        writer.WriteImageData(stream);
+        stream.Position = 0;
+        var reader = new BlendRecorder(null!);
+        reader.ReadImageData(stream);
+        Assert.Equal(stream.Size, stream.Position);
+        Assert.Equal(3, reader.FVersion);
+        return reader;
     }
 
     [Fact]
@@ -190,8 +170,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
         finally
         {
-            table.Destroy();
-            image.Destroy();
+            image.Dispose();
         }
     }
 
@@ -199,7 +178,6 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     public void ThePercentageArmsDrawTheTableOfTheirCollection() => WithBlendTables(() =>
     {
         var table = new TBlendTable5Bit();
-        try
         {
             var collections = new (TBlendMode Mode, TLookupBlendTableCollection100 Tables)[]
             {
@@ -228,34 +206,29 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
                     image.ShowInfo = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = mode, Blend = table };
                     Assert.Throws<InvalidCastException>(() => image.Show(0, 0, sd));
                 }
-                finally { image.Destroy(); }
+                finally { image.Dispose(); }
             }
         }
-        finally { table.Destroy(); }
     });
 
     // The union is a readonly struct: drawing through a percentage arm allocates nothing.
     [Fact]
     public void DrawingThroughTheBlendSlotAllocatesNothing() => WithBlendTables(() =>
     {
-        var image = new LibraryImage(null!);
-        try
+        using var image = new LibraryImage(null!);
+        image.FShowInfo = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmShadow, Blend = 40 };
+        var caller = new TShowInfo { ShowMode = TShowMode.smBlended, Blend = 60 };
+        TSurfaceDesc sd = default;
+        image.Show(0, 0, sd);
+        image.ShowEx(0, 0, sd, caller);
+        long before = GC.GetAllocatedBytesForCurrentThread();
+        for (int i = 0; i < 1000; i++)
         {
-            image.FShowInfo = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = TBlendMode.bmShadow, Blend = 40 };
-            var caller = new TShowInfo { ShowMode = TShowMode.smBlended, Blend = 60 };
-            TSurfaceDesc sd = default;
             image.Show(0, 0, sd);
+            image.ShowStretched(Square, sd);
             image.ShowEx(0, 0, sd, caller);
-            long before = GC.GetAllocatedBytesForCurrentThread();
-            for (int i = 0; i < 1000; i++)
-            {
-                image.Show(0, 0, sd);
-                image.ShowStretched(Square, sd);
-                image.ShowEx(0, 0, sd, caller);
-            }
-            Assert.Equal(0, GC.GetAllocatedBytesForCurrentThread() - before);
         }
-        finally { image.Destroy(); }
+        Assert.Equal(0, GC.GetAllocatedBytesForCurrentThread() - before);
     });
 
     // Shown images draw through the blend tables that GFXE.Initialize builds at game start.
@@ -271,11 +244,11 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
         finally
         {
-            G.AlphaBlendTable.Free();
-            G.IntensityBlendTable.Free();
-            G.BrightenBlendTable.Free();
-            G.ShadowBlendTable.Free();
-            G.LinearAlphaBlendTable.Free();
+            G.AlphaBlendTable?.Dispose();
+            G.IntensityBlendTable?.Dispose();
+            G.BrightenBlendTable?.Dispose();
+            G.ShadowBlendTable?.Dispose();
+            G.LinearAlphaBlendTable?.Dispose();
             (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) = previous;
         }
     }
@@ -309,7 +282,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
         finally
         {
-            Images.LibraryImageClasses.Destroy();
+            Images.LibraryImageClasses.Dispose();
             Images.LibraryImageClasses = previousClasses;
         }
 
@@ -325,16 +298,12 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     private static void CheckLibrary(string file, Tally tally)
     {
         byte[] bytes = File.ReadAllBytes(file);
-        var library = new TImageLibrary(null!);
-        try
-        {
-            library.LoadFromFile(file);
-            tally.Libraries++;
-            int from = 0;
-            for (int i = 0; i < library.FCount; i++)
-                if (library.FImages[i].Image is { } image) CheckImage(file, bytes, image, ref from, tally);
-        }
-        finally { library.Destroy(); }
+        using var library = new TImageLibrary(null!);
+        library.LoadFromFile(file);
+        tally.Libraries++;
+        int from = 0;
+        for (int i = 0; i < library.FCount; i++)
+            if (library.FImages[i].Image is { } image) CheckImage(file, bytes, image, ref from, tally);
     }
 
     private static void CheckImage(string file, byte[] bytes, LibraryImage image, ref int from, Tally tally)

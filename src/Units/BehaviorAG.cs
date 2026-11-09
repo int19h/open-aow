@@ -27,10 +27,10 @@ public partial class TAbstractBehaviorAGC : TAIGroupControl
     public TAIGroupTargetSelector FTargetSelector;
 
     // BehaviorAG.pas:150
-    public override void Destroy()
+    public override void Dispose()
     {
         FTargetSelector.Release();
-        base.Destroy();
+        base.Dispose();
     }
 
     // BehaviorAG.pas:144
@@ -985,7 +985,8 @@ public partial class TScorcherAGC : TAbstractBehaviorAGC
     }
 }
 
-public partial class TRegistrator : TObject
+[LegacyObject]
+public partial class TRegistrator
 {
     // BehaviorAG.pas:136
     public static void MapLoaded(THSMap Sender)
@@ -994,6 +995,11 @@ public partial class TRegistrator : TObject
         {
             AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<TDefenderAG>(), AIGroupClass.Of<TAggressorAG>(), AIGroupClass.Of<TExpanderAG>(), AIGroupClass.Of<TScorcherAG>(), AIGroupClass.Of<TNormalAG>(), AIGroupClass.Of<TSkirmishAG>()]);
         }
+    }
+
+    public TRegistrator()
+    {
+        CaptureAddress.Assign(this);
     }
 
 }

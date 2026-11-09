@@ -21,7 +21,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
     public TAOWBaseWindow(TComponent owner) : base(owner)
     { }
 
-    public TObject FBuffer;
+    public object FBuffer;
     public bool FFreeSurfaceOnHide;
     public TAOWWinManager FWinManager;
     public TNotifyEvent<TAOWBaseWindow> FOnShow;
@@ -85,7 +85,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
 
                 if (FFreeSurfaceOnHide && FBackSurface != null)
                 {
-                    FBackSurface.Free();
+                    FBackSurface?.Dispose();
                     FBackSurface = null;
                 }
             }
@@ -400,7 +400,7 @@ public partial class TAOWBaseWindow : TAOWWindowControl
                         if (SurfDesc.PixelFormatID != DestSD.PixelFormatID)
                         {
                             FBackSurface.Unlock();
-                            FBackSurface.Free();
+                            FBackSurface?.Dispose();
                             FBackSurface = new TDataSurface(FWinWidth, FWinHeight, DestSD.PixelFormatID, null);
                             if (FMasked)
                             {

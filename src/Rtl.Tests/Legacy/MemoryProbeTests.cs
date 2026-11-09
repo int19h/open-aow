@@ -16,28 +16,28 @@ public sealed class MemoryProbeTests
     {
         var probe = new ProbeLines("integer-list-slots");
         var list = new TList();
-        var stored = new TObject();
+        var stored = new object();
         list.Count = 3;
         for (int i = 0; i < 3; i++) list[i] = null;
-        probe.Fact("nil", ObjectToInt((TObject?)list[0]));
+        probe.Fact("nil", ObjectToInt((object?)list[0]));
         list[0] = IntToObject(17);
         list[1] = IntToObject(-9);
         list[2] = IntToObject(17);
         int total = 0;
-        for (int i = 0; i < list.Count; i++) total += ObjectToInt((TObject?)list[i]);
+        for (int i = 0; i < list.Count; i++) total += ObjectToInt((object?)list[i]);
         probe.Fact("sum", total);
         probe.Fact("same_box", Ord(ReferenceEquals(list[0], list[2])));
         probe.Fact("find_box", list.IndexOf(IntToObject(17)));
         list.Insert(1, IntToObject(int.MinValue));
         list.Add(IntToObject(int.MaxValue));
-        probe.Fact("minimum", ObjectToInt((TObject?)list[1]));
-        probe.Fact("maximum", ObjectToInt((TObject?)list[4]));
-        if (ObjectToInt((TObject?)list[0]) < 30) list[0] = IntToObject(30);
-        probe.Fact("maximum_score", ObjectToInt((TObject?)list[0]));
+        probe.Fact("minimum", ObjectToInt((object?)list[1]));
+        probe.Fact("maximum", ObjectToInt((object?)list[4]));
+        if (ObjectToInt((object?)list[0]) < 30) list[0] = IntToObject(30);
+        probe.Fact("maximum_score", ObjectToInt((object?)list[0]));
         list[0] = IntToObject(0);
         probe.Fact("zero_is_nil", Ord(list[0] == null));
         list[0] = stored;
-        probe.Fact("object_identity", Ord(ObjectToInt((TObject?)list[0]) == ObjectToInt(stored)));
+        probe.Fact("object_identity", Ord(ObjectToInt((object?)list[0]) == ObjectToInt(stored)));
         probe.Fact("object_recovered", Ord(ReferenceEquals(list[0], stored)));
         probe.End();
     }
@@ -67,16 +67,16 @@ public sealed class MemoryProbeTests
     public void ReferenceFill()
     {
         var probe = new ProbeLines("reference-fill");
-        var items = Ptr<TObject?>.Alloc(3);
-        var item = new TObject();
+        var items = Ptr<object?>.Alloc(3);
+        var item = new object();
         items[0] = item;
         items[1] = item;
         items[2] = item;
-        Ptr<TObject?>.Fill(items + 1, 2, null);
+        Ptr<object?>.Fill(items + 1, 2, null);
         probe.Fact("first", Ord(items[0] == item));
         probe.Fact("second", Ord(items[1] == null));
         probe.Fact("third", Ord(items[2] == null));
-        Ptr<TObject?>.Fill(items, 3, null);
+        Ptr<object?>.Fill(items, 3, null);
         probe.Fact("root", Ord(items[0] == null && items[1] == null && items[2] == null));
         probe.End();
     }

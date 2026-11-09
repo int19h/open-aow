@@ -109,7 +109,7 @@ public partial class TWorldMap : TDataModule
     public int FEnemyDelay;
     public bool FDescriptionHandled;
     public TEObject FBookContext;
-    public TNotifyEvent<TObject> FOnBookClosed;
+    public TNotifyEvent<object> FOnBookClosed;
     public byte FBookAction;
 
     // AoWWorldMap.pas:152
@@ -442,7 +442,7 @@ public partial class TWorldMap : TDataModule
                             campaign2.FState += 1;
                         }
 
-                        Preview.Free();
+                        Preview?.Dispose();
                     }
 
                     break;
@@ -634,7 +634,7 @@ public partial class TWorldMap : TDataModule
     // AoWWorldMap.pas:428
     public void BookClosed()
     {
-        TNotifyEvent<TObject> Done;
+        TNotifyEvent<object> Done;
         TEObject Context;
         Done = FOnBookClosed;
         Context = FBookContext;
@@ -1253,9 +1253,15 @@ public partial class TWorldMap : TDataModule
     }
 }
 
-public partial class TFileTime : TObject
+[LegacyObject]
+public partial class TFileTime
 {
     public double FTime;
+
+    public TFileTime()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public static partial class AoWWorldMapUnit

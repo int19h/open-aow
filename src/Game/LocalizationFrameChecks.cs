@@ -120,7 +120,7 @@ internal static class LocalizationFrameChecks
                 }
                 finally { left.Unlock(); right.Unlock(); }
             }
-            finally { left.Free(); right.Free(); }
+            finally { left?.Dispose(); right?.Dispose(); }
         }
         Console.WriteLine($"Localization frames: language {language}, Undead(plural) = {undead}, {germanBytes.Count} German extended bytes scanned across {fonts.Length} fonts");
     }

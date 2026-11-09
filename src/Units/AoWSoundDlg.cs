@@ -245,7 +245,7 @@ public partial class TSoundDlg : TDataModule
     // AoWSoundDlg.pas:223
     public void SoundDlgWindowDestroy()
     {
-        AoWSoundDlgUnit.SongFiles.Free();
+        AoWSoundDlgUnit.SongFiles?.Dispose();
     }
 
     // AoWSoundDlg.pas:228

@@ -144,9 +144,9 @@ public sealed class EventListTests
         }
         finally
         {
-            player.Destroy();
+            player.Dispose();
             Game.AoWHSMap = previous;
-            map.Destroy();
+            map.Dispose();
         }
     }
 }

@@ -40,34 +40,30 @@ public sealed class GraphicsConstructionTests
     [MemberData(nameof(Images))]
     public void ImagesKeepDefaultsAndOwner(Type type, Func<TCustomImageLibrary, LibraryImage> create, Func<TCustomImageLibrary, LibraryImage> direct)
     {
-        var owner = new TImageLibrary(null!);
-        try
-        {
-            var descriptor = LibraryImageClass.Of(type);
-            Assert.Equal(type, descriptor.Type);
-            foreach (var construct in new[] { direct, create })
-                foreach (var suppliedOwner in new TCustomImageLibrary[] { null!, owner })
-                {
-                    var image = construct(suppliedOwner);
-                    Assert.Equal(type, image.GetType());
-                    Assert.Same(descriptor, image.ImageClass);
-                    Assert.Same(suppliedOwner, image.Owner);
-                    Assert.Equal(-1, image.DataPosition);
-                    Assert.False(image.ReloadingEnabled);
-                    Assert.Equal(TLoadMode.lmLoadOnDemand, image.LoadMode);
-                    Assert.Equal(TBlendMode.bmAlpha, image.ShowInfo.BlendMode);
-                    Assert.False(image.ShowInfo.Blend.HasValue);
-                    Assert.Equal(0, image.ShowInfo.Blend.Percentage);
-                    Assert.Equal(type.Name.StartsWith("TTransparent", StringComparison.Ordinal) ? TShowMode.smTransparent : TShowMode.smOpaque, image.ShowInfo.ShowMode);
-                    Assert.Equal(0, image.Width);
-                    Assert.Equal(0, image.Height);
-                    if (image is TImageNode) Assert.Equal("(multi images)", image.FileName);
-                    Assert.Equal(0, owner.Count);
-                    Assert.Equal(0, ((TList)Field(Field(owner, "FPaletteManager")!, "FPalettes")!).Count);
-                    image.Destroy();
-                }
-        }
-        finally { owner.Destroy(); }
+        using var owner = new TImageLibrary(null!);
+        var descriptor = LibraryImageClass.Of(type);
+        Assert.Equal(type, descriptor.Type);
+        foreach (var construct in new[] { direct, create })
+            foreach (var suppliedOwner in new TCustomImageLibrary[] { null!, owner })
+            {
+                var image = construct(suppliedOwner);
+                Assert.Equal(type, image.GetType());
+                Assert.Same(descriptor, image.ImageClass);
+                Assert.Same(suppliedOwner, image.Owner);
+                Assert.Equal(-1, image.DataPosition);
+                Assert.False(image.ReloadingEnabled);
+                Assert.Equal(TLoadMode.lmLoadOnDemand, image.LoadMode);
+                Assert.Equal(TBlendMode.bmAlpha, image.ShowInfo.BlendMode);
+                Assert.False(image.ShowInfo.Blend.HasValue);
+                Assert.Equal(0, image.ShowInfo.Blend.Percentage);
+                Assert.Equal(type.Name.StartsWith("TTransparent", StringComparison.Ordinal) ? TShowMode.smTransparent : TShowMode.smOpaque, image.ShowInfo.ShowMode);
+                Assert.Equal(0, image.Width);
+                Assert.Equal(0, image.Height);
+                if (image is TImageNode) Assert.Equal("(multi images)", image.FileName);
+                Assert.Equal(0, owner.Count);
+                Assert.Equal(0, ((TList)Field(Field(owner, "FPaletteManager")!, "FPalettes")!).Count);
+                image.Dispose();
+            }
     }
 
     public static IEnumerable<object[]> Components()
@@ -128,24 +124,23 @@ public sealed class GraphicsConstructionTests
             Assert.NotNull(Field(value, "FDiskList"));
             Assert.NotSame(Field(value, "FDiskList"), Field(value, "FOwnedList"));
         }
-        value.Destroy();
+        value.Dispose();
         Assert.Equal(0, owner.ComponentCount);
-        owner.Destroy();
+        owner.Dispose();
     }
 
     [Theory]
     [MemberData(nameof(Components))]
     public void PlainComponentsStayPublishedUntilTeardown(Type type, Func<TComponent, TComponent> create)
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var value = create(owner);
         Assert.IsType(type, value);
         Assert.Same(owner, value.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(value, owner.Components[0]);
-        value.Destroy();
+        value.Dispose();
         Assert.Equal(0, owner.ComponentCount);
-        owner.Destroy();
     }
 
     [Fact]
@@ -176,7 +171,7 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(Field(lookup, "FTables"));
         var gdi = new TGDISurface(123);
         Assert.Equal(123, Field(gdi, "FHandle"));
-        foreach (var value in new TObject[] { palette, manager, list, sequence, sequences, ilManager, matrix, modes, blend, blends, lookup, gdi }) value.Destroy();
+        foreach (var value in new object[] { palette, manager, list, sequence, sequences, ilManager, matrix, modes, blend, blends, lookup, gdi }) ((value ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
     }
 
     public static IEnumerable<object[]> Surfaces()
@@ -209,9 +204,8 @@ public sealed class GraphicsConstructionTests
             copy.Entries[0].R = 63;
         }
         surface.Unlock();
-        surface.Destroy();
+        surface.Dispose();
         Assert.Equal((byte)29, palette.Entries[0].R);
-        palette.Destroy();
     }
 
     [Fact]
@@ -228,23 +222,21 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(0, surface.Lock(ref descriptor));
         Assert.NotNull(descriptor.Data);
         surface.Unlock();
-        surface.Destroy();
+        surface.Dispose();
         Assert.Equal((byte)29, palette.Entries[0].R);
-        palette.Destroy();
     }
 
     [Fact]
     public void PlainDisplayInitializesFrameRateAndOwner()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var display = new TCustomDisplay(owner);
         Assert.Same(owner, display.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(display, owner.Components[0]);
         Assert.True(display.FrameRate > 0);
-        display.Destroy();
+        display.Dispose();
         Assert.Equal(0, owner.ComponentCount);
-        owner.Destroy();
     }
 
     [Fact]
@@ -256,13 +248,12 @@ public sealed class GraphicsConstructionTests
         Assert.Throws<ArgumentOutOfRangeException>(() => new TDIB16Surface(-1, 4, G.pfRGB555));
         Assert.Throws<NotSupportedException>(() => new TDIB16Surface(7, 4, G.pfPAL8));
         Assert.Equal((byte)29, palette.Entries[0].R);
-        palette.Destroy();
     }
 
     [Fact]
     public void LibraryLegacyBridgeAndLayoutFlagsRunOnce()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var session = new Aow.Layout.LayoutSession();
         var library = new TImageLibrary(owner);
         session.BeginRead(library);
@@ -279,14 +270,13 @@ public sealed class GraphicsConstructionTests
         Assert.NotNull(Field(legacy, "FList"));
         Assert.NotNull(Field(legacy, "FPaletteManager"));
         Assert.Equal(3, owner.ComponentCount);
-        owner.Destroy();
     }
 
     [Fact]
     public void WindowsPaletteSurfaceKeepsOwnerBitmapAndDimensions()
     {
-        var owner = new TWindows08DC(null!);
-        var surface = new TWindows08DIBSurface(7, 4, owner);
+        using var owner = new TWindows08DC(null!);
+        using var surface = new TWindows08DIBSurface(7, 4, owner);
         TSurfaceDesc sd = default;
         Assert.Equal(0, surface.Lock(ref sd));
         Assert.Equal(7, sd.Width);
@@ -296,8 +286,6 @@ public sealed class GraphicsConstructionTests
         Assert.Same(Field(owner, "FPalette"), sd.Palette);
         Assert.Same(owner, Field(surface, "FOwner"));
         surface.Unlock();
-        surface.Destroy();
-        owner.Destroy();
     }
 
     [Fact]
@@ -311,16 +299,16 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(6, stream.Read(bytes));
         Assert.Equal("# Rule", System.Text.Encoding.UTF8.GetString(bytes));
         Assert.Equal(0, stream.Seek(0, 0));
-        stream.Destroy();
+        stream.Dispose();
         Assert.Throws<FileNotFoundException>(() => new TFastLoadFileStream(path + ".absent"));
     }
 
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        var source = new TDIB16Surface(7, 4, G.pfRGB555);
+        using var source = new TDIB16Surface(7, 4, G.pfRGB555);
         source.Cls(255);
-        var copy = new TDataSurface(source, default);
+        using var copy = new TDataSurface(source, default);
         TSurfaceDesc sd = default;
         copy.Lock(ref sd);
         Assert.Equal(7, sd.Width);
@@ -328,19 +316,16 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(G.pfRGB555, sd.PixelFormatID);
         Assert.Equal((ushort)0x7C00, sd.View().Word(0));
         copy.Unlock();
-        copy.Destroy();
-        source.Destroy();
     }
 
     [Fact]
     public void VirtualOwnerCallSeesBaseDefaultsBeforeDerivedBody()
     {
         LibraryImageClass.Register<ObservedImage>();
-        var image = new ObservedImage(null!);
+        using var image = new ObservedImage(null!);
         Assert.Equal(0, image.SeenDerivedValue);
         Assert.Equal(-1, image.SeenPosition);
         Assert.Equal(77, image.DerivedValue);
-        image.Destroy();
     }
 
     private sealed class ObservedImage : LibraryImage, ILibraryImageClass
@@ -364,14 +349,13 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SdlHostCapturePrecedesOwnerCallbacks()
     {
-        var owner = new DisplayObservingOwner();
+        using var owner = new DisplayObservingOwner();
         var controller = new TSdlDC(new NullDisplayHost(), owner);
         Assert.Equal(7, owner.X);
         Assert.Equal(9, owner.Y);
         Assert.Equal(1, owner.ComponentCount);
-        controller.Destroy();
+        controller.Dispose();
         Assert.Equal(0, owner.ComponentCount);
-        owner.Destroy();
     }
 
     private sealed class DisplayObservingOwner : TComponent

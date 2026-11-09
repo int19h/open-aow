@@ -105,7 +105,7 @@ public partial class TFleeLocation : TMapObject
             OldHexagon = MapField.FindOwnedChild(132439);
             if (OldHexagon != null)
             {
-                OldHexagon.Free();
+                OldHexagon?.Dispose();
                 AoWHSSet.FCombatHexagons.Place(AoWCombatMap.MapContainer, Xhx, Yhx, 0, 1);
             }
         }
@@ -114,7 +114,7 @@ public partial class TFleeLocation : TMapObject
     }
 
     // FleeLoc.pas:132
-    public void NewFrame(TObject Sender)
+    public void NewFrame(object Sender)
     {
         bool Highlight;
         Highlight = false;

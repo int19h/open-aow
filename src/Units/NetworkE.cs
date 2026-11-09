@@ -82,11 +82,11 @@ public partial class TPlayerCommunicator : TEObject
     }
 
     // NetworkE.pas:615
-    public override void Destroy()
+    public override void Dispose()
     {
         FOnReceiveStore.Clear();
-        FSendStream.Free();
-        FReceiveStream.Free();
+        FSendStream?.Dispose();
+        FReceiveStream?.Dispose();
         FOnProcessStore.Clear();
         if (FPCC != null)
         {
@@ -94,7 +94,7 @@ public partial class TPlayerCommunicator : TEObject
             FPCC = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // NetworkE.pas:658
@@ -117,7 +117,7 @@ public partial class TPlayerCommunicator : TEObject
                 }
                 else
                 {
-                    Obj.Free();
+                    Obj?.Dispose();
                 }
             }
             catch
@@ -210,7 +210,7 @@ public partial class TTokenEvent : TEObject
         int Result = FRefCount;
         if (Result == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -258,11 +258,11 @@ public partial class TTokenEventList : TEObject
     }
 
     // NetworkE.pas:988
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FList.Free();
-        base.Destroy();
+        FList?.Dispose();
+        base.Dispose();
     }
 
     // NetworkE.pas:1012
@@ -349,8 +349,9 @@ public partial class TTokenEventList : TEObject
 
 }
 
+[LegacyObject]
 // FEvents, FTokenManager, FPlayer, FActive. The token events of one player
-public partial class TTokenControl : TObject
+public partial class TTokenControl : IDisposable
 {
     internal TTokenEventList FEvents;
     internal TTokenManager FTokenManager;
@@ -477,6 +478,7 @@ public partial class TTokenControl : TObject
     // NetworkE.pas:1169
     public TTokenControl(TTokenManager AManager, int APlayer)
     {
+        CaptureAddress.Assign(this);
         FEvents = new TTokenEventList(null);
         FTokenManager = AManager;
         FPlayer = APlayer;
@@ -514,15 +516,14 @@ public partial class TTokenControl : TObject
     }
 
     // NetworkE.pas:1180
-    public override void Destroy()
+    public virtual void Dispose()
     {
         if (FTokenManager != null && FTokenManager.FTokenExecuter != null)
         {
             FTokenManager.FTokenExecuter.RemoveTC(this);
         }
 
-        FEvents.Free();
-        base.Destroy();
+        FEvents?.Dispose();
     }
 
     // NetworkE.pas:1223
@@ -603,10 +604,11 @@ public partial class TTokenControl : TObject
 
 }
 
+[LegacyObject]
 // FActiveTC, FPrefetchTC, FActiveTCIndex, FEvents, FTCList, FTokenCounter, FRound,
 // FExecuteCount, FState, FOnEventsExecuted, FOnActivateTC, FOnSyncError, FOnGetSyncValue,
 // FOnExecuteTokenEvent, FExecuting, FLockCount, FSystemEvents, FHoldTC, FTokenManager
-public partial class TTokenExecuter : TObject
+public partial class TTokenExecuter : IDisposable
 {
     internal TTokenControl FActiveTC;
     internal TTokenControl FPrefetchTC;
@@ -634,7 +636,7 @@ public partial class TTokenExecuter : TObject
         remove => FOnActivateTCStore.Remove(value);
     }
 
-    internal TNotifyEvent<TObject> FOnSyncError;
+    internal TNotifyEvent<object> FOnSyncError;
     internal TGetSyncValueEvent FOnGetSyncValue;
     internal TTokenEventEvent FOnExecuteTokenEvent;
     internal bool FExecuting;
@@ -659,7 +661,7 @@ public partial class TTokenExecuter : TObject
         }
         catch
         {
-            ShowMessage("Exception occured during " + ClassNameOf(TE.GetType()));
+            ShowMessage("Exception occured during " + ClassNames.ClassNameOf(TE.GetType()));
             Result = TExecuteResult.erDone;
         }
 
@@ -671,6 +673,7 @@ public partial class TTokenExecuter : TObject
     // NetworkE.pas:1350
     public TTokenExecuter(TTokenManager AManager)
     {
+        CaptureAddress.Assign(this);
         FTokenManager = AManager;
         FEvents = new TTokenEventList(null);
         FTCList = new TList();
@@ -680,15 +683,14 @@ public partial class TTokenExecuter : TObject
     }
 
     // NetworkE.pas:1361
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Reset();
-        FEvents.Free();
-        FTCList.Free();
+        FEvents?.Dispose();
+        FTCList?.Dispose();
         FOnEventsExecutedStore.Clear();
         FOnActivateTCStore.Clear();
-        FSystemEvents.Free();
-        base.Destroy();
+        FSystemEvents?.Dispose();
     }
 
     // NetworkE.pas:1372
@@ -981,19 +983,21 @@ public partial class TTokenExecuter : TObject
         remove => FOnActivateTCStore.Remove(value);
     }
 
-    public TNotifyEvent<TObject> OnSyncError { get => FOnSyncError; set => FOnSyncError = value; }
+    public TNotifyEvent<object> OnSyncError { get => FOnSyncError; set => FOnSyncError = value; }
     public TGetSyncValueEvent OnGetSyncValue { get => FOnGetSyncValue; set => FOnGetSyncValue = value; }
     public TTokenEventEvent OnExecuteTokenEvent { get => FOnExecuteTokenEvent; set => FOnExecuteTokenEvent = value; }
 
 }
 
+[LegacyObject]
 // FTokenExecuter, FTokenPackageDistributer, FOwner, FTokenControls (one per player, nil for a
 // free slot), FOnMessage
-public partial class TTokenManager : TObject
+public partial class TTokenManager : IDisposable
 {
 
-    public TTokenManager(TObject owner)
+    public TTokenManager(object owner)
     {
+        CaptureAddress.Assign(this);
         FOwner = owner;
         FTokenControls = new TList();
         FTokenExecuter = CreateTokenExecuter();
@@ -1002,7 +1006,7 @@ public partial class TTokenManager : TObject
 
     internal TTokenExecuter FTokenExecuter;
     internal TTokenPackageDistributer FTokenPackageDistributer;
-    internal TObject FOwner;
+    internal object FOwner;
     internal TList FTokenControls;
     internal TNetworkMessageEvent FOnMessage;
 
@@ -1092,7 +1096,7 @@ public partial class TTokenManager : TObject
     {
         if (APlayer < FTokenControls.Count && FTokenControls[APlayer] != null)
         {
-            ((TObject)FTokenControls[APlayer]).Free();
+            (FTokenControls[APlayer] as IDisposable)?.Dispose();
             FTokenControls[APlayer] = null;
         }
     }
@@ -1104,7 +1108,7 @@ public partial class TTokenManager : TObject
         {
             if (FTokenControls[FTokenControls.Count - 1] != null)
             {
-                ((TObject)FTokenControls[FTokenControls.Count - 1]).Free();
+                (FTokenControls[FTokenControls.Count - 1] as IDisposable)?.Dispose();
             }
 
             FTokenControls.Delete(FTokenControls.Count - 1);
@@ -1115,13 +1119,11 @@ public partial class TTokenManager : TObject
     // { The original does not call the inherited constructor. }
 
     // NetworkE.pas:1614
-    public override void Destroy()
+    public virtual void Dispose()
     {
         ClearPlayers();
-        FTokenControls.Free();
-        FTokenExecuter.Free();
-        FTokenPackageDistributer.Free();
-        base.Destroy();
+        FTokenControls?.Dispose();
+        FTokenExecuter?.Dispose();
     }
 
     // NetworkE.pas:1623
@@ -1154,7 +1156,7 @@ public partial class TTokenManager : TObject
 
     public TTokenExecuter TokenExecuter { get => FTokenExecuter; }
     public TTokenPackageDistributer TokenPackageDistributer { get => FTokenPackageDistributer; }
-    public TObject Owner { get => FOwner; }
+    public object Owner { get => FOwner; }
     public int Count { get => GetCount(); }
 
     public sealed class TokenControlsAccessor(TTokenManager target)
@@ -1191,7 +1193,7 @@ public enum TTokenExecuterState : byte
 public delegate bool TSendDataEvent(object Data, int Size, int SystemID);
 public delegate void TGetSyncValueEvent(ref int Value);
 public delegate void TTokenEventEvent(TTokenEvent TE);
-public delegate void TNetworkMessageEvent(TObject Sender, string Msg);
+public delegate void TNetworkMessageEvent(object Sender, string Msg);
 
 // { The original reaches TENode's child list (Engine.TENode.FChildren, +8) from this unit; the
 //     recovered Engine.pas keeps the field private, so this layout view of TENode reads it (a
@@ -1246,14 +1248,14 @@ public partial class TDataPackage : TEObject
         int Result = FRefCount;
         if (Result == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
     }
 
     // NetworkE.pas:586
-    public virtual string Name() => ClassNameOf(this.GetType());
+    public virtual string Name() => ClassNames.ClassNameOf(this.GetType());
 
     public int Sender { get => FSender; set => FSender = value; }
     public int Receiver { get => FReceiver; set => FReceiver = value; }
@@ -1303,9 +1305,10 @@ public partial class TPlayerCommunicationSettingsList : TENode
 
 }
 
+[LegacyObject]
 // FRefCount, FPlayerCommunicator, FPCSList. The base player communication control: one system,
 // no transport
-public partial class TPlayerCommunicationControl : TObject
+public partial class TPlayerCommunicationControl : IDisposable
 {
     internal int FRefCount;
     internal TPlayerCommunicator FPlayerCommunicator;
@@ -1339,15 +1342,15 @@ public partial class TPlayerCommunicationControl : TObject
     // NetworkE.pas:468
     public TPlayerCommunicationControl()
     {
+        CaptureAddress.Assign(this);
         FRefCount = 1;
         FPCSList = new TPlayerCommunicationSettingsList(null);
     }
 
     // NetworkE.pas:475
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FPCSList.Free();
-        base.Destroy();
+        FPCSList?.Dispose();
     }
 
     // NetworkE.pas:481
@@ -1362,7 +1365,7 @@ public partial class TPlayerCommunicationControl : TObject
         FRefCount -= 1;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -1426,23 +1429,24 @@ public partial class TPlayerCommunicationControl : TObject
 
 }
 
+[LegacyObject]
 // FList, the memory streams of the packages that wait to be received
-public partial class TPackageDataList : TObject
+public partial class TPackageDataList : IDisposable
 {
     internal TList FList;
 
     // NetworkE.pas:870
     public TPackageDataList()
     {
+        CaptureAddress.Assign(this);
         FList = new TList();
     }
 
     // NetworkE.pas:876
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        FList.Free();
-        base.Destroy();
+        FList?.Dispose();
     }
 
     // NetworkE.pas:883
@@ -1458,7 +1462,7 @@ public partial class TPackageDataList : TObject
         L = FList;
         while (L.Count != 0)
         {
-            ((TObject)L.List[L.Count - 1]).Free();
+            (L.List[L.Count - 1] as IDisposable)?.Dispose();
             L.Delete(L.Count - 1);
         }
     }
@@ -1498,7 +1502,7 @@ public partial class TPackageDataList : TObject
     // NetworkE.pas:935
     public void Delete(int Index)
     {
-        ((TObject)FList.List[Index]).Free();
+        (FList.List[Index] as IDisposable)?.Dispose();
         FList.Delete(Index);
     }
 
@@ -1616,10 +1620,10 @@ public partial class TRemotePCC : TPlayerCommunicationControl
     }
 
     // NetworkE.pas:765
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPackageDataList.Free();
-        base.Destroy();
+        FPackageDataList?.Dispose();
+        base.Dispose();
     }
 
     // NetworkE.pas:771
@@ -1718,10 +1722,10 @@ public partial class TLocalPCC : TPlayerCommunicationControl
     }
 
     // NetworkE.pas:703
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPackageDataList.Free();
-        base.Destroy();
+        FPackageDataList?.Dispose();
+        base.Dispose();
     }
 
     // NetworkE.pas:719
@@ -1771,19 +1775,20 @@ public partial class TTokenPackage : TDataPackage
     }
 
     // NetworkE.pas:1094
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTokenEvents.Free();
-        base.Destroy();
+        FTokenEvents?.Dispose();
+        base.Dispose();
     }
 
     public TTokenEventList TokenEvents { get => FTokenEvents; }
 
 }
 
+[LegacyObject]
 // FTokenManager, FPC. Sends the token events of the local players in token packages and files
 // the received ones with their players' token controls
-public partial class TTokenPackageDistributer : TObject
+public partial class TTokenPackageDistributer
 {
     internal TTokenManager FTokenManager;
     internal TPlayerCommunicator FPC;
@@ -1825,6 +1830,7 @@ public partial class TTokenPackageDistributer : TObject
     // NetworkE.pas:1113
     public TTokenPackageDistributer(TTokenManager AManager)
     {
+        CaptureAddress.Assign(this);
         FTokenManager = AManager;
     }
 

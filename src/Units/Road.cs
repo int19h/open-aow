@@ -42,7 +42,7 @@ public partial class TRoad : TAbstractRoad
         OldRoad = MapField.FindOwnedHS(typeof(TAbstractRoad));
         if (OldRoad != null)
         {
-            OldRoad.Destroy();
+            OldRoad.Dispose();
         }
 
         Owner = MapField;

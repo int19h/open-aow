@@ -78,7 +78,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     // AoWEmailGameSettingsDlg.pas:90
     public void EmailGameSettingsDlgDestroy()
     {
-        FEmailAddresses.Free();
+        FEmailAddresses?.Dispose();
     }
 
     // AoWEmailGameSettingsDlg.pas:95

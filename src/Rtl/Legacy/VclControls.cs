@@ -1,12 +1,40 @@
 namespace Aow.Rtl;
 
-public class IUnknown : TObject { }
+[LegacyObject]
+public class IUnknown
+{
+    public IUnknown()
+    {
+        CaptureAddress.Assign(this);
+    }
+}
 
-public class TCanvas : TObject { }
+[LegacyObject]
+public class TCanvas
+{
+    public TCanvas()
+    {
+        CaptureAddress.Assign(this);
+    }
+}
 
-public class TPopupMenu : TObject { }
+[LegacyObject]
+public class TPopupMenu
+{
+    public TPopupMenu()
+    {
+        CaptureAddress.Assign(this);
+    }
+}
 
-public class Text : TObject { }
+[LegacyObject]
+public class Text
+{
+    public Text()
+    {
+        CaptureAddress.Assign(this);
+    }
+}
 
 // These VCL controls retain component identity. Native drawing awaits the platform layer.
 public class TControl : TComponent
@@ -129,11 +157,17 @@ public class TOpenDialog : TComponent
     public virtual bool Execute() => throw new NotImplementedException("VCL.OpenDialog");
 }
 
-public class TStringProperty : TObject
+[LegacyObject]
+public class TStringProperty
 {
     public virtual void Edit() => throw new NotImplementedException("VCL.PropertyEditor");
     public virtual TSet<TPropertyAttribute> GetAttributes() => default;
     public virtual string GetValue() => throw new NotImplementedException("VCL.PropertyEditor");
+
+    public TStringProperty()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public class THandleStream : TStream

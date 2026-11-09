@@ -78,14 +78,14 @@ internal static class OrderingRecording
 
         public void Dispose()
         {
-            Engine.Destroy();
+            Engine.Dispose();
             EngineFixture.Engine.FDictionary = dictionary;
-            Game.AoWHSSet?.FUnitGFXResources?.Destroy();
+            Game.AoWHSSet?.FUnitGFXResources?.Dispose();
             Game.AoWHSSet = set;
             Game.AoWEngine = engine;
             Game.AoWHSMap = map;
             Runtime.RandSeed = seed;
-            Manager.Destroy();
+            Manager.Dispose();
         }
     }
 
@@ -109,9 +109,10 @@ internal static class OrderingRecording
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-            for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
+            for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
+                    if (field.Name == "captureOrdinal") continue;
                     if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);

@@ -692,7 +692,7 @@ public partial class TWatcherEnchantment : TGlobalEnchantment
     {
         if ((FEnchantmentStatus.Image & 1) == 0) return false;
         bool result = base.Deactivate(player);
-        if ((FWatcher.FWatcherState & 1) != 0) FWatcher.Free();
+        if ((FWatcher.FWatcherState & 1) != 0) FWatcher?.Dispose();
         return result;
     }
 }
@@ -711,10 +711,10 @@ public partial class TWatcherHS : TSingleHS
     public bool FVisibleForSeatedPlayer;
 
     // GlobalTargetSpells.pas:1213
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FUnexplored.Free();
+        base.Dispose();
+        FUnexplored?.Dispose();
         FEnchantment.Release();
     }
 
@@ -1147,10 +1147,10 @@ public partial class TTornadoTE : TGlobalTargetSpellTE
     public TArmyID FArmyID;
 
     // GlobalTargetSpells.pas:1553
-    public override void Destroy()
+    public override void Dispose()
     {
-        FArmyID.Free();
-        base.Destroy();
+        FArmyID?.Dispose();
+        base.Dispose();
     }
 
     // GlobalTargetSpells.pas:1593
@@ -1334,12 +1334,12 @@ public partial class TTornadoTE : TGlobalTargetSpellTE
                             Group.Release();
                         }
 
-                        MovedUnits.Free();
+                        MovedUnits?.Dispose();
                     }
                 }
             }
 
-            FAnimation.Free();
+            FAnimation?.Dispose();
             Result = false;
         }
         else
@@ -1529,7 +1529,7 @@ public partial class TTornado : TGlobalTargetSpell
             }
         }
 
-        Locations.Free();
+        Locations?.Dispose();
         return Result;
     }
 }
@@ -1545,10 +1545,10 @@ public partial class TVortexTE : TGlobalTargetSpellTE
     public TArmyID FArmyID;
 
     // GlobalTargetSpells.pas:1899
-    public override void Destroy()
+    public override void Dispose()
     {
-        FArmyID.Free();
-        base.Destroy();
+        FArmyID?.Dispose();
+        base.Dispose();
     }
 
     // GlobalTargetSpells.pas:1939
@@ -1664,7 +1664,7 @@ public partial class TVortexTE : TGlobalTargetSpellTE
                 Army.FArmy.EndUpdate();
             }
 
-            FAnimation.Free();
+            FAnimation?.Dispose();
             Result = false;
         }
         else
@@ -1927,7 +1927,7 @@ public partial class THealingShowersTE : TGlobalTargetSpellTE
                         Cloud = (THexagonSprite)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(132990);
                         if (Cloud != null)
                         {
-                            Cloud.Free();
+                            Cloud?.Dispose();
                         }
                     }
                 }
@@ -1943,7 +1943,7 @@ public partial class THealingShowersTE : TGlobalTargetSpellTE
 
         if (value == 80)
         {
-            FAnimation.Free();
+            FAnimation?.Dispose();
             Result = false;
         }
         else
@@ -2100,7 +2100,7 @@ public partial class TSmokeCloudSpell : TGlobalTargetSpell
             AoWHSSet.FSpellControl.GetSpell(Event.FEventSpellID).FCastSounds.Play(0);
         }
 
-        Resource = (TEResource)((TECustomNode)(TObject)AoWHSSet.MapObjectResourceList).FindChild(135747);
+        Resource = (TEResource)((TECustomNode)(object)AoWHSSet.MapObjectResourceList).FindChild(135747);
         if (Resource != null)
         {
             Cloud = (TSmokeCloud)Resource.CreateResourceUser();
@@ -2111,7 +2111,7 @@ public partial class TSmokeCloudSpell : TGlobalTargetSpell
             Cloud.FDrifting = false;
             if (!AoWHSMap.PlaceHX(Cloud, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).X, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Y, Unsafe.As<TXYL, TSpellLocation>(ref ((TGlobalTargetSpellTE)Event).FLocation).Layer))
             {
-                Cloud.Free();
+                Cloud?.Dispose();
             }
 
             AoWHSSet.FSpellControl.GetSpell(this.FSpellID).CastingDone(Source, this.FBaseManaCost);
@@ -2208,7 +2208,8 @@ public struct TSpellNameView
     public string Name { readonly get => name ?? ""; set => name = value; }
 }
 
-public partial class TTargetSelectionView : TObject
+[LegacyObject]
+public partial class TTargetSelectionView
 {
     public TCustomImageLibrary ImageLibrary;
     public byte Status;
@@ -2230,6 +2231,11 @@ public partial class TTargetSelectionView : TObject
     public ImageLib.TLibraryImage Preview;
     public ImageLib.TLibraryImage ValidPreview;
     public ImageLib.TLibraryImage InvalidPreview;
+
+    public TTargetSelectionView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public struct TTargetSelectionFields

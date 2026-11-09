@@ -33,18 +33,17 @@ public sealed class CoreTests
     [Fact]
     public void ObjectsAndGeneratedUnit()
     {
-        Assert.Equal("TSampleChild", TObject.ClassNameOf(typeof(TSampleChild)));
+        Assert.Equal("TSampleChild", ClassNames.ClassNameOf(typeof(TSampleChild)));
         var fresh = new TSampleChild(0);
         var next = new TSampleChild(3);
         Assert.NotSame(fresh, next);
         Assert.Equal(13, next.Value);
         Assert.Equal(2, next.ClassID);
         Assert.Throws<EAbstractError>(next.AbstractCall);
-        TObject? nil = null;
-        nil.Free();
-        next.Free();
+        object? nil = null;
+        (nil as IDisposable)?.Dispose();
+        next.Dispose();
         Assert.True(next.Destroyed);
-        new TObject().Destroy();
         Assert.Throws<InvalidOperationException>(() => TFailingSample.Create(1));
         Assert.True(TFailingSample.LastInstance!.Destroyed);
         var result = GeneratedStyleSample.Run();
@@ -63,7 +62,7 @@ public sealed class CoreTests
         Assert.Equal(6, Marshal.SizeOf<FixedArray_byte_6>());
     }
 
-    private sealed class Unregistered : TObject;
+    private sealed class Unregistered;
 
     [Fact]
     public void StringsAreImmutableValuesWithOneCharPerByte()
@@ -153,7 +152,7 @@ public sealed class CoreTests
         var box = new PtrBox<int>(pointer);
         Assert.Equal(pointer, box.Pointer);
         Assert.Equal(pointer, Ptr<int>.Unbox((object)box));
-        IntOrRef slot = box;
+        IntOrRef slot = new(box);
         Assert.Equal(pointer, Ptr<int>.Unbox(slot.Ref));
         Ptr<int>.Unbox(slot.Ref).Value = 42;
         Assert.Equal(42, pointer.Value);
@@ -168,7 +167,7 @@ public sealed class CoreTests
         Assert.Equal(new[] { "a", "z", "z" }, words);
         var cell = new TSampleRecord[1];
         var recordPointer = Ptr<TSampleRecord>.To(cell, 0);
-        IntOrRef payload = new PtrBox<TSampleRecord>(recordPointer);
+        IntOrRef payload = new(new PtrBox<TSampleRecord>(recordPointer));
         Ptr<TSampleRecord>.Unbox(payload.Ref).Value.Value = 91;
         Assert.Equal(91, cell[0].Value);
     }
@@ -181,19 +180,19 @@ public sealed class CoreTests
         Assert.Equal(0, zero.Value);
         IntOrRef number = -123;
         Assert.Equal(-123, number.Value);
-        Assert.Null(number.As<TObject>());
-        var obj = new TObject();
-        IntOrRef reference = obj;
+        Assert.Null(number.As<object>());
+        var obj = new object();
+        IntOrRef reference = new(obj);
         Assert.Same(obj, reference.Ref);
-        Assert.Same(obj, reference.As<TObject>());
-        Assert.Equal(RuntimeHelpers.GetHashCode(obj), reference.Value);
+        Assert.Same(obj, reference.As<object>());
+        Assert.Equal(RuntimeHelpers.GetHashCode(obj) & int.MaxValue, reference.Value);
         string literal = "abc";
         IntOrRef text = literal;
         Assert.Equal(RuntimeHelpers.GetHashCode(literal), text.Value);
         Assert.Equal("abc", text.As<string>());
         var copy = text;
         Assert.Equal(text.Value, copy.Value);
-        IntOrRef nil = (TObject?)null;
+        IntOrRef nil = new((object?)null);
         Assert.Null(nil.Ref);
         Assert.Equal(0, nil.Value);
     }

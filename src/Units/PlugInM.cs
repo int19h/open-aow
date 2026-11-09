@@ -4,7 +4,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.PlugInM;
 
-public delegate void TLoadPlugInEvent(TObject Sender, string FileName);
+public delegate void TLoadPlugInEvent(object Sender, string FileName);
 
 // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
 // FPlugInExtension ('dpl'), FOnLoadPlugIn
@@ -51,7 +51,7 @@ public partial class TPlugInManager : TComponent
                 SearchDir(Dirs[I]);
             }
 
-            Dirs.Free();
+            Dirs?.Dispose();
         }
 
         Dir = Directory;
@@ -66,11 +66,11 @@ public partial class TPlugInManager : TComponent
     }
 
     // PlugInM.pas:53
-    public override void Destroy()
+    public override void Dispose()
     {
         ReleasePlugIns();
-        FPlugIns.Free();
-        base.Destroy();
+        FPlugIns?.Dispose();
+        base.Dispose();
     }
 
     // PlugInM.pas:96

@@ -94,15 +94,15 @@ public sealed class WheelLayoutTests : IClassFixture<WheelLayoutTests.Host>
         {
             try
             {
-                Spell?.Destroy();
-                World?.Destroy();
-                Files?.Destroy();
-                Realm?.Destroy();
-                title?.Destroy();
-                banner?.Destroy();
-                general?.Destroy();
-                font?.Destroy();
-                gfx?.Destroy();
+                Spell?.Dispose();
+                World?.Dispose();
+                Files?.Dispose();
+                Realm?.Dispose();
+                title?.Dispose();
+                banner?.Dispose();
+                general?.Dispose();
+                font?.Dispose();
+                gfx?.Dispose();
             }
             finally
             {

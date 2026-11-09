@@ -51,19 +51,19 @@ public partial class TScanner : TAOWControl
     public bool FIncremental;
 
     // Scanner.pas:126
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FMapSurface != null)
         {
-            FMapSurface.Destroy();
+            FMapSurface.Dispose();
         }
 
         if (FObjectSurface != null)
         {
-            FObjectSurface.Destroy();
+            FObjectSurface.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Scanner.pas:116
@@ -176,8 +176,8 @@ public partial class TScanner : TAOWControl
 
                 if (FMapSurface != null && FMapSurface.PixelFormatID != SurfDesc.PixelFormatID)
                 {
-                    FObjectSurface.Free();
-                    FMapSurface.Free();
+                    FObjectSurface?.Dispose();
+                    FMapSurface?.Dispose();
                     FMapSurface = null;
                 }
 

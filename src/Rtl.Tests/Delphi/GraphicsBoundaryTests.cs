@@ -23,17 +23,17 @@ public sealed class GraphicsBoundaryTests
         Assert.Equal("X", RtlUnit.ReadShortString(image));
     }
 
-    private delegate void OtherNotify(TObject sender);
+    private delegate void OtherNotify(object sender);
 
     [Fact]
     public void ProceduralCastsPreserveMethodIdentity()
     {
         int count = 0;
-        TNotifyEvent<TObject> original = _ => count++;
+        TNotifyEvent<object> original = _ => count++;
         var converted = RtlUnit.RebindDelegate<OtherNotify>(original)!;
         Assert.Same(original.Target, converted.Target);
         Assert.Equal(original.Method, converted.Method);
-        converted(new TObject());
+        converted(new object());
         Assert.Equal(1, count);
     }
 }

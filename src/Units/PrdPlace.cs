@@ -221,12 +221,12 @@ public partial class TProductionPlace : TPlayerStructure
     public byte FDefenderLevel;
 
     // PrdPlace.pas:283
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FPowerSource.Free();
-        FIncomeSource.Free();
-        FProductionControl.Free();
+        base.Dispose();
+        FPowerSource?.Dispose();
+        FIncomeSource?.Dispose();
+        FProductionControl?.Dispose();
     }
 
     // PrdPlace.pas:528
@@ -646,7 +646,7 @@ public partial class TProductionPlace : TPlayerStructure
                         ArmyHS.FArmy.SetBehavior(255, TGroupBehavior.gbGuard);
                     }
 
-                    Units.Free();
+                    Units?.Dispose();
                 }
             }
         }
@@ -850,7 +850,7 @@ public partial class TProductionPlace : TPlayerStructure
             }
 
             FProductionControl.Produce(Item, Queue);
-            Item.Free();
+            Item?.Dispose();
             Result = true;
         }
         else
@@ -900,10 +900,10 @@ public partial class TProductionPlaceResource : TPlayerStructureResource
     public TUnitIndexList FUnits;
 
     // PrdPlace.pas:709
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnits.Free();
-        base.Destroy();
+        FUnits?.Dispose();
+        base.Dispose();
     }
 
     // PrdPlace.pas:730

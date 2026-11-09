@@ -3,14 +3,21 @@ using Aow.Rtl;
 
 namespace Aow.Units.E3IMSTypes;
 
+[LegacyObject]
 // Imported IMS objects used by E3. List instances are opaque and their methods are imported
 // from ims.dpl.
-public partial class TmsMessageHeader : TObject
+public partial class TmsMessageHeader
 {
     public string FFrom = "";
+
+    public TmsMessageHeader()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TmsAddressList : TObject
+[LegacyObject]
+public partial class TmsAddressList
 {
     // E3IMSTypes.pas:19
     public void Clear()
@@ -25,9 +32,15 @@ public partial class TmsAddressList : TObject
         /* TODO: Implement TmsAddressList.AddAddress. */
         throw new NotImplementedException();
     }
+
+    public TmsAddressList()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TmsAttList : TObject
+[LegacyObject]
+public partial class TmsAttList
 {
     // E3IMSTypes.pas:24
     public void Clear()
@@ -41,6 +54,11 @@ public partial class TmsAttList : TObject
     {
         /* TODO: Implement TmsAttList.AddFile. */
         throw new NotImplementedException();
+    }
+
+    public TmsAttList()
+    {
+        CaptureAddress.Assign(this);
     }
 }
 

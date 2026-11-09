@@ -23,10 +23,10 @@ public partial class TArenaTE : TStructureTE
     public TIntegerList FUnitIDs;
 
     // Arena.pas:80
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnitIDs.Free();
-        base.Destroy();
+        FUnitIDs?.Dispose();
+        base.Dispose();
     }
 
     // Arena.pas:89
@@ -322,10 +322,10 @@ public partial class TEnterArenaEventLog : TEventLog
     public TIntegerList FUnitIDs;
 
     // Arena.pas:265
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnitIDs.Free();
-        base.Destroy();
+        FUnitIDs?.Dispose();
+        base.Dispose();
     }
 
     // Arena.pas:271
@@ -368,7 +368,7 @@ public partial class TEnterArenaEventLog : TEventLog
         }
 
         bool Result = FArena.TrainUnits(AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
-        Units.Free();
+        Units?.Dispose();
         return Result;
     }
 
@@ -386,7 +386,7 @@ public partial class TEnterArenaEventLog : TEventLog
         }
 
         bool Result = FArena.CanTrainUnits(AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
-        Units.Free();
+        Units?.Dispose();
         return Result;
     }
 

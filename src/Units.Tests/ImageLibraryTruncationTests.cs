@@ -50,9 +50,9 @@ public sealed class ImageLibraryTruncationTests
         }
         finally
         {
-            library.Destroy();
-            stream.Destroy();
-            Images.LibraryImageClasses.Destroy();
+            library.Dispose();
+            stream.Dispose();
+            Images.LibraryImageClasses.Dispose();
             Images.LibraryImageClasses = previousClasses;
         }
     }

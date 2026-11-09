@@ -45,7 +45,7 @@ public partial class TBridge : TAbstractRoad
         OldRoad = MapField.FindHS(typeof(TAbstractRoad));
         if (OldRoad != null)
         {
-            OldRoad.Destroy();
+            OldRoad.Dispose();
         }
 
         OldOwner = (TMapField)Owner;

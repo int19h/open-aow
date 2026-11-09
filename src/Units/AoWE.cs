@@ -518,10 +518,10 @@ public partial class TWorldFXHS : TFixedVisibleHS
     public TworldFXType FEffectType;
 
     // Army.PAS:5334
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPath.Free();
-        base.Destroy();
+        FPath?.Dispose();
+        base.Dispose();
     }
 
     // Army.PAS:5327
@@ -719,7 +719,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
     }
 
     // Army.PAS:5358
-    public void NewFrame(TObject Sender)
+    public void NewFrame(object Sender)
     {
         TWorldFXHS Effect;
         int Count;
@@ -1236,10 +1236,10 @@ public partial class TProductionSettings : TEObject
     public int FUnitProductionIndex;
 
     // Structur.PAS:114
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Structur.PAS:120
@@ -1310,15 +1310,15 @@ public partial class TProductionTE : TTokenEvent
 
     // Structur.PAS:155
     // { Original leaves the upkeep fields unchanged. }
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FItem != null)
         {
-            FItem.Free();
+            FItem?.Dispose();
             FItem = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Structur.PAS:168
@@ -1373,7 +1373,7 @@ public partial class TProductionControl : TEObject
         Clear();
     }
 
-    public TNotifyEvent<TObject> FOnChange;
+    public TNotifyEvent<object> FOnChange;
     public int FUpdateCount;
     public TProductionQueue FQueue;
     public bool FLoopQueue;
@@ -1382,12 +1382,12 @@ public partial class TProductionControl : TEObject
     public TProductionSettings FSettings;
 
     // Structur.PAS:202
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSettings.Free();
-        FUnitProductions.Free();
-        FQueue.Free();
-        base.Destroy();
+        FSettings?.Dispose();
+        FUnitProductions?.Dispose();
+        FQueue?.Dispose();
+        base.Dispose();
     }
 
     // Structur.PAS:783
@@ -1484,7 +1484,7 @@ public partial class TProductionControl : TEObject
         Item = new TProductionItem(null);
         Item.Order = new ProduceUnit(Index, GroupID);
         ExecuteAddProduction(Item);
-        Item.Free();
+        Item?.Dispose();
         return true;
     }
 
@@ -1499,7 +1499,7 @@ public partial class TProductionControl : TEObject
             Item = new TProductionItem(null);
             Item.Order = new ResearchSpell(Index);
             ExecuteAddProduction(Item);
-            Item.Free();
+            Item?.Dispose();
             Result = true;
         }
         else
@@ -1556,7 +1556,7 @@ public partial class TProductionControl : TEObject
         if (Index == 0)
         {
             ExecuteCancelProduction();
-            FQueue.GetItem(Index).Free();
+            FQueue.GetItem(Index)?.Dispose();
             if (FQueue.Count != 0)
             {
                 ExecuteProduction(FQueue.GetItem(0));
@@ -1568,7 +1568,7 @@ public partial class TProductionControl : TEObject
         }
         else
         {
-            FQueue.GetItem(Index).Free();
+            FQueue.GetItem(Index)?.Dispose();
         }
 
         EndUpdate();
@@ -1772,14 +1772,14 @@ public partial class TProductionControl : TEObject
     {
         for (int I = FQueue.Count - 1; I >= 1; I--)
         {
-            FQueue.GetItem(I).Free();
+            FQueue.GetItem(I)?.Dispose();
         }
 
         UnregisterGroupProduction();
         FLoopQueue = false;
         if (FQueue.Count != 0 && FStatus != TProductionControlStatus.pcsProducing)
         {
-            FQueue.GetItem(0).Free();
+            FQueue.GetItem(0)?.Dispose();
             FStatus = TProductionControlStatus.pcsIdle;
         }
     }
@@ -2163,7 +2163,7 @@ public partial class TProductionControl : TEObject
         }
         else
         {
-            FQueue.GetItem(0).Free();
+            FQueue.GetItem(0)?.Dispose();
         }
 
         if (FQueue.Count != 0)
@@ -2243,8 +2243,8 @@ public partial class TProductionControl : TEObject
             Result = -1;
         }
 
-        Productions.Free();
-        AUnit.Free();
+        Productions?.Dispose();
+        AUnit?.Dispose();
         return Result;
     }
 
@@ -2757,12 +2757,12 @@ public partial class TPlayerMagicControl : TEObject
     }
 
     // Spells.PAS:1927
-    public override void Destroy()
+    public override void Dispose()
     {
         try
         {
-            FSpells.Free();
-            FEnchantments.Free();
+            FSpells?.Dispose();
+            FEnchantments?.Dispose();
             FChangedEventsStore.Clear();
             FPowerSources.RemoveChild(FExternalPowerSource);
             if (FPowerSources.GetCount() != 0 && AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
@@ -2777,9 +2777,9 @@ public partial class TPlayerMagicControl : TEObject
             }
 
             // { Original bug: the diagnostic exception is swallowed. }
-            FPowerSources.Free();
-            FExternalPowerSource.Free();
-            base.Destroy();
+            FPowerSources?.Dispose();
+            FExternalPowerSource?.Dispose();
+            base.Dispose();
         }
         catch
         {
@@ -3048,7 +3048,7 @@ public partial class TPlayerMagicControl : TEObject
                 }
             }
 
-            Candidates.Free();
+            Candidates?.Dispose();
         }
 
         if (FResearchSpellID != 0)
@@ -3600,7 +3600,7 @@ public partial class TPlayerMagicControl : TEObject
                 list.Delete(0);
             }
         }
-        list.Free();
+        list?.Dispose();
         return 0;
     }
 }
@@ -3665,7 +3665,7 @@ public partial class TGlobalEnchantment : TEObject
         int Result = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -4071,10 +4071,10 @@ public partial class TGlobalMagicControl : TEObject
     }
 
     // Spells.PAS:2675
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FEnchantments.Free();
+        base.Dispose();
+        FEnchantments?.Dispose();
         FChangedEventsStore.Clear();
     }
 
@@ -4420,12 +4420,12 @@ public partial class TRace : TEObject
     public bool FEnabled;
 
     // Ability.PAS:221
-    public override void Destroy()
+    public override void Dispose()
     {
         SetEnabled(false);
-        FPlayerRelations.Free();
-        FDefaultRelations.Free();
-        base.Destroy();
+        FPlayerRelations?.Dispose();
+        FDefaultRelations?.Dispose();
+        base.Dispose();
     }
 
     // Ability.PAS:343
@@ -4723,7 +4723,7 @@ public partial class TRaceList : TEControlStyleNode
             Result = -1;
         }
 
-        Races.Free();
+        Races?.Dispose();
         return Result;
     }
 
@@ -4769,7 +4769,7 @@ public partial class TRaceList : TEControlStyleNode
             }
             else
             {
-                GetRace(I).Free();
+                GetRace(I)?.Dispose();
             }
         }
     }
@@ -4912,11 +4912,11 @@ public partial class TPlayerDiplomaticRelations : TEObject
     public TENode FHistory;
 
     // Player.PAS:85
-    public override void Destroy()
+    public override void Dispose()
     {
-        FRelations.Free();
-        FHistory.Free();
-        base.Destroy();
+        FRelations?.Dispose();
+        FHistory?.Dispose();
+        base.Dispose();
     }
 
     // Player.PAS:92
@@ -5009,7 +5009,7 @@ public partial class TPlayerDiplomaticRelations : TEObject
         while (FHistory.Count + 1 > AoWEUnit.AoWHSMap.FPlayers.Count)
         {
             var count = FHistory.Count;
-            FHistory.Children[count - 1].Free();
+            FHistory.Children[count - 1]?.Dispose();
         }
     }
 
@@ -5042,12 +5042,12 @@ public partial class TLeaderSetupControl : TEObject
     public TNotifyEvent<TLeaderSetupControl> FOnDone;
 
     // Player.PAS:1766
-    public override void Destroy()
+    public override void Dispose()
     {
-        FOriginalLeader.Free();
-        FLeader.Free();
-        FItems.Free();
-        base.Destroy();
+        FOriginalLeader?.Dispose();
+        FLeader?.Dispose();
+        FItems?.Dispose();
+        base.Dispose();
     }
 
     // Player.PAS:1774
@@ -5064,7 +5064,7 @@ public partial class TLeaderSetupControl : TEObject
         int Result = FRefCount;
         if (Result == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -5143,10 +5143,10 @@ public partial class TPlayerStatistics : TEObject
     public int FUnitsLost;
 
     // Player.PAS:188
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTurnInfo.Free();
-        base.Destroy();
+        FTurnInfo?.Dispose();
+        base.Dispose();
     }
 
     // Player.PAS:194
@@ -5222,10 +5222,10 @@ public partial class TPBEMPlayerSettings : TEObject
     public TEmailGame FEmailGame;
 
     // Player.PAS:243
-    public override void Destroy()
+    public override void Dispose()
     {
-        FEmailGame.Free();
-        base.Destroy();
+        FEmailGame?.Dispose();
+        base.Dispose();
     }
 
     // Player.PAS:249
@@ -5402,7 +5402,7 @@ public partial class TPlayer : TEObject
     public TEventLogbook FEventLogbook;
 
     // Player.PAS:315
-    public override void Destroy()
+    public override void Dispose()
     {
         TPlayerStructureList Structures;
         TArmyList Armies;
@@ -5438,17 +5438,17 @@ public partial class TPlayer : TEObject
             {
             }
 
-            FMessages.Free();
+            FMessages?.Dispose();
             FMessages = null;
-            FDiplomaticActions.Free();
+            FDiplomaticActions?.Dispose();
             FDiplomaticActions = null;
-            FAIValidAttackPlayers.Free();
+            FAIValidAttackPlayers?.Dispose();
             FAIValidAttackPlayers = null;
-            FLegacyRelations.Free();
+            FLegacyRelations?.Dispose();
             try
             {
                 FLogbookChangedEventsStore.Clear();
-                FEventLogbook.Free();
+                FEventLogbook?.Dispose();
                 FLogbookChangedEventsStore.Clear();
             }
             catch
@@ -5457,8 +5457,8 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FLegacyNewRelations.Free();
-                FDiplomaticRelations.Free();
+                FLegacyNewRelations?.Dispose();
+                FDiplomaticRelations?.Dispose();
             }
             catch
             {
@@ -5466,7 +5466,7 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FProductionControls.Free();
+                FProductionControls?.Dispose();
             }
             catch
             {
@@ -5474,7 +5474,7 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FAIControl.Free();
+                FAIControl?.Dispose();
             }
             catch
             {
@@ -5482,7 +5482,7 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FStatistics.Free();
+                FStatistics?.Dispose();
             }
             catch
             {
@@ -5490,7 +5490,7 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FMagicControl.Free();
+                FMagicControl?.Dispose();
             }
             catch
             {
@@ -5498,7 +5498,7 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FLeaderSetup.Free();
+                FLeaderSetup?.Dispose();
             }
             catch
             {
@@ -5506,8 +5506,8 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FFirstDaySeen.Free();
-                FLastDaySeen.Free();
+                FFirstDaySeen?.Dispose();
+                FLastDaySeen?.Dispose();
             }
             catch
             {
@@ -5515,7 +5515,7 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FHeroes.Free();
+                FHeroes?.Dispose();
             }
             catch
             {
@@ -5523,13 +5523,13 @@ public partial class TPlayer : TEObject
 
             try
             {
-                FArmies.Free();
-                FAIGroups.Free();
-                FAIBudget.Free();
-                FStructures.Free();
-                FVictoryLocations.Free();
-                FIncomeSources.Free();
-                FKnownStructures.Free();
+                FArmies?.Dispose();
+                FAIGroups?.Dispose();
+                FAIBudget?.Dispose();
+                FStructures?.Dispose();
+                FVictoryLocations?.Dispose();
+                FIncomeSources?.Dispose();
+                FKnownStructures?.Dispose();
             }
             catch
             {
@@ -5537,13 +5537,13 @@ public partial class TPlayer : TEObject
 
             try
             {
-                base.Destroy();
+                base.Dispose();
             }
             catch
             {
             }
 
-            FPBEMSettings.Free();
+            FPBEMSettings?.Dispose();
             FPBEMSettings = null;
             FIncomeChangedEventsStore.Clear();
             FGemsChangedEventsStore.Clear();
@@ -5983,7 +5983,7 @@ public partial class TPlayer : TEObject
     }
 
     // Player.PAS:558
-    public void LogbookChangedEvent(TObject Sender)
+    public void LogbookChangedEvent(object Sender)
     {
         if (FUpdateCount == 0)
         {
@@ -6018,7 +6018,7 @@ public partial class TPlayer : TEObject
     }
 
     // Player.PAS:586
-    public void ArmiesChanged(TObject Sender)
+    public void ArmiesChanged(object Sender)
     {
         if (FArmies.Count == 0)
         {
@@ -6434,10 +6434,10 @@ public partial class TPlayer : TEObject
                 Log.Release();
             }
 
-            Locations.Free();
+            Locations?.Dispose();
         }
 
-        Heroes.Free();
+        Heroes?.Dispose();
     }
 
     // Player.PAS:812
@@ -7345,7 +7345,7 @@ public partial class TPlayerList : TEControlStyleNode
 
         while (Count > Value + 1)
         {
-            GetPlayers(Count - 1).Destroy();
+            GetPlayers(Count - 1).Dispose();
             var count = Count;
             FChildren.Delete(count - 1);
         }
@@ -7419,8 +7419,8 @@ public partial class TPlayerList : TEControlStyleNode
             }
         }
 
-        Invalid.Free();
-        Available.Free();
+        Invalid?.Dispose();
+        Available?.Dispose();
     }
 
     // Player.PAS:1691
@@ -7767,10 +7767,10 @@ public partial class TSubMove : TEObject
     public TDoubleItemList FMovePointLines;
 
     // MoveT.PAS:28
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMovePointLines.Free();
-        base.Destroy();
+        FMovePointLines?.Dispose();
+        base.Dispose();
     }
 
     // MoveT.PAS:34
@@ -7799,7 +7799,7 @@ public partial class TSubMoveList : TENode
         {
             if (Location == ((TSubMove)FChildren.List[I]).FLocation.XYL)
             {
-                ((TSubMove)FChildren.List[I]).Free();
+                ((TSubMove)FChildren.List[I])?.Dispose();
                 Result += 1;
             }
         }
@@ -7810,7 +7810,7 @@ public partial class TSubMoveList : TENode
     // MoveT.PAS:57
     public void Delete(int Index)
     {
-        ((TSubMove)FChildren.List[Index]).Free();
+        ((TSubMove)FChildren.List[Index])?.Dispose();
     }
 
     // MoveT.PAS:62
@@ -7879,14 +7879,14 @@ public partial class TMoveControlSettings : TEObject
     public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
 
     // MoveT.PAS:84
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FProcessedMapFields.Free();
-        FSubMoves.Free();
-        FPath.Free();
-        FUnits.Free();
-        base.Destroy();
+        FProcessedMapFields?.Dispose();
+        FSubMoves?.Dispose();
+        FPath?.Dispose();
+        FUnits?.Dispose();
+        base.Dispose();
     }
 
     // MoveT.PAS:107
@@ -7903,7 +7903,7 @@ public partial class TMoveControlSettings : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -8062,15 +8062,17 @@ public partial class TMoveControlSettings : TEObject
 
 }
 
+[LegacyObject]
 // map, status, player, mode, source, destination, map level, processed count, move limit, move
 // table, processed fields, army, selection, move data, callback, field offsets, point offsets,
 // gap endpoints, direct route, exploration mask, settings
-public partial class TMoveControl : TObject
+public partial class TMoveControl : IDisposable
 {
 
     // MoveT.PAS:257
     public TMoveControl(THSMap owner)
     {
+        CaptureAddress.Assign(this);
         FMap = owner;
         FGapStarts = new TXYLList();
         FGapEnds = new TXYLList();
@@ -8105,12 +8107,11 @@ public partial class TMoveControl : TObject
     public TMoveControlSettings FSettings;
 
     // MoveT.PAS:266
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FGapStarts.Free();
-        FGapEnds.Free();
-        FDirectRoute.Free();
-        base.Destroy();
+        FGapStarts?.Dispose();
+        FGapEnds?.Dispose();
+        FDirectRoute?.Dispose();
     }
 
     // MoveT.PAS:474
@@ -8794,7 +8795,7 @@ public partial class TMoveControl : TObject
 
 public partial class TAoWTokenManager : TTokenManager
 {
-    public TAoWTokenManager(TObject owner) : base(owner)
+    public TAoWTokenManager(object owner) : base(owner)
     { }
 
     // NetworkE.pas:405
@@ -8915,7 +8916,7 @@ public partial class TPlayerControl : TEObject
     public bool FOutOfSyncShown;
 
     // PlayerC.PAS:7
-    public override void Destroy()
+    public override void Dispose()
     {
         if (AoWEUnit.AoWHSMap != null && AoWEUnit.AoWHSMap.FTokenManager != null)
         {
@@ -8924,8 +8925,8 @@ public partial class TPlayerControl : TEObject
             tokenExecuter.OnSyncError = null;
         }
 
-        FDisconnectedPlayers.Free();
-        base.Destroy();
+        FDisconnectedPlayers?.Dispose();
+        base.Dispose();
     }
 
     // PlayerC.PAS:70
@@ -9448,7 +9449,7 @@ public partial class TPlayerControl : TEObject
     }
 
     // PlayerC.PAS:54
-    public void OutOfSync(TObject Sender)
+    public void OutOfSync(object Sender)
     {
         TPlayerConnectionEventLog Log;
         if (AoWEUnit.AoWHSMap.FTokenManager.TokenExecuter.ActiveTC.Active)
@@ -9705,10 +9706,10 @@ public partial class TTextControlItem : TEObject
     public string FName = "";
 
     // Structur.PAS:4400
-    public override void Destroy()
+    public override void Dispose()
     {
-        FText.Free();
-        base.Destroy();
+        FText?.Dispose();
+        base.Dispose();
     }
 
     // Structur.PAS:4411
@@ -9754,7 +9755,7 @@ public partial class TTextControl : TENode
     {
         if (GetItem(Index) != null)
         {
-            GetItem(Index).Free();
+            GetItem(Index)?.Dispose();
         }
     }
 
@@ -9943,7 +9944,7 @@ public partial class TTurnPlayerControl : TPlayerControl
                         MagicLog.Release();
                     }
 
-                    Spells.Free();
+                    Spells?.Dispose();
                 }
 
                 AoWEUnit.AoWHSMap.FTutorialControl.ShowMessage(52, false, true);
@@ -10785,7 +10786,7 @@ public partial class TSimultaniousPlayerControl : TPlayerControl
                             Log.Release();
                         }
 
-                        Spells.Free();
+                        Spells?.Dispose();
                     }
                 }
                 else
@@ -11089,7 +11090,7 @@ public partial class TMoveSettings : TEObject
 
     public TMovepath FPath;
     public int FPathMovePoints;
-    public TObject FMoveObject;
+    public object FMoveObject;
     public int FMovePoints;
     public int FMoves;
     public int FPriority;
@@ -11098,10 +11099,10 @@ public partial class TMoveSettings : TEObject
     public bool FValid;
 
     // Structur.PAS:4018
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPath.Free();
-        base.Destroy();
+        FPath?.Dispose();
+        base.Dispose();
     }
 
     // Structur.PAS:4024
@@ -11163,7 +11164,7 @@ public partial class TMoveSettingsList : TENode
     }
 
     // Structur.PAS:4064
-    public int IndexOfMoveObject(TObject MoveObject)
+    public int IndexOfMoveObject(object MoveObject)
     {
         int Result = GetCount();
         while (Result != 0)
@@ -11229,12 +11230,14 @@ public partial class TMoveSettingsList : TENode
 
 }
 
-public partial class TMoveSelector : TObject
+[LegacyObject]
+public partial class TMoveSelector : IDisposable
 {
     // Structur.PAS:4109
     // control settings, moves, current move, map, status
     public TMoveSelector()
     {
+        CaptureAddress.Assign(this);
         FMoveControlSettings = CreateMCS();
         FMoveSettingsList = new TMoveSettingsList(null);
         FCurrentMove = -1;
@@ -11248,24 +11251,23 @@ public partial class TMoveSelector : TObject
     public TSet<TMoveSelectorStatusElement> FStatus;
 
     // Structur.PAS:4118
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
         FMoveControlSettings.Release();
-        FMoveSettingsList.Free();
-        base.Destroy();
+        FMoveSettingsList?.Dispose();
     }
 
     // Structur.PAS:4192
-    public virtual void MouseMoveEvent(TObject Sender)
+    public virtual void MouseMoveEvent(object Sender)
     {
         UpdateMoveCursor();
     }
 
     // Structur.PAS:4214
-    public virtual void MouseDownEvent(TObject Sender)
+    public virtual void MouseDownEvent(object Sender)
     {
-        TObject Capture;
+        object Capture;
         THSMapMouse Mouse;
         Mouse = FMap.Mouse;
         Capture = Mouse.Capture;
@@ -11601,7 +11603,7 @@ public partial class TMoveSelector : TObject
     // Structur.PAS:4167
     public void DeleteMoveObject(int Index)
     {
-        TObject Obj;
+        object Obj;
         if (FCurrentMove != -1)
         {
             Obj = FMoveSettingsList.GetMoveSettings(FCurrentMove).FMoveObject;
@@ -11611,7 +11613,8 @@ public partial class TMoveSelector : TObject
             Obj = null;
         }
 
-        ((TObject)FMoveSettingsList.FChildren.List[Index]).Free();
+        (
+        ((object)FMoveSettingsList.FChildren.List[Index]) as IDisposable)?.Dispose();
         if (Obj != null)
         {
             Index = FMoveSettingsList.IndexOfMoveObject(Obj);
@@ -11655,15 +11658,15 @@ public partial class TSelectedArmy : TMoveSelector
     public bool FIgnoreMouseDown;
 
     // Army.PAS:3573
-    public override void Destroy()
+    public override void Dispose()
     {
         ResetSelectedUnitGFX();
-        FSelectedUnitGFX.Free();
-        base.Destroy();
+        FSelectedUnitGFX?.Dispose();
+        base.Dispose();
     }
 
     // Army.PAS:3837
-    public override void MouseDownEvent(TObject Sender)
+    public override void MouseDownEvent(object Sender)
     {
         TArmyHS ArmyHS;
         int Index;
@@ -12170,7 +12173,7 @@ public partial class TSelectedArmy : TMoveSelector
 
         ResetSelectedUnitGFX();
         FSelectedUnitGFX.Assign(List);
-        List.Free();
+        List?.Dispose();
     }
 
     // Army.PAS:3673
@@ -12254,7 +12257,7 @@ public partial class TSelectedArmy : TMoveSelector
             Update();
         }
 
-        Armies.Free();
+        Armies?.Dispose();
     }
 
     // Army.PAS:3731
@@ -12526,14 +12529,16 @@ public partial class TSelectedArmy : TMoveSelector
     }
 }
 
+[LegacyObject]
 // { Interface declaration run owned by P1. }
-public partial class TTargetSelectionControl : TObject
+public partial class TTargetSelectionControl : IDisposable
 {
     // Structur.PAS:3785
     // images, HNs, status, mode, callbacks, range, source coordinates, source, change events,
     // change, target, text, title, cancel text, images
     public TTargetSelectionControl()
     {
+        CaptureAddress.Assign(this);
         FOnChangeStore = new();
         FHNs = new TShortIntList();
         FText = new TStringList();
@@ -12549,7 +12554,7 @@ public partial class TTargetSelectionControl : TObject
     public int FSourceX;
     public int FSourceY;
     public int FSourceL;
-    public TObject FSource;
+    public object FSource;
 
     internal EventStore<TTargetSelectionControl> FOnChangeStore;
 
@@ -12572,11 +12577,11 @@ public partial class TTargetSelectionControl : TObject
     public ImageLib.TLibraryImage FInvalidTargetImage;
 
     // Structur.PAS:3793
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FText.Free();
+        FText?.Dispose();
         FOnChangeStore.Clear();
-        FHNs.Free();
+        FHNs?.Dispose();
         FHNs = null;
         if (FImageLibrary != null)
         {
@@ -12584,8 +12589,6 @@ public partial class TTargetSelectionControl : TObject
             AoWEUnit.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TARGHEX.ILB");
             FImageLibrary = null;
         }
-
-        base.Destroy();
     }
 
     // Structur.PAS:3809
@@ -12597,7 +12600,7 @@ public partial class TTargetSelectionControl : TObject
     }
 
     // Structur.PAS:3816
-    public void DeselectHS(TObject Sender)
+    public void DeselectHS(object Sender)
     {
         if (FStatus.Contains(TTargetSelectionStatusElement.tsActivated))
         {
@@ -12606,7 +12609,7 @@ public partial class TTargetSelectionControl : TObject
     }
 
     // Structur.PAS:3821
-    public void MouseDownEvent(TObject Sender)
+    public void MouseDownEvent(object Sender)
     {
         THSMapMouse Mouse;
         if (FStatus.Contains(TTargetSelectionStatusElement.tsActivated))
@@ -12671,7 +12674,7 @@ public partial class TTargetSelectionControl : TObject
     }
 
     // Structur.PAS:3862
-    public void NewFrameEvent(TObject Sender)
+    public void NewFrameEvent(object Sender)
     {
         if (FStatus.Contains(TTargetSelectionStatusElement.tsActivated))
         {
@@ -12689,7 +12692,7 @@ public partial class TTargetSelectionControl : TObject
     }
 
     // Structur.PAS:3877
-    public void MouseMoveEvent(TObject Sender)
+    public void MouseMoveEvent(object Sender)
     {
         if (FStatus.Contains(TTargetSelectionStatusElement.tsActivated))
         {
@@ -12753,7 +12756,7 @@ public partial class TTargetSelectionControl : TObject
     }
 
     // Structur.PAS:3915
-    public void Initialize(TObject Source)
+    public void Initialize(object Source)
     {
         if (FImageLibrary == null)
         {
@@ -12829,7 +12832,7 @@ public partial class TTargetSelectionControl : TObject
     }
 
     // Structur.PAS:3974
-    public void UnitChanged(TObject AUnit)
+    public void UnitChanged(object AUnit)
     {
         if (FStatus.Contains(TTargetSelectionStatusElement.tsActivated) && FSource != null && AUnit == FSource && ((TAbstractUnit)AUnit).FUnitStatus.Contains(TUnitStatusElement.usKilled))
         {
@@ -13103,9 +13106,9 @@ public partial class TAbstractAoWHSMapMouse : THSMapMouse
     }
 
     // AoWHSMap.PAS:1057
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
+        base.Dispose();
         FRectangleSelectEventsStore.Clear();
     }
 
@@ -13440,15 +13443,15 @@ public partial class TAbstractAoWHSMap : THSMap
     public bool FHexagonSelectorVisible;
 
     // AoWHSMap.PAS:383
-    public override void Destroy()
+    public override void Dispose()
     {
         FShowMessageEventsStore.Clear();
         FMapChangedEventsStore.Clear();
         HideHexagonSelector();
-        FBackHexagonSelector.Free();
-        FFrontHexagonSelector.Free();
+        FBackHexagonSelector?.Dispose();
+        FFrontHexagonSelector?.Dispose();
         FScannerIconsChangedEventsStore.Clear();
-        base.Destroy();
+        base.Dispose();
         FShowMessageEventsStore.Clear();
         FMapChangedEventsStore.Clear();
     }
@@ -14121,9 +14124,9 @@ public partial class TAbstractAoWCombatMap : TAbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:914
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
+        base.Dispose();
         FCombatStartedEventsStore.Clear();
         FAbilityActivatedEventsStore.Clear();
     }
@@ -14149,10 +14152,10 @@ public partial class TTutorialControl : TEObject
     public TIntegerList FShownMessages;
 
     // AoWHSMap.PAS:6
-    public override void Destroy()
+    public override void Dispose()
     {
-        FShownMessages.Free();
-        base.Destroy();
+        FShownMessages?.Dispose();
+        base.Dispose();
     }
 
     // AoWHSMap.PAS:11
@@ -14196,7 +14199,7 @@ public partial class TStartupSongList : TSonglist
     }
 
     // AoWHSMap.PAS:1221
-    public void OriginalSongsChanged(TObject Sender)
+    public void OriginalSongsChanged(object Sender)
     {
         string Name;
         SongNames.Clear();
@@ -14523,7 +14526,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     public bool FTokenEventLogging;
 
     // AoWHSMap.PAS:1336
-    public override void Destroy()
+    public override void Dispose()
     {
         StopTokenEventLogging();
         LockMapChangedEvent();
@@ -14532,18 +14535,18 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         AoWEUnit.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "GENERAL.ILB");
         AoWEUnit.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "CURSORS.ILB");
         AoWEUnit.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "COMBAT.ILB");
-        FMoveControl.Free();
+        FMoveControl?.Dispose();
         for (int I = FEffects.Count - 1; I >= 0; I--)
         {
             var animation = FEffects[I];
             DynamicFixedVisibleHS.RemoveChild((TEObject)animation);
             var fEffectsItem = FEffects[I];
             DynamicVisibleHS.RemoveChild((TEObject)fEffectsItem);
-            ((TObject)FEffects[I]).Free();
+            (FEffects[I] as IDisposable)?.Dispose();
         }
 
-        FEffects.Free();
-        FTutorialControl.Free();
+        FEffects?.Dispose();
+        FTutorialControl?.Dispose();
         FPlayers.BeginUpdate();
         FArmyChangedEventsStore.Clear();
         FStructureChangedEventsStore.Clear();
@@ -14575,22 +14578,22 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
 
         if (FCombatMap != null)
         {
-            FCombatMap.Free();
+            FCombatMap?.Dispose();
             FCombatMap = null;
         }
 
-        base.Destroy();
+        base.Dispose();
         FItemControl.Deactivate();
-        FGlobalMagicControl.Free();
+        FGlobalMagicControl?.Dispose();
         FGlobalMagicControl = null;
-        FPlayerCommunicator.Free();
-        FTokenManager.Free();
+        FPlayerCommunicator?.Dispose();
+        FTokenManager?.Dispose();
         FTokenManager = null;
-        FCampaignSettings.Free();
-        FAIExecuter.Free();
-        FSelectedArmy.Free();
+        FCampaignSettings?.Dispose();
+        FAIExecuter?.Dispose();
+        FSelectedArmy?.Dispose();
         FSeatedPlayerChangedEventsStore.Clear();
-        FExecuteEventLogBuffer.Free();
+        FExecuteEventLogBuffer?.Dispose();
         FNewTurnEventsStore.Clear();
         FEndTurnEventsStore.Clear();
         FCurrentPlayerChangedEventsStore.Clear();
@@ -14602,41 +14605,41 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         FStructureDestroyedEventsStore.Clear();
         FUnitDestroyedEventsStore.Clear();
         FOnLeaderChangedStore.Clear();
-        FDescription.Free();
-        FObjectives.Free();
-        FTurnOrder.Free();
-        FPlayerControl.Free();
-        FTextControl.Free();
+        FDescription?.Dispose();
+        FObjectives?.Dispose();
+        FTurnOrder?.Dispose();
+        FPlayerControl?.Dispose();
+        FTextControl?.Dispose();
         FCombatEventsStore.Clear();
         FPlayerChangedEventsStore.Clear();
         FExecuteEventLogEventsStore.Clear();
-        FExecuteEventLogCallBacks.Free();
+        FExecuteEventLogCallBacks?.Dispose();
         FCosmeticSurgeryEventsStore.Clear();
         FOnActivateAbilityStore.Clear();
-        FGameSongs.Free();
-        FStartupSongs.Free();
+        FGameSongs?.Dispose();
+        FStartupSongs?.Dispose();
         FExitEventsStore.Clear();
-        FItemControl.Free();
+        FItemControl?.Dispose();
         FItemControl = null;
-        FHeroControl.Free();
+        FHeroControl?.Dispose();
         FHeroControl = null;
-        FUnitControl.Free();
+        FUnitControl?.Dispose();
         FUnitControl = null;
-        FStructureControl.Free();
+        FStructureControl?.Dispose();
         FStructureControl = null;
-        FAIGroupManager.Free();
+        FAIGroupManager?.Dispose();
         FAIGroupManager = null;
-        FAIPlayerActionManager.Free();
-        FPlayers.Free();
-        FRaces.Free();
+        FAIPlayerActionManager?.Dispose();
+        FPlayers?.Dispose();
+        FRaces?.Dispose();
         FPlayerTerminatedEventsStore.Clear();
         FGameOverEventsStore.Clear();
         FGameTerminatedEventsStore.Clear();
-        FTargetSelection.Free();
+        FTargetSelection?.Dispose();
         FCombatMapCreatedEventsStore.Clear();
         FCombatMapDestroyedEventsStore.Clear();
         FDiplomaticRelationsChangedEventsStore.Clear();
-        FKeyboard.Free();
+        FKeyboard?.Dispose();
         FUpdateVisibilityEventsStore.Clear();
         FTokenControlActivatedEventsStore.Clear();
         UnlockMapChangedEvent();
@@ -16252,7 +16255,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:2474
-    public void MouseMoved(TObject Sender)
+    public void MouseMoved(object Sender)
     {
         TAoWMapField Field;
         // The original tests Xhx only and with Yhx -1 read memory before the field block. The
@@ -16366,7 +16369,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
     }
 
     // AoWHSMap.PAS:2552
-    public void TokenControlActivatedEvent(TObject Sender)
+    public void TokenControlActivatedEvent(object Sender)
     {
         int Player;
         if (FCombatMap == null)
@@ -16390,7 +16393,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                 {
                     if (!(FPlayerControl is TPBEMPlayerControl))
                     {
-                        FPlayerControl.Free();
+                        FPlayerControl?.Dispose();
                         FPlayerControl = new TPBEMPlayerControl(null);
                     }
                 }
@@ -16399,7 +16402,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                     // { Original tests TPBEMPlayerControl even in the non-email branch. }
                     if (!(FPlayerControl is TPBEMPlayerControl))
                     {
-                        FPlayerControl.Free();
+                        FPlayerControl?.Dispose();
                         FPlayerControl = new TTurnPlayerControl(null);
                     }
                 }
@@ -16408,7 +16411,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
             case TPlayMode.pmSimultaneous:
                 if (!(FPlayerControl is TSimultaniousPlayerControl))
                 {
-                    FPlayerControl.Free();
+                    FPlayerControl?.Dispose();
                 }
 
                 // { Original replaces an existing control without freeing it. }
@@ -16486,7 +16489,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
             List.Delete(Index);
         }
 
-        List.Free();
+        List?.Dispose();
     }
 
     // AoWHSMap.PAS:2749
@@ -16613,7 +16616,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
         if (FCombatMap != null)
         {
             FCombatMapDestroyedEventsStore.Raise(this);
-            FCombatMap.Free();
+            FCombatMap?.Dispose();
             FCombatMap = null;
             ResetSeatedPlayerView();
         }
@@ -16720,7 +16723,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                 UnlockGameOverEvent();
             }
 
-            FCombat.Free();
+            FCombat?.Dispose();
             FCombat = null;
         }
     }
@@ -16893,7 +16896,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                 ((TMapObjectResource)Candidates[Random(Candidates.Count)]).PlaceResourceUser(AoWEUnit.AoWHSMap, X, Y, L);
             }
 
-            Candidates.Free();
+            Candidates?.Dispose();
         }
         else
         {
@@ -16916,7 +16919,7 @@ public partial class TAoWHSMap : TAbstractAoWHSMap
                 {
                     DynamicFixedVisibleHS.RemoveChild(Effect);
                     DynamicVisibleHS.RemoveChild(Effect);
-                    Effect.Free();
+                    Effect?.Dispose();
                     FEffects.Delete(I);
                 }
                 else
@@ -17001,20 +17004,20 @@ public partial class TUnitGFXResource : TEResource
     public FixedArray_Aow_Units_Sound_TSFXLibrary_5 FSFXLibraries;
 
     // UnitHS.PAS:12
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FRefCount != 0)
         {
             ReleaseIL();
         }
 
-        FSequences.Free();
-        FSFXLibraries[0].Free();
-        FSFXLibraries[1].Free();
-        FSFXLibraries[2].Free();
-        FSFXLibraries[3].Free();
-        FSFXLibraries[4].Free();
-        base.Destroy();
+        FSequences?.Dispose();
+        FSFXLibraries[0]?.Dispose();
+        FSFXLibraries[1]?.Dispose();
+        FSFXLibraries[2]?.Dispose();
+        FSFXLibraries[3]?.Dispose();
+        FSFXLibraries[4]?.Dispose();
+        base.Dispose();
     }
 
     // UnitHS.PAS:27
@@ -17279,11 +17282,11 @@ public partial class TUnitHS : THexagonSprite
     public TUnitShadowHS FShadow;
 
     // UnitHS.PAS:168
-    public override void Destroy()
+    public override void Dispose()
     {
         DestroyShadow();
         SetUnitGFXResourceIndex(-1);
-        base.Destroy();
+        base.Dispose();
     }
 
     // UnitHS.PAS:219
@@ -17484,7 +17487,7 @@ public partial class TUnitHS : THexagonSprite
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 16 && Msg.HN == 0 && AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -17713,7 +17716,7 @@ public partial class TUnitHS : THexagonSprite
                 ((TMapLevel)Owner.Owner).Map.DynamicVisibleHS.RemoveChild(FShadow);
             }
 
-            FShadow.Free();
+            FShadow?.Dispose();
             FShadow = null;
         }
     }
@@ -17909,7 +17912,7 @@ public partial class TActivateAbilityInfo : TEObject
         int Result = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -17941,12 +17944,12 @@ public partial class TAbility : TEObject
     public TSet<TAbilitySelectionType> FSelectionTypes;
 
     // Ability.PAS:1245
-    public override void Destroy()
+    public override void Dispose()
     {
-        FDescription.Free();
-        FSFXLibrary.Free();
-        FImageSequences.Free();
-        base.Destroy();
+        FDescription?.Dispose();
+        FSFXLibrary?.Dispose();
+        FImageSequences?.Dispose();
+        base.Dispose();
     }
 
     // Ability.PAS:1654
@@ -18360,10 +18363,10 @@ public partial class TCustomAbilityList : TEObject
     public int FAbilityCount;
 
     // Ability.PAS:942
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Ability.PAS:1161
@@ -18625,7 +18628,7 @@ public partial class TAbilityOwner : TCustomAbilityList
                     }
                 }
 
-                IDs.Free();
+                IDs?.Dispose();
             }
         }
         else
@@ -18651,7 +18654,7 @@ public partial class TAbilityOwner : TCustomAbilityList
                         Data = Data.FNext;
                     }
 
-                    IDs.Free();
+                    IDs?.Dispose();
                 }
             }
             else
@@ -18874,7 +18877,7 @@ public partial class TAbilityOwner : TCustomAbilityList
                 FAbilityData = Current.FNext;
             }
 
-            Current.Free();
+            Current?.Dispose();
         }
     }
 
@@ -18902,7 +18905,7 @@ public partial class TAbilityOwner : TCustomAbilityList
                 FAbilityData = Current.FNext;
             }
 
-            Current.Free();
+            Current?.Dispose();
         }
     }
 
@@ -19254,18 +19257,18 @@ public partial class TAbilityControl : TEObject
     public FixedArray_Aow_Units_AoWE_TAbilityTypeList_5 FAbilitiesByType;
 
     // Ability.PAS:2044
-    public override void Destroy()
+    public override void Dispose()
     {
         TAbilityType Kind;
         UnregisterAll();
         for (int kindOrdinal = (int)(TAbilityType)0; kindOrdinal <= (int)(TAbilityType)4; kindOrdinal++)
         {
             Kind = (TAbilityType)kindOrdinal;
-            FAbilitiesByType[(int)Kind].Free();
+            FAbilitiesByType[(int)Kind]?.Dispose();
         }
 
-        FAbilities.Free();
-        base.Destroy();
+        FAbilities?.Dispose();
+        base.Dispose();
     }
 
     // Ability.PAS:2053
@@ -19308,7 +19311,7 @@ public partial class TAbilityControl : TEObject
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
+            throw new ArgumentException("Invalid AbilityID (" + ClassNames.ClassNameOf(Ability.GetType()) + ")");
         }
     }
 
@@ -19329,13 +19332,13 @@ public partial class TAbilityControl : TEObject
                 var abilityType = Ability.GetAbilityType();
                 FAbilitiesByType[(int)abilityType].Remove(Ability);
                 ((TAbility)FAbilities.List[ID]).FImageSequences.ReleaseIL();
-                ((TObject)FAbilities.List[ID]).Free();
+                (FAbilities.List[ID] as IDisposable)?.Dispose();
                 FAbilities.List[ID] = null;
             }
         }
         else
         {
-            throw new ArgumentException("Invalid AbilityID (" + ClassNameOf(Ability.GetType()) + ")");
+            throw new ArgumentException("Invalid AbilityID (" + ClassNames.ClassNameOf(Ability.GetType()) + ")");
         }
     }
 
@@ -19393,7 +19396,7 @@ public partial class TAbilityControl : TEObject
             Text.Add("");
         }
 
-        List.Free();
+        List?.Dispose();
     }
 
     // intf_P1_06.inc:178
@@ -19699,7 +19702,7 @@ public partial class TItem : TAbilityOwner
     public sbyte FResistance;
 
     // Army.PAS:4220
-    public override void Destroy()
+    public override void Dispose()
     {
         AddRef();
         if (FStatus.Contains(TItemStatusElement.isActivated))
@@ -19712,8 +19715,8 @@ public partial class TItem : TAbilityOwner
             AoWEUnit.AoWHSMap.FItemControl.UnRegisterItem(this);
         }
 
-        FDescription.Free();
-        base.Destroy();
+        FDescription?.Dispose();
+        base.Dispose();
     }
 
     // Army.PAS:4241
@@ -19793,7 +19796,7 @@ public partial class TItem : TAbilityOwner
         int Result = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -19937,7 +19940,7 @@ public partial class TItem : TAbilityOwner
                         AoWEUnit.AoWHSMap.ShowMessage(format);
                     }
 
-                    Destroy();
+                    Dispose();
                     Hero.Changed();
                     break;
             }
@@ -20058,7 +20061,7 @@ public partial class TItem : TAbilityOwner
             {
                 if (FOwner == null)
                 {
-                    this.Free();
+                    this.Dispose();
                 }
                 else
                 {
@@ -20117,7 +20120,7 @@ public partial class TItem : TAbilityOwner
                 HS = new TItemHS(null);
                 if (!Map.PlaceHX(HS, X, Y, L))
                 {
-                    HS.Free();
+                    HS?.Dispose();
                     HS = null;
                 }
             }
@@ -20172,7 +20175,7 @@ public partial class TItemList : TEChangeNotifyNode
 
     }
 
-    public TNotifyEvent<TObject> FOnChanged;
+    public TNotifyEvent<object> FOnChanged;
 
     // Army.PAS:4537
     // code, data
@@ -20483,11 +20486,11 @@ public partial class TItemLibraryManager : TEObject
     public TENode FLibraries;
 
     // Army.PAS:4974
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLibraries.Free();
-        FSystemLibrary.Free();
-        base.Destroy();
+        FLibraries?.Dispose();
+        FSystemLibrary?.Dispose();
+        base.Dispose();
     }
 
     // Army.PAS:4981
@@ -20539,7 +20542,7 @@ public partial class TItemLibraryManager : TEObject
             }
             catch
             {
-                ItemLibrary.Free();
+                ItemLibrary?.Dispose();
             }
         }
     }
@@ -20629,7 +20632,7 @@ public partial class TItemLibraryManager : TEObject
             // The list goes in both forms, so an original of the same name does not return.
             DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OriginalExtension);
             DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OwnExtension);
-            GetLibrary(Index).Free();
+            GetLibrary(Index)?.Dispose();
         }
     }
 
@@ -20672,7 +20675,7 @@ public partial class TItemControl : TEObject
     public TSet<TItemControlStatusElement> FStatus;
 
     // Army.PAS:4647
-    public override void Destroy()
+    public override void Dispose()
     {
         BeginUpdate();
         for (int I = FItems.Count - 1; I >= 0; I--)
@@ -20682,10 +20685,10 @@ public partial class TItemControl : TEObject
 
         FItems.Clear();
         Changed();
-        FItems.Free();
+        FItems?.Dispose();
         FOnItemChangedStore.Clear();
         FOnChangedStore.Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Army.PAS:4660
@@ -20910,7 +20913,7 @@ public partial class TItemControl : TEObject
             Result = null;
         }
 
-        List.Free();
+        List?.Dispose();
         return Result;
     }
 
@@ -20974,7 +20977,7 @@ public partial class TItemControl : TEObject
             }
         }
 
-        List.Free();
+        List?.Dispose();
         return Result;
     }
 
@@ -21034,10 +21037,10 @@ public partial class TItemHS : TSingleHS
     public TItemGenerateMode FGenerateMode;
 
     // Army.PAS:5221
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FItems.Free();
+        base.Dispose();
+        FItems?.Dispose();
         FItems = null;
     }
 
@@ -21132,11 +21135,11 @@ public partial class TItemHS : TSingleHS
     public override bool CanPlace(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.CanPlace(Map, Xhx, Yhx, Lhx);
 
     // Army.PAS:5228
-    public void ItemsChanged(TObject Sender)
+    public void ItemsChanged(object Sender)
     {
         if (FItems.Count == 0 && (FGenerateMode == TItemGenerateMode.igUserDefined || AoWEUnit.AoWHSMap.FDay > 0))
         {
-            Destroy();
+            Dispose();
         }
         else
         {
@@ -21409,11 +21412,11 @@ public partial class TUnitControl : TEObject
     public TList FUnits;
 
     // Unit.PAS:8
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnits.Free();
-        FUnitTable.Free();
-        base.Destroy();
+        FUnits?.Dispose();
+        FUnitTable?.Dispose();
+        base.Dispose();
     }
 
     // Unit.PAS:14
@@ -21545,7 +21548,7 @@ public partial class TAbstractUnit : TAbilityOwner
     public byte F_AbstractUnit_38;
 
     // Unit.PAS:108
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FUnitStatus.Contains(TUnitStatusElement.usActivated))
         {
@@ -21557,7 +21560,7 @@ public partial class TAbstractUnit : TAbilityOwner
             AoWEUnit.AoWHSMap.UnitDestroyed(this);
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Unit.PAS:518
@@ -21642,7 +21645,7 @@ public partial class TAbstractUnit : TAbilityOwner
         int Result = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -23567,7 +23570,7 @@ public partial class TAbstractUnit : TAbilityOwner
 
                     if (!ArmyHS.FArmy.AddUnit(this) || !AoWEUnit.AoWHSMap.PlaceHX(ArmyHS, Walk.X, Walk.Y, L))
                     {
-                        ArmyHS.Free();
+                        ArmyHS?.Dispose();
                         ArmyHS = null;
                     }
 
@@ -24125,17 +24128,17 @@ public partial class TUnitResource : TAbstractUnitResource
     public TBloodType FBloodType;
 
     // UnitRes.PAS:92
-    public override void Destroy()
+    public override void Dispose()
     {
         TUnitRank Rank;
-        FDescription.Free();
+        FDescription?.Dispose();
         for (int rankOrdinal = (int)(TUnitRank)0; rankOrdinal <= (int)(TUnitRank)2; rankOrdinal++)
         {
             Rank = (TUnitRank)rankOrdinal;
-            FAbilities[(int)Rank].Free();
+            FAbilities[(int)Rank]?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // UnitRes.PAS:156
@@ -24672,7 +24675,7 @@ public partial class TUnit : TAbstractUnit
         AddRef();
         AddRef();
         AddRef();
-        Destroy();
+        Dispose();
     }
 
     // Unit.PAS:1919
@@ -25209,12 +25212,14 @@ public partial class TUnitIndexList : TIntegerList
 
 }
 
+[LegacyObject]
 // FCollectionSize. FUnits
-public partial class TUnitIndexListCollection : TObject
+public partial class TUnitIndexListCollection : IDisposable
 {
     // Unit.PAS:2413
     public TUnitIndexListCollection()
     {
+        CaptureAddress.Assign(this);
         FUnits = new TUnitIndexList();
         FCollectionSize = 8;
     }
@@ -25223,10 +25228,9 @@ public partial class TUnitIndexListCollection : TObject
     public TUnitIndexList FUnits;
 
     // Unit.PAS:2419
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        base.Destroy();
-        FUnits.Free();
+        FUnits?.Dispose();
     }
 
     // Unit.PAS:2424
@@ -25340,10 +25344,10 @@ public partial class TUnitIndexListCollection : TObject
 public partial class TUnitCategoryList : TList
 {
     // Ability.PAS:723
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Ability.PAS:729
@@ -25369,7 +25373,7 @@ public partial class TUnitCategoryList : TList
         {
             if (List[I] != null)
             {
-                ((TUnitIndexList)List[I]).Free();
+                ((TUnitIndexList)List[I])?.Dispose();
             }
         }
 
@@ -25444,15 +25448,15 @@ public partial class TUnitSelectionControl : TStringList
     public THero FSelectedHero;
 
     // Ability.PAS:776
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FRacesEnabled.Free();
-        FTypesEnabled.Free();
-        FRaceUnits.Free();
-        FTypeUnits.Free();
-        FAllUnits.Free();
-        base.Destroy();
+        FRacesEnabled?.Dispose();
+        FTypesEnabled?.Dispose();
+        FRaceUnits?.Dispose();
+        FTypeUnits?.Dispose();
+        FAllUnits?.Dispose();
+        base.Dispose();
     }
 
     // Ability.PAS:787
@@ -25677,11 +25681,13 @@ public partial class TUnitSelectionControl : TStringList
 
 }
 
-public partial class TUnitSelector : TObject
+[LegacyObject]
+public partial class TUnitSelector : IDisposable
 {
     // Ability.PAS:575
     public TUnitSelector()
     {
+        CaptureAddress.Assign(this);
         FUnits = new TUnitUserList(null);
         FReferences = 1;
         FCanceled = false;
@@ -25699,10 +25705,9 @@ public partial class TUnitSelector : TObject
     public TUnitSelectorNotifyEvent FOnCancel;
 
     // Ability.PAS:583
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FUnits.Free();
-        base.Destroy();
+        FUnits?.Dispose();
     }
 
     // Ability.PAS:605
@@ -25779,7 +25784,7 @@ public partial class TUnitSelector : TObject
         int Result = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -25819,7 +25824,7 @@ public partial class TUnitSelectorAAI : TActivateAbilityInfo
     public TUnitSelector FUnitSelector;
 
     // Ability.PAS:696
-    public override void Destroy()
+    public override void Dispose()
     {
         TUnitSelector Selector;
         Selector = FUnitSelector;
@@ -25829,7 +25834,7 @@ public partial class TUnitSelectorAAI : TActivateAbilityInfo
             FUnitSelector = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Ability.PAS:709
@@ -25868,10 +25873,10 @@ public partial class THeroInventory : TItemList
     }
 
     // Hero.PAS:280
-    public override void Destroy()
+    public override void Dispose()
     {
         FOwner = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // Hero.PAS:297
@@ -26026,10 +26031,10 @@ public partial class THeroItems : TItemList
     }
 
     // Hero.PAS:394
-    public override void Destroy()
+    public override void Dispose()
     {
         FOwner = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // Hero.PAS:400
@@ -26309,10 +26314,10 @@ public partial class THeroUpgradeTE : TTokenEvent
     public TAbilityOwner FAbilities;
 
     // Hero.PAS:7
-    public override void Destroy()
+    public override void Dispose()
     {
-        FAbilities.Free();
-        base.Destroy();
+        FAbilities?.Dispose();
+        base.Dispose();
     }
 
     // Hero.PAS:13
@@ -26626,11 +26631,11 @@ public partial class TJoinEventLog : TEventLog
     public string FText = "";
 
     // Diplomacy.pas:12
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnitIDs.Free();
-        FJoinMessage.Free();
-        base.Destroy();
+        FUnitIDs?.Dispose();
+        FJoinMessage?.Dispose();
+        base.Dispose();
     }
 
     // Diplomacy.pas:19
@@ -27034,7 +27039,7 @@ public partial class THero : TAbstractUnit
     public bool FRegistered;
 
     // Hero.PAS:631
-    public override void Destroy()
+    public override void Dispose()
     {
         AddRef();
         AddRef();
@@ -27046,10 +27051,10 @@ public partial class THero : TAbstractUnit
             AoWEUnit.AoWHSMap.FHeroControl.UnRegisterHero(this);
         }
 
-        base.Destroy();
-        FHeroItems.Free();
-        FInventory.Free();
-        FPowerSource.Free();
+        base.Dispose();
+        FHeroItems?.Dispose();
+        FInventory?.Dispose();
+        FPowerSource?.Dispose();
     }
 
     // Hero.PAS:683
@@ -28585,7 +28590,7 @@ public partial class THero : TAbstractUnit
                 break;
         }
 
-        Choices.Free();
+        Choices?.Dispose();
     }
 
     // Hero.PAS:1269
@@ -29491,15 +29496,15 @@ public partial class TLeader : THero
     public TByteList FSpheres;
 
     // Hero.PAS:2766
-    public override void Destroy()
+    public override void Dispose()
     {
         if (AoWEUnit.AoWHSMap != null && AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer) != null && this == AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader)
         {
             AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FPlayer).SetLeader(null);
         }
 
-        base.Destroy();
-        FSpheres.Free();
+        base.Dispose();
+        FSpheres?.Dispose();
     }
 
     // Hero.PAS:2898
@@ -29539,7 +29544,7 @@ public partial class TLeader : THero
             }
             else
             {
-                Destroy();
+                Dispose();
             }
         }
     }
@@ -29996,7 +30001,7 @@ public partial class THeroControl : TEObject
     public THeroList FHeroes;
 
     // Hero.PAS:2421
-    public override void Destroy()
+    public override void Dispose()
     {
         BeginUpdate();
         for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
@@ -30004,10 +30009,10 @@ public partial class THeroControl : TEObject
             UnRegisterHero((THero)FHeroes.FChildren.List[I]);
         }
 
-        FHeroes.Free();
+        FHeroes?.Dispose();
         FOnHeroChangedStore.Clear();
         FOnChangedStore.Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Hero.PAS:2435
@@ -30130,7 +30135,7 @@ public partial class THeroControl : TEObject
             {
                 if (Hero.Owner == null)
                 {
-                    Hero.Free();
+                    Hero?.Dispose();
                 }
                 else
                 {
@@ -30401,11 +30406,11 @@ public partial class THeroLibraryManager : TEObject
     public TENode FLibraries;
 
     // Hero.PAS:2653
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLibraries.Free();
-        FSystemLibrary.Free();
-        base.Destroy();
+        FLibraries?.Dispose();
+        FSystemLibrary?.Dispose();
+        base.Dispose();
     }
 
     // Hero.PAS:2656
@@ -30457,7 +30462,7 @@ public partial class THeroLibraryManager : TEObject
             }
             catch
             {
-                Lib.Free();
+                Lib?.Dispose();
             }
         }
     }
@@ -30546,7 +30551,7 @@ public partial class THeroLibraryManager : TEObject
             // The list goes in both forms, so an original of the same name does not return.
             DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OriginalExtension);
             DeleteFile(AoWEUnit.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OwnExtension);
-            GetLibrary(Index).Free();
+            GetLibrary(Index)?.Dispose();
         }
     }
 
@@ -30586,10 +30591,10 @@ public partial class THeroResource : TAbstractUnitResource
     public int FFaceIndex;
 
     // Hero.PAS:2320
-    public override void Destroy()
+    public override void Dispose()
     {
-        FAbilities.Free();
-        base.Destroy();
+        FAbilities?.Dispose();
+        base.Dispose();
     }
 
     // Hero.PAS:2341
@@ -30895,10 +30900,10 @@ public partial class TArmyID : TEObject
     public byte F_ArmyID_13;
 
     // Army.PAS:7
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnitIDs.Free();
-        base.Destroy();
+        FUnitIDs?.Dispose();
+        base.Dispose();
     }
 
     // Army.PAS:24
@@ -31008,7 +31013,7 @@ public partial class TArmy : TUnitList
     public sbyte FIndependentRelation;
     public byte FUnfogRange;
     public byte FUpkeep;
-    public TNotifyEvent<TObject> FOnUpdate;
+    public TNotifyEvent<object> FOnUpdate;
     public TGroupBehavior FOldAIBehavior;
     public sbyte FDestinationX;
     public sbyte FDestinationY;
@@ -31018,7 +31023,7 @@ public partial class TArmy : TUnitList
     public byte FConcealedUnits;
 
     // Army.PAS:336
-    public override void Destroy()
+    public override void Dispose()
     {
         if (!AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
         {
@@ -31026,7 +31031,7 @@ public partial class TArmy : TUnitList
         }
 
         FOnUpdate = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // Army.PAS:588
@@ -33181,7 +33186,7 @@ public partial class TArmy : TUnitList
             Result = TAddUnitsResult.arMultipleTransporters;
         }
 
-        List.Free();
+        List?.Dispose();
         return Result;
     }
 
@@ -33215,7 +33220,7 @@ public partial class TArmy : TUnitList
             }
 
             Units.EndUpdate();
-            List.Free();
+            List?.Dispose();
         }
 
         return Result;
@@ -33278,7 +33283,7 @@ public partial class TArmy : TUnitList
                     else
                     {
                         Result.FArmy.Kill(255);
-                        Result.Free();
+                        Result?.Dispose();
                         Result = null;
                     }
                 }
@@ -33396,7 +33401,7 @@ public partial class TArmy : TUnitList
                     Armies.AddChild(ArmyHS);
                 }
 
-                ((TArmy)Races.List[I]).Free();
+                ((TArmy)Races.List[I])?.Dispose();
                 Races.List[I] = null;
             }
         }
@@ -33409,7 +33414,7 @@ public partial class TArmy : TUnitList
                 Armies.AddChild(ArmyHS);
             }
 
-            GoodArmy.Free();
+            GoodArmy?.Dispose();
         }
 
         if (EvilArmy != null)
@@ -33420,11 +33425,11 @@ public partial class TArmy : TUnitList
                 Armies.AddChild(ArmyHS);
             }
 
-            EvilArmy.Free();
+            EvilArmy?.Dispose();
         }
 
-        Units.Free();
-        Races.Free();
+        Units?.Dispose();
+        Races?.Dispose();
     }
 
     // Army.PAS:2029
@@ -33680,8 +33685,8 @@ public partial class TArmy : TUnitList
             }
         }
 
-        Armies.Free();
-        Units.Free();
+        Armies?.Dispose();
+        Units?.Dispose();
         AoWEUnit.AoWHSMap.UnlockGameOverEvent();
     }
 
@@ -33756,7 +33761,7 @@ public partial class TArmy : TUnitList
             }
         }
 
-        Predictor.Free();
+        Predictor?.Dispose();
         return Result;
     }
 
@@ -34136,7 +34141,7 @@ public partial class TArmy : TUnitList
                             }
                         }
 
-                        Locations.Free();
+                        Locations?.Dispose();
                     }
                     else
                     {
@@ -34646,11 +34651,11 @@ public partial class TArmyHS : TUnitHS
     public sbyte FMoveSteps;
 
     // Army.PAS:2654
-    public override void Destroy()
+    public override void Dispose()
     {
         FArmy.FOnUpdate = null;
-        base.Destroy();
-        FArmy.Free();
+        base.Dispose();
+        FArmy?.Dispose();
         FArmy = null;
     }
 
@@ -35062,14 +35067,14 @@ public partial class TArmyHS : TUnitHS
             {
                 if (!AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
                 {
-                    Destroy();
+                    Dispose();
                     return;
                 }
             }
         }
         else
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -35343,7 +35348,7 @@ public partial class TArmyHS : TUnitHS
     public bool VisibleForSeatedPlayer() => (!AoWEUnit.AoWHSMap.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((TAoWMapField)Owner).FFieldFlags).Hi).Lo != 0) && !FArmy.GetFullyConcealed();
 
     // Army.PAS:2745
-    public void ArmyUpdated(TObject Sender)
+    public void ArmyUpdated(object Sender)
     {
         TMapFieldMsg Msg = default;
         if (FArmy.Count != 0)
@@ -35365,7 +35370,7 @@ public partial class TArmyHS : TUnitHS
         {
             if (Sender == FArmy)
             {
-                Destroy();
+                Dispose();
             }
         }
     }
@@ -35512,13 +35517,13 @@ public partial class TArmyEventLog : TEventLog
     public bool FGameOver;
 
     // Army.PAS:150
-    public override void Destroy()
+    public override void Dispose()
     {
-        FArmyMessages.Free();
-        FArmyView.Free();
-        FDamageValues.Free();
-        FDamageTypes.Free();
-        base.Destroy();
+        FArmyMessages?.Dispose();
+        FArmyView?.Dispose();
+        FDamageValues?.Dispose();
+        FDamageTypes?.Dispose();
+        base.Dispose();
     }
 
     // Army.PAS:162
@@ -35663,11 +35668,11 @@ public partial class TArmyInfoEventLog : TEventLog
     public TSet<TExecuteTrigger> FTriggers;
 
     // Army.PAS:263
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessages.Free();
-        FArmyView.Free();
-        base.Destroy();
+        FMessages?.Dispose();
+        FArmyView?.Dispose();
+        base.Dispose();
     }
 
     // Army.PAS:273
@@ -35771,13 +35776,13 @@ public partial class TRaceResource : TEResource
     public TStringList FHeroNames;
 
     // PlayerC.PAS:1740
-    public override void Destroy()
+    public override void Dispose()
     {
         ReleaseIL();
-        FUnitIndexes.Free();
-        FSpecialUnitIndexes.Free();
-        FHeroNames.Free();
-        base.Destroy();
+        FUnitIndexes?.Dispose();
+        FSpecialUnitIndexes?.Dispose();
+        FHeroNames?.Dispose();
+        base.Dispose();
     }
 
     // PlayerC.PAS:1749
@@ -36078,14 +36083,14 @@ public partial class TStructureShadow : THexagonSprite
     public TStructure FStructure;
 
     // Structur.PAS:934
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FShadowStatus.Contains(TStructureShadowStatusElement.sssVisible))
         {
             AoWEUnit.AoWHSMap.StaticVisibleHS.RemoveChild(this);
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Structur.PAS:940
@@ -36185,7 +36190,7 @@ public partial class TStructure : TFixedILTerrainMO
     public bool FFogged;
 
     // Structur.PAS:1017
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FShadow != null)
         {
@@ -36197,7 +36202,7 @@ public partial class TStructure : TFixedILTerrainMO
             Owner.DestroyChildren(131334);
         }
 
-        base.Destroy();
+        base.Dispose();
         if (AoWEUnit.AoWHSMap != null && !AoWEUnit.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
         {
             AoWEUnit.AoWHSMap.StructureDestroyed(this);
@@ -36886,7 +36891,7 @@ public partial class TStructure : TFixedILTerrainMO
                 FShadow.Disconnect();
             }
 
-            FShadow.Free();
+            FShadow?.Dispose();
             FShadow = null;
         }
     }
@@ -36990,7 +36995,7 @@ public partial class TStructure : TFixedILTerrainMO
                 Units.DeleteUnit(Units.GetUnit(Units.Count - 1));
             }
 
-            Indexes.Free();
+            Indexes?.Dispose();
         }
 
         return true;
@@ -37028,9 +37033,9 @@ public partial class TStructure : TFixedILTerrainMO
             Result = false;
         }
 
-        Attackers.Free();
-        Placed.Free();
-        Defenders.Free();
+        Attackers?.Dispose();
+        Placed?.Dispose();
+        Defenders?.Dispose();
         return Result;
     }
 
@@ -37121,7 +37126,7 @@ public partial class TStructure : TFixedILTerrainMO
             }
         }
 
-        Errors.Free();
+        Errors?.Dispose();
         return Result;
     }
 
@@ -37352,7 +37357,7 @@ public partial class TStructure : TFixedILTerrainMO
                 }
             }
 
-            Units.Free();
+            Units?.Dispose();
             GenerateRazeDefenders(Player, Defenders);
             for (int I = 0, last = Defenders.Count - 1; I <= last; I++)
             {
@@ -37366,8 +37371,8 @@ public partial class TStructure : TFixedILTerrainMO
                 Reason = AoWEUnit.TranslateRStr(AoWEUnit.NotEnoughForcesRStr);
             }
 
-            Defenders.Free();
-            Predictor.Free();
+            Defenders?.Dispose();
+            Predictor?.Dispose();
         }
         else
         {
@@ -37417,7 +37422,7 @@ public partial class TStructure : TFixedILTerrainMO
             }
         }
 
-        Table.Free();
+        Table?.Dispose();
     }
 
     // Structur.PAS:1087
@@ -37550,7 +37555,7 @@ public partial class TStructure : TFixedILTerrainMO
             }
             finally
             {
-                Surface.Free();
+                Surface?.Dispose();
             }
         }
 
@@ -37586,10 +37591,10 @@ public partial class TStructureControl : TEObject
     public int FCityCount;
 
     // Structur.PAS:3227
-    public override void Destroy()
+    public override void Dispose()
     {
-        FStructures.Free();
-        base.Destroy();
+        FStructures?.Dispose();
+        base.Dispose();
     }
 
     // Structur.PAS:3245
@@ -37742,11 +37747,11 @@ public partial class TStructureResource : TFixedILTerrainMOR
     public int FRazeDefenderBudget;
 
     // Structur.PAS:1904
-    public override void Destroy()
+    public override void Dispose()
     {
-        FDescription.Free();
-        FDefenders.Free();
-        base.Destroy();
+        FDescription?.Dispose();
+        FDefenders?.Dispose();
+        base.Dispose();
     }
 
     // Structur.PAS:1929
@@ -37950,10 +37955,10 @@ public partial class TPlayerStructure : TStructure
     public byte FUnfogRange;
 
     // Structur.PAS:1977
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FVictoryLocations.Free();
+        base.Dispose();
+        FVictoryLocations?.Dispose();
     }
 
     // Structur.PAS:2180
@@ -38738,12 +38743,6 @@ public partial class TPlayerStructureResource : TStructureResource
     public int FFlagY;
     public TFlagControl FFlagControl;
 
-    // Structur.PAS:2430
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Structur.PAS:2456
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -38952,7 +38951,7 @@ public partial class TFrozenWaterHS : TSingleHS
         base.TerrainChanged(Info);
         if (Info.HN == 0 && !TSet<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)Info.TerrainType))
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -38990,7 +38989,7 @@ public partial class TFrozenWaterHS : TSingleHS
             }
             else
             {
-                Destroy();
+                Dispose();
             }
         }
     }
@@ -39020,11 +39019,11 @@ public partial class TPadControl : TEControlStyleObject
     public TBitList FTerrainTypes;
 
     // MoveT.PAS:3622
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTerrainTypes.Free();
-        FPadResources.Free();
-        base.Destroy();
+        FTerrainTypes?.Dispose();
+        FPadResources?.Dispose();
+        base.Dispose();
     }
 
     // MoveT.PAS:3614
@@ -39091,7 +39090,7 @@ public partial class TPadControl : TEControlStyleObject
         {
             Pad = (TILTerrainMO)Resource.CreateResourceUser();
             Result = Pad.CanPlace(AoWEUnit.AoWHSMap.MapContainer, X, Y, L);
-            Pad.Free();
+            Pad?.Dispose();
         }
         else
         {
@@ -39129,11 +39128,11 @@ public partial class TFlagControl : TEControlStyleObject
     public TCustomImageLibrary FFlags;
 
     // PlayerC.PAS:1920
-    public override void Destroy()
+    public override void Dispose()
     {
         AoWEUnit.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "Flags.ILB");
         FFlags = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // PlayerC.PAS:1909
@@ -39248,18 +39247,18 @@ public partial class TAoWHSSet : THSSet
     public int FHSSCRC;
 
     // Ability.PAS:74
-    public override void Destroy()
+    public override void Dispose()
     {
-        FFireControl.Free();
-        FImageSequences.Free();
-        FTextControl.Free();
+        FFireControl?.Dispose();
+        FImageSequences?.Dispose();
+        FTextControl?.Dispose();
         FAbilityControl.UnregisterAll();
         FSpellControl.UnregisterAll();
-        FItemLibraries.Free();
-        FHeroLibraries.Free();
-        base.Destroy();
-        FAbilityControl.Free();
-        FSpellControl.Free();
+        FItemLibraries?.Dispose();
+        FHeroLibraries?.Dispose();
+        base.Dispose();
+        FAbilityControl?.Dispose();
+        FSpellControl?.Dispose();
     }
 
     // Ability.PAS:131
@@ -39476,7 +39475,7 @@ public partial class TAoWHSSet : THSSet
         }
         finally
         {
-            FileStream.Free();
+            FileStream?.Dispose();
         }
 
         return Result;
@@ -39503,7 +39502,7 @@ public partial class TAoWHSSet : THSSet
         // with its original (own-formats.md 4.1). The PFS files keep their original bytes.
         CRCs.Add(FileBoundary.ImageTailInt32(FileBoundary.ReadName(Path + "RELEASE.HSS"), Aow.Formats.GameProfile.ScenarioSet));
         int Result = GetCRC32(MemoryMarshal.AsBytes(CRCs.List.AsSpan()), CRCs.Count * 4);
-        CRCs.Free();
+        CRCs?.Dispose();
         return Result;
     }
 
@@ -39586,10 +39585,10 @@ public partial class TEmailGameControl : TEObject
     public TEmailGameList FGames;
 
     // Diplomacy.pas:2495
-    public override void Destroy()
+    public override void Dispose()
     {
-        FGames.Free();
-        base.Destroy();
+        FGames?.Dispose();
+        base.Dispose();
     }
 
     // Diplomacy.pas:2498
@@ -39774,7 +39773,7 @@ public partial class TEmailGameControl : TEObject
                                         }
                                     }
 
-                                    PreviousMap.Free();
+                                    PreviousMap?.Dispose();
                                 }
                             }
                         }
@@ -39797,7 +39796,7 @@ public partial class TEmailGameControl : TEObject
                 }
             }
 
-            Map.Free();
+            Map?.Dispose();
         }
         catch
         {
@@ -39855,10 +39854,10 @@ public partial class TSMTPEventLog : TEventLog
     public string FError = "";
 
     // Diplomacy.pas:2447
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
 }
@@ -40246,7 +40245,7 @@ public partial class TFire : TILTerrainMO
             }
             else
             {
-                Destroy();
+                Dispose();
             }
         }
         else
@@ -40260,7 +40259,7 @@ public partial class TFire : TILTerrainMO
     {
         if (FTurnsLeft != 0)
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -40280,14 +40279,14 @@ public partial class TFireResource : TILTerrainMOR
 
     // Structur.PAS:3685
     // FFireType
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FEngine != null && !AoWEUnit.AoWHSSet.Status.Contains(THSSetStatusElement.ssDestroying))
         {
             AoWEUnit.AoWHSSet.FFireControl.UnregisterFireResource(this);
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Structur.PAS:3707
@@ -40315,23 +40314,24 @@ public partial class TFireResource : TILTerrainMOR
 
 }
 
+[LegacyObject]
 // FResources
-public partial class TFireControl : TObject
+public partial class TFireControl : IDisposable
 {
     // Structur.PAS:3720
     // FResources
     public TFireControl()
     {
+        CaptureAddress.Assign(this);
         FResources = new TList();
     }
 
     public TList FResources;
 
     // Structur.PAS:3726
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FResources.Free();
-        base.Destroy();
+        FResources?.Dispose();
     }
 
     // Structur.PAS:3732
@@ -40358,7 +40358,7 @@ public partial class TFireControl : TObject
             Result = null;
         }
 
-        Resources.Free();
+        Resources?.Dispose();
         return Result;
     }
 
@@ -40375,7 +40375,7 @@ public partial class TFireControl : TObject
             Fire.FPlayer = AoWEUnit.AoWHSMap.FCurrentPlayer;
             if (!AoWEUnit.AoWHSMap.PlaceHX(Fire, X, Y, L))
             {
-                Fire.Free();
+                Fire?.Dispose();
                 Result = null;
             }
             else
@@ -40408,16 +40408,18 @@ public partial class TFireControl : TObject
 
 }
 
+[LegacyObject]
 // { Interface declaration run owned by P3. }
 // FUnit. FCPUID. FPredictor. FInitialHitPoints. FSide. FOpponents. FEnabled. FBehindWall.
 // FTargets. FCombatValue. FWallTargets. FWallCombatValue. cache flags. FRoundTargets.
 // FCombatValueTotal. FCombatRounds. FIncomingCombatValue. FIneffectiveAttackers.
 // FTargetPriority. FHitPoints. FStatus
-public partial class TCombatPredictorUnit : TObject
+public partial class TCombatPredictorUnit : IDisposable
 {
     // CombatPredictor.pas:1
     public TCombatPredictorUnit()
     {
+        CaptureAddress.Assign(this);
         FRoundTargets = new TQuadItemList<TCombatPredictorUnit>();
     }
 
@@ -40445,22 +40447,22 @@ public partial class TCombatPredictorUnit : TObject
     public TSet<TCombatPredictorUnitStatusElement> FStatus;
 
     // CombatPredictor.pas:4
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        TObject Obj;
+        object Obj;
         TAbstractUnit U;
-        FRoundTargets.Free();
+        FRoundTargets?.Dispose();
         Obj = FTargets;
         if (Obj != null)
         {
-            Obj.Free();
+            (Obj as IDisposable)?.Dispose();
             FTargets = null;
         }
 
         Obj = FWallTargets;
         if (Obj != null)
         {
-            Obj.Free();
+            (Obj as IDisposable)?.Dispose();
             FWallTargets = null;
         }
 
@@ -40470,8 +40472,6 @@ public partial class TCombatPredictorUnit : TObject
             U.Release();
             FUnit = null;
         }
-
-        base.Destroy();
     }
 
     // CombatPredictor.pas:36
@@ -40912,13 +40912,15 @@ public partial class TCombatPredictorSide : TCombatPredictorUnitList
 
 }
 
+[LegacyObject]
 // FAllUnits. FActiveUnits. FSides. FResult. FSuperiority. FEfficiency. FWall. FRound.
 // FNextCPUID. FInvalid. FWork
-public partial class TCombatPredictor : TObject
+public partial class TCombatPredictor : IDisposable
 {
     // CombatPredictor.pas:292
     public TCombatPredictor()
     {
+        CaptureAddress.Assign(this);
         FAllUnits = new TCombatPredictorUnitList();
         FActiveUnits = new TCombatPredictorUnitList();
         var combatPredictorSide = new TCombatPredictorSide();
@@ -40940,14 +40942,13 @@ public partial class TCombatPredictor : TObject
     public int FWork;
 
     // CombatPredictor.pas:301
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Reset();
-        FAllUnits.Free();
-        FActiveUnits.Free();
-        FSides[0].Free();
-        FSides[1].Free();
-        base.Destroy();
+        FAllUnits?.Dispose();
+        FActiveUnits?.Dispose();
+        FSides[0]?.Dispose();
+        FSides[1]?.Dispose();
     }
 
     // CombatPredictor.pas:311
@@ -40955,7 +40956,7 @@ public partial class TCombatPredictor : TObject
     {
         for (int I = FAllUnits.Count - 1; I >= 0; I--)
         {
-            ((TObject)FAllUnits.List[I]).Free();
+            (FAllUnits.List[I] as IDisposable)?.Dispose();
         }
 
         FWall = null;
@@ -41262,7 +41263,7 @@ public partial class TCombatPredictor : TObject
 
             FInvalid = 1;
             FAllUnits.Delete(I);
-            U.Free();
+            U?.Dispose();
         }
     }
 
@@ -41792,7 +41793,7 @@ public partial class TCombatPredictor : TObject
                 }
             }
 
-            List.Free();
+            List?.Dispose();
         }
         else
         {
@@ -41909,7 +41910,7 @@ public partial class TCombatPredictor : TObject
             }
         }
 
-        U.Free();
+        U?.Dispose();
         return Result;
     }
 
@@ -41953,16 +41954,16 @@ public partial class TCombatObject : TEObject
     public TSet<TCombatObjectControlModeElement> FControlMode;
 
     // Combat.pas:1930
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FStatus.Contains(TCombatObjectStatusElement.csActivated))
         {
             Deactivate();
         }
 
-        FTargets.Free();
-        FTargetedBy.Free();
-        base.Destroy();
+        FTargets?.Dispose();
+        FTargetedBy?.Dispose();
+        base.Dispose();
     }
 
     // Combat.pas:5620
@@ -42263,7 +42264,7 @@ public partial class TCombatObject : TEObject
     // Combat.pas:5700
     public virtual void Finalize(TFinalizeMode Mode)
     {
-        Destroy();
+        Dispose();
     }
 
     // Combat.pas:5614
@@ -42711,10 +42712,10 @@ public partial class TCombatUnit : TCombatObject
     public int FUnitGFXResourceIndex;
 
     // Combat.pas:1078
-    public override void Destroy()
+    public override void Dispose()
     {
         SetUnit(null);
-        base.Destroy();
+        base.Dispose();
     }
 
     // Combat.pas:1382
@@ -43098,7 +43099,7 @@ public partial class TCombatUnit : TCombatObject
 
                         if (Placed != null)
                         {
-                            Destroy();
+                            Dispose();
                         }
                     }
                 }
@@ -43127,7 +43128,7 @@ public partial class TCombatUnit : TCombatObject
                         FUnit.Place(FCombat.FCombatData.FX, FCombat.FCombatData.FY, FCombat.FCombatData.FL, player2, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
                     }
 
-                    Destroy();
+                    Dispose();
                 }
                 else
                 {
@@ -43141,7 +43142,7 @@ public partial class TCombatUnit : TCombatObject
         }
         else
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -43625,12 +43626,6 @@ public partial class TCombatWall : TCombatObject
     public byte FHitPoints;
     public bool FLocked;
 
-    // Combat.pas:1667
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Combat.pas:1724
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -43818,12 +43813,6 @@ public partial class TCombatSide : TENode
     public int FStrength;
     public int FConquerCount;
 
-    // Combat.pas:6005
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Combat.pas:6002
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -43929,13 +43918,15 @@ public partial class TCombatSide : TENode
 
 }
 
+[LegacyObject]
 // { Interface declaration run owned by P5. }
 // ability ID, source DV, target DV, expected DV, move cost, target
-public partial class TFastCombatCommand : TObject
+public partial class TFastCombatCommand
 {
     // AIGroup.pas:6705
     public TFastCombatCommand(int AbilityID)
     {
+        CaptureAddress.Assign(this);
         FAbilityID = AbilityID;
     }
 
@@ -43962,12 +43953,14 @@ public partial class TFastCombatCommand : TObject
 
 }
 
+[LegacyObject]
 // source, source side, target side, combat, command list
-public partial class TFastCombatCommandList : TObject
+public partial class TFastCombatCommandList : IDisposable
 {
     // AIGroup.pas:6716
     public TFastCombatCommandList(TCombatObject Source, TFastCombat Combat, TCombatSide Side)
     {
+        CaptureAddress.Assign(this);
         FCommands = new TList();
         FSource = Source;
         FCombat = Combat;
@@ -43989,11 +43982,10 @@ public partial class TFastCombatCommandList : TObject
     public TList FCommands;
 
     // AIGroup.pas:6727
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        FCommands.Free();
-        base.Destroy();
+        FCommands?.Dispose();
     }
 
     // AIGroup.pas:6734
@@ -44001,7 +43993,7 @@ public partial class TFastCombatCommandList : TObject
     {
         for (int I = FCommands.Count - 1; I >= 0; I--)
         {
-            ((TObject)FCommands.List[I]).Free();
+            (FCommands.List[I] as IDisposable)?.Dispose();
         }
 
         FCommands.Clear();
@@ -44022,7 +44014,7 @@ public partial class TFastCombatCommandList : TObject
     // AIGroup.pas:6757
     public void Delete(int Index)
     {
-        ((TObject)FCommands.List[Index]).Free();
+        (FCommands.List[Index] as IDisposable)?.Dispose();
         FCommands.Delete(Index);
     }
 
@@ -44036,12 +44028,14 @@ public partial class TFastCombatCommandList : TObject
 
 }
 
+[LegacyObject]
 // FStatus. FCombat. FDelay. FSpeed. FPosition. FTime. FLogbook
-public partial class TCombatViewer : TObject
+public partial class TCombatViewer : IDisposable
 {
     // Combat2.pas:546
     public TCombatViewer()
     {
+        CaptureAddress.Assign(this);
         FCombat = new TCombat(null);
         FTime = -1;
         FSpeed = 5;
@@ -44057,15 +44051,14 @@ public partial class TCombatViewer : TObject
     public TCombatLogbook FLogbook;
 
     // Combat2.pas:555
-    public override void Destroy()
+    public virtual void Dispose()
     {
         if (FStatus.Contains(TCombatViewerStatusElement.vsInitialized))
         {
             Finalize();
         }
 
-        FCombat.Free();
-        base.Destroy();
+        FCombat?.Dispose();
     }
 
     // Combat2.pas:562
@@ -44329,14 +44322,14 @@ public partial class TCombatAction : TEObject
         int Result = N;
         if (N == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
     }
 
     // Combat2.pas:713
-    public virtual string GetName() => ClassNameOf(this.GetType());
+    public virtual string GetName() => ClassNames.ClassNameOf(this.GetType());
 
     // intf_P3_02.inc:42
     public virtual void Execute(TCombat Combat)
@@ -44983,11 +44976,11 @@ public partial class TCombatParty : TEObject
     public byte FPlayerIndex;
 
     // Combat2.pas:40
-    public override void Destroy()
+    public override void Dispose()
     {
         FArmy.Deactivate();
-        FArmy.Free();
-        base.Destroy();
+        FArmy?.Dispose();
+        base.Dispose();
     }
 
     // Combat2.pas:50
@@ -45133,12 +45126,6 @@ public partial class TCombatPlayerList : TENode
     {
     }
 
-    // Combat2.pas:129
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Combat2.pas:132
     public TCombatPlayer GetPlayers(sbyte Index) => (TCombatPlayer)FChildren.List[Index];
 
@@ -45179,7 +45166,7 @@ public partial class TCombatPlayerList : TENode
     // Combat2.pas:159
     public void Delete(int Index)
     {
-        GetPlayers((sbyte)Index).Free();
+        GetPlayers((sbyte)Index)?.Dispose();
     }
 
     // intf_P3_02.inc:212
@@ -45228,15 +45215,15 @@ public partial class TCombatData : TEObject
     public TCombatWall FWall;
 
     // Combat2.pas:173
-    public override void Destroy()
+    public override void Dispose()
     {
-        FParties.Free();
-        FPlayers.Free();
-        FCombatObjects.Free();
-        FDefeatedLeaders.Free();
-        FInvolvedLeaders.Free();
-        FTurnOrder.Free();
-        base.Destroy();
+        FParties?.Dispose();
+        FPlayers?.Dispose();
+        FCombatObjects?.Dispose();
+        FDefeatedLeaders?.Dispose();
+        FInvolvedLeaders?.Dispose();
+        FTurnOrder?.Dispose();
+        base.Dispose();
     }
 
     // Combat2.pas:212
@@ -45345,13 +45332,13 @@ public partial class TCombatLogbook : TEObject
     public bool F_CombatLogbook_19;
 
     // Combat2.pas:359
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FActions.Free();
-        FFinalData.Free();
-        FInitialData.Free();
-        base.Destroy();
+        FActions?.Dispose();
+        FFinalData?.Dispose();
+        FInitialData?.Dispose();
+        base.Dispose();
     }
 
     // Combat2.pas:396
@@ -45380,7 +45367,7 @@ public partial class TCombatLogbook : TEObject
         int Result = N;
         if (N == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -45456,7 +45443,7 @@ public partial class TCombat : TEObject
 
     // item list or prisoners army
     // Combat.pas:6082
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FStatus.Contains(TCombatStatusElement.cActivated))
         {
@@ -45469,11 +45456,11 @@ public partial class TCombat : TEObject
         }
 
         FExecutedEventsStore.Clear();
-        FSides[(int)TCombatSideIndex.csAttacker].Free();
-        FSides[(int)TCombatSideIndex.csDefender].Free();
-        FCombatData.Free();
+        FSides[(int)TCombatSideIndex.csAttacker]?.Dispose();
+        FSides[(int)TCombatSideIndex.csDefender]?.Dispose();
+        FCombatData?.Dispose();
         FLogbook.Release();
-        base.Destroy();
+        base.Dispose();
     }
 
     // Combat.pas:6103
@@ -46335,7 +46322,7 @@ public partial class TCombatEventLog : TEventLog
     public TCombatLogbook FLogbook;
 
     // Combat2.pas:405
-    public override void Destroy()
+    public override void Dispose()
     {
         TCombatLogbook L;
         L = FLogbook;
@@ -46345,7 +46332,7 @@ public partial class TCombatEventLog : TEventLog
             FLogbook = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Combat2.pas:428
@@ -46521,17 +46508,17 @@ public partial class TCombatTypeRequestEventLog : TEventLog
     public TArmyID FArmyID;
 
     // Combat2.pas:1
-    public override void Destroy()
+    public override void Dispose()
     {
-        TObject Obj;
+        object Obj;
         SetTokenEvent(null);
         Obj = FArmyID;
         if (Obj != null)
         {
-            Obj.Free();
+            (Obj as IDisposable)?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Combat2.pas:18
@@ -46644,10 +46631,10 @@ public partial class TAIPlayerActionManager : TEObject
     public TList FRegisteredClasses;
 
     // AI.pas:42
-    public override void Destroy()
+    public override void Dispose()
     {
-        FRegisteredClasses.Free();
-        base.Destroy();
+        FRegisteredClasses?.Dispose();
+        base.Dispose();
     }
 
     // AI.pas:48
@@ -46772,12 +46759,12 @@ public partial class TAIPlayerControl : TEObject
     public float FDefenseStrengthMultiplier;
 
     // AI.pas:92
-    public override void Destroy()
+    public override void Dispose()
     {
         Reset();
         try
         {
-            FActions.Free();
+            FActions?.Dispose();
             FActions = null;
         }
         catch
@@ -46786,14 +46773,14 @@ public partial class TAIPlayerControl : TEObject
 
         try
         {
-            FMoveExecuter.Free();
+            FMoveExecuter?.Dispose();
             FMoveExecuter = null;
         }
         catch
         {
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // AI.pas:108
@@ -46867,7 +46854,7 @@ public partial class TAIPlayerControl : TEObject
                 }
                 else
                 {
-                    Action.Free();
+                    Action?.Dispose();
                 }
             }
         }
@@ -47030,7 +47017,7 @@ public partial class TAIPlayerControl : TEObject
                 Units.Delete(0);
             }
 
-            Units.Free();
+            Units?.Dispose();
         }
     }
 
@@ -47202,7 +47189,7 @@ public partial class TAIPlayerControl : TEObject
             }
         }
 
-        Players.Free();
+        Players?.Dispose();
     }
 
     // AI.pas:375
@@ -47276,11 +47263,11 @@ public partial class TAIPlayerControl : TEObject
                 }
             }
 
-            Peace.Free();
-            War.Free();
-            Unknown.Free();
-            IdealPeace.Free();
-            IdealWar.Free();
+            Peace?.Dispose();
+            War?.Dispose();
+            Unknown?.Dispose();
+            IdealPeace?.Dispose();
+            IdealWar?.Dispose();
         }
         else
         {
@@ -47350,11 +47337,11 @@ public partial class TAIPlayerControl : TEObject
             }
 
             Result = !(WarCount > PeaceCount && FPlayer.FDiplomaticRelations.GetHistory((sbyte)Player).GetRelationOnDay(0) != TDiplomaticRelation.drWar);
-            Peace.Free();
-            War.Free();
-            Unknown.Free();
-            IdealPeace.Free();
-            IdealWar.Free();
+            Peace?.Dispose();
+            War?.Dispose();
+            Unknown?.Dispose();
+            IdealPeace?.Dispose();
+            IdealWar?.Dispose();
         }
         else
         {
@@ -47427,10 +47414,10 @@ public partial class TAIExecuter : TEObject
     public int FLockCount;
 
     // AI.pas:569
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPlayers.Free();
-        base.Destroy();
+        FPlayers?.Dispose();
+        base.Dispose();
     }
 
     // AI.pas:575
@@ -47553,7 +47540,7 @@ public partial class TAIExecuter : TEObject
     }
 
     // AI.pas:644
-    public void TokenControlDoneEvent(TObject Sender)
+    public void TokenControlDoneEvent(object Sender)
     {
         if (FStatus.Contains(TAIExecuterStatusElement.aesEnabled) && AoWEUnit.AoWHSMap.FPlayMode == TPlayMode.pmSimultaneous)
         {
@@ -47709,7 +47696,7 @@ public partial class TAIMoveControlSettings : TEObject
     public int FDestinationY;
     public int FDestinationL;
     public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
-    public TNotifyEvent<TObject> FOnDone;
+    public TNotifyEvent<object> FOnDone;
     public TAbstractUnit FTransporter;
     public int FMovePointsMax;
     public int FQuickMovePointsMax;
@@ -47726,10 +47713,10 @@ public partial class TAIMoveControlSettings : TEObject
     public TXYL FTransportDestination;
 
     // AIGroup.pas:3849
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTransportPath.Free();
-        base.Destroy();
+        FTransportPath?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:3874
@@ -47746,7 +47733,7 @@ public partial class TAIMoveControlSettings : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -47827,11 +47814,11 @@ public partial class TAIMoveControl : TEObject
     public TMoveControlSettings FPathSettings;
 
     // AIGroup.pas:3918
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
         FPathSettings.Release();
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:3925
@@ -48271,14 +48258,14 @@ public partial class TMoveTarget : TEObject
     public TMovepath FMovepath;
 
     // AIGroup.pas:4221
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FMovepath != null)
         {
-            FMovepath.Free();
+            FMovepath?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:4227
@@ -48295,7 +48282,7 @@ public partial class TMoveTarget : TEObject
         int Result = FRefCount;
         if (Result == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -48384,13 +48371,13 @@ public partial class TAIMoveTargetSelector : TEObject
     public TAIGroupControl FControl;
 
     // AIGroup.pas:6384
-    public override void Destroy()
+    public override void Dispose()
     {
         FSettings.Release();
-        FTargets.Free();
-        FBufferedTargets.Free();
-        FUnits.Free();
-        base.Destroy();
+        FTargets?.Dispose();
+        FBufferedTargets?.Dispose();
+        FUnits?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:6393
@@ -48546,7 +48533,7 @@ public partial class TAIMoveTargetSelector : TEObject
             }
 
             FBufferedTargets.RemoveChild(Target);
-            Gaps.Free();
+            Gaps?.Dispose();
         }
 
         return FBufferedTargets.Count != 0 && FState != -1;
@@ -49331,7 +49318,7 @@ public partial class TAIMoveExecuterMove : TAIMoveExecuterUnitList
     public sbyte FDestinationL;
 
     // AIGroup.pas:4446
-    public override void Destroy()
+    public override void Dispose()
     {
         // { Original retains this empty exception frame when the path is already nil. }
         if (FPath == null)
@@ -49346,9 +49333,9 @@ public partial class TAIMoveExecuterMove : TAIMoveExecuterUnitList
         }
 
         // { Original handler consumes the exception after showing the message. }
-        FPath.Free();
+        FPath?.Dispose();
         FPath = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:4460
@@ -49463,10 +49450,10 @@ public partial class TAIMoveExecuterControl : TEObject
     public int FState;
 
     // AIGroup.pas:4732
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMoveControl.Free();
-        base.Destroy();
+        FMoveControl?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:4738
@@ -49523,7 +49510,7 @@ public partial class TAIMoveExecuterControl : TEObject
                 AoWEUnit.AoWHSMap.FMoveControl.CalculatePath(Settings, Settings.FPath, X, Y, L);
             }
 
-            Candidates.Free();
+            Candidates?.Dispose();
         }
         else
         {
@@ -49872,7 +49859,7 @@ public partial class TDefaultMEC : TAIMoveExecuterControl
                     }
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 break;
             case 1:
                 I = 0;
@@ -49884,7 +49871,7 @@ public partial class TDefaultMEC : TAIMoveExecuterControl
                     CannotMove = MoveResult != 0;
                     if (Move != null)
                     {
-                        Move.Free();
+                        Move?.Dispose();
                     }
 
                     I += 1;
@@ -49906,7 +49893,7 @@ public partial class TDefaultMEC : TAIMoveExecuterControl
                     }
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 Done();
                 break;
             case 2:
@@ -49931,10 +49918,10 @@ public partial class TAdjacentArmy : TEObject
     public TMovepath FPath;
 
     // AIGroup.pas:5051
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPath.Free();
-        base.Destroy();
+        FPath?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:5057
@@ -50030,7 +50017,7 @@ public partial class TAdjacentArmyList : TENode
         }
 
         bool Result = LocationsConnected(Locations);
-        Locations.Free();
+        Locations?.Dispose();
         return Result;
     }
 
@@ -50051,10 +50038,10 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
     public TAdjacentArmyList FAdjacentArmies;
 
     // AIGroup.pas:5123
-    public override void Destroy()
+    public override void Dispose()
     {
-        FAdjacentArmies.Free();
-        base.Destroy();
+        FAdjacentArmies?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:5239
@@ -50140,7 +50127,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
                     }
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 break;
             case 1:
                 if (FAdjacentArmies.GetAdjacent())
@@ -50279,7 +50266,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
                                     FExecuter.FMoves.Reset();
                                 }
 
-                                Move.Free();
+                                Move?.Dispose();
                             }
                             else
                             {
@@ -50316,7 +50303,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
                     FState = 3;
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 break;
             case 3:
                 Done();
@@ -50375,13 +50362,13 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
 
                     if (Move != null)
                     {
-                        Move.Free();
+                        Move?.Dispose();
                     }
 
                     I += 1;
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 if (Ready > 4 || Failed == 0)
                 {
                     I = 0;
@@ -50398,7 +50385,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
                         I += 1;
                     }
 
-                    Armies.Free();
+                    Armies?.Dispose();
                 }
 
                 Done();
@@ -50457,8 +50444,8 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
             }
         }
 
-        Sorted.Free();
-        Armies.Free();
+        Sorted?.Dispose();
+        Armies?.Dispose();
         return Result;
     }
 
@@ -50516,7 +50503,7 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
             }
         }
 
-        Armies.Free();
+        Armies?.Dispose();
         return Result;
     }
 
@@ -50563,8 +50550,8 @@ public partial class TAdjacentMEC : TAIMoveExecuterControl
             FExecuter.ExecuteMoves();
         }
 
-        Sorted.Free();
-        Armies.Free();
+        Sorted?.Dispose();
+        Armies?.Dispose();
         return Result;
     }
 
@@ -50636,7 +50623,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                     }
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 break;
             case 1:
                 Armies = FExecuter.CreateArmies(TSet<TAIMoveExecuterUnitStatus>.Of(TAIMoveExecuterUnitStatus.esReady));
@@ -50658,7 +50645,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                     FState += 1;
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 break;
             case 2:
                 Armies = FExecuter.CreateArmies(TSet<TAIMoveExecuterUnitStatus>.Of(TAIMoveExecuterUnitStatus.esReady, TAIMoveExecuterUnitStatus.esDone));
@@ -50701,7 +50688,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                     FState += 1;
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 break;
             case 3:
                 Armies = FExecuter.CreateArmies(TSet<TAIMoveExecuterUnitStatus>.Of(TAIMoveExecuterUnitStatus.esReady));
@@ -50762,10 +50749,10 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                         FExecuter.ExecuteMoves();
                     }
 
-                    Transporters.Free();
+                    Transporters?.Dispose();
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 FState += 1;
                 break;
             case 4:
@@ -50785,7 +50772,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                         }
                     }
 
-                    Armies.Free();
+                    Armies?.Dispose();
                 }
 
                 FState += 1;
@@ -50819,7 +50806,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                     FState += 1;
                 }
 
-                Armies.Free();
+                Armies?.Dispose();
                 break;
             case 6:
                 if (FExecuter.FTransporter.FStatus == TAIMoveExecuterUnitStatus.esReady)
@@ -50839,7 +50826,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                         }
                     }
 
-                    Armies.Free();
+                    Armies?.Dispose();
                 }
 
                 FState += 1;
@@ -50874,7 +50861,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                         }
                     }
 
-                    Armies.Free();
+                    Armies?.Dispose();
                 }
 
                 FState += 1;
@@ -50907,7 +50894,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
             var units = FExecuter.FUnits.GetUnits(I);
             if (TSet<TAIMoveExecuterTransportStatus>.Of(TAIMoveExecuterTransportStatus.mtsGuarding, TAIMoveExecuterTransportStatus.mtsDumped).Contains(units.FTransportStatus))
             {
-                FExecuter.FUnits.GetUnits(I).Free();
+                FExecuter.FUnits.GetUnits(I)?.Dispose();
             }
         }
 
@@ -50991,7 +50978,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
             }
         }
 
-        Army.Free();
+        Army?.Dispose();
         Settings.Release();
         return Move;
     }
@@ -51214,7 +51201,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
                 Settings.Release();
             }
 
-            Armies.Free();
+            Armies?.Dispose();
         }
 
         if (!Found)
@@ -51226,7 +51213,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
     }
 
     // AIGroup.pas:5691
-    public void CalculateTransportPathCallBack(TObject Sender)
+    public void CalculateTransportPathCallBack(object Sender)
     {
         TAIMoveExecuterArmyList Armies;
         int Index;
@@ -51318,7 +51305,7 @@ public partial class TTransportMEC : TAIMoveExecuterControl
             FExecuter.FStatus = TAIMoveExecuterStatus.mesFailed;
         }
 
-        Armies.Free();
+        Armies?.Dispose();
     }
 }
 
@@ -51350,16 +51337,16 @@ public partial class TAIMoveExecuter : TEObject
     public TAIMoveExecuterDoneEvent FOnDone;
 
     // AIGroup.pas:5985
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FUnits.Free();
+        FUnits?.Dispose();
         FUnits = null;
-        FMoves.Free();
+        FMoves?.Dispose();
         FMoves = null;
-        FControlQueue.Free();
+        FControlQueue?.Dispose();
         FControlQueue = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:6017
@@ -51374,7 +51361,7 @@ public partial class TAIMoveExecuter : TEObject
 
         if (FTransporter != null)
         {
-            FTransporter.Free();
+            FTransporter?.Dispose();
             FTransporter = null;
         }
 
@@ -51399,7 +51386,7 @@ public partial class TAIMoveExecuter : TEObject
         if (FControl != null)
         {
             FControl.Deactivate();
-            FControl.Destroy();
+            FControl.Dispose();
             FControl = null;
         }
     }
@@ -51469,7 +51456,7 @@ public partial class TAIMoveExecuter : TEObject
         Index = FUnits.IndexOfUnitID(AUnit.FUnitID);
         if (Index != -1)
         {
-            FUnits.GetUnits(Index).Free();
+            FUnits.GetUnits(Index)?.Dispose();
         }
 
         AUnit.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
@@ -51555,7 +51542,7 @@ public partial class TAIMoveExecuter : TEObject
             }
         }
 
-        Used.Free();
+        Used?.Dispose();
         return Armies;
     }
 
@@ -51682,7 +51669,7 @@ public partial class TAIMoveExecuter : TEObject
                     }
                 }
 
-                FMoves.GetMoves(0).Destroy();
+                FMoves.GetMoves(0).Dispose();
             }
         }
         else
@@ -51913,7 +51900,7 @@ public partial class TAIMoveExecuter : TEObject
                 Started = false;
             }
 
-            Armies.Free();
+            Armies?.Dispose();
         }
         else
         {
@@ -51931,12 +51918,6 @@ public partial class TEndTurnAIPA : TAIPlayerAction, IAIPlayerActionClass
 {
     public TEndTurnAIPA(TECustomNode owner) : base(owner)
     { }
-
-    // AI.pas:1024
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
 
     // AI.pas:1032
     public override bool Process()
@@ -52000,10 +51981,10 @@ public partial class TGroupControlAIPA : TAIPlayerAction, IAIPlayerActionClass
     public TAIGroupControl FGroupControl;
 
     // AI.pas:1054
-    public override void Destroy()
+    public override void Dispose()
     {
         DeactivateGroupControl();
-        base.Destroy();
+        base.Dispose();
     }
 
     // AI.pas:1083
@@ -52081,7 +52062,7 @@ public partial class TGroupControlAIPA : TAIPlayerAction, IAIPlayerActionClass
         if (Control != null)
         {
             Control.Deactivate();
-            FGroupControl.Free();
+            FGroupControl?.Dispose();
             FGroupControl = null;
         }
     }
@@ -52105,10 +52086,10 @@ public partial class TGroupControlLoopAIPA : TAIPlayerAction, IAIPlayerActionCla
     public TAIGroupControl FGroupControl;
 
     // AI.pas:1124
-    public override void Destroy()
+    public override void Dispose()
     {
         DeactivateGroupControl();
-        base.Destroy();
+        base.Dispose();
     }
 
     // AI.pas:1156
@@ -52200,7 +52181,7 @@ public partial class TGroupControlLoopAIPA : TAIPlayerAction, IAIPlayerActionCla
         if (Control != null)
         {
             Control.Deactivate();
-            FGroupControl.Free();
+            FGroupControl?.Dispose();
             FGroupControl = null;
         }
     }
@@ -52278,7 +52259,7 @@ public partial class TAIBudget : TEObject
     // AI.pas:1678
     public virtual void OutputDebugInfo()
     {
-        AoWEUnit.AoWEngine.OutputDebugMessage(AoWEUnit.TMPDID, ClassNameOf(this.GetType()) + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
+        AoWEUnit.AoWEngine.OutputDebugMessage(AoWEUnit.TMPDID, ClassNames.ClassNameOf(this.GetType()) + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
     }
 
     // AI.pas:1675
@@ -52393,10 +52374,10 @@ public partial class TAIBudgetManager : TEObject
     public TAIBudget FDefaultBudget;
 
     // AI.pas:1722
-    public override void Destroy()
+    public override void Dispose()
     {
-        FBudgets.Free();
-        base.Destroy();
+        FBudgets?.Dispose();
+        base.Dispose();
     }
 
     // AI.pas:1728
@@ -53095,12 +53076,6 @@ public partial class TBudgetManagerAIPA : TAIPlayerAction, IAIPlayerActionClass
     {
     }
 
-    // AI.pas:2204
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // AI.pas:2210
     public override bool Process() => false;
 
@@ -53127,10 +53102,10 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
     public TQuadItemList<TProductionControl> FProductions;
 
     // AI.pas:1208
-    public override void Destroy()
+    public override void Dispose()
     {
-        FProductions.Free();
-        base.Destroy();
+        FProductions?.Dispose();
+        base.Dispose();
     }
 
     // AI.pas:1532
@@ -53447,7 +53422,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                 }
             }
 
-            Candidates.Free();
+            Candidates?.Dispose();
         }
 
         // { Original behavior: both transporter routines always return False. }
@@ -53548,7 +53523,7 @@ public partial class TAutoProduceAIPA : TAIPlayerAction, IAIPlayerActionClass
                 }
             }
 
-            Candidates.Free();
+            Candidates?.Dispose();
         }
 
         // { Original behavior: both transporter routines always return False. }
@@ -53675,12 +53650,6 @@ public partial class TProcessEventlogAIPA : TAIPlayerAction, IAIPlayerActionClas
 
     public int FLogIndex;
 
-    // AI.pas:1616
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // AI.pas:1626
     public override bool Process()
     {
@@ -53734,10 +53703,10 @@ public partial class TStructureAIPA : TAIPlayerAction
     public TIntegerList FStructureIDs;
 
     // Structur.PAS:3324
-    public override void Destroy()
+    public override void Dispose()
     {
-        FStructureIDs.Free();
-        base.Destroy();
+        FStructureIDs?.Dispose();
+        base.Dispose();
     }
 
     // Structur.PAS:3330
@@ -53867,7 +53836,7 @@ public partial class TAIGroupProductionList : TENode
     // AIGroup.pas:24
     public void Delete(int Index)
     {
-        GetProductions(Index).Free();
+        GetProductions(Index)?.Dispose();
     }
 
     // AIGroup.pas:29
@@ -53877,7 +53846,7 @@ public partial class TAIGroupProductionList : TENode
         I = IndexOfU(AUnit);
         if (I != -1)
         {
-            GetProductions(I).Free();
+            GetProductions(I)?.Dispose();
         }
     }
 
@@ -53949,7 +53918,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
     public byte FRecruitmentPriority;
 
     // AIGroup.pas:72
-    public override void Destroy()
+    public override void Dispose()
     {
         if (AoWEUnit.AoWHSMap != null && AoWEUnit.AoWHSMap.FUnitControl == null && Count != 0)
         {
@@ -53969,8 +53938,8 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
         }
 
         Clear();
-        FProductions.Free();
-        base.Destroy();
+        FProductions?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:104
@@ -54026,7 +53995,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -54283,7 +54252,7 @@ public partial class TAIGroup : TUnitUserList, IAIGroupClass
         }
 
         bool Result = LocationsConnected(Locations);
-        Locations.Free();
+        Locations?.Dispose();
         return Result;
     }
 
@@ -54619,10 +54588,10 @@ public partial class TAIGroupManager : TAIGroupList
     public TList FRegisteredClasses;
 
     // AIGroup.pas:571
-    public override void Destroy()
+    public override void Dispose()
     {
-        FRegisteredClasses.Free();
-        base.Destroy();
+        FRegisteredClasses?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:577
@@ -54740,7 +54709,7 @@ public partial class TAIGroupControlTarget : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -54881,10 +54850,10 @@ public partial class TAIRecruitmentGroup : TEObject
     public int FPathStrength;
 
     // AIGroup.pas:756
-    public override void Destroy()
+    public override void Dispose()
     {
         SetGroup(null);
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:762
@@ -54901,7 +54870,7 @@ public partial class TAIRecruitmentGroup : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -54976,7 +54945,7 @@ public partial class TAIRecruitmentGroupList : TEReferenceNode
         for (int I = 0, last = Count - 1; I <= last; I++)
         {
             Group = GetRecruitmentGroups(I);
-            Text = ClassNameOf(Group.FGroup.GetType()) + "(ID:" + IntToStr(Group.FGroup.FGroupID) + ")";
+            Text = ClassNames.ClassNameOf(Group.FGroup.GetType()) + "(ID:" + IntToStr(Group.FGroup.FGroupID) + ")";
             Text = Text + "/Loc:(" + IntToStr(Group.FLocation.X) + "," + IntToStr(Group.FLocation.Y) + "," + IntToStr(Group.FLocation.L) + ")";
             Text = Text + "/MP:" + IntToStr(Group.FMovePoints);
             Text = Text + "/MPBFS:" + IntToStr(Group.FPathStrength);
@@ -55081,7 +55050,7 @@ public partial class TAIGroupProductionLocation : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -55212,7 +55181,7 @@ public partial class TAIGroupControlPlugin : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -55274,7 +55243,7 @@ public partial class TAIGroupControlPlugin : TEObject
         }
         catch
         {
-            throw new InvalidOperationException(ClassNameOf(this.GetType()) + " exception during state (" + IntToStr(FState) + ")");
+            throw new InvalidOperationException(ClassNames.ClassNameOf(this.GetType()) + " exception during state (" + IntToStr(FState) + ")");
         }
 
         return FState != -1;
@@ -55320,19 +55289,19 @@ public partial class TAIGroupControl : TEObject
     public int FState;
 
     // AIGroup.pas:983
-    public override void Destroy()
+    public override void Dispose()
     {
         DeactivatePlugin();
-        FCombatPredictor.Free();
-        FTargets.Free();
-        FRecruitmentGroups.Free();
-        FProductionLocations.Free();
+        FCombatPredictor?.Dispose();
+        FTargets?.Dispose();
+        FRecruitmentGroups?.Dispose();
+        FProductionLocations?.Dispose();
         FGroup.Release();
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:1084
-    public virtual void MoveExecuterDone(TObject Sender)
+    public virtual void MoveExecuterDone(object Sender)
     {
         if (FGroup.FTransporter != null && !FMoveExecuter.GetTransporting())
         {
@@ -55816,7 +55785,7 @@ public partial class TAIGroupControl : TEObject
             Result = null;
         }
 
-        List.Free();
+        List?.Dispose();
         return Result;
     }
 
@@ -55842,10 +55811,10 @@ public partial class TAIGroupTargetFinder : TAIGroupControlPlugin
     public TSet<TDamageType> FDamageTypes;
 
     // AIGroup.pas:1895
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSelector.Free();
-        base.Destroy();
+        FSelector?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:1958
@@ -55943,13 +55912,15 @@ public partial class TAIGroupTargetFinder : TAIGroupControlPlugin
 
 }
 
+[LegacyObject]
 // { TDamageStrengths is shared with TDefenseRequirements in intf_P1_01.inc. }
 // defenders, selected defense location
-public partial class TGroupDefenseSelector : TObject
+public partial class TGroupDefenseSelector : IDisposable
 {
     // AIGroup.pas:1640
     public TGroupDefenseSelector()
     {
+        CaptureAddress.Assign(this);
         FDefenders = new TUnitUserList(null);
     }
 
@@ -55957,10 +55928,9 @@ public partial class TGroupDefenseSelector : TObject
     public TXYL FDefenseLocation;
 
     // AIGroup.pas:1646
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FDefenders.Free();
-        base.Destroy();
+        FDefenders?.Dispose();
     }
 
     // AIGroup.pas:1652
@@ -56116,7 +56086,7 @@ public partial class TGroupDefenseSelector : TObject
             WalkToNextHN(ref Walk);
         }
 
-        Candidates.Free();
+        Candidates?.Dispose();
         if (Units != null)
         {
             Result = true;
@@ -56162,10 +56132,10 @@ public partial class TAIGroupDefenseControl : TAIGroupControlPlugin
     public TGroupDefendMode FDefendMode;
 
     // AIGroup.pas:1816
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSelector.Free();
-        base.Destroy();
+        FSelector?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:1822
@@ -56218,7 +56188,7 @@ public partial class TAIGroupDefenseControl : TAIGroupControlPlugin
                                 Group.AddUnits(FSelector.FDefenders);
                             }
 
-                            Units.Free();
+                            Units?.Dispose();
                             Done();
                             break;
                         case TGroupDefendMode.gdmWait:
@@ -56270,10 +56240,10 @@ public partial class TAIRecruitmentGroupFinder : TAIGroupControlPlugin
     public TSet<TAIRecruitmentGroupFinderModeElement> FMode;
 
     // AIGroup.pas:1987
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSelector.Free();
-        base.Destroy();
+        FSelector?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:1993
@@ -56399,10 +56369,10 @@ public partial class TAIGroupRecruitControl : TAIGroupControlPlugin
     public float FPathStrengthFactor;
 
     // AIGroup.pas:2076
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnits.Free();
-        base.Destroy();
+        FUnits?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:2097
@@ -56676,10 +56646,10 @@ public partial class TAIGroupRecruitControl : TAIGroupControlPlugin
                 I += 1;
             }
 
-            Recruitable.Free();
+            Recruitable?.Dispose();
         }
 
-        Units.Free();
+        Units?.Dispose();
         return Result;
     }
 
@@ -56728,10 +56698,10 @@ public partial class TAIGroupCooperationControl : TAIGroupControlPlugin
     public int FSuperiority;
 
     // AIGroup.pas:2845
-    public override void Destroy()
+    public override void Dispose()
     {
-        FGroups.Free();
-        base.Destroy();
+        FGroups?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:2919
@@ -57017,10 +56987,10 @@ public partial class TAIProductionLocationFinder : TAIGroupControlPlugin
     public int FTargetRange;
 
     // AIGroup.pas:2309
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSelector.Free();
-        base.Destroy();
+        FSelector?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:2315
@@ -57135,11 +57105,11 @@ public partial class TAIGroupUnitProduction : TEObject
     public bool FResearch;
 
     // AIGroup.pas:2395
-    public override void Destroy()
+    public override void Dispose()
     {
         SetU(null);
         SetProductionLocation(null);
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:2402
@@ -57158,7 +57128,7 @@ public partial class TAIGroupUnitProduction : TEObject
         int Result = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -57256,13 +57226,13 @@ public partial class TAIGroupProductionControl : TAIGroupControlPlugin
     public float FPathStrengthFactor;
 
     // AIGroup.pas:2447
-    public override void Destroy()
+    public override void Dispose()
     {
-        FProductions.Free();
+        FProductions?.Dispose();
         FProductions = null;
-        FProduceableUnits.Free();
+        FProduceableUnits?.Dispose();
         FProduceableUnits = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // AIGroup.pas:2471
@@ -57702,7 +57672,7 @@ public partial class TAIGroupProductionControl : TAIGroupControlPlugin
                 }
             }
 
-            TestUnit.Free();
+            TestUnit?.Dispose();
         }
 
         return Result;
@@ -57743,9 +57713,10 @@ public partial class TAIGroupProductionControl : TAIGroupControlPlugin
 
 }
 
+[LegacyObject]
 // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
 // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
-public partial class TAIGroupTargetPrioritySettings : TObject
+public partial class TAIGroupTargetPrioritySettings
 {
     public float FTargetFactor;
     public int FImmediateBonus;
@@ -57761,6 +57732,11 @@ public partial class TAIGroupTargetPrioritySettings : TObject
     public int FMoveDayPenalty;
     public int FPartialProductionPenalty;
     public int FProductionDayPenalty;
+
+    public TAIGroupTargetPrioritySettings()
+    {
+        CaptureAddress.Assign(this);
+    }
     // System.pas:111
 
 }
@@ -57810,15 +57786,14 @@ public partial class TAIGroupTargetSelector : TAIGroupControlPlugin
     public TAIGroupTargetPrioritySettings FPrioritySettings;
 
     // AIGroup.pas:3051
-    public override void Destroy()
+    public override void Dispose()
     {
         DeactivatePlugin();
-        FPrioritySettings.Free();
         FRecruitment.Release();
         FProduction.Release();
         FCooperation.Release();
-        FSpareUnits.Free();
-        base.Destroy();
+        FSpareUnits?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:3421
@@ -58439,8 +58414,8 @@ public partial class TAIGroupTargetSelector : TAIGroupControlPlugin
                         }
 
                         FNextTarget.FStatus = FNextTarget.FStatus - TSet<TAIGroupControlTargetStatusElement>.Of(TAIGroupControlTargetStatusElement.gtsValid);
-                        Optional.Free();
-                        Required.Free();
+                        Optional?.Dispose();
+                        Required?.Dispose();
                     }
                     else
                     {
@@ -58887,9 +58862,9 @@ public partial class TAIGroupTargetSelector : TAIGroupControlPlugin
             Optional.AddUnits(OptionalUnits);
         }
 
-        OptionalUnits.Free();
-        RequiredUnits.Free();
-        Predictor.Free();
+        OptionalUnits?.Dispose();
+        RequiredUnits?.Dispose();
+        Predictor?.Dispose();
         return Result;
     }
 
@@ -59025,10 +59000,10 @@ public partial class THuntAG : TAIGroup, IAIGroupClass
     public TIntegerList FTargetUnitIDs;
 
     // AIGroup.pas:1436
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTargetUnitIDs.Free();
-        base.Destroy();
+        FTargetUnitIDs?.Dispose();
+        base.Dispose();
     }
 
     // AIGroup.pas:1473
@@ -59376,10 +59351,10 @@ public partial class TMoveTE : TTokenEvent
     public int FMoveIndex;
 
     // MoveT.PAS:1958
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPath.Free();
-        base.Destroy();
+        FPath?.Dispose();
+        base.Dispose();
     }
 
     // MoveT.PAS:1964
@@ -59582,10 +59557,10 @@ public partial class TMultiMoveTE : TTokenEvent
     public bool FSimultaneous;
 
     // MoveT.PAS:3293
-    public override void Destroy()
+    public override void Dispose()
     {
-        FEvents.Free();
-        base.Destroy();
+        FEvents?.Dispose();
+        base.Dispose();
     }
 
     // MoveT.PAS:3302
@@ -59691,10 +59666,10 @@ public partial class TMoveArmyTE : TMoveTE
     public bool FAnimate;
 
     // MoveT.PAS:2066
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnitIDs.Free();
-        base.Destroy();
+        FUnitIDs?.Dispose();
+        base.Dispose();
     }
 
     // MoveT.PAS:2093
@@ -60927,7 +60902,7 @@ public partial class TArmyCombatMoveTE : TMoveArmyTE
                 FCombatMode = TCombatMoveMode.cmSetupReady;
             }
 
-            Combat.Free();
+            Combat?.Dispose();
         }
 
         // { Original uses connection type here too. }
@@ -61196,16 +61171,16 @@ public partial class TNegotiateTE : TTokenEvent
     public int FData2;
 
     // Diplomacy.pas:124
-    public override void Destroy()
+    public override void Dispose()
     {
         TArmyID ID;
         ID = FArmyID;
         if (ID != null)
         {
-            ID.Free();
+            ID?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Diplomacy.pas:138
@@ -61310,7 +61285,7 @@ public partial class TNegotiateTE : TTokenEvent
                 AoWEUnit.AoWHSMap.FTokenManager.TokenExecuter.InsertExecuteEvent(Move);
                 // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
                 Move.Release();
-                Path.Free();
+                Path?.Dispose();
             }
         }
     }
@@ -61331,7 +61306,7 @@ public partial class TNegotiateTE : TTokenEvent
             AoWEUnit.AoWHSMap.FTokenManager.TokenExecuter.InsertExecuteEvent(Move);
             // { Original bug: no nil check after CreateArmyMoveTE can return nil. }
             Move.Release();
-            Path.Free();
+            Path?.Dispose();
         }
     }
 
@@ -61359,16 +61334,16 @@ public partial class TNegotiateRequestEventLog : TJoinEventLog
     public int FData2;
 
     // Diplomacy.pas:270
-    public override void Destroy()
+    public override void Dispose()
     {
         TArmyID ID;
         ID = FArmyID;
         if (ID != null)
         {
-            ID.Free();
+            ID?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Diplomacy.pas:284
@@ -62346,7 +62321,7 @@ public partial class TFastCombatUnit : TCombatUnit
             }
         }
 
-        Commands.Free();
+        Commands?.Dispose();
         return Executed;
     }
 
@@ -62500,12 +62475,6 @@ public partial class TFastCombat : TCombat
     }
 
     public int FWallSiegeObjectCount;
-
-    // AIGroup.pas:7123
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
 
     // AIGroup.pas:7175
     public override TCombatUnit CreateCombatUnit() => new TFastCombatUnit(null);
@@ -62738,7 +62707,7 @@ public partial class TFastCombat : TCombat
             }
         }
 
-        Objects.Free();
+        Objects?.Dispose();
     }
 
     // intf_P5_07.inc:1073
@@ -63061,10 +63030,10 @@ public partial class TMultiLevelAbility : TAdjustableAbility
     public TIntegerList FLevelCosts;
 
     // AoWAb.PAS:255
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLevelCosts.Free();
-        base.Destroy();
+        FLevelCosts?.Dispose();
+        base.Dispose();
     }
 
     // AoWAb.PAS:322
@@ -63228,13 +63197,15 @@ public partial class TStrikeCA : TDamageCA
 
 }
 
+[LegacyObject]
 // count, capacity, strikes, combat objects, cached damage values, units, strike counts,
 // attacker/defender damage types
-public partial class TMeleeRound : TObject
+public partial class TMeleeRound : IDisposable
 {
     // AoWAb.PAS:1487
     public TMeleeRound()
     {
+        CaptureAddress.Assign(this);
     }
 
     public int FCount;
@@ -63252,10 +63223,9 @@ public partial class TMeleeRound : TObject
     public TSet<TDamageType> FDefenderDamageTypes;
 
     // AoWAb.PAS:1492
-    public override void Destroy()
+    public virtual void Dispose()
     {
         SetCapacity(0);
-        base.Destroy();
     }
 
     // AoWAb.PAS:1498
@@ -63792,10 +63762,10 @@ public partial class TStrikeAbility : TAdjustableAbility
     public TMeleeRound FMeleeRound;
 
     // AoWAb.PAS:1220
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMeleeRound.Free();
-        base.Destroy();
+        FMeleeRound?.Dispose();
+        base.Dispose();
     }
 
     // AoWAb.PAS:1349
@@ -63893,7 +63863,7 @@ public partial class TStrikeAbility : TAdjustableAbility
         }
 
         bool Result = Round.FCount != 0;
-        Round.Free();
+        Round?.Dispose();
         return Result;
     }
 
@@ -64529,7 +64499,7 @@ public partial class TBreathAbility : TRangedAttackAbility
                 Count -= 1;
             }
 
-            Targets.Free();
+            Targets?.Dispose();
         }
 
         return Result;
@@ -66364,7 +66334,7 @@ public partial class TRoundAttackAbility : TTouchAbility
             Count -= 1;
         }
 
-        Targets.Free();
+        Targets?.Dispose();
         return true;
     }
 
@@ -66704,10 +66674,10 @@ public partial class TCommandAbilityData : TAbilityData
     public TByteList FCommandedUnits;
 
     // AoWAb.PAS:4954
-    public override void Destroy()
+    public override void Dispose()
     {
-        FCommandedUnits.Free();
-        base.Destroy();
+        FCommandedUnits?.Dispose();
+        base.Dispose();
     }
 
     // AoWAb.PAS:4967
@@ -68078,10 +68048,10 @@ public partial class TDispelMagicCA : TSingleTargetCA
     public TIntegerList FEnchantmentIDs;
 
     // AoWAb.PAS:3941
-    public override void Destroy()
+    public override void Dispose()
     {
-        FEnchantmentIDs.Free();
-        base.Destroy();
+        FEnchantmentIDs?.Dispose();
+        base.Dispose();
     }
 
     // AoWAb.PAS:3946
@@ -68122,7 +68092,7 @@ public partial class TDispelMagicCA : TSingleTargetCA
                 Source.DoDamage(Target, Target.GetHitPoints());
             }
 
-            Enchantments.Free();
+            Enchantments?.Dispose();
         }
     }
 
@@ -68173,7 +68143,7 @@ public partial class TDispelMagicCA : TSingleTargetCA
                 }
             }
 
-            Enchantments.Free();
+            Enchantments?.Dispose();
         }
     }
 
@@ -68303,7 +68273,7 @@ public partial class TDispelMagicAbilityTE : TTokenEvent
             Result = TExecuteResult.erDoneHalt;
         }
 
-        Enchantments.Free();
+        Enchantments?.Dispose();
         return Result;
     }
 
@@ -69202,16 +69172,16 @@ public partial class TUnitEnchantmentAbilityData : TAbilityData
     public TUnitEnchantment FEnchantment;
 
     // AoWAb.PAS:567
-    public override void Destroy()
+    public override void Dispose()
     {
         TUnitEnchantment Enchantment;
         Enchantment = FEnchantment;
         if (Enchantment != null)
         {
-            Enchantment.Free();
+            Enchantment?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // AoWAb.PAS:592
@@ -69243,7 +69213,7 @@ public partial class TUnitEnchantmentAbilityData : TAbilityData
         OldEnchantment = FEnchantment;
         if (OldEnchantment != null)
         {
-            OldEnchantment.Free();
+            OldEnchantment?.Dispose();
         }
 
         FEnchantment = Enchantment;
@@ -69596,10 +69566,10 @@ public partial class TConstructAbility : TAdjustableAbility
     public TConstructionControlList FConstructionControls;
 
     // AoWAb.PAS:5548
-    public override void Destroy()
+    public override void Dispose()
     {
-        FConstructionControls.Free();
-        base.Destroy();
+        FConstructionControls?.Dispose();
+        base.Dispose();
     }
 
     // AoWAb.PAS:5553
@@ -70033,12 +70003,12 @@ public partial class TSpell : TEObject
     public int FCastDuration;
 
     // Spells.PAS:20
-    public override void Destroy()
+    public override void Dispose()
     {
-        FCastSounds.Free();
-        FCastImages.Free();
-        FSpellText.Free();
-        base.Destroy();
+        FCastSounds?.Dispose();
+        FCastImages?.Dispose();
+        FSpellText?.Dispose();
+        base.Dispose();
     }
 
     // Spells.PAS:31
@@ -70322,7 +70292,7 @@ public partial class TSpell : TEObject
     {
         var action = new TAICastSpellAction(null);
         // TEObject.Create only calls SetOwner. It bypasses descendant constructor bodies.
-        try { action.SetOwner(null); } catch { action.Destroy(); throw; }
+        try { action.SetOwner(null); } catch { action.Dispose(); throw; }
         return action;
     }
 
@@ -70347,11 +70317,11 @@ public partial class TSpellControl : TEObject
     public TList FRegisteredSpells;
 
     // Spells.PAS:582
-    public override void Destroy()
+    public override void Dispose()
     {
         UnregisterAll();
-        FRegisteredSpells.Free();
-        base.Destroy();
+        FRegisteredSpells?.Dispose();
+        base.Dispose();
     }
 
     // Spells.PAS:588
@@ -70416,7 +70386,7 @@ public partial class TSpellControl : TEObject
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
+            throw new ArgumentException("Invalid SpellID (" + ClassNames.ClassNameOf(Spell.GetType()) + ")");
         }
     }
 
@@ -70435,13 +70405,13 @@ public partial class TSpellControl : TEObject
             if (FRegisteredSpells.List[ID] != null)
             {
                 Spell.FCastImages.ReleaseIL();
-                ((TSpell)FRegisteredSpells.List[ID]).Free();
+                ((TSpell)FRegisteredSpells.List[ID])?.Dispose();
                 FRegisteredSpells.List[ID] = null;
             }
         }
         else
         {
-            throw new ArgumentException("Invalid SpellID (" + ClassNameOf(Spell.GetType()) + ")");
+            throw new ArgumentException("Invalid SpellID (" + ClassNames.ClassNameOf(Spell.GetType()) + ")");
         }
     }
 
@@ -70504,7 +70474,7 @@ public partial class TSpellControl : TEObject
             Result = 0;
         }
 
-        Candidates.Free();
+        Candidates?.Dispose();
         return Result;
     }
 
@@ -70512,22 +70482,23 @@ public partial class TSpellControl : TEObject
 
 }
 
+[LegacyObject]
 // (spell list)
-public partial class TSpellList : TObject
+public partial class TSpellList : IDisposable
 {
     // Spells.PAS:695
     public TSpellList()
     {
+        CaptureAddress.Assign(this);
         FSpells = new TList();
     }
 
     public TList FSpells;
 
     // Spells.PAS:700
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        FSpells.Free();
-        base.Destroy();
+        FSpells?.Dispose();
     }
 
     // Spells.PAS:705
@@ -70675,7 +70646,7 @@ public partial class TSpellCaster : TEObject
         ReleasedCount = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return ReleasedCount;
@@ -70719,7 +70690,7 @@ public partial class TCombatSpellCaster : TEObject
         ReleasedCount = Count;
         if (Count == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return ReleasedCount;
@@ -70808,10 +70779,10 @@ public partial class TUnitSpellCaster : TSpellCaster
     public byte FValidSelection;
 
     // Spells.PAS:864
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTargetUnits.Free();
-        base.Destroy();
+        FTargetUnits?.Dispose();
+        base.Dispose();
     }
 
     // Spells.PAS:947
@@ -70892,7 +70863,7 @@ public partial class TUnitSpellCaster : TSpellCaster
                 }
 
                 Result = ((TUnitSpell)AoWEUnit.AoWHSSet.FSpellControl.GetSpell(FCasterSpellID)).CastSpell(Source, Targets);
-                Targets.Free();
+                Targets?.Dispose();
             }
             else
             {
@@ -70965,11 +70936,11 @@ public partial class TUnitSpellTE : TSpellTE
     public FixedArray_int_2 FSpellData;
 
     // Spells.PAS:1126
-    public override void Destroy()
+    public override void Dispose()
     {
-        FTargetUnitIDs.Free();
-        FTargetUnits.Free();
-        base.Destroy();
+        FTargetUnitIDs?.Dispose();
+        FTargetUnits?.Dispose();
+        base.Dispose();
     }
 
     // Spells.PAS:1136
@@ -71462,7 +71433,7 @@ public partial class TUnitSpell : TSpell
             Result = false;
         }
 
-        List.Free();
+        List?.Dispose();
         return Result;
     }
 
@@ -71611,8 +71582,8 @@ public partial class TResearchSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
                 FControl.FPlayer.FMagicControl.ExecuteResearchSpell(item.A);
             }
 
-            Choices.Free();
-            Spells.Free();
+            Choices?.Dispose();
+            Spells?.Dispose();
         }
 
         return false;
@@ -71672,13 +71643,13 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
     public TAICastSpellActionList FCastSpellActions;
 
     // Spells.PAS:1551
-    public override void Destroy()
+    public override void Dispose()
     {
-        FIdleHeroes.Free();
-        FCastingHeroes.Free();
-        FPendingHeroes.Free();
-        FCastSpellActions.Free();
-        base.Destroy();
+        FIdleHeroes?.Dispose();
+        FCastingHeroes?.Dispose();
+        FPendingHeroes?.Dispose();
+        FCastSpellActions?.Dispose();
+        base.Dispose();
     }
 
     // Spells.PAS:1561
@@ -71748,7 +71719,7 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
             }
         }
 
-        Spells.Free();
+        Spells?.Dispose();
     }
 
     // Spells.PAS:1593
@@ -71878,7 +71849,7 @@ public partial class TCastSpellAIPA : TAIPlayerAction, IAIPlayerActionClass
                             }
                         }
 
-                        FCastSpellActions.GetCastSpellActions(Index).Free();
+                        FCastSpellActions.GetCastSpellActions(Index)?.Dispose();
                     }
 
                     if (Done)
@@ -71980,16 +71951,16 @@ public partial class TAoWCampaignTransferSettings : TEObject
     public int FTransferPointsLeft;
 
     // Diplomacy.pas:1750
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        FHeroes.Free();
-        FItems.Free();
-        FUnits.Free();
-        FSelectedSpheres.Free();
-        FSpells.Free();
+        FHeroes?.Dispose();
+        FItems?.Dispose();
+        FUnits?.Dispose();
+        FSelectedSpheres?.Dispose();
+        FSpells?.Dispose();
         // { Original bug: the three selected-index lists are never freed. }
-        base.Destroy();
+        base.Dispose();
     }
 
     // Diplomacy.pas:1776
@@ -72099,7 +72070,7 @@ public partial class TAoWCampaignTransferSettings : TEObject
             }
         }
 
-        Candidates.Free();
+        Candidates?.Dispose();
     }
 
     // Diplomacy.pas:1842
@@ -72205,7 +72176,7 @@ public partial class TAoWCampaignTransferSettings : TEObject
             FResearchPointsLeft = AoWEUnit.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.FResearchPointsLeft;
             RandSeed = AoWEUnit.AoWHSMap.Random(16777215);
             GenerateTransferUnits(Units);
-            Units.Free();
+            Units?.Dispose();
         }
     }
 
@@ -72390,7 +72361,7 @@ public partial class TAoWCampaignTransferSettings : TEObject
         FTransferGoldMax = Map.FCampaignSettings.FTransferGoldMax;
         FTransferManaMax = Map.FCampaignSettings.FTransferManaMax;
         FTransferPointsLeft = FTransferPointsMax;
-        Map.Free();
+        Map?.Dispose();
     }
 
     // Diplomacy.pas:2065
@@ -72465,7 +72436,7 @@ public partial class TAoWCampaignTransferSettings : TEObject
 
         SetSelectedTransferGold(FTransferPointsMax);
         SetSelectedTransferMana(FTransferPointsMax);
-        Candidates.Free();
+        Candidates?.Dispose();
     }
 
     // Diplomacy.pas:2109
@@ -72605,12 +72576,6 @@ public partial class TAoWCampaignScenario : TEObject
     public string FName = "";
     public string FFileName = "";
 
-    // Diplomacy.pas:2197
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Diplomacy.pas:2203
     public override void ReadWrite(TEStorageStream Stream)
     {
@@ -72732,14 +72697,14 @@ public partial class TAoWCampaign : TEObject
     public TPlayMode FPlayMode;
 
     // Diplomacy.pas:2261
-    public override void Destroy()
+    public override void Dispose()
     {
-        FStream.Free();
-        FTransferSettings.Free();
-        FScenarios.Free();
-        FCompletedScenarios.Free();
-        FRaceHistory.Free();
-        base.Destroy();
+        FStream?.Dispose();
+        FTransferSettings?.Dispose();
+        FScenarios?.Dispose();
+        FCompletedScenarios?.Dispose();
+        FRaceHistory?.Dispose();
+        base.Dispose();
     }
 
     // Diplomacy.pas:2295
@@ -73061,7 +73026,7 @@ public partial class TDiplomaticAction : TEObject
             Proposal = DiplomaticProposal.FromFields(kind, gold, mana) with { Message = DiplomaticProposal.Lines(message) };
         }
 
-        message.Free();
+        message?.Dispose();
         Stream.rwInteger(ref FEscrowGold, 28);
         Stream.rwInteger(ref FEscrowMana, 29);
         Stream.rwInteger(ref FEventLogID, 30);
@@ -73082,7 +73047,7 @@ public partial class TDiplomaticAction : TEObject
         int Result = FRefCount;
         if (FRefCount == 0)
         {
-            Destroy();
+            Dispose();
         }
 
         return Result;
@@ -73183,11 +73148,11 @@ public partial class TDiplomaticAction : TEObject
             AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.ListPeaceWarUnknownPlayers(Peace, War, Unknown);
             AoWEUnit.AoWHSMap.FPlayers.GetPlayers(FTarget).FAIControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
             Proposal.AnswerAI(this, Player, Relation, IdealPeace, IdealWar);
-            Peace.Free();
-            War.Free();
-            Unknown.Free();
-            IdealPeace.Free();
-            IdealWar.Free();
+            Peace?.Dispose();
+            War?.Dispose();
+            Unknown?.Dispose();
+            IdealPeace?.Dispose();
+            IdealWar?.Dispose();
         }
         else
         {
@@ -73376,10 +73341,10 @@ public partial class TDiplomaticActionTE : TTokenEvent
     public TDiplomaticAction FAction;
 
     // Diplomacy.pas:1117
-    public override void Destroy()
+    public override void Dispose()
     {
         TDiplomaticAction Action;
-        base.Destroy();
+        base.Dispose();
         Action = FAction;
         if (Action != null)
         {
@@ -73466,7 +73431,7 @@ public partial class TDiplomaticActionEventLog : TEventLog
     public TDiplomaticAction FAction;
 
     // Diplomacy.pas:1170
-    public override void Destroy()
+    public override void Dispose()
     {
         TDiplomaticAction Action;
         Action = FAction;
@@ -73476,7 +73441,7 @@ public partial class TDiplomaticActionEventLog : TEventLog
             FAction = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Diplomacy.pas:1202
@@ -73742,12 +73707,6 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
 
     public sbyte FNextPlayer;
 
-    // Diplomacy.pas:1543
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Diplomacy.pas:1549
     public override bool Activate()
     {
@@ -73956,7 +73915,7 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
                         }
                     }
 
-                    Candidates.Free();
+                    Candidates?.Dispose();
                 }
 
                 break;
@@ -73968,11 +73927,11 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
             Action.Release();
         }
 
-        Peace.Free();
-        War.Free();
-        Unknown.Free();
-        IdealPeace.Free();
-        IdealWar.Free();
+        Peace?.Dispose();
+        War?.Dispose();
+        Unknown?.Dispose();
+        IdealPeace?.Dispose();
+        IdealWar?.Dispose();
         return Result;
     }
 
@@ -74012,8 +73971,8 @@ public partial class TDiplomacyAIPA : TAIPlayerAction, IAIPlayerActionClass
             AoWEUnit.AoWEngine.OutputDebugMessage(AoWEUnit.AIDID, name2);
         }
 
-        IdealPeace.Free();
-        IdealWar.Free();
+        IdealPeace?.Dispose();
+        IdealWar?.Dispose();
     }
 
     // intf_P5_08.inc:209
@@ -74054,16 +74013,15 @@ public partial class TAoWEngine : THSEngine
     public byte FLanguage;
 
     // Army.PAS:5853
-    public override void Destroy()
+    public override void Dispose()
     {
         CloseCampaign();
         CloseHSM(null);
         AoWEUnit.UnregisterCoreSpells(this);
         AoWEUnit.UnregisterCoreAbilities(FGameSet.FAbilityControl);
-        base.Destroy();
-        FDictionary.Free();
-        FEmailGames.Free();
-        FRegistry.Free();
+        base.Dispose();
+        FDictionary?.Dispose();
+        FEmailGames?.Dispose();
     }
 
     // Army.PAS:5767-5786
@@ -74213,7 +74171,7 @@ public partial class TAoWEngine : THSEngine
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
     }
 
@@ -74255,7 +74213,7 @@ public partial class TAoWEngine : THSEngine
             }
             finally
             {
-                Dictionary.Free();
+                Dictionary?.Dispose();
             }
         }
     }
@@ -74275,12 +74233,12 @@ public partial class TAoWEngine : THSEngine
             }
             finally
             {
-                Stream.Free();
+                Stream?.Dispose();
             }
         }
         finally
         {
-            FileStream.Free();
+            FileStream?.Dispose();
         }
     }
 
@@ -74423,7 +74381,7 @@ public partial class TAoWEngine : THSEngine
             }
             finally
             {
-                FileStream.Free();
+                FileStream?.Dispose();
             }
 
             try
@@ -74435,7 +74393,7 @@ public partial class TAoWEngine : THSEngine
             }
             finally
             {
-                Mem.Free();
+                Mem?.Dispose();
             }
         }
         catch
@@ -74465,7 +74423,7 @@ public partial class TAoWEngine : THSEngine
             }
             finally
             {
-                Mem.Free();
+                Mem?.Dispose();
             }
         }
         catch
@@ -74511,7 +74469,7 @@ public partial class TAoWEngine : THSEngine
     {
         if (FCampaign != null)
         {
-            FCampaign.Free();
+            FCampaign?.Dispose();
             FCampaign = null;
         }
     }
@@ -74580,11 +74538,11 @@ public partial class TAgeOfWondersEngine : THexagonSpriteEngine
     public THSEngine FGameEngine;
 
     // Army.PAS:6104
-    public override void Destroy()
+    public override void Dispose()
     {
         FGameEngine = null;
         Engine = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // Army.PAS:6092
@@ -74809,8 +74767,6 @@ public partial class TExportTextStream : TEWriteTextStorageStream
                         S = S + "<eol>";
                     }
                 }
-
-                try
                 {
                     Buffer = "[" + IntToStr(ID) + "]=";
                     if (!IsEmpty(S))
@@ -74824,9 +74780,6 @@ public partial class TExportTextStream : TEWriteTextStorageStream
 
                     FBuffer.Write(Cp1252.Encode(Buffer).AsSpan().Slice(1 - 1, Buffer.Length));
                     PropertyTable.Add(ID, 0);
-                }
-                finally
-                {
                 }
             }
         }
@@ -75000,12 +74953,6 @@ public partial class TBuildRoadsControl : TConstructionControl
     // AoWAb.PAS:5446
     public TBuildRoadsControl(TECustomNode owner) : base(owner)
     {
-    }
-
-    // AoWAb.PAS:5450
-    public override void Destroy()
-    {
-        base.Destroy();
     }
 
     // AoWAb.PAS:5458
@@ -76274,7 +76221,7 @@ public struct TP3PackedDamageTypes
     public TSet<TDamageType> Value { get => TSet<TDamageType>.FromMask(Value__image); set => Value__image = (ushort)value.Image; }
 }
 
-public delegate void TAIMoveExecuterDoneEvent(TObject Sender);
+public delegate void TAIMoveExecuterDoneEvent(object Sender);
 
 [StructLayout(LayoutKind.Explicit, Size = 8)]
 public struct TSpellCombatInfo
@@ -76765,7 +76712,8 @@ public partial class TP1AbilityNameView : TEObject
     }
 }
 
-public partial class TSelectorView : TObject
+[LegacyObject]
+public partial class TSelectorView
 {
     // Combat.pas:102
     public virtual void SetSelection()
@@ -76778,9 +76726,15 @@ public partial class TSelectorView : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TSelectorView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TP1DistanceCombatView : TObject
+[LegacyObject]
+public partial class TP1DistanceCombatView
 {
     // Combat.pas:219
     public virtual void DistanceSlot00()
@@ -77105,6 +77059,11 @@ public partial class TP1DistanceCombatView : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TP1DistanceCombatView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public delegate int TP1FastRound(TFastCombat Combat);
@@ -77133,17 +77092,29 @@ public struct TP2RaceTerrain
     public TSet<TAoWTerrainType> Disliked { get => TSet<TAoWTerrainType>.FromMask(Disliked__image); set => Disliked__image = (ushort)value.Image; }
 }
 
+[LegacyObject]
 // { Local views of unmarked foreign fields; no foreign layout is changed. }
-public partial class TP2NodeFields : TObject
+public partial class TP2NodeFields
 {
     public object Owner;
     public TList Children;
+
+    public TP2NodeFields()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TP2AbilityControlFields : TObject
+[LegacyObject]
+public partial class TP2AbilityControlFields
 {
     public TAbilityTypeList CombatAbilities;
     public TAbilityTypeList Enchantments;
+
+    public TP2AbilityControlFields()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // Damage-value record, five dwords
@@ -77162,7 +77133,8 @@ public struct TP2DamageValue
     public int Reserved3;
 }
 
-public partial class TP2AbilityCalls : TObject
+[LegacyObject]
+public partial class TP2AbilityCalls
 {
     public int AbilityID;
 
@@ -77508,10 +77480,16 @@ public partial class TP2AbilityCalls : TObject
         throw EAbstractError.Create("Abstract Error");
     }
 
+    public TP2AbilityCalls()
+    {
+        CaptureAddress.Assign(this);
+    }
+
 }
 
+[LegacyObject]
 // ExpandAbility acts on an owner. The setters update enchantments.
-public partial class TP2OwnerCalls : TObject
+public partial class TP2OwnerCalls
 {
     // Combat.pas:429
     public virtual void Slot00()
@@ -77740,9 +77718,15 @@ public partial class TP2OwnerCalls : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TP2OwnerCalls()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TP2EnchantmentCalls : TObject
+[LegacyObject]
+public partial class TP2EnchantmentCalls
 {
     public byte Duration;
 
@@ -77883,21 +77867,39 @@ public partial class TP2EnchantmentCalls : TObject
     {
         throw EAbstractError.Create("Abstract Error");
     }
+
+    public TP2EnchantmentCalls()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TP2SpellFields : TObject
+[LegacyObject]
+public partial class TP2SpellFields
 {
     public byte Duration;
+
+    public TP2SpellFields()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // original seven-byte table
-public partial class TP2CombatTurnFields : TObject
+public partial class TP2CombatTurnFields
 {
     public byte Turn;
+
+    public TP2CombatTurnFields()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // Obsolete serialized behavior object.
-public partial class TP2LegacyBehaviorCalls : TObject
+public partial class TP2LegacyBehaviorCalls
 {
     // Combat.pas:510
     public virtual void Slot00()
@@ -78019,16 +78021,33 @@ public partial class TP2LegacyBehaviorCalls : TObject
         throw EAbstractError.Create("Abstract Error");
     }
 
+    public TP2LegacyBehaviorCalls()
+    {
+        CaptureAddress.Assign(this);
+    }
+
 }
 
-public partial class TP2MapPlayerFields : TObject
+[LegacyObject]
+public partial class TP2MapPlayerFields
 {
     public sbyte Player;
+
+    public TP2MapPlayerFields()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TP2FaceEnchantmentFields : TObject
+[LegacyObject]
+public partial class TP2FaceEnchantmentFields
 {
     public int FaceIndex;
+
+    public TP2FaceEnchantmentFields()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public partial class TP3NodeAccess : TENode
@@ -78829,7 +78848,7 @@ public static partial class AoWEUnit
             }
 
             Multi.Release();
-            Path.Free();
+            Path?.Dispose();
         }
         else
         {
@@ -80154,8 +80173,8 @@ public static partial class AoWEUnit
                     Result = -1;
                 }
 
-                DefaultUnit.Free();
-                Unit_.Free();
+                DefaultUnit?.Dispose();
+                Unit_?.Dispose();
             }
             else
             {
@@ -80498,7 +80517,7 @@ public static partial class AoWEUnit
 
             if (Units != null)
             {
-                Units.Free();
+                Units?.Dispose();
             }
 
             AoWHSMap.FAIExecuter.UseProcessTime(50);
@@ -82977,7 +82996,7 @@ public static partial class AoWEUnit
     public static void Finalize()
     {
         AoWAbilityPlugIn.Release();
-        AoWEngine.Free();
+        AoWEngine?.Dispose();
         AoWEngine = null;
     }
 

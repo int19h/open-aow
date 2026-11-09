@@ -746,10 +746,10 @@ public partial class TRelWindow : TDataModule
     // AoWRelations.pas:596
     public void RelWindowDestroy()
     {
-        FActions.Free();
-        FControls.Free();
-        FPlayers.Free();
-        FRaces.Free();
+        FActions?.Dispose();
+        FControls?.Dispose();
+        FPlayers?.Dispose();
+        FRaces?.Dispose();
     }
 
     // AoWRelations.pas:604

@@ -66,7 +66,7 @@ public partial class TSmokeCloudEnchantment : TGlobalEnchantment
     {
         if ((FEnchantmentStatus.Image & 1) == 0) return false;
         bool result = base.Deactivate(player);
-        if ((FCloud.FStatus.Image & 0x20) != 0) FCloud.Free();
+        if ((FCloud.FStatus.Image & 0x20) != 0) FCloud?.Dispose();
         return result;
     }
 }
@@ -95,9 +95,9 @@ public partial class TSmokeCloud : TMultiHexMO
     public TSmokeCloudEnchantment FEnchantment;
 
     // SmokeCloud.pas:181
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
+        base.Dispose();
         FEnchantment.Release();
     }
 
@@ -363,7 +363,7 @@ public partial class TSmokeCloud : TMultiHexMO
                     }
                 }
 
-                Directions.Free();
+                Directions?.Dispose();
                 if (!Valid)
                 {
                     Tries = 20;
@@ -394,7 +394,7 @@ public partial class TSmokeCloud : TMultiHexMO
         }
         else
         {
-            Destroy();
+            Dispose();
         }
     }
 

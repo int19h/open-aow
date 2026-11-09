@@ -19,10 +19,10 @@ public partial class TItemControlGrid : TCustomImageDrawGrid
     public bool FShowStatus;
     public TAoWHSMap FMap;
     public byte FSort;
-    public TNotifyEvent<TObject> FOnUnselect;
+    public TNotifyEvent<object> FOnUnselect;
 
     // ItemCtrl.pas:135
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement Grids.Destroy in the platform or editor service. */
         throw new NotImplementedException();
@@ -66,14 +66,14 @@ public partial class TItemControlGrid : TCustomImageDrawGrid
     }
 
     // ItemCtrl.pas:157
-    public void ItemChanged(TObject Sender)
+    public void ItemChanged(object Sender)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ItemCtrl.pas:163
-    public void ItemControlChanged(TObject Sender)
+    public void ItemControlChanged(object Sender)
     {
         UpdateItems();
     }
@@ -189,15 +189,21 @@ public partial class TItemControlGrid : TCustomImageDrawGrid
     public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
 
     [Published]
-    public TNotifyEvent<TObject> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
+    public TNotifyEvent<object> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
 }
 
-public partial class TGridMapView : TObject
+[LegacyObject]
+public partial class TGridMapView
 {
     public TItemControl ItemControl;
     public THeroControl HeroControl;
     public TPlayerList Players;
     public TEventList LeaderEvent;
+
+    public TGridMapView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public struct TRawView

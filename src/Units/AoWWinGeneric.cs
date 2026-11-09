@@ -16,10 +16,10 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
     { }
 
     // AoWWinGeneric.pas:39
-    public override void Destroy()
+    public override void Dispose()
     {
-        FBuffer.Free();
-        base.Destroy();
+        (FBuffer as IDisposable)?.Dispose();
+        base.Dispose();
     }
 
     // AoWWinGeneric.pas:45
@@ -54,7 +54,7 @@ public partial class TAOWGenericWindow : TAOWBaseWindow
             {
                 if (FBackSurface != null)
                 {
-                    FBackSurface.Free();
+                    FBackSurface?.Dispose();
                     FBackSurface = null;
                 }
             }

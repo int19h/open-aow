@@ -177,7 +177,7 @@ public partial class TMoveOnEvent : TMapObject
         sbyte player = army.FArmy.FPlayer;
         if (!GetTriggerPlayer(player)) return;
         MovedOnTrigger(player);
-        if (FTriggerPlayers == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) Destroy();
+        if (FTriggerPlayers == 0 && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting)) Dispose();
     }
 }
 
@@ -318,10 +318,10 @@ public partial class TShowMessageMoveOnEvent : TMoveOnEvent
     public TStringList FMessage;
 
     // MoveOnEvents.pas:340
-    public override void Destroy()
+    public override void Dispose()
     {
-        FMessage.Free();
-        base.Destroy();
+        FMessage?.Dispose();
+        base.Dispose();
     }
 
     // MoveOnEvents.pas:349

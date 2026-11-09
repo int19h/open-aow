@@ -120,7 +120,7 @@ public partial class TAoWComponent : TComponent
     }
 
     // AoWComp.pas:233
-    public override void Destroy()
+    public override void Dispose()
     {
         SetOwner(null);
         while (FChildren.Count > 0)
@@ -128,25 +128,23 @@ public partial class TAoWComponent : TComponent
             ((TAoWComponent)FChildren[0]).SetOwner(null);
         }
 
-        FChildren.Free();
-        FAlignment.Free();
+        FChildren?.Dispose();
+        FAlignment?.Dispose();
         for (int I = 0, last = FDrawList.Count - 1; I <= last; I++)
         {
-            ((TaowRect)FDrawList[I]).Free();
         }
 
         for (int I = 0, last = FBltList.Count - 1; I <= last; I++)
         {
-            ((TaowRect)FBltList[I]).Free();
         }
 
-        FBltList.Free();
-        FDrawList.Free();
-        base.Destroy();
+        FBltList?.Dispose();
+        FDrawList?.Dispose();
+        base.Dispose();
     }
 
     // AoWComp.pas:251
-    public virtual void OnChangeText(TObject Sender)
+    public virtual void OnChangeText(object Sender)
     {
         FSized = false;
     }
@@ -1108,12 +1106,18 @@ public partial class TAOWAlignment : TPersistent
 
 }
 
+[LegacyObject]
 // one entry of the dirty rectangle lists. R, Owner (the component that asked for the redraw.
 // AddDrawRect only)
-public partial class TaowRect : TObject
+public partial class TaowRect
 {
     public TRect R;
     public TAoWComponent Owner;
+
+    public TaowRect()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public static partial class AoWCompUnit

@@ -55,8 +55,8 @@ public sealed class SurfaceRectangleTests
         }
         finally
         {
-            source.Destroy();
-            dest.Destroy();
+            source.Dispose();
+            dest.Dispose();
         }
     }
 
@@ -142,9 +142,9 @@ public sealed class SurfaceRectangleTests
         }
         finally
         {
-            whole.Destroy();
-            part.Destroy();
-            source.Destroy();
+            whole.Dispose();
+            part.Dispose();
+            source.Dispose();
         }
     }
 
@@ -174,7 +174,7 @@ public sealed class SurfaceRectangleTests
             Assert.Equal(Source(2, 1), sub.View().Word(0));
             Assert.Equal(G.GFXE_ERROR, source.LockEx(ref part, RtlUnit.Rect(1, 1, 5, 3)));
         }
-        finally { source.Destroy(); }
+        finally { source.Dispose(); }
     }
 
     // GetPrimarySurfaceRgn returns @FPrimarySurfaceRgn in the original: never nil, the rectangle
@@ -182,19 +182,15 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void ControllersReturnThePrimaryRegion()
     {
-        var owner = new TComponent(null!);
-        try
-        {
-            var dc = new TDisplayCtrl(owner);
-            var sdl = new TSdlDC(new NullDisplayHost(), owner);
-            var region = RtlUnit.Rect(3, 4, 643, 484);
-            dc.SetPrimarySurfaceRgn(region);
-            sdl.SetPrimarySurfaceRgn(region);
-            Assert.Equal(region, dc.GetPrimarySurfaceRgn());
-            Assert.Equal(region, sdl.GetPrimarySurfaceRgn());
-            Assert.Equal(region, dc.FPrimarySurfaceRgn);
-        }
-        finally { owner.Destroy(); }
+        using var owner = new TComponent(null!);
+        var dc = new TDisplayCtrl(owner);
+        var sdl = new TSdlDC(new NullDisplayHost(), owner);
+        var region = RtlUnit.Rect(3, 4, 643, 484);
+        dc.SetPrimarySurfaceRgn(region);
+        sdl.SetPrimarySurfaceRgn(region);
+        Assert.Equal(region, dc.GetPrimarySurfaceRgn());
+        Assert.Equal(region, sdl.GetPrimarySurfaceRgn());
+        Assert.Equal(region, dc.FPrimarySurfaceRgn);
     }
 
     private sealed class NullDisplayHost : Aow.Platform.IDisplayHost

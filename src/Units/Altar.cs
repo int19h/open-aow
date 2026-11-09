@@ -72,7 +72,7 @@ public partial class TAltar : TPlayerStructure
                 if (!FStorm.UpdateStorm())
                 {
                     FStorm.FinalizeStorm();
-                    FStorm.Free();
+                    FStorm?.Dispose();
                     FStorm = null;
                     Result = TExecuteResult.erDone;
                     Update();
@@ -165,7 +165,7 @@ public partial class TAltar : TPlayerStructure
                 }
             }
 
-            Storm.Free();
+            Storm?.Dispose();
         }
 
         return false;
@@ -299,7 +299,7 @@ public partial class TAltar : TPlayerStructure
         switch (Selection.FChange)
         {
             case TTargetSelectionChange.tscDeactivated:
-                FStorm.Free();
+                FStorm?.Dispose();
                 FStorm = null;
                 Selection.FOnChange -= OnTargetSelectionChange;
                 Update();
@@ -311,7 +311,7 @@ public partial class TAltar : TPlayerStructure
                     Selection.Deactivate();
                 }
 
-                FStorm.Free();
+                FStorm?.Dispose();
                 FStorm = null;
                 Update();
                 break;

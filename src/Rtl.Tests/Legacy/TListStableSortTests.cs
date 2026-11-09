@@ -5,9 +5,9 @@ public sealed class TListStableSortTests
     [Fact]
     public void StableSortKeepsEqualItemsAndQuickSortDoesNot()
     {
-        var first = new TObject();
-        var second = new TObject();
-        var third = new TObject();
+        var first = new object();
+        var second = new object();
+        var third = new object();
         var stable = new TList();
         stable.Add(first);
         stable.Add(second);

@@ -74,9 +74,10 @@ public sealed class UiConstructionTests
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-            for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
+            for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
+                    if (field.Name == "captureOrdinal") continue;
                     if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
                     string key = current.Name + "." + field.Name;
                     object? child = field.GetValue(item);
@@ -220,7 +221,7 @@ public sealed class UiConstructionTests
     [Fact]
     public void InheritOnlyLineHasItsOwnCompletedOwnerConstructor()
     {
-        var owner = new TComponent(null!);
+        using var owner = new TComponent(null!);
         var line = new Aow.Units.AoWLenLine.TAoWLenLine(owner);
         Assert.Same(owner, line.Owner);
         Assert.Same(line, owner.Components[0]);
@@ -230,9 +231,8 @@ public sealed class UiConstructionTests
         Assert.NotNull(line.FAlignment);
         Assert.NotNull(line.FChildren);
         Assert.NotNull(line.FToolTipText);
-        line.Destroy();
+        line.Dispose();
         Assert.Equal(0, owner.ComponentCount);
-        owner.Destroy();
     }
 
     private static TComponent Direct(Type type, TComponent? owner)
@@ -273,7 +273,7 @@ public sealed class UiConstructionTests
             catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
             finally
             {
-                try { value?.Destroy(); }
+                try { value?.Dispose(); }
                 catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));

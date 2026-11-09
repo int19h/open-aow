@@ -64,7 +64,7 @@ public sealed class CombatMapConstructionTests
                         var published = Combat.AoWCombatMap;
                         Assert.NotNull(published);
                         if (owner is not null) Assert.Equal([true], owner.PublishedAtInsertion);
-                        int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TAoWCombatMap) && x.GetMethod()?.Name == "Destroy");
+                        int destroyEntries = caught is null ? 0 : new StackTrace(caught).GetFrames().Count(x => x.GetMethod()?.DeclaringType == typeof(TAoWCombatMap) && x.GetMethod()?.Name == "Dispose");
                         var record = new JsonObject
                         {
                             ["GlobalType"] = published.GetType().FullName,
@@ -85,7 +85,7 @@ public sealed class CombatMapConstructionTests
                             Assert.All(Enumerable.Range(0, 8), i => Assert.Equal(2, value.FPositionStatus[i]));
                             Assert.Contains("RectangleSelectEvent", record["FieldGraph"]!.ToJsonString());
                             value.SetOwner(null!);
-                            value.Destroy();
+                            value.Dispose();
                             Assert.Null(Combat.AoWCombatMap);
                             Assert.Equal(0, entry.RefCount);
                         }

@@ -64,7 +64,6 @@ public static partial class E1GameFlowUnit
         if (Dialog.FSavedSongStatus != null)
         {
             RestoreSongStatus(Dialog.FSavedSongStatus);
-            Dialog.FSavedSongStatus.Free();
             Dialog.FSavedSongStatus = null;
         }
 
@@ -237,7 +236,7 @@ public static partial class E1GameFlowUnit
     {
         if (Dialog.FAnimation != null)
         {
-            Dialog.FAnimation.Free();
+            (Dialog.FAnimation as IDisposable)?.Dispose();
             Dialog.FAnimation = null;
         }
     }

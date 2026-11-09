@@ -37,7 +37,7 @@ public sealed class ObjectLifetimeTests
         Assert.True(attacker.ExecuteRound());
         Assert.Equal(6, target.FHitPoints);
         var result = (new WeakReference(attacker), new WeakReference(target));
-        attacker.Free();
+        attacker?.Dispose();
         return result;
     }
 
@@ -55,25 +55,21 @@ public sealed class ObjectLifetimeTests
     [MethodImpl(MethodImplOptions.NoInlining)]
     private static (WeakReference Attacker, WeakReference Target) Target()
     {
-        var owner = new TENode(null!);
-        try
-        {
-            var attacker = new TCombatObject(owner);
-            var target = new TCombatObject(owner);
-            attacker.AddTarget(target, 5, 0, 2);
-            Assert.Equal(0, attacker.FTargets.IndexOfItemA(target));
-            Assert.Equal(0, target.FTargetedBy.IndexOfItemA(attacker));
-            Assert.Equal(5, target.FIncomingCombatValue);
-            attacker.RemoveTarget(target);
-            Assert.Equal(-1, target.FTargetedBy.IndexOfItemA(attacker));
-            attacker.AddTarget(target, 3, 0, 1);
-            var result = (new WeakReference(attacker), new WeakReference(target));
-            attacker.Free();
-            target.SetOwner(null!);
-            Assert.Equal(0, owner.Count);
-            return result;
-        }
-        finally { owner.Free(); }
+        using var owner = new TENode(null!);
+        var attacker = new TCombatObject(owner);
+        var target = new TCombatObject(owner);
+        attacker.AddTarget(target, 5, 0, 2);
+        Assert.Equal(0, attacker.FTargets.IndexOfItemA(target));
+        Assert.Equal(0, target.FTargetedBy.IndexOfItemA(attacker));
+        Assert.Equal(5, target.FIncomingCombatValue);
+        attacker.RemoveTarget(target);
+        Assert.Equal(-1, target.FTargetedBy.IndexOfItemA(attacker));
+        attacker.AddTarget(target, 3, 0, 1);
+        var result = (new WeakReference(attacker), new WeakReference(target));
+        attacker?.Dispose();
+        target.SetOwner(null!);
+        Assert.Equal(0, owner.Count);
+        return result;
     }
 
     [Fact]
@@ -113,7 +109,7 @@ public sealed class ObjectLifetimeTests
         finally
         {
             control.UnregisterSpell(spell);
-            spell.Free();
+            spell?.Dispose();
         }
         Collect();
         Assert.False(particle.IsAlive);

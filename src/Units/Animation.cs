@@ -65,12 +65,6 @@ public partial class TAnimation : THexagonSprite
     public int FTag;
     public THSMap FAnimationMap;
 
-    // Animation.pas:133
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-
     // Animation.pas:153
     public override TSet<TEControlStyleElement> GetControlStyle()
     {
@@ -377,16 +371,16 @@ public partial class TAnimation : THexagonSprite
     }
 
     // Animation.pas:138
-    public void DestroyEvent(TObject Sender)
+    public void DestroyEvent(object Sender)
     {
         if (Owner == null)
         {
-            Destroy();
+            Dispose();
         }
     }
 
     // Animation.pas:148
-    public void NewFrameEvent(TObject Sender)
+    public void NewFrameEvent(object Sender)
     {
         NewFrame();
     }
@@ -475,7 +469,7 @@ public partial class TAnimationTE : TTokenEvent
     {
         if (FAnimation != null)
         {
-            FAnimation.Free();
+            FAnimation?.Dispose();
         }
 
         FAnimation = Animation;
@@ -554,7 +548,7 @@ public partial class TImageSequenceAnimation : TAnimation
         base.NewFrame();
         if (FFrameCounter == FFrameCount)
         {
-            Destroy();
+            Dispose();
         }
     }
 
@@ -710,7 +704,7 @@ public partial class TTwinkleAnimation : TAnimation
         RandSeed = OldSeed;
         if (FFrameCounter >= FDuration)
         {
-            Destroy();
+            Dispose();
         }
     }
 

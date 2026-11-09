@@ -33,9 +33,7 @@ public sealed class TRLESprite08GrabTests
         }
         finally
         {
-            grab.Destroy();
-            surface.Destroy();
-            palette.Destroy();
+            surface.Dispose();
         }
     }
 
@@ -60,7 +58,7 @@ public sealed class TRLESprite08GrabTests
             Assert.Equal(new byte[] { 8, 0, 0, 0, 7, 0, 2, 9 }, Encoded(image));
             Assert.Equal(new byte[,] { { 0x55, 0x55, 0x55, 0x55, 0x55 }, { 0x55, 7, 0x55, 0x55, 9 }, { 0x55, 0x55, 0x55, 0x55, 0x55 } }, Draw(image, 5, 3));
         }
-        finally { image.Destroy(); }
+        finally { image.Dispose(); }
     }
 
     [Fact]
@@ -82,7 +80,7 @@ public sealed class TRLESprite08GrabTests
             for (int y = 0; y < 2; y++)
                 for (int x = 0; x < 300; x++) Assert.Equal(pixels[y, x] == 0 ? (byte)0x55 : pixels[y, x], drawn[y, x]);
         }
-        finally { image.Destroy(); }
+        finally { image.Dispose(); }
     }
 
     [Fact]
@@ -103,7 +101,7 @@ public sealed class TRLESprite08GrabTests
             Assert.Equal((0, 0, 2, 2), (image.FRLELeft, image.FRLETop, image.FRLEWidth, image.FRLEHeight));
             Assert.Equal(new byte[] { 7, 0, 0, 0, 0, 1, 6, 6, 0, 0, 0, 6, 6 }, Encoded(image));
         }
-        finally { image.Destroy(); }
+        finally { image.Dispose(); }
     }
 
     [Fact]
@@ -121,9 +119,8 @@ public sealed class TRLESprite08GrabTests
         }
         finally
         {
-            grab.Destroy();
-            image.Destroy();
-            surface.Destroy();
+            image.Dispose();
+            surface.Dispose();
         }
     }
 
@@ -131,23 +128,15 @@ public sealed class TRLESprite08GrabTests
     private static byte[,] Draw(TRLESprite08 image, int w, int h)
     {
         var palette = new TGFXEPalette { PixelFormatID = G.pfBGR24 };
-        var surface = new TDataSurface(w, h, G.pfPAL8, palette);
-        try
-        {
-            TSurfaceDesc sd = default;
-            Assert.Equal(G.GFXE_OK, surface.Lock(ref sd));
-            for (int y = 0; y < h; y++) sd.View().Bytes(y * sd.Pitch, w).Fill(0x55);
-            image.ShowOpaque(0, 0, sd);
-            var result = new byte[h, w];
-            for (int y = 0; y < h; y++)
-                for (int x = 0; x < w; x++) result[y, x] = sd.View()[y * sd.Pitch + x];
-            surface.Unlock();
-            return result;
-        }
-        finally
-        {
-            surface.Destroy();
-            palette.Destroy();
-        }
+        using var surface = new TDataSurface(w, h, G.pfPAL8, palette);
+        TSurfaceDesc sd = default;
+        Assert.Equal(G.GFXE_OK, surface.Lock(ref sd));
+        for (int y = 0; y < h; y++) sd.View().Bytes(y * sd.Pitch, w).Fill(0x55);
+        image.ShowOpaque(0, 0, sd);
+        var result = new byte[h, w];
+        for (int y = 0; y < h; y++)
+            for (int x = 0; x < w; x++) result[y, x] = sd.View()[y * sd.Pitch + x];
+        surface.Unlock();
+        return result;
     }
 }

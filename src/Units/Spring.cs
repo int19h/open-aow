@@ -23,7 +23,7 @@ public partial class TSpringOfLifeAnimation : TAnimation
         base.NewFrame();
         if (FFrameCounter > 20)
         {
-            Destroy();
+            Dispose();
         }
     }
 

@@ -12,18 +12,17 @@ public readonly struct MsgArg : IUnion, IEquatable<MsgArg>
     private enum Case : byte { None, Integer, Object }
 
     private readonly int bits;
-    private readonly TObject? reference;
+    private readonly object? reference;
     private readonly Case kind;
 
     public MsgArg(int value) { bits = value; kind = Case.Integer; }
 
-    public MsgArg(TObject? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
+    public MsgArg(object? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
 
-    // The compiler prefers a user-defined conversion to a union conversion. One operator per case
-    // keeps the case chosen by the source type: a byte or a short widens to Integer, a class
-    // derived from TObject converts to Object.
+    // The compiler prefers a user-defined conversion to a union conversion. The integer operator
+    // keeps a byte or a short on the integer case. A conversion from object is illegal, so the
+    // reference case is the constructor.
     public static implicit operator MsgArg(int value) => new(value);
-    public static implicit operator MsgArg(TObject? value) => new(value);
 
     // Patterns read the cases through TryGetValue. Value boxes and serves only reflection.
     public object? Value => kind switch
@@ -41,7 +40,7 @@ public readonly struct MsgArg : IUnion, IEquatable<MsgArg>
         return kind == Case.Integer;
     }
 
-    public bool TryGetValue([MaybeNullWhen(false)] out TObject value)
+    public bool TryGetValue([MaybeNullWhen(false)] out object value)
     {
         value = kind == Case.Object ? reference : null;
         return kind == Case.Object;
@@ -71,7 +70,8 @@ public readonly struct MsgArg : IUnion, IEquatable<MsgArg>
 
     private bool IsZero => kind == Case.None || (kind == Case.Integer && bits == 0);
 
-    public override bool Equals(object? obj) => obj is MsgArg other && Equals(other);
+    // A type pattern on this union builds the reference case from any object, so the override unboxes.
+    public override bool Equals(object? obj) => obj is not null && obj.GetType() == typeof(MsgArg) && Equals((MsgArg)obj);
 
     public override int GetHashCode() => IsZero ? 0 : kind == Case.Integer ? bits : RuntimeHelpers.GetHashCode(reference);
 

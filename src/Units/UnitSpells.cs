@@ -132,7 +132,7 @@ public partial class TDispelMagic : TUnitSpell
             }
 
             Result = Enchantments.GetCount() > 0;
-            Enchantments.Free();
+            Enchantments?.Dispose();
         }
         else
         {

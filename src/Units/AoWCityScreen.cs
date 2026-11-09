@@ -210,7 +210,7 @@ public partial class TCityScreen : TDataModule
     {
         if (FPreview != null)
         {
-            FPreview.Free();
+            FPreview?.Dispose();
             FPreview = null;
         }
     }
@@ -290,7 +290,7 @@ public partial class TCityScreen : TDataModule
         RepeatLbl.Text = repeat;
         if (FMigrations != null)
         {
-            FMigrations.Free();
+            FMigrations?.Dispose();
             FMigrations = null;
         }
     }
@@ -743,7 +743,7 @@ public partial class TCityScreen : TDataModule
         FCity.ListEnhancementsInfo(EnhancementsMemo.Items);
         if (FMigrations != null)
         {
-            FMigrations.Free();
+            FMigrations?.Dispose();
             FMigrations = null;
         }
 
@@ -865,7 +865,7 @@ public partial class TCityScreen : TDataModule
     }
 
     // AoWCityScreen.pas:1207
-    public void CityChanged(TObject Sender)
+    public void CityChanged(object Sender)
     {
         if (Dlg.Visible && Sender == FCity)
         {
@@ -901,7 +901,7 @@ public partial class TCityScreen : TDataModule
         var lhx = FCity.GetLhx();
         var yhx = FCity.GetYhx();
         FPreview = Generator.RandomMap(null, FCity.GetXhx(), yhx, lhx);
-        Generator.Free();
+        Generator?.Dispose();
         Armies = new TArmyHSList(null);
         FCity.ListArmies(Armies);
         for (int I = 0, last = Armies.GetCount() - 1; I <= last; I++)
@@ -918,7 +918,7 @@ public partial class TCityScreen : TDataModule
             }
         }
 
-        Armies.Free();
+        Armies?.Dispose();
         var mapObject = FPreview.FCenterViewLocation;
         if (FPreview.FCenterViewLocation != null)
         {
@@ -947,7 +947,7 @@ public partial class TCityScreen : TDataModule
     // AoWCityScreen.pas:297
     public void CityScreenDestroy()
     {
-        FImages.Free();
+        FImages?.Dispose();
     }
 
     // AoWCityScreen.pas:302

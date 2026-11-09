@@ -42,18 +42,30 @@ public enum AnonymousEnum_piMove : byte
     piRanged = 1
 }
 
+[LegacyObject]
 // { ot=1 }
-public partial class TTCAbility : TObject
+public partial class TTCAbility
 {
     public int Ability;
     public int Spell;
+
+    public TTCAbility()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // PathIndex. Chance
-public partial class TROb : TObject
+public partial class TROb
 {
     public int PathIndex;
     public int Chance;
+
+    public TROb()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // Inherited Width. Height. Levels. HSSFileName. HSMapClassID. MapLevelClassID
@@ -75,8 +87,9 @@ public partial class TAoWNewCombatMapSettings : TNewHSMapSettings
 
 }
 
+[LegacyObject]
 // MoveType. Ability. Spell. Value. GroupValue. UnitHS. Target. X. Y
-public partial class TaiMove : TObject
+public partial class TaiMove
 {
     public TaiMoveType MoveType;
     public short Ability;
@@ -87,11 +100,17 @@ public partial class TaiMove : TObject
     public TCombatObject Target;
     public ushort X;
     public ushort Y;
+
+    public TaiMove()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // FSide. Units. Allies. Enemies. Moves. Walls. CurrentMove. FUnitIndex. FUnitLimit. FMinMoves.
 // FHeroMoves. FNormalUnits. FIgnoreWalls. FFlee. Status
-public partial class TCAI : TObject
+public partial class TCAI : IDisposable
 {
     public TCombatSideIndex FSide;
     public TList Units;
@@ -110,24 +129,24 @@ public partial class TCAI : TObject
     public TaiStatus Status;
 
     // AoWTC.pas:762
-    public override void Destroy()
+    public virtual void Dispose()
     {
-        Units.Free();
-        Allies.Free();
-        Enemies.Free();
-        Walls.Free();
+        Units?.Dispose();
+        Allies?.Dispose();
+        Enemies?.Dispose();
+        Walls?.Dispose();
         for (int I = 0, last = Moves.Count - 1; I <= last; I++)
         {
-            ((TObject)Moves[I]).Free();
+            (Moves[I] as IDisposable)?.Dispose();
         }
 
-        Moves.Free();
-        base.Destroy();
+        Moves?.Dispose();
     }
 
     // AoWTC.pas:752
     public TCAI()
     {
+        CaptureAddress.Assign(this);
         Units = new TList();
         Allies = new TList();
         Enemies = new TList();
@@ -606,7 +625,7 @@ public partial class TCAI : TObject
     }
 
     // AoWTC.pas:1007
-    public void EvalHex(TCombatObject Ignore, int Ability, int Spell, int X, int Y, ref int Value, bool HitWalls, bool Friendly, TTacticalCombatUnit U, TObject IgnoreWall)
+    public void EvalHex(TCombatObject Ignore, int Ability, int Spell, int X, int Y, ref int Value, bool HitWalls, bool Friendly, TTacticalCombatUnit U, object IgnoreWall)
     {
         TTacticalCombatUnitHS HS;
         TCityWall Wall;
@@ -745,7 +764,7 @@ public partial class TCAI : TObject
     }
 
     // AoWTC.pas:1072
-    public void EvalArea(ref int Value, TCombatObject Ignore, int Ability, int Spell, int X, int Y, bool HitWalls, bool IncludeCenter, bool Friendly, TTacticalCombatUnit U, TObject IgnoreWall)
+    public void EvalArea(ref int Value, TCombatObject Ignore, int Ability, int Spell, int X, int Y, bool HitWalls, bool IncludeCenter, bool Friendly, TTacticalCombatUnit U, object IgnoreWall)
     {
         int X1 = default;
         int Y1 = default;
@@ -760,7 +779,7 @@ public partial class TCAI : TObject
     }
 
     // AoWTC.pas:1084
-    public int EvalPath(ref int Value, TCombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, bool HitWalls, TTacticalCombatUnit U, TObject IgnoreWall)
+    public int EvalPath(ref int Value, TCombatObject Ignore, int Ability, int Spell, int X1, int Y1, int X2, int Y2, bool HitWalls, TTacticalCombatUnit U, object IgnoreWall)
     {
         int Result;
         TXYZList Path;
@@ -837,15 +856,15 @@ public partial class TCAI : TObject
                 }
 
                 Value = Value + Total;
-                Path.Free();
+                Path?.Dispose();
                 {
                     for (int I = 0, last = Obstacles.Count - 1; I <= last; I++)
                     {
-                        ((TObject)Obstacles[I]).Free();
+                        (Obstacles[I] as IDisposable)?.Dispose();
                     }
                 }
 
-                Obstacles.Free();
+                Obstacles?.Dispose();
                 Result = Original - Value;
                 break;
             default:
@@ -886,7 +905,7 @@ public partial class TCAI : TObject
     }
 
     // AoWTC.pas:1149
-    public void CheckUnit(int X, int Y, int Hits, int HitPoints, TCombatMoveControlSettings Settings, TTacticalCombatUnit U, TCombatObject Target, TList Abilities, TObject Wall)
+    public void CheckUnit(int X, int Y, int Hits, int HitPoints, TCombatMoveControlSettings Settings, TTacticalCombatUnit U, TCombatObject Target, TList Abilities, object Wall)
     {
         int SafeValue;
         int I;
@@ -1047,7 +1066,7 @@ public partial class TCAI : TObject
                         }
                     }
 
-                    Round.Free();
+                    Round?.Dispose();
                 }
             }
             catch
@@ -2021,9 +2040,9 @@ public partial class TCAI : TObject
             }
         }
 
-        Path.Free();
-        BasePath.Free();
-        DetourPath.Free();
+        Path?.Dispose();
+        BasePath?.Dispose();
+        DetourPath?.Dispose();
     }
 
     // AoWTC.pas:1628
@@ -2069,7 +2088,7 @@ public partial class TCAI : TObject
                         int last = Moves.Count - 1;
                         for (; I <= last; I += 1)
                         {
-                            ((TObject)Moves[I]).Free();
+                            (Moves[I] as IDisposable)?.Dispose();
                         }
 
                         Moves.Clear();
@@ -2378,7 +2397,7 @@ public partial class TCAI : TObject
                                 int limit = Abilities.Count - 1;
                                 for (; I <= limit; I += 1)
                                 {
-                                    ((TObject)Abilities[I]).Free();
+                                    (Abilities[I] as IDisposable)?.Dispose();
                                 }
 
                                 Abilities.Clear();
@@ -2450,15 +2469,15 @@ public partial class TCAI : TObject
                                     }
                                 }
 
-                                Settings.Free();
+                                Settings?.Dispose();
                                 I = 0;
                                 int last2 = Abilities.Count - 1;
                                 for (; I <= last2; I += 1)
                                 {
-                                    ((TObject)Abilities[I]).Free();
+                                    (Abilities[I] as IDisposable)?.Dispose();
                                 }
 
-                                Abilities.Free();
+                                Abilities?.Dispose();
                             }
 
                             FUnitIndex += 1;
@@ -2657,16 +2676,16 @@ public partial class TCAI : TObject
                                         }
                                     }
 
-                                    Settings.Free();
+                                    Settings?.Dispose();
                                     I = 0;
                                     int last2 = Abilities.Count - 1;
                                     for (; I <= last2; I += 1)
                                     {
-                                        ((TObject)Abilities[I]).Free();
+                                        (Abilities[I] as IDisposable)?.Dispose();
                                     }
                                 }
 
-                                Abilities.Free();
+                                Abilities?.Dispose();
                             }
 
                             FUnitIndex += 1;
@@ -2728,7 +2747,7 @@ public partial class TCAI : TObject
 
                                         L = OtherMove.UnitHS.FUnit.GetMoves() * (OtherMove.Value / (K * 10));
                                         K = Units.IndexOf(OtherMove.UnitHS.FUnit);
-                                        if (ObjectToInt((TObject)Bonuses[K]) < L)
+                                        if (ObjectToInt((object)Bonuses[K]) < L)
                                         {
                                             Bonuses[K] = IntToObject(L);
                                         }
@@ -2742,7 +2761,7 @@ public partial class TCAI : TObject
                                     if (Move.GroupValue > -1000000 && Move.GroupValue < 1000000)
                                     {
                                         var bonuse = Bonuses[J];
-                                        Move.GroupValue += ObjectToInt((TObject)bonuse);
+                                        Move.GroupValue += ObjectToInt((object)bonuse);
                                     }
                                 }
                             }
@@ -2757,7 +2776,7 @@ public partial class TCAI : TObject
                         }
 
                         FUnitLimit = 0;
-                        Bonuses.Free();
+                        Bonuses?.Dispose();
                     }
                     catch
                     {
@@ -2816,7 +2835,7 @@ public partial class TCAI : TObject
                                         CreateMove(TaiMoveType.aiMove, Settings.FPath[0].X, path.Y, K, 0, 0, U, null);
                                     }
 
-                                    Settings.Free();
+                                    Settings?.Dispose();
                                 }
                                 else
                                 {
@@ -2858,7 +2877,6 @@ public partial class TCAI : TObject
                             switch (Move.MoveType)
                             {
                                 case TaiMoveType.aiFake:
-                                    Move.Free();
                                     Moves.Delete(I);
                                     break;
                                 default:
@@ -3017,7 +3035,7 @@ public partial class TCAI : TObject
                                             }
                                         }
 
-                                        Settings.Free();
+                                        Settings?.Dispose();
                                     }
 
                                     break;
@@ -3052,7 +3070,7 @@ public partial class TCAI : TObject
                                         }
                                     }
 
-                                    Settings.Free();
+                                    Settings?.Dispose();
                                     break;
                                 case TaiMoveType.aiTouch:
                                     AoWHSSet.FAbilityControl.GetAbility(Move.Ability).GetCombatInfo(Move.UnitHS.FUnit.FUnit, ref AIInfo);
@@ -3093,7 +3111,7 @@ public partial class TCAI : TObject
                                         }
                                     }
 
-                                    Settings.Free();
+                                    Settings?.Dispose();
                                     break;
                                 case TaiMoveType.aiRanged:
                                     Move.UnitHS.FSelectedAbility = Move.Ability;
@@ -3111,7 +3129,8 @@ public partial class TCAI : TObject
                                     break;
                             }
 
-                            ((TObject)Moves[0]).Free();
+                            (
+                            ((object)Moves[0]) as IDisposable)?.Dispose();
                             Moves.Delete(0);
                         }
 
@@ -3124,7 +3143,7 @@ public partial class TCAI : TObject
                         int last = Moves.Count - 1;
                         for (; I <= last; I += 1)
                         {
-                            ((TObject)Moves[I]).Free();
+                            (Moves[I] as IDisposable)?.Dispose();
                         }
 
                         Moves.Clear();
@@ -3425,10 +3444,10 @@ public partial class TfxHS : TFixedVisibleHS
     public TfxType FEffectType;
 
     // AoWTC.pas:5221
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPath.Free();
-        base.Destroy();
+        FPath?.Dispose();
+        base.Dispose();
     }
 
     // AoWTC.pas:5214
@@ -3452,7 +3471,7 @@ public partial class TfxHS : TFixedVisibleHS
     }
 
     // AoWTC.pas:5244
-    public void NewFrame(TObject Sender)
+    public void NewFrame(object Sender)
     {
         TfxHS Effect;
         int J = default;
@@ -4653,7 +4672,7 @@ public partial class TfxHS : TFixedVisibleHS
                             I += 1;
                         }
 
-                        FPath.Free();
+                        FPath?.Dispose();
                         FPath = NewPath;
                         var count22 = FPath.Count;
                         if (FFrame >= count22 - 1)
@@ -5260,7 +5279,7 @@ public partial class TUnitPositionHS : TSingleHS
             P.L = 0;
             P.Flag = (sbyte)FDirection;
             AoWTCUnit.AoWCombatMap.FUnitPositions.SetUnitPosition(FPosition, FIndex, P);
-            Destroy();
+            Dispose();
         }
     }
 
@@ -5528,7 +5547,7 @@ public partial class TCCorpseHS : TSingleHS
                         AoWTCUnit.AoWCombatMap.PlaceHX(UnitHS, xhx2, yhx3, 0);
                     }
 
-                    this.Free();
+                    this.Dispose();
                 }
             }
         }
@@ -5556,7 +5575,7 @@ public partial class TCCorpseHS : TSingleHS
     }
 
     // AoWTC.pas:3978
-    public void NewFrame(TObject Sender)
+    public void NewFrame(object Sender)
     {
         TImageSequence Sequence;
         Sequence = AoWHSSet.FImageSequences.ImageSequences[FSequenceIndex];
@@ -5645,11 +5664,11 @@ public partial class TUnitPositionControl : TEObject
     public TXYLList FPositions;
 
     // AoWTC.pas:4943
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPositions.Free();
+        FPositions?.Dispose();
         FPositions = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // AoWTC.pas:4936
@@ -5680,7 +5699,7 @@ public partial class TUnitPositionControl : TEObject
                     HS = new TUnitPositionHS(null);
                     if (!AoWTCUnit.AoWCombatMap.PlaceHX(HS, X, Y, L))
                     {
-                        HS.Free();
+                        HS?.Dispose();
                         HS = null;
                     }
                 }
@@ -5979,7 +5998,7 @@ public partial class TTacticalCombatUnit : TCombatUnit
                 var xhx2 = FUnitHS.GetXhx();
                 var yhx3 = FUnitHS.GetYhx();
                 R = Rect(FUnitHS.GetXhx(), yhx3, xhx2 + 1, yhx2 + 1);
-                FUnitHS.Free();
+                FUnitHS?.Dispose();
                 FUnitHS = null;
                 AoWTCUnit.AoWCombatMap.TriggerMapChangedEvent(R, 0);
             }
@@ -6488,10 +6507,10 @@ public partial class TTacticalCombatUnitHS : TUnitHS
 
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
         {
-            ((TObject)FAbilities[I]).Free();
+            (FAbilities[I] as IDisposable)?.Dispose();
         }
 
-        FAbilities.Free();
+        FAbilities?.Dispose();
         base.Deactivate();
     }
 
@@ -6734,7 +6753,7 @@ public partial class TTacticalCombatUnitHS : TUnitHS
         TTCAbility Ability;
         for (int I = 0, last = FAbilities.Count - 1; I <= last; I++)
         {
-            ((TObject)FAbilities[I]).Free();
+            (FAbilities[I] as IDisposable)?.Dispose();
         }
 
         FAbilities.Clear();
@@ -6902,22 +6921,22 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
     public TList FObstacles;
 
     // AoWTC.pas:2733
-    public override void Destroy()
+    public override void Dispose()
     {
         for (int I = 0, last = FObstacles.Count - 1; I <= last; I++)
         {
-            ((TObject)FObstacles[I]).Free();
+            (FObstacles[I] as IDisposable)?.Dispose();
         }
 
-        FObstacles.Free();
-        FRangedPath.Free();
-        FRangedPathHS.Free();
+        FObstacles?.Dispose();
+        FRangedPath?.Dispose();
+        FRangedPathHS?.Dispose();
         AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "TargHex.ILB");
-        base.Destroy();
+        base.Dispose();
     }
 
     // AoWTC.pas:3080
-    public override void MouseDownEvent(TObject Sender)
+    public override void MouseDownEvent(object Sender)
     {
         TTacticalCombatUnitHS UnitHS;
         int Index;
@@ -7240,10 +7259,10 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
 
         for (int I = 0, last = Temporary.Count - 1; I <= last; I++)
         {
-            ((TObject)Temporary[I]).Free();
+            (Temporary[I] as IDisposable)?.Dispose();
         }
 
-        Temporary.Free();
+        Temporary?.Dispose();
     }
 
     // AoWTC.pas:3178
@@ -7613,7 +7632,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
             Update();
         }
 
-        Units.Free();
+        Units?.Dispose();
     }
 
     // AoWTC.pas:2807
@@ -7665,7 +7684,7 @@ public partial class TCombatUnitSelectionControl : TMoveSelector
         int last = FObstacles.Count - 1;
         for (; Direction <= last; Direction += 1)
         {
-            ((TObject)FObstacles[Direction]).Free();
+            (FObstacles[Direction] as IDisposable)?.Dispose();
         }
 
         FObstacles.Clear();
@@ -8254,8 +8273,9 @@ public partial class TTacticalCombatPlayer : TCombatPlayer
 
 }
 
+[LegacyObject]
 // FPlayers
-public partial class TTacticalCombatPlayerList : TObject
+public partial class TTacticalCombatPlayerList
 {
     public TCombatPlayerList FPlayers;
 
@@ -8277,6 +8297,11 @@ public partial class TTacticalCombatPlayerList : TObject
 
     // AoWTC.pas:6431
     public TTacticalCombatPlayer GetPlayers(sbyte Index) => (TTacticalCombatPlayer)FPlayers.GetPlayers(Index);
+
+    public TTacticalCombatPlayerList()
+    {
+        CaptureAddress.Assign(this);
+    }
 
 }
 
@@ -8378,7 +8403,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     public int FRound;
 
     // AoWTC.pas:2213
-    public override void Destroy()
+    public override void Dispose()
     {
         while (FEffects.Count > 0)
         {
@@ -8386,13 +8411,13 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
             DynamicFixedVisibleHS.RemoveChild((TEObject)effect);
             var effect2 = FEffects[0];
             DynamicVisibleHS.RemoveChild((TEObject)effect2);
-            ((TObject)FEffects[0]).Free();
+            (FEffects[0] as IDisposable)?.Dispose();
             FEffects.Delete(0);
         }
 
-        base.Destroy();
+        base.Dispose();
         AoWTCUnit.AoWCombatMap = null;
-        FUnitPositions.Free();
+        FUnitPositions?.Dispose();
         FChangeTurnEventsStore.Clear();
         FPlayerChangedEventsStore.Clear();
         FSeatedPlayerChangedEventsStore.Clear();
@@ -8400,13 +8425,12 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
         FDeselectEventsStore.Clear();
         FMouseOverTargetEventsStore.Clear();
         FUnitChangedEventsStore.Clear();
-        FMoveControl.Free();
-        FPlayers.Free();
-        FUnitSelection.Free();
-        FEffects.Free();
-        FWalls.Free();
-        FFleeLocations.Free();
-        FAI.Free();
+        FMoveControl?.Dispose();
+        FUnitSelection?.Dispose();
+        FEffects?.Dispose();
+        FWalls?.Dispose();
+        FFleeLocations?.Dispose();
+        FAI?.Dispose();
     }
 
     // AoWTC.pas:2189
@@ -8530,7 +8554,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
                 {
                     DynamicFixedVisibleHS.RemoveChild(Effect);
                     DynamicVisibleHS.RemoveChild(Effect);
-                    Effect.Free();
+                    Effect?.Dispose();
                     FEffects.Delete(I);
                 }
                 else
@@ -8642,7 +8666,7 @@ public partial class TAoWCombatMap : TAbstractAoWCombatMap
     }
 
     // AoWTC.pas:2256
-    public void MouseMoveEvent(TObject Sender)
+    public void MouseMoveEvent(object Sender)
     {
         TTacticalCombatUnitHS HS;
         if (!AoWTCUnit.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting) && !FPlayers.GetPlayers(FCurrentCombatPlayer).FAuto && Mouse.Xhx != -1 && Mouse.Yhx != -1 && Mouse.Capture == null)
@@ -9159,7 +9183,7 @@ public partial class TTacticalCombat : TCombat
                     AoWHSMap.FTokenManager.TokenExecuter.HoldTC = true;
                     Generator = new TRndTacHsm();
                     Generator.RandomMap(this, FCombatData.FX, FCombatData.FY, FCombatData.FL);
-                    Generator.Free();
+                    Generator?.Dispose();
                     bool condition = AoWHSMap.FStartingGame || AoWHSMap.VisibleForPlayer(FCombatData.FX, FCombatData.FY, FCombatData.FL, AoWHSMap.FSeatedPlayer);
                     AoWTCUnit.AoWCombatMap.FPlaySounds = condition;
                     if (!AoWTCUnit.AoWCombatMap.FPlaySounds)
@@ -9217,9 +9241,10 @@ public partial class TTacticalCombat : TCombat
     }
 }
 
+[LegacyObject]
 // FItems. FRandomTerrain. neighbor weights. terrain weights. terrain-tag weights. terrain
 // samples. tag samples. resource lists. FHomePosition
-public partial class TRndTacHsm : TObject
+public partial class TRndTacHsm : IDisposable
 {
     public TItemList FItems;
     // calls GetItem
@@ -9234,19 +9259,18 @@ public partial class TRndTacHsm : TObject
     public int FHomePosition;
 
     // AoWTC.pas:4149
-    public override void Destroy()
+    public virtual void Dispose()
     {
         for (int I = 0; I <= 285; I++)
         {
-            FResources[I].Free();
+            FResources[I]?.Dispose();
         }
-
-        base.Destroy();
     }
 
     // AoWTC.pas:4137
     public TRndTacHsm()
     {
+        CaptureAddress.Assign(this);
         for (int I = 0; I <= 285; I++)
         {
             var list = new TList();
@@ -10162,7 +10186,7 @@ public partial class TRndTacHsm : TObject
             }
         }
 
-        Units.Free();
+        Units?.Dispose();
         if (FItems != null)
         {
             Position = 0;

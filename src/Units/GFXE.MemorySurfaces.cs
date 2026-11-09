@@ -62,7 +62,7 @@ public partial class TDIBSurface
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
-    public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+    public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
     public override int UpdatePalette() => FPalette != null && FPixelFormatID == GFXEUnit.pfPAL8 ? GFXEUnit.GFXE_OK : GFXEUnit.GFXE_NOTSUPPORTED;
 
@@ -85,7 +85,7 @@ public partial class TDIB08Surface
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
-    public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+    public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
     public override int UpdatePalette() => GFXEUnit.GFXE_OK;
 }
@@ -108,7 +108,7 @@ public partial class TDIB16Surface
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
-    public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+    public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
     public int Handle => throw new NotSupportedException("Native surface handle");
 }
@@ -127,7 +127,7 @@ public partial class TDIB24Surface
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
-    public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+    public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
     public int Handle => throw new NotSupportedException("Native surface handle");
 }
@@ -146,7 +146,7 @@ public partial class TDIB32Surface
     public override int Cls(int Color) => base.Cls(Color);
     public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
 
-    public override void Destroy() { FBits = null; FWidth = FHeight = FPitch = 0; base.Destroy(); }
+    public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 }
 
 public partial class TDDrawSurface
@@ -170,7 +170,7 @@ public partial class TDDrawSurface
     public override int LockEx(ref TSurfaceDesc SD, in TRect R) => base.LockEx(ref SD, R);
     public override int UnlockEx(in TSurfaceDesc SD) => Unlock();
 
-    public override void Destroy() { memoryBits = null; FWidth = FHeight = 0; base.Destroy(); }
+    public override void Dispose() { memoryBits = null; FWidth = FHeight = 0; base.Dispose(); }
 }
 
 public partial class TDataSurface

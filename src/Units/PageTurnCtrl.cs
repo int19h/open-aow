@@ -7,7 +7,8 @@ using static Aow.Units.GFXE.GFXEUnit;
 
 namespace Aow.Units.PageTurnCtrl;
 
-public partial class TPageTurnControl : TObject
+[LegacyObject]
+public partial class TPageTurnControl
 {
     public float FScale;
     public float FShade;
@@ -30,6 +31,7 @@ public partial class TPageTurnControl : TObject
     // PageTurnCtrl.pas:51
     public TPageTurnControl()
     {
+        CaptureAddress.Assign(this);
         FScale = (float)0.5;
         FSpeed = 2;
         FShade = (float)2;

@@ -49,7 +49,7 @@ public sealed class CombatUnitSelectionConstructionTests
             finally { Game.AoWHSSet = set; }
             Assert.Equal(fail == 0, value is not null);
             actual.Add("fail" + fail, JsonSerializer.Serialize(new { State = state, Before = before, After = entry.RefCount }));
-            value?.Destroy();
+            value?.Dispose();
             Assert.Equal(before, entry.RefCount);
         }
         OrderingRecording.Check("CombatUnitSelectionConstruction", actual);

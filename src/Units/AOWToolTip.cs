@@ -40,11 +40,11 @@ public partial class TAOWToolTip : TAOWGenericWindow
     }
 
     // AOWToolTip.pas:72
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLines.Destroy();
-        FItems.Destroy();
-        base.Destroy();
+        FLines.Dispose();
+        FItems.Dispose();
+        base.Dispose();
     }
 
     // AOWToolTip.pas:79

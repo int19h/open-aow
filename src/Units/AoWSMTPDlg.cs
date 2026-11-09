@@ -64,7 +64,8 @@ public partial class TmsSMTP : TComponent
     }
 }
 
-public partial class TIMSSendThread : TObject
+[LegacyObject]
+public partial class TIMSSendThread
 {
     public bool FSuccess;
 
@@ -84,7 +85,9 @@ public partial class TIMSSendThread : TObject
 
     // Classes.pas:771
     public TIMSSendThread(bool CreateSuspended) : base()
-    { }
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public partial class TSMTPDlg : TDataModule

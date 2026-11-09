@@ -37,8 +37,7 @@ public sealed class StructureBorderTests
         finally
         {
             surface.Unlock();
-            surface.Destroy();
-            grab.Destroy();
+            surface.Dispose();
         }
     }
 
@@ -50,7 +49,7 @@ public sealed class StructureBorderTests
         surface.Lock(ref sd);
         int pixel = sd.View().Word(0);
         surface.Unlock();
-        surface.Destroy();
+        surface.Dispose();
         return pixel;
     }
 
@@ -95,9 +94,9 @@ public sealed class StructureBorderTests
         finally
         {
             target.Unlock();
-            target.Destroy();
-            library.Destroy();
-            Images.LibraryImageClasses.Destroy();
+            target.Dispose();
+            library.Dispose();
+            Images.LibraryImageClasses.Dispose();
             Images.LibraryImageClasses = previousClasses;
         }
     }

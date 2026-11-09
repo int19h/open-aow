@@ -14,7 +14,7 @@ public partial class TUnitTabControl : TTabControl
     public TOnSelectUnitEvent FOnSelectUnit;
 
     // UnitTabC.pas:42
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement ComCtrls.Destroy in the platform or editor service. */
         throw new NotImplementedException();
@@ -47,7 +47,7 @@ public partial class TUnitTabControl : TTabControl
     }
 
     // UnitTabC.pas:64
-    public void UnitIndexGridSelectCell(TObject Sender, int ACol, int ARow, ref bool CanSelect)
+    public void UnitIndexGridSelectCell(object Sender, int ACol, int ARow, ref bool CanSelect)
     {
         int Index;
         TUnitIndexList List;
@@ -87,7 +87,7 @@ public partial class TUnitTabControl : TTabControl
     public TOnSelectUnitEvent OnSelectUnit { get => FOnSelectUnit; set => FOnSelectUnit = value; }
 }
 
-public delegate void TOnSelectUnitEvent(TObject Sender, int UnitIndex);
+public delegate void TOnSelectUnitEvent(object Sender, int UnitIndex);
 
 public static partial class UnitTabCUnit
 {

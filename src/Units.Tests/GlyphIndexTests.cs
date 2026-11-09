@@ -55,14 +55,14 @@ public sealed class GlyphIndexTests
         }
         finally
         {
-            Images.LibraryImageClasses.Destroy();
+            Images.LibraryImageClasses.Dispose();
             Images.LibraryImageClasses = previousClasses;
             Images.BaseImageLibraryPath = previousBase;
-            G.AlphaBlendTable.Free();
-            G.IntensityBlendTable.Free();
-            G.BrightenBlendTable.Free();
-            G.ShadowBlendTable.Free();
-            G.LinearAlphaBlendTable.Free();
+            G.AlphaBlendTable?.Dispose();
+            G.IntensityBlendTable?.Dispose();
+            G.BrightenBlendTable?.Dispose();
+            G.ShadowBlendTable?.Dispose();
+            G.LinearAlphaBlendTable?.Dispose();
             (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) = previousTables;
         }
     }
@@ -99,26 +99,22 @@ public sealed class GlyphIndexTests
         }
         finally
         {
-            font.Destroy();
+            font.Dispose();
         }
         return drawn;
     }
 
     private static byte[] Draw(int width, int height, Action<TSurfaceDesc> draw)
     {
-        var surface = new TDIB16Surface(width, height, G.pfRGB555);
+        using var surface = new TDIB16Surface(width, height, G.pfRGB555);
+        surface.Cls(0);
+        TSurfaceDesc sd = default;
+        surface.Lock(ref sd);
         try
         {
-            surface.Cls(0);
-            TSurfaceDesc sd = default;
-            surface.Lock(ref sd);
-            try
-            {
-                draw(sd);
-                return sd.Data.AsSpan(sd.DataIndex, Math.Abs(sd.Pitch) * height).ToArray();
-            }
-            finally { surface.Unlock(); }
+            draw(sd);
+            return sd.Data.AsSpan(sd.DataIndex, Math.Abs(sd.Pitch) * height).ToArray();
         }
-        finally { surface.Free(); }
+        finally { surface.Unlock(); }
     }
 }

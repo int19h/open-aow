@@ -19,10 +19,10 @@ public partial class TSummonSpellTE : TSpellTE
     public TUnitIndexList FUnitIndices;
 
     // SummonSpells.pas:165
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnitIndices.Free();
-        base.Destroy();
+        FUnitIndices?.Dispose();
+        base.Dispose();
     }
 
     // SummonSpells.pas:176
@@ -139,10 +139,10 @@ public partial class TSummonSpell : TSpell
     public TUnitIndexList FUnitIndices;
 
     // SummonSpells.pas:249
-    public override void Destroy()
+    public override void Dispose()
     {
-        FUnitIndices.Free();
-        base.Destroy();
+        FUnitIndices?.Dispose();
+        base.Dispose();
     }
 
     // SummonSpells.pas:241

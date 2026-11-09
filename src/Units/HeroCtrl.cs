@@ -20,10 +20,10 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
     public TMemoryStream FStream;
     public TAoWHSMap FMap;
     public byte FSort;
-    public TNotifyEvent<TObject> FOnUnselect;
+    public TNotifyEvent<object> FOnUnselect;
 
     // HeroCtrl.pas:134
-    public override void Destroy()
+    public override void Dispose()
     {
         /* TODO: Implement Grids.Destroy in the platform or editor service. */
         throw new NotImplementedException();
@@ -80,13 +80,13 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
     }
 
     // HeroCtrl.pas:175
-    public void HeroControlChanged(TObject Sender)
+    public void HeroControlChanged(object Sender)
     {
         UpdateHeroes();
     }
 
     // HeroCtrl.pas:180
-    public void HeroChanged(TObject Sender)
+    public void HeroChanged(object Sender)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
@@ -193,18 +193,24 @@ public partial class THeroControlGrid : TCustomImageDrawGrid
     public bool OnlyFreeHeroes { get => FUnplacedOnly; set => FUnplacedOnly = value; }
 
     [Published]
-    public TNotifyEvent<TObject> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
+    public TNotifyEvent<object> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
 
     [Published]
     public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
 }
 
-public partial class TGridMapView : TObject
+[LegacyObject]
+public partial class TGridMapView
 {
     public TItemControl ItemControl;
     public THeroControl HeroControl;
     public TPlayerList Players;
     public TEventList LeaderEvent;
+
+    public TGridMapView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public struct TRawView

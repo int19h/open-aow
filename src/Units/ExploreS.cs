@@ -44,10 +44,10 @@ public partial class TExplorationSite : TStructure
     public TDefendersArmy FDefenders;
 
     // ExploreS.pas:84
-    public override void Destroy()
+    public override void Dispose()
     {
-        base.Destroy();
-        FDefenders.Free();
+        base.Dispose();
+        FDefenders?.Dispose();
     }
 
     // ExploreS.pas:293
@@ -426,7 +426,7 @@ public partial class TExplorationSite : TStructure
             }
 
             // { Original silently ignores defender-generation failures. }
-            List.Free();
+            List?.Dispose();
         }
     }
 
@@ -449,10 +449,10 @@ public partial class TExplorationSiteResource : TStructureResource
     public TUnitIndexListCollection FDefenderCollections;
 
     // ExploreS.pas:364
-    public override void Destroy()
+    public override void Dispose()
     {
-        FDefenderCollections.Free();
-        base.Destroy();
+        FDefenderCollections?.Dispose();
+        base.Dispose();
     }
 
     // ExploreS.pas:376

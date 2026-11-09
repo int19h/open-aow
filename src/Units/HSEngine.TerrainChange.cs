@@ -45,7 +45,7 @@ public partial class THSMap
             }
             HSEngineUnit.WalkToNextHN(ref walk);
         }
-        saved.Free();
+        saved?.Dispose();
         return result;
     }
 }

@@ -34,7 +34,7 @@ public sealed class UnitSelectionDrawTests
         finally
         {
             dialog.FEvent = null!;
-            dialog.Destroy();
+            dialog.Dispose();
             Game.AoWEngine = previousEngine;
         }
     }

@@ -12,5 +12,5 @@ public partial class TFastLoadFileStream
     public override int Seek(int offset, int origin) => source.Seek(offset, origin);
     public override void SetSize(int size) => source.SetSize(size);
 
-    public override void Destroy() { source.Free(); source = null; }
+    public override void Dispose() { source?.Dispose(); source = null; }
 }

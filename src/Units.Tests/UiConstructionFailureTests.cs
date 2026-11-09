@@ -45,12 +45,12 @@ public sealed class UiConstructionFailureTests
             Assert.Same(owner, value.Owner);
             Assert.Same(value, owner.Components[0]);
             Assert.Equal(1, owner.ComponentCount);
-            value.Destroy();
+            value.Dispose();
             Assert.Equal(0, owner.ComponentCount);
         }
         finally
         {
-            owner.Destroy();
+            owner.Dispose();
             engine.FOnHSMLoadedStore = previousLoaded;
             engine.FOnHSMCloseStore = previousClose;
         }

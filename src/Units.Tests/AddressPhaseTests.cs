@@ -9,7 +9,7 @@ public sealed class AddressPhaseTests
     public void PinnedPhaseReachesEveryAddressRead()
     {
         const int address = 677;
-        var instance = new TObject();
+        var instance = new object();
         try
         {
             FrameFixtureInputs.PinnedAddress = address;

@@ -73,8 +73,8 @@ internal static class FrameVerification
         }
         finally
         {
-            display.Free();
-            controller.Free();
+            display?.Dispose();
+            controller?.Dispose();
             RtlUnit.Clock = savedClock;
         }
         Console.WriteLine($"Frame display PASS: {checks} checks, memory surfaces, focus, fullscreen, limiter, headless rows, no window");

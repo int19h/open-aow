@@ -71,13 +71,9 @@ public sealed class ClassFamilyTests
         // the base statics are abstract and the default
         Assert.Throws<EAbstractError>(() => TAIPlayerAction.Priority);
         Assert.True(TAIPlayerAction.SupportedPhases.Contains(TAIPlayerProcessPhase.appMain));
-        var instance = new TEndTurnAIPA(null!);
-        try
-        {
-            Assert.Same(endTurn, instance.ActionClass);
-            Assert.Same(instance.ActionClass, instance.ActionClass);
-        }
-        finally { instance.Destroy(); }
+        using var instance = new TEndTurnAIPA(null!);
+        Assert.Same(endTurn, instance.ActionClass);
+        Assert.Same(instance.ActionClass, instance.ActionClass);
     }
 
     [Fact]
@@ -115,22 +111,18 @@ public sealed class ClassFamilyTests
     [Fact]
     public void ActionManagerRegistersSortsAndUnregistersDescriptors()
     {
-        var manager = new TAIPlayerActionManager(null!);
-        try
-        {
-            AIPlayerActionClass[] classes = [AIPlayerActionClass.Of<TEndTurnAIPA>(), AIPlayerActionClass.Of<TInitializeAIPA>(), AIPlayerActionClass.Of<TGroupControlLoopAIPA>()];
-            manager.RegisterClasses(classes);
-            Assert.Equal(3, manager.GetCount());
-            var registered = Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses).ToList();
-            foreach (var c in classes) Assert.Contains(c, registered);
-            // CompareAIPlayerActionClasses orders by descending priority
-            for (int i = 1; i < registered.Count; i++) Assert.True(registered[i - 1].Priority >= registered[i].Priority);
-            var error = Assert.Throws<InvalidOperationException>(() => manager.RegisterClasses([AIPlayerActionClass.Of<TEndTurnAIPA>()]));
-            Assert.Equal("AIPlayerAction already Registered", error.Message);
-            manager.UnRegisterClasses(classes);
-            Assert.Equal(0, manager.GetCount());
-        }
-        finally { manager.Destroy(); }
+        using var manager = new TAIPlayerActionManager(null!);
+        AIPlayerActionClass[] classes = [AIPlayerActionClass.Of<TEndTurnAIPA>(), AIPlayerActionClass.Of<TInitializeAIPA>(), AIPlayerActionClass.Of<TGroupControlLoopAIPA>()];
+        manager.RegisterClasses(classes);
+        Assert.Equal(3, manager.GetCount());
+        var registered = Enumerable.Range(0, 3).Select(manager.GetRegisteredClasses).ToList();
+        foreach (var c in classes) Assert.Contains(c, registered);
+        // CompareAIPlayerActionClasses orders by descending priority
+        for (int i = 1; i < registered.Count; i++) Assert.True(registered[i - 1].Priority >= registered[i].Priority);
+        var error = Assert.Throws<InvalidOperationException>(() => manager.RegisterClasses([AIPlayerActionClass.Of<TEndTurnAIPA>()]));
+        Assert.Equal("AIPlayerAction already Registered", error.Message);
+        manager.UnRegisterClasses(classes);
+        Assert.Equal(0, manager.GetCount());
     }
 
     [Fact]
@@ -142,58 +134,50 @@ public sealed class ClassFamilyTests
         Assert.Equal(TGroupBehavior.gbHunt, hunt.Behavior);
         Assert.Equal(TGroupBehavior.gbNone, TAIGroup.Behavior);
         Assert.Equal(TGroupBehavior.gbDefensive, AIGroupClass.Of<TDefenderAG>().Behavior);
-        var manager = new TAIGroupManager(null!);
-        try
-        {
-            AIGroupClass[] classes = [hunt, AIGroupClass.Of<TDefenderAG>()];
-            manager.RegisterAIGroupClasses(classes);
-            manager.RegisterAIGroupClasses(classes);
-            Assert.Equal(2, manager.FRegisteredClasses.Count);
-            Assert.Same(classes[1], manager.FRegisteredClasses[1]);
-            manager.UnregisterAIGroupClasses(classes);
-            Assert.Equal(0, manager.FRegisteredClasses.Count);
-        }
-        finally { manager.Destroy(); }
+        using var manager = new TAIGroupManager(null!);
+        AIGroupClass[] classes = [hunt, AIGroupClass.Of<TDefenderAG>()];
+        manager.RegisterAIGroupClasses(classes);
+        manager.RegisterAIGroupClasses(classes);
+        Assert.Equal(2, manager.FRegisteredClasses.Count);
+        Assert.Same(classes[1], manager.FRegisteredClasses[1]);
+        manager.UnregisterAIGroupClasses(classes);
+        Assert.Equal(0, manager.FRegisteredClasses.Count);
     }
 
     [Fact]
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
-        var engine = new TEngine(null!);
+        using var engine = new TEngine(null!);
+        var mapObjectEditor = EditorClass.Of<TAoWMapObjectEditor>();
+        Assert.Same(mapObjectEditor, EditorClass.Of(typeof(TAoWMapObjectEditor)));
+        Assert.Same(EClass.Of<TAoWMapObjectEditor>(), mapObjectEditor.Class);
+        Assert.Equal(TMapObject.ClassID, mapObjectEditor.EditorClassID);
+        Assert.Equal(0, EditorClass.Of<TEObjectEditor>().EditorClassID);
+        engine.Editors.RegisterClass(mapObjectEditor);
+        var error = Assert.Throws<InvalidOperationException>(() => engine.Editors.RegisterClass(mapObjectEditor));
+        Assert.Equal("EObjectEditor Double Defined!", error.Message);
+        Assert.Equal(1, engine.Editors.Count);
+        Assert.Same(mapObjectEditor, engine.Editors.FindEditor(TMapObject.ClassID));
+        Assert.Null(engine.Editors.FindEditor(TEObject.ClassID));
+
+        var mapObject = new TMapObject(engine.ControlNode);
+        var node = EClass.Of<TENode>().Create(engine.ControlNode);
         try
         {
-            var mapObjectEditor = EditorClass.Of<TAoWMapObjectEditor>();
-            Assert.Same(mapObjectEditor, EditorClass.Of(typeof(TAoWMapObjectEditor)));
-            Assert.Same(EClass.Of<TAoWMapObjectEditor>(), mapObjectEditor.Class);
-            Assert.Equal(TMapObject.ClassID, mapObjectEditor.EditorClassID);
-            Assert.Equal(0, EditorClass.Of<TEObjectEditor>().EditorClassID);
-            engine.Editors.RegisterClass(mapObjectEditor);
-            var error = Assert.Throws<InvalidOperationException>(() => engine.Editors.RegisterClass(mapObjectEditor));
-            Assert.Equal("EObjectEditor Double Defined!", error.Message);
-            Assert.Equal(1, engine.Editors.Count);
-            Assert.Same(mapObjectEditor, engine.Editors.FindEditor(TMapObject.ClassID));
-            Assert.Null(engine.Editors.FindEditor(TEObject.ClassID));
-
-            var mapObject = new TMapObject(engine.ControlNode);
-            var node = EClass.Of<TENode>().Create(engine.ControlNode);
-            try
-            {
-                Assert.Same(mapObjectEditor, mapObject.Editor());
-                Assert.Same(EditorClass.Of<TEObjectEditor>(), node.Editor());
-                TEditResult? result = null;
-                TEObject? edited = null;
-                node.Editor().Edit(node, engine, (r, o) => { result = r; edited = o; });
-                Assert.Equal(TEditResult.erCancel, result);
-                Assert.Same(node, edited);
-            }
-            finally
-            {
-                node.Destroy();
-                mapObject.Destroy();
-            }
+            Assert.Same(mapObjectEditor, mapObject.Editor());
+            Assert.Same(EditorClass.Of<TEObjectEditor>(), node.Editor());
+            TEditResult? result = null;
+            TEObject? edited = null;
+            node.Editor().Edit(node, engine, (r, o) => { result = r; edited = o; });
+            Assert.Equal(TEditResult.erCancel, result);
+            Assert.Same(node, edited);
         }
-        finally { engine.Destroy(); }
+        finally
+        {
+            node.Dispose();
+            mapObject.Dispose();
+        }
     }
 
     [Fact]
@@ -205,77 +189,52 @@ public sealed class ClassFamilyTests
     [Fact]
     public void IsometricHexagonBuildsItsDynamicSpriteInOneConstructor()
     {
-        var map = new THSMap(null!);
-        var level = new TMapLevel(map);
+        using var map = new THSMap(null!);
+        using var level = new TMapLevel(map);
+        level.CreateMapFieldList(3, 3);
+        var field = level.GetField(1, 1);
+        using var resource = new TLowerIsometricHexagonResource(null!);
+        var hexagon = new TLowerIsometricHexagon(field) { FResource = resource };
         try
         {
-            level.CreateMapFieldList(3, 3);
-            var field = level.GetField(1, 1);
-            var resource = new TLowerIsometricHexagonResource(null!);
-            var hexagon = new TLowerIsometricHexagon(field) { FResource = resource };
-            try
-            {
-                hexagon.UpdateTransitions();
-                // no neighbour of its kind: the sides in range are open and the dynamic sprite exists
-                Assert.NotEqual(0, hexagon.FOpenSides);
-                var dynamic = hexagon.FDynamic;
-                Assert.NotNull(dynamic);
-                Assert.Null(dynamic.FOwner);
-                Assert.Contains(dynamic, field.HSList.Take(field.FCount));
-                Assert.Equal(field.Xhx, dynamic.GetXhx());
-                Assert.Equal(field.Yhx, dynamic.GetYhx());
-                Assert.Equal(resource.FDynamicLevel, dynamic.GetLevel());
-                Assert.Equal(26, dynamic.GetLevel());
-                hexagon.Destroy();
-                hexagon = null!;
-                Assert.DoesNotContain(dynamic, field.HSList.Take(field.FCount));
-            }
-            finally
-            {
-                hexagon?.Destroy();
-                resource.Destroy();
-            }
+            hexagon.UpdateTransitions();
+            // no neighbour of its kind: the sides in range are open and the dynamic sprite exists
+            Assert.NotEqual(0, hexagon.FOpenSides);
+            var dynamic = hexagon.FDynamic;
+            Assert.NotNull(dynamic);
+            Assert.Null(dynamic.FOwner);
+            Assert.Contains(dynamic, field.HSList.Take(field.FCount));
+            Assert.Equal(field.Xhx, dynamic.GetXhx());
+            Assert.Equal(field.Yhx, dynamic.GetYhx());
+            Assert.Equal(resource.FDynamicLevel, dynamic.GetLevel());
+            Assert.Equal(26, dynamic.GetLevel());
+            hexagon.Dispose();
+            hexagon = null!;
+            Assert.DoesNotContain(dynamic, field.HSList.Take(field.FCount));
         }
         finally
         {
-            level.Destroy();
-            map.Destroy();
+            hexagon?.Dispose();
         }
     }
 
     [Fact]
     public void WaterHexagonReadsTheShoreOfItsOpenSides()
     {
-        var map = new THSMap(null!);
-        var level = new TMapLevel(map);
-        try
-        {
-            level.CreateMapFieldList(3, 3);
-            for (int y = 0; y < 3; y++)
-                for (int x = 0; x < 3; x++)
-                    level.GetField(x, y).TerrainType = 3;
-            var field = level.GetField(1, 1);
-            var resource = new TAoWWaterHexagonResource(null!);
-            var water = new TAoWWaterHexagon(field) { FResource = resource };
-            try
-            {
-                water.UpdateTransitions();
-                Assert.NotNull(water.FDynamic);
-                Assert.NotEqual(0, water.FOpenSides);
-                for (int hn = 1; hn <= 6; hn++)
-                    if ((water.FOpenSides & (1 << (hn - 1))) != 0)
-                        Assert.Equal(40, water.FShoreTerrain[hn - 1]);
-            }
-            finally
-            {
-                water.Destroy();
-                resource.Destroy();
-            }
-        }
-        finally
-        {
-            level.Destroy();
-            map.Destroy();
-        }
+        using var map = new THSMap(null!);
+        using var level = new TMapLevel(map);
+        level.CreateMapFieldList(3, 3);
+        for (int y = 0; y < 3; y++)
+            for (int x = 0; x < 3; x++)
+                level.GetField(x, y).TerrainType = 3;
+        var field = level.GetField(1, 1);
+        using var resource = new TAoWWaterHexagonResource(null!);
+        using var water = new TAoWWaterHexagon(field) { FResource = resource };
+        water.UpdateTransitions();
+        Assert.NotNull(water.FDynamic);
+        Assert.NotEqual(0, water.FOpenSides);
+        for (int hn = 1; hn <= 6; hn++)
+            if ((water.FOpenSides & (1 << (hn - 1))) != 0)
+                Assert.Equal(40, water.FShoreTerrain[hn - 1]);
     }
 }

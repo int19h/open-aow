@@ -59,14 +59,14 @@ public partial class TPadResource : TFixedILTerrainMOR
     public byte FPadSize;
 
     // Pad.pas:69
-    public override void Destroy()
+    public override void Dispose()
     {
         if (Engine != null && !Engine.HSSet.Status.Contains(THSSetStatusElement.ssDestroying))
         {
             ((TAoWHSSet)Engine.HSSet).FPadControl.UnregisterPadResource(this, FPadSize);
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Pad.pas:63

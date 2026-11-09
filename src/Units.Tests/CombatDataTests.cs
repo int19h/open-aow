@@ -9,21 +9,21 @@ public sealed class CombatDataTests
     {
         internal int DestroyCount;
 
-        public override void Destroy() { DestroyCount++; base.Destroy(); }
+        public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
     private sealed class ObservedList : TByteList
     {
         internal int DestroyCount;
 
-        public override void Destroy() { DestroyCount++; base.Destroy(); }
+        public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
     private sealed class ObservedChild(TECustomNode owner) : TCombatObject(owner)
     {
         internal int DestroyCount;
 
-        public override void Destroy() { DestroyCount++; base.Destroy(); }
+        public override void Dispose() { DestroyCount++; base.Dispose(); }
     }
 
     [Theory]
@@ -34,9 +34,9 @@ public sealed class CombatDataTests
         var data = new TCombatData(null!);
         if (countCalls)
         {
-            data.FCombatObjects.Free();
-            data.FDefeatedLeaders.Free();
-            data.FInvolvedLeaders.Free();
+            data.FCombatObjects?.Dispose();
+            data.FDefeatedLeaders?.Dispose();
+            data.FInvolvedLeaders?.Dispose();
             data.FCombatObjects = new ObservedNode();
             data.FDefeatedLeaders = new ObservedList();
             data.FInvolvedLeaders = new ObservedList();
@@ -48,7 +48,7 @@ public sealed class CombatDataTests
         defeated.Add(3);
         involved.Add(4);
         Assert.Same(child, Assert.Single(node.FChildren.List.Take(node.Count)));
-        data.Destroy();
+        data.Dispose();
         Assert.Equal(1, child.DestroyCount);
         Assert.Null(child.Owner);
         Assert.Equal(0, node.Count);
@@ -65,9 +65,7 @@ public sealed class CombatDataTests
     private static byte[] Save(TCombatData data)
     {
         using var memory = new TMemoryStream();
-        var writer = new TEWriteStorageStream(memory, null!, false);
-        try { writer.rwEObject(data, 4); }
-        finally { writer.Destroy(); }
+        using (var writer = new TEWriteStorageStream(memory, null!, false)) { writer.rwEObject(data, 4); }
         return memory.Memory[..memory.Size];
     }
 
@@ -105,15 +103,11 @@ public sealed class CombatDataTests
             using var memory = new TMemoryStream();
             memory.Write(before);
             memory.Position = 0;
-            var loaded = new TCombatData(null!);
-            var reader = new TEReadStorageStream(memory, null!, false);
-            try
-            {
-                reader.rwEObject(loaded, 4);
-                Assert.Equal(before, Save(loaded));
-            }
-            finally { reader.Destroy(); loaded.Destroy(); }
+            using var loaded = new TCombatData(null!);
+            using var reader = new TEReadStorageStream(memory, null!, false);
+            reader.rwEObject(loaded, 4);
+            Assert.Equal(before, Save(loaded));
         }
-        finally { data.Destroy(); }
+        finally { data.Dispose(); }
     }
 }

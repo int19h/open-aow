@@ -970,8 +970,8 @@ public partial class TSpellBook : TDataModule
             FActivation = null;
         }
 
-        FPlayerPages.Free();
-        FSpells.Free();
+        FPlayerPages?.Dispose();
+        FSpells?.Dispose();
     }
 
     // AoWSpellBook.pas:214

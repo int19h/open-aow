@@ -17,10 +17,10 @@ public partial class TAoWArnoLine : TAOWControl
     public TInterfaceIL FLineLibrary;
 
     // AoWArnoLine.pas:47
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLineLibrary.Free();
-        base.Destroy();
+        FLineLibrary?.Dispose();
+        base.Dispose();
     }
 
     // AoWArnoLine.pas:41

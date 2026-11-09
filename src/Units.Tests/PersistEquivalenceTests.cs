@@ -339,32 +339,25 @@ public sealed class PersistEquivalenceTests
         finally
         {
             Game.AoWHSMap = previous!;
-            map.Destroy();
+            map.Dispose();
         }
     }
 
     [Fact]
     public void AnOverlongSpellDataListIsRefusedOnExport()
     {
-        var spell = new TUnitSpellCA(null!);
-        try
-        {
-            var cls = Schema.Get("TUnitSpellCA");
-            var tree = TreeWriter.Write(spell, Factory);
-            var list = (ListNode)tree.Find("SpellData")!;
-            list.Items.Add(new IntegerNode(4, true, 1));
-            var document = DocumentBackend.Write(tree, cls, Schema, "game");
-            Assert.Equal(3, ((JsonArray)document["SpellData"]!).Items.Count);
-            var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, cls, Schema, "game"));
-            Assert.Equal(Codes.Range, error.Diagnostic.Code);
-            Assert.Equal("root.SpellData", error.Diagnostic.Path);
-            Assert.Contains("holds at most 2", error.Diagnostic.Message);
-            Assert.Contains("Export does not truncate", error.Diagnostic.Message);
-        }
-        finally
-        {
-            spell.Destroy();
-        }
+        using var spell = new TUnitSpellCA(null!);
+        var cls = Schema.Get("TUnitSpellCA");
+        var tree = TreeWriter.Write(spell, Factory);
+        var list = (ListNode)tree.Find("SpellData")!;
+        list.Items.Add(new IntegerNode(4, true, 1));
+        var document = DocumentBackend.Write(tree, cls, Schema, "game");
+        Assert.Equal(3, ((JsonArray)document["SpellData"]!).Items.Count);
+        var error = Assert.Throws<ConversionException>(() => OriginalBackend.Write(tree, cls, Schema, "game"));
+        Assert.Equal(Codes.Range, error.Diagnostic.Code);
+        Assert.Equal("root.SpellData", error.Diagnostic.Path);
+        Assert.Contains("holds at most 2", error.Diagnostic.Message);
+        Assert.Contains("Export does not truncate", error.Diagnostic.Message);
     }
 
     [Fact]
@@ -390,7 +383,7 @@ public sealed class PersistEquivalenceTests
             var source = new TArmy(null!) { FDestinationX = 3, FDestinationY = 4, FDestinationL = 1 };
             source.FUserMode = TSet<TArmyUserModeElement>.Of(TArmyUserModeElement.aumGuard);
             var image = Image(source);
-            source.Destroy();
+            source.Dispose();
             map.FConnectionType = TPlayerConnectionType.pcNetwork;
             var viaPersist = (TArmy)Factory.Create("TArmy");
             var viaReadWrite = (TArmy)Factory.Create("TArmy");
@@ -410,8 +403,8 @@ public sealed class PersistEquivalenceTests
             }
             finally
             {
-                viaReadWrite.Destroy();
-                viaPersist.Destroy();
+                viaReadWrite.Dispose();
+                viaPersist.Dispose();
             }
         });
     }
@@ -424,7 +417,7 @@ public sealed class PersistEquivalenceTests
             var source = new TArmy(null!);
             source.FMode = TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving, TArmyModeElement.amFixedBehavior);
             var image = Image(source);
-            source.Destroy();
+            source.Dispose();
             var cls = Schema.Get("TArmy");
             var viaPersist = (TArmy)Factory.Create("TArmy");
             var viaReadWrite = (TArmy)Factory.Create("TArmy");
@@ -440,8 +433,8 @@ public sealed class PersistEquivalenceTests
             }
             finally
             {
-                viaReadWrite.Destroy();
-                viaPersist.Destroy();
+                viaReadWrite.Dispose();
+                viaPersist.Dispose();
             }
         });
     }
@@ -451,17 +444,10 @@ public sealed class PersistEquivalenceTests
     {
         WithDestroyingMap(_ =>
         {
-            var army = new TArmy(null!);
-            try
-            {
-                new TUnit(null!).SetOwner(army);
-                var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(army, Factory));
-                Assert.Equal("Class TUnit overrides ReadWrite and has no PersistFields.", error.Message);
-            }
-            finally
-            {
-                army.Destroy();
-            }
+            using var army = new TArmy(null!);
+            new TUnit(null!).SetOwner(army);
+            var error = Assert.Throws<InvalidOperationException>(() => TreeWriter.Write(army, Factory));
+            Assert.Equal("Class TUnit overrides ReadWrite and has no PersistFields.", error.Message);
         });
     }
 
@@ -666,14 +652,14 @@ public sealed class PersistEquivalenceTests
             }
             finally
             {
-                fromDocument.Destroy();
-                viaTree.Destroy();
-                viaReadWrite.Destroy();
+                fromDocument.Dispose();
+                viaTree.Dispose();
+                viaReadWrite.Dispose();
             }
         }
         finally
         {
-            list.Destroy();
+            list.Dispose();
             if (placed is not null) ReleaseAbility(placed);
         }
     }
@@ -705,8 +691,8 @@ public sealed class PersistEquivalenceTests
             }
             finally
             {
-                continuedTree.Destroy();
-                continued.Destroy();
+                continuedTree.Dispose();
+                continued.Dispose();
             }
             var stopped = (TGlobalMagicControl)Blank("TGlobalMagicControl");
             var stoppedTree = (TGlobalMagicControl)Blank("TGlobalMagicControl");
@@ -722,14 +708,14 @@ public sealed class PersistEquivalenceTests
             }
             finally
             {
-                stoppedTree.Destroy();
-                stopped.Destroy();
+                stoppedTree.Dispose();
+                stopped.Dispose();
             }
         }
         finally
         {
             if (previous is not null) descriptor.SubstituteCreate(previous);
-            control.Destroy();
+            control.Dispose();
             if (added) EngineFixture.Engine.UnregisterEClasses([descriptor]);
         }
     }
@@ -737,72 +723,65 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AFixedObjectWhosePersistThrowsStaysUnlessTheHandlerStops()
     {
-        var source = new TGlobalMagicControl(null!);
+        using var source = new TGlobalMagicControl(null!);
+        source.FNextEnchantmentID = 9;
+        source.FDoubleSphereManaCount[0] = 3;
+        var image = Image(source);
+        var cls = Schema.Get("TGlobalMagicControl");
+        var continued = Faulted(4);
+        var continuedTree = Faulted(4);
+        var continuedList = continued.FEnchantments;
+        var continuedTreeList = continuedTree.FEnchantments;
         try
         {
-            source.FNextEnchantmentID = 9;
-            source.FDoubleSphereManaCount[0] = 3;
-            var image = Image(source);
-            var cls = Schema.Get("TGlobalMagicControl");
-            var continued = Faulted(4);
-            var continuedTree = Faulted(4);
-            var continuedList = continued.FEnchantments;
-            var continuedTreeList = continuedTree.FEnchantments;
-            try
+            Load(continued, image);
+            TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), continuedTree, Factory);
+            Assert.Same(continuedList, continued.FEnchantments);
+            Assert.Same(continuedTreeList, continuedTree.FEnchantments);
+            Assert.Equal(9, continued.FNextEnchantmentID);
+            Assert.Equal(9, continuedTree.FNextEnchantmentID);
+            Assert.Equal(3, continued.FDoubleSphereManaCount[0]);
+            Assert.Equal(3, continuedTree.FDoubleSphereManaCount[0]);
+            for (int i = 1; i < 9; i++)
             {
-                Load(continued, image);
-                TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), continuedTree, Factory);
-                Assert.Same(continuedList, continued.FEnchantments);
-                Assert.Same(continuedTreeList, continuedTree.FEnchantments);
-                Assert.Equal(9, continued.FNextEnchantmentID);
-                Assert.Equal(9, continuedTree.FNextEnchantmentID);
-                Assert.Equal(3, continued.FDoubleSphereManaCount[0]);
-                Assert.Equal(3, continuedTree.FDoubleSphereManaCount[0]);
-                for (int i = 1; i < 9; i++)
-                {
-                    Assert.Equal(0, continued.FDoubleSphereManaCount[i]);
-                    Assert.Equal(continued.FDoubleSphereManaCount[i], continuedTree.FDoubleSphereManaCount[i]);
-                }
-            }
-            finally
-            {
-                continuedTree.Destroy();
-                continued.Destroy();
-            }
-            var stopped = Faulted(4);
-            var stoppedTree = Faulted(4);
-            var stoppedList = stopped.FEnchantments;
-            var stoppedTreeList = stoppedTree.FEnchantments;
-            try
-            {
-                var streamError = Assert.Throws<InvalidOperationException>(() =>
-                    Load(stopped, image, static (TEStorageStream _, string _, ref bool cont) => cont = false));
-                var treeError = Assert.Throws<InvalidOperationException>(() =>
-                    TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), stoppedTree, Factory,
-                        static (string _, ref bool cont) => cont = false));
-                Assert.Equal("enchantments failed", streamError.Message);
-                Assert.Equal("enchantments failed", treeError.Message);
-                Assert.Same(stoppedList, stopped.FEnchantments);
-                Assert.Same(stoppedTreeList, stoppedTree.FEnchantments);
-                Assert.Equal(4, stopped.FNextEnchantmentID);
-                Assert.Equal(4, stoppedTree.FNextEnchantmentID);
-            }
-            finally
-            {
-                stoppedTree.Destroy();
-                stopped.Destroy();
+                Assert.Equal(0, continued.FDoubleSphereManaCount[i]);
+                Assert.Equal(continued.FDoubleSphereManaCount[i], continuedTree.FDoubleSphereManaCount[i]);
             }
         }
         finally
         {
-            source.Destroy();
+            continuedTree.Dispose();
+            continued.Dispose();
+        }
+        var stopped = Faulted(4);
+        var stoppedTree = Faulted(4);
+        var stoppedList = stopped.FEnchantments;
+        var stoppedTreeList = stoppedTree.FEnchantments;
+        try
+        {
+            var streamError = Assert.Throws<InvalidOperationException>(() =>
+                Load(stopped, image, static (TEStorageStream _, string _, ref bool cont) => cont = false));
+            var treeError = Assert.Throws<InvalidOperationException>(() =>
+                TreeReader.Read(OriginalBackend.Read(image, cls, Schema, "game"), stoppedTree, Factory,
+                    static (string _, ref bool cont) => cont = false));
+            Assert.Equal("enchantments failed", streamError.Message);
+            Assert.Equal("enchantments failed", treeError.Message);
+            Assert.Same(stoppedList, stopped.FEnchantments);
+            Assert.Same(stoppedTreeList, stoppedTree.FEnchantments);
+            Assert.Equal(4, stopped.FNextEnchantmentID);
+            Assert.Equal(4, stoppedTree.FNextEnchantmentID);
+        }
+        finally
+        {
+            stoppedTree.Dispose();
+            stopped.Dispose();
         }
     }
 
     private static TGlobalMagicControl Faulted(int sentinel)
     {
         var control = new TGlobalMagicControl(null!);
-        control.FEnchantments.Free();
+        control.FEnchantments?.Dispose();
         control.FEnchantments = new ThrowingEnchantments(null!);
         control.FNextEnchantmentID = sentinel;
         return control;
@@ -839,27 +818,13 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void AChampionByteOtherThanZeroOrOneRoundTripsThroughReadWrite()
     {
-        var source = new TUnitResource(null!);
-        try
-        {
-            Unsafe.As<bool, byte>(ref source.FChampion) = 2;
-            var image = Image(source);
-            var loaded = new TUnitResource(null!);
-            try
-            {
-                Load(loaded, image);
-                Assert.Equal(2, Unsafe.As<bool, byte>(ref loaded.FChampion));
-                EqualBytes(image, Image(loaded), "champion 02");
-            }
-            finally
-            {
-                loaded.Destroy();
-            }
-        }
-        finally
-        {
-            source.Destroy();
-        }
+        using var source = new TUnitResource(null!);
+        Unsafe.As<bool, byte>(ref source.FChampion) = 2;
+        var image = Image(source);
+        using var loaded = new TUnitResource(null!);
+        Load(loaded, image);
+        Assert.Equal(2, Unsafe.As<bool, byte>(ref loaded.FChampion));
+        EqualBytes(image, Image(loaded), "champion 02");
     }
 
     [Fact]
@@ -884,7 +849,7 @@ public sealed class PersistEquivalenceTests
         finally
         {
             Game.AoWHSMap = previous!;
-            map.Destroy();
+            map.Dispose();
         }
     }
 
@@ -924,10 +889,10 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            fromImage?.Destroy();
-            loaded?.Destroy();
-            viaReadWrite?.Destroy();
-            obj.Destroy();
+            fromImage?.Dispose();
+            loaded?.Dispose();
+            viaReadWrite?.Dispose();
+            obj.Dispose();
         }
     }
 
@@ -940,7 +905,7 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            obj.Destroy();
+            obj.Dispose();
         }
     }
 
@@ -964,7 +929,7 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            reader.Destroy();
+            reader.Dispose();
         }
     }
 
@@ -983,7 +948,7 @@ public sealed class PersistEquivalenceTests
         var list = Game.AoWHSSet.FAbilityControl.FAbilities;
         int id = ability.FAbilityID;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability)) list[id] = null;
-        ability.Destroy();
+        ability.Dispose();
     }
 
     private sealed class ThrowingHatred : THatredEnchantment
@@ -1018,14 +983,9 @@ public sealed class PersistEquivalenceTests
     private static byte[] Image(TEObject obj)
     {
         using var memory = new TMemoryStream();
-        var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false);
-        try
+        using (var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false))
         {
             obj.MainReadWrite(writer);
-        }
-        finally
-        {
-            writer.Destroy();
         }
         return memory.Memory[..memory.Size];
     }

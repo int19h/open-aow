@@ -52,7 +52,7 @@ internal static class SweepFailureFixture
         Assert.Same(owner, value.Owner);
         Assert.Same(value, Assert.Single(owner.Members));
         Assert.Equal(["insert:True"], owner.Events);
-        value.Destroy();
+        value.Dispose();
         Assert.Empty(owner.Members);
         Assert.Equal(["insert:True", "remove:True"], owner.Events);
     }

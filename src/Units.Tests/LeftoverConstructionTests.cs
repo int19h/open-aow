@@ -56,8 +56,8 @@ public sealed class LeftoverConstructionTests
             Game.AoWHSSet = previousSet;
             Game.AoWEngine = previousEngine;
             Game.AoWHSMap = previousMap;
-            CombatResources.Destroy();
-            Manager.Destroy();
+            CombatResources.Dispose();
+            Manager.Dispose();
         }
     }
 
@@ -82,9 +82,10 @@ public sealed class LeftoverConstructionTests
             if (item is Array array) return array.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             if (item is IList list) return list.Cast<object?>().Select((x, i) => State(x, path + "[" + i + "]")).ToArray();
             var fields = new SortedDictionary<string, object?>(StringComparer.Ordinal) { ["$type"] = type.FullName };
-            for (Type? current = type; current is not null && current != typeof(TObject) && current != typeof(object); current = current.BaseType)
+            for (Type? current = type; current is not null && current != typeof(object) && current != typeof(object); current = current.BaseType)
                 foreach (FieldInfo field in current.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
+                    if (field.Name == "captureOrdinal") continue;
                     if (field.Name == "eclass") continue; // the descriptor cache is not constructor state
                     // CF-2 stores priority as a delegate. Keep its value in the base recording's key.
                     if (item is AIPlayerActionClass actionClass && field.Name == "priority")
@@ -261,7 +262,7 @@ public sealed class LeftoverConstructionTests
                 catch (System.Exception error) { states.Add("failure:" + error.GetType().FullName + ":" + error.Message); }
                 finally
                 {
-                    try { value?.Destroy(); }
+                    try { value?.Dispose(); }
                     catch (System.Exception error) { states.Add("destroy:" + error.GetType().FullName + ":" + error.Message); }
                 }
                 states.Add("owner:" + (owner?.Members.Count ?? 0));
@@ -275,17 +276,13 @@ public sealed class LeftoverConstructionTests
     private static TEObject Saved(Type type, TECustomNode owner)
     {
         if (EngineUnit.Engines is null) EngineUnit.Initialize();
-        var engine = new TEngine(null!);
-        try
-        {
-            var descriptor = EClass.Of(type);
-            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
-            try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
-            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
-            engine.RegisterEClasses([descriptor]);
-            return engine.CreateEObject(descriptor.ClassID, owner);
-        }
-        finally { engine.Destroy(); }
+        using var engine = new TEngine(null!);
+        var descriptor = EClass.Of(type);
+        engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+        try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
+        catch (System.Exception error) when (PortedExceptions.Is(error)) { }
+        engine.RegisterEClasses([descriptor]);
+        return engine.CreateEObject(descriptor.ClassID, owner);
     }
 
     private sealed class RejectingOwner : EngineFixture.Owner
@@ -320,7 +317,7 @@ public sealed class LeftoverConstructionTests
         Assert.Equal(0, value.FMapChangedLockCount);
         Assert.NotNull(value.FItemControl);
         Assert.NotNull(value.FEffects);
-        value.Destroy();
+        value.Dispose();
     }
 
     [Fact]
@@ -331,12 +328,10 @@ public sealed class LeftoverConstructionTests
         Assert.Equal(TAoWHSMap.ClassID, settings.HSMapClassID);
         Assert.Equal(TMapContainer.ClassID, settings.MapContainerClassID);
         Assert.Equal(TAoWMapLevel.ClassID, settings.MapLevelClassID);
-        var mouse = new TAoWHSMapMouse();
+        using var mouse = new TAoWHSMapMouse();
         Assert.Equal((-1, -1, -1, -1), (mouse.FSelectionRectangle.Left, mouse.FSelectionRectangle.Top,
             mouse.FSelectionRectangle.Right, mouse.FSelectionRectangle.Bottom));
         Assert.Equal(0, mouse.FRectangleSelectEventsStore.Count);
-        mouse.Destroy();
-        settings.Destroy();
     }
 
     [Theory]
@@ -344,8 +339,8 @@ public sealed class LeftoverConstructionTests
     [InlineData(true)]
     public void HashTablesAllocateADistinctListPerBucket(bool strings)
     {
-        TObject table;
-        var buckets = new List<TObject>();
+        object table;
+        var buckets = new List<object>();
         if (strings)
         {
             var value = new TStringHashTable256();
@@ -359,8 +354,8 @@ public sealed class LeftoverConstructionTests
             for (int i = 0; i < 256; i++) buckets.Add(value.FLists[i]);
         }
         Assert.Equal(256, buckets.Count);
-        Assert.Equal(256, new HashSet<TObject>(buckets, ReferenceEqualityComparer.Instance).Count);
+        Assert.Equal(256, new HashSet<object>(buckets, ReferenceEqualityComparer.Instance).Count);
         Assert.DoesNotContain(table, buckets);
-        table.Destroy();
+        ((table ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
     }
 }

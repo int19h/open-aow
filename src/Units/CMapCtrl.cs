@@ -16,8 +16,8 @@ public partial class TAoWCombatMapControl : TComponent
 {
     public TSelectHSEvent FOnSelected;
     public TSelectHSEvent FOnDeselected;
-    public TNotifyEvent<TObject> FOnActivateHSM;
-    public TNotifyEvent<TObject> FOnDeactivateHSM;
+    public TNotifyEvent<object> FOnActivateHSM;
+    public TNotifyEvent<object> FOnDeactivateHSM;
     public TPlayerChangedEvent FOnIncomeChanged;
     public TPlayerChangedEvent FOnUpkeepChanged;
     public TPlayerChangedEvent FOnGemsChanged;
@@ -28,15 +28,15 @@ public partial class TAoWCombatMapControl : TComponent
     public TOnExecuteEventLogEvent FOnExecuteEventLog;
     public TMapChangedEvent FOnMapChanged;
     public TPlayerChangedEvent FOnLogbookChanged;
-    public TNotifyEvent<TObject> FOnActivateMap;
-    public TNotifyEvent<TObject> FOnDeActivateMap;
+    public TNotifyEvent<object> FOnActivateMap;
+    public TNotifyEvent<object> FOnDeActivateMap;
     public TSelectHSEvent FOnMouseOverTarget;
     public TSelectCombatUnitEvent FOnUnitChanged;
     public TCastCombatSpellEvent FOnCastSpell;
     public TActivateCombatAbilityEvent FOnActivateAbility;
 
     // CMapCtrl.pas:117
-    public override void Destroy()
+    public override void Dispose()
     {
         if (AoWEngine != null)
         {
@@ -48,7 +48,7 @@ public partial class TAoWCombatMapControl : TComponent
             }
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // CMapCtrl.pas:107
@@ -141,7 +141,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:207
-    public void SelectHS(TObject Sender)
+    public void SelectHS(object Sender)
     {
         try
         {
@@ -157,7 +157,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:216
-    public void DeselectHS(TObject Sender)
+    public void DeselectHS(object Sender)
     {
         try
         {
@@ -173,7 +173,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:225
-    public void MouseOverTarget(TObject Sender)
+    public void MouseOverTarget(object Sender)
     {
         try
         {
@@ -189,7 +189,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:234
-    public void UnitChanged(TObject Sender)
+    public void UnitChanged(object Sender)
     {
         try
         {
@@ -206,7 +206,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:243
-    public void PlayerChanged(TObject Sender)
+    public void PlayerChanged(object Sender)
     {
         try
         {
@@ -319,7 +319,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:325
-    public void ActivateMap(TObject Sender)
+    public void ActivateMap(object Sender)
     {
         try
         {
@@ -335,7 +335,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:334
-    public void DeactivateMap(TObject Sender)
+    public void DeactivateMap(object Sender)
     {
         try
         {
@@ -389,10 +389,10 @@ public partial class TAoWCombatMapControl : TComponent
     public TSelectHSEvent OnDeselected { get => FOnDeselected; set => FOnDeselected = value; }
 
     [Published]
-    public TNotifyEvent<TObject> OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
+    public TNotifyEvent<object> OnActivateHSM { get => FOnActivateHSM; set => FOnActivateHSM = value; }
 
     [Published]
-    public TNotifyEvent<TObject> OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
+    public TNotifyEvent<object> OnDeactivateHSM { get => FOnDeactivateHSM; set => FOnDeactivateHSM = value; }
 
     [Published]
     public TPlayerChangedEvent OnIncomeChanged { get => FOnIncomeChanged; set => FOnIncomeChanged = value; }
@@ -425,10 +425,10 @@ public partial class TAoWCombatMapControl : TComponent
     public TPlayerChangedEvent OnLogbookChanged { get => FOnLogbookChanged; set => FOnLogbookChanged = value; }
 
     [Published]
-    public TNotifyEvent<TObject> OnActivateMap { get => FOnActivateMap; set => FOnActivateMap = value; }
+    public TNotifyEvent<object> OnActivateMap { get => FOnActivateMap; set => FOnActivateMap = value; }
 
     [Published]
-    public TNotifyEvent<TObject> OnDeActivateMap { get => FOnDeActivateMap; set => FOnDeActivateMap = value; }
+    public TNotifyEvent<object> OnDeActivateMap { get => FOnDeActivateMap; set => FOnDeActivateMap = value; }
 
     [Published]
     public TSelectHSEvent OnMouseOverTarget { get => FOnMouseOverTarget; set => FOnMouseOverTarget = value; }
@@ -442,7 +442,7 @@ public partial class TAoWCombatMapControl : TComponent
     [Published]
     public TActivateCombatAbilityEvent OnActivateAbility { get => FOnActivateAbility; set => FOnActivateAbility = value; }
 
-    public void ExecuteEventLog(TObject sender)
+    public void ExecuteEventLog(object sender)
     {
         try
         {
@@ -455,7 +455,7 @@ public partial class TAoWCombatMapControl : TComponent
     }
 
     // CMapCtrl.pas:198. The notification carries the changed map area.
-    public void MapChanged(TObject sender)
+    public void MapChanged(object sender)
     {
         try
         {
@@ -467,7 +467,7 @@ public partial class TAoWCombatMapControl : TComponent
         }
     }
 
-    public void ShowMessage(TObject sender)
+    public void ShowMessage(object sender)
     {
         try { FOnShowMessage?.Invoke(((ShowMessageNotification)sender).Info); }
         catch { RtlUnit.ShowMessage("Exception occurred during ShowMessage event(TAoWCombatMapControl)"); }

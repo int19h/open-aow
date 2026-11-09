@@ -40,7 +40,7 @@ public partial class TIsometricHexagon
         }
         else if (FDynamic != null)
         {
-            FDynamic.Free();
+            FDynamic?.Dispose();
             FDynamic = null;
             FSides = (byte)(RtlUnit.Random(4) << 6);
             FResource.Engine.HSMap.InvalidateStaticScene(field.Xhx, field.Yhx, field.Lhx);
@@ -87,7 +87,7 @@ public partial class TDynamicIsometricHexagon
 
     public override void Show(int x, int y, in TSurfaceDesc surface) => hexagon.ShowDynamic(x, y, surface);
 
-    public override void Destroy()
+    public override void Dispose()
     {
         if (hexagon != null)
         {
@@ -97,6 +97,6 @@ public partial class TDynamicIsometricHexagon
             hexagon = null;
         }
         FOwner = null;
-        base.Destroy();
+        base.Dispose();
     }
 }

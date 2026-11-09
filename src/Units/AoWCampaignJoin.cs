@@ -133,7 +133,7 @@ public partial class TCampaignJoinDlg : TDataModule
     public void CampaignJoinDlgDestroy()
     {
         FLeader.Release();
-        FScrollText.Free();
+        FScrollText?.Dispose();
     }
 
     // AoWCampaignJoin.pas:71

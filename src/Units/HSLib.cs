@@ -37,11 +37,11 @@ public partial class THSLibrary : TImageLibrary
     }
 
     // HSLib.pas:285
-    public override void Destroy()
+    public override void Dispose()
     {
         ClearList();
-        FList.Free();
-        base.Destroy();
+        FList?.Dispose();
+        base.Dispose();
     }
 
     // HSLib.pas:304
@@ -49,7 +49,7 @@ public partial class THSLibrary : TImageLibrary
     {
         for (int I = FList.Count - 1; I >= 0; I--)
         {
-            ((TObject)FList[I]).Destroy();
+            ((FList[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
         }
 
         FList.Clear();
@@ -95,10 +95,10 @@ public partial class TLibraryHS : THPBasedHS
     // HSLib.pas:75
 
     // HSLib.pas:81
-    public override void Destroy()
+    public override void Dispose()
     {
         FLibrary.RemoveHS(this);
-        base.Destroy();
+        base.Dispose();
     }
 
     // HSLib.pas:87
@@ -131,7 +131,7 @@ public partial class TLibraryHS : THPBasedHS
 
         if (FDestroyOnShow)
         {
-            Destroy();
+            Dispose();
         }
     }
 

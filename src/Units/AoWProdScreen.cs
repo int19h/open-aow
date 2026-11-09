@@ -155,7 +155,7 @@ public partial class TProductionScreen : TDataModule
     {
         if (FPreview != null)
         {
-            FPreview.Free();
+            FPreview?.Dispose();
             FPreview = null;
         }
     }
@@ -293,7 +293,7 @@ public partial class TProductionScreen : TDataModule
     }
 
     // AoWProdScreen.pas:712
-    public void PlaceChanged(TObject Sender)
+    public void PlaceChanged(object Sender)
     {
         if (Dlg.Visible && Sender == FPlace)
         {
@@ -645,7 +645,7 @@ public partial class TProductionScreen : TDataModule
         var lhx = FPlace.GetLhx();
         var yhx = FPlace.GetYhx();
         FPreview = Generator.RandomMap(null, FPlace.GetXhx(), yhx, lhx);
-        Generator.Free();
+        Generator?.Dispose();
         Army = ((TAoWMapField)FPlace.Owner).GetArmyHS();
         if (Army != null)
         {
@@ -685,7 +685,7 @@ public partial class TProductionScreen : TDataModule
     // AoWProdScreen.pas:226
     public void ProductionScreenDestroy()
     {
-        FImages.Free();
+        FImages?.Dispose();
     }
 
     // AoWProdScreen.pas:231

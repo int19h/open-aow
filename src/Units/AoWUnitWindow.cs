@@ -841,7 +841,7 @@ public static partial class AoWUnitWindowUnit
     public static readonly string ExpRStr = "Exp";
 
     // AoWUnitWindow.pas:220
-    public static int CompareUnitAbilities(string S1, string S2, TObject O1, TObject O2)
+    public static int CompareUnitAbilities(string S1, string S2, object O1, object O2)
     {
         TAbility A1;
         TAbility A2;

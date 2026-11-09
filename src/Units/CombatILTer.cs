@@ -41,10 +41,10 @@ public partial class TCombatILTerrain : TILTerrainMO
     public TCombatILTerrainShadow FShadow;
 
     // CombatILTer.pas:99
-    public override void Destroy()
+    public override void Dispose()
     {
         DestroyShadow();
-        base.Destroy();
+        base.Dispose();
     }
 
     // CombatILTer.pas:166
@@ -124,7 +124,7 @@ public partial class TCombatILTerrain : TILTerrainMO
                 FResource.Engine.HSMap.DynamicVisibleHS.RemoveChild(FShadow);
             }
 
-            FShadow.Free();
+            FShadow?.Dispose();
             FShadow = null;
         }
     }

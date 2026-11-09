@@ -56,10 +56,10 @@ public partial class TFastMemoryStream : TStream
     }
 
     // FMemStr.pas:90
-    public override void Destroy()
+    public override void Dispose()
     {
         Clear();
-        base.Destroy();
+        base.Dispose();
     }
 
     // FMemStr.pas:43
@@ -214,7 +214,7 @@ public partial class TFastMemoryStream : TStream
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
     }
 
@@ -238,7 +238,7 @@ public partial class TFastMemoryStream : TStream
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
     }
 

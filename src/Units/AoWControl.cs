@@ -26,10 +26,10 @@ public partial class TAOWControl : TAoWComponent
     }
 
     // AoWControl.pas:53
-    public override void Destroy()
+    public override void Dispose()
     {
-        FToolTipText.Destroy();
-        base.Destroy();
+        FToolTipText.Dispose();
+        base.Dispose();
     }
 
     // AoWControl.pas:84

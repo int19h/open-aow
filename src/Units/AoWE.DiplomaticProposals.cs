@@ -76,7 +76,7 @@ public abstract record DiplomaticProposal
         var list = new TStringList();
         list.Text = Text;
         var lines = Lines(list);
-        list.Free();
+        list?.Dispose();
         return lines;
     }
 
@@ -880,10 +880,9 @@ public partial class TDiplomaticAction
     // Diplomacy.pas:826, 950).
     public void RetrieveDefaultMessage(sbyte Source, sbyte Target, sbyte Other, TDiplomaticActionReaction Reaction)
     {
-        var text = new TStringList();
+        using var text = new TStringList();
         RetrieveDefaultDiplomaticActionMessage(Source, Target, Other, Proposal, Reaction, text);
         Proposal = Proposal with { Message = DiplomaticProposal.Lines(text) };
-        text.Free();
     }
 
     // Moves every race's relation to source and target by the proposal's modifiers (Diplomacy.pas:826, 992).

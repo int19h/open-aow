@@ -42,7 +42,7 @@ public static partial class RtlUnit
                 string value when conversion == 'S' => Truncate(value, precision),
                 char value when conversion == 'S' => value.ToString(),
                 PointerArg value when conversion == 'P' => value.Value.ToString("X8", CultureInfo.InvariantCulture),
-                int or bool or char or double or string or TObject or PointerArg or null => throw Mismatch(conversion, start),
+                int or bool or char or double or string or object or PointerArg or null => throw Mismatch(conversion, start),
             };
             result.Append(left ? output.PadRight(Math.Max(0, width)) : output.PadLeft(Math.Max(0, width)));
         }

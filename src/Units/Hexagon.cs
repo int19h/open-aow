@@ -129,7 +129,7 @@ public partial class THexagonResource : TAbstractHexagonResource
             Result = (TMapObject)CreateResourceUser();
             if (!Result.PlaceHX(Map.MapContainer, Xhx, Yhx, Lhx))
             {
-                Result.Free();
+                Result?.Dispose();
                 Result = null;
             }
         }

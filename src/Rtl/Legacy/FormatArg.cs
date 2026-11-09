@@ -28,7 +28,7 @@ public readonly struct FormatArg : IUnion
 
     public FormatArg(string value) { reference = RtlUnit.RequireString(value); kind = Case.String; }
 
-    public FormatArg(TObject? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
+    public FormatArg(object? value) { reference = value; kind = value is null ? Case.None : Case.Object; }
 
     public FormatArg(PointerArg value) { bits = value.Value; kind = Case.Pointer; }
 
@@ -42,7 +42,7 @@ public readonly struct FormatArg : IUnion
     public static implicit operator FormatArg(bool value) => new(value);
     public static implicit operator FormatArg(double value) => new(value);
     public static implicit operator FormatArg(string? value) => new(value!);
-    public static implicit operator FormatArg(TObject? value) => new(value);
+    // A conversion from object is illegal. Callers construct the reference case.
     public static implicit operator FormatArg(PointerArg value) => new(value);
 
     // Patterns read the cases through TryGetValue. Value boxes and serves only reflection.
@@ -89,9 +89,9 @@ public readonly struct FormatArg : IUnion
         return kind == Case.String;
     }
 
-    public bool TryGetValue([MaybeNullWhen(false)] out TObject value)
+    public bool TryGetValue([MaybeNullWhen(false)] out object value)
     {
-        value = kind == Case.Object ? (TObject)reference! : null;
+        value = kind == Case.Object ? (object)reference! : null;
         return kind == Case.Object;
     }
 

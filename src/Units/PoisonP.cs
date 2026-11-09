@@ -259,7 +259,7 @@ public partial class TPoisonPlant : TILTerrainMO
         sbyte OriginalOverlay;
         MapF = (TMapField)Owner;
         OriginalOverlay = FOriginalOverlay;
-        Destroy();
+        Dispose();
         if (OriginalOverlay > 0)
         {
             AoWHSMap.PlaceTerrain(MapF.Xhx, MapF.Yhx, MapF.Lhx, MapF.TerrainType, OriginalOverlay);
@@ -409,7 +409,7 @@ public partial class TPoisonPlantSpellTE : TGlobalTargetSpellTE
                     }
                     else
                     {
-                        Plant.Free();
+                        Plant?.Dispose();
                     }
                 }
             }

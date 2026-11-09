@@ -39,6 +39,7 @@ public sealed class StaticStringTableTests
         foreach (var type in typeof(Startup).Assembly.GetTypes())
             foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {
+                if (field.Name == "captureOrdinal") continue;
                 if (field.IsLiteral || field.FieldType.ContainsGenericParameters || type.ContainsGenericParameters) continue;
                 string name = type.FullName + "." + field.Name;
                 if (field.FieldType == typeof(string))

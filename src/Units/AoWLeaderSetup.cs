@@ -723,7 +723,7 @@ public partial class TLeaderSetupWin : TDataModule
     // AoWLeaderSetup.pas:274
     public void LeaderSetupWinDestroy()
     {
-        FLeader.Free();
+        FLeader?.Dispose();
     }
 
     // AoWLeaderSetup.pas:279

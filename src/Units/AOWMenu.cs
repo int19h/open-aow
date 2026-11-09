@@ -64,7 +64,7 @@ public partial class TAOWMenu : TAOWGenericWindow
     // AOWMenu.pas:117
     // { Destroy removes the menu from the lists of its owner menu and menu bar and detaches its
     //   submenus }
-    public override void Destroy()
+    public override void Dispose()
     {
         int I;
         TAOWMenu M;
@@ -112,7 +112,7 @@ public partial class TAOWMenu : TAOWGenericWindow
             }
         }
 
-        FItems.Destroy();
+        FItems.Dispose();
         I = 0;
         int last = FSubMenus.Count - 1;
         for (; I <= last; I += 1)
@@ -120,8 +120,8 @@ public partial class TAOWMenu : TAOWGenericWindow
             ((TAOWMenu)FSubMenus[I]).DetachMenu();
         }
 
-        FSubMenus.Destroy();
-        base.Destroy();
+        FSubMenus.Dispose();
+        base.Dispose();
     }
 
     // AOWMenu.pas:159

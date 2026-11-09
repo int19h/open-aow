@@ -30,7 +30,7 @@ public partial class TPyreScreen : TDataModule
     public TAOWImage PyreTop;
     public TAOWImage LeaderFaceFr;
     public TaowUserDrawBox PyreAnimation;
-    public TObject FAnimation;
+    public object FAnimation;
     public TSongStatus FSavedSongStatus;
     public TExecuteDoneEvent FDone;
     public TGameOverEventLog FGameOverEvent;
@@ -41,7 +41,7 @@ public partial class TPyreScreen : TDataModule
     {
         if (FAnimation != null)
         {
-            FAnimation.Free();
+            (FAnimation as IDisposable)?.Dispose();
             FAnimation = null;
         }
     }

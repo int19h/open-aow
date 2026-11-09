@@ -120,8 +120,8 @@ public sealed class StorageStreamConstructionTests
         }
         finally
         {
-            stream.Destroy();
-            engine.Destroy();
+            stream.Dispose();
+            engine.Dispose();
         }
         Assert.True(memory.Size >= 2);
         memory.Position = 0;
@@ -139,7 +139,7 @@ public sealed class StorageStreamConstructionTests
         Assert.Equal(0, memory.Size);
         writer.rwEObject(source, 4);
         Assert.Equal(0, memory.Size);
-        writer.Destroy();
+        writer.Dispose();
         byte[] bytes = memory.Memory[..memory.Size];
         Assert.Equal("0104000207000904034F616B0448696C6C", Convert.ToHexString(bytes));
         memory.Position = 0;
@@ -152,14 +152,14 @@ public sealed class StorageStreamConstructionTests
             Assert.Equal(source.Name, loaded.Name);
             Assert.Equal(source.Detail, loaded.Detail);
         }
-        finally { reader.Destroy(); }
+        finally { reader.Dispose(); }
         using var second = new TMemoryStream();
         var rewritten = new TEWriteStorageStream(second, null!, partial);
         rewritten.rwEObject(loaded, 4);
-        rewritten.Destroy();
+        rewritten.Dispose();
         Assert.Equal(bytes, second.Memory[..second.Size]);
-        loaded.Destroy();
-        source.Destroy();
+        loaded.Dispose();
+        source.Dispose();
     }
 
     [Theory]
@@ -172,7 +172,7 @@ public sealed class StorageStreamConstructionTests
         TEWriteTextStorageStream writer = export ? new TExportTextStream(memory, null!)
             : new TEWriteTextStorageStream(memory, null!);
         writer.rwEObject(source, 4);
-        writer.Destroy();
+        writer.Dispose();
         byte[] bytes = memory.Memory[..memory.Size];
         Assert.Equal(export ? "\r\n[:4:]\r\n[7]=|Oak|\r\n[9]=|Hill|\r\n"
             : "\r\n[:4:]\r\n[7]=Oak\r\n[9]=Hill\r\n", System.Text.Encoding.Latin1.GetString(bytes));
@@ -185,14 +185,14 @@ public sealed class StorageStreamConstructionTests
             Assert.Equal(export ? "|Oak|" : source.Name, loaded.Name);
             Assert.Equal(export ? "|Hill|" : source.Detail, loaded.Detail);
         }
-        finally { reader.Destroy(); }
+        finally { reader.Dispose(); }
         using var second = new TMemoryStream();
         var rewritten = new TEWriteTextStorageStream(second, null!);
         rewritten.rwEObject(loaded, 4);
-        rewritten.Destroy();
+        rewritten.Dispose();
         Assert.Equal(bytes, second.Memory[..second.Size]);
-        loaded.Destroy();
-        source.Destroy();
+        loaded.Dispose();
+        source.Dispose();
     }
 
     [Theory]
@@ -219,11 +219,10 @@ public sealed class StorageStreamConstructionTests
     public void OrdinaryMemoryStreamKeepsShortReadBehavior()
     {
         using var memory = Memory([1, 7]);
-        var reader = new TEReadStorageStream(memory, null!, false);
+        using var reader = new TEReadStorageStream(memory, null!, false);
         Assert.Equal(2, reader.DataBase);
         Assert.Equal(1, reader.PropertyTable.Count);
         Assert.Equal(0, reader.PropertyTable.FindOffset(7));
-        reader.Destroy();
     }
 
     [Fact]
@@ -239,7 +238,7 @@ public sealed class StorageStreamConstructionTests
     [Fact]
     public void DebugWriterKeepsBorrowedBufferAndLegacyRoute()
     {
-        var buffer = new TEBufferStream();
+        using var buffer = new TEBufferStream();
         var debug = new TDebugWriteStream(buffer, null!);
         Assert.Same(buffer, debug.Stream);
         Assert.Same(buffer, Field<TEBufferStream>(debug, "FBuffer"));
@@ -247,13 +246,12 @@ public sealed class StorageStreamConstructionTests
         Assert.Equal(0, debug.PropertyTable.Count);
         int value = 42;
         debug.rwInteger(ref value, 7);
-        debug.Destroy();
+        debug.Dispose();
         var bytes = new byte[buffer.Size];
         buffer.Position = 0;
         buffer.Read(bytes);
         Assert.Equal("2A000000010700", Convert.ToHexString(bytes));
         Assert.Equal(1, buffer.Write([0x33]));
-        buffer.Destroy();
     }
 
     [Theory]
@@ -265,15 +263,14 @@ public sealed class StorageStreamConstructionTests
             : new TTranslateStorageStream(null!);
         var dictionary = new TIvDictionary();
         if (translator is TTranslateTextStream typed) typed.FDictionary = dictionary;
-        var value = new StoredObject { Name = "Oak", Detail = "Hill" };
+        using var value = new StoredObject { Name = "Oak", Detail = "Hill" };
         translator.rwEObject(value, 4);
         Assert.Equal("Oak", value.Name);
         Assert.Equal("Hill", value.Detail);
         Assert.Null(translator.Stream);
         Assert.Equal(0, translator.PropertyTable.Count);
-        translator.Destroy();
+        translator.Dispose();
         Assert.Equal("Oak", dictionary.Translate("Oak"));
-        dictionary.Destroy();
-        value.Destroy();
+        dictionary.Dispose();
     }
 }

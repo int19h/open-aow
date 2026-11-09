@@ -40,7 +40,7 @@ public sealed class ImageFileClass
     }
 
     public Type Type { get; }
-    public string ClassName => TObject.ClassNameOf(Type);
+    public string ClassName => ClassNames.ClassNameOf(Type);
     public string Name => getName();
     public string Extension => getExtension();
     public string Description => getDescription();

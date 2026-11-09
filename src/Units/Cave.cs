@@ -37,7 +37,7 @@ public partial class TCave : TStructure
     public TCaveEntrance FEntrance;
 
     // Cave.pas:134
-    public override void Destroy()
+    public override void Dispose()
     {
         TCaveEntrance OldEntrance;
         TCave Partner;
@@ -52,7 +52,7 @@ public partial class TCave : TStructure
                     Partner = (TCave)AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((TMapField)Owner).Lhx - 1).FindOwnedChild(131966);
                     if (Partner != null && Partner.FEntrance == TCaveEntrance.ceDown)
                     {
-                        Partner.Destroy();
+                        Partner.Dispose();
                     }
                 }
                 else
@@ -60,13 +60,13 @@ public partial class TCave : TStructure
                     Partner = (TCave)AoWHSMap.MapContainer.GetField(FXhx, FYhx, ((TMapField)Owner).Lhx + 1).FindOwnedChild(131966);
                     if (Partner != null && Partner.FEntrance == TCaveEntrance.ceUp)
                     {
-                        Partner.Destroy();
+                        Partner.Dispose();
                     }
                 }
             }
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // Cave.pas:244
@@ -172,7 +172,7 @@ public partial class TCave : TStructure
                     // { Original destroys an existing partner when its entrance direction is wrong. }
                     if (!Result)
                     {
-                        Up.Destroy();
+                        Up.Dispose();
                     }
                     else
                     {
@@ -195,7 +195,7 @@ public partial class TCave : TStructure
 
                     if (!Result)
                     {
-                        Down.Destroy();
+                        Down.Dispose();
                     }
                     else
                     {
@@ -473,7 +473,7 @@ public partial class TCave : TStructure
             }
 
             // { Original frees the path only on normal completion. }
-            Path.Free();
+            Path?.Dispose();
         }
         else
         {

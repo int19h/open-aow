@@ -30,7 +30,7 @@ public partial class TAOWPanel : TAOWBaseWindow
     }
 
     // AoWPanel.pas:69
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FTabPanel != null)
         {
@@ -38,7 +38,7 @@ public partial class TAOWPanel : TAOWBaseWindow
             FTabPanel.FPanels.Delete(indexOf);
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // AoWPanel.pas:235

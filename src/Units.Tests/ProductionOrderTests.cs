@@ -73,7 +73,7 @@ public sealed class ProductionOrderTests
         using var memory = new TMemoryStream();
         var writer = new TEWriteStorageStream(memory, engine, false);
         writer.rwCreateEObject(ref value, null!, 7);
-        writer.Destroy();
+        writer.Dispose();
         return Hex(memory);
     }
 
@@ -81,9 +81,7 @@ public sealed class ProductionOrderTests
     {
         using var memory = Memory(hex);
         TEObject result = null!;
-        var reader = new TEReadStorageStream(memory, engine, false);
-        try { reader.rwCreateEObject(ref result, null!, 7); }
-        finally { reader.Destroy(); }
+        using (var reader = new TEReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, null!, 7); }
         return Assert.IsType<T>(result);
     }
 
@@ -100,26 +98,26 @@ public sealed class ProductionOrderTests
 
             var item = new TProductionItem(null!) { Order = Expected(Id, Parameter, GroupId) };
             Assert.Equal(ItemBytes, Write(engine, item));
-            item.Destroy();
+            item.Dispose();
 
             var te = new TProductionTE(null!) { FX = 3, FY = 4, FL = 1, FPlayer = 2, FQueue = true, FIndex = 1 };
             te.FItem = new TProductionItem(null!) { Order = Expected(Id, Parameter, GroupId) };
             Assert.Equal(EventBytes, Write(engine, te));
-            te.Destroy();
+            te.Dispose();
 
             var loaded = Read<TProductionItem>(engine, ItemBytes);
             Assert.Equal(Expected(Id, Parameter, GroupId), loaded.Order);
             Assert.Equal(ItemBytes, Write(engine, loaded));
-            loaded.Destroy();
+            loaded.Dispose();
 
             var loadedEvent = Read<TProductionTE>(engine, EventBytes);
             Assert.Equal(Expected(Id, Parameter, GroupId), loadedEvent.FItem.Order);
             Assert.Equal(EventBytes, Write(engine, loadedEvent));
-            loadedEvent.Destroy();
+            loadedEvent.Dispose();
         }
         finally
         {
-            engine.Destroy();
+            engine.Dispose();
         }
     }
 
@@ -149,25 +147,18 @@ public sealed class ProductionOrderTests
     [Fact]
     public void QueueFindsAnEqualOrder()
     {
-        var queue = new TProductionQueue(null!);
-        try
-        {
-            foreach (var order in new ProductionOrder[] { new ProduceUnit(5, 12), new ResearchSpell(5), new Migrate(6), new Upgrade() })
-                _ = new TProductionItem(queue) { Order = order };
-            Assert.Equal(0, queue.IndexOf(new ProduceUnit(5, 12)));
-            Assert.Equal(-1, queue.IndexOf(new ProduceUnit(5, 0)));
-            Assert.Equal(1, queue.IndexOf(new ResearchSpell(5)));
-            Assert.Equal(-1, queue.IndexOf(new ResearchSpell(6)));
-            Assert.Equal(2, queue.IndexOf(new Migrate(6)));
-            Assert.Equal(3, queue.IndexOf(new Upgrade()));
-            Assert.Equal(-1, queue.IndexOf(new Fortify()));
-            Assert.Equal(-1, queue.IndexOf(new UnknownOrder(11, 0, 0)));
-            Assert.Equal(1, queue.IndexOfID(2));
-        }
-        finally
-        {
-            queue.Destroy();
-        }
+        using var queue = new TProductionQueue(null!);
+        foreach (var order in new ProductionOrder[] { new ProduceUnit(5, 12), new ResearchSpell(5), new Migrate(6), new Upgrade() })
+            _ = new TProductionItem(queue) { Order = order };
+        Assert.Equal(0, queue.IndexOf(new ProduceUnit(5, 12)));
+        Assert.Equal(-1, queue.IndexOf(new ProduceUnit(5, 0)));
+        Assert.Equal(1, queue.IndexOf(new ResearchSpell(5)));
+        Assert.Equal(-1, queue.IndexOf(new ResearchSpell(6)));
+        Assert.Equal(2, queue.IndexOf(new Migrate(6)));
+        Assert.Equal(3, queue.IndexOf(new Upgrade()));
+        Assert.Equal(-1, queue.IndexOf(new Fortify()));
+        Assert.Equal(-1, queue.IndexOf(new UnknownOrder(11, 0, 0)));
+        Assert.Equal(1, queue.IndexOfID(2));
     }
 
     // City.pas:3220 ProductionIDToCityAction.
@@ -314,9 +305,9 @@ public sealed class ProductionOrderTests
         }
         finally
         {
-            foreach (TStructure structure in new TStructure[] { city, guild, node }) _ = Record.Exception(structure.Destroy);
+            foreach (TStructure structure in new TStructure[] { city, guild, node }) _ = Record.Exception(structure.Dispose);
             Game.AoWHSMap = previousMap;
-            map.Destroy();
+            map.Dispose();
         }
     }
 }

@@ -21,9 +21,9 @@ public sealed class EnginePersistableFactory : IPersistableFactory
                 throw new InvalidOperationException("Two engine classes are named " + eclass.ClassName + ".");
     }
 
-    public string ClassName(IPersistable obj) => TObject.ClassNameOf(obj.GetType());
+    public string ClassName(IPersistable obj) => ClassNames.ClassNameOf(obj.GetType());
 
-    public void Release(IPersistable obj) => (obj as TObject)?.Free();
+    public void Release(IPersistable obj) => (obj as IDisposable)?.Dispose();
 
     public IPersistable Create(string className)
     {

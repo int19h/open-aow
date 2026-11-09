@@ -35,7 +35,10 @@ public sealed partial class EngineFixture
             this.fault = fault;
             foreach (Type type in new[] { typeof(Game), typeof(Core), typeof(Hex), typeof(Images), typeof(SoundApi) })
                 foreach (var field in type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic))
+                {
+                    if (field.Name == "captureOrdinal") continue;
                     if (!field.IsLiteral && !field.IsInitOnly) globals.Add(field, field.GetValue(null));
+                }
             Directory.CreateDirectory(root);
             foreach (string directory in new[] { "IMAGES", "SFX", "PLUGINS", "Dict" }) Directory.CreateDirectory(Path.Combine(root, directory));
             if (fault == "dictionary") File.WriteAllBytes(Path.Combine(root, "Dict", "ResStr.mld"), [0]);
@@ -144,11 +147,10 @@ public sealed partial class EngineFixture
             var partial = Game.AoWEngine;
             if (partial is not null && partial.FGameSet is null)
             {
-                partial.FDictionary.Free();
-                partial.FEmailGames.Free();
-                partial.FRegistry.Free();
+                partial.FDictionary?.Dispose();
+                partial.FEmailGames?.Dispose();
             }
-            Core.Engines.Free(); Core.PlugIns.Free(); Core.Packages.Free();
+            Core.Engines?.Dispose(); Core.PlugIns?.Dispose(); Core.Packages?.Dispose();
             foreach (var pair in globals) pair.Key.SetValue(null, pair.Value);
             LocalizationRuntime.StartupDirectory = previousLocalization;
             RestoreServices();

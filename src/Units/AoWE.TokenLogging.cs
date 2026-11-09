@@ -52,12 +52,12 @@ public partial class TAoWHSMap
     {
         if (token.EClass.ClassID != 0x554) SetModified();
         if (FTokenEventLogging && FTokenManager.TokenExecuter.ExecuteCount == 0)
-            WriteTokenLog(ClassNameOf(token.GetType()) + " (P:" + RtlUnit.IntToStr(FTokenManager.TokenExecuter.ActiveTCIndex) +
+            WriteTokenLog(ClassNames.ClassNameOf(token.GetType()) + " (P:" + RtlUnit.IntToStr(FTokenManager.TokenExecuter.ActiveTCIndex) +
                 "/T:" + RtlUnit.IntToStr(token.TokenCounter) + "/S:" + RtlUnit.IntToStr(FDefendersSeed) +
                 "/D:" + RtlUnit.IntToStr(AoWEUnit.AoWHSMap.FDay) + "/AIPC:" + RtlUnit.IntToStr(AoWEUnit.AoWHSMap.FAIExecuter.FProcessCycles), true);
     }
 
-    public void OnTokenManagerMessage(TObject Sender, string message)
+    public void OnTokenManagerMessage(object Sender, string message)
     {
         if (FTokenEventLogging) WriteTokenLog(message);
         AoWEUnit.AoWEngine.OutputDebugStr(message);

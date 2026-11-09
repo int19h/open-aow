@@ -150,7 +150,7 @@ public partial class THeroUpgradeDlg : TDataModule
             Hero.Release();
         }
 
-        FEditedHero.Free();
+        FEditedHero?.Dispose();
         FEditedHero = null;
     }
 

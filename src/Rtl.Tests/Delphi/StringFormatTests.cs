@@ -42,14 +42,14 @@ public sealed class StringFormatTests
         Same("%*:*s", 1, 2, "bc"); Same("%*d", false, 1); Same("%*d", "x", 1);
         Same("%0:1:s", 7, "abcdef"); Same("%:s", "abc");
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Same(kind, 1.25);
-        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new TObject(), (TObject?)null, new PointerArg(0) }) Same("%s", arg);
+        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Same("%s", arg);
         Same("%p", 1); Same("%d", (byte)'a'); Same("%0:1:d", 7, "abcdef");
         Assert.Equal("A", RtlUnit.Format("%.0s", 'A'));
         Assert.Equal("abc", RtlUnit.Format("%s", "abc\0def"[..3]));
         Assert.Equal("€\0Ÿ", RtlUnit.Format("€\0%s", 'Ÿ'));
     }
 
-    private sealed class SampleObject : TObject;
+    private sealed class SampleObject;
 
     // An exhaustive switch over the cases. A case added to FormatArg fails this with CS8509.
     private static string CaseOf(FormatArg argument) => argument switch
@@ -59,8 +59,8 @@ public sealed class StringFormatTests
         char value => $"Char U+{(int)value:X4}",
         double value => "Extended " + value.ToString(CultureInfo.InvariantCulture),
         string value => "String " + value,
-        TObject value => "Object " + value.GetType().Name,
         PointerArg value => $"Pointer {value.Value:X8}",
+        object value => "Object " + value.GetType().Name,
         null => "null",
     };
 
@@ -101,14 +101,14 @@ public sealed class StringFormatTests
         Assert.Equal("String ", CaseOf(""));
         Assert.Equal("String ", CaseOf((string?)null));
         // Objects. A nil object is the union's null, like the default value.
-        Assert.Equal("Object TObject", CaseOf(new TObject()));
+        Assert.Equal("Object Object", CaseOf(new object()));
         Assert.Equal("Object SampleObject", CaseOf(new SampleObject()));
-        Assert.Equal("null", CaseOf((TObject?)null));
+        Assert.Equal("null", CaseOf((object?)null));
         Assert.Equal("null", CaseOf(default));
         Assert.Equal("Pointer FFFFFFFF", CaseOf(new PointerArg(uint.MaxValue)));
         // The same conversions in a collection expression and in a params span.
         var obj = new SampleObject();
-        FormatArg[] list = [7, (byte)0x80, '\u0080', true, 1.25, "s", obj, (TObject?)null, new PointerArg(1)];
+        FormatArg[] list = [7, (byte)0x80, '\u0080', true, 1.25, "s", obj, (object?)null, new PointerArg(1)];
         Assert.Equal(new[] { "Integer 7", "Char U+20AC", "Char U+0080", "Boolean True", "Extended 1.25", "String s",
             "Object SampleObject", "null", "Pointer 00000001" }, list.Select(CaseOf));
         Assert.Equal("7 € € \u0080 x", RtlUnit.Format("%d %s %s %s %s", 7, (byte)0x80, '€', '\u0080', "x"));
@@ -118,21 +118,21 @@ public sealed class StringFormatTests
     [Fact]
     public void EveryCaseHoldsItsValue()
     {
-        var obj = new TObject();
+        var obj = new object();
         Assert.Equal(7, ((FormatArg)7).Value);
         Assert.Equal('€', ((FormatArg)(byte)0x80).Value);
         Assert.Equal('\u0080', ((FormatArg)'\u0080').Value);
         Assert.True(((FormatArg)true).Value is true);
         Assert.Equal(1.25, ((FormatArg)1.25).Value);
         Assert.Equal("abc", ((FormatArg)"abc").Value);
-        Assert.Same(obj, ((FormatArg)obj).Value);
+        Assert.Same(obj, new FormatArg(obj).Value);
         Assert.Equal(new PointerArg(3), ((FormatArg)new PointerArg(3)).Value);
-        Assert.Null(((FormatArg)(TObject?)null).Value);
+        Assert.Null(new FormatArg((object?)null).Value);
         Assert.Null(default(FormatArg).Value);
         Assert.True(((FormatArg)0).HasValue);
         Assert.True(((FormatArg)false).HasValue);
         Assert.True(((FormatArg)"").HasValue);
-        Assert.False(((FormatArg)(TObject?)null).HasValue);
+        Assert.False(new FormatArg((object?)null).HasValue);
         Assert.False(default(FormatArg).HasValue);
         Assert.True(((FormatArg)int.MinValue).TryGetValue(out int integer) && integer == int.MinValue);
         Assert.False(((FormatArg)int.MinValue).TryGetValue(out char _));
@@ -150,10 +150,10 @@ public sealed class StringFormatTests
         Assert.True(type.IsDefined(typeof(UnionAttribute)));
         string[] cases = type.GetConstructors().Select(c => c.GetParameters()).Where(p => p.Length == 1)
             .Select(p => p[0].ParameterType.Name).Order(StringComparer.Ordinal).ToArray();
-        Assert.Equal(new[] { "Boolean", "Char", "Double", "Int32", "PointerArg", "String", "TObject" }, cases);
+        Assert.Equal(new[] { "Boolean", "Char", "Double", "Int32", "Object", "PointerArg", "String" }, cases);
         string[] conversions = type.GetMethods(BindingFlags.Public | BindingFlags.Static).Where(m => m.Name == "op_Implicit")
             .Select(m => m.GetParameters()[0].ParameterType.Name).Order(StringComparer.Ordinal).ToArray();
-        Assert.Equal(new[] { "Boolean", "Byte", "Char", "Double", "Int32", "PointerArg", "String", "TObject" }, conversions);
+        Assert.Equal(new[] { "Boolean", "Byte", "Char", "Double", "Int32", "PointerArg", "String" }, conversions);
     }
 
     public static TheoryData<string, string, string> Conversions()
@@ -189,19 +189,20 @@ public sealed class StringFormatTests
         return data;
     }
 
+    // Each arm is a FormatArg. A natural type of object would put every arm on the object case.
     private static FormatArg Argument(string name) => name switch
     {
-        "int" => -7,
-        "byte" => (byte)0x80,
-        "char" => '€',
-        "char80" => '\u0080',
-        "bool" => true,
-        "double" => 1.25,
-        "string" => "abc",
-        "object" => new TObject(),
-        "nil" => (TObject?)null,
+        "int" => new(-7),
+        "byte" => (FormatArg)(byte)0x80,
+        "char" => new('€'),
+        "char80" => new('\u0080'),
+        "bool" => new(true),
+        "double" => new(1.25),
+        "string" => new("abc"),
+        "object" => new(new object()),
+        "nil" => new((object?)null),
         "default" => default,
-        "pointer" => new PointerArg(0xBEEF),
+        "pointer" => new(new PointerArg(0xBEEF)),
         _ => throw new ArgumentOutOfRangeException(nameof(name)),
     };
 

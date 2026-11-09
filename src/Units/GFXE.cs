@@ -39,7 +39,8 @@ public struct TPaletteEntry
     public int Value;
 }
 
-public partial class TGFXEPalette : TObject
+[LegacyObject]
+public partial class TGFXEPalette
 {
     public int PixelFormatID;
     public TPaletteEntry[] Entries = new TPaletteEntry[256];
@@ -206,10 +207,16 @@ public partial class TGFXEPalette : TObject
 
         return Result;
     }
+
+    public TGFXEPalette()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // the abstract surface. GetWidth and GetHeight are abstract
-public partial class TSurface : TObject
+public partial class TSurface : IDisposable
 {
     // GFXE.pas:11964
     public virtual int GetColor(int X, int Y)
@@ -718,6 +725,15 @@ public partial class TSurface : TObject
     public int Width { get => GetWidth(); }
     public int Height { get => GetHeight(); }
     public int PixelFormatID { get => GetPixelFormatID(); }
+
+    public virtual void Dispose()
+    {
+    }
+
+    public TSurface()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // a surface in memory. FWidth, FHeight, FMem, FData (FMem aligned to 8), FBitCount (Byte),
@@ -753,12 +769,11 @@ public partial class TDataSurface : TSurface
     }
 
     // GFXE.pas:12402
-    public override void Destroy()
+    public override void Dispose()
     {
-        FPalette.Free();
         FPalette = null;
         FMem = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // GFXE.pas:12410
@@ -833,7 +848,6 @@ public partial class TDataSurface : TSurface
         }
         else
         {
-            FPalette.Free();
             FPalette = null;
         }
     }
@@ -1060,7 +1074,7 @@ public partial class TGDISurface : TSurface
 // FCreationFlags, FStatus, FLockCount, FLockExCount, FSurfaceDesc (the description of the lock)
 public partial class TDDrawSurface : TSurface
 {
-    protected internal TNotifyEvent<TObject> FOnSurfaceLost;
+    protected internal TNotifyEvent<object> FOnSurfaceLost;
     protected internal int FPixelFormatID;
     protected internal int FWidth;
     protected internal int FHeight;
@@ -1081,17 +1095,19 @@ public partial class TDDrawSurface : TSurface
 
     public TSet<TDDrawSurfaceStatusElement> Status { get => FStatus; }
     public TSet<TDDSCreationFlagsElement> CreationFlags { get => FCreationFlags; }
-    public TNotifyEvent<TObject> OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
+    public TNotifyEvent<object> OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
 }
 
+[LegacyObject]
 // Rect
-public partial class TRectangle : TObject
+public partial class TRectangle
 {
     public TRect Rect;
 
     // GFXE.pas:2432
     public TRectangle(int ALeft, int ATop, int ARight, int ABottom)
     {
+        CaptureAddress.Assign(this);
         Rect.Left = ALeft;
         Rect.Top = ATop;
         Rect.Right = ARight;
@@ -1101,6 +1117,7 @@ public partial class TRectangle : TObject
     // GFXE.pas:2440
     public TRectangle(in TRect R)
     {
+        CaptureAddress.Assign(this);
         Rect = R;
     }
 }
@@ -1112,11 +1129,11 @@ public partial class TRectangleList : TList
     internal TRectangle GetRectangle(int Index) => (TRectangle)List[Index];
 
     // GFXE.pas:2447
-    public override void Destroy()
+    public override void Dispose()
     {
         for (int I = Count - 1; I >= 0; I--)
         {
-            ((TObject)this[I]).Destroy();
+            ((this[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             Delete(I);
         }
     }
@@ -1129,7 +1146,7 @@ public partial class TRectangleList : TList
     public RectanglesAccessor Rectangles => new RectanglesAccessor(this);
 }
 
-public delegate void TOnDrawRectEvent(TObject Sender, in TRect R);
+public delegate void TOnDrawRectEvent(object Sender, in TRect R);
 
 // a panel that paints through OnDraw. FEraseBkgndEnabled, FOnDraw
 public partial class TDrawPanel : TCustomPanel
@@ -1166,8 +1183,9 @@ public partial class TDrawPanel : TCustomPanel
     public bool EraseBkgndEnabled { get => FEraseBkgndEnabled; set => FEraseBkgndEnabled = value; }
 }
 
+[LegacyObject]
 // an image file format, all class functions
-public partial class TImageFile : TObject, IImageFileClass
+public partial class TImageFile : IImageFileClass
 {
     // GFXE.pas:693
     public static string Name => throw EAbstractError.Create("Abstract Error");
@@ -1196,6 +1214,11 @@ public partial class TImageFile : TObject, IImageFileClass
         throw EAbstractError.Create("Abstract Error");
     }
 
+    public TImageFile()
+    {
+        CaptureAddress.Assign(this);
+    }
+
 }
 
 // a TOpenDialog whose filter lists the registered image file classes
@@ -1217,16 +1240,23 @@ public partial class TOpenImageFileDialog : TOpenDialog
     }
 }
 
+[LegacyObject]
 // PixelFormatID, Width, Height
-public partial class TDisplayModeItem : TObject
+public partial class TDisplayModeItem
 {
     public int PixelFormatID;
     public int Width;
     public int Height;
+
+    public TDisplayModeItem()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
+[LegacyObject]
 // FList
-public partial class TDisplayModeList : TObject
+public partial class TDisplayModeList : IDisposable
 {
     internal TList FList;
 
@@ -1239,15 +1269,15 @@ public partial class TDisplayModeList : TObject
     // GFXE.pas:12611
     public TDisplayModeList()
     {
+        CaptureAddress.Assign(this);
         FList = new TList();
     }
 
     // GFXE.pas:12617
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        FList.Free();
-        base.Destroy();
+        FList?.Dispose();
     }
 
     // GFXE.pas:12624
@@ -1273,7 +1303,6 @@ public partial class TDisplayModeList : TObject
     // GFXE.pas:12650
     public void Delete(int Index)
     {
-        ((TDisplayModeItem)FList[Index]).Free();
         FList.Delete(Index);
     }
 
@@ -1287,9 +1316,10 @@ public partial class TDisplayModeList : TObject
 
 }
 
+[LegacyObject]
 // FBits, FTable (the bytes of the table, which the original addresses with a pointer into the
 // derived class's own field)
-public partial class TBlendTable : TObject
+public partial class TBlendTable
 {
     internal int FBits;
     internal byte[] FTable;
@@ -1315,6 +1345,11 @@ public partial class TBlendTable : TObject
 
     public int Bits { get => FBits; }
     public byte[] Table { get => FTable; }
+
+    public TBlendTable()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // Table (32 x 32 bytes, row I at byte I * 32)
@@ -1347,8 +1382,9 @@ public partial class TBlendTable5Bit : TBlendTable
 
 }
 
+[LegacyObject]
 // FList
-public partial class TBlendTableList : TObject
+public partial class TBlendTableList : IDisposable
 {
     internal TList FList;
 
@@ -1361,15 +1397,15 @@ public partial class TBlendTableList : TObject
     // GFXE.pas:9629
     public TBlendTableList()
     {
+        CaptureAddress.Assign(this);
         FList = new TList();
     }
 
     // GFXE.pas:9635
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        FList.Free();
-        base.Destroy();
+        FList?.Dispose();
     }
 
     // GFXE.pas:9647
@@ -1377,7 +1413,6 @@ public partial class TBlendTableList : TObject
     {
         while (FList.Count != 0)
         {
-            ((TBlendTable)FList.List[FList.Count - 1]).Free();
             FList.Delete(FList.Count - 1);
         }
     }
@@ -1391,7 +1426,6 @@ public partial class TBlendTableList : TObject
     // GFXE.pas:9666
     public void Delete(int Index)
     {
-        ((TBlendTable)FList.List[Index]).Free();
         FList.Delete(Index);
     }
 
@@ -1408,8 +1442,9 @@ public partial class TBlendTableList : TObject
 
 public delegate void TGenerateBlendTableProc(TBlendTable Table, float Value);
 
+[LegacyObject]
 // FTables, Lookup (101 tables, indexed by percentage)
-public partial class TLookupBlendTableCollection100 : TObject
+public partial class TLookupBlendTableCollection100 : IDisposable
 {
     internal TBlendTableList FTables;
     // { ImageLib's blitters read Lookup directly; adding lines here moves the Asserts below }
@@ -1421,15 +1456,15 @@ public partial class TLookupBlendTableCollection100 : TObject
     // GFXE.pas:9674
     public TLookupBlendTableCollection100()
     {
+        CaptureAddress.Assign(this);
         FTables = new TBlendTableList();
     }
 
     // GFXE.pas:9680
-    public override void Destroy()
+    public virtual void Dispose()
     {
         Clear();
-        FTables.Free();
-        base.Destroy();
+        FTables?.Dispose();
     }
 
     // GFXE.pas:9692
@@ -1507,7 +1542,7 @@ public partial class TLookupBlendTableCollection100 : TObject
 
 }
 
-public delegate void TProgressEvent(TObject Sender, int Percent, int Param);
+public delegate void TProgressEvent(object Sender, int Percent, int Param);
 
 // { The implementation list of image file classes (TList of TImageFileClass). }
 public partial class TImageFileClassList : TList
@@ -2133,7 +2168,7 @@ public static partial class GFXEUnit
 
         if (List.Count == 0)
         {
-            List.Free();
+            List?.Dispose();
             Result = null;
         }
         else
@@ -2999,11 +3034,11 @@ public static partial class GFXEUnit
 
     public static void Finalize()
     {
-        AlphaBlendTable.Free();
-        IntensityBlendTable.Free();
-        BrightenBlendTable.Free();
-        ShadowBlendTable.Free();
-        LinearAlphaBlendTable.Free();
-        ImageFileClassList.Free();
+        AlphaBlendTable?.Dispose();
+        IntensityBlendTable?.Dispose();
+        BrightenBlendTable?.Dispose();
+        ShadowBlendTable?.Dispose();
+        LinearAlphaBlendTable?.Dispose();
+        ImageFileClassList?.Dispose();
     }
 }

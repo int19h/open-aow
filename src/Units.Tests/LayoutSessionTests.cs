@@ -14,7 +14,7 @@ public sealed class LayoutSessionTests
 
         public bool Destroyed { get; private set; }
 
-        public override void Destroy() { Destroyed = true; base.Destroy(); }
+        public override void Dispose() { Destroyed = true; base.Dispose(); }
     }
 
     // The second label is complete and owned when its Name setter rejects the duplicate.
@@ -43,7 +43,7 @@ public sealed class LayoutSessionTests
 
     private sealed class ThrowingCleanupModule : FailingModule
     {
-        public override void Destroy() { base.Destroy(); throw new InvalidOperationException("cleanup"); }
+        public override void Dispose() { base.Dispose(); throw new InvalidOperationException("cleanup"); }
     }
 
     private sealed class GoodModule : TDataModule, ILayoutModule
@@ -106,7 +106,7 @@ public sealed class LayoutSessionTests
     public void SuccessfulLoadPublishesBeforeInitializationAndKeepsTheGlobal()
     {
         var session = new LayoutSession();
-        var module = new GoodModule();
+        using var module = new GoodModule();
         GoodModule? seen = null;
         session.Load(module, value => { GoodGlobal = value; seen ??= value; });
         Assert.Same(module, GoodGlobal);
@@ -115,14 +115,13 @@ public sealed class LayoutSessionTests
         Assert.Equal(1, module.ComponentCount);
         Assert.False(module.Child!.Destroyed);
         Assert.True(module.ComponentState.IsEmpty);
-        module.Destroy();
     }
 
     [Fact]
     public void LoadingFlagsAreSetByTheSessionAndClearedInTwoSteps()
     {
         var session = new LayoutSession();
-        var root = new TDataModule(null!);
+        using var root = new TDataModule(null!);
         var child = new TAOWLabel(root);
         Assert.True(child.ComponentState.IsEmpty);
         session.Begin(root);
@@ -139,7 +138,6 @@ public sealed class LayoutSessionTests
         session.EndRead(root);
         root.Loaded();
         Assert.True(root.ComponentState.IsEmpty);
-        root.Destroy();
     }
 
 }

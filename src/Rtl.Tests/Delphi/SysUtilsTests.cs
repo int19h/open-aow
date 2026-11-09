@@ -86,7 +86,7 @@ public sealed class SysUtilsTests
         Assert.Equal("abcdef", Format("%0:1:s", 7, "abcdef"));
         Assert.Equal("abc", Format("%:s", "abc"));
         foreach (string kind in new[] { "%e", "%f", "%g", "%n", "%m" }) Assert.Throws<FormatException>(() => Format(kind, 1.25));
-        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new TObject(), (TObject?)null, new PointerArg(0) }) Assert.Throws<FormatException>(() => Format("%s", arg));
+        foreach (FormatArg arg in new FormatArg[] { true, 1.25, new object(), (object?)null, new PointerArg(0) }) Assert.Throws<FormatException>(() => Format("%s", arg));
         Assert.Throws<FormatException>(() => Format("%p", 1));
         Assert.Throws<FormatException>(() => Format("%d", (byte)'a'));
         Assert.Throws<FormatException>(() => Format("%0:1:d", 7, "abcdef"));

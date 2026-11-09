@@ -32,9 +32,10 @@ public enum TaowAlign : byte
     aRight = 2
 }
 
+[LegacyObject]
 // a style change in the text. FHeight (the line height), FColor, FFont (the font file, '' for
 // the current font), FAlign, FPos (the character of the line where it starts), FLine, FSpacing
-public partial class TChangeInfo : TObject
+public partial class TChangeInfo
 {
     public int FHeight;
     public int FColor;
@@ -43,6 +44,11 @@ public partial class TChangeInfo : TObject
     public int FPos;
     public int FLine;
     public int FSpacing;
+
+    public TChangeInfo()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 // Fields: F1EC (a list that is created and freed only), FChanges (TChangeInfo), FLines (the
@@ -80,29 +86,28 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
     }
 
     // AoWHTMLMemo.pas:105
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLines.Destroy();
-        FItems.Destroy();
-        F1EC.Free();
+        FLines.Dispose();
+        FItems.Dispose();
+        F1EC?.Dispose();
         for (int I = 0, last = FChanges.Count - 1; I <= last; I++)
         {
-            ((TChangeInfo)FChanges[I]).Free();
         }
 
         for (int I = 0, last = FFonts.Count - 1; I <= last; I++)
         {
-            ((TImageLibraryFont)FFonts[I]).Free();
+            ((TImageLibraryFont)FFonts[I])?.Dispose();
         }
 
-        FFonts.Free();
-        FChanges.Free();
-        FImages.Free();
-        base.Destroy();
+        FFonts?.Dispose();
+        FChanges?.Dispose();
+        FImages?.Dispose();
+        base.Dispose();
     }
 
     // AoWHTMLMemo.pas:174
-    public override void OnChangeText(TObject Sender)
+    public override void OnChangeText(object Sender)
     {
         SetListOff(0);
         FSized = false;
@@ -284,7 +289,6 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
             FImages.Clear();
             for (int I = 0, last = FChanges.Count - 1; I <= last; I++)
             {
-                ((TChangeInfo)FChanges[I]).Free();
             }
 
             FChanges.Clear();
@@ -709,7 +713,7 @@ public partial class TaowHTMLMemo : TAOWBaseWindow
                 {
                     if (FBackSurface.PixelFormatID != SurfDesc.PixelFormatID)
                     {
-                        FBackSurface.Free();
+                        FBackSurface?.Dispose();
                         FBackSurface = null;
                     }
                 }

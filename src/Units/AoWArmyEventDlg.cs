@@ -164,7 +164,7 @@ public partial class TArmyEventDlg : TDataModule
     // AoWArmyEventDlg.pas:176
     public void ArmyEventDlgDestroy()
     {
-        FUnits.Free();
+        FUnits?.Dispose();
     }
 
     // AoWArmyEventDlg.pas:181

@@ -9,7 +9,8 @@ public static partial class RtlUnit
     public const int fmShareCompat = 0, fmShareExclusive = 16, fmShareDenyWrite = 32, fmShareDenyRead = 48, fmShareDenyNone = 64;
 }
 
-public abstract class TStream : TObject, IDisposable
+[LegacyObject]
+public abstract class TStream : IDisposable
 {
     public abstract int Read(Span<byte> buffer);
     public abstract int Write(ReadOnlySpan<byte> buffer);
@@ -60,7 +61,14 @@ public abstract class TStream : TObject, IDisposable
         return result;
     }
 
-    public void Dispose() { Destroy(); GC.SuppressFinalize(this); }
+    public virtual void Dispose()
+    {
+    }
+
+    public TStream()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public class TMemoryStream : TStream
@@ -126,7 +134,7 @@ public class TMemoryStream : TStream
     public void SaveToFile(string name) { using var stream = new TFileStream(name, RtlUnit.fmCreate); SaveToStream(stream); }
 
     // CLASSES.PAS TMemoryStream.Destroy.
-    public override void Destroy() { Clear(); base.Destroy(); }
+    public override void Dispose() { Clear(); base.Dispose(); }
 }
 
 public class TFileStream : TStream
@@ -176,5 +184,5 @@ public class TFileStream : TStream
     }
 
     // CLASSES.PAS TFileStream.Destroy.
-    public override void Destroy() { stream.Dispose(); base.Destroy(); }
+    public override void Dispose() { stream.Dispose(); base.Dispose(); }
 }

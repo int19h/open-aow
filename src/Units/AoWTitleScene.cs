@@ -596,10 +596,10 @@ public partial class TTitleScene : TDataModule
     {
         for (int I = FCredits.Count - 1; I >= 0; I--)
         {
-            ((TObject)FCredits.List[I]).Free();
+            (FCredits.List[I] as IDisposable)?.Dispose();
         }
 
-        FCredits.Free();
+        FCredits?.Dispose();
     }
 
     // AoWTitleScene.pas:456

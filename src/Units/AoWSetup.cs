@@ -39,16 +39,16 @@ public partial class TSetupPackage : TEObject
     public TEObject FData;
 
     // AoWSetup.pas:245
-    public override void Destroy()
+    public override void Dispose()
     {
         TEObject Data;
         Data = FData;
         if (Data != null)
         {
-            Data.Free();
+            Data?.Dispose();
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // AoWSetup.pas:257
@@ -162,11 +162,11 @@ public partial class TPlayerSetupSettings : TEObject
     public string FEmailAddress = "";
 
     // AoWSetup.pas:305
-    public override void Destroy()
+    public override void Dispose()
     {
-        FLeader.Free();
+        FLeader?.Dispose();
         FLeader = null;
-        base.Destroy();
+        base.Dispose();
     }
 
     // AoWSetup.pas:315
@@ -223,10 +223,10 @@ public partial class TSetupSettings : TENode
     public string FEmailGameName = "";
 
     // AoWSetup.pas:334
-    public override void Destroy()
+    public override void Dispose()
     {
-        FRemotePlayers.Free();
-        base.Destroy();
+        FRemotePlayers?.Dispose();
+        base.Dispose();
     }
 
     // AoWSetup.pas:402
@@ -414,12 +414,12 @@ public partial class TSetupControl : TComponent
     public TSetupControlEvent FOnSendingMaps;
 
     // AoWSetup.pas:448
-    public override void Destroy()
+    public override void Dispose()
     {
-        FSettings.Free();
-        FRemotePlayer.Free();
-        FStream.Free();
-        base.Destroy();
+        FSettings?.Dispose();
+        FRemotePlayer?.Dispose();
+        FStream?.Dispose();
+        base.Dispose();
     }
 
     // AoWSetup.pas:436
@@ -456,7 +456,7 @@ public partial class TSetupControl : TComponent
         }
         finally
         {
-            Stream.Free();
+            Stream?.Dispose();
         }
     }
 
@@ -476,7 +476,7 @@ public partial class TSetupControl : TComponent
             Package.FParam2 = Param2;
             Package.FParam1 = Param1;
             SendPackage(Package, Recipient);
-            Package.Free();
+            Package?.Dispose();
         }
     }
 
@@ -504,7 +504,7 @@ public partial class TSetupControl : TComponent
                 PackageReceived(Package, FRemotePlayer.FRemoteID);
             }
 
-            Package.Free();
+            Package?.Dispose();
         }
     }
 
@@ -527,15 +527,15 @@ public partial class TSetupControl : TComponent
                 PackageReceived((TSetupPackage)Obj, SenderID);
             }
 
-            Obj.Free();
+            Obj?.Dispose();
         }
         catch
         {
             // { Original swallows the exception and frees the stream again below. }
-            Stream.Free();
+            Stream?.Dispose();
         }
 
-        Stream.Free();
+        Stream?.Dispose();
     }
 
     // AoWSetup.pas:530
@@ -592,7 +592,7 @@ public partial class TSetupControl : TComponent
                 ResetPlayerSettings(J);
             }
 
-            FSettings.FRemotePlayers.GetPlayers(I).Free();
+            FSettings.FRemotePlayers.GetPlayers(I)?.Dispose();
             UpdateSettings();
         }
     }
@@ -884,7 +884,7 @@ public partial class TSetupControl : TComponent
                 FOnSendMap(this, Stream.Memory, size, RemoteID);
             }
 
-            Stream.Free();
+            Stream?.Dispose();
             Result = false;
         }
         else
@@ -1552,7 +1552,7 @@ public partial class TSetupControl : TComponent
             }
         }
 
-        List.Free();
+        List?.Dispose();
         return Result;
     }
 
@@ -1691,7 +1691,7 @@ public partial class TSetupControl : TComponent
                             FOnEjectPlayer(this, player.FRemoteID);
                         }
 
-                        FSettings.FRemotePlayers.GetPlayers(I).Free();
+                        FSettings.FRemotePlayers.GetPlayers(I)?.Dispose();
                     }
                 }
             }
@@ -1988,7 +1988,7 @@ public partial class TSetupControl : TComponent
             }
 
             UpdateSettings();
-            Preview.Free();
+            Preview?.Dispose();
             Result = true;
         }
         else
@@ -2010,7 +2010,7 @@ public partial class TSetupControl : TComponent
             I = FSettings.FRemotePlayers.IndexOfRemoteID(RemoteID);
             if (I != -1)
             {
-                FSettings.FRemotePlayers.GetPlayers(I).Free();
+                FSettings.FRemotePlayers.GetPlayers(I)?.Dispose();
                 if (FOnEjectPlayer != null)
                 {
                     FOnEjectPlayer(this, RemoteID);
@@ -2141,17 +2141,29 @@ public delegate void TEjectPlayerEvent(TSetupControl SetupControl, int RemoteID)
 public delegate void TIncompatibleVersionEvent(TSetupControl SetupControl, int MajorVersion, int MinorVersion);
 public delegate void TSendMapEvent(TSetupControl SetupControl, object Data, int Size, int Recipient);
 
-public partial class TLeaderSetupView : TObject
+[LegacyObject]
+public partial class TLeaderSetupView
 {
     public TLeader OriginalLeader;
     public TSet<byte> Options;
     public TLeader Leader;
     public TIntegerList Races;
+
+    public TLeaderSetupView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
-public partial class TSetupHeroView : TObject
+[LegacyObject]
+public partial class TSetupHeroView
 {
     public string Name = "";
+
+    public TSetupHeroView()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public static partial class AoWSetupUnit

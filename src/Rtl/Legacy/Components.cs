@@ -4,25 +4,35 @@ using System.Reflection;
 
 namespace Aow.Rtl;
 
-public class TPersistent : TObject
+[LegacyObject]
+public class TPersistent : IDisposable
 {
     // CLASSES.PAS TPersistent.Assign, AssignTo and AssignError.
     public virtual void Assign(TPersistent? source) { if (source is null) AssignError(null); else source.AssignTo(this); }
 
     protected internal virtual void AssignTo(TPersistent target) => target.AssignError(this);
-    protected void AssignError(TPersistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : ClassNameOf(source.GetType()))} to a {ClassNameOf(GetType())}");
+    protected void AssignError(TPersistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : ClassNames.ClassNameOf(source.GetType()))} to a {ClassNames.ClassNameOf(GetType())}");
     // CLASSES.PAS TPersistent.GetOwner and GetNamePath.
     public virtual TPersistent? GetOwner() => null;
 
     public virtual string GetNamePath()
     {
-        string name = ClassNameOf(GetType());
+        string name = ClassNames.ClassNameOf(GetType());
         string owner = GetOwner()?.GetNamePath() ?? "";
         return owner.Length == 0 ? name : owner + "." + name;
     }
 
     // CLASSES.PAS TPersistent.DefineProperties.
     public virtual void DefineProperties(TFiler? filer) { }
+
+    public virtual void Dispose()
+    {
+    }
+
+    public TPersistent()
+    {
+        CaptureAddress.Assign(this);
+    }
 }
 
 public enum TOperation : byte { opInsert, opRemove }
@@ -130,19 +140,19 @@ public class TComponent : TPersistent
     {
         while (children.Count != 0)
         {
-            var child = children[^1]; child.Owner = null; children.RemoveAt(children.Count - 1); child.Destroy();
+            var child = children[^1]; child.Owner = null; children.RemoveAt(children.Count - 1); child.Dispose();
         }
     }
 
     // CLASSES.PAS TComponent.Destroy delivers free notifications before Destroying.
-    public override void Destroy()
+    public override void Dispose()
     {
         if (freeNotifies is not null)
         {
             for (int i = 0; freeNotifies is not null && i < freeNotifies.Count; i++) freeNotifies[i].Notification(this, TOperation.opRemove);
             freeNotifies = null;
         }
-        Destroying(); DestroyComponents(); Owner?.RemoveComponent(this); base.Destroy();
+        Destroying(); DestroyComponents(); Owner?.RemoveComponent(this); base.Dispose();
     }
 
     // CLASSES.PAS TComponent.Loaded, GetNamePath, GetOwner and parent hooks.

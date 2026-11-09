@@ -28,7 +28,7 @@ public partial class TGlobalEnchantmentSpellTE : TSpellTE
     public TGlobalEnchantment FEnchantment;
 
     // GlobalEnchantmentSpells.pas:379
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FEnchantment != null)
         {
@@ -36,7 +36,7 @@ public partial class TGlobalEnchantmentSpellTE : TSpellTE
             FEnchantment = null;
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // GlobalEnchantmentSpells.pas:394
@@ -329,7 +329,7 @@ public partial class TEnchantedRoads : TGlobalEnchantmentSpell
                     FCastImages.Show(0, xhp, yhp, anim.FFrameCounter - ((field.Xhx + field.Yhx * 8 + ((field.FFieldFlags >> 16) & 255)) & 15), surface);
             }
         }
-        if (anim.FFrameCounter == 50) anim.Destroy();
+        if (anim.FFrameCounter == 50) anim.Dispose();
     }
 }
 
@@ -470,7 +470,7 @@ public partial class TAirMastery : TGlobalEnchantmentSpell
 
         if (Anim.FFrameCounter == 90)
         {
-            Anim.Destroy();
+            Anim.Dispose();
         }
     }
 }
@@ -878,14 +878,14 @@ public partial class TFloodControl : TEObject
     public sbyte[] FOriginalTerrain = [];
 
     // GlobalEnchantmentSpells.pas:1072
-    public override void Destroy()
+    public override void Dispose()
     {
         if (FOriginalTerrain.Length != 0)
         {
             Array.Resize(ref FOriginalTerrain, 0);
         }
 
-        base.Destroy();
+        base.Dispose();
     }
 
     // GlobalEnchantmentSpells.pas:1078
@@ -969,7 +969,7 @@ public partial class TFloodControl : TEObject
                                 RoadHS = MapF.FindOwnedHS(typeof(TAbstractRoad));
                                 if (RoadHS != null)
                                 {
-                                    RoadHS.Destroy();
+                                    RoadHS.Dispose();
                                 }
                             }
                         }
@@ -1073,7 +1073,7 @@ public partial class TFloodControl : TEObject
             }
         }
 
-        Candidates.Free();
+        Candidates?.Dispose();
         AoWHSMap.UnlockMapChangedEvent();
         AoWHSMap.InvalidateMap();
     }
@@ -1094,10 +1094,10 @@ public partial class TFloodEnchantment : TGlobalEnchantment
     public TFloodControl FFloodControl;
 
     // GlobalEnchantmentSpells.pas:1234
-    public override void Destroy()
+    public override void Dispose()
     {
-        FFloodControl.Free();
-        base.Destroy();
+        FFloodControl?.Dispose();
+        base.Dispose();
     }
 
     // GlobalEnchantmentSpells.pas:1250
@@ -1690,7 +1690,7 @@ public partial class TDeathMastery : TGlobalEnchantmentSpell
 
         if (Anim.FFrameCounter == 90)
         {
-            Anim.Destroy();
+            Anim.Dispose();
         }
     }
 }
@@ -1907,7 +1907,7 @@ public partial class TFireMastery : TGlobalEnchantmentSpell
                     SoundUnit.PlaySample(ExplosionSFX[x % 2]);
             }
         }
-        if (anim.FFrameCounter == 90) anim.Destroy();
+        if (anim.FFrameCounter == 90) anim.Dispose();
     }
 }
 
@@ -2062,7 +2062,7 @@ public partial class TEarthMastery : TGlobalEnchantmentSpell
 
         if (Anim.FFrameCounter == 50)
         {
-            Anim.Destroy();
+            Anim.Dispose();
         }
     }
 }

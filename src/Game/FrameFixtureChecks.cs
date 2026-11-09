@@ -27,7 +27,7 @@ internal static class FrameFixtureChecks
         // The fixture host replays native scripts, so the game writes original names under it.
         Check(!RtlUnit.WritesOwnExtensions && Aow.Units.FileBoundary.WriteName("roundtrip.asg") == "roundtrip.asg"
             && Aow.Units.FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save) == ".asg", "fixture host writes original extensions");
-        var instance = new TObject();
+        var instance = new object();
         Check(FrameFixtureInputs.AnimationOffset(instance) == ((int)((uint)RuntimeHelpers.GetHashCode(instance) >> 2) & 65535), "ordinary animation phase");
         Check(!new TGDPlay().Connected && new TGDPlay().ConnectionType == TConnectionType.conNone, "offline connection queries");
         Check(Aow.Units.AOWControlWin.TControlWin.UnitMoveText(32) == "   32", "native unit movement label spacing");
@@ -143,7 +143,7 @@ internal static class FrameFixtureChecks
 
         public void Dispose()
         {
-            GameState.AoWEngine.Destroy();
+            GameState.AoWEngine.Dispose();
             RtlUnit.Files = files;
             RtlUnit.Settings = settings;
             RtlUnit.Dialogs = dialogs;
