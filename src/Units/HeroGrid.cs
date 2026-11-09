@@ -109,6 +109,18 @@ public partial class THeroGrid : TCustomImageDrawGrid
     // HeroGrid.pas:172
     public void SortHeroes(byte Mode)
     {
+        FSort = Mode;
+        HeroGridUnit.SortHeroList = FHeroes;
+        switch (FSort)
+        {
+            case 0:
+                FIndices.SortStable(HeroGridUnit.HeroGridCompareName);
+                break;
+            case 1:
+                FIndices.SortStable(HeroGridUnit.HeroGridCompareLevel);
+                break;
+        }
+
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();
     }
@@ -236,30 +248,13 @@ public static partial class HeroGridUnit
     public static int HeroGridCompareName(int A, int B)
     {
         var hero = SortHeroList.GetHero(B);
-        int Result = CompareText(SortHeroList.GetHero(A).FHeroName, hero.FHeroName);
-        // { Original uses object addresses to break ties. }
-        if (Result == 0)
-        {
-            var sortHeroListHero = SortHeroList.GetHero(A);
-            var hero2 = SortHeroList.GetHero(B);
-            Result = sortHeroListHero.InstanceId - hero2.InstanceId;
-        }
-
-        return Result;
+        return CompareText(SortHeroList.GetHero(A).FHeroName, hero.FHeroName);
     }
 
     // HeroGrid.pas:108
     public static int HeroGridCompareLevel(int A, int B)
     {
-        int Result = SortHeroList.GetHero(A).GetLevel() - SortHeroList.GetHero(B).GetLevel();
-        if (Result == 0)
-        {
-            var hero = SortHeroList.GetHero(A);
-            var sortHeroListHero = SortHeroList.GetHero(B);
-            Result = hero.InstanceId - sortHeroListHero.InstanceId;
-        }
-
-        return Result;
+        return SortHeroList.GetHero(A).GetLevel() - SortHeroList.GetHero(B).GetLevel();
     }
 
     public static void Initialize()

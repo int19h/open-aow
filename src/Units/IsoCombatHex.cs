@@ -34,7 +34,7 @@ public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
-        Variant = ((int)(((uint)InstanceId) >> 8)) & 3;
+        Variant = FrameFixtureInputs.CombatTextureVariant(this);
         if (Variant == 3)
         {
             Variant = 0;

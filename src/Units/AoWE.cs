@@ -545,7 +545,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
         {
             int Brightness = default;
             var count = FPath.Count;
-            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + InstanceId) % 20;
+            Brightness = 100 - FFrame * 100 / count - FrameFixtureInputs.ShimmerOffset(this, FFrame);
             if (Brightness < 0)
             {
                 Brightness = 0;
@@ -564,7 +564,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
             while (Sequence != null)
             {
                 // { Original uses the instance address as the animation phase. }
-                Frame = Sequence.GetUnloopedFrameIndex(InstanceId % 3);
+                Frame = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
                 if (Frame != -1)
                 {
                     if (Shadow)
@@ -610,7 +610,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
         {
             int Brightness = default;
             var count = FPath.Count;
-            Brightness = 100 - FFrame * 100 / count - (FFrame % 10 * 2 + InstanceId) % 20;
+            Brightness = 100 - FFrame * 100 / count - FrameFixtureInputs.ShimmerOffset(this, FFrame);
             if (Brightness < 0)
             {
                 Brightness = 0;
@@ -628,7 +628,7 @@ public partial class TWorldFXHS : TFixedVisibleHS
 
             while (Sequence != null)
             {
-                Frame = Sequence.GetUnloopedFrameIndex(InstanceId % 3);
+                Frame = Sequence.GetUnloopedFrameIndex(FrameFixtureInputs.PhaseModulo(this, 3));
                 if (Frame != -1)
                 {
                     if (Shadow)
@@ -9783,7 +9783,7 @@ public partial class TTextControl : TENode
     // Structur.PAS:4458
     public void Sort()
     {
-        FChildren.Sort(AoWEUnit.CompareTextControlItems);
+        FChildren.SortStable(AoWEUnit.CompareTextControlItems);
     }
 
     // Structur.PAS:4463
@@ -20331,13 +20331,13 @@ public partial class TItemList : TEChangeNotifyNode
     // Army.PAS:4609
     public void SortOnName()
     {
-        FChildren.Sort(AoWEUnit.CompareItemNames);
+        FChildren.SortStable(AoWEUnit.CompareItemNames);
     }
 
     // Army.PAS:4619
     public void SortOnType()
     {
-        FChildren.Sort(AoWEUnit.CompareItemTypes);
+        FChildren.SortStable(AoWEUnit.CompareItemTypes);
     }
 
     // Army.PAS:4622
@@ -82363,11 +82363,6 @@ public static partial class AoWEUnit
             Result = ((TTextControlItem)Item1).FText.Count - ((TTextControlItem)Item2).FText.Count;
         }
 
-        if (Result == 0)
-        {
-            Result = ((TObject)Item1).InstanceId - ((TObject)Item2).InstanceId;
-        }
-
         return Result;
     }
 
@@ -82661,10 +82656,6 @@ public static partial class AoWEUnit
         if (Item1 != null && Item2 != null)
         {
             Result = CompareText(((TItem)Item1).FOwnerName, ((TItem)Item2).FOwnerName);
-            if (Result == 0)
-            {
-                Result = ((TObject)Item1).InstanceId - ((TObject)Item2).InstanceId;
-            }
         }
         else
         {
@@ -82678,13 +82669,7 @@ public static partial class AoWEUnit
     public static int CompareItemTypes(object Item1, object Item2)
     {
         // { Original type comparison assumes both entries are non-nil. }
-        int Result = (int)((TItem)Item1).FItemType - (int)((TItem)Item2).FItemType;
-        if (Result == 0)
-        {
-            Result = ((TObject)Item1).InstanceId - ((TObject)Item2).InstanceId;
-        }
-
-        return Result;
+        return (int)((TItem)Item1).FItemType - (int)((TItem)Item2).FItemType;
     }
 
     public static readonly string P2RegisterLifeStealingRStr = "Life Stealing";

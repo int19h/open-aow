@@ -3,8 +3,8 @@
     "ExceptionType": null,
     "ExceptionMessage": null,
     "StateAtCaller": {
-      "AoWEngine": 0,
-      "AoWHSSet": 848,
+      "AoWEngine": true,
+      "AoWHSSet": true,
       "HSEngineDID": 0,
       "CombatDID": 2,
       "AIDID": 3,
@@ -13,1507 +13,1130 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
-      "Engines": [
-        0
-      ],
-      "Counter": 1733
+      "Engines": 1
     },
     "ObjectsAtCaller": {
       "Engine": {
-        "Type": "Aow.Units.AoWE.TAoWEngine",
-        "Id": 0
+        "Type": "Aow.Units.AoWE.TAoWEngine"
       },
       "Engine.FDictionary": {
-        "Type": "Aow.Units.AoWE.TAoWDictionary",
-        "Id": 5
+        "Type": "Aow.Units.AoWE.TAoWDictionary"
       },
       "Engine.FEmailGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameControl",
-        "Id": 2
+        "Type": "Aow.Units.AoWE.TEmailGameControl"
       },
       "Engine.FEmailGames.FGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameList",
-        "Id": 3
+        "Type": "Aow.Units.AoWE.TEmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 4
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet": {
-        "Type": "Aow.Units.AoWE.TAoWHSSet",
-        "Id": 848
+        "Type": "Aow.Units.AoWE.TAoWHSSet"
       },
       "Engine.FGameSet.FAbilityControl": {
-        "Type": "Aow.Units.AoWE.TAbilityControl",
-        "Id": 1419
+        "Type": "Aow.Units.AoWE.TAbilityControl"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1420
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1694
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1695
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1698
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager": {
-        "Type": "Aow.Units.ImageLib.TImageLibraryManager",
-        "Id": 863
+        "Type": "Aow.Units.ImageLib.TImageLibraryManager"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 864
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 865
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 1122
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 1123
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1696
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[14].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1697
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1699
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1700
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1703
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1701
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[15].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1702
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1704
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1705
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1708
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1706
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[16].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1707
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1709
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1710
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1713
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1711
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[17].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1712
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1714
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1715
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1718
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1716
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[18].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1717
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1719
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1720
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1723
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1721
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[19].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1722
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1724
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1725
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1728
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1726
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[20].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1727
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21]": {
-        "Type": "Aow.Units.AoWE.TStrikeAbility",
-        "Id": 1653
+        "Type": "Aow.Units.AoWE.TStrikeAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FMeleeRound": {
-        "Type": "Aow.Units.AoWE.TMeleeRound",
-        "Id": 1658
+        "Type": "Aow.Units.AoWE.TMeleeRound"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1654
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1657
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1655
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[21].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1656
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1638
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1639
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1642
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1640
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[22].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1641
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1623
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1624
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1627
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1625
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[24].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1626
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1608
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1609
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1612
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1610
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[25].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1611
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27]": {
-        "Type": "Aow.Units.AoWE.TWebAbility",
-        "Id": 1442
+        "Type": "Aow.Units.AoWE.TWebAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1443
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1446
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1444
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[27].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1445
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28]": {
-        "Type": "Aow.Units.AoWE.TDominateAbility",
-        "Id": 1467
+        "Type": "Aow.Units.AoWE.TDominateAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1468
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1471
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1469
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[28].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1470
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29]": {
-        "Type": "Aow.Units.AoWE.TSeduceAbility",
-        "Id": 1477
+        "Type": "Aow.Units.AoWE.TSeduceAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1478
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1481
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1479
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[29].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1480
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30]": {
-        "Type": "Aow.Units.AoWE.TFlameThrowingAbility",
-        "Id": 1593
+        "Type": "Aow.Units.AoWE.TFlameThrowingAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1594
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1597
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1595
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[30].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1596
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1633
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1634
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1637
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1635
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[31].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1636
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35]": {
-        "Type": "Aow.Units.AoWE.TInvokeDeathAbility",
-        "Id": 1503
+        "Type": "Aow.Units.AoWE.TInvokeDeathAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1504
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1507
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1505
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[35].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1506
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38]": {
-        "Type": "Aow.Units.AoWE.TTurnUndeadAbility",
-        "Id": 1498
+        "Type": "Aow.Units.AoWE.TTurnUndeadAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1499
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1502
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1500
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[38].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1501
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40]": {
-        "Type": "Aow.Units.AoWE.TEntangleAbility",
-        "Id": 1437
+        "Type": "Aow.Units.AoWE.TEntangleAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1438
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1441
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1439
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[40].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1440
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1618
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1619
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1622
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1620
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[44].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1621
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1613
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1614
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1617
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1615
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[45].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1616
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46]": {
-        "Type": "Aow.Units.AoWE.TLeadershipAbility",
-        "Id": 1431
+        "Type": "Aow.Units.AoWE.TLeadershipAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FLevelCosts": {
-        "Type": "Aow.Units.Engine.TIntegerList",
-        "Id": 1436
+        "Type": "Aow.Units.Engine.TIntegerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1432
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1435
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1433
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[46].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1434
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47]": {
-        "Type": "Aow.Units.AoWE.THealingAbility",
-        "Id": 1487
+        "Type": "Aow.Units.AoWE.THealingAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1488
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1491
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1489
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[47].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1490
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48]": {
-        "Type": "Aow.Units.AoWE.TSeducedAbility",
-        "Id": 1482
+        "Type": "Aow.Units.AoWE.TSeducedAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1483
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1486
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1484
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[48].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1485
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50]": {
-        "Type": "Aow.Units.AoWE.TTransportAbility",
-        "Id": 1527
+        "Type": "Aow.Units.AoWE.TTransportAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FLevelCosts": {
-        "Type": "Aow.Units.Engine.TIntegerList",
-        "Id": 1532
+        "Type": "Aow.Units.Engine.TIntegerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1528
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1531
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1529
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[50].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1530
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52]": {
-        "Type": "Aow.Units.AoWE.TSpellCastingAbility",
-        "Id": 1492
+        "Type": "Aow.Units.AoWE.TSpellCastingAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FLevelCosts": {
-        "Type": "Aow.Units.Engine.TIntegerList",
-        "Id": 1497
+        "Type": "Aow.Units.Engine.TIntegerList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1493
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1496
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1494
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[52].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1495
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1648
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1649
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1652
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1650
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[55].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1651
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1598
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1599
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1602
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1600
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[57].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1601
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1603
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1604
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1607
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1605
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[58].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1606
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60]": {
-        "Type": "Aow.Units.AoWE.TDispelMagicAbility",
-        "Id": 1517
+        "Type": "Aow.Units.AoWE.TDispelMagicAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1518
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1521
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1519
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[60].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1520
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1643
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1644
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1647
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1645
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[61].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1646
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62]": {
-        "Type": "Aow.Units.AoWE.TRangedAttackAbility",
-        "Id": 1628
+        "Type": "Aow.Units.AoWE.TRangedAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1629
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1632
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1630
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[62].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1631
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65]": {
-        "Type": "Aow.Units.AoWE.TSelfDestructAbility",
-        "Id": 1447
+        "Type": "Aow.Units.AoWE.TSelfDestructAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1448
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1451
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1449
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[65].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1450
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86]": {
-        "Type": "Aow.Units.AoWE.TBreathAbility",
-        "Id": 1568
+        "Type": "Aow.Units.AoWE.TBreathAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1569
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1572
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1570
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[86].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1571
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87]": {
-        "Type": "Aow.Units.AoWE.TBreathAbility",
-        "Id": 1573
+        "Type": "Aow.Units.AoWE.TBreathAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1574
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1577
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1575
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[87].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1576
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88]": {
-        "Type": "Aow.Units.AoWE.TBreathAbility",
-        "Id": 1578
+        "Type": "Aow.Units.AoWE.TBreathAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1579
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1582
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1580
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[88].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1581
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89]": {
-        "Type": "Aow.Units.AoWE.TBreathAbility",
-        "Id": 1583
+        "Type": "Aow.Units.AoWE.TBreathAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1584
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1587
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1585
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[89].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1586
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90]": {
-        "Type": "Aow.Units.AoWE.TBreathAbility",
-        "Id": 1588
+        "Type": "Aow.Units.AoWE.TBreathAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1589
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1592
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1590
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[90].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1591
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106]": {
-        "Type": "Aow.Units.AoWE.TPossessAbility",
-        "Id": 1533
+        "Type": "Aow.Units.AoWE.TPossessAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1534
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1537
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1535
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[106].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1536
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107]": {
-        "Type": "Aow.Units.AoWE.TPossessedAbility",
-        "Id": 1538
+        "Type": "Aow.Units.AoWE.TPossessedAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1539
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1542
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1540
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[107].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1541
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1664
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1665
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1668
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1666
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[111].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1667
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1669
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1670
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1673
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1671
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[112].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1672
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1674
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1675
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1678
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1676
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[113].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1677
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114]": {
-        "Type": "Aow.Units.AoWE.TRoundAttackAbility",
-        "Id": 1452
+        "Type": "Aow.Units.AoWE.TRoundAttackAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1453
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1456
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1454
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[114].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1455
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1679
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1680
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1683
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1681
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[115].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1682
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1684
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1685
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1688
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1686
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[116].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1687
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117]": {
-        "Type": "Aow.Units.AoWE.TWallCrushingAbility",
-        "Id": 1522
+        "Type": "Aow.Units.AoWE.TWallCrushingAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1523
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1526
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1524
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[117].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1525
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1659
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1660
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1663
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1661
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[118].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1662
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119]": {
-        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility",
-        "Id": 1689
+        "Type": "Aow.Units.AoWE.TStrikeEnhancementAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1690
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1693
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1691
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[119].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1692
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120]": {
-        "Type": "Aow.Units.AoWE.TBoltsAbility",
-        "Id": 1543
+        "Type": "Aow.Units.AoWE.TBoltsAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1544
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1547
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1545
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[120].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1546
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121]": {
-        "Type": "Aow.Units.AoWE.TBoltsAbility",
-        "Id": 1548
+        "Type": "Aow.Units.AoWE.TBoltsAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1549
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1552
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1550
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[121].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1551
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122]": {
-        "Type": "Aow.Units.AoWE.TBoltsAbility",
-        "Id": 1553
+        "Type": "Aow.Units.AoWE.TBoltsAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1554
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1557
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1555
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[122].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1556
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123]": {
-        "Type": "Aow.Units.AoWE.TBoltsAbility",
-        "Id": 1558
+        "Type": "Aow.Units.AoWE.TBoltsAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1559
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1562
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1560
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[123].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1561
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124]": {
-        "Type": "Aow.Units.AoWE.TBoltsAbility",
-        "Id": 1563
+        "Type": "Aow.Units.AoWE.TBoltsAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1564
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1567
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1565
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[124].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1566
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125]": {
-        "Type": "Aow.Units.AoWE.TConstructAbility",
-        "Id": 1508
+        "Type": "Aow.Units.AoWE.TConstructAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls": {
-        "Type": "Aow.Units.AoWE.TConstructionControlList",
-        "Id": 1513
+        "Type": "Aow.Units.AoWE.TConstructionControlList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1514
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls.FChildren[0]": {
-        "Type": "Aow.Units.AoWE.TRebuildConstructionControl",
-        "Id": 1515
+        "Type": "Aow.Units.AoWE.TRebuildConstructionControl"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FConstructionControls.FChildren[1]": {
-        "Type": "Aow.Units.AoWE.TBuildRoadsControl",
-        "Id": 1516
+        "Type": "Aow.Units.AoWE.TBuildRoadsControl"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1509
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1512
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1510
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[125].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1511
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148]": {
-        "Type": "Aow.Units.AoWE.TCharmAbility",
-        "Id": 1457
+        "Type": "Aow.Units.AoWE.TCharmAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1458
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1461
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1459
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[148].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1460
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149]": {
-        "Type": "Aow.Units.AoWE.TCharmedAbility",
-        "Id": 1462
+        "Type": "Aow.Units.AoWE.TCharmedAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1463
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1466
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1464
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[149].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1465
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150]": {
-        "Type": "Aow.Units.AoWE.TDominatedAbility",
-        "Id": 1472
+        "Type": "Aow.Units.AoWE.TDominatedAbility"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FDescription": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 1473
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1476
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FSFXLibrary": {
-        "Type": "Aow.Units.Sound.TSFXLibrary",
-        "Id": 1474
+        "Type": "Aow.Units.Sound.TSFXLibrary"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities[150].FSFXLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1475
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FCombatHexagons": {
-        "Type": "Aow.Units.HSEngine.THexagonControl",
-        "Id": 1384
+        "Type": "Aow.Units.HSEngine.THexagonControl"
       },
       "Engine.FGameSet.FCombatHexagons.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1385
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FCombatResources": {
-        "Type": "Aow.Units.HSEngine.TMapObjectResourceList",
-        "Id": 1382
+        "Type": "Aow.Units.HSEngine.TMapObjectResourceList"
       },
       "Engine.FGameSet.FCombatResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1383
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FCombatRoads": {
-        "Type": "Aow.Units.HSEngine.TRoadControl",
-        "Id": 1386
+        "Type": "Aow.Units.HSEngine.TRoadControl"
       },
       "Engine.FGameSet.FCombatRoads.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1387
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FFaceResources": {
-        "Type": "Aow.Units.AoWE.TFaceResourceList",
-        "Id": 1407
+        "Type": "Aow.Units.AoWE.TFaceResourceList"
       },
       "Engine.FGameSet.FFaceResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1408
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FFireControl": {
-        "Type": "Aow.Units.AoWE.TFireControl",
-        "Id": 1397
+        "Type": "Aow.Units.AoWE.TFireControl"
       },
       "Engine.FGameSet.FFireControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1398
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FFlagControl": {
-        "Type": "Aow.Units.AoWE.TFlagControl",
-        "Id": 1396
+        "Type": "Aow.Units.AoWE.TFlagControl"
       },
       "Engine.FGameSet.FFlagControl.FRaceResources": {
-        "Type": "Aow.Units.AoWE.TRaceResourceList",
-        "Id": 1394
+        "Type": "Aow.Units.AoWE.TRaceResourceList"
       },
       "Engine.FGameSet.FFlagControl.FRaceResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1395
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FHeroLibraries": {
-        "Type": "Aow.Units.AoWE.THeroLibraryManager",
-        "Id": 1414
+        "Type": "Aow.Units.AoWE.THeroLibraryManager"
       },
       "Engine.FGameSet.FHeroLibraries.FLibraries": {
-        "Type": "Aow.Units.Engine.TENode",
-        "Id": 1417
+        "Type": "Aow.Units.Engine.TENode"
       },
       "Engine.FGameSet.FHeroLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1418
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary": {
-        "Type": "Aow.Units.AoWE.THeroLibrary",
-        "Id": 1415
+        "Type": "Aow.Units.AoWE.THeroLibrary"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1416
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FHeroResources": {
-        "Type": "Aow.Units.AoWE.THeroResourceList",
-        "Id": 1403
+        "Type": "Aow.Units.AoWE.THeroResourceList"
       },
       "Engine.FGameSet.FHeroResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1404
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1390
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FItemGFXResources": {
-        "Type": "Aow.Units.AoWE.TItemGFXList",
-        "Id": 1405
+        "Type": "Aow.Units.AoWE.TItemGFXList"
       },
       "Engine.FGameSet.FItemGFXResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1406
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FItemLibraries": {
-        "Type": "Aow.Units.AoWE.TItemLibraryManager",
-        "Id": 1409
+        "Type": "Aow.Units.AoWE.TItemLibraryManager"
       },
       "Engine.FGameSet.FItemLibraries.FLibraries": {
-        "Type": "Aow.Units.Engine.TENode",
-        "Id": 1412
+        "Type": "Aow.Units.Engine.TENode"
       },
       "Engine.FGameSet.FItemLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1413
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary": {
-        "Type": "Aow.Units.AoWE.TItemLibrary",
-        "Id": 1410
+        "Type": "Aow.Units.AoWE.TItemLibrary"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1411
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FPadControl": {
-        "Type": "Aow.Units.AoWE.TPadControl",
-        "Id": 1391
+        "Type": "Aow.Units.AoWE.TPadControl"
       },
       "Engine.FGameSet.FPadControl.FPadResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1393
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FPadControl.FTerrainTypes": {
-        "Type": "Aow.Units.Engine.TBitList",
-        "Id": 1392
+        "Type": "Aow.Units.Engine.TBitList"
       },
       "Engine.FGameSet.FSpellControl": {
-        "Type": "Aow.Units.AoWE.TSpellControl",
-        "Id": 1426
+        "Type": "Aow.Units.AoWE.TSpellControl"
       },
       "Engine.FGameSet.FSpellControl.FRegisteredSpells": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1427
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FTextControl": {
-        "Type": "Aow.Units.AoWE.TTextControl",
-        "Id": 1428
+        "Type": "Aow.Units.AoWE.TTextControl"
       },
       "Engine.FGameSet.FTextControl.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1429
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FUnitGFXResources": {
-        "Type": "Aow.Units.AoWE.TUnitGFXResourceList",
-        "Id": 1401
+        "Type": "Aow.Units.AoWE.TUnitGFXResourceList"
       },
       "Engine.FGameSet.FUnitGFXResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1402
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FUnitResources": {
-        "Type": "Aow.Units.AoWE.TUnitResourceList",
-        "Id": 1399
+        "Type": "Aow.Units.AoWE.TUnitResourceList"
       },
       "Engine.FGameSet.FUnitResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1400
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FDecorationTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 854
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FHexagonControl": {
-        "Type": "Aow.Units.HSEngine.THexagonControl",
-        "Id": 855
+        "Type": "Aow.Units.HSEngine.THexagonControl"
       },
       "Engine.FGameSet.FHexagonControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 856
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FMapObjectResourceList": {
-        "Type": "Aow.Units.HSEngine.TMapObjectResourceList",
-        "Id": 859
+        "Type": "Aow.Units.HSEngine.TMapObjectResourceList"
       },
       "Engine.FGameSet.FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 860
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FOverlayTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 853
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FPlugInControl": {
-        "Type": "Aow.Units.Engine.TPlugInControl",
-        "Id": 850
+        "Type": "Aow.Units.Engine.TPlugInControl"
       },
       "Engine.FGameSet.FPlugInControl.FUsedPlugIns": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 851
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FResourceEditSettings": {
-        "Type": "Aow.Units.Engine.TEResourceEditSettings",
-        "Id": 861
+        "Type": "Aow.Units.Engine.TEResourceEditSettings"
       },
       "Engine.FGameSet.FResourceEditSettings.FEditors": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 862
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FRoadControl": {
-        "Type": "Aow.Units.HSEngine.TRoadControl",
-        "Id": 857
+        "Type": "Aow.Units.HSEngine.TRoadControl"
       },
       "Engine.FGameSet.FRoadControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 858
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FSFXManager": {
-        "Type": "Aow.Units.Sound.TSFXManager",
-        "Id": 1380
+        "Type": "Aow.Units.Sound.TSFXManager"
       },
       "Engine.FGameSet.FSFXManager.FSFX": {
-        "Type": "Aow.Units.Sound.TSFXList",
-        "Id": 1381
+        "Type": "Aow.Units.Sound.TSFXList"
       },
       "Engine.FGameSet.FTerrainTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 852
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 849
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Units.AoWReg.TAoWRegistry",
-        "Id": 1
+        "Type": "Aow.Units.AoWReg.TAoWRegistry"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Units.Engine.TIntegerHashTable256",
-        "Id": 8
+        "Type": "Aow.Units.Engine.TIntegerHashTable256"
       },
       "Engine.FControlNode": {
-        "Type": "Aow.Units.Engine.TEControlStyleNode",
-        "Id": 266
+        "Type": "Aow.Units.Engine.TEControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 267
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FDebugIDs": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 268
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Units.Engine.TEObjectClassList",
-        "Id": 7
+        "Type": "Aow.Units.Engine.TEObjectClassList"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Units.Engine.TEObjectEditorList",
-        "Id": 265
+        "Type": "Aow.Units.Engine.TEObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 6
+        "Type": "Aow.Units.Engine.TEObjectList"
       }
     },
     "DestroyExceptionFrames": null,
@@ -1715,8 +1338,8 @@
         "Aow.Units.AoWE.TAoWHSSet"
       ],
       "Globals": {
-        "AoWEngine": 0,
-        "AoWHSSet": 848,
+        "AoWEngine": true,
+        "AoWHSSet": true,
         "HSEngineDID": 0,
         "CombatDID": 2,
         "AIDID": 3,
@@ -1725,10 +1348,7 @@
         "BaseImageLibraryPath": "$root/",
         "BaseSoundEnginePath": "$root/",
         "LocalizationStartupDirectory": "$root",
-        "Engines": [
-          0
-        ],
-        "Counter": 1733
+        "Engines": 1
       }
     },
     "MovePointTables": {
@@ -75974,8 +75594,8 @@
       }
     },
     "StateAfterDestruction": {
-      "AoWEngine": 0,
-      "AoWHSSet": 848,
+      "AoWEngine": true,
+      "AoWHSSet": true,
       "HSEngineDID": 0,
       "CombatDID": 2,
       "AIDID": 3,
@@ -75984,349 +75604,310 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
-      "Engines": [],
-      "Counter": 1733
+      "Engines": 0
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/IMAGES",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/SFX",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1389,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1389,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1389,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1389,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1389,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/SFX/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1389,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: Flags.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1396,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: GENERAL.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1429,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: CURSORS.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1429,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: COMBAT.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1429,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/PLUGINS",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1732,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/PLUGINS/",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1732,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/PLUGINS/",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1732,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/PLUGINS/",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1733,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/PLUGINS/",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1733,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/EmailIn/egames.pfs",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1733,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.begin",
         "Argument": "TAoWEngine",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1733,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.end",
         "Argument": "TAoWEngine",
-        "Engine": 0,
-        "Set": 848,
-        "Counter": 1733,
+        "Engine": true,
+        "Set": true,
         "Engines": 0,
         "DestroyFrames": []
       }
@@ -76336,8 +75917,8 @@
     "ExceptionType": null,
     "ExceptionMessage": null,
     "StateAtCaller": {
-      "AoWEngine": null,
-      "AoWHSSet": null,
+      "AoWEngine": false,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76346,137 +75927,104 @@
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
-      "Engines": [
-        0
-      ],
-      "Counter": 1375
+      "Engines": 1
     },
     "ObjectsAtCaller": {
       "Engine": {
-        "Type": "Aow.Units.HSEngine.THSEngine",
-        "Id": 0
+        "Type": "Aow.Units.HSEngine.THSEngine"
       },
       "Engine.FHSSet": {
-        "Type": "Aow.Units.HSEngine.THSSet",
-        "Id": 842
+        "Type": "Aow.Units.HSEngine.THSSet"
       },
       "Engine.FHSSet.FDecorationTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 848
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FHSSet.FHexagonControl": {
-        "Type": "Aow.Units.HSEngine.THexagonControl",
-        "Id": 849
+        "Type": "Aow.Units.HSEngine.THexagonControl"
       },
       "Engine.FHSSet.FHexagonControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 850
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FHSSet.FImageLibraryManager": {
-        "Type": "Aow.Units.ImageLib.TImageLibraryManager",
-        "Id": 857
+        "Type": "Aow.Units.ImageLib.TImageLibraryManager"
       },
       "Engine.FHSSet.FImageLibraryManager.FDiskList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 858
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FHSSet.FImageLibraryManager.FDiskList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 859
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FHSSet.FImageLibraryManager.FOwnedList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 1116
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FHSSet.FImageLibraryManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 1117
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FHSSet.FMapObjectResourceList": {
-        "Type": "Aow.Units.HSEngine.TMapObjectResourceList",
-        "Id": 853
+        "Type": "Aow.Units.HSEngine.TMapObjectResourceList"
       },
       "Engine.FHSSet.FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 854
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FHSSet.FOverlayTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 847
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FHSSet.FPlugInControl": {
-        "Type": "Aow.Units.Engine.TPlugInControl",
-        "Id": 844
+        "Type": "Aow.Units.Engine.TPlugInControl"
       },
       "Engine.FHSSet.FPlugInControl.FUsedPlugIns": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 845
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FHSSet.FResourceEditSettings": {
-        "Type": "Aow.Units.Engine.TEResourceEditSettings",
-        "Id": 855
+        "Type": "Aow.Units.Engine.TEResourceEditSettings"
       },
       "Engine.FHSSet.FResourceEditSettings.FEditors": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 856
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FHSSet.FRoadControl": {
-        "Type": "Aow.Units.HSEngine.TRoadControl",
-        "Id": 851
+        "Type": "Aow.Units.HSEngine.TRoadControl"
       },
       "Engine.FHSSet.FRoadControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 852
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FHSSet.FSFXManager": {
-        "Type": "Aow.Units.Sound.TSFXManager",
-        "Id": 1374
+        "Type": "Aow.Units.Sound.TSFXManager"
       },
       "Engine.FHSSet.FSFXManager.FSFX": {
-        "Type": "Aow.Units.Sound.TSFXList",
-        "Id": 1375
+        "Type": "Aow.Units.Sound.TSFXList"
       },
       "Engine.FHSSet.FTerrainTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 846
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FHSSet.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 843
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Units.Engine.TIntegerHashTable256",
-        "Id": 3
+        "Type": "Aow.Units.Engine.TIntegerHashTable256"
       },
       "Engine.FControlNode": {
-        "Type": "Aow.Units.Engine.TEControlStyleNode",
-        "Id": 261
+        "Type": "Aow.Units.Engine.TEControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 262
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FDebugIDs": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 263
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Units.Engine.TEObjectClassList",
-        "Id": 2
+        "Type": "Aow.Units.Engine.TEObjectClassList"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Units.Engine.TEObjectEditorList",
-        "Id": 260
+        "Type": "Aow.Units.Engine.TEObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1
+        "Type": "Aow.Units.Engine.TEObjectList"
       }
     },
     "DestroyExceptionFrames": null,
     "StateAfterDestruction": {
-      "AoWEngine": null,
-      "AoWHSSet": null,
+      "AoWEngine": false,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76485,25 +76033,22 @@
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
-      "Engines": [],
-      "Counter": 1375
+      "Engines": 0
     },
     "Events": [
       {
         "Call": "Destroy.begin",
         "Argument": "THSEngine",
-        "Engine": null,
-        "Set": null,
-        "Counter": 1375,
+        "Engine": false,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.end",
         "Argument": "THSEngine",
-        "Engine": null,
-        "Set": null,
-        "Counter": 1375,
+        "Engine": false,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       }
@@ -76513,8 +76058,8 @@
     "ExceptionType": null,
     "ExceptionMessage": null,
     "StateAtCaller": {
-      "AoWEngine": null,
-      "AoWHSSet": null,
+      "AoWEngine": false,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76523,49 +76068,38 @@
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
-      "Engines": [
-        0
-      ],
-      "Counter": 270
+      "Engines": 1
     },
     "ObjectsAtCaller": {
       "Engine": {
-        "Type": "Aow.Units.Engine.TEngine",
-        "Id": 0
+        "Type": "Aow.Units.Engine.TEngine"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Units.Engine.TIntegerHashTable256",
-        "Id": 3
+        "Type": "Aow.Units.Engine.TIntegerHashTable256"
       },
       "Engine.FControlNode": {
-        "Type": "Aow.Units.Engine.TEControlStyleNode",
-        "Id": 261
+        "Type": "Aow.Units.Engine.TEControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 262
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FDebugIDs": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 263
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Units.Engine.TEObjectClassList",
-        "Id": 2
+        "Type": "Aow.Units.Engine.TEObjectClassList"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Units.Engine.TEObjectEditorList",
-        "Id": 260
+        "Type": "Aow.Units.Engine.TEObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1
+        "Type": "Aow.Units.Engine.TEObjectList"
       }
     },
     "DestroyExceptionFrames": null,
     "StateAfterDestruction": {
-      "AoWEngine": null,
-      "AoWHSSet": null,
+      "AoWEngine": false,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76574,25 +76108,22 @@
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
-      "Engines": [],
-      "Counter": 270
+      "Engines": 0
     },
     "Events": [
       {
         "Call": "Destroy.begin",
         "Argument": "TEngine",
-        "Engine": null,
-        "Set": null,
-        "Counter": 270,
+        "Engine": false,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Destroy.end",
         "Argument": "TEngine",
-        "Engine": null,
-        "Set": null,
-        "Counter": 270,
+        "Engine": false,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       }
@@ -76602,8 +76133,8 @@
     "ExceptionType": "System.NullReferenceException",
     "ExceptionMessage": "Object reference not set to an instance of an object.",
     "StateAtCaller": {
-      "AoWEngine": 0,
-      "AoWHSSet": null,
+      "AoWEngine": true,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76612,17 +76143,14 @@
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
-      "Engines": [],
-      "Counter": 1
+      "Engines": 0
     },
     "ObjectsAtCaller": {
       "Engine": {
-        "Type": "Aow.Units.AoWE.TAoWEngine",
-        "Id": 0
+        "Type": "Aow.Units.AoWE.TAoWEngine"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Units.AoWReg.TAoWRegistry",
-        "Id": 1
+        "Type": "Aow.Units.AoWReg.TAoWRegistry"
       }
     },
     "DestroyExceptionFrames": [
@@ -76630,8 +76158,8 @@
     ],
     "ValidateAfterFailure": true,
     "StateAfterDestruction": {
-      "AoWEngine": 0,
-      "AoWHSSet": null,
+      "AoWEngine": true,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76640,34 +76168,30 @@
       "BaseImageLibraryPath": "",
       "BaseSoundEnginePath": "",
       "LocalizationStartupDirectory": "",
-      "Engines": [],
-      "Counter": 1
+      "Engines": 0
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.InvalidDataException: injected debug-mode settings failure",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       }
@@ -76677,8 +76201,8 @@
     "ExceptionType": "System.NullReferenceException",
     "ExceptionMessage": "Object reference not set to an instance of an object.",
     "StateAtCaller": {
-      "AoWEngine": 0,
-      "AoWHSSet": null,
+      "AoWEngine": true,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76687,37 +76211,29 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "",
-      "Engines": [],
-      "Counter": 6
+      "Engines": 0
     },
     "ObjectsAtCaller": {
       "Engine": {
-        "Type": "Aow.Units.AoWE.TAoWEngine",
-        "Id": 0
+        "Type": "Aow.Units.AoWE.TAoWEngine"
       },
       "Engine.FDictionary": {
-        "Type": "Aow.Units.AoWE.TAoWDictionary",
-        "Id": 5
+        "Type": "Aow.Units.AoWE.TAoWDictionary"
       },
       "Engine.FEmailGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameControl",
-        "Id": 2
+        "Type": "Aow.Units.AoWE.TEmailGameControl"
       },
       "Engine.FEmailGames.FGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameList",
-        "Id": 3
+        "Type": "Aow.Units.AoWE.TEmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 4
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Units.AoWReg.TAoWRegistry",
-        "Id": 1
+        "Type": "Aow.Units.AoWReg.TAoWRegistry"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 6
+        "Type": "Aow.Units.Engine.TEObjectList"
       }
     },
     "DestroyExceptionFrames": [
@@ -76725,8 +76241,8 @@
     ],
     "ValidateAfterFailure": true,
     "StateAfterDestruction": {
-      "AoWEngine": 0,
-      "AoWHSSet": null,
+      "AoWEngine": true,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76735,97 +76251,86 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "",
-      "Engines": [],
-      "Counter": 6
+      "Engines": 0
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Open:0",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.InvalidDataException: Invalid MLD header",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       }
@@ -76835,8 +76340,8 @@
     "ExceptionType": "System.NullReferenceException",
     "ExceptionMessage": "Object reference not set to an instance of an object.",
     "StateAtCaller": {
-      "AoWEngine": 0,
-      "AoWHSSet": null,
+      "AoWEngine": true,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -76845,175 +76350,131 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
-      "Engines": [
-        0
-      ],
-      "Counter": 1386
+      "Engines": 1
     },
     "ObjectsAtCaller": {
       "Engine": {
-        "Type": "Aow.Units.AoWE.TAoWEngine",
-        "Id": 0
+        "Type": "Aow.Units.AoWE.TAoWEngine"
       },
       "Engine.FDictionary": {
-        "Type": "Aow.Units.AoWE.TAoWDictionary",
-        "Id": 5
+        "Type": "Aow.Units.AoWE.TAoWDictionary"
       },
       "Engine.FEmailGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameControl",
-        "Id": 2
+        "Type": "Aow.Units.AoWE.TEmailGameControl"
       },
       "Engine.FEmailGames.FGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameList",
-        "Id": 3
+        "Type": "Aow.Units.AoWE.TEmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 4
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Units.AoWReg.TAoWRegistry",
-        "Id": 1
+        "Type": "Aow.Units.AoWReg.TAoWRegistry"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Units.Engine.TIntegerHashTable256",
-        "Id": 8
+        "Type": "Aow.Units.Engine.TIntegerHashTable256"
       },
       "Engine.FControlNode": {
-        "Type": "Aow.Units.Engine.TEControlStyleNode",
-        "Id": 266
+        "Type": "Aow.Units.Engine.TEControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 267
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FDebugIDs": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 268
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Units.Engine.TEObjectClassList",
-        "Id": 7
+        "Type": "Aow.Units.Engine.TEObjectClassList"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Units.Engine.TEObjectEditorList",
-        "Id": 265
+        "Type": "Aow.Units.Engine.TEObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 6
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FChildren[1]": {
-        "Type": "Aow.Units.AoWE.TAoWHSSet",
-        "Id": 847
+        "Type": "Aow.Units.AoWE.TAoWHSSet"
       },
       "Engine.FChildren[1].FCombatHexagons": {
-        "Type": "Aow.Units.HSEngine.THexagonControl",
-        "Id": 1383
+        "Type": "Aow.Units.HSEngine.THexagonControl"
       },
       "Engine.FChildren[1].FCombatHexagons.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1384
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FChildren[1].FCombatResources": {
-        "Type": "Aow.Units.HSEngine.TMapObjectResourceList",
-        "Id": 1381
+        "Type": "Aow.Units.HSEngine.TMapObjectResourceList"
       },
       "Engine.FChildren[1].FCombatResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1382
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FChildren[1].FCombatRoads": {
-        "Type": "Aow.Units.HSEngine.TRoadControl",
-        "Id": 1385
+        "Type": "Aow.Units.HSEngine.TRoadControl"
       },
       "Engine.FChildren[1].FCombatRoads.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1386
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FChildren[1].FDecorationTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 853
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FChildren[1].FHexagonControl": {
-        "Type": "Aow.Units.HSEngine.THexagonControl",
-        "Id": 854
+        "Type": "Aow.Units.HSEngine.THexagonControl"
       },
       "Engine.FChildren[1].FHexagonControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 855
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FChildren[1].FImageLibraryManager": {
-        "Type": "Aow.Units.ImageLib.TImageLibraryManager",
-        "Id": 862
+        "Type": "Aow.Units.ImageLib.TImageLibraryManager"
       },
       "Engine.FChildren[1].FImageLibraryManager.FDiskList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 863
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FChildren[1].FImageLibraryManager.FDiskList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 864
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FChildren[1].FImageLibraryManager.FOwnedList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 1121
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FChildren[1].FImageLibraryManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 1122
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FChildren[1].FMapObjectResourceList": {
-        "Type": "Aow.Units.HSEngine.TMapObjectResourceList",
-        "Id": 858
+        "Type": "Aow.Units.HSEngine.TMapObjectResourceList"
       },
       "Engine.FChildren[1].FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 859
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FChildren[1].FOverlayTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 852
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FChildren[1].FPlugInControl": {
-        "Type": "Aow.Units.Engine.TPlugInControl",
-        "Id": 849
+        "Type": "Aow.Units.Engine.TPlugInControl"
       },
       "Engine.FChildren[1].FPlugInControl.FUsedPlugIns": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 850
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FChildren[1].FResourceEditSettings": {
-        "Type": "Aow.Units.Engine.TEResourceEditSettings",
-        "Id": 860
+        "Type": "Aow.Units.Engine.TEResourceEditSettings"
       },
       "Engine.FChildren[1].FResourceEditSettings.FEditors": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 861
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FChildren[1].FRoadControl": {
-        "Type": "Aow.Units.HSEngine.TRoadControl",
-        "Id": 856
+        "Type": "Aow.Units.HSEngine.TRoadControl"
       },
       "Engine.FChildren[1].FRoadControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 857
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FChildren[1].FSFXManager": {
-        "Type": "Aow.Units.Sound.TSFXManager",
-        "Id": 1379
+        "Type": "Aow.Units.Sound.TSFXManager"
       },
       "Engine.FChildren[1].FSFXManager.FSFX": {
-        "Type": "Aow.Units.Sound.TSFXList",
-        "Id": 1380
+        "Type": "Aow.Units.Sound.TSFXList"
       },
       "Engine.FChildren[1].FTerrainTypes": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 851
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FChildren[1].FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 848
+        "Type": "Aow.Units.Engine.TEObjectList"
       }
     },
     "DestroyExceptionFrames": [
@@ -77021,8 +76482,8 @@
     ],
     "ValidateAfterFailure": true,
     "StateAfterDestruction": {
-      "AoWEngine": 0,
-      "AoWHSSet": null,
+      "AoWEngine": true,
+      "AoWHSSet": false,
       "HSEngineDID": 0,
       "CombatDID": 0,
       "AIDID": 0,
@@ -77031,135 +76492,118 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
-      "Engines": [
-        0
-      ],
-      "Counter": 1386
+      "Engines": 1
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/IMAGES",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.IO.InvalidDataException: injected IMAGES search failure",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": [
           "TAoWHSSet"
@@ -77168,9 +76612,8 @@
       {
         "Call": "throw",
         "Argument": "System.NullReferenceException: Object reference not set to an instance of an object.",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       }
@@ -77180,8 +76623,8 @@
     "ExceptionType": "Aow.Rtl.Exception",
     "ExceptionMessage": "Unable to load PlugIn: $root/PLUGINS/X.DPL",
     "StateAtCaller": {
-      "AoWEngine": 0,
-      "AoWHSSet": 847,
+      "AoWEngine": true,
+      "AoWHSSet": true,
       "HSEngineDID": 0,
       "CombatDID": 2,
       "AIDID": 3,
@@ -77190,280 +76633,213 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
-      "Engines": [],
-      "Counter": 1726
+      "Engines": 0
     },
     "ObjectsAtCaller": {
       "Engine": {
-        "Type": "Aow.Units.AoWE.TAoWEngine",
-        "Id": 0
+        "Type": "Aow.Units.AoWE.TAoWEngine"
       },
       "Engine.FDictionary": {
-        "Type": "Aow.Units.AoWE.TAoWDictionary",
-        "Id": 5
+        "Type": "Aow.Units.AoWE.TAoWDictionary"
       },
       "Engine.FEmailGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameControl",
-        "Id": 2
+        "Type": "Aow.Units.AoWE.TEmailGameControl"
       },
       "Engine.FEmailGames.FGames": {
-        "Type": "Aow.Units.AoWE.TEmailGameList",
-        "Id": 3
+        "Type": "Aow.Units.AoWE.TEmailGameList"
       },
       "Engine.FEmailGames.FGames.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 4
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet": {
-        "Type": "Aow.Units.AoWE.TAoWHSSet",
-        "Id": 847
+        "Type": "Aow.Units.AoWE.TAoWHSSet"
       },
       "Engine.FGameSet.FAbilityControl": {
-        "Type": "Aow.Units.AoWE.TAbilityControl",
-        "Id": 1418
+        "Type": "Aow.Units.AoWE.TAbilityControl"
       },
       "Engine.FGameSet.FAbilityControl.FAbilities": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1419
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FCombatHexagons": {
-        "Type": "Aow.Units.HSEngine.THexagonControl",
-        "Id": 1383
+        "Type": "Aow.Units.HSEngine.THexagonControl"
       },
       "Engine.FGameSet.FCombatResources": {
-        "Type": "Aow.Units.HSEngine.TMapObjectResourceList",
-        "Id": 1381
+        "Type": "Aow.Units.HSEngine.TMapObjectResourceList"
       },
       "Engine.FGameSet.FCombatResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1382
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FCombatRoads": {
-        "Type": "Aow.Units.HSEngine.TRoadControl",
-        "Id": 1385
+        "Type": "Aow.Units.HSEngine.TRoadControl"
       },
       "Engine.FGameSet.FFaceResources": {
-        "Type": "Aow.Units.AoWE.TFaceResourceList",
-        "Id": 1406
+        "Type": "Aow.Units.AoWE.TFaceResourceList"
       },
       "Engine.FGameSet.FFaceResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1407
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FFireControl": {
-        "Type": "Aow.Units.AoWE.TFireControl",
-        "Id": 1396
+        "Type": "Aow.Units.AoWE.TFireControl"
       },
       "Engine.FGameSet.FFireControl.FResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1397
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FFlagControl": {
-        "Type": "Aow.Units.AoWE.TFlagControl",
-        "Id": 1395
+        "Type": "Aow.Units.AoWE.TFlagControl"
       },
       "Engine.FGameSet.FFlagControl.FRaceResources": {
-        "Type": "Aow.Units.AoWE.TRaceResourceList",
-        "Id": 1393
+        "Type": "Aow.Units.AoWE.TRaceResourceList"
       },
       "Engine.FGameSet.FFlagControl.FRaceResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1394
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FHeroLibraries": {
-        "Type": "Aow.Units.AoWE.THeroLibraryManager",
-        "Id": 1413
+        "Type": "Aow.Units.AoWE.THeroLibraryManager"
       },
       "Engine.FGameSet.FHeroLibraries.FLibraries": {
-        "Type": "Aow.Units.Engine.TENode",
-        "Id": 1416
+        "Type": "Aow.Units.Engine.TENode"
       },
       "Engine.FGameSet.FHeroLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1417
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary": {
-        "Type": "Aow.Units.AoWE.THeroLibrary",
-        "Id": 1414
+        "Type": "Aow.Units.AoWE.THeroLibrary"
       },
       "Engine.FGameSet.FHeroLibraries.FSystemLibrary.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1415
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FHeroResources": {
-        "Type": "Aow.Units.AoWE.THeroResourceList",
-        "Id": 1402
+        "Type": "Aow.Units.AoWE.THeroResourceList"
       },
       "Engine.FGameSet.FHeroResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1403
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FImageSequences": {
-        "Type": "Aow.Units.ImageLib.TImageSequenceList",
-        "Id": 1389
+        "Type": "Aow.Units.ImageLib.TImageSequenceList"
       },
       "Engine.FGameSet.FImageSequences.FILManager": {
-        "Type": "Aow.Units.ImageLib.TImageLibraryManager",
-        "Id": 862
+        "Type": "Aow.Units.ImageLib.TImageLibraryManager"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FDiskList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 863
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FDiskList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 864
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FOwnedList": {
-        "Type": "Aow.Units.ImageLib.TILManagerList",
-        "Id": 1121
+        "Type": "Aow.Units.ImageLib.TILManagerList"
       },
       "Engine.FGameSet.FImageSequences.FILManager.FOwnedList.FHashTable": {
-        "Type": "Aow.Units.HashTabU.TStringHashTable256",
-        "Id": 1122
+        "Type": "Aow.Units.HashTabU.TStringHashTable256"
       },
       "Engine.FGameSet.FItemGFXResources": {
-        "Type": "Aow.Units.AoWE.TItemGFXList",
-        "Id": 1404
+        "Type": "Aow.Units.AoWE.TItemGFXList"
       },
       "Engine.FGameSet.FItemGFXResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1405
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FItemLibraries": {
-        "Type": "Aow.Units.AoWE.TItemLibraryManager",
-        "Id": 1408
+        "Type": "Aow.Units.AoWE.TItemLibraryManager"
       },
       "Engine.FGameSet.FItemLibraries.FLibraries": {
-        "Type": "Aow.Units.Engine.TENode",
-        "Id": 1411
+        "Type": "Aow.Units.Engine.TENode"
       },
       "Engine.FGameSet.FItemLibraries.FLibraries.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1412
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FItemLibraries.FSystemLibrary": {
-        "Type": "Aow.Units.AoWE.TItemLibrary",
-        "Id": 1409
+        "Type": "Aow.Units.AoWE.TItemLibrary"
       },
       "Engine.FGameSet.FPadControl": {
-        "Type": "Aow.Units.AoWE.TPadControl",
-        "Id": 1390
+        "Type": "Aow.Units.AoWE.TPadControl"
       },
       "Engine.FGameSet.FPadControl.FPadResources": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1392
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FPadControl.FTerrainTypes": {
-        "Type": "Aow.Units.Engine.TBitList",
-        "Id": 1391
+        "Type": "Aow.Units.Engine.TBitList"
       },
       "Engine.FGameSet.FSpellControl": {
-        "Type": "Aow.Units.AoWE.TSpellControl",
-        "Id": 1425
+        "Type": "Aow.Units.AoWE.TSpellControl"
       },
       "Engine.FGameSet.FSpellControl.FRegisteredSpells": {
-        "Type": "Aow.Rtl.TList",
-        "Id": 1426
+        "Type": "Aow.Rtl.TList"
       },
       "Engine.FGameSet.FTextControl": {
-        "Type": "Aow.Units.AoWE.TTextControl",
-        "Id": 1427
+        "Type": "Aow.Units.AoWE.TTextControl"
       },
       "Engine.FGameSet.FTextControl.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1428
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FUnitGFXResources": {
-        "Type": "Aow.Units.AoWE.TUnitGFXResourceList",
-        "Id": 1400
+        "Type": "Aow.Units.AoWE.TUnitGFXResourceList"
       },
       "Engine.FGameSet.FUnitGFXResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1401
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FUnitResources": {
-        "Type": "Aow.Units.AoWE.TUnitResourceList",
-        "Id": 1398
+        "Type": "Aow.Units.AoWE.TUnitResourceList"
       },
       "Engine.FGameSet.FUnitResources.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 1399
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FHexagonControl": {
-        "Type": "Aow.Units.HSEngine.THexagonControl",
-        "Id": 854
+        "Type": "Aow.Units.HSEngine.THexagonControl"
       },
       "Engine.FGameSet.FMapObjectResourceList": {
-        "Type": "Aow.Units.HSEngine.TMapObjectResourceList",
-        "Id": 858
+        "Type": "Aow.Units.HSEngine.TMapObjectResourceList"
       },
       "Engine.FGameSet.FMapObjectResourceList.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 859
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FGameSet.FPlugInControl": {
-        "Type": "Aow.Units.Engine.TPlugInControl",
-        "Id": 849
+        "Type": "Aow.Units.Engine.TPlugInControl"
       },
       "Engine.FGameSet.FPlugInControl.FUsedPlugIns": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 850
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FResourceEditSettings": {
-        "Type": "Aow.Units.Engine.TEResourceEditSettings",
-        "Id": 860
+        "Type": "Aow.Units.Engine.TEResourceEditSettings"
       },
       "Engine.FGameSet.FResourceEditSettings.FEditors": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 861
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FGameSet.FRoadControl": {
-        "Type": "Aow.Units.HSEngine.TRoadControl",
-        "Id": 856
+        "Type": "Aow.Units.HSEngine.TRoadControl"
       },
       "Engine.FGameSet.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 848
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FRegistry": {
-        "Type": "Aow.Units.AoWReg.TAoWRegistry",
-        "Id": 1
+        "Type": "Aow.Units.AoWReg.TAoWRegistry"
       },
       "Engine.FClassTable": {
-        "Type": "Aow.Units.Engine.TIntegerHashTable256",
-        "Id": 8
+        "Type": "Aow.Units.Engine.TIntegerHashTable256"
       },
       "Engine.FControlNode": {
-        "Type": "Aow.Units.Engine.TEControlStyleNode",
-        "Id": 266
+        "Type": "Aow.Units.Engine.TEControlStyleNode"
       },
       "Engine.FControlNode.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 267
+        "Type": "Aow.Units.Engine.TEObjectList"
       },
       "Engine.FDebugIDs": {
-        "Type": "Aow.Rtl.TStringList",
-        "Id": 268
+        "Type": "Aow.Rtl.TStringList"
       },
       "Engine.FEClasses": {
-        "Type": "Aow.Units.Engine.TEObjectClassList",
-        "Id": 7
+        "Type": "Aow.Units.Engine.TEObjectClassList"
       },
       "Engine.FEditors": {
-        "Type": "Aow.Units.Engine.TEObjectEditorList",
-        "Id": 265
+        "Type": "Aow.Units.Engine.TEObjectEditorList"
       },
       "Engine.FChildren": {
-        "Type": "Aow.Units.Engine.TEObjectList",
-        "Id": 6
+        "Type": "Aow.Units.Engine.TEObjectList"
       }
     },
     "DestroyExceptionFrames": [],
     "ValidateAfterFailure": true,
     "StateAfterDestruction": {
-      "AoWEngine": 0,
-      "AoWHSSet": 847,
+      "AoWEngine": true,
+      "AoWHSSet": true,
       "HSEngineDID": 0,
       "CombatDID": 2,
       "AIDID": 3,
@@ -77472,331 +76848,294 @@
       "BaseImageLibraryPath": "$root/",
       "BaseSoundEnginePath": "$root/",
       "LocalizationStartupDirectory": "$root",
-      "Engines": [],
-      "Counter": 1726
+      "Engines": 0
     },
     "Events": [
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Debug Mode",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/Workspace/Detail Level",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Language",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 5,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "Settings.Read",
         "Argument": "/Software/Triumph Studios/Age of Wonders/General/Startup Directory",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "FileExists",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/Dict/ResStr.mld",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 6,
+        "Engine": true,
+        "Set": false,
         "Engines": 0,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/IMAGES",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1386,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/IMAGES",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/IMAGES",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root/SFX",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1387,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "CurrentDirectory",
         "Argument": "",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/SFX",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/SFX",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "SetCurrentDirectory",
         "Argument": "$root",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/SFX/",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1388,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: Flags.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1395,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: GENERAL.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1428,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: CURSORS.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1428,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Missing IL Resource: COMBAT.ILB",
-        "Engine": 0,
-        "Set": null,
-        "Counter": 1428,
+        "Engine": true,
+        "Set": false,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "ExpandPath",
         "Argument": "$root/PLUGINS",
-        "Engine": 0,
-        "Set": 847,
-        "Counter": 1726,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "DirectoryExists",
         "Argument": "$root/PLUGINS/",
-        "Engine": 0,
-        "Set": 847,
-        "Counter": 1726,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "Enumerate",
         "Argument": "$root/PLUGINS/",
-        "Engine": 0,
-        "Set": 847,
-        "Counter": 1726,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "System.NotImplementedException: The method or operation is not implemented.",
-        "Engine": 0,
-        "Set": 847,
-        "Counter": 1726,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Unable to load PlugIn: $root/PLUGINS/X.DPL",
-        "Engine": 0,
-        "Set": 847,
-        "Counter": 1726,
+        "Engine": true,
+        "Set": true,
         "Engines": 1,
         "DestroyFrames": []
       },
       {
         "Call": "throw",
         "Argument": "Aow.Rtl.Exception: Unable to load PlugIn: $root/PLUGINS/X.DPL",
-        "Engine": 0,
-        "Set": 847,
-        "Counter": 1726,
+        "Engine": true,
+        "Set": true,
         "Engines": 0,
         "DestroyFrames": []
       }

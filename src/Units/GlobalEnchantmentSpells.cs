@@ -2046,7 +2046,7 @@ public partial class TEarthMastery : TGlobalEnchantmentSpell
                 // The original frame offset uses the field address.
                 if (MapF.OverlayType == 4)
                 {
-                    FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - (((int)(((uint)MapF.InstanceId) >> 8)) & 15), SurfaceDesc);
+                    FCastImages.Show(0, Xhp, Yhp, Anim.FFrameCounter - FrameFixtureInputs.FieldFrameOffset(MapF), SurfaceDesc);
                 }
 
                 // The original steps the field pointer by FHNOffsets[0, 4], one row down. The step

@@ -104,6 +104,23 @@ public class TList : TObject
         if (count > 0) QuickSort(0, count - 1, compare);
     }
 
+    // Keeps the order of equal items. The address tie-breaks call this, and every other sort keeps the quicksort.
+    public void SortStable(TListSortCompare compare)
+    {
+        TraceSort?.Invoke(this, compare);
+        for (int i = 1; i < count; i++)
+        {
+            object? item = items[i];
+            int j = i - 1;
+            while (j >= 0 && compare(items[j], item) > 0)
+            {
+                items[j + 1] = items[j];
+                j--;
+            }
+            items[j + 1] = item;
+        }
+    }
+
     private void QuickSort(int left, int right, TListSortCompare compare)
     {
         int i;
