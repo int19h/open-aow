@@ -55,6 +55,6 @@ public readonly struct BlendValue : IUnion
     {
         Case.Percentage => percentage,
         Case.None => 0,
-        _ => throw new EInvalidCast("Blend value holds a table, not a percentage"),
+        _ => throw new InvalidCastException("Blend value holds a table, not a percentage"),
     };
 }

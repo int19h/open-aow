@@ -195,7 +195,7 @@ public sealed class PersistCorpusTests
                 {
                     Load(loaded, image);
                 }
-                catch (Aow.Rtl.Exception error)
+                catch (System.Exception error) when (PortedExceptions.Is(error))
                 {
                     // The fixture loads no game resources, so a part that needs one (a unit's
                     // resource) cannot load. Such an instance proves nothing either way.

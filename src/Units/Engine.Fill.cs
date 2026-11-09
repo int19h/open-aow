@@ -22,7 +22,7 @@ public static partial class EngineUnit
 
     private static void Fill<T>(Span<T> buffer, int count, T value)
     {
-        if (count < 0) throw new ERangeError("Negative fill count");
+        if (count < 0) throw new ArgumentOutOfRangeException(paramName: null, "Negative fill count");
         buffer[..count].Fill(value);
     }
 }

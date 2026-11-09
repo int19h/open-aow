@@ -61,7 +61,7 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
             Assert.True(user is TBlendTable t && ReferenceEquals(t, table));
             Assert.False(user is int);
             Assert.Same(table, user.Value);
-            Assert.Throws<EInvalidCast>(() => user.Percentage);
+            Assert.Throws<InvalidCastException>(() => user.Percentage);
 
             BlendValue nil = (TBlendTable)null!;
             Assert.False(nil.HasValue);
@@ -224,9 +224,9 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
 
                     // A table in a percentage arm has no percentage to read.
                     if (mode != TBlendMode.bmLinearAlpha)
-                        Assert.Throws<EInvalidCast>(() => image.ShowEx(0, 0, sd, new TShowInfo { ShowMode = TShowMode.smBlended, Blend = table }));
+                        Assert.Throws<InvalidCastException>(() => image.ShowEx(0, 0, sd, new TShowInfo { ShowMode = TShowMode.smBlended, Blend = table }));
                     image.ShowInfo = new TShowInfo { ShowMode = TShowMode.smBlended, BlendMode = mode, Blend = table };
-                    Assert.Throws<EInvalidCast>(() => image.Show(0, 0, sd));
+                    Assert.Throws<InvalidCastException>(() => image.Show(0, 0, sd));
                 }
                 finally { image.Destroy(); }
             }

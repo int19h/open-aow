@@ -1,8 +1,6 @@
-using System.Reflection;
 using System.Runtime.InteropServices;
 using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
-using DelphiException = Aow.Rtl.Exception;
 
 namespace Aow.Rtl.Tests;
 
@@ -18,8 +16,8 @@ public sealed class SystemTests
         foreach (double value in new[] { double.NaN, double.PositiveInfinity, double.NegativeInfinity, 2147483648.0, -2147483649.0 })
         {
             // SYSTEM.PAS:1776 and :1787 use FISTP dword with invalid operation unmasked.
-            Assert.Throws<EInvalidOp>(() => Round(value));
-            Assert.Throws<EInvalidOp>(() => Trunc(value));
+            Assert.Throws<ArithmeticException>(() => Round(value));
+            Assert.Throws<ArithmeticException>(() => Trunc(value));
         }
         Assert.Equal(0, Round(-0.5));
         Assert.Equal(0, Trunc(-0.9));
@@ -38,7 +36,7 @@ public sealed class SystemTests
         Assert.Equal(0, Sqr(65536));
         Assert.Equal(6.25, Sqr(-2.5));
         Assert.Equal(3, Sqrt(9));
-        Assert.Throws<EInvalidOp>(() => Sqrt(-1));
+        Assert.Throws<ArithmeticException>(() => Sqrt(-1));
         Assert.Equal(0, Sin(0));
         Assert.Equal(1, Cos(0));
         Assert.Equal(Math.PI / 4, ArcTan(1));
@@ -55,24 +53,24 @@ public sealed class SystemTests
         // SYSTEM.PAS:1709 and :1750 return zero at the x87 trigonometric range limit.
         // MATH.PAS:639 selects IntPower only for integer exponents up to MaxInt.
         // A DCC32 check in src/.build-env/math_edges.pas confirms these boundary results.
-        Assert.Throws<EInvalidOp>(() => Sqrt(-1));
-        Assert.Throws<EZeroDivide>(() => Ln(0));
-        Assert.Throws<EInvalidOp>(() => Ln(-1));
+        Assert.Throws<ArithmeticException>(() => Sqrt(-1));
+        Assert.Throws<DivideByZeroException>(() => Ln(0));
+        Assert.Throws<ArithmeticException>(() => Ln(-1));
         Assert.Equal(0, Sin(9223372036854775808.0));
         Assert.Equal(0, Cos(9223372036854775808.0));
         Assert.Equal(0, Sin(-1e30));
         Assert.Equal(0, Cos(-1e30));
-        Assert.Throws<EOverflow>(() => Exp(1000));
-        Assert.Throws<EOverflow>(() => Exp(12000));
-        Assert.Throws<EInvalidOp>(() => Power(-2, 0.5));
-        Assert.Throws<EZeroDivide>(() => Power(0, -1));
-        Assert.Throws<EInvalidOp>(() => Power(-1, 2147483648.0));
-        Assert.Throws<EInvalidOp>(() => Frac(double.PositiveInfinity));
-        Assert.Throws<EInvalidOp>(() => Sin(double.PositiveInfinity));
-        Assert.Throws<EInvalidOp>(() => Cos(double.NegativeInfinity));
-        Assert.Throws<EInvalidOp>(() => Exp(double.PositiveInfinity));
-        Assert.Throws<EOverflow>(() => Sqr(double.MaxValue));
-        Assert.Throws<EOverflow>(() => Power(double.MaxValue, 2));
+        Assert.Throws<OverflowException>(() => Exp(1000));
+        Assert.Throws<OverflowException>(() => Exp(12000));
+        Assert.Throws<ArithmeticException>(() => Power(-2, 0.5));
+        Assert.Throws<DivideByZeroException>(() => Power(0, -1));
+        Assert.Throws<ArithmeticException>(() => Power(-1, 2147483648.0));
+        Assert.Throws<ArithmeticException>(() => Frac(double.PositiveInfinity));
+        Assert.Throws<ArithmeticException>(() => Sin(double.PositiveInfinity));
+        Assert.Throws<ArithmeticException>(() => Cos(double.NegativeInfinity));
+        Assert.Throws<ArithmeticException>(() => Exp(double.PositiveInfinity));
+        Assert.Throws<OverflowException>(() => Sqr(double.MaxValue));
+        Assert.Throws<OverflowException>(() => Power(double.MaxValue, 2));
         Assert.Equal(0, Exp(-1000));
         Assert.Equal(-8, Power(-2, 3));
         Assert.Equal(2, Power(4, 0.5), 12);
@@ -192,8 +190,8 @@ public sealed class SystemTests
         var bytes = Bytes.Of(ref record.Value);
         Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 0, 0, 0 }, bytes.ToArray());
         Assert.Equal(4, Bytes.Of(ref record.Value, 4).Length);
-        Assert.Throws<ERangeError>(() => Bytes.Of(ref record.Value, 9).ToArray());
-        Assert.Throws<ERangeError>(() => Bytes.Of(ref record.Value, -1).ToArray());
+        Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, 9).ToArray());
+        Assert.Throws<ArgumentOutOfRangeException>(() => Bytes.Of(ref record.Value, -1).ToArray());
         FillChar(bytes, 2, 0x80);
         Assert.Equal(0x04038080, record.Value.Value);
         var other = new PackedRecord();
@@ -206,9 +204,9 @@ public sealed class SystemTests
         Move([], [], -1);
         FillChar([], 0, 1);
         Assert.True(CompareMem([], [], 0));
-        Assert.Throws<ERangeError>(() => Move(new byte[1], new byte[1], 2));
-        Assert.Throws<ERangeError>(() => FillChar(new byte[1], 2, 0));
-        Assert.Throws<ERangeError>(() => CompareMem(new byte[1], new byte[1], 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Move(new byte[1], new byte[1], 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => FillChar(new byte[1], 2, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => CompareMem(new byte[1], new byte[1], 2));
         Dispose(ref record);
         Assert.True(record.IsNull);
         FreeMem(ref pointer);
@@ -217,61 +215,13 @@ public sealed class SystemTests
         Assert.True(pointer.IsNull);
     }
 
-    private delegate DelphiException CreateFmtFactory(string format, params ReadOnlySpan<FormatArg> args);
-
-    public static IEnumerable<object[]> ExceptionTypes() => typeof(DelphiException).Assembly.GetTypes()
-        .Where(t => typeof(DelphiException).IsAssignableFrom(t)).Select(t => new object[] { t });
-
-    [Theory]
-    [MemberData(nameof(ExceptionTypes))]
-    public void EveryExceptionHasTypedFactories(Type type)
-    {
-        var instance = (DelphiException)Activator.CreateInstance(type, "message")!;
-        Assert.Equal("message", instance.Message);
-        Assert.Equal("message", ((System.Exception)instance).Message);
-        instance.HelpContext = 19;
-        Assert.Equal(19, instance.HelpContext);
-        instance.Message = "changed";
-        Assert.Equal("changed", instance.Message);
-        Assert.Same(instance, Wrap(instance));
-        var create = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)!;
-        var created = (DelphiException)create.Invoke(null, new object[] { "created" })!;
-        Assert.Equal(type, created.GetType());
-        Assert.Equal("created", created.Message);
-        // A span parameter cannot go through MethodInfo.Invoke, a delegate carries it.
-        var createFmt = type.GetMethod("CreateFmt", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)!
-            .CreateDelegate<CreateFmtFactory>();
-        var formatted = createFmt("%s %d %%", ["item", -7]);
-        Assert.Equal(type, formatted.GetType());
-        Assert.Equal("item -7 %", formatted.Message);
-    }
-
     [Fact]
-    public void ExceptionsFollowSourceHierarchyAndRuntimeMapping()
+    public void ClassCastAbortHaltAndAssertKeepTheirReports()
     {
-        Assert.IsAssignableFrom<EIntError>(EDivByZero.Create());
-        Assert.IsAssignableFrom<EIntError>(ERangeError.Create());
-        Assert.IsAssignableFrom<EIntError>(EIntOverflow.Create());
-        Assert.IsAssignableFrom<EMathError>(EInvalidOp.Create());
-        Assert.IsAssignableFrom<EMathError>(EZeroDivide.Create());
-        Assert.IsAssignableFrom<EMathError>(EOverflow.Create());
-        Assert.IsAssignableFrom<EFilerError>(EReadError.Create());
-        Assert.IsAssignableFrom<EFilerError>(EWriteError.Create());
-        Assert.IsAssignableFrom<EStreamError>(EFOpenError.Create());
-        Assert.IsAssignableFrom<EStreamError>(EFCreateError.Create());
-        Assert.IsAssignableFrom<EStreamError>(EFilerError.Create());
-        var io = EInOutError.Create();
-        io.ErrorCode = 2;
-        Assert.Equal(2, io.ErrorCode);
-        Assert.IsType<EAccessViolation>(Wrap(new NullReferenceException("nil")));
-        Assert.IsType<EDivByZero>(Wrap(new DivideByZeroException("zero")));
-        Assert.IsType<ERangeError>(Wrap(new IndexOutOfRangeException("range")));
-        Assert.IsType<EInvalidCast>(Wrap(new InvalidCastException("cast")));
-        Assert.Equal("other", Assert.IsType<DelphiException>(Wrap(new System.Exception("other"))).Message);
         Assert.Null(As<TObject>(null));
         var obj = new TObject();
         Assert.Same(obj, As<TObject>(obj));
-        Assert.Throws<EInvalidCast>(() => As<Generated.TSample>(obj));
+        Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.TSample>(obj)).Message);
         Assert.Throws<EAbort>(Abort);
         Assert.Equal(0, Assert.Throws<EHalt>(() => Halt()).ExitCode);
         Assert.Equal(-1, Assert.Throws<EHalt>(() => Halt(-1)).ExitCode);
@@ -284,18 +234,18 @@ public sealed class SystemTests
     [Fact]
     public void ExceptionFormattingUsesTaggedArguments()
     {
-        Assert.Equal("0007 x   FF", DelphiException.CreateFmt("%.4d %-3s %X", 7, "x", -1 & 255).Message);
-        Assert.Equal("bb:aa", DelphiException.CreateFmt("%1:s:%0:s", "aa", "bb").Message);
-        Assert.Equal("   abc", DelphiException.CreateFmt("%*.*s", 6, 3, "abcdef").Message);
-        Assert.Equal("-0007", DelphiException.CreateFmt("%.4d", -7).Message);
-        Assert.Equal("4294967295", DelphiException.CreateFmt("%u", -1).Message);
-        Assert.Equal("A", DelphiException.CreateFmt("%s", (byte)65).Message);
-        Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%s", 1));
-        Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%d", true));
-        Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%d"));
-        Assert.Equal("", DelphiException.CreateFmt("%").Message);
-        Assert.Throws<EConvertError>(() => DelphiException.CreateFmt("%f", 1.25));
-        Assert.Equal("x", DelphiException.CreateFmt("%*s", true, "x").Message);
+        Assert.Equal("0007 x   FF", Format("%.4d %-3s %X", 7, "x", -1 & 255));
+        Assert.Equal("bb:aa", Format("%1:s:%0:s", "aa", "bb"));
+        Assert.Equal("   abc", Format("%*.*s", 6, 3, "abcdef"));
+        Assert.Equal("-0007", Format("%.4d", -7));
+        Assert.Equal("4294967295", Format("%u", -1));
+        Assert.Equal("A", Format("%s", (byte)65));
+        Assert.Throws<FormatException>(() => Format("%s", 1));
+        Assert.Throws<FormatException>(() => Format("%d", true));
+        Assert.Throws<FormatException>(() => Format("%d"));
+        Assert.Equal("", Format("%"));
+        Assert.Throws<FormatException>(() => Format("%f", 1.25));
+        Assert.Equal("x", Format("%*s", true, "x"));
     }
 
     [Fact]

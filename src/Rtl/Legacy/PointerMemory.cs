@@ -15,7 +15,7 @@ public static partial class RtlUnit
         ReadOnlyMemory<byte> memory => memory.Span,
         Memory<byte> memory => memory.Span,
         IPointerBox pointer => pointer.As<byte>().AsSpan(),
-        _ => throw new EInvalidCast("Buffer has no byte storage")
+        _ => throw new InvalidCastException("Buffer has no byte storage")
     };
 
     public static T ReadLegacyRecord<T>(TObject value) => Ptr<T>.Unbox(value).Value;

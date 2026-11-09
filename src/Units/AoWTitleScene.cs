@@ -11,7 +11,6 @@ using static Aow.Rtl.RtlUnit;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.AoWFileDialog.AoWFileDialogUnit;
 using static Aow.Units.GFXE.GFXEUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.AoWTitleScene;
 
@@ -475,7 +474,7 @@ public partial class TTitleScene : TDataModule
         }
         catch
         {
-            throw Exception.Create("Failure during TitleScene DrawSurface");
+            throw new InvalidOperationException("Failure during TitleScene DrawSurface");
         }
     }
 

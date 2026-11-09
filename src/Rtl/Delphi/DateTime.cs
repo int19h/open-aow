@@ -32,12 +32,12 @@ public static partial class RtlUnit
     public static double EncodeDate(int year, int month, int day)
     {
         try { return (new DateTime(year, month, day) - Epoch).TotalDays; }
-        catch (ArgumentOutOfRangeException) { throw new EConvertError("Invalid argument to date encode"); }
+        catch (ArgumentOutOfRangeException) { throw new FormatException("Invalid argument to date encode"); }
     }
 
     public static double EncodeTime(int hour, int minute, int second, int millisecond)
     {
-        if (hour is < 0 or >= 24 || minute is < 0 or >= 60 || second is < 0 or >= 60 || millisecond is < 0 or >= 1000) throw new EConvertError("Invalid argument to time encode");
+        if (hour is < 0 or >= 24 || minute is < 0 or >= 60 || second is < 0 or >= 60 || millisecond is < 0 or >= 1000) throw new FormatException("Invalid argument to time encode");
         return (hour * 3600000 + minute * 60000 + second * 1000 + millisecond) / 86400000.0;
     }
 

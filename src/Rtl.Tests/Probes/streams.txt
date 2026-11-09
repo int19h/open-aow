@@ -37,7 +37,7 @@ memory_after_read10_size 10
 memory_bytes 00101103040506071819
 memory_before_readbuffer_position 9
 memory_before_readbuffer_size 10
-memory_readbuffer_past EReadError
+memory_readbuffer_past EndOfStreamException
 memory_after_readbuffer_position 10
 memory_after_readbuffer_size 10
 memory_seek_negative -1
@@ -118,7 +118,7 @@ file_after_read10_size 10
 file_bytes 00101103000000001819
 file_before_readbuffer_position 9
 file_before_readbuffer_size 10
-file_readbuffer_past EReadError
+file_readbuffer_past EndOfStreamException
 file_after_readbuffer_position 10
 file_after_readbuffer_size 10
 file_seek_negative -1
@@ -156,7 +156,7 @@ file_reopened_size 2
 file_readonly_write 0
 file_after_readonly_write_position 0
 file_after_readonly_write_size 2
-file_readonly_writebuffer EWriteError
+file_readonly_writebuffer IOException
 file_after_readonly_writebuffer_position 0
 file_after_readonly_writebuffer_size 2
 file_deleted 1
@@ -186,7 +186,7 @@ copy_explicit_after_source_position 5
 copy_explicit_after_source_size 8
 copy_explicit_after_destination_position 13
 copy_explicit_after_destination_size 13
-copy_too_many EReadError
+copy_too_many EndOfStreamException
 copy_too_many_after_source_position 8
 copy_too_many_after_source_size 8
 copy_too_many_after_destination_position 13

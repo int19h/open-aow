@@ -8,7 +8,6 @@ using Aow.Units.ImageLib;
 using static Aow.Rtl.RtlUnit;
 using static Aow.Units.Engine.EngineUnit;
 using static Aow.Units.ImageLib.ImageLibUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.HSEngine;
 
@@ -208,7 +207,7 @@ public partial class TMapField : TECustomNode
     {
         if (Index >= FCount)
         {
-            throw Exception.Create("Index out of bounds");
+            throw new IndexOutOfRangeException("Index out of bounds");
         }
 
         return FHSList[Index];
@@ -219,7 +218,7 @@ public partial class TMapField : TECustomNode
     {
         if (Index >= FCount)
         {
-            throw Exception.Create("Index out of bounds");
+            throw new IndexOutOfRangeException("Index out of bounds");
         }
 
         FHSList[Index] = (THexagonSprite)Child;
@@ -976,7 +975,7 @@ public partial class THSMap : TENode
     {
         if (FStaticSceneInvalid)
         {
-            throw Exception.Create("Static scene is invalid, call UpdateStaticScene!");
+            throw new InvalidOperationException("Static scene is invalid, call UpdateStaticScene!");
         }
 
         for (int I = FStaticVisibleHS.FCount - 1; I >= 0; I--)
@@ -990,7 +989,7 @@ public partial class THSMap : TENode
     {
         if (FDynamicSceneInvalid)
         {
-            throw Exception.Create("Dynamic scene is invalid, call UpdateDynamicScene!");
+            throw new InvalidOperationException("Dynamic scene is invalid, call UpdateDynamicScene!");
         }
 
         for (int I = FDynamicVisibleHS.FCount - 1; I >= 0; I--)
@@ -1029,7 +1028,7 @@ public partial class THSMap : TENode
     {
         if (FStatus.Contains(THSMapStatusElement.msActivated))
         {
-            throw Exception.Create("HSMap already activated");
+            throw new InvalidOperationException("HSMap already activated");
         }
 
         FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
@@ -1040,7 +1039,7 @@ public partial class THSMap : TENode
     {
         if (!FStatus.Contains(THSMapStatusElement.msActivated))
         {
-            throw Exception.Create("HSMap wasn't activated");
+            throw new InvalidOperationException("HSMap wasn't activated");
         }
 
         FStatus = FStatus - TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
@@ -1690,7 +1689,7 @@ public partial class THSMap : TENode
         }
         catch
         {
-            throw Exception.Create("Exception during ResetVisibleDynamicHS");
+            throw new InvalidOperationException("Exception during ResetVisibleDynamicHS");
         }
     }
 
@@ -1705,7 +1704,7 @@ public partial class THSMap : TENode
             }
             catch
             {
-                throw Exception.Create("Exception during ResetVisibleDynamicHS (" + ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + ")");
+                throw new InvalidOperationException("Exception during ResetVisibleDynamicHS (" + ClassNameOf(FDynamicVisibleHS.FItems[I].Child.GetType()) + ")");
             }
         }
 
@@ -2124,7 +2123,7 @@ public partial class THSEngine : TEngine
 
             if (condition)
             {
-                throw Exception.Create("Invalid HSSET");
+                throw new ArgumentException("Invalid HSSET");
             }
 
             ReadEObject(Mem, FHSSet, AProgress);
@@ -2486,7 +2485,7 @@ public partial class THexagonSprite : TEObject
     // HXSPRITE.PAS:52
     public virtual byte GetLevel()
     {
-        throw Exception.Create("No HexagonSprite Level defined");
+        throw new InvalidOperationException("No HexagonSprite Level defined");
     }
 
     // HXSPRITE.PAS:43
@@ -4594,7 +4593,7 @@ public partial class TMapLevel : TECustomNode
     // HSEngine.pas:2935
     public override void SetChild(int Index, TEObject Child)
     {
-        throw Exception.Create("Cannot set child in TMapLevel");
+        throw new InvalidOperationException("Cannot set child in TMapLevel");
     }
 
     // HSEngine.pas:2950
@@ -4603,13 +4602,13 @@ public partial class TMapLevel : TECustomNode
     // HSEngine.pas:2945
     public override int RemoveChild(TEObject Child)
     {
-        throw Exception.Create("Cannot remove from TMapLevel");
+        throw new InvalidOperationException("Cannot remove from TMapLevel");
     }
 
     // HSEngine.pas:2940
     public override int AddChild(TEObject Child)
     {
-        throw Exception.Create("Cannot add child to TMapLevel");
+        throw new InvalidOperationException("Cannot add child to TMapLevel");
     }
 
     // HSEngine.pas:3140
@@ -5900,7 +5899,7 @@ public partial class TMORTerrainControl : TEObject
         {
             if (((TList)FResources.List[TerrainType]).IndexOf(Resource) != -1 || Resource == null)
             {
-                throw Exception.Create("Resource double defined (TMORTerrainControl)");
+                throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
             }
 
             ((TList)FResources.List[TerrainType]).Add(Resource);
@@ -6588,7 +6587,7 @@ public partial class TLibraryImageHS : THexagonSprite
         {
             if (Value == null || (FImage.Width != Value.Width || FImage.Height != Value.Height))
             {
-                throw Exception.Create("Cannot change image when placed on map (TLibraryImageHS)");
+                throw new InvalidOperationException("Cannot change image when placed on map (TLibraryImageHS)");
             }
         }
 
@@ -6719,12 +6718,11 @@ public partial class THPBasedHS : THexagonSprite
 
 // HSEngine.EMapObjectResourceMissing: TMapObject.ReadWrite raises it when the resource id read
 // from the stream is not in the resource list
-public partial class EMapObjectResourceMissing : Exception
+public partial class EMapObjectResourceMissing : System.Exception
 {
     // SysUtils.pas:174
-    public EMapObjectResourceMissing(string Msg)
+    public EMapObjectResourceMissing(string Msg) : base(Msg)
     {
-        Message = Msg;
     }
 }
 
@@ -7929,7 +7927,7 @@ public partial class TXYLList : TPersistent
     // HSEngine.pas:1640
     protected internal static void Error(string Msg, int Data)
     {
-        throw EListError.CreateFmt(Msg, [Data]);
+        throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
     }
 
 }
@@ -8246,7 +8244,7 @@ public static partial class HSEngineUnit
                                 }
                                 else
                                 {
-                                    throw Exception.Create("arithemetic error!");
+                                    throw new ArithmeticException("arithemetic error!");
                                 }
                             }
                         }

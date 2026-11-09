@@ -4218,7 +4218,7 @@ Engine.TBitList.Put_negative returned
 Engine.TBitList.Put_negative_guard 00000080
 Engine.TBitList.Put_negative_count 0
 Engine.TBitList.Put_negative_clear_guard 00000000
-Engine.TBitList.Put_negative_two EListError
+Engine.TBitList.Put_negative_two ArgumentOutOfRangeException
 Engine.TBitList.Load_count_1 32
 Engine.TBitList.Load_capacity_1 32
 Engine.TBitList.Load_position_1 9
@@ -7369,7 +7369,7 @@ GFXE.FillTrippleByte_5_5_2_A A5A5A5A5
 GFXE.FillTrippleByte_5_5_2_B A5A5A5A5
 GFXE.FillTrippleByte_5_5_2_C A5A5A5A5
 GFXE.FillTrippleByte_5_5_2_D A5A5A5A5
-GFXE.FillTrippleByte_zero EAccessViolation
+GFXE.FillTrippleByte_zero AccessViolationException
 HSEngine.HXtoV_-65_-3 -35
 HSEngine.HXtoH_-65_-3 -30
 HSEngine.HVtoHX_X_-65_-3 -68

@@ -2,7 +2,6 @@ using System.Runtime.InteropServices;
 using Aow.Rtl.Tests.Generated;
 using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
-using DelphiException = Aow.Rtl.Exception;
 
 namespace Aow.Rtl.Tests;
 
@@ -46,7 +45,7 @@ public sealed class CoreTests
         next.Free();
         Assert.True(next.Destroyed);
         new TObject().Destroy();
-        Assert.Throws<EInvalidOperation>(() => TFailingSample.Create(1));
+        Assert.Throws<InvalidOperationException>(() => TFailingSample.Create(1));
         Assert.True(TFailingSample.LastInstance!.Destroyed);
         var result = GeneratedStyleSample.Run();
         Assert.Equal(20, result.Value);
@@ -100,13 +99,13 @@ public sealed class CoreTests
         Assert.Equal("abc\0\0", Resized(original, 5));
         Assert.Equal("abc", original);
         Assert.Equal("aXc", WithChar(original, 2, 'X'));
-        // The zero-based indexer throws the .NET range error, which Wrap gives translated handlers as ERangeError.
-        Assert.IsType<ERangeError>(Wrap(Assert.Throws<IndexOutOfRangeException>(() => original[3])));
-        Assert.IsType<ERangeError>(Wrap(Assert.Throws<IndexOutOfRangeException>(() => original[-1])));
-        Assert.Throws<ERangeError>(() => WithChar(original, 0, 'X'));
-        Assert.Throws<ERangeError>(() => WithChar(original, 4, 'X'));
-        Assert.Throws<ERangeError>(() => WithChar(original, int.MinValue, '\0'));
-        Assert.Throws<ERangeError>(() => Resized(original, -1));
+        // The indexer and WithChar report a string index. A negative length is an argument.
+        Assert.Throws<IndexOutOfRangeException>(() => original[3]);
+        Assert.Throws<IndexOutOfRangeException>(() => original[-1]);
+        Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, 0, 'X'));
+        Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, 4, 'X'));
+        Assert.Throws<IndexOutOfRangeException>(() => WithChar(original, int.MinValue, '\0'));
+        Assert.Throws<ArgumentOutOfRangeException>(() => Resized(original, -1));
         Assert.Equal(0, Cp1252.Compare("a", "a"));
         Assert.True(Cp1252.Compare("a", "b") < 0);
         Assert.True(Cp1252.Compare("\u20ac", "\u00c4") < 0);
@@ -135,7 +134,7 @@ public sealed class CoreTests
         Assert.True(pointer.Equals((object)Ptr<int>.To(pointer.Array, 0)));
         Assert.False(pointer.Equals(0));
         Assert.Equal(pointer.GetHashCode(), Ptr<int>.To(pointer.Array, 0).GetHashCode());
-        Assert.Throws<EInvalidOperation>(() => pointer - Ptr<int>.Alloc(1));
+        Assert.Throws<InvalidOperationException>(() => pointer - Ptr<int>.Alloc(1));
         Ptr<int>.Copy(pointer, pointer + 1, 3);
         Assert.Equal(new[] { 1, 1, 2, 3, 0 }, pointer.Array);
         Ptr<int>.Copy(pointer + 1, pointer, 3);
@@ -158,9 +157,9 @@ public sealed class CoreTests
         Assert.Equal(pointer, Ptr<int>.Unbox(slot.Ref));
         Ptr<int>.Unbox(slot.Ref).Value = 42;
         Assert.Equal(42, pointer.Value);
-        Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox((object?)null));
-        Assert.Throws<EInvalidCast>(() => Ptr<byte>.Unbox(box));
-        Assert.Throws<EInvalidCast>(() => Ptr<int>.Unbox(((IntOrRef)3).Ref));
+        Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox((object?)null));
+        Assert.Throws<InvalidCastException>(() => Ptr<byte>.Unbox(box));
+        Assert.Throws<InvalidCastException>(() => Ptr<int>.Unbox(((IntOrRef)3).Ref));
         string[] words = ["a", "b", "c"];
         var managed = Ptr<string>.To(words, 0);
         Ptr<string>.Copy(managed, managed + 1, 2);
@@ -217,13 +216,13 @@ public sealed class CoreTests
         Assert.Equal(set.GetHashCode(), TSet<WideFlag>.FromMask(set.Mask).GetHashCode());
         Assert.Equal(64, TSet<WideFlag>.Range(WideFlag.Low, WideFlag.High).Count);
         Assert.True(TSet<WideFlag>.Range(WideFlag.High, WideFlag.Low).IsEmpty);
-        Assert.Throws<ERangeError>(() => TSet<byte>.Of(64));
-        Assert.Throws<ERangeError>(() => TSet<byte>.Range(0, 64));
-        Assert.Throws<ERangeError>(() => default(TSet<byte>).With(255));
-        Assert.Throws<ERangeError>(() => TSet<byte>.WithBounds(-1, 2));
-        Assert.Throws<ERangeError>(() => TSet<byte>.WithBounds(0, 256));
-        Assert.Throws<ERangeError>(() => TSet<byte>.WithBounds(9, 8));
-        Assert.Throws<ERangeError>(() => TSet<byte>.WithBounds(8, 15).With(0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.Of(64));
+        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.Range(0, 64));
+        Assert.Throws<ArgumentOutOfRangeException>(() => default(TSet<byte>).With(255));
+        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(-1, 2));
+        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(0, 256));
+        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(9, 8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => TSet<byte>.WithBounds(8, 15).With(0));
         Assert.False(TSet<byte>.WithBounds(8, 15).Contains(0));
         Assert.Equal(4, TSet<byte>.WithBounds(20, 40).StorageSize);
         Assert.Equal(4, TSet<byte>.WithBounds(0, 23).StorageSize);
@@ -234,7 +233,7 @@ public sealed class CoreTests
         byte[] image = new byte[1];
         shifted.CopyImageTo(image);
         Assert.Equal(129, image[0]);
-        Assert.Throws<ERangeError>(() => shifted.CopyImageTo([]));
+        Assert.Throws<ArgumentOutOfRangeException>(() => shifted.CopyImageTo([]));
         var large = TSet<byte>.WithBounds(0, 255).WithRange(0, 255);
         Assert.Equal(large, TSet<byte>.WithBounds(0, 255).Range((byte)0, (byte)255));
         Assert.Equal(256, large.Count);

@@ -2,8 +2,6 @@ using System.IO.Compression;
 
 namespace Aow.Rtl;
 
-public enum TCompressionLevel : byte { clNone, clFastest, clDefault, clMax }
-
 // zlib.pas uses sequential zlib streams. The BCL backend owns no source stream.
 internal sealed class StreamAdapter(TStream source) : Stream
 {
@@ -29,14 +27,21 @@ public class TCompressionStream : TStream
     private int position;
     private bool destroyed;
 
-    public TCompressionStream(TCompressionLevel level, TStream destination) => stream = new(new StreamAdapter(destination), level switch
-    { TCompressionLevel.clNone => CompressionLevel.NoCompression, TCompressionLevel.clFastest => CompressionLevel.Fastest, TCompressionLevel.clMax => CompressionLevel.SmallestSize, _ => CompressionLevel.Optimal }, true);
+    internal static CompressionLevel CompressionLevelOf(byte level) => level switch
+    {
+        0 => CompressionLevel.NoCompression,
+        1 => CompressionLevel.Fastest,
+        3 => CompressionLevel.SmallestSize,
+        _ => CompressionLevel.Optimal,
+    };
 
-    public override int Read(Span<byte> buffer) => throw new EStreamError("Invalid stream operation");
+    public TCompressionStream(CompressionLevel level, TStream destination) => stream = new(new StreamAdapter(destination), level, true);
+
+    public override int Read(Span<byte> buffer) => throw new IOException("Invalid stream operation");
 
     public override int Write(ReadOnlySpan<byte> buffer) { stream.Write(buffer); position += buffer.Length; return buffer.Length; }
 
-    public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new EStreamError("Invalid stream operation");
+    public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new IOException("Invalid stream operation");
 
     public override void Destroy() { if (!destroyed) { destroyed = true; stream.Dispose(); } base.Destroy(); }
 }
@@ -61,8 +66,8 @@ public class TDecompressionStream : TStream
         return count;
     }
 
-    public override int Write(ReadOnlySpan<byte> buffer) => throw new EStreamError("Invalid stream operation");
-    public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new EStreamError("Invalid stream operation");
+    public override int Write(ReadOnlySpan<byte> buffer) => throw new IOException("Invalid stream operation");
+    public override int Seek(int offset, int origin) => origin == 1 && offset == 0 ? position : throw new IOException("Invalid stream operation");
 
     public override void Destroy() { stream.Dispose(); base.Destroy(); }
 }

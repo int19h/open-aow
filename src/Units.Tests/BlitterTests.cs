@@ -58,7 +58,7 @@ public sealed class BlitterTests
     ];
 
     // The six converters between 16-bit and 24 or 32-bit pixels. Before GP-2 each one raised
-    // EInvalidCast on its first pixel (a boxed byte pointer unboxed as a word pointer), so their
+    // InvalidCastException on its first pixel (a boxed byte pointer unboxed as a word pointer), so their
     // expectation is the Delphi source (GFXE.pas:8325 to 8448), not a recording.
     private static readonly (string Name, int SourceBytes, int DestinationBytes, Rectangle Call)[] Converters =
     [
@@ -163,7 +163,7 @@ public sealed class BlitterTests
             catch (IndexOutOfRangeException) { fault = true; }
             catch (ArgumentOutOfRangeException) { fault = true; }
             catch (NullReferenceException) { fault = true; }
-            catch (EAccessViolation) { fault = true; }
+            catch (AccessViolationException) { fault = true; }
             Add(buffer, fault);
         }
 

@@ -30,7 +30,7 @@ public sealed class ListsProbeTests
         p.Fact("remove_present", l.Remove(items[1])); State("remove"); p.Fact("remove_absent", l.Remove(items[99])); l.Move(0, l.Count - 1); State("move");
         p.Fact("first_identity", ((Item)l.First()!).Id); p.Fact("last_identity", ((Item)l.Last()!).Id);
         l.Capacity = l.Count; State("capacity_exact"); l.Expand(); State("expand_full"); l.Expand(); State("expand_spare");
-        p.Fact("delete_outside", Assert.Throws<EListError>(() => l.Delete(l.Count)).GetType().Name); p.Fact("insert_outside", Assert.Throws<EListError>(() => l.Insert(-1, null)).GetType().Name);
+        p.Fact("delete_outside", Assert.Throws<ArgumentOutOfRangeException>(() => l.Delete(l.Count)).GetType().Name); p.Fact("insert_outside", Assert.Throws<ArgumentOutOfRangeException>(() => l.Insert(-1, null)).GetType().Name);
         foreach (int capacity in new[] { 8, 64 }) { l.Clear(); l.Capacity = capacity; for (int i = 0; i < capacity; i++) l.Add(items[i]); l.Expand(); State($"expand_capacity{capacity}"); }
         for (int pattern = 0; pattern <= 2; pattern++) foreach (int n in new[] { 0, 1, 2, 3, 4, 5, 7, 8, 9, 16, 17, 32, 64, 65, 100, 257 })
         {
@@ -47,7 +47,7 @@ public sealed class ListsProbeTests
         }
         void Add(string tag, string s, int id)
         {
-            try { p.Fact(tag + "_index", sl.AddObject(s, new ObjectId(id))); } catch (EStringListError e) { p.Fact(tag + "_error", e.GetType().Name); }
+            try { p.Fact(tag + "_index", sl.AddObject(s, new ObjectId(id))); } catch (ArgumentException e) { p.Fact(tag + "_error", e.GetType().Name); }
             StringState(tag);
         }
         void Lookup(string tag, string s)
@@ -62,7 +62,7 @@ public sealed class ListsProbeTests
             Lookup($"unsorted_{d}_lookup", "Alpha"); Lookup($"unsorted_{d}_missing", "delta"); sl.Sorted = true; StringState($"enabled_sorted_{d}"); Lookup($"enabled_{d}_lookup", "alpha");
             sl.Clear(); Add($"sorted_{d}_z", "zeta", 1); Add($"sorted_{d}_b", "Beta", 2); Add($"sorted_{d}_a", "alpha", 3); Add($"sorted_{d}_duplicate", "ALPHA", 4); Add($"sorted_{d}_same", "alpha", 5); Add($"sorted_{d}_empty", "", 6); Add($"sorted_{d}_prefix", "alp", 7);
             Lookup($"sorted_{d}_lookup", "Alpha"); Lookup($"sorted_{d}_before", "!"); Lookup($"sorted_{d}_between", "delta"); Lookup($"sorted_{d}_after", "zzzz"); Lookup($"sorted_{d}_empty_lookup", "");
-            p.Fact($"sorted_{d}_insert_error", Assert.Throws<EStringListError>(() => sl.Insert(0, "illegal")).GetType().Name);
+            p.Fact($"sorted_{d}_insert_error", Assert.Throws<InvalidOperationException>(() => sl.Insert(0, "illegal")).GetType().Name);
         }
         sl.Clear(); int index = -99; bool found = sl.Find("absent", ref index); p.Fact("empty_find", Ord(found)); p.Fact("empty_find_index", index); p.Fact("empty_indexof", sl.IndexOf("absent")); p.End();
     }

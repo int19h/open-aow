@@ -31,7 +31,7 @@ public sealed class RefusingShell : IShellService
 {
     public static readonly RefusingShell Instance = new();
 
-    public void OpenUrl(string url) => throw new EInvalidOperation("No shell service opens " + url);
+    public void OpenUrl(string url) => throw new InvalidOperationException("No shell service opens " + url);
 }
 
 /// <summary>Records each request and opens nothing, for headless runs, fixtures and tests.</summary>

@@ -39,7 +39,7 @@ public class TList : TObject
     private void Check(int index) { if (index < 0 || index >= count) Error("List index out of bounds (%d)", index); }
 
     // CLASSES.PAS TList.Error.
-    public static void Error(string message, int data) => throw EListError.CreateFmt(message, data);
+    public static void Error(string message, int data) => throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(message, data));
     // CLASSES.PAS TList.Grow.
     protected virtual void Grow() => Capacity += Capacity > 64 ? Capacity / 4 : Capacity > 8 ? 16 : 4;
 

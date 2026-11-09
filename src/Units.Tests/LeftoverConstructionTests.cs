@@ -281,7 +281,7 @@ public sealed class LeftoverConstructionTests
             var descriptor = EClass.Of(type);
             engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
-            catch (Aow.Rtl.Exception) { }
+            catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([descriptor]);
             return engine.CreateEObject(descriptor.ClassID, owner);
         }

@@ -18,20 +18,20 @@ public sealed class ClassesTests
         // CLASSES.PAS:1435..1619, including pointer identity and Count's zero fill.
         var first = new Identical(); var equal = new Identical();
         var l = new TList();
-        Assert.Throws<EListError>(() => l.First()); Assert.Throws<EListError>(() => l.Last());
-        Assert.Throws<EListError>(() => l[-1]); Assert.Throws<EListError>(() => l[0] = first);
-        Assert.Throws<EListError>(() => l.Count = -1); Assert.Throws<EListError>(() => l.Capacity = -1);
-        Assert.Throws<EListError>(() => l.Count = 134217728); Assert.Throws<EListError>(() => l.Capacity = 134217728);
+        Assert.Throws<ArgumentOutOfRangeException>(() => l.First()); Assert.Throws<ArgumentOutOfRangeException>(() => l.Last());
+        Assert.Throws<ArgumentOutOfRangeException>(() => l[-1]); Assert.Throws<ArgumentOutOfRangeException>(() => l[0] = first);
+        Assert.Throws<ArgumentOutOfRangeException>(() => l.Count = -1); Assert.Throws<ArgumentOutOfRangeException>(() => l.Capacity = -1);
+        Assert.Throws<ArgumentOutOfRangeException>(() => l.Count = 134217728); Assert.Throws<ArgumentOutOfRangeException>(() => l.Capacity = 134217728);
         l.Add(first); Assert.Equal(-1, l.IndexOf(equal)); Assert.Same(first, l.List[0]);
-        Assert.Throws<EListError>(() => l.Capacity = 0);
+        Assert.Throws<ArgumentOutOfRangeException>(() => l.Capacity = 0);
         l[0] = equal; Assert.Same(equal, l[0]);
         l.Count = 3; Assert.Equal(4, l.Capacity); Assert.Null(l[1]); Assert.Null(l[2]);
         l.Count = 1; l.Count = 5; Assert.Equal(5, l.Capacity); Assert.All(l.List.Skip(1), Assert.Null);
-        Assert.Throws<EListError>(() => l.Exchange(0, 5)); Assert.Throws<EListError>(() => l.Exchange(-1, 0));
-        Assert.Throws<EListError>(() => l.Move(0, 5)); Assert.Throws<EListError>(() => l.Move(-1, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => l.Exchange(0, 5)); Assert.Throws<ArgumentOutOfRangeException>(() => l.Exchange(-1, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => l.Move(0, 5)); Assert.Throws<ArgumentOutOfRangeException>(() => l.Move(-1, 0));
         l.Move(-1, -1);
         Assert.Same(l, l.Expand()); Assert.Equal(9, l.Capacity);
-        Assert.Equal("problem 7", Assert.Throws<EListError>(() => TList.Error("problem %d", 7)).Message);
+        Assert.Equal("problem 7", Assert.Throws<ArgumentOutOfRangeException>(() => TList.Error("problem %d", 7)).Message);
         l.Destroy(); Assert.Equal(0, l.Count); Assert.Empty(l.List);
     }
 
@@ -53,8 +53,8 @@ public sealed class ClassesTests
         // CLASSES.PAS:1817..1857.
         var target = new TPersistent(); var source = new Assigned();
         target.Assign(source); Assert.Same(target, source.Target);
-        Assert.Equal("Cannot assign a nil to a TPersistent", Assert.Throws<EConvertError>(() => target.Assign(null)).Message);
-        Assert.Equal("Cannot assign a TPersistent to a TPersistent", Assert.Throws<EConvertError>(() => target.Assign(new TPersistent())).Message);
+        Assert.Equal("Cannot assign a nil to a TPersistent", Assert.Throws<FormatException>(() => target.Assign(null)).Message);
+        Assert.Equal("Cannot assign a TPersistent to a TPersistent", Assert.Throws<FormatException>(() => target.Assign(new TPersistent())).Message);
         Assert.Null(target.GetOwner()); Assert.Equal("TPersistent", target.GetNamePath());
         Assert.Equal("TPersistent.Owned", new Owned(target).GetNamePath());
         Assert.Equal("Owned", new Owned(new TComponent(null!)).GetNamePath());
@@ -89,19 +89,19 @@ public sealed class ClassesTests
         Assert.Equal(2, owner.ComponentCount); Assert.Same(first, owner.Components[0]);
         Assert.Equal(42, owner.Tag); Assert.Equal("A_1", first.GetNamePath());
         Assert.Same(first, owner.FindComponent("a_1")); Assert.Null(owner.FindComponent("")); Assert.Null(owner.FindComponent("missing"));
-        Assert.Throws<EComponentError>(() => second.Name = "a_1");
-        foreach (string name in new string[] { "1abc", "bad-name", "a b", "\xe0", "x\0y" }) Assert.Throws<EComponentError>(() => second.Name = name);
+        Assert.Throws<ArgumentException>(() => second.Name = "a_1");
+        foreach (string name in new string[] { "1abc", "bad-name", "a b", "\xe0", "x\0y" }) Assert.Throws<ArgumentException>(() => second.Name = name);
         first.Name = "a_1"; first.Name = "a_1";
         first.ComponentIndex = 99; Assert.Same(first, owner.Components[1]);
         first.ComponentIndex = -1; Assert.Same(first, owner.Components[0]); first.ComponentIndex = 0;
-        Assert.Throws<EListError>(() => owner.Components[2]); Assert.Throws<EListError>(() => new TComponent(null!).Components[0]);
+        Assert.Throws<ArgumentOutOfRangeException>(() => owner.Components[2]); Assert.Throws<ArgumentOutOfRangeException>(() => new TComponent(null!).Components[0]);
         Assert.False(first.HasParent()); Assert.Null(first.GetParentComponent());
         int calls = 0; owner.GetChildren(_ => calls++, owner); Assert.Equal(0, calls);
         owner.SetChildOrder(first, 1); Assert.Equal(0, first.ComponentIndex);
         owner.DefineProperties(null); owner.Loaded();
         owner.RemoveComponent(first); Assert.Null(first.Owner); Assert.Equal(-1, first.ComponentIndex); first.ComponentIndex = 0;
         owner.InsertComponent(first); Assert.Equal(1, first.ComponentIndex);
-        var duplicate = new TComponent(null!) { Name = "B" }; Assert.Throws<EComponentError>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
+        var duplicate = new TComponent(null!) { Name = "B" }; Assert.Throws<ArgumentException>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
         owner.DestroyComponents(); Assert.Equal(0, owner.ComponentCount); Assert.Null(first.Owner); Assert.Null(second.Owner);
         owner.Destroy(); duplicate.Destroy();
     }

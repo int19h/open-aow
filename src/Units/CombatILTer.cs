@@ -7,7 +7,6 @@ using Aow.Units.HSEngine;
 using Aow.Units.ILTer;
 using static Aow.Units.AoWE.AoWEUnit;
 using static Aow.Units.HSEngine.HSEngineUnit;
-using Exception = Aow.Rtl.Exception;
 
 namespace Aow.Units.CombatILTer;
 
@@ -233,7 +232,7 @@ public partial class TCombatFixedILTerrain : TCombatILTerrain
             }
             else
             {
-                throw Exception.Create("TILFixedTerrain Failure");
+                throw new InvalidOperationException("TILFixedTerrain Failure");
             }
         }
     }

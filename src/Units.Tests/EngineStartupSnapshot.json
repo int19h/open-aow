@@ -76224,7 +76224,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: Flags.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: Flags.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1396,
@@ -76233,7 +76233,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: GENERAL.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: GENERAL.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1429,
@@ -76242,7 +76242,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: CURSORS.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: CURSORS.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1429,
@@ -76251,7 +76251,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: COMBAT.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: COMBAT.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1429,
@@ -77177,7 +77177,7 @@
     ]
   },
   "plugin": {
-    "ExceptionType": "Aow.Rtl.Exception",
+    "ExceptionType": "System.IO.IOException",
     "ExceptionMessage": "Unable to load PlugIn: $root/PLUGINS/X.DPL",
     "StateAtCaller": {
       "AoWEngine": 0,
@@ -77712,7 +77712,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: Flags.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: Flags.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1395,
@@ -77721,7 +77721,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: GENERAL.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: GENERAL.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1428,
@@ -77730,7 +77730,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: CURSORS.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: CURSORS.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1428,
@@ -77739,7 +77739,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Missing IL Resource: COMBAT.ILB",
+        "Argument": "System.IO.FileNotFoundException: Missing IL Resource: COMBAT.ILB",
         "Engine": 0,
         "Set": null,
         "Counter": 1428,
@@ -77784,7 +77784,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Unable to load PlugIn: $root/PLUGINS/X.DPL",
+        "Argument": "System.IO.IOException: Unable to load PlugIn: $root/PLUGINS/X.DPL",
         "Engine": 0,
         "Set": 847,
         "Counter": 1726,
@@ -77793,7 +77793,7 @@
       },
       {
         "Call": "throw",
-        "Argument": "Aow.Rtl.Exception: Unable to load PlugIn: $root/PLUGINS/X.DPL",
+        "Argument": "System.IO.IOException: Unable to load PlugIn: $root/PLUGINS/X.DPL",
         "Engine": 0,
         "Set": 847,
         "Counter": 1726,

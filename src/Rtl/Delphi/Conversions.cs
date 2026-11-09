@@ -9,7 +9,7 @@ public static partial class RtlUnit
     public static string IntToHex(int value, int digits) => ((uint)value).ToString("X", CultureInfo.InvariantCulture).PadLeft(digits is > 0 and < 16 ? digits : 0, '0');
 
     public static int StrToInt(string? value) => TryInteger(value, out int result) ? result
-        : throw new EConvertError($"'{value}' is not a valid integer value");
+        : throw new FormatException($"'{value}' is not a valid integer value");
 
     public static int StrToIntDef(string? value, int fallback) => TryInteger(value, out int result) ? result : fallback;
 

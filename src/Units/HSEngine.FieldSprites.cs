@@ -17,13 +17,13 @@ public partial class TMapField
 
     public byte GetHN(int index)
     {
-        if (index >= FCount) throw Rtl.Exception.Create("Index out of bounds");
+        if (index >= FCount) throw new IndexOutOfRangeException("Index out of bounds");
         return directions[index];
     }
 
     public void SetHN(int index, byte value)
     {
-        if (index >= FCount) throw Rtl.Exception.Create("Index out of bounds");
+        if (index >= FCount) throw new IndexOutOfRangeException("Index out of bounds");
         directions[index] = value;
     }
 
@@ -31,8 +31,8 @@ public partial class TMapField
     {
         try
         {
-            if (sprite == null) throw Rtl.Exception.Create("No nil HS allowed in TMapField");
-            if (FindChildIndex(sprite) != -1) throw Rtl.Exception.Create("HS already defined");
+            if (sprite == null) throw new ArgumentException("No nil HS allowed in TMapField");
+            if (FindChildIndex(sprite) != -1) throw new InvalidOperationException("HS already defined");
         }
         catch { }
         if (FCapacity == FCount) Resize((byte)(FCapacity + 1));
@@ -68,7 +68,7 @@ public partial class TMapField
             if (FStaticCount != 0) FStaticCount--;
             else
             {
-                try { throw Rtl.Exception.Create($"Invalid StaticCount ({ClassNameOf(sprite.GetType())})"); }
+                try { throw new ArgumentException($"Invalid StaticCount ({ClassNameOf(sprite.GetType())})"); }
                 catch { }
             }
         }

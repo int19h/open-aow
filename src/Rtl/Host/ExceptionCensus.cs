@@ -8,10 +8,9 @@ namespace Aow.Rtl.Host;
 /// The exception census of the gate (strings.md section 4). A host calls <see cref="Start"/> at entry.
 /// When <c>AOW_EXCEPTION_CENSUS</c> names a file, the census counts first-chance exceptions of six
 /// kinds and appends one JSON line per run to that file when the process ends. An exception counts at
-/// its throw, before a broad catch, <c>Rtl.Wrap</c> or <c>AoWE.Format</c> hides it. The file stands
+/// its throw, before a broad catch or <c>AoWE.Format</c> hides it. The file stands
 /// alone so that private hosts without a reference to the RTL can link it. A rethrow raises the
-/// event again, so one error counts twice, and an exception that <c>Rtl.Wrap</c> turns into another
-/// kind counts once under each. Both are deterministic, which is what a base comparison needs.
+/// event again, so one error counts twice. That repeat is deterministic, which is what a base comparison needs.
 /// </summary>
 public static class ExceptionCensus
 {
@@ -19,7 +18,7 @@ public static class ExceptionCensus
 
     /// <summary>The counted kinds. An exception counts under the first kind among its type and its bases.</summary>
     public static IReadOnlyList<string> Kinds { get; } = ["NullReferenceException", "IndexOutOfRangeException",
-        "ERangeError", "EAccessViolation", "EConvertError", "NullStringException"];
+        "ArgumentOutOfRangeException", "AccessViolationException", "FormatException", "NullStringException"];
 
     private static readonly long[] counts = new long[6];
     private static string host = "", path = "";

@@ -133,7 +133,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         GFXEUnit.BltStretched16(View, RowTable, ColTable, Dst, W, H);
@@ -166,7 +166,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         GFXEUnit.BltStretched16(View, RowTable, ColTable, Dst, W, H);
@@ -311,7 +311,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         switch (SD.PixelFormatID)
@@ -360,7 +360,7 @@ public partial class TPicture16
                     {
                         if (RemapToPixelFormat(SD.PixelFormatID) != 0)
                         {
-                            throw Rtl.Exception.Create("Surface pixel format not supported!");
+                            throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
                         switch (SD.PixelFormatID)

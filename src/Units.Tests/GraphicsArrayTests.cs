@@ -30,7 +30,7 @@ public sealed class GraphicsArrayTests
         Assert.Same(items[6], list.Find(1006));
         Assert.Equal(1006, list.FItems[5].Key.Value);
         Assert.Equal(1039, list.FItems[38].Key.Value);
-        Assert.Throws<Aow.Rtl.Exception>(() => list.Add(new TObject(), 1000));
+        Assert.Throws<InvalidOperationException>(() => list.Add(new TObject(), 1000));
         list.Delete(1039);
         Assert.Equal(38, list.Count);
         Assert.Same(items[38], list.Find(1038));
@@ -142,7 +142,7 @@ public sealed class GraphicsArrayTests
             list.Clear();
             Assert.Equal((0, 0), (list.Count, list.Capacity));
             Assert.Null(list.List);
-            Assert.Throws<EListError>(() => list.Delete(0));
+            Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(0));
         }
         finally
         {
@@ -166,12 +166,12 @@ public sealed class GraphicsArrayTests
         Assert.Equal(1, matrix.FData[3]);
         Assert.Equal(2, matrix.GetVal(1, 2));
         Assert.Equal(1, matrix.GetVal(3, 0));
-        Assert.Throws<Aow.Rtl.Exception>(() => matrix.GetVal(4, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetVal(4, 0));
         matrix.Destroy();
         Assert.Null(matrix.FData);
         var empty = new TMatrix(0, 3);
         Assert.Null(empty.FData);
-        Assert.Throws<Aow.Rtl.Exception>(() => empty.GetVal(0, 0));
+        Assert.Throws<ArgumentOutOfRangeException>(() => empty.GetVal(0, 0));
     }
 
     // DisplayC.pas 894, worked by hand. With

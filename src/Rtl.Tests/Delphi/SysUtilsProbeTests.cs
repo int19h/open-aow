@@ -19,7 +19,7 @@ public sealed class SysUtilsProbeTests
             ("zero","0"), ("negative","-123"), ("plus","+123"), ("max","2147483647"), ("min","-2147483648"), ("dollar_hex","$FF"), ("c_hex","0xFF"), ("negative_hex","-$10"), ("hex_all_bits","$FFFFFFFF"), ("leading_space"," 12"), ("trailing_space","12 "), ("leading_tab","\t12"), ("empty",""), ("spaces","  "), ("junk","12x"), ("overflow","2147483648"), ("underflow","-2147483649"), ("bare_sign","+"), ("bare_hex","$"), ("double_sign","--1"), ("decimal_point","1.0"), ("embedded_zero","12\0" + "3") })
         {
             object result;
-            try { result = StrToInt(text); } catch (EConvertError e) { result = e.GetType().Name; }
+            try { result = StrToInt(text); } catch (FormatException e) { result = e.GetType().Name; }
             probe.Fact("strtoint_" + label, result);
         }
         foreach (var (label, value) in new[] { ("zero", 0), ("min", int.MinValue), ("max", int.MaxValue), ("negative", -42) }) Bytes("inttostr_" + label, IntToStr(value));
@@ -63,7 +63,7 @@ public sealed class SysUtilsProbeTests
         void B(string label, string format, params ReadOnlySpan<FormatArg> args) => p.Fact(label, "[" + Format(format, args) + "]");
         void Error(string label, string format, params ReadOnlySpan<FormatArg> args)
         {
-            object result; try { result = Format(format, args); } catch (EConvertError e) { result = e.GetType().Name; }
+            object result; try { result = Format(format, args); } catch (FormatException e) { result = e.GetType().Name; }
             p.Fact(label, result);
         }
         F("string", "%s", "abc"); F("decimal", "%d", -123); F("hex", "%x", 255); F("hex_negative", "%x", -1);

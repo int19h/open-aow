@@ -10,7 +10,7 @@ public class TPersistent : TObject
     public virtual void Assign(TPersistent? source) { if (source is null) AssignError(null); else source.AssignTo(this); }
 
     protected internal virtual void AssignTo(TPersistent target) => target.AssignError(this);
-    protected void AssignError(TPersistent? source) => throw new EConvertError($"Cannot assign a {(source is null ? "nil" : ClassNameOf(source.GetType()))} to a {ClassNameOf(GetType())}");
+    protected void AssignError(TPersistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : ClassNameOf(source.GetType()))} to a {ClassNameOf(GetType())}");
     // CLASSES.PAS TPersistent.GetOwner and GetNamePath.
     public virtual TPersistent? GetOwner() => null;
 
@@ -62,7 +62,7 @@ public class TComponent : TPersistent
             if (name == value) return;
             static bool Letter(byte c) => c is >= 65 and <= 90 or >= 97 and <= 122 or 95;
             if (value.Length > 0 && (!Letter(Cp1252.Byte(value[0])) || Cp1252.Encode(value).Skip(1).Any(c => !Letter(c) && c is not (>= 48 and <= 57))))
-                throw new EComponentError($"''{value}'' is not a valid component name");
+                throw new ArgumentException($"''{value}'' is not a valid component name");
             Owner?.ValidateRename(this, name, value);
             name = value;
         }
@@ -70,7 +70,7 @@ public class TComponent : TPersistent
 
     protected virtual void ValidateRename(TComponent component, string oldName, string newName)
     {
-        if (RtlUnit.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null) throw new EComponentError($"A component named {newName} already exists");
+        if (RtlUnit.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null) throw new ArgumentException($"A component named {newName} already exists");
     }
 
     // CLASSES.PAS TComponent.GetComponentIndex and SetComponentIndex.

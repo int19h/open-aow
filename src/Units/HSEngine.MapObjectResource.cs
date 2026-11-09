@@ -12,7 +12,7 @@ public partial class TMapObject
 
     protected internal void SetResourceID(int value)
     {
-        if (GetResourceLinked()) throw Rtl.Exception.Create("Cannot set ResourceID when resource is linked!");
+        if (GetResourceLinked()) throw new InvalidOperationException("Cannot set ResourceID when resource is linked!");
         unlinkedResourceId = value;
         FResource = null;
     }

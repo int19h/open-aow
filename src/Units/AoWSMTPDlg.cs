@@ -64,12 +64,12 @@ public partial class TmsSMTP : TComponent
     }
 }
 
-public partial class TIMSSendThread : TThread
+public partial class TIMSSendThread : TObject
 {
     public bool FSuccess;
 
     // AoWSMTPDlg.pas:105
-    protected internal override void Execute()
+    protected internal void Execute()
     {
         try
         {

@@ -36,7 +36,7 @@ public static class FileBoundary
         {
             bytes = ReadAll(files, fileName);
         }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or EStreamError)
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
             var report = new GameFileReport { Operation = operation, Profile = profile, Error = new FormatDiagnostic(Codes.Output, "The file cannot be read: " + e.Message) { File = fileName } };
             Record(files, fileName, report);
@@ -85,7 +85,7 @@ public static class FileBoundary
         {
             Replace(files, fileName, result.Bytes);
         }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or EStreamError)
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
             result.Report.Error = new FormatDiagnostic(Codes.Output, "The file cannot be written: " + e.Message) { File = fileName };
             Record(files, fileName, result.Report);
@@ -111,7 +111,7 @@ public static class FileBoundary
             while (total < count && (read = stream.Read(head, total, count - total)) > 0) total += read;
             head = head[..total];
         }
-        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException or EStreamError)
+        catch (System.Exception e) when (e is IOException or UnauthorizedAccessException or ArgumentException)
         {
             return [];
         }
@@ -356,7 +356,7 @@ public sealed class FileLogRecord(string path, string layer, GameFileReport repo
 }
 
 /// <summary>A refused open or write at the file boundary. It carries the shared diagnostic.</summary>
-public sealed class EGameFileError(FileLogRecord record) : Rtl.Exception(record.ToString())
+public sealed class EGameFileError(FileLogRecord record) : System.Exception(record.ToString())
 {
     public FileLogRecord Record { get; } = record;
 }
