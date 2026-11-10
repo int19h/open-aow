@@ -7,7 +7,7 @@ using Aow.Game.Ui.Windows;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TGeneral : ILayoutModule
+public partial class General : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -20,7 +20,7 @@ public partial class TGeneral : ILayoutModule
         Name = "General";
         LayoutOnCreate = _ => Layout_GeneralCreate_0();
         LayoutOnDestroy = _ => Layout_GeneralDestroy_1();
-        Manager = new TAOWWinManager(this);
+        Manager = new AOWWinManager(this);
         session.BeginRead(Manager);
         Manager.Name = "Manager";
         Manager.OnKeyDown = (_, ref key, shift) => ManagerKeyDown(ref key, shift);
@@ -41,7 +41,7 @@ public partial class TGeneral : ILayoutModule
         Manager.BorderBottom = 48;
         Manager.DrawOverlay = true;
         session.EndRead(Manager);
-        ToolTip = new TAOWToolTip(this);
+        ToolTip = new AOWToolTip(this);
         session.BeginRead(ToolTip);
         ToolTip.Name = "ToolTip";
         ToolTip.Visible = false;
@@ -50,8 +50,8 @@ public partial class TGeneral : ILayoutModule
         ToolTip.WinTop = 0;
         ToolTip.WinWidth = 200;
         ToolTip.Masked = false;
-        ToolTip.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        ToolTip.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        ToolTip.Alignment.AlignWidth = AOWAlignWidth.None;
+        ToolTip.Alignment.AlignHeight = AOWAlignHeight.None;
         ToolTip.Alignment.HeightPercent = 0;
         ToolTip.Alignment.WidthPercent = 0;
         ToolTip.Alignment.LeftOffPercent = 0;

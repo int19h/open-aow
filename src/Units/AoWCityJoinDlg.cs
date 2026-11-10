@@ -24,35 +24,35 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // race, completion event, retained negotiation event
-public partial class TCityJoinDlg : TDataModule
+public partial class CityJoinDlg : DataModule
 {
-    public TCityJoinDlg(TComponent owner) : base(owner)
+    public CityJoinDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel ApproachLbl;
-    public TAOWImage TCeltLineL;
-    public TAoWFrame CeltFrame;
-    public TAoWFrame BCeltL;
-    public TAOWMemo Memo;
-    public TAOWButton CancelBtn;
-    public TAOWButton AttackBtn;
-    public TAOWImage TitleIcon;
-    public TAOWLabel Title;
-    public TAOWButton AcceptBtn;
-    public TAOWLabel WhatLbl;
-    public TAoWArnoLine CityPicLine;
-    public TAOWButton CloseBtn;
-    public TIvTranslator Translator;
+    public AOWWindow Dlg;
+    public AOWLabel ApproachLbl;
+    public AOWImage TCeltLineL;
+    public AoWFrame CeltFrame;
+    public AoWFrame BCeltL;
+    public AOWMemo Memo;
+    public AOWButton CancelBtn;
+    public AOWButton AttackBtn;
+    public AOWImage TitleIcon;
+    public AOWLabel Title;
+    public AOWButton AcceptBtn;
+    public AOWLabel WhatLbl;
+    public AoWArnoLine CityPicLine;
+    public AOWButton CloseBtn;
+    public IvTranslator Translator;
     public sbyte FRace;
-    public TExecuteDoneEvent FDone;
-    public TNegotiateRequestEventLog FEvent;
+    public ExecuteDoneEvent FDone;
+    public NegotiateRequestEventLog FEvent;
 
     // AoWCityJoinDlg.pas:55
     public void FinishDialog()
     {
-        TExecuteDoneEvent Done;
-        TNegotiateRequestEventLog Log;
+        ExecuteDoneEvent Done;
+        NegotiateRequestEventLog Log;
         Done = FDone;
         Log = FEvent;
         FDone = null;
@@ -75,7 +75,7 @@ public partial class TCityJoinDlg : TDataModule
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (!FEvent.Accept(ref Reason))
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
         }
         else
         {
@@ -90,7 +90,7 @@ public partial class TCityJoinDlg : TDataModule
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (!FEvent.Reject(ref Reason))
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
         }
         else
         {
@@ -106,10 +106,10 @@ public partial class TCityJoinDlg : TDataModule
     }
 
     // AoWCityJoinDlg.pas:93
-    public void DlgDrawBack(TSurfaceDesc Surface)
+    public void DlgDrawBack(SurfaceDesc Surface)
     {
-        Aow.Game.Draw.Images.TLibraryImage Face;
-        Face = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(FRace).GetFace();
+        Aow.Game.Draw.Images.LibraryImage Face;
+        Face = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).GetFace();
         if (Face != null)
         {
             Face.ShowClipped(CeltFrame.WinLeft + 10, CeltFrame.WinTop + 28, Surface);
@@ -130,7 +130,7 @@ public partial class TCityJoinDlg : TDataModule
     }
 
     // AoWCityJoinDlg.pas:113
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -138,10 +138,10 @@ public partial class TCityJoinDlg : TDataModule
         }
     }
 
-    internal static void ShowCityNegotiation(TCityJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowCityNegotiation(CityJoinDlg Dialog, NegotiateRequestEventLog Event, ExecuteDoneEvent Done)
     {
-        TNegotiateRequestEventLog Log;
-        TCity Town;
+        NegotiateRequestEventLog Log;
+        City Town;
         Dialog.FDone = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
@@ -149,7 +149,7 @@ public partial class TCityJoinDlg : TDataModule
         var text = Log.FJoinMessage.Text;
         Dialog.Memo.Items.Text = text;
         Dialog.ApproachLbl.Text = Log.FText;
-        Town = (TCity)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(TCity));
+        Town = (City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(City));
         Dialog.FRace = Town.FRace;
         var topCityActionImage = Town.GetTopCityActionImage(null);
         Dialog.CityPicLine.ImageTop = topCityActionImage;
@@ -158,7 +158,7 @@ public partial class TCityJoinDlg : TDataModule
         var bottomCityActionImage = Town.GetBottomCityActionImage(null);
         Dialog.CityPicLine.ImageBottom = bottomCityActionImage;
         Dialog.Dlg.Visible = true;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(62, true, true);
+        Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(62, true, true);
     }
 
 }

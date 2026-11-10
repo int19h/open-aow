@@ -3,14 +3,14 @@ using Aow.Game.Host;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TVideoDialog
+public partial class VideoDialog
 {
     public void ApplyMode()
     {
         if (!FModeChanged || GameHost.MainForm is not { } form) return;
         bool full = form.Display.Host.Fullscreen;
-        if (FFullScreen == TScreenMode.scmWindowed || !full) ChangeResolution(0, 0);
-        else if (FFullScreen == TScreenMode.scmTitle && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches()) ChangeResolution(FSceneWidth, FSceneHeight);
+        if (FFullScreen == ScreenMode.Windowed || !full) ChangeResolution(0, 0);
+        else if (FFullScreen == ScreenMode.Title && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches()) ChangeResolution(FSceneWidth, FSceneHeight);
         else ChangeResolution(FDisplayWidth, FDisplayHeight);
         FModeChanged = false;
     }

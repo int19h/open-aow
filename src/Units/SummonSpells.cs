@@ -20,12 +20,12 @@ namespace Aow.Game.Commands
 {
 
     // FUnitIndices
-    public partial class TSummonSpellTE : TSpellTE
+    public partial class SummonSpellTE : SpellTE
     {
         // SummonSpells.pas:171
         public new const int ClassID = 135947;
 
-        public TUnitIndexList FUnitIndices;
+        public UnitIndexList FUnitIndices;
 
         // SummonSpells.pas:165
         public override void Dispose()
@@ -35,39 +35,39 @@ namespace Aow.Game.Commands
         }
 
         // SummonSpells.pas:176
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(30, FUnitIndices.LoadFromStream, FUnitIndices.SaveToStream);
         }
 
         // SummonSpells.pas:159
-        public TSummonSpellTE(TECustomNode owner) : base(owner)
+        public SummonSpellTE(ECustomNode owner) : base(owner)
         {
-            FUnitIndices = new TUnitIndexList();
+            FUnitIndices = new UnitIndexList();
         }
 
         // SummonSpells.pas:182
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             bool Done;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TUnit U;
-            TArmyHS Army;
-            TUnitEnchantment Enchantment;
-            TAIGroup Group;
-            TImageSequenceAnimation Anim;
+            Unit U;
+            ArmyHS Army;
+            UnitEnchantment Enchantment;
+            AIGroup Group;
+            ImageSequenceAnimation Anim;
             base.Process(source, value);
             Done = false;
             source.GetLocation(ref X, ref Y, ref L);
             for (int I = 0, last = FUnitIndices.Count - 1; I <= last; I++)
             {
-                U = new TUnit(null);
+                U = new Unit(null);
                 var unitIndice = FUnitIndices[I];
-                U.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(unitIndice));
-                Army = U.Place(X, Y, L, source.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
+                U.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(unitIndice));
+                Army = U.Place(X, Y, L, source.FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                 if (Army != null)
                 {
                     var yhx = Army.GetYhx();
@@ -76,10 +76,10 @@ namespace Aow.Game.Commands
                     {
                         if (U.ExpandAbility(155))
                         {
-                            Enchantment = ((TUnitEnchantmentAbilityData)U.GetAbilityData(155)).FEnchantment;
-                            Enchantment.SetUpkeep(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FManaUpkeep);
+                            Enchantment = ((UnitEnchantmentAbilityData)U.GetAbilityData(155)).FEnchantment;
+                            Enchantment.SetUpkeep(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FManaUpkeep);
                             Enchantment.SetSource(source.FPlayer);
-                            Enchantment.FDispelResistance = (sbyte)((TSummonSpell)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID)).GetDispelResistance(U);
+                            Enchantment.FDispelResistance = (sbyte)((SummonSpell)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).GetDispelResistance(U);
                             Group = source.FGroup;
                             if (Group != null)
                             {
@@ -100,36 +100,36 @@ namespace Aow.Game.Commands
 
             if (Done)
             {
-                if (source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
+                if (source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MakeVisible(X, Y, L, 3);
+                    Aow.Game.World.Map.AoWHSMap.Current.MakeVisible(X, Y, L, 3);
                 }
 
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateObservation(source.FPlayer, X, Y, L, 0);
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Visible(X, Y, L, 0))
+                Aow.Game.World.Map.AoWHSMap.Current.ValidateObservation(source.FPlayer, X, Y, L, 0);
+                if (Aow.Game.World.Map.AoWHSMap.Current.Visible(X, Y, L, 0))
                 {
-                    if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
+                    if (Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0] != null)
                     {
-                        Anim = new TImageSequenceAnimation(null);
-                        Anim.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, X, Y, L);
+                        Anim = new ImageSequenceAnimation(null);
+                        Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastImages.ImageSequences[0]);
+                        Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
                     }
 
-                    if (source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(X, Y, L, 0))
+                    if (source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, L, 0))
                     {
-                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
+                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).FCastSounds.Play(0);
                     }
                 }
 
-                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
+                var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, spell.FBaseManaCost);
             }
             else
             {
-                if (source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
+                if (source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
                 {
-                    var noSummonLocationFound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.TSummonSpellTE.NoSummonLocationFoundRStr);
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(noSummonLocationFound);
+                    var noSummonLocationFound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.SummonSpellTE.NoSummonLocationFoundRStr);
+                    Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(noSummonLocationFound);
                 }
             }
 
@@ -149,11 +149,11 @@ namespace Aow.Game.Magic.Spells.Summon
 {
 
     // FAIBasePriority, FUnitIndices
-    public partial class TSummonSpell : Aow.Game.Magic.Spells.TSpell
+    public partial class SummonSpell : Aow.Game.Magic.Spells.Spell
     {
 
         public int FAIBasePriority;
-        public TUnitIndexList FUnitIndices;
+        public UnitIndexList FUnitIndices;
 
         // SummonSpells.pas:249
         public override void Dispose()
@@ -163,24 +163,24 @@ namespace Aow.Game.Magic.Spells.Summon
         }
 
         // SummonSpells.pas:241
-        public TSummonSpell(TECustomNode owner) : base(owner)
+        public SummonSpell(ECustomNode owner) : base(owner)
         {
-            FUnitIndices = new TUnitIndexList();
-            FSpellType = Aow.Game.Magic.Spells.TSpellType.stGlobal;
+            FUnitIndices = new UnitIndexList();
+            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
             FAIBasePriority = -1;
         }
 
         // SummonSpells.pas:288
-        public override void AIPrefetchCastSpellActions(TAbstractUnit Source, TAICastSpellActionList Actions)
+        public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
         {
             bool CanCast;
-            TAICastSpellAction Action;
+            AICastSpellAction Action;
             string Reason = "";
             if (FAIBasePriority != -1)
             {
                 var aiUpkeepPriority = GetAIUpkeepPriority();
                 CanCast = AIRequestCastSpellExpense(Source, FBaseManaCost, FManaUpkeep, aiUpkeepPriority);
-                CanCast = CanCast && ((THero)Source).CanCastSpell(FSpellID, ref Reason);
+                CanCast = CanCast && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
                 if (CanCast)
                 {
                     Action = CreateCastSpellAction();
@@ -192,11 +192,11 @@ namespace Aow.Game.Magic.Spells.Summon
         }
 
         // SummonSpells.pas:308
-        public override bool AIExecuteCastSpellAction(TAbstractUnit Source)
+        public override bool AIExecuteCastSpellAction(AbstractUnit Source)
         {
             bool Result;
             string Reason = "";
-            var hero = (THero)Source;
+            var hero = (Hero)Source;
             if (hero.CanCastSpell(FSpellID, ref Reason))
             {
                 var aiUpkeepPriority = GetAIUpkeepPriority();
@@ -227,17 +227,17 @@ namespace Aow.Game.Magic.Spells.Summon
         }
 
         // SummonSpells.pas:266
-        public override bool Activate(TAbstractUnit Source)
+        public override bool Activate(AbstractUnit Source)
         {
             bool Result;
-            TSummonSpellTE Event;
+            SummonSpellTE Event;
             string Reason = "";
             if (CanActivate(Source, ref Reason))
             {
-                Event = new TSummonSpellTE(null);
+                Event = new SummonSpellTE(null);
                 Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 SetupSummonSpellTE(Event);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -250,7 +250,7 @@ namespace Aow.Game.Magic.Spells.Summon
         }
 
         // SummonSpells.pas:261
-        public virtual void SetupSummonSpellTE(TSummonSpellTE Event)
+        public virtual void SetupSummonSpellTE(SummonSpellTE Event)
         {
             var random = Random(FUnitIndices.Count);
             var unitIndice = FUnitIndices[random];
@@ -261,23 +261,23 @@ namespace Aow.Game.Magic.Spells.Summon
         public int GetAIUpkeepPriority()
         {
             var unitIndice = FUnitIndices[0];
-            return ((TSummonedAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndice);
+            return ((SummonedAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(155)).UnitIndexToAIUpkeepPriority(unitIndice);
         }
 
         // SummonSpells.pas:255
-        public int GetDispelResistance(TAbstractUnit unit) => TSummonedAbility.GetDefaultDispelResistance(unit);
+        public int GetDispelResistance(AbstractUnit unit) => SummonedAbility.GetDefaultDispelResistance(unit);
     }
 
-    public partial class TSummonSyron : TSummonSpell
+    public partial class SummonSyron : SummonSpell
     {
         // SummonSpells.pas:328
-        public TSummonSyron(TECustomNode owner) : base(owner)
+        public SummonSyron(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonSyron.SummonSyronRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonSyron.SummonSyronRStr);
             FSpellID = 24;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msCosmos;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
             FUnitIndices.Add(221);
             FCastDuration = 40;
             FAIBasePriority = 500;
@@ -286,16 +286,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonSyronRStr = "Summon Syron";
     }
 
-    public partial class TSummonFrog : TSummonSpell
+    public partial class SummonFrog : SummonSpell
     {
         // SummonSpells.pas:341
-        public TSummonFrog(TECustomNode owner) : base(owner)
+        public SummonFrog(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonFrog.SummonFrogRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonFrog.SummonFrogRStr);
             FSpellID = 22;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msWater;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
             FUnitIndices.Add(236);
             FCastDuration = 5;
             FAIBasePriority = 200;
@@ -304,16 +304,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonFrogRStr = "Summon Frog";
     }
 
-    public partial class TSummonBoar : TSummonSpell
+    public partial class SummonBoar : SummonSpell
     {
         // SummonSpells.pas:354
-        public TSummonBoar(TECustomNode owner) : base(owner)
+        public SummonBoar(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonBoar.SummonBoarRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonBoar.SummonBoarRStr);
             FSpellID = 31;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
             FUnitIndices.Add(235);
             FCastDuration = 5;
         }
@@ -321,16 +321,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonBoarRStr = "Summon Boar";
     }
 
-    public partial class TSummonAirElemental : TSummonSpell
+    public partial class SummonAirElemental : SummonSpell
     {
         // SummonSpells.pas:366
-        public TSummonAirElemental(TECustomNode owner) : base(owner)
+        public SummonAirElemental(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonAirElemental.SummonAirElementalRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonAirElemental.SummonAirElementalRStr);
             FSpellID = 27;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msAir;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Air;
             FUnitIndices.Add(224);
             FCastDuration = 40;
             FAIBasePriority = 750;
@@ -339,16 +339,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonAirElementalRStr = "Summon Air Elemental";
     }
 
-    public partial class TSummonEarthElemental : TSummonSpell
+    public partial class SummonEarthElemental : SummonSpell
     {
         // SummonSpells.pas:379
-        public TSummonEarthElemental(TECustomNode owner) : base(owner)
+        public SummonEarthElemental(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonEarthElemental.SummonEarthElementalRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonEarthElemental.SummonEarthElementalRStr);
             FSpellID = 28;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
             FUnitIndices.Add(225);
             FCastDuration = 40;
             FAIBasePriority = 750;
@@ -357,16 +357,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonEarthElementalRStr = "Summon Earth Elemental";
     }
 
-    public partial class TSummonFireElemental : TSummonSpell
+    public partial class SummonFireElemental : SummonSpell
     {
         // SummonSpells.pas:392
-        public TSummonFireElemental(TECustomNode owner) : base(owner)
+        public SummonFireElemental(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonFireElemental.SummonFireElementalRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonFireElemental.SummonFireElementalRStr);
             FSpellID = 29;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msFire;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
             FUnitIndices.Add(226);
             FCastDuration = 40;
             FAIBasePriority = 500;
@@ -375,16 +375,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonFireElementalRStr = "Summon Fire Elemental";
     }
 
-    public partial class TSummonWaterElemental : TSummonSpell
+    public partial class SummonWaterElemental : SummonSpell
     {
         // SummonSpells.pas:405
-        public TSummonWaterElemental(TECustomNode owner) : base(owner)
+        public SummonWaterElemental(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonWaterElemental.SummonWaterElementalRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonWaterElemental.SummonWaterElementalRStr);
             FSpellID = 30;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msWater;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
             FUnitIndices.Add(227);
             FCastDuration = 40;
             FAIBasePriority = 500;
@@ -393,16 +393,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonWaterElementalRStr = "Summon Water Elemental";
     }
 
-    public partial class TSummonGoldDragon : TSummonSpell
+    public partial class SummonGoldDragon : SummonSpell
     {
         // SummonSpells.pas:418
-        public TSummonGoldDragon(TECustomNode owner) : base(owner)
+        public SummonGoldDragon(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonGoldDragon.SummonGoldDragonRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonGoldDragon.SummonGoldDragonRStr);
             FSpellID = 25;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msLife;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Life;
             FUnitIndices.Add(216);
             FCastDuration = 40;
             FAIBasePriority = 750;
@@ -411,16 +411,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonGoldDragonRStr = "Summon Gold Dragon";
     }
 
-    public partial class TSummonBlackDragon : TSummonSpell
+    public partial class SummonBlackDragon : SummonSpell
     {
         // SummonSpells.pas:431
-        public TSummonBlackDragon(TECustomNode owner) : base(owner)
+        public SummonBlackDragon(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonBlackDragon.SummonBlackDragonRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonBlackDragon.SummonBlackDragonRStr);
             FSpellID = 26;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msDeath;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
             FUnitIndices.Add(217);
             FCastDuration = 40;
             FAIBasePriority = 750;
@@ -429,16 +429,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonBlackDragonRStr = "Summon Black Dragon";
     }
 
-    public partial class TSummonGreatEagle : TSummonSpell
+    public partial class SummonGreatEagle : SummonSpell
     {
         // SummonSpells.pas:444
-        public TSummonGreatEagle(TECustomNode owner) : base(owner)
+        public SummonGreatEagle(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonGreatEagle.SummonGreatEagleRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonGreatEagle.SummonGreatEagleRStr);
             FSpellID = 23;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msAir;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Air;
             FUnitIndices.Add(234);
             FCastDuration = 10;
             FAIBasePriority = 250;
@@ -447,16 +447,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonGreatEagleRStr = "Summon Great Eagle";
     }
 
-    public partial class TSummonFireSprite : TSummonSpell
+    public partial class SummonFireSprite : SummonSpell
     {
         // SummonSpells.pas:457
-        public TSummonFireSprite(TECustomNode owner) : base(owner)
+        public SummonFireSprite(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonFireSprite.SummonFireSpriteRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonFireSprite.SummonFireSpriteRStr);
             FSpellID = 21;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msFire;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
             FUnitIndices.Add(228);
             FCastDuration = 10;
             FAIBasePriority = 200;
@@ -465,23 +465,23 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonFireSpriteRStr = "Summon Fire Sprite";
     }
 
-    public partial class TSummonBlackSpider : TSummonSpell
+    public partial class SummonBlackSpider : SummonSpell
     {
         // SummonSpells.pas:475
-        public TSummonBlackSpider(TECustomNode owner) : base(owner)
+        public SummonBlackSpider(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonBlackSpider.SummonBlackSpiderRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonBlackSpider.SummonBlackSpiderRStr);
             FSpellID = 20;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msDeath;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
             FUnitIndices.Add(222);
             FCastDuration = 5;
             FAIBasePriority = 200;
         }
 
         // SummonSpells.pas:470
-        public override void SetupSummonSpellTE(TSummonSpellTE Event)
+        public override void SetupSummonSpellTE(SummonSpellTE Event)
         {
             base.SetupSummonSpellTE(Event);
         }
@@ -489,16 +489,16 @@ namespace Aow.Game.Magic.Spells.Summon
         private static readonly string SummonBlackSpiderRStr = "Summon Black Spider";
     }
 
-    public partial class TSummonMermaid : TSummonSpell
+    public partial class SummonMermaid : SummonSpell
     {
         // SummonSpells.pas:488
-        public TSummonMermaid(TECustomNode owner) : base(owner)
+        public SummonMermaid(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.TSummonMermaid.SummonMermaidRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Summon.SummonMermaid.SummonMermaidRStr);
             FSpellID = 78;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msDeath;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
             FUnitIndices.Add(218);
             FCastDuration = 5;
             FAIBasePriority = -1;

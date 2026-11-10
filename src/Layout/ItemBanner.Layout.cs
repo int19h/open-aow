@@ -8,7 +8,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TItemBanner : ILayoutModule
+public partial class ItemBanner : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,15 +19,15 @@ public partial class TItemBanner : ILayoutModule
     {
         session.Begin(this);
         Name = "ItemBanner";
-        ItemNameLbl = new TAOWLabel(this);
+        ItemNameLbl = new AOWLabel(this);
         session.BeginRead(ItemNameLbl);
         ItemNameLbl.Name = "ItemNameLbl";
         ItemNameLbl.Priority = 0;
         ItemNameLbl.WinLeft = 65;
         ItemNameLbl.WinTop = 80;
         ItemNameLbl.CaptureInput = true;
-        ItemNameLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ItemNameLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ItemNameLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ItemNameLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         ItemNameLbl.Alignment.HeightPercent = 0;
         ItemNameLbl.Alignment.WidthPercent = 0;
         ItemNameLbl.Alignment.LeftOffPercent = 0;
@@ -41,7 +41,7 @@ public partial class TItemBanner : ILayoutModule
         ItemNameLbl.Masked = false;
         ItemNameLbl.TextColor = 1321830;
         session.EndRead(ItemNameLbl);
-        IBannerPopup = new TAOWMenu(this);
+        IBannerPopup = new AOWMenu(this);
         session.BeginRead(IBannerPopup);
         IBannerPopup.Name = "IBannerPopup";
         IBannerPopup.OnMouseDown = (_, button, shift, x, y) => Layout_IBannerPopupMouseDown_0(button, shift, x, y);
@@ -52,8 +52,8 @@ public partial class TItemBanner : ILayoutModule
         IBannerPopup.WinWidth = 160;
         IBannerPopup.Masked = true;
         IBannerPopup.OnShow = _ => IBannerPopupShow();
-        IBannerPopup.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        IBannerPopup.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        IBannerPopup.Alignment.AlignWidth = AOWAlignWidth.None;
+        IBannerPopup.Alignment.AlignHeight = AOWAlignHeight.None;
         IBannerPopup.Alignment.HeightPercent = 0;
         IBannerPopup.Alignment.WidthPercent = 0;
         IBannerPopup.Alignment.LeftOffPercent = 0;
@@ -82,15 +82,15 @@ public partial class TItemBanner : ILayoutModule
         IBannerPopup.SubMenuShowDelay = 0;
         IBannerPopup.WinHeight = 184;
         session.EndRead(IBannerPopup);
-        AttackIcon = new TAOWImage(this);
+        AttackIcon = new AOWImage(this);
         session.BeginRead(AttackIcon);
         AttackIcon.Name = "AttackIcon";
         AttackIcon.Priority = 0;
         AttackIcon.WinLeft = 30;
         AttackIcon.WinTop = 59;
         AttackIcon.CaptureInput = false;
-        AttackIcon.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        AttackIcon.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        AttackIcon.Alignment.AlignWidth = AOWAlignWidth.None;
+        AttackIcon.Alignment.AlignHeight = AOWAlignHeight.None;
         AttackIcon.Alignment.HeightPercent = 0;
         AttackIcon.Alignment.WidthPercent = 0;
         AttackIcon.Alignment.LeftOffPercent = 0;
@@ -110,15 +110,15 @@ public partial class TItemBanner : ILayoutModule
         AttackIcon.Animate = false;
         AttackIcon.AnimFrameDelay = 0;
         session.EndRead(AttackIcon);
-        DefenseIcon = new TAOWImage(this);
+        DefenseIcon = new AOWImage(this);
         session.BeginRead(DefenseIcon);
         DefenseIcon.Name = "DefenseIcon";
         DefenseIcon.Priority = 0;
         DefenseIcon.WinLeft = 30;
         DefenseIcon.WinTop = 77;
         DefenseIcon.CaptureInput = false;
-        DefenseIcon.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DefenseIcon.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        DefenseIcon.Alignment.AlignWidth = AOWAlignWidth.None;
+        DefenseIcon.Alignment.AlignHeight = AOWAlignHeight.None;
         DefenseIcon.Alignment.HeightPercent = 0;
         DefenseIcon.Alignment.WidthPercent = 0;
         DefenseIcon.Alignment.LeftOffPercent = 0;
@@ -138,15 +138,15 @@ public partial class TItemBanner : ILayoutModule
         DefenseIcon.Animate = false;
         DefenseIcon.AnimFrameDelay = 0;
         session.EndRead(DefenseIcon);
-        DamageIcon = new TAOWImage(this);
+        DamageIcon = new AOWImage(this);
         session.BeginRead(DamageIcon);
         DamageIcon.Name = "DamageIcon";
         DamageIcon.Priority = 0;
         DamageIcon.WinLeft = 83;
         DamageIcon.WinTop = 59;
         DamageIcon.CaptureInput = false;
-        DamageIcon.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DamageIcon.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        DamageIcon.Alignment.AlignWidth = AOWAlignWidth.None;
+        DamageIcon.Alignment.AlignHeight = AOWAlignHeight.None;
         DamageIcon.Alignment.HeightPercent = 0;
         DamageIcon.Alignment.WidthPercent = 0;
         DamageIcon.Alignment.LeftOffPercent = 0;
@@ -166,15 +166,15 @@ public partial class TItemBanner : ILayoutModule
         DamageIcon.Animate = false;
         DamageIcon.AnimFrameDelay = 0;
         session.EndRead(DamageIcon);
-        ResistanceIcon = new TAOWImage(this);
+        ResistanceIcon = new AOWImage(this);
         session.BeginRead(ResistanceIcon);
         ResistanceIcon.Name = "ResistanceIcon";
         ResistanceIcon.Priority = 0;
         ResistanceIcon.WinLeft = 83;
         ResistanceIcon.WinTop = 77;
         ResistanceIcon.CaptureInput = false;
-        ResistanceIcon.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        ResistanceIcon.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        ResistanceIcon.Alignment.AlignWidth = AOWAlignWidth.None;
+        ResistanceIcon.Alignment.AlignHeight = AOWAlignHeight.None;
         ResistanceIcon.Alignment.HeightPercent = 0;
         ResistanceIcon.Alignment.WidthPercent = 0;
         ResistanceIcon.Alignment.LeftOffPercent = 0;
@@ -194,15 +194,15 @@ public partial class TItemBanner : ILayoutModule
         ResistanceIcon.Animate = false;
         ResistanceIcon.AnimFrameDelay = 0;
         session.EndRead(ResistanceIcon);
-        Attack = new TAOWLabel(this);
+        Attack = new AOWLabel(this);
         session.BeginRead(Attack);
         Attack.Name = "Attack";
         Attack.Priority = 0;
         Attack.WinLeft = 50;
         Attack.WinTop = 64;
         Attack.CaptureInput = true;
-        Attack.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Attack.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Attack.Alignment.AlignWidth = AOWAlignWidth.None;
+        Attack.Alignment.AlignHeight = AOWAlignHeight.None;
         Attack.Alignment.HeightPercent = 0;
         Attack.Alignment.WidthPercent = 0;
         Attack.Alignment.LeftOffPercent = 0;
@@ -216,15 +216,15 @@ public partial class TItemBanner : ILayoutModule
         Attack.Masked = false;
         Attack.TextColor = 1321830;
         session.EndRead(Attack);
-        Defense = new TAOWLabel(this);
+        Defense = new AOWLabel(this);
         session.BeginRead(Defense);
         Defense.Name = "Defense";
         Defense.Priority = 0;
         Defense.WinLeft = 50;
         Defense.WinTop = 82;
         Defense.CaptureInput = true;
-        Defense.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Defense.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Defense.Alignment.AlignWidth = AOWAlignWidth.None;
+        Defense.Alignment.AlignHeight = AOWAlignHeight.None;
         Defense.Alignment.HeightPercent = 0;
         Defense.Alignment.WidthPercent = 0;
         Defense.Alignment.LeftOffPercent = 0;
@@ -238,15 +238,15 @@ public partial class TItemBanner : ILayoutModule
         Defense.Masked = false;
         Defense.TextColor = 1321830;
         session.EndRead(Defense);
-        Damage = new TAOWLabel(this);
+        Damage = new AOWLabel(this);
         session.BeginRead(Damage);
         Damage.Name = "Damage";
         Damage.Priority = 0;
         Damage.WinLeft = 103;
         Damage.WinTop = 64;
         Damage.CaptureInput = true;
-        Damage.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Damage.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Damage.Alignment.AlignWidth = AOWAlignWidth.None;
+        Damage.Alignment.AlignHeight = AOWAlignHeight.None;
         Damage.Alignment.HeightPercent = 0;
         Damage.Alignment.WidthPercent = 0;
         Damage.Alignment.LeftOffPercent = 0;
@@ -260,15 +260,15 @@ public partial class TItemBanner : ILayoutModule
         Damage.Masked = false;
         Damage.TextColor = 1321830;
         session.EndRead(Damage);
-        Resistance = new TAOWLabel(this);
+        Resistance = new AOWLabel(this);
         session.BeginRead(Resistance);
         Resistance.Name = "Resistance";
         Resistance.Priority = 0;
         Resistance.WinLeft = 103;
         Resistance.WinTop = 82;
         Resistance.CaptureInput = true;
-        Resistance.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Resistance.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Resistance.Alignment.AlignWidth = AOWAlignWidth.None;
+        Resistance.Alignment.AlignHeight = AOWAlignHeight.None;
         Resistance.Alignment.HeightPercent = 0;
         Resistance.Alignment.WidthPercent = 0;
         Resistance.Alignment.LeftOffPercent = 0;
@@ -290,8 +290,8 @@ public partial class TItemBanner : ILayoutModule
         DrawBox.WinLeft = 0;
         DrawBox.WinTop = 0;
         DrawBox.CaptureInput = true;
-        DrawBox.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        DrawBox.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DrawBox.Alignment.AlignWidth = AOWAlignWidth.Center;
+        DrawBox.Alignment.AlignHeight = AOWAlignHeight.Top;
         DrawBox.Alignment.HeightPercent = 0;
         DrawBox.Alignment.WidthPercent = 0;
         DrawBox.Alignment.LeftOffPercent = 0;
@@ -306,15 +306,15 @@ public partial class TItemBanner : ILayoutModule
         DrawBox.WinWidth = 41;
         DrawBox.WinHeight = 42;
         session.EndRead(DrawBox);
-        AbLB = new TAOWListBox(this);
+        AbLB = new AOWListBox(this);
         session.BeginRead(AbLB);
         AbLB.Name = "AbLB";
         AbLB.Priority = 0;
         AbLB.WinLeft = 25;
         AbLB.WinTop = 110;
         AbLB.CaptureInput = true;
-        AbLB.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        AbLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        AbLB.Alignment.AlignWidth = AOWAlignWidth.Center;
+        AbLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         AbLB.Alignment.HeightPercent = 0;
         AbLB.Alignment.WidthPercent = 0;
         AbLB.Alignment.LeftOffPercent = 0;
@@ -337,17 +337,17 @@ public partial class TItemBanner : ILayoutModule
         AbLB.ILIndexTNormal = 0;
         AbLB.ILIndexTSelected = 0;
         AbLB.ItemHeight = 12;
-        AbLB.TextAlign = TaowTextAlign.taCenter;
+        AbLB.TextAlign = TaowTextAlign.Center;
         session.EndRead(AbLB);
-        AbVSB = new TAOWVScrollBar(this);
+        AbVSB = new AOWVScrollBar(this);
         session.BeginRead(AbVSB);
         AbVSB.Name = "AbVSB";
         AbVSB.Priority = 0;
         AbVSB.WinLeft = 122;
         AbVSB.WinTop = 110;
         AbVSB.CaptureInput = true;
-        AbVSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        AbVSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        AbVSB.Alignment.AlignWidth = AOWAlignWidth.None;
+        AbVSB.Alignment.AlignHeight = AOWAlignHeight.None;
         AbVSB.Alignment.HeightPercent = 0;
         AbVSB.Alignment.WidthPercent = 0;
         AbVSB.Alignment.LeftOffPercent = 0;
@@ -429,7 +429,7 @@ public partial class TItemBanner : ILayoutModule
         AbVSB.ILLTab = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
     }
 
-    private void Layout_IBannerPopupMouseDown_0(TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
+    private void Layout_IBannerPopupMouseDown_0(MouseButton p1, Set<ShiftState> p2, int p3, int p4)
     {
         IBannerPopupMouseDown(default(int), (byte)p1, default(int), default(int), default(int));
     }

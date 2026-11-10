@@ -39,34 +39,34 @@ public sealed class PersistCorpusTests
     // hero list or save. Storm and animation sprites are absent from these files.
     private static readonly string[] Required =
     [
-        "TGuardAG", "TPassiveAG", "TFortifyAG", "TNormalAG", "TSkirmishAG",
-        "TAIBudgetManager", "TEResourceEditSettings", "TGlobalMagicControl",
+        "GuardAG", "PassiveAG", "FortifyAG", "NormalAG", "SkirmishAG",
+        "AIBudgetManager", "EResourceEditSettings", "GlobalMagicControl",
     ];
 
     private static readonly string[] Watched =
     [
-        "TAbilityList", "TGuardAG", "TPassiveAG", "TFortifyAG", "TRaidAG", "TScoutAG", "TNormalAG", "TSkirmishAG",
-        "TGuardAreaAG", "TPatrolAG", "TRefugeAG", "TDefenderAG", "TAggressorAG", "TExpanderAG", "TScorcherAG",
-        "TSuicidalAG", "TTransportAG", "TAbstractBehaviorAG",
-        "TStorm", "TIceStorm", "TDeathStorm", "TDivineStorm", "TFireStorm", "TLightningStorm", "TPestilenceStorm", "TBlastStorm",
-        "TAnimation", "TBloodShrineAnimation", "TImageSequenceAnimation", "TSpringOfLifeAnimation", "TTwinkleAnimation",
-        "TDamageCA", "TSelfDestructCA", "TTurnUndeadCA", "TRemotePlayer", "TCustomAbilityList", "TSetupSettings", "TAIGroup",
-        "TAIBudgetManager", "TEResourceEditSettings", "TGlobalMagicControl",
+        "AbilityList", "GuardAG", "PassiveAG", "FortifyAG", "RaidAG", "ScoutAG", "NormalAG", "SkirmishAG",
+        "GuardAreaAG", "PatrolAG", "RefugeAG", "DefenderAG", "AggressorAG", "ExpanderAG", "ScorcherAG",
+        "SuicidalAG", "TransportAG", "AbstractBehaviorAG",
+        "Storm", "IceStorm", "DeathStorm", "DivineStorm", "FireStorm", "LightningStorm", "PestilenceStorm", "BlastStorm",
+        "Animation", "BloodShrineAnimation", "ImageSequenceAnimation", "SpringOfLifeAnimation", "TwinkleAnimation",
+        "DamageCA", "SelfDestructCA", "TurnUndeadCA", "RemotePlayer", "CustomAbilityList", "SetupSettings", "AIGroup",
+        "AIBudgetManager", "EResourceEditSettings", "GlobalMagicControl",
     ];
 
     private readonly ITestOutputHelper output;
 
     // TArmy.Destroy notifies AoWHSMap unless that map is being destroyed. A blank instance has no map.
-    private static TAoWHSMap? reaper;
+    private static AoWHSMap? reaper;
 
     public PersistCorpusTests(ITestOutputHelper output) => this.output = output;
 
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
-        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        var map = new TAoWHSMap(null!);
-        map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
+        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        var map = new AoWHSMap(null!);
+        map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
         reaper = map;
         blocked.Clear();
         proved.Clear();
@@ -126,14 +126,14 @@ public sealed class PersistCorpusTests
         finally
         {
             reaper = null;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
+            Aow.Game.World.Map.AoWHSMap.Current = previous;
             map.Dispose();
         }
     }
 
     private static void Walk(JsonObject obj, SchemaClass cls, string engine, string file, FormatSchema schema, EnginePersistableFactory factory, Dictionary<string, int> counts)
     {
-        if (EngineTypes.TryGetValue(cls.Name, out var type) && TEObject.TreePersistenceRefusal(type) == null)
+        if (EngineTypes.TryGetValue(cls.Name, out var type) && EObject.TreePersistenceRefusal(type) == null)
         {
             counts.TryGetValue(cls.Name, out int seen);
             counts[cls.Name] = seen + 1;
@@ -171,7 +171,7 @@ public sealed class PersistCorpusTests
         }
         else if (prop.Codec is MapFieldsCodec && value is JsonArray rows)
         {
-            var field = schema.Get(cls.FieldClass ?? "TMapField");
+            var field = schema.Get(cls.FieldClass ?? "MapField");
             foreach (var row in rows.Items)
                 if (row is JsonArray cells)
                     foreach (var cell in cells.Items)
@@ -180,7 +180,7 @@ public sealed class PersistCorpusTests
         }
         else if (prop.Codec is CampaignMapCodec && value is JsonObject map && map["root"] is JsonObject campaignRoot)
         {
-            var campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Get(nestedName.Value) : schema.Get("TAoWHSMap");
+            var campaignClass = campaignRoot["$class"] is JsonString nestedName ? schema.Get(nestedName.Value) : schema.Get("AoWHSMap");
             Walk(campaignRoot, campaignClass, engine, file, schema, factory, counts);
         }
     }
@@ -306,7 +306,7 @@ public sealed class PersistCorpusTests
         var types = new Dictionary<string, Type>();
         foreach (var eclass in EClass.All)
         {
-            if (eclass.Type.Assembly != typeof(TEObject).Assembly) continue;
+            if (eclass.Type.Assembly != typeof(EObject).Assembly) continue;
             types.TryAdd(eclass.Type.Name, eclass.Type);
         }
         return types;
@@ -320,24 +320,24 @@ public sealed class PersistCorpusTests
         int nameEnd = message.IndexOf(' ', prefix.Length);
         if (nameEnd < 0) return false;
         string name = message.Substring(prefix.Length, nameEnd - prefix.Length);
-        return EngineTypes.TryGetValue(name, out var type) && TEObject.TreePersistenceRefusal(type) == message;
+        return EngineTypes.TryGetValue(name, out var type) && EObject.TreePersistenceRefusal(type) == message;
     }
 
-    private static void Release(TEObject obj)
+    private static void Release(EObject obj)
     {
-        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = reaper;
+        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        Aow.Game.World.Map.AoWHSMap.Current = reaper;
         try
         {
             obj.Dispose();
         }
         finally
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
+            Aow.Game.World.Map.AoWHSMap.Current = previous;
         }
     }
 
-    private static TEObject Blank(string className)
+    private static EObject Blank(string className)
     {
         foreach (var eclass in EClass.All)
             if (eclass.ClassName == className) return eclass.Create(null!);
@@ -348,13 +348,13 @@ public sealed class PersistCorpusTests
     // vanishing from both sides.
     private static void Stop(string message, ref bool continueLoad) => continueLoad = false;
 
-    private static void Load(TEObject obj, byte[] image)
+    private static void Load(EObject obj, byte[] image)
     {
         using var memory = new MemoryStream();
         memory.Write(image);
         memory.Position = 0;
-        var reader = new TEReadStorageStream(memory, EngineFixture.Engine, false);
-        reader.OnError = static (TEStorageStream _, string _, ref bool cont) => cont = false;
+        var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
+        reader.OnError = static (EStorageStream _, string _, ref bool cont) => cont = false;
         try
         {
             obj.MainReadWrite(reader);
@@ -365,10 +365,10 @@ public sealed class PersistCorpusTests
         }
     }
 
-    private static byte[] Image(TEObject obj)
+    private static byte[] Image(EObject obj)
     {
         using var memory = new MemoryStream();
-        using (var writer = new TEWriteStorageStream(memory, EngineFixture.Engine, false))
+        using (var writer = new EWriteStorageStream(memory, EngineFixture.Engine, false))
         {
             obj.MainReadWrite(writer);
         }

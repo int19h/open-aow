@@ -10,15 +10,15 @@ public interface ILibraryImageClass
     static abstract byte ClassVersion { get; }
     static abstract string Name { get; }
 
-    static abstract TLibraryImage Create(TCustomImageLibrary owner);
+    static abstract LibraryImage Create(CustomImageLibrary owner);
 }
 
 public sealed class LibraryImageClass
 {
     private static readonly Catalog<Type, LibraryImageClass> catalog = new("library image class");
-    private readonly Func<TCustomImageLibrary, TLibraryImage> create;
+    private readonly Func<CustomImageLibrary, LibraryImage> create;
 
-    private LibraryImageClass(Type type, int classID, byte classVersion, string name, Func<TCustomImageLibrary, TLibraryImage> create)
+    private LibraryImageClass(Type type, int classID, byte classVersion, string name, Func<CustomImageLibrary, LibraryImage> create)
     {
         Type = type;
         ClassID = classID;
@@ -33,22 +33,22 @@ public sealed class LibraryImageClass
     public byte ClassVersion { get; }
     public string Name { get; } = "";
 
-    public TLibraryImage Create(TCustomImageLibrary owner) => create(owner);
+    public LibraryImage Create(CustomImageLibrary owner) => create(owner);
 
-    public static LibraryImageClass Register<T>() where T : TLibraryImage, ILibraryImageClass =>
+    public static LibraryImageClass Register<T>() where T : LibraryImage, ILibraryImageClass =>
         catalog.Add(typeof(T), new LibraryImageClass(typeof(T), T.ClassID, T.ClassVersion, T.Name, T.Create));
 
-    public static LibraryImageClass Of<T>() where T : TLibraryImage, ILibraryImageClass => catalog[typeof(T)];
+    public static LibraryImageClass Of<T>() where T : LibraryImage, ILibraryImageClass => catalog[typeof(T)];
     public static LibraryImageClass Of(Type type) => catalog[type];
 
     public static IReadOnlyList<LibraryImageClass> All => catalog.All;
 
-    public int GrabImages(in Aow.Game.Draw.TSurfaceDesc SD, TGrabInfo GrabInfo, TCustomImageLibrary ImageLibrary, TGrabProgressEvent OnProgress)
+    public int GrabImages(in Aow.Game.Draw.SurfaceDesc SD, GrabInfo GrabInfo, CustomImageLibrary ImageLibrary, GrabProgressEvent OnProgress)
     {
         int Result = default;
         LibraryImageClass ImageClass;
-        TLibraryImage Image = default;
-        Aow.Game.Draw.TRectangleList Rects = default;
+        LibraryImage Image = default;
+        Aow.Game.Draw.RectangleList Rects = default;
         void Progress(int Percent, string Msg)
         {
             if (OnProgress != null)
@@ -65,8 +65,8 @@ public sealed class LibraryImageClass
         }
         else
         {
-            Rects = new Aow.Game.Draw.TRectangleList();
-            Rects.Add(new Aow.Game.Draw.TRectangle(0, 0, SD.Width, SD.Height));
+            Rects = new Aow.Game.Draw.RectangleList();
+            Rects.Add(new Aow.Game.Draw.Rectangle(0, 0, SD.Width, SD.Height));
         }
 
         if (Rects != null && ImageClass != null)
@@ -106,9 +106,9 @@ public sealed class LibraryImageClass
         return Result;
     }
 
-    internal static global::Aow.Game.Draw.TRectangleList GetSurfaceRectangles(global::Aow.Game.Draw.TSurfaceDesc SD, int TransparentColor, global::Aow.Game.Draw.TProgressEvent OnProgress)
+    internal static global::Aow.Game.Draw.RectangleList GetSurfaceRectangles(global::Aow.Game.Draw.SurfaceDesc SD, int TransparentColor, global::Aow.Game.Draw.ProgressEvent OnProgress)
     {
-        global::Aow.Game.Draw.TRectangleList tRectangleList = new global::Aow.Game.Draw.TRectangleList();
+        global::Aow.Game.Draw.RectangleList tRectangleList = new global::Aow.Game.Draw.RectangleList();
         int i = 0;
         for (int num = SD.Height - 1; i <= num; i++)
         {
@@ -119,10 +119,10 @@ public sealed class LibraryImageClass
                 ushort x = (ushort)j;
                 if (GetPixel(x, num2) == TransparentColor)
                 {
-                    global::Aow.Game.Draw.TRectangle tRectangle = FindRectangle(x, num2);
+                    global::Aow.Game.Draw.Rectangle tRectangle = FindRectangle(x, num2);
                     if (tRectangle != null)
                     {
-                        ((TList)tRectangleList).Add((object)tRectangle);
+                        ((DelphiList)tRectangleList).Add((object)tRectangle);
                     }
                 }
             }
@@ -131,18 +131,18 @@ public sealed class LibraryImageClass
                 OnProgress(null, RtlUnit.Round((double)(num2 * 100) / (double)(SD.Height - 1)), 0);
             }
         }
-        if (((TList)tRectangleList).Count == 0)
+        if (((DelphiList)tRectangleList).Count == 0)
         {
             if (tRectangleList != null)
             {
-                ((TList)tRectangleList).Dispose();
+                ((DelphiList)tRectangleList).Dispose();
             }
             return null;
         }
         return tRectangleList;
-        global::Aow.Game.Draw.TRectangle FindRectangle(int X, int Y)
+        global::Aow.Game.Draw.Rectangle FindRectangle(int X, int Y)
         {
-            global::Aow.Game.Draw.TRectangle result = null;
+            global::Aow.Game.Draw.Rectangle result = null;
             int k = 1;
             int l = 1;
             for (; GetPixel(X + k, Y) == TransparentColor && GetPixel(X + k, Y + 1) != TransparentColor && X + k < SD.Width - 1; k++)
@@ -164,7 +164,7 @@ public sealed class LibraryImageClass
                     }
                     if (flag)
                     {
-                        result = new global::Aow.Game.Draw.TRectangle(X + 1, Y + 1, X + k, Y + l);
+                        result = new global::Aow.Game.Draw.Rectangle(X + 1, Y + 1, X + k, Y + l);
                     }
                 }
             }
@@ -202,11 +202,13 @@ public sealed class LibraryImageClass
             }
         }
     }
+
+    public delegate void GrabProgressEvent(object Sender, int Percent, string Msg);
 }
 
-public sealed class GrabInfoClass(string name, Func<TGrabInfo> create)
+public sealed class GrabInfoClass(string name, Func<GrabInfo> create)
 {
     public string Name { get; } = name;
 
-    public TGrabInfo Create() => create();
+    public GrabInfo Create() => create();
 }

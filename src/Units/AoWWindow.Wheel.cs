@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Windows;
 
-public partial class TAOWWindow
+public partial class AOWWindow
 {
     public override bool ContainsPoint(int X, int Y) => PointInside(X, Y, FWinLeft, FWinTop, FWinWidth, FWinHeight);
 
@@ -13,7 +13,7 @@ public partial class TAOWWindow
 
     // Children first. A child that handles the wheel stops it. Otherwise the page buttons, then
     // one vertical scroll bar. Containing the pointer does not by itself consume the wheel.
-    public override bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
     {
         if (Steps == 0 || FWinManager == null || !FVisible || !ContainsPoint(X, Y)) return false;
         var child = TopWheelChild(X, Y);
@@ -24,7 +24,7 @@ public partial class TAOWWindow
 
     private bool TurnPages(int Steps)
     {
-        TAOWButton button = Steps > 0 ? PageBack : PageForward;
+        AOWButton button = Steps > 0 ? PageBack : PageForward;
         if (button == null) return false;
         int count = Steps < 0 ? -Steps : Steps;
         bool turned = false;

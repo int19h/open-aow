@@ -40,19 +40,19 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // game-over event, animation frame
-public partial class TPyreScreen : TDataModule
+public partial class PyreScreen : DataModule
 {
-    public TPyreScreen(TComponent owner) : base(owner)
+    public PyreScreen(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel DeadPnl;
-    public TAOWImage PyreTop;
-    public TAOWImage LeaderFaceFr;
+    public AOWPanel DeadPnl;
+    public AOWImage PyreTop;
+    public AOWImage LeaderFaceFr;
     public TaowUserDrawBox PyreAnimation;
     public object FAnimation;
-    public TSongStatus FSavedSongStatus;
-    public TExecuteDoneEvent FDone;
-    public TGameOverEventLog FGameOverEvent;
+    public SongStatus FSavedSongStatus;
+    public ExecuteDoneEvent FDone;
+    public GameOverEventLog FGameOverEvent;
     public int FAnimationFrame;
 
     // AOWPyreScrn.pas:114
@@ -71,11 +71,11 @@ public partial class TPyreScreen : TDataModule
         ClearFire();
         Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.PyreFrames.ReleaseDiscardableImageData();
         Aow.Game.Ui.Dialogs.DialogHosts.PyreScreen.DeadPnl.Visible = false;
-        Aow.Game.Ui.Dialogs.TPyreScreen.ShowResults(Aow.Game.Ui.Dialogs.DialogHosts.ResultsWin);
+        Aow.Game.Ui.Dialogs.PyreScreen.ShowResults(Aow.Game.Ui.Dialogs.DialogHosts.ResultsWin);
     }
 
     // AOWPyreScrn.pas:127
-    public void ShowGameOver(TGameOverEventLog Event, TExecuteDoneEvent Done)
+    public void ShowGameOver(GameOverEventLog Event, ExecuteDoneEvent Done)
     {
         FAnimationFrame = 0;
         FGameOverEvent = Event;
@@ -84,14 +84,14 @@ public partial class TPyreScreen : TDataModule
         FSavedSongStatus = Aow.Game.Audio.AudioPlayback.BackupSongStatus();
         Aow.Game.Audio.AudioPlayback.FadeMusicVolume(0, 1);
         Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 249;
-        switch (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Event.FPlayer).FGameOverStatus)
+        switch (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FPlayer).FGameOverStatus)
         {
-            case TGameOverStatus.goLost:
-                FAnimation = Aow.Game.Audio.AudioPlayback.PlaySampleEx("Sfx\\Attack\\Fireloop.wav", 64, true, 0, TSamplePanning.spCenter, null);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(68, true, true);
+            case GameOverStatus.Lost:
+                FAnimation = Aow.Game.Audio.AudioPlayback.PlaySampleEx("Sfx\\Attack\\Fireloop.wav", 64, true, 0, SamplePanning.Center, null);
+                Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(68, true, true);
                 break;
-            case TGameOverStatus.goWon:
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(67, true, true);
+            case GameOverStatus.Won:
+                Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(67, true, true);
                 break;
         }
 
@@ -99,10 +99,10 @@ public partial class TPyreScreen : TDataModule
         Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitlePnl.Visible = false;
         Aow.Game.Ui.Dialogs.DialogHosts.PyreScreen.DeadPnl.Visible = true;
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Ui.Dialogs.VideoDialog.ScreenMode.Title);
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = true;
-        SetCurrentDir(ExtractFileDir(Application.ExeName));
+        SetCurrentDir(ExtractFileDir(global::Aow.Rtl.RtlUnit.Application.ExeName));
     }
 
     // AOWPyreScrn.pas:48
@@ -111,22 +111,22 @@ public partial class TPyreScreen : TDataModule
     }
 
     // AOWPyreScrn.pas:51
-    public void DeadPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void DeadPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FinishScreen();
     }
 
     // AOWPyreScrn.pas:54
-    public void LeaderFaceFrPreDraw(TSurfaceDesc SD)
+    public void LeaderFaceFrPreDraw(SurfaceDesc SD)
     {
-        TRect R = default;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
+        global::Aow.Rtl.Rect R = default;
+        if (Aow.Game.World.Map.AoWHSMap.Current != null)
         {
             R.Left = DeadPnl.WinLeft + LeaderFaceFr.WinLeft + 45;
             R.Right = R.Left + 103;
             R.Top = DeadPnl.WinTop + LeaderFaceFr.WinTop + 35;
             R.Bottom = R.Top + 128;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FLeader.ShowFace(R, SD);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FLeader.ShowFace(R, SD);
         }
     }
 
@@ -148,7 +148,7 @@ public partial class TPyreScreen : TDataModule
     }
 
     // AOWPyreScrn.pas:77
-    public void PyreAnimationDraw(TSurfaceDesc SD)
+    public void PyreAnimationDraw(SurfaceDesc SD)
     {
         int X;
         int Y;
@@ -163,9 +163,9 @@ public partial class TPyreScreen : TDataModule
 
         Y += DeadPnl.WinTop;
         X += DeadPnl.WinLeft;
-        switch (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).FGameOverStatus)
+        switch (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGameOverEvent.FPlayer).FGameOverStatus)
         {
-            case TGameOverStatus.goLost:
+            case GameOverStatus.Lost:
                 Frame = FAnimationFrame / 3 % 9;
                 if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
                 {
@@ -173,19 +173,19 @@ public partial class TPyreScreen : TDataModule
                 }
 
                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.PyreFrames[Frame].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop + PyreAnimation.WinTop, SD);
-                Text = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TPyreScreen.YourReignHasEndedRStr);
+                Text = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.PyreScreen.YourReignHasEndedRStr);
                 Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15BlackBrown.SetTextCentered(X, Y, Text, SD);
                 break;
-            case TGameOverStatus.goWon:
+            case GameOverStatus.Won:
                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.VictoryFrames[0].Show(DeadPnl.WinLeft + PyreAnimation.WinLeft, DeadPnl.WinTop, SD);
-                Text = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TPyreScreen.YouWhereVictoriousRStr);
+                Text = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGameOverEvent.FPlayer).GetNameEx() + ", " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.PyreScreen.YouWhereVictoriousRStr);
                 Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey.SetTextCentered(X, Y, Text, SD);
                 break;
         }
     }
 
     // AOWPyreScrn.pas:110
-    public void DeadPnlKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DeadPnlKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         switch (Key)
         {
@@ -204,7 +204,7 @@ public partial class TPyreScreen : TDataModule
 
     private static readonly string YourReignHasEndedRStr = "your reign has ended!";
 
-    private static void ShowResults(TResultsWin Window)
+    private static void ShowResults(ResultsWin Window)
     {
         if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
         {
@@ -218,9 +218,9 @@ public partial class TPyreScreen : TDataModule
         Aow.Game.Audio.AudioPlayback.SetMusicVolume(0);
         Aow.Game.Audio.AudioPlayback.FadeMusicVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position, 1);
         Window.FPlayers.Clear();
-        for (int I = 1, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+        for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
         {
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FPlayerType != TPlayerType.ptIndependent)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Independent)
             {
                 Window.FPlayers.Add((byte)I);
             }
@@ -228,12 +228,12 @@ public partial class TPyreScreen : TDataModule
 
         for (int I = 0; I <= 11; I++)
         {
-            ((TAoWComponent)Window.FControls[I]).Visible = I < Window.FPlayers.Count;
-            bool condition = I < Window.FPlayers.Count && Window.FPlayers[I] == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
-            ((TAOWCheckBox)Window.FControls[I]).Checked = condition;
+            ((AoWComponent)Window.FControls[I]).Visible = I < Window.FPlayers.Count;
+            bool condition = I < Window.FPlayers.Count && Window.FPlayers[I] == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+            ((AOWCheckBox)Window.FControls[I]).Checked = condition;
         }
 
-        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FGameOverStatus == TGameOverStatus.goLost)
+        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.Lost)
         {
             var replay = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ReplayRStr);
             Window.ContinueBtn.Text = replay;
@@ -249,7 +249,7 @@ public partial class TPyreScreen : TDataModule
         Aow.Game.Ui.Dialogs.DialogHosts.ResultsWin.ResultsPnl.Visible = true;
     }
 
-    internal static void ClearPyre(TPyreScreen Dialog)
+    internal static void ClearPyre(PyreScreen Dialog)
     {
         if (Dialog.FAnimation != null)
         {

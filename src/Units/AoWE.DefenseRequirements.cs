@@ -7,12 +7,12 @@ using Aow.Game.World.Movement;
 
 namespace Aow.Game.World.Map;
 
-public partial class TAoWMapField
+public partial class AoWMapField
 {
-    public bool GetAITarget(TAIGroupControl control, in TAITargetInfo info, ref TAITargetData data)
+    public bool GetAITarget(AIGroupControl control, in AITargetInfo info, ref AITargetData data)
     {
         var query = new AITargetQuery { Info = info };
-        var message = new TMapFieldMsg { MsgID = 0x1200, Result = 0 };
+        var message = new MapFieldMsg { MsgID = 0x1200, Result = 0 };
         message.Param[0] = query;
         message.Param[1] = query;
         message.Param[2] = control;
@@ -21,10 +21,10 @@ public partial class TAoWMapField
         return data.Priority != 0;
     }
 
-    public void GetDefenseRequirements(sbyte player, ref TDefenseRequirements requirements)
+    public void GetDefenseRequirements(sbyte player, ref DefenseRequirements requirements)
     {
         var query = new DefenseRequirementsQuery();
-        var message = new TMapFieldMsg { MsgID = 0x1127, Result = 0 };
+        var message = new MapFieldMsg { MsgID = 0x1127, Result = 0 };
         message.Param[0] = player;
         message.Param[1] = query;
         try { SendMapFieldMsg(ref message); }
@@ -32,23 +32,23 @@ public partial class TAoWMapField
     }
 }
 
-public partial class TAoWHSMap
+public partial class AoWHSMap
 {
-    public void RetrieveBattleFieldInfo(int x, int y, int level, int radius, ref TBattleFieldInfo info)
+    public void RetrieveBattleFieldInfo(int x, int y, int level, int radius, ref BattleFieldInfo info)
     {
         var query = new BattleFieldQuery { Info = info };
-        var message = new TMapFieldMsg { MsgID = 0x1108 };
+        var message = new MapFieldMsg { MsgID = 0x1108 };
         message.Param[0] = query;
         var mapLevel = MapContainer.GetMapLevel(level);
-        THNWalkData walk = default;
-        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref walk, x, y, 0);
+        HNWalkData walk = default;
+        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref walk, x, y, 0);
         try
         {
             while (walk.Radius <= radius)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                 {
-                    var field = (TAoWMapField)mapLevel.GetField(walk.X, walk.Y);
+                    var field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
                     if ((field.FFieldFlags & 0x04000000) != 0)
                     {
                         int friendly = query.Info.FriendlyStrength, enemy = query.Info.Strength;
@@ -57,7 +57,7 @@ public partial class TAoWHSMap
                         query.Info.Strength = Math.Max(enemy, query.Info.Strength);
                     }
                 }
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
             }
         }
         finally { info = query.Info; }

@@ -13,43 +13,43 @@ public sealed partial class AoWERuleConstructionTests
 {
     public static IEnumerable<object[]> UnitClasses => new[]
     {
-        "TAbstractUnit", "TUnit", "THero", "TLeader", "TAdjustableUnit", "TWallUnit", "THeroCastingViewP4"
+        "AbstractUnit", "Unit", "Hero", "Leader", "AdjustableUnit", "WallUnit", "HeroCastingViewP4"
     }.Select(name => new object[] { name });
 
     private sealed class UnitOwner(bool reject) : EngineFixture.Owner
     {
         internal readonly List<string> Events = [];
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
-            var unit = (TAbstractUnit)child;
+            var unit = (AbstractUnit)child;
             Events.Add($"insert:{unit.FRefCount}:{unit.FUnitID}:{unit.FGroupID}");
             if (reject) return -1;
             base.AddChild(child);
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(TEObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
+        public override int RemoveChild(EObject child) => base.RemoveChild(child) < 0 ? -1 : 0;
     }
 
-    private static TAbstractUnit CreateUnit(Type type, TECustomNode owner, int route)
+    private static AbstractUnit CreateUnit(Type type, ECustomNode owner, int route)
     {
         var meta = EClass.Of(type);
-        if (route == 1) return (TAbstractUnit)meta.Create(owner);
+        if (route == 1) return (AbstractUnit)meta.Create(owner);
         if (route == 2)
         {
             if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-            using var engine = new TEngine(null!);
-            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
+            using var engine = new Engine(null!);
+            engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
-            return (TAbstractUnit)engine.CreateEObject(meta.ClassID, owner);
+            return (AbstractUnit)engine.CreateEObject(meta.ClassID, owner);
         }
         if (route == 3)
-            return (TAbstractUnit)Invoke(() => meta.GetType().GetMethod("Create", [typeof(TECustomNode)])!.Invoke(meta, [owner]))!;
-        var constructor = type.GetConstructor([typeof(TECustomNode)])!;
-        return (TAbstractUnit)Invoke(() => constructor.Invoke([owner]))!;
+            return (AbstractUnit)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
+        var constructor = type.GetConstructor([typeof(ECustomNode)])!;
+        return (AbstractUnit)Invoke(() => constructor.Invoke([owner]))!;
     }
 
     [Theory]
@@ -57,8 +57,8 @@ public sealed partial class AoWERuleConstructionTests
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
         Type type = TypeNamed(name);
-        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
+        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        Aow.Game.World.Map.AoWHSMap.Current = null!;
         try
         {
             var states = new List<string>();
@@ -84,50 +84,50 @@ public sealed partial class AoWERuleConstructionTests
             }
             ConstructionSnapshot.Check("UnitConstruction", name, string.Join("\n", states));
         }
-        finally { Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous; }
+        finally { Aow.Game.World.Map.AoWHSMap.Current = previous; }
     }
 
     [Theory]
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        var previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        var previousSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
-        var set = EngineFixture.Configure(TAoWHSSet.Create(null!), value => { value.FUnitResources = new TUnitResourceList(null!); value.FHeroResources = new THeroResourceList(null!); value.FAbilityControl = new TAbilityControl(null!); });
-        Aow.Game.Engine.TAoWHSSet.AoWHSSet = set;
+        var previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        var previousSet = Aow.Game.Engine.AoWHSSet.Current;
+        Aow.Game.World.Map.AoWHSMap.Current = null!;
+        var set = EngineFixture.Configure(AoWHSSet.Create(null!), value => { value.FUnitResources = new UnitResourceList(null!); value.FHeroResources = new HeroResourceList(null!); value.FAbilityControl = new AbilityControl(null!); });
+        Aow.Game.Engine.AoWHSSet.Current = set;
         Type type = TypeNamed(name);
         var meta = EClass.Of(type);
         if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-        var engine = new TEngine(null!);
-        TEObject source = CreateUnit(type, null!, 0);
-        TEObject result = null!;
+        var engine = new Engine(null!);
+        EObject source = CreateUnit(type, null!, 0);
+        EObject result = null!;
         var owner = new UnitOwner(false);
         using var memory = new MemoryStream();
         try
         {
-            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
-            if (source is TUnit unit) unit.FUnitResource = new TUnitResource(set.FUnitResources);
-            if (source is THero hero) hero.FExperience = 1;
-            if (source is TAdjustableUnit adjustable) adjustable.SetAbCount(0);
-            ((TAbstractUnit)source).FUnitID = 317;
-            ((TAbstractUnit)source).FGroupID = 29;
-            var writer = new TEWriteStorageStream(memory, engine, false);
+            if (source is Unit unit) unit.FUnitResource = new UnitResource(set.FUnitResources);
+            if (source is Hero hero) hero.FExperience = 1;
+            if (source is AdjustableUnit adjustable) adjustable.SetAbCount(0);
+            ((AbstractUnit)source).FUnitID = 317;
+            ((AbstractUnit)source).FGroupID = 29;
+            var writer = new EWriteStorageStream(memory, engine, false);
             writer.rwCreateEObject(ref source, null!, 7);
             writer.Dispose();
             memory.Position = 0;
-            using (var reader = new TEReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, owner, 7); }
-            var loaded = Assert.IsAssignableFrom<TAbstractUnit>(result);
+            using (var reader = new EReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, owner, 7); }
+            var loaded = Assert.IsAssignableFrom<AbstractUnit>(result);
             Assert.IsType(type, loaded);
             Assert.Equal(1, loaded.FRefCount);
             Assert.Equal(317, loaded.FUnitID);
             Assert.Equal(29, loaded.FGroupID);
             Assert.Same(owner, loaded.Owner);
             Assert.Same(loaded, Assert.Single(owner.Members));
-            Assert.Equal(new[] { $"insert:{(loaded is THero ? 3 : 2)}:317:29" }, owner.Events);
+            Assert.Equal(new[] { $"insert:{(loaded is Hero ? 3 : 2)}:317:29" }, owner.Events);
         }
         finally
         {
@@ -137,22 +137,22 @@ public sealed partial class AoWERuleConstructionTests
             set.FUnitResources.Dispose();
             set.FHeroResources.Dispose();
             set.FAbilityControl.Dispose();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet = previousSet;
+            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
+            Aow.Game.Engine.AoWHSSet.Current = previousSet;
         }
         Assert.Empty(owner.Members);
     }
 
     private static UnitOwner? RefcountOwner;
 
-    private sealed class ObservedUnit(TECustomNode owner) : TAbstractUnit(owner)
+    private sealed class ObservedUnit(ECustomNode owner) : AbstractUnit(owner)
     {
         public override int AddRef() { int result = base.AddRef(); RefcountOwner!.Events.Add("add:" + result); return result; }
 
         public override int Release() { int result = base.Release(); RefcountOwner!.Events.Add("release:" + result); return result; }
     }
 
-    private sealed class ObservedHero(TECustomNode owner) : THero(owner)
+    private sealed class ObservedHero(ECustomNode owner) : Hero(owner)
     {
         public override int AddRef() { int result = base.AddRef(); RefcountOwner!.Events.Add("add:" + result); return result; }
 
@@ -166,13 +166,13 @@ public sealed partial class AoWERuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
+        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        Aow.Game.World.Map.AoWHSMap.Current = null!;
         var owner = new UnitOwner(reject);
         RefcountOwner = owner;
         try
         {
-            TAbstractUnit value = hero ? new ObservedHero(owner) : new ObservedUnit(owner);
+            AbstractUnit value = hero ? new ObservedHero(owner) : new ObservedUnit(owner);
             Assert.Equal(hero ? new[] { "add:2", "add:3", "insert:3:0:0", "release:2", "release:1" }
                 : new[] { "add:2", "insert:2:0:0", "release:1" }, owner.Events);
             Assert.Equal(1, value.FRefCount);
@@ -180,6 +180,6 @@ public sealed partial class AoWERuleConstructionTests
             value.Dispose();
             Assert.Empty(owner.Members);
         }
-        finally { RefcountOwner = null; Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous; }
+        finally { RefcountOwner = null; Aow.Game.World.Map.AoWHSMap.Current = previous; }
     }
 }

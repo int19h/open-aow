@@ -5,15 +5,15 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Controls;
 
-public partial class TAOWImage
+public partial class AOWImage
 {
     // FastCombatWindow.GlowAnimation is a plain TImageLibrary in the recovered form.
-    public TImageLibrary FImageLib;
+    public ImageLibrary FImageLib;
 
     [Published]
-    public TImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
+    public ImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
 
-    public void SetILB(TImageLibrary value)
+    public void SetILB(ImageLibrary value)
     {
         if (value == FImageLib) return;
         FValid = false;
@@ -30,7 +30,7 @@ public partial class TAOWImage
         base.Validate();
     }
 
-    public override void Draw(TSurfaceDesc surface)
+    public override void Draw(SurfaceDesc surface)
     {
         try
         {

@@ -16,10 +16,10 @@ public static partial class Fixtures
     internal static IEnumerable<Case> KindCases()
     {
         yield return new("cases", "production orders 1, 2, 11, 12, 13 and an unknown kind keep their cases", () =>
-            OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "TProductionItem") is var cases && cases == ProductionCases
+            OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "ProductionItem") is var cases && cases == ProductionCases
                 ? null : "production cases read back as " + cases));
         yield return new("cases", "diplomatic proposals 0, 1, a residue and an unknown kind keep their cases", () =>
-            OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "TDiplomaticAction") is var cases && cases == DiplomacyCases
+            OwnRoundTrip(WithKinds(ProductionItems, DiplomaticActions), (normal, _) => CasesOf(normal, "DiplomaticAction") is var cases && cases == DiplomacyCases
                 ? null : "diplomatic cases read back as " + cases));
         yield return new("cases", "an unknown case name is refused", () => Expect(Codes.Case,
             () => GameFiles.Export(Copy(WithKinds([Item(0, "Build", [])], []))), Located));
@@ -50,11 +50,11 @@ public static partial class Fixtures
         Action(3, "Unknown", [("Kind", new JsonString("0c")), ("Gold", new JsonInteger(5))]),
     ];
 
-    private static JsonObject Item(int slot, string kind, (string, JsonValue)[] fields) => Mapped("TProductionItem", slot, kind, fields, null);
+    private static JsonObject Item(int slot, string kind, (string, JsonValue)[] fields) => Mapped("ProductionItem", slot, kind, fields, null);
 
     private static JsonObject Action(int slot, string kind, (string, JsonValue)[] fields, JsonObject? residue = null)
     {
-        var action = Mapped("TDiplomaticAction", slot, kind, fields, residue);
+        var action = Mapped("DiplomaticAction", slot, kind, fields, residue);
         action.Add("Source", new JsonInteger(1)).Add("Target", new JsonInteger(2)).Add("OtherPlayer", new JsonInteger(255));
         return action;
     }

@@ -25,16 +25,16 @@ namespace Aow.Game.Magic.Spells
 
     public enum AnonymousEnum_rmRaising : byte
     {
-        rmRaising = 0
+        Raising = 0
     }
 }
 
 namespace Aow.Game.World
 {
 
-    public partial class TMountainMO : TAoWTerrain
+    public partial class MountainMO : AoWTerrain
     {
-        public TMountainMO(TECustomNode owner) : base(owner)
+        public MountainMO(ECustomNode owner) : base(owner)
         { }
 
         // Mountain.pas:101
@@ -53,18 +53,18 @@ namespace Aow.Game.World
         }
 
         // Mountain.pas:110
-        public override bool CanChangeTerrain(in THSSenderInfo Info) => true;
+        public override bool CanChangeTerrain(in HSSenderInfo Info) => true;
 
         // Mountain.pas:136
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             int I;
             bool Valid;
-            TTerrainList List;
-            TMapField MapField;
+            TerrainList List;
+            MapField MapField;
             int X = default;
             int Y = default;
-            THexagonSprite HS;
+            HexagonSprite HS;
             I = 0;
             Valid = true;
             List = FResource.TerrainList;
@@ -95,17 +95,17 @@ namespace Aow.Game.World
         }
 
         // Mountain.pas:113
-        public bool ValidMountainOverlap(TMapField MapField, sbyte Overlay)
+        public bool ValidMountainOverlap(MapField MapField, sbyte Overlay)
         {
             bool Valid;
             int I;
-            TMapObject HS;
+            MapObject HS;
             sbyte OtherOverlay;
             Valid = true;
             I = 0;
             while (I != MapField.Count && Valid)
             {
-                HS = (TMapObject)MapField.HSList[I];
+                HS = (MapObject)MapField.HSList[I];
                 if (HS.EClass.ClassID == 131432)
                 {
                     var hNofHS = MapField.GetHNofHS(HS);
@@ -121,9 +121,9 @@ namespace Aow.Game.World
 
     }
 
-    public partial class TMountainMOR : TAoWTerrainResource
+    public partial class MountainMOR : Aow.Game.World.Hexes.AoWTerrain.Resource
     {
-        public TMountainMOR(TECustomNode owner) : base(owner)
+        public MountainMOR(ECustomNode owner) : base(owner)
         { }
 
         // Mountain.pas:169
@@ -142,21 +142,21 @@ namespace Aow.Game.World.Terrain
 {
 
     // FMode, FPlayer, FDuration, FOriginalOverlay
-    public partial class TRaisedMountain : TILTerrainMO
+    public partial class RaisedMountain : ILTerrainMO
     {
-        public TRaisedMountain(TECustomNode owner) : base(owner)
+        public RaisedMountain(ECustomNode owner) : base(owner)
         { }
 
         // Mountain.pas:178
         public new const int ClassID = 131434;
 
-        public TSet<AnonymousEnum_rmRaising> FMode;
+        public Set<AnonymousEnum_rmRaising> FMode;
         public sbyte FPlayer;
         public sbyte FDuration;
         public sbyte FOriginalOverlay;
 
         // Mountain.pas:181
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwShortintEx(ref FPlayer, -1, 40);
@@ -165,7 +165,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // Mountain.pas:210
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001986)
@@ -175,16 +175,16 @@ namespace Aow.Game.World.Terrain
         }
 
         // Mountain.pas:223
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            if (!FMode.Contains(AnonymousEnum_rmRaising.rmRaising))
+            if (!FMode.Contains(AnonymousEnum_rmRaising.Raising))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
         }
 
         // Mountain.pas:216
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4402)
@@ -199,14 +199,14 @@ namespace Aow.Game.World.Terrain
         // Mountain.pas:189
         public void RestoreTerrain()
         {
-            TMapField Field;
+            MapField Field;
             sbyte Overlay;
-            Field = (TMapField)Owner;
+            Field = (MapField)Owner;
             Overlay = FOriginalOverlay;
             this.Dispose();
             if (Overlay > 0)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
+                Aow.Game.World.Map.AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
             }
         }
 
@@ -224,62 +224,62 @@ namespace Aow.Game.World.Terrain
         }
 
         // Mountain.pas:228
-        public void ShowRaiseTerrainAnimation(TAnimation Anim, int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowRaiseTerrainAnimation(Animation Anim, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            TMapField Field;
+            MapField Field;
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            Field = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             // { Original tests the base mountain ID, although this object is raised terrain. }
             if (this == Field.FindOwnedChild(131432) && Anim.FFrameCounter == 0)
             {
-                bool condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Anim.FTag;
+                bool condition = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
                 if (!condition)
                 {
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                    condition = Aow.Game.World.Map.AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
                 if (condition)
                 {
-                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(19).FCastSounds.Play(0);
+                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(19).FCastSounds.Play(0);
                 }
             }
         }
 
         // Mountain.pas:240
-        public void NewFrameRaiseTerrainAnimation(TAnimation Anim, int FrameCounter)
+        public void NewFrameRaiseTerrainAnimation(Animation Anim, int FrameCounter)
         {
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            var field = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            var field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             if (field.FindOwnedChild(131434) == this && FrameCounter == 9)
             {
-                FMode = FMode - TSet<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.rmRaising);
+                FMode = FMode - Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
             }
         }
 
-    }
+        public new partial class Resource : ILTerrainMOR
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
 
-    public partial class TRaisedMountainResource : TILTerrainMOR
-    {
-        public TRaisedMountainResource(TECustomNode owner) : base(owner)
-        { }
+            // Mountain.pas:249
+            public new const int ClassID = 131435;
 
-        // Mountain.pas:249
-        public new const int ClassID = 131435;
+            // Mountain.pas:255
+            public override int ResourceUserClassID() => 131434;
 
-        // Mountain.pas:255
-        public override int ResourceUserClassID() => 131434;
+            // Mountain.pas:252
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.RaisedMountain.Resource.RaisedMountainRStr);
 
-        // Mountain.pas:252
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TRaisedMountainResource.RaisedMountainRStr);
+            private static readonly string RaisedMountainRStr = "Raised Mountain";
 
-        private static readonly string RaisedMountainRStr = "Raised Mountain";
+        }
 
     }
 }
@@ -287,79 +287,79 @@ namespace Aow.Game.World.Terrain
 namespace Aow.Game.Commands
 {
 
-    public partial class TRaiseTerrainTE : TGlobalTargetSpellTE
+    public partial class RaiseTerrainTE : GlobalTargetSpellTE
     {
-        public TRaiseTerrainTE(TECustomNode owner) : base(owner)
+        public RaiseTerrainTE(ECustomNode owner) : base(owner)
         { }
 
         // Mountain.pas:258
         public new const int ClassID = 135946;
 
         // Mountain.pas:317
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             base.Process(source, value);
             RaiseTerrain(source);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(source.FPlayer, Unsafe.As<TXYL, TLocation>(ref FLocation).X, Unsafe.As<TXYL, TLocation>(ref FLocation).Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer, 1);
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 1);
+            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             return false;
         }
 
         // Mountain.pas:261
-        public void RaiseTerrain(TAbstractUnit Caster)
+        public void RaiseTerrain(AbstractUnit Caster)
         {
-            TList Resources = default;
-            TMapLevel Level = default;
-            THNWalkData Walk = default;
-            TAoWMapField Field = default;
-            TRaisedMountain Mountain = default;
-            TMapObjectResource Resource = default;
+            DelphiList Resources = default;
+            MapLevel Level = default;
+            HNWalkData Walk = default;
+            AoWMapField Field = default;
+            RaisedMountain Mountain = default;
+            MapObjectResource Resource = default;
             int I = default;
             bool Found = default;
-            TImageSequenceAnimation Anim = default;
-            Resources = Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList.FChildren;
-            Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[Unsafe.As<TXYL, TLocation>(ref FLocation).Layer];
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Unsafe.As<TXYL, TLocation>(ref FLocation).X, Unsafe.As<TXYL, TLocation>(ref FLocation).Y, 0);
+            ImageSequenceAnimation Anim = default;
+            Resources = Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FChildren;
+            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, Location>(ref FLocation).Layer];
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    Field = (TAoWMapField)Level.Field[Walk.X, Walk.Y];
+                    Field = (AoWMapField)Level.Field[Walk.X, Walk.Y];
                     Resource = null;
-                    if (((TGlobalTargetSpell)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
+                    if (((GlobalTargetSpell)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
                     {
                         Found = false;
                         I = Resources.Count;
                         while (!Found && I != 0)
                         {
                             I -= 1;
-                            Resource = (TMapObjectResource)Resources.List[I];
+                            Resource = (MapObjectResource)Resources.List[I];
                             Found = Resource.EClass.ClassID == 131435 && Resource.TerrainList.UsedTerrain() == 1;
                         }
 
                         if (Found)
                         {
                             Field.RestoreTerrain();
-                            Mountain = (TRaisedMountain)Resource.CreateResourceUser();
-                            Mountain.FDuration = (sbyte)((Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(11) - 5) / 5 + 3);
+                            Mountain = (RaisedMountain)Resource.CreateResourceUser();
+                            Mountain.FDuration = (sbyte)((Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5 + 3);
                             Mountain.FPlayer = Caster.FPlayer;
                             Mountain.FOriginalOverlay = Field.OverlayType;
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer, 0, -1);
-                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Mountain, Walk.X, Walk.Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer))
+                            Aow.Game.World.Map.AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 0, -1);
+                            if (Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Mountain, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer))
                             {
-                                Mountain.FMode = Mountain.FMode + TSet<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.rmRaising);
-                                Anim = new TImageSequenceAnimation(null);
-                                Anim.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(19).FCastImages.ImageSequences[0]);
+                                Mountain.FMode = Mountain.FMode + Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
+                                Anim = new ImageSequenceAnimation(null);
+                                Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(19).FCastImages.ImageSequences[0]);
                                 Anim.FOnShow = Mountain.ShowRaiseTerrainAnimation;
                                 Anim.FOnNewFrame = Mountain.NewFrameRaiseTerrainAnimation;
-                                Anim.FFrameCounter = -Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(15);
-                                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, Walk.X, Walk.Y, Unsafe.As<TXYL, TLocation>(ref FLocation).Layer);
+                                Anim.FFrameCounter = -Aow.Game.World.Map.AoWHSMap.Current.Random(15);
+                                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer);
                             }
                         }
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -371,22 +371,22 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Magic.Spells.GlobalTarget
 {
 
-    public partial class TRaiseTerrain : TGlobalTargetSpell
+    public partial class RaiseTerrain : GlobalTargetSpell
     {
-        public TRaiseTerrain(TECustomNode owner) : base(owner)
+        public RaiseTerrain(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.TRaiseTerrain.RaiseTerrainRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain.RaiseTerrainRStr);
             FSpellID = 19;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msEarth;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
             FAboveGroundOnly = true;
         }
 
         // Mountain.pas:327
 
         // Mountain.pas:364
-        public override void SetupTargetSelection(TAbstractUnit Source, TTargetSelectionControl TargetSelection)
+        public override void SetupTargetSelection(AbstractUnit Source, TargetSelectionControl TargetSelection)
         {
             base.SetupTargetSelection(Source, TargetSelection);
             TargetSelection.FHNs.Clear();
@@ -397,26 +397,26 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // Mountain.pas:373
-        public override bool TargetSelected(TAbstractUnit Source, int X, int Y, int L)
+        public override bool TargetSelected(AbstractUnit Source, int X, int Y, int L)
         {
-            TRaiseTerrainTE Event;
-            Event = new TRaiseTerrainTE(null);
+            RaiseTerrainTE Event;
+            Event = new RaiseTerrainTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
 
         // Mountain.pas:347
-        public override bool ValidTargetSelectionMapF(TMapField Field)
+        public override bool ValidTargetSelectionMapF(MapField Field)
         {
             bool Valid;
-            TArmyHS Army;
-            Valid = base.ValidTargetSelectionMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null;
+            ArmyHS Army;
+            Valid = base.ValidTargetSelectionMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(Structure)) == null;
             if (Valid)
             {
-                Army = ((TAoWMapField)Field).GetArmyHS();
+                Army = ((AoWMapField)Field).GetArmyHS();
                 if (Army != null)
                 {
                     Valid = !Army.VisibleForSeatedPlayer();
@@ -427,7 +427,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         }
 
         // Mountain.pas:338
-        public override bool ValidTargetMapF(TMapField Field) => base.ValidTargetMapF(Field) && !TSet<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
+        public override bool ValidTargetMapF(MapField Field) => base.ValidTargetMapF(Field) && !Set<byte>.WithBounds(0, 255).With(0).With(6).With(10).With(13).Contains((byte)Field.TerrainType) && !Set<byte>.WithBounds(0, 255).With(0).Contains((byte)Field.OverlayType) && Field.FindNoneTransparentHS(typeof(Structure)) == null && ((AoWMapField)Field).GetArmyHS() == null;
 
         private static readonly string RaiseTerrainRStr = "Raise Terrain";
 
@@ -442,7 +442,7 @@ namespace Aow.Game.Magic.Spells
 {
 
     [StructLayout(LayoutKind.Explicit, Size = 4)]
-    public struct TLocation
+    public struct Location
     {
         [FieldOffset(0)]
         public sbyte X;

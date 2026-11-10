@@ -9,20 +9,20 @@ namespace Aow.Game.Ui.Windows;
 
 // completion event, first frame, previous surface validity, page turn, animating, saved page
 // surface, page-turn mode
-public partial class TAoWBookWindow : TAOWWindow
+public partial class AoWBookWindow : AOWWindow
 {
-    public TNotifyEvent<TAoWBookWindow> FOnAnimationComplete;
+    public NotifyEvent<AoWBookWindow> FOnAnimationComplete;
     public bool FFirstAnimationFrame;
     public bool FPreviousSurfaceValid;
-    public Aow.Game.Ui.Grids.TPageTurnControl FPageTurn;
+    public Aow.Game.Ui.Grids.PageTurnControl FPageTurn;
     public bool FAnimating;
-    public TSurface FPageSurface;
-    public Aow.Game.Ui.Grids.TPageTurnMode FPageTurnMode;
+    public Surface FPageSurface;
+    public Aow.Game.Ui.Grids.PageTurnMode FPageTurnMode;
 
     // AoWBookWindow.pas:50
     public override void Dispose()
     {
-        TSurface S;
+        Surface S;
         S = FPageSurface;
         if (S != null)
         {
@@ -33,9 +33,9 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     // AoWBookWindow.pas:44
-    public TAoWBookWindow(TComponent owner) : base(owner)
+    public AoWBookWindow(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FPageTurn = new Aow.Game.Ui.Grids.TPageTurnControl();
+        FPageTurn = new Aow.Game.Ui.Grids.PageTurnControl();
     }
 
     // AoWBookWindow.pas:78
@@ -60,7 +60,7 @@ public partial class TAoWBookWindow : TAOWWindow
     // AoWBookWindow.pas:59
     public override void SetVisible(bool Value)
     {
-        TSurface S;
+        Surface S;
         if (Value != FVisible)
         {
             FAnimating = false;
@@ -79,7 +79,7 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     // AoWBookWindow.pas:113
-    public override void DrawSurface(TSurface Surface)
+    public override void DrawSurface(Surface Surface)
     {
         FPreviousSurfaceValid = FSurfaceValid;
         base.DrawSurface(Surface);
@@ -90,7 +90,7 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     // AoWBookWindow.pas:186
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = FAnimating;
         if (!FAnimating)
@@ -112,7 +112,7 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     // AoWBookWindow.pas:199
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = FAnimating;
         if (!FAnimating)
@@ -122,7 +122,7 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     // AoWBookWindow.pas:205
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = FAnimating;
         if (!FAnimating)
@@ -132,17 +132,17 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     // AoWBookWindow.pas:92
-    public void StartAnim(Aow.Game.Ui.Grids.TPageTurnMode Mode)
+    public void StartAnim(Aow.Game.Ui.Grids.PageTurnMode Mode)
     {
-        TSurfaceDesc Source = default;
-        TSurfaceDesc Dest = default;
-        TRect R;
+        SurfaceDesc Source = default;
+        SurfaceDesc Dest = default;
+        global::Aow.Rtl.Rect R;
         if (FBackSurface != null && FPageSurface != null)
         {
-            R = Rect(0, 0, FWinWidth, FWinHeight);
+            R = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
             FBackSurface.Lock(ref Source);
             FPageSurface.Lock(ref Dest);
-            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(Source, R, Dest, 0, 0);
+            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(Source, R, Dest, 0, 0);
             FPageSurface.Unlock();
             FBackSurface.Unlock();
             FPageTurn.SetPageDimensions(271, 368);
@@ -156,123 +156,123 @@ public partial class TAoWBookWindow : TAOWWindow
     }
 
     [Published]
-    public TNotifyEvent<TAoWBookWindow> OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
+    public NotifyEvent<AoWBookWindow> OnAnimDone { get => FOnAnimationComplete; set => FOnAnimationComplete = value; }
 
-    public new TNotifyEvent<TAoWBookWindow> OnChange
+    public new NotifyEvent<AoWBookWindow> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAoWBookWindow> OnMouseDown
+    public new MouseEvent<AoWBookWindow> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAoWBookWindow> OnMouseUp
+    public new MouseEvent<AoWBookWindow> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAoWBookWindow> OnMouseMove
+    public new MouseMoveEvent<AoWBookWindow> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAoWBookWindow> OnKeyPress
+    public new KeyPressEvent<AoWBookWindow> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAoWBookWindow> OnKeyDown
+    public new KeyEvent<AoWBookWindow> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWBookWindow> OnPreDraw
+    public new AoWOnDrawEvent<AoWBookWindow> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWBookWindow> OnDraw
+    public new AoWOnDrawEvent<AoWBookWindow> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnUpdate
+    public new NotifyEvent<AoWBookWindow> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 
-    public new TAoWOnDrawBackEvent<TAoWBookWindow> OnDrawBack
+    public new AoWOnDrawBackEvent<AoWBookWindow> OnDrawBack
     {
         get => EventSlot.Get(this, FOnDrawBack);
         set => EventSlot.Set(this, ref FOnDrawBack, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnEnter
+    public new NotifyEvent<AoWBookWindow> OnEnter
     {
         get => EventSlot.Get(this, FOnEnter);
         set => EventSlot.Set(this, ref FOnEnter, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnExit
+    public new NotifyEvent<AoWBookWindow> OnExit
     {
         get => EventSlot.Get(this, FOnExit);
         set => EventSlot.Set(this, ref FOnExit, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnChangeCursor
+    public new NotifyEvent<AoWBookWindow> OnChangeCursor
     {
         get => EventSlot.Get(this, FOnChangeCursor);
         set => EventSlot.Set(this, ref FOnChangeCursor, value);
     }
 
-    public new TAoWOnDrawSurface<TAoWBookWindow> OnDrawSurface
+    public new AoWOnDrawSurface<AoWBookWindow> OnDrawSurface
     {
         get => EventSlot.Get(this, FOnDrawSurface);
         set => EventSlot.Set(this, ref FOnDrawSurface, value);
     }
 
-    public new TAoWOnDrawSurface<TAoWBookWindow> OnPreDrawSurface
+    public new AoWOnDrawSurface<AoWBookWindow> OnPreDrawSurface
     {
         get => EventSlot.Get(this, FOnPreDrawSurface);
         set => EventSlot.Set(this, ref FOnPreDrawSurface, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnDrag
+    public new NotifyEvent<AoWBookWindow> OnDrag
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnResize
+    public new NotifyEvent<AoWBookWindow> OnResize
     {
         get => EventSlot.Get(this, FOnResize);
         set => EventSlot.Set(this, ref FOnResize, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnInternalResize
+    public new NotifyEvent<AoWBookWindow> OnInternalResize
     {
         get => EventSlot.Get(this, FOnInternalResize);
         set => EventSlot.Set(this, ref FOnInternalResize, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnHide
+    public new NotifyEvent<AoWBookWindow> OnHide
     {
         get => EventSlot.Get(this, FOnHide);
         set => EventSlot.Set(this, ref FOnHide, value);
     }
 
-    public new TNotifyEvent<TAoWBookWindow> OnShow
+    public new NotifyEvent<AoWBookWindow> OnShow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);

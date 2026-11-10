@@ -24,32 +24,32 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // completion callback. city-rebellion event
-public partial class TCityRebelDlg : TDataModule
+public partial class CityRebelDlg : DataModule
 {
-    public TCityRebelDlg(TComponent owner) : base(owner)
+    public CityRebelDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow RebelWin;
-    public TAOWLabel Title;
-    public TAOWButton Close;
-    public TAOWImage TitleIcon;
-    public TAoWFrame BCeltL;
-    public TAOWButton CenterBut;
-    public TAOWButton CloseBut;
-    public TAOWImage RebelBG;
-    public TAOWLabel CityNameLabel;
-    public TAOWLabel AOWLabel2;
-    public TAOWLabel AOWLabel3;
-    public TAoWFrame AoWFrame1;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FOnClose;
-    public TCityRebellionEventLog FEvent;
+    public AOWWindow RebelWin;
+    public AOWLabel Title;
+    public AOWButton Close;
+    public AOWImage TitleIcon;
+    public AoWFrame BCeltL;
+    public AOWButton CenterBut;
+    public AOWButton CloseBut;
+    public AOWImage RebelBG;
+    public AOWLabel CityNameLabel;
+    public AOWLabel AOWLabel2;
+    public AOWLabel AOWLabel3;
+    public AoWFrame AoWFrame1;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FOnClose;
+    public CityRebellionEventLog FEvent;
 
     // AoWCityRebelDlg.pas:49
     public void ClearEvent()
     {
-        TCityRebellionEventLog Event;
-        TExecuteDoneEvent Notify;
+        CityRebellionEventLog Event;
+        ExecuteDoneEvent Notify;
         Notify = FOnClose;
         Event = FEvent;
         FOnClose = null;
@@ -77,7 +77,7 @@ public partial class TCityRebelDlg : TDataModule
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var cityRebellionEventLog = FEvent;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
+        Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
     }
 
     // AoWCityRebelDlg.pas:72
@@ -87,7 +87,7 @@ public partial class TCityRebelDlg : TDataModule
     }
 
     // AoWCityRebelDlg.pas:77
-    public void RebelWinKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void RebelWinKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {
@@ -95,7 +95,7 @@ public partial class TCityRebelDlg : TDataModule
         }
     }
 
-    internal static void ShowRebellion(TCityRebelDlg Dialog, TCityRebellionEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowRebellion(CityRebelDlg Dialog, CityRebellionEventLog Event, ExecuteDoneEvent Done)
     {
         Dialog.FOnClose = Done;
         Dialog.FEvent = Event;

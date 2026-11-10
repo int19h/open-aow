@@ -39,8 +39,8 @@ public sealed class SymbolicTests : FormatsTest
         scores.Items.Add(new IntegerNode(4, true, 0));
         node.Add("Scores", scores);
         var document = DocumentBackend.Write(node, cls, schema, "game");
-        Assert.Equal("srGold", ((JsonString)document["Rank"]!).Value);
-        Assert.Equal(["srNone", 7L], Items(document["Marks"]!));
+        Assert.Equal("Gold", ((JsonString)document["Rank"]!).Value);
+        Assert.Equal(["None", 7L], Items(document["Marks"]!));
         Assert.Equal([(long)int.MinValue, 0L], Items(document["Scores"]!));
         var image = OriginalBackend.Write(node, cls, schema, "game");
         var back = DocumentBackend.Write(OriginalBackend.Read(image, cls, schema, "game"), cls, schema, "game");
@@ -126,7 +126,7 @@ public sealed class SymbolicTests : FormatsTest
         var root = (JsonObject)relation.Document["root"]!;
         Assert.Equal([SymbolicMigration.Name, RecordMigration.Name], relation.Migrations);
         Assert.Equal(3, ((JsonInteger)relation.Document["$version"]!).Value);
-        Assert.Equal("drAlliance", ((JsonString)root["Relation"]!).Value);
+        Assert.Equal("Alliance", ((JsonString)root["Relation"]!).Value);
         Assert.Equal(4, ((JsonInteger)root["Day"]!).Value);
 
         var unnamed = Migrate("""
@@ -139,7 +139,7 @@ public sealed class SymbolicTests : FormatsTest
             {"$format":"OpenAoW","$version":1,"$kind":"hero-list","$container":{"profile":"hero-list","compression":"none"},
              "root":{"$class":"TEControlStyleObject","ControlStyle":"a5"}}
             """);
-        Assert.Equal(["csSaveLoad", "csVerifyFixedChildren", 5L, 7L], Items(((JsonObject)style.Document["root"]!)["ControlStyle"]!));
+        Assert.Equal(["SaveLoad", "VerifyFixedChildren", 5L, 7L], Items(((JsonObject)style.Document["root"]!)["ControlStyle"]!));
 
         var spell = Migrate("""
             {"$format":"OpenAoW","$version":1,"$kind":"hero-list","$container":{"profile":"hero-list","compression":"none"},
@@ -153,24 +153,24 @@ public sealed class SymbolicTests : FormatsTest
     {
         var child = MigrateRoot("""{"$class":"TGlobalEnchantmentList","Children":[{"$class":"TGlobalEnchantment","$slot":0,"EnchantmentType":"03"}]}""");
         var enchantment = (JsonObject)((JsonArray)((JsonObject)child.Document["root"]!)["Children"]!).Items[0];
-        Assert.Equal("getPowerLeak", ((JsonString)enchantment["EnchantmentType"]!).Value);
+        Assert.Equal("PowerLeak", ((JsonString)enchantment["EnchantmentType"]!).Value);
 
         var created = MigrateRoot("""{"$class":"TGlobalEnchantmentSpellTE","Enchantment":{"$class":"TGlobalEnchantment","EnchantmentType":"01"}}""");
         var made = (JsonObject)((JsonObject)created.Document["root"]!)["Enchantment"]!;
-        Assert.Equal("getHatred", ((JsonString)made["EnchantmentType"]!).Value);
+        Assert.Equal("Hatred", ((JsonString)made["EnchantmentType"]!).Value);
 
         var dynamicItem = MigrateRoot("""{"$class":"TAbilityControl","Abilities":[{"SelectionTypes":"0100"}]}""");
         var ability = (JsonObject)((JsonArray)((JsonObject)dynamicItem.Document["root"]!)["Abilities"]!).Items[0];
-        Assert.Equal(new List<object> { "astUnit" }, Items(ability["SelectionTypes"]!));
+        Assert.Equal(new List<object> { "Unit" }, Items(ability["SelectionTypes"]!));
 
         var field = MigrateRoot("""{"$class":"TMapLevel","Fields":[[{"Sprites":[{"$class":"TDiplomaticRelationHistoryItem","Relation":"01"}]}]]}""");
         var row = (JsonArray)((JsonArray)((JsonObject)field.Document["root"]!)["Fields"]!).Items[0];
         var sprites = (JsonArray)((JsonObject)row.Items[0])["Sprites"]!;
-        Assert.Equal("drWar", ((JsonString)((JsonObject)sprites.Items[0])["Relation"]!).Value);
+        Assert.Equal("War", ((JsonString)((JsonObject)sprites.Items[0])["Relation"]!).Value);
 
         var campaign = MigrateRoot("""{"$class":"TAoWCampaign","Map":{"root":{"$class":"TDiplomaticRelationHistoryItem","Relation":"03"}}}""");
         var nested = (JsonObject)((JsonObject)((JsonObject)campaign.Document["root"]!)["Map"]!)["root"]!;
-        Assert.Equal("drUnknown", ((JsonString)nested["Relation"]!).Value);
+        Assert.Equal("Unknown", ((JsonString)nested["Relation"]!).Value);
     }
 
     [Fact]
@@ -228,7 +228,7 @@ public sealed class SymbolicTests : FormatsTest
         AttachLayout(container, "hero-list");
         var read = GameFiles.Read(GameFiles.Write(Envelope("hero-list", container, root)), "layout.json");
         var migrated = (JsonObject)read.Document["root"]!;
-        Assert.Equal("drAlliance", ((JsonString)migrated["Relation"]!).Value);
+        Assert.Equal("Alliance", ((JsonString)migrated["Relation"]!).Value);
         Assert.Equal(LayoutResidue.Fingerprint(migrated, "hero-list"), FingerprintOf(migrated));
         Assert.Equal(LayoutResidue.TableFormOrder, PartCategory(migrated));
         var migratedContainer = (JsonObject)read.Document["$container"]!;
@@ -248,7 +248,7 @@ public sealed class SymbolicTests : FormatsTest
         var outer = new JsonObject().Add("profile", new JsonString("campaign")).Add("compression", new JsonString("none"));
         var migratedCampaign = GameFiles.Read(GameFiles.Write(Envelope("campaign", outer, campaign)), "campaign.json").Document;
         var migratedMap = (JsonObject)((JsonObject)migratedCampaign["root"]!)["Map"]!;
-        Assert.Equal("drUnknown", ((JsonString)((JsonObject)migratedMap["root"]!)["Relation"]!).Value);
+        Assert.Equal("Unknown", ((JsonString)((JsonObject)migratedMap["root"]!)["Relation"]!).Value);
         Assert.Equal(LayoutResidue.Fingerprint(migratedMap, "world-hsm"), FingerprintOf(migratedMap));
         Assert.NotEqual(LayoutResidue.Fingerprint(migratedMap, "campaign"), FingerprintOf(migratedMap));
         Assert.Equal(LayoutResidue.TableFormOrder, PartCategory(migratedMap));
@@ -279,7 +279,7 @@ public sealed class SymbolicTests : FormatsTest
         Assert.Equal("root", original.Diagnostic.Path);
         var read = Assert.Throws<ConversionException>(() => OriginalBackend.Read([], cls, schema, "game"));
         Assert.Equal("root", read.Diagnostic.Path);
-        Assert.Contains("TDiplomaticAction", read.Diagnostic.Message);
+        Assert.Contains(cls.Name, read.Diagnostic.Message);
         var production = Assert.Throws<ConversionException>(() => DocumentBackend.Read(new JsonObject(), schema.Get("TProductionItem"), schema, "game"));
         Assert.Equal(Codes.Mapping, production.Diagnostic.Code);
         Assert.Equal("root", production.Diagnostic.Path);

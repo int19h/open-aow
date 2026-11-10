@@ -9,7 +9,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TFastCombatWindow : ILayoutModule
+public partial class FastCombatWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -22,7 +22,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Name = "FastCombatWindow";
         LayoutOnCreate = _ => Layout_FastCombatWindowCreate_0();
         LayoutOnDestroy = _ => Layout_FastCombatWindowDestroy_1();
-        FCWin = new TAOWWindow(this);
+        FCWin = new AOWWindow(this);
         session.BeginRead(FCWin);
         FCWin.Name = "FCWin";
         FCWin.OnKeyDown = (_, ref key, shift) => FCWinKeyDown(ref key, shift);
@@ -34,8 +34,8 @@ public partial class TFastCombatWindow : ILayoutModule
         FCWin.WinWidth = 579;
         FCWin.Masked = true;
         FCWin.OnHide = _ => Layout_FCWinHide_2();
-        FCWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        FCWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        FCWin.Alignment.AlignWidth = AOWAlignWidth.Center;
+        FCWin.Alignment.AlignHeight = AOWAlignHeight.Center;
         FCWin.Alignment.HeightPercent = 0;
         FCWin.Alignment.WidthPercent = 0;
         FCWin.Alignment.LeftOffPercent = 0;
@@ -69,7 +69,7 @@ public partial class TFastCombatWindow : ILayoutModule
         FCWin.WinHeight = 460;
         FCWin.Dockable = false;
         session.EndRead(FCWin);
-        LNamePnl = new TAOWPanel(this);
+        LNamePnl = new AOWPanel(this);
         session.BeginRead(LNamePnl);
         LNamePnl.Name = "LNamePnl";
         LNamePnl.Priority = 0;
@@ -77,8 +77,8 @@ public partial class TFastCombatWindow : ILayoutModule
         LNamePnl.WinTop = 165;
         LNamePnl.WinWidth = 120;
         LNamePnl.Masked = true;
-        LNamePnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LNamePnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LNamePnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LNamePnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         LNamePnl.Alignment.HeightPercent = 0;
         LNamePnl.Alignment.WidthPercent = 0;
         LNamePnl.Alignment.LeftOffPercent = 0;
@@ -96,15 +96,15 @@ public partial class TFastCombatWindow : ILayoutModule
         LNamePnl.MinWidth = 0;
         LNamePnl.MinHeight = 0;
         session.EndRead(LNamePnl);
-        LSideLbl = new TAOWLabel(this);
+        LSideLbl = new AOWLabel(this);
         session.BeginRead(LSideLbl);
         LSideLbl.Name = "LSideLbl";
         LSideLbl.Priority = 0;
         LSideLbl.WinLeft = 36;
         LSideLbl.WinTop = 5;
         LSideLbl.CaptureInput = true;
-        LSideLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LSideLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LSideLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LSideLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         LSideLbl.Alignment.HeightPercent = 0;
         LSideLbl.Alignment.WidthPercent = 0;
         LSideLbl.Alignment.LeftOffPercent = 0;
@@ -119,7 +119,7 @@ public partial class TFastCombatWindow : ILayoutModule
         LSideLbl.Text = "######";
         LSideLbl.TextColor = 16777215;
         session.EndRead(LSideLbl);
-        RNamePnl = new TAOWPanel(this);
+        RNamePnl = new AOWPanel(this);
         session.BeginRead(RNamePnl);
         RNamePnl.Name = "RNamePnl";
         RNamePnl.Priority = 0;
@@ -127,8 +127,8 @@ public partial class TFastCombatWindow : ILayoutModule
         RNamePnl.WinTop = 165;
         RNamePnl.WinWidth = 120;
         RNamePnl.Masked = true;
-        RNamePnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        RNamePnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RNamePnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        RNamePnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         RNamePnl.Alignment.HeightPercent = 0;
         RNamePnl.Alignment.WidthPercent = 0;
         RNamePnl.Alignment.LeftOffPercent = 0;
@@ -146,15 +146,15 @@ public partial class TFastCombatWindow : ILayoutModule
         RNamePnl.MinWidth = 0;
         RNamePnl.MinHeight = 0;
         session.EndRead(RNamePnl);
-        RSideLbl = new TAOWLabel(this);
+        RSideLbl = new AOWLabel(this);
         session.BeginRead(RSideLbl);
         RSideLbl.Name = "RSideLbl";
         RSideLbl.Priority = 0;
         RSideLbl.WinLeft = 40;
         RSideLbl.WinTop = 5;
         RSideLbl.CaptureInput = true;
-        RSideLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        RSideLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RSideLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        RSideLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         RSideLbl.Alignment.HeightPercent = 0;
         RSideLbl.Alignment.WidthPercent = 0;
         RSideLbl.Alignment.LeftOffPercent = 0;
@@ -169,7 +169,7 @@ public partial class TFastCombatWindow : ILayoutModule
         RSideLbl.Text = "#####";
         RSideLbl.TextColor = 16777215;
         session.EndRead(RSideLbl);
-        LCtrlPnl = new TAOWPanel(this);
+        LCtrlPnl = new AOWPanel(this);
         session.BeginRead(LCtrlPnl);
         LCtrlPnl.Name = "LCtrlPnl";
         LCtrlPnl.Priority = 0;
@@ -177,8 +177,8 @@ public partial class TFastCombatWindow : ILayoutModule
         LCtrlPnl.WinTop = 403;
         LCtrlPnl.WinWidth = 120;
         LCtrlPnl.Masked = true;
-        LCtrlPnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LCtrlPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        LCtrlPnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LCtrlPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         LCtrlPnl.Alignment.HeightPercent = 0;
         LCtrlPnl.Alignment.WidthPercent = 0;
         LCtrlPnl.Alignment.LeftOffPercent = 0;
@@ -196,7 +196,7 @@ public partial class TFastCombatWindow : ILayoutModule
         LCtrlPnl.MinWidth = 0;
         LCtrlPnl.MinHeight = 0;
         session.EndRead(LCtrlPnl);
-        RCtrlPnl = new TAOWPanel(this);
+        RCtrlPnl = new AOWPanel(this);
         session.BeginRead(RCtrlPnl);
         RCtrlPnl.Name = "RCtrlPnl";
         RCtrlPnl.Priority = 0;
@@ -204,8 +204,8 @@ public partial class TFastCombatWindow : ILayoutModule
         RCtrlPnl.WinTop = 403;
         RCtrlPnl.WinWidth = 121;
         RCtrlPnl.Masked = true;
-        RCtrlPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        RCtrlPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        RCtrlPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        RCtrlPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         RCtrlPnl.Alignment.HeightPercent = 0;
         RCtrlPnl.Alignment.WidthPercent = 0;
         RCtrlPnl.Alignment.LeftOffPercent = 0;
@@ -223,7 +223,7 @@ public partial class TFastCombatWindow : ILayoutModule
         RCtrlPnl.MinWidth = 0;
         RCtrlPnl.MinHeight = 0;
         session.EndRead(RCtrlPnl);
-        PlayBtn2 = new TAOWCheckBox(this);
+        PlayBtn2 = new AOWCheckBox(this);
         session.BeginRead(PlayBtn2);
         PlayBtn2.Name = "PlayBtn2";
         PlayBtn2.Priority = 0;
@@ -234,8 +234,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Plays battle from current position"
         };
         PlayBtn2.CaptureInput = true;
-        PlayBtn2.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        PlayBtn2.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        PlayBtn2.Alignment.AlignWidth = AOWAlignWidth.None;
+        PlayBtn2.Alignment.AlignHeight = AOWAlignHeight.None;
         PlayBtn2.Alignment.HeightPercent = 0;
         PlayBtn2.Alignment.WidthPercent = 0;
         PlayBtn2.Alignment.LeftOffPercent = 0;
@@ -258,7 +258,7 @@ public partial class TFastCombatWindow : ILayoutModule
         PlayBtn2.Checked = false;
         PlayBtn2.RadioIndex = 0;
         session.EndRead(PlayBtn2);
-        PauseBtn2 = new TAOWCheckBox(this);
+        PauseBtn2 = new AOWCheckBox(this);
         session.BeginRead(PauseBtn2);
         PauseBtn2.Name = "PauseBtn2";
         PauseBtn2.Priority = 0;
@@ -269,8 +269,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Pauses battle at current position"
         };
         PauseBtn2.CaptureInput = true;
-        PauseBtn2.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PauseBtn2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PauseBtn2.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PauseBtn2.Alignment.AlignHeight = AOWAlignHeight.Top;
         PauseBtn2.Alignment.HeightPercent = 0;
         PauseBtn2.Alignment.WidthPercent = 0;
         PauseBtn2.Alignment.LeftOffPercent = 0;
@@ -293,7 +293,7 @@ public partial class TFastCombatWindow : ILayoutModule
         PauseBtn2.Checked = false;
         PauseBtn2.RadioIndex = 0;
         session.EndRead(PauseBtn2);
-        StartBtn = new TAOWCheckBox(this);
+        StartBtn = new AOWCheckBox(this);
         session.BeginRead(StartBtn);
         StartBtn.Name = "StartBtn";
         StartBtn.Priority = 0;
@@ -304,8 +304,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Goes to start of battle."
         };
         StartBtn.CaptureInput = true;
-        StartBtn.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        StartBtn.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        StartBtn.Alignment.AlignWidth = AOWAlignWidth.None;
+        StartBtn.Alignment.AlignHeight = AOWAlignHeight.None;
         StartBtn.Alignment.HeightPercent = 0;
         StartBtn.Alignment.WidthPercent = 0;
         StartBtn.Alignment.LeftOffPercent = 0;
@@ -328,7 +328,7 @@ public partial class TFastCombatWindow : ILayoutModule
         StartBtn.Checked = false;
         StartBtn.RadioIndex = 0;
         session.EndRead(StartBtn);
-        EndBtn = new TAOWCheckBox(this);
+        EndBtn = new AOWCheckBox(this);
         session.BeginRead(EndBtn);
         EndBtn.Name = "EndBtn";
         EndBtn.Priority = 0;
@@ -339,8 +339,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Goes to end of battle, showing final results"
         };
         EndBtn.CaptureInput = true;
-        EndBtn.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        EndBtn.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        EndBtn.Alignment.AlignWidth = AOWAlignWidth.None;
+        EndBtn.Alignment.AlignHeight = AOWAlignHeight.None;
         EndBtn.Alignment.HeightPercent = 0;
         EndBtn.Alignment.WidthPercent = 0;
         EndBtn.Alignment.LeftOffPercent = 0;
@@ -363,7 +363,7 @@ public partial class TFastCombatWindow : ILayoutModule
         EndBtn.Checked = false;
         EndBtn.RadioIndex = 0;
         session.EndRead(EndBtn);
-        CloseBut = new TAOWButton(this);
+        CloseBut = new AOWButton(this);
         session.BeginRead(CloseBut);
         CloseBut.Name = "CloseBut";
         CloseBut.Priority = 0;
@@ -374,8 +374,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Closes Window"
         };
         CloseBut.CaptureInput = true;
-        CloseBut.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CloseBut.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        CloseBut.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CloseBut.Alignment.AlignHeight = AOWAlignHeight.Top;
         CloseBut.Alignment.HeightPercent = 0;
         CloseBut.Alignment.WidthPercent = 0;
         CloseBut.Alignment.LeftOffPercent = 0;
@@ -398,7 +398,7 @@ public partial class TFastCombatWindow : ILayoutModule
         CloseBut.WinWidth = 73;
         CloseBut.OnClick = _ => Layout_CloseButClick_3();
         session.EndRead(CloseBut);
-        Party1Pnl = new TAOWPanel(this);
+        Party1Pnl = new AOWPanel(this);
         session.BeginRead(Party1Pnl);
         Party1Pnl.Name = "Party1Pnl";
         Party1Pnl.Priority = 0;
@@ -406,8 +406,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party1Pnl.WinTop = 245;
         Party1Pnl.WinWidth = 179;
         Party1Pnl.Masked = true;
-        Party1Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Party1Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Party1Pnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Party1Pnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         Party1Pnl.Alignment.HeightPercent = 0;
         Party1Pnl.Alignment.WidthPercent = 0;
         Party1Pnl.Alignment.LeftOffPercent = 0;
@@ -425,15 +425,15 @@ public partial class TFastCombatWindow : ILayoutModule
         Party1Pnl.MinWidth = 0;
         Party1Pnl.MinHeight = 0;
         session.EndRead(Party1Pnl);
-        Party1Bg = new TAOWImage(this);
+        Party1Bg = new AOWImage(this);
         session.BeginRead(Party1Bg);
         Party1Bg.Name = "Party1Bg";
         Party1Bg.Priority = 0;
         Party1Bg.WinLeft = 0;
         Party1Bg.WinTop = 0;
         Party1Bg.CaptureInput = true;
-        Party1Bg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party1Bg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party1Bg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party1Bg.Alignment.AlignHeight = AOWAlignHeight.None;
         Party1Bg.Alignment.HeightPercent = 0;
         Party1Bg.Alignment.WidthPercent = 0;
         Party1Bg.Alignment.LeftOffPercent = 0;
@@ -453,7 +453,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party1Bg.Animate = false;
         Party1Bg.AnimFrameDelay = 0;
         session.EndRead(Party1Bg);
-        Part1Dead = new TAOWImage(this);
+        Part1Dead = new AOWImage(this);
         session.BeginRead(Part1Dead);
         Part1Dead.Name = "Part1Dead";
         Part1Dead.Visible = false;
@@ -461,8 +461,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Part1Dead.WinLeft = 0;
         Part1Dead.WinTop = 0;
         Part1Dead.CaptureInput = true;
-        Part1Dead.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Part1Dead.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Part1Dead.Alignment.AlignWidth = AOWAlignWidth.None;
+        Part1Dead.Alignment.AlignHeight = AOWAlignHeight.None;
         Part1Dead.Alignment.HeightPercent = 0;
         Part1Dead.Alignment.WidthPercent = 0;
         Part1Dead.Alignment.LeftOffPercent = 0;
@@ -482,7 +482,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Part1Dead.Animate = false;
         Part1Dead.AnimFrameDelay = 0;
         session.EndRead(Part1Dead);
-        Party2Pnl = new TAOWPanel(this);
+        Party2Pnl = new AOWPanel(this);
         session.BeginRead(Party2Pnl);
         Party2Pnl.Name = "Party2Pnl";
         Party2Pnl.Priority = 0;
@@ -490,8 +490,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party2Pnl.WinTop = 132;
         Party2Pnl.WinWidth = 179;
         Party2Pnl.Masked = true;
-        Party2Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Party2Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Party2Pnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Party2Pnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         Party2Pnl.Alignment.HeightPercent = 0;
         Party2Pnl.Alignment.WidthPercent = 0;
         Party2Pnl.Alignment.LeftOffPercent = 0;
@@ -509,15 +509,15 @@ public partial class TFastCombatWindow : ILayoutModule
         Party2Pnl.MinWidth = 0;
         Party2Pnl.MinHeight = 0;
         session.EndRead(Party2Pnl);
-        Party2Bg = new TAOWImage(this);
+        Party2Bg = new AOWImage(this);
         session.BeginRead(Party2Bg);
         Party2Bg.Name = "Party2Bg";
         Party2Bg.Priority = 0;
         Party2Bg.WinLeft = 0;
         Party2Bg.WinTop = 0;
         Party2Bg.CaptureInput = true;
-        Party2Bg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party2Bg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party2Bg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party2Bg.Alignment.AlignHeight = AOWAlignHeight.None;
         Party2Bg.Alignment.HeightPercent = 0;
         Party2Bg.Alignment.WidthPercent = 0;
         Party2Bg.Alignment.LeftOffPercent = 0;
@@ -537,7 +537,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party2Bg.Animate = false;
         Party2Bg.AnimFrameDelay = 0;
         session.EndRead(Party2Bg);
-        Party2Dead = new TAOWImage(this);
+        Party2Dead = new AOWImage(this);
         session.BeginRead(Party2Dead);
         Party2Dead.Name = "Party2Dead";
         Party2Dead.Visible = false;
@@ -545,8 +545,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party2Dead.WinLeft = 0;
         Party2Dead.WinTop = 0;
         Party2Dead.CaptureInput = true;
-        Party2Dead.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party2Dead.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party2Dead.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party2Dead.Alignment.AlignHeight = AOWAlignHeight.None;
         Party2Dead.Alignment.HeightPercent = 0;
         Party2Dead.Alignment.WidthPercent = 0;
         Party2Dead.Alignment.LeftOffPercent = 0;
@@ -566,7 +566,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party2Dead.Animate = false;
         Party2Dead.AnimFrameDelay = 0;
         session.EndRead(Party2Dead);
-        Party3Pnl = new TAOWPanel(this);
+        Party3Pnl = new AOWPanel(this);
         session.BeginRead(Party3Pnl);
         Party3Pnl.Name = "Party3Pnl";
         Party3Pnl.Priority = 0;
@@ -574,8 +574,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party3Pnl.WinTop = 187;
         Party3Pnl.WinWidth = 179;
         Party3Pnl.Masked = true;
-        Party3Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Party3Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Party3Pnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Party3Pnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         Party3Pnl.Alignment.HeightPercent = 0;
         Party3Pnl.Alignment.WidthPercent = 0;
         Party3Pnl.Alignment.LeftOffPercent = 0;
@@ -593,15 +593,15 @@ public partial class TFastCombatWindow : ILayoutModule
         Party3Pnl.MinWidth = 0;
         Party3Pnl.MinHeight = 0;
         session.EndRead(Party3Pnl);
-        Party3Bg = new TAOWImage(this);
+        Party3Bg = new AOWImage(this);
         session.BeginRead(Party3Bg);
         Party3Bg.Name = "Party3Bg";
         Party3Bg.Priority = 0;
         Party3Bg.WinLeft = 0;
         Party3Bg.WinTop = 0;
         Party3Bg.CaptureInput = true;
-        Party3Bg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party3Bg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party3Bg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party3Bg.Alignment.AlignHeight = AOWAlignHeight.None;
         Party3Bg.Alignment.HeightPercent = 0;
         Party3Bg.Alignment.WidthPercent = 0;
         Party3Bg.Alignment.LeftOffPercent = 0;
@@ -621,7 +621,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party3Bg.Animate = false;
         Party3Bg.AnimFrameDelay = 0;
         session.EndRead(Party3Bg);
-        Party3Dead = new TAOWImage(this);
+        Party3Dead = new AOWImage(this);
         session.BeginRead(Party3Dead);
         Party3Dead.Name = "Party3Dead";
         Party3Dead.Visible = false;
@@ -629,8 +629,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party3Dead.WinLeft = 0;
         Party3Dead.WinTop = 0;
         Party3Dead.CaptureInput = true;
-        Party3Dead.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party3Dead.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party3Dead.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party3Dead.Alignment.AlignHeight = AOWAlignHeight.None;
         Party3Dead.Alignment.HeightPercent = 0;
         Party3Dead.Alignment.WidthPercent = 0;
         Party3Dead.Alignment.LeftOffPercent = 0;
@@ -650,7 +650,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party3Dead.Animate = false;
         Party3Dead.AnimFrameDelay = 0;
         session.EndRead(Party3Dead);
-        Party4Pnl = new TAOWPanel(this);
+        Party4Pnl = new AOWPanel(this);
         session.BeginRead(Party4Pnl);
         Party4Pnl.Name = "Party4Pnl";
         Party4Pnl.Priority = 0;
@@ -658,8 +658,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party4Pnl.WinTop = 300;
         Party4Pnl.WinWidth = 179;
         Party4Pnl.Masked = true;
-        Party4Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Party4Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Party4Pnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Party4Pnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         Party4Pnl.Alignment.HeightPercent = 0;
         Party4Pnl.Alignment.WidthPercent = 0;
         Party4Pnl.Alignment.LeftOffPercent = 0;
@@ -677,15 +677,15 @@ public partial class TFastCombatWindow : ILayoutModule
         Party4Pnl.MinWidth = 0;
         Party4Pnl.MinHeight = 0;
         session.EndRead(Party4Pnl);
-        Party4Bg = new TAOWImage(this);
+        Party4Bg = new AOWImage(this);
         session.BeginRead(Party4Bg);
         Party4Bg.Name = "Party4Bg";
         Party4Bg.Priority = 0;
         Party4Bg.WinLeft = 0;
         Party4Bg.WinTop = 0;
         Party4Bg.CaptureInput = true;
-        Party4Bg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party4Bg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party4Bg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party4Bg.Alignment.AlignHeight = AOWAlignHeight.None;
         Party4Bg.Alignment.HeightPercent = 0;
         Party4Bg.Alignment.WidthPercent = 0;
         Party4Bg.Alignment.LeftOffPercent = 0;
@@ -705,7 +705,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party4Bg.Animate = false;
         Party4Bg.AnimFrameDelay = 0;
         session.EndRead(Party4Bg);
-        Party4Dead = new TAOWImage(this);
+        Party4Dead = new AOWImage(this);
         session.BeginRead(Party4Dead);
         Party4Dead.Name = "Party4Dead";
         Party4Dead.Visible = false;
@@ -713,8 +713,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party4Dead.WinLeft = 0;
         Party4Dead.WinTop = 0;
         Party4Dead.CaptureInput = true;
-        Party4Dead.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party4Dead.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party4Dead.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party4Dead.Alignment.AlignHeight = AOWAlignHeight.None;
         Party4Dead.Alignment.HeightPercent = 0;
         Party4Dead.Alignment.WidthPercent = 0;
         Party4Dead.Alignment.LeftOffPercent = 0;
@@ -734,7 +734,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party4Dead.Animate = false;
         Party4Dead.AnimFrameDelay = 0;
         session.EndRead(Party4Dead);
-        Party5Pnl = new TAOWPanel(this);
+        Party5Pnl = new AOWPanel(this);
         session.BeginRead(Party5Pnl);
         Party5Pnl.Name = "Party5Pnl";
         Party5Pnl.Priority = 0;
@@ -742,8 +742,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party5Pnl.WinTop = 358;
         Party5Pnl.WinWidth = 179;
         Party5Pnl.Masked = true;
-        Party5Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Party5Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Party5Pnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Party5Pnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         Party5Pnl.Alignment.HeightPercent = 0;
         Party5Pnl.Alignment.WidthPercent = 0;
         Party5Pnl.Alignment.LeftOffPercent = 0;
@@ -761,15 +761,15 @@ public partial class TFastCombatWindow : ILayoutModule
         Party5Pnl.MinWidth = 0;
         Party5Pnl.MinHeight = 0;
         session.EndRead(Party5Pnl);
-        Party5Bg = new TAOWImage(this);
+        Party5Bg = new AOWImage(this);
         session.BeginRead(Party5Bg);
         Party5Bg.Name = "Party5Bg";
         Party5Bg.Priority = 0;
         Party5Bg.WinLeft = 0;
         Party5Bg.WinTop = 0;
         Party5Bg.CaptureInput = true;
-        Party5Bg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party5Bg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party5Bg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party5Bg.Alignment.AlignHeight = AOWAlignHeight.None;
         Party5Bg.Alignment.HeightPercent = 0;
         Party5Bg.Alignment.WidthPercent = 0;
         Party5Bg.Alignment.LeftOffPercent = 0;
@@ -789,7 +789,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party5Bg.Animate = false;
         Party5Bg.AnimFrameDelay = 0;
         session.EndRead(Party5Bg);
-        Party5Dead = new TAOWImage(this);
+        Party5Dead = new AOWImage(this);
         session.BeginRead(Party5Dead);
         Party5Dead.Name = "Party5Dead";
         Party5Dead.Visible = false;
@@ -797,8 +797,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party5Dead.WinLeft = 0;
         Party5Dead.WinTop = 0;
         Party5Dead.CaptureInput = true;
-        Party5Dead.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party5Dead.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party5Dead.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party5Dead.Alignment.AlignHeight = AOWAlignHeight.None;
         Party5Dead.Alignment.HeightPercent = 0;
         Party5Dead.Alignment.WidthPercent = 0;
         Party5Dead.Alignment.LeftOffPercent = 0;
@@ -818,7 +818,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party5Dead.Animate = false;
         Party5Dead.AnimFrameDelay = 0;
         session.EndRead(Party5Dead);
-        Party6Pnl = new TAOWPanel(this);
+        Party6Pnl = new AOWPanel(this);
         session.BeginRead(Party6Pnl);
         Party6Pnl.Name = "Party6Pnl";
         Party6Pnl.Priority = 0;
@@ -826,8 +826,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party6Pnl.WinTop = 300;
         Party6Pnl.WinWidth = 179;
         Party6Pnl.Masked = true;
-        Party6Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Party6Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Party6Pnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Party6Pnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         Party6Pnl.Alignment.HeightPercent = 0;
         Party6Pnl.Alignment.WidthPercent = 0;
         Party6Pnl.Alignment.LeftOffPercent = 0;
@@ -845,15 +845,15 @@ public partial class TFastCombatWindow : ILayoutModule
         Party6Pnl.MinWidth = 0;
         Party6Pnl.MinHeight = 0;
         session.EndRead(Party6Pnl);
-        Party6Bg = new TAOWImage(this);
+        Party6Bg = new AOWImage(this);
         session.BeginRead(Party6Bg);
         Party6Bg.Name = "Party6Bg";
         Party6Bg.Priority = 0;
         Party6Bg.WinLeft = 0;
         Party6Bg.WinTop = 0;
         Party6Bg.CaptureInput = true;
-        Party6Bg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party6Bg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party6Bg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party6Bg.Alignment.AlignHeight = AOWAlignHeight.None;
         Party6Bg.Alignment.HeightPercent = 0;
         Party6Bg.Alignment.WidthPercent = 0;
         Party6Bg.Alignment.LeftOffPercent = 0;
@@ -873,7 +873,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party6Bg.Animate = false;
         Party6Bg.AnimFrameDelay = 0;
         session.EndRead(Party6Bg);
-        Party6Dead = new TAOWImage(this);
+        Party6Dead = new AOWImage(this);
         session.BeginRead(Party6Dead);
         Party6Dead.Name = "Party6Dead";
         Party6Dead.Visible = false;
@@ -881,8 +881,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party6Dead.WinLeft = 0;
         Party6Dead.WinTop = 0;
         Party6Dead.CaptureInput = true;
-        Party6Dead.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party6Dead.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party6Dead.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party6Dead.Alignment.AlignHeight = AOWAlignHeight.None;
         Party6Dead.Alignment.HeightPercent = 0;
         Party6Dead.Alignment.WidthPercent = 0;
         Party6Dead.Alignment.LeftOffPercent = 0;
@@ -902,7 +902,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party6Dead.Animate = false;
         Party6Dead.AnimFrameDelay = 0;
         session.EndRead(Party6Dead);
-        Party7Pnl = new TAOWPanel(this);
+        Party7Pnl = new AOWPanel(this);
         session.BeginRead(Party7Pnl);
         Party7Pnl.Name = "Party7Pnl";
         Party7Pnl.Priority = 0;
@@ -910,8 +910,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party7Pnl.WinTop = 187;
         Party7Pnl.WinWidth = 179;
         Party7Pnl.Masked = true;
-        Party7Pnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Party7Pnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Party7Pnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Party7Pnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         Party7Pnl.Alignment.HeightPercent = 0;
         Party7Pnl.Alignment.WidthPercent = 0;
         Party7Pnl.Alignment.LeftOffPercent = 0;
@@ -929,15 +929,15 @@ public partial class TFastCombatWindow : ILayoutModule
         Party7Pnl.MinWidth = 0;
         Party7Pnl.MinHeight = 0;
         session.EndRead(Party7Pnl);
-        Party7Bg = new TAOWImage(this);
+        Party7Bg = new AOWImage(this);
         session.BeginRead(Party7Bg);
         Party7Bg.Name = "Party7Bg";
         Party7Bg.Priority = 0;
         Party7Bg.WinLeft = 0;
         Party7Bg.WinTop = 0;
         Party7Bg.CaptureInput = true;
-        Party7Bg.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party7Bg.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party7Bg.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party7Bg.Alignment.AlignHeight = AOWAlignHeight.None;
         Party7Bg.Alignment.HeightPercent = 0;
         Party7Bg.Alignment.WidthPercent = 0;
         Party7Bg.Alignment.LeftOffPercent = 0;
@@ -957,7 +957,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party7Bg.Animate = false;
         Party7Bg.AnimFrameDelay = 0;
         session.EndRead(Party7Bg);
-        Party7Dead = new TAOWImage(this);
+        Party7Dead = new AOWImage(this);
         session.BeginRead(Party7Dead);
         Party7Dead.Name = "Party7Dead";
         Party7Dead.Visible = false;
@@ -965,8 +965,8 @@ public partial class TFastCombatWindow : ILayoutModule
         Party7Dead.WinLeft = 0;
         Party7Dead.WinTop = 0;
         Party7Dead.CaptureInput = true;
-        Party7Dead.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        Party7Dead.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        Party7Dead.Alignment.AlignWidth = AOWAlignWidth.None;
+        Party7Dead.Alignment.AlignHeight = AOWAlignHeight.None;
         Party7Dead.Alignment.HeightPercent = 0;
         Party7Dead.Alignment.WidthPercent = 0;
         Party7Dead.Alignment.LeftOffPercent = 0;
@@ -986,7 +986,7 @@ public partial class TFastCombatWindow : ILayoutModule
         Party7Dead.Animate = false;
         Party7Dead.AnimFrameDelay = 0;
         session.EndRead(Party7Dead);
-        LSidePnl = new TAOWPanel(this);
+        LSidePnl = new AOWPanel(this);
         session.BeginRead(LSidePnl);
         LSidePnl.Name = "LSidePnl";
         LSidePnl.Priority = 0;
@@ -994,8 +994,8 @@ public partial class TFastCombatWindow : ILayoutModule
         LSidePnl.WinTop = 101;
         LSidePnl.WinWidth = 175;
         LSidePnl.Masked = true;
-        LSidePnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LSidePnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LSidePnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LSidePnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         LSidePnl.Alignment.HeightPercent = 0;
         LSidePnl.Alignment.WidthPercent = 0;
         LSidePnl.Alignment.LeftOffPercent = 0;
@@ -1013,7 +1013,7 @@ public partial class TFastCombatWindow : ILayoutModule
         LSidePnl.MinWidth = 0;
         LSidePnl.MinHeight = 0;
         session.EndRead(LSidePnl);
-        RSidePnl = new TAOWPanel(this);
+        RSidePnl = new AOWPanel(this);
         session.BeginRead(RSidePnl);
         RSidePnl.Name = "RSidePnl";
         RSidePnl.Priority = 0;
@@ -1021,8 +1021,8 @@ public partial class TFastCombatWindow : ILayoutModule
         RSidePnl.WinTop = 101;
         RSidePnl.WinWidth = 175;
         RSidePnl.Masked = true;
-        RSidePnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        RSidePnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RSidePnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        RSidePnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         RSidePnl.Alignment.HeightPercent = 0;
         RSidePnl.Alignment.WidthPercent = 0;
         RSidePnl.Alignment.LeftOffPercent = 0;
@@ -1040,7 +1040,7 @@ public partial class TFastCombatWindow : ILayoutModule
         RSidePnl.MinWidth = 0;
         RSidePnl.MinHeight = 0;
         session.EndRead(RSidePnl);
-        FightPnl = new TAOWPanel(this);
+        FightPnl = new AOWPanel(this);
         session.BeginRead(FightPnl);
         FightPnl.Name = "FightPnl";
         FightPnl.Priority = 0;
@@ -1048,8 +1048,8 @@ public partial class TFastCombatWindow : ILayoutModule
         FightPnl.WinTop = 25;
         FightPnl.WinWidth = 110;
         FightPnl.Masked = true;
-        FightPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        FightPnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        FightPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        FightPnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         FightPnl.Alignment.HeightPercent = 0;
         FightPnl.Alignment.WidthPercent = 0;
         FightPnl.Alignment.LeftOffPercent = 0;
@@ -1067,7 +1067,7 @@ public partial class TFastCombatWindow : ILayoutModule
         FightPnl.MinWidth = 0;
         FightPnl.MinHeight = 0;
         session.EndRead(FightPnl);
-        LShield = new TAOWImage(this);
+        LShield = new AOWImage(this);
         session.BeginRead(LShield);
         LShield.Name = "LShield";
         LShield.Visible = false;
@@ -1075,8 +1075,8 @@ public partial class TFastCombatWindow : ILayoutModule
         LShield.WinLeft = 15;
         LShield.WinTop = 105;
         LShield.CaptureInput = true;
-        LShield.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LShield.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LShield.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LShield.Alignment.AlignHeight = AOWAlignHeight.Top;
         LShield.Alignment.HeightPercent = 0;
         LShield.Alignment.WidthPercent = 0;
         LShield.Alignment.LeftOffPercent = 0;
@@ -1096,7 +1096,7 @@ public partial class TFastCombatWindow : ILayoutModule
         LShield.Animate = false;
         LShield.AnimFrameDelay = 0;
         session.EndRead(LShield);
-        RShield = new TAOWImage(this);
+        RShield = new AOWImage(this);
         session.BeginRead(RShield);
         RShield.Name = "RShield";
         RShield.Visible = false;
@@ -1104,8 +1104,8 @@ public partial class TFastCombatWindow : ILayoutModule
         RShield.WinLeft = 525;
         RShield.WinTop = 105;
         RShield.CaptureInput = true;
-        RShield.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        RShield.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RShield.Alignment.AlignWidth = AOWAlignWidth.Right;
+        RShield.Alignment.AlignHeight = AOWAlignHeight.Top;
         RShield.Alignment.HeightPercent = 0;
         RShield.Alignment.WidthPercent = 0;
         RShield.Alignment.LeftOffPercent = 0;
@@ -1125,7 +1125,7 @@ public partial class TFastCombatWindow : ILayoutModule
         RShield.Animate = false;
         RShield.AnimFrameDelay = 0;
         session.EndRead(RShield);
-        InitialView = new TAOWButton(this);
+        InitialView = new AOWButton(this);
         session.BeginRead(InitialView);
         InitialView.Name = "InitialView";
         InitialView.Priority = 0;
@@ -1136,8 +1136,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Goes to start of battle."
         };
         InitialView.CaptureInput = true;
-        InitialView.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        InitialView.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        InitialView.Alignment.AlignWidth = AOWAlignWidth.Left;
+        InitialView.Alignment.AlignHeight = AOWAlignHeight.Top;
         InitialView.Alignment.HeightPercent = 0;
         InitialView.Alignment.WidthPercent = 0;
         InitialView.Alignment.LeftOffPercent = 0;
@@ -1159,7 +1159,7 @@ public partial class TFastCombatWindow : ILayoutModule
         InitialView.WinWidth = 24;
         InitialView.OnClick = _ => Layout_InitialViewClick_4();
         session.EndRead(InitialView);
-        FinalView = new TAOWButton(this);
+        FinalView = new AOWButton(this);
         session.BeginRead(FinalView);
         FinalView.Name = "FinalView";
         FinalView.Priority = 0;
@@ -1170,8 +1170,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Goes to end of battle, showing final results"
         };
         FinalView.CaptureInput = true;
-        FinalView.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        FinalView.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        FinalView.Alignment.AlignWidth = AOWAlignWidth.Left;
+        FinalView.Alignment.AlignHeight = AOWAlignHeight.Top;
         FinalView.Alignment.HeightPercent = 0;
         FinalView.Alignment.WidthPercent = 0;
         FinalView.Alignment.LeftOffPercent = 0;
@@ -1193,7 +1193,7 @@ public partial class TFastCombatWindow : ILayoutModule
         FinalView.WinWidth = 24;
         FinalView.OnClick = _ => Layout_FinalViewClick_5();
         session.EndRead(FinalView);
-        PlayBtn = new TAOWButton(this);
+        PlayBtn = new AOWButton(this);
         session.BeginRead(PlayBtn);
         PlayBtn.Name = "PlayBtn";
         PlayBtn.Priority = 0;
@@ -1204,8 +1204,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Plays battle from current position"
         };
         PlayBtn.CaptureInput = true;
-        PlayBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PlayBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PlayBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PlayBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         PlayBtn.Alignment.HeightPercent = 0;
         PlayBtn.Alignment.WidthPercent = 0;
         PlayBtn.Alignment.LeftOffPercent = 0;
@@ -1227,7 +1227,7 @@ public partial class TFastCombatWindow : ILayoutModule
         PlayBtn.WinWidth = 48;
         PlayBtn.OnClick = _ => Layout_PlayBtnClick_6();
         session.EndRead(PlayBtn);
-        PauseBtn = new TAOWButton(this);
+        PauseBtn = new AOWButton(this);
         session.BeginRead(PauseBtn);
         PauseBtn.Name = "PauseBtn";
         PauseBtn.Priority = 0;
@@ -1238,8 +1238,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Plays battle from current position"
         };
         PauseBtn.CaptureInput = true;
-        PauseBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PauseBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PauseBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PauseBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         PauseBtn.Alignment.HeightPercent = 0;
         PauseBtn.Alignment.WidthPercent = 0;
         PauseBtn.Alignment.LeftOffPercent = 0;
@@ -1261,15 +1261,15 @@ public partial class TFastCombatWindow : ILayoutModule
         PauseBtn.WinWidth = 24;
         PauseBtn.OnClick = _ => Layout_PauseBtnClick_7();
         session.EndRead(PauseBtn);
-        SequencePositionSld = new TAOWHScrollBar(this);
+        SequencePositionSld = new AOWHScrollBar(this);
         session.BeginRead(SequencePositionSld);
         SequencePositionSld.Name = "SequencePositionSld";
         SequencePositionSld.Priority = 0;
         SequencePositionSld.WinLeft = 40;
         SequencePositionSld.WinTop = 21;
         SequencePositionSld.CaptureInput = true;
-        SequencePositionSld.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SequencePositionSld.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SequencePositionSld.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SequencePositionSld.Alignment.AlignHeight = AOWAlignHeight.Top;
         SequencePositionSld.Alignment.HeightPercent = 0;
         SequencePositionSld.Alignment.WidthPercent = 0;
         SequencePositionSld.Alignment.LeftOffPercent = 0;
@@ -1298,15 +1298,15 @@ public partial class TFastCombatWindow : ILayoutModule
         SequencePositionSld.ILIndexBack = 25;
         SequencePositionSld.ILIndexTab = 28;
         session.EndRead(SequencePositionSld);
-        SequenceSpeedSld = new TAOWHScrollBar(this);
+        SequenceSpeedSld = new AOWHScrollBar(this);
         session.BeginRead(SequenceSpeedSld);
         SequenceSpeedSld.Name = "SequenceSpeedSld";
         SequenceSpeedSld.Priority = 0;
         SequenceSpeedSld.WinLeft = 40;
         SequenceSpeedSld.WinTop = 21;
         SequenceSpeedSld.CaptureInput = true;
-        SequenceSpeedSld.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SequenceSpeedSld.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SequenceSpeedSld.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SequenceSpeedSld.Alignment.AlignHeight = AOWAlignHeight.Top;
         SequenceSpeedSld.Alignment.HeightPercent = 0;
         SequenceSpeedSld.Alignment.WidthPercent = 0;
         SequenceSpeedSld.Alignment.LeftOffPercent = 0;
@@ -1335,21 +1335,21 @@ public partial class TFastCombatWindow : ILayoutModule
         SequenceSpeedSld.ILIndexBack = 25;
         SequenceSpeedSld.ILIndexTab = 28;
         session.EndRead(SequenceSpeedSld);
-        GlowAnimation = new TImageLibrary(this);
+        GlowAnimation = new ImageLibrary(this);
         session.BeginRead(GlowAnimation);
         GlowAnimation.Name = "GlowAnimation";
         GlowAnimation.LoadOnDemand = true;
         GlowAnimation.FileName = "Int\\FCWin.ILB";
         session.EndRead(GlowAnimation);
-        GlowImage = new TAOWImage(this);
+        GlowImage = new AOWImage(this);
         session.BeginRead(GlowImage);
         GlowImage.Name = "GlowImage";
         GlowImage.Priority = 0;
         GlowImage.WinLeft = 234;
         GlowImage.WinTop = 23;
         GlowImage.CaptureInput = true;
-        GlowImage.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        GlowImage.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        GlowImage.Alignment.AlignWidth = AOWAlignWidth.Left;
+        GlowImage.Alignment.AlignHeight = AOWAlignHeight.Top;
         GlowImage.Alignment.HeightPercent = 0;
         GlowImage.Alignment.WidthPercent = 0;
         GlowImage.Alignment.LeftOffPercent = 0;
@@ -1369,7 +1369,7 @@ public partial class TFastCombatWindow : ILayoutModule
         GlowImage.Animate = false;
         GlowImage.AnimFrameDelay = 0;
         session.EndRead(GlowImage);
-        PrevSeqBtn = new TAOWButton(this);
+        PrevSeqBtn = new AOWButton(this);
         session.BeginRead(PrevSeqBtn);
         PrevSeqBtn.Name = "PrevSeqBtn";
         PrevSeqBtn.Visible = false;
@@ -1381,8 +1381,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Plays battle from current position"
         };
         PrevSeqBtn.CaptureInput = true;
-        PrevSeqBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PrevSeqBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PrevSeqBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PrevSeqBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         PrevSeqBtn.Alignment.HeightPercent = 0;
         PrevSeqBtn.Alignment.WidthPercent = 0;
         PrevSeqBtn.Alignment.LeftOffPercent = 0;
@@ -1403,7 +1403,7 @@ public partial class TFastCombatWindow : ILayoutModule
         PrevSeqBtn.TextSelColor = 0;
         PrevSeqBtn.WinWidth = 24;
         session.EndRead(PrevSeqBtn);
-        NextSeqBtn = new TAOWButton(this);
+        NextSeqBtn = new AOWButton(this);
         session.BeginRead(NextSeqBtn);
         NextSeqBtn.Name = "NextSeqBtn";
         NextSeqBtn.Visible = false;
@@ -1415,8 +1415,8 @@ public partial class TFastCombatWindow : ILayoutModule
             "Plays battle from current position"
         };
         NextSeqBtn.CaptureInput = true;
-        NextSeqBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        NextSeqBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        NextSeqBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        NextSeqBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         NextSeqBtn.Alignment.HeightPercent = 0;
         NextSeqBtn.Alignment.WidthPercent = 0;
         NextSeqBtn.Alignment.LeftOffPercent = 0;
@@ -1437,15 +1437,15 @@ public partial class TFastCombatWindow : ILayoutModule
         NextSeqBtn.TextSelColor = 0;
         NextSeqBtn.WinWidth = 24;
         session.EndRead(NextSeqBtn);
-        StartLBl = new TAOWLabel(this);
+        StartLBl = new AOWLabel(this);
         session.BeginRead(StartLBl);
         StartLBl.Name = "StartLBl";
         StartLBl.Priority = 0;
         StartLBl.WinLeft = 14;
         StartLBl.WinTop = 22;
         StartLBl.CaptureInput = true;
-        StartLBl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        StartLBl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        StartLBl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        StartLBl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         StartLBl.Alignment.HeightPercent = 0;
         StartLBl.Alignment.WidthPercent = 0;
         StartLBl.Alignment.LeftOffPercent = 0;
@@ -1460,15 +1460,15 @@ public partial class TFastCombatWindow : ILayoutModule
         StartLBl.Text = "start";
         StartLBl.TextColor = 9872276;
         session.EndRead(StartLBl);
-        EndLbl = new TAOWLabel(this);
+        EndLbl = new AOWLabel(this);
         session.BeginRead(EndLbl);
         EndLbl.Name = "EndLbl";
         EndLbl.Priority = 0;
         EndLbl.WinLeft = 84;
         EndLbl.WinTop = 22;
         EndLbl.CaptureInput = true;
-        EndLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        EndLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        EndLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        EndLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         EndLbl.Alignment.HeightPercent = 0;
         EndLbl.Alignment.WidthPercent = 0;
         EndLbl.Alignment.LeftOffPercent = 0;
@@ -1483,15 +1483,15 @@ public partial class TFastCombatWindow : ILayoutModule
         EndLbl.Text = "end";
         EndLbl.TextColor = 9872276;
         session.EndRead(EndLbl);
-        SlowLbl = new TAOWLabel(this);
+        SlowLbl = new AOWLabel(this);
         session.BeginRead(SlowLbl);
         SlowLbl.Name = "SlowLbl";
         SlowLbl.Priority = 0;
         SlowLbl.WinLeft = 18;
         SlowLbl.WinTop = 22;
         SlowLbl.CaptureInput = true;
-        SlowLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        SlowLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        SlowLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        SlowLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         SlowLbl.Alignment.HeightPercent = 0;
         SlowLbl.Alignment.WidthPercent = 0;
         SlowLbl.Alignment.LeftOffPercent = 0;
@@ -1506,15 +1506,15 @@ public partial class TFastCombatWindow : ILayoutModule
         SlowLbl.Text = "slow";
         SlowLbl.TextColor = 9872276;
         session.EndRead(SlowLbl);
-        FastLbl = new TAOWLabel(this);
+        FastLbl = new AOWLabel(this);
         session.BeginRead(FastLbl);
         FastLbl.Name = "FastLbl";
         FastLbl.Priority = 0;
         FastLbl.WinLeft = 84;
         FastLbl.WinTop = 22;
         FastLbl.CaptureInput = true;
-        FastLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        FastLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        FastLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        FastLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         FastLbl.Alignment.HeightPercent = 0;
         FastLbl.Alignment.WidthPercent = 0;
         FastLbl.Alignment.LeftOffPercent = 0;
@@ -1529,15 +1529,15 @@ public partial class TFastCombatWindow : ILayoutModule
         FastLbl.Text = "fast";
         FastLbl.TextColor = 9872276;
         session.EndRead(FastLbl);
-        ModeLbl = new TAOWLabel(this);
+        ModeLbl = new AOWLabel(this);
         session.BeginRead(ModeLbl);
         ModeLbl.Name = "ModeLbl";
         ModeLbl.Priority = 0;
         ModeLbl.WinLeft = 269;
         ModeLbl.WinTop = 115;
         ModeLbl.CaptureInput = true;
-        ModeLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ModeLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ModeLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ModeLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         ModeLbl.Alignment.HeightPercent = 0;
         ModeLbl.Alignment.WidthPercent = 0;
         ModeLbl.Alignment.LeftOffPercent = 0;
@@ -1560,8 +1560,8 @@ public partial class TFastCombatWindow : ILayoutModule
         LShieldUser.WinLeft = 15;
         LShieldUser.WinTop = 105;
         LShieldUser.CaptureInput = true;
-        LShieldUser.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        LShieldUser.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        LShieldUser.Alignment.AlignWidth = AOWAlignWidth.None;
+        LShieldUser.Alignment.AlignHeight = AOWAlignHeight.None;
         LShieldUser.Alignment.HeightPercent = 0;
         LShieldUser.Alignment.WidthPercent = 0;
         LShieldUser.Alignment.LeftOffPercent = 0;
@@ -1584,8 +1584,8 @@ public partial class TFastCombatWindow : ILayoutModule
         RShieldUser.WinLeft = 525;
         RShieldUser.WinTop = 105;
         RShieldUser.CaptureInput = true;
-        RShieldUser.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        RShieldUser.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        RShieldUser.Alignment.AlignWidth = AOWAlignWidth.None;
+        RShieldUser.Alignment.AlignHeight = AOWAlignHeight.None;
         RShieldUser.Alignment.HeightPercent = 0;
         RShieldUser.Alignment.WidthPercent = 0;
         RShieldUser.Alignment.LeftOffPercent = 0;

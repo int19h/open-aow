@@ -5,18 +5,18 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TInfoBanner : TDataModule
+public partial class InfoBanner : DataModule
 {
-    public TInfoBanner(TComponent owner) : base(owner)
+    public InfoBanner(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWLabel HeaderLbl;
-    public TAOWMemo InfoMemo;
-    public TAOWMenu BannerPopup;
-    public TAOWVScrollBar InfoMemoSB;
+    public AOWLabel HeaderLbl;
+    public AOWMemo InfoMemo;
+    public AOWMenu BannerPopup;
+    public AOWVScrollBar InfoMemoSB;
 
     // AoWInfoBanner.pas:35
-    public void ShowInfo(string Header, TStrings Description)
+    public void ShowInfo(string Header, StringCollection Description)
     {
         HeaderLbl.Text = Header;
         var text = Description.Text;
@@ -24,15 +24,15 @@ public partial class TInfoBanner : TDataModule
     }
 
     // AoWInfoBanner.pas:41
-    public void BannerPopupMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void BannerPopupMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight)
+        if (Button == MouseButton.Right)
         {
             BannerPopup.Visible = false;
         }
     }
 
-    internal static void SetInfoBanner(TInfoBanner Banner, string Caption, TStrings Description)
+    internal static void SetInfoBanner(InfoBanner Banner, string Caption, StringCollection Description)
     {
         Banner.HeaderLbl.Text = Caption;
         var text = Description.Text;

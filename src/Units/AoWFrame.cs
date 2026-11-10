@@ -8,29 +8,29 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
 
-public enum TFrameType : byte
+public enum FrameType : byte
 {
-    frFilledBox = 0,
-    frHollowBox = 1,
-    frHorizLine = 2,
-    frVertLine = 3
+    FilledBox = 0,
+    HollowBox = 1,
+    HorizLine = 2,
+    VertLine = 3
 }
 
 // Fields: FFrameType, FILFrame, FILTexture, FILLine, FILIndexFrame, FILIndexLine,
 // FILIndexTexture, FPopupMenu
-public partial class TAoWFrame : TAOWControl
+public partial class AoWFrame : AOWControl
 {
-    public TAoWFrame(TComponent owner) : base(owner)
+    public AoWFrame(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TFrameType FFrameType;
-    public TInterfaceIL FILFrame;
-    public TInterfaceIL FILTexture;
-    public TInterfaceIL FILLine;
+    public global::Aow.Game.Ui.Controls.FrameType FFrameType;
+    public InterfaceIL FILFrame;
+    public InterfaceIL FILTexture;
+    public InterfaceIL FILLine;
     public int FILIndexFrame;
     public int FILIndexLine;
     public int FILIndexTexture;
-    public TAOWMenu FPopupMenu;
+    public AOWMenu FPopupMenu;
 
     // AoWFrame.pas:63
     public override void Validate()
@@ -57,20 +57,20 @@ public partial class TAoWFrame : TAOWControl
             {
                 if (FILTexture != null)
                 {
-                    FFrameType = TFrameType.frFilledBox;
+                    FFrameType = global::Aow.Game.Ui.Controls.FrameType.FilledBox;
                 }
                 else
                 {
-                    FFrameType = TFrameType.frHollowBox;
+                    FFrameType = global::Aow.Game.Ui.Controls.FrameType.HollowBox;
                 }
             }
             else
             {
                 if (FILLine != null)
                 {
-                    if (FFrameType != TFrameType.frHorizLine)
+                    if (FFrameType != global::Aow.Game.Ui.Controls.FrameType.HorizLine)
                     {
-                        FFrameType = TFrameType.frVertLine;
+                        FFrameType = global::Aow.Game.Ui.Controls.FrameType.VertLine;
                     }
                 }
             }
@@ -84,8 +84,8 @@ public partial class TAoWFrame : TAOWControl
     {
         switch (FFrameType)
         {
-            case TFrameType.frFilledBox:
-            case TFrameType.frHollowBox:
+            case global::Aow.Game.Ui.Controls.FrameType.FilledBox:
+            case global::Aow.Game.Ui.Controls.FrameType.HollowBox:
                 var ilFrameHeight = FILFrame[FILIndexFrame];
                 var ilFrame = FILFrame[FILIndexFrame + 5];
                 if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
@@ -105,7 +105,7 @@ public partial class TAoWFrame : TAOWControl
                 }
 
                 break;
-            case TFrameType.frHorizLine:
+            case global::Aow.Game.Ui.Controls.FrameType.HorizLine:
                 FWinHeight = FILLine[FILIndexLine].Height;
                 var ilLineWidth = FILLine[FILIndexLine];
                 var ilLine = FILLine[FILIndexLine + 2];
@@ -117,7 +117,7 @@ public partial class TAoWFrame : TAOWControl
                 }
 
                 break;
-            case TFrameType.frVertLine:
+            case global::Aow.Game.Ui.Controls.FrameType.VertLine:
                 var ilLineHeight = FILLine[FILIndexLine];
                 var ilLine4 = FILLine[FILIndexLine + 2];
                 if (ilLineHeight.Height + ilLine4.Height > FWinHeight)
@@ -135,7 +135,7 @@ public partial class TAoWFrame : TAOWControl
     }
 
     // AoWFrame.pas:166
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         try
         {
@@ -148,20 +148,20 @@ public partial class TAoWFrame : TAOWControl
 
                 switch (FFrameType)
                 {
-                    case TFrameType.frVertLine:
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case global::Aow.Game.Ui.Controls.FrameType.VertLine:
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILLine.DrawILLv(FILIndexLine, rect, ref SurfDesc);
                         break;
-                    case TFrameType.frHorizLine:
-                        var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case global::Aow.Game.Ui.Controls.FrameType.HorizLine:
+                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILLine.DrawILLh(FILIndexLine, rect2, ref SurfDesc);
                         break;
-                    case TFrameType.frHollowBox:
-                        var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case global::Aow.Game.Ui.Controls.FrameType.HollowBox:
+                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                         break;
-                    case TFrameType.frFilledBox:
-                        var rect4 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case global::Aow.Game.Ui.Controls.FrameType.FilledBox:
+                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect4, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -169,7 +169,7 @@ public partial class TAoWFrame : TAOWControl
                         var ilFrame2 = FILFrame[FILIndexFrame + 4];
                         var ilFrame3 = FILFrame[FILIndexFrame + 1];
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        var rect5 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect5 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect5, ref SurfDesc);
                         break;
                 }
@@ -187,7 +187,7 @@ public partial class TAoWFrame : TAOWControl
     }
 
     // AoWFrame.pas:202
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -199,7 +199,7 @@ public partial class TAoWFrame : TAOWControl
                 FOnMouseDown(this, Button, Shift, X, Y);
             }
 
-            if (Button == TMouseButton.mbRight && FPopupMenu != null)
+            if (Button == MouseButton.Right && FPopupMenu != null)
             {
                 FPopupMenu.SetPopupOwner(this);
                 FPopupMenu.WinLeft = X;
@@ -238,7 +238,7 @@ public partial class TAoWFrame : TAOWControl
     }
 
     // AoWFrame.pas:237
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -251,7 +251,7 @@ public partial class TAoWFrame : TAOWControl
     }
 
     // AoWFrame.pas:246
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -270,7 +270,7 @@ public partial class TAoWFrame : TAOWControl
     }
 
     // AoWFrame.pas:139
-    public virtual void SetILFrame(TInterfaceIL Value)
+    public virtual void SetILFrame(InterfaceIL Value)
     {
         if (Value != FILFrame)
         {
@@ -280,7 +280,7 @@ public partial class TAoWFrame : TAOWControl
     }
 
     // AoWFrame.pas:148
-    public virtual void SetILTexture(TInterfaceIL Value)
+    public virtual void SetILTexture(InterfaceIL Value)
     {
         if (Value != FILTexture)
         {
@@ -290,7 +290,7 @@ public partial class TAoWFrame : TAOWControl
     }
 
     // AoWFrame.pas:157
-    public virtual void SetILLine(TInterfaceIL Value)
+    public virtual void SetILLine(InterfaceIL Value)
     {
         if (Value != FILLine)
         {
@@ -330,10 +330,10 @@ public partial class TAoWFrame : TAOWControl
     }
 
     [Published]
-    public TFrameType FrameType { get => FFrameType; set => FFrameType = value; }
+    public global::Aow.Game.Ui.Controls.FrameType FrameType { get => FFrameType; set => FFrameType = value; }
 
     [Published]
-    public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
     [Published]
     public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
@@ -345,63 +345,63 @@ public partial class TAoWFrame : TAOWControl
     public int ILIndexTexture { get => FILIndexTexture; set => SetILTIndex(value); }
 
     [Published]
-    public TInterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
+    public InterfaceIL ILLine { get => FILLine; set => SetILLine(value); }
 
     [Published]
-    public TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
+    public InterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
 
     [Published]
-    public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+    public AOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
 
-    public new TNotifyEvent<TAoWFrame> OnChange
+    public new NotifyEvent<AoWFrame> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAoWFrame> OnMouseDown
+    public new MouseEvent<AoWFrame> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAoWFrame> OnMouseUp
+    public new MouseEvent<AoWFrame> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAoWFrame> OnMouseMove
+    public new MouseMoveEvent<AoWFrame> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAoWFrame> OnKeyPress
+    public new KeyPressEvent<AoWFrame> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAoWFrame> OnKeyDown
+    public new KeyEvent<AoWFrame> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWFrame> OnPreDraw
+    public new AoWOnDrawEvent<AoWFrame> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAoWFrame> OnDraw
+    public new AoWOnDrawEvent<AoWFrame> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAoWFrame> OnUpdate
+    public new NotifyEvent<AoWFrame> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

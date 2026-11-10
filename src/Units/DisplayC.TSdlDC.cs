@@ -2,30 +2,30 @@
 using Aow.Game.Draw;
 using Aow.Game.Host;
 using Aow.Rtl;
-using static Aow.Game.Draw.TDisplayCtrlStatusElement;
+using static Aow.Game.Draw.DisplayCtrlStatusElement;
 
 namespace Aow.Game.Draw;
 
 // The primary constructor captures host before the base inserts this component.
-public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDisplayCtrl(owner)
+public sealed class SdlDC(IDisplayHost host, global::Aow.Rtl.Component owner = null) : DisplayCtrl(owner)
 {
-    private readonly TSurface[] surfaces = new TSurface[3];
+    private readonly Surface[] surfaces = new Surface[3];
 
     public bool UseVerticalBlank { get; set; } = true;
 
-    public override TSurface GetSurface(int index) => index >= 0 && index < surfaces.Length ? surfaces[index] : null;
+    public override Surface GetSurface(int index) => index >= 0 && index < surfaces.Length ? surfaces[index] : null;
 
-    public override int Activate(TCustomDisplay display)
+    public override int Activate(CustomDisplay display)
     {
         int result = base.Activate(display);
         if (result < 0) return result;
-        FStatus = FStatus.With(dsWindowed).With(dsVisible);
+        FStatus = FStatus.With(Windowed).With(Visible);
         surfaces[0] = new ScreenSurface(host);
         try
         {
             for (int i = 1; i <= (int)display.FBufferingScheme; i++)
             {
-                surfaces[i] = new TDIB16Surface(display.FBackSurfaceWidth, display.FBackSurfaceHeight, Aow.Game.Draw.PixelFormats.pfRGB555);
+                surfaces[i] = new DIB16Surface(display.FBackSurfaceWidth, display.FBackSurfaceHeight, Aow.Game.Draw.PixelFormats.pfRGB555);
                 surfaces[i].Cls(display.Color);
             }
             return 0;
@@ -43,7 +43,7 @@ public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDispla
     {
         var surface = GetSurface(index);
         if (surface is null) return Aow.Game.Draw.DisplayCodes.DCERR_FAILED;
-        TSurfaceDesc descriptor = default;
+        SurfaceDesc descriptor = default;
         int result = surface.Lock(ref descriptor);
         if (result < 0) return result;
         try { host.Present(descriptor); }
@@ -72,20 +72,20 @@ public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDispla
         host.ShowSystemCursor(x == -1);
     }
 
-    public override int Hide() { FStatus = FStatus.Without(dsVisible); return 0; }
+    public override int Hide() { FStatus = FStatus.Without(Visible); return 0; }
 
-    public override int Show() { FStatus = FStatus.With(dsVisible); return 0; }
+    public override int Show() { FStatus = FStatus.With(Visible); return 0; }
 
-    public override bool WndProc(ref TMessage message) => false;
-    public override int SupportDisplayMode(TCustomDisplay display) => 0;
+    public override bool WndProc(ref Message message) => false;
+    public override int SupportDisplayMode(CustomDisplay display) => 0;
 
     public override void WindowRecreated() { }
 
-    private sealed class ScreenSurface(IDisplayHost host) : TSurface
+    private sealed class ScreenSurface(IDisplayHost host) : Surface
     {
         public override int GetWidth() => host.ClientSize.Width;
         public override int GetHeight() => host.ClientSize.Height;
         public override int GetPixelFormatID() => Aow.Game.Draw.PixelFormats.pfRGB555;
-        public override int Lock(ref TSurfaceDesc descriptor) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+        public override int Lock(ref SurfaceDesc descriptor) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
     }
 }

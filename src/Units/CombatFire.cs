@@ -11,9 +11,9 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
 
-public partial class TCombatFire : TSingleHS
+public partial class CombatFire : SingleHS
 {
-    public TCombatFire(TECustomNode owner) : base(owner)
+    public CombatFire(ECustomNode owner) : base(owner)
     {
     }
 
@@ -28,12 +28,12 @@ public partial class TCombatFire : TSingleHS
     // CombatFire.pas:60
 
     // CombatFire.pas:119
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537006081)
         {
-            if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 NewTurn();
             }
@@ -53,18 +53,18 @@ public partial class TCombatFire : TSingleHS
     public override int GetShowPriority() => 1811939328;
 
     // CombatFire.pas:146
-    public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
+    public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
     {
         int Penalty;
         if (Info.HN == 0)
         {
-            if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(7))
+            if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(7))
             {
                 Penalty = 0;
             }
             else
             {
-                if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(71))
+                if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(71))
                 {
                     Penalty = 10;
                 }
@@ -91,7 +91,7 @@ public partial class TCombatFire : TSingleHS
         base.Activate();
         FXShift = Random(10) + 11;
         FYShift = Random(10) + 11;
-        FPlayer = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer;
+        FPlayer = Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer;
         FFirstTurn = true;
     }
 
@@ -102,7 +102,7 @@ public partial class TCombatFire : TSingleHS
     }
 
     // CombatFire.pas:75
-    public override void MakeVisible(TVisibilityList VisibilityList)
+    public override void MakeVisible(VisibilityList VisibilityList)
     {
         base.MakeVisible(VisibilityList);
     }
@@ -112,21 +112,21 @@ public partial class TCombatFire : TSingleHS
     {
         int Xhx = default;
         int Yhx = default;
-        TMapFieldMsg Msg = default;
+        MapFieldMsg Msg = default;
         if (FFirstTurn)
         {
             FFirstTurn = false;
         }
         else
         {
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer == FPlayer)
+            if (Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer == FPlayer)
             {
                 Msg.MsgID = 200711;
                 Msg.Param[0] = this;
                 Msg.Result = -1;
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
+                Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
                 for (int I = 1; I <= 6; I++)
                 {
                     var yhx2 = GetYhx();
@@ -143,21 +143,21 @@ public partial class TCombatFire : TSingleHS
     }
 
     // CombatFire.pas:26
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
-        TImageSequence Sequence;
+        ImageSequence Sequence;
         int ImageIndex;
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         XhpSurf = Xhp - XhpSurf;
         YhpSurf = Yhp - YhpSurf;
-        Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.GetImageSequence(60);
+        Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.GetImageSequence(60);
         if (Sequence != null)
         {
             do
             {
-                ImageIndex = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                ImageIndex = Sequence.GetFrameIndex(Aow.Game.World.Map.AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (ImageIndex != -1)
                 {
                     Sequence.ImageLibrary.Get(ImageIndex).Show(XhpSurf + Sequence.dXshift + FXShift, YhpSurf + Sequence.dYshift + FYShift, SurfaceDesc);
@@ -168,20 +168,20 @@ public partial class TCombatFire : TSingleHS
             while (!(Sequence == null));
         }
     }
-}
 
-public partial class TCombatFireResource : TILTerrainMOR
-{
-    public TCombatFireResource(TECustomNode owner) : base(owner)
-    { }
+    public partial class Resource : ILTerrainMOR
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        { }
 
-    // CombatFire.pas:160
-    public new const int ClassID = 2229579;
+        // CombatFire.pas:160
+        public new const int ClassID = 2229579;
 
-    // CombatFire.pas:166
-    public override int ResourceUserClassID() => 2229578;
+        // CombatFire.pas:166
+        public override int ResourceUserClassID() => 2229578;
 
-    // CombatFire.pas:163
-    public override string ResourceEditName() => "Combat Fire";
+        // CombatFire.pas:163
+        public override string ResourceEditName() => "Combat Fire";
 
+    }
 }

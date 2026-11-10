@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TMultiWindow : ILayoutModule
+public partial class MultiWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TMultiWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "MultiWindow";
-        JoinPnl = new TAOWPanel(this);
+        JoinPnl = new AOWPanel(this);
         session.BeginRead(JoinPnl);
         JoinPnl.Name = "JoinPnl";
         JoinPnl.Visible = false;
@@ -28,8 +28,8 @@ public partial class TMultiWindow : ILayoutModule
         JoinPnl.WinTop = 0;
         JoinPnl.WinWidth = 158;
         JoinPnl.Masked = false;
-        JoinPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        JoinPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        JoinPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        JoinPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         JoinPnl.Alignment.HeightPercent = 0;
         JoinPnl.Alignment.WidthPercent = 0;
         JoinPnl.Alignment.LeftOffPercent = 0;
@@ -47,15 +47,15 @@ public partial class TMultiWindow : ILayoutModule
         JoinPnl.MinWidth = 0;
         JoinPnl.MinHeight = 0;
         session.EndRead(JoinPnl);
-        GamesLB = new TAOWListBox(this);
+        GamesLB = new AOWListBox(this);
         session.BeginRead(GamesLB);
         GamesLB.Name = "GamesLB";
         GamesLB.Priority = 200;
         GamesLB.WinLeft = 9;
         GamesLB.WinTop = 40;
         GamesLB.CaptureInput = true;
-        GamesLB.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        GamesLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        GamesLB.Alignment.AlignWidth = AOWAlignWidth.Center;
+        GamesLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         GamesLB.Alignment.HeightPercent = 0;
         GamesLB.Alignment.WidthPercent = 0;
         GamesLB.Alignment.LeftOffPercent = 0;
@@ -80,9 +80,9 @@ public partial class TMultiWindow : ILayoutModule
         GamesLB.ILIndexTNormal = 4;
         GamesLB.ILIndexTSelected = 16;
         GamesLB.ItemHeight = 20;
-        GamesLB.TextAlign = TaowTextAlign.taCenter;
+        GamesLB.TextAlign = TaowTextAlign.Center;
         session.EndRead(GamesLB);
-        GLBvsc = new TAOWVScrollBar(this);
+        GLBvsc = new AOWVScrollBar(this);
         session.BeginRead(GLBvsc);
         GLBvsc.Name = "GLBvsc";
         GLBvsc.Visible = false;
@@ -90,8 +90,8 @@ public partial class TMultiWindow : ILayoutModule
         GLBvsc.WinLeft = 132;
         GLBvsc.WinTop = 40;
         GLBvsc.CaptureInput = true;
-        GLBvsc.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        GLBvsc.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        GLBvsc.Alignment.AlignWidth = AOWAlignWidth.None;
+        GLBvsc.Alignment.AlignHeight = AOWAlignHeight.None;
         GLBvsc.Alignment.HeightPercent = 0;
         GLBvsc.Alignment.WidthPercent = 0;
         GLBvsc.Alignment.LeftOffPercent = 0;
@@ -119,7 +119,7 @@ public partial class TMultiWindow : ILayoutModule
         GLBvsc.ILIndexBack = 15;
         GLBvsc.ILIndexTab = 12;
         session.EndRead(GLBvsc);
-        JoinBtn = new TAOWButton(this);
+        JoinBtn = new AOWButton(this);
         session.BeginRead(JoinBtn);
         JoinBtn.Name = "JoinBtn";
         JoinBtn.Priority = 100;
@@ -130,8 +130,8 @@ public partial class TMultiWindow : ILayoutModule
             "Joins the selected game."
         };
         JoinBtn.CaptureInput = true;
-        JoinBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        JoinBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        JoinBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        JoinBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         JoinBtn.Alignment.HeightPercent = 0;
         JoinBtn.Alignment.WidthPercent = 0;
         JoinBtn.Alignment.LeftOffPercent = 10;
@@ -154,7 +154,7 @@ public partial class TMultiWindow : ILayoutModule
         JoinBtn.WinWidth = 158;
         JoinBtn.OnClick = _ => Layout_JoinBtnClick_1();
         session.EndRead(JoinBtn);
-        MultiPnl = new TAOWPanel(this);
+        MultiPnl = new AOWPanel(this);
         session.BeginRead(MultiPnl);
         MultiPnl.Name = "MultiPnl";
         MultiPnl.OnUpdate = _ => Layout_MultiWinUpdate_2();
@@ -164,8 +164,8 @@ public partial class TMultiWindow : ILayoutModule
         MultiPnl.WinTop = 0;
         MultiPnl.WinWidth = 640;
         MultiPnl.Masked = true;
-        MultiPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        MultiPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        MultiPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        MultiPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         MultiPnl.Alignment.HeightPercent = 0;
         MultiPnl.Alignment.WidthPercent = 0;
         MultiPnl.Alignment.LeftOffPercent = 0;
@@ -183,15 +183,15 @@ public partial class TMultiWindow : ILayoutModule
         MultiPnl.MinWidth = 640;
         MultiPnl.MinHeight = 480;
         session.EndRead(MultiPnl);
-        BackBtn = new TAOWButton(this);
+        BackBtn = new AOWButton(this);
         session.BeginRead(BackBtn);
         BackBtn.Name = "BackBtn";
         BackBtn.Priority = 100;
         BackBtn.WinLeft = 0;
         BackBtn.WinTop = 246;
         BackBtn.CaptureInput = true;
-        BackBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        BackBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        BackBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        BackBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         BackBtn.Alignment.HeightPercent = 0;
         BackBtn.Alignment.WidthPercent = 0;
         BackBtn.Alignment.LeftOffPercent = 10;
@@ -214,7 +214,7 @@ public partial class TMultiWindow : ILayoutModule
         BackBtn.WinWidth = 158;
         BackBtn.OnClick = _ => Layout_BackBtnClick_3();
         session.EndRead(BackBtn);
-        GamePanel = new TAOWPanel(this);
+        GamePanel = new AOWPanel(this);
         session.BeginRead(GamePanel);
         GamePanel.Name = "GamePanel";
         GamePanel.Priority = 100;
@@ -222,8 +222,8 @@ public partial class TMultiWindow : ILayoutModule
         GamePanel.WinTop = 0;
         GamePanel.WinWidth = 158;
         GamePanel.Masked = true;
-        GamePanel.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        GamePanel.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        GamePanel.Alignment.AlignWidth = AOWAlignWidth.None;
+        GamePanel.Alignment.AlignHeight = AOWAlignHeight.None;
         GamePanel.Alignment.HeightPercent = 0;
         GamePanel.Alignment.WidthPercent = 0;
         GamePanel.Alignment.LeftOffPercent = 0;
@@ -241,7 +241,7 @@ public partial class TMultiWindow : ILayoutModule
         GamePanel.MinWidth = 0;
         GamePanel.MinHeight = 0;
         session.EndRead(GamePanel);
-        TCPBtn = new TAOWButton(this);
+        TCPBtn = new AOWButton(this);
         session.BeginRead(TCPBtn);
         TCPBtn.Name = "TCPBtn";
         TCPBtn.Priority = 19;
@@ -252,8 +252,8 @@ public partial class TMultiWindow : ILayoutModule
             "Play a game using the TCP (Internet) protocol."
         };
         TCPBtn.CaptureInput = true;
-        TCPBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TCPBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCPBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TCPBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCPBtn.Alignment.HeightPercent = 0;
         TCPBtn.Alignment.WidthPercent = 0;
         TCPBtn.Alignment.LeftOffPercent = 0;
@@ -276,7 +276,7 @@ public partial class TMultiWindow : ILayoutModule
         TCPBtn.WinWidth = 158;
         TCPBtn.OnClick = _ => Layout_TCPBtnClick_4();
         session.EndRead(TCPBtn);
-        IPXBtn = new TAOWButton(this);
+        IPXBtn = new AOWButton(this);
         session.BeginRead(IPXBtn);
         IPXBtn.Name = "IPXBtn";
         IPXBtn.Priority = 19;
@@ -287,8 +287,8 @@ public partial class TMultiWindow : ILayoutModule
             "Play a game using the IPX (LAN) protocol."
         };
         IPXBtn.CaptureInput = true;
-        IPXBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        IPXBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        IPXBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        IPXBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         IPXBtn.Alignment.HeightPercent = 0;
         IPXBtn.Alignment.WidthPercent = 0;
         IPXBtn.Alignment.LeftOffPercent = 0;
@@ -311,7 +311,7 @@ public partial class TMultiWindow : ILayoutModule
         IPXBtn.WinWidth = 158;
         IPXBtn.OnClick = _ => Layout_IPXBtnClick_5();
         session.EndRead(IPXBtn);
-        SingleBtn = new TAOWButton(this);
+        SingleBtn = new AOWButton(this);
         session.BeginRead(SingleBtn);
         SingleBtn.Name = "SingleBtn";
         SingleBtn.Priority = 19;
@@ -322,8 +322,8 @@ public partial class TMultiWindow : ILayoutModule
             "Play a game on only this computer."
         };
         SingleBtn.CaptureInput = true;
-        SingleBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SingleBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SingleBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SingleBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         SingleBtn.Alignment.HeightPercent = 0;
         SingleBtn.Alignment.WidthPercent = 0;
         SingleBtn.Alignment.LeftOffPercent = 0;
@@ -346,7 +346,7 @@ public partial class TMultiWindow : ILayoutModule
         SingleBtn.WinWidth = 158;
         SingleBtn.OnClick = _ => Layout_SingleBtnClick_6();
         session.EndRead(SingleBtn);
-        EmailBtn = new TAOWButton(this);
+        EmailBtn = new AOWButton(this);
         session.BeginRead(EmailBtn);
         EmailBtn.Name = "EmailBtn";
         EmailBtn.Priority = 19;
@@ -357,8 +357,8 @@ public partial class TMultiWindow : ILayoutModule
             "Play a game through email."
         };
         EmailBtn.CaptureInput = true;
-        EmailBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        EmailBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        EmailBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        EmailBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         EmailBtn.Alignment.HeightPercent = 0;
         EmailBtn.Alignment.WidthPercent = 0;
         EmailBtn.Alignment.LeftOffPercent = 0;
@@ -381,7 +381,7 @@ public partial class TMultiWindow : ILayoutModule
         EmailBtn.WinWidth = 158;
         EmailBtn.OnClick = _ => Layout_EmailBtnClick_7();
         session.EndRead(EmailBtn);
-        TCPPnl = new TAOWPanel(this);
+        TCPPnl = new AOWPanel(this);
         session.BeginRead(TCPPnl);
         TCPPnl.Name = "TCPPnl";
         TCPPnl.Visible = false;
@@ -390,8 +390,8 @@ public partial class TMultiWindow : ILayoutModule
         TCPPnl.WinTop = 0;
         TCPPnl.WinWidth = 158;
         TCPPnl.Masked = false;
-        TCPPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCPPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCPPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCPPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         TCPPnl.Alignment.HeightPercent = 0;
         TCPPnl.Alignment.WidthPercent = 0;
         TCPPnl.Alignment.LeftOffPercent = 0;
@@ -409,15 +409,15 @@ public partial class TMultiWindow : ILayoutModule
         TCPPnl.MinWidth = 0;
         TCPPnl.MinHeight = 0;
         session.EndRead(TCPPnl);
-        TCPNameLbl = new TAOWLabel(this);
+        TCPNameLbl = new AOWLabel(this);
         session.BeginRead(TCPNameLbl);
         TCPNameLbl.Name = "TCPNameLbl";
         TCPNameLbl.Priority = 100;
         TCPNameLbl.WinLeft = 52;
         TCPNameLbl.WinTop = 50;
         TCPNameLbl.CaptureInput = true;
-        TCPNameLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TCPNameLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCPNameLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TCPNameLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCPNameLbl.Alignment.HeightPercent = 0;
         TCPNameLbl.Alignment.WidthPercent = 0;
         TCPNameLbl.Alignment.LeftOffPercent = 0;
@@ -432,15 +432,15 @@ public partial class TMultiWindow : ILayoutModule
         TCPNameLbl.Text = "Player Name";
         TCPNameLbl.TextColor = 8472387;
         session.EndRead(TCPNameLbl);
-        Single = new TAOWLabel(this);
+        Single = new AOWLabel(this);
         session.BeginRead(Single);
         Single.Name = "Single";
         Single.Priority = 100;
         Single.WinLeft = 35;
         Single.WinTop = 20;
         Single.CaptureInput = true;
-        Single.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Single.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Single.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Single.Alignment.AlignHeight = AOWAlignHeight.Top;
         Single.Alignment.HeightPercent = 0;
         Single.Alignment.WidthPercent = 0;
         Single.Alignment.LeftOffPercent = 0;
@@ -455,7 +455,7 @@ public partial class TMultiWindow : ILayoutModule
         Single.Text = "TCP Internet Game";
         Single.TextColor = 8472387;
         session.EndRead(Single);
-        Address = new TAOWLabel(this);
+        Address = new AOWLabel(this);
         session.BeginRead(Address);
         Address.Name = "Address";
         Address.Priority = 100;
@@ -466,8 +466,8 @@ public partial class TMultiWindow : ILayoutModule
             "The IP Address of the host computer."
         };
         Address.CaptureInput = true;
-        Address.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Address.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Address.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Address.Alignment.AlignHeight = AOWAlignHeight.Top;
         Address.Alignment.HeightPercent = 0;
         Address.Alignment.WidthPercent = 0;
         Address.Alignment.LeftOffPercent = 0;
@@ -482,15 +482,15 @@ public partial class TMultiWindow : ILayoutModule
         Address.Text = "IP Address";
         Address.TextColor = 8472387;
         session.EndRead(Address);
-        CancelTCP = new TAOWButton(this);
+        CancelTCP = new AOWButton(this);
         session.BeginRead(CancelTCP);
         CancelTCP.Name = "CancelTCP";
         CancelTCP.Priority = 100;
         CancelTCP.WinLeft = 0;
         CancelTCP.WinTop = 246;
         CancelTCP.CaptureInput = true;
-        CancelTCP.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CancelTCP.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        CancelTCP.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CancelTCP.Alignment.AlignHeight = AOWAlignHeight.Top;
         CancelTCP.Alignment.HeightPercent = 0;
         CancelTCP.Alignment.WidthPercent = 0;
         CancelTCP.Alignment.LeftOffPercent = 0;
@@ -513,7 +513,7 @@ public partial class TMultiWindow : ILayoutModule
         CancelTCP.WinWidth = 158;
         CancelTCP.OnClick = _ => Layout_CancelTCPClick_8();
         session.EndRead(CancelTCP);
-        Host = new TAOWButton(this);
+        Host = new AOWButton(this);
         session.BeginRead(Host);
         Host.Name = "Host";
         Host.Priority = 100;
@@ -524,8 +524,8 @@ public partial class TMultiWindow : ILayoutModule
             "Starts a new TCP/IP game."
         };
         Host.CaptureInput = true;
-        Host.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Host.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Host.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Host.Alignment.AlignHeight = AOWAlignHeight.Top;
         Host.Alignment.HeightPercent = 0;
         Host.Alignment.WidthPercent = 0;
         Host.Alignment.LeftOffPercent = 0;
@@ -548,7 +548,7 @@ public partial class TMultiWindow : ILayoutModule
         Host.WinWidth = 158;
         Host.OnClick = _ => HostClick();
         session.EndRead(Host);
-        Find = new TAOWButton(this);
+        Find = new AOWButton(this);
         session.BeginRead(Find);
         Find.Name = "Find";
         Find.Priority = 100;
@@ -559,8 +559,8 @@ public partial class TMultiWindow : ILayoutModule
             "Searches for games at the given IP Address."
         };
         Find.CaptureInput = true;
-        Find.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Find.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Find.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Find.Alignment.AlignHeight = AOWAlignHeight.Top;
         Find.Alignment.HeightPercent = 0;
         Find.Alignment.WidthPercent = 0;
         Find.Alignment.LeftOffPercent = 52;
@@ -583,15 +583,15 @@ public partial class TMultiWindow : ILayoutModule
         Find.WinWidth = 158;
         Find.OnClick = _ => Layout_FindClick_9();
         session.EndRead(Find);
-        GameLbl = new TAOWLabel(this);
+        GameLbl = new AOWLabel(this);
         session.BeginRead(GameLbl);
         GameLbl.Name = "GameLbl";
         GameLbl.Priority = 19;
         GameLbl.WinLeft = 55;
         GameLbl.WinTop = 20;
         GameLbl.CaptureInput = true;
-        GameLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        GameLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        GameLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        GameLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         GameLbl.Alignment.HeightPercent = 0;
         GameLbl.Alignment.WidthPercent = 0;
         GameLbl.Alignment.LeftOffPercent = 0;
@@ -606,15 +606,15 @@ public partial class TMultiWindow : ILayoutModule
         GameLbl.Text = "Game Type";
         GameLbl.TextColor = 8472387;
         session.EndRead(GameLbl);
-        TCPName = new TAOWEdit(this);
+        TCPName = new AOWEdit(this);
         session.BeginRead(TCPName);
         TCPName.Name = "TCPName";
         TCPName.Priority = 0;
         TCPName.WinLeft = 0;
         TCPName.WinTop = 66;
         TCPName.CaptureInput = true;
-        TCPName.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TCPName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCPName.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TCPName.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCPName.Alignment.HeightPercent = 0;
         TCPName.Alignment.WidthPercent = 0;
         TCPName.Alignment.LeftOffPercent = 0;
@@ -639,7 +639,7 @@ public partial class TMultiWindow : ILayoutModule
         TCPName.ILIndex = 29;
         TCPName.PassWordChar = 0;
         session.EndRead(TCPName);
-        IPEdit = new TAOWEdit(this);
+        IPEdit = new AOWEdit(this);
         session.BeginRead(IPEdit);
         IPEdit.Name = "IPEdit";
         IPEdit.Priority = 0;
@@ -650,8 +650,8 @@ public partial class TMultiWindow : ILayoutModule
             "The IP Address of the host computer."
         };
         IPEdit.CaptureInput = true;
-        IPEdit.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        IPEdit.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        IPEdit.Alignment.AlignWidth = AOWAlignWidth.Center;
+        IPEdit.Alignment.AlignHeight = AOWAlignHeight.Top;
         IPEdit.Alignment.HeightPercent = 0;
         IPEdit.Alignment.WidthPercent = 0;
         IPEdit.Alignment.LeftOffPercent = 0;
@@ -674,7 +674,7 @@ public partial class TMultiWindow : ILayoutModule
         IPEdit.ILIndex = 29;
         IPEdit.PassWordChar = 0;
         session.EndRead(IPEdit);
-        LanPnl = new TAOWPanel(this);
+        LanPnl = new AOWPanel(this);
         session.BeginRead(LanPnl);
         LanPnl.Name = "LanPnl";
         LanPnl.Visible = false;
@@ -683,8 +683,8 @@ public partial class TMultiWindow : ILayoutModule
         LanPnl.WinTop = 0;
         LanPnl.WinWidth = 158;
         LanPnl.Masked = false;
-        LanPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        LanPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        LanPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        LanPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         LanPnl.Alignment.HeightPercent = 0;
         LanPnl.Alignment.WidthPercent = 0;
         LanPnl.Alignment.LeftOffPercent = 0;
@@ -702,7 +702,7 @@ public partial class TMultiWindow : ILayoutModule
         LanPnl.MinWidth = 0;
         LanPnl.MinHeight = 0;
         session.EndRead(LanPnl);
-        LANFind = new TAOWButton(this);
+        LANFind = new AOWButton(this);
         session.BeginRead(LANFind);
         LANFind.Name = "LANFind";
         LANFind.Priority = 100;
@@ -713,8 +713,8 @@ public partial class TMultiWindow : ILayoutModule
             "Searches for IPX games on the LAN."
         };
         LANFind.CaptureInput = true;
-        LANFind.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LANFind.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LANFind.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LANFind.Alignment.AlignHeight = AOWAlignHeight.Top;
         LANFind.Alignment.HeightPercent = 0;
         LANFind.Alignment.WidthPercent = 0;
         LANFind.Alignment.LeftOffPercent = 52;
@@ -737,15 +737,15 @@ public partial class TMultiWindow : ILayoutModule
         LANFind.WinWidth = 158;
         LANFind.OnClick = _ => Layout_LANFindClick_11();
         session.EndRead(LANFind);
-        JoinLbl = new TAOWLabel(this);
+        JoinLbl = new AOWLabel(this);
         session.BeginRead(JoinLbl);
         JoinLbl.Name = "JoinLbl";
         JoinLbl.Priority = 100;
         JoinLbl.WinLeft = 43;
         JoinLbl.WinTop = 20;
         JoinLbl.CaptureInput = true;
-        JoinLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        JoinLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        JoinLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        JoinLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         JoinLbl.Alignment.HeightPercent = 0;
         JoinLbl.Alignment.WidthPercent = 0;
         JoinLbl.Alignment.LeftOffPercent = 0;
@@ -760,7 +760,7 @@ public partial class TMultiWindow : ILayoutModule
         JoinLbl.Text = "Available Games";
         JoinLbl.TextColor = 8472387;
         session.EndRead(JoinLbl);
-        BottomPnl = new TAOWPanel(this);
+        BottomPnl = new AOWPanel(this);
         session.BeginRead(BottomPnl);
         BottomPnl.Name = "BottomPnl";
         BottomPnl.Priority = 1000;
@@ -768,8 +768,8 @@ public partial class TMultiWindow : ILayoutModule
         BottomPnl.WinTop = 380;
         BottomPnl.WinWidth = 158;
         BottomPnl.Masked = true;
-        BottomPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        BottomPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        BottomPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        BottomPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         BottomPnl.Alignment.HeightPercent = 0;
         BottomPnl.Alignment.WidthPercent = 0;
         BottomPnl.Alignment.LeftOffPercent = 0;
@@ -787,15 +787,15 @@ public partial class TMultiWindow : ILayoutModule
         BottomPnl.MinWidth = 0;
         BottomPnl.MinHeight = 0;
         session.EndRead(BottomPnl);
-        BackButn = new TAOWButton(this);
+        BackButn = new AOWButton(this);
         session.BeginRead(BackButn);
         BackButn.Name = "BackButn";
         BackButn.Priority = 19;
         BackButn.WinLeft = 0;
         BackButn.WinTop = 22;
         BackButn.CaptureInput = true;
-        BackButn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        BackButn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BackButn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        BackButn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BackButn.Alignment.HeightPercent = 0;
         BackButn.Alignment.WidthPercent = 0;
         BackButn.Alignment.LeftOffPercent = 0;
@@ -818,7 +818,7 @@ public partial class TMultiWindow : ILayoutModule
         BackButn.WinWidth = 158;
         BackButn.OnClick = _ => Layout_CloseBtnClick_12();
         session.EndRead(BackButn);
-        MsgPnl = new TAOWPanel(this);
+        MsgPnl = new AOWPanel(this);
         session.BeginRead(MsgPnl);
         MsgPnl.Name = "MsgPnl";
         MsgPnl.Visible = false;
@@ -827,8 +827,8 @@ public partial class TMultiWindow : ILayoutModule
         MsgPnl.WinTop = 0;
         MsgPnl.WinWidth = 158;
         MsgPnl.Masked = false;
-        MsgPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        MsgPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        MsgPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        MsgPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         MsgPnl.Alignment.HeightPercent = 0;
         MsgPnl.Alignment.WidthPercent = 0;
         MsgPnl.Alignment.LeftOffPercent = 0;
@@ -846,15 +846,15 @@ public partial class TMultiWindow : ILayoutModule
         MsgPnl.MinWidth = 0;
         MsgPnl.MinHeight = 0;
         session.EndRead(MsgPnl);
-        CancelOKBut = new TAOWButton(this);
+        CancelOKBut = new AOWButton(this);
         session.BeginRead(CancelOKBut);
         CancelOKBut.Name = "CancelOKBut";
         CancelOKBut.Priority = 100;
         CancelOKBut.WinLeft = 0;
         CancelOKBut.WinTop = 246;
         CancelOKBut.CaptureInput = true;
-        CancelOKBut.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CancelOKBut.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        CancelOKBut.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CancelOKBut.Alignment.AlignHeight = AOWAlignHeight.Top;
         CancelOKBut.Alignment.HeightPercent = 0;
         CancelOKBut.Alignment.WidthPercent = 0;
         CancelOKBut.Alignment.LeftOffPercent = 0;
@@ -877,15 +877,15 @@ public partial class TMultiWindow : ILayoutModule
         CancelOKBut.WinWidth = 158;
         CancelOKBut.OnClick = _ => Layout_CancelOKButClick_13();
         session.EndRead(CancelOKBut);
-        MessageMemo = new TAOWMemo(this);
+        MessageMemo = new AOWMemo(this);
         session.BeginRead(MessageMemo);
         MessageMemo.Name = "MessageMemo";
         MessageMemo.Priority = 0;
         MessageMemo.WinLeft = 6;
         MessageMemo.WinTop = 130;
         MessageMemo.CaptureInput = true;
-        MessageMemo.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        MessageMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        MessageMemo.Alignment.AlignWidth = AOWAlignWidth.Center;
+        MessageMemo.Alignment.AlignHeight = AOWAlignHeight.Both;
         MessageMemo.Alignment.HeightPercent = 0;
         MessageMemo.Alignment.WidthPercent = 0;
         MessageMemo.Alignment.LeftOffPercent = 0;
@@ -913,17 +913,17 @@ public partial class TMultiWindow : ILayoutModule
         MessageMemo.ILIndexTexture = 14;
         MessageMemo.ItemHeight = 20;
         MessageMemo.ColorChangeChar = 0;
-        MessageMemo.TextAlign = TaowTextAlign.taCenter;
+        MessageMemo.TextAlign = TaowTextAlign.Center;
         session.EndRead(MessageMemo);
-        LANCancel = new TAOWButton(this);
+        LANCancel = new AOWButton(this);
         session.BeginRead(LANCancel);
         LANCancel.Name = "LANCancel";
         LANCancel.Priority = 100;
         LANCancel.WinLeft = 0;
         LANCancel.WinTop = 246;
         LANCancel.CaptureInput = true;
-        LANCancel.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LANCancel.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LANCancel.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LANCancel.Alignment.AlignHeight = AOWAlignHeight.Top;
         LANCancel.Alignment.HeightPercent = 0;
         LANCancel.Alignment.WidthPercent = 0;
         LANCancel.Alignment.LeftOffPercent = 0;
@@ -946,15 +946,15 @@ public partial class TMultiWindow : ILayoutModule
         LANCancel.WinWidth = 158;
         LANCancel.OnClick = _ => Layout_CancelTCPClick_8();
         session.EndRead(LANCancel);
-        AOWLabel1 = new TAOWLabel(this);
+        AOWLabel1 = new AOWLabel(this);
         session.BeginRead(AOWLabel1);
         AOWLabel1.Name = "AOWLabel1";
         AOWLabel1.Priority = 100;
         AOWLabel1.WinLeft = 52;
         AOWLabel1.WinTop = 50;
         AOWLabel1.CaptureInput = true;
-        AOWLabel1.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        AOWLabel1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        AOWLabel1.Alignment.AlignWidth = AOWAlignWidth.Center;
+        AOWLabel1.Alignment.AlignHeight = AOWAlignHeight.Top;
         AOWLabel1.Alignment.HeightPercent = 0;
         AOWLabel1.Alignment.WidthPercent = 0;
         AOWLabel1.Alignment.LeftOffPercent = 0;
@@ -969,15 +969,15 @@ public partial class TMultiWindow : ILayoutModule
         AOWLabel1.Text = "Player Name";
         AOWLabel1.TextColor = 8472387;
         session.EndRead(AOWLabel1);
-        LANLbl = new TAOWLabel(this);
+        LANLbl = new AOWLabel(this);
         session.BeginRead(LANLbl);
         LANLbl.Name = "LANLbl";
         LANLbl.Priority = 100;
         LANLbl.WinLeft = 45;
         LANLbl.WinTop = 20;
         LANLbl.CaptureInput = true;
-        LANLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LANLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LANLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LANLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         LANLbl.Alignment.HeightPercent = 0;
         LANLbl.Alignment.WidthPercent = 0;
         LANLbl.Alignment.LeftOffPercent = 0;
@@ -992,15 +992,15 @@ public partial class TMultiWindow : ILayoutModule
         LANLbl.Text = "IPX LAN Game";
         LANLbl.TextColor = 8472387;
         session.EndRead(LANLbl);
-        IPXName = new TAOWEdit(this);
+        IPXName = new AOWEdit(this);
         session.BeginRead(IPXName);
         IPXName.Name = "IPXName";
         IPXName.Priority = 0;
         IPXName.WinLeft = 0;
         IPXName.WinTop = 66;
         IPXName.CaptureInput = true;
-        IPXName.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        IPXName.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        IPXName.Alignment.AlignWidth = AOWAlignWidth.Center;
+        IPXName.Alignment.AlignHeight = AOWAlignHeight.Top;
         IPXName.Alignment.HeightPercent = 0;
         IPXName.Alignment.WidthPercent = 0;
         IPXName.Alignment.LeftOffPercent = 0;
@@ -1025,7 +1025,7 @@ public partial class TMultiWindow : ILayoutModule
         IPXName.ILIndex = 29;
         IPXName.PassWordChar = 0;
         session.EndRead(IPXName);
-        LANHost = new TAOWButton(this);
+        LANHost = new AOWButton(this);
         session.BeginRead(LANHost);
         LANHost.Name = "LANHost";
         LANHost.Priority = 100;
@@ -1036,8 +1036,8 @@ public partial class TMultiWindow : ILayoutModule
             "Starts a new LAN/IPX game."
         };
         LANHost.CaptureInput = true;
-        LANHost.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LANHost.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LANHost.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LANHost.Alignment.AlignHeight = AOWAlignHeight.Top;
         LANHost.Alignment.HeightPercent = 0;
         LANHost.Alignment.WidthPercent = 0;
         LANHost.Alignment.LeftOffPercent = 0;
@@ -1060,7 +1060,7 @@ public partial class TMultiWindow : ILayoutModule
         LANHost.WinWidth = 158;
         LANHost.OnClick = _ => LANHostClick();
         session.EndRead(LANHost);
-        PBEMPnl = new TAOWPanel(this);
+        PBEMPnl = new AOWPanel(this);
         session.BeginRead(PBEMPnl);
         PBEMPnl.Name = "PBEMPnl";
         PBEMPnl.Visible = false;
@@ -1069,8 +1069,8 @@ public partial class TMultiWindow : ILayoutModule
         PBEMPnl.WinTop = 0;
         PBEMPnl.WinWidth = 158;
         PBEMPnl.Masked = false;
-        PBEMPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        PBEMPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        PBEMPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        PBEMPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         PBEMPnl.Alignment.HeightPercent = 0;
         PBEMPnl.Alignment.WidthPercent = 0;
         PBEMPnl.Alignment.LeftOffPercent = 0;
@@ -1088,15 +1088,15 @@ public partial class TMultiWindow : ILayoutModule
         PBEMPnl.MinWidth = 0;
         PBEMPnl.MinHeight = 0;
         session.EndRead(PBEMPnl);
-        CancelPBEMBtn = new TAOWButton(this);
+        CancelPBEMBtn = new AOWButton(this);
         session.BeginRead(CancelPBEMBtn);
         CancelPBEMBtn.Name = "CancelPBEMBtn";
         CancelPBEMBtn.Priority = 100;
         CancelPBEMBtn.WinLeft = 0;
         CancelPBEMBtn.WinTop = 246;
         CancelPBEMBtn.CaptureInput = true;
-        CancelPBEMBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CancelPBEMBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        CancelPBEMBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CancelPBEMBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         CancelPBEMBtn.Alignment.HeightPercent = 0;
         CancelPBEMBtn.Alignment.WidthPercent = 0;
         CancelPBEMBtn.Alignment.LeftOffPercent = 0;
@@ -1119,15 +1119,15 @@ public partial class TMultiWindow : ILayoutModule
         CancelPBEMBtn.WinWidth = 158;
         CancelPBEMBtn.OnClick = _ => Layout_CancelPBEMBtnClick_15();
         session.EndRead(CancelPBEMBtn);
-        CheckEmailBtn = new TAOWButton(this);
+        CheckEmailBtn = new AOWButton(this);
         session.BeginRead(CheckEmailBtn);
         CheckEmailBtn.Name = "CheckEmailBtn";
         CheckEmailBtn.Priority = 100;
         CheckEmailBtn.WinLeft = 0;
         CheckEmailBtn.WinTop = 106;
         CheckEmailBtn.CaptureInput = true;
-        CheckEmailBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CheckEmailBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        CheckEmailBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CheckEmailBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         CheckEmailBtn.Alignment.HeightPercent = 0;
         CheckEmailBtn.Alignment.WidthPercent = 0;
         CheckEmailBtn.Alignment.LeftOffPercent = 0;
@@ -1150,15 +1150,15 @@ public partial class TMultiWindow : ILayoutModule
         CheckEmailBtn.WinWidth = 158;
         CheckEmailBtn.OnClick = _ => Layout_CheckEmailBtnClick_16();
         session.EndRead(CheckEmailBtn);
-        NewPBEMGameBtn = new TAOWButton(this);
+        NewPBEMGameBtn = new AOWButton(this);
         session.BeginRead(NewPBEMGameBtn);
         NewPBEMGameBtn.Name = "NewPBEMGameBtn";
         NewPBEMGameBtn.Priority = 100;
         NewPBEMGameBtn.WinLeft = 0;
         NewPBEMGameBtn.WinTop = 186;
         NewPBEMGameBtn.CaptureInput = true;
-        NewPBEMGameBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        NewPBEMGameBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        NewPBEMGameBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        NewPBEMGameBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         NewPBEMGameBtn.Alignment.HeightPercent = 0;
         NewPBEMGameBtn.Alignment.WidthPercent = 0;
         NewPBEMGameBtn.Alignment.LeftOffPercent = 52;
@@ -1181,15 +1181,15 @@ public partial class TMultiWindow : ILayoutModule
         NewPBEMGameBtn.WinWidth = 158;
         NewPBEMGameBtn.OnClick = _ => Layout_NewPBEMGameBtnClick_17();
         session.EndRead(NewPBEMGameBtn);
-        LoadPBEMGameBtn = new TAOWButton(this);
+        LoadPBEMGameBtn = new AOWButton(this);
         session.BeginRead(LoadPBEMGameBtn);
         LoadPBEMGameBtn.Name = "LoadPBEMGameBtn";
         LoadPBEMGameBtn.Priority = 100;
         LoadPBEMGameBtn.WinLeft = 0;
         LoadPBEMGameBtn.WinTop = 146;
         LoadPBEMGameBtn.CaptureInput = true;
-        LoadPBEMGameBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LoadPBEMGameBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LoadPBEMGameBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LoadPBEMGameBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         LoadPBEMGameBtn.Alignment.HeightPercent = 0;
         LoadPBEMGameBtn.Alignment.WidthPercent = 0;
         LoadPBEMGameBtn.Alignment.LeftOffPercent = 52;
@@ -1212,15 +1212,15 @@ public partial class TMultiWindow : ILayoutModule
         LoadPBEMGameBtn.WinWidth = 158;
         LoadPBEMGameBtn.OnClick = _ => Layout_LoadPBEMGameBtnClick_18();
         session.EndRead(LoadPBEMGameBtn);
-        EmailSettingsBtn = new TAOWButton(this);
+        EmailSettingsBtn = new AOWButton(this);
         session.BeginRead(EmailSettingsBtn);
         EmailSettingsBtn.Name = "EmailSettingsBtn";
         EmailSettingsBtn.Priority = 100;
         EmailSettingsBtn.WinLeft = 0;
         EmailSettingsBtn.WinTop = 66;
         EmailSettingsBtn.CaptureInput = true;
-        EmailSettingsBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        EmailSettingsBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        EmailSettingsBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        EmailSettingsBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         EmailSettingsBtn.Alignment.HeightPercent = 0;
         EmailSettingsBtn.Alignment.WidthPercent = 0;
         EmailSettingsBtn.Alignment.LeftOffPercent = 0;
@@ -1243,7 +1243,7 @@ public partial class TMultiWindow : ILayoutModule
         EmailSettingsBtn.WinWidth = 158;
         EmailSettingsBtn.OnClick = _ => Layout_EmailSettingsBtnClick_19();
         session.EndRead(EmailSettingsBtn);
-        HeatNetBtn = new TAOWButton(this);
+        HeatNetBtn = new AOWButton(this);
         session.BeginRead(HeatNetBtn);
         HeatNetBtn.Name = "HeatNetBtn";
         HeatNetBtn.Priority = 19;
@@ -1254,8 +1254,8 @@ public partial class TMultiWindow : ILayoutModule
             "Start a HeatNet game."
         };
         HeatNetBtn.CaptureInput = true;
-        HeatNetBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        HeatNetBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        HeatNetBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        HeatNetBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         HeatNetBtn.Alignment.HeightPercent = 0;
         HeatNetBtn.Alignment.WidthPercent = 0;
         HeatNetBtn.Alignment.LeftOffPercent = 0;

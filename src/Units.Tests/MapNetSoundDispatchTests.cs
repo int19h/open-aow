@@ -3,43 +3,43 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Map;
 using Aow.Platform;
-using Sample = Aow.Game.Audio.TSample;
+using Sample = Aow.Game.Audio.Sample;
 
 namespace Aow.Units.Tests;
 
 public sealed class MapNetSoundDispatchTests
 {
-    private sealed class ConvertedField(TECustomNode owner) : TMapField(owner)
+    private sealed class ConvertedField(ECustomNode owner) : MapField(owner)
     {
         internal int OwnerCalls;
 
-        public override void SetOwner(TECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
+        public override void SetOwner(ECustomNode owner) { OwnerCalls++; base.SetOwner(owner); }
     }
 
-    private sealed class ConvertedMap(TECustomNode owner) : THSMap(owner)
+    private sealed class ConvertedMap(ECustomNode owner) : HSMap(owner)
     {
         internal int MouseCalls;
 
-        public override THSMapMouse CreateMouse()
+        public override HSMapMouse CreateMouse()
         {
             Assert.Null(FSelection);
             Assert.Null(FTimer);
             MouseCalls++;
-            return new THSMapMouse();
+            return new HSMapMouse();
         }
     }
 
-    private sealed class SpecializedField(TECustomNode owner) : TMapField(owner);
+    private sealed class SpecializedField(ECustomNode owner) : MapField(owner);
 
-    private sealed class SpecializedLevel(TECustomNode owner) : TMapLevel(owner)
+    private sealed class SpecializedLevel(ECustomNode owner) : MapLevel(owner)
     {
         public override EClass MapFieldClass() => EClass.Of<SpecializedField>();
     }
 
     static MapNetSoundDispatchTests()
     {
-        EClass.Register<SpecializedField>(TMapField.ClassID, static owner => new SpecializedField(owner), 40);
-        EClass.Register<SpecializedLevel>(TMapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
+        EClass.Register<SpecializedField>(MapField.ClassID, static owner => new SpecializedField(owner), 40);
+        EClass.Register<SpecializedLevel>(MapLevel.ClassID, static owner => new SpecializedLevel(owner), 124);
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public sealed class MapNetSoundDispatchTests
     [Fact]
     public void LegacyMouseStartsWithEmptyEvents()
     {
-        var mouse = new Aow.Game.World.Map.TAbstractAoWHSMapMouse();
+        var mouse = new Aow.Game.World.Map.AbstractAoWHSMapMouse();
         Assert.Equal(0, mouse.FOnUpStore.Count);
         Assert.Equal(0, mouse.FOnDownStore.Count);
         Assert.Equal(0, mouse.FOnMoveStore.Count);
@@ -88,17 +88,17 @@ public sealed class MapNetSoundDispatchTests
 
     private sealed class SoundState : IDisposable
     {
-        private readonly TSampleList samples = Aow.Game.Audio.AudioHost.SampleList;
-        private readonly TSampleDataList data = Aow.Game.Audio.AudioHost.SampleDataList;
-        private readonly TSoundSystemList systems = Aow.Game.Audio.AudioHost.SoundSystems;
-        private readonly TSoundSystem system = Aow.Game.Audio.AudioHost.SoundSystem;
-        private readonly TSongPlayer songs = Aow.Game.Audio.AudioHost.SongPlayer;
+        private readonly SampleList samples = Aow.Game.Audio.AudioHost.SampleList;
+        private readonly SampleDataList data = Aow.Game.Audio.AudioHost.SampleDataList;
+        private readonly SoundSystemList systems = Aow.Game.Audio.AudioHost.SoundSystems;
+        private readonly SoundSystem system = Aow.Game.Audio.AudioHost.SoundSystem;
+        private readonly SongPlayer songs = Aow.Game.Audio.AudioHost.SongPlayer;
 
         internal SoundState()
         {
-            Aow.Game.Audio.AudioHost.SampleList = new TSampleList();
-            Aow.Game.Audio.AudioHost.SampleDataList = new TSampleDataList();
-            Aow.Game.Audio.AudioHost.SoundSystems = new TSoundSystemList();
+            Aow.Game.Audio.AudioHost.SampleList = new SampleList();
+            Aow.Game.Audio.AudioHost.SampleDataList = new SampleDataList();
+            Aow.Game.Audio.AudioHost.SoundSystems = new SoundSystemList();
             Aow.Game.Audio.AudioHost.SoundSystem = null!;
             Aow.Game.Audio.AudioHost.SongPlayer = null!;
             TSdlSoundSystem.Install(mute: true, audioOutput: false);
@@ -115,7 +115,7 @@ public sealed class MapNetSoundDispatchTests
         }
     }
 
-    private static TWaveFormatEx Format => new()
+    private static WaveFormatEx Format => new()
     {
         wFormatTag = 1,
         nChannels = 1,
@@ -130,12 +130,12 @@ public sealed class MapNetSoundDispatchTests
     public void SoundDataRoutesKeepTypeCacheAndReferenceCounts(bool memory)
     {
         using var state = new SoundState();
-        var meta = TSampleData.Descriptor;
-        var direct = memory ? TSampleData.CreateEx(Format, new byte[] { 128 }, 1) : TSampleData.Create("direct");
+        var meta = SampleData.Descriptor;
+        var direct = memory ? SampleData.CreateEx(Format, new byte[] { 128 }, 1) : SampleData.Create("direct");
         var dynamic = memory ? meta.CreateEx(Format, new byte[] { 128 }, 1) : meta.Create("dynamic");
         foreach (var value in new[] { direct, dynamic })
         {
-            Assert.IsType<TSampleData>(value);
+            Assert.IsType<SampleData>(value);
             Assert.Equal(1, value.RefCount);
             Assert.Equal(memory ? "" : value == direct ? "direct" : "dynamic", value.Name);
             if (!memory) Assert.Same(value, Aow.Game.Audio.AudioHost.SampleDataList.Find(value.Name));
@@ -193,7 +193,7 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(1, system.FRefCount);
         system.Dispose();
         Assert.True(Aow.Game.Audio.AudioPlayback.InitializeSoundSystem(name,
-            new TSoundSettings { SampleRate = 8000, SampleVoices = 1, SFXEnabled = true }));
+            new SoundSettings { SampleRate = 8000, SampleVoices = 1, SFXEnabled = true }));
         var sampleDataMeta = TSdlSoundSystem.SampleData;
         var data = sampleDataMeta.CreateEx(Format, new byte[] { 128 }, 1);
         Assert.Equal("SdlSampleData", data.GetType().Name);
@@ -205,7 +205,7 @@ public sealed class MapNetSoundDispatchTests
         Assert.Equal(-1, sample.Volume);
         Assert.False(sample.Playing);
         Assert.False(sample.Looped);
-        Assert.Equal(TSamplePanning.spCenter, sample.Panning);
+        Assert.Equal(SamplePanning.Center, sample.Panning);
         Assert.Equal(2, data.RefCount);
         Assert.Equal(1, Aow.Game.Audio.AudioHost.SampleList.Count);
         sample.Dispose();
@@ -233,7 +233,7 @@ public sealed class MapNetSoundDispatchTests
         var system = NullSoundSystem.Descriptor.Create();
         Assert.IsType<NullSoundSystem>(system);
         Assert.Equal(1, system.FRefCount);
-        var data = TSampleData.Create("silent");
+        var data = SampleData.Create("silent");
         var sample = NullSoundSystem.Samples.Create(data);
         Assert.Equal("NullSample", sample.GetType().Name);
         Assert.Equal(2, data.RefCount);

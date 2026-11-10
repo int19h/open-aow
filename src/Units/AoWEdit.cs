@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Controls;
 // FShownChars (the characters from FFirstChar to the end), FFirstChar (the first character
 // shown), FEditable, FILEdit, FOnExit, FOnReturn, FILIndex, FCursorPos (the cursor position
 // counted from FFirstChar). FRedraw is the input focus
-public partial class TAOWEdit : TAOWControl
+public partial class AOWEdit : AOWControl
 {
     public int FMaxChars;
     public byte FCursorChar;
@@ -28,14 +28,14 @@ public partial class TAOWEdit : TAOWControl
     public int FShownChars;
     public int FFirstChar;
     public bool FEditable;
-    public TInterfaceIL FILEdit;
-    public TNotifyEvent<TAOWEdit> FOnExit;
-    public TNotifyEvent<TAOWEdit> FOnReturn;
+    public InterfaceIL FILEdit;
+    public NotifyEvent<AOWEdit> FOnExit;
+    public NotifyEvent<AOWEdit> FOnReturn;
     public int FILIndex;
     public int FCursorPos;
 
     // AoWEdit.pas:79
-    public TAOWEdit(TComponent owner) : base(owner)
+    public AOWEdit(global::Aow.Rtl.Component owner) : base(owner)
     {
         FCursorChar = 124;
         FCursorShown = true;
@@ -113,10 +113,10 @@ public partial class TAOWEdit : TAOWControl
     }
 
     // AoWEdit.pas:155
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         string S = "";
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -126,7 +126,7 @@ public partial class TAOWEdit : TAOWControl
                     FOnPreDraw(this, SurfDesc);
                 }
 
-                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FILEdit.DrawILLh(FILIndex, rect, ref SurfDesc);
                 OldClip = SurfDesc.ClipRect;
                 var ilEditWidth = FILEdit[FILIndex + 2];
@@ -172,7 +172,7 @@ public partial class TAOWEdit : TAOWControl
     }
 
     // AoWEdit.pas:197
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         int W = default;
         int I = default;
@@ -186,7 +186,7 @@ public partial class TAOWEdit : TAOWControl
             FHandled = true;
             if (FValid == true && FVisible == true)
             {
-                if (Button == TMouseButton.mbLeft)
+                if (Button == MouseButton.Left)
                 {
                     if (FEditable == true)
                     {
@@ -252,7 +252,7 @@ public partial class TAOWEdit : TAOWControl
     }
 
     // AoWEdit.pas:261
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -266,7 +266,7 @@ public partial class TAOWEdit : TAOWControl
     }
 
     // AoWEdit.pas:273
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -362,7 +362,7 @@ public partial class TAOWEdit : TAOWControl
     }
 
     // AoWEdit.pas:119
-    public virtual void SetILEdit(TInterfaceIL Value)
+    public virtual void SetILEdit(InterfaceIL Value)
     {
         if (Value != FILEdit)
         {
@@ -389,7 +389,7 @@ public partial class TAOWEdit : TAOWControl
     }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
     public string Text { get => FText; set => SetGText(value); }
@@ -413,22 +413,22 @@ public partial class TAOWEdit : TAOWControl
     public bool Editable { get => FEditable; set => FEditable = value; }
 
     [Published]
-    public TInterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
+    public InterfaceIL ILEdit { get => FILEdit; set => SetILEdit(value); }
 
     [Published]
     public int ILIndex { get => FILIndex; set => SetILIndex(value); }
 
     [Published]
-    public TNotifyEvent<TAOWEdit> OnExit { get => FOnExit; set => FOnExit = value; }
+    public NotifyEvent<AOWEdit> OnExit { get => FOnExit; set => FOnExit = value; }
 
     [Published]
-    public TNotifyEvent<TAOWEdit> OnReturn { get => FOnReturn; set => FOnReturn = value; }
+    public NotifyEvent<AOWEdit> OnReturn { get => FOnReturn; set => FOnReturn = value; }
 
     [Published]
     public byte PassWordChar { get => FPassWordChar; set => FPassWordChar = value; }
 
     // AoWEdit.pas:350. Clipboard integration has no host in this port.
-    public override void CheckKeyDown(ref ushort key, TSet<TShiftState> shift)
+    public override void CheckKeyDown(ref ushort key, Set<ShiftState> shift)
     {
         FHandled = FRedraw;
         if (!FEditable || !FRedraw || !FValid || !FVisible) return;
@@ -461,55 +461,55 @@ public partial class TAOWEdit : TAOWControl
         FOnChange?.Invoke(this);
     }
 
-    public new TNotifyEvent<TAOWEdit> OnChange
+    public new NotifyEvent<AOWEdit> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWEdit> OnMouseDown
+    public new MouseEvent<AOWEdit> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWEdit> OnMouseUp
+    public new MouseEvent<AOWEdit> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWEdit> OnMouseMove
+    public new MouseMoveEvent<AOWEdit> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWEdit> OnKeyPress
+    public new KeyPressEvent<AOWEdit> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWEdit> OnKeyDown
+    public new KeyEvent<AOWEdit> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWEdit> OnPreDraw
+    public new AoWOnDrawEvent<AOWEdit> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWEdit> OnDraw
+    public new AoWOnDrawEvent<AOWEdit> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWEdit> OnUpdate
+    public new NotifyEvent<AOWEdit> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

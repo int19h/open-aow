@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
 
-public partial class TImageLibraryFont
+public partial class ImageLibraryFont
 {
     // ImageLib.pas:6308 and 6337 store a reference index in an image variable.
     internal int TextWidth(string text)
@@ -19,7 +19,7 @@ public partial class TImageLibraryFont
         return width;
     }
 
-    internal void ShowText(int x, int y, string text, in Aow.Game.Draw.TSurfaceDesc sd)
+    internal void ShowText(int x, int y, string text, in Aow.Game.Draw.SurfaceDesc sd)
     {
         if (RtlUnit.IsEmpty(text)) return;
         foreach (char c in text)
@@ -34,7 +34,7 @@ public partial class TImageLibraryFont
     {
         if (FFontColorPaletteIndex >= 0 && FPaletteManager.FPalettes.Count != 0)
         {
-            var palette = (TLibraryImagePalette)FPaletteManager.FPalettes.List[0];
+            var palette = (LibraryImagePalette)FPaletteManager.FPalettes.List[0];
             palette.FPalette.Entries[FFontColorPaletteIndex].Value =
                 Aow.Game.Draw.PixelFormats.Color2PixelInfo(value, palette.FPalette.PixelFormatID, null);
             if (palette.FRemapPalette != null)

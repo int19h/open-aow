@@ -8,12 +8,12 @@ using Aow.Game.World.Map;
 namespace Aow.Game.Draw;
 
 // FUnit
-public partial class TOverviewUnitHS : TUnitHS
+public partial class OverviewUnitHS : UnitHS
 {
-    public TOverviewUnitHS(TECustomNode owner) : base(owner)
+    public OverviewUnitHS(ECustomNode owner) : base(owner)
     { }
 
-    public TAbstractUnit FUnit;
+    public AbstractUnit FUnit;
 
     // OverviewUnit.pas:31
     public override void Dispose()
@@ -23,19 +23,19 @@ public partial class TOverviewUnitHS : TUnitHS
     }
 
     // OverviewUnit.pas:52
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         base.Show(XhpSurf, YhpSurf, SurfaceDesc);
     }
 
     // OverviewUnit.pas:47
-    public override void ShowShadow(int X, int Y, in TSurfaceDesc SurfaceDesc)
+    public override void ShowShadow(int X, int Y, in SurfaceDesc SurfaceDesc)
     {
         base.ShowShadow(X, Y, SurfaceDesc);
     }
 
     // OverviewUnit.pas:37
-    public void SetU(TAbstractUnit U)
+    public void SetU(AbstractUnit U)
     {
         if (FUnit != null)
         {

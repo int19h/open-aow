@@ -4,22 +4,22 @@ using Aow.Game.Magic.Abilities;
 
 namespace Aow.Game.Ai;
 
-public partial class TAIPlayerControl
+public partial class AIPlayerControl
 {
     // AI.pas:488. The input callback runs at the native debugger boundary.
-    public bool Process(TAIExecuter executer, bool tokenControlDone)
+    public bool Process(AIExecuter executer, bool tokenControlDone)
     {
         HeadlessHooks.BeforeAIPlayerProcess?.Invoke();
-        if (FPlayer.GetBusy() || !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex)) return false;
+        if (FPlayer.GetBusy() || !Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex)) return false;
         bool done;
         switch (FPhase)
         {
-            case TAIPlayerProcessPhase.appMain:
+            case AIPlayerProcessPhase.Main:
                 done = false;
                 while (!done && FActions.Count != 0 && !FPlayer.GetBusy() &&
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
                 {
-                    if (FMoveExecuter.FStatus != TAIMoveExecuterStatus.mesBusy)
+                    if (FMoveExecuter.FStatus != Aow.Game.Ai.Groups.AIMoveExecuter.Status.Busy)
                     {
                         while (FAction is null && FActions.Count != 0)
                             if (!ActivateAction(0)) FActions.GetActions(0)?.Dispose();
@@ -37,15 +37,15 @@ public partial class TAIPlayerControl
                     else done = FMoveExecuter.Process();
                     if (!done && executer.GetProcessTimeLeft() <= 0) done = true;
                 }
-                if (FActions.Count == 0) SetupProcessPhase(TAIPlayerProcessPhase.appLoop);
-                return !FPlayer.GetBusy() && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
-            case TAIPlayerProcessPhase.appLoop:
+                if (FActions.Count == 0) SetupProcessPhase(AIPlayerProcessPhase.Loop);
+                return !FPlayer.GetBusy() && Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
+            case AIPlayerProcessPhase.Loop:
                 done = false;
                 int index = 0;
                 while (!done && index < FActions.Count && !FPlayer.GetBusy() &&
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
                 {
-                    if (FMoveExecuter.FStatus != TAIMoveExecuterStatus.mesBusy)
+                    if (FMoveExecuter.FStatus != Aow.Game.Ai.Groups.AIMoveExecuter.Status.Busy)
                     {
                         while (FAction is null && index != FActions.Count)
                         {
@@ -64,7 +64,7 @@ public partial class TAIPlayerControl
                     if (!done && executer.GetProcessTimeLeft() <= 0) done = true;
                 }
                 return FActions.Count != 0 && !FPlayer.GetBusy() &&
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
             default: return false;
         }
     }

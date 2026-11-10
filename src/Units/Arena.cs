@@ -17,17 +17,17 @@ namespace Aow.Game.Commands
 {
 
     // FUnitIDs
-    public partial class TArenaTE : TStructureTE
+    public partial class ArenaTE : StructureTE
     {
-        public TArenaTE(TECustomNode owner) : base(owner)
+        public ArenaTE(ECustomNode owner) : base(owner)
         {
-            FUnitIDs = new TIntegerList();
+            FUnitIDs = new IntegerList();
         }
 
         // Arena.pas:86
         public new const int ClassID = 133294;
 
-        public TIntegerList FUnitIDs;
+        public IntegerList FUnitIDs;
 
         // Arena.pas:80
         public override void Dispose()
@@ -37,7 +37,7 @@ namespace Aow.Game.Commands
         }
 
         // Arena.pas:89
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(40, FUnitIDs.LoadFromStream, FUnitIDs.SaveToStream);
@@ -53,52 +53,52 @@ namespace Aow.Game.Commands
 namespace Aow.Game.World.Structures
 {
 
-    public partial class TArena : TStructure
+    public partial class Arena : Structure
     {
-        public TArena(TECustomNode owner) : base(owner)
+        public Arena(ECustomNode owner) : base(owner)
         { }
 
         // Arena.pas:95
         public new const int ClassID = 133276;
 
         // Arena.pas:212
-        public override TStructureTE CreateTE() => new TArenaTE(null);
+        public override StructureTE CreateTE() => new ArenaTE(null);
 
         // Arena.pas:135
-        public override TExecuteResult ExecuteTE(TStructureTE TE, TTokenExecuter Executer)
+        public override ExecuteResult ExecuteTE(StructureTE TE, TokenExecuter Executer)
         {
-            TAbstractUnit AUnit;
+            AbstractUnit AUnit;
             string ErrorText = "";
-            TExecuteResult Result = base.ExecuteTE(TE, Executer);
+            ExecuteResult Result = base.ExecuteTE(TE, Executer);
             if (TE.FAction == 1)
             {
-                if (CanTrainUnits((sbyte)TE.FParam, ((TArenaTE)TE).FUnitIDs, ref ErrorText))
+                if (CanTrainUnits((sbyte)TE.FParam, ((ArenaTE)TE).FUnitIDs, ref ErrorText))
                 {
-                    for (int I = 0, last = ((TArenaTE)TE).FUnitIDs.Count - 1; I <= last; I++)
+                    for (int I = 0, last = ((ArenaTE)TE).FUnitIDs.Count - 1; I <= last; I++)
                     {
-                        var unitID = ((TArenaTE)TE).FUnitIDs[I];
-                        AUnit = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(unitID);
+                        var unitID = ((ArenaTE)TE).FUnitIDs[I];
+                        AUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
                         if (AUnit != null)
                         {
-                            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(TE.FParam);
+                            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam);
                             var unitTrainCost = UnitTrainCost(AUnit);
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(TE.FParam).SetGems(player.FGems - unitTrainCost);
+                            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(TE.FParam).SetGems(player.FGems - unitTrainCost);
                             ExecuteTrainUnit(AUnit);
                         }
                     }
 
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == TE.FParam)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == TE.FParam)
                     {
-                        var arenaTE = (TArenaTE)TE;
+                        var arenaTE = (ArenaTE)TE;
                         if (arenaTE.FUnitIDs.Count == 1)
                         {
-                            var oneUnitTrained = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TArena.OneUnitTrainedRStr);
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(oneUnitTrained);
+                            var oneUnitTrained = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Arena.OneUnitTrainedRStr);
+                            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(oneUnitTrained);
                         }
                         else
                         {
-                            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TArena.XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(format);
+                            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Arena.XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
+                            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                         }
                     }
                 }
@@ -108,22 +108,22 @@ namespace Aow.Game.World.Structures
         }
 
         // Arena.pas:98
-        public override bool CanDblClick() => CanEnter(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+        public override bool CanDblClick() => CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
 
         // Arena.pas:101
-        public int UnitTrainCost(TAbstractUnit AUnit)
+        public int UnitTrainCost(AbstractUnit AUnit)
         {
             int Result;
-            if (AUnit is THero)
+            if (AUnit is Hero)
             {
                 // { The original rejects heroes, although ExecuteTrainUnit supports them. }
                 return -1;
             }
 
-            if (AUnit is TUnit)
+            if (AUnit is Unit)
             {
-                var unit = (TUnit)AUnit;
-                if (unit.GetRank() != TUnitRank.urGold)
+                var unit = (Unit)AUnit;
+                if (unit.GetRank() != Aow.Game.Magic.Abilities.Unit.Rank.Gold)
                 {
                     Result = (unit.GetNextLevelExperience() - AUnit.GetExperience()) * 5;
                 }
@@ -141,9 +141,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Arena.pas:116
-        public void ExecuteTrainUnit(TAbstractUnit AUnit)
+        public void ExecuteTrainUnit(AbstractUnit AUnit)
         {
-            if (AUnit is THero)
+            if (AUnit is Hero)
             {
                 var hero = AUnit;
                 hero.SetExperience(hero.GetNextLevelExperience());
@@ -152,7 +152,7 @@ namespace Aow.Game.World.Structures
                 return;
             }
 
-            if (AUnit is TUnit)
+            if (AUnit is Unit)
             {
                 var unit = AUnit;
                 unit.SetExperience(unit.GetNextLevelExperience());
@@ -161,13 +161,13 @@ namespace Aow.Game.World.Structures
         }
 
         // Arena.pas:159
-        public bool CanTrainUnits(sbyte Player, TIntegerList Units, ref string ErrorText)
+        public bool CanTrainUnits(sbyte Player, IntegerList Units, ref string ErrorText)
         {
             bool Result;
             int Total;
             int I;
             int Cost;
-            TAbstractUnit AUnit;
+            AbstractUnit AUnit;
             if (Units.Count != 0)
             {
                 Total = 0;
@@ -177,7 +177,7 @@ namespace Aow.Game.World.Structures
                 {
                     I -= 1;
                     var unit = Units[I];
-                    AUnit = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(unit);
+                    AUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unit);
                     if (AUnit != null)
                     {
                         Cost = UnitTrainCost(AUnit);
@@ -198,7 +198,7 @@ namespace Aow.Game.World.Structures
 
                 if (Result)
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FGems >= Total)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FGems >= Total)
                     {
                         Result = true;
                     }
@@ -219,19 +219,19 @@ namespace Aow.Game.World.Structures
         }
 
         // Arena.pas:194
-        public bool TrainUnits(sbyte Player, TIntegerList Units, ref string ErrorText)
+        public bool TrainUnits(sbyte Player, IntegerList Units, ref string ErrorText)
         {
             bool Result;
-            TArenaTE TE;
+            ArenaTE TE;
             ErrorText = "";
-            if (CanTrainUnits(Player, Units, ref ErrorText) && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
+            if (CanTrainUnits(Player, Units, ref ErrorText) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
             {
-                TE = (TArenaTE)CreateTE();
+                TE = (ArenaTE)CreateTE();
                 SetupTE(TE);
                 TE.FUnitIDs.Assign(Units);
                 TE.FParam = Player;
                 TE.FAction = 1;
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Player).AddEvent(TE);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -247,8 +247,8 @@ namespace Aow.Game.World.Structures
         public bool CanEnter(sbyte Player)
         {
             bool Result;
-            TArmyHS Army;
-            Army = (TArmyHS)FOwner.FindOwnedChild(131607);
+            ArmyHS Army;
+            Army = (ArmyHS)FOwner.FindOwnedChild(131607);
             if (Army == null || Army.FArmy.FPlayer != Player)
             {
                 Result = false;
@@ -265,13 +265,13 @@ namespace Aow.Game.World.Structures
         public bool Enter()
         {
             bool Result = default;
-            TEnterArenaEventLog Log;
-            TArmyHS Army;
-            if (CanEnter(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
+            EnterArenaEventLog Log;
+            ArmyHS Army;
+            if (CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
             {
-                Log = new TEnterArenaEventLog(null);
+                Log = new EnterArenaEventLog(null);
                 Log.FArena = this;
-                Army = (TArmyHS)FOwner.FindOwnedChild(131607);
+                Army = (ArmyHS)FOwner.FindOwnedChild(131607);
                 for (int I = 0, last = Army.FArmy.Count - 1; I <= last; I++)
                 {
                     var unit = Army.FArmy.GetUnit(I);
@@ -282,7 +282,7 @@ namespace Aow.Game.World.Structures
                     }
                 }
 
-                Log.Execute(true, TExecuteTrigger.etUser, null);
+                Log.Execute(true, ExecuteTrigger.User, null);
                 Log.Release();
                 Result = true;
             }
@@ -297,29 +297,29 @@ namespace Aow.Game.World.Structures
         private static readonly string OneUnitTrainedRStr = "1 unit trained";
         private static readonly string XUnitsTrainedRStr = "%s units trained";
 
-    }
-
-    public partial class TArenaResource : TStructureResource
-    {
-        public TArenaResource(TECustomNode owner) : base(owner)
+        public new partial class Resource : StructureResource
         {
-            FCastsShadow = true;
+            public Resource(ECustomNode owner) : base(owner)
+            {
+                FCastsShadow = true;
+            }
+
+            // Arena.pas:253
+            public new const int ClassID = 133277;
+
+            // Arena.pas:244
+
+            // Arena.pas:256
+            public override int ResourceUserClassID() => 133276;
+
+            // Arena.pas:45
+
+            // Arena.pas:250
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Arena.Resource.ArenaRStr);
+
+            private static readonly string ArenaRStr = "Arena";
+
         }
-
-        // Arena.pas:253
-        public new const int ClassID = 133277;
-
-        // Arena.pas:244
-
-        // Arena.pas:256
-        public override int ResourceUserClassID() => 133276;
-
-        // Arena.pas:45
-
-        // Arena.pas:250
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TArenaResource.ArenaRStr);
-
-        private static readonly string ArenaRStr = "Arena";
 
     }
 }
@@ -328,18 +328,18 @@ namespace Aow.Game.Events
 {
 
     // FArena, FSelection, FTrainable, FUnitIDs
-    public partial class TEnterArenaEventLog : TEventLog
+    public partial class EnterArenaEventLog : EventLog
     {
         // Arena.pas:259
-        public TEnterArenaEventLog(TECustomNode owner) : base(owner)
+        public EnterArenaEventLog(ECustomNode owner) : base(owner)
         {
-            FUnitIDs = new TIntegerList();
+            FUnitIDs = new IntegerList();
         }
 
-        public TArena FArena;
+        public Arena FArena;
         public byte FSelection;
         public byte FTrainable;
-        public TIntegerList FUnitIDs;
+        public IntegerList FUnitIDs;
 
         // Arena.pas:265
         public override void Dispose()
@@ -352,13 +352,13 @@ namespace Aow.Game.Events
         public int GetCount() => FUnitIDs.Count;
 
         // Arena.pas:274
-        public TAbstractUnit GetUnit(int Index)
+        public AbstractUnit GetUnit(int Index)
         {
-            TAbstractUnit Result;
+            AbstractUnit Result;
             if (Index >= 0 && Index < FUnitIDs.Count)
             {
                 var unitID = FUnitIDs[Index];
-                Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(unitID);
+                Result = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
             }
             else
             {
@@ -377,8 +377,8 @@ namespace Aow.Game.Events
         // Arena.pas:284
         public bool Train(ref string ErrorText)
         {
-            TIntegerList Units;
-            Units = new TIntegerList();
+            IntegerList Units;
+            Units = new IntegerList();
             for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
             {
                 if (((1 << I) & FSelection) != 0)
@@ -387,7 +387,7 @@ namespace Aow.Game.Events
                 }
             }
 
-            bool Result = FArena.TrainUnits(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
+            bool Result = FArena.TrainUnits(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
             Units?.Dispose();
             return Result;
         }
@@ -395,8 +395,8 @@ namespace Aow.Game.Events
         // Arena.pas:294
         public bool CanTrain(ref string ErrorText)
         {
-            TIntegerList Units;
-            Units = new TIntegerList();
+            IntegerList Units;
+            Units = new IntegerList();
             for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
             {
                 if (((1 << I) & FSelection) != 0)
@@ -405,7 +405,7 @@ namespace Aow.Game.Events
                 }
             }
 
-            bool Result = FArena.CanTrainUnits(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, Units, ref ErrorText);
+            bool Result = FArena.CanTrainUnits(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
             Units?.Dispose();
             return Result;
         }
@@ -415,14 +415,14 @@ namespace Aow.Game.Events
         {
             string Result;
             int Total;
-            TAbstractUnit AUnit;
+            AbstractUnit AUnit;
             Total = 0;
             for (int I = 0, last = FUnitIDs.Count - 1; I <= last; I++)
             {
                 if (((1 << I) & FSelection) != 0)
                 {
                     var unitID = FUnitIDs[I];
-                    AUnit = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(unitID);
+                    AUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(unitID);
                     if (AUnit != null)
                     {
                         Total += FArena.UnitTrainCost(AUnit);
@@ -432,7 +432,7 @@ namespace Aow.Game.Events
 
             if (Total != 0)
             {
-                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.TEnterArenaEventLog.TotalCostXRStr), [IntToStr(Total)]);
+                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.EnterArenaEventLog.TotalCostXRStr), [IntToStr(Total)]);
             }
             else
             {

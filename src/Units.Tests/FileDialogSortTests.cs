@@ -40,7 +40,7 @@ public sealed class FileDialogSortTests
             Assert.Equal(["gamma", "yyy.asg", "bbb.asg"], Names(dialog.FileLB));
 
             Runtime.Settings = new JsonSettingsStore(settingsDir);
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new TAoWRegistry();
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
             Assert.True(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetFileDialogSortByDate());
             Assert.True(Runtime.SetCurrentDir("..\\one"));
             dialog.FindFiles();
@@ -51,12 +51,12 @@ public sealed class FileDialogSortTests
     [Fact]
     public void SortKeepsTheSelectedNameAndNullDatesStayFirst()
     {
-        var older = new TFileTime { FTime = 1 };
-        var newer = new TFileTime { FTime = 2 };
-        Assert.Equal(-1, Aow.Game.Ui.Dialogs.TFileDlgWindow.CompareFileDates("beta", "aaa.asg", null, older));
-        Assert.Equal(1, Aow.Game.Ui.Dialogs.TFileDlgWindow.CompareFileDates("aaa.asg", "beta", older, null));
-        Assert.True(Aow.Game.Ui.Dialogs.TFileDlgWindow.CompareFileDates("beta", "alpha", null, null) > 0);
-        Assert.Equal(1, Aow.Game.Ui.Dialogs.TFileDlgWindow.CompareFileDates("aaa.asg", "zzz.asg", older, newer));
+        var older = new FileTime { FTime = 1 };
+        var newer = new FileTime { FTime = 2 };
+        Assert.Equal(-1, Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("beta", "aaa.asg", null, older));
+        Assert.Equal(1, Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("aaa.asg", "beta", older, null));
+        Assert.True(Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("beta", "alpha", null, null) > 0);
+        Assert.Equal(1, Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("aaa.asg", "zzz.asg", older, newer));
 
         WithDialog((dialog, _) =>
         {
@@ -99,24 +99,24 @@ public sealed class FileDialogSortTests
         });
     }
 
-    private static string[] Names(TAOWListBox list)
+    private static string[] Names(AOWListBox list)
     {
         var names = new string[list.Items.Count];
         for (int i = 0; i < names.Length; i++) names[i] = list.Items[i];
         return names;
     }
 
-    private static void WithDialog(Action<TFileDlgWindow, string> body)
+    private static void WithDialog(Action<FileDlgWindow, string> body)
     {
         string directory = Path.Combine(Path.GetTempPath(), "open-aow-sort-" + Guid.NewGuid().ToString("N"));
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
         string settingsDir = Path.Combine(directory, "settings");
-        var previousDirectories = Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories;
-        var previousFiles = Aow.Game.Ui.Dialogs.TFileDlgWindow.Files;
-        var previousDrives = Aow.Game.Ui.Dialogs.TFileDlgWindow.Drives;
+        var previousDirectories = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories;
+        var previousFiles = Aow.Game.Ui.Dialogs.FileDlgWindow.Files;
+        var previousDrives = Aow.Game.Ui.Dialogs.FileDlgWindow.Drives;
         var previousWindow = Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow;
-        TFileDlgWindow? dialog = null;
+        FileDlgWindow? dialog = null;
         try
         {
             Directory.CreateDirectory(root);
@@ -124,10 +124,10 @@ public sealed class FileDialogSortTests
             WriteTree(user);
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDir);
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new TAoWRegistry();
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories = new TStringList();
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Files = new TStringList();
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Drives = new TStringList();
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = new StringList();
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Files = new StringList();
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Drives = new StringList();
             dialog = Dialog();
             body(dialog, settingsDir);
         }
@@ -152,9 +152,9 @@ public sealed class FileDialogSortTests
                 dialog.Dispose();
             }
 
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories = previousDirectories;
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Files = previousFiles;
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Drives = previousDrives;
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = previousDirectories;
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Files = previousFiles;
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Drives = previousDrives;
             Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow = previousWindow;
             if (Directory.Exists(directory)) Directory.Delete(directory, true);
         }
@@ -180,23 +180,23 @@ public sealed class FileDialogSortTests
         }
     }
 
-    private static TFileDlgWindow Dialog()
+    private static FileDlgWindow Dialog()
     {
-        var dialog = new TFileDlgWindow(null);
+        var dialog = new FileDlgWindow(null);
         dialog.FMode = 0;
-        dialog.FileLB = new TAOWListBox(null);
-        dialog.SaveLB = new TAOWListBox(null);
-        dialog.DateLB = new TAOWListBox(null);
-        dialog.PathEdit = new TAOWEdit(null);
-        dialog.SFileName = new TAOWEdit(null);
-        dialog.FileName = new TAOWEdit(null);
-        dialog.SPlayers = new TAOWLabel(null);
-        dialog.SSize = new TAOWLabel(null);
-        dialog.STowns = new TAOWLabel(null);
-        dialog.LPlayers = new TAOWLabel(null);
-        dialog.LSize = new TAOWLabel(null);
-        dialog.LTowns = new TAOWLabel(null);
-        dialog.LTurns = new TAOWLabel(null);
+        dialog.FileLB = new AOWListBox(null);
+        dialog.SaveLB = new AOWListBox(null);
+        dialog.DateLB = new AOWListBox(null);
+        dialog.PathEdit = new AOWEdit(null);
+        dialog.SFileName = new AOWEdit(null);
+        dialog.FileName = new AOWEdit(null);
+        dialog.SPlayers = new AOWLabel(null);
+        dialog.SSize = new AOWLabel(null);
+        dialog.STowns = new AOWLabel(null);
+        dialog.LPlayers = new AOWLabel(null);
+        dialog.LSize = new AOWLabel(null);
+        dialog.LTowns = new AOWLabel(null);
+        dialog.LTurns = new AOWLabel(null);
         return dialog;
     }
 }

@@ -2,7 +2,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Controls;
 
-public partial class TAOWScrollBar
+public partial class AOWScrollBar
 {
     // The highest position is above FMin when a step can move the bar.
     internal bool HasWheelRange() => FMax + 1 - FNumberVisible > FMin;
@@ -33,9 +33,9 @@ public partial class TAOWScrollBar
     }
 }
 
-public partial class TAOWVScrollBar
+public partial class AOWVScrollBar
 {
-    public override bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
     {
         if (Steps == 0 || !ContainsPoint(X, Y)) return false;
         ScrollSteps(Steps);

@@ -10,26 +10,26 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSelFactionWin : TDataModule
+public partial class SelFactionWin : DataModule
 {
-    public TSelFactionWin(TComponent owner) : base(owner)
+    public SelFactionWin(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel FactionPnl;
-    public TAOWLabel TopLbl;
-    public TAOWPanel LightPnl;
-    public TAOWMemo LText;
-    public TAOWButton LStart;
-    public TAOWButton LBack;
-    public TAOWImage LSphere;
-    public TAOWPanel DarkPnl;
-    public TAOWButton DStart;
-    public TAOWButton DBack;
-    public TAOWLabel LName;
-    public TAOWMemo DText;
-    public TAOWLabel DName;
-    public TAOWImage DSphere;
-    public TIvTranslator Translator;
+    public AOWPanel FactionPnl;
+    public AOWLabel TopLbl;
+    public AOWPanel LightPnl;
+    public AOWMemo LText;
+    public AOWButton LStart;
+    public AOWButton LBack;
+    public AOWImage LSphere;
+    public AOWPanel DarkPnl;
+    public AOWButton DStart;
+    public AOWButton DBack;
+    public AOWLabel LName;
+    public AOWMemo DText;
+    public AOWLabel DName;
+    public AOWImage DSphere;
+    public IvTranslator Translator;
     public int FFade;
     public int FFadeImage;
     public int FFadeDirection;
@@ -52,11 +52,11 @@ public partial class TSelFactionWin : TDataModule
         Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
         FactionPnl.Visible = false;
         FFade = 0;
-        Aow.Game.Ui.Dialogs.TSelFactionWin.StartCampaignJoin(Aow.Game.Ui.Dialogs.DialogHosts.CampaignJoinDlg, Side);
+        Aow.Game.Ui.Dialogs.SelFactionWin.StartCampaignJoin(Aow.Game.Ui.Dialogs.DialogHosts.CampaignJoinDlg, Side);
     }
 
     // AoWSelFactionWin.pas:82
-    public void LightPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void LightPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         if (!DName.Visible && !LName.Visible)
         {
@@ -75,7 +75,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:100
-    public void DarkPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void DarkPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         if (!LName.Visible && !DName.Visible)
         {
@@ -116,7 +116,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:138
-    public void FactionPnlMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public void FactionPnlMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         if (!LightPnl.FHandled && !DName.Visible && !DarkPnl.FHandled && !LName.Visible)
         {
@@ -128,7 +128,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:148
-    public void LightPnlMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public void LightPnlMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         if (!LName.Visible && !DSphere.Visible)
         {
@@ -140,7 +140,7 @@ public partial class TSelFactionWin : TDataModule
     }
 
     // AoWSelFactionWin.pas:158
-    public void DarkPnlMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public void DarkPnlMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         if (!DName.Visible && !LSphere.Visible)
         {
@@ -161,7 +161,7 @@ public partial class TSelFactionWin : TDataModule
     // AoWSelFactionWin.pas:174
     public void FactionPnlUpdate()
     {
-        TRect R;
+        global::Aow.Rtl.Rect R;
         if (Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade >= 0)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade -= 6;
@@ -196,14 +196,14 @@ public partial class TSelFactionWin : TDataModule
                 }
             }
 
-            R = Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
+            R = global::Aow.Rtl.RtlUnit.Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
 
             Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.AddBltRect(ref R, null);
         }
     }
 
     // AoWSelFactionWin.pas:210
-    public void FactionPnlKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void FactionPnlKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         switch (Key)
         {
@@ -213,50 +213,50 @@ public partial class TSelFactionWin : TDataModule
         }
     }
 
-    private static void StartCampaignJoin(global::Aow.Game.Ui.Dialogs.TCampaignJoinDlg Dialog, int Faction)
+    private static void StartCampaignJoin(global::Aow.Game.Ui.Dialogs.CampaignJoinDlg Dialog, int Faction)
     {
         Dialog.ResetCampaignJoin();
         Dialog.FFaction = Faction;
         Dialog.FStage = 0;
-        TStringList val = new TStringList();
+        StringList val = new StringList();
         switch (Dialog.FFaction)
         {
             case 0:
                 LoadWorldCampaign(global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap, "Keepers.cam");
                 Dialog.CharGenPnl.ILIndexTexture = 10;
-                global::Aow.Game.Engine.TAoWHSSet.AoWHSSet.FTextControl.RetrieveText(10, (TStrings)(object)val);
+                global::Aow.Game.Engine.AoWHSSet.Current.FTextControl.RetrieveText(10, (StringCollection)(object)val);
                 break;
             case 1:
                 LoadWorldCampaign(global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap, "Storm.cam");
                 Dialog.CharGenPnl.ILIndexTexture = 11;
-                global::Aow.Game.Engine.TAoWHSSet.AoWHSSet.FTextControl.RetrieveText(11, (TStrings)(object)val);
+                global::Aow.Game.Engine.AoWHSSet.Current.FTextControl.RetrieveText(11, (StringCollection)(object)val);
                 break;
         }
-        ParseFontText(((TStrings)val).Text, (TStrings)(object)Dialog.FScrollText, global::Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey, 300);
-        global::Aow.Game.Session.TWMCampaign campaign = global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign();
-        int iD = global::Aow.Game.Session.TWMCampaign.GetCampaignScenario(campaign, 0).FPaths[0];
+        ParseFontText(((StringCollection)val).Text, (StringCollection)(object)Dialog.FScrollText, global::Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey, 300);
+        global::Aow.Game.Session.WMCampaign campaign = global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign();
+        int iD = global::Aow.Game.Session.WMCampaign.GetCampaignScenario(campaign, 0).FPaths[0];
         int index = campaign.FScenarios.IndexOfID(iD);
-        global::Aow.Game.Session.TWMCampaignScenario campaignScenario = global::Aow.Game.Session.TWMCampaign.GetCampaignScenario(global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign(), index);
-        global::Aow.Game.World.Map.TAoWHSMap tAoWHSMap = (global::Aow.Game.World.Map.TAoWHSMap)global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(global::Aow.Game.Saves.FileBoundary.ReadName(global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), Aow.Formats.GameProfile.WorldMap);
+        global::Aow.Game.Session.WMCampaignScenario campaignScenario = global::Aow.Game.Session.WMCampaign.GetCampaignScenario(global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign(), index);
+        global::Aow.Game.World.Map.AoWHSMap tAoWHSMap = (global::Aow.Game.World.Map.AoWHSMap)global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(global::Aow.Game.Saves.FileBoundary.ReadName(global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), Aow.Formats.GameProfile.WorldMap);
         int i;
-        for (i = 0; i < tAoWHSMap.Count && tAoWHSMap.FPlayers.GetPlayers(i).FPlayerType != global::Aow.Game.Session.TPlayerType.ptHuman; i++)
+        for (i = 0; i < tAoWHSMap.Count && tAoWHSMap.FPlayers.GetPlayers(i).FPlayerType != global::Aow.Game.Session.PlayerType.Human; i++)
         {
         }
-        global::Aow.Game.Session.TPlayer players = tAoWHSMap.FPlayers.GetPlayers(i);
+        global::Aow.Game.Session.Player players = tAoWHSMap.FPlayers.GetPlayers(i);
         Dialog.FLeader.Assign(players.FLeaderSetup, global::Aow.Game.Magic.Abilities.GameTables.AoWEngine);
         tAoWHSMap?.Dispose();
         if (val != null)
         {
-            ((TPersistent)val).Dispose();
+            ((Persistent)val).Dispose();
         }
     }
 
-    private static void LoadWorldCampaign(global::Aow.Game.Ui.Dialogs.TWorldMap Dialog, string Name)
+    private static void LoadWorldCampaign(global::Aow.Game.Ui.Dialogs.WorldMap Dialog, string Name)
     {
         global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadCampaign(global::Aow.Game.Saves.FileBoundary.ReadName(global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name));
     }
 
-    private static void ParseFontText(string Text, TStrings Strings, global::Aow.Game.Draw.Images.TImageLibraryFont Font, int MaxWidth)
+    private static void ParseFontText(string Text, StringCollection Strings, global::Aow.Game.Draw.Images.ImageLibraryFont Font, int MaxWidth)
     {
         int i = 1;
         int num = 0;
@@ -264,12 +264,12 @@ public partial class TSelFactionWin : TDataModule
         int j;
         for (int length = Text.Length; i <= length; i += j)
         {
-            if (TSet<byte>.WithBounds(0, 255).With((byte)13).With((byte)32)
+            if (Set<byte>.WithBounds(0, 255).With((byte)13).With((byte)32)
                 .Contains(Cp1252.Byte(Text[i - 1])))
             {
                 i++;
             }
-            for (j = 0; i + j <= length && !TSet<byte>.WithBounds(0, 255).With((byte)10).With((byte)13)
+            for (j = 0; i + j <= length && !Set<byte>.WithBounds(0, 255).With((byte)10).With((byte)13)
                 .With((byte)32)
                 .Contains(Cp1252.Byte(Text[i + j - 1])); j++)
             {

@@ -37,22 +37,22 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class AbstractSets
 {
-    internal static TAbstractAoWHSMap_UnFogExploreArea__TAssertText TAbstractAoWHSMap_UnFogExploreArea__AssertFile = new TAbstractAoWHSMap_UnFogExploreArea__TAssertText
+    internal static AbstractAoWHSMap_UnFogExploreArea__TAssertText TAbstractAoWHSMap_UnFogExploreArea__AssertFile = new AbstractAoWHSMap_UnFogExploreArea__TAssertText
     {
         RefCount = -1,
         Len = 31,
         Text = FixedArray_byte_128.From([68, 58, 92, 65, 111, 87, 68, 101, 118, 92, 65, 111, 87, 69, 92, 105, 110, 99, 92, 65, 111, 87, 72, 83, 77, 97, 112, 46, 80, 65, 83, 0])
     };
 
-    internal static TAbstractAoWHSMap_UnFogExploreArea__TAssertText TAbstractAoWHSMap_UnFogExploreArea__AssertMessage = new TAbstractAoWHSMap_UnFogExploreArea__TAssertText
+    internal static AbstractAoWHSMap_UnFogExploreArea__TAssertText TAbstractAoWHSMap_UnFogExploreArea__AssertMessage = new AbstractAoWHSMap_UnFogExploreArea__TAssertText
     {
         RefCount = -1,
         Len = 19,
         Text = FixedArray_byte_128.From([73, 110, 118, 97, 108, 105, 100, 32, 85, 110, 102, 111, 103, 32, 82, 97, 110, 103, 101, 0])
     };
 
-    internal static TSet<TAbilitySelectionType> TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes = TSet<TAbilitySelectionType>.FromMask(1UL);
+    internal static Set<AbilitySelectionType> TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes = Set<AbilitySelectionType>.FromMask(1UL);
 
-    internal static TSet<TDamageType> TAbstractUnit_GetStrengthMax__AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
+    internal static Set<DamageType> TAbstractUnit_GetStrengthMax__AllDamageTypes = Set<DamageType>.FromMask(1023UL);
 
 }

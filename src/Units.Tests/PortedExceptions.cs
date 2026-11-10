@@ -22,12 +22,12 @@ internal static class PortedExceptions
             or KeyNotFoundException
             or OutOfMemoryException
             or System.ComponentModel.Win32Exception
-            or Aow.Rtl.EAbstractError
-            or Aow.Rtl.EAssertionFailed
-            or Aow.Rtl.EAbort
-            or Aow.Rtl.EHalt
-            or EGameFileError
-            or EDoublePrioriyID
-            or EPlugInMissing
-            or EMapObjectResourceMissing);
+            or Aow.Rtl.AbstractErrorException
+            or Aow.Rtl.AssertionFailedException
+            or Aow.Rtl.AbortException
+            or Aow.Rtl.HaltException
+            or GameFileErrorException
+            or DoublePrioriyIDException
+            or PlugInMissingException
+            or MapObjectResourceMissingException);
 }

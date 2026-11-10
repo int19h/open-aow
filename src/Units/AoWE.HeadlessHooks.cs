@@ -10,10 +10,10 @@ namespace Aow.Game.Engine
 
     public static class HeadlessHooks
     {
-        public static Action<TPlayerControl>? AfterNewDay { get; set; }
+        public static Action<PlayerControl>? AfterNewDay { get; set; }
         public static Action? BeforeAIPlayerProcess { get; set; }
         public static Action<int, int>? ProcessCost { get; set; }
-        public static Action<TMoveTE>? BeforeMove { get; set; }
+        public static Action<MoveTE>? BeforeMove { get; set; }
         public static Action<int, int, int, int>? MoveLine { get; set; }
         public static int TacticalBattles { get; set; }
         public static bool Tactical { get; set; }
@@ -25,7 +25,7 @@ namespace Aow.Game.Engine
 namespace Aow.Game.Commands
 {
 
-    public partial class TMoveTE
+    public partial class MoveTE
     {
         public virtual void InitializeMove()
         {
@@ -38,11 +38,11 @@ namespace Aow.Game.Commands
 namespace Aow.Game.Session
 {
 
-    public partial class TTurnPlayerControl
+    public partial class TurnPlayerControl
     {
         public override void NewDay()
         {
-            var map = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+            var map = Aow.Game.World.Map.AoWHSMap.Current;
             int player = map.FSeatedPlayer;
             if (map.FRequestCombatType) map.FSeatedPlayer = -1;
             base.NewDay();
@@ -55,13 +55,13 @@ namespace Aow.Game.Session
 namespace Aow.Game.Ai
 {
 
-    public partial class TAIExecuter
+    public partial class AIExecuter
     {
         // AI.pas:612. The callback records the source work charge.
         public void UseProcessTime(int time)
         {
             HeadlessHooks.ProcessCost?.Invoke(time, FProcessTimeUsed);
-            if (FStatus.Contains(TAIExecuterStatusElement.aesExecuting)) FProcessTimeUsed += time;
+            if (FStatus.Contains(AIExecuterStatusElement.Executing)) FProcessTimeUsed += time;
         }
     }
 }

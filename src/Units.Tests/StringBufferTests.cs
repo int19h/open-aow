@@ -8,8 +8,8 @@ public sealed class StringBufferTests
 {
     private static void Read(int shape, ref string text, Stream stream)
     {
-        if (shape == 0) Aow.Game.Engine.TAoWEngine.StringFromStream(ref text, stream);
-        else if (shape == 1) Aow.Game.Engine.Storage.TEReadStorageStream.LoadStringFromStream(ref text, stream);
+        if (shape == 0) Aow.Game.Engine.AoWEngine.StringFromStream(ref text, stream);
+        else if (shape == 1) Aow.Game.Engine.Storage.EReadStorageStream.LoadStringFromStream(ref text, stream);
         else Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref text, stream);
     }
 
@@ -95,17 +95,17 @@ public sealed class StringBufferTests
     [InlineData(true)]
     public void StringListsKeepNulTerminationAndObjectIds(bool extended)
     {
-        var source = new TStringList();
+        var source = new StringList();
         source.AddObject("\u20AC\u00FF", Runtime.IntToObject(17));
         source.AddObject("tail\0ignored", Runtime.IntToObject(-23));
         using var stream = new MemoryStream();
-        if (extended) Aow.Game.Engine.Storage.TEWriteStorageStream.StringsToStreamEx(source, stream);
-        else Aow.Game.Engine.Storage.TEWriteStorageStream.StringsToStream(source, stream);
+        if (extended) Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStreamEx(source, stream);
+        else Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStream(source, stream);
         Assert.Equal(new byte[] { 8, 0, 0, 0, 0x80, 0xFF, 13, 10, 116, 97, 105, 108 }, stream.GetBuffer()[..12]);
         stream.Position = 0;
-        var result = new TStringList();
-        if (extended) Aow.Game.Engine.Storage.TEReadStorageStream.StringsFromStreamEx(result, stream);
-        else Aow.Game.Engine.Storage.TEReadStorageStream.StringsFromStream(result, stream);
+        var result = new StringList();
+        if (extended) Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStreamEx(result, stream);
+        else Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStream(result, stream);
         Assert.Equal(2, result.Count);
         Assert.Equal("\u20AC\u00FF", result[0]);
         Assert.Equal("tail", result[1]);
@@ -120,8 +120,8 @@ public sealed class StringBufferTests
     [Fact]
     public void MemoWalkKeepsWrappingColorsAndNulTermination()
     {
-        var font = new TImageLibraryFont(null!);
-        var memo = new TAOWMemo(null!)
+        var font = new ImageLibraryFont(null!);
+        var memo = new AOWMemo(null!)
         {
             FNoFrame = true,
             FWinWidth = 28,
@@ -136,7 +136,7 @@ public sealed class StringBufferTests
         Assert.Equal("A B", memo.FLines[0]);
         Assert.Equal("\u20AC ", memo.FLines[1]);
         Assert.Equal("\u00FF\u00FF\u00FF", memo.FLines[2]);
-        var color = Assert.IsType<TColorChange>(memo.FColorList[0]);
+        var color = Assert.IsType<ColorChange>(memo.FColorList[0]);
         Assert.True(color.FHasColor);
         Assert.Equal(0x80FF00, color.FColor);
     }
@@ -148,12 +148,12 @@ public sealed class StringBufferTests
         memo.FItems.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
         memo.SetSize();
         Assert.Equal(4, memo.FChanges.Count);
-        var color = Assert.IsType<TChangeInfo>(memo.FChanges[1]);
-        var spacing = Assert.IsType<TChangeInfo>(memo.FChanges[2]);
-        var alignment = Assert.IsType<TChangeInfo>(memo.FChanges[3]);
+        var color = Assert.IsType<Aow.Game.Ui.Windows.TaowHTMLMemo.ChangeInfo>(memo.FChanges[1]);
+        var spacing = Assert.IsType<Aow.Game.Ui.Windows.TaowHTMLMemo.ChangeInfo>(memo.FChanges[2]);
+        var alignment = Assert.IsType<Aow.Game.Ui.Windows.TaowHTMLMemo.ChangeInfo>(memo.FChanges[3]);
         Assert.Equal(0x80FF00, color.FColor);
         Assert.Equal(3, spacing.FSpacing);
-        Assert.Equal(Aow.Game.Ui.Controls.TaowTextAlign.taRight, alignment.FAlign);
+        Assert.Equal(Aow.Game.Ui.Controls.TaowTextAlign.Right, alignment.FAlign);
         Assert.Equal(0x80FF00, alignment.FColor);
     }
 
@@ -164,7 +164,7 @@ public sealed class StringBufferTests
         {
             FWinWidth = 100,
             FWinHeight = 30,
-            FAOWFont = new TImageLibraryFont(null!)
+            FAOWFont = new ImageLibraryFont(null!)
         };
         memo.FItems.Add("<INT>text");
         Assert.Throws<IndexOutOfRangeException>(() => memo.SetSize());

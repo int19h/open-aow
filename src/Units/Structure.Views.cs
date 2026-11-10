@@ -75,7 +75,7 @@ namespace Aow.Game.Combat
 namespace Aow.Game.World.Structures
 {
 
-    public partial class TStructure
+    public partial class Structure
     {
         // The info window panel for the seated player Viewer (AoWInfoWin.pas:616).
         public virtual StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Generic;
@@ -108,7 +108,7 @@ namespace Aow.Game.World.Structures
         }
     }
 
-    public partial class TPlayerStructure
+    public partial class PlayerStructure
     {
         public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? (ShownToOwner(Viewer) ? OwnerPanel() : StructureView.OtherPlayer);
 
@@ -121,7 +121,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TCity
+    public partial class City
     {
         // War mode shows the war panel to every player.
         public override StructureView InfoPanel(sbyte Viewer)
@@ -134,10 +134,10 @@ namespace Aow.Game.World.Structures
 
             if (ShownToOwner(Viewer))
             {
-                return FMode.Contains(TCityModeElement.cmWarmode) ? StructureView.WarCity : StructureView.City;
+                return FMode.Contains(ModeElement.Warmode) ? StructureView.WarCity : StructureView.City;
             }
 
-            return FMode.Contains(TCityModeElement.cmWarmode) ? StructureView.WarCity : StructureView.OtherPlayer;
+            return FMode.Contains(ModeElement.Warmode) ? StructureView.WarCity : StructureView.OtherPlayer;
         }
 
         public override StructureView InfoButton(sbyte Viewer) => StructureView.CityScreen;
@@ -150,7 +150,7 @@ namespace Aow.Game.World.Structures
             string Stem = "0";
             for (int I = 1; I <= 6; I += 1)
             {
-                if (Site.NeighborHolds(I, typeof(TCity)))
+                if (Site.NeighborHolds(I, typeof(City)))
                 {
                     Stem = Stem + IntToStr(I);
                     Site.FixTag(I);
@@ -169,9 +169,9 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TProductionPlace
+    public partial class ProductionPlace
     {
-        protected override StructureView OwnerPanel() => GetMagicSphere() == TMagicSphere.msNone ? StructureView.Production : StructureView.ProductionIncome;
+        protected override StructureView OwnerPanel() => GetMagicSphere() == MagicSphere.None ? StructureView.Production : StructureView.ProductionIncome;
 
         public override StructureView InfoButton(sbyte Viewer) => StructureView.ProductionScreen;
 
@@ -181,7 +181,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TMine
+    public partial class Mine
     {
         protected override StructureView OwnerPanel() => StructureView.Mine;
 
@@ -191,7 +191,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TPowerNode
+    public partial class PowerNode
     {
         protected override StructureView OwnerPanel() => StructureView.PowerNode;
 
@@ -201,7 +201,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TFarm
+    public partial class Farm
     {
         protected override StructureView OwnerPanel() => StructureView.Farm;
 
@@ -211,7 +211,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TTower
+    public partial class Tower
     {
         protected override StructureView OwnerPanel() => StructureView.WatchTower;
 
@@ -221,7 +221,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TAltar
+    public partial class Altar
     {
         protected override StructureView OwnerPanel() => StructureView.Altar;
 
@@ -237,7 +237,7 @@ namespace Aow.Game.World.Structures
                 }
                 else
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                    Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
                 }
             }
             else
@@ -252,7 +252,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TSign
+    public partial class Sign
     {
         public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Sign;
     }
@@ -260,7 +260,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TCave
+    public partial class Cave
     {
         public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Cave;
 
@@ -276,13 +276,13 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TTeleport
+    public partial class Teleport
     {
         public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Teleport;
 
         public override StructureView InfoButton(sbyte Viewer)
         {
-            Teleport(Viewer);
+            TeleportPlayer(Viewer);
             return StructureView.None;
         }
 
@@ -299,7 +299,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TExplorationSite
+    public partial class ExplorationSite
     {
         public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.ExplorationSite;
 
@@ -332,7 +332,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TWizardsTower
+    public partial class WizardsTower
     {
         public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.WizardsTower;
 
@@ -352,7 +352,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TArena
+    public partial class Arena
     {
         public override StructureView InfoPanel(sbyte Viewer) => StatePanel() ?? StructureView.Arena;
 
@@ -372,7 +372,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TSpringOfLife
+    public partial class SpringOfLife
     {
         public override string CombatMapName(CombatMapSite Site) => "SLife000";
     }
@@ -380,7 +380,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TAirNode
+    public partial class AirNode
     {
         public override string CombatMapName(CombatMapSite Site) => "NodeA000";
     }
@@ -388,7 +388,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TDeathNode
+    public partial class DeathNode
     {
         public override string CombatMapName(CombatMapSite Site) => "NodeD000";
     }
@@ -396,7 +396,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TEarthNode
+    public partial class EarthNode
     {
         public override string CombatMapName(CombatMapSite Site) => "NodeE000";
     }
@@ -404,7 +404,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TFireNode
+    public partial class FireNode
     {
         public override string CombatMapName(CombatMapSite Site) => "NodeF000";
     }
@@ -412,7 +412,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TLifeNode
+    public partial class LifeNode
     {
         public override string CombatMapName(CombatMapSite Site) => "NodeL000";
     }
@@ -420,7 +420,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TWaterNode
+    public partial class WaterNode
     {
         public override string CombatMapName(CombatMapSite Site) => "NodeW000";
     }
@@ -428,7 +428,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TReflectingPool
+    public partial class ReflectingPool
     {
         public override string CombatMapName(CombatMapSite Site) => "RPool000";
     }
@@ -436,7 +436,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TBuildersGuild
+    public partial class BuildersGuild
     {
         public override string CombatMapName(CombatMapSite Site) => "BGuil000";
     }
@@ -444,7 +444,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TShipyard
+    public partial class Shipyard
     {
         public override string CombatMapName(CombatMapSite Site) => "SYard000";
     }
@@ -452,7 +452,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TMonsterlair
+    public partial class Monsterlair
     {
         public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eMrLr00", 4, true);
     }
@@ -460,7 +460,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TPyramid
+    public partial class Pyramid
     {
         public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eZigg00", 2, true);
     }
@@ -468,7 +468,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TCrypt
+    public partial class Crypt
     {
         public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eCrpt00", 2, true);
     }
@@ -476,7 +476,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TRuin
+    public partial class Ruin
     {
         public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eRuin00", 2, true);
     }
@@ -484,7 +484,7 @@ namespace Aow.Game.World.Structures
 
 namespace Aow.Game.World.Structures
 {
-    public partial class TDungeon
+    public partial class Dungeon
     {
         // The dungeon fight lays out no items.
         public override string CombatMapName(CombatMapSite Site) => SiteCombatMapName(Site, "eDung00", 2, false);

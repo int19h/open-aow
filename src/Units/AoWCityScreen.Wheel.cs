@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TCityScreen
+public partial class CityScreen
 {
     public override void Loaded()
     {

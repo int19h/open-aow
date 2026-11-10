@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TArmyEventDlg : ILayoutModule
+public partial class ArmyEventDlg : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -21,7 +21,7 @@ public partial class TArmyEventDlg : ILayoutModule
         Name = "ArmyEventDlg";
         LayoutOnCreate = _ => Layout_ArmyEventDlgCreate_0();
         LayoutOnDestroy = _ => Layout_ArmyEventDlgDestroy_1();
-        ArmyEventWin = new TAOWWindow(this);
+        ArmyEventWin = new AOWWindow(this);
         session.BeginRead(ArmyEventWin);
         ArmyEventWin.Name = "ArmyEventWin";
         ArmyEventWin.OnKeyDown = (_, ref key, shift) => ArmyEventWinKeyDown(ref key, shift);
@@ -32,8 +32,8 @@ public partial class TArmyEventDlg : ILayoutModule
         ArmyEventWin.WinWidth = 439;
         ArmyEventWin.Masked = true;
         ArmyEventWin.OnHide = _ => Layout_ArmyEventWinHide_2();
-        ArmyEventWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ArmyEventWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        ArmyEventWin.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ArmyEventWin.Alignment.AlignHeight = AOWAlignHeight.Center;
         ArmyEventWin.Alignment.HeightPercent = 0;
         ArmyEventWin.Alignment.WidthPercent = 0;
         ArmyEventWin.Alignment.LeftOffPercent = 0;
@@ -66,15 +66,15 @@ public partial class TArmyEventDlg : ILayoutModule
         ArmyEventWin.WinHeight = 240;
         ArmyEventWin.Dockable = false;
         session.EndRead(ArmyEventWin);
-        BGoldSq = new TAoWFrame(this);
+        BGoldSq = new AoWFrame(this);
         session.BeginRead(BGoldSq);
         BGoldSq.Name = "BGoldSq";
         BGoldSq.Priority = 1000;
         BGoldSq.WinLeft = 28;
         BGoldSq.WinTop = 28;
         BGoldSq.CaptureInput = true;
-        BGoldSq.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        BGoldSq.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        BGoldSq.Alignment.AlignWidth = AOWAlignWidth.Both;
+        BGoldSq.Alignment.AlignHeight = AOWAlignHeight.Both;
         BGoldSq.Alignment.HeightPercent = 0;
         BGoldSq.Alignment.WidthPercent = 0;
         BGoldSq.Alignment.LeftOffPercent = 0;
@@ -88,12 +88,12 @@ public partial class TArmyEventDlg : ILayoutModule
         BGoldSq.Masked = false;
         BGoldSq.WinWidth = 383;
         BGoldSq.WinHeight = 172;
-        BGoldSq.FrameType = TFrameType.frHollowBox;
+        BGoldSq.FrameType = FrameType.HollowBox;
         BGoldSq.ILIndexFrame = 121;
         BGoldSq.ILIndexLine = 0;
         BGoldSq.ILIndexTexture = 0;
         session.EndRead(BGoldSq);
-        UnitPnl = new TAOWPanel(this);
+        UnitPnl = new AOWPanel(this);
         session.BeginRead(UnitPnl);
         UnitPnl.Name = "UnitPnl";
         UnitPnl.OnUpdate = _ => Layout_UnitPnlUpdate_3();
@@ -103,8 +103,8 @@ public partial class TArmyEventDlg : ILayoutModule
         UnitPnl.WinWidth = 369;
         UnitPnl.OnDrawBack = (_, SurfDesc) => UnitPnlDrawBack(SurfDesc);
         UnitPnl.Masked = true;
-        UnitPnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        UnitPnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        UnitPnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        UnitPnl.Alignment.AlignHeight = AOWAlignHeight.None;
         UnitPnl.Alignment.HeightPercent = 0;
         UnitPnl.Alignment.WidthPercent = 0;
         UnitPnl.Alignment.LeftOffPercent = 0;
@@ -122,15 +122,15 @@ public partial class TArmyEventDlg : ILayoutModule
         UnitPnl.MinWidth = 0;
         UnitPnl.MinHeight = 0;
         session.EndRead(UnitPnl);
-        EventText = new TAOWLabel(this);
+        EventText = new AOWLabel(this);
         session.BeginRead(EventText);
         EventText.Name = "EventText";
         EventText.Priority = 100;
         EventText.WinLeft = 143;
         EventText.WinTop = 55;
         EventText.CaptureInput = true;
-        EventText.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        EventText.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        EventText.Alignment.AlignWidth = AOWAlignWidth.Center;
+        EventText.Alignment.AlignHeight = AOWAlignHeight.Top;
         EventText.Alignment.HeightPercent = 0;
         EventText.Alignment.WidthPercent = 0;
         EventText.Alignment.LeftOffPercent = 0;
@@ -145,15 +145,15 @@ public partial class TArmyEventDlg : ILayoutModule
         EventText.Text = "#########";
         EventText.TextColor = 0;
         session.EndRead(EventText);
-        DamagePic = new TAOWImage(this);
+        DamagePic = new AOWImage(this);
         session.BeginRead(DamagePic);
         DamagePic.Name = "DamagePic";
         DamagePic.Priority = 0;
         DamagePic.WinLeft = 30;
         DamagePic.WinTop = 29;
         DamagePic.CaptureInput = true;
-        DamagePic.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        DamagePic.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        DamagePic.Alignment.AlignWidth = AOWAlignWidth.Both;
+        DamagePic.Alignment.AlignHeight = AOWAlignHeight.Both;
         DamagePic.Alignment.HeightPercent = 0;
         DamagePic.Alignment.WidthPercent = 0;
         DamagePic.Alignment.LeftOffPercent = 0;
@@ -173,7 +173,7 @@ public partial class TArmyEventDlg : ILayoutModule
         DamagePic.Animate = false;
         DamagePic.AnimFrameDelay = 0;
         session.EndRead(DamagePic);
-        CloseBut = new TAOWButton(this);
+        CloseBut = new AOWButton(this);
         session.BeginRead(CloseBut);
         CloseBut.Name = "CloseBut";
         CloseBut.Priority = 100;
@@ -184,8 +184,8 @@ public partial class TArmyEventDlg : ILayoutModule
             "Closes Window"
         };
         CloseBut.CaptureInput = true;
-        CloseBut.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CloseBut.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CloseBut.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CloseBut.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CloseBut.Alignment.HeightPercent = 0;
         CloseBut.Alignment.WidthPercent = 0;
         CloseBut.Alignment.LeftOffPercent = 0;
@@ -208,15 +208,15 @@ public partial class TArmyEventDlg : ILayoutModule
         CloseBut.WinWidth = 120;
         CloseBut.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(CloseBut);
-        TitleIcon = new TAOWImage(this);
+        TitleIcon = new AOWImage(this);
         session.BeginRead(TitleIcon);
         TitleIcon.Name = "TitleIcon";
         TitleIcon.Priority = 0;
         TitleIcon.WinLeft = 20;
         TitleIcon.WinTop = 5;
         TitleIcon.CaptureInput = false;
-        TitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TitleIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TitleIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         TitleIcon.Alignment.HeightPercent = 0;
         TitleIcon.Alignment.WidthPercent = 0;
         TitleIcon.Alignment.LeftOffPercent = 0;
@@ -236,7 +236,7 @@ public partial class TArmyEventDlg : ILayoutModule
         TitleIcon.Animate = false;
         TitleIcon.AnimFrameDelay = 0;
         session.EndRead(TitleIcon);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -247,8 +247,8 @@ public partial class TArmyEventDlg : ILayoutModule
             "Closes the window."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Close.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Top;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -270,15 +270,15 @@ public partial class TArmyEventDlg : ILayoutModule
         Close.WinWidth = 15;
         Close.OnClick = _ => Layout_CloseClick_4();
         session.EndRead(Close);
-        Title = new TAOWLabel(this);
+        Title = new AOWLabel(this);
         session.BeginRead(Title);
         Title.Name = "Title";
         Title.Priority = 0;
         Title.WinLeft = 42;
         Title.WinTop = 7;
         Title.CaptureInput = false;
-        Title.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Title.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Title.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Title.Alignment.AlignHeight = AOWAlignHeight.Top;
         Title.Alignment.HeightPercent = 0;
         Title.Alignment.WidthPercent = 0;
         Title.Alignment.LeftOffPercent = 0;
@@ -293,15 +293,15 @@ public partial class TArmyEventDlg : ILayoutModule
         Title.Text = "Party Damage";
         Title.TextColor = 0;
         session.EndRead(Title);
-        BCeltL = new TAoWFrame(this);
+        BCeltL = new AoWFrame(this);
         session.BeginRead(BCeltL);
         BCeltL.Name = "BCeltL";
         BCeltL.Priority = 0;
         BCeltL.WinLeft = 26;
         BCeltL.WinTop = 202;
         BCeltL.CaptureInput = true;
-        BCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        BCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        BCeltL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BCeltL.Alignment.HeightPercent = 0;
         BCeltL.Alignment.WidthPercent = 0;
         BCeltL.Alignment.LeftOffPercent = 0;
@@ -315,20 +315,20 @@ public partial class TArmyEventDlg : ILayoutModule
         BCeltL.Masked = false;
         BCeltL.WinWidth = 387;
         BCeltL.WinHeight = 27;
-        BCeltL.FrameType = TFrameType.frHorizLine;
+        BCeltL.FrameType = FrameType.HorizLine;
         BCeltL.ILIndexFrame = 0;
         BCeltL.ILIndexLine = 55;
         BCeltL.ILIndexTexture = 0;
         session.EndRead(BCeltL);
-        DecoL = new TAOWImage(this);
+        DecoL = new AOWImage(this);
         session.BeginRead(DecoL);
         DecoL.Name = "DecoL";
         DecoL.Priority = 1000;
         DecoL.WinLeft = 35;
         DecoL.WinTop = 202;
         DecoL.CaptureInput = true;
-        DecoL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        DecoL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DecoL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        DecoL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DecoL.Alignment.HeightPercent = 0;
         DecoL.Alignment.WidthPercent = 0;
         DecoL.Alignment.LeftOffPercent = 0;
@@ -348,15 +348,15 @@ public partial class TArmyEventDlg : ILayoutModule
         DecoL.Animate = false;
         DecoL.AnimFrameDelay = 0;
         session.EndRead(DecoL);
-        DecoR = new TAOWImage(this);
+        DecoR = new AOWImage(this);
         session.BeginRead(DecoR);
         DecoR.Name = "DecoR";
         DecoR.Priority = 1000;
         DecoR.WinLeft = 296;
         DecoR.WinTop = 202;
         DecoR.CaptureInput = true;
-        DecoR.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        DecoR.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DecoR.Alignment.AlignWidth = AOWAlignWidth.Right;
+        DecoR.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DecoR.Alignment.HeightPercent = 0;
         DecoR.Alignment.WidthPercent = 0;
         DecoR.Alignment.LeftOffPercent = 0;

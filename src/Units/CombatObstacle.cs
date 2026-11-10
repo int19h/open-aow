@@ -10,18 +10,18 @@ using Aow.Game.World.Movement;
 namespace Aow.Game.Draw
 {
 
-    public partial class TCombatObstacleShadow : THexagonSprite
+    public partial class CombatObstacleShadow : HexagonSprite
     {
-        public TCombatObstacleShadow(TECustomNode owner) : base(owner)
+        public CombatObstacleShadow(ECustomNode owner) : base(owner)
         { }
 
-        public TCombatObstacle FObstacle;
+        public CombatObstacle FObstacle;
 
         // CombatObstacle.pas:74
         public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) - 1677721600;
 
         // CombatObstacle.pas:79
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             FObstacle.ShowShadow(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -30,18 +30,18 @@ namespace Aow.Game.Draw
 
     }
 
-    public partial class TCombatObstacleOverlay : THexagonSprite
+    public partial class CombatObstacleOverlay : HexagonSprite
     {
-        public TCombatObstacleOverlay(TECustomNode owner) : base(owner)
+        public CombatObstacleOverlay(ECustomNode owner) : base(owner)
         { }
 
-        public TCombatObstacle FObstacle;
+        public CombatObstacle FObstacle;
 
         // CombatObstacle.pas:84
         public override int GetShowPriority() => (FObstacle.GetShowPriority() & 67108863) + 393216;
 
         // CombatObstacle.pas:89
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             FObstacle.ShowOverlay(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -54,16 +54,16 @@ namespace Aow.Game.Draw
 namespace Aow.Game.World
 {
 
-    public partial class TCombatObstacle : TMultiHexMO
+    public partial class CombatObstacle : MultiHexMO
     {
-        public TCombatObstacle(TECustomNode owner) : base(owner)
+        public CombatObstacle(ECustomNode owner) : base(owner)
         { }
 
         // CombatObstacle.pas:94
         public new const int ClassID = 2229546;
 
-        public TCombatObstacleShadow FShadow;
-        public TCombatObstacleOverlay FOverlay;
+        public CombatObstacleShadow FShadow;
+        public CombatObstacleOverlay FOverlay;
 
         // CombatObstacle.pas:97
         public override void Dispose()
@@ -81,7 +81,7 @@ namespace Aow.Game.World
             {
                 var yhx = Yhx;
                 var xhx = Xhx;
-                UpdateMapFields((TMapLevel)Owner.Owner, xhx, yhx);
+                UpdateMapFields((MapLevel)Owner.Owner, xhx, yhx);
             }
 
             return Result;
@@ -90,16 +90,16 @@ namespace Aow.Game.World
         // CombatObstacle.pas:116
         public override void RemoveFromMap()
         {
-            TMapLevel MapLevel;
-            MapLevel = (TMapLevel)Owner.Owner;
+            MapLevel MapLevel;
+            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(MapLevel, FXhx, FYhx);
         }
 
         // CombatObstacle.pas:229
-        public override void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
+        public override void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
         {
-            if (((TCombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
+            if (((CombatMoveControl)Info.Sender).FUnitHS.FUnit.GetAbilityEnabled(59))
             {
                 if (FResource.TerrainList.GetOverlay(Info.HN) == 8)
                 {
@@ -126,19 +126,19 @@ namespace Aow.Game.World
         }
 
         // CombatObstacle.pas:222
-        public override void UpdateMapField(in THSMapFieldInfo Info)
+        public override void UpdateMapField(in HSMapFieldInfo Info)
         {
             base.UpdateMapField(Info);
             if (Info.HN < FResource.TerrainList.Count)
             {
-                ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 16384;
+                ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 16384;
             }
         }
 
         // CombatObstacle.pas:193
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(MapObjectStatusElement.Visible))
             {
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
@@ -156,13 +156,13 @@ namespace Aow.Game.World
         }
 
         // CombatObstacle.pas:107
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
+        public override MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
 
         // CombatObstacle.pas:104
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // CombatObstacle.pas:203
-        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
+        public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
 
         // CombatObstacle.pas:125
         public void CreateShadow()
@@ -174,9 +174,9 @@ namespace Aow.Game.World
                     DestroyShadow();
                 }
 
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowUnitShadows)
+                if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
                 {
-                    FShadow = new TCombatObstacleShadow(null);
+                    FShadow = new CombatObstacleShadow(null);
                     FShadow.FObstacle = this;
                 }
             }
@@ -189,7 +189,7 @@ namespace Aow.Game.World
             {
                 if (GetVisible())
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicVisibleHS.RemoveChild(FShadow);
+                    Aow.Game.Combat.AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FShadow);
                 }
 
                 FShadow?.Dispose();
@@ -207,9 +207,9 @@ namespace Aow.Game.World
                     DestroyOverlay();
                 }
 
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowUnitShadows)
+                if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
                 {
-                    FOverlay = new TCombatObstacleOverlay(null);
+                    FOverlay = new CombatObstacleOverlay(null);
                     FOverlay.FObstacle = this;
                 }
             }
@@ -222,7 +222,7 @@ namespace Aow.Game.World
             {
                 if (GetVisible())
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicVisibleHS.RemoveChild(FOverlay);
+                    Aow.Game.Combat.AoWCombatMap.Current.DynamicVisibleHS.RemoveChild(FOverlay);
                 }
 
                 FOverlay?.Dispose();
@@ -231,42 +231,42 @@ namespace Aow.Game.World
         }
 
         // CombatObstacle.pas:171
-        public void ShowShadow(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowShadow(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
             Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf;
             YhpSurf = Y - YhpSurf;
-            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
+            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
         }
 
         // CombatObstacle.pas:182
-        public void ShowOverlay(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public void ShowOverlay(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
             Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf;
             YhpSurf = Y - YhpSurf;
-            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 41, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
+            FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 41, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
         }
 
-    }
+        public new partial class Resource : MultiHexMOR
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
 
-    public partial class TCombatObstacleResource : TMultiHexMOR
-    {
-        public TCombatObstacleResource(TECustomNode owner) : base(owner)
-        { }
+            // CombatObstacle.pas:239
+            public new const int ClassID = 2229547;
 
-        // CombatObstacle.pas:239
-        public new const int ClassID = 2229547;
+            // CombatObstacle.pas:245
+            public override int ResourceUserClassID() => 2229546;
 
-        // CombatObstacle.pas:245
-        public override int ResourceUserClassID() => 2229546;
+            // CombatObstacle.pas:242
+            public override string ResourceEditName() => "Combat " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ObstacleRStr);
 
-        // CombatObstacle.pas:242
-        public override string ResourceEditName() => "Combat " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ObstacleRStr);
+        }
 
     }
 }

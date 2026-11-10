@@ -7,33 +7,33 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTargetSelectionDlg : TDataModule
+public partial class TargetSelectionDlg : DataModule
 {
-    public TTargetSelectionDlg(TComponent owner) : base(owner)
+    public TargetSelectionDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAoWFrame CeltFrame;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAOWImage SIcon;
-    public TAOWButton MainBtn;
-    public TAOWMemo DefaultMemo;
-    public TAOWPanel DefaultPnl;
-    public TAOWLabel HeaderLbl;
-    public TAOWPanel HeaderPnl;
-    public TAoWArnoLine BorderImage;
-    public TAOWPanel SpellPnl;
-    public TAOWMemo SpellMemo;
-    public TAOWLabel TargetRangeLabel;
-    public TAOWLabel TargetLbl;
-    public TIvTranslator Translator;
+    public AOWWindow Dlg;
+    public AoWFrame CeltFrame;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AOWImage SIcon;
+    public AOWButton MainBtn;
+    public AOWMemo DefaultMemo;
+    public AOWPanel DefaultPnl;
+    public AOWLabel HeaderLbl;
+    public AOWPanel HeaderPnl;
+    public AoWArnoLine BorderImage;
+    public AOWPanel SpellPnl;
+    public AOWMemo SpellMemo;
+    public AOWLabel TargetRangeLabel;
+    public AOWLabel TargetLbl;
+    public IvTranslator Translator;
 
     // AoWTargetSelection.pas:45
     public void CloseClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.Deactivate();
+        Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Deactivate();
     }
 
     // AoWTargetSelection.pas:51

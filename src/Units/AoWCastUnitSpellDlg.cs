@@ -15,51 +15,51 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // retained unit spell caster
-public partial class TCastUnitSpellDlg : TDataModule
+public partial class CastUnitSpellDlg : DataModule
 {
-    public TCastUnitSpellDlg(TComponent owner) : base(owner)
+    public CastUnitSpellDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAoWGauge Unit1Gge;
-    public TAoWGauge Unit2Gge;
-    public TAoWGauge Unit3Gge;
-    public TAoWGauge Unit4Gge;
-    public TAoWGauge Unit5Gg;
-    public TAoWGauge Unit6Gg;
-    public TAoWGauge Unit7Gg;
-    public TAoWGauge Unit8Gg;
-    public TAOWButton CastBut;
-    public TAOWImage TitleIcon;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAOWButton CancelBut;
-    public TAOWWindow Dlg;
-    public TAOWLabel SelectLbl;
-    public TAOWPanel UnitPnl;
-    public TAOWPanel TopPnl;
-    public TAOWLabel SpellUpkeepLbl;
-    public TAOWLabel SpellManaLbl;
-    public TAOWLabel CastingManaLbl;
-    public TAOWLabel SpellNameLbl;
-    public TAOWLabel CasterNameLbl;
-    public TAOWLabel CastingPointsLbl;
-    public TAOWCheckBox U1;
-    public TAOWCheckBox U2;
-    public TAOWCheckBox U3;
-    public TAOWCheckBox U4;
-    public TAOWCheckBox U5;
-    public TAOWCheckBox U6;
-    public TAOWCheckBox U7;
-    public TAOWCheckBox U8;
-    public TAOWImage DecoL;
-    public TAOWImage DecoR;
-    public TAOWImage SpellFr;
-    public TAOWImage FaceFrame;
-    public TAoWFrame AoWFrame1;
-    public TAOWPanel SelectionInfoPnl;
-    public TAOWLabel SelectionInfoLbl;
-    public TIvTranslator Translator;
-    public TUnitSpellCaster FCaster;
+    public AoWGauge Unit1Gge;
+    public AoWGauge Unit2Gge;
+    public AoWGauge Unit3Gge;
+    public AoWGauge Unit4Gge;
+    public AoWGauge Unit5Gg;
+    public AoWGauge Unit6Gg;
+    public AoWGauge Unit7Gg;
+    public AoWGauge Unit8Gg;
+    public AOWButton CastBut;
+    public AOWImage TitleIcon;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AOWButton CancelBut;
+    public AOWWindow Dlg;
+    public AOWLabel SelectLbl;
+    public AOWPanel UnitPnl;
+    public AOWPanel TopPnl;
+    public AOWLabel SpellUpkeepLbl;
+    public AOWLabel SpellManaLbl;
+    public AOWLabel CastingManaLbl;
+    public AOWLabel SpellNameLbl;
+    public AOWLabel CasterNameLbl;
+    public AOWLabel CastingPointsLbl;
+    public AOWCheckBox U1;
+    public AOWCheckBox U2;
+    public AOWCheckBox U3;
+    public AOWCheckBox U4;
+    public AOWCheckBox U5;
+    public AOWCheckBox U6;
+    public AOWCheckBox U7;
+    public AOWCheckBox U8;
+    public AOWImage DecoL;
+    public AOWImage DecoR;
+    public AOWImage SpellFr;
+    public AOWImage FaceFrame;
+    public AoWFrame AoWFrame1;
+    public AOWPanel SelectionInfoPnl;
+    public AOWLabel SelectionInfoLbl;
+    public IvTranslator Translator;
+    public UnitSpellCaster FCaster;
 
     // AoWCastUnitSpellDlg.pas:79
     public void ClearCaster()
@@ -69,15 +69,15 @@ public partial class TCastUnitSpellDlg : TDataModule
     }
 
     // AoWCastUnitSpellDlg.pas:85
-    public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc Surface)
+    public void DrawUnit(int Index, int X, int Y, ref SurfaceDesc Surface)
     {
-        TAlignment Alignment;
-        TP2UnitShowInfo Info;
-        TRect OldClip;
+        Alignment Alignment;
+        P2UnitShowInfo Info;
+        global::Aow.Rtl.Rect OldClip;
         if (Index < FCaster.FTargetUnits.GetCount())
         {
             OldClip = Surface.ClipRect;
-            var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
+            var rect = global::Aow.Rtl.RtlUnit.Rect(X + 5, Y + 4, X + 46, Y + 56);
             Surface.ClipRect = rect;
             Alignment = FCaster.FTargetUnits.GetUnit(Index).GetAlignment();
             if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
@@ -88,7 +88,7 @@ public partial class TCastUnitSpellDlg : TDataModule
 
             Info = default;
             Info.Direction = 3;
-            Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             FCaster.FTargetUnits.GetUnit(Index).ShowEx(X - 8, Y - 4, Surface, Info);
             if ((((int)(((uint)FCaster.FValidSelection) >> Index)) & 1) == 0)
             {
@@ -119,16 +119,16 @@ public partial class TCastUnitSpellDlg : TDataModule
         }
         else
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(Reason);
+            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(Reason);
         }
     }
 
     // AoWCastUnitSpellDlg.pas:163
-    public void FaceFramePreDraw(TSurfaceDesc Surface)
+    public void FaceFramePreDraw(SurfaceDesc Surface)
     {
-        TAbstractUnit U;
-        TRect R = default;
-        U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FCaster.FCasterSourceID);
+        AbstractUnit U;
+        global::Aow.Rtl.Rect R = default;
+        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FCasterSourceID);
         if (U != null)
         {
             if (U.GetFace() != null)
@@ -149,13 +149,13 @@ public partial class TCastUnitSpellDlg : TDataModule
     }
 
     // AoWCastUnitSpellDlg.pas:191
-    public void SpellFrPreDraw(TSurfaceDesc Surface)
+    public void SpellFrPreDraw(SurfaceDesc Surface)
     {
-        TSpell Spell;
-        TRect R = default;
+        Spell Spell;
+        global::Aow.Rtl.Rect R = default;
         if (FCaster != null)
         {
-            Spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FCaster.FCasterSpellID);
+            Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FCaster.FCasterSpellID);
             if (Spell != null)
             {
                 R.Left = this.SpellFr.WinLeft + TopPnl.WinLeft;
@@ -189,7 +189,7 @@ public partial class TCastUnitSpellDlg : TDataModule
         }
     }
 
-    public void U1Change(TAOWCheckBox sender, int slot)
+    public void U1Change(AOWCheckBox sender, int slot)
     {
         byte oldSelection = FCaster.FSelectionMask;
         int bit = 1 << slot;
@@ -208,12 +208,12 @@ public partial class TCastUnitSpellDlg : TDataModule
         string reason = "";
         SelectionInfoLbl.TextColor = FCaster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLbl.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCastUnitSpellDlg.RequiredManaRStr) +
+        SelectionInfoLbl.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.CastUnitSpellDlg.RequiredManaRStr) +
             ": " + IntToStr(FCaster.GetRequiredMana());
     }
 
     // AoWCastUnitSpellDlg.pas:183
-    public void U1PreDraw(TAOWCheckBox sender, TSurfaceDesc surface, int slot) =>
+    public void U1PreDraw(AOWCheckBox sender, SurfaceDesc surface, int slot) =>
         DrawUnit(slot, UnitPnl.WinLeft + sender.WinLeft, UnitPnl.WinTop + sender.WinTop, ref surface);
 
     private static readonly string RequiredManaRStr = "Required Mana";

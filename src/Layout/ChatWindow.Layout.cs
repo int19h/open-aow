@@ -10,7 +10,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TChatWindow : ILayoutModule
+public partial class ChatWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -21,7 +21,7 @@ public partial class TChatWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "ChatWindow";
-        ChatWin = new TAOWWindow(this);
+        ChatWin = new AOWWindow(this);
         session.BeginRead(ChatWin);
         ChatWin.Name = "ChatWin";
         ChatWin.Visible = false;
@@ -32,8 +32,8 @@ public partial class TChatWindow : ILayoutModule
         ChatWin.Masked = false;
         ChatWin.OnHide = _ => Layout_ChatWinHide_0();
         ChatWin.OnShow = _ => Layout_ChatWinShow_1();
-        ChatWin.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ChatWin.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ChatWin.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ChatWin.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ChatWin.Alignment.HeightPercent = 0;
         ChatWin.Alignment.WidthPercent = 0;
         ChatWin.Alignment.LeftOffPercent = 0;
@@ -68,7 +68,7 @@ public partial class TChatWindow : ILayoutModule
         ChatWin.WinHeight = 160;
         ChatWin.Dockable = false;
         session.EndRead(ChatWin);
-        ChatMemo = new TAOWMemo(this);
+        ChatMemo = new AOWMemo(this);
         session.BeginRead(ChatMemo);
         ChatMemo.Name = "ChatMemo";
         ChatMemo.OnUpdate = _ => Layout_ChatMemoUpdate_3();
@@ -76,8 +76,8 @@ public partial class TChatWindow : ILayoutModule
         ChatMemo.WinLeft = 1;
         ChatMemo.WinTop = 0;
         ChatMemo.CaptureInput = true;
-        ChatMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ChatMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        ChatMemo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ChatMemo.Alignment.AlignHeight = AOWAlignHeight.Both;
         ChatMemo.Alignment.HeightPercent = 0;
         ChatMemo.Alignment.WidthPercent = 0;
         ChatMemo.Alignment.LeftOffPercent = 0;
@@ -101,17 +101,17 @@ public partial class TChatWindow : ILayoutModule
         ChatMemo.ILIndexTexture = 17;
         ChatMemo.ItemHeight = 15;
         ChatMemo.ColorChangeChar = 0;
-        ChatMemo.TextAlign = TaowTextAlign.taLeft;
+        ChatMemo.TextAlign = TaowTextAlign.Left;
         session.EndRead(ChatMemo);
-        ChatEdit = new TAOWEdit(this);
+        ChatEdit = new AOWEdit(this);
         session.BeginRead(ChatEdit);
         ChatEdit.Name = "ChatEdit";
         ChatEdit.Priority = 0;
         ChatEdit.WinLeft = 1;
         ChatEdit.WinTop = 107;
         ChatEdit.CaptureInput = true;
-        ChatEdit.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ChatEdit.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ChatEdit.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ChatEdit.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ChatEdit.Alignment.HeightPercent = 0;
         ChatEdit.Alignment.WidthPercent = 0;
         ChatEdit.Alignment.LeftOffPercent = 0;
@@ -135,15 +135,15 @@ public partial class TChatWindow : ILayoutModule
         ChatEdit.OnReturn = _ => Layout_ChatEditReturn_4();
         ChatEdit.PassWordChar = 0;
         session.EndRead(ChatEdit);
-        PlayerList = new TAOWListBox(this);
+        PlayerList = new AOWListBox(this);
         session.BeginRead(PlayerList);
         PlayerList.Name = "PlayerList";
         PlayerList.Priority = 0;
         PlayerList.WinLeft = 307;
         PlayerList.WinTop = 0;
         PlayerList.CaptureInput = true;
-        PlayerList.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        PlayerList.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        PlayerList.Alignment.AlignWidth = AOWAlignWidth.Right;
+        PlayerList.Alignment.AlignHeight = AOWAlignHeight.Both;
         PlayerList.Alignment.HeightPercent = 0;
         PlayerList.Alignment.WidthPercent = 0;
         PlayerList.Alignment.LeftOffPercent = 70;
@@ -167,17 +167,17 @@ public partial class TChatWindow : ILayoutModule
         PlayerList.ILIndexTNormal = 21;
         PlayerList.ILIndexTSelected = 8;
         PlayerList.ItemHeight = 17;
-        PlayerList.TextAlign = TaowTextAlign.taLeft;
+        PlayerList.TextAlign = TaowTextAlign.Left;
         session.EndRead(PlayerList);
-        SIcon = new TAOWImage(this);
+        SIcon = new AOWImage(this);
         session.BeginRead(SIcon);
         SIcon.Name = "SIcon";
         SIcon.Priority = 0;
         SIcon.WinLeft = 2;
         SIcon.WinTop = 1;
         SIcon.CaptureInput = false;
-        SIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         SIcon.Alignment.HeightPercent = 0;
         SIcon.Alignment.WidthPercent = 0;
         SIcon.Alignment.LeftOffPercent = 0;
@@ -197,15 +197,15 @@ public partial class TChatWindow : ILayoutModule
         SIcon.Animate = false;
         SIcon.AnimFrameDelay = 0;
         session.EndRead(SIcon);
-        IWTitle = new TAOWLabel(this);
+        IWTitle = new AOWLabel(this);
         session.BeginRead(IWTitle);
         IWTitle.Name = "IWTitle";
         IWTitle.Priority = 0;
         IWTitle.WinLeft = 25;
         IWTitle.WinTop = 4;
         IWTitle.CaptureInput = false;
-        IWTitle.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        IWTitle.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        IWTitle.Alignment.AlignWidth = AOWAlignWidth.Left;
+        IWTitle.Alignment.AlignHeight = AOWAlignHeight.Top;
         IWTitle.Alignment.HeightPercent = 0;
         IWTitle.Alignment.WidthPercent = 0;
         IWTitle.Alignment.LeftOffPercent = 0;
@@ -220,7 +220,7 @@ public partial class TChatWindow : ILayoutModule
         IWTitle.Text = "Chat";
         IWTitle.TextColor = 0;
         session.EndRead(IWTitle);
-        Min = new TAOWButton(this);
+        Min = new AOWButton(this);
         session.BeginRead(Min);
         Min.Name = "Min";
         Min.Priority = 0;
@@ -231,8 +231,8 @@ public partial class TChatWindow : ILayoutModule
             "Minimizes the window."
         };
         Min.CaptureInput = true;
-        Min.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Min.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Min.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Min.Alignment.AlignHeight = AOWAlignHeight.Top;
         Min.Alignment.HeightPercent = 0;
         Min.Alignment.WidthPercent = 0;
         Min.Alignment.LeftOffPercent = 0;
@@ -254,7 +254,7 @@ public partial class TChatWindow : ILayoutModule
         Min.WinWidth = 15;
         Min.OnClick = _ => Layout_MinClick_6();
         session.EndRead(Min);
-        ChatPnl = new TAOWPanel(this);
+        ChatPnl = new AOWPanel(this);
         session.BeginRead(ChatPnl);
         ChatPnl.Name = "ChatPnl";
         ChatPnl.Priority = 0;
@@ -262,8 +262,8 @@ public partial class TChatWindow : ILayoutModule
         ChatPnl.WinTop = 23;
         ChatPnl.WinWidth = 424;
         ChatPnl.Masked = true;
-        ChatPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ChatPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        ChatPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ChatPnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         ChatPnl.Alignment.HeightPercent = 0;
         ChatPnl.Alignment.WidthPercent = 0;
         ChatPnl.Alignment.LeftOffPercent = 0;
@@ -281,7 +281,7 @@ public partial class TChatWindow : ILayoutModule
         ChatPnl.MinWidth = 0;
         ChatPnl.MinHeight = 0;
         session.EndRead(ChatPnl);
-        NSBar = new TAOWVScrollBar(this);
+        NSBar = new AOWVScrollBar(this);
         session.BeginRead(NSBar);
         NSBar.Name = "NSBar";
         NSBar.Visible = false;
@@ -289,8 +289,8 @@ public partial class TChatWindow : ILayoutModule
         NSBar.WinLeft = 407;
         NSBar.WinTop = 0;
         NSBar.CaptureInput = true;
-        NSBar.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        NSBar.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        NSBar.Alignment.AlignWidth = AOWAlignWidth.None;
+        NSBar.Alignment.AlignHeight = AOWAlignHeight.None;
         NSBar.Alignment.HeightPercent = 0;
         NSBar.Alignment.WidthPercent = 0;
         NSBar.Alignment.LeftOffPercent = 0;
@@ -318,7 +318,7 @@ public partial class TChatWindow : ILayoutModule
         NSBar.ILIndexBack = 101;
         NSBar.ILIndexTab = 98;
         session.EndRead(NSBar);
-        ChatSB = new TAOWVScrollBar(this);
+        ChatSB = new AOWVScrollBar(this);
         session.BeginRead(ChatSB);
         ChatSB.Name = "ChatSB";
         ChatSB.Visible = false;
@@ -326,8 +326,8 @@ public partial class TChatWindow : ILayoutModule
         ChatSB.WinLeft = 290;
         ChatSB.WinTop = 0;
         ChatSB.CaptureInput = true;
-        ChatSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        ChatSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        ChatSB.Alignment.AlignWidth = AOWAlignWidth.None;
+        ChatSB.Alignment.AlignHeight = AOWAlignHeight.None;
         ChatSB.Alignment.HeightPercent = 0;
         ChatSB.Alignment.WidthPercent = 0;
         ChatSB.Alignment.LeftOffPercent = 0;
@@ -441,9 +441,9 @@ public partial class TChatWindow : ILayoutModule
         ChatEditReturn();
     }
 
-    private void Layout_PlayerListPreDrawItem_5(in TRect p1, int p2, ref TSurfaceDesc p3)
+    private void Layout_PlayerListPreDrawItem_5(in Rect p1, int p2, ref SurfaceDesc p3)
     {
-        PlayerListPreDrawItem(default(TRect), p2, default(TSurfaceDesc));
+        PlayerListPreDrawItem(default(Rect), p2, default(SurfaceDesc));
     }
 
     private void Layout_MinClick_6()

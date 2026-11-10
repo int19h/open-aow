@@ -22,24 +22,24 @@ namespace Aow.Game.Draw.Animation
 {
 
     // player
-    public partial class TStorm : TAnimation
+    public partial class Storm : global::Aow.Game.Draw.Animation.Animation
     {
-        public TStorm(TECustomNode owner) : base(owner)
+        public Storm(ECustomNode owner) : base(owner)
         { }
 
         public sbyte FPlayer;
 
         // Storms.pas:34
-        public virtual void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref TStormDamageInfo Info)
+        public virtual void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Storms.pas:236
-        public virtual void UpdateTargetSelection(TTargetSelectionControl Selection)
+        public virtual void UpdateTargetSelection(TargetSelectionControl Selection)
         {
             Selection.FOnShow = ShowTargetSelection;
-            Selection.FTargetMode = Selection.FTargetMode + TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmOwnerDraw);
+            Selection.FTargetMode = Selection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.OwnerDraw);
         }
 
         // Storms.pas:209
@@ -47,7 +47,7 @@ namespace Aow.Game.Draw.Animation
         {
             FPlayer = Player;
             FAnimationLevel = 28;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.LockExecuteEventLog();
+            Aow.Game.World.Map.AoWHSMap.Current.LockExecuteEventLog();
         }
 
         // Storms.pas:216
@@ -56,37 +56,37 @@ namespace Aow.Game.Draw.Animation
         // Storms.pas:221
         public virtual void FinalizeStorm()
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnlockExecuteEventLog();
+            Aow.Game.World.Map.AoWHSMap.Current.UnlockExecuteEventLog();
         }
 
         // Storms.pas:226
-        public void ShowTargetSelection(TTargetSelectionControl Selection, int HN, int Xs, int Ys, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public void ShowTargetSelection(TargetSelectionControl Selection, int HN, int Xs, int Ys, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
             int Intensity;
             HN = Aow.Game.World.Map.HexGeometry.HNtoRad(HN);
-            Intensity = Math.Abs((Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame + HN) % 9 - 4) * 20 + 20;
+            Intensity = Math.Abs((Aow.Game.World.Map.AoWHSMap.Current.Frame + HN) % 9 - 4) * 20 + 20;
             var lookupTable = Aow.Game.Draw.GfxState.IntensityBlendTable.GetLookupTables(Intensity);
             Selection.FImageLibrary[0].ShowBlended(Xs - 8, Ys, SurfaceDesc, lookupTable);
         }
 
         // Storms.pas:242
-        public bool GetBestTarget(sbyte Player, int X, int Y, int L, int Range, ref TXYL Target, ref TStormDamageInfo Info)
+        public bool GetBestTarget(sbyte Player, int X, int Y, int L, int Range, ref global::Aow.Game.World.Map.XYL Target, ref StormDamageInfo Info)
         {
-            TStormDamageInfo Candidate;
-            THNWalkData Walk = default;
-            TMapLevel Level;
-            Aow.Game.Draw.TArmyHS ArmyHS;
-            Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[L];
-            Target.XYL = 16777215;
+            StormDamageInfo Candidate;
+            HNWalkData Walk = default;
+            MapLevel Level;
+            Aow.Game.Draw.ArmyHS ArmyHS;
+            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L];
+            Target.Packed = 16777215;
             bool Result = false;
             Info = default;
             Candidate = default;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Range)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    ArmyHS = ((TAoWMapField)Level.Field[Walk.X, Walk.Y]).GetArmyHS();
+                    ArmyHS = ((AoWMapField)Level.Field[Walk.X, Walk.Y]).GetArmyHS();
                     if (ArmyHS != null && ArmyHS.FArmy.FPlayer != 0 && Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Player, 0, ArmyHS.FArmy.FPlayer, 0))
                     {
                         GetTargetDamageInfo(Player, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)L, ref Candidate);
@@ -99,7 +99,7 @@ namespace Aow.Game.Draw.Animation
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             return Result;
@@ -108,21 +108,21 @@ namespace Aow.Game.Draw.Animation
         // Storms.pas:39
         public virtual string Name()
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
     }
 
     // storm image library
-    public partial class TBlastStorm : TStorm
+    public partial class BlastStorm : Storm
     {
-        public TBlastStorm(TECustomNode owner) : base(owner)
+        public BlastStorm(ECustomNode owner) : base(owner)
         { }
 
-        public TCustomImageLibrary FStormImages;
+        public CustomImageLibrary FStormImages;
 
         // Storms.pas:338
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
@@ -138,13 +138,13 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Storms.pas:358
-        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref TStormDamageInfo Info)
+        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
         {
             Aow.Game.Magic.Abilities.AbilityRules.RetrieveStormDamageInfo(Player, StormType(), X, Y, L, 0, 4, ref Info);
         }
 
         // Storms.pas:349
-        public override void UpdateTargetSelection(TTargetSelectionControl Selection)
+        public override void UpdateTargetSelection(TargetSelectionControl Selection)
         {
             base.UpdateTargetSelection(Selection);
             Selection.FHNs.Clear();
@@ -157,10 +157,10 @@ namespace Aow.Game.Draw.Animation
         // Storms.pas:276
         public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
         {
-            TRect R = default;
+            global::Aow.Rtl.Rect R = default;
             base.InitializeStorm(Player, X, Y, L);
             var stormFileName = StormFileName();
-            FStormImages = Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), stormFileName);
+            FStormImages = Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), stormFileName);
             if (GetVisible())
             {
                 FStormImages.LoadDiscardableImageData();
@@ -171,13 +171,13 @@ namespace Aow.Game.Draw.Animation
             R.Top = -(int)(((uint)FStormImages[0].Height) >> 1);
             R.Bottom = (int)(((uint)FStormImages[0].Height) >> 1);
             SetDimensions(R);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer, X, Y, L, 4);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TerrainVisible(X, Y, L, 4))
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer, X, Y, L, 4);
+            if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.TerrainVisible(X, Y, L, 4))
             {
                 Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\STORMBIG.WAV");
             }
 
-            PlaceHX(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, X, Y, L);
+            PlaceHX(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, X, Y, L);
         }
 
         // Storms.pas:312
@@ -190,7 +190,7 @@ namespace Aow.Game.Draw.Animation
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 1, ChangeStormTerrain, StormTerrainChanged);
+                Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 1, ChangeStormTerrain, StormTerrainChanged);
             }
             else
             {
@@ -199,7 +199,7 @@ namespace Aow.Game.Draw.Animation
                     var lhx = GetLhx();
                     var yhx = GetYhx();
                     var xhx = GetXhx();
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 2, ChangeStormTerrain, StormTerrainChanged);
+                    Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 2, ChangeStormTerrain, StormTerrainChanged);
                 }
                 else
                 {
@@ -208,7 +208,7 @@ namespace Aow.Game.Draw.Animation
                         var lhx = GetLhx();
                         var yhx = GetYhx();
                         var xhx = GetXhx();
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 3, ChangeStormTerrain, StormTerrainChanged);
+                        Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 3, ChangeStormTerrain, StormTerrainChanged);
                     }
                     else
                     {
@@ -217,7 +217,7 @@ namespace Aow.Game.Draw.Animation
                             var lhx = GetLhx();
                             var yhx = GetYhx();
                             var xhx = GetXhx();
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(null, xhx, yhx, lhx, 4, ChangeStormTerrain, StormTerrainChanged);
+                            Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(null, xhx, yhx, lhx, 4, ChangeStormTerrain, StormTerrainChanged);
                         }
                     }
                 }
@@ -228,7 +228,7 @@ namespace Aow.Game.Draw.Animation
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.Magic.Abilities.AbilityRules.TriggerStormDamage(StormType(), xhx, yhx, lhx, 0, 4, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer);
+                Aow.Game.Magic.Abilities.AbilityRules.TriggerStormDamage(StormType(), xhx, yhx, lhx, 0, 4, Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
                 Result = false;
             }
             else
@@ -244,17 +244,17 @@ namespace Aow.Game.Draw.Animation
         {
             FStormImages.ReleaseDiscardableImageData();
             var stormFileName = StormFileName();
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), stormFileName);
+            Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), stormFileName);
             base.FinalizeStorm();
         }
 
         // Storms.pas:304
-        public virtual void ChangeStormTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public virtual void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
         }
 
         // Storms.pas:308
-        public virtual void StormTerrainChanged(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
+        public virtual void StormTerrainChanged(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
         {
         }
 
@@ -262,21 +262,21 @@ namespace Aow.Game.Draw.Animation
         public virtual string StormFileName() => "";
 
         // Storms.pas:299
-        public virtual TStormType StormType() => TStormType.stNone;
+        public virtual global::Aow.Game.Magic.Spells.StormType StormType() => global::Aow.Game.Magic.Spells.StormType.None;
     }
 
-    public partial class TIceStorm : TBlastStorm
+    public partial class IceStorm : BlastStorm
     {
-        public TIceStorm(TECustomNode owner) : base(owner)
+        public IceStorm(ECustomNode owner) : base(owner)
         { }
 
         // Storms.pas:363
         public new const int ClassID = 135738;
 
         // Storms.pas:390
-        public override void ChangeStormTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public override void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
-            Aow.Game.Draw.TFrozenWaterHS Ice;
+            Aow.Game.Draw.FrozenWaterHS Ice;
             // { Original sends terrain 13 to the default branch before the ice refresh test. }
             if (TerrainType == 0)
             {
@@ -290,12 +290,12 @@ namespace Aow.Game.Draw.Animation
                 }
                 else
                 {
-                    if (TSet<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)TerrainType))
+                    if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)TerrainType))
                     {
-                        Ice = (Aow.Game.Draw.TFrozenWaterHS)MapF.FindOwnedHS(typeof(Aow.Game.Draw.TFrozenWaterHS));
+                        Ice = (Aow.Game.Draw.FrozenWaterHS)MapF.FindOwnedHS(typeof(Aow.Game.Draw.FrozenWaterHS));
                         if (Ice != null)
                         {
-                            Ice.FDaysRemaining = (sbyte)(3 + (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(11) - 5) / 5);
+                            Ice.FDaysRemaining = (sbyte)(3 + (Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5);
                             Ice.FCasterPlayer = FPlayer;
                         }
                     }
@@ -304,19 +304,19 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Storms.pas:373
-        public override void StormTerrainChanged(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
+        public override void StormTerrainChanged(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType)
         {
-            Aow.Game.Draw.TFrozenWaterHS Ice;
-            if (TSet<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)MapF.TerrainType) && !TSet<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)OriginalTerrainType))
+            Aow.Game.Draw.FrozenWaterHS Ice;
+            if (Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)MapF.TerrainType) && !Set<byte>.WithBounds(0, 255).With(6).With(13).Contains((byte)OriginalTerrainType))
             {
-                Ice = (Aow.Game.Draw.TFrozenWaterHS)MapF.FindOwnedHS(typeof(Aow.Game.Draw.TFrozenWaterHS));
+                Ice = (Aow.Game.Draw.FrozenWaterHS)MapF.FindOwnedHS(typeof(Aow.Game.Draw.FrozenWaterHS));
                 if (Ice == null)
                 {
-                    Ice = new Aow.Game.Draw.TFrozenWaterHS(null);
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
+                    Ice = new Aow.Game.Draw.FrozenWaterHS(null);
+                    Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Ice, MapF.Xhx, MapF.Yhx, MapF.Lhx);
                 }
 
-                Ice.FDaysRemaining = (sbyte)(3 + (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(11) - 5) / 5);
+                Ice.FDaysRemaining = (sbyte)(3 + (Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5);
                 Ice.FCasterPlayer = FPlayer;
             }
         }
@@ -325,7 +325,7 @@ namespace Aow.Game.Draw.Animation
         public override string StormFileName() => "EFFECTS\\STORM1.ILB";
 
         // Storms.pas:414
-        public override TStormType StormType() => TStormType.stIce;
+        public override global::Aow.Game.Magic.Spells.StormType StormType() => global::Aow.Game.Magic.Spells.StormType.Ice;
 
         // Animation.pas:43
 
@@ -334,16 +334,16 @@ namespace Aow.Game.Draw.Animation
 
     }
 
-    public partial class TDeathStorm : TBlastStorm
+    public partial class DeathStorm : BlastStorm
     {
-        public TDeathStorm(TECustomNode owner) : base(owner)
+        public DeathStorm(ECustomNode owner) : base(owner)
         { }
 
         // Storms.pas:492
         public new const int ClassID = 135741;
 
         // Storms.pas:502
-        public override void ChangeStormTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public override void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
             if (TerrainType != 0 && TerrainType != 6)
             {
@@ -355,7 +355,7 @@ namespace Aow.Game.Draw.Animation
         public override string StormFileName() => "EFFECTS\\STORMD.ILB";
 
         // Storms.pas:512
-        public override TStormType StormType() => TStormType.stDeath;
+        public override global::Aow.Game.Magic.Spells.StormType StormType() => global::Aow.Game.Magic.Spells.StormType.Death;
 
         // Animation.pas:43
 
@@ -364,16 +364,16 @@ namespace Aow.Game.Draw.Animation
 
     }
 
-    public partial class TDivineStorm : TBlastStorm
+    public partial class DivineStorm : BlastStorm
     {
-        public TDivineStorm(TECustomNode owner) : base(owner)
+        public DivineStorm(ECustomNode owner) : base(owner)
         { }
 
         // Storms.pas:608
         public new const int ClassID = 135740;
 
         // Storms.pas:618
-        public override void ChangeStormTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public override void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
             if (TerrainType != 6 && TerrainType != 0)
             {
@@ -385,7 +385,7 @@ namespace Aow.Game.Draw.Animation
         public override string StormFileName() => "EFFECTS\\STORMLGT.ILB";
 
         // Storms.pas:629
-        public override TStormType StormType() => TStormType.stHoly;
+        public override global::Aow.Game.Magic.Spells.StormType StormType() => global::Aow.Game.Magic.Spells.StormType.Holy;
 
         // Animation.pas:43
 
@@ -395,17 +395,17 @@ namespace Aow.Game.Draw.Animation
     }
 
     // storm image library
-    public partial class TLightningStorm : TStorm
+    public partial class LightningStorm : Storm
     {
-        public TLightningStorm(TECustomNode owner) : base(owner)
+        public LightningStorm(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 135739;
 
-        public TCustomImageLibrary FStormImages;
+        public CustomImageLibrary FStormImages;
 
         // Storms.pas:429
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
@@ -424,28 +424,28 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Storms.pas:487
-        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref TStormDamageInfo Info)
+        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
         {
-            Aow.Game.Magic.Abilities.AbilityRules.RetrieveStormDamageInfo(Player, TStormType.stLightning, X, Y, L, 0, 1, ref Info);
+            Aow.Game.Magic.Abilities.AbilityRules.RetrieveStormDamageInfo(Player, StormType.Lightning, X, Y, L, 0, 1, ref Info);
         }
 
         // Storms.pas:478
-        public override void UpdateTargetSelection(TTargetSelectionControl Selection)
+        public override void UpdateTargetSelection(TargetSelectionControl Selection)
         {
             base.UpdateTargetSelection(Selection);
             // { Original adds to the map selection, without clearing its existing hexes. }
             for (int I = 0, last = Aow.Game.World.Map.HexGeometry.RadToHN(2) - 1; I <= last; I++)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.FHNs.Add(0);
+                Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.FHNs.Add(0);
             }
         }
 
         // Storms.pas:443
         public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
         {
-            TRect R = default;
+            global::Aow.Rtl.Rect R = default;
             base.InitializeStorm(Player, X, Y, L);
-            FStormImages = Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.LinkToIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "EFFECTS\\LIGHTN.ILB");
+            FStormImages = Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.LinkToIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
             if (GetVisible())
             {
                 FStormImages.LoadDiscardableImageData();
@@ -456,8 +456,8 @@ namespace Aow.Game.Draw.Animation
             R.Top = -FStormImages[0].Height + 32;
             R.Bottom = 32;
             SetDimensions(R);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer, X, Y, L, 2);
-            PlaceHX(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, X, Y, L);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer, X, Y, L, 2);
+            PlaceHX(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, X, Y, L);
         }
 
         // Storms.pas:466
@@ -474,7 +474,7 @@ namespace Aow.Game.Draw.Animation
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
-                Aow.Game.Magic.Abilities.AbilityRules.TriggerStormDamage(TStormType.stLightning, GetXhx(), yhx, lhx, 0, 1, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer);
+                Aow.Game.Magic.Abilities.AbilityRules.TriggerStormDamage(StormType.Lightning, GetXhx(), yhx, lhx, 0, 1, Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
                 Result = false;
             }
             else
@@ -489,7 +489,7 @@ namespace Aow.Game.Draw.Animation
         public override void FinalizeStorm()
         {
             FStormImages.ReleaseDiscardableImageData();
-            Aow.Game.Engine.TAoWHSSet.AoWHSSet.ImageLibraryManager.ReleaseIL(TSet<TILManagerCategoryElement>.Of(TILManagerCategoryElement.icDisk), "EFFECTS\\LIGHTN.ILB");
+            Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager.ReleaseIL(Set<ILManagerCategoryElement>.Of(ILManagerCategoryElement.Disk), "EFFECTS\\LIGHTN.ILB");
             base.FinalizeStorm();
         }
 
@@ -500,26 +500,26 @@ namespace Aow.Game.Draw.Animation
 
     }
 
-    public partial class TFireStorm : TStorm
+    public partial class FireStorm : Storm
     {
-        public TFireStorm(TECustomNode owner) : base(owner)
+        public FireStorm(ECustomNode owner) : base(owner)
         { }
 
         // Storms.pas:517
         public new const int ClassID = 135742;
 
         // Storms.pas:527
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
             int Frame;
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             var yhx = GetYhx();
             Aow.Game.World.Map.HexGeometry.HXtoHP(GetXhx(), yhx, ref X, ref Y);
             X = X - XhpSurf + 8;
             Y = Y - YhpSurf;
-            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[0];
+            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[0];
             while (Sequence != null)
             {
                 Frame = Sequence.GetUnloopedFrameIndex(FFrameCounter);
@@ -533,55 +533,55 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Storms.pas:603
-        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref TStormDamageInfo Info)
+        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
         {
-            Aow.Game.Magic.Abilities.AbilityRules.RetrieveStormDamageInfo(Player, TStormType.stFire, X, Y, L, 0, 2, ref Info);
+            Aow.Game.Magic.Abilities.AbilityRules.RetrieveStormDamageInfo(Player, StormType.Fire, X, Y, L, 0, 2, ref Info);
         }
 
         // Storms.pas:594
-        public override void UpdateTargetSelection(TTargetSelectionControl Selection)
+        public override void UpdateTargetSelection(TargetSelectionControl Selection)
         {
             base.UpdateTargetSelection(Selection);
             // { Original adds to the map selection, without clearing its existing hexes. }
             for (int I = 0, last = Aow.Game.World.Map.HexGeometry.RadToHN(3) - 1; I <= last; I++)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.FHNs.Add(0);
+                Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.FHNs.Add(0);
             }
         }
 
         // Storms.pas:545
         public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
         {
-            TRect R = default;
+            global::Aow.Rtl.Rect R = default;
             base.InitializeStorm(Player, X, Y, L);
             R.Left = -80;
             R.Right = 96;
             R.Top = -80;
             R.Bottom = 96;
             SetDimensions(R);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer, X, Y, L, 2);
-            PlaceHX(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, X, Y, L);
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer, X, Y, L, 2);
+            PlaceHX(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, X, Y, L);
         }
 
         // Storms.pas:569
         public override bool UpdateStorm()
         {
             bool Result = default;
-            TImageSequence Sequence = default;
+            ImageSequence Sequence = default;
             int Frame = default;
             NewFrame();
             if (FFrameCounter == 20)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
-                Aow.Game.Magic.Abilities.AbilityRules.TriggerStormDamage(TStormType.stFire, GetXhx(), yhx, lhx, 0, 2, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer);
+                Aow.Game.Magic.Abilities.AbilityRules.TriggerStormDamage(StormType.Fire, GetXhx(), yhx, lhx, 0, 2, Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
                 var lhx2 = GetLhx();
                 var yhx2 = GetYhx();
                 var xhx = GetXhx();
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ChangeTerrainEx(this, xhx, yhx2, lhx2, 2, ChangeStormTerrain, null);
+                Aow.Game.World.Map.AoWHSMap.Current.ChangeTerrainEx(this, xhx, yhx2, lhx2, 2, ChangeStormTerrain, null);
             }
 
-            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[0];
+            Sequence = Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[0];
             Frame = -1;
             while (Sequence != null && Frame == -1)
             {
@@ -591,13 +591,13 @@ namespace Aow.Game.Draw.Animation
 
             if (Frame == 1)
             {
-                bool condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
+                bool condition = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
                 if (!condition)
                 {
                     var lhx = GetLhx();
                     var yhx = GetYhx();
                     var xhx = GetXhx();
-                    condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TerrainVisible(xhx, yhx, lhx, 2);
+                    condition = Aow.Game.World.Map.AoWHSMap.Current.TerrainVisible(xhx, yhx, lhx, 2);
                 }
 
                 if (condition)
@@ -626,7 +626,7 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Storms.pas:564
-        public void ChangeStormTerrain(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
+        public void ChangeStormTerrain(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType)
         {
             if (TerrainType == 6)
             {
@@ -642,23 +642,23 @@ namespace Aow.Game.Draw.Animation
     }
 
     // poison cloud resource
-    public partial class TPestilenceStorm : TStorm
+    public partial class PestilenceStorm : Storm
     {
-        public TPestilenceStorm(TECustomNode owner) : base(owner)
+        public PestilenceStorm(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 135745;
 
-        public TPoisonCloudResource FCloudResource;
+        public Aow.Game.World.PoisonCloud.Resource FCloudResource;
 
         // Storms.pas:644
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
         {
             int X = default;
             int Y = default;
             int Frame;
             int Blend;
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             var yhx = GetYhx();
             Aow.Game.World.Map.HexGeometry.HXtoHP(GetXhx(), yhx, ref X, ref Y);
             X = X - XhpSurf + 8;
@@ -687,49 +687,49 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Storms.pas:725
-        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref TStormDamageInfo Info)
+        public override void GetTargetDamageInfo(sbyte Player, sbyte X, sbyte Y, sbyte L, ref StormDamageInfo Info)
         {
-            Aow.Game.Magic.Abilities.AbilityRules.RetrieveStormDamageInfo(Player, TStormType.stPestilence, X, Y, L, 0, 2, ref Info);
+            Aow.Game.Magic.Abilities.AbilityRules.RetrieveStormDamageInfo(Player, StormType.Pestilence, X, Y, L, 0, 2, ref Info);
         }
 
         // Storms.pas:716
-        public override void UpdateTargetSelection(TTargetSelectionControl Selection)
+        public override void UpdateTargetSelection(TargetSelectionControl Selection)
         {
             base.UpdateTargetSelection(Selection);
             // { Original adds to the map selection without clearing its existing hexes. }
             for (int I = 0, last = Aow.Game.World.Map.HexGeometry.RadToHN(3) - 1; I <= last; I++)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.FHNs.Add(0);
+                Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.FHNs.Add(0);
             }
         }
 
         // Storms.pas:668
         public override void InitializeStorm(sbyte Player, sbyte X, sbyte Y, sbyte L)
         {
-            TRect R = default;
-            FCloudResource = (TPoisonCloudResource)Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList.FindChild(135744);
+            global::Aow.Rtl.Rect R = default;
+            FCloudResource = (Aow.Game.World.PoisonCloud.Resource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindChild(135744);
             base.InitializeStorm(Player, X, Y, L);
             R.Left = -80;
             R.Right = 96;
             R.Top = -80;
             R.Bottom = 96;
             SetDimensions(R);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer, X, Y, L, 2);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TerrainVisible(X, Y, L, 2))
+            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer, X, Y, L, 2);
+            if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.TerrainVisible(X, Y, L, 2))
             {
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(9).FCastSounds.Play(0);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(9).FCastSounds.Play(0);
             }
 
-            PlaceHX(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, X, Y, L);
+            PlaceHX(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, X, Y, L);
         }
 
         // Storms.pas:690
         public override bool UpdateStorm()
         {
             bool Result;
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             int Frame;
-            TPoisonCloud Cloud;
+            PoisonCloud Cloud;
             NewFrame();
             Sequence = FCloudResource.ImageSequenceList.ImageSequences[0];
             Frame = -1;
@@ -741,13 +741,13 @@ namespace Aow.Game.Draw.Animation
 
             if (Frame == -1)
             {
-                Cloud = (TPoisonCloud)FCloudResource.CreateResourceUser();
+                Cloud = (PoisonCloud)FCloudResource.CreateResourceUser();
                 Cloud.FTurnsRemaining = 3;
-                Cloud.FPlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer;
+                Cloud.FPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Cloud, xhx, yhx, lhx))
+                if (Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Cloud, xhx, yhx, lhx))
                 {
                     Cloud.TriggerDamage();
                 }
@@ -784,21 +784,21 @@ namespace Aow.Game.Commands
 {
 
     // storm, X, Y, layer
-    public partial class TStormSpellTE : TSpellTE
+    public partial class StormSpellTE : SpellTE
     {
-        public TStormSpellTE(TECustomNode owner) : base(owner)
+        public StormSpellTE(ECustomNode owner) : base(owner)
         { }
 
         // Storms.pas:730
         public new const int ClassID = 135937;
 
-        public TStorm FStorm;
+        public Storm FStorm;
         public sbyte FX;
         public sbyte FY;
         public sbyte FL;
 
         // Storms.pas:735
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FX), 20);
@@ -807,15 +807,15 @@ namespace Aow.Game.Commands
         }
 
         // Storms.pas:743
-        public override bool Process(TAbstractUnit source, int value)
+        public override bool Process(AbstractUnit source, int value)
         {
             bool Result;
             base.Process(source, value);
             if (value == 0)
             {
-                FStorm = ((TStormSpell)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID)).CreateStorm();
+                FStorm = ((StormSpell)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID)).CreateStorm();
                 FStorm.InitializeStorm(source.FPlayer, FX, FY, FL);
-                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+                Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             }
 
             if (!FStorm.UpdateStorm())
@@ -842,22 +842,22 @@ namespace Aow.Game.Magic.Spells
 {
 
     // targeting storm, caster
-    public partial class TStormSpell : TSpell
+    public partial class StormSpell : Spell
     {
-        public TStorm FTargetStorm;
-        public TAbstractUnit FSource;
+        public Storm FTargetStorm;
+        public AbstractUnit FSource;
 
         // Storms.pas:762
-        public TStormSpell(TECustomNode owner) : base(owner)
+        public StormSpell(ECustomNode owner) : base(owner)
         {
-            FSpellType = TSpellType.stGlobal;
+            FSpellType = SpellType.Global;
         }
 
         // Storms.pas:888
-        public override void AIPrefetchCastSpellActions(TAbstractUnit Source, TAICastSpellActionList Actions)
+        public override void AIPrefetchCastSpellActions(AbstractUnit Source, AICastSpellActionList Actions)
         {
             int Priority;
-            TAICastSpellAction Action;
+            AICastSpellAction Action;
             if (AIRequestCastSpellExpense(Source, FBaseManaCost, 0, 0))
             {
                 Priority = AICastSpellPriority(Source);
@@ -872,20 +872,20 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Storms.pas:906
-        public override bool AIExecuteCastSpellAction(TAbstractUnit Source)
+        public override bool AIExecuteCastSpellAction(AbstractUnit Source)
         {
             bool Result;
             string Reason = "";
-            TXYL Target = default;
+            XYL Target = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            TStorm Storm;
-            TStormDamageInfo Info = default;
+            Storm Storm;
+            StormDamageInfo Info = default;
             if (AICastSpellPriority(Source) != -1)
             {
                 AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, 0);
-                if (((THero)Source).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
+                if (((Hero)Source).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
                 {
                     Source.GetLocation(ref X, ref Y, ref L);
                     Storm = CreateStorm();
@@ -903,9 +903,9 @@ namespace Aow.Game.Magic.Spells
                 }
                 else
                 {
-                    if (((THero)Source).FCastingSpellID != FSpellID)
+                    if (((Hero)Source).FCastingSpellID != FSpellID)
                     {
-                        ((THero)Source).ExecuteStartCasting(FSpellID);
+                        ((Hero)Source).ExecuteStartCasting(FSpellID);
                         Result = true;
                     }
                     else
@@ -923,7 +923,7 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Storms.pas:809
-        public override bool CanActivate(TAbstractUnit Source, ref string MessageText)
+        public override bool CanActivate(AbstractUnit Source, ref string MessageText)
         {
             sbyte X = default;
             sbyte Y = default;
@@ -943,27 +943,27 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Storms.pas:825
-        public override bool Activate(TAbstractUnit Source)
+        public override bool Activate(AbstractUnit Source)
         {
             bool Result = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             string Reason = "";
-            TTargetSelectionControl Selection = default;
+            TargetSelectionControl Selection = default;
             base.Activate(Source);
             if (CanActivate(Source, ref Reason))
             {
                 FSource = Source;
                 Source.GetLocation(ref X, ref Y, ref L);
-                Selection = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection;
+                Selection = Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection;
                 FTargetStorm = CreateStorm();
                 Selection.Initialize(this);
-                Selection.FTargetMode = Selection.FTargetMode + TSet<TTargetSelectionModeElement>.Of(TTargetSelectionModeElement.tmValidateDistance, TTargetSelectionModeElement.tmExternalFloater);
+                Selection.FTargetMode = Selection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
                 Selection.FSourceX = X;
                 Selection.FSourceY = Y;
                 Selection.FSourceL = L;
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MakeVisible(X, Y, L, 5);
+                Aow.Game.World.Map.AoWHSMap.Current.MakeVisible(X, Y, L, 5);
                 var name = FTargetStorm.Name();
                 var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SelectTargetLocationForXOnMapRStr), [name]);
                 Selection.FText.Text = format;
@@ -971,11 +971,11 @@ namespace Aow.Game.Magic.Spells
                 Selection.FCancelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
                 Selection.FRange = 12;
                 Selection.FOnChange += OnTargetSelectionChange;
-                Selection.FSourceImage = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
-                Selection.FValidTargetImage = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
-                Selection.FInvalidTargetImage = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
+                Selection.FSourceImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
+                Selection.FValidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
+                Selection.FInvalidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
                 Selection.Activate();
-                FTargetStorm.UpdateTargetSelection(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection);
+                FTargetStorm.UpdateTargetSelection(Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection);
                 Result = true;
             }
             else
@@ -987,24 +987,24 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Storms.pas:156
-        public virtual TStorm CreateStorm()
+        public virtual Storm CreateStorm()
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Storms.pas:768
-        public virtual bool ExecuteStormSpell(TAbstractUnit Source, sbyte X, sbyte Y, sbyte L)
+        public virtual bool ExecuteStormSpell(AbstractUnit Source, sbyte X, sbyte Y, sbyte L)
         {
             bool Result;
-            TStormSpellTE TE;
-            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            StormSpellTE TE;
+            if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
-                TE = new TStormSpellTE(null);
+                TE = new StormSpellTE(null);
                 TE.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
                 TE.FX = X;
                 TE.FY = Y;
                 TE.FL = L;
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(TE);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -1017,16 +1017,16 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Storms.pas:860
-        public virtual int AICastSpellPriority(TAbstractUnit Source)
+        public virtual int AICastSpellPriority(AbstractUnit Source)
         {
             int Result;
-            TXYL Target = default;
+            XYL Target = default;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
             string Reason = "";
-            TStorm Storm;
-            TStormDamageInfo Info = default;
+            Storm Storm;
+            StormDamageInfo Info = default;
             int Damage;
             if (CanActivate(Source, ref Reason))
             {
@@ -1056,16 +1056,16 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Storms.pas:786
-        public void OnTargetSelectionChange(TTargetSelectionControl Selection)
+        public void OnTargetSelectionChange(TargetSelectionControl Selection)
         {
             switch (Selection.FChange)
             {
-                case TTargetSelectionChange.tscDeactivated:
+                case TargetSelectionChange.Deactivated:
                     FTargetStorm?.Dispose();
                     FTargetStorm = null;
                     Selection.FOnChange -= OnTargetSelectionChange;
                     break;
-                case TTargetSelectionChange.tscSelected:
+                case TargetSelectionChange.Selected:
                     Selection.FOnChange -= OnTargetSelectionChange;
                     if (ExecuteStormSpell(FSource, Selection.FTargetX, Selection.FTargetY, Selection.FTargetL))
                     {
@@ -1079,100 +1079,100 @@ namespace Aow.Game.Magic.Spells
         }
     }
 
-    public partial class TFireStormSpell : TStormSpell
+    public partial class FireStormSpell : StormSpell
     {
         // Storms.pas:939
-        public TFireStormSpell(TECustomNode owner) : base(owner)
+        public FireStormSpell(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.FireStormRStr);
             FSpellID = 3;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msFire;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
         }
 
         // Storms.pas:949
-        public override TStorm CreateStorm() => new TFireStorm(null);
+        public override Storm CreateStorm() => new FireStorm(null);
     }
 
-    public partial class TDivineStormSpell : TStormSpell
+    public partial class DivineStormSpell : StormSpell
     {
         // Storms.pas:954
-        public TDivineStormSpell(TECustomNode owner) : base(owner)
+        public DivineStormSpell(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.DivineStormRStr);
             FSpellID = 6;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msLife;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Life;
         }
 
         // Storms.pas:964
-        public override TStorm CreateStorm() => new TDivineStorm(null);
+        public override Storm CreateStorm() => new DivineStorm(null);
     }
 
-    public partial class TDeathStormSpell : TStormSpell
+    public partial class DeathStormSpell : StormSpell
     {
         // Storms.pas:969
-        public TDeathStormSpell(TECustomNode owner) : base(owner)
+        public DeathStormSpell(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.DeathStormRStr);
             FSpellID = 5;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msDeath;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
         }
 
         // Storms.pas:979
-        public override TStorm CreateStorm() => new TDeathStorm(null);
+        public override Storm CreateStorm() => new DeathStorm(null);
     }
 
-    public partial class TIceStormSpell : TStormSpell
+    public partial class IceStormSpell : StormSpell
     {
         // Storms.pas:984
-        public TIceStormSpell(TECustomNode owner) : base(owner)
+        public IceStormSpell(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.IceStormRStr);
             FSpellID = 4;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msAir;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Air;
         }
 
         // Storms.pas:994
-        public override TStorm CreateStorm() => new TIceStorm(null);
+        public override Storm CreateStorm() => new IceStorm(null);
     }
 
-    public partial class TLightningStormSpell : TStormSpell
+    public partial class LightningStormSpell : StormSpell
     {
         // Storms.pas:1014
-        public TLightningStormSpell(TECustomNode owner) : base(owner)
+        public LightningStormSpell(ECustomNode owner) : base(owner)
         {
             FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.LightningStormRStr);
             FSpellID = 7;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msAir;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Air;
         }
 
         // Storms.pas:1024
-        public override TStorm CreateStorm() => new TLightningStorm(null);
+        public override Storm CreateStorm() => new LightningStorm(null);
     }
 
-    public partial class TPestilenceStormSpell : TStormSpell
+    public partial class PestilenceStormSpell : StormSpell
     {
         // Storms.pas:999
-        public TPestilenceStormSpell(TECustomNode owner) : base(owner)
+        public PestilenceStormSpell(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.TPestilenceStormSpell.PestilenceRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.PestilenceStormSpell.PestilenceRStr);
             FSpellID = 9;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.TMagicSphere.msDeath;
+            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
         }
 
         // Storms.pas:1009
-        public override TStorm CreateStorm() => new TPestilenceStorm(null);
+        public override Storm CreateStorm() => new PestilenceStorm(null);
 
         private static readonly string PestilenceRStr = "Pestilence";
     }

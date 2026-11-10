@@ -12,15 +12,15 @@ public static class AudioHost
 {
     internal static string BaseSoundEnginePath = "";
 
-    public static TSongPlayer SongPlayer;
+    public static global::Aow.Game.Audio.SongPlayer SongPlayer;
 
-    public static TSoundSystem SoundSystem = default;
+    public static global::Aow.Game.Audio.SoundSystem SoundSystem = default;
 
-    internal static TSoundSystemList SoundSystems = default;
+    internal static SoundSystemList SoundSystems = default;
 
-    internal static TSampleDataList SampleDataList = default;
+    internal static global::Aow.Game.Audio.SampleDataList SampleDataList = default;
 
-    internal static TSampleList SampleList = default;
+    internal static global::Aow.Game.Audio.SampleList SampleList = default;
 
     internal static void Initialize()
     {
@@ -30,17 +30,17 @@ public static class AudioHost
         }
         else
         {
-            BaseSoundEnginePath = ExtractFilePath(Application.ExeName);
+            BaseSoundEnginePath = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName);
         }
 
-        SampleList = new TSampleList();
-        SampleDataList = new TSampleDataList();
+        SampleList = new global::Aow.Game.Audio.SampleList();
+        SampleDataList = new global::Aow.Game.Audio.SampleDataList();
         if (SoundSystems == null)
         {
-            SoundSystems = new TSoundSystemList();
+            SoundSystems = new SoundSystemList();
         }
 
-        SongPlayer = new TSongPlayer();
+        SongPlayer = new global::Aow.Game.Audio.SongPlayer();
     }
 
     internal static void Finalize()

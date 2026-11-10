@@ -1,14 +1,14 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.World.Structures;
-using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
+using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
 
 namespace Aow.Units.Tests;
 
 // Issue #90: Structur.PAS ShowBorderImage tiles quotient + 1 middle images between the bottom and top images.
 public sealed class StructureBorderTests
 {
-    private sealed class BorderStructure(LibraryImage top, LibraryImage middle, LibraryImage bottom) : TStructure(null!)
+    private sealed class BorderStructure(LibraryImage top, LibraryImage middle, LibraryImage bottom) : Structure(null!)
     {
         public override LibraryImage GetTopBorderImage() => top;
         public override LibraryImage GetMiddleBorderImage() => middle;
@@ -20,16 +20,16 @@ public sealed class StructureBorderTests
     private const int MiddleColor = 0x00FF00;
     private const int BottomColor = 0xFF0000;
 
-    private static LibraryImage Grab(TImageLibrary library, int height, int color)
+    private static LibraryImage Grab(ImageLibrary library, int height, int color)
     {
-        var surface = new TDIB16Surface(Width, height, Aow.Game.Draw.PixelFormats.pfRGB565);
-        var grab = new TGrabInfo { FileName = "border.bmp", FindRectangles = false };
-        TSurfaceDesc sd = default;
+        var surface = new DIB16Surface(Width, height, Aow.Game.Draw.PixelFormats.pfRGB565);
+        var grab = new GrabInfo { FileName = "border.bmp", FindRectangles = false };
+        SurfaceDesc sd = default;
         try
         {
             Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Cls(color));
             Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
-            Assert.Equal(0, LibraryImageClass.Of<TPicture16>().GrabImages(sd, grab, library, null!));
+            Assert.Equal(0, LibraryImageClass.Of<Picture16>().GrabImages(sd, grab, library, null!));
             return library[library.Count - 1];
         }
         finally
@@ -41,8 +41,8 @@ public sealed class StructureBorderTests
 
     private static int Pixel(int color)
     {
-        var surface = new TDIB16Surface(1, 1, Aow.Game.Draw.PixelFormats.pfRGB565);
-        TSurfaceDesc sd = default;
+        var surface = new DIB16Surface(1, 1, Aow.Game.Draw.PixelFormats.pfRGB565);
+        SurfaceDesc sd = default;
         surface.Cls(color);
         surface.Lock(ref sd);
         int pixel = sd.View().Word(0);
@@ -58,18 +58,18 @@ public sealed class StructureBorderTests
         // (20 - 5) div 4 = 3, so the loop draws four middle tiles at rows 11, 7, 3 and -1. Only the
         // fourth tile paints rows 1 and 2, so three iterations leave them blank.
         const int height = 20;
-        var library = new TImageLibrary(null!);
-        var target = new TDIB16Surface(Width, height, Aow.Game.Draw.PixelFormats.pfRGB565);
+        var library = new ImageLibrary(null!);
+        var target = new DIB16Surface(Width, height, Aow.Game.Draw.PixelFormats.pfRGB565);
         var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
-        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
+        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
             var top = Grab(library, 1, TopColor);
             var middle = Grab(library, 4, MiddleColor);
             var bottom = Grab(library, 5, BottomColor);
             var structure = new BorderStructure(top, middle, bottom);
-            TSurfaceDesc sd = default;
+            SurfaceDesc sd = default;
             Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, target.Cls(0));
             Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, target.Lock(ref sd));
             Assert.True(structure.ShowBorderImage(sd, Runtime.Rect(0, 0, Width, height)));

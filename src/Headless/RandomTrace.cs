@@ -20,14 +20,14 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     public void Cost(int cost, int used) => writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "cost", frame = frame(), cost, used }));
 
-    public void Path(Aow.Game.Commands.TMoveTE move) => writer.WriteLine(JsonSerializer.Serialize(new
+    public void Path(Aow.Game.Commands.MoveTE move) => writer.WriteLine(JsonSerializer.Serialize(new
     {
         kind = "path",
         frame = frame(),
-        path = Enumerable.Range(0, move.FPath.Count).Select(i => unchecked((uint)move.FPath.List[i].XYL))
+        path = Enumerable.Range(0, move.FPath.Count).Select(i => unchecked((uint)move.FPath.List[i].Packed))
     }));
 
-    public void Sort(TList list, TListSortCompare compare)
+    public void Sort(DelphiList list, ListSortCompare compare)
     {
         if (compare.Method.Name is not ("CompareAIGroupTargetPriority" or "CompareTargetSetupPriority")) return;
         writer.WriteLine(JsonSerializer.Serialize(new
@@ -37,10 +37,10 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
             compare = compare.Method.Name,
             targets = Enumerable.Range(0, list.Count).Select(i =>
             {
-                var target = (Aow.Game.Ai.Groups.TAIGroupControlTarget)list[i]!;
+                var target = (Aow.Game.Ai.Groups.AIGroupControlTarget)list[i]!;
                 return new
                 {
-                    location = target.FLocation.XYL,
+                    location = target.FLocation.Packed,
                     points = target.FMovePoints,
                     priority = target.FData.Priority,
                     a = target.FDataA,
@@ -72,7 +72,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
         var stack = new StackTrace(1, true).GetFrames()
             .Where(f => f.GetMethod()?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
             .ToArray();
-        bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: "TAoWHSMap" };
+        bool map = stack.FirstOrDefault()?.GetMethod() is { Name: "Random", DeclaringType.Name: "AoWHSMap" };
         var caller = stack.Skip(map ? 1 : 0).FirstOrDefault();
         writer.WriteLine(JsonSerializer.Serialize(new
         {

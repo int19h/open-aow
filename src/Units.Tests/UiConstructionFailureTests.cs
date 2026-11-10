@@ -22,22 +22,22 @@ public sealed class UiConstructionFailureTests
         var engine = EngineFixture.Engine;
         var previousLoaded = engine.FOnHSMLoadedStore;
         var previousClose = engine.FOnHSMCloseStore;
-        engine.FOnHSMLoadedStore = new EventStore<THSMap>();
-        engine.FOnHSMCloseStore = new EventStore<THSMap>();
+        engine.FOnHSMLoadedStore = new EventStore<HSMap>();
+        engine.FOnHSMCloseStore = new EventStore<HSMap>();
         Aow.Game.Magic.Abilities.GameTables.AoWEngine = engine;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
-        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = null!;
-        var owner = new TComponent(null!);
+        Aow.Game.World.Map.AoWHSMap.Current = null!;
+        Aow.Game.Combat.AoWCombatMap.Current = null!;
+        var owner = new global::Aow.Rtl.Component(null!);
         try
         {
-            TComponent value = family switch
+            global::Aow.Rtl.Component value = family switch
             {
-                0 => new TAoWMapControl(owner),
-                1 => new TAoWCombatMapControl(owner),
-                2 => new THexagonSpriteEngine(owner),
-                3 => new TAgeOfWondersEngine(owner),
-                4 => new TInterfaceIL(owner),
-                _ => new THSLibrary(owner)
+                0 => new AoWMapControl(owner),
+                1 => new AoWCombatMapControl(owner),
+                2 => new HexagonSpriteEngine(owner),
+                3 => new AgeOfWondersEngine(owner),
+                4 => new InterfaceIL(owner),
+                _ => new HSLibrary(owner)
             };
             Assert.Same(owner, value.Owner);
             Assert.Same(value, owner.Components[0]);

@@ -14,35 +14,35 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TDWin : TDataModule
+public partial class DWin : DataModule
 {
-    public TDWin(TComponent owner) : base(owner)
+    public DWin(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dialog;
-    public TAOWLabel DTitle;
-    public TAOWLabel DMessage;
-    public TAOWButton DButton;
-    public TAOWWindow DebugWin;
-    public TAOWLabel DebugDTitle;
-    public TAOWButton DebugDOkBtn;
-    public TAOWLabel FrameLbl;
-    public TAOWLabel DebugDfrTitle;
-    public TAOWMemo DebugMemo;
-    public TAOWVScrollBar DMemoScroll;
-    public TAOWPanel okPnl;
-    public TAOWPanel yesPnl;
-    public TAOWButton yesBtn;
-    public TAOWButton noBtn;
-    public TAoWFrame BCeltL;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCeltLineL;
-    public TAOWImage AOWImage1;
-    public TAOWImage AOWImage2;
-    public TAoWFrame AoWFrame1;
-    public TAoWFrame SignBLine;
-    public TAOWImage SIcon;
-    public TIvTranslator Translator;
+    public AOWWindow Dialog;
+    public AOWLabel DTitle;
+    public AOWLabel DMessage;
+    public AOWButton DButton;
+    public AOWWindow DebugWin;
+    public AOWLabel DebugDTitle;
+    public AOWButton DebugDOkBtn;
+    public AOWLabel FrameLbl;
+    public AOWLabel DebugDfrTitle;
+    public AOWMemo DebugMemo;
+    public AOWVScrollBar DMemoScroll;
+    public AOWPanel okPnl;
+    public AOWPanel yesPnl;
+    public AOWButton yesBtn;
+    public AOWButton noBtn;
+    public AoWFrame BCeltL;
+    public AoWFrame TCeltL;
+    public AOWImage TCeltLineL;
+    public AOWImage AOWImage1;
+    public AOWImage AOWImage2;
+    public AoWFrame AoWFrame1;
+    public AoWFrame SignBLine;
+    public AOWImage SIcon;
+    public IvTranslator Translator;
     public byte FAction;
     public bool FSkipCombatChoice;
 
@@ -88,7 +88,7 @@ public partial class TDWin : TDataModule
     public void yesBtnClick()
     {
         string Reason = "";
-        TStructure Structure;
+        Structure Structure;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         switch (FAction)
         {
@@ -99,9 +99,9 @@ public partial class TDWin : TDataModule
                 Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.Loot();
                 break;
             case 3:
-                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.CanRaze(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, ref Reason))
+                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.CanRaze(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason))
                 {
-                    if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.Raze(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
+                    if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.Raze(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
                     {
                         Structure = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure;
                         Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapStructureDeselected();
@@ -110,21 +110,21 @@ public partial class TDWin : TDataModule
                 }
                 else
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                    Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
                 }
 
                 break;
             case 4:
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).Surrender();
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).Surrender();
                 break;
             case 5:
                 Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.WorldPnl.Visible = false;
                 Aow.Game.Ui.Dialogs.DialogHosts.General.ReturnToTitle();
                 break;
             case 6:
-                if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap != null)
+                if (Aow.Game.Combat.AoWCombatMap.Current != null)
                 {
-                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Surrender(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer);
+                    Aow.Game.Combat.AoWCombatMap.Current.Surrender(Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer);
                 }
 
                 break;
@@ -140,7 +140,7 @@ public partial class TDWin : TDataModule
                     }
                     else
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                        Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
                     }
                 }
 
@@ -151,7 +151,7 @@ public partial class TDWin : TDataModule
     }
 
     // AOWDialogWin.pas:104
-    public void DialogKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DialogKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         switch (Key)
         {
@@ -172,7 +172,7 @@ public partial class TDWin : TDataModule
         }
     }
 
-    internal static void ConfirmDialog(TDWin Dialog, string Title, string Message, byte Kind)
+    internal static void ConfirmDialog(DWin Dialog, string Title, string Message, byte Kind)
     {
         Dialog.FAction = Kind;
         Dialog.DTitle.Text = Title;

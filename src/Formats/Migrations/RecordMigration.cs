@@ -79,6 +79,9 @@ internal static class RecordMigration
         return document;
     }
 
+    // The class-name step rewrites $class after this migration, so the chain asks for a second pass.
+    internal static void RefreshFingerprints(JsonObject document) => RefreshLayouts(document);
+
     // The fingerprint covers the visible values. A container and a nested campaign map use their
     // own profile. Every other object uses the profile of the document or map that holds it.
     private static void RefreshLayouts(JsonObject document)

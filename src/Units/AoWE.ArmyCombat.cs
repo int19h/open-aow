@@ -10,30 +10,30 @@ using Aow.Rtl;
 
 namespace Aow.Game.Commands;
 
-public partial class TArmyCombatMoveTE
+public partial class ArmyCombatMoveTE
 {
     public void ExecuteCombat()
     {
         if ((HeadlessHooks.Tactical || FrameFixtureInputs.Tactical) && (HeadlessHooks.TacticalBattles == 0 || HeadlessHooks.TacticalSelections < HeadlessHooks.TacticalBattles))
         {
-            FCombatType = TCombatType.ctTactical;
+            FCombatType = CombatType.Tactical;
             HeadlessHooks.TacticalSelections++;
         }
-        TCombatResult CombatResult = default;
-        TAoWMapField Field = default;
-        TAoWMapField Source = default;
+        CombatResult CombatResult = default;
+        AoWMapField Field = default;
+        AoWMapField Source = default;
         sbyte Defender = default;
-        TArmyHS OtherArmyHS = default;
-        TArmyHS ArmyHS = default;
-        TArmyHS MovedArmyHS = default;
-        TCombat Combat = default;
-        TMapFieldMsg Msg = default;
-        TUserEventLog Log = default;
-        TImageSequenceAnimation Anim = default;
-        TAbstractUnit AUnit = default;
+        ArmyHS OtherArmyHS = default;
+        ArmyHS ArmyHS = default;
+        global::Aow.Game.Draw.ArmyHS MovedArmyHS = default;
+        global::Aow.Game.Combat.Combat Combat = default;
+        MapFieldMsg Msg = default;
+        UserEventLog Log = default;
+        ImageSequenceAnimation Anim = default;
+        AbstractUnit AUnit = default;
         Field = GetMapF(FPath[0]);
         Defender = Field.GetPlayer();
-        Source = (TAoWMapField)FArmyHS.Owner;
+        Source = (AoWMapField)FArmyHS.Owner;
         FArmyHS.SetOwner(null);
         OtherArmyHS = Source.GetArmyHS();
         FArmyHS.SetOwner(Source);
@@ -42,12 +42,12 @@ public partial class TArmyCombatMoveTE
             if ((FSelection & 1) != 0)
             {
                 var unit = FArmyHS.FArmy.GetUnit(I);
-                FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus + TSet<TUnitStatusElement>.Of(TUnitStatusElement.usMoving);
+                FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus + Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
             else
             {
                 var unit = FArmyHS.FArmy.GetUnit(I);
-                FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus - TSet<TUnitStatusElement>.Of(TUnitStatusElement.usMoving);
+                FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
             }
 
             FSelection = (byte)(int)(((uint)FSelection) >> 1);
@@ -56,27 +56,27 @@ public partial class TArmyCombatMoveTE
         if (OtherArmyHS != null)
         {
             FArmyHS.FArmy.BeginUpdate();
-            FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode + TSet<TArmyModeElement>.Of(TArmyModeElement.amDisableTerrainValidation);
+            FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode + Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
             for (int I = OtherArmyHS.FArmy.Count - 1; I >= 0; I--)
             {
                 AUnit = OtherArmyHS.FArmy.GetUnit(I);
-                AUnit.FUnitStatus = AUnit.FUnitStatus - TSet<TUnitStatusElement>.Of(TUnitStatusElement.usMoving);
+                AUnit.FUnitStatus = AUnit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                 FArmyHS.FArmy.AddUnit(AUnit);
             }
 
-            FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - TSet<TArmyModeElement>.Of(TArmyModeElement.amDisableTerrainValidation);
+            FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.DisableTerrainValidation);
             FArmyHS.FArmy.EndUpdate();
         }
 
         FArmyHS.CancelMove();
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.LockGameOverEvent();
-        if (FCombatType == TCombatType.ctFast)
+        Aow.Game.World.Map.AoWHSMap.Current.LockGameOverEvent();
+        if (FCombatType == CombatType.Fast)
         {
-            Combat = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CreateCombat(131760);
+            Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(131760);
         }
         else
         {
-            Combat = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CreateCombat(2228496);
+            Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(2228496);
         }
 
         var yhx = FArmyHS.GetYhx();
@@ -87,7 +87,7 @@ public partial class TArmyCombatMoveTE
         var fPathItem = FPath[0];
         var item2 = FPath[0];
         var xhx = FArmyHS.GetXhx();
-        Combat.Setup((byte)FArmyHS.FArmy.FPlayer, (byte)FArmyHS.FArmy.FIndependentRelation, xhx, yhx, lhx, (byte)player, independentRelation, item.X, fPathItem.Y, item2.L, FCombatType == TCombatType.ctFast);
+        Combat.Setup((byte)FArmyHS.FArmy.FPlayer, (byte)FArmyHS.FArmy.FIndependentRelation, xhx, yhx, lhx, (byte)player, independentRelation, item.X, fPathItem.Y, item2.L, FCombatType == CombatType.Fast);
         Combat.FOnExecuted = CombatExecuted;
         Msg.MsgID = 4359;
         Msg.Param[0] = Combat;
@@ -105,49 +105,49 @@ public partial class TArmyCombatMoveTE
         Combat.Initialize();
         Combat.Activate();
         CombatResult = Combat.Execute();
-        FCombatMode = TCombatMoveMode.cmCombatExecuted;
-        if (CombatResult != TCombatResult.crBusy)
+        FCombatMode = CombatMoveMode.CombatExecuted;
+        if (CombatResult != global::Aow.Game.Combat.CombatResult.Busy)
         {
             Combat.Deactivate();
             Combat.Finalize();
-            if (Combat is TFastCombat)
+            if (Combat is FastCombat)
             {
-                Aow.Game.Commands.TArmyCombatMoveTE.DistributeCombatEvent(Combat.FLogbook, true);
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRequestCombatType && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Defender)
+                Aow.Game.Commands.ArmyCombatMoveTE.DistributeCombatEvent(Combat.FLogbook, true);
+                if (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Defender)
                 {
-                    Log = new TUserEventLog(null);
+                    Log = new UserEventLog(null);
                     Log.FData = this;
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
+                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, RestoreHotSeatModeCallBack);
                     Log.Release();
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAIExecuter.Lock();
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.LockGameOverEvent();
-                    FCombatMode = TCombatMoveMode.cmRestoringHotseat;
+                    Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.Lock();
+                    Aow.Game.World.Map.AoWHSMap.Current.LockGameOverEvent();
+                    FCombatMode = CombatMoveMode.RestoringHotseat;
                 }
             }
 
-            bool condition = CombatResult != TCombatResult.crNoDefenders;
+            bool condition = CombatResult != global::Aow.Game.Combat.CombatResult.NoDefenders;
             if (condition)
             {
                 var item3 = FPath[0];
                 var item4 = FPath[0];
                 var item5 = FPath[0];
-                condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.VisibleForPlayer(item5.X, item4.Y, item3.L, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+                condition = Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(item5.X, item4.Y, item3.L, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
             }
 
             if (condition)
             {
-                Anim = new TImageSequenceAnimation(null);
-                Anim.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[22]);
+                Anim = new ImageSequenceAnimation(null);
+                Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[22]);
                 var item3 = FPath[0];
                 var item4 = FPath[0];
                 var item5 = FPath[0];
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, item5.X, item4.Y, item3.L);
+                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, item5.X, item4.Y, item3.L);
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DestroyCombat();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnlockGameOverEvent();
-            FArmyHS = (TArmyHS)GetMapF(FPath[FMoveIndex]).FindOwnedChild(131607);
-            if (FArmyHS != null && TSet<TCombatResult>.Of(TCombatResult.crCannotInflictDamage, TCombatResult.crUndecided, TCombatResult.crCannotBreachWall, TCombatResult.crFled).Contains(CombatResult))
+            Aow.Game.World.Map.AoWHSMap.Current.DestroyCombat();
+            Aow.Game.World.Map.AoWHSMap.Current.UnlockGameOverEvent();
+            FArmyHS = (global::Aow.Game.Draw.ArmyHS)GetMapF(FPath[FMoveIndex]).FindOwnedChild(131607);
+            if (FArmyHS != null && Set<global::Aow.Game.Combat.CombatResult>.Of(global::Aow.Game.Combat.CombatResult.CannotInflictDamage, global::Aow.Game.Combat.CombatResult.Undecided, global::Aow.Game.Combat.CombatResult.CannotBreachWall, global::Aow.Game.Combat.CombatResult.Fled).Contains(CombatResult))
             {
                 FinishMove();
                 FArmyHS = null;
@@ -157,17 +157,17 @@ public partial class TArmyCombatMoveTE
             {
                 FArmyHS.CancelMove();
                 FArmyHS.FArmy.BeginUpdate();
-                ArmyHS = new TArmyHS(null);
+                ArmyHS = new global::Aow.Game.Draw.ArmyHS(null);
                 ArmyHS.FArmy.BeginUpdate();
                 ArmyHS.FArmy.AssignSettings(FArmyHS.FArmy);
                 ArmyHS.FDirection = FArmyHS.FDirection;
                 ArmyHS.FArmy.SetPlayer(FArmyHS.FArmy.FPlayer);
                 for (int I = FArmyHS.FArmy.Count - 1; I >= 0; I--)
                 {
-                    if (FArmyHS.FArmy.GetUnit(I).FUnitStatus.Contains(TUnitStatusElement.usMoving))
+                    if (FArmyHS.FArmy.GetUnit(I).FUnitStatus.Contains(UnitStatusElement.Moving))
                     {
                         var unit = FArmyHS.FArmy.GetUnit(I);
-                        FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus - TSet<TUnitStatusElement>.Of(TUnitStatusElement.usMoving);
+                        FArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                         var fArmyUnit = FArmyHS.FArmy.GetUnit(I);
                         ArmyHS.FArmy.AddUnit(fArmyUnit);
                     }
@@ -179,20 +179,20 @@ public partial class TArmyCombatMoveTE
                     var item3 = FPath[FMoveIndex];
                     var item4 = FPath[FMoveIndex];
                     var item5 = FPath[FMoveIndex];
-                    ArmyHS.PlacePrivate(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer, item5.X, item4.Y, item3.L);
+                    ArmyHS.PlacePrivate(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, item5.X, item4.Y, item3.L);
                     if (FArmyHS.GetSelected())
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Selection.UnselectLocation();
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Selection.SelectLocationHS(ArmyHS);
+                        Aow.Game.World.Map.AoWHSMap.Current.Selection.UnselectLocation();
+                        Aow.Game.World.Map.AoWHSMap.Current.Selection.SelectLocationHS(ArmyHS);
                     }
 
-                    FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving);
+                    FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
                     FArmyHS.FArmy.EndUpdate();
                     MovedArmyHS = ArmyHS;
                     FArmyHS = MovedArmyHS;
-                    MovedArmyHS.FArmy.FMode = MovedArmyHS.FArmy.FMode + TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving);
+                    MovedArmyHS.FArmy.FMode = MovedArmyHS.FArmy.FMode + Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
                     FSelection = 255;
-                    if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crNoDefenders).Contains(CombatResult) || base.CanMoveNext())
+                    if (Set<global::Aow.Game.Combat.CombatResult>.Of(global::Aow.Game.Combat.CombatResult.Victory, global::Aow.Game.Combat.CombatResult.NoDefenders).Contains(CombatResult) || base.CanMoveNext())
                     {
                         var direction = GetDirection(FMoveIndex);
                         FArmyHS.MoveFirst(direction, false);
@@ -208,7 +208,7 @@ public partial class TArmyCombatMoveTE
                 else
                 {
                     // { The original drops the empty new army without freeing it. }
-                    FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - TSet<TArmyModeElement>.Of(TArmyModeElement.amMoving);
+                    FArmyHS.FArmy.FMode = FArmyHS.FArmy.FMode - Set<ArmyModeElement>.Of(ArmyModeElement.Moving);
                     FArmyHS.FArmy.EndUpdate();
                     FArmyHS = null;
                 }
@@ -216,7 +216,7 @@ public partial class TArmyCombatMoveTE
         }
         else
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnlockGameOverEvent();
+            Aow.Game.World.Map.AoWHSMap.Current.UnlockGameOverEvent();
             FArmyHS = null;
             FinishMove();
         }

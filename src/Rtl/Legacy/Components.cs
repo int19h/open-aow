@@ -5,15 +5,15 @@ using System.Reflection;
 namespace Aow.Rtl;
 
 [LegacyObject]
-public class TPersistent : IDisposable
+public class Persistent : IDisposable
 {
     // CLASSES.PAS TPersistent.Assign, AssignTo and AssignError.
-    public virtual void Assign(TPersistent? source) { if (source is null) AssignError(null); else source.AssignTo(this); }
+    public virtual void Assign(Persistent? source) { if (source is null) AssignError(null); else source.AssignTo(this); }
 
-    protected internal virtual void AssignTo(TPersistent target) => target.AssignError(this);
-    protected void AssignError(TPersistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : source.GetType().Name)} to a {GetType().Name}");
+    protected internal virtual void AssignTo(Persistent target) => target.AssignError(this);
+    protected void AssignError(Persistent? source) => throw new FormatException($"Cannot assign a {(source is null ? "nil" : source.GetType().Name)} to a {GetType().Name}");
     // CLASSES.PAS TPersistent.GetOwner and GetNamePath.
-    public virtual TPersistent? GetOwner() => null;
+    public virtual Persistent? GetOwner() => null;
 
     public virtual string GetNamePath()
     {
@@ -23,43 +23,40 @@ public class TPersistent : IDisposable
     }
 
     // CLASSES.PAS TPersistent.DefineProperties.
-    public virtual void DefineProperties(TFiler? filer) { }
+    public virtual void DefineProperties(Filer? filer) { }
 
     public virtual void Dispose()
     {
     }
 
-    public TPersistent()
+    public Persistent()
     {
         CaptureAddress.Assign(this);
     }
 }
 
-public enum TOperation : byte { opInsert, opRemove }
+public enum ComponentState : byte { Loading, Reading, Writing, Destroying, Designing, Ancestor, Updating, Fixups }
 
-public enum TComponentState : byte { csLoading, csReading, csWriting, csDestroying, csDesigning, csAncestor, csUpdating, csFixups }
+public delegate void NotifyEvent<in TSender>(TSender sender);
 
-public delegate void TNotifyEvent<in TSender>(TSender sender);
-public delegate void TGetChildProc(TComponent child);
-
-public class TComponent : TPersistent
+public class Component : Persistent
 {
-    private readonly List<TComponent> children = [];
-    private List<TComponent>? freeNotifies;
+    private readonly List<global::Aow.Rtl.Component> children = [];
+    private List<global::Aow.Rtl.Component>? freeNotifies;
     private string name = "";
 
-    public TComponent(TComponent? owner = null) => owner?.InsertComponent(this);
+    public Component(global::Aow.Rtl.Component? owner = null) => owner?.InsertComponent(this);
 
-    public TComponent? Owner { get; private set; }
+    public global::Aow.Rtl.Component? Owner { get; private set; }
     public int Tag { get; set; }
     // The layout session sets the loading flags from outside the component.
-    public TSet<TComponentState> ComponentState { get; protected internal set; }
+    public Set<global::Aow.Rtl.ComponentState> ComponentState { get; protected internal set; }
     public int ComponentCount => children.Count;
 
     // CLASSES.PAS TComponent.GetComponent uses TList's range error.
-    public IndexedProperty<int, TComponent> Components => new(i =>
+    public IndexedProperty<int, global::Aow.Rtl.Component> Components => new(i =>
     {
-        if (i < 0 || i >= children.Count) TList.Error("List index out of bounds (%d)", i);
+        if (i < 0 || i >= children.Count) DelphiList.Error("List index out of bounds (%d)", i);
         return children[i];
     });
 
@@ -78,7 +75,7 @@ public class TComponent : TPersistent
         }
     }
 
-    protected virtual void ValidateRename(TComponent component, string oldName, string newName)
+    protected virtual void ValidateRename(global::Aow.Rtl.Component component, string oldName, string newName)
     {
         if (RtlUnit.CompareText(oldName, newName) != 0 && FindComponent(newName) is not null) throw new ArgumentException($"A component named {newName} already exists");
     }
@@ -96,24 +93,24 @@ public class TComponent : TPersistent
     }
 
     // CLASSES.PAS TComponent.InsertComponent.
-    public void InsertComponent(TComponent component)
+    public void InsertComponent(global::Aow.Rtl.Component component)
     {
         component.ValidateContainer(this); ValidateRename(component, "", component.name);
-        children.Add(component); component.Owner = this; Notification(component, TOperation.opInsert);
+        children.Add(component); component.Owner = this; Notification(component, Operation.Insert);
     }
 
-    protected virtual void ValidateContainer(TComponent container) => container.ValidateInsert(this);
+    protected virtual void ValidateContainer(global::Aow.Rtl.Component container) => container.ValidateInsert(this);
 
-    protected virtual void ValidateInsert(TComponent component) { }
+    protected virtual void ValidateInsert(global::Aow.Rtl.Component component) { }
 
     // CLASSES.PAS TComponent.RemoveComponent and Remove.
-    public void RemoveComponent(TComponent component) { Notification(component, TOperation.opRemove); component.Owner = null; children.Remove(component); ValidateRename(component, component.name, ""); }
+    public void RemoveComponent(global::Aow.Rtl.Component component) { Notification(component, Operation.Remove); component.Owner = null; children.Remove(component); ValidateRename(component, component.name, ""); }
 
     // CLASSES.PAS TComponent.FindComponent.
-    public TComponent? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => RtlUnit.CompareText(c.name, value) == 0);
+    public global::Aow.Rtl.Component? FindComponent(string value) => value.Length == 0 ? null : children.FirstOrDefault(c => RtlUnit.CompareText(c.name, value) == 0);
 
     // CLASSES.PAS TComponent.FreeNotification establishes reciprocal notifications.
-    public void FreeNotification(TComponent component)
+    public void FreeNotification(global::Aow.Rtl.Component component)
     {
         if (Owner is not null && component.Owner == Owner) return;
         freeNotifies ??= [];
@@ -121,17 +118,17 @@ public class TComponent : TPersistent
     }
 
     // CLASSES.PAS TComponent.Notification.
-    public virtual void Notification(TComponent component, TOperation operation)
+    public virtual void Notification(global::Aow.Rtl.Component component, Operation operation)
     {
-        if (operation == TOperation.opRemove && freeNotifies is not null) { freeNotifies.Remove(component); if (freeNotifies.Count == 0) freeNotifies = null; }
+        if (operation == Operation.Remove && freeNotifies is not null) { freeNotifies.Remove(component); if (freeNotifies.Count == 0) freeNotifies = null; }
         for (int i = 0; i < children.Count; i++) children[i].Notification(component, operation);
     }
 
     // CLASSES.PAS TComponent.Destroying marks the complete ownership tree first.
     public void Destroying()
     {
-        if (ComponentState.Contains(TComponentState.csDestroying)) return;
-        ComponentState = ComponentState.With(TComponentState.csDestroying);
+        if (ComponentState.Contains(global::Aow.Rtl.ComponentState.Destroying)) return;
+        ComponentState = ComponentState.With(global::Aow.Rtl.ComponentState.Destroying);
         foreach (var child in children) child.Destroying();
     }
 
@@ -149,23 +146,27 @@ public class TComponent : TPersistent
     {
         if (freeNotifies is not null)
         {
-            for (int i = 0; freeNotifies is not null && i < freeNotifies.Count; i++) freeNotifies[i].Notification(this, TOperation.opRemove);
+            for (int i = 0; freeNotifies is not null && i < freeNotifies.Count; i++) freeNotifies[i].Notification(this, Operation.Remove);
             freeNotifies = null;
         }
         Destroying(); DestroyComponents(); Owner?.RemoveComponent(this); base.Dispose();
     }
 
     // CLASSES.PAS TComponent.Loaded, GetNamePath, GetOwner and parent hooks.
-    public virtual void Loaded() => ComponentState = ComponentState.Without(TComponentState.csLoading);
+    public virtual void Loaded() => ComponentState = ComponentState.Without(global::Aow.Rtl.ComponentState.Loading);
     public override string GetNamePath() => Name;
-    public override TPersistent? GetOwner() => Owner;
+    public override Persistent? GetOwner() => Owner;
 
-    public virtual void GetChildren(TGetChildProc action, TComponent root) { }
+    public virtual void GetChildren(GetChildProc action, global::Aow.Rtl.Component root) { }
 
-    public virtual TComponent? GetParentComponent() => null;
+    public virtual global::Aow.Rtl.Component? GetParentComponent() => null;
     public virtual bool HasParent() => false;
 
-    public virtual void SetChildOrder(TComponent child, int order) { }
+    public virtual void SetChildOrder(global::Aow.Rtl.Component child, int order) { }
+
+    public enum Operation : byte { Insert, Remove }
+
+    public delegate void GetChildProc(global::Aow.Rtl.Component child);
 }
 
 [AttributeUsage(AttributeTargets.Property)]
@@ -178,8 +179,6 @@ public sealed class PublishedAttribute : Attribute
     public object? DefaultValue { get; }
 }
 
-public sealed record PublishedProperty(string Name, Type Type, object? DefaultValue, Action<object, object?> Setter);
-
 public static class Rtti
 {
     private static readonly ConcurrentDictionary<Type, IReadOnlyList<PublishedProperty>> cache = new();
@@ -188,4 +187,6 @@ public static class Rtti
         .Where(p => p.GetCustomAttribute<PublishedAttribute>() is not null && p.SetMethod is not null && p.GetIndexParameters().Length == 0)
         .OrderBy(p => p.Name, StringComparer.Ordinal)
         .Select(p => new PublishedProperty(p.Name, p.PropertyType, p.GetCustomAttribute<DefaultValueAttribute>()?.Value ?? p.GetCustomAttribute<PublishedAttribute>()!.DefaultValue, (o, v) => p.SetValue(o, v))).ToArray()));
+
+    public sealed record PublishedProperty(string Name, Type Type, object? DefaultValue, Action<object, object?> Setter);
 }

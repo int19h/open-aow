@@ -6,42 +6,42 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TLifeNode : TProductionPlace
+public partial class LifeNode : ProductionPlace
 {
-    public TLifeNode(TECustomNode owner) : base(owner)
+    public LifeNode(ECustomNode owner) : base(owner)
     { }
 
     // LifeNode.pas:37
     public new const int ClassID = 131953;
 
     // LifeNode.pas:40
-    public override TMagicSphere GetMagicSphere() => TMagicSphere.msLife;
+    public override MagicSphere GetMagicSphere() => MagicSphere.Life;
 
-}
-
-public partial class TLifeNodeResource : TProductionPlaceResource
-{
-    public TLifeNodeResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : ProductionPlaceResource
     {
-        FRazeDefenderBudget = 200;
-        FTerrainBound = false;
-        FRebuildGold = 25;
-        FRebuildDays = 2;
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            FRazeDefenderBudget = 200;
+            FTerrainBound = false;
+            FRebuildGold = 25;
+            FRebuildDays = 2;
+        }
+
+        // LifeNode.pas:55
+        public new const int ClassID = 131954;
+
+        // LifeNode.pas:43
+
+        // LifeNode.pas:58
+        public override int ResourceUserClassID() => 131953;
+
+        // LifeNode.pas:27
+
+        // LifeNode.pas:52
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.LifeNode.Resource.LifeNodeRStr);
+
+        private static readonly string LifeNodeRStr = "Life Node";
+
     }
-
-    // LifeNode.pas:55
-    public new const int ClassID = 131954;
-
-    // LifeNode.pas:43
-
-    // LifeNode.pas:58
-    public override int ResourceUserClassID() => 131953;
-
-    // LifeNode.pas:27
-
-    // LifeNode.pas:52
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TLifeNodeResource.LifeNodeRStr);
-
-    private static readonly string LifeNodeRStr = "Life Node";
 
 }

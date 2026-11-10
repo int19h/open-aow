@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TResultsWin : ILayoutModule
+public partial class ResultsWin : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -21,7 +21,7 @@ public partial class TResultsWin : ILayoutModule
         Name = "ResultsWin";
         LayoutOnCreate = _ => Layout_ResultsWinCreate_0();
         LayoutOnDestroy = _ => Layout_ResultsWinDestroy_1();
-        P1CB = new TAOWCheckBox(this);
+        P1CB = new AOWCheckBox(this);
         session.BeginRead(P1CB);
         P1CB.Name = "P1CB";
         P1CB.OnPreDraw = (sender, surface) => P1CBPreDraw(sender, surface, 0);
@@ -33,8 +33,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P1CB.CaptureInput = true;
-        P1CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P1CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P1CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P1CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P1CB.Alignment.HeightPercent = 0;
         P1CB.Alignment.WidthPercent = 0;
         P1CB.Alignment.LeftOffPercent = 0;
@@ -58,7 +58,7 @@ public partial class TResultsWin : ILayoutModule
         P1CB.OnChange = sender => P1CBChange(sender, 0);
         P1CB.RadioIndex = 1;
         session.EndRead(P1CB);
-        P2CB = new TAOWCheckBox(this);
+        P2CB = new AOWCheckBox(this);
         session.BeginRead(P2CB);
         P2CB.Name = "P2CB";
         P2CB.Tag = 1;
@@ -71,8 +71,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P2CB.CaptureInput = true;
-        P2CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P2CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P2CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P2CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P2CB.Alignment.HeightPercent = 0;
         P2CB.Alignment.WidthPercent = 0;
         P2CB.Alignment.LeftOffPercent = 0;
@@ -96,7 +96,7 @@ public partial class TResultsWin : ILayoutModule
         P2CB.OnChange = sender => P1CBChange(sender, 1);
         P2CB.RadioIndex = 1;
         session.EndRead(P2CB);
-        P3CB = new TAOWCheckBox(this);
+        P3CB = new AOWCheckBox(this);
         session.BeginRead(P3CB);
         P3CB.Name = "P3CB";
         P3CB.Tag = 2;
@@ -109,8 +109,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P3CB.CaptureInput = true;
-        P3CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P3CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P3CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P3CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P3CB.Alignment.HeightPercent = 0;
         P3CB.Alignment.WidthPercent = 0;
         P3CB.Alignment.LeftOffPercent = 0;
@@ -134,7 +134,7 @@ public partial class TResultsWin : ILayoutModule
         P3CB.OnChange = sender => P1CBChange(sender, 2);
         P3CB.RadioIndex = 1;
         session.EndRead(P3CB);
-        P4CB = new TAOWCheckBox(this);
+        P4CB = new AOWCheckBox(this);
         session.BeginRead(P4CB);
         P4CB.Name = "P4CB";
         P4CB.Tag = 3;
@@ -147,8 +147,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P4CB.CaptureInput = true;
-        P4CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P4CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P4CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P4CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P4CB.Alignment.HeightPercent = 0;
         P4CB.Alignment.WidthPercent = 0;
         P4CB.Alignment.LeftOffPercent = 0;
@@ -172,7 +172,7 @@ public partial class TResultsWin : ILayoutModule
         P4CB.OnChange = sender => P1CBChange(sender, 3);
         P4CB.RadioIndex = 1;
         session.EndRead(P4CB);
-        P5CB = new TAOWCheckBox(this);
+        P5CB = new AOWCheckBox(this);
         session.BeginRead(P5CB);
         P5CB.Name = "P5CB";
         P5CB.Tag = 4;
@@ -185,8 +185,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P5CB.CaptureInput = true;
-        P5CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P5CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P5CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P5CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P5CB.Alignment.HeightPercent = 0;
         P5CB.Alignment.WidthPercent = 0;
         P5CB.Alignment.LeftOffPercent = 0;
@@ -210,7 +210,7 @@ public partial class TResultsWin : ILayoutModule
         P5CB.OnChange = sender => P1CBChange(sender, 4);
         P5CB.RadioIndex = 1;
         session.EndRead(P5CB);
-        P6CB = new TAOWCheckBox(this);
+        P6CB = new AOWCheckBox(this);
         session.BeginRead(P6CB);
         P6CB.Name = "P6CB";
         P6CB.Tag = 5;
@@ -223,8 +223,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P6CB.CaptureInput = true;
-        P6CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P6CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P6CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P6CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P6CB.Alignment.HeightPercent = 0;
         P6CB.Alignment.WidthPercent = 0;
         P6CB.Alignment.LeftOffPercent = 0;
@@ -248,7 +248,7 @@ public partial class TResultsWin : ILayoutModule
         P6CB.OnChange = sender => P1CBChange(sender, 5);
         P6CB.RadioIndex = 1;
         session.EndRead(P6CB);
-        P7CB = new TAOWCheckBox(this);
+        P7CB = new AOWCheckBox(this);
         session.BeginRead(P7CB);
         P7CB.Name = "P7CB";
         P7CB.Tag = 6;
@@ -261,8 +261,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P7CB.CaptureInput = true;
-        P7CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P7CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P7CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P7CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P7CB.Alignment.HeightPercent = 0;
         P7CB.Alignment.WidthPercent = 0;
         P7CB.Alignment.LeftOffPercent = 0;
@@ -286,7 +286,7 @@ public partial class TResultsWin : ILayoutModule
         P7CB.OnChange = sender => P1CBChange(sender, 6);
         P7CB.RadioIndex = 1;
         session.EndRead(P7CB);
-        P8CB = new TAOWCheckBox(this);
+        P8CB = new AOWCheckBox(this);
         session.BeginRead(P8CB);
         P8CB.Name = "P8CB";
         P8CB.Tag = 7;
@@ -299,8 +299,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P8CB.CaptureInput = true;
-        P8CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P8CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P8CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P8CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P8CB.Alignment.HeightPercent = 0;
         P8CB.Alignment.WidthPercent = 0;
         P8CB.Alignment.LeftOffPercent = 0;
@@ -324,7 +324,7 @@ public partial class TResultsWin : ILayoutModule
         P8CB.OnChange = sender => P1CBChange(sender, 7);
         P8CB.RadioIndex = 1;
         session.EndRead(P8CB);
-        P9CB = new TAOWCheckBox(this);
+        P9CB = new AOWCheckBox(this);
         session.BeginRead(P9CB);
         P9CB.Name = "P9CB";
         P9CB.Tag = 8;
@@ -337,8 +337,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P9CB.CaptureInput = true;
-        P9CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P9CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P9CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P9CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P9CB.Alignment.HeightPercent = 0;
         P9CB.Alignment.WidthPercent = 0;
         P9CB.Alignment.LeftOffPercent = 0;
@@ -362,7 +362,7 @@ public partial class TResultsWin : ILayoutModule
         P9CB.OnChange = sender => P1CBChange(sender, 8);
         P9CB.RadioIndex = 1;
         session.EndRead(P9CB);
-        P10CB = new TAOWCheckBox(this);
+        P10CB = new AOWCheckBox(this);
         session.BeginRead(P10CB);
         P10CB.Name = "P10CB";
         P10CB.Tag = 9;
@@ -375,8 +375,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P10CB.CaptureInput = true;
-        P10CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P10CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P10CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P10CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P10CB.Alignment.HeightPercent = 0;
         P10CB.Alignment.WidthPercent = 0;
         P10CB.Alignment.LeftOffPercent = 0;
@@ -400,7 +400,7 @@ public partial class TResultsWin : ILayoutModule
         P10CB.OnChange = sender => P1CBChange(sender, 9);
         P10CB.RadioIndex = 1;
         session.EndRead(P10CB);
-        P11CB = new TAOWCheckBox(this);
+        P11CB = new AOWCheckBox(this);
         session.BeginRead(P11CB);
         P11CB.Name = "P11CB";
         P11CB.Tag = 10;
@@ -413,8 +413,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P11CB.CaptureInput = true;
-        P11CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P11CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P11CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P11CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P11CB.Alignment.HeightPercent = 0;
         P11CB.Alignment.WidthPercent = 0;
         P11CB.Alignment.LeftOffPercent = 0;
@@ -438,7 +438,7 @@ public partial class TResultsWin : ILayoutModule
         P11CB.OnChange = sender => P1CBChange(sender, 10);
         P11CB.RadioIndex = 1;
         session.EndRead(P11CB);
-        P12CB = new TAOWCheckBox(this);
+        P12CB = new AOWCheckBox(this);
         session.BeginRead(P12CB);
         P12CB.Name = "P12CB";
         P12CB.Tag = 11;
@@ -451,8 +451,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows this player's statistics."
         };
         P12CB.CaptureInput = true;
-        P12CB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        P12CB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        P12CB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        P12CB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         P12CB.Alignment.HeightPercent = 0;
         P12CB.Alignment.WidthPercent = 0;
         P12CB.Alignment.LeftOffPercent = 0;
@@ -476,15 +476,15 @@ public partial class TResultsWin : ILayoutModule
         P12CB.OnChange = sender => P1CBChange(sender, 11);
         P12CB.RadioIndex = 1;
         session.EndRead(P12CB);
-        StrLbl = new TAOWLabel(this);
+        StrLbl = new AOWLabel(this);
         session.BeginRead(StrLbl);
         StrLbl.Name = "StrLbl";
         StrLbl.Priority = 100;
         StrLbl.WinLeft = 130;
         StrLbl.WinTop = 35;
         StrLbl.CaptureInput = true;
-        StrLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        StrLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StrLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        StrLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         StrLbl.Alignment.HeightPercent = 0;
         StrLbl.Alignment.WidthPercent = 0;
         StrLbl.Alignment.LeftOffPercent = 0;
@@ -499,15 +499,15 @@ public partial class TResultsWin : ILayoutModule
         StrLbl.Text = "Side Dominance";
         StrLbl.TextColor = 0;
         session.EndRead(StrLbl);
-        TurnLbl = new TAOWLabel(this);
+        TurnLbl = new AOWLabel(this);
         session.BeginRead(TurnLbl);
         TurnLbl.Name = "TurnLbl";
         TurnLbl.Priority = 100;
         TurnLbl.WinLeft = 465;
         TurnLbl.WinTop = 175;
         TurnLbl.CaptureInput = true;
-        TurnLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TurnLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TurnLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TurnLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         TurnLbl.Alignment.HeightPercent = 0;
         TurnLbl.Alignment.WidthPercent = 0;
         TurnLbl.Alignment.LeftOffPercent = 0;
@@ -522,7 +522,7 @@ public partial class TResultsWin : ILayoutModule
         TurnLbl.Text = "Turns";
         TurnLbl.TextColor = 0;
         session.EndRead(TurnLbl);
-        ResNames = new TAOWMemo(this);
+        ResNames = new AOWMemo(this);
         session.BeginRead(ResNames);
         ResNames.Name = "ResNames";
         ResNames.Visible = false;
@@ -530,8 +530,8 @@ public partial class TResultsWin : ILayoutModule
         ResNames.WinLeft = 220;
         ResNames.WinTop = 227;
         ResNames.CaptureInput = false;
-        ResNames.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ResNames.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        ResNames.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ResNames.Alignment.AlignHeight = AOWAlignHeight.Both;
         ResNames.Alignment.HeightPercent = 0;
         ResNames.Alignment.WidthPercent = 0;
         ResNames.Alignment.LeftOffPercent = 0;
@@ -555,9 +555,9 @@ public partial class TResultsWin : ILayoutModule
         ResNames.ILIndexTexture = 19;
         ResNames.ItemHeight = 17;
         ResNames.ColorChangeChar = 0;
-        ResNames.TextAlign = TaowTextAlign.taLeft;
+        ResNames.TextAlign = TaowTextAlign.Left;
         session.EndRead(ResNames);
-        ResValues = new TAOWMemo(this);
+        ResValues = new AOWMemo(this);
         session.BeginRead(ResValues);
         ResValues.Name = "ResValues";
         ResValues.Visible = false;
@@ -565,8 +565,8 @@ public partial class TResultsWin : ILayoutModule
         ResValues.WinLeft = 370;
         ResValues.WinTop = 227;
         ResValues.CaptureInput = false;
-        ResValues.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ResValues.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        ResValues.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ResValues.Alignment.AlignHeight = AOWAlignHeight.Both;
         ResValues.Alignment.HeightPercent = 0;
         ResValues.Alignment.WidthPercent = 0;
         ResValues.Alignment.LeftOffPercent = 0;
@@ -590,17 +590,17 @@ public partial class TResultsWin : ILayoutModule
         ResValues.ILIndexTexture = 19;
         ResValues.ItemHeight = 17;
         ResValues.ColorChangeChar = 0;
-        ResValues.TextAlign = TaowTextAlign.taCenter;
+        ResValues.TextAlign = TaowTextAlign.Center;
         session.EndRead(ResValues);
-        SideLbl = new TAOWLabel(this);
+        SideLbl = new AOWLabel(this);
         session.BeginRead(SideLbl);
         SideLbl.Name = "SideLbl";
         SideLbl.Priority = 100;
         SideLbl.WinLeft = 260;
         SideLbl.WinTop = 210;
         SideLbl.CaptureInput = true;
-        SideLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        SideLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SideLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        SideLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         SideLbl.Alignment.HeightPercent = 0;
         SideLbl.Alignment.WidthPercent = 0;
         SideLbl.Alignment.LeftOffPercent = 0;
@@ -614,7 +614,7 @@ public partial class TResultsWin : ILayoutModule
         SideLbl.Masked = true;
         SideLbl.TextColor = 0;
         session.EndRead(SideLbl);
-        Axis = new TAOWImage(this);
+        Axis = new AOWImage(this);
         session.BeginRead(Axis);
         Axis.Name = "Axis";
         Axis.OnDraw = (_, SurfDesc) => AxisDraw(SurfDesc);
@@ -622,8 +622,8 @@ public partial class TResultsWin : ILayoutModule
         Axis.WinLeft = 149;
         Axis.WinTop = 48;
         Axis.CaptureInput = true;
-        Axis.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Axis.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Axis.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Axis.Alignment.AlignHeight = AOWAlignHeight.Top;
         Axis.Alignment.HeightPercent = 0;
         Axis.Alignment.WidthPercent = 0;
         Axis.Alignment.LeftOffPercent = 0;
@@ -643,7 +643,7 @@ public partial class TResultsWin : ILayoutModule
         Axis.Animate = false;
         Axis.AnimFrameDelay = 0;
         session.EndRead(Axis);
-        ExitBtn = new TAOWButton(this);
+        ExitBtn = new AOWButton(this);
         session.BeginRead(ExitBtn);
         ExitBtn.Name = "ExitBtn";
         ExitBtn.Visible = false;
@@ -651,8 +651,8 @@ public partial class TResultsWin : ILayoutModule
         ExitBtn.WinLeft = 508;
         ExitBtn.WinTop = 449;
         ExitBtn.CaptureInput = true;
-        ExitBtn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        ExitBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ExitBtn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        ExitBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ExitBtn.Alignment.HeightPercent = 0;
         ExitBtn.Alignment.WidthPercent = 0;
         ExitBtn.Alignment.LeftOffPercent = 0;
@@ -675,15 +675,15 @@ public partial class TResultsWin : ILayoutModule
         ExitBtn.WinWidth = 120;
         ExitBtn.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(ExitBtn);
-        FaceGrid = new TAOWImage(this);
+        FaceGrid = new AOWImage(this);
         session.BeginRead(FaceGrid);
         FaceGrid.Name = "FaceGrid";
         FaceGrid.Priority = 40;
         FaceGrid.WinLeft = 10;
         FaceGrid.WinTop = 374;
         FaceGrid.CaptureInput = true;
-        FaceGrid.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        FaceGrid.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        FaceGrid.Alignment.AlignWidth = AOWAlignWidth.Center;
+        FaceGrid.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         FaceGrid.Alignment.HeightPercent = 0;
         FaceGrid.Alignment.WidthPercent = 0;
         FaceGrid.Alignment.LeftOffPercent = 0;
@@ -703,7 +703,7 @@ public partial class TResultsWin : ILayoutModule
         FaceGrid.Animate = false;
         FaceGrid.AnimFrameDelay = 0;
         session.EndRead(FaceGrid);
-        LoadBtn = new TAOWButton(this);
+        LoadBtn = new AOWButton(this);
         session.BeginRead(LoadBtn);
         LoadBtn.Name = "LoadBtn";
         LoadBtn.Visible = false;
@@ -711,8 +711,8 @@ public partial class TResultsWin : ILayoutModule
         LoadBtn.WinLeft = 11;
         LoadBtn.WinTop = 449;
         LoadBtn.CaptureInput = true;
-        LoadBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LoadBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        LoadBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LoadBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         LoadBtn.Alignment.HeightPercent = 0;
         LoadBtn.Alignment.WidthPercent = 0;
         LoadBtn.Alignment.LeftOffPercent = 0;
@@ -734,15 +734,15 @@ public partial class TResultsWin : ILayoutModule
         LoadBtn.TextSelColor = 0;
         LoadBtn.WinWidth = 120;
         session.EndRead(LoadBtn);
-        ContinueBtn = new TAOWButton(this);
+        ContinueBtn = new AOWButton(this);
         session.BeginRead(ContinueBtn);
         ContinueBtn.Name = "ContinueBtn";
         ContinueBtn.Priority = 100;
         ContinueBtn.WinLeft = 261;
         ContinueBtn.WinTop = 449;
         ContinueBtn.CaptureInput = true;
-        ContinueBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ContinueBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ContinueBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ContinueBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ContinueBtn.Alignment.HeightPercent = 0;
         ContinueBtn.Alignment.WidthPercent = 0;
         ContinueBtn.Alignment.LeftOffPercent = 0;
@@ -765,7 +765,7 @@ public partial class TResultsWin : ILayoutModule
         ContinueBtn.WinWidth = 119;
         ContinueBtn.OnClick = _ => Layout_ContinueBtnClick_3();
         session.EndRead(ContinueBtn);
-        ResultsPnl = new TAOWPanel(this);
+        ResultsPnl = new AOWPanel(this);
         session.BeginRead(ResultsPnl);
         ResultsPnl.Name = "ResultsPnl";
         ResultsPnl.OnUpdate = _ => Layout_ResultsPnlUpdate_4();
@@ -776,8 +776,8 @@ public partial class TResultsWin : ILayoutModule
         ResultsPnl.WinWidth = 640;
         ResultsPnl.Masked = true;
         ResultsPnl.OnShow = _ => Layout_ResultsPnlShow_5();
-        ResultsPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        ResultsPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        ResultsPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        ResultsPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         ResultsPnl.Alignment.HeightPercent = 0;
         ResultsPnl.Alignment.WidthPercent = 0;
         ResultsPnl.Alignment.LeftOffPercent = 0;
@@ -795,7 +795,7 @@ public partial class TResultsWin : ILayoutModule
         ResultsPnl.MinWidth = 640;
         ResultsPnl.MinHeight = 480;
         session.EndRead(ResultsPnl);
-        StrengthCB = new TAOWCheckBox(this);
+        StrengthCB = new AOWCheckBox(this);
         session.BeginRead(StrengthCB);
         StrengthCB.Name = "StrengthCB";
         StrengthCB.Priority = 100;
@@ -806,8 +806,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows a graph of player's overall strength."
         };
         StrengthCB.CaptureInput = true;
-        StrengthCB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        StrengthCB.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StrengthCB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        StrengthCB.Alignment.AlignHeight = AOWAlignHeight.Top;
         StrengthCB.Alignment.HeightPercent = 0;
         StrengthCB.Alignment.WidthPercent = 0;
         StrengthCB.Alignment.LeftOffPercent = 0;
@@ -831,7 +831,7 @@ public partial class TResultsWin : ILayoutModule
         StrengthCB.OnChange = _ => Layout_AgendaChange_6();
         StrengthCB.RadioIndex = 1;
         session.EndRead(StrengthCB);
-        AgendaPnl = new TAOWPanel(this);
+        AgendaPnl = new AOWPanel(this);
         session.BeginRead(AgendaPnl);
         AgendaPnl.Name = "AgendaPnl";
         AgendaPnl.Priority = 100;
@@ -839,8 +839,8 @@ public partial class TResultsWin : ILayoutModule
         AgendaPnl.WinTop = 70;
         AgendaPnl.WinWidth = 100;
         AgendaPnl.Masked = true;
-        AgendaPnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        AgendaPnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        AgendaPnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        AgendaPnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         AgendaPnl.Alignment.HeightPercent = 0;
         AgendaPnl.Alignment.WidthPercent = 0;
         AgendaPnl.Alignment.LeftOffPercent = 0;
@@ -858,15 +858,15 @@ public partial class TResultsWin : ILayoutModule
         AgendaPnl.MinWidth = 0;
         AgendaPnl.MinHeight = 0;
         session.EndRead(AgendaPnl);
-        StrengthLbl = new TAOWLabel(this);
+        StrengthLbl = new AOWLabel(this);
         session.BeginRead(StrengthLbl);
         StrengthLbl.Name = "StrengthLbl";
         StrengthLbl.Priority = 100;
         StrengthLbl.WinLeft = 15;
         StrengthLbl.WinTop = 7;
         StrengthLbl.CaptureInput = true;
-        StrengthLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        StrengthLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StrengthLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        StrengthLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         StrengthLbl.Alignment.HeightPercent = 0;
         StrengthLbl.Alignment.WidthPercent = 0;
         StrengthLbl.Alignment.LeftOffPercent = 0;
@@ -881,7 +881,7 @@ public partial class TResultsWin : ILayoutModule
         StrengthLbl.Text = "Winning";
         StrengthLbl.TextColor = 0;
         session.EndRead(StrengthLbl);
-        GoldCB = new TAOWCheckBox(this);
+        GoldCB = new AOWCheckBox(this);
         session.BeginRead(GoldCB);
         GoldCB.Name = "GoldCB";
         GoldCB.Priority = 100;
@@ -892,8 +892,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows a graph of player's gold."
         };
         GoldCB.CaptureInput = true;
-        GoldCB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        GoldCB.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        GoldCB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        GoldCB.Alignment.AlignHeight = AOWAlignHeight.Top;
         GoldCB.Alignment.HeightPercent = 0;
         GoldCB.Alignment.WidthPercent = 0;
         GoldCB.Alignment.LeftOffPercent = 0;
@@ -917,15 +917,15 @@ public partial class TResultsWin : ILayoutModule
         GoldCB.OnChange = _ => Layout_AgendaChange_6();
         GoldCB.RadioIndex = 1;
         session.EndRead(GoldCB);
-        GoldLbl = new TAOWLabel(this);
+        GoldLbl = new AOWLabel(this);
         session.BeginRead(GoldLbl);
         GoldLbl.Name = "GoldLbl";
         GoldLbl.Priority = 100;
         GoldLbl.WinLeft = 15;
         GoldLbl.WinTop = 37;
         GoldLbl.CaptureInput = true;
-        GoldLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        GoldLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        GoldLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        GoldLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         GoldLbl.Alignment.HeightPercent = 0;
         GoldLbl.Alignment.WidthPercent = 0;
         GoldLbl.Alignment.LeftOffPercent = 0;
@@ -940,7 +940,7 @@ public partial class TResultsWin : ILayoutModule
         GoldLbl.Text = "Gold";
         GoldLbl.TextColor = 0;
         session.EndRead(GoldLbl);
-        ArmiesCB = new TAOWCheckBox(this);
+        ArmiesCB = new AOWCheckBox(this);
         session.BeginRead(ArmiesCB);
         ArmiesCB.Name = "ArmiesCB";
         ArmiesCB.Priority = 100;
@@ -951,8 +951,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows a graph of player's army strength."
         };
         ArmiesCB.CaptureInput = true;
-        ArmiesCB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ArmiesCB.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ArmiesCB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ArmiesCB.Alignment.AlignHeight = AOWAlignHeight.Top;
         ArmiesCB.Alignment.HeightPercent = 0;
         ArmiesCB.Alignment.WidthPercent = 0;
         ArmiesCB.Alignment.LeftOffPercent = 0;
@@ -976,15 +976,15 @@ public partial class TResultsWin : ILayoutModule
         ArmiesCB.OnChange = _ => Layout_AgendaChange_6();
         ArmiesCB.RadioIndex = 1;
         session.EndRead(ArmiesCB);
-        ArmiesLbl = new TAOWLabel(this);
+        ArmiesLbl = new AOWLabel(this);
         session.BeginRead(ArmiesLbl);
         ArmiesLbl.Name = "ArmiesLbl";
         ArmiesLbl.Priority = 100;
         ArmiesLbl.WinLeft = 15;
         ArmiesLbl.WinTop = 22;
         ArmiesLbl.CaptureInput = true;
-        ArmiesLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ArmiesLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ArmiesLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ArmiesLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         ArmiesLbl.Alignment.HeightPercent = 0;
         ArmiesLbl.Alignment.WidthPercent = 0;
         ArmiesLbl.Alignment.LeftOffPercent = 0;
@@ -999,7 +999,7 @@ public partial class TResultsWin : ILayoutModule
         ArmiesLbl.Text = "Armies";
         ArmiesLbl.TextColor = 0;
         session.EndRead(ArmiesLbl);
-        HeroesCB = new TAOWCheckBox(this);
+        HeroesCB = new AOWCheckBox(this);
         session.BeginRead(HeroesCB);
         HeroesCB.Name = "HeroesCB";
         HeroesCB.Priority = 100;
@@ -1010,8 +1010,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows a graph of player's number of heroes."
         };
         HeroesCB.CaptureInput = true;
-        HeroesCB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        HeroesCB.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        HeroesCB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        HeroesCB.Alignment.AlignHeight = AOWAlignHeight.Top;
         HeroesCB.Alignment.HeightPercent = 0;
         HeroesCB.Alignment.WidthPercent = 0;
         HeroesCB.Alignment.LeftOffPercent = 0;
@@ -1035,15 +1035,15 @@ public partial class TResultsWin : ILayoutModule
         HeroesCB.OnChange = _ => Layout_AgendaChange_6();
         HeroesCB.RadioIndex = 1;
         session.EndRead(HeroesCB);
-        HeroesLbl = new TAOWLabel(this);
+        HeroesLbl = new AOWLabel(this);
         session.BeginRead(HeroesLbl);
         HeroesLbl.Name = "HeroesLbl";
         HeroesLbl.Priority = 100;
         HeroesLbl.WinLeft = 15;
         HeroesLbl.WinTop = 67;
         HeroesLbl.CaptureInput = true;
-        HeroesLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        HeroesLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        HeroesLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        HeroesLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         HeroesLbl.Alignment.HeightPercent = 0;
         HeroesLbl.Alignment.WidthPercent = 0;
         HeroesLbl.Alignment.LeftOffPercent = 0;
@@ -1058,7 +1058,7 @@ public partial class TResultsWin : ILayoutModule
         HeroesLbl.Text = "Heroes";
         HeroesLbl.TextColor = 0;
         session.EndRead(HeroesLbl);
-        StructuresCB = new TAOWCheckBox(this);
+        StructuresCB = new AOWCheckBox(this);
         session.BeginRead(StructuresCB);
         StructuresCB.Name = "StructuresCB";
         StructuresCB.Priority = 100;
@@ -1069,8 +1069,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows a graph of player's number of structures."
         };
         StructuresCB.CaptureInput = true;
-        StructuresCB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        StructuresCB.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StructuresCB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        StructuresCB.Alignment.AlignHeight = AOWAlignHeight.Top;
         StructuresCB.Alignment.HeightPercent = 0;
         StructuresCB.Alignment.WidthPercent = 0;
         StructuresCB.Alignment.LeftOffPercent = 0;
@@ -1094,15 +1094,15 @@ public partial class TResultsWin : ILayoutModule
         StructuresCB.OnChange = _ => Layout_AgendaChange_6();
         StructuresCB.RadioIndex = 1;
         session.EndRead(StructuresCB);
-        StructuresLbl = new TAOWLabel(this);
+        StructuresLbl = new AOWLabel(this);
         session.BeginRead(StructuresLbl);
         StructuresLbl.Name = "StructuresLbl";
         StructuresLbl.Priority = 100;
         StructuresLbl.WinLeft = 15;
         StructuresLbl.WinTop = 82;
         StructuresLbl.CaptureInput = true;
-        StructuresLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        StructuresLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StructuresLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        StructuresLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         StructuresLbl.Alignment.HeightPercent = 0;
         StructuresLbl.Alignment.WidthPercent = 0;
         StructuresLbl.Alignment.LeftOffPercent = 0;
@@ -1117,15 +1117,15 @@ public partial class TResultsWin : ILayoutModule
         StructuresLbl.Text = "Structures";
         StructuresLbl.TextColor = 0;
         session.EndRead(StructuresLbl);
-        KeyMax = new TAOWLabel(this);
+        KeyMax = new AOWLabel(this);
         session.BeginRead(KeyMax);
         KeyMax.Name = "KeyMax";
         KeyMax.Priority = 100;
         KeyMax.WinLeft = 115;
         KeyMax.WinTop = 45;
         KeyMax.CaptureInput = true;
-        KeyMax.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        KeyMax.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        KeyMax.Alignment.AlignWidth = AOWAlignWidth.Right;
+        KeyMax.Alignment.AlignHeight = AOWAlignHeight.Top;
         KeyMax.Alignment.HeightPercent = 0;
         KeyMax.Alignment.WidthPercent = 0;
         KeyMax.Alignment.LeftOffPercent = 0;
@@ -1140,15 +1140,15 @@ public partial class TResultsWin : ILayoutModule
         KeyMax.Text = "Turns";
         KeyMax.TextColor = 0;
         session.EndRead(KeyMax);
-        KeyMin = new TAOWLabel(this);
+        KeyMin = new AOWLabel(this);
         session.BeginRead(KeyMin);
         KeyMin.Name = "KeyMin";
         KeyMin.Priority = 100;
         KeyMin.WinLeft = 135;
         KeyMin.WinTop = 160;
         KeyMin.CaptureInput = true;
-        KeyMin.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        KeyMin.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        KeyMin.Alignment.AlignWidth = AOWAlignWidth.Right;
+        KeyMin.Alignment.AlignHeight = AOWAlignHeight.Top;
         KeyMin.Alignment.HeightPercent = 0;
         KeyMin.Alignment.WidthPercent = 0;
         KeyMin.Alignment.LeftOffPercent = 0;
@@ -1163,7 +1163,7 @@ public partial class TResultsWin : ILayoutModule
         KeyMin.Text = "0";
         KeyMin.TextColor = 0;
         session.EndRead(KeyMin);
-        ManaCB = new TAOWCheckBox(this);
+        ManaCB = new AOWCheckBox(this);
         session.BeginRead(ManaCB);
         ManaCB.Name = "ManaCB";
         ManaCB.Priority = 100;
@@ -1174,8 +1174,8 @@ public partial class TResultsWin : ILayoutModule
             "Shows a graph of player's mana."
         };
         ManaCB.CaptureInput = true;
-        ManaCB.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ManaCB.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ManaCB.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ManaCB.Alignment.AlignHeight = AOWAlignHeight.Top;
         ManaCB.Alignment.HeightPercent = 0;
         ManaCB.Alignment.WidthPercent = 0;
         ManaCB.Alignment.LeftOffPercent = 0;
@@ -1198,15 +1198,15 @@ public partial class TResultsWin : ILayoutModule
         ManaCB.Checked = false;
         ManaCB.RadioIndex = 1;
         session.EndRead(ManaCB);
-        ManaLbl = new TAOWLabel(this);
+        ManaLbl = new AOWLabel(this);
         session.BeginRead(ManaLbl);
         ManaLbl.Name = "ManaLbl";
         ManaLbl.Priority = 100;
         ManaLbl.WinLeft = 15;
         ManaLbl.WinTop = 52;
         ManaLbl.CaptureInput = true;
-        ManaLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ManaLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ManaLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ManaLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         ManaLbl.Alignment.HeightPercent = 0;
         ManaLbl.Alignment.WidthPercent = 0;
         ManaLbl.Alignment.LeftOffPercent = 0;

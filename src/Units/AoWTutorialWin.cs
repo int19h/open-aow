@@ -26,25 +26,25 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // done callback, retained event
-public partial class TTutorialWindow : TDataModule
+public partial class TutorialWindow : DataModule
 {
-    public TTutorialWindow(TComponent owner) : base(owner)
+    public TutorialWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWMemo MessageMemo;
-    public TAOWButton Close;
-    public TAOWMemo HeaderMemo;
-    public TAOWVScrollBar AbVSB;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TEventLog FEvent;
+    public AOWWindow Dlg;
+    public AOWMemo MessageMemo;
+    public AOWButton Close;
+    public AOWMemo HeaderMemo;
+    public AOWVScrollBar AbVSB;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public EventLog FEvent;
 
     // AoWTutorialWin.pas:51
     public void FinishDialog()
     {
-        TExecuteDoneEvent Done;
-        TEventLog Log;
+        ExecuteDoneEvent Done;
+        EventLog Log;
         Done = FDone;
         Log = FEvent;
         FDone = null;
@@ -72,7 +72,7 @@ public partial class TTutorialWindow : TDataModule
         Dlg.Visible = false;
     }
 
-    internal static void ShowTutorialMessage(TTutorialWindow Dialog)
+    internal static void ShowTutorialMessage(TutorialWindow Dialog)
     {
         if (Dialog.MessageMemo.Items.Count > 0)
         {
@@ -80,7 +80,7 @@ public partial class TTutorialWindow : TDataModule
         }
     }
 
-    internal static void ShowTutorialEvent(TTutorialWindow Dialog, TTutorialMessageEventLog Event, bool Unused, TExecuteDoneEvent Done)
+    internal static void ShowTutorialEvent(TutorialWindow Dialog, TutorialMessageEventLog Event, bool Unused, ExecuteDoneEvent Done)
     {
         Dialog.AbVSB.Position = 0;
         Dialog.FinishDialog();
@@ -109,7 +109,7 @@ public partial class TTutorialWindow : TDataModule
         Dialog.Dlg.Visible = true;
     }
 
-    internal static void ShowFlagMessage(TTutorialWindow Dialog, TFlagMessageEventLog Event, bool Unused, TExecuteDoneEvent Done)
+    internal static void ShowFlagMessage(TutorialWindow Dialog, FlagMessageEventLog Event, bool Unused, ExecuteDoneEvent Done)
     {
         Dialog.AbVSB.Position = 0;
         Dialog.FinishDialog();

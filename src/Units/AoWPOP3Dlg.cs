@@ -7,34 +7,34 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TPOP3Dlg : TDataModule
+public partial class POP3Dlg : DataModule
 {
-    public TPOP3Dlg(TComponent owner) : base(owner)
+    public POP3Dlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel TitleLbl;
-    public TAoWFrame BCeltL;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCeltLineL;
-    public TAOWImage AOWImage1;
-    public TAOWImage AOWImage2;
-    public TAOWLabel SearchingEmailGameLbl;
-    public TAOWLabel EmailGameFoundLbl;
-    public TAOWListBox FoundEmailGames;
-    public TAOWPanel ExitPnl;
-    public TAOWButton Exit2Btn;
-    public TAOWPanel StartExitPnl;
-    public TAOWButton StartBtn;
-    public TAOWButton ExitBtn;
-    public TAOWEdit LocalEmailAddressEdit;
-    public TAOWLabel AttachmentDirectoryLbl;
-    public TAOWImage TitleIcon;
-    public TAOWPanel EditPnl;
-    public TAOWPanel ModePnl;
-    public TAOWVScrollBar EmailGamesSB;
-    public TAOWButton Close;
-    public TIvTranslator Translator;
+    public AOWWindow Dlg;
+    public AOWLabel TitleLbl;
+    public AoWFrame BCeltL;
+    public AoWFrame TCeltL;
+    public AOWImage TCeltLineL;
+    public AOWImage AOWImage1;
+    public AOWImage AOWImage2;
+    public AOWLabel SearchingEmailGameLbl;
+    public AOWLabel EmailGameFoundLbl;
+    public AOWListBox FoundEmailGames;
+    public AOWPanel ExitPnl;
+    public AOWButton Exit2Btn;
+    public AOWPanel StartExitPnl;
+    public AOWButton StartBtn;
+    public AOWButton ExitBtn;
+    public AOWEdit LocalEmailAddressEdit;
+    public AOWLabel AttachmentDirectoryLbl;
+    public AOWImage TitleIcon;
+    public AOWPanel EditPnl;
+    public AOWPanel ModePnl;
+    public AOWVScrollBar EmailGamesSB;
+    public AOWButton Close;
+    public IvTranslator Translator;
     public bool FSearching;
     public int FCheckDelay;
 
@@ -77,7 +77,7 @@ public partial class TPOP3Dlg : TDataModule
         var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
         var attachmentDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TPOP3Dlg.AttachmentDirectoryXRStr), [attachmentDirectory]);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.POP3Dlg.AttachmentDirectoryXRStr), [attachmentDirectory]);
         AttachmentDirectoryLbl.Text = "(" + format + ")";
         Dlg.Visible = true;
     }
@@ -130,13 +130,13 @@ public partial class TPOP3Dlg : TDataModule
         if (FoundEmailGames.Selected != -1)
         {
             var item = FoundEmailGames.Items[FoundEmailGames.Selected];
-            Aow.Game.Ui.Dialogs.TGeneral.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
-            Aow.Game.Ui.Dialogs.TGeneral.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
+            Aow.Game.Ui.Dialogs.General.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
+            Aow.Game.Ui.Dialogs.General.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
         }
     }
 
     // AoWPOP3Dlg.pas:166
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {

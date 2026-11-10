@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TWorldMap
+public partial class WorldMap
 {
     public override void Loaded()
     {

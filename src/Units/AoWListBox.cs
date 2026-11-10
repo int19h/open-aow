@@ -8,10 +8,10 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
 
-public enum TLBType : byte
+public enum LBType : byte
 {
-    lbNormal = 0,
-    lbBlank = 1
+    Normal = 0,
+    Blank = 1
 }
 
 // Fields: FItems, FVScrollBar, F11C (the rows shown), FSelected, F124 (set to -1 by SetSize,
@@ -22,37 +22,37 @@ public enum TLBType : byte
 // FILIndexTNormal, FILIndexTSelected, FPopupMenu, FDrawItem, FDrawItemRect (the item and its
 // rectangle while OnPreDrawItem and OnDrawItem run), F188 (the item under the mouse, -1 for
 // none)
-public partial class TAOWListBox : TAOWControl
+public partial class AOWListBox : AOWControl
 {
-    public TStringList FItems;
-    public TAOWVScrollBar FVScrollBar;
+    public StringList FItems;
+    public AOWVScrollBar FVScrollBar;
     public int F11C;
     public int FSelected;
     public int F124;
-    public TAoWOnDrawItemEvent<TAOWListBox> FOnPreDrawItem;
-    public TAoWOnDrawItemEvent<TAOWListBox> FOnDrawItem;
+    public AoWOnDrawItemEvent<AOWListBox> FOnPreDrawItem;
+    public AoWOnDrawItemEvent<AOWListBox> FOnDrawItem;
     public int F138;
     public bool F13C;
-    public TInterfaceIL FILFrame;
-    public TInterfaceIL FILTextureNormal;
-    public TInterfaceIL FILTextureSelected;
+    public InterfaceIL FILFrame;
+    public InterfaceIL FILTextureNormal;
+    public InterfaceIL FILTextureSelected;
     public int FItemHeight;
-    public TNotifyEvent<TAOWListBox> FOnDoubleClick;
+    public NotifyEvent<AOWListBox> FOnDoubleClick;
     public TaowTextAlign FTextAlign;
     public int F15C;
     public byte F160;
     public int FILIndexFrame;
     public int FILIndexTNormal;
     public int FILIndexTSelected;
-    public TAOWMenu FPopupMenu;
+    public AOWMenu FPopupMenu;
     public int FDrawItem;
-    public TRect FDrawItemRect;
+    public global::Aow.Rtl.Rect FDrawItemRect;
     public int F188;
 
     // AoWListBox.pas:107
-    public TAOWListBox(TComponent owner) : base(owner)
+    public AOWListBox(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FItems = new TStringList();
+        FItems = new StringList();
         FItems.OnChange = OnChangeText;
         F11C = 3;
         FItemHeight = 10;
@@ -245,13 +245,13 @@ public partial class TAOWListBox : TAOWControl
     // AoWListBox.pas:304
     // { Draw draws the frame and the texture, then the visible items (one more than fit: the loop runs
     //   to F11C, original) clipped to the inside, the selected one on its highlight texture }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         int L = default;
         int W = default;
         int T = default;
         int H = default;
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -266,14 +266,14 @@ public partial class TAOWListBox : TAOWControl
                 switch (F160)
                 {
                     case 0:
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
                         var ilFrameWidth = FILFrame[FILIndexFrame + 3];
                         var ilFrame2 = FILFrame[FILIndexFrame + 1];
                         var ilFrame3 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - F138, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - F138, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTextureNormal.DrawILT(FILIndexTNormal, rect2, ref SurfDesc);
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
                         L = FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width;
@@ -309,7 +309,7 @@ public partial class TAOWListBox : TAOWControl
                     if (F15C + I < count)
                     {
                         FDrawItem = F15C + I;
-                        FDrawItemRect = Rect(L, FItemHeight * I + T, L + W, (I + 1) * FItemHeight + T);
+                        FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(L, FItemHeight * I + T, L + W, (I + 1) * FItemHeight + T);
                         if (FDrawItemRect.Bottom > SurfDesc.ClipRect.Bottom)
                         {
                             FDrawItemRect.Bottom = SurfDesc.ClipRect.Bottom;
@@ -325,7 +325,7 @@ public partial class TAOWListBox : TAOWControl
                             FAOWFont.Color = FSelColor;
                             if (F160 == 0)
                             {
-                                var rect = Rect(L, FItemHeight * I + T, W, FItemHeight);
+                                var rect = global::Aow.Rtl.RtlUnit.Rect(L, FItemHeight * I + T, W, FItemHeight);
                                 FILTextureSelected.DrawILT(FILIndexTSelected, rect, ref SurfDesc);
                             }
                         }
@@ -336,11 +336,11 @@ public partial class TAOWListBox : TAOWControl
 
                         switch (FTextAlign)
                         {
-                            case TaowTextAlign.taLeft:
+                            case TaowTextAlign.Left:
                                 var item = FItems[F15C + I];
                                 FAOWFont.SetText(FBorderWidth + L, FBorderHeight + T + FItemHeight * I, item, SurfDesc);
                                 break;
-                            case TaowTextAlign.taRight:
+                            case TaowTextAlign.Right:
                                 var item2 = FItems[F15C + I];
                                 var textWidth = FAOWFont.GetTextWidth(item2);
                                 var item3 = FItems[F15C + I];
@@ -378,7 +378,7 @@ public partial class TAOWListBox : TAOWControl
     // { CheckMouseDown selects the item under the mouse unless the owner already handled the click;
     //   a double click calls OnDoubleClick, the right button opens the popup menu at the mouse, moved
     //   back inside the window manager when it would stick out }
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         int I;
         base.CheckMouseDown(Button, Shift, X, Y);
@@ -408,12 +408,12 @@ public partial class TAOWListBox : TAOWControl
                     }
                 }
 
-                if (Button == TMouseButton.mbLeft && (TSet<TShiftState>.Of(TShiftState.ssDouble) & Shift) == TSet<TShiftState>.Of(TShiftState.ssDouble) && FOnDoubleClick != null)
+                if (Button == MouseButton.Left && (Set<ShiftState>.Of(ShiftState.Double) & Shift) == Set<ShiftState>.Of(ShiftState.Double) && FOnDoubleClick != null)
                 {
                     FOnDoubleClick(this);
                 }
 
-                if (FSelected > -1 && Button == TMouseButton.mbRight && FPopupMenu != null)
+                if (FSelected > -1 && Button == MouseButton.Right && FPopupMenu != null)
                 {
                     FPopupMenu.SetPopupOwner(this);
                     FPopupMenu.WinLeft = X;
@@ -458,7 +458,7 @@ public partial class TAOWListBox : TAOWControl
     }
 
     // AoWListBox.pas:460
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - F138 && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -473,7 +473,7 @@ public partial class TAOWListBox : TAOWControl
 
     // AoWListBox.pas:475
     // { CheckMouseMove tracks the item under the mouse }
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -508,7 +508,7 @@ public partial class TAOWListBox : TAOWControl
     }
 
     // AoWListBox.pas:275
-    public virtual void SetILFrame(TInterfaceIL Value)
+    public virtual void SetILFrame(InterfaceIL Value)
     {
         if (Value != FILFrame)
         {
@@ -518,7 +518,7 @@ public partial class TAOWListBox : TAOWControl
     }
 
     // AoWListBox.pas:284
-    public virtual void SetILTNorm(TInterfaceIL Value)
+    public virtual void SetILTNorm(InterfaceIL Value)
     {
         if (Value != FILTextureNormal)
         {
@@ -528,7 +528,7 @@ public partial class TAOWListBox : TAOWControl
     }
 
     // AoWListBox.pas:293
-    public virtual void SetILTSel(TInterfaceIL Value)
+    public virtual void SetILTSel(InterfaceIL Value)
     {
         if (Value != FILTextureSelected)
         {
@@ -538,7 +538,7 @@ public partial class TAOWListBox : TAOWControl
     }
 
     // AoWListBox.pas:202
-    public void SetFStrings(TStringList Value)
+    public void SetFStrings(StringList Value)
     {
         FItems.Clear();
         FItems.AddStrings(Value);
@@ -580,7 +580,7 @@ public partial class TAOWListBox : TAOWControl
     }
 
     // AoWListBox.pas:232
-    public void SetVScroll(TAOWVScrollBar Value)
+    public void SetVScroll(AOWVScrollBar Value)
     {
         FVScrollBar = Value;
         if (Value != null)
@@ -625,10 +625,10 @@ public partial class TAOWListBox : TAOWControl
     public int ListOffset { get => F15C; set => SetListOff(value); }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
-    public TStringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => FItems; set => SetFStrings(value); }
 
     [Published]
     public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -637,28 +637,28 @@ public partial class TAOWListBox : TAOWControl
     public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
 
     [Published]
-    public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+    public AOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public TNotifyEvent<TAOWListBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+    public NotifyEvent<AOWListBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
 
     [Published]
     public int Selected { get => FSelected; set => SetIndex(value); }
 
     [Published]
-    public TAoWOnDrawItemEvent<TAOWListBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public AoWOnDrawItemEvent<AOWListBox> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
-    public TAoWOnDrawItemEvent<TAOWListBox> OnPreDrawItem { get => FOnPreDrawItem; set => FOnPreDrawItem = value; }
+    public AoWOnDrawItemEvent<AOWListBox> OnPreDrawItem { get => FOnPreDrawItem; set => FOnPreDrawItem = value; }
 
     [Published]
-    public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
     [Published]
-    public TInterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
+    public InterfaceIL ILTextureNormal { get => FILTextureNormal; set => SetILTNorm(value); }
 
     [Published]
-    public TInterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
+    public InterfaceIL ILTextureSelected { get => FILTextureSelected; set => SetILTSel(value); }
 
     [Published]
     public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
@@ -673,60 +673,60 @@ public partial class TAOWListBox : TAOWControl
     public int ItemHeight { get => FItemHeight; set => FItemHeight = value; }
 
     [Published]
-    public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+    public AOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
 
     [Published]
     public TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
 
-    public new TNotifyEvent<TAOWListBox> OnChange
+    public new NotifyEvent<AOWListBox> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWListBox> OnMouseDown
+    public new MouseEvent<AOWListBox> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWListBox> OnMouseUp
+    public new MouseEvent<AOWListBox> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWListBox> OnMouseMove
+    public new MouseMoveEvent<AOWListBox> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWListBox> OnKeyPress
+    public new KeyPressEvent<AOWListBox> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWListBox> OnKeyDown
+    public new KeyEvent<AOWListBox> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWListBox> OnPreDraw
+    public new AoWOnDrawEvent<AOWListBox> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWListBox> OnDraw
+    public new AoWOnDrawEvent<AOWListBox> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWListBox> OnUpdate
+    public new NotifyEvent<AOWListBox> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

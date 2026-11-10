@@ -222,12 +222,12 @@ public sealed class SystemTests
         var obj = new object();
         Assert.Same(obj, As<object>(obj));
         Assert.Equal("Invalid class typecast", Assert.Throws<InvalidCastException>(() => As<Generated.TSample>(obj)).Message);
-        Assert.Throws<EAbort>(Abort);
-        Assert.Equal(0, Assert.Throws<EHalt>(() => Halt()).ExitCode);
-        Assert.Equal(-1, Assert.Throws<EHalt>(() => Halt(-1)).ExitCode);
-        Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, "broken", "unit.pas", 42)).Message);
+        Assert.Throws<AbortException>(Abort);
+        Assert.Equal(0, Assert.Throws<HaltException>(() => Halt()).ExitCode);
+        Assert.Equal(-1, Assert.Throws<HaltException>(() => Halt(-1)).ExitCode);
+        Assert.Equal("broken (unit.pas, line 42)", Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, "broken", "unit.pas", 42)).Message);
         // SYSUTILS.PAS:5380 substitutes SAssertionFailed for an empty message.
-        Assert.Equal("Assertion failed (unit.pas, line 1)", Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, "", "unit.pas", 1)).Message);
+        Assert.Equal("Assertion failed (unit.pas, line 1)", Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, "", "unit.pas", 1)).Message);
         RtlUnit.Assert(true, "", "unit.pas", 1);
     }
 

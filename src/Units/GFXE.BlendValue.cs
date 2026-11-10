@@ -13,18 +13,18 @@ public readonly struct BlendValue : IUnion
     private enum Case : byte { None, Percentage, Table }
 
     private readonly int percentage;
-    private readonly TBlendTable? table;
+    private readonly BlendTable? table;
     private readonly Case kind;
 
     public BlendValue(int value) { percentage = value; kind = Case.Percentage; }
 
-    public BlendValue(TBlendTable? value) { table = value; kind = value is null ? Case.None : Case.Table; }
+    public BlendValue(BlendTable? value) { table = value; kind = value is null ? Case.None : Case.Table; }
 
     // The compiler prefers a user-defined conversion to a union conversion. One operator per case
     // keeps the case chosen by the source type: a byte widens to Percentage, a table converts to
     // Table.
     public static implicit operator BlendValue(int value) => new(value);
-    public static implicit operator BlendValue(TBlendTable? value) => new(value);
+    public static implicit operator BlendValue(BlendTable? value) => new(value);
 
     // Patterns read the cases through TryGetValue. Value boxes and serves only reflection.
     public object? Value => kind switch
@@ -42,7 +42,7 @@ public readonly struct BlendValue : IUnion
         return kind == Case.Percentage;
     }
 
-    public bool TryGetValue([MaybeNullWhen(false)] out TBlendTable value)
+    public bool TryGetValue([MaybeNullWhen(false)] out BlendTable value)
     {
         value = kind == Case.Table ? table : null;
         return kind == Case.Table;

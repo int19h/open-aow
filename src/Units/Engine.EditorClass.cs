@@ -10,16 +10,16 @@ public interface IEObjectEditorClass
 {
     static abstract int EditorClassID { get; }
 
-    static abstract void Edit(TEObject Obj, Aow.Game.Engine.TEngine AEngine, TEditDoneEvent Done);
+    static abstract void Edit(EObject Obj, global::Aow.Game.Engine.Engine AEngine, EditDoneEvent Done);
 }
 
 // One explicit registration per editor class keeps descriptor identity in the editor list.
 public sealed class EditorClass
 {
     private static readonly Catalog<Type, EditorClass> catalog = new("editor class");
-    private readonly Action<TEObject, Aow.Game.Engine.TEngine, TEditDoneEvent> edit;
+    private readonly Action<EObject, global::Aow.Game.Engine.Engine, EditDoneEvent> edit;
 
-    private EditorClass(Aow.Game.Engine.EClass eclass, int editorClassId, Action<TEObject, Aow.Game.Engine.TEngine, TEditDoneEvent> edit)
+    private EditorClass(Aow.Game.Engine.EClass eclass, int editorClassId, Action<EObject, global::Aow.Game.Engine.Engine, EditDoneEvent> edit)
     {
         Class = eclass;
         EditorClassID = editorClassId;
@@ -30,12 +30,12 @@ public sealed class EditorClass
     public string ClassName => Class.ClassName;
     public int EditorClassID { get; }
 
-    public void Edit(TEObject Obj, Aow.Game.Engine.TEngine AEngine, TEditDoneEvent Done) => edit(Obj, AEngine, Done);
+    public void Edit(EObject Obj, global::Aow.Game.Engine.Engine AEngine, EditDoneEvent Done) => edit(Obj, AEngine, Done);
 
-    public static EditorClass Register<T>() where T : TEObjectEditor, IEObjectEditorClass =>
+    public static EditorClass Register<T>() where T : EObjectEditor, IEObjectEditorClass =>
         catalog.Add(typeof(T), new EditorClass(Aow.Game.Engine.EClass.Of<T>(), T.EditorClassID, static (obj, engine, done) => T.Edit(obj, engine, done)));
 
-    public static EditorClass Of<T>() where T : TEObjectEditor, IEObjectEditorClass => catalog[typeof(T)];
+    public static EditorClass Of<T>() where T : EObjectEditor, IEObjectEditorClass => catalog[typeof(T)];
     public static EditorClass Of(Type type) => catalog[type];
 
     public static IReadOnlyList<EditorClass> All => catalog.All;

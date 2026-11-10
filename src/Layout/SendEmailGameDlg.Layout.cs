@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSendEmailGameDlg : ILayoutModule
+public partial class SendEmailGameDlg : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "SendEmailGameDlg";
-        Dlg = new TAOWWindow(this);
+        Dlg = new AOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
         Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
@@ -30,8 +30,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
         Dlg.WinWidth = 380;
         Dlg.Masked = true;
         Dlg.OnHide = _ => Layout_DlgHide_0();
-        Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        Dlg.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Dlg.Alignment.AlignHeight = AOWAlignHeight.Center;
         Dlg.Alignment.HeightPercent = 0;
         Dlg.Alignment.WidthPercent = 0;
         Dlg.Alignment.LeftOffPercent = 0;
@@ -64,15 +64,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         Dlg.WinHeight = 270;
         Dlg.Dockable = false;
         session.EndRead(Dlg);
-        TitleLbl = new TAOWLabel(this);
+        TitleLbl = new AOWLabel(this);
         session.BeginRead(TitleLbl);
         TitleLbl.Name = "TitleLbl";
         TitleLbl.Priority = 0;
         TitleLbl.WinLeft = 42;
         TitleLbl.WinTop = 7;
         TitleLbl.CaptureInput = false;
-        TitleLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TitleLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TitleLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TitleLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         TitleLbl.Alignment.HeightPercent = 0;
         TitleLbl.Alignment.WidthPercent = 0;
         TitleLbl.Alignment.LeftOffPercent = 0;
@@ -87,15 +87,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         TitleLbl.Text = "Send Email Game";
         TitleLbl.TextColor = 0;
         session.EndRead(TitleLbl);
-        BCeltL = new TAoWFrame(this);
+        BCeltL = new AoWFrame(this);
         session.BeginRead(BCeltL);
         BCeltL.Name = "BCeltL";
         BCeltL.Priority = 0;
         BCeltL.WinLeft = 21;
         BCeltL.WinTop = 233;
         BCeltL.CaptureInput = true;
-        BCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        BCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        BCeltL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BCeltL.Alignment.HeightPercent = 0;
         BCeltL.Alignment.WidthPercent = 0;
         BCeltL.Alignment.LeftOffPercent = 0;
@@ -109,20 +109,20 @@ public partial class TSendEmailGameDlg : ILayoutModule
         BCeltL.Masked = false;
         BCeltL.WinWidth = 338;
         BCeltL.WinHeight = 27;
-        BCeltL.FrameType = TFrameType.frHorizLine;
+        BCeltL.FrameType = FrameType.HorizLine;
         BCeltL.ILIndexFrame = 0;
         BCeltL.ILIndexLine = 55;
         BCeltL.ILIndexTexture = 0;
         session.EndRead(BCeltL);
-        TCeltL = new TAoWFrame(this);
+        TCeltL = new AoWFrame(this);
         session.BeginRead(TCeltL);
         TCeltL.Name = "TCeltL";
         TCeltL.Priority = 0;
         TCeltL.WinLeft = 21;
         TCeltL.WinTop = 22;
         TCeltL.CaptureInput = true;
-        TCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCeltL.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCeltL.Alignment.HeightPercent = 0;
         TCeltL.Alignment.WidthPercent = 0;
         TCeltL.Alignment.LeftOffPercent = 0;
@@ -136,20 +136,20 @@ public partial class TSendEmailGameDlg : ILayoutModule
         TCeltL.Masked = false;
         TCeltL.WinWidth = 338;
         TCeltL.WinHeight = 27;
-        TCeltL.FrameType = TFrameType.frHorizLine;
+        TCeltL.FrameType = FrameType.HorizLine;
         TCeltL.ILIndexFrame = 0;
         TCeltL.ILIndexLine = 55;
         TCeltL.ILIndexTexture = 0;
         session.EndRead(TCeltL);
-        TCeltLineL = new TAOWImage(this);
+        TCeltLineL = new AOWImage(this);
         session.BeginRead(TCeltLineL);
         TCeltLineL.Name = "TCeltLineL";
         TCeltLineL.Priority = 100;
         TCeltLineL.WinLeft = 28;
         TCeltLineL.WinTop = 22;
         TCeltLineL.CaptureInput = true;
-        TCeltLineL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCeltLineL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCeltLineL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCeltLineL.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCeltLineL.Alignment.HeightPercent = 0;
         TCeltLineL.Alignment.WidthPercent = 0;
         TCeltLineL.Alignment.LeftOffPercent = 0;
@@ -169,15 +169,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         TCeltLineL.Animate = false;
         TCeltLineL.AnimFrameDelay = 0;
         session.EndRead(TCeltLineL);
-        AOWImage1 = new TAOWImage(this);
+        AOWImage1 = new AOWImage(this);
         session.BeginRead(AOWImage1);
         AOWImage1.Name = "AOWImage1";
         AOWImage1.Priority = 100;
         AOWImage1.WinLeft = 28;
         AOWImage1.WinTop = 233;
         AOWImage1.CaptureInput = true;
-        AOWImage1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        AOWImage1.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AOWImage1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        AOWImage1.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AOWImage1.Alignment.HeightPercent = 0;
         AOWImage1.Alignment.WidthPercent = 0;
         AOWImage1.Alignment.LeftOffPercent = 0;
@@ -197,15 +197,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         AOWImage1.Animate = false;
         AOWImage1.AnimFrameDelay = 0;
         session.EndRead(AOWImage1);
-        AOWImage2 = new TAOWImage(this);
+        AOWImage2 = new AOWImage(this);
         session.BeginRead(AOWImage2);
         AOWImage2.Name = "AOWImage2";
         AOWImage2.Priority = 100;
         AOWImage2.WinLeft = 325;
         AOWImage2.WinTop = 233;
         AOWImage2.CaptureInput = true;
-        AOWImage2.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        AOWImage2.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AOWImage2.Alignment.AlignWidth = AOWAlignWidth.Right;
+        AOWImage2.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AOWImage2.Alignment.HeightPercent = 0;
         AOWImage2.Alignment.WidthPercent = 0;
         AOWImage2.Alignment.LeftOffPercent = 0;
@@ -225,7 +225,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         AOWImage2.Animate = false;
         AOWImage2.AnimFrameDelay = 0;
         session.EndRead(AOWImage2);
-        OKCancelPnl = new TAOWPanel(this);
+        OKCancelPnl = new AOWPanel(this);
         session.BeginRead(OKCancelPnl);
         OKCancelPnl.Name = "OKCancelPnl";
         OKCancelPnl.Priority = 99999;
@@ -233,8 +233,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
         OKCancelPnl.WinTop = 230;
         OKCancelPnl.WinWidth = 380;
         OKCancelPnl.Masked = true;
-        OKCancelPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        OKCancelPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        OKCancelPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        OKCancelPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         OKCancelPnl.Alignment.HeightPercent = 0;
         OKCancelPnl.Alignment.WidthPercent = 0;
         OKCancelPnl.Alignment.LeftOffPercent = 0;
@@ -252,15 +252,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         OKCancelPnl.MinWidth = 0;
         OKCancelPnl.MinHeight = 0;
         session.EndRead(OKCancelPnl);
-        OKBtn = new TAOWButton(this);
+        OKBtn = new AOWButton(this);
         session.BeginRead(OKBtn);
         OKBtn.Name = "OKBtn";
         OKBtn.Priority = 99999;
         OKBtn.WinLeft = 57;
         OKBtn.WinTop = 3;
         OKBtn.CaptureInput = true;
-        OKBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        OKBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        OKBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        OKBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         OKBtn.Alignment.HeightPercent = 0;
         OKBtn.Alignment.WidthPercent = 0;
         OKBtn.Alignment.LeftOffPercent = 0;
@@ -283,7 +283,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         OKBtn.WinWidth = 120;
         OKBtn.OnClick = _ => Layout_OKBtnClick_1();
         session.EndRead(OKBtn);
-        ExitBtn = new TAOWButton(this);
+        ExitBtn = new AOWButton(this);
         session.BeginRead(ExitBtn);
         ExitBtn.Name = "ExitBtn";
         ExitBtn.Priority = 99999;
@@ -294,8 +294,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
             "Exit email game without sending."
         };
         ExitBtn.CaptureInput = true;
-        ExitBtn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        ExitBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ExitBtn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        ExitBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ExitBtn.Alignment.HeightPercent = 0;
         ExitBtn.Alignment.WidthPercent = 0;
         ExitBtn.Alignment.LeftOffPercent = 0;
@@ -318,7 +318,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ExitBtn.WinWidth = 120;
         ExitBtn.OnClick = _ => Layout_ExitBtnClick_2();
         session.EndRead(ExitBtn);
-        EmailAddressEdit = new TAOWEdit(this);
+        EmailAddressEdit = new AOWEdit(this);
         session.BeginRead(EmailAddressEdit);
         EmailAddressEdit.Name = "EmailAddressEdit";
         EmailAddressEdit.Tag = 1;
@@ -330,8 +330,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
             "Next players' Email address"
         };
         EmailAddressEdit.CaptureInput = true;
-        EmailAddressEdit.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        EmailAddressEdit.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        EmailAddressEdit.Alignment.AlignWidth = AOWAlignWidth.Both;
+        EmailAddressEdit.Alignment.AlignHeight = AOWAlignHeight.Top;
         EmailAddressEdit.Alignment.HeightPercent = 0;
         EmailAddressEdit.Alignment.WidthPercent = 0;
         EmailAddressEdit.Alignment.LeftOffPercent = 0;
@@ -355,15 +355,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         EmailAddressEdit.ILIndex = 15;
         EmailAddressEdit.PassWordChar = 0;
         session.EndRead(EmailAddressEdit);
-        SeletModeInfoLbl = new TAOWLabel(this);
+        SeletModeInfoLbl = new AOWLabel(this);
         session.BeginRead(SeletModeInfoLbl);
         SeletModeInfoLbl.Name = "SeletModeInfoLbl";
         SeletModeInfoLbl.Priority = 0;
         SeletModeInfoLbl.WinLeft = 50;
         SeletModeInfoLbl.WinTop = 120;
         SeletModeInfoLbl.CaptureInput = false;
-        SeletModeInfoLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SeletModeInfoLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SeletModeInfoLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SeletModeInfoLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         SeletModeInfoLbl.Alignment.HeightPercent = 0;
         SeletModeInfoLbl.Alignment.WidthPercent = 0;
         SeletModeInfoLbl.Alignment.LeftOffPercent = 0;
@@ -378,7 +378,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         SeletModeInfoLbl.Text = "Send mode:";
         SeletModeInfoLbl.TextColor = 16777215;
         session.EndRead(SeletModeInfoLbl);
-        ManualChk = new TAOWCheckBox(this);
+        ManualChk = new AOWCheckBox(this);
         session.BeginRead(ManualChk);
         ManualChk.Name = "ManualChk";
         ManualChk.Priority = 99999;
@@ -389,8 +389,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
             "An Email program will need to be used"
         };
         ManualChk.CaptureInput = true;
-        ManualChk.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ManualChk.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ManualChk.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ManualChk.Alignment.AlignHeight = AOWAlignHeight.Top;
         ManualChk.Alignment.HeightPercent = 0;
         ManualChk.Alignment.WidthPercent = 0;
         ManualChk.Alignment.LeftOffPercent = 0;
@@ -413,7 +413,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ManualChk.Checked = false;
         ManualChk.RadioIndex = 1;
         session.EndRead(ManualChk);
-        AutomatedChk = new TAOWCheckBox(this);
+        AutomatedChk = new AOWCheckBox(this);
         session.BeginRead(AutomatedChk);
         AutomatedChk.Name = "AutomatedChk";
         AutomatedChk.Priority = 99999;
@@ -424,8 +424,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
             "Age of Wonders sends the game"
         };
         AutomatedChk.CaptureInput = true;
-        AutomatedChk.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        AutomatedChk.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AutomatedChk.Alignment.AlignWidth = AOWAlignWidth.Left;
+        AutomatedChk.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AutomatedChk.Alignment.HeightPercent = 0;
         AutomatedChk.Alignment.WidthPercent = 0;
         AutomatedChk.Alignment.LeftOffPercent = 0;
@@ -448,15 +448,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         AutomatedChk.Checked = false;
         AutomatedChk.RadioIndex = 1;
         session.EndRead(AutomatedChk);
-        ManualLbl = new TAOWLabel(this);
+        ManualLbl = new AOWLabel(this);
         session.BeginRead(ManualLbl);
         ManualLbl.Name = "ManualLbl";
         ManualLbl.Priority = 0;
         ManualLbl.WinLeft = 45;
         ManualLbl.WinTop = 16;
         ManualLbl.CaptureInput = false;
-        ManualLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ManualLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ManualLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ManualLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         ManualLbl.Alignment.HeightPercent = 0;
         ManualLbl.Alignment.WidthPercent = 0;
         ManualLbl.Alignment.LeftOffPercent = 0;
@@ -471,15 +471,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ManualLbl.Text = "Manual (use Email program)";
         ManualLbl.TextColor = 9415072;
         session.EndRead(ManualLbl);
-        AutomatedLbl = new TAOWLabel(this);
+        AutomatedLbl = new AOWLabel(this);
         session.BeginRead(AutomatedLbl);
         AutomatedLbl.Name = "AutomatedLbl";
         AutomatedLbl.Priority = 0;
         AutomatedLbl.WinLeft = 45;
         AutomatedLbl.WinTop = 42;
         AutomatedLbl.CaptureInput = false;
-        AutomatedLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        AutomatedLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        AutomatedLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        AutomatedLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         AutomatedLbl.Alignment.HeightPercent = 0;
         AutomatedLbl.Alignment.WidthPercent = 0;
         AutomatedLbl.Alignment.LeftOffPercent = 0;
@@ -494,15 +494,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         AutomatedLbl.Text = "Automated";
         AutomatedLbl.TextColor = 9415072;
         session.EndRead(AutomatedLbl);
-        RecipientNameLbl = new TAOWLabel(this);
+        RecipientNameLbl = new AOWLabel(this);
         session.BeginRead(RecipientNameLbl);
         RecipientNameLbl.Name = "RecipientNameLbl";
         RecipientNameLbl.Priority = 0;
         RecipientNameLbl.WinLeft = 50;
         RecipientNameLbl.WinTop = 60;
         RecipientNameLbl.CaptureInput = false;
-        RecipientNameLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        RecipientNameLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RecipientNameLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        RecipientNameLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         RecipientNameLbl.Alignment.HeightPercent = 0;
         RecipientNameLbl.Alignment.WidthPercent = 0;
         RecipientNameLbl.Alignment.LeftOffPercent = 0;
@@ -517,15 +517,15 @@ public partial class TSendEmailGameDlg : ILayoutModule
         RecipientNameLbl.Text = "##########";
         RecipientNameLbl.TextColor = 16777215;
         session.EndRead(RecipientNameLbl);
-        TitleIcon = new TAOWImage(this);
+        TitleIcon = new AOWImage(this);
         session.BeginRead(TitleIcon);
         TitleIcon.Name = "TitleIcon";
         TitleIcon.Priority = 0;
         TitleIcon.WinLeft = 20;
         TitleIcon.WinTop = 5;
         TitleIcon.CaptureInput = false;
-        TitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TitleIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TitleIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         TitleIcon.Alignment.HeightPercent = 0;
         TitleIcon.Alignment.WidthPercent = 0;
         TitleIcon.Alignment.LeftOffPercent = 0;
@@ -545,7 +545,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         TitleIcon.Animate = false;
         TitleIcon.AnimFrameDelay = 0;
         session.EndRead(TitleIcon);
-        ModePnl = new TAOWPanel(this);
+        ModePnl = new AOWPanel(this);
         session.BeginRead(ModePnl);
         ModePnl.Name = "ModePnl";
         ModePnl.Priority = 3000;
@@ -553,8 +553,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ModePnl.WinTop = 140;
         ModePnl.WinWidth = 280;
         ModePnl.Masked = true;
-        ModePnl.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        ModePnl.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        ModePnl.Alignment.AlignWidth = AOWAlignWidth.None;
+        ModePnl.Alignment.AlignHeight = AOWAlignHeight.None;
         ModePnl.Alignment.HeightPercent = 0;
         ModePnl.Alignment.WidthPercent = 0;
         ModePnl.Alignment.LeftOffPercent = 0;
@@ -572,7 +572,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ModePnl.MinWidth = 0;
         ModePnl.MinHeight = 0;
         session.EndRead(ModePnl);
-        ModePnlin = new TAOWPanel(this);
+        ModePnlin = new AOWPanel(this);
         session.BeginRead(ModePnlin);
         ModePnlin.Name = "ModePnlin";
         ModePnlin.Priority = 3000;
@@ -580,8 +580,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ModePnlin.WinTop = 1;
         ModePnlin.WinWidth = 279;
         ModePnlin.Masked = true;
-        ModePnlin.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        ModePnlin.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        ModePnlin.Alignment.AlignWidth = AOWAlignWidth.None;
+        ModePnlin.Alignment.AlignHeight = AOWAlignHeight.None;
         ModePnlin.Alignment.HeightPercent = 0;
         ModePnlin.Alignment.WidthPercent = 0;
         ModePnlin.Alignment.LeftOffPercent = 0;
@@ -599,7 +599,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         ModePnlin.MinWidth = 0;
         ModePnlin.MinHeight = 0;
         session.EndRead(ModePnlin);
-        EditPnl = new TAOWPanel(this);
+        EditPnl = new AOWPanel(this);
         session.BeginRead(EditPnl);
         EditPnl.Name = "EditPnl";
         EditPnl.Priority = 100;
@@ -607,8 +607,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
         EditPnl.WinTop = 80;
         EditPnl.WinWidth = 280;
         EditPnl.Masked = true;
-        EditPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        EditPnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        EditPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        EditPnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         EditPnl.Alignment.HeightPercent = 0;
         EditPnl.Alignment.WidthPercent = 0;
         EditPnl.Alignment.LeftOffPercent = 0;
@@ -626,7 +626,7 @@ public partial class TSendEmailGameDlg : ILayoutModule
         EditPnl.MinWidth = 0;
         EditPnl.MinHeight = 0;
         session.EndRead(EditPnl);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -637,8 +637,8 @@ public partial class TSendEmailGameDlg : ILayoutModule
             "Closes the window."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Close.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Top;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;

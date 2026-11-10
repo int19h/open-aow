@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TMsgReceiveDlg : ILayoutModule
+public partial class MsgReceiveDlg : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TMsgReceiveDlg : ILayoutModule
     {
         session.Begin(this);
         Name = "MsgReceiveDlg";
-        MsgReceiveWin = new TAOWWindow(this);
+        MsgReceiveWin = new AOWWindow(this);
         session.BeginRead(MsgReceiveWin);
         MsgReceiveWin.Name = "MsgReceiveWin";
         MsgReceiveWin.Visible = false;
@@ -29,8 +29,8 @@ public partial class TMsgReceiveDlg : ILayoutModule
         MsgReceiveWin.WinWidth = 384;
         MsgReceiveWin.Masked = true;
         MsgReceiveWin.OnHide = _ => Layout_MsgReceiveWinHide_0();
-        MsgReceiveWin.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        MsgReceiveWin.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        MsgReceiveWin.Alignment.AlignWidth = AOWAlignWidth.Center;
+        MsgReceiveWin.Alignment.AlignHeight = AOWAlignHeight.Center;
         MsgReceiveWin.Alignment.HeightPercent = 0;
         MsgReceiveWin.Alignment.WidthPercent = 0;
         MsgReceiveWin.Alignment.LeftOffPercent = 0;
@@ -63,15 +63,15 @@ public partial class TMsgReceiveDlg : ILayoutModule
         MsgReceiveWin.WinHeight = 262;
         MsgReceiveWin.Dockable = false;
         session.EndRead(MsgReceiveWin);
-        MessageMemo = new TAOWMemo(this);
+        MessageMemo = new AOWMemo(this);
         session.BeginRead(MessageMemo);
         MessageMemo.Name = "MessageMemo";
         MessageMemo.Priority = 200;
         MessageMemo.WinLeft = 47;
         MessageMemo.WinTop = 100;
         MessageMemo.CaptureInput = false;
-        MessageMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        MessageMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        MessageMemo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        MessageMemo.Alignment.AlignHeight = AOWAlignHeight.Both;
         MessageMemo.Alignment.HeightPercent = 0;
         MessageMemo.Alignment.WidthPercent = 0;
         MessageMemo.Alignment.LeftOffPercent = 0;
@@ -100,17 +100,17 @@ public partial class TMsgReceiveDlg : ILayoutModule
         MessageMemo.ILIndexTexture = 0;
         MessageMemo.ItemHeight = 20;
         MessageMemo.ColorChangeChar = 0;
-        MessageMemo.TextAlign = TaowTextAlign.taCenter;
+        MessageMemo.TextAlign = TaowTextAlign.Center;
         session.EndRead(MessageMemo);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
         Close.WinLeft = 122;
         Close.WinTop = 211;
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        Close.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -133,7 +133,7 @@ public partial class TMsgReceiveDlg : ILayoutModule
         Close.WinWidth = 140;
         Close.OnClick = _ => Layout_CloseClick_1();
         session.EndRead(Close);
-        MessageSB = new TAOWVScrollBar(this);
+        MessageSB = new AOWVScrollBar(this);
         session.BeginRead(MessageSB);
         MessageSB.Name = "MessageSB";
         MessageSB.Visible = false;
@@ -141,8 +141,8 @@ public partial class TMsgReceiveDlg : ILayoutModule
         MessageSB.WinLeft = 301;
         MessageSB.WinTop = 45;
         MessageSB.CaptureInput = true;
-        MessageSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        MessageSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        MessageSB.Alignment.AlignWidth = AOWAlignWidth.None;
+        MessageSB.Alignment.AlignHeight = AOWAlignHeight.None;
         MessageSB.Alignment.HeightPercent = 0;
         MessageSB.Alignment.WidthPercent = 0;
         MessageSB.Alignment.LeftOffPercent = 0;
@@ -170,7 +170,7 @@ public partial class TMsgReceiveDlg : ILayoutModule
         MessageSB.ILIndexBack = 47;
         MessageSB.ILIndexTab = 44;
         session.EndRead(MessageSB);
-        LShield = new TAOWImage(this);
+        LShield = new AOWImage(this);
         session.BeginRead(LShield);
         LShield.Name = "LShield";
         LShield.Priority = 1000;
@@ -181,8 +181,8 @@ public partial class TMsgReceiveDlg : ILayoutModule
             "Player's Shield"
         };
         LShield.CaptureInput = false;
-        LShield.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        LShield.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LShield.Alignment.AlignWidth = AOWAlignWidth.Left;
+        LShield.Alignment.AlignHeight = AOWAlignHeight.Top;
         LShield.Alignment.HeightPercent = 0;
         LShield.Alignment.WidthPercent = 0;
         LShield.Alignment.LeftOffPercent = 0;
@@ -202,7 +202,7 @@ public partial class TMsgReceiveDlg : ILayoutModule
         LShield.Animate = false;
         LShield.AnimFrameDelay = 0;
         session.EndRead(LShield);
-        RShield = new TAOWImage(this);
+        RShield = new AOWImage(this);
         session.BeginRead(RShield);
         RShield.Name = "RShield";
         RShield.Priority = 1000;
@@ -213,8 +213,8 @@ public partial class TMsgReceiveDlg : ILayoutModule
             "Player's Shield"
         };
         RShield.CaptureInput = false;
-        RShield.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        RShield.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RShield.Alignment.AlignWidth = AOWAlignWidth.Right;
+        RShield.Alignment.AlignHeight = AOWAlignHeight.Top;
         RShield.Alignment.HeightPercent = 0;
         RShield.Alignment.WidthPercent = 0;
         RShield.Alignment.LeftOffPercent = 0;
@@ -234,15 +234,15 @@ public partial class TMsgReceiveDlg : ILayoutModule
         RShield.Animate = false;
         RShield.AnimFrameDelay = 0;
         session.EndRead(RShield);
-        HeaderMemo = new TAOWMemo(this);
+        HeaderMemo = new AOWMemo(this);
         session.BeginRead(HeaderMemo);
         HeaderMemo.Name = "HeaderMemo";
         HeaderMemo.Priority = 200;
         HeaderMemo.WinLeft = 70;
         HeaderMemo.WinTop = 45;
         HeaderMemo.CaptureInput = false;
-        HeaderMemo.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        HeaderMemo.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        HeaderMemo.Alignment.AlignWidth = AOWAlignWidth.Both;
+        HeaderMemo.Alignment.AlignHeight = AOWAlignHeight.Both;
         HeaderMemo.Alignment.HeightPercent = 0;
         HeaderMemo.Alignment.WidthPercent = 0;
         HeaderMemo.Alignment.LeftOffPercent = 0;
@@ -270,7 +270,7 @@ public partial class TMsgReceiveDlg : ILayoutModule
         HeaderMemo.ILIndexTexture = 0;
         HeaderMemo.ItemHeight = 20;
         HeaderMemo.ColorChangeChar = 0;
-        HeaderMemo.TextAlign = TaowTextAlign.taCenter;
+        HeaderMemo.TextAlign = TaowTextAlign.Center;
         session.EndRead(HeaderMemo);
         var created__Translator = new LayoutTIvTranslator(this);
         Translator = created__Translator;

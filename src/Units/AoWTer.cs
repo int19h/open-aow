@@ -10,20 +10,20 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class TAoWTerrain : TTerrainMO
+public partial class AoWTerrain : TerrainMO
 {
-    public TAoWTerrain(TECustomNode owner) : base(owner)
+    public AoWTerrain(ECustomNode owner) : base(owner)
     { }
 
     // AoWTer.pas:89
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537001985)
         {
             try
             {
-                if (((TTerrainMOR)FResource).DecorationType == 3)
+                if (((TerrainMOR)FResource).DecorationType == 3)
                 {
                     ValidateDeadTreeRegrow();
                 }
@@ -36,14 +36,14 @@ public partial class TAoWTerrain : TTerrainMO
 
     // AoWTer.pas:100
     // { Original ignores regrowth failures. }
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4386)
         {
             if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
             {
-                Msg.Result = ((TAoWTerrainResource)FResource).FMapFieldResponse;
+                Msg.Result = ((Resource)FResource).FMapFieldResponse;
                 return;
             }
         }
@@ -53,7 +53,7 @@ public partial class TAoWTerrain : TTerrainMO
             {
                 if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
-                    ValidateDenseVegetationBurned(Msg.Param[0].As<TFire>());
+                    ValidateDenseVegetationBurned(Msg.Param[0].As<Fire>());
                 }
             }
         }
@@ -62,13 +62,13 @@ public partial class TAoWTerrain : TTerrainMO
     // AoWTer.pas:67
     public void ValidateDeadTreeRegrow()
     {
-        TTerrainMOR R;
-        TECustomNode OldOwner;
+        TerrainMOR R;
+        ECustomNode OldOwner;
         if (Owner.FindOwnedChild(132990) == null)
         {
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(20) == 0)
+            if (Aow.Game.World.Map.AoWHSMap.Current.Random(20) == 0)
             {
-                R = FindCompatibleResource(((TTerrainMOR)FResource).TerrainType, 1, 0);
+                R = FindCompatibleResource(((TerrainMOR)FResource).TerrainType, 1, 0);
                 if (R != null)
                 {
                     OldOwner = Owner;
@@ -88,12 +88,12 @@ public partial class TAoWTerrain : TTerrainMO
     }
 
     // AoWTer.pas:45. Message $1105 carries a TFire whose byte $1E is FAge.
-    public void ValidateDenseVegetationBurned(TFire info)
+    public void ValidateDenseVegetationBurned(Fire info)
     {
         if (info.FAge < 2 || FResource.TerrainList.Overlay[0] != 1) return;
-        var resource = FindCompatibleResource(((TTerrainMOR)FResource).TerrainType, 3, 3);
+        var resource = FindCompatibleResource(((TerrainMOR)FResource).TerrainType, 3, 3);
         if (resource == null) return;
-        UpdateTerrain((TMapLevel)Owner.Owner, GetXhx(), GetYhx());
+        UpdateTerrain((MapLevel)Owner.Owner, GetXhx(), GetYhx());
         var owner = Owner;
         RemoveFromMap();
         SetResource(resource);
@@ -102,26 +102,26 @@ public partial class TAoWTerrain : TTerrainMO
         if (FResource.Level <= 15) FResource.Engine.HSMap.StaticSceneInvalid = true;
         OverrideTerrain();
     }
-}
 
-// FMapFieldResponse (stream id 20)
-public partial class TAoWTerrainResource : TTerrainMOR
-{
-    public TAoWTerrainResource(TECustomNode owner) : base(owner)
-    { }
-
-    public int FMapFieldResponse;
-
-    // AoWTer.pas:116
-    public override void ReadWrite(TEStorageStream Stream)
+    // FMapFieldResponse (stream id 20)
+    public new partial class Resource : TerrainMOR
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FMapFieldResponse, 20);
+        public Resource(ECustomNode owner) : base(owner)
+        { }
+
+        public int FMapFieldResponse;
+
+        // AoWTer.pas:116
+        public override void ReadWrite(EStorageStream Stream)
+        {
+            base.ReadWrite(Stream);
+            Stream.rwInteger(ref FMapFieldResponse, 20);
+        }
     }
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 31)]
-public struct TBurnInfo
+public struct BurnInfo
 {
     [FieldOffset(0)]
     public FixedArray_byte_30 Reserved;

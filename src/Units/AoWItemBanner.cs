@@ -8,32 +8,32 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TItemBanner : TDataModule
+public partial class ItemBanner : DataModule
 {
-    public TItemBanner(TComponent owner) : base(owner)
+    public ItemBanner(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWLabel ItemNameLbl;
-    public TAOWMenu IBannerPopup;
-    public TAOWImage AttackIcon;
-    public TAOWImage DefenseIcon;
-    public TAOWImage DamageIcon;
-    public TAOWImage ResistanceIcon;
-    public TAOWLabel Attack;
-    public TAOWLabel Defense;
-    public TAOWLabel Damage;
-    public TAOWLabel Resistance;
+    public AOWLabel ItemNameLbl;
+    public AOWMenu IBannerPopup;
+    public AOWImage AttackIcon;
+    public AOWImage DefenseIcon;
+    public AOWImage DamageIcon;
+    public AOWImage ResistanceIcon;
+    public AOWLabel Attack;
+    public AOWLabel Defense;
+    public AOWLabel Damage;
+    public AOWLabel Resistance;
     public TaowUserDrawBox DrawBox;
-    public TAOWListBox AbLB;
-    public TAOWVScrollBar AbVSB;
+    public AOWListBox AbLB;
+    public AOWVScrollBar AbVSB;
 
     // AoWItemBanner.pas:46
     public void IBannerPopupShow()
     {
-        TItem Item;
+        Item Item;
         int X;
         int Y;
-        Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(Aow.Game.Ui.Dialogs.TItemBanner.ItemID);
+        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(Aow.Game.Ui.Dialogs.ItemBanner.ItemID);
         if (Item != null)
         {
             ItemNameLbl.Text = Item.FOwnerName;
@@ -127,7 +127,7 @@ public partial class TItemBanner : TDataModule
             {
                 if (Item.GetAbEnabled(X))
                 {
-                    var name = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(X).GetName(Item);
+                    var name = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(X).GetName(Item);
                     AbLB.Items.AddObject(name, IntToObject(X));
                 }
             }
@@ -151,10 +151,10 @@ public partial class TItemBanner : TDataModule
     }
 
     // AoWItemBanner.pas:145
-    public void DrawBoxPreDraw(TSurfaceDesc SurfDesc)
+    public void DrawBoxPreDraw(SurfaceDesc SurfDesc)
     {
-        TItem Item;
-        Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(Aow.Game.Ui.Dialogs.TItemBanner.ItemID);
+        Item Item;
+        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(Aow.Game.Ui.Dialogs.ItemBanner.ItemID);
         if (Item != null)
         {
             Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);

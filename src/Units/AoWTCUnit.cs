@@ -14,79 +14,79 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // components
-public partial class TTCUnit : TDataModule
+public partial class TCUnit : DataModule
 {
-    public TTCUnit(TComponent owner) : base(owner)
+    public TCUnit(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow TCUnitWin;
-    public TAOWImage SIcon;
-    public TAOWButton Min;
-    public TAOWButton Close;
-    public TAOWLabel IWTitle;
-    public TAOWImage UAttackIcon;
-    public TAOWImage UDefenseIcon;
-    public TAOWImage UMovesIcon;
-    public TAOWImage UDamageIcon;
-    public TAOWImage UResistanceIcon;
-    public TAOWImage UHitsIcon;
-    public TAOWLabel UAttack;
-    public TAOWLabel UDefense;
-    public TAOWLabel UMoves;
-    public TAOWLabel UDamage;
-    public TAOWLabel UResistance;
-    public TAOWLabel UHits;
-    public TAOWMemo UnitName;
-    public TAOWPanel UStatPnl;
-    public TAOWListBox UAbilLB;
-    public TAOWLabel AbilNameLbl;
-    public TAOWPanel TCUnitPnl;
-    public TAOWImage AOWImage1;
-    public TAOWMemo AUnitName;
-    public TAOWListBox USelAbilLb;
-    public TAOWPanel TCAbilPnl;
-    public TAOWImage AbilAtt;
-    public TAOWLabel AbilAttLbl;
-    public TAOWPanel AbilStatBox;
-    public TAOWListBox AbilStat;
-    public TAOWImage AbilDam;
-    public TAOWLabel AbilDamLbl;
-    public TAOWLabel TargetLbl;
-    public TAOWLabel TargetULbl;
-    public TAOWPanel TargetSelPnl;
-    public TAOWPanel NoTargetPnl;
-    public TAOWMemo TargetMessage;
-    public TAoWGauge UnitHits;
-    public TAoWGauge UnitMana;
-    public TAOWImage CelticCross;
-    public TAOWPanel UStatP1;
-    public TAOWPanel UStatP2;
-    public TAOWImage AAttackIcon;
-    public TAOWImage ADefenseIcon;
-    public TAOWImage AMovesIcon;
-    public TAOWImage ADamageIcon;
-    public TAOWImage AResistanceIcon;
-    public TAOWImage AHitsIcons;
-    public TAOWLabel AAttack;
-    public TAOWLabel ADefense;
-    public TAOWLabel AMoves;
-    public TAOWLabel ADamage;
-    public TAOWLabel AResistance;
-    public TAOWLabel AHits;
-    public TAOWPanel AStatPnl;
-    public TAOWPanel AStatP1;
-    public TAOWPanel AStatP2;
-    public TAOWButton Center;
-    public TAOWVScrollBar AbilSB;
-    public TAOWVScrollBar UAbilSB;
-    public TAOWVScrollBar AOWVScrollBar1;
-    public TAOWPanel AbilFr;
-    public TAOWPanel ANameFr;
-    public TAOWPanel TargerFr;
-    public TAOWPanel TNamePnl;
-    public TAOWPanel UnitFr;
+    public AOWWindow TCUnitWin;
+    public AOWImage SIcon;
+    public AOWButton Min;
+    public AOWButton Close;
+    public AOWLabel IWTitle;
+    public AOWImage UAttackIcon;
+    public AOWImage UDefenseIcon;
+    public AOWImage UMovesIcon;
+    public AOWImage UDamageIcon;
+    public AOWImage UResistanceIcon;
+    public AOWImage UHitsIcon;
+    public AOWLabel UAttack;
+    public AOWLabel UDefense;
+    public AOWLabel UMoves;
+    public AOWLabel UDamage;
+    public AOWLabel UResistance;
+    public AOWLabel UHits;
+    public AOWMemo UnitName;
+    public AOWPanel UStatPnl;
+    public AOWListBox UAbilLB;
+    public AOWLabel AbilNameLbl;
+    public AOWPanel TCUnitPnl;
+    public AOWImage AOWImage1;
+    public AOWMemo AUnitName;
+    public AOWListBox USelAbilLb;
+    public AOWPanel TCAbilPnl;
+    public AOWImage AbilAtt;
+    public AOWLabel AbilAttLbl;
+    public AOWPanel AbilStatBox;
+    public AOWListBox AbilStat;
+    public AOWImage AbilDam;
+    public AOWLabel AbilDamLbl;
+    public AOWLabel TargetLbl;
+    public AOWLabel TargetULbl;
+    public AOWPanel TargetSelPnl;
+    public AOWPanel NoTargetPnl;
+    public AOWMemo TargetMessage;
+    public AoWGauge UnitHits;
+    public AoWGauge UnitMana;
+    public AOWImage CelticCross;
+    public AOWPanel UStatP1;
+    public AOWPanel UStatP2;
+    public AOWImage AAttackIcon;
+    public AOWImage ADefenseIcon;
+    public AOWImage AMovesIcon;
+    public AOWImage ADamageIcon;
+    public AOWImage AResistanceIcon;
+    public AOWImage AHitsIcons;
+    public AOWLabel AAttack;
+    public AOWLabel ADefense;
+    public AOWLabel AMoves;
+    public AOWLabel ADamage;
+    public AOWLabel AResistance;
+    public AOWLabel AHits;
+    public AOWPanel AStatPnl;
+    public AOWPanel AStatP1;
+    public AOWPanel AStatP2;
+    public AOWButton Center;
+    public AOWVScrollBar AbilSB;
+    public AOWVScrollBar UAbilSB;
+    public AOWVScrollBar AOWVScrollBar1;
+    public AOWPanel AbilFr;
+    public AOWPanel ANameFr;
+    public AOWPanel TargerFr;
+    public AOWPanel TNamePnl;
+    public AOWPanel UnitFr;
     public TaowUserDrawBox UnitBox;
-    public TIvTranslator Translator;
+    public IvTranslator Translator;
 
     // AoWTCUnit.pas:106
     public void TCUnitWinResize()
@@ -103,16 +103,16 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:123
-    public void UAbilLBPreDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void UAbilLBPreDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SD)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null)
         {
-            bool condition = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0 && DrawItem < Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FCombatAbilityCount;
+            bool condition = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0 && DrawItem < Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FCombatAbilityCount;
             if (condition)
             {
                 var ability = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FAbilities[DrawItem];
-                var combatMode = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                bool test = !TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(combatMode) && ((TTCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FAbilities[DrawItem]).Ability != 52;
+                var combatMode = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((TCAbility)ability).Ability).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                bool test = !Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && ((TCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FAbilities[DrawItem]).Ability != 52;
                 if (!test)
                 {
                     var moves = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves();
@@ -134,7 +134,7 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:138
-    public void TCUnitPnlDrawBack(TSurfaceDesc SD)
+    public void TCUnitPnlDrawBack(SurfaceDesc SD)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null)
         {
@@ -152,12 +152,12 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:152
-    public void UAbilLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void UAbilLBMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        TAbility Ability;
+        Ability Ability;
         if (UAbilLB.Selected > -1)
         {
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
                 var selectAbility = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.SelectAbility(ObjectToInt(objectValue));
@@ -165,14 +165,14 @@ public partial class TTCUnit : TDataModule
             }
             else
             {
-                if (Button == TMouseButton.mbRight && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null)
+                if (Button == MouseButton.Right && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null)
                 {
                     var objectValue = UAbilLB.Items.Objects[UAbilLB.Selected];
-                    Ability = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+                    Ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
                     if (Ability != null)
                     {
                         var name = Ability.GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                        Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
+                        Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
                     }
                 }
             }
@@ -180,15 +180,15 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:168
-    public void UAbilLBMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public void UAbilLBMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null)
         {
-            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints != 0 && UAbilLB.F188 < Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FCombatAbilityCount)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.AoWCombatMap.Current.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints != 0 && UAbilLB.F188 < Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FCombatAbilityCount)
             {
                 var ability = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188];
-                var combatMode = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
-                if (!TSet<TCombatMode>.Of().WithRange(TCombatMode.cmShortRange, TCombatMode.cmLongRange).Contains(combatMode) && ((TTCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188]).Ability != 52)
+                var combatMode = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((TCAbility)ability).Ability).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                if (!Set<CombatMode>.Of().WithRange(CombatMode.ShortRange, CombatMode.LongRange).Contains(combatMode) && ((TCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FAbilities[UAbilLB.F188]).Ability != 52)
                 {
                     return;
                 }
@@ -205,7 +205,7 @@ public partial class TTCUnit : TDataModule
     }
 
     // AoWTCUnit.pas:187
-    public void HeroSMapMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void HeroSMapMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit;
         Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
@@ -218,11 +218,11 @@ public partial class TTCUnit : TDataModule
         var lhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.GetLhx();
         var yhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.GetYhx();
         var xhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.GetXhx();
-        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.CenterViewTo(xhx, yhx, lhx);
+        Aow.Game.Combat.AoWCombatMap.Current.CenterViewTo(xhx, yhx, lhx);
         var fCombatUnitLhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.GetLhx();
         var fCombatUnitYhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.GetYhx();
         var fCombatUnitXhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.GetXhx();
-        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlayCenterAnimation(fCombatUnitXhx, fCombatUnitYhx, fCombatUnitLhx);
+        Aow.Game.Combat.AoWCombatMap.Current.PlayCenterAnimation(fCombatUnitXhx, fCombatUnitYhx, fCombatUnitLhx);
     }
 
     // AoWTCUnit.pas:195

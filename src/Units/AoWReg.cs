@@ -6,7 +6,7 @@ namespace Aow.Game.Engine;
 
 // { ot=1 }
 // inherited TRegistry fields
-public partial class TAoWRegistry : TRegistry
+public partial class AoWRegistry : Registry
 {
     // AoWReg.pas:128
     public void AssociateAoWMap(string Executable)
@@ -16,20 +16,20 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // AoWReg.pas:141
-    public void rwInteger(string Key, string Name, ref int Value, TReadWriteMode Mode)
+    public void rwInteger(string Key, string Name, ref int Value, ReadWriteMode Mode)
     {
         if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
         {
             switch (Mode)
             {
-                case TReadWriteMode.rwRead:
+                case ReadWriteMode.Read:
                     if (ValueExists(Name))
                     {
                         Value = ReadInteger(Name);
                     }
 
                     break;
-                case TReadWriteMode.rwWrite:
+                case ReadWriteMode.Write:
                     WriteInteger(Name, Value);
                     break;
             }
@@ -39,20 +39,20 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // AoWReg.pas:153
-    public void rwBool(string Key, string Name, ref bool Value, TReadWriteMode Mode)
+    public void rwBool(string Key, string Name, ref bool Value, ReadWriteMode Mode)
     {
         if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
         {
             switch (Mode)
             {
-                case TReadWriteMode.rwRead:
+                case ReadWriteMode.Read:
                     if (ValueExists(Name))
                     {
                         Value = ReadBool(Name);
                     }
 
                     break;
-                case TReadWriteMode.rwWrite:
+                case ReadWriteMode.Write:
                     WriteBool(Name, Value);
                     break;
             }
@@ -62,20 +62,20 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // AoWReg.pas:165
-    public void rwString(string Key, string Name, ref string Value, TReadWriteMode Mode)
+    public void rwString(string Key, string Name, ref string Value, ReadWriteMode Mode)
     {
         if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
         {
             switch (Mode)
             {
-                case TReadWriteMode.rwRead:
+                case ReadWriteMode.Read:
                     if (ValueExists(Name))
                     {
                         Value = ReadString(Name);
                     }
 
                     break;
-                case TReadWriteMode.rwWrite:
+                case ReadWriteMode.Write:
                     WriteString(Name, Value);
                     break;
             }
@@ -85,20 +85,20 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // AoWReg.pas:177
-    public void rwBinaryData(string Key, string Name, Span<byte> Value, int Size, TReadWriteMode Mode)
+    public void rwBinaryData(string Key, string Name, Span<byte> Value, int Size, ReadWriteMode Mode)
     {
         if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
         {
             switch (Mode)
             {
-                case TReadWriteMode.rwRead:
+                case ReadWriteMode.Read:
                     if (ValueExists(Name))
                     {
                         ReadBinaryData(Name, Value, Size);
                     }
 
                     break;
-                case TReadWriteMode.rwWrite:
+                case ReadWriteMode.Write:
                     WriteBinaryData(Name, Value, Size);
                     break;
             }
@@ -108,23 +108,23 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // AoWReg.pas:227
-    public void rwRect(string Key, string Name, ref TRect Value, TReadWriteMode Mode)
+    public void rwRect(string Key, string Name, ref global::Aow.Rtl.Rect Value, ReadWriteMode Mode)
     {
         string S;
         if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
         {
             switch (Mode)
             {
-                case TReadWriteMode.rwRead:
+                case ReadWriteMode.Read:
                     if (ValueExists(Name))
                     {
                         S = ReadString(Name);
-                        Value = Aow.Game.Engine.TAoWRegistry.StringToRect(S);
+                        Value = Aow.Game.Engine.AoWRegistry.StringToRect(S);
                     }
 
                     break;
-                case TReadWriteMode.rwWrite:
-                    S = Aow.Game.Engine.TAoWRegistry.RectToString(Value);
+                case ReadWriteMode.Write:
+                    S = Aow.Game.Engine.AoWRegistry.RectToString(Value);
                     WriteString(Name, S);
                     break;
             }
@@ -134,13 +134,13 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // AoWReg.pas:250
-    public TRect GetRectangle(int Index)
+    public global::Aow.Rtl.Rect GetRectangle(int Index)
     {
-        TRect Result = default;
+        global::Aow.Rtl.Rect Result = default;
         if (Index >= 0)
         {
             Result = default;
-            rwRect("General\\rectangles", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+            rwRect("General\\rectangles", IntToStr(Index), ref Result, ReadWriteMode.Read);
         }
         else
         {
@@ -151,11 +151,11 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // AoWReg.pas:260
-    public void SetRectangle(int Index, TRect Value)
+    public void SetRectangle(int Index, global::Aow.Rtl.Rect Value)
     {
         if (Index >= 0)
         {
-            rwRect("General\\rectangles", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+            rwRect("General\\rectangles", IntToStr(Index), ref Value, ReadWriteMode.Write);
         }
     }
 
@@ -166,7 +166,7 @@ public partial class TAoWRegistry : TRegistry
         // { Original leaves Result uninitialized for a missing nonnegative index. }
         if (Index >= 0)
         {
-            rwBool("General\\booleans", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+            rwBool("General\\booleans", IntToStr(Index), ref Result, ReadWriteMode.Read);
         }
         else
         {
@@ -181,7 +181,7 @@ public partial class TAoWRegistry : TRegistry
     {
         if (Index >= 0)
         {
-            rwBool("General\\booleans", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+            rwBool("General\\booleans", IntToStr(Index), ref Value, ReadWriteMode.Write);
         }
     }
 
@@ -191,7 +191,7 @@ public partial class TAoWRegistry : TRegistry
         string Result = "";
         if (Index >= 0)
         {
-            rwString("General\\strings", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+            rwString("General\\strings", IntToStr(Index), ref Result, ReadWriteMode.Read);
         }
         else
         {
@@ -206,7 +206,7 @@ public partial class TAoWRegistry : TRegistry
     {
         if (Index >= 0)
         {
-            rwString("General\\strings", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+            rwString("General\\strings", IntToStr(Index), ref Value, ReadWriteMode.Write);
         }
     }
 
@@ -217,7 +217,7 @@ public partial class TAoWRegistry : TRegistry
         // { Original leaves Result uninitialized for a missing nonnegative index. }
         if (Index >= 0)
         {
-            rwInteger("General\\integers", IntToStr(Index), ref Result, TReadWriteMode.rwRead);
+            rwInteger("General\\integers", IntToStr(Index), ref Result, ReadWriteMode.Read);
         }
         else
         {
@@ -232,7 +232,7 @@ public partial class TAoWRegistry : TRegistry
     {
         if (Index >= 0)
         {
-            rwInteger("General\\integers", IntToStr(Index), ref Value, TReadWriteMode.rwWrite);
+            rwInteger("General\\integers", IntToStr(Index), ref Value, ReadWriteMode.Write);
         }
     }
 
@@ -251,14 +251,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("General", "Skip Intro", ref Result, TReadWriteMode.rwRead);
+        rwBool("General", "Skip Intro", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:335
     public void SetSkipIntro(bool Value)
     {
-        rwBool("General", "Skip Intro", ref Value, TReadWriteMode.rwWrite);
+        rwBool("General", "Skip Intro", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:340
@@ -266,14 +266,14 @@ public partial class TAoWRegistry : TRegistry
     {
         int Result;
         Result = 1;
-        rwInteger("Video", "Display Mode", ref Result, TReadWriteMode.rwRead);
+        rwInteger("Video", "Display Mode", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:346
     public void SetDisplayMode(int Value)
     {
-        rwInteger("Video", "Display Mode", ref Value, TReadWriteMode.rwWrite);
+        rwInteger("Video", "Display Mode", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:351
@@ -281,14 +281,14 @@ public partial class TAoWRegistry : TRegistry
     {
         int Result;
         Result = 640;
-        rwInteger("Video", "Display Width", ref Result, TReadWriteMode.rwRead);
+        rwInteger("Video", "Display Width", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:357
     public void SetDisplayWidth(int Value)
     {
-        rwInteger("Video", "Display Width", ref Value, TReadWriteMode.rwWrite);
+        rwInteger("Video", "Display Width", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:362
@@ -296,14 +296,14 @@ public partial class TAoWRegistry : TRegistry
     {
         int Result;
         Result = 480;
-        rwInteger("Video", "Display Height", ref Result, TReadWriteMode.rwRead);
+        rwInteger("Video", "Display Height", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:368
     public void SetDisplayHeight(int Value)
     {
-        rwInteger("Video", "Display Height", ref Value, TReadWriteMode.rwWrite);
+        rwInteger("Video", "Display Height", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:373
@@ -311,14 +311,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("Video", "Surface In VMem", ref Result, TReadWriteMode.rwRead);
+        rwBool("Video", "Surface In VMem", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:379
     public void SetSurfaceInVMem(bool Value)
     {
-        rwBool("Video", "Surface In VMem", ref Value, TReadWriteMode.rwWrite);
+        rwBool("Video", "Surface In VMem", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:384
@@ -326,14 +326,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("Video", "Allow Resolution Switches", ref Result, TReadWriteMode.rwRead);
+        rwBool("Video", "Allow Resolution Switches", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:390
     public void SetAllowResolutionSwitches(bool Value)
     {
-        rwBool("Video", "Allow Resolution Switches", ref Value, TReadWriteMode.rwWrite);
+        rwBool("Video", "Allow Resolution Switches", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:395
@@ -341,14 +341,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("General", "Debug Mode", ref Result, TReadWriteMode.rwRead);
+        rwBool("General", "Debug Mode", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:401
     public void SetDebugMode(bool Value)
     {
-        rwBool("General", "Debug Mode", ref Value, TReadWriteMode.rwWrite);
+        rwBool("General", "Debug Mode", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:406
@@ -356,22 +356,22 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("General", "Root Directory", ref Result, TReadWriteMode.rwRead);
+        rwString("General", "Root Directory", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:412
     public void SetRootDirectory(string Value)
     {
-        rwString("General", "Root Directory", ref Value, TReadWriteMode.rwWrite);
+        rwString("General", "Root Directory", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:428
-    public void SetLanguage(TAoWLanguage Value)
+    public void SetLanguage(AoWLanguage Value)
     {
         int I;
         I = (int)Value;
-        rwInteger("General", "Language", ref I, TReadWriteMode.rwWrite);
+        rwInteger("General", "Language", ref I, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:436
@@ -379,14 +379,14 @@ public partial class TAoWRegistry : TRegistry
     {
         int Result;
         Result = 3;
-        rwInteger("Sound", "Sound Quality", ref Result, TReadWriteMode.rwRead);
+        rwInteger("Sound", "Sound Quality", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:442
     public void SetSoundQuality(int Value)
     {
-        rwInteger("Sound", "Sound Quality", ref Value, TReadWriteMode.rwWrite);
+        rwInteger("Sound", "Sound Quality", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:447
@@ -394,14 +394,14 @@ public partial class TAoWRegistry : TRegistry
     {
         int Result;
         Result = 50;
-        rwInteger("Sound", "Music Volume", ref Result, TReadWriteMode.rwRead);
+        rwInteger("Sound", "Music Volume", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:453
     public void SetMusicVolume(int Value)
     {
-        rwInteger("Sound", "Music Volume", ref Value, TReadWriteMode.rwWrite);
+        rwInteger("Sound", "Music Volume", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:458
@@ -409,61 +409,61 @@ public partial class TAoWRegistry : TRegistry
     {
         int Result;
         Result = 50;
-        rwInteger("Sound", "SFX Volume", ref Result, TReadWriteMode.rwRead);
+        rwInteger("Sound", "SFX Volume", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:464
     public void SetSFXVolume(int Value)
     {
-        rwInteger("Sound", "SFX Volume", ref Value, TReadWriteMode.rwWrite);
+        rwInteger("Sound", "SFX Volume", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:469
-    public TRect GetMainWindowPosition()
+    public global::Aow.Rtl.Rect GetMainWindowPosition()
     {
-        TRect Result;
+        global::Aow.Rtl.Rect Result;
         Result = default;
-        rwRect("Workspace", "Main Window Position", ref Result, TReadWriteMode.rwRead);
+        rwRect("Workspace", "Main Window Position", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:475
-    public void SetMainWindowPosition(TRect Value)
+    public void SetMainWindowPosition(global::Aow.Rtl.Rect Value)
     {
-        rwRect("Workspace", "Main Window Position", ref Value, TReadWriteMode.rwWrite);
+        rwRect("Workspace", "Main Window Position", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:480
-    public TWindowState GetMainWindowState()
+    public WindowState GetMainWindowState()
     {
         int Value;
         Value = 0;
-        rwInteger("Workspace", "Main Window State", ref Value, TReadWriteMode.rwRead);
-        return (TWindowState)Value;
+        rwInteger("Workspace", "Main Window State", ref Value, ReadWriteMode.Read);
+        return (WindowState)Value;
     }
 
     // AoWReg.pas:489
-    public void SetMainWindowState(TWindowState Value)
+    public void SetMainWindowState(WindowState Value)
     {
         int I;
         I = (int)Value;
-        rwInteger("Workspace", "Main Window State", ref I, TReadWriteMode.rwWrite);
+        rwInteger("Workspace", "Main Window State", ref I, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:497
-    public TRect GetMapWindowPosition()
+    public global::Aow.Rtl.Rect GetMapWindowPosition()
     {
-        TRect Result;
+        global::Aow.Rtl.Rect Result;
         Result = default;
-        rwRect("Workspace", "Map Window Position", ref Result, TReadWriteMode.rwRead);
+        rwRect("Workspace", "Map Window Position", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:503
-    public void SetMapWindowPosition(TRect Value)
+    public void SetMapWindowPosition(global::Aow.Rtl.Rect Value)
     {
-        rwRect("Workspace", "Map Window Position", ref Value, TReadWriteMode.rwWrite);
+        rwRect("Workspace", "Map Window Position", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:508
@@ -471,14 +471,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = true;
-        rwBool("Video", "Shadows Enabled", ref Result, TReadWriteMode.rwRead);
+        rwBool("Video", "Shadows Enabled", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:514
     public void SetShadowsEnabled(bool Value)
     {
-        rwBool("Video", "Shadows Enabled", ref Value, TReadWriteMode.rwWrite);
+        rwBool("Video", "Shadows Enabled", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:519
@@ -486,14 +486,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = true;
-        rwBool("Sound", "Sound Effects Enabled", ref Result, TReadWriteMode.rwRead);
+        rwBool("Sound", "Sound Effects Enabled", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:525
     public void SetSFXEnabled(bool Value)
     {
-        rwBool("Sound", "Sound Effects Enabled", ref Value, TReadWriteMode.rwWrite);
+        rwBool("Sound", "Sound Effects Enabled", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:530
@@ -501,14 +501,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = true;
-        rwBool("Sound", "Music Enabled", ref Result, TReadWriteMode.rwRead);
+        rwBool("Sound", "Music Enabled", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:536
     public void SetMusicEnabled(bool Value)
     {
-        rwBool("Sound", "Music Enabled", ref Value, TReadWriteMode.rwWrite);
+        rwBool("Sound", "Music Enabled", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:541
@@ -516,31 +516,31 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("Sound", "Use DirectSound", ref Result, TReadWriteMode.rwRead);
+        rwBool("Sound", "Use DirectSound", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:547
     public void SetUseDirectSound(bool Value)
     {
-        rwBool("Sound", "Use DirectSound", ref Value, TReadWriteMode.rwWrite);
+        rwBool("Sound", "Use DirectSound", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:552
-    public TDetailLevel GetDetailLevel()
+    public DetailLevel GetDetailLevel()
     {
         int Value;
         Value = 2;
-        rwInteger("Workspace", "Detail Level", ref Value, TReadWriteMode.rwRead);
-        return (TDetailLevel)Value;
+        rwInteger("Workspace", "Detail Level", ref Value, ReadWriteMode.Read);
+        return (DetailLevel)Value;
     }
 
     // AoWReg.pas:561
-    public void SetDetailLevel(TDetailLevel Value)
+    public void SetDetailLevel(DetailLevel Value)
     {
         int I;
         I = (int)Value;
-        rwInteger("Workspace", "Detail Level", ref I, TReadWriteMode.rwWrite);
+        rwInteger("Workspace", "Detail Level", ref I, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:569
@@ -548,14 +548,14 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("General", "Startup Directory", ref Result, TReadWriteMode.rwRead);
+        rwString("General", "Startup Directory", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:575
     public void SetStartupDirectory(string Value)
     {
-        rwString("General", "Startup Directory", ref Value, TReadWriteMode.rwWrite);
+        rwString("General", "Startup Directory", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:580
@@ -563,14 +563,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("General", "Log Token Events", ref Result, TReadWriteMode.rwRead);
+        rwBool("General", "Log Token Events", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:586
     public void SetLogTokenEvents(bool Value)
     {
-        rwBool("General", "Log Token Events", ref Value, TReadWriteMode.rwWrite);
+        rwBool("General", "Log Token Events", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:591
@@ -578,14 +578,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = true;
-        rwBool("General", "Auto Save", ref Result, TReadWriteMode.rwRead);
+        rwBool("General", "Auto Save", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:597
     public void SetAutoSave(bool Value)
     {
-        rwBool("General", "Auto Save", ref Value, TReadWriteMode.rwWrite);
+        rwBool("General", "Auto Save", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:602
@@ -593,14 +593,14 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("General", "Auto Debug Save", ref Result, TReadWriteMode.rwRead);
+        rwBool("General", "Auto Debug Save", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:608
     public void SetAutoDebugSave(bool Value)
     {
-        rwBool("General", "Auto Debug Save", ref Value, TReadWriteMode.rwWrite);
+        rwBool("General", "Auto Debug Save", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:613
@@ -608,44 +608,44 @@ public partial class TAoWRegistry : TRegistry
     {
         bool Result;
         Result = false;
-        rwBool("General", "Fast Movement Enabled", ref Result, TReadWriteMode.rwRead);
+        rwBool("General", "Fast Movement Enabled", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:619
     public void SetFastMovementEnabled(bool Value)
     {
-        rwBool("General", "Fast Movement Enabled", ref Value, TReadWriteMode.rwWrite);
+        rwBool("General", "Fast Movement Enabled", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:646
-    public TCombatResolveMode GetCombatResolveMode()
+    public CombatResolveMode GetCombatResolveMode()
     {
-        TCombatResolveMode Result;
-        Result = TCombatResolveMode.crmChoose;
-        rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref Result), 1, TReadWriteMode.rwRead);
+        CombatResolveMode Result;
+        Result = CombatResolveMode.Choose;
+        rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref Result), 1, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:652
-    public void SetCombatResolveMode(TCombatResolveMode Value)
+    public void SetCombatResolveMode(CombatResolveMode Value)
     {
-        rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref Value), 1, TReadWriteMode.rwWrite);
+        rwBinaryData("General", "Combat Resolve Mode", Bytes.Of(ref Value), 1, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:657
-    public TMovementSpeed GetMovementSpeed()
+    public MovementSpeed GetMovementSpeed()
     {
-        TMovementSpeed Result;
-        Result = TMovementSpeed.mmsNormal;
-        rwBinaryData("General", "Movement Speed", Bytes.Of(ref Result), 1, TReadWriteMode.rwRead);
+        MovementSpeed Result;
+        Result = MovementSpeed.Normal;
+        rwBinaryData("General", "Movement Speed", Bytes.Of(ref Result), 1, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:663
-    public void SetMovementSpeed(TMovementSpeed Value)
+    public void SetMovementSpeed(MovementSpeed Value)
     {
-        rwBinaryData("General", "Movement Speed", Bytes.Of(ref Value), 1, TReadWriteMode.rwWrite);
+        rwBinaryData("General", "Movement Speed", Bytes.Of(ref Value), 1, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:668
@@ -653,14 +653,14 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("Email", "Local Email Address", ref Result, TReadWriteMode.rwRead);
+        rwString("Email", "Local Email Address", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:674
     public void SetLocalEmailAddress(string Value)
     {
-        rwString("Email", "Local Email address", ref Value, TReadWriteMode.rwWrite);
+        rwString("Email", "Local Email address", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:679
@@ -668,14 +668,14 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("Email", "SMTP Server", ref Result, TReadWriteMode.rwRead);
+        rwString("Email", "SMTP Server", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:685
     public void SetSMTPServer(string Value)
     {
-        rwString("Email", "SMTP Server", ref Value, TReadWriteMode.rwWrite);
+        rwString("Email", "SMTP Server", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:690
@@ -683,14 +683,14 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("Email", "POP3 Server", ref Result, TReadWriteMode.rwRead);
+        rwString("Email", "POP3 Server", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:696
     public void SetPOP3Server(string Value)
     {
-        rwString("Email", "POP3 Server", ref Value, TReadWriteMode.rwWrite);
+        rwString("Email", "POP3 Server", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:710
@@ -698,14 +698,14 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("Email", "POP3 UserName", ref Result, TReadWriteMode.rwRead);
+        rwString("Email", "POP3 UserName", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:716
     public void SetPOP3UserName(string Value)
     {
-        rwString("Email", "POP3 UserName", ref Value, TReadWriteMode.rwWrite);
+        rwString("Email", "POP3 UserName", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:721
@@ -713,16 +713,16 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("Email", "POP3 Password", ref Result, TReadWriteMode.rwRead);
-        Result = Aow.Game.Engine.TAoWRegistry.TransformPassword(Result, true);
+        rwString("Email", "POP3 Password", ref Result, ReadWriteMode.Read);
+        Result = Aow.Game.Engine.AoWRegistry.TransformPassword(Result, true);
         return Result;
     }
 
     // AoWReg.pas:728
     public void SetPOP3Password(string Value)
     {
-        Value = Aow.Game.Engine.TAoWRegistry.TransformPassword(Value, true);
-        rwString("Email", "POP3 Password", ref Value, TReadWriteMode.rwWrite);
+        Value = Aow.Game.Engine.AoWRegistry.TransformPassword(Value, true);
+        rwString("Email", "POP3 Password", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:734
@@ -730,7 +730,7 @@ public partial class TAoWRegistry : TRegistry
     {
         string Result;
         Result = "";
-        rwString("Email", "Attachment Directory", ref Result, TReadWriteMode.rwRead);
+        rwString("Email", "Attachment Directory", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
@@ -742,7 +742,7 @@ public partial class TAoWRegistry : TRegistry
             Value = Value + "\\";
         }
 
-        rwString("Email", "Attachment Directory", ref Value, TReadWriteMode.rwWrite);
+        rwString("Email", "Attachment Directory", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:747
@@ -750,14 +750,14 @@ public partial class TAoWRegistry : TRegistry
     {
         int Result;
         Result = 1;
-        rwInteger("Email", "Check Email Frequency", ref Result, TReadWriteMode.rwRead);
+        rwInteger("Email", "Check Email Frequency", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:753
     public void SetCheckEmailFrequency(int Value)
     {
-        rwInteger("Email", "Check Email Frequency", ref Value, TReadWriteMode.rwWrite);
+        rwInteger("Email", "Check Email Frequency", ref Value, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:758
@@ -766,7 +766,7 @@ public partial class TAoWRegistry : TRegistry
         string S = "";
         int P;
         int Result = 0;
-        rwString("General", "Serial number", ref S, TReadWriteMode.rwRead);
+        rwString("General", "Serial number", ref S, ReadWriteMode.Read);
         try
         {
             P = Pos("-", S);
@@ -780,7 +780,7 @@ public partial class TAoWRegistry : TRegistry
                     S = Copy(S, 1, P - 1);
                     if (!IsEmpty(S))
                     {
-                        Result = Aow.Game.Engine.TAoWRegistry.HexToInt(S);
+                        Result = Aow.Game.Engine.AoWRegistry.HexToInt(S);
                     }
                 }
             }
@@ -798,7 +798,7 @@ public partial class TAoWRegistry : TRegistry
     {
         string S;
         S = "4G5F6JHH-" + IntToHex(Value, 8) + "-6AG66554-98LK0FG3";
-        rwString("General", "Serial number", ref S, TReadWriteMode.rwWrite);
+        rwString("General", "Serial number", ref S, ReadWriteMode.Write);
     }
 
     // AoWReg.pas:791
@@ -809,16 +809,16 @@ public partial class TAoWRegistry : TRegistry
     }
 
     // Automatic and English retain the shipped forcing behavior.
-    public TAoWLanguage GetLanguage()
+    public AoWLanguage GetLanguage()
     {
         int value = 0;
-        rwInteger("General", "Language", ref value, TReadWriteMode.rwRead);
-        return value is >= 2 and <= 5 ? (TAoWLanguage)value : TAoWLanguage.alEnglish;
+        rwInteger("General", "Language", ref value, ReadWriteMode.Read);
+        return value is >= 2 and <= 5 ? (AoWLanguage)value : AoWLanguage.English;
     }
 
-    private static TRect StringToRect(string S)
+    private static global::Aow.Rtl.Rect StringToRect(string S)
     {
-        TRect result = default(TRect);
+        global::Aow.Rtl.Rect result = default(global::Aow.Rtl.Rect);
         int num = RtlUnit.Pos(",", S);
         int num2 = 0;
         while (!RtlUnit.IsEmpty(S) && num2 != 4)
@@ -856,7 +856,7 @@ public partial class TAoWRegistry : TRegistry
         return result;
     }
 
-    private static string RectToString(TRect R)
+    private static string RectToString(global::Aow.Rtl.Rect R)
     {
         return string.Concat(new string[7]
         {
@@ -891,58 +891,48 @@ public partial class TAoWRegistry : TRegistry
         for (int i = 0; i <= num2 - 1; i++)
         {
             byte b = Cp1252.Byte(S[num2 - i - 1]);
-            int num3 = ((!TSet<byte>.WithBounds(0, 255).WithRange((byte)48, (byte)57).Contains(b)) ? ((!TSet<byte>.WithBounds(0, 255).WithRange((byte)65, (byte)70).Contains(b)) ? (TSet<byte>.WithBounds(0, 255).WithRange((byte)97, (byte)102).Contains(b) ? (b - 97 + 10) : 0) : (b - 65 + 10)) : (b - 48));
+            int num3 = ((!Set<byte>.WithBounds(0, 255).WithRange((byte)48, (byte)57).Contains(b)) ? ((!Set<byte>.WithBounds(0, 255).WithRange((byte)65, (byte)70).Contains(b)) ? (Set<byte>.WithBounds(0, 255).WithRange((byte)97, (byte)102).Contains(b) ? (b - 97 + 10) : 0) : (b - 65 + 10)) : (b - 48));
             num |= num3 << i * 4;
         }
         return num;
     }
+
+    public enum ReadWriteMode : byte
+    {
+        Read = 0, Write = 1
+    }
+
+    public enum CombatResolveMode : byte
+    {
+        Choose = 0, AlwaysFC = 1, AlwaysTC = 2
+    }
+
+    public enum MovementSpeed : byte
+    {
+        Normal = 0, Fast = 1, Turbo = 2
+    }
+
+    public enum AoWLanguage : byte
+    {
+        Auto = 0, English = 1, German = 2, French = 3, Spanish = 4, Italian = 5
+    }
 }
 
-public enum TDetailLevel : byte
+public enum DetailLevel : byte
 {
-    dtlLow = 0,
-    dtlNormal = 1,
-    dtlHigh = 2
+    Low = 0,
+    Normal = 1,
+    High = 2
 }
 
-public enum TReadWriteMode : byte
+public enum WindowPopupEvent : byte
 {
-    rwRead = 0,
-    rwWrite = 1
-}
-
-public enum TWindowPopupEvent : byte
-{
-    wpCombat = 0,
-    wpDiplomacy = 1,
-    wpSpellResearched = 2,
-    wpSpellReady = 3,
-    wpRebellion = 4,
-    wpPartyDamage = 5,
-    wpHeroUpgrade = 6,
-    wpHeroJoin = 7
-}
-
-public enum TCombatResolveMode : byte
-{
-    crmChoose = 0,
-    crmAlwaysFC = 1,
-    crmAlwaysTC = 2
-}
-
-public enum TMovementSpeed : byte
-{
-    mmsNormal = 0,
-    mmsFast = 1,
-    mmsTurbo = 2
-}
-
-public enum TAoWLanguage : byte
-{
-    alAuto = 0,
-    alEnglish = 1,
-    alGerman = 2,
-    alFrench = 3,
-    alSpanish = 4,
-    alItalian = 5
+    Combat = 0,
+    Diplomacy = 1,
+    SpellResearched = 2,
+    SpellReady = 3,
+    Rebellion = 4,
+    PartyDamage = 5,
+    HeroUpgrade = 6,
+    HeroJoin = 7
 }

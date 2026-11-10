@@ -10,9 +10,9 @@ namespace Aow.Game.World.Hexes;
 //   from the roads on the six neighbour hexagons (TRoadResource, ClassID $20165). }
 // FTransitions (bit HN-1: a road on the neighbour HN. the pairs 2+6 and 3+5 become bits 7 and
 // 6)
-public partial class TRoad : TAbstractRoad
+public partial class Road : AbstractRoad
 {
-    public TRoad(TECustomNode owner) : base(owner)
+    public Road(ECustomNode owner) : base(owner)
     {
     }
 
@@ -24,21 +24,21 @@ public partial class TRoad : TAbstractRoad
     // Road.pas:42
 
     // Road.pas:52
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
-        ((TRoadResource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        ((Resource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
     }
 
     // Road.pas:60
-    public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        TMapField MapField;
-        THexagonSprite OldRoad;
+        MapField MapField;
+        HexagonSprite OldRoad;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-        OldRoad = MapField.FindOwnedHS(typeof(TAbstractRoad));
+        OldRoad = MapField.FindOwnedHS(typeof(AbstractRoad));
         if (OldRoad != null)
         {
             OldRoad.Dispose();
@@ -56,19 +56,19 @@ public partial class TRoad : TAbstractRoad
     {
         int Xhx = default;
         int Yhx = default;
-        TMapLevel Level;
-        TMapField MapField;
+        MapLevel Level;
+        MapField MapField;
         bool HasRoad;
-        Level = (TMapLevel)Owner.Owner;
+        Level = (MapLevel)Owner.Owner;
         FTransitions = 0;
         for (int HN = 1; HN <= 6; HN++)
         {
             Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
-                HasRoad = MapField.FindOwnedHS(typeof(TAbstractRoad)) != null;
+                HasRoad = MapField.FindOwnedHS(typeof(AbstractRoad)) != null;
                 if (HasRoad)
                 {
                     FTransitions = (byte)(FTransitions + (1 << (HN - 1)));
@@ -92,18 +92,18 @@ public partial class TRoad : TAbstractRoad
     {
         int Xhx = default;
         int Yhx = default;
-        TMapLevel Level;
-        TMapField MapField;
-        TAbstractRoad Road;
-        Level = (TMapLevel)Owner.Owner;
+        MapLevel Level;
+        MapField MapField;
+        AbstractRoad Road;
+        Level = (MapLevel)Owner.Owner;
         for (int HN = 1; HN <= 6; HN++)
         {
             Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
             {
                 MapField = Level.GetField(Xhx, Yhx);
-                Road = (TAbstractRoad)MapField.FindChild(131428);
+                Road = (AbstractRoad)MapField.FindChild(131428);
                 if (Road != null)
                 {
                     Road.UpdateTransitions();
@@ -112,93 +112,93 @@ public partial class TRoad : TAbstractRoad
         }
     }
 
-    // Road.pas:18
-
-}
-
-public partial class TRoadResource : TAbstractRoadResource
-{
-    public TRoadResource(TECustomNode owner) : base(owner)
-    { }
-
-    // Road.pas:136
-    public new const int ClassID = 131429;
-
-    // Road.pas:126
-    public override int ResourceUserClassID() => 131428;
-
-    // Road.pas:141
-    public void Show(int Xhp, int Yhp, in TSurfaceDesc SurfaceDesc, TRoad Road)
+    public new partial class Resource : AbstractRoadResource
     {
-        byte Transitions;
-        byte Base;
-        Transitions = Road.FTransitions;
-        Base = 1;
-        if (Transitions != 0)
+        public Resource(ECustomNode owner) : base(owner)
+        { }
+
+        // Road.pas:136
+        public new const int ClassID = 131429;
+
+        // Road.pas:126
+        public override int ResourceUserClassID() => 131428;
+
+        // Road.pas:141
+        public void Show(int Xhp, int Yhp, in SurfaceDesc SurfaceDesc, Road Road)
         {
-            if ((Transitions & 64) == 0)
+            byte Transitions;
+            byte Base;
+            Transitions = Road.FTransitions;
+            Base = 1;
+            if (Transitions != 0)
             {
-                if ((Transitions & 16) != 0)
+                if ((Transitions & 64) == 0)
                 {
-                    FImageLibrary[Base + 4].Show(Xhp, Yhp, SurfaceDesc);
+                    if ((Transitions & 16) != 0)
+                    {
+                        FImageLibrary[Base + 4].Show(Xhp, Yhp, SurfaceDesc);
+                    }
+
+                    if ((Transitions & 4) != 0)
+                    {
+                        FImageLibrary[Base + 2].Show(Xhp, Yhp, SurfaceDesc);
+                    }
+                }
+                else
+                {
+                    FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
                 }
 
-                if ((Transitions & 4) != 0)
+                if ((Transitions & 128) == 0)
                 {
-                    FImageLibrary[Base + 2].Show(Xhp, Yhp, SurfaceDesc);
+                    if ((Transitions & 2) != 0)
+                    {
+                        FImageLibrary[Base + 1].Show(Xhp, Yhp, SurfaceDesc);
+                    }
+
+                    if ((Transitions & 32) != 0)
+                    {
+                        FImageLibrary[Base + 5].Show(Xhp, Yhp, SurfaceDesc);
+                    }
+                }
+                else
+                {
+                    FImageLibrary[Base + 7].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                if ((Transitions & 1) != 0)
+                {
+                    FImageLibrary[Base].Show(Xhp, Yhp, SurfaceDesc);
+                }
+
+                if ((Transitions & 8) != 0)
+                {
+                    FImageLibrary[Base + 3].Show(Xhp, Yhp, SurfaceDesc);
                 }
             }
             else
             {
                 FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
             }
-
-            if ((Transitions & 128) == 0)
-            {
-                if ((Transitions & 2) != 0)
-                {
-                    FImageLibrary[Base + 1].Show(Xhp, Yhp, SurfaceDesc);
-                }
-
-                if ((Transitions & 32) != 0)
-                {
-                    FImageLibrary[Base + 5].Show(Xhp, Yhp, SurfaceDesc);
-                }
-            }
-            else
-            {
-                FImageLibrary[Base + 7].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            if ((Transitions & 1) != 0)
-            {
-                FImageLibrary[Base].Show(Xhp, Yhp, SurfaceDesc);
-            }
-
-            if ((Transitions & 8) != 0)
-            {
-                FImageLibrary[Base + 3].Show(Xhp, Yhp, SurfaceDesc);
-            }
         }
-        else
+
+        // Road.pas:171
+        public override EditorClass Editor()
         {
-            FImageLibrary[Base + 6].Show(Xhp, Yhp, SurfaceDesc);
+            EditorClass Result = FEngine.Editors.FindEditor(131429);
+            if (Result == null)
+            {
+                Result = base.Editor();
+            }
+
+            return Result;
         }
+
+        // Road.pas:131
+        public override string ResourceEditName() => "Road";
+
     }
 
-    // Road.pas:171
-    public override EditorClass Editor()
-    {
-        EditorClass Result = FEngine.Editors.FindEditor(131429);
-        if (Result == null)
-        {
-            Result = base.Editor();
-        }
-
-        return Result;
-    }
-
-    // Road.pas:131
-    public override string ResourceEditName() => "Road";
+    // Road.pas:18
 
 }

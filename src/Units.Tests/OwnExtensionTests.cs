@@ -159,7 +159,7 @@ public sealed class OwnExtensionNameTests : IDisposable
     [InlineData(0, false, ".ohsm", false)]
     [InlineData(0, false, ".oahl", false)]
     public void TheDialogListsBothExtensions(int mode, bool campaign, string extension, bool listed) =>
-        Assert.Equal(listed, TFileDlgWindow.ListsFile(mode, campaign, extension));
+        Assert.Equal(listed, FileDlgWindow.ListsFile(mode, campaign, extension));
 }
 
 /// <summary>
@@ -175,15 +175,15 @@ public sealed class OwnExtensionWriteTests
 
     private static string Save(string name) => Path.Combine(EngineFixture.Root, "Save", name);
 
-    private void Run(Action<TAoWEngine, TAoWHSMap> action)
+    private void Run(Action<AoWEngine, AoWHSMap> action)
     {
         Directory.CreateDirectory(Path.Combine(EngineFixture.Root, "Save"));
         var engine = EngineFixture.Engine;
-        var map = new TAoWHSMap(null!);
+        var map = new AoWHSMap(null!);
         var previousMap = engine.FHSMap;
         var previousLog = FileBoundary.Log;
         engine.FHSMap = map;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
+        Aow.Game.World.Map.AoWHSMap.Current = map;
         FileBoundary.Log = log.Add;
         try
         {
@@ -193,7 +193,7 @@ public sealed class OwnExtensionWriteTests
         {
             FileBoundary.Log = previousLog;
             engine.FHSMap = previousMap;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
+            Aow.Game.World.Map.AoWHSMap.Current = null!;
             foreach (var file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save"))) File.Delete(file);
         }
     }
@@ -201,7 +201,7 @@ public sealed class OwnExtensionWriteTests
     [Fact]
     public void TheAutosaveWritesTheOwnExtension() => Run((_, _) =>
     {
-        new TPlayerControl(null!).AutoSave();
+        new PlayerControl(null!).AutoSave();
         var write = Assert.Single(log);
         Assert.Equal("write", write.Report.Operation);
         Assert.Equal(Save("autosave.oasg"), write.Path, ignoreCase: true);
@@ -216,7 +216,7 @@ public sealed class OwnExtensionWriteTests
         try
         {
             Assert.False(Runtime.WritesOwnExtensions);
-            new TPlayerControl(null!).AutoSave();
+            new PlayerControl(null!).AutoSave();
             Assert.Equal(Save("autosave.asg"), Assert.Single(log).Path, ignoreCase: true);
             Assert.Equal(Save("Foo.asg"), FileBoundary.WriteName(Save("Foo.asg")));
             Assert.Equal(".acg", FileBoundary.WriteExtension(DocumentKind.CampaignSave));
@@ -244,7 +244,7 @@ public sealed class OwnExtensionWriteTests
     {
         byte[] original = [1, 2, 3];
         File.WriteAllBytes(Save("Foo.asg"), original);
-        Assert.Throws<EGameFileError>(() => engine.SaveHSM(FileBoundary.WriteName(Save("Foo.asg")), null!, GameProfile.WorldMap));
+        Assert.Throws<GameFileErrorException>(() => engine.SaveHSM(FileBoundary.WriteName(Save("Foo.asg")), null!, GameProfile.WorldMap));
         var write = Assert.Single(log);
         Assert.Equal(Save("Foo.oasg"), write.Path, ignoreCase: true);
         Assert.Equal(original, File.ReadAllBytes(Save("Foo.asg")));

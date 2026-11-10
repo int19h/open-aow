@@ -15,52 +15,52 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // arena event. completion callback
-public partial class TArenaDlg : TDataModule
+public partial class ArenaDlg : DataModule
 {
-    public TArenaDlg(TComponent owner) : base(owner)
+    public ArenaDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWButton SelectBtn;
-    public TAOWImage TitleIcon;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAOWButton CancelBtn;
-    public TAOWWindow Dlg;
-    public TAOWPanel UnitPnl;
-    public TAOWPanel MapViewPnl;
-    public TAOWCheckBox U1;
-    public TAOWCheckBox U2;
-    public TAOWCheckBox U3;
-    public TAOWCheckBox U4;
-    public TAOWCheckBox U5;
-    public TAOWCheckBox U6;
-    public TAOWCheckBox U7;
-    public TAOWCheckBox U8;
-    public TAOWImage DecoL;
-    public TAOWImage DecoR;
-    public TAoWFrame AoWFrame1;
-    public TAOWPanel SelectionInfoPnl;
-    public TAOWLabel SelectionInfoLbl;
-    public TAOWLabel SelectionLbl;
+    public AOWButton SelectBtn;
+    public AOWImage TitleIcon;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AOWButton CancelBtn;
+    public AOWWindow Dlg;
+    public AOWPanel UnitPnl;
+    public AOWPanel MapViewPnl;
+    public AOWCheckBox U1;
+    public AOWCheckBox U2;
+    public AOWCheckBox U3;
+    public AOWCheckBox U4;
+    public AOWCheckBox U5;
+    public AOWCheckBox U6;
+    public AOWCheckBox U7;
+    public AOWCheckBox U8;
+    public AOWImage DecoL;
+    public AOWImage DecoR;
+    public AoWFrame AoWFrame1;
+    public AOWPanel SelectionInfoPnl;
+    public AOWLabel SelectionInfoLbl;
+    public AOWLabel SelectionLbl;
     public TaowUserDrawBox MapView;
-    public TAOWImage InfoSep;
-    public TIvTranslator Translator;
-    public TEnterArenaEventLog FEvent;
-    public TExecuteDoneEvent FOnClose;
+    public AOWImage InfoSep;
+    public IvTranslator Translator;
+    public EnterArenaEventLog FEvent;
+    public ExecuteDoneEvent FOnClose;
 
     // AoWArenaDlg.pas:104
-    public void DrawUnit(int Index, int X, int Y, ref TSurfaceDesc SD)
+    public void DrawUnit(int Index, int X, int Y, ref SurfaceDesc SD)
     {
-        TRect SaveRect;
-        TP2UnitShowInfo Info;
-        Aow.Game.Draw.Images.TLibraryImage Img;
-        TAbstractUnit U;
-        TAlignment Alignment;
+        global::Aow.Rtl.Rect SaveRect;
+        P2UnitShowInfo Info;
+        Aow.Game.Draw.Images.LibraryImage Img;
+        AbstractUnit U;
+        Alignment Alignment;
         if (Index < FEvent.GetCount())
         {
             U = FEvent.GetUnit(Index);
             SaveRect = SD.ClipRect;
-            var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
+            var rect = global::Aow.Rtl.RtlUnit.Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = U.GetAlignment();
             if ((byte)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
@@ -71,7 +71,7 @@ public partial class TArenaDlg : TDataModule
 
             Info = default;
             Info.Direction = 3;
-            Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             U.ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
             {
@@ -92,8 +92,8 @@ public partial class TArenaDlg : TDataModule
     // AoWArenaDlg.pas:140
     public void ClearEvent()
     {
-        TEnterArenaEventLog Event;
-        TExecuteDoneEvent Notify;
+        EnterArenaEventLog Event;
+        ExecuteDoneEvent Notify;
         Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         Notify = FOnClose;
         Event = FEvent;
@@ -128,12 +128,12 @@ public partial class TArenaDlg : TDataModule
         }
         else
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
         }
     }
 
     // AoWArenaDlg.pas:170
-    public void U1Change(TAOWCheckBox Sender, int Slot)
+    public void U1Change(AOWCheckBox Sender, int Slot)
     {
         string Reason = "";
         if (Sender.Checked)
@@ -186,7 +186,7 @@ public partial class TArenaDlg : TDataModule
     }
 
     // AoWArenaDlg.pas:196
-    public void U1PreDraw(TAOWCheckBox Sender, TSurfaceDesc SD, int Slot)
+    public void U1PreDraw(AOWCheckBox Sender, SurfaceDesc SD, int Slot)
     {
         DrawUnit(Slot, UnitPnl.WinLeft + Sender.WinLeft, UnitPnl.WinTop + Sender.WinTop, ref SD);
     }
@@ -198,15 +198,15 @@ public partial class TArenaDlg : TDataModule
     }
 
     // AoWArenaDlg.pas:206
-    public void MapViewDraw(TAoWComponent Sender, TSurfaceDesc SD)
+    public void MapViewDraw(AoWComponent Sender, SurfaceDesc SD)
     {
         int X = default;
         int Y = default;
-        TSurfaceDesc MapSD = default;
-        TRect R;
+        SurfaceDesc MapSD = default;
+        global::Aow.Rtl.Rect R;
         int W;
         int H;
-        R = Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var yhx = FEvent.FArena.GetYhx();
@@ -223,19 +223,19 @@ public partial class TArenaDlg : TDataModule
             Y = 16;
         }
 
-        Aow.Game.Draw.TSurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
+        Aow.Game.Draw.SurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
         var lhx = FEvent.FArena.GetLhx();
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateStaticScene();
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateDynamicScene();
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DrawStaticScene(ref MapSD);
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DrawDynamicScene(ref MapSD);
+        Aow.Game.World.Map.AoWHSMap.Current.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
+        Aow.Game.World.Map.AoWHSMap.Current.UpdateStaticScene();
+        Aow.Game.World.Map.AoWHSMap.Current.UpdateDynamicScene();
+        Aow.Game.World.Map.AoWHSMap.Current.DrawStaticScene(ref MapSD);
+        Aow.Game.World.Map.AoWHSMap.Current.DrawDynamicScene(ref MapSD);
     }
 
     // AoWArenaDlg.pas:224
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWArenaDlg.pas:229
@@ -244,7 +244,7 @@ public partial class TArenaDlg : TDataModule
     }
 
     // AoWArenaDlg.pas:232
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -252,10 +252,10 @@ public partial class TArenaDlg : TDataModule
         }
     }
 
-    internal static void ShowArena(TArenaDlg Dialog, TEnterArenaEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowArena(ArenaDlg Dialog, EnterArenaEventLog Event, ExecuteDoneEvent Done)
     {
         Assert(Dialog.FEvent == null, "", "AoWArenaDlg.pas", 94);
-        Aow.Game.Ui.Dialogs.TArenaDlg.ResetArena(Dialog);
+        Aow.Game.Ui.Dialogs.ArenaDlg.ResetArena(Dialog);
         Dialog.FOnClose = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
@@ -263,7 +263,7 @@ public partial class TArenaDlg : TDataModule
         Dialog.Dlg.Visible = true;
     }
 
-    internal static void ResetArena(TArenaDlg Dialog)
+    internal static void ResetArena(ArenaDlg Dialog)
     {
         Dialog.U1.Checked = false;
         Dialog.U2.Checked = false;

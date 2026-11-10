@@ -10,31 +10,31 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSynchronizeDlg : TDataModule
+public partial class SynchronizeDlg : DataModule
 {
-    public TSynchronizeDlg(TComponent owner) : base(owner)
+    public SynchronizeDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAoWFrame TCeltB;
-    public TAOWLabel BottomMsg;
-    public TAOWImage LShield;
-    public TAOWLabel PlayerName;
-    public TAOWLabel InfoMsg;
-    public TAOWLabel PlayerRace;
-    public TAOWLabel Turn;
-    public TAOWImage RShield;
-    public TAoWFrame BlueFr;
-    public TAOWImage TCeltLineL;
-    public TAOWImage TCeltLineR;
-    public TAOWPanel NewTPnl;
-    public TAOWImage FaceFrame;
-    public TIvTranslator Translator;
+    public AOWWindow Dlg;
+    public AoWFrame TCeltB;
+    public AOWLabel BottomMsg;
+    public AOWImage LShield;
+    public AOWLabel PlayerName;
+    public AOWLabel InfoMsg;
+    public AOWLabel PlayerRace;
+    public AOWLabel Turn;
+    public AOWImage RShield;
+    public AoWFrame BlueFr;
+    public AOWImage TCeltLineL;
+    public AOWImage TCeltLineR;
+    public AOWPanel NewTPnl;
+    public AOWImage FaceFrame;
+    public IvTranslator Translator;
 
     // AoWSyncDlg.pas:45
-    public TPlayerSetupSettings GetPlayerSetup()
+    public PlayerSetupSettings GetPlayerSetup()
     {
-        TPlayerSetupSettings Result;
+        PlayerSetupSettings Result;
         int Index;
         Index = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
         if (Index != -1)
@@ -50,14 +50,14 @@ public partial class TSynchronizeDlg : TDataModule
     }
 
     // AoWSyncDlg.pas:54
-    public void FaceFramePreDraw(TSurfaceDesc Surface)
+    public void FaceFramePreDraw(SurfaceDesc Surface)
     {
-        TPlayerSetupSettings Settings;
-        TRect R;
+        PlayerSetupSettings Settings;
+        global::Aow.Rtl.Rect R;
         Settings = GetPlayerSetup();
         if (Settings != null)
         {
-            R = Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, Dlg.WinLeft + 188 + 103, Dlg.WinTop + 40 + 128);
+            R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, Dlg.WinLeft + 188 + 103, Dlg.WinTop + 40 + 128);
             Settings.FLeader.ShowFace(R, Surface);
         }
     }
@@ -65,7 +65,7 @@ public partial class TSynchronizeDlg : TDataModule
     // AoWSyncDlg.pas:67
     public void DlgShow()
     {
-        TPlayerSetupSettings Settings;
+        PlayerSetupSettings Settings;
         int I;
         int Day;
         Settings = GetPlayerSetup();
@@ -91,7 +91,7 @@ public partial class TSynchronizeDlg : TDataModule
 
             var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Settings.FRace]);
             PlayerRace.Text = raceNamesPlural;
-            Day = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay;
+            Day = Aow.Game.World.Map.AoWHSMap.Current.FDay;
             if (Day == 0)
             {
                 Day = 1;

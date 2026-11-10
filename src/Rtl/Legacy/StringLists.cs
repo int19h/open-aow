@@ -7,7 +7,7 @@ public sealed class IndexedProperty<TKey, TValue>(Func<TKey, TValue> get, Action
     public TValue this[TKey key] { get => get(key); set { if (set is null) throw new InvalidOperationException("Read-only property"); set(key, value); } }
 }
 
-public abstract class TStrings : TPersistent
+public abstract class StringCollection : Persistent
 {
     protected int UpdateCount;
 
@@ -140,14 +140,14 @@ public abstract class TStrings : TPersistent
     protected virtual void SetUpdateState(bool updating) { }
 
     // CLASSES.PAS TStrings.AddStrings and Assign.
-    public void AddStrings(TStrings source)
+    public void AddStrings(StringCollection source)
     {
         BeginUpdate(); try { int count = source.Count; for (int i = 0; i < count; i++) AddObject(source[i], source.Objects[i]); } finally { EndUpdate(); }
     }
 
-    public override void Assign(TPersistent? source)
+    public override void Assign(Persistent? source)
     {
-        if (source is not TStrings strings) { base.Assign(source); return; }
+        if (source is not StringCollection strings) { base.Assign(source); return; }
         BeginUpdate(); try { Clear(); AddStrings(strings); } finally { EndUpdate(); }
     }
 
@@ -199,9 +199,9 @@ public abstract class TStrings : TPersistent
     }
 }
 
-public enum TDuplicates : byte { dupIgnore, dupAccept, dupError }
+public enum Duplicates : byte { Ignore, Accept, Error }
 
-public class TStringList : TStrings
+public class StringList : StringCollection
 {
     private record struct StringItem(string Text, object? Object);
 
@@ -212,9 +212,9 @@ public class TStringList : TStrings
     public override int Count => count;
     // CLASSES.PAS TStringList.SetCapacity.
     public override int Capacity { get => items.Length; set { if (value < count) Error("List capacity out of bounds (%d)", value); Array.Resize(ref items, value); } }
-    public TDuplicates Duplicates { get; set; }
-    public TNotifyEvent<TStringList>? OnChange { get; set; }
-    public TNotifyEvent<TStringList>? OnChanging { get; set; }
+    public global::Aow.Rtl.Duplicates Duplicates { get; set; }
+    public NotifyEvent<StringList>? OnChange { get; set; }
+    public NotifyEvent<StringList>? OnChanging { get; set; }
 
     // CLASSES.PAS TStringList.Changed, Changing and SetUpdateState.
     protected virtual void Changed() { if (UpdateCount == 0) OnChange?.Invoke(this); }
@@ -255,8 +255,8 @@ public class TStringList : TStrings
         int i = count;
         if (Sorted && Find(value, ref i))
         {
-            if (Duplicates == TDuplicates.dupIgnore) return i;
-            if (Duplicates == TDuplicates.dupError) Error("String list does not allow duplicates", 0);
+            if (Duplicates == global::Aow.Rtl.Duplicates.Ignore) return i;
+            if (Duplicates == global::Aow.Rtl.Duplicates.Error) Error("String list does not allow duplicates", 0);
         }
         InsertItem(i, value); return i;
     }
@@ -284,7 +284,7 @@ public class TStringList : TStrings
         {
             int i = (low + high) >> 1, c = AnsiCompareText(items[i].Text, value);
             if (c < 0) low = i + 1;
-            else { high = i - 1; if (c == 0) { result = true; if (Duplicates != TDuplicates.dupAccept) low = i; } }
+            else { high = i - 1; if (c == 0) { result = true; if (Duplicates != global::Aow.Rtl.Duplicates.Accept) low = i; } }
         }
         index = low; return result;
     }

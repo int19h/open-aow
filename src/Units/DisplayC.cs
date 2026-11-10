@@ -18,42 +18,28 @@ public struct Record_TWindows08DC_CreateHPalette_LogPal_2256_3
     public FixedArray_Aow_Rtl_TPaletteEntry_256 palPalEntry;
 }
 
-public enum TDisplayCtrlStatusElement : byte
+public enum DisplayCtrlStatusElement : byte
 {
-    dsVisible = 0,
-    dsActivated = 1,
-    dsWindowed = 2
+    Visible = 0,
+    Activated = 1,
+    Windowed = 2
 }
 
-public enum TDisplayStatusElement : byte
+public enum DisplayStatusElement : byte
 {
-    dsFrameLoopActive = 0,
-    dsDDrawEnabled = 1,
-    dsDirectInputEnabled = 2,
-    dsAsynchrone = 3,
-    dsExclusiveAccess = 4,
-    dsFrameLoopPaused = 5
-}
-
-public enum TDisplayOptionsElement : byte
-{
-    doAutoResizeBackSurface = 0,
-    doAutoSwapDC = 1,
-    doAutoStartUpdateFrameLoop = 2,
-    doAutoActivatePrimaryDC = 3,
-    doShowFrameRate = 4,
-    doShowErrors = 5,
-    doFocusAble = 6,
-    doRestoreSurfacesOnSwap = 7,
-    doBltOnWMPAINT = 8,
-    doAutoEnableDDraw = 9
+    FrameLoopActive = 0,
+    DDrawEnabled = 1,
+    DirectInputEnabled = 2,
+    Asynchrone = 3,
+    ExclusiveAccess = 4,
+    FrameLoopPaused = 5
 }
 
 [LegacyObject]
 // a byte matrix (the invalidated blocks of a surface). FData, FWidth, FHeight. The port's FData
 // is the array of FWidth * FHeight bytes, row by row, and null for an empty matrix as GetMem of
 // size 0 gives nil.
-public partial class TMatrix : IDisposable
+public partial class Matrix : IDisposable
 {
     internal byte[] FData;
     internal byte FWidth;
@@ -61,7 +47,7 @@ public partial class TMatrix : IDisposable
 
     // DisplayC.pas:3145
     // { TMatrix (DCTypes in the original) }
-    public TMatrix(byte AWidth, byte AHeight)
+    public Matrix(byte AWidth, byte AHeight)
     {
         CaptureAddress.Assign(this);
         FWidth = AWidth;
@@ -116,45 +102,45 @@ public partial class TMatrix : IDisposable
 // FUpdateFrameThread, FStatus, FOptions (2 bytes), FUpdateFrameMode, FBackSurfaceControlMode,
 // FBufferingScheme, FBackSurfaceWidth, FBackSurfaceHeight, FSurfaceIndex (the back surface to
 // show), FPauseCount, FMouseAboveSurface, FPrimaryDC, FSecondaryDC, FActiveDC
-public partial class TCustomDisplay : TWinControl
+public partial class CustomDisplay : WinControl
 {
 
-    internal TDDrawFSWinControl FFSWinControl;
-    internal TNotifyEvent<object> FOnBltSurface;
-    internal TUpdateFrameEvent FOnUpdateFrame;
-    internal TSurfaceDataLostEvent FOnSurfaceDataLost;
-    internal TNotifyEvent<object> FOnResize;
-    internal TErrorEvent FOnError;
-    internal TDCNotifyEvent FOnActivateDC;
-    internal TDCNotifyEvent FOnDeactivateDC;
-    internal TNotifyEvent<object> FOnHide;
-    internal TNotifyEvent<object> FOnShow;
-    internal TResizeBackSurfaceEvent FOnResizeBackSurface;
-    internal TSwapDCEvent FOnSwapDC;
+    internal DDrawFSWinControl FFSWinControl;
+    internal NotifyEvent<object> FOnBltSurface;
+    internal UpdateFrameEvent FOnUpdateFrame;
+    internal SurfaceDataLostEvent FOnSurfaceDataLost;
+    internal NotifyEvent<object> FOnResize;
+    internal ErrorEvent FOnError;
+    internal DCNotifyEvent FOnActivateDC;
+    internal DCNotifyEvent FOnDeactivateDC;
+    internal NotifyEvent<object> FOnHide;
+    internal NotifyEvent<object> FOnShow;
+    internal ResizeBackSurfaceEvent FOnResizeBackSurface;
+    internal SwapDCEvent FOnSwapDC;
     internal int FFrameRate;
     internal int FFrameTime;
     protected internal int FCurrentFrameRate;
 
     public int CurrentFrameRate { get => FCurrentFrameRate; }
 
-    internal TUpdateFrameThread FUpdateFrameThread;
-    public TSet<TDisplayStatusElement> FStatus;
-    internal TSet<TDisplayOptionsElement> FOptions;
-    internal TUpdateFrameMode FUpdateFrameMode;
-    internal TBackSurfaceControlMode FBackSurfaceControlMode;
-    internal TBufferingScheme FBufferingScheme;
+    internal UpdateFrameThread FUpdateFrameThread;
+    public Set<DisplayStatusElement> FStatus;
+    internal Set<DisplayOptionsElement> FOptions;
+    internal global::Aow.Game.Draw.UpdateFrameMode FUpdateFrameMode;
+    internal global::Aow.Game.Draw.BackSurfaceControlMode FBackSurfaceControlMode;
+    internal global::Aow.Game.Draw.BufferingScheme FBufferingScheme;
     internal int FBackSurfaceWidth;
     internal int FBackSurfaceHeight;
     public int FSurfaceIndex;
     // direct frame blit
     internal int FPauseCount;
     internal bool FMouseAboveSurface;
-    internal TAbstractDC FPrimaryDC;
-    internal TAbstractDC FSecondaryDC;
-    internal TAbstractDC FActiveDC;
+    internal AbstractDC FPrimaryDC;
+    internal AbstractDC FSecondaryDC;
+    internal AbstractDC FActiveDC;
 
     // DisplayC.pas:1397
-    internal void SetBufferingScheme(TBufferingScheme Value)
+    internal void SetBufferingScheme(global::Aow.Game.Draw.BufferingScheme Value)
     {
         if (FActiveDC == null)
         {
@@ -167,25 +153,25 @@ public partial class TCustomDisplay : TWinControl
 
         switch (FBufferingScheme)
         {
-            case TBufferingScheme.bsSingle:
+            case global::Aow.Game.Draw.BufferingScheme.Single:
                 FSurfaceIndex = 0;
                 break;
-            case TBufferingScheme.bsDouble:
+            case global::Aow.Game.Draw.BufferingScheme.Double:
                 FSurfaceIndex = 1;
                 break;
-            case TBufferingScheme.bsTripple:
+            case global::Aow.Game.Draw.BufferingScheme.Tripple:
                 FSurfaceIndex = 2;
                 break;
         }
     }
 
     // DisplayC.pas:1410
-    internal void SetUpdateFrameMode(TUpdateFrameMode Value)
+    internal void SetUpdateFrameMode(global::Aow.Game.Draw.UpdateFrameMode Value)
     {
-        if (!FStatus.Contains(TDisplayStatusElement.dsFrameLoopActive))
+        if (!FStatus.Contains(DisplayStatusElement.FrameLoopActive))
         {
             FUpdateFrameMode = Value;
-            if (!ComponentState.Contains(TComponentState.csDesigning) && FOptions.Contains(TDisplayOptionsElement.doAutoStartUpdateFrameLoop) && !ComponentState.Contains(TComponentState.csLoading))
+            if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && FOptions.Contains(DisplayOptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Loading))
             {
                 StartUpdateFrameLoop();
             }
@@ -215,7 +201,7 @@ public partial class TCustomDisplay : TWinControl
     }
 
     // DisplayC.pas:1552
-    internal void CMWantSpecialKey(ref TWMKey Message)
+    internal void CMWantSpecialKey(ref WMKey Message)
     {
         if (Message.CharCode == 37 || Message.CharCode == 39 || Message.CharCode == 38 || Message.CharCode == 40)
         {
@@ -224,7 +210,7 @@ public partial class TCustomDisplay : TWinControl
     }
 
     // DisplayC.pas:1560
-    internal void CMKeyUP(ref TWMKey Message)
+    internal void CMKeyUP(ref WMKey Message)
     {
         if (Message.CharCode == 37 || Message.CharCode == 39 || Message.CharCode == 38 || Message.CharCode == 40)
         {
@@ -233,7 +219,7 @@ public partial class TCustomDisplay : TWinControl
     }
 
     // DisplayC.pas:1390
-    protected internal override void KeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    protected internal override void KeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         /* TODO: Implement Controls.KeyDown in the platform or editor service. */
         throw new NotImplementedException();
@@ -348,14 +334,14 @@ public partial class TCustomDisplay : TWinControl
     }
 
     // DisplayC.pas:1382
-    protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    protected internal override void MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         /* TODO: Implement Windows.SetFocus in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1341
-    protected internal override void CreateParams(ref TCreateParams Params)
+    protected internal override void CreateParams(ref global::Aow.Rtl.CreateParams Params)
     {
         /* TODO: Implement Controls.CreateParams in the platform or editor service. */
         throw new NotImplementedException();
@@ -369,16 +355,16 @@ public partial class TCustomDisplay : TWinControl
     }
 
     // DisplayC.pas:1588
-    protected internal override void WndProc(ref TMessage Message)
+    protected internal override void WndProc(ref Message Message)
     {
         /* TODO: Implement Controls.WndProc in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1541
-    public virtual TAbstractDC GetDC(int Index)
+    public virtual AbstractDC GetDC(int Index)
     {
-        TAbstractDC Result;
+        AbstractDC Result;
         switch (Index)
         {
             case -1:
@@ -417,7 +403,7 @@ public partial class TCustomDisplay : TWinControl
     {
         FBackSurfaceWidth = AWidth;
         FBackSurfaceHeight = AHeight;
-        if (!ComponentState.Contains(TComponentState.csDesigning) && FActiveDC != null && FBufferingScheme != TBufferingScheme.bsSingle)
+        if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && FActiveDC != null && FBufferingScheme != global::Aow.Game.Draw.BufferingScheme.Single)
         {
             if (FActiveDC.GetSurface(1).Width != AWidth || FActiveDC.GetSurface(1).Height != AHeight)
             {
@@ -460,30 +446,30 @@ public partial class TCustomDisplay : TWinControl
         try
         {
             Result = 0;
-            if (FActiveDC != null && FActiveDC.GetStatus().Contains(TDisplayCtrlStatusElement.dsVisible))
+            if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayCtrlStatusElement.Visible))
             {
                 if (FOnBltSurface != null)
                 {
                     FOnBltSurface(this);
                 }
 
-                if (FBufferingScheme != TBufferingScheme.bsSingle)
+                if (FBufferingScheme != global::Aow.Game.Draw.BufferingScheme.Single)
                 {
                     switch (FBackSurfaceControlMode)
                     {
-                        case TBackSurfaceControlMode.bmPageFlipping:
+                        case global::Aow.Game.Draw.BackSurfaceControlMode.PageFlipping:
                             Result = FActiveDC.FlipSurface(FSurfaceIndex);
                             break;
-                        case TBackSurfaceControlMode.bmBltSurface:
+                        case global::Aow.Game.Draw.BackSurfaceControlMode.BltSurface:
                             Result = FActiveDC.BltSurface(FSurfaceIndex);
                             break;
-                        case TBackSurfaceControlMode.bmBltInvalidatedSurface:
+                        case global::Aow.Game.Draw.BackSurfaceControlMode.BltInvalidatedSurface:
                             Result = FActiveDC.BltInvalidatedSurface(FSurfaceIndex);
                             break;
                     }
                 }
 
-                if (FOptions.Contains(TDisplayOptionsElement.doShowFrameRate))
+                if (FOptions.Contains(DisplayOptionsElement.ShowFrameRate))
                 {
                     FActiveDC.ShowFrameRate();
                 }
@@ -513,7 +499,7 @@ public partial class TCustomDisplay : TWinControl
             FOnHide(this);
         }
 
-        if (FActiveDC != null && !ComponentState.Contains(TComponentState.csDesigning))
+        if (FActiveDC != null && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing))
         {
             FActiveDC.Hide();
         }
@@ -522,7 +508,7 @@ public partial class TCustomDisplay : TWinControl
     // DisplayC.pas:1661
     public new void Show()
     {
-        if (FActiveDC != null && !ComponentState.Contains(TComponentState.csDesigning))
+        if (FActiveDC != null && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing))
         {
             FActiveDC.Show();
         }
@@ -534,7 +520,7 @@ public partial class TCustomDisplay : TWinControl
     }
 
     // DisplayC.pas:1669
-    public int SupportDC(TAbstractDC DC)
+    public int SupportDC(AbstractDC DC)
     {
         int Result;
         if (DC != null)
@@ -552,7 +538,7 @@ public partial class TCustomDisplay : TWinControl
     // DisplayC.pas:1755
     public int DeactivateDC()
     {
-        if (FActiveDC != null && FActiveDC.GetStatus().Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (FActiveDC != null && FActiveDC.GetStatus().Contains(DisplayCtrlStatusElement.Activated))
         {
             if (FOnDeactivateDC != null)
             {
@@ -567,191 +553,205 @@ public partial class TCustomDisplay : TWinControl
     }
 
     public new int Cursor { get => GetCursor(); set => SetCursor(value); }
-    public TAbstractDC ActiveDC { get => FActiveDC; }
-    public TDDrawFSWinControl FSWinControl { get => FFSWinControl; }
-    protected internal TSet<TDisplayOptionsElement> Options { get => FOptions; set => FOptions = value; }
-    protected internal TBufferingScheme BufferingScheme { get => FBufferingScheme; set => SetBufferingScheme(value); }
-    protected internal TBackSurfaceControlMode BackSurfaceControlMode { get => FBackSurfaceControlMode; set => FBackSurfaceControlMode = value; }
+    public AbstractDC ActiveDC { get => FActiveDC; }
+    public DDrawFSWinControl FSWinControl { get => FFSWinControl; }
+    protected internal Set<DisplayOptionsElement> Options { get => FOptions; set => FOptions = value; }
+    protected internal global::Aow.Game.Draw.BufferingScheme BufferingScheme { get => FBufferingScheme; set => SetBufferingScheme(value); }
+    protected internal global::Aow.Game.Draw.BackSurfaceControlMode BackSurfaceControlMode { get => FBackSurfaceControlMode; set => FBackSurfaceControlMode = value; }
     protected internal int BackSurfaceWidth { get => FBackSurfaceWidth; set => SetBackSurfaceWidth(value); }
     protected internal int BackSurfaceHeight { get => FBackSurfaceHeight; set => SetBackSurfaceHeight(value); }
     protected internal int FrameRate { get => FFrameRate; set => SetFrameRate(value); }
-    protected internal TAbstractDC PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
-    protected internal TAbstractDC SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
-    protected internal TUpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
-    protected internal TNotifyEvent<object> OnResize { get => FOnResize; set => FOnResize = value; }
-    protected internal TNotifyEvent<object> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
-    protected internal TDCNotifyEvent OnDeactivateDC { get => FOnDeactivateDC; set => FOnDeactivateDC = value; }
-    protected internal TDCNotifyEvent OnActivateDC { get => FOnActivateDC; set => FOnActivateDC = value; }
-    protected internal TUpdateFrameEvent OnUpdateFrame { get => FOnUpdateFrame; set => FOnUpdateFrame = value; }
-    protected internal TNotifyEvent<object> OnHide { get => FOnHide; set => FOnHide = value; }
-    protected internal TNotifyEvent<object> OnShow { get => FOnShow; set => FOnShow = value; }
-    protected internal TErrorEvent OnError { get => FOnError; set => FOnError = value; }
-    protected internal TSurfaceDataLostEvent OnSurfaceDataLost { get => FOnSurfaceDataLost; set => FOnSurfaceDataLost = value; }
-    protected internal TResizeBackSurfaceEvent OnResizeBackSurface { get => FOnResizeBackSurface; set => FOnResizeBackSurface = value; }
-    protected internal TSwapDCEvent OnSwapDC { get => FOnSwapDC; set => FOnSwapDC = value; }
+    protected internal AbstractDC PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
+    protected internal AbstractDC SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
+    protected internal global::Aow.Game.Draw.UpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
+    protected internal NotifyEvent<object> OnResize { get => FOnResize; set => FOnResize = value; }
+    protected internal NotifyEvent<object> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
+    protected internal DCNotifyEvent OnDeactivateDC { get => FOnDeactivateDC; set => FOnDeactivateDC = value; }
+    protected internal DCNotifyEvent OnActivateDC { get => FOnActivateDC; set => FOnActivateDC = value; }
+    protected internal UpdateFrameEvent OnUpdateFrame { get => FOnUpdateFrame; set => FOnUpdateFrame = value; }
+    protected internal NotifyEvent<object> OnHide { get => FOnHide; set => FOnHide = value; }
+    protected internal NotifyEvent<object> OnShow { get => FOnShow; set => FOnShow = value; }
+    protected internal ErrorEvent OnError { get => FOnError; set => FOnError = value; }
+    protected internal SurfaceDataLostEvent OnSurfaceDataLost { get => FOnSurfaceDataLost; set => FOnSurfaceDataLost = value; }
+    protected internal ResizeBackSurfaceEvent OnResizeBackSurface { get => FOnResizeBackSurface; set => FOnResizeBackSurface = value; }
+    protected internal SwapDCEvent OnSwapDC { get => FOnSwapDC; set => FOnSwapDC = value; }
 
     private const int DCERR_ACTIVATEFAILED = -2147414014;
 
-    private static int RemapSurface(global::Aow.Game.Draw.TSurface Src, global::Aow.Game.Draw.TSurface Dest)
+    private static int RemapSurface(global::Aow.Game.Draw.Surface Src, global::Aow.Game.Draw.Surface Dest)
     {
-        global::Aow.Game.Draw.TSurfaceDesc SD = default(global::Aow.Game.Draw.TSurfaceDesc);
-        global::Aow.Game.Draw.TSurfaceDesc SD2 = default(global::Aow.Game.Draw.TSurfaceDesc);
+        global::Aow.Game.Draw.SurfaceDesc SD = default(global::Aow.Game.Draw.SurfaceDesc);
+        global::Aow.Game.Draw.SurfaceDesc SD2 = default(global::Aow.Game.Draw.SurfaceDesc);
         Src.Lock(ref SD);
         Dest.Lock(ref SD2);
-        int result = global::Aow.Game.Draw.TSurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
+        int result = global::Aow.Game.Draw.SurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
         Src.Unlock();
         Dest.Unlock();
         return result;
     }
 
+    public enum DisplayOptionsElement : byte
+    {
+        AutoResizeBackSurface = 0, AutoSwapDC = 1, AutoStartUpdateFrameLoop = 2, AutoActivatePrimaryDC = 3, ShowFrameRate = 4, ShowErrors = 5, FocusAble = 6, RestoreSurfacesOnSwap = 7, BltOnWMPAINT = 8, AutoEnableDDraw = 9
+    }
+
+    public delegate void UpdateFrameEvent(object Sender, AbstractDC DC, int SurfaceType);
+    public delegate void DCNotifyEvent(object Sender, AbstractDC DC);
+
+    public delegate void ErrorEvent(string ErrorStr, int Error);
+    public delegate void SurfaceDataLostEvent(AbstractDC DC, int SurfaceType);
+
+    public delegate void ResizeBackSurfaceEvent(AbstractDC DC, int Width, int Height);
+    public delegate void SwapDCEvent(AbstractDC DC);
+
 }
 
 // the interface of a display controller. 35 new virtual methods, all abstract but GetSurface
 // and BltInvalidatedSurface
-public partial class TAbstractDC : TComponent
+public partial class AbstractDC : global::Aow.Rtl.Component
 {
-    public TAbstractDC(TComponent owner) : base(owner)
+    public AbstractDC(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
     // DisplayC.pas:74
-    public virtual TMatrix GetInvMatrix()
+    public virtual Matrix GetInvMatrix()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:75
-    public virtual void SetPrimarySurfaceRgn(in TRect R)
+    public virtual void SetPrimarySurfaceRgn(in global::Aow.Rtl.Rect R)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:76
-    public virtual TRect? GetPrimarySurfaceRgn()
+    public virtual global::Aow.Rtl.Rect? GetPrimarySurfaceRgn()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:77
-    public virtual TSet<TDisplayCtrlStatusElement> GetStatus()
+    public virtual Set<DisplayCtrlStatusElement> GetStatus()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:78
-    public virtual TCustomDisplay GetDisplay()
+    public virtual CustomDisplay GetDisplay()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:79
-    public virtual TGFXEPalette GetPalette()
+    public virtual GFXEPalette GetPalette()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:554
-    public virtual TSurface GetSurface(int Index) => null;
+    public virtual Surface GetSurface(int Index) => null;
 
     // DisplayC.pas:81
     public virtual int GetSurfaceCount()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:82
-    public virtual bool WndProc(ref TMessage Message)
+    public virtual bool WndProc(ref Message Message)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:83
-    public virtual int SupportDisplayMode(TCustomDisplay ADisplay)
+    public virtual int SupportDisplayMode(CustomDisplay ADisplay)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:84
     public virtual void WindowRecreated()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:85
     public virtual void ShowError(string Msg)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:86
     public virtual int GetHPalette()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:87
     public virtual int Hide()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:88
     public virtual int Show()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:89
-    public virtual void GetPixPosofBlock(int BX, int BY, TRect R, ref int PX, ref int PY, ref int BW, ref int BH)
+    public virtual void GetPixPosofBlock(int BX, int BY, global::Aow.Rtl.Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:90
-    public virtual void GetBlockPosofPix(int PX, int PY, TRect R, ref int BX, ref int BY)
+    public virtual void GetBlockPosofPix(int PX, int PY, global::Aow.Rtl.Rect R, ref int BX, ref int BY)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:91
-    public virtual int GetInvBlockSize(int X, int Y, TMatrix Matrix, ref int BW, ref int BH)
+    public virtual int GetInvBlockSize(int X, int Y, Matrix Matrix, ref int BW, ref int BH)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:92
     public virtual void NewFrame()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:93
     public virtual void ShowFrameRate()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:94
-    public virtual int Activate(TCustomDisplay ADisplay)
+    public virtual int Activate(CustomDisplay ADisplay)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:95
     public virtual int Deactivate()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:96
     public virtual int FlipSurface(int Index)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:97
     public virtual int BltSurface(int Index)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:562
@@ -761,7 +761,7 @@ public partial class TAbstractDC : TComponent
     public virtual int BltInvalidatedSurface(int Index)
     {
         int Result;
-        TMatrix M;
+        Matrix M;
         int BW = default;
         int BH = default;
         int PX2 = default;
@@ -769,14 +769,14 @@ public partial class TAbstractDC : TComponent
         int BlkW = default;
         int BlkH = default;
         int V;
-        TRect ClipR = default;
-        TRect SrcR = default;
-        TRect DstR = default;
+        global::Aow.Rtl.Rect ClipR = default;
+        global::Aow.Rtl.Rect SrcR = default;
+        global::Aow.Rtl.Rect DstR = default;
         if (GetInvMatrix() != null)
         {
             Result = 0;
             var invMatrix = GetInvMatrix();
-            M = new TMatrix(GetInvMatrix().Width, invMatrix.Height);
+            M = new Matrix(GetInvMatrix().Width, invMatrix.Height);
             for (int I = 0, last = GetInvMatrix().Width - 1; I <= last; I++)
             {
                 for (int J = 0, lastJ = GetInvMatrix().Height - 1; J <= lastJ; J++)
@@ -868,87 +868,87 @@ public partial class TAbstractDC : TComponent
     // DisplayC.pas:99
     public virtual int Handle()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:100
-    public virtual TWinControl OutputWnd()
+    public virtual WinControl OutputWnd()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:101
     public virtual int ResizeBackSurfaces(int AWidth, int AHeight)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:102
     public virtual void GetMousePos(ref int X, ref int Y)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:103
     public virtual int RealizePaletNow()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:104
-    public virtual int SetPalet(TGFXEPalette Palette)
+    public virtual int SetPalet(GFXEPalette Palette)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:105
     public virtual int WaitForVerticalBlank()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:106
     public virtual void InitInvMatrix(byte AWidth, byte AHeight)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:107
     public virtual void Invalidate(int X, int Y, int W, int H)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:108
     public virtual void InvalidateAll()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 }
 
 // the common part of the display controllers. FLastFrameTime, FFrameCount (Word), FStatus,
 // FDisplay, FPrimarySurfaceRgn (the output rectangle), FInvMatrix, FRealizePalet, FLastVBTime
-public partial class TDisplayCtrl : TAbstractDC
+public partial class DisplayCtrl : AbstractDC
 {
 
     internal int FLastFrameTime;
     internal ushort FFrameCount;
-    internal TSet<TDisplayCtrlStatusElement> FStatus;
-    internal TCustomDisplay FDisplay;
-    internal TRect FPrimarySurfaceRgn;
-    internal TMatrix FInvMatrix;
+    internal Set<DisplayCtrlStatusElement> FStatus;
+    internal CustomDisplay FDisplay;
+    internal global::Aow.Rtl.Rect FPrimarySurfaceRgn;
+    internal Matrix FInvMatrix;
     internal bool FRealizePalet;
     internal int FLastVBTime;
 
-    public TDisplayCtrl(TComponent owner) : base(owner)
+    public DisplayCtrl(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FInvMatrix = new TMatrix(4, 4);
+        FInvMatrix = new Matrix(4, 4);
     }
 
     // DisplayC.pas:1031
     public override void Dispose()
     {
-        if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
             Deactivate();
         }
@@ -963,7 +963,7 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:634
-    public override TMatrix GetInvMatrix() => FInvMatrix;
+    public override Matrix GetInvMatrix() => FInvMatrix;
 
     // DisplayC.pas:639
     public override int GetSurfaceCount()
@@ -1012,23 +1012,23 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:675
-    public override void SetPrimarySurfaceRgn(in TRect R)
+    public override void SetPrimarySurfaceRgn(in global::Aow.Rtl.Rect R)
     {
         FPrimarySurfaceRgn = R;
     }
 
     // DisplayC.pas:680
     // The original returns @FPrimarySurfaceRgn, which is never nil.
-    public override TRect? GetPrimarySurfaceRgn() => FPrimarySurfaceRgn;
+    public override global::Aow.Rtl.Rect? GetPrimarySurfaceRgn() => FPrimarySurfaceRgn;
 
     // DisplayC.pas:685
-    public override TSet<TDisplayCtrlStatusElement> GetStatus() => FStatus;
+    public override Set<DisplayCtrlStatusElement> GetStatus() => FStatus;
 
     // DisplayC.pas:690
     public override int GetHPalette() => 0;
 
     // DisplayC.pas:695
-    public override bool WndProc(ref TMessage Message)
+    public override bool WndProc(ref Message Message)
     {
         bool Result = true;
         if (Message.Msg == 133)
@@ -1047,7 +1047,7 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:710
-    public override TCustomDisplay GetDisplay() => FDisplay;
+    public override CustomDisplay GetDisplay() => FDisplay;
 
     // DisplayC.pas:720
     public override void WindowRecreated()
@@ -1055,20 +1055,20 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:734
-    public override int Activate(TCustomDisplay ADisplay)
+    public override int Activate(CustomDisplay ADisplay)
     {
         int Result;
-        if (!FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (!FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
             FDisplay = ADisplay;
-            FStatus = FStatus + TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsActivated);
+            FStatus = FStatus + Set<DisplayCtrlStatusElement>.Of(DisplayCtrlStatusElement.Activated);
             FDisplay.FCurrentFrameRate = FDisplay.FFrameRate;
             InvalidateAll();
             Result = 0;
         }
         else
         {
-            Result = Aow.Game.Draw.TDisplayCtrl.DCERR_ACTIVATED;
+            Result = Aow.Game.Draw.DisplayCtrl.DCERR_ACTIVATED;
         }
 
         return Result;
@@ -1078,9 +1078,9 @@ public partial class TDisplayCtrl : TAbstractDC
     public override int Deactivate()
     {
         int Result;
-        if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
-            FStatus = FStatus - TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsActivated);
+            FStatus = FStatus - Set<DisplayCtrlStatusElement>.Of(DisplayCtrlStatusElement.Activated);
             if (FDisplay != null)
             {
                 FDisplay.DeactivateDC();
@@ -1098,15 +1098,15 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:762
-    public override int SupportDisplayMode(TCustomDisplay ADisplay) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int SupportDisplayMode(CustomDisplay ADisplay) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:767
-    public override int SetPalet(TGFXEPalette Palette) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int SetPalet(GFXEPalette Palette) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:772
     public void RealizePalet()
     {
-        if (FDisplay.FStatus.Contains(TDisplayStatusElement.dsFrameLoopActive))
+        if (FDisplay.FStatus.Contains(DisplayStatusElement.FrameLoopActive))
         {
             FRealizePalet = true;
         }
@@ -1131,19 +1131,19 @@ public partial class TDisplayCtrl : TAbstractDC
     // DisplayC.pas:830
     public override int Hide()
     {
-        FStatus = FStatus - TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsVisible);
+        FStatus = FStatus - Set<DisplayCtrlStatusElement>.Of(DisplayCtrlStatusElement.Visible);
         return 0;
     }
 
     // DisplayC.pas:836
     public override int Show()
     {
-        FStatus = FStatus + TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsVisible);
+        FStatus = FStatus + Set<DisplayCtrlStatusElement>.Of(DisplayCtrlStatusElement.Visible);
         return 0;
     }
 
     // DisplayC.pas:842
-    public override TGFXEPalette GetPalette() => null;
+    public override GFXEPalette GetPalette() => null;
 
     // DisplayC.pas:873
     public override void InitInvMatrix(byte AWidth, byte AHeight)
@@ -1153,7 +1153,7 @@ public partial class TDisplayCtrl : TAbstractDC
             FInvMatrix.Dispose();
         }
 
-        FInvMatrix = new TMatrix(AWidth, AHeight);
+        FInvMatrix = new Matrix(AWidth, AHeight);
     }
 
     // DisplayC.pas:880
@@ -1175,7 +1175,7 @@ public partial class TDisplayCtrl : TAbstractDC
     // { The size of the largest rectangle of marked blocks with its top left corner at X, Y, grown
     //   first downwards (rows of shrinking width) and then to the right (columns of shrinking
     //   height); BW and BH get its size in blocks, the result is its area. }
-    public override int GetInvBlockSize(int X, int Y, TMatrix Matrix, ref int BW, ref int BH)
+    public override int GetInvBlockSize(int X, int Y, Matrix Matrix, ref int BW, ref int BH)
     {
         int Result;
         int Size1;
@@ -1266,7 +1266,7 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:964
-    public override void GetPixPosofBlock(int BX, int BY, TRect R, ref int PX, ref int PY, ref int BW, ref int BH)
+    public override void GetPixPosofBlock(int BX, int BY, global::Aow.Rtl.Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
     {
         int W;
         int H;
@@ -1279,7 +1279,7 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:976
-    public override void GetBlockPosofPix(int PX, int PY, TRect R, ref int BX, ref int BY)
+    public override void GetBlockPosofPix(int PX, int PY, global::Aow.Rtl.Rect R, ref int BX, ref int BY)
     {
         int W;
         int H;
@@ -1298,8 +1298,8 @@ public partial class TDisplayCtrl : TAbstractDC
         int BX2 = default;
         int BY1 = default;
         int BY2 = default;
-        TMatrix M;
-        TRect R = default;
+        Matrix M;
+        global::Aow.Rtl.Rect R = default;
         if (FInvMatrix != null)
         {
             M = FInvMatrix;
@@ -1382,25 +1382,25 @@ public partial class TDisplayCtrl : TAbstractDC
 
 // the full screen window of the DirectDraw controllers. passes the mouse and key events on to
 // its display. FDisplay
-public partial class TDDrawFSWinControl : TWinControl
+public partial class DDrawFSWinControl : WinControl
 {
-    internal TCustomDisplay FDisplay;
+    internal CustomDisplay FDisplay;
 
     // DisplayC.pas:1129
-    protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    protected internal override void MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FDisplay.MouseDown(Button, Shift, X, Y);
     }
 
     // DisplayC.pas:1134
-    protected internal override void MouseMove(TSet<TShiftState> Shift, int X, int Y)
+    protected internal override void MouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         /* TODO: Implement Controls.MouseMove in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1139
-    protected internal override void MouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    protected internal override void MouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         /* TODO: Implement Controls.MouseUp in the platform or editor service. */
         throw new NotImplementedException();
@@ -1421,13 +1421,13 @@ public partial class TDDrawFSWinControl : TWinControl
     }
 
     // DisplayC.pas:1144
-    protected internal override void KeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    protected internal override void KeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         FDisplay.KeyDown(ref Key, Shift);
     }
 
     // DisplayC.pas:1149
-    protected internal override void KeyUp(ref ushort Key, TSet<TShiftState> Shift)
+    protected internal override void KeyUp(ref ushort Key, Set<ShiftState> Shift)
     {
         /* TODO: Implement Controls.KeyUp in the platform or editor service. */
         throw new NotImplementedException();
@@ -1441,14 +1441,14 @@ public partial class TDDrawFSWinControl : TWinControl
     }
 
     // DisplayC.pas:1169
-    protected internal override void CreateParams(ref TCreateParams Params)
+    protected internal override void CreateParams(ref global::Aow.Rtl.CreateParams Params)
     {
         /* TODO: Implement Controls.CreateParams in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:1180
-    protected internal override void WndProc(ref TMessage Message)
+    protected internal override void WndProc(ref Message Message)
     {
         /* TODO: Implement Forms.Active in the platform or editor service. */
         throw new NotImplementedException();
@@ -1456,7 +1456,7 @@ public partial class TDDrawFSWinControl : TWinControl
 
     // DisplayC.pas:1114
 
-    public TDDrawFSWinControl(TComponent owner) : base(owner)
+    public DDrawFSWinControl(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement Controls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -1470,49 +1470,40 @@ public partial class TDDrawFSWinControl : TWinControl
     }
 }
 
-public enum TActivatedDCType : byte
+public enum ActivatedDCType : byte
 {
-    dtPrimaryDC = 0,
-    dtSecondaryDC = 1,
-    dtUserDC = 2
+    PrimaryDC = 0,
+    SecondaryDC = 1,
+    UserDC = 2
 }
 
-public enum TBackSurfaceControlMode : byte
+public enum BackSurfaceControlMode : byte
 {
-    bmBltSurface = 0,
-    bmBltInvalidatedSurface = 1,
-    bmPageFlipping = 2,
-    bmNone = 3
+    BltSurface = 0,
+    BltInvalidatedSurface = 1,
+    PageFlipping = 2,
+    None = 3
 }
 
-public delegate void TUpdateFrameEvent(object Sender, TAbstractDC DC, int SurfaceType);
-public delegate void TDCNotifyEvent(object Sender, TAbstractDC DC);
-
-public enum TBufferingScheme : byte
+public enum BufferingScheme : byte
 {
-    bsSingle = 0,
-    bsDouble = 1,
-    bsTripple = 2
+    Single = 0,
+    Double = 1,
+    Tripple = 2
 }
 
-public delegate void TErrorEvent(string ErrorStr, int Error);
-public delegate void TSurfaceDataLostEvent(TAbstractDC DC, int SurfaceType);
-
-public enum TUpdateFrameMode : byte
+public enum UpdateFrameMode : byte
 {
-    umAsynchrone = 0,
-    umSynchrone = 1
+    Asynchrone = 0,
+    Synchrone = 1
 }
-
-public delegate void TResizeBackSurfaceEvent(TAbstractDC DC, int Width, int Height);
-public delegate void TSwapDCEvent(TAbstractDC DC);
 
 [LegacyObject]
 // the asynchronous frame loop. calls TCustomDisplay.UpdateFrame through Synchronize at the
 // frame rate. FDisplay, FBusy, FLastTime
-public partial class TUpdateFrameThread
+public partial class UpdateFrameThread
 {
-    internal TCustomDisplay FDisplay;
+    internal CustomDisplay FDisplay;
     internal bool FBusy;
     internal int FLastTime;
 
@@ -1531,7 +1522,7 @@ public partial class TUpdateFrameThread
     }
 
     // DisplayC.pas:1105
-    public TUpdateFrameThread(TCustomDisplay ADisplay)
+    public UpdateFrameThread(CustomDisplay ADisplay)
     {
         CaptureAddress.Assign(this);
         /* TODO: Implement Classes.Create in the platform or editor service. */
@@ -1543,21 +1534,21 @@ public partial class TUpdateFrameThread
 }
 
 // TCustomDisplay with its properties published
-public partial class TDisplay : TCustomDisplay
+public partial class Display : CustomDisplay
 {
 
-    public TDisplay(TComponent owner) : base(owner)
+    public Display(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
 }
 
 // a TGDISurface on the window of a control, taking the handle from the control. FControl
-public partial class TDisplayGDISurface : TGDISurface
+public partial class DisplayGDISurface : GDISurface
 {
-    internal TWinControl FControl;
+    internal WinControl FControl;
 
     // DisplayC.pas:1878
-    public TDisplayGDISurface(TWinControl AControl) : base(0)
+    public DisplayGDISurface(WinControl AControl) : base(0)
     {
         /* TODO: Implement Controls.Handle in the platform or editor service. */
         throw new NotImplementedException();
@@ -1575,22 +1566,22 @@ public partial class TDisplayGDISurface : TGDISurface
 }
 
 // the windowed controllers (GDI). FDC, FWnd, FGDISurface (the window, surface 0)
-public partial class TWindowsDC : TDisplayCtrl
+public partial class WindowsDC : DisplayCtrl
 {
 
     internal int FDC;
     internal int FWnd;
-    internal TDisplayGDISurface FGDISurface;
+    internal DisplayGDISurface FGDISurface;
 
     // DisplayC.pas:1894
-    public TWindowsDC(TComponent owner) : base(owner)
+    public WindowsDC(global::Aow.Rtl.Component owner) : base(owner)
     {
         InitInvMatrix(4, 4);
-        FStatus = FStatus + TSet<TDisplayCtrlStatusElement>.Of(TDisplayCtrlStatusElement.dsWindowed);
+        FStatus = FStatus + Set<DisplayCtrlStatusElement>.Of(DisplayCtrlStatusElement.Windowed);
     }
 
     // DisplayC.pas:1901
-    public override int Activate(TCustomDisplay ADisplay)
+    public override int Activate(CustomDisplay ADisplay)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -1611,7 +1602,7 @@ public partial class TWindowsDC : TDisplayCtrl
     }
 
     // DisplayC.pas:1939
-    public override int SupportDisplayMode(TCustomDisplay ADisplay) => 0;
+    public override int SupportDisplayMode(CustomDisplay ADisplay) => 0;
 
     // DisplayC.pas:1944
     public override int BltSurface(int Index)
@@ -1638,7 +1629,7 @@ public partial class TWindowsDC : TDisplayCtrl
 
     // DisplayC.pas:1957
     // { In a window every block is a block of its own. }
-    public override int GetInvBlockSize(int X, int Y, TMatrix Matrix, ref int BW, ref int BH)
+    public override int GetInvBlockSize(int X, int Y, Matrix Matrix, ref int BW, ref int BH)
     {
         if (GetInvMatrix().GetVal((byte)X, (byte)Y) != 0)
         {
@@ -1666,21 +1657,21 @@ public partial class TWindowsDC : TDisplayCtrl
 // 8 bit back surfaces drawn with StretchDIBits through a palette. FBack1, FBack2
 // (TWindows08DIBSurface, declared in the implementation), FPalette, FBitmapInfo (header and 256
 // colors), FHPalette, FOldPalette
-public partial class TWindows08DC : TWindowsDC
+public partial class Windows08DC : WindowsDC
 {
 
-    internal TSurface FBack1;
-    internal TSurface FBack2;
-    internal TGFXEPalette FPalette;
-    internal TBitmapInfoHeader FBitmapInfo;
+    internal Surface FBack1;
+    internal Surface FBack2;
+    internal GFXEPalette FPalette;
+    internal BitmapInfoHeader FBitmapInfo;
     internal FixedArray_Aow_Rtl_TRGBQuad_256 FColors;
     internal int FHPalette;
     internal int FOldPalette;
 
     // DisplayC.pas:2165
-    public TWindows08DC(TComponent owner) : base(owner)
+    public Windows08DC(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FPalette = new TGFXEPalette();
+        FPalette = new GFXEPalette();
         FPalette.PixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB24;
     }
 
@@ -1691,15 +1682,15 @@ public partial class TWindows08DC : TWindowsDC
     }
 
     // DisplayC.pas:2178
-    public override TGFXEPalette GetPalette() => FPalette;
+    public override GFXEPalette GetPalette() => FPalette;
 
     // DisplayC.pas:2183
     public override int GetHPalette() => FHPalette;
 
     // DisplayC.pas:2188
-    public override TSurface GetSurface(int Index)
+    public override Surface GetSurface(int Index)
     {
-        TSurface Result;
+        Surface Result;
         switch (Index)
         {
             case 0:
@@ -1722,7 +1713,7 @@ public partial class TWindows08DC : TWindowsDC
     // DisplayC.pas:2199
     public override int Deactivate()
     {
-        if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
             FBack1?.Dispose();
             FBack1 = null;
@@ -1735,7 +1726,7 @@ public partial class TWindows08DC : TWindowsDC
     }
 
     // DisplayC.pas:2212
-    public override int Activate(TCustomDisplay ADisplay)
+    public override int Activate(CustomDisplay ADisplay)
     {
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
@@ -1771,25 +1762,18 @@ public partial class TWindows08DC : TWindowsDC
 
 }
 
-public enum TWin16DCPixelFormat : byte
-{
-    pfAuto = 0,
-    pf555 = 1,
-    pf565 = 2
-}
-
 // 16 bit DIB back surfaces. FPixelFormat, FBack1, FBack2
-public partial class TWindows16DC : TWindowsDC
+public partial class Windows16DC : WindowsDC
 {
 
-    internal TWin16DCPixelFormat FPixelFormat;
-    internal TDIB16Surface FBack1;
-    internal TDIB16Surface FBack2;
+    internal Win16DCPixelFormat FPixelFormat;
+    internal DIB16Surface FBack1;
+    internal DIB16Surface FBack2;
 
     // DisplayC.pas:2343
-    internal void SetPixelFormat(TWin16DCPixelFormat Value)
+    internal void SetPixelFormat(Win16DCPixelFormat Value)
     {
-        if (!FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (!FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
             FPixelFormat = Value;
         }
@@ -1800,15 +1784,15 @@ public partial class TWindows16DC : TWindowsDC
     }
 
     // DisplayC.pas:2314
-    public TWindows16DC(TComponent owner) : base(owner)
+    public Windows16DC(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FPixelFormat = TWin16DCPixelFormat.pfAuto;
+        FPixelFormat = Win16DCPixelFormat.Auto;
     }
 
     // DisplayC.pas:2320
-    public override TSurface GetSurface(int Index)
+    public override Surface GetSurface(int Index)
     {
-        TSurface Result;
+        Surface Result;
         switch (Index)
         {
             case 0:
@@ -1831,7 +1815,7 @@ public partial class TWindows16DC : TWindowsDC
     // DisplayC.pas:2331
     public override int Deactivate()
     {
-        if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
             FBack1?.Dispose();
             FBack1 = null;
@@ -1843,31 +1827,36 @@ public partial class TWindows16DC : TWindowsDC
     }
 
     // DisplayC.pas:2351
-    public override int Activate(TCustomDisplay ADisplay)
+    public override int Activate(CustomDisplay ADisplay)
     {
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     [Published]
-    public TWin16DCPixelFormat PixelFormat { get => FPixelFormat; set => SetPixelFormat(value); }
+    public Win16DCPixelFormat PixelFormat { get => FPixelFormat; set => SetPixelFormat(value); }
+
+    public enum Win16DCPixelFormat : byte
+    {
+        Auto = 0, pf555 = 1, pf565 = 2
+    }
 
 }
 
 // 24 bit DIB back surfaces. FBack1, FBack2
-public partial class TWindows24DC : TWindowsDC
+public partial class Windows24DC : WindowsDC
 {
 
-    public TWindows24DC(TComponent owner) : base(owner)
+    public Windows24DC(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    internal TDIB24Surface FBack1;
-    internal TDIB24Surface FBack2;
+    internal DIB24Surface FBack1;
+    internal DIB24Surface FBack2;
 
     // DisplayC.pas:2390
-    public override TSurface GetSurface(int Index)
+    public override Surface GetSurface(int Index)
     {
-        TSurface Result;
+        Surface Result;
         switch (Index)
         {
             case 0:
@@ -1890,7 +1879,7 @@ public partial class TWindows24DC : TWindowsDC
     // DisplayC.pas:2401
     public override int Deactivate()
     {
-        if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
             FBack1?.Dispose();
             FBack1 = null;
@@ -1902,7 +1891,7 @@ public partial class TWindows24DC : TWindowsDC
     }
 
     // DisplayC.pas:2413
-    public override int Activate(TCustomDisplay ADisplay)
+    public override int Activate(CustomDisplay ADisplay)
     {
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
@@ -1910,19 +1899,19 @@ public partial class TWindows24DC : TWindowsDC
 }
 
 // 32 bit back surfaces. FBack1, FBack2
-public partial class TWindows32DC : TWindowsDC
+public partial class Windows32DC : WindowsDC
 {
 
-    public TWindows32DC(TComponent owner) : base(owner)
+    public Windows32DC(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    internal TDIB32Surface FBack1;
-    internal TDIB32Surface FBack2;
+    internal DIB32Surface FBack1;
+    internal DIB32Surface FBack2;
 
     // DisplayC.pas:2435
-    public override TSurface GetSurface(int Index)
+    public override Surface GetSurface(int Index)
     {
-        TSurface Result;
+        Surface Result;
         switch (Index)
         {
             case 0:
@@ -1945,7 +1934,7 @@ public partial class TWindows32DC : TWindowsDC
     // DisplayC.pas:2446
     public override int Deactivate()
     {
-        if (FStatus.Contains(TDisplayCtrlStatusElement.dsActivated))
+        if (FStatus.Contains(DisplayCtrlStatusElement.Activated))
         {
             FBack1?.Dispose();
             FBack1 = null;
@@ -1957,7 +1946,7 @@ public partial class TWindows32DC : TWindowsDC
     }
 
     // DisplayC.pas:2458
-    public override int Activate(TCustomDisplay ADisplay)
+    public override int Activate(CustomDisplay ADisplay)
     {
         /* TODO: Implement Controls.Color in the platform or editor service. */
         throw new NotImplementedException();
@@ -1967,16 +1956,16 @@ public partial class TWindows32DC : TWindowsDC
 // an 8 bit bottom-up DIB of a TWindows08DC, drawn with the bitmap info and palette of its
 // owner. FWidth, FHeight, FMem, FBits (FMem aligned to 8), FPitch (negative), FOwner. The port's
 // FMem is the pixel array and FBits, its first byte, has no field of its own (graphics.md 3.4).
-public partial class TWindows08DIBSurface : TSurface
+public partial class Windows08DIBSurface : Surface
 {
     internal int FWidth;
     internal int FHeight;
     internal byte[] FMem;
     internal int FPitch;
-    internal TWindows08DC FOwner;
+    internal Windows08DC FOwner;
 
     // DisplayC.pas:2011
-    public TWindows08DIBSurface(int AWidth, int AHeight, TWindows08DC owner)
+    public Windows08DIBSurface(int AWidth, int AHeight, Windows08DC owner)
     {
         FOwner = owner;
         Resize(AWidth, AHeight);
@@ -1998,21 +1987,21 @@ public partial class TWindows08DIBSurface : TSurface
     // DisplayC.pas:2036
     // { Copies SrcRect to the top left of DestRect (no stretching); a GDI surface that cannot be
     //   locked is drawn on with BltDC. }
-    public override int BltStretch(TSurface Dest, TRect? SrcRect, TRect? DestRect)
+    public override int BltStretch(Surface Dest, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:2078
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect)
+    public override int BltDC(int DC, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
     {
         /* TODO: Implement Windows.GetClientRect in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:2104
-    public override int Lock(ref TSurfaceDesc SD)
+    public override int Lock(ref SurfaceDesc SD)
     {
         SD = default;
         SD.Width = FWidth;

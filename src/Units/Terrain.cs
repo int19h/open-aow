@@ -12,9 +12,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Hexes;
 
 // FDecorationType (-1 none), FTerrainType. persisted as ids $12 and $11
-public partial class TTerrainMOR : Aow.Game.World.TMultiHexMOR
+public partial class TerrainMOR : Aow.Game.World.MultiHexMOR
 {
-    public TTerrainMOR(TECustomNode owner) : base(owner)
+    public TerrainMOR(ECustomNode owner) : base(owner)
     {
         FDecorationType = -1;
     }
@@ -26,7 +26,7 @@ public partial class TTerrainMOR : Aow.Game.World.TMultiHexMOR
     internal byte FTerrainType;
 
     // Terrain.pas:310
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwByte(ref FTerrainType, 17);
@@ -44,15 +44,15 @@ public partial class TTerrainMOR : Aow.Game.World.TMultiHexMOR
     // Terrain.pas:42
 
     // Terrain.pas:317
-    public override string ResourceEditName() => Aow.Game.World.Hexes.TTerrainMOR.TerrainStr;
+    public override string ResourceEditName() => Aow.Game.World.Hexes.TerrainMOR.TerrainStr;
 
     private static readonly string TerrainStr = "Terrain";
 
 }
 
-public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
+public partial class TerrainMO : Aow.Game.World.MultiHexMO
 {
-    public TTerrainMO(TECustomNode owner) : base(owner)
+    public TerrainMO(ECustomNode owner) : base(owner)
     {
     }
 
@@ -62,7 +62,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
     // Terrain.pas:60
 
     // Terrain.pas:179
-    public override bool CanChangeTerrain(in THSSenderInfo Info)
+    public override bool CanChangeTerrain(in HSSenderInfo Info)
     {
         bool Result;
         if (this != Info.Sender)
@@ -70,7 +70,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
             if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
             {
                 var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-                if (GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType)
+                if (GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType)
                 {
                     Result = CanChangeOwnTerrain(Info.HN);
                 }
@@ -93,17 +93,17 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // Terrain.pas:195
-    public override void ChangeTerrain(in THSTerrainInfo Info)
+    public override void ChangeTerrain(in HSTerrainInfo Info)
     {
         sbyte TerrainType;
         sbyte NewTerrainType;
-        TTerrainMOR R;
-        TECustomNode OldOwner;
+        TerrainMOR R;
+        ECustomNode OldOwner;
         TerrainType = FResource.TerrainList.GetTerrain(Info.HN);
         if (TerrainType >= 0 && TerrainType != Info.TerrainType)
         {
             var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-            NewTerrainType = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain);
+            NewTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain);
             if (NewTerrainType != TerrainType)
             {
                 R = FindTerrainResource((byte)NewTerrainType);
@@ -130,7 +130,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // Terrain.pas:275
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
     {
         if (Msg.MsgID == 16)
         {
@@ -155,13 +155,13 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
         {
             if (FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
             {
-                Msg.Result = ((TTerrainMOR)FResource).FDecorationType;
+                Msg.Result = ((TerrainMOR)FResource).FDecorationType;
             }
         }
     }
 
     // Terrain.pas:291
-    public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
         if (Result && !GetEditMode())
@@ -173,17 +173,17 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // Terrain.pas:226
-    public virtual void ClearTerrain(TMapField MapField, int HN)
+    public virtual void ClearTerrain(MapField MapField, int HN)
     {
         int Xhx;
         int Yhx;
         int Lhx;
         int X = default;
         int Y = default;
-        TTerrainList TerrainList;
-        THSMap Map;
-        TTerrainMOR R;
-        TEObjectList Resources;
+        TerrainList TerrainList;
+        HSMap Map;
+        TerrainMOR R;
+        EObjectList Resources;
         int I;
         bool Found;
         if (FResource.TerrainList.UsedTerrain() > 1)
@@ -195,10 +195,10 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
             while (!Found && I != 0)
             {
                 I -= 1;
-                if (Resources.List[I] is TTerrainMOR terrain)
+                if (Resources.List[I] is TerrainMOR terrain)
                 {
                     R = terrain;
-                    Found = R.EClass.ClassID == FResource.EClass.ClassID && R.FDecorationType == ((TTerrainMOR)FResource).FDecorationType && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
+                    Found = R.EClass.ClassID == FResource.EClass.ClassID && R.FDecorationType == ((TerrainMOR)FResource).FDecorationType && R.FTerrainType == ((TerrainMOR)FResource).FTerrainType && R.TerrainList.UsedTerrain() == 1 && R.TerrainList.GetTerrain(0) >= 0 && GetOverlay(0) == R.TerrainList.GetOverlay(0);
                 }
             }
 
@@ -207,7 +207,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
                 Xhx = GetXhx();
                 Yhx = GetYhx();
                 Lhx = GetLhx();
-                Map = ((TMapLevel)Owner.Owner).Map;
+                Map = ((MapLevel)Owner.Owner).Map;
                 TerrainList = FResource.TerrainList;
                 Dispose();
                 I = 0;
@@ -233,20 +233,20 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // Terrain.pas:70
-    public virtual TTerrainMOR FindDecorationResource(byte DecorationType)
+    public virtual TerrainMOR FindDecorationResource(byte DecorationType)
     {
-        TTerrainMOR Result;
-        TList Candidates;
-        TEObjectList Resources;
-        TTerrainMOR R;
-        Candidates = new TList();
+        TerrainMOR Result;
+        DelphiList Candidates;
+        EObjectList Resources;
+        TerrainMOR R;
+        Candidates = new DelphiList();
         Resources = GetResourceList(FResource.Engine).FChildren;
         for (int I = 0, last = Resources.Count - 1; I <= last; I++)
         {
-            if (Resources.List[I] is TTerrainMOR terrain)
+            if (Resources.List[I] is TerrainMOR terrain)
             {
                 R = terrain;
-                if (R.EClass.ClassID == FResource.EClass.ClassID && R.FTerrainType == ((TTerrainMOR)FResource).FTerrainType && R.FDecorationType == DecorationType && R != FResource && R.TerrainList.CompareTerrain(FResource.TerrainList, TSet<TTerrainCompareModeElement>.Of(TTerrainCompareModeElement.cmSameOverlayType)))
+                if (R.EClass.ClassID == FResource.EClass.ClassID && R.FTerrainType == ((TerrainMOR)FResource).FTerrainType && R.FDecorationType == DecorationType && R != FResource && R.TerrainList.CompareTerrain(FResource.TerrainList, Set<TerrainCompareModeElement>.Of(TerrainCompareModeElement.SameOverlayType)))
                 {
                     Candidates.Add(R);
                 }
@@ -256,7 +256,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
         if (Candidates.Count != 0)
         {
             var random = Random(Candidates.Count);
-            Result = (TTerrainMOR)Candidates.List[random];
+            Result = (TerrainMOR)Candidates.List[random];
         }
         else
         {
@@ -270,13 +270,13 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
     // Terrain.pas:160
     public bool CanChangeOwnTerrain(int HN)
     {
-        TMapLevel Level;
+        MapLevel Level;
         int Count;
-        THNWalkData Walk = default;
+        HNWalkData Walk = default;
         bool Result = true;
-        Level = (TMapLevel)Owner.Owner;
+        Level = (MapLevel)Owner.Owner;
         Count = GetTerrainCount();
-        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count && Result)
         {
             if (Walk.HN != HN && GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -284,7 +284,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
                 Result = Level.GetField(Walk.X, Walk.Y).CanChangeTerrainEx(this);
             }
 
-            Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;

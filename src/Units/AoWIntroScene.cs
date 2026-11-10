@@ -6,13 +6,13 @@ using Aow.Rtl;
 namespace Aow.Game.Ui.Dialogs;
 
 // sound buffer, buffer size, DirectSound, stream position
-public partial class TIntroScene : TDataModule
+public partial class IntroScene : DataModule
 {
-    public TIntroScene(TComponent owner) : base(owner)
+    public IntroScene(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAoWUserWindow Window;
-    public TVideoPlayer VideoPlayer;
+    public AoWUserWindow Window;
+    public global::Aow.Rtl.VideoPlayer VideoPlayer;
     public IDirectSoundBuffer FSoundBuffer;
     public int FBufferSize;
     public IDirectSound FDirectSound;
@@ -27,13 +27,13 @@ public partial class TIntroScene : TDataModule
     }
 
     // AoWIntroScene.pas:192
-    public void WindowMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void WindowMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         Finish();
     }
 
     // AoWIntroScene.pas:197
-    public void WindowKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void WindowKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27 || Key == 32)
         {

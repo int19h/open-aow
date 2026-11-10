@@ -7,43 +7,37 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
 
-public enum TButtonType : byte
-{
-    btText = 0,
-    btIcon = 1
-}
-
 public enum TaowTextAlign : byte
 {
-    taLeft = 0,
-    taCenter = 1,
-    taRight = 2
+    Left = 0,
+    Center = 1,
+    Right = 2
 }
 
-public enum TAOWAlignHeight : byte
+public enum AOWAlignHeight : byte
 {
-    ahNone = 0,
-    ahTop = 1,
-    ahBottom = 2,
-    ahBoth = 3,
-    ahCenter = 4
+    None = 0,
+    Top = 1,
+    Bottom = 2,
+    Both = 3,
+    Center = 4
 }
 
-public enum TAOWAlignWidth : byte
+public enum AOWAlignWidth : byte
 {
-    awNone = 0,
-    awLeft = 1,
-    awRight = 2,
-    awBoth = 3,
-    awCenter = 4
+    None = 0,
+    Left = 1,
+    Right = 2,
+    Both = 3,
+    Center = 4
 }
 
-public enum TAOWDrawMethod : byte
+public enum AOWDrawMethod : byte
 {
-    dmBlank = 0,
-    dmBorderless = 1,
-    dmHollowBox = 2,
-    dmFilledBox = 3
+    Blank = 0,
+    Borderless = 1,
+    HollowBox = 2,
+    FilledBox = 3
 }
 
 // Fields: FColor, FSelColor, FValid (Validate found everything it needs), FAligned, FSized,
@@ -55,7 +49,7 @@ public enum TAOWDrawMethod : byte
 // FAOWOwner, FChildren (sorted by FPriority), FAlignment, FMasked, FBltList, FDrawList
 // (TaowRect), FBltCount, FDrawCount, FToolTipLeft, FOldRect, FHidden, FDoubleBuffered,
 // FSurfaceValid
-public partial class TAoWComponent : TComponent
+public partial class AoWComponent : global::Aow.Rtl.Component
 {
     public int FColor;
     public int FSelColor;
@@ -63,14 +57,14 @@ public partial class TAoWComponent : TComponent
     public bool FAligned;
     public bool FSized;
     public int FCursor;
-    public TAoWOnDrawEvent<TAoWComponent> FOnDraw;
-    public TAoWOnDrawEvent<TAoWComponent> FOnPreDraw;
-    public TMouseEvent<TAoWComponent> FOnMouseDown;
-    public TMouseEvent<TAoWComponent> FOnMouseUp;
-    public TMouseMoveEvent<TAoWComponent> FOnMouseMove;
-    public TKeyPressEvent<TAoWComponent> FOnKeyPress;
-    public TKeyEvent<TAoWComponent> FOnKeyDown;
-    public TNotifyEvent<TAoWComponent> FOnChange;
+    public AoWOnDrawEvent<AoWComponent> FOnDraw;
+    public AoWOnDrawEvent<AoWComponent> FOnPreDraw;
+    public MouseEvent<AoWComponent> FOnMouseDown;
+    public MouseEvent<AoWComponent> FOnMouseUp;
+    public MouseMoveEvent<AoWComponent> FOnMouseMove;
+    public KeyPressEvent<AoWComponent> FOnKeyPress;
+    public KeyEvent<AoWComponent> FOnKeyDown;
+    public NotifyEvent<AoWComponent> FOnChange;
     public bool FMouseDown;
     public bool FVisible;
     public bool FHandled;
@@ -78,7 +72,7 @@ public partial class TAoWComponent : TComponent
     public int FWinHeight;
     public int FWinLeft;
     public int FWinTop;
-    public TImageLibraryFont FAOWFont;
+    public ImageLibraryFont FAOWFont;
     public string FText = "";
     public bool FRedraw;
     public int FBorderWidth;
@@ -91,32 +85,32 @@ public partial class TAoWComponent : TComponent
     public int FRadioIndex;
     public bool FChecked;
     public int FOwnerItem;
-    public TNotifyEvent<TAoWComponent> FOnUpdate;
+    public NotifyEvent<AoWComponent> FOnUpdate;
     public bool FCaptureInput;
-    public TAoWOnDebugEvent FOnDebugMessage;
-    public TAoWComponent FAOWOwner;
-    public TList FChildren;
-    public TAOWAlignment FAlignment;
+    public AoWOnDebugEvent FOnDebugMessage;
+    public AoWComponent FAOWOwner;
+    public DelphiList FChildren;
+    public AOWAlignment FAlignment;
     public bool FMasked;
-    public TList FBltList;
-    public TList FDrawList;
+    public DelphiList FBltList;
+    public DelphiList FDrawList;
     public int FBltCount;
     public int FDrawCount;
     public int FToolTipLeft;
-    public TRect FOldRect;
+    public global::Aow.Rtl.Rect FOldRect;
     public bool FHidden;
     public bool FDoubleBuffered;
     public bool FSurfaceValid;
 
     // AoWComp.pas:222
-    public TAoWComponent(TComponent owner) : base(owner)
+    public AoWComponent(global::Aow.Rtl.Component owner) : base(owner)
     {
         FVisible = true;
         FFirstDraw = true;
-        FAlignment = new TAOWAlignment();
-        FChildren = new TList();
-        FBltList = new TList();
-        FDrawList = new TList();
+        FAlignment = new AOWAlignment();
+        FChildren = new DelphiList();
+        FBltList = new DelphiList();
+        FDrawList = new DelphiList();
     }
 
     // AoWComp.pas:233
@@ -125,7 +119,7 @@ public partial class TAoWComponent : TComponent
         SetOwner(null);
         while (FChildren.Count > 0)
         {
-            ((TAoWComponent)FChildren[0]).SetOwner(null);
+            ((AoWComponent)FChildren[0]).SetOwner(null);
         }
 
         FChildren?.Dispose();
@@ -156,7 +150,7 @@ public partial class TAoWComponent : TComponent
         FAligned = false;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            ((TAoWComponent)FChildren[I]).FValid = false;
+            ((AoWComponent)FChildren[I]).FValid = false;
         }
     }
 
@@ -169,18 +163,18 @@ public partial class TAoWComponent : TComponent
         FDrawCount = 0;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            ((TAoWComponent)FChildren[I]).FAligned = false;
+            ((AoWComponent)FChildren[I]).FAligned = false;
         }
     }
 
     // AoWComp.pas:690
     public virtual void ReAlign()
     {
-        if (FAOWOwner != null && (FAlignment.FAlignWidth != TAOWAlignWidth.awNone || FAlignment.FAlignHeight != TAOWAlignHeight.ahNone))
+        if (FAOWOwner != null && (FAlignment.FAlignWidth != AOWAlignWidth.None || FAlignment.FAlignHeight != AOWAlignHeight.None))
         {
             switch (this.FAlignment.FAlignWidth)
             {
-                case TAOWAlignWidth.awLeft:
+                case AOWAlignWidth.Left:
                     FWinLeft = FAOWOwner.FWinWidth * this.FAlignment.FLeftOffPercent / 100 + this.FAlignment.FLeftOffset;
                     if (FAlignment.FWidthPercent > 0)
                     {
@@ -188,7 +182,7 @@ public partial class TAoWComponent : TComponent
                     }
 
                     break;
-                case TAOWAlignWidth.awRight:
+                case AOWAlignWidth.Right:
                     if (this.FAlignment.FWidthPercent > 0)
                     {
                         FWinWidth = FAOWOwner.FWinWidth * this.FAlignment.FWidthPercent / 100;
@@ -196,18 +190,18 @@ public partial class TAoWComponent : TComponent
 
                     FWinLeft = FAOWOwner.FWinWidth - FAlignment.FRightOffset - FWinWidth - FAOWOwner.FWinWidth * FAlignment.FRightOffPercent / 100;
                     break;
-                case TAOWAlignWidth.awBoth:
+                case AOWAlignWidth.Both:
                     FWinLeft = FAOWOwner.FWinWidth * this.FAlignment.FLeftOffPercent / 100 + this.FAlignment.FLeftOffset;
                     FWinWidth = FAOWOwner.FWinWidth - FWinLeft - FAlignment.FRightOffset - FAOWOwner.FWinWidth * FAlignment.FRightOffPercent / 100;
                     break;
-                case TAOWAlignWidth.awCenter:
+                case AOWAlignWidth.Center:
                     FWinLeft = FAOWOwner.FWinWidth / 2 - FWinWidth / 2;
                     break;
             }
 
             switch (this.FAlignment.FAlignHeight)
             {
-                case TAOWAlignHeight.ahTop:
+                case AOWAlignHeight.Top:
                     FWinTop = FAOWOwner.FWinHeight * this.FAlignment.FTopOffPercent / 100 + this.FAlignment.FTopOffset;
                     if (FAlignment.FHeightPercent > 0)
                     {
@@ -215,7 +209,7 @@ public partial class TAoWComponent : TComponent
                     }
 
                     break;
-                case TAOWAlignHeight.ahBottom:
+                case AOWAlignHeight.Bottom:
                     if (this.FAlignment.FHeightPercent > 0)
                     {
                         FWinHeight = FAOWOwner.FWinHeight * this.FAlignment.FHeightPercent / 100;
@@ -223,11 +217,11 @@ public partial class TAoWComponent : TComponent
 
                     FWinTop = FAOWOwner.FWinHeight - FAlignment.FBottomOffset - FWinHeight - FAOWOwner.FWinHeight * FAlignment.FBottomOffPercent / 100;
                     break;
-                case TAOWAlignHeight.ahBoth:
+                case AOWAlignHeight.Both:
                     FWinTop = FAOWOwner.FWinHeight * this.FAlignment.FTopOffPercent / 100 + this.FAlignment.FTopOffset;
                     FWinHeight = FAOWOwner.FWinHeight - FWinTop - FAlignment.FBottomOffset - FAOWOwner.FWinHeight * FAlignment.FBottomOffPercent / 100;
                     break;
-                case TAOWAlignHeight.ahCenter:
+                case AOWAlignHeight.Center:
                     FWinTop = FAOWOwner.FWinHeight / 2 - FWinHeight / 2;
                     break;
             }
@@ -237,7 +231,7 @@ public partial class TAoWComponent : TComponent
         FSized = false;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            ((TAoWComponent)FChildren[I]).FAligned = false;
+            ((AoWComponent)FChildren[I]).FAligned = false;
         }
     }
 
@@ -302,9 +296,9 @@ public partial class TAoWComponent : TComponent
                 {
                     for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                     {
-                        if (((TAoWComponent)FChildren[I]).FVisible)
+                        if (((AoWComponent)FChildren[I]).FVisible)
                         {
-                            ((TAoWComponent)FChildren[I]).Setup();
+                            ((AoWComponent)FChildren[I]).Setup();
                         }
                     }
                 }
@@ -330,7 +324,7 @@ public partial class TAoWComponent : TComponent
 
                 for (int I = FChildren.Count - 1; I >= 0; I--)
                 {
-                    ((TAoWComponent)FChildren[I]).Update();
+                    ((AoWComponent)FChildren[I]).Update();
                 }
 
                 if (!FValid || !FAligned || !FSized)
@@ -351,9 +345,9 @@ public partial class TAoWComponent : TComponent
         FDrawCount = 0;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            if (((TAoWComponent)FChildren[I]).FVisible)
+            if (((AoWComponent)FChildren[I]).FVisible)
             {
-                ((TAoWComponent)FChildren[I]).ClearDrawList();
+                ((AoWComponent)FChildren[I]).ClearDrawList();
             }
         }
     }
@@ -364,15 +358,15 @@ public partial class TAoWComponent : TComponent
         FBltCount = 0;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            if (((TAoWComponent)FChildren[I]).FVisible)
+            if (((AoWComponent)FChildren[I]).FVisible)
             {
-                ((TAoWComponent)FChildren[I]).ClearBltList();
+                ((AoWComponent)FChildren[I]).ClearBltList();
             }
         }
     }
 
     // AoWComp.pas:576
-    public virtual void InvalidateRect(int Index, ref TRect ARect, TAoWComponent Sender)
+    public virtual void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
     }
 
@@ -381,7 +375,7 @@ public partial class TAoWComponent : TComponent
     //   list so that no two overlap: the parts of ARect that another rectangle covers are cut off (a
     //   cut that leaves two pieces adds one of them as a new rectangle), and an old rectangle that ARect
     //   covers on one side is trimmed or emptied. }
-    public virtual void AddBltRect(ref TRect ARect, TAoWComponent Sender)
+    public virtual void AddBltRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
         TaowRect N;
         int I;
@@ -444,7 +438,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Top = R.R.Bottom + 1;
                                     }
@@ -467,7 +461,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -483,7 +477,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -513,7 +507,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -529,7 +523,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -552,7 +546,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -569,7 +563,7 @@ public partial class TAoWComponent : TComponent
                                     }
                                     else
                                     {
-                                        R.R = Rect(0, 0, 0, 0);
+                                        R.R = global::Aow.Rtl.RtlUnit.Rect(0, 0, 0, 0);
                                     }
                                 }
                             }
@@ -597,7 +591,7 @@ public partial class TAoWComponent : TComponent
 
     // AoWComp.pas:445
     // { AddDrawRect: the same for the rectangles to redraw; the rectangle added last records Sender }
-    public virtual void AddDrawRect(ref TRect ARect, TAoWComponent Sender)
+    public virtual void AddDrawRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
     {
         TaowRect N;
         int I;
@@ -660,7 +654,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Top = R.R.Bottom + 1;
                                     }
@@ -683,7 +677,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -699,7 +693,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -729,7 +723,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -745,7 +739,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -768,7 +762,7 @@ public partial class TAoWComponent : TComponent
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
+                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -785,7 +779,7 @@ public partial class TAoWComponent : TComponent
                                     }
                                     else
                                     {
-                                        R.R = Rect(0, 0, 0, 0);
+                                        R.R = global::Aow.Rtl.RtlUnit.Rect(0, 0, 0, 0);
                                     }
                                 }
                             }
@@ -813,7 +807,7 @@ public partial class TAoWComponent : TComponent
     }
 
     // AoWComp.pas:262
-    public virtual void SetOwner(TAoWComponent Value)
+    public virtual void SetOwner(AoWComponent Value)
     {
         int I;
         int NewIndex;
@@ -840,7 +834,7 @@ public partial class TAoWComponent : TComponent
             I = 0;
             while (I < FAOWOwner.FChildren.Count)
             {
-                if (((TAoWComponent)FAOWOwner.FChildren[I]).FPriority > FPriority)
+                if (((AoWComponent)FAOWOwner.FChildren[I]).FPriority > FPriority)
                 {
                     NewIndex = I;
                     I = FAOWOwner.FChildren.Count;
@@ -948,34 +942,34 @@ public partial class TAoWComponent : TComponent
     }
 
     // AoWComp.pas:641
-    public virtual void DrawSurface(TSurface Surface)
+    public virtual void DrawSurface(Surface Surface)
     {
     }
 
     // AoWComp.pas:645
-    public virtual void DrawSurfDesc(TSurfaceDesc SurfDesc)
+    public virtual void DrawSurfDesc(SurfaceDesc SurfDesc)
     {
     }
 
     // AoWComp.pas:649
-    public virtual void Draw(TSurfaceDesc SurfDesc)
+    public virtual void Draw(SurfaceDesc SurfDesc)
     {
     }
 
     // AoWComp.pas:653
-    public virtual void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public virtual void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
     }
 
     // AoWComp.pas:658
-    public virtual void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public virtual void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
     }
 
     // AoWComp.pas:663
-    public virtual void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public virtual void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
     }
@@ -987,13 +981,13 @@ public partial class TAoWComponent : TComponent
     }
 
     // AoWComp.pas:673
-    public virtual void CheckKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public virtual void CheckKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         FHandled = false;
     }
 
     // AoWComp.pas:256
-    public void SetAlign(TAOWAlignment Value)
+    public void SetAlign(AOWAlignment Value)
     {
         FAlignment.Assign(Value);
         FAligned = false;
@@ -1006,54 +1000,60 @@ public partial class TAoWComponent : TComponent
     public int WinHeight { get => FWinHeight; set => SetHeight(value); }
     public int TextColor { get => FColor; set => SetColor(value); }
     public int TextSelColor { get => FSelColor; set => SetSelColor(value); }
-    public TAoWComponent AOWOwner { get => FAOWOwner; set => SetOwner(value); }
-    public TAOWAlignment Alignment { get => FAlignment; set => SetAlign(value); }
+    public AoWComponent AOWOwner { get => FAOWOwner; set => SetOwner(value); }
+    public AOWAlignment Alignment { get => FAlignment; set => SetAlign(value); }
     public bool Masked { get => FMasked; set => FMasked = value; }
     public bool CaptureInput { get => FCaptureInput; set => FCaptureInput = value; }
-    public TNotifyEvent<TAoWComponent> OnChange { get => FOnChange; set => FOnChange = value; }
+    public NotifyEvent<AoWComponent> OnChange { get => FOnChange; set => FOnChange = value; }
 
     [Published]
-    public TMouseEvent<TAoWComponent> OnMouseDown { get => FOnMouseDown; set => FOnMouseDown = value; }
+    public MouseEvent<AoWComponent> OnMouseDown { get => FOnMouseDown; set => FOnMouseDown = value; }
 
     [Published]
-    public TMouseEvent<TAoWComponent> OnMouseUp { get => FOnMouseUp; set => FOnMouseUp = value; }
+    public MouseEvent<AoWComponent> OnMouseUp { get => FOnMouseUp; set => FOnMouseUp = value; }
 
     [Published]
-    public TMouseMoveEvent<TAoWComponent> OnMouseMove { get => FOnMouseMove; set => FOnMouseMove = value; }
+    public MouseMoveEvent<AoWComponent> OnMouseMove { get => FOnMouseMove; set => FOnMouseMove = value; }
 
     [Published]
-    public TKeyPressEvent<TAoWComponent> OnKeyPress { get => FOnKeyPress; set => FOnKeyPress = value; }
+    public KeyPressEvent<AoWComponent> OnKeyPress { get => FOnKeyPress; set => FOnKeyPress = value; }
 
     [Published]
-    public TKeyEvent<TAoWComponent> OnKeyDown { get => FOnKeyDown; set => FOnKeyDown = value; }
+    public KeyEvent<AoWComponent> OnKeyDown { get => FOnKeyDown; set => FOnKeyDown = value; }
 
     [Published]
-    public TAoWOnDrawEvent<TAoWComponent> OnPreDraw { get => FOnPreDraw; set => FOnPreDraw = value; }
+    public AoWOnDrawEvent<AoWComponent> OnPreDraw { get => FOnPreDraw; set => FOnPreDraw = value; }
 
     [Published]
-    public TAoWOnDrawEvent<TAoWComponent> OnDraw { get => FOnDraw; set => FOnDraw = value; }
+    public AoWOnDrawEvent<AoWComponent> OnDraw { get => FOnDraw; set => FOnDraw = value; }
 
     [Published]
-    public TNotifyEvent<TAoWComponent> OnUpdate { get => FOnUpdate; set => FOnUpdate = value; }
+    public NotifyEvent<AoWComponent> OnUpdate { get => FOnUpdate; set => FOnUpdate = value; }
 
     [Published]
     [DefaultValue(true)]
     public bool Visible { get => FVisible; set => SetVisible(value); }
 
     [Published]
-    public TAoWOnDebugEvent OnDebugMessage { get => FOnDebugMessage; set => FOnDebugMessage = value; }
+    public AoWOnDebugEvent OnDebugMessage { get => FOnDebugMessage; set => FOnDebugMessage = value; }
+
+    public enum ButtonType : byte
+    {
+        Text = 0, Icon = 1
+    }
+
+    public delegate void AoWOnDebugEvent(string Dtext);
 }
 
-public delegate void TAoWOnDrawEvent<in TSender>(TSender Sender, TSurfaceDesc SurfDesc);
-public delegate void TAoWOnDrawBackEvent<in TSender>(TSender Sender, TSurfaceDesc SurfDesc);
-public delegate void TAoWOnDrawItemEvent<in TSender>(TSender Sender, in TRect DrawRect, int DrawItem, ref TSurfaceDesc SurfDesc);
-public delegate void TAoWOnDebugEvent(string Dtext);
+public delegate void AoWOnDrawEvent<in TSender>(TSender Sender, SurfaceDesc SurfDesc);
+public delegate void AoWOnDrawBackEvent<in TSender>(TSender Sender, SurfaceDesc SurfDesc);
+public delegate void AoWOnDrawItemEvent<in TSender>(TSender Sender, in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SurfDesc);
 
 // how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,
 // FHeightPercent, FLeftOffPercent, FRightOffPercent, FTopOffPercent, FBottomOffPercent,
 // FLeftOffset, FRightOffset, FTopOffset, FBottomOffset, FAlignWidth, FAlignHeight. It does not
 // override Assign, so TAoWComponent.SetAlign raises FormatException (original bug)
-public partial class TAOWAlignment : TPersistent
+public partial class AOWAlignment : Persistent
 {
     internal byte FWidthPercent;
     internal byte FHeightPercent;
@@ -1065,14 +1065,14 @@ public partial class TAOWAlignment : TPersistent
     internal int FRightOffset;
     internal int FTopOffset;
     internal int FBottomOffset;
-    internal TAOWAlignWidth FAlignWidth;
-    internal TAOWAlignHeight FAlignHeight;
+    internal AOWAlignWidth FAlignWidth;
+    internal AOWAlignHeight FAlignHeight;
 
     [Published]
-    public TAOWAlignWidth AlignWidth { get => FAlignWidth; set => FAlignWidth = value; }
+    public AOWAlignWidth AlignWidth { get => FAlignWidth; set => FAlignWidth = value; }
 
     [Published]
-    public TAOWAlignHeight AlignHeight { get => FAlignHeight; set => FAlignHeight = value; }
+    public AOWAlignHeight AlignHeight { get => FAlignHeight; set => FAlignHeight = value; }
 
     [Published]
     public byte HeightPercent { get => FHeightPercent; set => FHeightPercent = value; }
@@ -1111,8 +1111,8 @@ public partial class TAOWAlignment : TPersistent
 // AddDrawRect only)
 public partial class TaowRect
 {
-    public TRect R;
-    public TAoWComponent Owner;
+    public global::Aow.Rtl.Rect R;
+    public AoWComponent Owner;
 
     public TaowRect()
     {

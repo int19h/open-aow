@@ -20,7 +20,7 @@ namespace Aow.Game.Commands;
 
 internal static class CombatEvents
 {
-    internal static void MakeDEHSList(int X, int Y, TSet<TDamageType> DamageTypes, bool Resisted)
+    internal static void MakeDEHSList(int X, int Y, Set<DamageType> DamageTypes, bool Resisted)
     {
         void MakeEffect(TfxType EffectType)
         {
@@ -33,10 +33,10 @@ internal static class CombatEvents
             Count = Random(5) + 8;
             for (int I = 1; I <= Count - 1; I++)
             {
-                Effect = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.AddEffect(EffectType);
+                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(EffectType);
                 Speed = (float)((double)(Random(10) + 10) * 0.1);
                 Gravity = (float)0.5;
-                if (Resisted || EffectType == TfxType.fxDamMagic)
+                if (Resisted || EffectType == TfxType.DamMagic)
                 {
                     VZ = (float)((double)(Random(50) + 50) * 0.1);
                 }
@@ -51,48 +51,48 @@ internal static class CombatEvents
         }
 
         X = X + 16;
-        if (DamageTypes.Contains(TDamageType.dtLightning))
+        if (DamageTypes.Contains(DamageType.Lightning))
         {
-            MakeEffect(TfxType.fxDamLightning);
+            MakeEffect(TfxType.DamLightning);
         }
 
-        if (DamageTypes.Contains(TDamageType.dtFire))
+        if (DamageTypes.Contains(DamageType.Fire))
         {
-            MakeEffect(TfxType.fxDamFire);
+            MakeEffect(TfxType.DamFire);
         }
 
-        if (DamageTypes.Contains(TDamageType.dtPoison))
+        if (DamageTypes.Contains(DamageType.Poison))
         {
-            MakeEffect(TfxType.fxDamPoison);
+            MakeEffect(TfxType.DamPoison);
         }
 
-        if (DamageTypes.Contains(TDamageType.dtMagic))
+        if (DamageTypes.Contains(DamageType.Magic))
         {
-            MakeEffect(TfxType.fxDamMagic);
+            MakeEffect(TfxType.DamMagic);
         }
 
-        if (DamageTypes.Contains(TDamageType.dtHoly))
+        if (DamageTypes.Contains(DamageType.Holy))
         {
-            MakeEffect(TfxType.fxDamHoly);
+            MakeEffect(TfxType.DamHoly);
         }
 
-        if (DamageTypes.Contains(TDamageType.dtDeath))
+        if (DamageTypes.Contains(DamageType.Death))
         {
-            MakeEffect(TfxType.fxDamDeath);
+            MakeEffect(TfxType.DamDeath);
         }
 
-        if (DamageTypes.Contains(TDamageType.dtCold))
+        if (DamageTypes.Contains(DamageType.Cold))
         {
-            MakeEffect(TfxType.fxDamCold);
+            MakeEffect(TfxType.DamCold);
         }
     }
 
-    internal static TCEndTurnTE CreateTCCancelEndTurnTE(sbyte Player)
+    internal static CEndTurnTE CreateTCCancelEndTurnTE(sbyte Player)
     {
-        TCEndTurnTE Result;
-        if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetBusy())
+        CEndTurnTE Result;
+        if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
         {
-            Result = new TCEndTurnTE(null);
+            Result = new CEndTurnTE(null);
         }
         else
         {

@@ -12,32 +12,27 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-public enum TFarmModeElement : byte
-{
-    fmRazed = 0
-}
-
 // { ot=1 }
 // FMode
-public partial class TFarm : TPlayerCropStructure
+public partial class Farm : PlayerCropStructure
 {
-    public TFarm(TECustomNode owner) : base(owner)
+    public Farm(ECustomNode owner) : base(owner)
     { }
 
     // Farm.pas:54
     public new const int ClassID = 131950;
 
-    public TSet<TFarmModeElement> FMode;
+    public Set<ModeElement> FMode;
 
     // Farm.pas:81
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         RwSet(ref FMode, 1, 20, Stream.rwData, 0);
     }
 
     // Farm.pas:130
-    public override void TerrainChanged(in THSTerrainInfo Info)
+    public override void TerrainChanged(in HSTerrainInfo Info)
     {
         base.TerrainChanged(Info);
         if (Info.HN == 0)
@@ -52,11 +47,11 @@ public partial class TFarm : TPlayerCropStructure
         if (Value)
         {
             SetPlayer(-1);
-            FMode = FMode + TSet<TFarmModeElement>.Of(TFarmModeElement.fmRazed);
+            FMode = FMode + Set<ModeElement>.Of(ModeElement.Razed);
         }
         else
         {
-            FMode = FMode - TSet<TFarmModeElement>.Of(TFarmModeElement.fmRazed);
+            FMode = FMode - Set<ModeElement>.Of(ModeElement.Razed);
         }
 
         UpdateCrops();
@@ -64,7 +59,7 @@ public partial class TFarm : TPlayerCropStructure
     }
 
     // Farm.pas:59
-    public override bool GetRazed() => FMode.Contains(TFarmModeElement.fmRazed);
+    public override bool GetRazed() => FMode.Contains(ModeElement.Razed);
 
     // Farm.pas:76
     public override string GetCurrentActivityText()
@@ -74,14 +69,14 @@ public partial class TFarm : TPlayerCropStructure
     }
 
     // Farm.pas:111
-    public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
+    public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
     {
         int Priority;
         if (!GetRazed() || GetBuilding())
         {
             switch (Info.Mode)
             {
-                case TAITargetMode.tmAttack:
+                case AITargetMode.Attack:
                     if (Info.Player != FPlayer && !GetRazed())
                     {
                         Priority = Data.Priority;
@@ -93,7 +88,7 @@ public partial class TFarm : TPlayerCropStructure
                         {
                             if (Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                             {
-                                Priority = 50 - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                                Priority = 50 - Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                 if (Priority < 25)
                                 {
                                     Priority = 25;
@@ -118,7 +113,7 @@ public partial class TFarm : TPlayerCropStructure
     }
 
     // Farm.pas:92
-    public override bool CanPlaceCrop(TMapField Field) => Field.TerrainType != 5 && base.CanPlaceCrop(Field);
+    public override bool CanPlaceCrop(MapField Field) => Field.TerrainType != 5 && base.CanPlaceCrop(Field);
 
     // Farm.pas:87
     public override bool CropsEnabled() => base.CropsEnabled() && FTerrainType != 5;
@@ -127,7 +122,7 @@ public partial class TFarm : TPlayerCropStructure
     public override void UpdateCrops()
     {
         int Count;
-        if (!GetEditMode() && FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated))
+        if (!GetEditMode() && FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
         {
             if (GetRazed() || FTerrainType == 5)
             {
@@ -135,9 +130,9 @@ public partial class TFarm : TPlayerCropStructure
             }
             else
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+                if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                 {
-                    Count = ((TPlayerCropStructureResource)FResource).FCropLocations.Count;
+                    Count = ((PlayerCropStructureResource)FResource).FCropLocations.Count;
                 }
                 else
                 {
@@ -155,32 +150,37 @@ public partial class TFarm : TPlayerCropStructure
         }
     }
 
-}
-
-public partial class TFarmResource : TPlayerCropStructureResource
-{
-    public TFarmResource(TECustomNode owner) : base(owner)
+    public enum ModeElement : byte
     {
-        FClaimed = false;
-        FRazeable = true;
-        FRazeDefenderBudget = 50;
-        FRebuildGold = 25;
-        FRebuildDays = 2;
+        Razed = 0
     }
 
-    // Farm.pas:151
-    public new const int ClassID = 131951;
+    public new partial class Resource : PlayerCropStructureResource
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            FClaimed = false;
+            FRazeable = true;
+            FRazeDefenderBudget = 50;
+            FRebuildGold = 25;
+            FRebuildDays = 2;
+        }
 
-    // Farm.pas:136
+        // Farm.pas:151
+        public new const int ClassID = 131951;
 
-    // Farm.pas:156
-    public override int ResourceUserClassID() => 131950;
+        // Farm.pas:136
 
-    // Farm.pas:36
+        // Farm.pas:156
+        public override int ResourceUserClassID() => 131950;
 
-    // Farm.pas:146
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TFarmResource.FarmRStr);
+        // Farm.pas:36
 
-    private static readonly string FarmRStr = "Farm";
+        // Farm.pas:146
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Farm.Resource.FarmRStr);
+
+        private static readonly string FarmRStr = "Farm";
+
+    }
 
 }

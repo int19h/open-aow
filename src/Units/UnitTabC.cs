@@ -7,11 +7,11 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Grids;
 
 // selection control, unit index grid, selection event
-public partial class TUnitTabControl : TTabControl
+public partial class UnitTabControl : TabControl
 {
-    public TUnitSelectionControl FSelectionControl;
-    public TUnitIndexGrid FUnitIndexGrid;
-    public TOnSelectUnitEvent FOnSelectUnit;
+    public UnitSelectionControl FSelectionControl;
+    public global::Aow.Game.Ui.Grids.UnitIndexGrid FUnitIndexGrid;
+    public OnSelectUnitEvent FOnSelectUnit;
 
     // UnitTabC.pas:42
     public override void Dispose()
@@ -22,7 +22,7 @@ public partial class TUnitTabControl : TTabControl
 
     // UnitTabC.pas:35
 
-    public TUnitTabControl(TComponent owner) : base(owner)
+    public UnitTabControl(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement ComCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -36,7 +36,7 @@ public partial class TUnitTabControl : TTabControl
     }
 
     // UnitTabC.pas:54
-    public void SetUnitIndexGrid(TUnitIndexGrid Value)
+    public void SetUnitIndexGrid(global::Aow.Game.Ui.Grids.UnitIndexGrid Value)
     {
         FUnitIndexGrid = Value;
         if (Value != null)
@@ -50,7 +50,7 @@ public partial class TUnitTabControl : TTabControl
     public void UnitIndexGridSelectCell(object Sender, int ACol, int ARow, ref bool CanSelect)
     {
         int Index;
-        TUnitIndexList List;
+        UnitIndexList List;
         Index = FUnitIndexGrid.ImageIndex(ACol, ARow);
         FUnitIndexGrid.SelectionEnabled = true;
         List = FUnitIndexGrid.FUnitIndexList;
@@ -81,10 +81,10 @@ public partial class TUnitTabControl : TTabControl
     }
 
     [Published]
-    public TUnitIndexGrid UnitIndexGrid { get => FUnitIndexGrid; set => SetUnitIndexGrid(value); }
+    public global::Aow.Game.Ui.Grids.UnitIndexGrid UnitIndexGrid { get => FUnitIndexGrid; set => SetUnitIndexGrid(value); }
 
     [Published]
-    public TOnSelectUnitEvent OnSelectUnit { get => FOnSelectUnit; set => FOnSelectUnit = value; }
-}
+    public OnSelectUnitEvent OnSelectUnit { get => FOnSelectUnit; set => FOnSelectUnit = value; }
 
-public delegate void TOnSelectUnitEvent(object Sender, int UnitIndex);
+    public delegate void OnSelectUnitEvent(object Sender, int UnitIndex);
+}

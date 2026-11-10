@@ -14,9 +14,9 @@ namespace Aow.Game.Draw;
 internal static class EffectPaths
 {
 
-    internal static void MakeLinePath(int X1, int Y1, int X2, int Y2, int Steps, ref TXYZList List)
+    internal static void MakeLinePath(int X1, int Y1, int X2, int Y2, int Steps, ref XYZList List)
     {
-        TXYZ XYZ;
+        XYZ XYZ;
         if (Steps < 2)
         {
             Steps = 2;
@@ -24,20 +24,20 @@ internal static class EffectPaths
 
         for (int I = 0; I <= Steps - 1; I++)
         {
-            XYZ = new TXYZ();
+            XYZ = new global::Aow.Game.Draw.XYZ();
             List.Add(XYZ);
             XYZ.X = X1 + (X2 - X1) * I / (Steps - 1);
             XYZ.Y = Y1 + (Y2 - Y1) * I / (Steps - 1);
         }
     }
 
-    internal static void MakeSwarmPath(int Step, int Radius, int Phase, int Angle, int X, int Y, TSwarmDirection Direction, ref TXYZList List)
+    internal static void MakeSwarmPath(int Step, int Radius, int Phase, int Angle, int X, int Y, SwarmDirection Direction, ref XYZList List)
     {
         int Total;
         int B;
         float Rad;
         float R;
-        TXYZ XYZ;
+        XYZ XYZ;
         Total = 0;
         do
         {
@@ -53,13 +53,13 @@ internal static class EffectPaths
                     break;
             }
 
-            XYZ = new TXYZ();
+            XYZ = new global::Aow.Game.Draw.XYZ();
             XYZ.X = Round((double)Math.Sin(Rad) * R) + X;
             XYZ.Y = Round((double)Math.Cos(Rad) * R) + Y;
             List.Add(XYZ);
             switch (Direction)
             {
-                case TSwarmDirection.sdForward:
+                case SwarmDirection.Forward:
                     Angle = Angle + Step;
                     if (Angle >= 360)
                     {
@@ -67,7 +67,7 @@ internal static class EffectPaths
                     }
 
                     break;
-                case TSwarmDirection.sdBackward:
+                case SwarmDirection.Backward:
                     Angle = Angle - Step;
                     // { sic: tests 360 instead of 0, so the angle is never wrapped back }
                     if (Angle < 360)
@@ -83,7 +83,7 @@ internal static class EffectPaths
         while (!(Total >= 360));
     }
 
-    internal static void MakeLightningPath(int X1, int Y1, int X2, int Y2, ref TXYZList List)
+    internal static void MakeLightningPath(int X1, int Y1, int X2, int Y2, ref XYZList List)
     {
         int NX;
         int NY;
@@ -131,13 +131,13 @@ internal static class EffectPaths
         List[count - 1].Z = 1;
     }
 
-    internal static void MakeArcPath(int X, int Y, int Angle, ref float Z, ref float Speed, ref float VZ, ref float Gravity, ref TXYZList List)
+    internal static void MakeArcPath(int X, int Y, int Angle, ref float Z, ref float Speed, ref float VZ, ref float Gravity, ref XYZList List)
     {
         float FX;
         float FY;
         float DX;
         float DY;
-        TXYZ XYZ;
+        XYZ XYZ;
         FX = X;
         FY = Y;
         DX = (float)((double)Math.Cos(Angle) * Speed);
@@ -146,7 +146,7 @@ internal static class EffectPaths
         {
             while ((double)Z >= 0)
             {
-                XYZ = new TXYZ();
+                XYZ = new global::Aow.Game.Draw.XYZ();
                 XYZ.X = Round(FX);
                 XYZ.Y = Round(FY);
                 XYZ.Z = Round(Z);
@@ -159,13 +159,13 @@ internal static class EffectPaths
         }
     }
 
-    internal static void MakeArcPathXY(short X1, short Y1, short X2, short Y2, short StepSize, short Height, ref TXYZList List)
+    internal static void MakeArcPathXY(short X1, short Y1, short X2, short Y2, short StepSize, short Height, ref XYZList List)
     {
         int I;
         int Steps;
         int DX;
         int DY;
-        TXYZ XYZ;
+        XYZ XYZ;
         I = 0;
         DX = Math.Abs(X2 - X1);
         DY = Math.Abs(Y2 - Y1);
@@ -177,7 +177,7 @@ internal static class EffectPaths
 
         while (I <= Steps)
         {
-            XYZ = new TXYZ();
+            XYZ = new global::Aow.Game.Draw.XYZ();
             List.Add(XYZ);
             XYZ.X = X1 + (X2 - X1) * I / Steps;
             XYZ.Y = Y1 + (Y2 - Y1) * I / Steps;
@@ -216,24 +216,24 @@ internal static class EffectPaths
 
     internal static void CreateFire(bool Spread, int Chance, int Xhx, int Yhx)
     {
-        TCombatFire Fire;
+        CombatFire Fire;
         bool CanBurn;
-        TCombatILTerrain Terrain;
-        TCityWall Wall;
-        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
+        CombatILTerrain Terrain;
+        CityWall Wall;
+        if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
         {
-            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
+            if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(100) < Chance)
+                if (Aow.Game.World.Map.AoWHSMap.Current.Random(100) < Chance)
                 {
                     CanBurn = false;
-                    if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
+                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
                     {
                         CanBurn = true;
                     }
                     else
                     {
-                        Terrain = (TCombatILTerrain)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
+                        Terrain = (CombatILTerrain)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
                         if (Terrain != null)
                         {
                             if (Terrain.GetBurnValue() > 0)
@@ -242,7 +242,7 @@ internal static class EffectPaths
                             }
                         }
 
-                        Wall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
+                        Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
                         if (Wall != null)
                         {
                             if (Wall.FWallType == 1)
@@ -257,8 +257,8 @@ internal static class EffectPaths
 
                     if (CanBurn)
                     {
-                        Fire = new TCombatFire(null);
-                        if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0))
+                        Fire = new CombatFire(null);
+                        if (!Aow.Game.Combat.AoWCombatMap.Current.PlaceHX(Fire, Xhx, Yhx, 0))
                         {
                             Fire?.Dispose();
                         }

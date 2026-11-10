@@ -34,10 +34,10 @@ public sealed class ImageLibraryTruncationTests
     public void TruncatedLibraryRaisesReadError(string name, byte[] contents)
     {
         var stream = new MemoryStream();
-        var library = new TImageLibrary(null!);
+        var library = new ImageLibrary(null!);
         var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
-        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
+        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
         try
         {
             stream.WriteBuffer(contents);

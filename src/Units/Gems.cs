@@ -15,11 +15,11 @@ namespace Aow.Game.World.Terrain;
 
 // { ot=1 }
 // FAmount, FGenerateMode
-public partial class TGems : TILTerrainMO
+public partial class Gems : ILTerrainMO
 {
-    public TGems(TECustomNode owner) : base(owner)
+    public Gems(ECustomNode owner) : base(owner)
     {
-        FGenerateMode = TGemsGenerateMode.gmNormal;
+        FGenerateMode = GenerateMode.Normal;
         FAmount = 0;
     }
 
@@ -27,10 +27,10 @@ public partial class TGems : TILTerrainMO
     public new const int ClassID = 132014;
 
     public int FAmount;
-    public TGemsGenerateMode FGenerateMode;
+    public GenerateMode FGenerateMode;
 
     // Gems.pas:56
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FAmount, 5);
@@ -40,22 +40,22 @@ public partial class TGems : TILTerrainMO
     // Gems.pas:46
 
     // Gems.pas:93
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1)
+        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
         {
             GenerateGemsAmount();
         }
     }
 
     // Gems.pas:119
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4354)
         {
-            ArmyEntered(Msg.Param[0].As<TArmyHS>());
+            ArmyEntered(Msg.Param[0].As<ArmyHS>());
             return;
         }
 
@@ -70,43 +70,43 @@ public partial class TGems : TILTerrainMO
     }
 
     // Gems.pas:87
-    public override void UpdateMapField(in THSMapFieldInfo Info)
+    public override void UpdateMapField(in HSMapFieldInfo Info)
     {
         if (Info.HN == 0)
         {
-            ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 134217728;
+            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 134217728;
         }
     }
 
     // Gems.pas:63
     public void GenerateGemsAmount()
     {
-        if (FGenerateMode == TGemsGenerateMode.gmRandom)
+        if (FGenerateMode == GenerateMode.Random)
         {
-            FGenerateMode = (TGemsGenerateMode)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(3) + 1);
+            FGenerateMode = (GenerateMode)(Aow.Game.World.Map.AoWHSMap.Current.Random(3) + 1);
         }
 
         switch (FGenerateMode)
         {
-            case TGemsGenerateMode.gmLow:
-                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 25;
+            case GenerateMode.Low:
+                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 25;
                 break;
-            case TGemsGenerateMode.gmNormal:
-                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 50;
+            case GenerateMode.Normal:
+                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 50;
                 break;
-            case TGemsGenerateMode.gmHigh:
-                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(50) + 100;
+            case GenerateMode.High:
+                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
 
     // Gems.pas:74
-    public void UpdateAITarget(ref TAITargetInfo Info, ref int Priority)
+    public void UpdateAITarget(ref AITargetInfo Info, ref int Priority)
     {
         int Value;
         switch (Info.Mode)
         {
-            case >= TAITargetMode.tmAttack and <= TAITargetMode.tmAttack:
+            case >= AITargetMode.Attack and <= AITargetMode.Attack:
                 if (Info.Player != 0)
                 {
                     Value = FAmount / 5 + 15;
@@ -121,18 +121,18 @@ public partial class TGems : TILTerrainMO
     }
 
     // Gems.pas:99
-    public void ArmyEntered(TArmyHS ArmyHS)
+    public void ArmyEntered(ArmyHS ArmyHS)
     {
-        TLocationTextEventLog Event;
+        LocationTextEventLog Event;
         if (ArmyHS.FArmy.FPlayer != 0)
         {
-            bool condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
+            bool condition = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, lhx, 0);
+                condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
@@ -140,16 +140,16 @@ public partial class TGems : TILTerrainMO
                 Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\GOLD.WAV");
             }
 
-            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+            var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
             player.SetGems(player.FGems + FAmount);
 
-            Event = new TLocationTextEventLog(null);
+            Event = new LocationTextEventLog(null);
             Event.FPlayer = ArmyHS.FArmy.FPlayer;
-            Event.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TGems.GoldFoundRStr), [IntToStr(FAmount)]);
+            Event.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.Gems.GoldFoundRStr), [IntToStr(FAmount)]);
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             Event.SetLocation(GetXhx(), yhx2, lhx2);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Event);
             Event.Release();
             Dispose();
         }
@@ -157,35 +157,31 @@ public partial class TGems : TILTerrainMO
 
     private static readonly string GoldFoundRStr = "%s gold pieces found";
 
-    // Gems.pas:24
+    public new partial class Resource : ILTerrainMOR
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        { }
+
+        // Gems.pas:137
+        public new const int ClassID = 132015;
+
+        // Gems.pas:140
+        public override int ResourceUserClassID() => 132014;
+
+        // Gems.pas:134
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.Gems.Resource.GoldRStr);
+
+        private static readonly string GoldRStr = "Gold";
+
+    }
+
+    public enum GenerateMode : byte
+    {
+        UserDefined = 0, Low = 1, Normal = 2, High = 3, Random = 4
+    }
 
     // Gems.pas:24
 
-}
+    // Gems.pas:24
 
-public partial class TGemsResource : TILTerrainMOR
-{
-    public TGemsResource(TECustomNode owner) : base(owner)
-    { }
-
-    // Gems.pas:137
-    public new const int ClassID = 132015;
-
-    // Gems.pas:140
-    public override int ResourceUserClassID() => 132014;
-
-    // Gems.pas:134
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TGemsResource.GoldRStr);
-
-    private static readonly string GoldRStr = "Gold";
-
-}
-
-public enum TGemsGenerateMode : byte
-{
-    gmUserDefined = 0,
-    gmLow = 1,
-    gmNormal = 2,
-    gmHigh = 3,
-    gmRandom = 4
 }

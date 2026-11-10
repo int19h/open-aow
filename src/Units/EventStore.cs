@@ -15,12 +15,12 @@ namespace Aow.Game.Engine;
 // the way a nil list did in the original.
 internal sealed class EventStore<TSender>
 {
-    private TNotifyEvent<TSender>[] items;
+    private NotifyEvent<TSender>[] items;
     private int count;
 
     public int Count => count;
 
-    public void Add(TNotifyEvent<TSender> item)
+    public void Add(NotifyEvent<TSender> item)
     {
         int capacity = items == null ? 0 : items.Length;
         if (count == capacity)
@@ -32,7 +32,7 @@ internal sealed class EventStore<TSender>
         count += 1;
     }
 
-    public void Remove(TNotifyEvent<TSender> item)
+    public void Remove(NotifyEvent<TSender> item)
     {
         int index = IndexOf(item);
         if (index != -1)
@@ -52,8 +52,8 @@ internal sealed class EventStore<TSender>
         int upper = count - 1;
         for (int i = upper; i >= 0; i--)
         {
-            TNotifyEvent<TSender>[] list = items;
-            TNotifyEvent<TSender> handler = list[i];
+            NotifyEvent<TSender>[] list = items;
+            NotifyEvent<TSender> handler = list[i];
             if (handler != null)
             {
                 handler(sender);
@@ -62,7 +62,7 @@ internal sealed class EventStore<TSender>
     }
 
     // Engine.pas:4947. The scan starts at the bottom of the list.
-    private int IndexOf(TNotifyEvent<TSender> item)
+    private int IndexOf(NotifyEvent<TSender> item)
     {
         object target = MethodTarget(item);
         MethodInfo code = MethodCode(item);

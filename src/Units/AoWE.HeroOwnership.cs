@@ -6,16 +6,16 @@ using Aow.Game.Units;
 namespace Aow.Game.Magic.Abilities
 {
 
-    public partial class THero
+    public partial class Hero
     {
         // Hero.PAS:615
-        public THero(TECustomNode owner) : base(owner)
+        public Hero(ECustomNode owner) : base(owner)
         {
-            FHeroItems = new THeroItems(null);
+            FHeroItems = new HeroItems(null);
             FHeroItems.Hero = this;
-            FInventory = new THeroInventory(null);
+            FInventory = new HeroInventory(null);
             FInventory.Hero = this;
-            FPowerSource = new THeroPowerSource(null);
+            FPowerSource = new HeroPowerSource(null);
             FPowerSource.FHero = this;
             FHeroResourceIndex = -1;
             FHeroStatus = default;
@@ -31,19 +31,19 @@ namespace Aow.Game.Magic.Abilities
 namespace Aow.Game.Units
 {
 
-    public partial class THeroItems
+    public partial class HeroItems
     {
-        internal THero Hero;
+        internal global::Aow.Game.Magic.Abilities.Hero Hero;
 
-        public override TEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
+        public override global::Aow.Game.Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
     }
 
-    public partial class THeroInventory
+    public partial class HeroInventory
     {
-        internal THero Hero;
+        internal global::Aow.Game.Magic.Abilities.Hero Hero;
 
-        public override TEngine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
+        public override global::Aow.Game.Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
     }
 }
@@ -51,7 +51,7 @@ namespace Aow.Game.Units
 namespace Aow.Game.Session
 {
 
-    public partial class TPlayerList
+    public partial class PlayerList
     {
         public override void Dispose()
         {

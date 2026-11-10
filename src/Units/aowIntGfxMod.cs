@@ -4,55 +4,55 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TIntGfxMod : TDataModule
+public partial class IntGfxMod : DataModule
 {
-    public TIntGfxMod(TComponent owner) : base(owner)
+    public IntGfxMod(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TInterfaceIL GenericT;
-    public TInterfaceIL GenericF;
-    public TInterfaceIL CeltDeco;
-    public TInterfaceIL Cursors;
-    public TInterfaceIL ScanTiles;
-    public TInterfaceIL ScanFog;
-    public TInterfaceIL ScanHiLites;
-    public TInterfaceIL PyreAnim;
-    public TInterfaceIL UnitBGs;
-    public TInterfaceIL FCWin;
-    public TInterfaceIL Menus;
-    public TInterfaceIL DragonMenu;
-    public TInterfaceIL ScanWin;
-    public TInterfaceIL GenericI;
-    public TInterfaceIL UnitWin;
-    public TInterfaceIL UnitIcons;
-    public TInterfaceIL TurnButton;
-    public TInterfaceIL TBWin;
-    public TInterfaceIL BookPL;
-    public TInterfaceIL BookPR;
-    public TInterfaceIL FactionWin;
-    public TInterfaceIL RelWin;
-    public TInterfaceIL WorldMap;
-    public TInterfaceIL BookWin;
-    public TInterfaceIL TitleScreen;
-    public TInterfaceIL Shields;
-    public TInterfaceIL ProdWin;
-    public TInterfaceIL FireLg;
-    public TInterfaceIL MiscArt;
-    public TInterfaceIL Units;
-    public TInterfaceIL SoundWin;
-    public TInterfaceIL TitleIcons;
-    public TInterfaceIL MoveIcons;
-    public TInterfaceIL LBIcons;
-    public TInterfaceIL EventIcons;
-    public TInterfaceIL ProdIcons;
-    public TInterfaceIL GenericB;
-    public TInterfaceIL GenericE;
-    public TInterfaceIL GenericS;
-    public TInterfaceIL VictoryFrames;
-    public TInterfaceIL EndScene;
-    public TInterfaceIL PyreFrames;
-    public TInterfaceIL CityWin;
-    public TInterfaceIL CampaignTrans;
-    public TImageLibrary ScanObj;
-    public TInterfaceIL PlyrIcns;
+    public InterfaceIL GenericT;
+    public InterfaceIL GenericF;
+    public InterfaceIL CeltDeco;
+    public InterfaceIL Cursors;
+    public InterfaceIL ScanTiles;
+    public InterfaceIL ScanFog;
+    public InterfaceIL ScanHiLites;
+    public InterfaceIL PyreAnim;
+    public InterfaceIL UnitBGs;
+    public InterfaceIL FCWin;
+    public InterfaceIL Menus;
+    public InterfaceIL DragonMenu;
+    public InterfaceIL ScanWin;
+    public InterfaceIL GenericI;
+    public InterfaceIL UnitWin;
+    public InterfaceIL UnitIcons;
+    public InterfaceIL TurnButton;
+    public InterfaceIL TBWin;
+    public InterfaceIL BookPL;
+    public InterfaceIL BookPR;
+    public InterfaceIL FactionWin;
+    public InterfaceIL RelWin;
+    public InterfaceIL WorldMap;
+    public InterfaceIL BookWin;
+    public InterfaceIL TitleScreen;
+    public InterfaceIL Shields;
+    public InterfaceIL ProdWin;
+    public InterfaceIL FireLg;
+    public InterfaceIL MiscArt;
+    public InterfaceIL Units;
+    public InterfaceIL SoundWin;
+    public InterfaceIL TitleIcons;
+    public InterfaceIL MoveIcons;
+    public InterfaceIL LBIcons;
+    public InterfaceIL EventIcons;
+    public InterfaceIL ProdIcons;
+    public InterfaceIL GenericB;
+    public InterfaceIL GenericE;
+    public InterfaceIL GenericS;
+    public InterfaceIL VictoryFrames;
+    public InterfaceIL EndScene;
+    public InterfaceIL PyreFrames;
+    public InterfaceIL CityWin;
+    public InterfaceIL CampaignTrans;
+    public ImageLibrary ScanObj;
+    public InterfaceIL PlyrIcns;
 }

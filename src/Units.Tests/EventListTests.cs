@@ -127,10 +127,10 @@ public sealed class EventListTests
     [Fact]
     public void PlayerGemsChangeReachesATypedSubscriber()
     {
-        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        var map = new TAoWHSMap(null!);
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
-        var player = new TPlayer(null!);
+        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        var map = new AoWHSMap(null!);
+        Aow.Game.World.Map.AoWHSMap.Current = map;
+        var player = new Player(null!);
         try
         {
             sbyte seen = -2;
@@ -145,7 +145,7 @@ public sealed class EventListTests
         finally
         {
             player.Dispose();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
+            Aow.Game.World.Map.AoWHSMap.Current = previous;
             map.Dispose();
         }
     }

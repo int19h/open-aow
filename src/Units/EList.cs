@@ -7,7 +7,7 @@ namespace Aow.Game.Engine.Collections;
 [LegacyObject]
 // no fields. TObjectList.LoadFromStream constructs items with their ordinary constructor. The
 // stream methods are empty here and overridden by the items
-public partial class TListObject : IDisposable
+public partial class ListObject : IDisposable
 {
     // EList.pas:50
     public virtual void SaveToStream(Stream Stream)
@@ -23,7 +23,7 @@ public partial class TListObject : IDisposable
     {
     }
 
-    public TListObject()
+    public ListObject()
     {
         CaptureAddress.Assign(this);
     }
@@ -32,13 +32,13 @@ public partial class TListObject : IDisposable
 
 // a TList that owns its TListObjects. A slot can be nil. the stream format is the count
 // followed by a nil flag per slot and the item's own data
-public partial class TObjectList : TList
+public partial class ObjectList : DelphiList
 {
     // EList.pas:66
-    internal TListObject GetListObject(int Index) => (TListObject)List[Index];
+    internal ListObject GetListObject(int Index) => (ListObject)List[Index];
 
     // EList.pas:71
-    internal void SetListObject(int Index, TListObject Value)
+    internal void SetListObject(int Index, ListObject Value)
     {
         while (Index >= Count)
         {
@@ -79,7 +79,7 @@ public partial class TObjectList : TList
     {
         int N = default;
         bool IsNil = default;
-        TListObject Obj;
+        ListObject Obj;
         DestroyItems();
         Stream.ReadBytes(Bytes.Of(ref N, 4));
         for (int I = 0, last = N - 1; I <= last; I++)
@@ -87,7 +87,7 @@ public partial class TObjectList : TList
             Stream.ReadBytes(Bytes.Of(ref IsNil, 1));
             if (!IsNil)
             {
-                Obj = new TListObject();
+                Obj = new ListObject();
                 Obj.LoadFromStream(Stream);
                 Add(Obj);
             }
@@ -109,10 +109,10 @@ public partial class TObjectList : TList
             Stream.Write(Bytes.Of(ref IsNil, 1));
             if (!IsNil)
             {
-                ((TListObject)List[I]).SaveToStream(Stream);
+                ((ListObject)List[I]).SaveToStream(Stream);
             }
         }
     }
 
-    public new TListObject this[int Index] { get => GetListObject(Index); set => SetListObject(Index, value); }
+    public new ListObject this[int Index] { get => GetListObject(Index); set => SetListObject(Index, value); }
 }

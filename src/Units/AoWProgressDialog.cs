@@ -7,19 +7,19 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TProgressDialog : TDataModule
+public partial class ProgressDialog : DataModule
 {
-    public TProgressDialog(TComponent owner) : base(owner)
+    public ProgressDialog(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWLabel Title;
-    public TAOWImage TCeltLineL;
-    public TAoWFrame BCeltL;
-    public TAOWLabel StatusLbl;
-    public TAOWWindow ProgDlg;
-    public TAoWGauge Bar;
-    public TAoWFrame TCeltL;
-    public TAOWImage AOWImage1;
-    public TAOWImage AOWImage2;
-    public TIvTranslator Translator;
+    public AOWLabel Title;
+    public AOWImage TCeltLineL;
+    public AoWFrame BCeltL;
+    public AOWLabel StatusLbl;
+    public AOWWindow ProgDlg;
+    public AoWGauge Bar;
+    public AoWFrame TCeltL;
+    public AOWImage AOWImage1;
+    public AOWImage AOWImage2;
+    public IvTranslator Translator;
 }

@@ -5,23 +5,12 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Engine.Hash;
 
-// { The HashTabU unit of Ilpack.dpl: the hash list and hash table classes, an older copy of the
-//   ones the Engine unit includes from inc\HashTab.PAS (Enginep.dpl). This version has no Assert
-//   calls, and TIntegerHashTable256 has neither DeleteSafe nor GetFreeID. }
-// FCount, FCapacity, FItems. The port's FItems is an array of FCapacity items, null for a
-// capacity of 0, as ReallocMem gives nil.
-public struct THashItem
-{
-    public IntOrRef Key;
-    public object Item;
-}
-
 [LegacyObject]
-public partial class THashList : IDisposable
+public partial class HashList : IDisposable
 {
     internal int FCount;
     internal int FCapacity;
-    internal THashItem[] FItems;
+    internal HashItem[] FItems;
 
     // HashTabU.pas:120
     protected internal void SetCapacity(int NewCapacity)
@@ -44,7 +33,7 @@ public partial class THashList : IDisposable
     }
 
     // HashTabU.pas:136
-    protected internal void Add(THashItem Item)
+    protected internal void Add(HashItem Item)
     {
         if (FCapacity == FCount)
         {
@@ -70,19 +59,30 @@ public partial class THashList : IDisposable
 
     public int Count { get => FCount; }
 
-    public THashList()
+    public HashList()
     {
         CaptureAddress.Assign(this);
+    }
+
+    // { The HashTabU unit of Ilpack.dpl: the hash list and hash table classes, an older copy of the
+    //   ones the Engine unit includes from inc\HashTab.PAS (Enginep.dpl). This version has no Assert
+    //   calls, and TIntegerHashTable256 has neither DeleteSafe nor GetFreeID. }
+    // FCount, FCapacity, FItems. The port's FItems is an array of FCapacity items, null for a
+    // capacity of 0, as ReallocMem gives nil.
+    public struct HashItem
+    {
+        public IntOrRef Key;
+        public object Item;
     }
 }
 
 // items keyed by an integer
-public partial class TIntegerHashList : THashList
+public partial class IntegerHashList : HashList
 {
     // HashTabU.pas:145
     public void Add(object Item, int Key)
     {
-        THashItem H = default;
+        Aow.Game.Engine.Hash.HashList.HashItem H = default;
         if (Find(Key) != null)
         {
             throw new InvalidOperationException("ID already in HashTable");
@@ -131,50 +131,50 @@ public partial class TIntegerHashList : THashList
 
 [LegacyObject]
 // the abstract table interface
-public partial class TIntegerHashTable
+public partial class IntegerHashTable
 {
     // HashTabU.pas:47
     public virtual void Add(object Item, int Key)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // HashTabU.pas:48
     public virtual void Delete(int Key)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // HashTabU.pas:49
     public virtual object Find(int Key)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // HashTabU.pas:50
     public virtual void Clear()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
-    public TIntegerHashTable()
+    public IntegerHashTable()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 // 256 lists selected by the low key byte
-public partial class TIntegerHashTable256 : TIntegerHashTable
+public partial class IntegerHashTable256 : IntegerHashTable
 , IDisposable
 {
     internal FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 FLists;
 
     // HashTabU.pas:186
-    public TIntegerHashTable256()
+    public IntegerHashTable256()
     {
         for (int I = 0; I <= 255; I++)
         {
-            var integerHashList = new TIntegerHashList();
+            var integerHashList = new IntegerHashList();
             FLists[I] = integerHashList;
         }
     }
@@ -214,7 +214,7 @@ public partial class TIntegerHashTable256 : TIntegerHashTable
 
 }
 
-public struct TStringHashItem
+public struct StringHashItem
 {
     private string key;
 
@@ -223,7 +223,7 @@ public struct TStringHashItem
     public object Item;
 }
 
-public partial class TStringHashList : THashList
+public partial class StringHashList : HashList
 {
     // HashTabU.pas:226
     public override void Clear()
@@ -261,7 +261,7 @@ public partial class TStringHashList : THashList
     // HashTabU.pas:251
     public void Add(object Item, string Key)
     {
-        THashItem H = default;
+        Aow.Game.Engine.Hash.HashList.HashItem H = default;
         if (Find(Key) != null)
         {
             throw new InvalidOperationException("ID already in HashTable");
@@ -298,50 +298,50 @@ public partial class TStringHashList : THashList
 
 [LegacyObject]
 // the abstract table interface
-public partial class TStringHashTable
+public partial class StringHashTable
 {
     // HashTabU.pas:84
     public virtual void Add(object Item, string Key)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // HashTabU.pas:85
     public virtual void Delete(string Key)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // HashTabU.pas:86
     public virtual object Find(string Key)
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
     // HashTabU.pas:87
     public virtual void Clear()
     {
-        throw EAbstractError.Create("Abstract Error");
+        throw AbstractErrorException.Create("Abstract Error");
     }
 
-    public TStringHashTable()
+    public StringHashTable()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 // 256 lists selected by a hash of the first and the second-to-last character and the length
-public partial class TStringHashTable256 : TStringHashTable
+public partial class StringHashTable256 : StringHashTable
 , IDisposable
 {
     internal FixedArray_Aow_Units_HashTabU_TStringHashList_256 FLists;
 
     // HashTabU.pas:281
-    public TStringHashTable256()
+    public StringHashTable256()
     {
         for (int I = 0; I <= 255; I++)
         {
-            var stringHashList = new TStringHashList();
+            var stringHashList = new StringHashList();
             FLists[I] = stringHashList;
         }
     }

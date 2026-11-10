@@ -9,21 +9,21 @@ internal static class SweepFailureFixture
 {
     internal static readonly string[] Names =
     [
-        "Aow.Game.World.Structures.TCity",
-        "Aow.Game.Magic.Spells.GlobalTarget.THolyGroundSpell",
-        "Aow.Game.Magic.Spells.GlobalTarget.TUnholyGroundSpell",
-        "Aow.Game.Magic.Spells.GlobalTarget.TRaiseTerrain",
-        "Aow.Game.Magic.Spells.GlobalTarget.TPoisonPlantSpell",
-        "Aow.Game.World.Map.TAoWMapLevel",
-        "Aow.Game.Combat.TAoWCombatMapLevel",
+        "Aow.Game.World.Structures.City",
+        "Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell",
+        "Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell",
+        "Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain",
+        "Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell",
+        "Aow.Game.World.Map.AoWMapLevel",
+        "Aow.Game.Combat.AoWCombatMapLevel",
     ];
 
     private sealed class FailureOwner(bool reject) : EngineFixture.Owner
     {
         internal readonly List<string> Events = [];
-        internal TEObject? Last;
+        internal EObject? Last;
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             Last = child;
             Events.Add("insert:" + ReferenceEquals(this, child.Owner));
@@ -32,7 +32,7 @@ internal static class SweepFailureFixture
             return Members.Count - 1;
         }
 
-        public override int RemoveChild(TEObject child)
+        public override int RemoveChild(EObject child)
         {
             Events.Add("remove:" + ReferenceEquals(Last, child));
             int index = Members.IndexOf(child);
@@ -43,7 +43,7 @@ internal static class SweepFailureFixture
 
     internal static void CheckPlainState(string name, int route)
     {
-        var type = typeof(TSpell).Assembly.GetType(name)!;
+        var type = typeof(Spell).Assembly.GetType(name)!;
         using var fixture = new OrderingRecording.Fixture(type);
         var owner = new FailureOwner(false);
         var value = OrderingRecording.Create(type, owner, route, fixture.Engine);

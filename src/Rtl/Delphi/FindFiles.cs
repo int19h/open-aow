@@ -3,7 +3,7 @@ using Aow.Rtl.Host;
 
 namespace Aow.Rtl;
 
-public struct TSearchRec
+public struct SearchRec
 {
     private string name;
 
@@ -30,7 +30,7 @@ public static partial class RtlUnit
     public static int FileSetAttr(string name, int attributes) => Files.SetAttributes(name, attributes);
 
     // SYSUTILS.PAS FindFirst and FindMatchingFile, with the specified deterministic order.
-    public static int FindFirst(string path, int attr, ref TSearchRec search)
+    public static int FindFirst(string path, int attr, ref SearchRec search)
     {
         search = default;
         path = path.Replace('/', '\\');
@@ -57,7 +57,7 @@ public static partial class RtlUnit
     }
 
     // SYSUTILS.PAS FindNext and FindClose.
-    public static int FindNext(ref TSearchRec search)
+    public static int FindNext(ref SearchRec search)
     {
         if (search.Entries is null) return 6;
         if (++search.Index >= search.Entries.Length) return 18;
@@ -66,6 +66,6 @@ public static partial class RtlUnit
         return 0;
     }
 
-    public static void FindClose(ref TSearchRec search) => search.Entries = null;
+    public static void FindClose(ref SearchRec search) => search.Entries = null;
     public static int FileAge(string name) => Files.LastWriteTime(name) is { } time ? DateTimeToFileDate(ToDelphiDate(time)) : -1;
 }

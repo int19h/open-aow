@@ -11,223 +11,217 @@ using Aow.Game.World.Map;
 using Aow.Rtl;
 using static Aow.Rtl.RtlUnit;
 
-namespace Aow.Game.Ui.Grids
+namespace Aow.Game.Ui.Grids;
+
+// indices, stream, show status, map, sort, unselect event
+public partial class ItemControlGrid : CustomImageDrawGrid
 {
+    public IntegerList FIndices;
+    public MemoryStream FStream;
+    public bool FDisplayMode;
+    public bool FUnplacedOnly;
+    public bool FShowStatus;
+    public AoWHSMap FMap;
+    public byte FSort;
+    public NotifyEvent<object> FOnUnselect;
 
-    // indices, stream, show status, map, sort, unselect event
-    public partial class TItemControlGrid : TCustomImageDrawGrid
+    // ItemCtrl.pas:135
+    public override void Dispose()
     {
-        public TIntegerList FIndices;
-        public MemoryStream FStream;
-        public bool FDisplayMode;
-        public bool FUnplacedOnly;
-        public bool FShowStatus;
-        public TAoWHSMap FMap;
-        public byte FSort;
-        public TNotifyEvent<object> FOnUnselect;
+        /* TODO: Implement Grids.Destroy in the platform or editor service. */
+        throw new NotImplementedException();
+    }
 
-        // ItemCtrl.pas:135
-        public override void Dispose()
+    // ItemCtrl.pas:123
+    // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
+    public ItemControlGrid(global::Aow.Rtl.Component owner) : base(owner)
+    {
+
+        FStream = new MemoryStream();
+        DefaultColWidth = 155;
+        DefaultRowHeight = 46;
+        GrowDirection = Aow.Game.Draw.Images.CustomImageDrawGrid.ILGrowDirection.Vertical;
+        ScrollBars = Aow.Rtl.CustomGrid.ScrollStyle.Vertical;
+        FIndices = new IntegerList();
+        FSort = 0;
+    }
+
+    // ItemCtrl.pas:262
+    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    {
+        /* TODO: Implement Controls.Canvas in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:207
+    public override void DelCell()
+    {
+        if (EditMode.Contains(ILGridEditModeElement.Del))
         {
-            /* TODO: Implement Grids.Destroy in the platform or editor service. */
-            throw new NotImplementedException();
+            DeleteItem();
         }
+    }
 
-        // ItemCtrl.pas:123
-        // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-        public TItemControlGrid(TComponent owner) : base(owner)
+    // ItemCtrl.pas:143
+    protected internal override void MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
+    {
+        /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:157
+    public void ItemChanged(object Sender)
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:163
+    public void ItemControlChanged(object Sender)
+    {
+        UpdateItems();
+    }
+
+    // ItemCtrl.pas:168
+    public void SetAoWHSMap(AoWHSMap Value)
+    {
+        if (Value != FMap)
         {
-
-            FStream = new MemoryStream();
-            DefaultColWidth = 155;
-            DefaultRowHeight = 46;
-            GrowDirection = TILGrowDirection.ilVertical;
-            ScrollBars = TScrollStyle.ssVertical;
-            FIndices = new TIntegerList();
-            FSort = 0;
-        }
-
-        // ItemCtrl.pas:262
-        protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
-        {
-            /* TODO: Implement Controls.Canvas in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:207
-        public override void DelCell()
-        {
-            if (EditMode.Contains(TILGridEditModeElement.igDel))
+            if (FMap != null)
             {
-                DeleteItem();
+                FMap.FItemControl.FOnChanged -= ItemControlChanged;
+                FMap.FItemControl.FOnItemChanged -= ItemChanged;
             }
-        }
 
-        // ItemCtrl.pas:143
-        protected internal override void MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
-        {
-            /* TODO: Implement Grids.MouseCoord in the platform or editor service. */
-            throw new NotImplementedException();
-        }
+            FMap = Value;
+            if (FMap != null)
+            {
+                FMap.FItemControl.FOnChanged += ItemControlChanged;
+                FMap.FItemControl.FOnItemChanged += ItemChanged;
+            }
 
-        // ItemCtrl.pas:157
-        public void ItemChanged(object Sender)
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:163
-        public void ItemControlChanged(object Sender)
-        {
             UpdateItems();
         }
-
-        // ItemCtrl.pas:168
-        public void SetAoWHSMap(TAoWHSMap Value)
-        {
-            if (Value != FMap)
-            {
-                if (FMap != null)
-                {
-                    FMap.FItemControl.FOnChanged -= ItemControlChanged;
-                    FMap.FItemControl.FOnItemChanged -= ItemChanged;
-                }
-
-                FMap = Value;
-                if (FMap != null)
-                {
-                    FMap.FItemControl.FOnChanged += ItemControlChanged;
-                    FMap.FItemControl.FOnItemChanged += ItemChanged;
-                }
-
-                UpdateItems();
-            }
-        }
-
-        // ItemCtrl.pas:187
-        public void SortOnName()
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:197
-        public void SortOnType()
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:212
-        public TItem GetSelectedItem()
-        {
-            /* TODO: Implement Grids.Col in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:223
-        public TItem GetItem(int Index)
-        {
-            TItem Result;
-            TAoWHSMap Map;
-            Map = FMap;
-            // { Original checks only the upper bound. }
-            if (Map != null && Index < FIndices.Count)
-            {
-                var indice = FIndices[Index];
-                Result = Map.FItemControl.GetItem(indice);
-            }
-            else
-            {
-                Result = null;
-            }
-
-            return Result;
-        }
-
-        // ItemCtrl.pas:235
-        public void UpdateItems()
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:328
-        public void Unselect()
-        {
-            SelectionEnabled = false;
-            if (FOnUnselect != null)
-            {
-                FOnUnselect(this);
-            }
-        }
-
-        // ItemCtrl.pas:334
-        public void EditItemDone(TEditResult ResultCode, TEObject Obj)
-        {
-            /* TODO: Implement Controls.Invalidate in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:357
-        public void DeleteItem()
-        {
-            /* TODO: Implement Grids.Bottom in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        // ItemCtrl.pas:388
-        public void RemoveItemFromMap()
-        {
-            /* TODO: Implement Grids.Bottom in the platform or editor service. */
-            throw new NotImplementedException();
-        }
-
-        [Published]
-        public bool EditItemEnabled { get => FDisplayMode; set => FDisplayMode = value; }
-
-        [Published]
-        public bool ShowFreeItemsOnly { get => FUnplacedOnly; set => FUnplacedOnly = value; }
-
-        [Published]
-        public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
-
-        [Published]
-        public TNotifyEvent<object> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
     }
-}
 
-namespace Aow.Game.Ui.Grids.ItemCtrl
-{
+    // ItemCtrl.pas:187
+    public void SortOnName()
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:197
+    public void SortOnType()
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:212
+    public Item GetSelectedItem()
+    {
+        /* TODO: Implement Grids.Col in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:223
+    public Item GetItem(int Index)
+    {
+        Item Result;
+        AoWHSMap Map;
+        Map = FMap;
+        // { Original checks only the upper bound. }
+        if (Map != null && Index < FIndices.Count)
+        {
+            var indice = FIndices[Index];
+            Result = Map.FItemControl.GetItem(indice);
+        }
+        else
+        {
+            Result = null;
+        }
+
+        return Result;
+    }
+
+    // ItemCtrl.pas:235
+    public void UpdateItems()
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:328
+    public void Unselect()
+    {
+        SelectionEnabled = false;
+        if (FOnUnselect != null)
+        {
+            FOnUnselect(this);
+        }
+    }
+
+    // ItemCtrl.pas:334
+    public void EditItemDone(EditResult ResultCode, EObject Obj)
+    {
+        /* TODO: Implement Controls.Invalidate in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:357
+    public void DeleteItem()
+    {
+        /* TODO: Implement Grids.Bottom in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    // ItemCtrl.pas:388
+    public void RemoveItemFromMap()
+    {
+        /* TODO: Implement Grids.Bottom in the platform or editor service. */
+        throw new NotImplementedException();
+    }
+
+    [Published]
+    public bool EditItemEnabled { get => FDisplayMode; set => FDisplayMode = value; }
+
+    [Published]
+    public bool ShowFreeItemsOnly { get => FUnplacedOnly; set => FUnplacedOnly = value; }
+
+    [Published]
+    public bool ShowStatus { get => FShowStatus; set => FShowStatus = value; }
+
+    [Published]
+    public NotifyEvent<object> OnUnselect { get => FOnUnselect; set => FOnUnselect = value; }
 
     [LegacyObject]
-    public partial class TGridMapView
+    public partial class GridMapView
     {
-        public TItemControl ItemControl;
-        public THeroControl HeroControl;
-        public TPlayerList Players;
-        public TEventList LeaderEvent;
+        public global::Aow.Game.Units.ItemControl ItemControl;
+        public global::Aow.Game.Units.HeroControl HeroControl;
+        public PlayerList Players;
+        public EventList LeaderEvent;
 
-        public TGridMapView()
+        public GridMapView()
         {
             CaptureAddress.Assign(this);
         }
     }
 
-    public struct TRawView
+    public struct RawView
     {
         public FixedArray_object_512 Fields;
     }
 
-    public struct TNodeView
+    public struct NodeView
     {
         public FixedArray_byte_8 Reserved;
-        public TList Children;
+        public DelphiList Children;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 49)]
-    public struct TEngineView
+    public struct EngineView
     {
         [FieldOffset(0)]
         public FixedArray_byte_48 Reserved;
@@ -235,7 +229,7 @@ namespace Aow.Game.Ui.Grids.ItemCtrl
         public byte Status;
     }
 
-    public struct THeroView
+    public struct HeroView
     {
         public FixedArray_byte_96 Reserved00;
         private string name;
@@ -248,7 +242,7 @@ namespace Aow.Game.Ui.Grids.ItemCtrl
         public bool Hidden;
     }
 
-    public struct TItemView
+    public struct ItemView
     {
         public FixedArray_byte_24 Reserved00;
         private string name;

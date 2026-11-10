@@ -38,23 +38,23 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class AlignmentTables
 {
-    internal static TStatus dAlignmentToStatus(TAlignment A, TAlignment B) => Aow.Game.Session.TRace.StatusValueToStatus(dAlignmentToStatusValue[(int)A][(int)B]);
+    internal static Status dAlignmentToStatus(Alignment A, Alignment B) => Aow.Game.Session.Race.StatusValueToStatus(dAlignmentToStatusValue[(int)A][(int)B]);
 
-    internal static sbyte AlignmentToIR(TAlignment Alignment)
+    internal static sbyte AlignmentToIR(Alignment Alignment)
     {
         sbyte Result;
         switch (Alignment)
         {
-            case TAlignment.alPureGood:
-            case TAlignment.alGood:
+            case global::Aow.Game.Engine.Alignment.PureGood:
+            case global::Aow.Game.Engine.Alignment.Good:
                 Result = -2;
                 break;
-            case TAlignment.alEvil:
-            case TAlignment.alPureEvil:
+            case global::Aow.Game.Engine.Alignment.Evil:
+            case global::Aow.Game.Engine.Alignment.PureEvil:
                 Result = -4;
                 break;
-            case TAlignment.alPureNeutral:
-            case TAlignment.alNeutral:
+            case global::Aow.Game.Engine.Alignment.PureNeutral:
+            case global::Aow.Game.Engine.Alignment.Neutral:
                 Result = -3;
                 break;
             default:
@@ -69,56 +69,56 @@ internal static class AlignmentTables
 
     internal static FixedArray_Aow_Units_FixedArray_sbyte_7_7 P2AlignmentToStatusValue = FixedArray_Aow_Units_FixedArray_sbyte_7_7.From([FixedArray_sbyte_7.From([100, 90, 30, 40, 10, 0, 50]), FixedArray_sbyte_7.From([90, 90, 40, 50, 10, 10, 50]), FixedArray_sbyte_7.From([30, 40, 70, 50, 40, 30, 50]), FixedArray_sbyte_7.From([40, 50, 50, 50, 50, 40, 50]), FixedArray_sbyte_7.From([10, 10, 40, 50, 90, 90, 50]), FixedArray_sbyte_7.From([0, 10, 30, 40, 90, 100, 50]), FixedArray_sbyte_7.From([50, 50, 50, 50, 50, 50, 50])]);
 
-    internal static TDiplomaticRelation dAlignmentToDiplomaticRelation(TAlignment A, TAlignment B)
+    internal static DiplomaticRelation dAlignmentToDiplomaticRelation(Alignment A, Alignment B)
     {
-        TDiplomaticRelation Result;
-        if (TSet<TAlignment>.Of(TAlignment.alPureGood, TAlignment.alGood).Contains(A))
+        DiplomaticRelation Result;
+        if (Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(A))
         {
-            if (TSet<TAlignment>.Of(TAlignment.alPureGood, TAlignment.alGood).Contains(B))
+            if (Set<Alignment>.Of(Alignment.PureGood, Alignment.Good).Contains(B))
             {
-                Result = TDiplomaticRelation.drPeace;
+                Result = DiplomaticRelation.Peace;
             }
             else
             {
-                if (TSet<TAlignment>.Of(TAlignment.alPureNeutral, TAlignment.alNeutral, TAlignment.alNone).Contains(B))
+                if (Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B))
                 {
-                    Result = TDiplomaticRelation.drUnknown;
+                    Result = DiplomaticRelation.Unknown;
                 }
                 else
                 {
-                    Result = TDiplomaticRelation.drWar;
+                    Result = DiplomaticRelation.War;
                 }
             }
         }
         else
         {
-            if (TSet<TAlignment>.Of(TAlignment.alEvil, TAlignment.alPureEvil).Contains(A))
+            if (Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(A))
             {
-                if (TSet<TAlignment>.Of(TAlignment.alEvil, TAlignment.alPureEvil).Contains(B))
+                if (Set<Alignment>.Of(Alignment.Evil, Alignment.PureEvil).Contains(B))
                 {
-                    Result = TDiplomaticRelation.drPeace;
+                    Result = DiplomaticRelation.Peace;
                 }
                 else
                 {
-                    if (TSet<TAlignment>.Of(TAlignment.alPureNeutral, TAlignment.alNeutral, TAlignment.alNone).Contains(B))
+                    if (Set<Alignment>.Of(Alignment.PureNeutral, Alignment.Neutral, Alignment.None).Contains(B))
                     {
-                        Result = TDiplomaticRelation.drUnknown;
+                        Result = DiplomaticRelation.Unknown;
                     }
                     else
                     {
-                        Result = TDiplomaticRelation.drWar;
+                        Result = DiplomaticRelation.War;
                     }
                 }
             }
             else
             {
-                if (A == TAlignment.alPureNeutral && B == TAlignment.alPureNeutral)
+                if (A == Alignment.PureNeutral && B == Alignment.PureNeutral)
                 {
-                    Result = TDiplomaticRelation.drPeace;
+                    Result = DiplomaticRelation.Peace;
                 }
                 else
                 {
-                    Result = TDiplomaticRelation.drUnknown;
+                    Result = DiplomaticRelation.Unknown;
                 }
             }
         }
@@ -126,39 +126,39 @@ internal static class AlignmentTables
         return Result;
     }
 
-    internal static TDiplomaticRelation StatusToDiplomaticRelation(TStatus Status)
+    internal static DiplomaticRelation StatusToDiplomaticRelation(Status Status)
     {
-        TDiplomaticRelation Result;
+        DiplomaticRelation Result;
         switch (Status)
         {
-            case TStatus.sPolite:
-            case TStatus.sFriendly:
-                Result = TDiplomaticRelation.drPeace;
+            case global::Aow.Game.Engine.Status.Polite:
+            case global::Aow.Game.Engine.Status.Friendly:
+                Result = DiplomaticRelation.Peace;
                 break;
-            case TStatus.sNeutral:
-                Result = TDiplomaticRelation.drUnknown;
+            case global::Aow.Game.Engine.Status.Neutral:
+                Result = DiplomaticRelation.Unknown;
                 break;
-            case TStatus.sHostile:
-            case TStatus.sWary:
-                Result = TDiplomaticRelation.drWar;
+            case global::Aow.Game.Engine.Status.Hostile:
+            case global::Aow.Game.Engine.Status.Wary:
+                Result = DiplomaticRelation.War;
                 break;
             default:
-                Result = TDiplomaticRelation.drUnknown;
+                Result = DiplomaticRelation.Unknown;
                 break;
         }
 
         return Result;
     }
 
-    internal static TSet<TAlignment> alsPureGood = TSet<TAlignment>.FromMask(67UL);
+    internal static Set<Alignment> alsPureGood = Set<Alignment>.FromMask(67UL);
 
-    internal static TSet<TAlignment> alsGood = TSet<TAlignment>.FromMask(75UL);
+    internal static Set<Alignment> alsGood = Set<Alignment>.FromMask(75UL);
 
-    internal static TSet<TAlignment> alsNeutral = TSet<TAlignment>.FromMask(90UL);
+    internal static Set<Alignment> alsNeutral = Set<Alignment>.FromMask(90UL);
 
-    internal static TSet<TAlignment> alsEvil = TSet<TAlignment>.FromMask(120UL);
+    internal static Set<Alignment> alsEvil = Set<Alignment>.FromMask(120UL);
 
-    internal static TSet<TAlignment> alsPureEvil = TSet<TAlignment>.FromMask(112UL);
+    internal static Set<Alignment> alsPureEvil = Set<Alignment>.FromMask(112UL);
 
     internal static string NoneRStr = "None";
 

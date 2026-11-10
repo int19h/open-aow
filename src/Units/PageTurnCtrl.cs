@@ -8,19 +8,19 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Grids;
 
 [LegacyObject]
-public partial class TPageTurnControl
+public partial class PageTurnControl
 {
     public float FScale;
     public float FShade;
     public float FHalfWidth;
     public int FSpeed;
-    public TPageTurnMode FMode;
+    public PageTurnMode FMode;
     public int FWidth;
     public int FHeight;
-    public TSurfaceDesc FSource1;
+    public SurfaceDesc FSource1;
     public int FSourceX1;
     public int FSourceY1;
-    public TSurfaceDesc FSource2;
+    public SurfaceDesc FSource2;
     public int FSourceX2;
     public int FSourceY2;
     public FixedArray_float_512 FInvCos;
@@ -29,7 +29,7 @@ public partial class TPageTurnControl
     public int FPosition;
 
     // PageTurnCtrl.pas:51
-    public TPageTurnControl()
+    public PageTurnControl()
     {
         CaptureAddress.Assign(this);
         FScale = (float)0.5;
@@ -91,7 +91,7 @@ public partial class TPageTurnControl
     }
 
     // PageTurnCtrl.pas:119
-    public void BltVerticalScanLine(int SourceX, int DestX, int DestY, in TSurfaceDesc Dest, int Top, int Bottom)
+    public void BltVerticalScanLine(int SourceX, int DestX, int DestY, in SurfaceDesc Dest, int Top, int Bottom)
     {
         int SourceY;
         int Height;
@@ -134,31 +134,31 @@ public partial class TPageTurnControl
 
                 var Destination = Dest.Data;
                 int DestP = Dest.DataIndex + DestX * 2 + Dest.Pitch * Y;
-                Aow.Game.Ui.Grids.TPageTurnControl.BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
+                Aow.Game.Ui.Grids.PageTurnControl.BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
             }
         }
     }
 
     // PageTurnCtrl.pas:151
-    public void Start(TPageTurnMode Mode)
+    public void Start(PageTurnMode Mode)
     {
         FMode = Mode;
         switch (FMode)
         {
-            case TPageTurnMode.ptLeft:
+            case PageTurnMode.Left:
                 FRadius = FHalfWidth;
                 FShadow = (float)((double)FRadius * 0.5);
                 FPosition = FWidth;
                 break;
-            case TPageTurnMode.ptRight:
+            case PageTurnMode.Right:
                 FRadius = 1;
                 FShadow = (float)((double)FRadius * 0.5);
                 FPosition = 0;
                 break;
-            case TPageTurnMode.ptOpen:
+            case PageTurnMode.Open:
                 FPosition = 0;
                 break;
-            case TPageTurnMode.ptClose:
+            case PageTurnMode.Close:
                 FPosition = 180;
                 break;
         }
@@ -170,7 +170,7 @@ public partial class TPageTurnControl
         bool Result;
         switch (FMode)
         {
-            case TPageTurnMode.ptLeft:
+            case PageTurnMode.Left:
                 FShade = (float)3.5;
                 if (FPosition > 0)
                 {
@@ -197,7 +197,7 @@ public partial class TPageTurnControl
 
                 Result = (double)FRadius >= 1;
                 break;
-            case TPageTurnMode.ptRight:
+            case PageTurnMode.Right:
                 FShade = (float)2;
                 if ((double)FRadius < FHalfWidth)
                 {
@@ -221,7 +221,7 @@ public partial class TPageTurnControl
 
                 Result = FPosition < FWidth;
                 break;
-            case TPageTurnMode.ptOpen:
+            case PageTurnMode.Open:
                 FPosition += FSpeed;
                 if (FPosition > 180)
                 {
@@ -230,7 +230,7 @@ public partial class TPageTurnControl
 
                 Result = FPosition < 180;
                 break;
-            case TPageTurnMode.ptClose:
+            case PageTurnMode.Close:
                 FPosition -= FSpeed;
                 if (FPosition < 0)
                 {
@@ -248,7 +248,7 @@ public partial class TPageTurnControl
     }
 
     // PageTurnCtrl.pas:215
-    public void RenderLeftRightScene(int X, int Y, in TSurfaceDesc Dest)
+    public void RenderLeftRightScene(int X, int Y, in SurfaceDesc Dest)
     {
         int OriginalLength;
         int Offset;
@@ -263,7 +263,7 @@ public partial class TPageTurnControl
         int ArcLength;
         int SourceBase;
         int Limit;
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         int SourceOffset;
         int I;
         if ((double)FRadius >= 1)
@@ -274,12 +274,12 @@ public partial class TPageTurnControl
             R.Top = FSourceY1;
             R.Right = FSourceX1 + FWidth + FPosition;
             R.Bottom = FSourceY1 + FHeight;
-            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource1, R, Dest, X, Y);
+            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource1, R, Dest, X, Y);
             R.Left = FSourceX2 + FWidth + FPosition;
             R.Top = FSourceY2;
             R.Right = FWidth * 2 + FSourceX2;
             R.Bottom = FSourceY2 + FHeight;
-            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
+            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
             var pi = Math.PI;
             OriginalLength = Round((double)((double)pi * FRadius) * 0.25);
             var mathPI = Math.PI;
@@ -395,13 +395,13 @@ public partial class TPageTurnControl
             R.Bottom = FSourceY2 + FHeight;
             if (R.Right > R.Left)
             {
-                Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource2, R, Dest, BaseX - (R.Right - R.Left), Y);
+                Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, BaseX - (R.Right - R.Left), Y);
             }
         }
     }
 
     // PageTurnCtrl.pas:324
-    public void RenderOpenCloseScene(int X, int Y, in TSurfaceDesc Dest)
+    public void RenderOpenCloseScene(int X, int Y, in SurfaceDesc Dest)
     {
         int BaseX;
         int Height;
@@ -409,13 +409,13 @@ public partial class TPageTurnControl
         float Step;
         float SourceX;
         int Offset;
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         int PageWidth;
         R.Left = FSourceX2 + FWidth;
         R.Top = FSourceY2;
         R.Right = FSourceX2 + FWidth * 2;
         R.Bottom = FSourceY2 + FHeight;
-        Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
+        Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
         var pi = Math.PI;
         Height = Round((double)Math.Sin((double)((double)FPosition * pi) / 180) * FWidth);
         var mathPI = Math.PI;
@@ -452,11 +452,11 @@ public partial class TPageTurnControl
     }
 
     // PageTurnCtrl.pas:361
-    public void RenderScene(int X, int Y, in TSurfaceDesc Dest, int X1, int Y1, in TSurfaceDesc Source1, int X2, int Y2, in TSurfaceDesc Source2, ref TRect R)
+    public void RenderScene(int X, int Y, in SurfaceDesc Dest, int X1, int Y1, in SurfaceDesc Source1, int X2, int Y2, in SurfaceDesc Source2, ref global::Aow.Rtl.Rect R)
     {
         switch (FMode)
         {
-            case TPageTurnMode.ptLeft:
+            case PageTurnMode.Left:
                 FSource1 = Source1;
                 FSourceX1 = X1;
                 FSourceY1 = Y1;
@@ -469,7 +469,7 @@ public partial class TPageTurnControl
                 R.Top = Y - (Round((double)FScale * FRadius) + 1);
                 R.Bottom = Y + FHeight;
                 break;
-            case TPageTurnMode.ptRight:
+            case PageTurnMode.Right:
                 FSource1 = Source2;
                 FSourceX1 = X2;
                 FSourceY1 = Y2;
@@ -482,7 +482,7 @@ public partial class TPageTurnControl
                 R.Top = Y - (Round((double)FScale * FRadius) + 1);
                 R.Bottom = Y + FHeight;
                 break;
-            case TPageTurnMode.ptOpen:
+            case PageTurnMode.Open:
                 FSource1 = Source1;
                 FSourceX1 = X1;
                 FSourceY1 = Y1;
@@ -497,7 +497,7 @@ public partial class TPageTurnControl
                 R.Top = Y - Round((double)((double)((double)sin * FScale) * FWidth) + 1);
                 R.Bottom = Y + FHeight;
                 break;
-            case TPageTurnMode.ptClose:
+            case PageTurnMode.Close:
                 FSource1 = Source2;
                 FSourceX1 = X2;
                 FSourceY1 = Y2;
@@ -529,10 +529,10 @@ public partial class TPageTurnControl
 
 }
 
-public enum TPageTurnMode : byte
+public enum PageTurnMode : byte
 {
-    ptLeft = 0,
-    ptRight = 1,
-    ptOpen = 2,
-    ptClose = 3
+    Left = 0,
+    Right = 1,
+    Open = 2,
+    Close = 3
 }

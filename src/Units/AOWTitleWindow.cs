@@ -10,15 +10,15 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // splash timer, splash stage
-public partial class TTitleWindow : TDataModule
+public partial class TitleWindow : DataModule
 {
-    public TTitleWindow(TComponent owner) : base(owner)
+    public TitleWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow TitleWin;
-    public TAOWPanel TitlePnl;
-    public TAOWPanel SplashPnl;
-    public TInterfaceIL DemoIL;
+    public AOWWindow TitleWin;
+    public AOWPanel TitlePnl;
+    public AOWPanel SplashPnl;
+    public InterfaceIL DemoIL;
     public int FSplashTimer;
     public int FSplashStage;
 
@@ -34,7 +34,7 @@ public partial class TTitleWindow : TDataModule
     public void InitializeSplash()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Ui.Dialogs.VideoDialog.ScreenMode.Title);
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         TitleWin.Visible = true;
         TitlePnl.Visible = false;
@@ -73,9 +73,9 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:42
-    public void TitleWinDrawSurface(TSurface Surface, int X, int Y)
+    public void TitleWinDrawSurface(Surface Surface, int X, int Y)
     {
-        TSurfaceDesc SD = default;
+        SurfaceDesc SD = default;
         if (Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.Visible && Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade >= 0)
         {
             Surface.Lock(ref SD);
@@ -93,7 +93,7 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:61
-    public void TitlePnlDrawBack(TSurfaceDesc SD)
+    public void TitlePnlDrawBack(SurfaceDesc SD)
     {
         Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin[0].Show(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinLeft, Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FactionPnl.WinTop, SD);
     }
@@ -109,7 +109,7 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:121
-    public void SplashPnlKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void SplashPnlKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -118,7 +118,7 @@ public partial class TTitleWindow : TDataModule
         }
         else
         {
-            if (!Shift.Contains(TShiftState.ssAlt))
+            if (!Shift.Contains(ShiftState.Alt))
             {
                 NextSplash();
             }
@@ -126,23 +126,23 @@ public partial class TTitleWindow : TDataModule
     }
 
     // AOWTitleWindow.pas:131
-    public void SplashPnlMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void SplashPnlMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         NextSplash();
     }
 
-    internal static void ShowExitSplash(TTitleWindow Dialog)
+    internal static void ShowExitSplash(TitleWindow Dialog)
     {
-        Aow.Game.Ui.Dialogs.TTitleWindow.ShowSplash(Dialog);
+        Aow.Game.Ui.Dialogs.TitleWindow.ShowSplash(Dialog);
         Dialog.SplashPnl.ILIndexTexture = 2;
         Dialog.FSplashStage = 10;
         Dialog.FSplashTimer = 300;
     }
 
-    internal static void ShowSplash(TTitleWindow Dialog)
+    internal static void ShowSplash(TitleWindow Dialog)
     {
-        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoSize(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, 640, 480);
-        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoSize(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, 640, 480);
+        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Ui.Dialogs.VideoDialog.ScreenMode.Title);
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyBtnClick();
         Dialog.TitleWin.Visible = true;
         Dialog.TitlePnl.Visible = false;

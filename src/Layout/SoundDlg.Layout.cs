@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSoundDlg : ILayoutModule
+public partial class SoundDlg : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -21,7 +21,7 @@ public partial class TSoundDlg : ILayoutModule
         Name = "SoundDlg";
         LayoutOnCreate = _ => Layout_SoundDlgWindowCreate_0();
         LayoutOnDestroy = _ => Layout_SoundDlgWindowDestroy_1();
-        Dlg = new TAOWWindow(this);
+        Dlg = new AOWWindow(this);
         session.BeginRead(Dlg);
         Dlg.Name = "Dlg";
         Dlg.OnKeyDown = (_, ref key, shift) => DlgKeyDown(ref key, shift);
@@ -31,8 +31,8 @@ public partial class TSoundDlg : ILayoutModule
         Dlg.WinTop = 16;
         Dlg.WinWidth = 420;
         Dlg.Masked = true;
-        Dlg.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        Dlg.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        Dlg.Alignment.AlignWidth = AOWAlignWidth.Center;
+        Dlg.Alignment.AlignHeight = AOWAlignHeight.Center;
         Dlg.Alignment.HeightPercent = 0;
         Dlg.Alignment.WidthPercent = 0;
         Dlg.Alignment.LeftOffPercent = 0;
@@ -65,15 +65,15 @@ public partial class TSoundDlg : ILayoutModule
         Dlg.WinHeight = 400;
         Dlg.Dockable = false;
         session.EndRead(Dlg);
-        CloseBut = new TAOWButton(this);
+        CloseBut = new AOWButton(this);
         session.BeginRead(CloseBut);
         CloseBut.Name = "CloseBut";
         CloseBut.Priority = 250;
         CloseBut.WinLeft = 142;
         CloseBut.WinTop = 363;
         CloseBut.CaptureInput = true;
-        CloseBut.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CloseBut.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CloseBut.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CloseBut.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CloseBut.Alignment.HeightPercent = 0;
         CloseBut.Alignment.WidthPercent = 0;
         CloseBut.Alignment.LeftOffPercent = 0;
@@ -96,15 +96,15 @@ public partial class TSoundDlg : ILayoutModule
         CloseBut.WinWidth = 136;
         CloseBut.OnClick = _ => Layout_CloseClick_2();
         session.EndRead(CloseBut);
-        TCeltLL = new TAOWImage(this);
+        TCeltLL = new AOWImage(this);
         session.BeginRead(TCeltLL);
         TCeltLL.Name = "TCeltLL";
         TCeltLL.Priority = 100;
         TCeltLL.WinLeft = 28;
         TCeltLL.WinTop = 363;
         TCeltLL.CaptureInput = true;
-        TCeltLL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TCeltLL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TCeltLL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TCeltLL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TCeltLL.Alignment.HeightPercent = 0;
         TCeltLL.Alignment.WidthPercent = 0;
         TCeltLL.Alignment.LeftOffPercent = 0;
@@ -124,15 +124,15 @@ public partial class TSoundDlg : ILayoutModule
         TCeltLL.Animate = false;
         TCeltLL.AnimFrameDelay = 0;
         session.EndRead(TCeltLL);
-        BCeltL = new TAoWFrame(this);
+        BCeltL = new AoWFrame(this);
         session.BeginRead(BCeltL);
         BCeltL.Name = "BCeltL";
         BCeltL.Priority = 0;
         BCeltL.WinLeft = 21;
         BCeltL.WinTop = 363;
         BCeltL.CaptureInput = true;
-        BCeltL.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        BCeltL.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        BCeltL.Alignment.AlignWidth = AOWAlignWidth.Both;
+        BCeltL.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         BCeltL.Alignment.HeightPercent = 0;
         BCeltL.Alignment.WidthPercent = 0;
         BCeltL.Alignment.LeftOffPercent = 0;
@@ -146,20 +146,20 @@ public partial class TSoundDlg : ILayoutModule
         BCeltL.Masked = false;
         BCeltL.WinWidth = 378;
         BCeltL.WinHeight = 27;
-        BCeltL.FrameType = TFrameType.frHorizLine;
+        BCeltL.FrameType = FrameType.HorizLine;
         BCeltL.ILIndexFrame = 0;
         BCeltL.ILIndexLine = 55;
         BCeltL.ILIndexTexture = 0;
         session.EndRead(BCeltL);
-        Title = new TAOWLabel(this);
+        Title = new AOWLabel(this);
         session.BeginRead(Title);
         Title.Name = "Title";
         Title.Priority = 0;
         Title.WinLeft = 42;
         Title.WinTop = 7;
         Title.CaptureInput = false;
-        Title.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        Title.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Title.Alignment.AlignWidth = AOWAlignWidth.Left;
+        Title.Alignment.AlignHeight = AOWAlignHeight.Top;
         Title.Alignment.HeightPercent = 0;
         Title.Alignment.WidthPercent = 0;
         Title.Alignment.LeftOffPercent = 0;
@@ -174,15 +174,15 @@ public partial class TSoundDlg : ILayoutModule
         Title.Text = "Audio Settings";
         Title.TextColor = 0;
         session.EndRead(Title);
-        SongLB = new TAOWListBox(this);
+        SongLB = new AOWListBox(this);
         session.BeginRead(SongLB);
         SongLB.Name = "SongLB";
         SongLB.Priority = 0;
         SongLB.WinLeft = 1;
         SongLB.WinTop = 0;
         SongLB.CaptureInput = true;
-        SongLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SongLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SongLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SongLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         SongLB.Alignment.HeightPercent = 0;
         SongLB.Alignment.WidthPercent = 0;
         SongLB.Alignment.LeftOffPercent = 0;
@@ -207,17 +207,17 @@ public partial class TSoundDlg : ILayoutModule
         SongLB.ILIndexTNormal = 21;
         SongLB.ILIndexTSelected = 8;
         SongLB.ItemHeight = 17;
-        SongLB.TextAlign = TaowTextAlign.taLeft;
+        SongLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(SongLB);
-        SongLbl = new TAOWLabel(this);
+        SongLbl = new AOWLabel(this);
         session.BeginRead(SongLbl);
         SongLbl.Name = "SongLbl";
         SongLbl.Priority = 0;
         SongLbl.WinLeft = 0;
         SongLbl.WinTop = 10;
         SongLbl.CaptureInput = false;
-        SongLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SongLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SongLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SongLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         SongLbl.Alignment.HeightPercent = 0;
         SongLbl.Alignment.WidthPercent = 0;
         SongLbl.Alignment.LeftOffPercent = 0;
@@ -232,7 +232,7 @@ public partial class TSoundDlg : ILayoutModule
         SongLbl.Text = "Songs Folder:";
         SongLbl.TextColor = 0;
         session.EndRead(SongLbl);
-        Close = new TAOWButton(this);
+        Close = new AOWButton(this);
         session.BeginRead(Close);
         Close.Name = "Close";
         Close.Priority = 0;
@@ -243,8 +243,8 @@ public partial class TSoundDlg : ILayoutModule
             "Closes the window."
         };
         Close.CaptureInput = true;
-        Close.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        Close.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        Close.Alignment.AlignWidth = AOWAlignWidth.Right;
+        Close.Alignment.AlignHeight = AOWAlignHeight.Top;
         Close.Alignment.HeightPercent = 0;
         Close.Alignment.WidthPercent = 0;
         Close.Alignment.LeftOffPercent = 0;
@@ -266,7 +266,7 @@ public partial class TSoundDlg : ILayoutModule
         Close.WinWidth = 15;
         Close.OnClick = _ => Layout_CloseClick_2();
         session.EndRead(Close);
-        PlayListPnl = new TAOWPanel(this);
+        PlayListPnl = new AOWPanel(this);
         session.BeginRead(PlayListPnl);
         PlayListPnl.Name = "PlayListPnl";
         PlayListPnl.Priority = 0;
@@ -274,8 +274,8 @@ public partial class TSoundDlg : ILayoutModule
         PlayListPnl.WinTop = 170;
         PlayListPnl.WinWidth = 360;
         PlayListPnl.Masked = false;
-        PlayListPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        PlayListPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        PlayListPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        PlayListPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         PlayListPnl.Alignment.HeightPercent = 0;
         PlayListPnl.Alignment.WidthPercent = 0;
         PlayListPnl.Alignment.LeftOffPercent = 0;
@@ -293,15 +293,15 @@ public partial class TSoundDlg : ILayoutModule
         PlayListPnl.MinWidth = 0;
         PlayListPnl.MinHeight = 0;
         session.EndRead(PlayListPnl);
-        SoundTab = new TAOWTabPanel(this);
+        SoundTab = new AOWTabPanel(this);
         session.BeginRead(SoundTab);
         SoundTab.Name = "SoundTab";
         SoundTab.Priority = 1000;
         SoundTab.WinLeft = 20;
         SoundTab.WinTop = 150;
         SoundTab.CaptureInput = true;
-        SoundTab.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SoundTab.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SoundTab.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SoundTab.Alignment.AlignHeight = AOWAlignHeight.Top;
         SoundTab.Alignment.HeightPercent = 0;
         SoundTab.Alignment.WidthPercent = 0;
         SoundTab.Alignment.LeftOffPercent = 0;
@@ -328,15 +328,15 @@ public partial class TSoundDlg : ILayoutModule
         SoundTab.ILIndexUp = 70;
         SoundTab.BorderHeightSelected = 7;
         session.EndRead(SoundTab);
-        PlayLB = new TAOWListBox(this);
+        PlayLB = new AOWListBox(this);
         session.BeginRead(PlayLB);
         PlayLB.Name = "PlayLB";
         PlayLB.Priority = 0;
         PlayLB.WinLeft = 1;
         PlayLB.WinTop = 0;
         PlayLB.CaptureInput = true;
-        PlayLB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        PlayLB.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        PlayLB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        PlayLB.Alignment.AlignHeight = AOWAlignHeight.Both;
         PlayLB.Alignment.HeightPercent = 0;
         PlayLB.Alignment.WidthPercent = 0;
         PlayLB.Alignment.LeftOffPercent = 1;
@@ -362,9 +362,9 @@ public partial class TSoundDlg : ILayoutModule
         PlayLB.ILIndexTNormal = 21;
         PlayLB.ILIndexTSelected = 8;
         PlayLB.ItemHeight = 17;
-        PlayLB.TextAlign = TaowTextAlign.taLeft;
+        PlayLB.TextAlign = TaowTextAlign.Left;
         session.EndRead(PlayLB);
-        AddBtn = new TAOWButton(this);
+        AddBtn = new AOWButton(this);
         session.BeginRead(AddBtn);
         AddBtn.Name = "AddBtn";
         AddBtn.Priority = 250;
@@ -375,8 +375,8 @@ public partial class TSoundDlg : ILayoutModule
             "Add the selected song to the Jukebox Playlist."
         };
         AddBtn.CaptureInput = true;
-        AddBtn.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        AddBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        AddBtn.Alignment.AlignWidth = AOWAlignWidth.Both;
+        AddBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         AddBtn.Alignment.HeightPercent = 0;
         AddBtn.Alignment.WidthPercent = 0;
         AddBtn.Alignment.LeftOffPercent = 0;
@@ -399,7 +399,7 @@ public partial class TSoundDlg : ILayoutModule
         AddBtn.WinWidth = 173;
         AddBtn.OnClick = _ => AddBtnClick();
         session.EndRead(AddBtn);
-        RemoveBtn = new TAOWButton(this);
+        RemoveBtn = new AOWButton(this);
         session.BeginRead(RemoveBtn);
         RemoveBtn.Name = "RemoveBtn";
         RemoveBtn.Priority = 250;
@@ -410,8 +410,8 @@ public partial class TSoundDlg : ILayoutModule
             "Remove the selected song from the Jukebox Playlist."
         };
         RemoveBtn.CaptureInput = true;
-        RemoveBtn.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        RemoveBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        RemoveBtn.Alignment.AlignWidth = AOWAlignWidth.Both;
+        RemoveBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         RemoveBtn.Alignment.HeightPercent = 0;
         RemoveBtn.Alignment.WidthPercent = 0;
         RemoveBtn.Alignment.LeftOffPercent = 52;
@@ -434,7 +434,7 @@ public partial class TSoundDlg : ILayoutModule
         RemoveBtn.WinWidth = 80;
         RemoveBtn.OnClick = _ => RemoveBtnClick();
         session.EndRead(RemoveBtn);
-        PlayBtn = new TAOWButton(this);
+        PlayBtn = new AOWButton(this);
         session.BeginRead(PlayBtn);
         PlayBtn.Name = "PlayBtn";
         PlayBtn.Priority = 250;
@@ -445,8 +445,8 @@ public partial class TSoundDlg : ILayoutModule
             "Play the selected song."
         };
         PlayBtn.CaptureInput = true;
-        PlayBtn.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        PlayBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        PlayBtn.Alignment.AlignWidth = AOWAlignWidth.Both;
+        PlayBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         PlayBtn.Alignment.HeightPercent = 0;
         PlayBtn.Alignment.WidthPercent = 0;
         PlayBtn.Alignment.LeftOffPercent = 76;
@@ -469,15 +469,15 @@ public partial class TSoundDlg : ILayoutModule
         PlayBtn.WinWidth = 87;
         PlayBtn.OnClick = _ => Layout_PlayBtnClick_6();
         session.EndRead(PlayBtn);
-        PlayLbl = new TAOWLabel(this);
+        PlayLbl = new AOWLabel(this);
         session.BeginRead(PlayLbl);
         PlayLbl.Name = "PlayLbl";
         PlayLbl.Priority = 0;
         PlayLbl.WinLeft = 187;
         PlayLbl.WinTop = 10;
         PlayLbl.CaptureInput = false;
-        PlayLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        PlayLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        PlayLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        PlayLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         PlayLbl.Alignment.HeightPercent = 0;
         PlayLbl.Alignment.WidthPercent = 0;
         PlayLbl.Alignment.LeftOffPercent = 52;
@@ -492,15 +492,15 @@ public partial class TSoundDlg : ILayoutModule
         PlayLbl.Text = "Play List:";
         PlayLbl.TextColor = 0;
         session.EndRead(PlayLbl);
-        CurrentSongLbl = new TAOWLabel(this);
+        CurrentSongLbl = new AOWLabel(this);
         session.BeginRead(CurrentSongLbl);
         CurrentSongLbl.Name = "CurrentSongLbl";
         CurrentSongLbl.Priority = 0;
         CurrentSongLbl.WinLeft = 75;
         CurrentSongLbl.WinTop = 8;
         CurrentSongLbl.CaptureInput = false;
-        CurrentSongLbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CurrentSongLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CurrentSongLbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CurrentSongLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CurrentSongLbl.Alignment.HeightPercent = 0;
         CurrentSongLbl.Alignment.WidthPercent = 0;
         CurrentSongLbl.Alignment.LeftOffPercent = 51;
@@ -515,15 +515,15 @@ public partial class TSoundDlg : ILayoutModule
         CurrentSongLbl.Text = "#########";
         CurrentSongLbl.TextColor = 0;
         session.EndRead(CurrentSongLbl);
-        TCeltLR = new TAOWImage(this);
+        TCeltLR = new AOWImage(this);
         session.BeginRead(TCeltLR);
         TCeltLR.Name = "TCeltLR";
         TCeltLR.Priority = 100;
         TCeltLR.WinLeft = 311;
         TCeltLR.WinTop = 363;
         TCeltLR.CaptureInput = true;
-        TCeltLR.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TCeltLR.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TCeltLR.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TCeltLR.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TCeltLR.Alignment.HeightPercent = 0;
         TCeltLR.Alignment.WidthPercent = 0;
         TCeltLR.Alignment.LeftOffPercent = 0;
@@ -543,7 +543,7 @@ public partial class TSoundDlg : ILayoutModule
         TCeltLR.Animate = false;
         TCeltLR.AnimFrameDelay = 0;
         session.EndRead(TCeltLR);
-        MusicVolLbl = new TAOWLabel(this);
+        MusicVolLbl = new AOWLabel(this);
         session.BeginRead(MusicVolLbl);
         MusicVolLbl.Name = "MusicVolLbl";
         MusicVolLbl.Priority = 0;
@@ -554,8 +554,8 @@ public partial class TSoundDlg : ILayoutModule
             "The volume to play music at."
         };
         MusicVolLbl.CaptureInput = false;
-        MusicVolLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        MusicVolLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        MusicVolLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        MusicVolLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         MusicVolLbl.Alignment.HeightPercent = 0;
         MusicVolLbl.Alignment.WidthPercent = 0;
         MusicVolLbl.Alignment.LeftOffPercent = 0;
@@ -570,7 +570,7 @@ public partial class TSoundDlg : ILayoutModule
         MusicVolLbl.Text = "Music Volume:";
         MusicVolLbl.TextColor = 0;
         session.EndRead(MusicVolLbl);
-        SFXVolLbl = new TAOWLabel(this);
+        SFXVolLbl = new AOWLabel(this);
         session.BeginRead(SFXVolLbl);
         SFXVolLbl.Name = "SFXVolLbl";
         SFXVolLbl.Priority = 0;
@@ -581,8 +581,8 @@ public partial class TSoundDlg : ILayoutModule
             "The volume to play sfx at."
         };
         SFXVolLbl.CaptureInput = false;
-        SFXVolLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        SFXVolLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        SFXVolLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        SFXVolLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         SFXVolLbl.Alignment.HeightPercent = 0;
         SFXVolLbl.Alignment.WidthPercent = 0;
         SFXVolLbl.Alignment.LeftOffPercent = 0;
@@ -597,7 +597,7 @@ public partial class TSoundDlg : ILayoutModule
         SFXVolLbl.Text = "SFX Volume:";
         SFXVolLbl.TextColor = 0;
         session.EndRead(SFXVolLbl);
-        MainPnl = new TAOWPanel(this);
+        MainPnl = new AOWPanel(this);
         session.BeginRead(MainPnl);
         MainPnl.Name = "MainPnl";
         MainPnl.Priority = 0;
@@ -605,8 +605,8 @@ public partial class TSoundDlg : ILayoutModule
         MainPnl.WinTop = 50;
         MainPnl.WinWidth = 240;
         MainPnl.Masked = true;
-        MainPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        MainPnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        MainPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        MainPnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         MainPnl.Alignment.HeightPercent = 0;
         MainPnl.Alignment.WidthPercent = 0;
         MainPnl.Alignment.LeftOffPercent = 0;
@@ -624,15 +624,15 @@ public partial class TSoundDlg : ILayoutModule
         MainPnl.MinWidth = 0;
         MainPnl.MinHeight = 0;
         session.EndRead(MainPnl);
-        SoundLbl = new TAOWLabel(this);
+        SoundLbl = new AOWLabel(this);
         session.BeginRead(SoundLbl);
         SoundLbl.Name = "SoundLbl";
         SoundLbl.Priority = 0;
         SoundLbl.WinLeft = 0;
         SoundLbl.WinTop = 10;
         SoundLbl.CaptureInput = false;
-        SoundLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SoundLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SoundLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SoundLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         SoundLbl.Alignment.HeightPercent = 0;
         SoundLbl.Alignment.WidthPercent = 0;
         SoundLbl.Alignment.LeftOffPercent = 0;
@@ -647,7 +647,7 @@ public partial class TSoundDlg : ILayoutModule
         SoundLbl.Text = "Sound Quality:";
         SoundLbl.TextColor = 0;
         session.EndRead(SoundLbl);
-        SettingsPnl = new TAOWPanel(this);
+        SettingsPnl = new AOWPanel(this);
         session.BeginRead(SettingsPnl);
         SettingsPnl.Name = "SettingsPnl";
         SettingsPnl.Visible = false;
@@ -656,8 +656,8 @@ public partial class TSoundDlg : ILayoutModule
         SettingsPnl.WinTop = 180;
         SettingsPnl.WinWidth = 360;
         SettingsPnl.Masked = true;
-        SettingsPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SettingsPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        SettingsPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SettingsPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         SettingsPnl.Alignment.HeightPercent = 0;
         SettingsPnl.Alignment.WidthPercent = 0;
         SettingsPnl.Alignment.LeftOffPercent = 0;
@@ -675,15 +675,15 @@ public partial class TSoundDlg : ILayoutModule
         SettingsPnl.MinWidth = 0;
         SettingsPnl.MinHeight = 0;
         session.EndRead(SettingsPnl);
-        SFXLbl = new TAOWLabel(this);
+        SFXLbl = new AOWLabel(this);
         session.BeginRead(SFXLbl);
         SFXLbl.Name = "SFXLbl";
         SFXLbl.Priority = 0;
         SFXLbl.WinLeft = 187;
         SFXLbl.WinTop = 10;
         SFXLbl.CaptureInput = false;
-        SFXLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SFXLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SFXLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SFXLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         SFXLbl.Alignment.HeightPercent = 0;
         SFXLbl.Alignment.WidthPercent = 0;
         SFXLbl.Alignment.LeftOffPercent = 52;
@@ -698,7 +698,7 @@ public partial class TSoundDlg : ILayoutModule
         SFXLbl.Text = "Active Sounds:";
         SFXLbl.TextColor = 0;
         session.EndRead(SFXLbl);
-        SQPnl = new TAOWPanel(this);
+        SQPnl = new AOWPanel(this);
         session.BeginRead(SQPnl);
         SQPnl.Name = "SQPnl";
         SQPnl.Priority = 0;
@@ -706,8 +706,8 @@ public partial class TSoundDlg : ILayoutModule
         SQPnl.WinTop = 30;
         SQPnl.WinWidth = 173;
         SQPnl.Masked = false;
-        SQPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SQPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SQPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SQPnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         SQPnl.Alignment.HeightPercent = 0;
         SQPnl.Alignment.WidthPercent = 0;
         SQPnl.Alignment.LeftOffPercent = 0;
@@ -725,7 +725,7 @@ public partial class TSoundDlg : ILayoutModule
         SQPnl.MinWidth = 0;
         SQPnl.MinHeight = 0;
         session.EndRead(SQPnl);
-        SQCB1 = new TAOWCheckBox(this);
+        SQCB1 = new AOWCheckBox(this);
         session.BeginRead(SQCB1);
         SQCB1.Name = "SQCB1";
         SQCB1.Priority = 0;
@@ -736,8 +736,8 @@ public partial class TSoundDlg : ILayoutModule
             "Do not play music or sfx."
         };
         SQCB1.CaptureInput = true;
-        SQCB1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQCB1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQCB1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQCB1.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQCB1.Alignment.HeightPercent = 0;
         SQCB1.Alignment.WidthPercent = 0;
         SQCB1.Alignment.LeftOffPercent = 0;
@@ -761,7 +761,7 @@ public partial class TSoundDlg : ILayoutModule
         SQCB1.OnChange = SQCB1Change;
         SQCB1.RadioIndex = 1;
         session.EndRead(SQCB1);
-        SQLBL1 = new TAOWLabel(this);
+        SQLBL1 = new AOWLabel(this);
         session.BeginRead(SQLBL1);
         SQLBL1.Name = "SQLBL1";
         SQLBL1.Priority = 0;
@@ -772,8 +772,8 @@ public partial class TSoundDlg : ILayoutModule
             "Do not play music or sfx."
         };
         SQLBL1.CaptureInput = false;
-        SQLBL1.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQLBL1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQLBL1.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQLBL1.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQLBL1.Alignment.HeightPercent = 0;
         SQLBL1.Alignment.WidthPercent = 0;
         SQLBL1.Alignment.LeftOffPercent = 0;
@@ -788,7 +788,7 @@ public partial class TSoundDlg : ILayoutModule
         SQLBL1.Text = "No Sound";
         SQLBL1.TextColor = 9415072;
         session.EndRead(SQLBL1);
-        SQCB2 = new TAOWCheckBox(this);
+        SQCB2 = new AOWCheckBox(this);
         session.BeginRead(SQCB2);
         SQCB2.Name = "SQCB2";
         SQCB2.Priority = 0;
@@ -799,8 +799,8 @@ public partial class TSoundDlg : ILayoutModule
             "Play music and sfx in low quality (recommended for slower computers)."
         };
         SQCB2.CaptureInput = true;
-        SQCB2.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQCB2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQCB2.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQCB2.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQCB2.Alignment.HeightPercent = 0;
         SQCB2.Alignment.WidthPercent = 0;
         SQCB2.Alignment.LeftOffPercent = 0;
@@ -824,7 +824,7 @@ public partial class TSoundDlg : ILayoutModule
         SQCB2.OnChange = SQCB2Change;
         SQCB2.RadioIndex = 1;
         session.EndRead(SQCB2);
-        SQLBL2 = new TAOWLabel(this);
+        SQLBL2 = new AOWLabel(this);
         session.BeginRead(SQLBL2);
         SQLBL2.Name = "SQLBL2";
         SQLBL2.Priority = 0;
@@ -835,8 +835,8 @@ public partial class TSoundDlg : ILayoutModule
             "Play music and sfx in low quality (recommended for slower computers)."
         };
         SQLBL2.CaptureInput = false;
-        SQLBL2.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQLBL2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQLBL2.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQLBL2.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQLBL2.Alignment.HeightPercent = 0;
         SQLBL2.Alignment.WidthPercent = 0;
         SQLBL2.Alignment.LeftOffPercent = 0;
@@ -851,7 +851,7 @@ public partial class TSoundDlg : ILayoutModule
         SQLBL2.Text = "Low";
         SQLBL2.TextColor = 9415072;
         session.EndRead(SQLBL2);
-        SQCB3 = new TAOWCheckBox(this);
+        SQCB3 = new AOWCheckBox(this);
         session.BeginRead(SQCB3);
         SQCB3.Name = "SQCB3";
         SQCB3.Priority = 0;
@@ -862,8 +862,8 @@ public partial class TSoundDlg : ILayoutModule
             "Play music and sfx in medium quality (recommended for most computers)."
         };
         SQCB3.CaptureInput = true;
-        SQCB3.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQCB3.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQCB3.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQCB3.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQCB3.Alignment.HeightPercent = 0;
         SQCB3.Alignment.WidthPercent = 0;
         SQCB3.Alignment.LeftOffPercent = 0;
@@ -887,7 +887,7 @@ public partial class TSoundDlg : ILayoutModule
         SQCB3.OnChange = SQCB3Change;
         SQCB3.RadioIndex = 1;
         session.EndRead(SQCB3);
-        SQLBL3 = new TAOWLabel(this);
+        SQLBL3 = new AOWLabel(this);
         session.BeginRead(SQLBL3);
         SQLBL3.Name = "SQLBL3";
         SQLBL3.Priority = 0;
@@ -898,8 +898,8 @@ public partial class TSoundDlg : ILayoutModule
             "Play music and sfx in medium quality (recommended for most computers)."
         };
         SQLBL3.CaptureInput = false;
-        SQLBL3.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQLBL3.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQLBL3.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQLBL3.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQLBL3.Alignment.HeightPercent = 0;
         SQLBL3.Alignment.WidthPercent = 0;
         SQLBL3.Alignment.LeftOffPercent = 0;
@@ -914,7 +914,7 @@ public partial class TSoundDlg : ILayoutModule
         SQLBL3.Text = "Normal";
         SQLBL3.TextColor = 9415072;
         session.EndRead(SQLBL3);
-        SQCB4 = new TAOWCheckBox(this);
+        SQCB4 = new AOWCheckBox(this);
         session.BeginRead(SQCB4);
         SQCB4.Name = "SQCB4";
         SQCB4.Priority = 0;
@@ -925,8 +925,8 @@ public partial class TSoundDlg : ILayoutModule
             "Play music and sfx in high quality (recommended for fast computers)."
         };
         SQCB4.CaptureInput = true;
-        SQCB4.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQCB4.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQCB4.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQCB4.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQCB4.Alignment.HeightPercent = 0;
         SQCB4.Alignment.WidthPercent = 0;
         SQCB4.Alignment.LeftOffPercent = 0;
@@ -950,7 +950,7 @@ public partial class TSoundDlg : ILayoutModule
         SQCB4.OnChange = SQCB4Change;
         SQCB4.RadioIndex = 1;
         session.EndRead(SQCB4);
-        SQLBL4 = new TAOWLabel(this);
+        SQLBL4 = new AOWLabel(this);
         session.BeginRead(SQLBL4);
         SQLBL4.Name = "SQLBL4";
         SQLBL4.Priority = 0;
@@ -961,8 +961,8 @@ public partial class TSoundDlg : ILayoutModule
             "Play music and sfx in high quality (recommended for fast computers)."
         };
         SQLBL4.CaptureInput = false;
-        SQLBL4.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SQLBL4.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SQLBL4.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SQLBL4.Alignment.AlignHeight = AOWAlignHeight.Top;
         SQLBL4.Alignment.HeightPercent = 0;
         SQLBL4.Alignment.WidthPercent = 0;
         SQLBL4.Alignment.LeftOffPercent = 0;
@@ -977,7 +977,7 @@ public partial class TSoundDlg : ILayoutModule
         SQLBL4.Text = "High";
         SQLBL4.TextColor = 9415072;
         session.EndRead(SQLBL4);
-        SFXPnl = new TAOWPanel(this);
+        SFXPnl = new AOWPanel(this);
         session.BeginRead(SFXPnl);
         SFXPnl.Name = "SFXPnl";
         SFXPnl.Priority = 0;
@@ -985,8 +985,8 @@ public partial class TSoundDlg : ILayoutModule
         SFXPnl.WinTop = 30;
         SFXPnl.WinWidth = 173;
         SFXPnl.Masked = false;
-        SFXPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        SFXPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        SFXPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        SFXPnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         SFXPnl.Alignment.HeightPercent = 0;
         SFXPnl.Alignment.WidthPercent = 0;
         SFXPnl.Alignment.LeftOffPercent = 52;
@@ -1004,7 +1004,7 @@ public partial class TSoundDlg : ILayoutModule
         SFXPnl.MinWidth = 0;
         SFXPnl.MinHeight = 0;
         session.EndRead(SFXPnl);
-        MusicEnabledChk = new TAOWCheckBox(this);
+        MusicEnabledChk = new AOWCheckBox(this);
         session.BeginRead(MusicEnabledChk);
         MusicEnabledChk.Name = "MusicEnabledChk";
         MusicEnabledChk.Priority = 0;
@@ -1015,8 +1015,8 @@ public partial class TSoundDlg : ILayoutModule
             "Selects whether or not to play music."
         };
         MusicEnabledChk.CaptureInput = true;
-        MusicEnabledChk.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        MusicEnabledChk.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        MusicEnabledChk.Alignment.AlignWidth = AOWAlignWidth.Left;
+        MusicEnabledChk.Alignment.AlignHeight = AOWAlignHeight.Top;
         MusicEnabledChk.Alignment.HeightPercent = 0;
         MusicEnabledChk.Alignment.WidthPercent = 0;
         MusicEnabledChk.Alignment.LeftOffPercent = 0;
@@ -1040,7 +1040,7 @@ public partial class TSoundDlg : ILayoutModule
         MusicEnabledChk.OnChange = MusicEnabledChkChange;
         MusicEnabledChk.RadioIndex = 0;
         session.EndRead(MusicEnabledChk);
-        SFXLBL2 = new TAOWLabel(this);
+        SFXLBL2 = new AOWLabel(this);
         session.BeginRead(SFXLBL2);
         SFXLBL2.Name = "SFXLBL2";
         SFXLBL2.Priority = 0;
@@ -1051,8 +1051,8 @@ public partial class TSoundDlg : ILayoutModule
             "Selects whether or not to play music."
         };
         SFXLBL2.CaptureInput = false;
-        SFXLBL2.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SFXLBL2.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SFXLBL2.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SFXLBL2.Alignment.AlignHeight = AOWAlignHeight.Top;
         SFXLBL2.Alignment.HeightPercent = 0;
         SFXLBL2.Alignment.WidthPercent = 0;
         SFXLBL2.Alignment.LeftOffPercent = 0;
@@ -1067,7 +1067,7 @@ public partial class TSoundDlg : ILayoutModule
         SFXLBL2.Text = "Music";
         SFXLBL2.TextColor = 9415072;
         session.EndRead(SFXLBL2);
-        SFXEnabledChk = new TAOWCheckBox(this);
+        SFXEnabledChk = new AOWCheckBox(this);
         session.BeginRead(SFXEnabledChk);
         SFXEnabledChk.Name = "SFXEnabledChk";
         SFXEnabledChk.Priority = 0;
@@ -1078,8 +1078,8 @@ public partial class TSoundDlg : ILayoutModule
             "Selects whether or not to play sfx."
         };
         SFXEnabledChk.CaptureInput = true;
-        SFXEnabledChk.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SFXEnabledChk.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SFXEnabledChk.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SFXEnabledChk.Alignment.AlignHeight = AOWAlignHeight.Top;
         SFXEnabledChk.Alignment.HeightPercent = 0;
         SFXEnabledChk.Alignment.WidthPercent = 0;
         SFXEnabledChk.Alignment.LeftOffPercent = 0;
@@ -1103,7 +1103,7 @@ public partial class TSoundDlg : ILayoutModule
         SFXEnabledChk.OnChange = SFXEnabledChkChange;
         SFXEnabledChk.RadioIndex = 0;
         session.EndRead(SFXEnabledChk);
-        SFXLBL3 = new TAOWLabel(this);
+        SFXLBL3 = new AOWLabel(this);
         session.BeginRead(SFXLBL3);
         SFXLBL3.Name = "SFXLBL3";
         SFXLBL3.Priority = 0;
@@ -1114,8 +1114,8 @@ public partial class TSoundDlg : ILayoutModule
             "Selects whether or not to play sfx."
         };
         SFXLBL3.CaptureInput = false;
-        SFXLBL3.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SFXLBL3.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        SFXLBL3.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SFXLBL3.Alignment.AlignHeight = AOWAlignHeight.Top;
         SFXLBL3.Alignment.HeightPercent = 0;
         SFXLBL3.Alignment.WidthPercent = 0;
         SFXLBL3.Alignment.LeftOffPercent = 0;
@@ -1130,15 +1130,15 @@ public partial class TSoundDlg : ILayoutModule
         SFXLBL3.Text = "Sound Effects";
         SFXLBL3.TextColor = 9415072;
         session.EndRead(SFXLBL3);
-        TopLine = new TAoWFrame(this);
+        TopLine = new AoWFrame(this);
         session.BeginRead(TopLine);
         TopLine.Name = "TopLine";
         TopLine.Priority = 0;
         TopLine.WinLeft = 21;
         TopLine.WinTop = 22;
         TopLine.CaptureInput = true;
-        TopLine.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TopLine.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TopLine.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TopLine.Alignment.AlignHeight = AOWAlignHeight.Top;
         TopLine.Alignment.HeightPercent = 0;
         TopLine.Alignment.WidthPercent = 0;
         TopLine.Alignment.LeftOffPercent = 0;
@@ -1152,20 +1152,20 @@ public partial class TSoundDlg : ILayoutModule
         TopLine.Masked = false;
         TopLine.WinWidth = 378;
         TopLine.WinHeight = 27;
-        TopLine.FrameType = TFrameType.frHorizLine;
+        TopLine.FrameType = FrameType.HorizLine;
         TopLine.ILIndexFrame = 0;
         TopLine.ILIndexLine = 55;
         TopLine.ILIndexTexture = 0;
         session.EndRead(TopLine);
-        AOWImage4 = new TAOWImage(this);
+        AOWImage4 = new AOWImage(this);
         session.BeginRead(AOWImage4);
         AOWImage4.Name = "AOWImage4";
         AOWImage4.Priority = 1000;
         AOWImage4.WinLeft = 28;
         AOWImage4.WinTop = 22;
         AOWImage4.CaptureInput = true;
-        AOWImage4.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        AOWImage4.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        AOWImage4.Alignment.AlignWidth = AOWAlignWidth.Left;
+        AOWImage4.Alignment.AlignHeight = AOWAlignHeight.Top;
         AOWImage4.Alignment.HeightPercent = 0;
         AOWImage4.Alignment.WidthPercent = 0;
         AOWImage4.Alignment.LeftOffPercent = 0;
@@ -1185,15 +1185,15 @@ public partial class TSoundDlg : ILayoutModule
         AOWImage4.Animate = false;
         AOWImage4.AnimFrameDelay = 0;
         session.EndRead(AOWImage4);
-        HarpL = new TAOWImage(this);
+        HarpL = new AOWImage(this);
         session.BeginRead(HarpL);
         HarpL.Name = "HarpL";
         HarpL.Priority = 0;
         HarpL.WinLeft = 30;
         HarpL.WinTop = 55;
         HarpL.CaptureInput = true;
-        HarpL.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        HarpL.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        HarpL.Alignment.AlignWidth = AOWAlignWidth.Left;
+        HarpL.Alignment.AlignHeight = AOWAlignHeight.Top;
         HarpL.Alignment.HeightPercent = 0;
         HarpL.Alignment.WidthPercent = 0;
         HarpL.Alignment.LeftOffPercent = 0;
@@ -1213,15 +1213,15 @@ public partial class TSoundDlg : ILayoutModule
         HarpL.Animate = false;
         HarpL.AnimFrameDelay = 0;
         session.EndRead(HarpL);
-        HarpR = new TAOWImage(this);
+        HarpR = new AOWImage(this);
         session.BeginRead(HarpR);
         HarpR.Name = "HarpR";
         HarpR.Priority = 0;
         HarpR.WinLeft = 339;
         HarpR.WinTop = 55;
         HarpR.CaptureInput = true;
-        HarpR.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        HarpR.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        HarpR.Alignment.AlignWidth = AOWAlignWidth.Right;
+        HarpR.Alignment.AlignHeight = AOWAlignHeight.Top;
         HarpR.Alignment.HeightPercent = 0;
         HarpR.Alignment.WidthPercent = 0;
         HarpR.Alignment.LeftOffPercent = 0;
@@ -1241,7 +1241,7 @@ public partial class TSoundDlg : ILayoutModule
         HarpR.Animate = false;
         HarpR.AnimFrameDelay = 0;
         session.EndRead(HarpR);
-        MusicVolume = new TAOWHScrollBar(this);
+        MusicVolume = new AOWHScrollBar(this);
         session.BeginRead(MusicVolume);
         MusicVolume.Name = "MusicVolume";
         MusicVolume.Priority = 0;
@@ -1252,8 +1252,8 @@ public partial class TSoundDlg : ILayoutModule
             "The volume to play music at."
         };
         MusicVolume.CaptureInput = true;
-        MusicVolume.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        MusicVolume.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        MusicVolume.Alignment.AlignWidth = AOWAlignWidth.Left;
+        MusicVolume.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         MusicVolume.Alignment.HeightPercent = 0;
         MusicVolume.Alignment.WidthPercent = 0;
         MusicVolume.Alignment.LeftOffPercent = 0;
@@ -1282,7 +1282,7 @@ public partial class TSoundDlg : ILayoutModule
         MusicVolume.ILIndexBack = 80;
         MusicVolume.ILIndexTab = 83;
         session.EndRead(MusicVolume);
-        SFXVolume = new TAOWHScrollBar(this);
+        SFXVolume = new AOWHScrollBar(this);
         session.BeginRead(SFXVolume);
         SFXVolume.Name = "SFXVolume";
         SFXVolume.Priority = 0;
@@ -1293,8 +1293,8 @@ public partial class TSoundDlg : ILayoutModule
             "The volume to play sfx at."
         };
         SFXVolume.CaptureInput = true;
-        SFXVolume.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        SFXVolume.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        SFXVolume.Alignment.AlignWidth = AOWAlignWidth.Left;
+        SFXVolume.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         SFXVolume.Alignment.HeightPercent = 0;
         SFXVolume.Alignment.WidthPercent = 0;
         SFXVolume.Alignment.LeftOffPercent = 0;
@@ -1323,15 +1323,15 @@ public partial class TSoundDlg : ILayoutModule
         SFXVolume.ILIndexBack = 80;
         SFXVolume.ILIndexTab = 83;
         session.EndRead(SFXVolume);
-        TitleIcon = new TAOWImage(this);
+        TitleIcon = new AOWImage(this);
         session.BeginRead(TitleIcon);
         TitleIcon.Name = "TitleIcon";
         TitleIcon.Priority = 0;
         TitleIcon.WinLeft = 20;
         TitleIcon.WinTop = 5;
         TitleIcon.CaptureInput = false;
-        TitleIcon.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TitleIcon.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TitleIcon.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TitleIcon.Alignment.AlignHeight = AOWAlignHeight.Top;
         TitleIcon.Alignment.HeightPercent = 0;
         TitleIcon.Alignment.WidthPercent = 0;
         TitleIcon.Alignment.LeftOffPercent = 0;
@@ -1351,7 +1351,7 @@ public partial class TSoundDlg : ILayoutModule
         TitleIcon.Animate = false;
         TitleIcon.AnimFrameDelay = 0;
         session.EndRead(TitleIcon);
-        SongSB = new TAOWVScrollBar(this);
+        SongSB = new AOWVScrollBar(this);
         session.BeginRead(SongSB);
         SongSB.Name = "SongSB";
         SongSB.Visible = false;
@@ -1359,8 +1359,8 @@ public partial class TSoundDlg : ILayoutModule
         SongSB.WinLeft = 156;
         SongSB.WinTop = 0;
         SongSB.CaptureInput = true;
-        SongSB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        SongSB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SongSB.Alignment.AlignWidth = AOWAlignWidth.None;
+        SongSB.Alignment.AlignHeight = AOWAlignHeight.None;
         SongSB.Alignment.HeightPercent = 0;
         SongSB.Alignment.WidthPercent = 0;
         SongSB.Alignment.LeftOffPercent = 0;
@@ -1388,7 +1388,7 @@ public partial class TSoundDlg : ILayoutModule
         SongSB.ILIndexBack = 101;
         SongSB.ILIndexTab = 98;
         session.EndRead(SongSB);
-        PlaySB = new TAOWVScrollBar(this);
+        PlaySB = new AOWVScrollBar(this);
         session.BeginRead(PlaySB);
         PlaySB.Name = "PlaySB";
         PlaySB.Visible = false;
@@ -1396,8 +1396,8 @@ public partial class TSoundDlg : ILayoutModule
         PlaySB.WinLeft = 156;
         PlaySB.WinTop = 0;
         PlaySB.CaptureInput = true;
-        PlaySB.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        PlaySB.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        PlaySB.Alignment.AlignWidth = AOWAlignWidth.None;
+        PlaySB.Alignment.AlignHeight = AOWAlignHeight.None;
         PlaySB.Alignment.HeightPercent = 0;
         PlaySB.Alignment.WidthPercent = 0;
         PlaySB.Alignment.LeftOffPercent = 0;
@@ -1425,7 +1425,7 @@ public partial class TSoundDlg : ILayoutModule
         PlaySB.ILIndexBack = 101;
         PlaySB.ILIndexTab = 98;
         session.EndRead(PlaySB);
-        DirectSoundEnabledChk = new TAOWCheckBox(this);
+        DirectSoundEnabledChk = new AOWCheckBox(this);
         session.BeginRead(DirectSoundEnabledChk);
         DirectSoundEnabledChk.Name = "DirectSoundEnabledChk";
         DirectSoundEnabledChk.Priority = 0;
@@ -1436,8 +1436,8 @@ public partial class TSoundDlg : ILayoutModule
             "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
         };
         DirectSoundEnabledChk.CaptureInput = true;
-        DirectSoundEnabledChk.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        DirectSoundEnabledChk.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DirectSoundEnabledChk.Alignment.AlignWidth = AOWAlignWidth.Left;
+        DirectSoundEnabledChk.Alignment.AlignHeight = AOWAlignHeight.Top;
         DirectSoundEnabledChk.Alignment.HeightPercent = 0;
         DirectSoundEnabledChk.Alignment.WidthPercent = 0;
         DirectSoundEnabledChk.Alignment.LeftOffPercent = 0;
@@ -1461,7 +1461,7 @@ public partial class TSoundDlg : ILayoutModule
         DirectSoundEnabledChk.OnChange = DirectSoundEnabledChkChange;
         DirectSoundEnabledChk.RadioIndex = 0;
         session.EndRead(DirectSoundEnabledChk);
-        UseDirectSoundLbl = new TAOWLabel(this);
+        UseDirectSoundLbl = new AOWLabel(this);
         session.BeginRead(UseDirectSoundLbl);
         UseDirectSoundLbl.Name = "UseDirectSoundLbl";
         UseDirectSoundLbl.Priority = 0;
@@ -1472,8 +1472,8 @@ public partial class TSoundDlg : ILayoutModule
             "Selects whether or not to use DirectSound (using DirectSound is generally faster, but may not work on older hardware)."
         };
         UseDirectSoundLbl.CaptureInput = false;
-        UseDirectSoundLbl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        UseDirectSoundLbl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        UseDirectSoundLbl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        UseDirectSoundLbl.Alignment.AlignHeight = AOWAlignHeight.Top;
         UseDirectSoundLbl.Alignment.HeightPercent = 0;
         UseDirectSoundLbl.Alignment.WidthPercent = 0;
         UseDirectSoundLbl.Alignment.LeftOffPercent = 0;
@@ -1488,7 +1488,7 @@ public partial class TSoundDlg : ILayoutModule
         UseDirectSoundLbl.Text = "Use Direct Sound";
         UseDirectSoundLbl.TextColor = 9415072;
         session.EndRead(UseDirectSoundLbl);
-        FolderPnl = new TAOWPanel(this);
+        FolderPnl = new AOWPanel(this);
         session.BeginRead(FolderPnl);
         FolderPnl.Name = "FolderPnl";
         FolderPnl.Priority = 0;
@@ -1496,8 +1496,8 @@ public partial class TSoundDlg : ILayoutModule
         FolderPnl.WinTop = 25;
         FolderPnl.WinWidth = 173;
         FolderPnl.Masked = true;
-        FolderPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        FolderPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        FolderPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        FolderPnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         FolderPnl.Alignment.HeightPercent = 0;
         FolderPnl.Alignment.WidthPercent = 0;
         FolderPnl.Alignment.LeftOffPercent = 0;
@@ -1515,7 +1515,7 @@ public partial class TSoundDlg : ILayoutModule
         FolderPnl.MinWidth = 0;
         FolderPnl.MinHeight = 0;
         session.EndRead(FolderPnl);
-        PlayPnl = new TAOWPanel(this);
+        PlayPnl = new AOWPanel(this);
         session.BeginRead(PlayPnl);
         PlayPnl.Name = "PlayPnl";
         PlayPnl.Priority = 0;
@@ -1523,8 +1523,8 @@ public partial class TSoundDlg : ILayoutModule
         PlayPnl.WinTop = 25;
         PlayPnl.WinWidth = 173;
         PlayPnl.Masked = true;
-        PlayPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        PlayPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        PlayPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        PlayPnl.Alignment.AlignHeight = AOWAlignHeight.Both;
         PlayPnl.Alignment.HeightPercent = 0;
         PlayPnl.Alignment.WidthPercent = 0;
         PlayPnl.Alignment.LeftOffPercent = 52;

@@ -22,12 +22,12 @@ namespace Aow.Game.World.Structures
 {
 
     // production place
-    public partial class TProductionPlaceControl : TProductionControl
+    public partial class ProductionPlaceControl : ProductionControl
     {
-        public TProductionPlaceControl(TECustomNode owner) : base(owner)
+        public ProductionPlaceControl(ECustomNode owner) : base(owner)
         { }
 
-        public TProductionPlace FProductionPlace;
+        public ProductionPlace FProductionPlace;
 
         // PrdPlace.pas:169
         public override void GetLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
@@ -43,28 +43,28 @@ namespace Aow.Game.World.Structures
         // PrdPlace.pas:179
         public override bool UnitProduced()
         {
-            TUnitEnchantment Enchantment;
-            TProductionPlaceEventLog Log;
+            UnitEnchantment Enchantment;
+            ProductionPlaceEventLog Log;
             var productionPlace = FProductionPlace;
             var yhx = productionPlace.Yhx;
             var xhx = productionPlace.Xhx;
-            bool Result = FSettings.FUnit.Place(xhx, yhx, productionPlace.Lhx, productionPlace.FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea)) != null;
-            if (Result && FProductionPlace.GetMagicSphere() != TMagicSphere.msNone && FSettings.FUnit.ExpandAbility(155))
+            bool Result = FSettings.FUnit.Place(xhx, yhx, productionPlace.Lhx, productionPlace.FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea)) != null;
+            if (Result && FProductionPlace.GetMagicSphere() != global::Aow.Game.Magic.MagicSphere.None && FSettings.FUnit.ExpandAbility(155))
             {
-                Enchantment = ((TUnitEnchantmentAbilityData)FSettings.FUnit.GetAbilityData(155)).FEnchantment;
+                Enchantment = ((UnitEnchantmentAbilityData)FSettings.FUnit.GetAbilityData(155)).FEnchantment;
                 Enchantment.SetUpkeep((FSettings.FUnit.GetUnitLevel() + 1) * 2);
                 Enchantment.SetSource(FProductionPlace.FPlayer);
                 Enchantment.FDispelResistance = (sbyte)(FSettings.FUnit.GetUnitLevel() + 3);
             }
 
-            Log = new TProductionPlaceEventLog(null);
+            Log = new ProductionPlaceEventLog(null);
             Log.FPlayer = productionPlace.FPlayer;
             var name = FSettings.FUnit.GetName();
             var fProductionPlaceName = FProductionPlace.GetName();
             Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XProducedAtYRStr), [name, fProductionPlaceName]);
             var productionPlaceYhx = productionPlace.Yhx;
             Log.SetLocation(productionPlace.Xhx, productionPlaceYhx, productionPlace.Lhx);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
             Log.Release();
 
             return Result;
@@ -73,18 +73,18 @@ namespace Aow.Game.World.Structures
         // PrdPlace.pas:203
         public override void UnitResearched()
         {
-            TProductionPlaceEventLog Log;
+            ProductionPlaceEventLog Log;
             base.UnitResearched();
             var productionPlace = FProductionPlace;
-            Log = new TProductionPlaceEventLog(null);
+            Log = new ProductionPlaceEventLog(null);
             Log.FPlayer = productionPlace.FPlayer;
             var unitProduction = FUnitProductions.GetItem(FSettings.FUnitProductionIndex);
-            var unitName = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).GetUnitName();
+            var unitName = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).GetUnitName();
             var name = FProductionPlace.GetName();
             Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XInstalledAtYRStr), [unitName, name]);
             var yhx = productionPlace.Yhx;
             Log.SetLocation(productionPlace.Xhx, yhx, productionPlace.Lhx);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Log.FPlayer).FEventLogbook.AddEvent(Log);
             Log.Release();
         }
 
@@ -102,7 +102,7 @@ namespace Aow.Game.World.Structures
         public override int UnitProductionGold(int Index)
         {
             int Result;
-            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
+            if (FProductionPlace.GetMagicSphere() != global::Aow.Game.Magic.MagicSphere.None)
             {
                 Result = 0;
             }
@@ -119,7 +119,7 @@ namespace Aow.Game.World.Structures
         {
             int Result;
             // { The original uses the gold production cost as the node's mana cost. }
-            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
+            if (FProductionPlace.GetMagicSphere() != global::Aow.Game.Magic.MagicSphere.None)
             {
                 Result = base.UnitProductionGold(Index);
             }
@@ -136,7 +136,7 @@ namespace Aow.Game.World.Structures
         {
             int Result;
             // { The original uses the inherited mana production cost for gold upkeep. }
-            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
+            if (FProductionPlace.GetMagicSphere() != global::Aow.Game.Magic.MagicSphere.None)
             {
                 Result = 0;
             }
@@ -152,10 +152,10 @@ namespace Aow.Game.World.Structures
         public override int UnitProductionManaUpkeep(int Index)
         {
             int Result;
-            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
+            if (FProductionPlace.GetMagicSphere() != global::Aow.Game.Magic.MagicSphere.None)
             {
                 var unitProduction = FUnitProductions.GetItem(Index);
-                Result = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).FLevel * 5;
+                Result = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(unitProduction.FUnitIndex).FLevel * 5;
             }
             else
             {
@@ -171,14 +171,14 @@ namespace Aow.Game.World.Structures
             sbyte Player;
             int Picks;
             Index = FUnitProductions.GetItem(Index).FUnitIndex;
-            int Result = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index).FLevel * 2;
-            if (FProductionPlace.GetMagicSphere() != TMagicSphere.msNone)
+            int Result = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel * 2;
+            if (FProductionPlace.GetMagicSphere() != global::Aow.Game.Magic.MagicSphere.None)
             {
                 Player = FProductionPlace.FPlayer;
                 if (Player > 0)
                 {
                     var magicSphere = FProductionPlace.GetMagicSphere();
-                    Picks = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FLeader.GetSpherePicks(magicSphere);
+                    Picks = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader.GetSpherePicks(magicSphere);
                 }
                 else
                 {
@@ -200,21 +200,21 @@ namespace Aow.Game.World.Structures
     }
 
     // power source, income source, production control, razed state, defender level
-    public partial class TProductionPlace : TPlayerStructure
+    public partial class ProductionPlace : PlayerStructure
     {
-        public TProductionPlace(TECustomNode owner) : base(owner)
+        public ProductionPlace(ECustomNode owner) : base(owner)
         {
             FProductionControl = CreateProductionControl();
             FProductionControl.FProductionPlace = this;
-            if (GetMagicSphere() == TMagicSphere.msNone)
+            if (GetMagicSphere() == MagicSphere.None)
             {
-                FIncomeSource = new TPlayerStructureIncomeSource(null);
+                FIncomeSource = new PlayerStructureIncomeSource(null);
                 FIncomeSource.Setup(this);
                 FDefenderLevel = 2;
             }
             else
             {
-                FPowerSource = new TPlayerStructurePowerSource(null);
+                FPowerSource = new PlayerStructurePowerSource(null);
                 FPowerSource.Setup(this);
                 FDefenderLevel = 3;
             }
@@ -223,9 +223,9 @@ namespace Aow.Game.World.Structures
         // PrdPlace.pas:291
         public new const int ClassID = 132026;
 
-        public TPlayerStructurePowerSource FPowerSource;
-        public TPlayerStructureIncomeSource FIncomeSource;
-        public TProductionPlaceControl FProductionControl;
+        public PlayerStructurePowerSource FPowerSource;
+        public PlayerStructureIncomeSource FIncomeSource;
+        public ProductionPlaceControl FProductionControl;
         public byte FRazedState;
         public byte FDefenderLevel;
 
@@ -239,7 +239,7 @@ namespace Aow.Game.World.Structures
         }
 
         // PrdPlace.pas:528
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwEObject(FProductionControl, 8);
@@ -250,17 +250,17 @@ namespace Aow.Game.World.Structures
         // PrdPlace.pas:264
 
         // PrdPlace.pas:352
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537002242)
             {
-                MasterySpellCast((sbyte)Msg.Param[0].Int, (TMagicSphere)Msg.Param[1].Int);
+                MasterySpellCast((sbyte)Msg.Param[0].Int, (MagicSphere)Msg.Param[1].Int);
             }
         }
 
         // PrdPlace.pas:692
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 4609 && Msg.HN == 0)
@@ -276,19 +276,19 @@ namespace Aow.Game.World.Structures
             FProductionControl.Activate();
             if (FPlayer != -1)
             {
-                if (GetMagicSphere() == TMagicSphere.msNone)
+                if (GetMagicSphere() == MagicSphere.None)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProductionControl);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProductionControl);
                 }
 
                 if (FPowerSource != null)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
                 }
 
                 if (FIncomeSource != null)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
                 }
             }
         }
@@ -298,19 +298,19 @@ namespace Aow.Game.World.Structures
         {
             if (FPlayer != -1)
             {
-                if (GetMagicSphere() == TMagicSphere.msNone)
+                if (GetMagicSphere() == MagicSphere.None)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProductionControl);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProductionControl);
                 }
 
                 if (FPowerSource != null)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
                 }
 
                 if (FIncomeSource != null)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
                 }
             }
 
@@ -349,7 +349,7 @@ namespace Aow.Game.World.Structures
         public override void NewDay()
         {
             base.NewDay();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
             {
                 if (FPlayer == 0)
                 {
@@ -382,7 +382,7 @@ namespace Aow.Game.World.Structures
             {
                 if (FPlayer > 0)
                 {
-                    if (GetMagicSphere() != TMagicSphere.msNone)
+                    if (GetMagicSphere() != MagicSphere.None)
                     {
                         if (GetPower() != 0)
                         {
@@ -420,14 +420,14 @@ namespace Aow.Game.World.Structures
         }
 
         // PrdPlace.pas:607
-        public override void UpdateAITarget(in TAITargetInfo Info, ref TAITargetData Data)
+        public override void UpdateAITarget(in AITargetInfo Info, ref AITargetData Data)
         {
             if (!GetRazed())
             {
                 switch (Info.Mode)
                 {
-                    case TAITargetMode.tmAttack:
-                    case TAITargetMode.tmRaid:
+                    case AITargetMode.Attack:
+                    case AITargetMode.Raid:
                         if (Info.Player != FPlayer)
                         {
                             if (FPlayer == 0)
@@ -438,7 +438,7 @@ namespace Aow.Game.World.Structures
                             {
                                 if (Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                                 {
-                                    var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Info.Player);
+                                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Info.Player);
                                     Data.Priority = 50 + player.FIncome / 2;
                                     if (Data.Priority < 25)
                                     {
@@ -454,14 +454,14 @@ namespace Aow.Game.World.Structures
                         }
 
                         break;
-                    case TAITargetMode.tmProduce:
+                    case AITargetMode.Produce:
                         if (Info.Player == FPlayer)
                         {
                             Data.Priority = Data.Priority | 2;
                         }
 
                         break;
-                    case TAITargetMode.tmDefend:
+                    case AITargetMode.Defend:
                         if (Info.Player == FPlayer)
                         {
                             Data.Priority = 30;
@@ -478,12 +478,12 @@ namespace Aow.Game.World.Structures
             base.Update();
             if (FIncomeSource != null && FPlayer >= 0)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).UpdateIncome();
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).UpdateIncome();
             }
 
             if (FPowerSource != null && FPlayer >= 0)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.Update();
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.Update();
             }
         }
 
@@ -491,7 +491,7 @@ namespace Aow.Game.World.Structures
         public override bool CanDblClick()
         {
             bool Result;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != FPlayer || GetMagicSphere() != TMagicSphere.msNone)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != FPlayer || GetMagicSphere() != MagicSphere.None)
             {
                 Result = false;
             }
@@ -513,17 +513,17 @@ namespace Aow.Game.World.Structures
                 {
                     if (FPowerSource != null)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
                     }
 
                     if (FIncomeSource != null)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
+                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
                     }
 
-                    if (GetMagicSphere() == TMagicSphere.msNone)
+                    if (GetMagicSphere() == MagicSphere.None)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProductionControl);
+                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FProductionControls.Remove(FProductionControl);
                     }
                 }
 
@@ -532,17 +532,17 @@ namespace Aow.Game.World.Structures
                 {
                     if (FPowerSource != null)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
                     }
 
                     if (FIncomeSource != null)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
+                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
                     }
 
-                    if (GetMagicSphere() == TMagicSphere.msNone)
+                    if (GetMagicSphere() == MagicSphere.None)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProductionControl);
+                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProductionControl);
                     }
                 }
             }
@@ -553,9 +553,9 @@ namespace Aow.Game.World.Structures
         {
             int Income;
             Income = GetBaseIncome();
-            if (GetMagicSphere() == TMagicSphere.msNone)
+            if (GetMagicSphere() == MagicSphere.None)
             {
-                if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).Order is Aow.Game.World.Structures.Trade)
+                if (FProductionControl.FStatus != Aow.Game.World.Structures.ProductionControl.Status.Producing || FProductionControl.FQueue.GetItem(0).Order is Aow.Game.World.Structures.Trade)
                 {
                     Income += Round((double)Income * 0.25);
                 }
@@ -569,10 +569,10 @@ namespace Aow.Game.World.Structures
         {
             int Result;
             // { The original tests msCosmos, rather than msNone, here. }
-            if (FPlayer > 0 && GetMagicSphere() != TMagicSphere.msCosmos && !GetRazed() && !GetBuilding())
+            if (FPlayer > 0 && GetMagicSphere() != MagicSphere.Cosmos && !GetRazed() && !GetBuilding())
             {
                 var magicSphere = GetMagicSphere();
-                Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere);
+                Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere);
                 if (Result != 0)
                 {
                     Result = Result * 5 + 10;
@@ -593,10 +593,10 @@ namespace Aow.Game.World.Structures
         // PrdPlace.pas:543
         public override void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
         {
-            TProductionPlaceEventLog Log;
-            if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting) && Status.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated) && !((TPlayerStructureResource)Resource).FClaimed)
+            ProductionPlaceEventLog Log;
+            if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && Status.Contains(Aow.Game.World.MapObjectStatusElement.Activated) && !((PlayerStructureResource)Resource).FClaimed)
             {
-                Log = new TProductionPlaceEventLog(null);
+                Log = new ProductionPlaceEventLog(null);
                 Log.FPlayer = NewPlayer;
                 var editName = EditName();
                 Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StructureCapturedRStr), [editName]);
@@ -605,30 +605,30 @@ namespace Aow.Game.World.Structures
                 Log.FLhx = Lhx;
                 var yhx = Yhx;
                 var xhx = Xhx;
-                Aow.Game.Events.TEventLog.DistributeLocationEventLog(Log, FPlayer, xhx, yhx, Lhx, false);
+                Aow.Game.Events.EventLog.DistributeLocationEventLog(Log, FPlayer, xhx, yhx, Lhx, false);
                 Log.Release();
             }
         }
 
         // PrdPlace.pas:300
-        public virtual TProductionPlaceControl CreateProductionControl() => new TProductionPlaceControl(null);
+        public virtual ProductionPlaceControl CreateProductionControl() => new ProductionPlaceControl(null);
 
         // PrdPlace.pas:625
         public virtual void GenerateDefenders()
         {
-            TArmyHS ArmyHS;
+            ArmyHS ArmyHS;
             int Budget;
             int Collection;
-            TUnitIndexList Units;
+            UnitIndexList Units;
             if (FDefenderLevel != 0)
             {
                 if (FDefenderLevel == 4)
                 {
-                    FDefenderLevel = (byte)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(3) + 1);
+                    FDefenderLevel = (byte)(Aow.Game.World.Map.AoWHSMap.Current.Random(3) + 1);
                 }
 
                 Budget = (FDefenderLevel - 2) * 25 + 25;
-                ArmyHS = (TArmyHS)FOwner.FindOwnedChild(131607);
+                ArmyHS = (global::Aow.Game.Draw.ArmyHS)FOwner.FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     Budget -= ArmyHS.FArmy.ObtainValue(255);
@@ -636,23 +636,23 @@ namespace Aow.Game.World.Structures
 
                 if (Budget > 0)
                 {
-                    RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(1048575);
-                    Collection = ((TStructureResource)Resource).FDefenders.GetRndCollection();
+                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(1048575);
+                    Collection = ((StructureResource)Resource).FDefenders.GetRndCollection();
                     if (Collection != -1)
                     {
-                        Units = new TUnitIndexList();
-                        var unitIndexListCollection = ((TStructureResource)Resource).FDefenders;
+                        Units = new UnitIndexList();
+                        var unitIndexListCollection = ((StructureResource)Resource).FDefenders;
                         for (int I = unitIndexListCollection.GetCollectionCount(Collection) - 1; I >= 0; I--)
                         {
                             Units.Add(unitIndexListCollection.GetU(Collection, I));
                         }
 
                         var yhx = Yhx;
-                        Aow.Game.Magic.Abilities.AbilityRules.PlaceRandomUnits(Xhx, yhx, Lhx, 0, Units, 4, Budget, TSet<TUnitType>.Of(TUnitType.utHumanoid, TUnitType.utCreature));
-                        ArmyHS = ((TAoWMapField)FOwner).GetArmyHS();
+                        Aow.Game.Magic.Abilities.AbilityRules.PlaceRandomUnits(Xhx, yhx, Lhx, 0, Units, 4, Budget, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature));
+                        ArmyHS = ((AoWMapField)FOwner).GetArmyHS();
                         if (ArmyHS != null && ArmyHS.FArmy.FPlayer == 0)
                         {
-                            ArmyHS.FArmy.SetBehavior(255, TGroupBehavior.gbGuard);
+                            ArmyHS.FArmy.SetBehavior(255, GroupBehavior.Guard);
                         }
 
                         Units?.Dispose();
@@ -678,19 +678,19 @@ namespace Aow.Game.World.Structures
         }
 
         // PrdPlace.pas:303
-        public virtual TMagicSphere GetMagicSphere() => TMagicSphere.msNone;
+        public virtual MagicSphere GetMagicSphere() => MagicSphere.None;
 
         // PrdPlace.pas:403
-        public virtual void ListIncomeInfo(TStrings Names, TStrings Values)
+        public virtual void ListIncomeInfo(StringCollection Names, StringCollection Values)
         {
             int Picks;
-            if (GetMagicSphere() == TMagicSphere.msNone)
+            if (GetMagicSphere() == MagicSphere.None)
             {
                 if (GetBaseIncome() > 0)
                 {
                     Names.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.BaseIncomeRStr));
                     Values.Add(IntToStr(GetBaseIncome()));
-                    if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).Order is Aow.Game.World.Structures.Trade && GetBaseIncome() > 0)
+                    if (FProductionControl.FStatus != Aow.Game.World.Structures.ProductionControl.Status.Producing || FProductionControl.FQueue.GetItem(0).Order is Aow.Game.World.Structures.Trade && GetBaseIncome() > 0)
                     {
                         Names.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingMerchandiseRStr));
                         Values.Add(IntToStr(Round((double)GetBaseIncome() * 0.25)));
@@ -702,14 +702,14 @@ namespace Aow.Game.World.Structures
                 if (FPlayer > 0)
                 {
                     var magicSphere = GetMagicSphere();
-                    Picks = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere);
+                    Picks = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere);
                     var magicSphere2 = GetMagicSphere();
                     var magicSphereText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)magicSphere2]);
-                    Names.Add(RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TProductionPlace.XtimeYSphereRStr), [IntToStr(Picks), LowerCase(magicSphereText)]));
+                    Names.Add(RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ProductionPlace.XtimeYSphereRStr), [IntToStr(Picks), LowerCase(magicSphereText)]));
                     Values.Add(IntToStr(Picks * 5));
-                    if (FProductionControl.FStatus != TProductionControlStatus.pcsProducing || FProductionControl.FQueue.GetItem(0).Order is Aow.Game.World.Structures.Trade)
+                    if (FProductionControl.FStatus != Aow.Game.World.Structures.ProductionControl.Status.Producing || FProductionControl.FQueue.GetItem(0).Order is Aow.Game.World.Structures.Trade)
                     {
-                        Names.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TProductionPlace.ExtraPowerRStr));
+                        Names.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ProductionPlace.ExtraPowerRStr));
                         Values.Add(IntToStr(Round((double)(Picks * 5) * 0.25)));
                     }
                 }
@@ -717,33 +717,33 @@ namespace Aow.Game.World.Structures
         }
 
         // PrdPlace.pas:306
-        public void MasterySpellCast(sbyte Player, TMagicSphere Sphere)
+        public void MasterySpellCast(sbyte Player, MagicSphere Sphere)
         {
             int UnitIndex;
-            TUnit AUnit;
-            TArmyHS ArmyHS;
-            TUnitEnchantment Enchantment;
-            TImageSequenceAnimation Animation;
+            Unit AUnit;
+            ArmyHS ArmyHS;
+            UnitEnchantment Enchantment;
+            ImageSequenceAnimation Animation;
             if (Sphere == GetMagicSphere() && FPlayer > 0)
             {
                 switch (Sphere)
                 {
-                    case TMagicSphere.msLife:
+                    case MagicSphere.Life:
                         UnitIndex = 216;
                         break;
-                    case TMagicSphere.msDeath:
+                    case MagicSphere.Death:
                         UnitIndex = 217;
                         break;
-                    case TMagicSphere.msWater:
+                    case MagicSphere.Water:
                         UnitIndex = 227;
                         break;
-                    case TMagicSphere.msFire:
+                    case MagicSphere.Fire:
                         UnitIndex = 226;
                         break;
-                    case TMagicSphere.msEarth:
+                    case MagicSphere.Earth:
                         UnitIndex = 225;
                         break;
-                    case TMagicSphere.msAir:
+                    case MagicSphere.Air:
                         UnitIndex = 224;
                         break;
                     default:
@@ -753,30 +753,30 @@ namespace Aow.Game.World.Structures
 
                 if (UnitIndex != -1)
                 {
-                    AUnit = new TUnit(null);
-                    AUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(UnitIndex));
+                    AUnit = new Unit(null);
+                    AUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(UnitIndex));
                     AUnit.SetPlayer(FPlayer);
                     var yhx = Yhx;
-                    ArmyHS = AUnit.Place(Xhx, yhx, Lhx, FPlayer, TSet<TUnitPlaceModeElement>.Of(TUnitPlaceModeElement.pmScanArea));
+                    ArmyHS = AUnit.Place(Xhx, yhx, Lhx, FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     if (ArmyHS != null)
                     {
                         if (AUnit.ExpandAbility(155))
                         {
-                            Enchantment = ((TUnitEnchantmentAbilityData)AUnit.GetAbilityData(155)).FEnchantment;
-                            Enchantment.SetUpkeep(TSummonedAbility.GetDefaultManaUpkeep(AUnit));
+                            Enchantment = ((UnitEnchantmentAbilityData)AUnit.GetAbilityData(155)).FEnchantment;
+                            Enchantment.SetUpkeep(SummonedAbility.GetDefaultManaUpkeep(AUnit));
                             Enchantment.SetSource(FPlayer);
-                            Enchantment.FDispelResistance = (sbyte)TSummonedAbility.GetDefaultDispelResistance(AUnit);
+                            Enchantment.FDispelResistance = (sbyte)SummonedAbility.GetDefaultDispelResistance(AUnit);
                         }
 
                         var armyHSYhx = ArmyHS.Yhx;
                         var xhx = ArmyHS.Xhx;
-                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Visible(xhx, armyHSYhx, ArmyHS.Lhx, 0))
+                        if (Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx, armyHSYhx, ArmyHS.Lhx, 0))
                         {
-                            Animation = new TImageSequenceAnimation(null);
-                            Animation.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(29).FCastImages.GetImageSequence(0));
+                            Animation = new ImageSequenceAnimation(null);
+                            Animation.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(29).FCastImages.GetImageSequence(0));
                             var yhx2 = Yhx;
                             var xhx2 = Xhx;
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Animation, xhx2, yhx2, Lhx);
+                            Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Animation, xhx2, yhx2, Lhx);
                         }
                     }
 
@@ -819,17 +819,17 @@ namespace Aow.Game.World.Structures
         public bool CanTrade(bool Queue, ref string Reason)
         {
             bool Result;
-            if (GetMagicSphere() != TMagicSphere.msNone)
+            if (GetMagicSphere() != MagicSphere.None)
             {
                 var magicSphere = GetMagicSphere();
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere) > 0)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader.GetSpherePicks(magicSphere) > 0)
                 {
                     Result = true;
                 }
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TProductionPlace.YouCannotChannelPowerFromThisNodeRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ProductionPlace.YouCannotChannelPowerFromThisNodeRStr);
                 }
             }
             else
@@ -844,11 +844,11 @@ namespace Aow.Game.World.Structures
         public bool Trade(bool Queue)
         {
             bool Result;
-            TProductionItem Item;
+            ProductionItem Item;
             string Reason = "";
-            if (CanTrade(Queue, ref Reason) && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).GetBusy())
+            if (CanTrade(Queue, ref Reason) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
-                Item = new TProductionItem(null);
+                Item = new ProductionItem(null);
                 if (Queue)
                 {
                     Item.Order = new Aow.Game.World.Structures.Trade(1);
@@ -873,11 +873,11 @@ namespace Aow.Game.World.Structures
         // PrdPlace.pas:671
         public void ResetProductions()
         {
-            TProductionPlaceResource R;
+            ProductionPlaceResource R;
             FProductionControl.FUnitProductions.Clear();
-            if (GetMagicSphere() == TMagicSphere.msNone)
+            if (GetMagicSphere() == MagicSphere.None)
             {
-                R = (TProductionPlaceResource)Resource;
+                R = (ProductionPlaceResource)Resource;
                 for (int I = 0, last = R.FUnits.Count - 1; I <= last; I++)
                 {
                     var unit = R.FUnits[I];
@@ -900,19 +900,19 @@ namespace Aow.Game.World.Structures
     }
 
     // available unit indexes
-    public partial class TProductionPlaceResource : TPlayerStructureResource
+    public partial class ProductionPlaceResource : PlayerStructureResource
     {
-        public TProductionPlaceResource(TECustomNode owner) : base(owner)
+        public ProductionPlaceResource(ECustomNode owner) : base(owner)
         {
             FClaimed = false;
-            FUnits = new TUnitIndexList();
+            FUnits = new UnitIndexList();
             FRazeable = true;
         }
 
         // PrdPlace.pas:718
         public new const int ClassID = 132027;
 
-        public TUnitIndexList FUnits;
+        public UnitIndexList FUnits;
 
         // PrdPlace.pas:709
         public override void Dispose()
@@ -922,7 +922,7 @@ namespace Aow.Game.World.Structures
         }
 
         // PrdPlace.pas:730
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(18, FUnits.LoadFromStream, FUnits.SaveToStream);
@@ -956,25 +956,25 @@ namespace Aow.Game.World.Structures
 namespace Aow.Game.Events
 {
 
-    public partial class TProductionPlaceEventLog : TProductionEventLog
+    public partial class ProductionPlaceEventLog : ProductionEventLog
     {
-        public TProductionPlaceEventLog(TECustomNode owner) : base(owner)
+        public ProductionPlaceEventLog(ECustomNode owner) : base(owner)
         { }
 
         // PrdPlace.pas:736
         public new const int ClassID = 131835;
 
         // PrdPlace.pas:744
-        public override bool Execute(bool Mode, TExecuteTrigger Trigger, TExecuteDoneEvent Done)
+        public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
         {
-            TProductionPlace Place;
-            if (Trigger == TExecuteTrigger.etUser)
+            ProductionPlace Place;
+            if (Trigger == ExecuteTrigger.User)
             {
                 Place = GetProductionPlace();
-                if (Place != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Place.FPlayer)
+                if (Place != null && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Place.FPlayer)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(FXhx, FYhx, FLhx);
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(this, true, Done);
+                    Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(FXhx, FYhx, FLhx);
+                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, true, Done);
                 }
             }
 
@@ -982,7 +982,7 @@ namespace Aow.Game.Events
         }
 
         // PrdPlace.pas:739
-        public TProductionPlace GetProductionPlace() => (TProductionPlace)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx).FindNoneTransparentHS(typeof(TProductionPlace));
+        public ProductionPlace GetProductionPlace() => (ProductionPlace)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindNoneTransparentHS(typeof(ProductionPlace));
 
     }
 }

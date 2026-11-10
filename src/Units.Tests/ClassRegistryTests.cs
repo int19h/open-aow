@@ -18,15 +18,15 @@ public sealed class ClassRegistryTests
     [Fact]
     public void EveryProductClassHasItsDescriptor()
     {
-        var types = typeof(TEObject).Assembly.GetTypes();
-        var engineTypes = types.Where(t => t.IsClass && typeof(TEObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
-        Assert.Equal(engineTypes, EClass.All.Where(c => c.Type.Assembly == typeof(TEObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, StringComparer.Ordinal));
+        var types = typeof(EObject).Assembly.GetTypes();
+        var engineTypes = types.Where(t => t.IsClass && typeof(EObject).IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal);
+        Assert.Equal(engineTypes, EClass.All.Where(c => c.Type.Assembly == typeof(EObject).Assembly).Select(c => c.Type).OrderBy(t => t.FullName, StringComparer.Ordinal));
         foreach (var type in engineTypes)
         {
             var descriptor = EClass.Of(type);
             Assert.Equal(type, descriptor.Type);
             Assert.Equal((int)type.GetField("ClassID", System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.FlattenHierarchy)!.GetRawConstantValue()!, descriptor.ClassID);
-            Assert.Equal(type == typeof(TEObject) ? null : type.BaseType, descriptor.Parent?.Type);
+            Assert.Equal(type == typeof(EObject) ? null : type.BaseType, descriptor.Parent?.Type);
         }
         CheckFamily(typeof(IAIPlayerActionClass), types, AIPlayerActionClass.All.Select(c => c.Class.Type));
         CheckFamily(typeof(IAIGroupClass), types, AIGroupClass.All.Select(c => c.Class.Type));
@@ -73,7 +73,7 @@ public sealed class ClassRegistryTests
     public void CaseTablesMatchTheRegisteredKinds()
     {
         var schema = Aow.Formats.GameFiles.Schema;
-        var production = schema.Get("TProductionItem").Mapping!;
+        var production = schema.Get("ProductionItem").Mapping!;
         Assert.Equal(Enumerable.Range(0, 256).Where(ProductionOrder.IsRegistered).Select(k => (long)k), production.Cases.Select(c => c.Key!.Value));
         foreach (var c in production.Cases)
         {
@@ -84,7 +84,7 @@ public sealed class ClassRegistryTests
             Assert.Equal(c.Fields.Any(f => f.Member == "Parameter"), parameter == 7);
             Assert.Equal(c.Fields.Any(f => f.Member == "GroupID"), groupId == 3);
         }
-        var diplomacy = schema.Get("TDiplomaticAction").Mapping!;
+        var diplomacy = schema.Get("DiplomaticAction").Mapping!;
         Assert.Equal(Enumerable.Range(0, 256).Where(k => DiplomaticProposal.IsRegistered((byte)k)).Select(k => (long)k), diplomacy.Cases.Select(c => c.Key!.Value));
         foreach (var c in diplomacy.Cases)
         {
@@ -100,14 +100,14 @@ public sealed class ClassRegistryTests
     }
 
     public static IEnumerable<object?[]> Classes => EClass.All
-        .Where(c => c.Type.Assembly == typeof(TEObject).Assembly).Select(c => new object?[] { c.Type, IncompleteCleanup.GetValueOrDefault(c.Type) });
+        .Where(c => c.Type.Assembly == typeof(EObject).Assembly).Select(c => new object?[] { c.Type, IncompleteCleanup.GetValueOrDefault(c.Type) });
 
     [Theory]
     [MemberData(nameof(Classes))]
     public void RegisteredCreationReturnsTheExactType(Type type, Type? cleanupError)
     {
         // These two entries require a linked owner even though the descriptor accepts null.
-        if (type == typeof(Aow.Game.Draw.TDynamicIsometricHexagon) || type == typeof(TFlagControl))
+        if (type == typeof(Aow.Game.Draw.DynamicIsometricHexagon) || type == typeof(FlagControl))
         {
             Assert.Throws<NullReferenceException>(() => EClass.Of(type).Create(null!));
             return;
@@ -126,56 +126,56 @@ public sealed class ClassRegistryTests
 
     private static readonly Dictionary<Type, Type> IncompleteCleanup = new()
     {
-        [typeof(Aow.Game.Ai.Groups.TAIGroupControl)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Units.TArmy)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Events.TArmyEventLog)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Draw.TArmyHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Events.TArmyInfoEventLog)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Units.TArmyView)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Combat.TCombatParty)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Combat.TFastCombatParty)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.THuntAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Draw.TWorldFXHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Draw.TCCorpseHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Draw.TCItemHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Draw.TTacticalCombatUnitHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.AIGroupControl)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Units.Army)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Events.ArmyEventLog)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.ArmyHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Events.ArmyInfoEventLog)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Units.ArmyView)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Combat.CombatParty)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Combat.FastCombatParty)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.HuntAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.WorldFXHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.CCorpseHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.CItemHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.TacticalCombatUnitHS)] = typeof(NullReferenceException),
         [typeof(Aow.Game.Draw.TfxHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TAbstractBehaviorAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TAggressorAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TDefenderAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TExpanderAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TNormalAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TScorcherAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TSkirmishAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Structures.TCrypt)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Structures.TDungeon)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Units.TPrisonersArmy)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Engine.Nodes.TECustomNode)] = typeof(EAbstractError),
-        [typeof(Aow.Game.World.Structures.TDefendersArmy)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Structures.TExplorationSite)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Draw.TWatcherHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Map.TMapFieldTandO)] = typeof(EAbstractError),
-        [typeof(Aow.Game.Draw.TLibraryHS)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TGuardAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TGuardAreaAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TPatrolAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TRaidAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TRefugeAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TScoutAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Structures.TItemExplorationSite)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Structures.TMagicSanctuary)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TFortifyAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TPassiveAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TSuicidalAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Ai.Groups.TTransportAGC)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Structures.TMonsterlair)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Net.TENodeView)] = typeof(EAbstractError),
-        [typeof(Aow.Game.World.Structures.TPyramid)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.World.Structures.TRuin)] = typeof(NullReferenceException),
-        [typeof(Aow.Game.Audio.TENodeAccess)] = typeof(EAbstractError),
+        [typeof(Aow.Game.Ai.Groups.AbstractBehaviorAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.AggressorAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.DefenderAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.ExpanderAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.NormalAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.ScorcherAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.SkirmishAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.Crypt)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.Dungeon)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Units.PrisonersArmy)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Engine.Nodes.ECustomNode)] = typeof(AbstractErrorException),
+        [typeof(Aow.Game.World.Structures.DefendersArmy)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.ExplorationSite)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Draw.WatcherHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Map.MapFieldTandO)] = typeof(AbstractErrorException),
+        [typeof(Aow.Game.Draw.LibraryHS)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.GuardAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.GuardAreaAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.PatrolAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.RaidAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.RefugeAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.ScoutAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.ItemExplorationSite)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.MagicSanctuary)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.FortifyAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.PassiveAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.SuicidalAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Ai.Groups.TransportAGC)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.Monsterlair)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Net.ENodeView)] = typeof(AbstractErrorException),
+        [typeof(Aow.Game.World.Structures.Pyramid)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.World.Structures.Ruin)] = typeof(NullReferenceException),
+        [typeof(Aow.Game.Audio.ENodeAccess)] = typeof(AbstractErrorException),
     };
 
     private static void CheckFamily(Type contract, Type[] types, IEnumerable<Type> registered) =>
         Assert.Equal(types.Where(t => t.IsClass && contract.IsAssignableFrom(t)).OrderBy(t => t.FullName, StringComparer.Ordinal),
-            registered.Where(t => t.Assembly == typeof(TEObject).Assembly).OrderBy(t => t.FullName, StringComparer.Ordinal));
+            registered.Where(t => t.Assembly == typeof(EObject).Assembly).OrderBy(t => t.FullName, StringComparer.Ordinal));
 }

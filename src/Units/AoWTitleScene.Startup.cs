@@ -9,7 +9,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTitleScene
+public partial class TitleScene
 {
     public void ShowScene(bool playMusic)
     {
@@ -23,7 +23,7 @@ public partial class TTitleScene
         Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         TitleSceneIL.LoadDiscardableImageData();
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmTitle);
+        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Ui.Dialogs.VideoDialog.ScreenMode.Title);
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
         GameHost.MainForm.DXDC.UseVerticalBlank = true;
@@ -43,7 +43,7 @@ public partial class TTitleScene
         TitleSceneIL.ReleaseDiscardableImageData();
     }
 
-    public void WindowMouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y)
+    public void WindowMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
         FMouseX = x;
         FMouseY = y;
@@ -63,16 +63,16 @@ public partial class TTitleScene
                     {
                         Window.Visible = false;
                         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-                        Aow.Game.Ui.Dialogs.TTitleScene.ShowFactionSelection(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin);
+                        Aow.Game.Ui.Dialogs.TitleScene.ShowFactionSelection(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin);
                     }
-                    else Aow.Game.Ui.Dialogs.TMessageDlg.ShowDemoMessage();
+                    else Aow.Game.Ui.Dialogs.MessageDlg.ShowDemoMessage();
                     break;
                 case 2:
-                    Aow.Game.Ui.Dialogs.TTitleScene.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } map)
+                    Aow.Game.Ui.Dialogs.TitleScene.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    if (Aow.Game.World.Map.AoWHSMap.Current is { } map)
                     {
                         map.FFixedLeaders = true;
-                        Aow.Game.Ui.Dialogs.TTitleScene.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
+                        Aow.Game.Ui.Dialogs.TitleScene.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
                         Window.Visible = false;
                     }
                     break;

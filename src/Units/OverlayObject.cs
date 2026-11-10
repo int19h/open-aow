@@ -6,40 +6,40 @@ using Aow.Game.World.Terrain;
 
 namespace Aow.Game.World.Terrain;
 
-public partial class TOverlayObject : TFixedILTerrainMO
+public partial class OverlayObject : FixedILTerrainMO
 {
-    public TOverlayObject(TECustomNode owner) : base(owner)
+    public OverlayObject(ECustomNode owner) : base(owner)
     { }
 
     // OverlayObject.pas:36
     public new const int ClassID = 131228;
 
-}
-
-// FOverlayType
-public partial class TOverlayObjectResource : TFixedILTerrainMOR
-{
-    public TOverlayObjectResource(TECustomNode owner) : base(owner)
-    { }
-
-    // OverlayObject.pas:42
-    public new const int ClassID = 131229;
-
-    public int FOverlayType;
-
-    // OverlayObject.pas:48
-    public override void ReadWrite(TEStorageStream Stream)
+    // FOverlayType
+    public new partial class Resource : FixedILTerrainMOR
     {
-        base.ReadWrite(Stream);
-        Stream.rwInteger(ref FOverlayType, 40);
+        public Resource(ECustomNode owner) : base(owner)
+        { }
+
+        // OverlayObject.pas:42
+        public new const int ClassID = 131229;
+
+        public int FOverlayType;
+
+        // OverlayObject.pas:48
+        public override void ReadWrite(EStorageStream Stream)
+        {
+            base.ReadWrite(Stream);
+            Stream.rwInteger(ref FOverlayType, 40);
+        }
+
+        // OverlayObject.pas:45
+        public override int ResourceUserClassID() => 131228;
+
+        // OverlayObject.pas:39
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.OverlayObject.Resource.OverlayObjectRStr);
+
+        private static readonly string OverlayObjectRStr = "Overlay Object";
+
     }
-
-    // OverlayObject.pas:45
-    public override int ResourceUserClassID() => 131228;
-
-    // OverlayObject.pas:39
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TOverlayObjectResource.OverlayObjectRStr);
-
-    private static readonly string OverlayObjectRStr = "Overlay Object";
 
 }

@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TMagicWin
+public partial class MagicWin
 {
     public override void Loaded()
     {

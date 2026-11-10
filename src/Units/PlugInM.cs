@@ -4,17 +4,15 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Engine;
 
-public delegate void TLoadPlugInEvent(object Sender, string FileName);
-
 // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
 // FPlugInExtension ('dpl'), FOnLoadPlugIn
-public partial class TPlugInManager : TComponent
+public partial class PlugInManager : global::Aow.Rtl.Component
 {
-    internal TStringList FPlugIns;
+    internal StringList FPlugIns;
     internal bool FPlugInsLoaded;
     internal string FPlugInDirectory = "";
     internal string FPlugInExtension = "";
-    internal TLoadPlugInEvent FOnLoadPlugIn;
+    internal LoadPlugInEvent FOnLoadPlugIn;
 
     // PlugInM.pas:60
     internal void ExecutePlugInSearch(string Directory)
@@ -22,8 +20,8 @@ public partial class TPlugInManager : TComponent
         string Dir;
         void SearchDir(string Dir)
         {
-            TSearchRec SR = default;
-            TStringList Dirs;
+            SearchRec SR = default;
+            StringList Dirs;
             bool Found;
             Found = FindFirst(Dir + "*." + FPlugInExtension, 63 - 16, ref SR) == 0;
             while (Found)
@@ -33,7 +31,7 @@ public partial class TPlugInManager : TComponent
             }
 
             FindClose(ref SR);
-            Dirs = new TStringList();
+            Dirs = new StringList();
             Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
             while (Found)
             {
@@ -59,9 +57,9 @@ public partial class TPlugInManager : TComponent
     }
 
     // PlugInM.pas:46
-    public TPlugInManager(TComponent owner) : base(owner)
+    public PlugInManager(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FPlugIns = new TStringList();
+        FPlugIns = new StringList();
         FPlugInExtension = "dpl";
     }
 
@@ -132,7 +130,7 @@ public partial class TPlugInManager : TComponent
         }
     }
 
-    public TStringList PlugIns { get => FPlugIns; }
+    public StringList PlugIns { get => FPlugIns; }
 
     [Published]
     public bool PlugInsLoaded { get => FPlugInsLoaded; }
@@ -144,5 +142,7 @@ public partial class TPlugInManager : TComponent
     public string PlugInExtension { get => FPlugInExtension; set => FPlugInExtension = value; }
 
     [Published]
-    public TLoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
+    public LoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
+
+    public delegate void LoadPlugInEvent(object Sender, string FileName);
 }

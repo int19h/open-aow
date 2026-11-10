@@ -5,10 +5,10 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
 
-public partial class TAlignmentBox : TComboBox
+public partial class AlignmentBox : ComboBox
 {
-    public TAlignment FAlignment;
-    public TSet<TAlignment> FAlignments;
+    public Alignment FAlignment;
+    public Set<Alignment> FAlignments;
     public bool FSetMode;
 
     // AlgnmBox.pas:133
@@ -20,7 +20,7 @@ public partial class TAlignmentBox : TComboBox
 
     // AlgnmBox.pas:54
 
-    public TAlignmentBox(TComponent owner) : base(owner)
+    public AlignmentBox(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -34,14 +34,14 @@ public partial class TAlignmentBox : TComboBox
     }
 
     // AlgnmBox.pas:100
-    public void SetAlignments(TSet<TAlignment> Value)
+    public void SetAlignments(Set<Alignment> Value)
     {
         /* TODO: Implement StdCtrls.Items in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // AlgnmBox.pas:110
-    public void SetAlignment(TAlignment Value)
+    public void SetAlignment(Alignment Value)
     {
         /* TODO: Implement StdCtrls.Items in the platform or editor service. */
         throw new NotImplementedException();

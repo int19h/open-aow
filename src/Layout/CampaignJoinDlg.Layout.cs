@@ -9,7 +9,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TCampaignJoinDlg : ILayoutModule
+public partial class CampaignJoinDlg : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -22,7 +22,7 @@ public partial class TCampaignJoinDlg : ILayoutModule
         Name = "CampaignJoinDlg";
         LayoutOnCreate = _ => Layout_CampaignJoinDlgCreate_0();
         LayoutOnDestroy = _ => Layout_CampaignJoinDlgDestroy_1();
-        CharGenPnl = new TAOWPanel(this);
+        CharGenPnl = new AOWPanel(this);
         session.BeginRead(CharGenPnl);
         CharGenPnl.Name = "CharGenPnl";
         CharGenPnl.OnMouseDown = (_, button, shift, x, y) => CharGenPnlMouseDown(button, shift, x, y);
@@ -32,8 +32,8 @@ public partial class TCampaignJoinDlg : ILayoutModule
         CharGenPnl.WinTop = 0;
         CharGenPnl.WinWidth = 640;
         CharGenPnl.Masked = false;
-        CharGenPnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        CharGenPnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        CharGenPnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        CharGenPnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         CharGenPnl.Alignment.HeightPercent = 0;
         CharGenPnl.Alignment.WidthPercent = 0;
         CharGenPnl.Alignment.LeftOffPercent = 0;
@@ -51,7 +51,7 @@ public partial class TCampaignJoinDlg : ILayoutModule
         CharGenPnl.MinWidth = 640;
         CharGenPnl.MinHeight = 480;
         session.EndRead(CharGenPnl);
-        LeaderTypePnl = new TAOWPanel(this);
+        LeaderTypePnl = new AOWPanel(this);
         session.BeginRead(LeaderTypePnl);
         LeaderTypePnl.Name = "LeaderTypePnl";
         LeaderTypePnl.Visible = false;
@@ -60,8 +60,8 @@ public partial class TCampaignJoinDlg : ILayoutModule
         LeaderTypePnl.WinTop = 90;
         LeaderTypePnl.WinWidth = 400;
         LeaderTypePnl.Masked = false;
-        LeaderTypePnl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        LeaderTypePnl.Alignment.AlignHeight = TAOWAlignHeight.ahCenter;
+        LeaderTypePnl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        LeaderTypePnl.Alignment.AlignHeight = AOWAlignHeight.Center;
         LeaderTypePnl.Alignment.HeightPercent = 0;
         LeaderTypePnl.Alignment.WidthPercent = 0;
         LeaderTypePnl.Alignment.LeftOffPercent = 0;
@@ -79,15 +79,15 @@ public partial class TCampaignJoinDlg : ILayoutModule
         LeaderTypePnl.MinWidth = 0;
         LeaderTypePnl.MinHeight = 0;
         session.EndRead(LeaderTypePnl);
-        CustomBtn = new TAOWButton(this);
+        CustomBtn = new AOWButton(this);
         session.BeginRead(CustomBtn);
         CustomBtn.Name = "CustomBtn";
         CustomBtn.Priority = 250;
         CustomBtn.WinLeft = 210;
         CustomBtn.WinTop = 258;
         CustomBtn.CaptureInput = true;
-        CustomBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        CustomBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        CustomBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        CustomBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         CustomBtn.Alignment.HeightPercent = 0;
         CustomBtn.Alignment.WidthPercent = 0;
         CustomBtn.Alignment.LeftOffPercent = 50;
@@ -110,15 +110,15 @@ public partial class TCampaignJoinDlg : ILayoutModule
         CustomBtn.WinWidth = 150;
         CustomBtn.OnClick = _ => Layout_CustomBtnClick_2();
         session.EndRead(CustomBtn);
-        DefaultBtn = new TAOWButton(this);
+        DefaultBtn = new AOWButton(this);
         session.BeginRead(DefaultBtn);
         DefaultBtn.Name = "DefaultBtn";
         DefaultBtn.Priority = 250;
         DefaultBtn.WinLeft = 40;
         DefaultBtn.WinTop = 258;
         DefaultBtn.CaptureInput = true;
-        DefaultBtn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        DefaultBtn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        DefaultBtn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        DefaultBtn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         DefaultBtn.Alignment.HeightPercent = 0;
         DefaultBtn.Alignment.WidthPercent = 0;
         DefaultBtn.Alignment.LeftOffPercent = 10;
@@ -141,15 +141,15 @@ public partial class TCampaignJoinDlg : ILayoutModule
         DefaultBtn.WinWidth = 150;
         DefaultBtn.OnClick = _ => Layout_DefaultBtnClick_3();
         session.EndRead(DefaultBtn);
-        LeaderTypeMsg = new TAOWMemo(this);
+        LeaderTypeMsg = new AOWMemo(this);
         session.BeginRead(LeaderTypeMsg);
         LeaderTypeMsg.Name = "LeaderTypeMsg";
         LeaderTypeMsg.Priority = 0;
         LeaderTypeMsg.WinLeft = 10;
         LeaderTypeMsg.WinTop = 38;
         LeaderTypeMsg.CaptureInput = false;
-        LeaderTypeMsg.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        LeaderTypeMsg.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        LeaderTypeMsg.Alignment.AlignWidth = AOWAlignWidth.Both;
+        LeaderTypeMsg.Alignment.AlignHeight = AOWAlignHeight.Top;
         LeaderTypeMsg.Alignment.HeightPercent = 0;
         LeaderTypeMsg.Alignment.WidthPercent = 0;
         LeaderTypeMsg.Alignment.LeftOffPercent = 0;
@@ -177,9 +177,9 @@ public partial class TCampaignJoinDlg : ILayoutModule
         LeaderTypeMsg.ILIndexTexture = 0;
         LeaderTypeMsg.ItemHeight = 20;
         LeaderTypeMsg.ColorChangeChar = 0;
-        LeaderTypeMsg.TextAlign = TaowTextAlign.taCenter;
+        LeaderTypeMsg.TextAlign = TaowTextAlign.Center;
         session.EndRead(LeaderTypeMsg);
-        DefaultFacePnl = new TAOWPanel(this);
+        DefaultFacePnl = new AOWPanel(this);
         session.BeginRead(DefaultFacePnl);
         DefaultFacePnl.Name = "DefaultFacePnl";
         DefaultFacePnl.OnMouseDown = (_, button, shift, x, y) => Layout_DefaultFacePnlMouseDown_4(button, shift, x, y);
@@ -189,8 +189,8 @@ public partial class TCampaignJoinDlg : ILayoutModule
         DefaultFacePnl.WinTop = 103;
         DefaultFacePnl.WinWidth = 103;
         DefaultFacePnl.Masked = true;
-        DefaultFacePnl.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        DefaultFacePnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        DefaultFacePnl.Alignment.AlignWidth = AOWAlignWidth.Left;
+        DefaultFacePnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         DefaultFacePnl.Alignment.HeightPercent = 0;
         DefaultFacePnl.Alignment.WidthPercent = 0;
         DefaultFacePnl.Alignment.LeftOffPercent = 0;
@@ -208,7 +208,7 @@ public partial class TCampaignJoinDlg : ILayoutModule
         DefaultFacePnl.MinWidth = 0;
         DefaultFacePnl.MinHeight = 0;
         session.EndRead(DefaultFacePnl);
-        CustomFacePnl = new TAOWPanel(this);
+        CustomFacePnl = new AOWPanel(this);
         session.BeginRead(CustomFacePnl);
         CustomFacePnl.Name = "CustomFacePnl";
         CustomFacePnl.Priority = 0;
@@ -216,8 +216,8 @@ public partial class TCampaignJoinDlg : ILayoutModule
         CustomFacePnl.WinTop = 103;
         CustomFacePnl.WinWidth = 103;
         CustomFacePnl.Masked = true;
-        CustomFacePnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        CustomFacePnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        CustomFacePnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        CustomFacePnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         CustomFacePnl.Alignment.HeightPercent = 0;
         CustomFacePnl.Alignment.WidthPercent = 0;
         CustomFacePnl.Alignment.LeftOffPercent = 0;
@@ -244,8 +244,8 @@ public partial class TCampaignJoinDlg : ILayoutModule
         ScrollTextDB.WinLeft = 150;
         ScrollTextDB.WinTop = 380;
         ScrollTextDB.CaptureInput = true;
-        ScrollTextDB.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        ScrollTextDB.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        ScrollTextDB.Alignment.AlignWidth = AOWAlignWidth.Both;
+        ScrollTextDB.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         ScrollTextDB.Alignment.HeightPercent = 0;
         ScrollTextDB.Alignment.WidthPercent = 0;
         ScrollTextDB.Alignment.LeftOffPercent = 0;
@@ -325,7 +325,7 @@ public partial class TCampaignJoinDlg : ILayoutModule
         DefaultBtnClick();
     }
 
-    private void Layout_DefaultFacePnlMouseDown_4(TMouseButton p1, TSet<TShiftState> p2, int p3, int p4)
+    private void Layout_DefaultFacePnlMouseDown_4(MouseButton p1, Set<ShiftState> p2, int p3, int p4)
     {
         DefaultFacePnlMouseDown(default(int), default(int), default(int), default(int), default(int));
     }

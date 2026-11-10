@@ -2,26 +2,26 @@ using Aow.Rtl;
 
 namespace Aow.Game.Audio;
 
-public sealed class SoundSystemClass(string name, Func<TSoundSystem> create)
+public sealed class SoundSystemClass(string name, Func<SoundSystem> create)
 {
     public string Name { get; } = name;
 
-    public TSoundSystem Create() => create();
+    public SoundSystem Create() => create();
 }
 
-public sealed class SampleClass(string name, Func<TSampleData, TSample> create)
+public sealed class SampleClass(string name, Func<SampleData, Sample> create)
 {
     public string Name { get; } = name;
 
-    public TSample Create(TSampleData data) => create(data);
+    public Sample Create(SampleData data) => create(data);
 }
 
-public sealed class SampleDataClass(string name, Func<string, TSampleData> create, SampleDataClass.MemoryCreation createEx)
+public sealed class SampleDataClass(string name, Func<string, SampleData> create, SampleDataClass.MemoryCreation createEx)
 {
     public string Name { get; } = name;
 
-    public delegate TSampleData MemoryCreation(in TWaveFormatEx format, object data, int size);
+    public delegate SampleData MemoryCreation(in WaveFormatEx format, object data, int size);
 
-    public TSampleData Create(string name) => create(name);
-    public TSampleData CreateEx(in TWaveFormatEx format, object data, int size) => createEx(format, data, size);
+    public SampleData Create(string name) => create(name);
+    public SampleData CreateEx(in WaveFormatEx format, object data, int size) => createEx(format, data, size);
 }

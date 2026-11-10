@@ -13,16 +13,16 @@ namespace Aow.Game.World
 
     // { ot=1 }
     // FTriggerMode, FTriggerPlayers (player 1 is bit 0)
-    public partial class TFlagEvent : TMapObject
+    public partial class FlagEvent : MapObject
     {
-        public TFlagEvent(TECustomNode owner) : base(owner)
+        public FlagEvent(ECustomNode owner) : base(owner)
         { }
 
-        public TFlagEventTriggerMode FTriggerMode;
+        public TriggerMode FTriggerMode;
         public int FTriggerPlayers;
 
         // FlagEvents.pas:98
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FTriggerPlayers, 30);
@@ -30,39 +30,39 @@ namespace Aow.Game.World
         }
 
         // FlagEvents.pas:157
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
-            if (Msg.MsgID == 537001987 && FTriggerMode == TFlagEventTriggerMode.etmNewTurn)
+            if (Msg.MsgID == 537001987 && FTriggerMode == TriggerMode.NewTurn)
             {
                 UpdateNewTurnTrigger((sbyte)Msg.Payload.Int);
             }
         }
 
         // FlagEvents.pas:164
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
         }
 
         // FlagEvents.pas:150
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
-            if (Msg.MsgID == 4365 && FTriggerMode == TFlagEventTriggerMode.etmInstant)
+            if (Msg.MsgID == 4365 && FTriggerMode == TriggerMode.Instant)
             {
                 UpdateInstantTrigger();
             }
         }
 
         // FlagEvents.pas:110
-        public override bool CanSelect(int Xhp, int Yhp) => Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
+        public override bool CanSelect(int Xhp, int Yhp) => Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
 
         // FlagEvents.pas:105
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
 
         // FlagEvents.pas:129
         public virtual bool Trigger(sbyte Player) => true;
@@ -90,7 +90,7 @@ namespace Aow.Game.World
         public void UpdateInstantTrigger()
         {
             sbyte Player;
-            Player = ((TAoWMapField)Owner).GetPlayer();
+            Player = ((AoWMapField)Owner).GetPlayer();
             if (Player != -1 && GetTriggerPlayer(Player) && Trigger(Player))
             {
                 SetTriggerPlayer(Player, false);
@@ -100,16 +100,21 @@ namespace Aow.Game.World
         // FlagEvents.pas:143
         public void UpdateNewTurnTrigger(sbyte Player)
         {
-            if (Player == ((TAoWMapField)Owner).GetPlayer() && GetTriggerPlayer(Player) && Trigger(Player))
+            if (Player == ((AoWMapField)Owner).GetPlayer() && GetTriggerPlayer(Player) && Trigger(Player))
             {
                 SetTriggerPlayer(Player, false);
             }
         }
+
+        public enum TriggerMode : byte
+        {
+            Instant = 0, NewTurn = 1
+        }
     }
 
-    public partial class TFlagEventResource : TMapObjectResource
+    public partial class FlagEventResource : MapObjectResource
     {
-        public TFlagEventResource(TECustomNode owner) : base(owner)
+        public FlagEventResource(ECustomNode owner) : base(owner)
         {
             Level = 27;
         }
@@ -130,9 +135,9 @@ namespace Aow.Game.World
 namespace Aow.Game.Events
 {
 
-    public partial class TFlagMessageEventLog : THelpMessageEventLog
+    public partial class FlagMessageEventLog : HelpMessageEventLog
     {
-        public TFlagMessageEventLog(TECustomNode owner) : base(owner)
+        public FlagMessageEventLog(ECustomNode owner) : base(owner)
         { }
 
     }
@@ -142,18 +147,18 @@ namespace Aow.Game.World
 {
 
     // FHelpFileName, FMessage
-    public partial class TFlagMessageEvent : TFlagEvent
+    public partial class FlagMessageEvent : FlagEvent
     {
-        public TFlagMessageEvent(TECustomNode owner) : base(owner)
+        public FlagMessageEvent(ECustomNode owner) : base(owner)
         {
-            FMessage = new TStringList();
+            FMessage = new StringList();
         }
 
         // FlagEvents.pas:192
         public new const int ClassID = 132461;
 
         public string FHelpFileName = "";
-        public TStringList FMessage;
+        public StringList FMessage;
 
         // FlagEvents.pas:186
         public override void Dispose()
@@ -163,7 +168,7 @@ namespace Aow.Game.World
         }
 
         // FlagEvents.pas:197
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 40);
@@ -175,54 +180,54 @@ namespace Aow.Game.World
         // FlagEvents.pas:204
         public override bool Trigger(sbyte Player)
         {
-            TFlagMessageEventLog Log;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
+            FlagMessageEventLog Log;
+            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
             {
-                Log = new TFlagMessageEventLog(null);
+                Log = new FlagMessageEventLog(null);
                 Log.FHelpFileName = FHelpFileName;
                 var text = FMessage.Text;
                 Log.FMessage.Text = text;
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
+                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == Aow.Game.World.FlagEvent.TriggerMode.Instant, null);
                 Log.Release();
             }
 
             return true;
         }
 
+        public new partial class Resource : FlagEventResource
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
+
+            // FlagEvents.pas:218
+            public new const int ClassID = 132462;
+
+            // FlagEvents.pas:228
+            public override int ResourceUserClassID() => 132461;
+
+            // FlagEvents.pas:223
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.FlagMessageEvent.Resource.FlagMessageEventRStr);
+
+            private static readonly string FlagMessageEventRStr = "Flag Message Event";
+
+        }
+
         // FlagEvents.pas:62
 
     }
 
-    public partial class TFlagMessageEventResource : TFlagEventResource
-    {
-        public TFlagMessageEventResource(TECustomNode owner) : base(owner)
-        { }
-
-        // FlagEvents.pas:218
-        public new const int ClassID = 132462;
-
-        // FlagEvents.pas:228
-        public override int ResourceUserClassID() => 132461;
-
-        // FlagEvents.pas:223
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.TFlagMessageEventResource.FlagMessageEventRStr);
-
-        private static readonly string FlagMessageEventRStr = "Flag Message Event";
-
-    }
-
     // FMessage
-    public partial class TTutorialMessageEvent : TFlagEvent
+    public partial class TutorialMessageEvent : FlagEvent
     {
-        public TTutorialMessageEvent(TECustomNode owner) : base(owner)
+        public TutorialMessageEvent(ECustomNode owner) : base(owner)
         {
-            FMessage = new TStringList();
+            FMessage = new StringList();
         }
 
         // FlagEvents.pas:245
         public new const int ClassID = 132459;
 
-        public TStringList FMessage;
+        public StringList FMessage;
 
         // FlagEvents.pas:239
         public override void Dispose()
@@ -232,7 +237,7 @@ namespace Aow.Game.World
         }
 
         // FlagEvents.pas:250
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FMessage, 40);
@@ -243,44 +248,38 @@ namespace Aow.Game.World
         // FlagEvents.pas:256
         public override bool Trigger(sbyte Player)
         {
-            TTutorialMessageEventLog Log;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
+            TutorialMessageEventLog Log;
+            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
             {
-                Log = new TTutorialMessageEventLog(null);
+                Log = new TutorialMessageEventLog(null);
                 var text = FMessage.Text;
                 Log.FMessage.Text = text;
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
+                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == Aow.Game.World.FlagEvent.TriggerMode.Instant, null);
                 Log.Release();
             }
 
             return true;
         }
 
+        public new partial class Resource : FlagEventResource
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
+
+            // FlagEvents.pas:269
+            public new const int ClassID = 132460;
+
+            // FlagEvents.pas:279
+            public override int ResourceUserClassID() => 132459;
+
+            // FlagEvents.pas:274
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.TutorialMessageEvent.Resource.TutorialMessageEventRStr);
+
+            private static readonly string TutorialMessageEventRStr = "Tutorial Message Event";
+
+        }
+
         // FlagEvents.pas:81
 
-    }
-
-    public partial class TTutorialMessageEventResource : TFlagEventResource
-    {
-        public TTutorialMessageEventResource(TECustomNode owner) : base(owner)
-        { }
-
-        // FlagEvents.pas:269
-        public new const int ClassID = 132460;
-
-        // FlagEvents.pas:279
-        public override int ResourceUserClassID() => 132459;
-
-        // FlagEvents.pas:274
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.TTutorialMessageEventResource.TutorialMessageEventRStr);
-
-        private static readonly string TutorialMessageEventRStr = "Tutorial Message Event";
-
-    }
-
-    public enum TFlagEventTriggerMode : byte
-    {
-        etmInstant = 0,
-        etmNewTurn = 1
     }
 }

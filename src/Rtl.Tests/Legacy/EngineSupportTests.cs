@@ -26,27 +26,27 @@ public sealed class EngineSupportTests
         var calls = new List<int>();
         EventDone first = value => { Assert.Same(context, value); calls.Add(1); };
         EventDone second = value => { Assert.Same(context, value); calls.Add(2); };
-        var cast = R.RebindDelegate<TNotifyEvent<object>>(first + second)!;
+        var cast = R.RebindDelegate<NotifyEvent<object>>(first + second)!;
         cast(context);
         Assert.Equal(new[] { 1, 2 }, calls);
         Assert.Throws<InvalidCastException>(() => cast(new object()));
         EventDone nullable = value => Assert.Null(value);
-        R.RebindDelegate<TNotifyEvent<object>>(nullable)!(null!);
-        Assert.Null(R.RebindDelegate<TNotifyEvent<object>>(null));
-        Assert.Same(cast, R.RebindDelegate<TNotifyEvent<object>>(cast));
+        R.RebindDelegate<NotifyEvent<object>>(nullable)!(null!);
+        Assert.Null(R.RebindDelegate<NotifyEvent<object>>(null));
+        Assert.Same(cast, R.RebindDelegate<NotifyEvent<object>>(cast));
     }
 
     [Fact]
     public void PhysicalRecordsKeepDelphiOffsets()
     {
-        Assert.Equal(8, Marshal.SizeOf<TLargeInteger>());
-        Assert.Equal(4, Marshal.OffsetOf<TLargeInteger>(nameof(TLargeInteger.HighPart)).ToInt32());
-        TLargeInteger value = new() { QuadPart = 0x12345678ABCDEF01 };
+        Assert.Equal(8, Marshal.SizeOf<LargeInteger>());
+        Assert.Equal(4, Marshal.OffsetOf<LargeInteger>(nameof(LargeInteger.HighPart)).ToInt32());
+        LargeInteger value = new() { QuadPart = 0x12345678ABCDEF01 };
         Assert.Equal(0xABCDEF01u, value.LowPart);
         Assert.Equal(0x12345678, value.HighPart);
-        Assert.Equal(16, Marshal.SizeOf<TRect>());
-        Assert.Equal(12, Marshal.OffsetOf<TRect>(nameof(TRect.Bottom)).ToInt32());
-        Assert.Equal(3, (int)TBltMode.bmCenter);
+        Assert.Equal(16, Marshal.SizeOf<Rect>());
+        Assert.Equal(12, Marshal.OffsetOf<Rect>(nameof(Rect.Bottom)).ToInt32());
+        Assert.Equal(3, (int)BltMode.Center);
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public sealed class EngineSupportTests
     public void DelegateHalvesRemainDistinctFromFullDelegateEquality()
     {
         var a = new Receiver(); var b = new Receiver();
-        TNotifyEvent<object> first = a.Event, second = b.Event;
+        NotifyEvent<object> first = a.Event, second = b.Event;
         Assert.Equal(R.MethodCode(first), R.MethodCode(second));
         Assert.NotSame(R.MethodTarget(first), R.MethodTarget(second));
         Assert.Null(R.MethodCode(null)); Assert.Null(R.MethodTarget(null));
@@ -93,13 +93,13 @@ public sealed class EngineSupportTests
     [Fact]
     public void SetTransferUsesTheDelphiImageAndItsLowByte()
     {
-        TSet<Flag> value = default;
+        Set<Flag> value = default;
         R.RwSet(ref value, 1, 17, (bytes, size, id) =>
         {
             Assert.Equal(1, size); Assert.Equal(17, id); bytes[0] = 5;
         });
         Assert.True(value.Contains(Flag.A)); Assert.True(value.Contains(Flag.C)); Assert.False(value.Contains(Flag.B));
-        TSet<OffsetFlag> offset = default;
+        Set<OffsetFlag> offset = default;
         R.RwSet(ref offset, 1, 0, (bytes, _, _) => bytes[0] = 5, 8);
         Assert.True(offset.Contains(OffsetFlag.A)); Assert.True(offset.Contains(OffsetFlag.C));
     }

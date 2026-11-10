@@ -43,9 +43,9 @@ namespace Aow.Game.Net
 
     // declarations of AoWSMTPDlg, from AoW.exe
     // Declaration-only field type from ims.dpl
-    public partial class TmsMessage : TComponent
+    public partial class TmsMessage : global::Aow.Rtl.Component
     {
-        public TmsMessage(TComponent owner) : base(owner)
+        public TmsMessage(global::Aow.Rtl.Component owner) : base(owner)
         { }
 
         public TmsMessageHeader FHeader;
@@ -56,7 +56,7 @@ namespace Aow.Game.Net
         public TmsAddressList FRecipients;
 
         // AoWSMTPDlg.pas:20
-        public void SetBody(TStrings Value)
+        public void SetBody(StringCollection Value)
         {
             /* TODO: Implement TmsMessage.SetBody. */
             throw new NotImplementedException();
@@ -64,9 +64,9 @@ namespace Aow.Game.Net
     }
 
     // Declaration-only field type from ims.dpl
-    public partial class TmsSMTP : TComponent
+    public partial class TmsSMTP : global::Aow.Rtl.Component
     {
-        public TmsSMTP(TComponent owner) : base(owner)
+        public TmsSMTP(global::Aow.Rtl.Component owner) : base(owner)
         { }
 
         public string FHost = "";
@@ -94,7 +94,7 @@ namespace Aow.Game.Ui.Dialogs
 {
 
     [LegacyObject]
-    public partial class TIMSSendThread
+    public partial class IMSSendThread
     {
         public bool FSuccess;
 
@@ -113,42 +113,42 @@ namespace Aow.Game.Ui.Dialogs
         }
 
         // Classes.pas:771
-        public TIMSSendThread(bool CreateSuspended) : base()
+        public IMSSendThread(bool CreateSuspended) : base()
         {
             CaptureAddress.Assign(this);
         }
     }
 
-    public partial class TSMTPDlg : TDataModule
+    public partial class SMTPDlg : DataModule
     {
-        public TSMTPDlg(TComponent owner) : base(owner)
+        public SMTPDlg(global::Aow.Rtl.Component owner) : base(owner)
         { }
 
-        public TAOWWindow Dlg;
-        public TAoWFrame BCeltL;
-        public TAoWFrame TCeltL;
-        public TAOWImage TCeltLineL;
-        public TAOWImage AOWImage1;
-        public TAOWImage AOWImage2;
-        public TAOWButton ExitBtn;
-        public TAOWLabel SendingGameLbl;
-        public TAoWGauge ProgressBar;
-        public TAOWLabel RecipientLbl;
-        public TAOWPanel SendPnl;
-        public TAOWPanel FailedPnl;
-        public TAOWMemo FailedMemo;
-        public TAOWButton SettingsBtn;
-        public TAOWButton RetryBtn;
-        public TAOWButton ExitBtn2;
-        public TAOWLabel TitleLbl;
-        public TAOWButton Close;
-        public TAOWImage TitleIcon;
+        public AOWWindow Dlg;
+        public AoWFrame BCeltL;
+        public AoWFrame TCeltL;
+        public AOWImage TCeltLineL;
+        public AOWImage AOWImage1;
+        public AOWImage AOWImage2;
+        public AOWButton ExitBtn;
+        public AOWLabel SendingGameLbl;
+        public AoWGauge ProgressBar;
+        public AOWLabel RecipientLbl;
+        public AOWPanel SendPnl;
+        public AOWPanel FailedPnl;
+        public AOWMemo FailedMemo;
+        public AOWButton SettingsBtn;
+        public AOWButton RetryBtn;
+        public AOWButton ExitBtn2;
+        public AOWLabel TitleLbl;
+        public AOWButton Close;
+        public AOWImage TitleIcon;
         public TmsMessage IMSMessage;
         public TmsSMTP IMSSMTP;
-        public TIvTranslator Translator;
-        public TIMSSendThread FThread;
-        public TExecuteDoneEvent FDone;
-        public TSMTPEventLog FEvent;
+        public IvTranslator Translator;
+        public IMSSendThread FThread;
+        public ExecuteDoneEvent FDone;
+        public SMTPEventLog FEvent;
         public int FProgress;
         public bool FFinished;
 
@@ -164,7 +164,7 @@ namespace Aow.Game.Ui.Dialogs
         {
             FFinished = false;
             ProgressBar.Position = 0;
-            var sendingEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSMTPDlg.SendingEmailGameRStr);
+            var sendingEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SMTPDlg.SendingEmailGameRStr);
             SendingGameLbl.Text = sendingEmailGame;
             FailedPnl.Visible = false;
             SendPnl.Visible = true;
@@ -237,7 +237,7 @@ namespace Aow.Game.Ui.Dialogs
             {
                 if (FEvent.FSuccess)
                 {
-                    var gameSuccessfullySent = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSMTPDlg.GameSuccessfullySentRStr);
+                    var gameSuccessfullySent = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SMTPDlg.GameSuccessfullySentRStr);
                     SendingGameLbl.Text = gameSuccessfullySent;
                     ExitBtn.Visible = true;
                 }
@@ -262,14 +262,14 @@ namespace Aow.Game.Ui.Dialogs
         // AoWSMTPDlg.pas:212
         public void SettingsBtnClick()
         {
-            Aow.Game.Ui.Dialogs.TEmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
+            Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
         }
 
         private static readonly string GameSuccessfullySentRStr = "Game successfully sent";
 
         private static readonly string SendingEmailGameRStr = "Sending email game...";
 
-        internal static void ShowSMTPEvent(TSMTPDlg Dialog, TSMTPEventLog Event, TExecuteDoneEvent Done)
+        internal static void ShowSMTPEvent(SMTPDlg Dialog, SMTPEventLog Event, ExecuteDoneEvent Done)
         {
             Dialog.ResetProgress();
             Dialog.FDone = Done;

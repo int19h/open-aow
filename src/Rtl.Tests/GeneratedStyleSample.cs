@@ -16,9 +16,9 @@ public struct TSampleRecord
     [FieldOffset(1)] private FixedArray_byte_6 name;
     [FieldOffset(8)] public int Value;
 
-    public TSet<TFlag> Flags
+    public Set<TFlag> Flags
     {
-        readonly get => TSet<TFlag>.FromMask(flags);
+        readonly get => Set<TFlag>.FromMask(flags);
         set => flags = (byte)value.Image;
     }
 
@@ -45,7 +45,7 @@ public class TSample(int value) : IDisposable
 
     public virtual int ClassID => 1;
 
-    public virtual void AbstractCall() => throw EAbstractError.Create("Abstract Error");
+    public virtual void AbstractCall() => throw AbstractErrorException.Create("Abstract Error");
     public virtual void Dispose() => Destroyed = true;
 }
 
@@ -87,7 +87,7 @@ public static class GeneratedStyleSample
                 pointer += 1;
             }
             ref var sampleRecord = ref records[1];
-            sampleRecord.Flags = TSet<TFlag>.Of(TFlag.First).Range(TFlag.Second, TFlag.Third);
+            sampleRecord.Flags = Set<TFlag>.Of(TFlag.First).Range(TFlag.Second, TFlag.Third);
             sampleRecord.Name = "abcdef";
             sampleRecord.Value += instance.ClassID;
             return records[1];

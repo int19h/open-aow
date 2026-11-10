@@ -103,15 +103,47 @@ public sealed class FormatSchema
     private readonly Dictionary<(string Context, string Class), (string Rule, SchemaClass Shape)> legacyShapes = [];
 
     /// <summary>A named legacy shape of a class in one context, such as LEGACY_VALLEY01_SPRITE.</summary>
-    public (string Rule, SchemaClass Shape)? LegacyShape(string context, string className) =>
-        legacyShapes.TryGetValue((context, className), out var shape) ? shape : null;
+    public (string Rule, SchemaClass Shape)? LegacyShape(string context, string className)
+    {
+        foreach (var candidate in Contexts(context))
+        {
+            var found = Lookup(candidate, className);
+            if (found is not null) return found;
+        }
+        return null;
+    }
+
+    private (string Rule, SchemaClass Shape)? Lookup(string context, string className)
+    {
+        if (legacyShapes.TryGetValue((context, className), out var shape)) return shape;
+        string? resolved = NameTable.ResolveStored(className);
+        if (resolved is null || resolved == className || !legacyShapes.TryGetValue((context, resolved), out shape)) return null;
+        return shape;
+    }
+
+    // The stored context names the class with its current name or with the Delphi name.
+    private static IEnumerable<string> Contexts(string context)
+    {
+        yield return context;
+        int dot = context.LastIndexOf('.');
+        if (dot <= 0) yield break;
+        string head = context[..dot];
+        string tail = context[(dot + 1)..];
+        string? delphi = NameTable.DelphiName(head);
+        if (delphi is not null && delphi != head) yield return delphi + "." + tail;
+        string? stored = NameTable.ResolveStored(head);
+        if (stored is not null && stored != head) yield return stored + "." + tail;
+    }
 
     public SchemaClass? Find(string name)
     {
         if (classes.TryGetValue(name, out var found)) return found;
-        var resolved = NameTable.ResolveStored(name);
-        if (resolved is null || resolved == name || !classes.TryGetValue(resolved, out found)) return null;
-        return found;
+        string? resolved = NameTable.ResolveStored(name);
+        if (resolved is not null && resolved != name && classes.TryGetValue(resolved, out found)) return found;
+        // A current schema answers a Delphi name. A version 1 or 2 schema answers the current name.
+        string? delphi = resolved is null ? null : NameTable.DelphiName(resolved);
+        if (delphi is not null && delphi != name && classes.TryGetValue(delphi, out found)) return found;
+        return null;
     }
 
     public SchemaClass Get(string name) =>
@@ -217,9 +249,22 @@ public sealed class SchemaClass
 
     public bool InheritsFrom(string ancestor)
     {
+        ArgumentNullException.ThrowIfNull(ancestor);
+        string? resolved = StoredName(ancestor);
         for (var c = this; c is not null; c = c.Parent)
-            if (c.Name == ancestor) return true;
+        {
+            if (c.Name == ancestor || resolved is not null && c.Name == resolved) return true;
+            string? stored = StoredName(c.Name);
+            if (stored is not null && (stored == ancestor || resolved is not null && stored == resolved)) return true;
+        }
         return false;
+    }
+
+    // An ambiguous Delphi name has no single stored name. The exact class name still matches above.
+    private static string? StoredName(string name)
+    {
+        try { return NameTable.ResolveStored(name); }
+        catch (InvalidOperationException) { return null; }
     }
 
     internal void Complete()

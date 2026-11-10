@@ -12,16 +12,16 @@ namespace Aow.Game.Draw;
 // so it is a plain struct. The original's `Data: Pointer` is two fields: Data, the block of memory
 // that holds the surface's rows, and DataIndex, the byte index of the first byte of row 0 in it.
 // `Pointer(Integer(SD.Data) + n)` is DataIndex + n, and `SD.Data = nil` is a null Data.
-public struct TSurfaceDesc
+public struct SurfaceDesc
 {
     public int Width;
     public int Height;
     public int BitCount;
     public int Pitch;
-    public TRect ClipRect;
+    public global::Aow.Rtl.Rect ClipRect;
     public byte[] Data;
     public int DataIndex;
-    public TGFXEPalette Palette;
+    public GFXEPalette Palette;
     public int PixelFormatID;
     public int RMask;
     public int GMask;
@@ -33,7 +33,7 @@ public struct TSurfaceDesc
     // the descriptor's clip rectangle.
     public readonly SurfaceView View(int offset = 0) => new(Data, DataIndex + offset, Pitch, ClipRect);
 
-    internal static int BltSprite16(in TSurfaceDesc Src, TRect SrcRect, in TSurfaceDesc Dest, int X, int Y, int ColorKey)
+    internal static int BltSprite16(in SurfaceDesc Src, global::Aow.Rtl.Rect SrcRect, in SurfaceDesc Dest, int X, int Y, int ColorKey)
     {
         int Result;
         int Key;
@@ -55,7 +55,7 @@ public struct TSurfaceDesc
         return Result;
     }
 
-    internal static int BltSDRectClipped(in TSurfaceDesc Src, TRect SrcRect, in TSurfaceDesc Dest, int X, int Y)
+    internal static int BltSDRectClipped(in SurfaceDesc Src, global::Aow.Rtl.Rect SrcRect, in SurfaceDesc Dest, int X, int Y)
     {
         int Result;
         int W;
@@ -128,7 +128,7 @@ public struct TSurfaceDesc
         return Result;
     }
 
-    internal static int BltSpriteClipped16(in TSurfaceDesc Src, TRect SrcRect, in TSurfaceDesc Dest, int X, int Y, int ColorKey)
+    internal static int BltSpriteClipped16(in SurfaceDesc Src, global::Aow.Rtl.Rect SrcRect, in SurfaceDesc Dest, int X, int Y, int ColorKey)
     {
         int Result;
         int W;
@@ -204,7 +204,7 @@ public struct TSurfaceDesc
         return Result;
     }
 
-    public static void CreateSDfromSD(in TSurfaceDesc Src, in TRect R, ref TSurfaceDesc Dest)
+    public static void CreateSDfromSD(in SurfaceDesc Src, in global::Aow.Rtl.Rect R, ref SurfaceDesc Dest)
     {
         Dest = Src;
         IntersectRect(ref Dest.ClipRect, Src.ClipRect, R);
@@ -215,13 +215,13 @@ public struct TSurfaceDesc
         Dest.ClipRect.Bottom -= R.Top;
     }
 
-    internal static void MinimizeTransparentRect(in TSurfaceDesc SD, in TRect R, int TransparentColor, ref TRect Result)
+    internal static void MinimizeTransparentRect(in SurfaceDesc SD, in global::Aow.Rtl.Rect R, int TransparentColor, ref global::Aow.Rtl.Rect Result)
     {
-        TSurfaceDesc SD__value = SD;
+        SurfaceDesc SD__value = SD;
         bool Found;
         int X;
         int Y;
-        TRect Rect;
+        global::Aow.Rtl.Rect Rect;
         int GetPixel(int X, int Y)
         {
             int Result;
@@ -315,7 +315,7 @@ public struct TSurfaceDesc
         Result = Rect;
     }
 
-    internal static int RemapSurfacePart(in TSurfaceDesc Src, int SrcX, int SrcY, int Width, int Height, in TSurfaceDesc Dest, int DestX, int DestY)
+    internal static int RemapSurfacePart(in SurfaceDesc Src, int SrcX, int SrcY, int Width, int Height, in SurfaceDesc Dest, int DestX, int DestY)
     {
         SurfaceView S;
         SurfaceView D;

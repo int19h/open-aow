@@ -9,7 +9,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTBWindow : ILayoutModule
+public partial class TBWindow : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -20,7 +20,7 @@ public partial class TTBWindow : ILayoutModule
     {
         session.Begin(this);
         Name = "TBWindow";
-        TaskWindow = new TAOWWindow(this);
+        TaskWindow = new AOWWindow(this);
         session.BeginRead(TaskWindow);
         TaskWindow.Name = "TaskWindow";
         TaskWindow.Visible = false;
@@ -29,8 +29,8 @@ public partial class TTBWindow : ILayoutModule
         TaskWindow.WinTop = 432;
         TaskWindow.WinWidth = 640;
         TaskWindow.Masked = false;
-        TaskWindow.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TaskWindow.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TaskWindow.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TaskWindow.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TaskWindow.Alignment.HeightPercent = 0;
         TaskWindow.Alignment.WidthPercent = 100;
         TaskWindow.Alignment.LeftOffPercent = 0;
@@ -63,7 +63,7 @@ public partial class TTBWindow : ILayoutModule
         TaskWindow.WinHeight = 48;
         TaskWindow.Dockable = false;
         session.EndRead(TaskWindow);
-        TBNextButton = new TAOWButton(this);
+        TBNextButton = new AOWButton(this);
         session.BeginRead(TBNextButton);
         TBNextButton.Name = "TBNextButton";
         TBNextButton.Priority = 5;
@@ -74,8 +74,8 @@ public partial class TTBWindow : ILayoutModule
             "Selects the next available Unit"
         };
         TBNextButton.CaptureInput = true;
-        TBNextButton.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TBNextButton.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TBNextButton.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TBNextButton.Alignment.AlignHeight = AOWAlignHeight.Top;
         TBNextButton.Alignment.HeightPercent = 0;
         TBNextButton.Alignment.WidthPercent = 0;
         TBNextButton.Alignment.LeftOffPercent = 0;
@@ -97,7 +97,7 @@ public partial class TTBWindow : ILayoutModule
         TBNextButton.WinWidth = 26;
         TBNextButton.OnClick = _ => Layout_TBNextButtonClick_0();
         session.EndRead(TBNextButton);
-        StartMenuBar = new TAOWMenuBar(this);
+        StartMenuBar = new AOWMenuBar(this);
         session.BeginRead(StartMenuBar);
         StartMenuBar.Name = "StartMenuBar";
         StartMenuBar.Priority = 50;
@@ -108,8 +108,8 @@ public partial class TTBWindow : ILayoutModule
             "Opens the options menu"
         };
         StartMenuBar.CaptureInput = true;
-        StartMenuBar.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        StartMenuBar.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StartMenuBar.Alignment.AlignWidth = AOWAlignWidth.Left;
+        StartMenuBar.Alignment.AlignHeight = AOWAlignHeight.Top;
         StartMenuBar.Alignment.HeightPercent = 0;
         StartMenuBar.Alignment.WidthPercent = 0;
         StartMenuBar.Alignment.LeftOffPercent = 0;
@@ -135,7 +135,7 @@ public partial class TTBWindow : ILayoutModule
         StartMenuBar.ILIndexDown = 8;
         StartMenuBar.ILIndexUp = 11;
         session.EndRead(StartMenuBar);
-        TBMessEdit = new TAOWEdit(this);
+        TBMessEdit = new AOWEdit(this);
         session.BeginRead(TBMessEdit);
         TBMessEdit.Name = "TBMessEdit";
         TBMessEdit.Priority = 5;
@@ -146,8 +146,8 @@ public partial class TTBWindow : ILayoutModule
             "The newest message"
         };
         TBMessEdit.CaptureInput = true;
-        TBMessEdit.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TBMessEdit.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TBMessEdit.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TBMessEdit.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TBMessEdit.Alignment.HeightPercent = 0;
         TBMessEdit.Alignment.WidthPercent = 0;
         TBMessEdit.Alignment.LeftOffPercent = 0;
@@ -170,7 +170,7 @@ public partial class TTBWindow : ILayoutModule
         TBMessEdit.ILIndex = 5;
         TBMessEdit.PassWordChar = 0;
         session.EndRead(TBMessEdit);
-        WGILbl = new TAOWLabel(this);
+        WGILbl = new AOWLabel(this);
         session.BeginRead(WGILbl);
         WGILbl.Name = "WGILbl";
         WGILbl.Priority = 10;
@@ -181,8 +181,8 @@ public partial class TTBWindow : ILayoutModule
             "Gold income per Turn"
         };
         WGILbl.CaptureInput = false;
-        WGILbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        WGILbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WGILbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        WGILbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WGILbl.Alignment.HeightPercent = 0;
         WGILbl.Alignment.WidthPercent = 0;
         WGILbl.Alignment.LeftOffPercent = 0;
@@ -196,7 +196,7 @@ public partial class TTBWindow : ILayoutModule
         WGILbl.Masked = true;
         WGILbl.TextColor = 7864183;
         session.EndRead(WGILbl);
-        WGTLbl = new TAOWLabel(this);
+        WGTLbl = new AOWLabel(this);
         session.BeginRead(WGTLbl);
         WGTLbl.Name = "WGTLbl";
         WGTLbl.Priority = 10;
@@ -207,8 +207,8 @@ public partial class TTBWindow : ILayoutModule
             "Total amount of Gold"
         };
         WGTLbl.CaptureInput = false;
-        WGTLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WGTLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WGTLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WGTLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WGTLbl.Alignment.HeightPercent = 0;
         WGTLbl.Alignment.WidthPercent = 0;
         WGTLbl.Alignment.LeftOffPercent = 0;
@@ -222,7 +222,7 @@ public partial class TTBWindow : ILayoutModule
         WGTLbl.Masked = true;
         WGTLbl.TextColor = 0;
         session.EndRead(WGTLbl);
-        TurnButton = new TAOWTurnButton(this);
+        TurnButton = new AOWTurnButton(this);
         session.BeginRead(TurnButton);
         TurnButton.Name = "TurnButton";
         TurnButton.Priority = 5;
@@ -233,8 +233,8 @@ public partial class TTBWindow : ILayoutModule
             "Ends the Turn"
         };
         TurnButton.CaptureInput = true;
-        TurnButton.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TurnButton.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TurnButton.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TurnButton.Alignment.AlignHeight = AOWAlignHeight.Top;
         TurnButton.Alignment.HeightPercent = 0;
         TurnButton.Alignment.WidthPercent = 0;
         TurnButton.Alignment.LeftOffPercent = 0;
@@ -253,7 +253,7 @@ public partial class TTBWindow : ILayoutModule
         TurnButton.OnChange = _ => Layout_TurnButtonChange_3();
         TurnButton.Checked = false;
         session.EndRead(TurnButton);
-        WMButton = new TAOWButton(this);
+        WMButton = new AOWButton(this);
         session.BeginRead(WMButton);
         WMButton.Name = "WMButton";
         WMButton.Priority = 5;
@@ -264,8 +264,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the World Map."
         };
         WMButton.CaptureInput = true;
-        WMButton.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        WMButton.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        WMButton.Alignment.AlignWidth = AOWAlignWidth.Left;
+        WMButton.Alignment.AlignHeight = AOWAlignHeight.Top;
         WMButton.Alignment.HeightPercent = 0;
         WMButton.Alignment.WidthPercent = 14;
         WMButton.Alignment.LeftOffPercent = 0;
@@ -288,7 +288,7 @@ public partial class TTBWindow : ILayoutModule
         WMButton.WinWidth = 70;
         WMButton.OnClick = _ => Layout_WMButtonClick_4();
         session.EndRead(WMButton);
-        OVButton = new TAOWButton(this);
+        OVButton = new AOWButton(this);
         session.BeginRead(OVButton);
         OVButton.Name = "OVButton";
         OVButton.Priority = 5;
@@ -299,8 +299,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Realm Overview window."
         };
         OVButton.CaptureInput = true;
-        OVButton.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        OVButton.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        OVButton.Alignment.AlignWidth = AOWAlignWidth.Left;
+        OVButton.Alignment.AlignHeight = AOWAlignHeight.Top;
         OVButton.Alignment.HeightPercent = 0;
         OVButton.Alignment.WidthPercent = 14;
         OVButton.Alignment.LeftOffPercent = 14;
@@ -323,7 +323,7 @@ public partial class TTBWindow : ILayoutModule
         OVButton.WinWidth = 70;
         OVButton.OnClick = _ => OVButtonClick();
         session.EndRead(OVButton);
-        ConButton = new TAOWButton(this);
+        ConButton = new AOWButton(this);
         session.BeginRead(ConButton);
         ConButton.Name = "ConButton";
         ConButton.Visible = false;
@@ -335,8 +335,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Party window."
         };
         ConButton.CaptureInput = true;
-        ConButton.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ConButton.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ConButton.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ConButton.Alignment.AlignHeight = AOWAlignHeight.Top;
         ConButton.Alignment.HeightPercent = 0;
         ConButton.Alignment.WidthPercent = 14;
         ConButton.Alignment.LeftOffPercent = 70;
@@ -359,7 +359,7 @@ public partial class TTBWindow : ILayoutModule
         ConButton.WinWidth = 70;
         ConButton.OnClick = _ => Layout_ConButtonClick_6();
         session.EndRead(ConButton);
-        StructButton = new TAOWButton(this);
+        StructButton = new AOWButton(this);
         session.BeginRead(StructButton);
         StructButton.Name = "StructButton";
         StructButton.Visible = false;
@@ -371,8 +371,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Structure window."
         };
         StructButton.CaptureInput = true;
-        StructButton.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        StructButton.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        StructButton.Alignment.AlignWidth = AOWAlignWidth.Left;
+        StructButton.Alignment.AlignHeight = AOWAlignHeight.Top;
         StructButton.Alignment.HeightPercent = 0;
         StructButton.Alignment.WidthPercent = 14;
         StructButton.Alignment.LeftOffPercent = 70;
@@ -395,7 +395,7 @@ public partial class TTBWindow : ILayoutModule
         StructButton.WinWidth = 70;
         StructButton.OnClick = _ => Layout_StructButtonClick_7();
         session.EndRead(StructButton);
-        OV2Btn = new TAOWButton(this);
+        OV2Btn = new AOWButton(this);
         session.BeginRead(OV2Btn);
         OV2Btn.Name = "OV2Btn";
         OV2Btn.Priority = 0;
@@ -406,8 +406,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Magic Management window."
         };
         OV2Btn.CaptureInput = true;
-        OV2Btn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        OV2Btn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        OV2Btn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        OV2Btn.Alignment.AlignHeight = AOWAlignHeight.Top;
         OV2Btn.Alignment.HeightPercent = 0;
         OV2Btn.Alignment.WidthPercent = 14;
         OV2Btn.Alignment.LeftOffPercent = 28;
@@ -430,7 +430,7 @@ public partial class TTBWindow : ILayoutModule
         OV2Btn.WinWidth = 70;
         OV2Btn.OnClick = _ => Layout_OV2BtnClick_8();
         session.EndRead(OV2Btn);
-        InfoBtn = new TAOWButton(this);
+        InfoBtn = new AOWButton(this);
         session.BeginRead(InfoBtn);
         InfoBtn.Name = "InfoBtn";
         InfoBtn.Priority = 0;
@@ -441,8 +441,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Events window."
         };
         InfoBtn.CaptureInput = true;
-        InfoBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        InfoBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        InfoBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        InfoBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         InfoBtn.Alignment.HeightPercent = 0;
         InfoBtn.Alignment.WidthPercent = 14;
         InfoBtn.Alignment.LeftOffPercent = 56;
@@ -465,7 +465,7 @@ public partial class TTBWindow : ILayoutModule
         InfoBtn.WinWidth = 70;
         InfoBtn.OnClick = _ => InfoBtnClick();
         session.EndRead(InfoBtn);
-        ChatBtn = new TAOWButton(this);
+        ChatBtn = new AOWButton(this);
         session.BeginRead(ChatBtn);
         ChatBtn.Name = "ChatBtn";
         ChatBtn.OnUpdate = ChatBtnUpdate;
@@ -478,8 +478,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Chat window."
         };
         ChatBtn.CaptureInput = true;
-        ChatBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        ChatBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        ChatBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        ChatBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         ChatBtn.Alignment.HeightPercent = 0;
         ChatBtn.Alignment.WidthPercent = 14;
         ChatBtn.Alignment.LeftOffPercent = 84;
@@ -502,7 +502,7 @@ public partial class TTBWindow : ILayoutModule
         ChatBtn.WinWidth = 70;
         ChatBtn.OnClick = _ => Layout_ChatBtnClick_9();
         session.EndRead(ChatBtn);
-        TaskPanel = new TAOWPanel(this);
+        TaskPanel = new AOWPanel(this);
         session.BeginRead(TaskPanel);
         TaskPanel.Name = "TaskPanel";
         TaskPanel.Priority = 5;
@@ -510,8 +510,8 @@ public partial class TTBWindow : ILayoutModule
         TaskPanel.WinTop = 7;
         TaskPanel.WinWidth = 506;
         TaskPanel.Masked = true;
-        TaskPanel.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TaskPanel.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TaskPanel.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TaskPanel.Alignment.AlignHeight = AOWAlignHeight.Top;
         TaskPanel.Alignment.HeightPercent = 0;
         TaskPanel.Alignment.WidthPercent = 0;
         TaskPanel.Alignment.LeftOffPercent = 0;
@@ -529,7 +529,7 @@ public partial class TTBWindow : ILayoutModule
         TaskPanel.MinWidth = 0;
         TaskPanel.MinHeight = 0;
         session.EndRead(TaskPanel);
-        WGIPnl = new TAOWPanel(this);
+        WGIPnl = new AOWPanel(this);
         session.BeginRead(WGIPnl);
         WGIPnl.Name = "WGIPnl";
         WGIPnl.Priority = 10;
@@ -537,8 +537,8 @@ public partial class TTBWindow : ILayoutModule
         WGIPnl.WinTop = 1;
         WGIPnl.WinWidth = 16;
         WGIPnl.Masked = true;
-        WGIPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WGIPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WGIPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WGIPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WGIPnl.Alignment.HeightPercent = 0;
         WGIPnl.Alignment.WidthPercent = 0;
         WGIPnl.Alignment.LeftOffPercent = 0;
@@ -556,15 +556,15 @@ public partial class TTBWindow : ILayoutModule
         WGIPnl.MinWidth = 0;
         WGIPnl.MinHeight = 0;
         session.EndRead(WGIPnl);
-        TBbk = new TAoWFrame(this);
+        TBbk = new AoWFrame(this);
         session.BeginRead(TBbk);
         TBbk.Name = "TBbk";
         TBbk.Priority = 0;
         TBbk.WinLeft = 0;
         TBbk.WinTop = 0;
         TBbk.CaptureInput = false;
-        TBbk.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TBbk.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TBbk.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TBbk.Alignment.AlignHeight = AOWAlignHeight.Top;
         TBbk.Alignment.HeightPercent = 0;
         TBbk.Alignment.WidthPercent = 0;
         TBbk.Alignment.LeftOffPercent = 0;
@@ -578,12 +578,12 @@ public partial class TTBWindow : ILayoutModule
         TBbk.Masked = false;
         TBbk.WinWidth = 640;
         TBbk.WinHeight = 48;
-        TBbk.FrameType = TFrameType.frHorizLine;
+        TBbk.FrameType = FrameType.HorizLine;
         TBbk.ILIndexFrame = 0;
         TBbk.ILIndexLine = 0;
         TBbk.ILIndexTexture = 0;
         session.EndRead(TBbk);
-        TimerImg = new TAOWImage(this);
+        TimerImg = new AOWImage(this);
         session.BeginRead(TimerImg);
         TimerImg.Name = "TimerImg";
         TimerImg.Priority = 50;
@@ -594,8 +594,8 @@ public partial class TTBWindow : ILayoutModule
             "The clock in non-timed games, or the countdown to the forced end-of-turn in timed games."
         };
         TimerImg.CaptureInput = true;
-        TimerImg.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TimerImg.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TimerImg.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TimerImg.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TimerImg.Alignment.HeightPercent = 0;
         TimerImg.Alignment.WidthPercent = 0;
         TimerImg.Alignment.LeftOffPercent = 0;
@@ -615,15 +615,15 @@ public partial class TTBWindow : ILayoutModule
         TimerImg.Animate = false;
         TimerImg.AnimFrameDelay = 0;
         session.EndRead(TimerImg);
-        TimeIcn = new TAOWImage(this);
+        TimeIcn = new AOWImage(this);
         session.BeginRead(TimeIcn);
         TimeIcn.Name = "TimeIcn";
         TimeIcn.Priority = 5;
         TimeIcn.WinLeft = 371;
         TimeIcn.WinTop = 29;
         TimeIcn.CaptureInput = true;
-        TimeIcn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TimeIcn.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TimeIcn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TimeIcn.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TimeIcn.Alignment.HeightPercent = 0;
         TimeIcn.Alignment.WidthPercent = 0;
         TimeIcn.Alignment.LeftOffPercent = 0;
@@ -643,15 +643,15 @@ public partial class TTBWindow : ILayoutModule
         TimeIcn.Animate = false;
         TimeIcn.AnimFrameDelay = 0;
         session.EndRead(TimeIcn);
-        TimeLbl = new TAOWLabel(this);
+        TimeLbl = new AOWLabel(this);
         session.BeginRead(TimeLbl);
         TimeLbl.Name = "TimeLbl";
         TimeLbl.Priority = 60;
         TimeLbl.WinLeft = 388;
         TimeLbl.WinTop = 32;
         TimeLbl.CaptureInput = false;
-        TimeLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TimeLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TimeLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TimeLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TimeLbl.Alignment.HeightPercent = 0;
         TimeLbl.Alignment.WidthPercent = 0;
         TimeLbl.Alignment.LeftOffPercent = 0;
@@ -665,7 +665,7 @@ public partial class TTBWindow : ILayoutModule
         TimeLbl.Masked = true;
         TimeLbl.TextColor = 0;
         session.EndRead(TimeLbl);
-        PInd = new TAoWFrame(this);
+        PInd = new AoWFrame(this);
         session.BeginRead(PInd);
         PInd.Name = "PInd";
         PInd.OnDraw = (_, SurfDesc) => PIndDraw(SurfDesc);
@@ -673,8 +673,8 @@ public partial class TTBWindow : ILayoutModule
         PInd.WinLeft = 290;
         PInd.WinTop = 28;
         PInd.CaptureInput = true;
-        PInd.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        PInd.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        PInd.Alignment.AlignWidth = AOWAlignWidth.Right;
+        PInd.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         PInd.Alignment.HeightPercent = 0;
         PInd.Alignment.WidthPercent = 0;
         PInd.Alignment.LeftOffPercent = 0;
@@ -688,12 +688,12 @@ public partial class TTBWindow : ILayoutModule
         PInd.Masked = false;
         PInd.WinWidth = 75;
         PInd.WinHeight = 17;
-        PInd.FrameType = TFrameType.frHorizLine;
+        PInd.FrameType = FrameType.HorizLine;
         PInd.ILIndexFrame = 0;
         PInd.ILIndexLine = 29;
         PInd.ILIndexTexture = 0;
         session.EndRead(PInd);
-        CurP = new TAOWImage(this);
+        CurP = new AOWImage(this);
         session.BeginRead(CurP);
         CurP.Name = "CurP";
         CurP.OnUpdate = _ => Layout_CurPUpdate_10();
@@ -705,8 +705,8 @@ public partial class TTBWindow : ILayoutModule
             "Indicates current player"
         };
         CurP.CaptureInput = true;
-        CurP.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        CurP.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        CurP.Alignment.AlignWidth = AOWAlignWidth.None;
+        CurP.Alignment.AlignHeight = AOWAlignHeight.None;
         CurP.Alignment.HeightPercent = 0;
         CurP.Alignment.WidthPercent = 0;
         CurP.Alignment.LeftOffPercent = 0;
@@ -726,7 +726,7 @@ public partial class TTBWindow : ILayoutModule
         CurP.Animate = false;
         CurP.AnimFrameDelay = 0;
         session.EndRead(CurP);
-        TBWorld = new TAOWPanel(this);
+        TBWorld = new AOWPanel(this);
         session.BeginRead(TBWorld);
         TBWorld.Name = "TBWorld";
         TBWorld.OnUpdate = _ => TBWorldUpdate();
@@ -735,8 +735,8 @@ public partial class TTBWindow : ILayoutModule
         TBWorld.WinTop = 0;
         TBWorld.WinWidth = 640;
         TBWorld.Masked = true;
-        TBWorld.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TBWorld.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        TBWorld.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TBWorld.Alignment.AlignHeight = AOWAlignHeight.Both;
         TBWorld.Alignment.HeightPercent = 0;
         TBWorld.Alignment.WidthPercent = 0;
         TBWorld.Alignment.LeftOffPercent = 0;
@@ -754,7 +754,7 @@ public partial class TTBWindow : ILayoutModule
         TBWorld.MinWidth = 0;
         TBWorld.MinHeight = 0;
         session.EndRead(TBWorld);
-        TCNextBtn = new TAOWButton(this);
+        TCNextBtn = new AOWButton(this);
         session.BeginRead(TCNextBtn);
         TCNextBtn.Name = "TCNextBtn";
         TCNextBtn.Priority = 5;
@@ -765,8 +765,8 @@ public partial class TTBWindow : ILayoutModule
             "Selects the next available unit"
         };
         TCNextBtn.CaptureInput = true;
-        TCNextBtn.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TCNextBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCNextBtn.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TCNextBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCNextBtn.Alignment.HeightPercent = 0;
         TCNextBtn.Alignment.WidthPercent = 0;
         TCNextBtn.Alignment.LeftOffPercent = 0;
@@ -788,7 +788,7 @@ public partial class TTBWindow : ILayoutModule
         TCNextBtn.WinWidth = 26;
         TCNextBtn.OnClick = _ => Layout_TCNextBtnClick_11();
         session.EndRead(TCNextBtn);
-        TCStartBar = new TAOWMenuBar(this);
+        TCStartBar = new AOWMenuBar(this);
         session.BeginRead(TCStartBar);
         TCStartBar.Name = "TCStartBar";
         TCStartBar.Priority = 50;
@@ -799,8 +799,8 @@ public partial class TTBWindow : ILayoutModule
             "Opens the options menu"
         };
         TCStartBar.CaptureInput = true;
-        TCStartBar.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TCStartBar.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCStartBar.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TCStartBar.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCStartBar.Alignment.HeightPercent = 0;
         TCStartBar.Alignment.WidthPercent = 0;
         TCStartBar.Alignment.LeftOffPercent = 0;
@@ -826,7 +826,7 @@ public partial class TTBWindow : ILayoutModule
         TCStartBar.ILIndexDown = 8;
         TCStartBar.ILIndexUp = 11;
         session.EndRead(TCStartBar);
-        TCMsg = new TAOWEdit(this);
+        TCMsg = new AOWEdit(this);
         session.BeginRead(TCMsg);
         TCMsg.Name = "TCMsg";
         TCMsg.Priority = 5;
@@ -838,8 +838,8 @@ public partial class TTBWindow : ILayoutModule
             ""
         };
         TCMsg.CaptureInput = true;
-        TCMsg.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCMsg.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TCMsg.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCMsg.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TCMsg.Alignment.HeightPercent = 0;
         TCMsg.Alignment.WidthPercent = 0;
         TCMsg.Alignment.LeftOffPercent = 0;
@@ -862,7 +862,7 @@ public partial class TTBWindow : ILayoutModule
         TCMsg.ILIndex = 5;
         TCMsg.PassWordChar = 0;
         session.EndRead(TCMsg);
-        TCTurnButton = new TAOWTurnButton(this);
+        TCTurnButton = new AOWTurnButton(this);
         session.BeginRead(TCTurnButton);
         TCTurnButton.Name = "TCTurnButton";
         TCTurnButton.Priority = 5;
@@ -873,8 +873,8 @@ public partial class TTBWindow : ILayoutModule
             "Ends the Combat Round."
         };
         TCTurnButton.CaptureInput = true;
-        TCTurnButton.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TCTurnButton.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCTurnButton.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TCTurnButton.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCTurnButton.Alignment.HeightPercent = 0;
         TCTurnButton.Alignment.WidthPercent = 0;
         TCTurnButton.Alignment.LeftOffPercent = 0;
@@ -893,7 +893,7 @@ public partial class TTBWindow : ILayoutModule
         TCTurnButton.OnChange = _ => Layout_TCTurnButtonChange_13();
         TCTurnButton.Checked = false;
         session.EndRead(TCTurnButton);
-        TCScannerBtn = new TAOWButton(this);
+        TCScannerBtn = new AOWButton(this);
         session.BeginRead(TCScannerBtn);
         TCScannerBtn.Name = "TCScannerBtn";
         TCScannerBtn.Priority = 5;
@@ -904,8 +904,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Battle View."
         };
         TCScannerBtn.CaptureInput = true;
-        TCScannerBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TCScannerBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCScannerBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TCScannerBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCScannerBtn.Alignment.HeightPercent = 0;
         TCScannerBtn.Alignment.WidthPercent = 14;
         TCScannerBtn.Alignment.LeftOffPercent = 0;
@@ -928,7 +928,7 @@ public partial class TTBWindow : ILayoutModule
         TCScannerBtn.WinWidth = 70;
         TCScannerBtn.OnClick = _ => Layout_TCScannerBtnClick_14();
         session.EndRead(TCScannerBtn);
-        TCUnitBtn = new TAOWButton(this);
+        TCUnitBtn = new AOWButton(this);
         session.BeginRead(TCUnitBtn);
         TCUnitBtn.Name = "TCUnitBtn";
         TCUnitBtn.Visible = false;
@@ -940,8 +940,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Unit window."
         };
         TCUnitBtn.CaptureInput = true;
-        TCUnitBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TCUnitBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCUnitBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TCUnitBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCUnitBtn.Alignment.HeightPercent = 0;
         TCUnitBtn.Alignment.WidthPercent = 14;
         TCUnitBtn.Alignment.LeftOffPercent = 70;
@@ -964,15 +964,15 @@ public partial class TTBWindow : ILayoutModule
         TCUnitBtn.WinWidth = 70;
         TCUnitBtn.OnClick = _ => Layout_TCUnitBtnClick_15();
         session.EndRead(TCUnitBtn);
-        AoWFrame1 = new TAoWFrame(this);
+        AoWFrame1 = new AoWFrame(this);
         session.BeginRead(AoWFrame1);
         AoWFrame1.Name = "AoWFrame1";
         AoWFrame1.Priority = 0;
         AoWFrame1.WinLeft = 0;
         AoWFrame1.WinTop = 0;
         AoWFrame1.CaptureInput = false;
-        AoWFrame1.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        AoWFrame1.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        AoWFrame1.Alignment.AlignWidth = AOWAlignWidth.Both;
+        AoWFrame1.Alignment.AlignHeight = AOWAlignHeight.Top;
         AoWFrame1.Alignment.HeightPercent = 0;
         AoWFrame1.Alignment.WidthPercent = 0;
         AoWFrame1.Alignment.LeftOffPercent = 0;
@@ -986,12 +986,12 @@ public partial class TTBWindow : ILayoutModule
         AoWFrame1.Masked = false;
         AoWFrame1.WinWidth = 640;
         AoWFrame1.WinHeight = 48;
-        AoWFrame1.FrameType = TFrameType.frHorizLine;
+        AoWFrame1.FrameType = FrameType.HorizLine;
         AoWFrame1.ILIndexFrame = 0;
         AoWFrame1.ILIndexLine = 0;
         AoWFrame1.ILIndexTexture = 0;
         session.EndRead(AoWFrame1);
-        TCTimerImg = new TAOWImage(this);
+        TCTimerImg = new AOWImage(this);
         session.BeginRead(TCTimerImg);
         TCTimerImg.Name = "TCTimerImg";
         TCTimerImg.Priority = 5;
@@ -1002,8 +1002,8 @@ public partial class TTBWindow : ILayoutModule
             "The clock in non-timed games, or the countdown to the forced end-of-turn in timed games."
         };
         TCTimerImg.CaptureInput = true;
-        TCTimerImg.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TCTimerImg.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TCTimerImg.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TCTimerImg.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TCTimerImg.Alignment.HeightPercent = 0;
         TCTimerImg.Alignment.WidthPercent = 0;
         TCTimerImg.Alignment.LeftOffPercent = 0;
@@ -1023,15 +1023,15 @@ public partial class TTBWindow : ILayoutModule
         TCTimerImg.Animate = false;
         TCTimerImg.AnimFrameDelay = 0;
         session.EndRead(TCTimerImg);
-        TCTimeImg = new TAOWImage(this);
+        TCTimeImg = new AOWImage(this);
         session.BeginRead(TCTimeImg);
         TCTimeImg.Name = "TCTimeImg";
         TCTimeImg.Priority = 5;
         TCTimeImg.WinLeft = 371;
         TCTimeImg.WinTop = 29;
         TCTimeImg.CaptureInput = true;
-        TCTimeImg.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TCTimeImg.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TCTimeImg.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TCTimeImg.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TCTimeImg.Alignment.HeightPercent = 0;
         TCTimeImg.Alignment.WidthPercent = 0;
         TCTimeImg.Alignment.LeftOffPercent = 0;
@@ -1051,15 +1051,15 @@ public partial class TTBWindow : ILayoutModule
         TCTimeImg.Animate = false;
         TCTimeImg.AnimFrameDelay = 0;
         session.EndRead(TCTimeImg);
-        TCTimeLbl = new TAOWLabel(this);
+        TCTimeLbl = new AOWLabel(this);
         session.BeginRead(TCTimeLbl);
         TCTimeLbl.Name = "TCTimeLbl";
         TCTimeLbl.Priority = 10;
         TCTimeLbl.WinLeft = 388;
         TCTimeLbl.WinTop = 32;
         TCTimeLbl.CaptureInput = false;
-        TCTimeLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TCTimeLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TCTimeLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TCTimeLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TCTimeLbl.Alignment.HeightPercent = 0;
         TCTimeLbl.Alignment.WidthPercent = 0;
         TCTimeLbl.Alignment.LeftOffPercent = 0;
@@ -1073,7 +1073,7 @@ public partial class TTBWindow : ILayoutModule
         TCTimeLbl.Masked = true;
         TCTimeLbl.TextColor = 0;
         session.EndRead(TCTimeLbl);
-        TCPInd = new TAoWFrame(this);
+        TCPInd = new AoWFrame(this);
         session.BeginRead(TCPInd);
         TCPInd.Name = "TCPInd";
         TCPInd.OnDraw = (_, SurfDesc) => TCPIndDraw(SurfDesc);
@@ -1081,8 +1081,8 @@ public partial class TTBWindow : ILayoutModule
         TCPInd.WinLeft = 290;
         TCPInd.WinTop = 28;
         TCPInd.CaptureInput = true;
-        TCPInd.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TCPInd.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TCPInd.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TCPInd.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TCPInd.Alignment.HeightPercent = 0;
         TCPInd.Alignment.WidthPercent = 0;
         TCPInd.Alignment.LeftOffPercent = 0;
@@ -1096,12 +1096,12 @@ public partial class TTBWindow : ILayoutModule
         TCPInd.Masked = false;
         TCPInd.WinWidth = 75;
         TCPInd.WinHeight = 17;
-        TCPInd.FrameType = TFrameType.frHorizLine;
+        TCPInd.FrameType = FrameType.HorizLine;
         TCPInd.ILIndexFrame = 0;
         TCPInd.ILIndexLine = 29;
         TCPInd.ILIndexTexture = 0;
         session.EndRead(TCPInd);
-        TCCurP = new TAOWImage(this);
+        TCCurP = new AOWImage(this);
         session.BeginRead(TCCurP);
         TCCurP.Name = "TCCurP";
         TCCurP.OnUpdate = _ => Layout_TCCurPUpdate_16();
@@ -1113,8 +1113,8 @@ public partial class TTBWindow : ILayoutModule
             "Indicates current player"
         };
         TCCurP.CaptureInput = true;
-        TCCurP.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCCurP.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCCurP.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCCurP.Alignment.AlignHeight = AOWAlignHeight.None;
         TCCurP.Alignment.HeightPercent = 0;
         TCCurP.Alignment.WidthPercent = 0;
         TCCurP.Alignment.LeftOffPercent = 0;
@@ -1134,7 +1134,7 @@ public partial class TTBWindow : ILayoutModule
         TCCurP.Animate = false;
         TCCurP.AnimFrameDelay = 0;
         session.EndRead(TCCurP);
-        TBCombat = new TAOWPanel(this);
+        TBCombat = new AOWPanel(this);
         session.BeginRead(TBCombat);
         TBCombat.Name = "TBCombat";
         TBCombat.OnUpdate = _ => TBCombatUpdate();
@@ -1144,8 +1144,8 @@ public partial class TTBWindow : ILayoutModule
         TBCombat.WinTop = 0;
         TBCombat.WinWidth = 640;
         TBCombat.Masked = true;
-        TBCombat.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TBCombat.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+        TBCombat.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TBCombat.Alignment.AlignHeight = AOWAlignHeight.Both;
         TBCombat.Alignment.HeightPercent = 0;
         TBCombat.Alignment.WidthPercent = 0;
         TBCombat.Alignment.LeftOffPercent = 0;
@@ -1163,7 +1163,7 @@ public partial class TTBWindow : ILayoutModule
         TBCombat.MinWidth = 0;
         TBCombat.MinHeight = 0;
         session.EndRead(TBCombat);
-        TCPnl = new TAOWPanel(this);
+        TCPnl = new AOWPanel(this);
         session.BeginRead(TCPnl);
         TCPnl.Name = "TCPnl";
         TCPnl.Priority = 5;
@@ -1171,8 +1171,8 @@ public partial class TTBWindow : ILayoutModule
         TCPnl.WinTop = 7;
         TCPnl.WinWidth = 506;
         TCPnl.Masked = true;
-        TCPnl.Alignment.AlignWidth = TAOWAlignWidth.awBoth;
-        TCPnl.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCPnl.Alignment.AlignWidth = AOWAlignWidth.Both;
+        TCPnl.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCPnl.Alignment.HeightPercent = 0;
         TCPnl.Alignment.WidthPercent = 0;
         TCPnl.Alignment.LeftOffPercent = 0;
@@ -1190,7 +1190,7 @@ public partial class TTBWindow : ILayoutModule
         TCPnl.MinWidth = 0;
         TCPnl.MinHeight = 0;
         session.EndRead(TCPnl);
-        TCChatBtn = new TAOWButton(this);
+        TCChatBtn = new AOWButton(this);
         session.BeginRead(TCChatBtn);
         TCChatBtn.Name = "TCChatBtn";
         TCChatBtn.OnUpdate = ChatBtnUpdate;
@@ -1203,8 +1203,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Chat window."
         };
         TCChatBtn.CaptureInput = true;
-        TCChatBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TCChatBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TCChatBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TCChatBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TCChatBtn.Alignment.HeightPercent = 0;
         TCChatBtn.Alignment.WidthPercent = 14;
         TCChatBtn.Alignment.LeftOffPercent = 84;
@@ -1227,7 +1227,7 @@ public partial class TTBWindow : ILayoutModule
         TCChatBtn.WinWidth = 70;
         TCChatBtn.OnClick = _ => Layout_ChatBtnClick_9();
         session.EndRead(TCChatBtn);
-        WGoldPnl = new TAOWPanel(this);
+        WGoldPnl = new AOWPanel(this);
         session.BeginRead(WGoldPnl);
         WGoldPnl.Name = "WGoldPnl";
         WGoldPnl.Priority = 100;
@@ -1235,8 +1235,8 @@ public partial class TTBWindow : ILayoutModule
         WGoldPnl.WinTop = 26;
         WGoldPnl.WinWidth = 69;
         WGoldPnl.Masked = false;
-        WGoldPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WGoldPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WGoldPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WGoldPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WGoldPnl.Alignment.HeightPercent = 0;
         WGoldPnl.Alignment.WidthPercent = 0;
         WGoldPnl.Alignment.LeftOffPercent = 0;
@@ -1254,15 +1254,15 @@ public partial class TTBWindow : ILayoutModule
         WGoldPnl.MinWidth = 0;
         WGoldPnl.MinHeight = 0;
         session.EndRead(WGoldPnl);
-        WGSign = new TAOWLabel(this);
+        WGSign = new AOWLabel(this);
         session.BeginRead(WGSign);
         WGSign.Name = "WGSign";
         WGSign.Priority = 10;
         WGSign.WinLeft = 46;
         WGSign.WinTop = 6;
         WGSign.CaptureInput = false;
-        WGSign.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WGSign.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WGSign.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WGSign.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WGSign.Alignment.HeightPercent = 0;
         WGSign.Alignment.WidthPercent = 0;
         WGSign.Alignment.LeftOffPercent = 0;
@@ -1276,7 +1276,7 @@ public partial class TTBWindow : ILayoutModule
         WGSign.Masked = true;
         WGSign.TextColor = 7864183;
         session.EndRead(WGSign);
-        WMILbl = new TAOWLabel(this);
+        WMILbl = new AOWLabel(this);
         session.BeginRead(WMILbl);
         WMILbl.Name = "WMILbl";
         WMILbl.Priority = 10;
@@ -1287,8 +1287,8 @@ public partial class TTBWindow : ILayoutModule
             "Mana income per Turn"
         };
         WMILbl.CaptureInput = false;
-        WMILbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        WMILbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WMILbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        WMILbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WMILbl.Alignment.HeightPercent = 0;
         WMILbl.Alignment.WidthPercent = 0;
         WMILbl.Alignment.LeftOffPercent = 0;
@@ -1302,7 +1302,7 @@ public partial class TTBWindow : ILayoutModule
         WMILbl.Masked = true;
         WMILbl.TextColor = 7864183;
         session.EndRead(WMILbl);
-        WMTLbl = new TAOWLabel(this);
+        WMTLbl = new AOWLabel(this);
         session.BeginRead(WMTLbl);
         WMTLbl.Name = "WMTLbl";
         WMTLbl.Priority = 10;
@@ -1313,8 +1313,8 @@ public partial class TTBWindow : ILayoutModule
             "Total amount of Mana Crystals"
         };
         WMTLbl.CaptureInput = false;
-        WMTLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WMTLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WMTLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WMTLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WMTLbl.Alignment.HeightPercent = 0;
         WMTLbl.Alignment.WidthPercent = 0;
         WMTLbl.Alignment.LeftOffPercent = 0;
@@ -1328,7 +1328,7 @@ public partial class TTBWindow : ILayoutModule
         WMTLbl.Masked = true;
         WMTLbl.TextColor = 0;
         session.EndRead(WMTLbl);
-        WMIPnl = new TAOWPanel(this);
+        WMIPnl = new AOWPanel(this);
         session.BeginRead(WMIPnl);
         WMIPnl.Name = "WMIPnl";
         WMIPnl.Priority = 10;
@@ -1336,8 +1336,8 @@ public partial class TTBWindow : ILayoutModule
         WMIPnl.WinTop = 1;
         WMIPnl.WinWidth = 16;
         WMIPnl.Masked = true;
-        WMIPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WMIPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WMIPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WMIPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WMIPnl.Alignment.HeightPercent = 0;
         WMIPnl.Alignment.WidthPercent = 0;
         WMIPnl.Alignment.LeftOffPercent = 0;
@@ -1355,7 +1355,7 @@ public partial class TTBWindow : ILayoutModule
         WMIPnl.MinWidth = 0;
         WMIPnl.MinHeight = 0;
         session.EndRead(WMIPnl);
-        WManaPnl = new TAOWPanel(this);
+        WManaPnl = new AOWPanel(this);
         session.BeginRead(WManaPnl);
         WManaPnl.Name = "WManaPnl";
         WManaPnl.Priority = 100;
@@ -1363,8 +1363,8 @@ public partial class TTBWindow : ILayoutModule
         WManaPnl.WinTop = 26;
         WManaPnl.WinWidth = 69;
         WManaPnl.Masked = false;
-        WManaPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WManaPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WManaPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WManaPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WManaPnl.Alignment.HeightPercent = 0;
         WManaPnl.Alignment.WidthPercent = 0;
         WManaPnl.Alignment.LeftOffPercent = 0;
@@ -1382,15 +1382,15 @@ public partial class TTBWindow : ILayoutModule
         WManaPnl.MinWidth = 0;
         WManaPnl.MinHeight = 0;
         session.EndRead(WManaPnl);
-        WMTSign = new TAOWLabel(this);
+        WMTSign = new AOWLabel(this);
         session.BeginRead(WMTSign);
         WMTSign.Name = "WMTSign";
         WMTSign.Priority = 10;
         WMTSign.WinLeft = 46;
         WMTSign.WinTop = 6;
         WMTSign.CaptureInput = false;
-        WMTSign.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        WMTSign.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        WMTSign.Alignment.AlignWidth = AOWAlignWidth.Right;
+        WMTSign.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         WMTSign.Alignment.HeightPercent = 0;
         WMTSign.Alignment.WidthPercent = 0;
         WMTSign.Alignment.LeftOffPercent = 0;
@@ -1404,7 +1404,7 @@ public partial class TTBWindow : ILayoutModule
         WMTSign.Masked = true;
         WMTSign.TextColor = 7864183;
         session.EndRead(WMTSign);
-        TGILbl = new TAOWLabel(this);
+        TGILbl = new AOWLabel(this);
         session.BeginRead(TGILbl);
         TGILbl.Name = "TGILbl";
         TGILbl.Priority = 10;
@@ -1415,8 +1415,8 @@ public partial class TTBWindow : ILayoutModule
             "Gold income per Turn"
         };
         TGILbl.CaptureInput = false;
-        TGILbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TGILbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TGILbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TGILbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TGILbl.Alignment.HeightPercent = 0;
         TGILbl.Alignment.WidthPercent = 0;
         TGILbl.Alignment.LeftOffPercent = 0;
@@ -1430,7 +1430,7 @@ public partial class TTBWindow : ILayoutModule
         TGILbl.Masked = true;
         TGILbl.TextColor = 7864183;
         session.EndRead(TGILbl);
-        TGTLbl = new TAOWLabel(this);
+        TGTLbl = new AOWLabel(this);
         session.BeginRead(TGTLbl);
         TGTLbl.Name = "TGTLbl";
         TGTLbl.Priority = 10;
@@ -1441,8 +1441,8 @@ public partial class TTBWindow : ILayoutModule
             "Total amount of Gold"
         };
         TGTLbl.CaptureInput = false;
-        TGTLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TGTLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TGTLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TGTLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TGTLbl.Alignment.HeightPercent = 0;
         TGTLbl.Alignment.WidthPercent = 0;
         TGTLbl.Alignment.LeftOffPercent = 0;
@@ -1456,7 +1456,7 @@ public partial class TTBWindow : ILayoutModule
         TGTLbl.Masked = true;
         TGTLbl.TextColor = 0;
         session.EndRead(TGTLbl);
-        TGIcn = new TAOWImage(this);
+        TGIcn = new AOWImage(this);
         session.BeginRead(TGIcn);
         TGIcn.Name = "TGIcn";
         TGIcn.Priority = 5;
@@ -1467,8 +1467,8 @@ public partial class TTBWindow : ILayoutModule
             "Indicates total amount of Gold and Income"
         };
         TGIcn.CaptureInput = true;
-        TGIcn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TGIcn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TGIcn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TGIcn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TGIcn.Alignment.HeightPercent = 0;
         TGIcn.Alignment.WidthPercent = 0;
         TGIcn.Alignment.LeftOffPercent = 0;
@@ -1488,7 +1488,7 @@ public partial class TTBWindow : ILayoutModule
         TGIcn.Animate = false;
         TGIcn.AnimFrameDelay = 0;
         session.EndRead(TGIcn);
-        TGIPnl = new TAOWPanel(this);
+        TGIPnl = new AOWPanel(this);
         session.BeginRead(TGIPnl);
         TGIPnl.Name = "TGIPnl";
         TGIPnl.Priority = 10;
@@ -1496,8 +1496,8 @@ public partial class TTBWindow : ILayoutModule
         TGIPnl.WinTop = 1;
         TGIPnl.WinWidth = 16;
         TGIPnl.Masked = true;
-        TGIPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TGIPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TGIPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TGIPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TGIPnl.Alignment.HeightPercent = 0;
         TGIPnl.Alignment.WidthPercent = 0;
         TGIPnl.Alignment.LeftOffPercent = 0;
@@ -1515,7 +1515,7 @@ public partial class TTBWindow : ILayoutModule
         TGIPnl.MinWidth = 0;
         TGIPnl.MinHeight = 0;
         session.EndRead(TGIPnl);
-        TGoldPnl = new TAOWPanel(this);
+        TGoldPnl = new AOWPanel(this);
         session.BeginRead(TGoldPnl);
         TGoldPnl.Name = "TGoldPnl";
         TGoldPnl.Priority = 100;
@@ -1523,8 +1523,8 @@ public partial class TTBWindow : ILayoutModule
         TGoldPnl.WinTop = 26;
         TGoldPnl.WinWidth = 69;
         TGoldPnl.Masked = true;
-        TGoldPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TGoldPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TGoldPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TGoldPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TGoldPnl.Alignment.HeightPercent = 0;
         TGoldPnl.Alignment.WidthPercent = 0;
         TGoldPnl.Alignment.LeftOffPercent = 0;
@@ -1542,15 +1542,15 @@ public partial class TTBWindow : ILayoutModule
         TGoldPnl.MinWidth = 0;
         TGoldPnl.MinHeight = 0;
         session.EndRead(TGoldPnl);
-        TGSign = new TAOWLabel(this);
+        TGSign = new AOWLabel(this);
         session.BeginRead(TGSign);
         TGSign.Name = "TGSign";
         TGSign.Priority = 10;
         TGSign.WinLeft = 46;
         TGSign.WinTop = 6;
         TGSign.CaptureInput = false;
-        TGSign.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TGSign.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TGSign.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TGSign.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TGSign.Alignment.HeightPercent = 0;
         TGSign.Alignment.WidthPercent = 0;
         TGSign.Alignment.LeftOffPercent = 0;
@@ -1564,7 +1564,7 @@ public partial class TTBWindow : ILayoutModule
         TGSign.Masked = true;
         TGSign.TextColor = 7864183;
         session.EndRead(TGSign);
-        TMILbl = new TAOWLabel(this);
+        TMILbl = new AOWLabel(this);
         session.BeginRead(TMILbl);
         TMILbl.Name = "TMILbl";
         TMILbl.Priority = 10;
@@ -1575,8 +1575,8 @@ public partial class TTBWindow : ILayoutModule
             "Mana income per Turn"
         };
         TMILbl.CaptureInput = false;
-        TMILbl.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
-        TMILbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TMILbl.Alignment.AlignWidth = AOWAlignWidth.Center;
+        TMILbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TMILbl.Alignment.HeightPercent = 0;
         TMILbl.Alignment.WidthPercent = 0;
         TMILbl.Alignment.LeftOffPercent = 0;
@@ -1590,7 +1590,7 @@ public partial class TTBWindow : ILayoutModule
         TMILbl.Masked = true;
         TMILbl.TextColor = 7864183;
         session.EndRead(TMILbl);
-        TMTLbl = new TAOWLabel(this);
+        TMTLbl = new AOWLabel(this);
         session.BeginRead(TMTLbl);
         TMTLbl.Name = "TMTLbl";
         TMTLbl.Priority = 10;
@@ -1601,8 +1601,8 @@ public partial class TTBWindow : ILayoutModule
             "Total amount of Mana Crystals"
         };
         TMTLbl.CaptureInput = false;
-        TMTLbl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TMTLbl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TMTLbl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TMTLbl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TMTLbl.Alignment.HeightPercent = 0;
         TMTLbl.Alignment.WidthPercent = 0;
         TMTLbl.Alignment.LeftOffPercent = 0;
@@ -1616,7 +1616,7 @@ public partial class TTBWindow : ILayoutModule
         TMTLbl.Masked = true;
         TMTLbl.TextColor = 0;
         session.EndRead(TMTLbl);
-        TWMIcn = new TAOWImage(this);
+        TWMIcn = new AOWImage(this);
         session.BeginRead(TWMIcn);
         TWMIcn.Name = "TWMIcn";
         TWMIcn.Priority = 5;
@@ -1627,8 +1627,8 @@ public partial class TTBWindow : ILayoutModule
             "Indicates total amount of Gold and Income"
         };
         TWMIcn.CaptureInput = true;
-        TWMIcn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        TWMIcn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        TWMIcn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        TWMIcn.Alignment.AlignHeight = AOWAlignHeight.Top;
         TWMIcn.Alignment.HeightPercent = 0;
         TWMIcn.Alignment.WidthPercent = 0;
         TWMIcn.Alignment.LeftOffPercent = 0;
@@ -1648,7 +1648,7 @@ public partial class TTBWindow : ILayoutModule
         TWMIcn.Animate = false;
         TWMIcn.AnimFrameDelay = 0;
         session.EndRead(TWMIcn);
-        TMIPnl = new TAOWPanel(this);
+        TMIPnl = new AOWPanel(this);
         session.BeginRead(TMIPnl);
         TMIPnl.Name = "TMIPnl";
         TMIPnl.Priority = 10;
@@ -1656,8 +1656,8 @@ public partial class TTBWindow : ILayoutModule
         TMIPnl.WinTop = 1;
         TMIPnl.WinWidth = 16;
         TMIPnl.Masked = true;
-        TMIPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TMIPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TMIPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TMIPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TMIPnl.Alignment.HeightPercent = 0;
         TMIPnl.Alignment.WidthPercent = 0;
         TMIPnl.Alignment.LeftOffPercent = 0;
@@ -1675,7 +1675,7 @@ public partial class TTBWindow : ILayoutModule
         TMIPnl.MinWidth = 0;
         TMIPnl.MinHeight = 0;
         session.EndRead(TMIPnl);
-        TManaPnl = new TAOWPanel(this);
+        TManaPnl = new AOWPanel(this);
         session.BeginRead(TManaPnl);
         TManaPnl.Name = "TManaPnl";
         TManaPnl.Priority = 100;
@@ -1683,8 +1683,8 @@ public partial class TTBWindow : ILayoutModule
         TManaPnl.WinTop = 26;
         TManaPnl.WinWidth = 69;
         TManaPnl.Masked = true;
-        TManaPnl.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TManaPnl.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TManaPnl.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TManaPnl.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TManaPnl.Alignment.HeightPercent = 0;
         TManaPnl.Alignment.WidthPercent = 0;
         TManaPnl.Alignment.LeftOffPercent = 0;
@@ -1702,15 +1702,15 @@ public partial class TTBWindow : ILayoutModule
         TManaPnl.MinWidth = 0;
         TManaPnl.MinHeight = 0;
         session.EndRead(TManaPnl);
-        TMTSign = new TAOWLabel(this);
+        TMTSign = new AOWLabel(this);
         session.BeginRead(TMTSign);
         TMTSign.Name = "TMTSign";
         TMTSign.Priority = 10;
         TMTSign.WinLeft = 46;
         TMTSign.WinTop = 6;
         TMTSign.CaptureInput = false;
-        TMTSign.Alignment.AlignWidth = TAOWAlignWidth.awRight;
-        TMTSign.Alignment.AlignHeight = TAOWAlignHeight.ahBottom;
+        TMTSign.Alignment.AlignWidth = AOWAlignWidth.Right;
+        TMTSign.Alignment.AlignHeight = AOWAlignHeight.Bottom;
         TMTSign.Alignment.HeightPercent = 0;
         TMTSign.Alignment.WidthPercent = 0;
         TMTSign.Alignment.LeftOffPercent = 0;
@@ -1724,7 +1724,7 @@ public partial class TTBWindow : ILayoutModule
         TMTSign.Masked = true;
         TMTSign.TextColor = 7864183;
         session.EndRead(TMTSign);
-        RelationsBtn = new TAOWButton(this);
+        RelationsBtn = new AOWButton(this);
         session.BeginRead(RelationsBtn);
         RelationsBtn.Name = "RelationsBtn";
         RelationsBtn.Priority = 0;
@@ -1735,8 +1735,8 @@ public partial class TTBWindow : ILayoutModule
             "Displays the Relations Overview Window."
         };
         RelationsBtn.CaptureInput = true;
-        RelationsBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        RelationsBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        RelationsBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        RelationsBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         RelationsBtn.Alignment.HeightPercent = 0;
         RelationsBtn.Alignment.WidthPercent = 14;
         RelationsBtn.Alignment.LeftOffPercent = 42;
@@ -1759,7 +1759,7 @@ public partial class TTBWindow : ILayoutModule
         RelationsBtn.WinWidth = 70;
         RelationsBtn.OnClick = _ => RelationsBtnClick();
         session.EndRead(RelationsBtn);
-        AutoBtn = new TAOWCheckBox(this);
+        AutoBtn = new AOWCheckBox(this);
         session.BeginRead(AutoBtn);
         AutoBtn.Name = "AutoBtn";
         AutoBtn.Priority = 0;
@@ -1770,8 +1770,8 @@ public partial class TTBWindow : ILayoutModule
             "Toggles whether your army fights under AI control."
         };
         AutoBtn.CaptureInput = true;
-        AutoBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
-        AutoBtn.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
+        AutoBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+        AutoBtn.Alignment.AlignHeight = AOWAlignHeight.Top;
         AutoBtn.Alignment.HeightPercent = 0;
         AutoBtn.Alignment.WidthPercent = 14;
         AutoBtn.Alignment.LeftOffPercent = 42;

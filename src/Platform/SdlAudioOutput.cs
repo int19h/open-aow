@@ -21,11 +21,11 @@ public sealed unsafe class SdlAudioOutput : IDisposable
     public long SubmittedFrames { get; private set; }
     public bool CallbackFailed => Volatile.Read(ref callbackFailed) != 0;
 
-    public SdlAudioOutput(AudioMixer mixer, in TSoundSettings settings, bool muted)
+    public SdlAudioOutput(AudioMixer mixer, in SoundSettings settings, bool muted)
     {
         this.mixer = mixer;
-        channels = settings.OutputMode.Contains(TSoundOutputModeElement.omMono) ? 1 : 2;
-        bytesPerSample = settings.OutputMode.Contains(TSoundOutputModeElement.om8bit) ? 1 : 2;
+        channels = settings.OutputMode.Contains(SoundOutputModeElement.Mono) ? 1 : 2;
+        bytesPerSample = settings.OutputMode.Contains(SoundOutputModeElement.om8bit) ? 1 : 2;
         pcm = new float[Math.Max(1, settings.SampleRate / 20) * 2];
         encoded = new byte[pcm.Length / 2 * channels * bytesPerSample];
         try

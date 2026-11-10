@@ -1,7 +1,7 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Game.Engine.Hash;
-using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
+using LibraryImage = Aow.Game.Draw.Images.LibraryImage;
 
 namespace Aow.Units.Tests;
 
@@ -17,7 +17,7 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void HashListGrowsBySixteenAndShiftsOnDelete()
     {
-        var list = new TIntegerHashList();
+        var list = new IntegerHashList();
         var items = Enumerable.Range(0, 40).Select(_ => new object()).ToArray();
         for (int i = 0; i < 40; i++) list.Add(items[i], 1000 + i);
         Assert.Equal(40, list.Count);
@@ -46,7 +46,7 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void LibraryItemsGrowInBlocksOfEightAndShift()
     {
-        using var library = new TImageLibrary(null!);
+        using var library = new ImageLibrary(null!);
         library.SetImageReference(0, 5);
         Assert.Equal(1, library.FCount);
         Assert.Equal(7, library.FCapacity);
@@ -74,8 +74,8 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void ImageNodeShiftsItsImages()
     {
-        var node = new TImageNode(null!);
-        var images = Enumerable.Range(0, 4).Select(_ => new TImageNode(null!)).ToArray();
+        var node = new ImageNode(null!);
+        var images = Enumerable.Range(0, 4).Select(_ => new ImageNode(null!)).ToArray();
         try
         {
             node.Add(images[0]);
@@ -110,8 +110,8 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void FrameTableListGrowsFillsAndShifts()
     {
-        var list = new TFrameTableList { DefaultValue = 7 };
-        var copy = new TFrameTableList();
+        var list = new FrameTableList { DefaultValue = 7 };
+        var copy = new FrameTableList();
         try
         {
             Assert.Equal(0, list.Add(5));
@@ -151,7 +151,7 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void MatrixKeepsItsValuesRowByRow()
     {
-        var matrix = new TMatrix(4, 3);
+        var matrix = new Matrix(4, 3);
         Assert.Equal(12, matrix.FData.Length);
         Assert.All(matrix.FData, value => Assert.Equal(0, value));
         matrix.SetVal(1, 2, 5);
@@ -164,7 +164,7 @@ public sealed class GraphicsArrayTests
         Assert.Throws<ArgumentOutOfRangeException>(() => matrix.GetVal(4, 0));
         matrix.Dispose();
         Assert.Null(matrix.FData);
-        var empty = new TMatrix(0, 3);
+        var empty = new Matrix(0, 3);
         Assert.Null(empty.FData);
         Assert.Throws<ArgumentOutOfRangeException>(() => empty.GetVal(0, 0));
     }
@@ -180,9 +180,9 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void InvalidBlockSizeFindsTheLargestBlock()
     {
-        using var owner = new TComponent(null!);
-        var dc = new TDisplayCtrl(owner);
-        var matrix = new TMatrix(4, 4);
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var dc = new DisplayCtrl(owner);
+        var matrix = new Matrix(4, 4);
         foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) }) matrix.SetVal((byte)x, (byte)y, 1);
         int bw = -1, bh = -1;
         Assert.Equal(4, dc.GetInvBlockSize(0, 0, matrix, ref bw, ref bh));
@@ -192,7 +192,7 @@ public sealed class GraphicsArrayTests
         bw = bh = -1;
         Assert.Equal(0, dc.GetInvBlockSize(0, 2, matrix, ref bw, ref bh));
         Assert.Equal((-1, -1), (bw, bh));
-        var column = new TMatrix(4, 4);
+        var column = new Matrix(4, 4);
         foreach (int y in new[] { 0, 1, 2 }) column.SetVal(0, (byte)y, 1);
         Assert.Equal(3, dc.GetInvBlockSize(0, 0, column, ref bw, ref bh));
         Assert.Equal((1, 3), (bw, bh));

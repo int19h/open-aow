@@ -14,24 +14,24 @@ namespace Aow.Units.Tests;
 [EngineState]
 public sealed class UiConstructionTests
 {
-    private sealed class ComponentOwner : TComponent
+    private sealed class ComponentOwner : global::Aow.Rtl.Component
     {
         internal readonly List<string> Observations = [];
 
-        public override void Notification(TComponent child, TOperation operation)
+        public override void Notification(global::Aow.Rtl.Component child, Aow.Rtl.Component.Operation operation)
         {
-            if (operation == TOperation.opInsert) Observations.Add(Snapshot(child));
+            if (operation == Aow.Rtl.Component.Operation.Insert) Observations.Add(Snapshot(child));
             base.Notification(child, operation);
         }
     }
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        private readonly Aow.Game.Combat.TAoWCombatMap previousCombat = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
-        private readonly EventStore<THSMap> loaded;
-        private readonly EventStore<THSMap> closed;
+        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly Aow.Game.Combat.AoWCombatMap previousCombat = Aow.Game.Combat.AoWCombatMap.Current;
+        private readonly EventStore<HSMap> loaded;
+        private readonly EventStore<HSMap> closed;
 
         internal Fixture()
         {
@@ -39,10 +39,10 @@ public sealed class UiConstructionTests
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
             loaded = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore;
             closed = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<THSMap>();
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<THSMap>();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = null!;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<HSMap>();
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<HSMap>();
+            Aow.Game.World.Map.AoWHSMap.Current = null!;
+            Aow.Game.Combat.AoWCombatMap.Current = null!;
         }
 
         public void Dispose()
@@ -50,8 +50,8 @@ public sealed class UiConstructionTests
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = loaded;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = closed;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previousCombat;
+            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
+            Aow.Game.Combat.AoWCombatMap.Current = previousCombat;
         }
     }
 
@@ -92,128 +92,128 @@ public sealed class UiConstructionTests
 
     private static readonly string[] Names =
     [
-        "Aow.Game.Ui.Dialogs.TChatWindow",
-        "Aow.Game.Ui.Dialogs.TControlWin",
-        "Aow.Game.Ui.Dialogs.TDWin",
-        "Aow.Game.Ui.Controls.TAoWGauge",
-        "Aow.Game.Draw.Images.TInterfaceIL",
-        "Aow.Game.Ui.Dialogs.TMWindow",
-        "Aow.Game.Ui.Windows.TAOWMenu",
-        "Aow.Game.Ui.Controls.TAOWMenuBar",
-        "Aow.Game.Ui.Dialogs.TMultiWindow",
-        "Aow.Game.Ui.Dialogs.TPyreScreen",
-        "Aow.Game.Ui.Dialogs.TTitleWindow",
-        "Aow.Game.Ui.Windows.TAOWToolTip",
-        "Aow.Game.Ui.Controls.TAOWWinManager",
-        "Aow.Game.Ui.Dialogs.TArenaDlg",
-        "Aow.Game.Ui.Dialogs.TArmyEventDlg",
-        "Aow.Game.Ui.Dialogs.TArmyInfoDlg",
-        "Aow.Game.Ui.Controls.TAoWArnoLine",
-        "Aow.Game.Ui.Windows.TAOWBaseWindow",
-        "Aow.Game.Ui.Windows.TAoWBookWindow",
-        "Aow.Game.Ui.Controls.TAOWBaseButton",
-        "Aow.Game.Ui.Controls.TAOWButton",
-        "Aow.Game.Ui.Dialogs.TCampaignJoinDlg",
-        "Aow.Game.Ui.Dialogs.TCampaignSettingsDlg",
-        "Aow.Game.Ui.Dialogs.TCampaignTransferDlg",
-        "Aow.Game.Ui.Dialogs.TCastUnitSpellDlg",
-        "Aow.Game.Ui.Controls.TAOWCheckBox",
-        "Aow.Game.Ui.Dialogs.TCityJoinDlg",
-        "Aow.Game.Ui.Dialogs.TCityRebelDlg",
-        "Aow.Game.Ui.Dialogs.TCityScreen",
-        "Aow.Game.Ui.Controls.TAOWComboBox",
-        "Aow.Game.Ui.Controls.TAoWComponent",
-        "Aow.Game.Ui.Dialogs.TConstructDlg",
-        "Aow.Game.Ui.Controls.TAOWControl",
-        "Aow.Game.Ui.Dialogs.TDeformFaceDlg",
-        "Aow.Game.Ui.Dialogs.TDisjunctionDlg",
-        "Aow.Game.Engine.TAgeOfWondersEngine",
-        "Aow.Game.Ui.Controls.TAOWEdit",
-        "Aow.Game.Ui.Dialogs.TEmailGameSettingsDlg",
-        "Aow.Game.Ui.Dialogs.TEmailSettingsDlg",
-        "Aow.Game.Ui.Dialogs.TFileDlgWindow",
-        "Aow.Game.Ui.Controls.TAoWFrame",
-        "Aow.Game.Ui.Dialogs.TGamePlayDlg",
-        "Aow.Game.Ui.Controls.TAOWHScrollBar",
+        "Aow.Game.Ui.Dialogs.ChatWindow",
+        "Aow.Game.Ui.Dialogs.ControlWin",
+        "Aow.Game.Ui.Dialogs.DWin",
+        "Aow.Game.Ui.Controls.AoWGauge",
+        "Aow.Game.Draw.Images.InterfaceIL",
+        "Aow.Game.Ui.Dialogs.MWindow",
+        "Aow.Game.Ui.Windows.AOWMenu",
+        "Aow.Game.Ui.Controls.AOWMenuBar",
+        "Aow.Game.Ui.Dialogs.MultiWindow",
+        "Aow.Game.Ui.Dialogs.PyreScreen",
+        "Aow.Game.Ui.Dialogs.TitleWindow",
+        "Aow.Game.Ui.Windows.AOWToolTip",
+        "Aow.Game.Ui.Controls.AOWWinManager",
+        "Aow.Game.Ui.Dialogs.ArenaDlg",
+        "Aow.Game.Ui.Dialogs.ArmyEventDlg",
+        "Aow.Game.Ui.Dialogs.ArmyInfoDlg",
+        "Aow.Game.Ui.Controls.AoWArnoLine",
+        "Aow.Game.Ui.Windows.AOWBaseWindow",
+        "Aow.Game.Ui.Windows.AoWBookWindow",
+        "Aow.Game.Ui.Controls.AOWBaseButton",
+        "Aow.Game.Ui.Controls.AOWButton",
+        "Aow.Game.Ui.Dialogs.CampaignJoinDlg",
+        "Aow.Game.Ui.Dialogs.CampaignSettingsDlg",
+        "Aow.Game.Ui.Dialogs.CampaignTransferDlg",
+        "Aow.Game.Ui.Dialogs.CastUnitSpellDlg",
+        "Aow.Game.Ui.Controls.AOWCheckBox",
+        "Aow.Game.Ui.Dialogs.CityJoinDlg",
+        "Aow.Game.Ui.Dialogs.CityRebelDlg",
+        "Aow.Game.Ui.Dialogs.CityScreen",
+        "Aow.Game.Ui.Controls.AOWComboBox",
+        "Aow.Game.Ui.Controls.AoWComponent",
+        "Aow.Game.Ui.Dialogs.ConstructDlg",
+        "Aow.Game.Ui.Controls.AOWControl",
+        "Aow.Game.Ui.Dialogs.DeformFaceDlg",
+        "Aow.Game.Ui.Dialogs.DisjunctionDlg",
+        "Aow.Game.Engine.AgeOfWondersEngine",
+        "Aow.Game.Ui.Controls.AOWEdit",
+        "Aow.Game.Ui.Dialogs.EmailGameSettingsDlg",
+        "Aow.Game.Ui.Dialogs.EmailSettingsDlg",
+        "Aow.Game.Ui.Dialogs.FileDlgWindow",
+        "Aow.Game.Ui.Controls.AoWFrame",
+        "Aow.Game.Ui.Dialogs.GamePlayDlg",
+        "Aow.Game.Ui.Controls.AOWHScrollBar",
         "Aow.Game.Ui.Windows.TaowHTMLMemo",
-        "Aow.Game.Ui.Dialogs.THeroInfoDlg",
-        "Aow.Game.Ui.Dialogs.THeroJoinDlg",
-        "Aow.Game.Ui.Dialogs.THeroUpgradeDlg",
-        "Aow.Game.Ui.Controls.TAOWImage",
-        "Aow.Game.Ui.Dialogs.TInfoBanner",
-        "Aow.Game.Ui.Dialogs.TIWindow",
-        "Aow.Game.Ui.Dialogs.TIntroScene",
-        "Aow.Game.Ui.Dialogs.TItemBanner",
-        "Aow.Game.Ui.Dialogs.TItemsFoundDlg",
-        "Aow.Game.Ui.Controls.TAOWLabel",
-        "Aow.Game.Ui.Dialogs.TLeaderSetupWin",
-        "Aow.Game.Ui.Controls.TAOWListBox",
-        "Aow.Game.Ui.Dialogs.TMagicWin",
-        "Aow.Game.Ui.Controls.TAOWMemo",
-        "Aow.Game.Ui.Dialogs.TMessageDlg",
-        "Aow.Game.Ui.Dialogs.TMsgReceiveDlg",
-        "Aow.Game.Ui.Dialogs.TNewTurnDlg",
-        "Aow.Game.Ui.Dialogs.TPInfoW",
-        "Aow.Game.Ui.Dialogs.TPOP3Dlg",
-        "Aow.Game.Ui.Dialogs.TPopupWindows",
-        "Aow.Game.Ui.Windows.TAOWPanel",
-        "Aow.Game.Ui.Dialogs.TPartyJoinDlg",
-        "Aow.Game.Ui.Dialogs.TPasswordDlg",
-        "Aow.Game.Ui.Dialogs.TPowerDlg",
-        "Aow.Game.Ui.Dialogs.TProductionScreen",
-        "Aow.Game.Ui.Dialogs.TProgressDialog",
-        "Aow.Game.Ui.Dialogs.TRealmWin",
-        "Aow.Game.Ui.Dialogs.TRelWindow",
-        "Aow.Game.Ui.Dialogs.TResultsWin",
-        "Aow.Game.Ui.Dialogs.TSMTPDlg",
+        "Aow.Game.Ui.Dialogs.HeroInfoDlg",
+        "Aow.Game.Ui.Dialogs.HeroJoinDlg",
+        "Aow.Game.Ui.Dialogs.HeroUpgradeDlg",
+        "Aow.Game.Ui.Controls.AOWImage",
+        "Aow.Game.Ui.Dialogs.InfoBanner",
+        "Aow.Game.Ui.Dialogs.IWindow",
+        "Aow.Game.Ui.Dialogs.IntroScene",
+        "Aow.Game.Ui.Dialogs.ItemBanner",
+        "Aow.Game.Ui.Dialogs.ItemsFoundDlg",
+        "Aow.Game.Ui.Controls.AOWLabel",
+        "Aow.Game.Ui.Dialogs.LeaderSetupWin",
+        "Aow.Game.Ui.Controls.AOWListBox",
+        "Aow.Game.Ui.Dialogs.MagicWin",
+        "Aow.Game.Ui.Controls.AOWMemo",
+        "Aow.Game.Ui.Dialogs.MessageDlg",
+        "Aow.Game.Ui.Dialogs.MsgReceiveDlg",
+        "Aow.Game.Ui.Dialogs.NewTurnDlg",
+        "Aow.Game.Ui.Dialogs.PInfoW",
+        "Aow.Game.Ui.Dialogs.POP3Dlg",
+        "Aow.Game.Ui.Dialogs.PopupWindows",
+        "Aow.Game.Ui.Windows.AOWPanel",
+        "Aow.Game.Ui.Dialogs.PartyJoinDlg",
+        "Aow.Game.Ui.Dialogs.PasswordDlg",
+        "Aow.Game.Ui.Dialogs.PowerDlg",
+        "Aow.Game.Ui.Dialogs.ProductionScreen",
+        "Aow.Game.Ui.Dialogs.ProgressDialog",
+        "Aow.Game.Ui.Dialogs.RealmWin",
+        "Aow.Game.Ui.Dialogs.RelWindow",
+        "Aow.Game.Ui.Dialogs.ResultsWin",
+        "Aow.Game.Ui.Dialogs.SMTPDlg",
         "Aow.Game.Net.TmsMessage",
         "Aow.Game.Net.TmsSMTP",
-        "Aow.Game.Ui.Dialogs.TSWindow",
-        "Aow.Game.Ui.Dialogs.TScenSetup",
-        "Aow.Game.Ui.Dialogs.TSelFactionWin",
-        "Aow.Game.Ui.Dialogs.TSendEmailGameDlg",
-        "Aow.Game.Session.TSetupControl",
-        "Aow.Game.Ui.Dialogs.TSoundDlg",
-        "Aow.Game.Ui.Dialogs.TSpellBook",
-        "Aow.Game.Ui.Dialogs.TSynchronizeDlg",
-        "Aow.Game.Ui.Dialogs.TTBWindow",
-        "Aow.Game.Ui.Dialogs.TTCScanner",
-        "Aow.Game.Ui.Dialogs.TTCUnit",
-        "Aow.Game.Ui.Controls.TAOWTabPanel",
-        "Aow.Game.Ui.Dialogs.TTargetSelectionDlg",
-        "Aow.Game.Ui.Dialogs.TTitleScene",
-        "Aow.Game.Ui.Dialogs.TTutorialWindow",
-        "Aow.Game.Ui.Dialogs.TUnitBanner",
-        "Aow.Game.Ui.Dialogs.TUnitSelectionDlg",
-        "Aow.Game.Ui.Dialogs.TUnitWindow",
-        "Aow.Game.Ui.Controls.TAOWScrollBar",
-        "Aow.Game.Ui.Controls.TAOWVScrollBar",
-        "Aow.Game.Ui.Dialogs.TVideoDialog",
-        "Aow.Game.Ui.Controls.TAOWWindowControl",
-        "Aow.Game.Ui.Windows.TAOWGenericWindow",
-        "Aow.Game.Ui.Dialogs.TGeneral",
-        "Aow.Game.Ui.Windows.TAOWWindow",
-        "Aow.Game.Ui.Dialogs.TWizardsTowerDlg",
-        "Aow.Game.Ui.Dialogs.TWorldMap",
-        "Aow.Game.Ui.Windows.TAoWUserWindow",
-        "Aow.Game.Ui.Grids.TAoWCombatMapControl",
-        "Aow.Game.Engine.Nodes.TEComponent",
-        "Aow.Game.Ui.Dialogs.TFastCombatWindow",
-        "Aow.Game.Ui.Dialogs.TFontModule",
-        "Aow.Game.World.Map.THSMapViewer",
-        "Aow.Game.World.Map.THexagonSpriteEngine",
-        "Aow.Game.Draw.THSLibrary",
-        "Aow.Game.Ui.Grids.TAoWMapControl",
-        "Aow.Game.Engine.TPlugInManager",
-        "Aow.Game.Ui.Grids.TScanner",
-        "Aow.Game.Ui.Windows.TStartMenu",
-        "Aow.Game.Ui.Dialogs.TTCFCDialog",
-        "Aow.Game.Ui.Grids.TAOWTurnButton",
-        "Aow.Game.Ui.Dialogs.THelpWindow",
-        "Aow.Game.Ui.Dialogs.TIntGfxMod",
-        "Aow.Game.Ui.Dialogs.TMapEvents",
-        "Aow.Game.Ui.Dialogs.TSetupEvents",
-        "Aow.Game.Ui.Dialogs.TTCMapEvents",
+        "Aow.Game.Ui.Dialogs.SWindow",
+        "Aow.Game.Ui.Dialogs.ScenSetup",
+        "Aow.Game.Ui.Dialogs.SelFactionWin",
+        "Aow.Game.Ui.Dialogs.SendEmailGameDlg",
+        "Aow.Game.Session.SetupControl",
+        "Aow.Game.Ui.Dialogs.SoundDlg",
+        "Aow.Game.Ui.Dialogs.SpellBook",
+        "Aow.Game.Ui.Dialogs.SynchronizeDlg",
+        "Aow.Game.Ui.Dialogs.TBWindow",
+        "Aow.Game.Ui.Dialogs.TCScanner",
+        "Aow.Game.Ui.Dialogs.TCUnit",
+        "Aow.Game.Ui.Controls.AOWTabPanel",
+        "Aow.Game.Ui.Dialogs.TargetSelectionDlg",
+        "Aow.Game.Ui.Dialogs.TitleScene",
+        "Aow.Game.Ui.Dialogs.TutorialWindow",
+        "Aow.Game.Ui.Dialogs.UnitBanner",
+        "Aow.Game.Ui.Dialogs.UnitSelectionDlg",
+        "Aow.Game.Ui.Dialogs.UnitWindow",
+        "Aow.Game.Ui.Controls.AOWScrollBar",
+        "Aow.Game.Ui.Controls.AOWVScrollBar",
+        "Aow.Game.Ui.Dialogs.VideoDialog",
+        "Aow.Game.Ui.Controls.AOWWindowControl",
+        "Aow.Game.Ui.Windows.AOWGenericWindow",
+        "Aow.Game.Ui.Dialogs.General",
+        "Aow.Game.Ui.Windows.AOWWindow",
+        "Aow.Game.Ui.Dialogs.WizardsTowerDlg",
+        "Aow.Game.Ui.Dialogs.WorldMap",
+        "Aow.Game.Ui.Windows.AoWUserWindow",
+        "Aow.Game.Ui.Grids.AoWCombatMapControl",
+        "Aow.Game.Engine.Nodes.EComponent",
+        "Aow.Game.Ui.Dialogs.FastCombatWindow",
+        "Aow.Game.Ui.Dialogs.FontModule",
+        "Aow.Game.World.Map.HSMapViewer",
+        "Aow.Game.World.Map.HexagonSpriteEngine",
+        "Aow.Game.Draw.HSLibrary",
+        "Aow.Game.Ui.Grids.AoWMapControl",
+        "Aow.Game.Engine.PlugInManager",
+        "Aow.Game.Ui.Grids.Scanner",
+        "Aow.Game.Ui.Windows.StartMenu",
+        "Aow.Game.Ui.Dialogs.TCFCDialog",
+        "Aow.Game.Ui.Grids.AOWTurnButton",
+        "Aow.Game.Ui.Dialogs.HelpWindow",
+        "Aow.Game.Ui.Dialogs.IntGfxMod",
+        "Aow.Game.Ui.Dialogs.MapEvents",
+        "Aow.Game.Ui.Dialogs.SetupEvents",
+        "Aow.Game.Ui.Dialogs.TCMapEvents",
         "Aow.Game.Ui.Controls.TaowUserDrawBox",
     ];
 
@@ -222,8 +222,8 @@ public sealed class UiConstructionTests
     [Fact]
     public void InheritOnlyLineHasItsOwnCompletedOwnerConstructor()
     {
-        using var owner = new TComponent(null!);
-        var line = new Aow.Game.Ui.Controls.TAoWLenLine(owner);
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var line = new Aow.Game.Ui.Controls.AoWLenLine(owner);
         Assert.Same(owner, line.Owner);
         Assert.Same(line, owner.Components[0]);
         Assert.True(line.FVisible);
@@ -236,14 +236,14 @@ public sealed class UiConstructionTests
         Assert.Equal(0, owner.ComponentCount);
     }
 
-    private static TComponent Direct(Type type, TComponent? owner)
+    private static global::Aow.Rtl.Component Direct(Type type, global::Aow.Rtl.Component? owner)
     {
         try
         {
-            var constructor = type.GetConstructor([typeof(TComponent)]);
-            if (constructor is not null) return (TComponent)constructor.Invoke([owner]);
-            var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(TComponent)]);
-            if (factory is not null) return (TComponent)factory.Invoke(null, [owner])!;
+            var constructor = type.GetConstructor([typeof(global::Aow.Rtl.Component)]);
+            if (constructor is not null) return (global::Aow.Rtl.Component)constructor.Invoke([owner]);
+            var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(global::Aow.Rtl.Component)]);
+            if (factory is not null) return (global::Aow.Rtl.Component)factory.Invoke(null, [owner])!;
             throw new InvalidOperationException(type.FullName + " has no completed owner entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -257,13 +257,13 @@ public sealed class UiConstructionTests
     [MemberData(nameof(Classes))]
     public void ConstructorStateOwnerObservationAndTeardownMatchBaseCommit(string name)
     {
-        Type type = typeof(TSpell).Assembly.GetType(name)!;
+        Type type = typeof(Spell).Assembly.GetType(name)!;
         for (int owned = 0; owned < 2; owned++)
         {
             using var fixture = new Fixture();
             var owner = owned == 0 ? null : new ComponentOwner();
             var states = new List<string>();
-            TComponent? value = null;
+            global::Aow.Rtl.Component? value = null;
             try
             {
                 value = Direct(type, owner);

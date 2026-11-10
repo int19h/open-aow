@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TDisjunctionDlg
+public partial class DisjunctionDlg
 {
     public override void Loaded()
     {

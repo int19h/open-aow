@@ -14,7 +14,7 @@ namespace Aow.Units.Tests;
 [EngineState]
 public sealed class TacticalCombatWallCastTests
 {
-    private sealed class PlacedUnitHS(TECustomNode owner) : TTacticalCombatUnitHS(owner)
+    private sealed class PlacedUnitHS(ECustomNode owner) : TacticalCombatUnitHS(owner)
     {
         public override sbyte GetXhx() => 4;
 
@@ -24,14 +24,14 @@ public sealed class TacticalCombatWallCastTests
     [Fact]
     public void TerrainPathAcceptsTheCombatWallAsIgnore()
     {
-        var ai = new TCAI();
-        var settings = new TCombatMoveControlSettings(null!);
-        TXYLList path = new TMovepath();
+        var ai = new CAI();
+        var settings = new CombatMoveControlSettings(null!);
+        XYLList path = new Movepath();
         int value = 7;
-        var combat = new TTacticalCombat(null!);
+        var combat = new TacticalCombat(null!);
         var objects = combat.FCombatData.FCombatObjects;
-        var unit = new TTacticalCombatUnit(objects) { FCombat = combat };
-        var wall = new TCombatWall(objects) { FCombat = combat };
+        var unit = new TacticalCombatUnit(objects) { FCombat = combat };
+        var wall = new CombatWall(objects) { FCombat = combat };
         wall.Setup(1, 1, 0);
         Assert.Equal(-1, ai.MakeTerrainPath(settings, ref path, ref value, unit, wall, true, true, 1));
         Assert.Equal(0, value);
@@ -46,17 +46,17 @@ public sealed class TacticalCombatWallCastTests
     [Fact]
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
-        var previous = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
-        var map = new TAoWCombatMap(null!);
+        var previous = Aow.Game.Combat.AoWCombatMap.Current;
+        var map = new AoWCombatMap(null!);
         try
         {
-            var combat = new TTacticalCombat(null!);
+            var combat = new TacticalCombat(null!);
             map.SetCombat(combat);
             var objects = combat.FCombatData.FCombatObjects;
-            var hero = new TAbstractUnit(null!);
-            var wall = new TCombatWall(objects) { FCombat = combat };
+            var hero = new AbstractUnit(null!);
+            var wall = new CombatWall(objects) { FCombat = combat };
             wall.Setup(1, 1, 0);
-            var unit = new TTacticalCombatUnit(objects) { FCombat = combat, FID = 2, FPosition = 1, FUnit = hero };
+            var unit = new TacticalCombatUnit(objects) { FCombat = combat, FID = 2, FPosition = 1, FUnit = hero };
             unit.FUnitHS = new PlacedUnitHS(null!) { FUnit = unit };
             sbyte x = 0;
             sbyte y = 0;
@@ -65,7 +65,7 @@ public sealed class TacticalCombatWallCastTests
             Assert.Equal((sbyte)4, x);
             Assert.Equal((sbyte)9, y);
             Assert.Equal((sbyte)0, l);
-            var other = new TAbstractUnit(null!);
+            var other = new AbstractUnit(null!);
             map.GetUnitLocation(other, ref x, ref y, ref l);
             Assert.Equal((sbyte)-1, x);
         }
@@ -73,7 +73,7 @@ public sealed class TacticalCombatWallCastTests
         {
             map.SetOwner(null!);
             map.Dispose();
-            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previous;
+            Aow.Game.Combat.AoWCombatMap.Current = previous;
         }
     }
 }

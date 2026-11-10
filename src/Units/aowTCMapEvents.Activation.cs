@@ -4,7 +4,7 @@ using Aow.Game.Ui.Controls;
 using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TTCMapEvents
+public partial class TCMapEvents
 {
     public void TCMapActivateMap()
     {
@@ -29,8 +29,8 @@ public partial class TTCMapEvents
             }
         }
 
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.HSMap = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
-        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetMap(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap);
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.HSMap = Aow.Game.Combat.AoWCombatMap.Current;
+        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetMap(Aow.Game.Combat.AoWCombatMap.Current);
         Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.FPreviousWidth = 0;
         Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.FIncremental = false;
         Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.FSized = false;
@@ -38,13 +38,13 @@ public partial class TTCMapEvents
 
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Visible = true;
         Aow.Game.Ui.Dialogs.DialogHosts.General.HideWindows();
-        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = (TAoWCombatMap)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap;
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Visible = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds;
+        Aow.Game.Combat.AoWCombatMap.Current = (AoWCombatMap)Aow.Game.World.Map.AoWHSMap.Current.FCombatMap;
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Visible = Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds;
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldAlignWidth = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Alignment.AlignWidth;
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldAlignHeight = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Alignment.AlignHeight;
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldRect.Left = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Alignment.LeftOffset;
         Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldRect.Top = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Alignment.TopOffset;
-        if (Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldAlignWidth == TAOWAlignWidth.awBoth)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldAlignWidth == AOWAlignWidth.Both)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldRect.Right = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Alignment.RightOffset;
         }
@@ -53,7 +53,7 @@ public partial class TTCMapEvents
             Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldRect.Right = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.WinWidth;
         }
 
-        if (Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldAlignHeight == TAOWAlignHeight.ahBoth)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldAlignHeight == AOWAlignHeight.Both)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FWorldRect.Bottom = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Alignment.BottomOffset;
         }
@@ -78,20 +78,20 @@ public partial class TTCMapEvents
         Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TCChatBtn.Visible = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.ChatBtn.Visible;
         Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TCUnitBtn.Visible = false;
         Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.FDrawn = false;
-        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.TCScannerWin.Visible = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds;
-        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TCScannerBtn.Visible = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds;
+        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.TCScannerWin.Visible = Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TCScannerBtn.Visible = Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds;
         Aow.Game.Ui.Dialogs.DialogHosts.TCUnit.TCUnitWin.Visible = false;
-        if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+        if (!Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
         {
             FChatHeight = Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin.WinHeight;
-            Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin.Alignment.AlignHeight = TAOWAlignHeight.ahBoth;
+            Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin.Alignment.AlignHeight = AOWAlignHeight.Both;
         }
         else
         {
             FChatHeight = 0;
         }
 
-        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FChatVisible || !Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FChatVisible || !Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin.Visible = true;
         }

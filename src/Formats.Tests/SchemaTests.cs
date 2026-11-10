@@ -1,6 +1,7 @@
 using Aow.Formats.Json;
 using Aow.Formats.Original;
 using Aow.Formats.Schema;
+using Aow.Rtl;
 
 namespace Aow.Formats.Tests;
 
@@ -32,11 +33,11 @@ public sealed class SchemaTests : FormatsTest
             Assert.NotEmpty(table);
             foreach (var (id, cls) in table) Assert.Equal(id, cls.Id);
         }
-        Assert.Equal("TAoWHSMap", Schema.Resolve("game", 131089)!.Name);
-        Assert.Equal("TCity", Schema.Resolve("game", 131336)!.Name);
+        Assert.Equal(NameTable.ResolveStored("TAoWHSMap"), Schema.Resolve("game", 131089)!.Name);
+        Assert.Equal(NameTable.ResolveStored("TCity"), Schema.Resolve("game", 131336)!.Name);
         Assert.Null(Schema.Resolve("game", 2228482));
-        Assert.Equal("TAoWCombatMapLevel", Schema.Resolve("tactical", 2228482)!.Name);
-        Assert.Equal("TWMCampaign", Schema.Resolve("campaign", 2248704)!.Name);
+        Assert.Equal(NameTable.ResolveStored("TAoWCombatMapLevel"), Schema.Resolve("tactical", 2228482)!.Name);
+        Assert.Equal(NameTable.ResolveStored("TWMCampaign"), Schema.Resolve("campaign", 2248704)!.Name);
         Assert.Null(Schema.Resolve("game", 2248704));
     }
 
@@ -77,7 +78,7 @@ public sealed class SchemaTests : FormatsTest
     {
         var level = Schema.Get("TAoWMapLevel");
         Assert.Equal(["Width", "Height", "Lhx", "Fields", "Children"], level.Properties.Select(p => p.Name));
-        Assert.Equal("TAoWMapField", level.FieldClass);
+        Assert.Equal(NameTable.ResolveStored("TAoWMapField"), level.FieldClass);
         var map = Schema.Get("TAoWHSMap");
         Assert.Equal("ConnectionType", map.Properties[0].Name);
         Assert.Equal("Children", map.Properties[^1].Name);

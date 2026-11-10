@@ -40,13 +40,13 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TSetupEvents : TDataModule
+public partial class SetupEvents : DataModule
 {
-    public TSetupEvents(TComponent owner) : base(owner)
+    public SetupEvents(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TGDPlay DPlay;
-    public TSetupControl SetupControl;
+    public GDPlay DPlay;
+    public global::Aow.Game.Session.SetupControl SetupControl;
     public bool FLobbyGame;
 
     // aowSetupEvents.pas:61
@@ -60,16 +60,16 @@ public partial class TSetupEvents : TDataModule
     public void UpdateChatPlayers()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.Clear();
-        var allPlayers = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.AllPlayersRStr);
+        var allPlayers = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SetupEvents.AllPlayersRStr);
         Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.AddObject(allPlayers, null);
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current != null)
         {
-            for (int I = 1, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
-                if (I != Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FStatus != TPlayerStatus.psTerminated && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.Players[I].ConnectionMode == TConnectionMode.cmRemote)
+                if (I != Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Aow.Game.Session.Player.Status.Terminated && Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.Players[I].ConnectionMode == ConnectionMode.Remote)
                 {
-                    var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.Players[I];
-                    var playerLeader = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I);
+                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.Players[I];
+                    var playerLeader = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
                     Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Items.AddObject(playerLeader.FLeader.FHeroName, IntToObject(player.SystemID));
                     Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.PlayerList.Selected = 0;
                 }
@@ -91,7 +91,7 @@ public partial class TSetupEvents : TDataModule
     {
         Aow.Game.Ui.Dialogs.DialogHosts.SynchronizeDlg.Dlg.Visible = false;
         Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.CloseSetup();
-        Aow.Game.Ui.Dialogs.TGeneral.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
+        Aow.Game.Ui.Dialogs.General.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
         if (DPlay.Connected)
         {
             ClearChat();
@@ -100,7 +100,7 @@ public partial class TSetupEvents : TDataModule
     }
 
     // aowSetupEvents.pas:102
-    public void SetupControlSendMap(TSetupControl Control, object Data, int Size, int Recipient)
+    public void SetupControlSendMap(global::Aow.Game.Session.SetupControl Control, object Data, int Size, int Recipient)
     {
         /* TODO: Implement aowDPlayComp.Players in the platform or editor service. */
         throw new NotImplementedException();
@@ -116,7 +116,7 @@ public partial class TSetupEvents : TDataModule
     }
 
     // aowSetupEvents.pas:119
-    public void DPlayFileDoneMessage(int ID, TGDFile FileData)
+    public void DPlayFileDoneMessage(int ID, GDFile FileData)
     {
         /* TODO: Implement aowDPlayComp.FData in the platform or editor service. */
         throw new NotImplementedException();
@@ -150,7 +150,7 @@ public partial class TSetupEvents : TDataModule
     }
 
     // aowSetupEvents.pas:150
-    public void DPlayMessageTimeout(ref TGDMessage Message)
+    public void DPlayMessageTimeout(ref GDMessage Message)
     {
         /* TODO: Implement aowDPlayComp.FToID in the platform or editor service. */
         throw new NotImplementedException();
@@ -162,11 +162,11 @@ public partial class TSetupEvents : TDataModule
         if (Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ExitGameClick();
-            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
-            var warning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.WarningRStr);
+            Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            var warning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SetupEvents.WarningRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.TitleLbl.Text = warning;
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var youWereEjectedByTheHost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.YouWereEjectedByTheHostRStr);
+            var youWereEjectedByTheHost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SetupEvents.YouWereEjectedByTheHostRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(youWereEjectedByTheHost);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
@@ -183,17 +183,17 @@ public partial class TSetupEvents : TDataModule
     }
 
     // aowSetupEvents.pas:189
-    public void SetupControlCustomizeLeader(TSetupControl Control, TCustomizeLeaderControl Leader)
+    public void SetupControlCustomizeLeader(global::Aow.Game.Session.SetupControl Control, CustomizeLeaderControl Leader)
     {
         Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible = false;
         Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.Execute(Leader);
     }
 
     // aowSetupEvents.pas:195
-    public void SetupControlLoadMap(TSetupControl Control, string FileName)
+    public void SetupControlLoadMap(global::Aow.Game.Session.SetupControl Control, string FileName)
     {
         var fileName = ExtractFileName(FileName);
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSetupEvents.LoadingXRStr), [fileName]);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SetupEvents.LoadingXRStr), [fileName]);
         Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Title.Text = format;
         Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.StatusLbl.Text = "";
         Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position = 0;
@@ -211,7 +211,7 @@ public partial class TSetupEvents : TDataModule
         {
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSMfromStream(Control.FStream, false, (_, Message, Progression) => Aow.Game.Ui.Dialogs.DialogHosts.General.MapProgress(Message, Progression));
             var fileName2 = ExtractFileName(FileName);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FileName = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
+            Aow.Game.World.Map.AoWHSMap.Current.FileName = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\" + fileName2;
         }
         else
         {
@@ -233,11 +233,11 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:225
     public void SetupControlSettingChanged()
     {
-        Aow.Game.Ui.Dialogs.TScenSetup.UpdateScenarioSetup(Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup);
+        Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioSetup(Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup);
     }
 
     // aowSetupEvents.pas:228
-    public void SetupControlEjectPlayer(TSetupControl Control, int RemoteID)
+    public void SetupControlEjectPlayer(global::Aow.Game.Session.SetupControl Control, int RemoteID)
     {
         /* TODO: Implement aowDPlayComp.EjectPlayer in the platform or editor service. */
         throw new NotImplementedException();
@@ -246,22 +246,22 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:231
     public void DPlayMessage(ref object Data, ref int Size, ref int ToID, ref int FromID)
     {
-        if (SetupControl.FStatus.Contains(TSetupStatusElement.ssBusy))
+        if (SetupControl.FStatus.Contains(SetupStatusElement.Busy))
         {
             SetupControl.DataReceived(Data, Size, FromID);
         }
 
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
+        if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Activated))
         {
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC is TRemotePCC)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC is RemotePCC)
             {
-                ((TRemotePCC)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC).DataReceived(Data, Size, FromID);
+                ((RemotePCC)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC).DataReceived(Data, Size, FromID);
             }
         }
     }
 
     // aowSetupEvents.pas:239
-    public void SetupControlSynchronize(TSetupControl Control)
+    public void SetupControlSynchronize(global::Aow.Game.Session.SetupControl Control)
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FAligned = false;
         Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup.ScenSetupPnl.Visible = false;
@@ -272,7 +272,7 @@ public partial class TSetupEvents : TDataModule
     }
 
     // aowSetupEvents.pas:249
-    public void SetupControlIncompatibleVersion(TSetupControl Control, int Major, int Minor)
+    public void SetupControlIncompatibleVersion(global::Aow.Game.Session.SetupControl Control, int Major, int Minor)
     {
         /* TODO: Implement aowDPlayComp.CloseSession in the platform or editor service. */
         throw new NotImplementedException();
@@ -298,9 +298,9 @@ public partial class TSetupEvents : TDataModule
     // aowSetupEvents.pas:291
     public void DPlayMessageError()
     {
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current != null)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayerConnectionLost();
+            Aow.Game.World.Map.AoWHSMap.Current.PlayerConnectionLost();
         }
     }
 
@@ -316,16 +316,16 @@ public partial class TSetupEvents : TDataModule
             }
         }
 
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC != null)
         {
-            Player = (sbyte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
+            Player = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ID);
             if (Player != -1)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player) != null)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player) != null)
                 {
-                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatus == TPlayerStatus.psPlaying)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Aow.Game.Session.Player.Status.Playing)
                     {
-                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayerDisconnected(Player);
+                        Aow.Game.World.Map.AoWHSMap.Current.PlayerDisconnected(Player);
                     }
 
                     UpdateChatPlayers();
@@ -340,11 +340,11 @@ public partial class TSetupEvents : TDataModule
 
     private static readonly string YouWereEjectedByTheHostRStr = "You were ejected by the host.";
 
-    private static TGUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
+    private static GUID ID_AOWAPP = "{3205D060-4FF5-11D3-811F-0050042E6D24}";
 
     private static readonly string WarningRStr = "Warning";
 
-    internal static bool StartLobby(TSetupEvents Events)
+    internal static bool StartLobby(SetupEvents Events)
     {
         /* TODO: Implement aowDPlayComp.CheckLobby in the platform or editor service. */
         throw new NotImplementedException();

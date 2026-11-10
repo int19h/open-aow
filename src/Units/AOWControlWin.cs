@@ -15,92 +15,92 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // published controls. inverted army selection mask
-public partial class TControlWin : TDataModule
+public partial class ControlWin : DataModule
 {
-    public TControlWin(TComponent owner) : base(owner)
+    public ControlWin(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow ControlWindow;
-    public TAOWLabel CWTitle;
-    public TAOWButton CWMinIcon;
-    public TAoWFrame Unit1Frame;
-    public TAoWFrame Unit2Frame;
-    public TAoWFrame Unit3Frame;
-    public TAoWFrame Unit4Frame;
-    public TAoWFrame Unit5Frame;
-    public TAoWFrame Unit6Frame;
-    public TAoWFrame Unit7Frame;
-    public TAoWFrame Unit8Frame;
-    public TAOWImage CTitleIcon;
-    public TAOWLabel MovesLbl;
-    public TAOWLabel PartyStatusLbl;
-    public TAOWButton Close;
-    public TAOWImage U1MIcon;
-    public TAOWImage U2MIcon;
-    public TAOWImage U3MIcon;
-    public TAOWImage U4MIcon;
-    public TAOWImage U5MIcon;
-    public TAOWImage U6MIcon;
-    public TAOWImage U7MIcon;
-    public TAOWImage U8MIcon;
-    public TAOWImage MoraleMask;
-    public TAOWImage MoveIcon;
-    public TAOWPanel PartyT1Pnl;
-    public TAOWPanel PartyBPnl;
-    public TAOWPanel PartyT2Pnl;
-    public TAOWPanel PartyT3Pnl;
-    public TAOWPanel PartyT4Pnl;
-    public TAoWGauge Unit1Gge;
-    public TAoWGauge Unit2Gge;
-    public TAoWGauge Unit3Gge;
-    public TAoWGauge Unit4Gge;
-    public TAoWGauge Unit5Gge;
-    public TAoWGauge Unit6Gge;
-    public TAoWGauge Unit7Gge;
-    public TAoWGauge Unit8Gge;
-    public TAOWCheckBox Unit1Chk;
-    public TAOWCheckBox Unit2Chk;
-    public TAOWCheckBox Unit3Chk;
-    public TAOWCheckBox Unit5Chk;
-    public TAOWCheckBox Unit6Chk;
-    public TAOWCheckBox Unit7Chk;
-    public TAOWCheckBox Unit4Chk;
-    public TAOWCheckBox Unit8Chk;
-    public TAoWFrame Emp1Fr;
-    public TAoWFrame Emp2Fr;
-    public TAoWFrame Emp3Fr;
-    public TAoWFrame Emp4Fr;
-    public TAoWFrame Emp5Fr;
-    public TAoWFrame Emp6Fr;
-    public TAoWFrame Emp7Fr;
-    public TAoWFrame Emp8Fr;
-    public TAoWFrame Emp1Chk;
-    public TAoWFrame Emp2Chk;
-    public TAoWFrame Emp3Chk;
-    public TAoWFrame Emp4Chk;
-    public TAoWFrame Emp5Chk;
-    public TAoWFrame Emp6Chk;
-    public TAoWFrame Emp7Chk;
-    public TAoWFrame Emp8Chk;
-    public TAOWPanel PartyIPnl;
-    public TAOWLabel PartyILbl;
-    public TAOWButton Center;
-    public TAOWButton Help;
-    public TAOWButton PPrev;
-    public TAOWButton PMove;
-    public TAOWButton PNext;
-    public TAOWPanel PControlPnl;
-    public TAOWCheckBox PGuard;
-    public TAoWFrame AoWFrame2;
-    public TAOWPanel PartyB2Pbl;
-    public TAoWFrame AoWFrame1;
-    public TIvTranslator Translator;
-    public TAOWLabel PartyActionLbl1;
-    public TAOWLabel PartyActionLbl2;
+    public AOWWindow ControlWindow;
+    public AOWLabel CWTitle;
+    public AOWButton CWMinIcon;
+    public AoWFrame Unit1Frame;
+    public AoWFrame Unit2Frame;
+    public AoWFrame Unit3Frame;
+    public AoWFrame Unit4Frame;
+    public AoWFrame Unit5Frame;
+    public AoWFrame Unit6Frame;
+    public AoWFrame Unit7Frame;
+    public AoWFrame Unit8Frame;
+    public AOWImage CTitleIcon;
+    public AOWLabel MovesLbl;
+    public AOWLabel PartyStatusLbl;
+    public AOWButton Close;
+    public AOWImage U1MIcon;
+    public AOWImage U2MIcon;
+    public AOWImage U3MIcon;
+    public AOWImage U4MIcon;
+    public AOWImage U5MIcon;
+    public AOWImage U6MIcon;
+    public AOWImage U7MIcon;
+    public AOWImage U8MIcon;
+    public AOWImage MoraleMask;
+    public AOWImage MoveIcon;
+    public AOWPanel PartyT1Pnl;
+    public AOWPanel PartyBPnl;
+    public AOWPanel PartyT2Pnl;
+    public AOWPanel PartyT3Pnl;
+    public AOWPanel PartyT4Pnl;
+    public AoWGauge Unit1Gge;
+    public AoWGauge Unit2Gge;
+    public AoWGauge Unit3Gge;
+    public AoWGauge Unit4Gge;
+    public AoWGauge Unit5Gge;
+    public AoWGauge Unit6Gge;
+    public AoWGauge Unit7Gge;
+    public AoWGauge Unit8Gge;
+    public AOWCheckBox Unit1Chk;
+    public AOWCheckBox Unit2Chk;
+    public AOWCheckBox Unit3Chk;
+    public AOWCheckBox Unit5Chk;
+    public AOWCheckBox Unit6Chk;
+    public AOWCheckBox Unit7Chk;
+    public AOWCheckBox Unit4Chk;
+    public AOWCheckBox Unit8Chk;
+    public AoWFrame Emp1Fr;
+    public AoWFrame Emp2Fr;
+    public AoWFrame Emp3Fr;
+    public AoWFrame Emp4Fr;
+    public AoWFrame Emp5Fr;
+    public AoWFrame Emp6Fr;
+    public AoWFrame Emp7Fr;
+    public AoWFrame Emp8Fr;
+    public AoWFrame Emp1Chk;
+    public AoWFrame Emp2Chk;
+    public AoWFrame Emp3Chk;
+    public AoWFrame Emp4Chk;
+    public AoWFrame Emp5Chk;
+    public AoWFrame Emp6Chk;
+    public AoWFrame Emp7Chk;
+    public AoWFrame Emp8Chk;
+    public AOWPanel PartyIPnl;
+    public AOWLabel PartyILbl;
+    public AOWButton Center;
+    public AOWButton Help;
+    public AOWButton PPrev;
+    public AOWButton PMove;
+    public AOWButton PNext;
+    public AOWPanel PControlPnl;
+    public AOWCheckBox PGuard;
+    public AoWFrame AoWFrame2;
+    public AOWPanel PartyB2Pbl;
+    public AoWFrame AoWFrame1;
+    public IvTranslator Translator;
+    public AOWLabel PartyActionLbl1;
+    public AOWLabel PartyActionLbl2;
     public byte FSelection;
 
     // AOWControlWin.pas:294
-    public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc SD)
+    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc SD)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[Index] != -1)
         {
@@ -145,13 +145,13 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:333
-    public void Unit1FrameMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
+    public void Unit1FrameMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
     {
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[Slot] > -1 && Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.GetUnit(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[Slot]) != null)
         {
             var unit = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.GetUnit(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[Slot]);
             Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
             }
@@ -159,10 +159,10 @@ public partial class TControlWin : TDataModule
     }
 
     // AOWControlWin.pas:348
-    public void Unit1ChkChange(TAOWCheckBox Sender)
+    public void Unit1ChkChange(AOWCheckBox Sender)
     {
         CheckStart();
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.SetSelection(FSelection);
+        Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.SetSelection(FSelection);
         CheckEnd();
         if (Sender.Checked)
         {
@@ -222,7 +222,7 @@ public partial class TControlWin : TDataModule
     // AOWControlWin.pas:375
     public void CheckEnd()
     {
-        FSelection = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.GetSelection();
+        FSelection = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetSelection();
         Unit1Chk.Checked = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[0] != -1 && (FSelection & (1 << Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[0])) == 0;
         Unit2Chk.Checked = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[1] != -1 && (FSelection & (1 << Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[1])) == 0;
         Unit3Chk.Checked = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[2] != -1 && (FSelection & (1 << Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[2])) == 0;
@@ -303,26 +303,26 @@ public partial class TControlWin : TDataModule
             Unit8Frame.ILIndexFrame = 12;
         }
 
-        var selection = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.GetSelection();
+        var selection = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetSelection();
         var partyMove = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.GetPartyMoves(selection);
         var mTtoInt = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(partyMove);
         MoveIcon.CurrentImage = mTtoInt;
-        var fSelectedArmySelection = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.GetSelection();
+        var fSelectedArmySelection = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetSelection();
         var movePoints = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.MovePoints(fSelectedArmySelection);
         MovesLbl.Text = IntToStr(movePoints);
-        var selection2 = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.GetSelection();
-        var partyStatus = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.GetArmyHS().FArmy.GetPartyStatus(selection2);
-        var partyStatusText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TControlWin.TPartyStatusRStr[(int)partyStatus]);
+        var selection2 = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetSelection();
+        var partyStatus = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS().FArmy.GetPartyStatus(selection2);
+        var partyStatusText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ControlWin.TPartyStatusRStr[(int)partyStatus]);
         PartyStatusLbl.Text = partyStatusText;
     }
 
     // AOWControlWin.pas:407
-    public void Unit1ChkMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void Unit1ChkMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight)
+        if (Button == MouseButton.Right)
         {
             CheckStart();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.SetSelection((byte)~FSelection);
+            Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.SetSelection((byte)~FSelection);
             CheckEnd();
         }
     }
@@ -332,22 +332,22 @@ public partial class TControlWin : TDataModule
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var army = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(army.FX, army.FY, army.FL);
+        Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(army.FX, army.FY, army.FL);
 
         var army2 = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayCenterAnimation(army2.FX, army2.FY, army2.FL);
+        Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(army2.FX, army2.FY, army2.FL);
     }
 
     // AOWControlWin.pas:422
-    public void Unit1FramePreDraw(TAoWFrame Sender, TSurfaceDesc SurfDesc, int Slot)
+    public void Unit1FramePreDraw(AoWFrame Sender, SurfaceDesc SurfDesc, int Slot)
     {
-        TRect SaveRect;
-        TAoWComponent Component;
+        global::Aow.Rtl.Rect SaveRect;
+        AoWComponent Component;
         if (Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList != null)
         {
             Component = Sender;
             SaveRect = SurfDesc.ClipRect;
-            var rect = Rect(Component.AOWOwner.WinLeft + Component.WinLeft + 4, Component.AOWOwner.WinTop + Component.WinTop + 3, Component.AOWOwner.WinLeft + Component.WinLeft + Component.WinWidth - 3, Component.AOWOwner.WinTop + Component.WinTop + Component.WinHeight - 7);
+            var rect = global::Aow.Rtl.RtlUnit.Rect(Component.AOWOwner.WinLeft + Component.WinLeft + 4, Component.AOWOwner.WinTop + Component.WinTop + 3, Component.AOWOwner.WinLeft + Component.WinLeft + Component.WinWidth - 3, Component.AOWOwner.WinTop + Component.WinTop + Component.WinHeight - 7);
             DrawUnit(Slot, rect, ref SurfDesc);
             SurfDesc.ClipRect = SaveRect;
         }
@@ -356,25 +356,25 @@ public partial class TControlWin : TDataModule
     // AOWControlWin.pas:437
     public void HelpClick()
     {
-        Aow.Game.Ui.Dialogs.THelpWindow.ShowHelp(503);
+        Aow.Game.Ui.Dialogs.HelpWindow.ShowHelp(503);
     }
 
     // AOWControlWin.pas:442
     public void PPrevClick()
     {
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SelectPrevArmy();
+        Aow.Game.World.Map.AoWHSMap.Current.SelectPrevArmy();
     }
 
     // AOWControlWin.pas:447
     public void PNextClick()
     {
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SelectNextArmy();
+        Aow.Game.World.Map.AoWHSMap.Current.SelectNextArmy();
     }
 
     // AOWControlWin.pas:452
     public void PMoveClick()
     {
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.ExecuteMove();
+        Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.ExecuteMove();
     }
 
     // AOWControlWin.pas:457
@@ -382,16 +382,16 @@ public partial class TControlWin : TDataModule
     {
         if (PGuard.Checked)
         {
-            if (!Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode.Contains(TArmyUserModeElement.aumGuard))
+            if (!Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode.Contains(ArmyUserModeElement.Guard))
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode + TSet<TArmyUserModeElement>.Of(TArmyUserModeElement.aumGuard);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             }
         }
         else
         {
-            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode.Contains(TArmyUserModeElement.aumGuard))
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode.Contains(ArmyUserModeElement.Guard))
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode - TSet<TArmyUserModeElement>.Of(TArmyUserModeElement.aumGuard);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.FUserMode - Set<ArmyUserModeElement>.Of(ArmyUserModeElement.Guard);
             }
         }
     }

@@ -6,9 +6,9 @@ namespace Aow.Units.Tests;
 
 public sealed class ImageClassTests
 {
-    private sealed class UnregisteredImage(TCustomImageLibrary owner) : Aow.Game.Draw.Images.TLibraryImage(owner);
+    private sealed class UnregisteredImage(CustomImageLibrary owner) : Aow.Game.Draw.Images.LibraryImage(owner);
 
-    private sealed class UnregisteredImageFile : TImageFile;
+    private sealed class UnregisteredImageFile : ImageFile;
 
     [Fact]
     public void ImageDescriptorsRequireExplicitRegistration()
@@ -17,12 +17,12 @@ public sealed class ImageClassTests
         Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Of(typeof(UnregisteredImage)));
         Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of<UnregisteredImageFile>());
         Assert.Throws<InvalidOperationException>(() => ImageFileClass.Of(typeof(UnregisteredImageFile)));
-        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<TPicture08>());
-        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<TBMPImageFile>());
-        Assert.Equal("TPicture08", LibraryImageClass.Of<TPicture08>().ClassName);
-        var types = typeof(Aow.Game.Draw.Images.TLibraryImage).Assembly.GetTypes();
+        Assert.Throws<InvalidOperationException>(() => LibraryImageClass.Register<Picture08>());
+        Assert.Throws<InvalidOperationException>(() => ImageFileClass.Register<BMPImageFile>());
+        Assert.Equal("Picture08", LibraryImageClass.Of<Picture08>().ClassName);
+        var types = typeof(Aow.Game.Draw.Images.LibraryImage).Assembly.GetTypes();
         Assert.Equal(types.Where(t => t.IsClass && typeof(ILibraryImageClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
-            LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(Aow.Game.Draw.Images.TLibraryImage).Assembly).Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
+            LibraryImageClass.All.Where(c => c.Type.Assembly == typeof(Aow.Game.Draw.Images.LibraryImage).Assembly).Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
         Assert.Equal(types.Where(t => t.IsClass && typeof(IImageFileClass).IsAssignableFrom(t)).Select(t => t.FullName).Order(StringComparer.Ordinal),
             ImageFileClass.All.Select(c => c.Type.FullName).Order(StringComparer.Ordinal));
     }
@@ -36,17 +36,17 @@ public sealed class ImageClassTests
         using var baselineStream = typeof(ImageClassTests).Assembly.GetManifestResourceStream("Aow.Units.Tests.ImageClassSnapshot.json")!;
         var baseline = JsonSerializer.Deserialize<Baseline[]>(baselineStream)!;
         var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
-        var source = new TImageLibrary(null!);
-        var loaded = new TImageLibrary(null!);
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
+        var source = new ImageLibrary(null!);
+        var loaded = new ImageLibrary(null!);
         var stream = new MemoryStream();
         try
         {
             Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
-                LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>(),
-                LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(),
-                LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(),
-                LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>()]);
+                LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>(),
+                LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(),
+                LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(),
+                LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);
             Assert.Equal(baseline.Length, Aow.Game.Draw.Images.LibraryCatalog.LibraryImageClassCount());
             for (int i = 0; i < baseline.Length; i++)
             {
@@ -60,9 +60,9 @@ public sealed class ImageClassTests
                 Assert.Same(descriptor, LibraryImageClass.Of(descriptor.Type));
                 var image = descriptor.Create(source);
                 image.ReadDiscardableImageData(stream);
-                if (image is TImage08 indexed)
+                if (image is Image08 indexed)
                 {
-                    var palette = new TGFXEPalette();
+                    var palette = new GFXEPalette();
                     { indexed.CreateLibraryImagePalette(palette); }
                 }
                 source.SetImage(i, image);
@@ -83,7 +83,7 @@ public sealed class ImageClassTests
                 Assert.Same(image.ImageClass, image.ImageClass);
             }
             Assert.Null(Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(-1));
-            Assert.Throws<InvalidOperationException>(() => Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>()]));
+            Assert.Throws<InvalidOperationException>(() => Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>()]));
         }
         finally
         {
@@ -98,16 +98,16 @@ public sealed class ImageClassTests
     [Fact]
     public void GrabInfoDescriptorCopiesTheRuntimeTypeAndAllFields()
     {
-        var descriptor = TBitMaskGrabInfo.Descriptor;
-        Assert.Equal("TBitMaskGrabInfo", descriptor.Name);
-        var value = Assert.IsType<TBitMaskGrabInfo>(descriptor.Create());
+        var descriptor = Aow.Game.Draw.Images.BitMask.GrabInfo.Descriptor;
+        Assert.Equal("BitMask.GrabInfo", descriptor.Name);
+        var value = Assert.IsType<Aow.Game.Draw.Images.BitMask.GrabInfo>(descriptor.Create());
         value.TransparentColor = 19;
         value.FindRectangles = true;
         value.TransparentPixel = 23;
         value.FileName = "mask.bmp";
         value.FileIndex = 7;
         value.Inverse = true;
-        var copy = Assert.IsType<TBitMaskGrabInfo>(value.Copy());
+        var copy = Assert.IsType<Aow.Game.Draw.Images.BitMask.GrabInfo>(value.Copy());
         Assert.Same(descriptor, copy.GrabInfoClass());
         Assert.Equal(value.TransparentColor, copy.TransparentColor);
         Assert.Equal(value.FindRectangles, copy.FindRectangles);
@@ -120,15 +120,15 @@ public sealed class ImageClassTests
     [Fact]
     public void ImageFileDescriptorKeepsIdentityAndBitmapDispatch()
     {
-        var descriptor = ImageFileClass.Of<TBMPImageFile>();
-        Assert.Same(descriptor, ImageFileClass.Of<TBMPImageFile>());
-        Assert.Equal(typeof(TBMPImageFile), descriptor.Type);
-        Assert.Same(descriptor, ImageFileClass.Of(typeof(TBMPImageFile)));
-        Assert.Equal("TBMPImageFile", descriptor.ClassName);
+        var descriptor = ImageFileClass.Of<BMPImageFile>();
+        Assert.Same(descriptor, ImageFileClass.Of<BMPImageFile>());
+        Assert.Equal(typeof(BMPImageFile), descriptor.Type);
+        Assert.Same(descriptor, ImageFileClass.Of(typeof(BMPImageFile)));
+        Assert.Equal("BMPImageFile", descriptor.ClassName);
         Assert.Equal("BMP", descriptor.Extension);
         Assert.Equal("Bitmap files (*.bmp)", descriptor.Description);
-        Assert.Throws<EAbstractError>(() => descriptor.Name);
-        using var classes = new TImageFileClassList();
+        Assert.Throws<AbstractErrorException>(() => descriptor.Name);
+        using var classes = new ImageFileClassList();
         classes.Add(descriptor);
         Assert.Same(descriptor, classes.FindClass(".bmp"));
         Assert.Same(descriptor, classes.Classes[0]);
@@ -138,18 +138,18 @@ public sealed class ImageClassTests
     [Fact]
     public void GrabImagesUsesTheDescriptorCreationDelegate()
     {
-        var library = new TImageLibrary(null!);
-        var surface = new TDataSurface(2, 3, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        var library = new ImageLibrary(null!);
+        var surface = new DataSurface(2, 3, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
         var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
-        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
-        TSurfaceDesc sd = default;
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
+        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>()]);
+        SurfaceDesc sd = default;
         Assert.Equal(0, surface.Lock(ref sd));
-        var grab = new TGrabInfo { FileName = "grab.bmp", FindRectangles = false };
+        var grab = new GrabInfo { FileName = "grab.bmp", FindRectangles = false };
         try
         {
-            Assert.Equal(0, LibraryImageClass.Of<TPicture16>().GrabImages(sd, grab, library, null!));
-            var image = Assert.IsType<TPicture16>(library[0]);
+            Assert.Equal(0, LibraryImageClass.Of<Picture16>().GrabImages(sd, grab, library, null!));
+            var image = Assert.IsType<Picture16>(library[0]);
             Assert.Equal(2, image.Width);
             Assert.Equal(3, image.Height);
             Assert.Same(library, image.Owner);

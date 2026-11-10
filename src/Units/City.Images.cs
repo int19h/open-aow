@@ -5,7 +5,7 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TCity
+public partial class City
 {
     public override void Activate()
     {
@@ -13,16 +13,16 @@ public partial class TCity
         base.Activate();
         UpdateVisibleForSeatedPlayer();
         FProduction.Activate();
-        var map = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        var map = Aow.Game.World.Map.AoWHSMap.Current;
         if (FPlayer != -1) map.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProduction);
-        if (map.Status.Contains(THSMapStatusElement.msEditting) && map.FDay == 0) SetUpgradeLevel(FUpgradeLevel);
+        if (map.Status.Contains(HSMapStatusElement.Editting) && map.FDay == 0) SetUpgradeLevel(FUpgradeLevel);
         UpdateImages();
     }
 
     // City.pas:1944 reads FWallType again through PChar(Self)[$4C].
     public void UpdateImages()
     {
-        var field = (TMapField)Owner;
+        var field = (MapField)Owner;
         int terrain = field.TerrainType;
         int offset = terrain switch { 3 => 20, 5 or >= 7 and <= 9 or 12 or 13 => 40, _ => 0 };
         var images = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -30,8 +30,8 @@ public partial class TCity
         {
             if (FRace >= 0)
             {
-                var race = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(FRace);
-                int size = ((TCityResource)FResource).FSize;
+                var race = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
+                int size = ((global::Aow.Game.World.Structures.Resource)FResource).FSize;
                 if (race != null) FCityImage = race.GetCityImage(size, terrain, field.Lhx);
                 if (FCityImage == null) FCityImage = images[images.ImageExist(offset) ? offset : 0];
             }

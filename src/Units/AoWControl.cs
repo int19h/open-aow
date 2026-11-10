@@ -10,17 +10,17 @@ namespace Aow.Game.Ui.Controls;
 //   window (buttons, edits, lists, scroll bars, ...). It knows its window and shows its tool tip. }
 // Fields: FToolTipText, FToolTipShown (updates the tool tip has been visible), FAOWWindow,
 // FToolTip
-public partial class TAOWControl : TAoWComponent
+public partial class AOWControl : AoWComponent
 {
-    public TStringList FToolTipText;
+    public StringList FToolTipText;
     public int FToolTipShown;
-    public TAOWBaseWindow FAOWWindow;
-    public TAOWToolTip FToolTip;
+    public AOWBaseWindow FAOWWindow;
+    public AOWToolTip FToolTip;
 
     // AoWControl.pas:46
-    public TAOWControl(TComponent owner) : base(owner)
+    public AOWControl(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FToolTipText = new TStringList();
+        FToolTipText = new StringList();
         FCaptureInput = true;
     }
 
@@ -39,8 +39,8 @@ public partial class TAOWControl : TAoWComponent
     //   manager's direct child... of a window placed in the manager) }
     public override void Update()
     {
-        TRect R = default;
-        TAOWBaseWindow W;
+        global::Aow.Rtl.Rect R = default;
+        AOWBaseWindow W;
         if (FValid)
         {
             if (FVisible)
@@ -84,19 +84,19 @@ public partial class TAOWControl : TAoWComponent
                                 }
 
                                 W = FAOWWindow;
-                                while (W.FAOWOwner is TAOWBaseWindow)
+                                while (W.FAOWOwner is AOWBaseWindow)
                                 {
-                                    W = (TAOWBaseWindow)W.FAOWOwner;
+                                    W = (AOWBaseWindow)W.FAOWOwner;
                                 }
 
                                 if (FAOWWindow != W)
                                 {
-                                    var rect = Rect(FAOWWindow.FWinLeft + W.FWinLeft + FWinLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop, FAOWWindow.FWinLeft + W.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop + FWinHeight);
+                                    var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + W.FWinLeft + FWinLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop, FAOWWindow.FWinLeft + W.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop + FWinHeight);
                                     FToolTip.FControlRect = rect;
                                 }
                                 else
                                 {
-                                    var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight);
+                                    var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight);
                                     FToolTip.FControlRect = rect;
                                 }
 
@@ -123,11 +123,11 @@ public partial class TAOWControl : TAoWComponent
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        R = Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
+                        R = global::Aow.Rtl.RtlUnit.Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
                     }
                     else
                     {
-                        R = Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
+                        R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
                     }
 
                     FAOWOwner.AddDrawRect(ref R, this);
@@ -139,11 +139,11 @@ public partial class TAOWControl : TAoWComponent
                     {
                         if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                         {
-                            R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                            R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                         }
                         else
                         {
-                            R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                            R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                         }
 
                         FAOWOwner.AddDrawRect(ref R, this);
@@ -154,11 +154,11 @@ public partial class TAOWControl : TAoWComponent
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                        R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                     }
                     else
                     {
-                        R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                        R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                     }
 
                     var indexOf = FAOWOwner.FChildren.IndexOf(this);
@@ -176,11 +176,11 @@ public partial class TAOWControl : TAoWComponent
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        R = Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                        R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                     }
                     else
                     {
-                        R = Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                        R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                     }
 
                     FAOWOwner.AddDrawRect(ref R, this);
@@ -191,14 +191,14 @@ public partial class TAOWControl : TAoWComponent
     }
 
     // AoWControl.pas:64
-    public override void SetOwner(TAoWComponent Value)
+    public override void SetOwner(AoWComponent Value)
     {
         base.SetOwner(Value);
-        FAOWWindow = (TAOWBaseWindow)FAOWOwner;
+        FAOWWindow = (AOWBaseWindow)FAOWOwner;
     }
 
     // AoWControl.pas:190
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         if (FToolTip != null)
         {
@@ -210,7 +210,7 @@ public partial class TAOWControl : TAoWComponent
     }
 
     // AoWControl.pas:201
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         if (X < FAOWWindow.FWinLeft + FWinLeft || X > FAOWWindow.FWinLeft + FWinLeft + FWinWidth - 1 || Y < FAOWWindow.FWinTop + FWinTop || Y > FAOWWindow.FWinTop + FWinTop + FWinHeight - 1)
         {
@@ -227,13 +227,13 @@ public partial class TAOWControl : TAoWComponent
     }
 
     // AoWControl.pas:59
-    public void SetAOWWindow(TAOWBaseWindow Value)
+    public void SetAOWWindow(AOWBaseWindow Value)
     {
         SetOwner(Value);
     }
 
     // AoWControl.pas:70
-    public void SetToolStrings(TStringList Value)
+    public void SetToolStrings(StringList Value)
     {
         FToolTipText.Clear();
         for (int I = 0, last = Value.Count - 1; I <= last; I++)
@@ -244,63 +244,63 @@ public partial class TAOWControl : TAoWComponent
     }
 
     [Published]
-    public TAOWBaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
+    public AOWBaseWindow AOWWindow { get => FAOWWindow; set => SetAOWWindow(value); }
 
     [Published]
-    public TAOWToolTip ToolTip { get => FToolTip; set => FToolTip = value; }
+    public AOWToolTip ToolTip { get => FToolTip; set => FToolTip = value; }
 
     [Published]
-    public TStringList ToolTipText { get => FToolTipText; set => SetToolStrings(value); }
+    public StringList ToolTipText { get => FToolTipText; set => SetToolStrings(value); }
 
-    public new TNotifyEvent<TAOWControl> OnChange
+    public new NotifyEvent<AOWControl> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWControl> OnMouseDown
+    public new MouseEvent<AOWControl> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWControl> OnMouseUp
+    public new MouseEvent<AOWControl> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWControl> OnMouseMove
+    public new MouseMoveEvent<AOWControl> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWControl> OnKeyPress
+    public new KeyPressEvent<AOWControl> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWControl> OnKeyDown
+    public new KeyEvent<AOWControl> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWControl> OnPreDraw
+    public new AoWOnDrawEvent<AOWControl> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWControl> OnDraw
+    public new AoWOnDrawEvent<AOWControl> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWControl> OnUpdate
+    public new NotifyEvent<AOWControl> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

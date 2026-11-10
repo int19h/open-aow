@@ -22,7 +22,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private const sbyte OtherPlayer = 2;
 
     private static Type[] StructureTypes() => EClass.All
-        .Where(c => typeof(TStructure).IsAssignableFrom(c.Type))
+        .Where(c => typeof(Structure).IsAssignableFrom(c.Type))
         .Select(c => c.Type).OrderBy(t => t.Name, StringComparer.Ordinal).ToArray();
 
     // The original's army query on the structure's field tells that a kind action ran. No army
@@ -31,9 +31,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         internal int ArmyQueries;
 
-        public override TEObject FindOwnedChild(int AClassID)
+        public override EObject FindOwnedChild(int AClassID)
         {
-            if (AClassID == TArmyHS.ClassID) ArmyQueries++;
+            if (AClassID == ArmyHS.ClassID) ArmyQueries++;
             return null!;
         }
     }
@@ -44,7 +44,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             $"{(Owned ? "owned" : "other")}{(Debug ? ",debug" : "")}{(Building ? ",building" : "")}{(Razed ? ",razed" : "")}{(War ? ",war" : "")}";
     }
 
-    private static bool Razeable(Type type) => type.GetMethod(nameof(TStructure.GetRazed))!.DeclaringType != typeof(TStructure);
+    private static bool Razeable(Type type) => type.GetMethod(nameof(Structure.GetRazed))!.DeclaringType != typeof(Structure);
 
     private static IEnumerable<State> States(Type type)
     {
@@ -52,19 +52,19 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (bool debug in new[] { false, true })
                 foreach (bool building in new[] { false, true })
                     foreach (bool razed in Razeable(type) ? new[] { false, true } : [false])
-                        foreach (bool war in type == typeof(TCity) ? new[] { false, true } : [false])
+                        foreach (bool war in type == typeof(City) ? new[] { false, true } : [false])
                             yield return new State(owned, debug, building, razed, war);
     }
 
-    private static void Apply(TStructure structure, State state)
+    private static void Apply(Structure structure, State state)
     {
-        if (structure is TPlayerStructure player) player.FPlayer = state.Owned ? Viewer : OtherPlayer;
+        if (structure is PlayerStructure player) player.FPlayer = state.Owned ? Viewer : OtherPlayer;
         Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug = state.Debug;
         structure.FBuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
         if (state.Razed) Raze(structure);
-        if (structure is TCity city)
+        if (structure is City city)
         {
-            var war = TSet<TCityModeElement>.Of(TCityModeElement.cmWarmode);
+            var war = Set<Aow.Game.World.Structures.City.ModeElement>.Of(Aow.Game.World.Structures.City.ModeElement.Warmode);
             city.FMode = state.War ? city.FMode + war : city.FMode - war;
         }
         Assert.Equal(state.Razed, structure.GetRazed());
@@ -72,74 +72,74 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     }
 
     // Each GetRazed override reads a field of its own.
-    private static void Raze(TStructure structure)
+    private static void Raze(Structure structure)
     {
         switch (structure)
         {
-            case TCity city: city.FMode = city.FMode + TSet<TCityModeElement>.Of(TCityModeElement.cmRazed); break;
-            case TFarm farm: farm.FMode = farm.FMode + TSet<TFarmModeElement>.Of(TFarmModeElement.fmRazed); break;
-            case TMine mine: mine.FState |= 1; break;
-            case TPowerNode node: node.FState = node.FState + TSet<TPowerNodeStateElement>.Of(TPowerNodeStateElement.pnsRazed); break;
-            case TProductionPlace place: place.FRazedState = 1; break;
-            case TTeleport teleport: teleport.FState = teleport.FState + TSet<TTeleportStateElement>.Of(TTeleportStateElement.tsRazed); break;
-            case TTower tower: tower.FState = tower.FState + TSet<TTowerStateElement>.Of(TTowerStateElement.tsRazed); break;
-            case TAltar altar: altar.FMode = TAltarMode.amRazed; break;
+            case City city: city.FMode = city.FMode + Set<Aow.Game.World.Structures.City.ModeElement>.Of(Aow.Game.World.Structures.City.ModeElement.Razed); break;
+            case Farm farm: farm.FMode = farm.FMode + Set<Aow.Game.World.Structures.Farm.ModeElement>.Of(Aow.Game.World.Structures.Farm.ModeElement.Razed); break;
+            case Mine mine: mine.FState |= 1; break;
+            case PowerNode node: node.FState = node.FState + Set<Aow.Game.World.Structures.PowerNode.StateElement>.Of(Aow.Game.World.Structures.PowerNode.StateElement.Razed); break;
+            case ProductionPlace place: place.FRazedState = 1; break;
+            case Teleport teleport: teleport.FState = teleport.FState + Set<Aow.Game.World.Structures.Teleport.StateElement>.Of(Aow.Game.World.Structures.Teleport.StateElement.Razed); break;
+            case Tower tower: tower.FState = tower.FState + Set<Aow.Game.World.Structures.Tower.StateElement>.Of(Aow.Game.World.Structures.Tower.StateElement.Razed); break;
+            case Altar altar: altar.FMode = Aow.Game.World.Structures.Altar.Mode.Razed; break;
             default: throw new InvalidOperationException("no razed state for " + structure.GetType().Name);
         }
     }
 
     // AoWInfoWin.pas:616 ShowStructureInfo.
-    private static string OldInfoPanel(TStructure Structure, sbyte Seated)
+    private static string OldInfoPanel(Structure Structure, sbyte Seated)
     {
         if (Structure.GetBuilding()) return "Building";
         if (Structure.GetRazed()) return "Razed";
-        if (Structure is TPlayerStructure)
+        if (Structure is PlayerStructure)
         {
-            if (((TPlayerStructure)Structure).FPlayer == Seated || Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+            if (((PlayerStructure)Structure).FPlayer == Seated || Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
             {
-                if (Structure is TCity) return ((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode) ? "WarCity" : "City";
-                if (Structure is TProductionPlace) return ((TProductionPlace)Structure).GetMagicSphere() == TMagicSphere.msNone ? "Production" : "ProductionIncome";
-                if (Structure is TMine) return "Mine";
-                if (Structure is TPowerNode) return "PowerNode";
-                if (Structure is TFarm) return "Farm";
-                if (Structure is TTower) return "WatchTower";
-                if (Structure is TAltar) return "Altar";
+                if (Structure is City) return ((City)Structure).FMode.Contains(Aow.Game.World.Structures.City.ModeElement.Warmode) ? "WarCity" : "City";
+                if (Structure is ProductionPlace) return ((ProductionPlace)Structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
+                if (Structure is Mine) return "Mine";
+                if (Structure is PowerNode) return "PowerNode";
+                if (Structure is Farm) return "Farm";
+                if (Structure is Tower) return "WatchTower";
+                if (Structure is Altar) return "Altar";
                 return "Generic";
             }
-            if (Structure is TCity && ((TCity)Structure).FMode.Contains(TCityModeElement.cmWarmode)) return "WarCity";
+            if (Structure is City && ((City)Structure).FMode.Contains(Aow.Game.World.Structures.City.ModeElement.Warmode)) return "WarCity";
             return "OtherPlayer";
         }
-        if (Structure is TSign) return "Sign";
-        if (Structure is TCave) return "Cave";
-        if (Structure is TTeleport) return "Teleport";
-        if (Structure is TExplorationSite) return "ExplorationSite";
-        if (Structure is TWizardsTower) return "WizardsTower";
-        if (Structure is TArena) return "Arena";
+        if (Structure is Sign) return "Sign";
+        if (Structure is Cave) return "Cave";
+        if (Structure is Teleport) return "Teleport";
+        if (Structure is ExplorationSite) return "ExplorationSite";
+        if (Structure is WizardsTower) return "WizardsTower";
+        if (Structure is Arena) return "Arena";
         return "Generic";
     }
 
     // AoWInfoWin.pas:190 MainBtnClick, the structure branch. The altar arm runs with targeting
     // under way, so it cancels the targeting.
-    private static string OldInfoButton(TStructure Structure)
+    private static string OldInfoButton(Structure Structure)
     {
-        if (Structure is TCity) return "CityScreen";
-        if (Structure is TProductionPlace) return "ProductionScreen";
-        if (Structure is TCave) return "Action(TCave)";
-        if (Structure is TTeleport) return "Action(TTeleport)";
-        if (Structure is TExplorationSite) return "Action(TExplorationSite)";
-        if (Structure is TWizardsTower) return "Action(TWizardsTower)";
-        if (Structure is TArena) return "Action(TArena)";
-        if (Structure is TAltar) return "Action(TAltar)";
+        if (Structure is City) return "CityScreen";
+        if (Structure is ProductionPlace) return "ProductionScreen";
+        if (Structure is Cave) return "Action(Cave)";
+        if (Structure is Teleport) return "Action(Teleport)";
+        if (Structure is ExplorationSite) return "Action(ExplorationSite)";
+        if (Structure is WizardsTower) return "Action(WizardsTower)";
+        if (Structure is Arena) return "Action(Arena)";
+        if (Structure is Altar) return "Action(Altar)";
         return "None";
     }
 
     // aowMapEvents.pas:518 TheMapStructureDblClick, past the selected structure test.
-    private static string OldDoubleClick(TStructure Structure, sbyte Seated)
+    private static string OldDoubleClick(Structure Structure, sbyte Seated)
     {
-        if (Structure is TCity && ((TCity)Structure).FPlayer == Seated) return "CityScreen";
-        if (Structure is TProductionPlace && ((TProductionPlace)Structure).CanDblClick() && ((TPlayerStructure)Structure).FPlayer == Seated) return "ProductionScreen";
-        if (Structure is TWizardsTower) return "Action(TWizardsTower)";
-        if (Structure is TArena) return "Action(TArena)";
+        if (Structure is City && ((City)Structure).FPlayer == Seated) return "CityScreen";
+        if (Structure is ProductionPlace && ((ProductionPlace)Structure).CanDblClick() && ((PlayerStructure)Structure).FPlayer == Seated) return "ProductionScreen";
+        if (Structure is WizardsTower) return "Action(WizardsTower)";
+        if (Structure is Arena) return "Action(Arena)";
         return "None";
     }
 
@@ -206,22 +206,22 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
         private readonly bool previousDebug = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug;
-        private readonly List<TStructure> created = [];
-        internal readonly TAoWHSMap Map;
+        private readonly List<Structure> created = [];
+        internal readonly AoWHSMap Map;
 
         internal Scene()
         {
-            Map = new TAoWHSMap(null!);
+            Map = new AoWHSMap(null!);
             Map.FSeatedPlayer = Viewer;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
+            Aow.Game.World.Map.AoWHSMap.Current = Map;
         }
 
-        internal (TStructure Structure, ArmyOwner Owner) Create(Type type)
+        internal (Structure Structure, ArmyOwner Owner) Create(Type type)
         {
             var owner = new ArmyOwner();
-            var structure = (TStructure)EClass.Of(type).Create(owner);
+            var structure = (Structure)EClass.Of(type).Create(owner);
             Assert.IsType(type, structure);
             created.Add(structure);
             return (structure, owner);
@@ -229,7 +229,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
+            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug = previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (var structure in created) _ = Record.Exception(structure.Dispose);
@@ -248,8 +248,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         var types = StructureTypes();
         Assert.Equal(42, types.Length);
-        Assert.Contains(typeof(TStructure), types);
-        Assert.DoesNotContain(types, t => t.Assembly != typeof(TStructure).Assembly);
+        Assert.Contains(typeof(Structure), types);
+        Assert.DoesNotContain(types, t => t.Assembly != typeof(Structure).Assembly);
     }
 
     [Fact]
@@ -267,7 +267,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 Apply(structure, state);
                 string expected = OldInfoPanel(structure, Viewer);
                 var view = structure.InfoPanel(Viewer);
-                Assert.True(TIWindow.StructurePanels.TryGet(view, out _), $"{type.Name} {state}: no panel renderer for {view}");
+                Assert.True(IWindow.StructurePanels.TryGet(view, out _), $"{type.Name} {state}: no panel renderer for {view}");
                 if (view.Name != expected) mismatches.Add($"{type.Name} {state}: {view.Name}, old cascade {expected}");
                 row.Add($"{state}={view.Name}");
                 // A razed state has no plain reset in every kind, so the next state starts from a new instance.
@@ -289,20 +289,20 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (bool owned in new[] { true, false })
             {
                 var (structure, owner) = scene.Create(type);
-                if (structure is TPlayerStructure player) player.FPlayer = owned ? Viewer : OtherPlayer;
+                if (structure is PlayerStructure player) player.FPlayer = owned ? Viewer : OtherPlayer;
                 // Targeting under way from this structure, the state the altar arm tests first.
                 var selection = scene.Map.FTargetSelection;
-                selection.FStatus = TSet<TTargetSelectionStatusElement>.Of(TTargetSelectionStatusElement.tsActivated);
+                selection.FStatus = Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
                 selection.FSource = structure;
                 int queries = owner.ArmyQueries;
                 string expected = OldInfoButton(structure);
                 var view = structure.InfoButton(Viewer);
-                bool cancelled = !selection.FStatus.Contains(TTargetSelectionStatusElement.tsActivated);
-                selection.FStatus = TSet<TTargetSelectionStatusElement>.Of();
+                bool cancelled = !selection.FStatus.Contains(TargetSelectionStatusElement.Activated);
+                selection.FStatus = Set<TargetSelectionStatusElement>.Of();
                 selection.FSource = null;
                 if (view != StructureView.None)
-                    Assert.True(TIWindow.StructureButtons.TryGet(view, out _), $"{type.Name}: no button renderer for {view}");
-                string actual = Observed(view, type, nameof(TStructure.InfoButton), owner, queries, cancelled);
+                    Assert.True(IWindow.StructureButtons.TryGet(view, out _), $"{type.Name}: no button renderer for {view}");
+                string actual = Observed(view, type, nameof(Structure.InfoButton), owner, queries, cancelled);
                 if (actual != expected) mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
                 output.WriteLine($"{type.Name} {(owned ? "owned" : "other")}: {actual}");
             }
@@ -320,15 +320,15 @@ public sealed class StructureViewTests(ITestOutputHelper output)
             foreach (bool owned in new[] { true, false })
             {
                 var (structure, owner) = scene.Create(type);
-                if (structure is TPlayerStructure player) player.FPlayer = owned ? Viewer : OtherPlayer;
+                if (structure is PlayerStructure player) player.FPlayer = owned ? Viewer : OtherPlayer;
                 int queries = owner.ArmyQueries;
                 string expected = OldDoubleClick(structure, Viewer);
                 // The old cascade only names the arm, so the army count is unchanged here.
                 Assert.Equal(queries, owner.ArmyQueries);
                 var view = structure.DoubleClick(Viewer);
                 if (view != StructureView.None)
-                    Assert.True(TMapEvents.StructureScreens.TryGet(view, out _), $"{type.Name}: no screen renderer for {view}");
-                string actual = Observed(view, type, nameof(TStructure.DoubleClick), owner, queries, false);
+                    Assert.True(MapEvents.StructureScreens.TryGet(view, out _), $"{type.Name}: no screen renderer for {view}");
+                string actual = Observed(view, type, nameof(Structure.DoubleClick), owner, queries, false);
                 if (actual != expected) mismatches.Add($"{type.Name} {(owned ? "owned" : "other")}: {actual}, old cascade {expected}");
                 output.WriteLine($"{type.Name} {(owned ? "owned" : "other")}: {actual}");
             }
@@ -356,7 +356,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                             Runtime.RandSeed = 0x5EED + pattern.Length;
                             var site = new CombatMapSite(siteCombat, randomTerrain, (direction, kind) =>
                             {
-                                Assert.Equal(typeof(TCity), kind);
+                                Assert.Equal(typeof(City), kind);
                                 return pattern.Contains(direction);
                             });
                             string actual = structure.CombatMapName(site);
@@ -388,12 +388,12 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         var resolved = new StringBuilder();
         foreach (var type in StructureTypes())
         {
-            var declaring = type.GetMethod(nameof(TStructure.CombatMapName))!.DeclaringType!;
-            Assert.True(declaring == type || declaring == typeof(TStructure), $"{type.Name} inherits CombatMapName from {declaring.Name}");
+            var declaring = type.GetMethod(nameof(Structure.CombatMapName))!.DeclaringType!;
+            Assert.True(declaring == type || declaring == typeof(Structure), $"{type.Name} inherits CombatMapName from {declaring.Name}");
             var owner = type.GetMethod("OwnerPanel", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic);
-            resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(TStructure.InfoPanel))}" +
+            resolved.AppendLine($"{type.Name}: InfoPanel {Declaring(type, nameof(Structure.InfoPanel))}" +
                 (owner is null ? "" : $" (OwnerPanel {owner.DeclaringType!.Name})") + ", " +
-                $"InfoButton {Declaring(type, nameof(TStructure.InfoButton))}, DoubleClick {Declaring(type, nameof(TStructure.DoubleClick))}, " +
+                $"InfoButton {Declaring(type, nameof(Structure.InfoButton))}, DoubleClick {Declaring(type, nameof(Structure.DoubleClick))}, " +
                 $"CombatMapName {declaring.Name}");
         }
         output.WriteLine(resolved.ToString());
@@ -402,13 +402,13 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     [Fact]
     public void TheScreensRegisterEveryOriginalView()
     {
-        Assert.Equal(19, TIWindow.StructurePanels.All.Count);
-        Assert.Equal(2, TIWindow.StructureButtons.All.Count);
-        Assert.Equal(2, TMapEvents.StructureScreens.All.Count);
-        Assert.False(TIWindow.StructureButtons.TryGet(StructureView.None, out _));
-        Assert.False(TMapEvents.StructureScreens.TryGet(StructureView.None, out _));
+        Assert.Equal(19, IWindow.StructurePanels.All.Count);
+        Assert.Equal(2, IWindow.StructureButtons.All.Count);
+        Assert.Equal(2, MapEvents.StructureScreens.All.Count);
+        Assert.False(IWindow.StructureButtons.TryGet(StructureView.None, out _));
+        Assert.False(MapEvents.StructureScreens.TryGet(StructureView.None, out _));
         var duplicate = Assert.Throws<InvalidOperationException>(() =>
-            TIWindow.StructurePanels.Add(StructureView.Generic, static (_, _) => { }));
+            IWindow.StructurePanels.Add(StructureView.Generic, static (_, _) => { }));
         Assert.Contains("structure info panel", duplicate.Message);
     }
 }

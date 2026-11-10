@@ -6,8 +6,9 @@ namespace Aow.Rtl;
 // Names the port stores and the names original game files store.
 // One row names one type or one enum member.
 // Delphi is the name in an original file. Stored is the name in our own documents.
-// A lookup takes the current name first and then an old name from the table.
-// A type with no row uses its C# name for both.
+// A nested type stores Owner.Nested, the declaring-type chain, with no namespace.
+// A lookup takes the current stored name first and then an old name from the table.
+// A type with no row stores that declaring-type chain and reports its simple name as the Delphi name.
 public static class NameTable
 {
     private static readonly object gate = new();
@@ -28,7 +29,9 @@ public static class NameTable
     public static string Stored(Type type)
     {
         ArgumentNullException.ThrowIfNull(type);
-        return SimpleName(Definition(type));
+        var defined = Definition(type);
+        var table = Current();
+        return table.StoredByCurrent.TryGetValue(QualifiedName(defined), out var stored) ? stored : DeclaringChain(defined);
     }
 
     public static string DelphiMember(Type enumType, string member)
@@ -46,21 +49,35 @@ public static class NameTable
         return TryMember(enumType, member, out var current) ? current : member;
     }
 
+    public static string? DelphiName(string stored)
+    {
+        ArgumentNullException.ThrowIfNull(stored);
+        var table = Current();
+        if (!table.TypeByStored.TryGetValue(stored, out var rows)) return null;
+        string? delphi = null;
+        foreach (var row in rows)
+        {
+            if (delphi is null) delphi = row.Delphi;
+            else if (delphi != row.Delphi) return null;
+        }
+        return delphi;
+    }
+
     public static string? ResolveStored(string name)
     {
         ArgumentNullException.ThrowIfNull(name);
         var table = Current();
-        if (table.TypeBySimple.ContainsKey(name)) return name;
+        if (table.TypeByStored.ContainsKey(name)) return name;
         if (!table.TypeByDelphi.TryGetValue(name, out var rows)) return null;
-        string? simple = null;
+        string? stored = null;
         foreach (var row in rows)
         {
-            string current = Simple(row.Current);
-            if (simple is null) simple = current;
-            else if (simple != current)
+            string current = table.StoredByCurrent[row.Current];
+            if (stored is null) stored = current;
+            else if (stored != current)
                 throw new InvalidOperationException("The stored name " + name + " maps to more than one current name.");
         }
-        return simple;
+        return stored;
     }
 
     public static bool TryMember(Type enumType, string text, out string member)
@@ -93,15 +110,15 @@ public static class NameTable
         ArgumentNullException.ThrowIfNull(name);
         var table = Current();
         string? resolved = ResolveStored(name);
-        string simple = resolved ?? name;
+        string stored = resolved ?? name;
         List<NameRow>? rows = null;
-        if (table.TypeBySimple.TryGetValue(name, out var bySimple)) rows = bySimple;
+        if (table.TypeByStored.TryGetValue(name, out var byStored)) rows = byStored;
         else if (resolved is not null && table.TypeByDelphi.TryGetValue(name, out var byDelphi)) rows = byDelphi;
         var matches = new List<Type>();
         foreach (var type in Scan())
         {
             var defined = Definition(type);
-            if (SimpleName(defined) != simple) continue;
+            if (Stored(defined) != stored) continue;
             if (rows is not null)
             {
                 string qualified = QualifiedName(defined);
@@ -197,6 +214,15 @@ public static class NameTable
 
     private static string SimpleName(Type type) => type.Name.TrimStart('@');
 
+    private static string DeclaringChain(Type type)
+    {
+        var parts = new List<string>();
+        for (var current = type; current is not null; current = current.DeclaringType)
+            parts.Add(SimpleName(current));
+        parts.Reverse();
+        return string.Join('.', parts);
+    }
+
     private static string Simple(string qualified)
     {
         int dot = qualified.LastIndexOf('.');
@@ -219,7 +245,8 @@ public static class NameTable
     {
         internal NameRow[] Rows { get; private init; } = [];
         internal Dictionary<string, NameRow> TypeByCurrent { get; private init; } = [];
-        internal Dictionary<string, List<NameRow>> TypeBySimple { get; private init; } = [];
+        internal Dictionary<string, string> StoredByCurrent { get; private init; } = [];
+        internal Dictionary<string, List<NameRow>> TypeByStored { get; private init; } = [];
         internal Dictionary<string, List<NameRow>> TypeByDelphi { get; private init; } = [];
         internal Dictionary<(string Enum, string Member), string> MemberCurrent { get; private init; } = [];
         internal Dictionary<(string Enum, string Member), string> MemberDelphi { get; private init; } = [];
@@ -319,7 +346,6 @@ public static class NameTable
         private static Table Index(List<NameRow> rows)
         {
             var typeByCurrent = new Dictionary<string, NameRow>();
-            var typeBySimple = new Dictionary<string, List<NameRow>>();
             var typeByDelphi = new Dictionary<string, List<NameRow>>();
             var memberCurrent = new Dictionary<(string, string), string>();
             var memberDelphi = new Dictionary<(string, string), string>();
@@ -331,7 +357,6 @@ public static class NameTable
                 if (row.Kind == "type")
                 {
                     typeByCurrent.Add(row.Current, row);
-                    Add(typeBySimple, Simple(row.Current), row);
                     Add(typeByDelphi, row.Delphi, row);
                     continue;
                 }
@@ -349,15 +374,136 @@ public static class NameTable
                 if (!memberDelphi.TryAdd((enumName, currentMember), delphiMember))
                     throw new InvalidOperationException("The name table repeats member " + row.Current + ".");
             }
+            var storedByCurrent = AssignStored(rows);
+            var typeByStored = new Dictionary<string, List<NameRow>>();
+            foreach (var row in rows)
+            {
+                if (row.Kind != "type") continue;
+                Add(typeByStored, storedByCurrent[row.Current], row);
+            }
             return new Table
             {
                 Rows = rows.ToArray(),
                 TypeByCurrent = typeByCurrent,
-                TypeBySimple = typeBySimple,
+                StoredByCurrent = storedByCurrent,
+                TypeByStored = typeByStored,
                 TypeByDelphi = typeByDelphi,
                 MemberCurrent = memberCurrent,
                 MemberDelphi = memberDelphi,
             };
+        }
+
+        // A current name that is a dotted prefix of another current name is that type's owner.
+        // The measurement against reflection found no prefix that is only a namespace.
+        // Two types that share a stored name and differ in their Delphi names cannot both keep
+        // the short name. The one whose Delphi name is already that short name keeps it.
+        // The other gains namespace segments from the right until the stored name is free.
+        // TPropertyTable is Engine.PropertyTable beside the formats type PropertyTable.
+        private static Dictionary<string, string> AssignStored(List<NameRow> rows)
+        {
+            var names = new HashSet<string>();
+            var delphiOf = new Dictionary<string, string>();
+            foreach (var row in rows)
+            {
+                if (row.Kind != "type") continue;
+                names.Add(row.Current);
+                delphiOf.Add(row.Current, row.Delphi);
+            }
+            var ownerOf = new Dictionary<string, string?>();
+            foreach (var name in names) ownerOf[name] = Owner(name, names);
+            var ordered = new List<string>(names);
+            ordered.Sort((left, right) =>
+            {
+                int length = left.Length.CompareTo(right.Length);
+                return length != 0 ? length : Cp1252.Compare(left, right);
+            });
+            var stored = new Dictionary<string, string>();
+            foreach (var name in ordered)
+            {
+                string? owner = ownerOf[name];
+                stored[name] = owner is null ? Simple(name) : stored[owner] + name[owner.Length..];
+            }
+            var groups = new Dictionary<string, List<string>>();
+            foreach (var pair in stored)
+            {
+                if (!groups.TryGetValue(pair.Value, out var list)) groups[pair.Value] = list = [];
+                list.Add(pair.Key);
+            }
+            var pinned = new HashSet<string>();
+            foreach (var group in groups)
+            {
+                if (group.Value.Count < 2) continue;
+                var delphis = new HashSet<string>();
+                foreach (var member in group.Value) delphis.Add(delphiOf[member]);
+                if (delphis.Count < 2) continue;
+                foreach (var member in group.Value)
+                {
+                    if (delphiOf[member] == group.Key) continue;
+                    stored[member] = Qualify(member, group.Key, stored, names);
+                    pinned.Add(member);
+                }
+            }
+            bool changed = true;
+            while (changed)
+            {
+                changed = false;
+                foreach (var name in ordered)
+                {
+                    if (pinned.Contains(name)) continue;
+                    string? owner = ownerOf[name];
+                    if (owner is null) continue;
+                    string next = stored[owner] + name[owner.Length..];
+                    if (stored[name] == next) continue;
+                    stored[name] = next;
+                    changed = true;
+                }
+            }
+            var seen = new Dictionary<string, string>();
+            foreach (var pair in stored)
+            {
+                if (!seen.TryGetValue(pair.Value, out var first))
+                {
+                    seen[pair.Value] = delphiOf[pair.Key];
+                    continue;
+                }
+                if (first != delphiOf[pair.Key])
+                    throw new InvalidOperationException("The stored name " + pair.Value + " is shared by " + first + " and " + delphiOf[pair.Key] + ".");
+            }
+            return stored;
+        }
+
+        private static string? Owner(string name, HashSet<string> names)
+        {
+            for (int dot = name.LastIndexOf('.'); dot > 0; dot = name.LastIndexOf('.', dot - 1))
+                if (names.Contains(name[..dot])) return name[..dot];
+            return null;
+        }
+
+        private static string Qualify(string qualified, string baseStored, Dictionary<string, string> stored, HashSet<string> names)
+        {
+            string ns = NamespaceOf(qualified, names);
+            string[] parts = ns.Length == 0 ? [] : ns.Split('.');
+            var used = new HashSet<string>(stored.Values);
+            string candidate = baseStored;
+            for (int i = parts.Length - 1; i >= 0; i--)
+            {
+                candidate = parts[i] + "." + candidate;
+                if (!used.Contains(candidate)) return candidate;
+            }
+            throw new InvalidOperationException("The stored name " + baseStored + " has no free qualification for " + qualified + ".");
+        }
+
+        private static string NamespaceOf(string qualified, HashSet<string> names)
+        {
+            string[] parts = qualified.Split('.');
+            int start = parts.Length - 1;
+            for (int i = 1; i <= parts.Length; i++)
+            {
+                if (!names.Contains(string.Join('.', parts[..i]))) continue;
+                start = i - 1;
+                break;
+            }
+            return start <= 0 ? "" : string.Join('.', parts[..start]);
         }
 
         private static void Add(Dictionary<string, List<NameRow>> index, string key, NameRow row)

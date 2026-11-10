@@ -13,53 +13,53 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TPInfoW : TDataModule
+public partial class PInfoW : DataModule
 {
-    public TPInfoW(TComponent owner) : base(owner)
+    public PInfoW(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow PInfoWin;
-    public TAOWButton Min;
-    public TAOWLabel IWTitle;
-    public TAOWImage SIcon;
-    public TAOWListBox EventList;
-    public TAOWLabel LeadL;
-    public TAOWLabel Turn;
-    public TAOWImage RShield;
-    public TAOWPanel EventFr;
-    public TAOWVScrollBar EventSB;
-    public TAOWPanel PInfoPnl;
-    public TAOWCheckBox LeaderCB;
-    public TAOWPanel FaceFr;
-    public TAOWLabel EventLbl;
-    public TAOWPanel ShieldFr;
-    public TAOWPanel TurnFr;
-    public TAOWPanel InfoFr;
-    public TAOWLabel Player;
-    public TAOWLabel Race;
-    public TAOWCheckBox RaceCB;
-    public TAOWButton Center;
-    public TAOWButton Help;
-    public TIvTranslator Translator;
+    public AOWWindow PInfoWin;
+    public AOWButton Min;
+    public AOWLabel IWTitle;
+    public AOWImage SIcon;
+    public AOWListBox EventList;
+    public AOWLabel LeadL;
+    public AOWLabel Turn;
+    public AOWImage RShield;
+    public AOWPanel EventFr;
+    public AOWVScrollBar EventSB;
+    public AOWPanel PInfoPnl;
+    public AOWCheckBox LeaderCB;
+    public AOWPanel FaceFr;
+    public AOWLabel EventLbl;
+    public AOWPanel ShieldFr;
+    public AOWPanel TurnFr;
+    public AOWPanel InfoFr;
+    public AOWLabel Player;
+    public AOWLabel Race;
+    public AOWCheckBox RaceCB;
+    public AOWButton Center;
+    public AOWButton Help;
+    public IvTranslator Translator;
 
     // AoWPInfoWin.pas:173
     public void UpdatePlayer()
     {
         int RaceIndex;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer > -1)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer > -1)
         {
-            var name = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetName();
+            var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetName();
             Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.Player.Text = name;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != 0)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != 0)
             {
-                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
                 var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
                 Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.Race.Text = raceNamesPlural;
             }
 
             var day = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DayRStr);
-            Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.Turn.Text = day + " " + IntToStr(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay);
-            RaceIndex = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FPlayerRace;
+            Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.Turn.Text = day + " " + IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FDay);
+            RaceIndex = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FPlayerRace;
             if (RaceIndex == -1)
             {
                 RaceIndex = 12;
@@ -74,9 +74,9 @@ public partial class TPInfoW : TDataModule
     public void UpdateEvents()
     {
         EventList.Items.Clear();
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer > -1)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer > -1)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FEventLogbook.ListEvents(EventList.Items);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FEventLogbook.ListEvents(EventList.Items);
         }
 
         var count = EventList.Items.Count;
@@ -94,32 +94,32 @@ public partial class TPInfoW : TDataModule
     public void EventListDoubleClick()
     {
         var objectValue = EventList.Items.Objects[EventList.Selected];
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, TExecuteTrigger.etUser, null);
+        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).Execute(true, ExecuteTrigger.User, null);
     }
 
     // AoWPInfoWin.pas:78
-    public void EventListPreDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void EventListPreDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SD)
     {
         if (DrawItem != EventList.Selected)
         {
             var objectValue = EventList.Items.Objects[DrawItem];
-            var textColor = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
+            var textColor = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetTextColor();
             EventList.TextColor = textColor;
         }
     }
 
     // AoWPInfoWin.pas:85
-    public void EventListDrawItem(in TRect DrawRect, int DrawItem, ref TSurfaceDesc SD)
+    public void EventListDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SD)
     {
         int LeftIcon;
         int MiddleIcon;
         int RightIcon;
         var objectValue = EventList.Items.Objects[DrawItem];
-        LeftIcon = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
+        LeftIcon = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).GetLeftIcon();
         var objectValue2 = EventList.Items.Objects[DrawItem];
-        MiddleIcon = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
+        MiddleIcon = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue2)).GetMiddleIcon();
         var objectValue3 = EventList.Items.Objects[DrawItem];
-        RightIcon = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
+        RightIcon = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue3)).GetRightIcon();
         if (LeftIcon > -1)
         {
             if (MiddleIcon == -1)
@@ -152,12 +152,12 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:109
-    public void EventListMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void EventListMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        if (EventList.Selected > -1 && Button == TMouseButton.mbRight)
+        if (EventList.Selected > -1 && Button == MouseButton.Right)
         {
             var objectValue = EventList.Items.Objects[EventList.Selected];
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FEventLogbook.GetLogs(ObjectToInt(objectValue)).ViewLocation();
         }
     }
 
@@ -168,13 +168,13 @@ public partial class TPInfoW : TDataModule
         sbyte Y = default;
         sbyte L = default;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FLeader != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FLeader != null)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetLeaderLocation(ref X, ref Y, ref L);
             if (X > -1)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(X, Y, L);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlayCenterAnimation(X, Y, L);
+                Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(X, Y, L);
+                Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(X, Y, L);
             }
         }
     }
@@ -186,38 +186,38 @@ public partial class TPInfoW : TDataModule
     }
 
     // AoWPInfoWin.pas:137
-    public void FaceFrDraw(TSurfaceDesc SD)
+    public void FaceFrDraw(SurfaceDesc SD)
     {
-        TRect R;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer > -1)
+        global::Aow.Rtl.Rect R;
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer > -1)
         {
-            R = Rect(FaceFr.WinLeft + 3, FaceFr.WinTop + 3, FaceFr.WinLeft + FaceFr.WinWidth - 3, FaceFr.WinTop + FaceFr.WinHeight - 3);
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFace() != null)
+            R = global::Aow.Rtl.RtlUnit.Rect(FaceFr.WinLeft + 3, FaceFr.WinTop + 3, FaceFr.WinLeft + FaceFr.WinWidth - 3, FaceFr.WinTop + FaceFr.WinHeight - 3);
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFace() != null)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFace().ShowStretched(R, SD);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFace().ShowStretched(R, SD);
             }
         }
     }
 
     // AoWPInfoWin.pas:149
-    public void FaceFrMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public void FaceFrMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         sbyte Xhx = default;
         sbyte Yhx = default;
         sbyte Lhx = default;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FLeader != null)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FLeader != null)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetLeaderLocation(ref Xhx, ref Yhx, ref Lhx);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetLeaderLocation(ref Xhx, ref Yhx, ref Lhx);
             if (Xhx > -1)
             {
-                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
                 Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = player.FLeader;
                 switch (Button)
                 {
-                    case TMouseButton.mbLeft:
+                    case MouseButton.Left:
                         Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
                         break;
-                    case TMouseButton.mbRight:
+                    case MouseButton.Right:
                         LeaderBtnClick();
                         break;
                 }
@@ -228,6 +228,6 @@ public partial class TPInfoW : TDataModule
     // AoWPInfoWin.pas:167
     public void HelpClick()
     {
-        Aow.Game.Ui.Dialogs.THelpWindow.ShowHelp(502);
+        Aow.Game.Ui.Dialogs.HelpWindow.ShowHelp(502);
     }
 }

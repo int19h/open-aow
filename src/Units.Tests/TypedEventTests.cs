@@ -37,9 +37,9 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void OneHandlerRunsFromAButtonAndAList()
     {
-        var owner = new TComponent(null!);
-        var button = new TAOWButton(owner);
-        var list = new TAOWListBox(owner);
+        var owner = new global::Aow.Rtl.Component(null!);
+        var button = new AOWButton(owner);
+        var list = new AOWListBox(owner);
         int runs = 0;
         void Open() => runs++;
         button.OnClick = _ => Open();
@@ -55,8 +55,8 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void BaseHandlerBindsToTheButtonEvent()
     {
-        var owner = new TComponent(null!);
-        var button = new TAOWButton(owner);
+        var owner = new global::Aow.Rtl.Component(null!);
+        var button = new AOWButton(owner);
         object? seen = null;
         void Ignore(object sender) => seen = sender;
         button.OnClick = Ignore;
@@ -70,27 +70,27 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void DerivedMouseEventRoundTripsThroughTheBaseSlot()
     {
-        var owner = new TComponent(null!);
-        var button = new TAOWButton(owner);
-        TAOWButton? seen = null;
-        TNotifyEvent<TAOWButton> click = sender => seen = sender;
+        var owner = new global::Aow.Rtl.Component(null!);
+        var button = new AOWButton(owner);
+        AOWButton? seen = null;
+        NotifyEvent<AOWButton> click = sender => seen = sender;
         button.OnClick = click;
         Assert.Same(click, button.OnClick);
         button.OnClick(button);
         Assert.Same(button, seen);
 
         int runs = 0;
-        TAoWComponent? mouseSender = null;
-        void Down(TAoWComponent sender, TMouseButton mouseButton, TSet<TShiftState> shift, int x, int y)
+        AoWComponent? mouseSender = null;
+        void Down(AoWComponent sender, MouseButton mouseButton, Set<ShiftState> shift, int x, int y)
         {
             runs++;
             mouseSender = sender;
         }
 
-        TAoWComponent component = button;
+        AoWComponent component = button;
         component.OnMouseDown = Down;
-        TMouseEvent<TAOWButton> saved = button.OnMouseDown;
-        saved(button, TMouseButton.mbLeft, default, 1, 2);
+        MouseEvent<AOWButton> saved = button.OnMouseDown;
+        saved(button, MouseButton.Left, default, 1, 2);
         Assert.Equal(1, runs);
         Assert.Same(button, mouseSender);
 
@@ -99,7 +99,7 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
         Assert.Null(component.OnMouseDown);
 
         button.OnMouseDown = saved;
-        button.FOnMouseDown(button, TMouseButton.mbLeft, default, 1, 2);
+        button.FOnMouseDown(button, MouseButton.Left, default, 1, 2);
         Assert.Equal(2, runs);
         Assert.Same(button, mouseSender);
         owner.Dispose();
@@ -108,10 +108,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void DirectCallPassesNoSender()
     {
-        using var owner = new TComponent(null!);
-        var window = new TRelWindow(owner);
-        window.SBGoldSlid = new TAOWHScrollBar(owner);
-        window.SBGoldV = new TAOWLabel(owner);
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var window = new RelWindow(owner);
+        window.SBGoldSlid = new AOWHScrollBar(owner);
+        window.SBGoldV = new AOWLabel(owner);
         window.SBGoldSlid.FPosition = 17;
 
         window.SBGoldSlidChange();
@@ -132,22 +132,22 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             muted = true;
         }
 
-        TFileDlgWindow dialog = null!;
-        var previousDirectories = Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories;
+        FileDlgWindow dialog = null!;
+        var previousDirectories = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories;
         try
         {
-            dialog = Load(new LayoutSession(), new TFileDlgWindow(null!), static module => { _ = module; });
+            dialog = Load(new LayoutSession(), new FileDlgWindow(null!), static module => { _ = module; });
             Assert.NotNull(dialog.Openbut.OnClick);
             Assert.NotNull(dialog.FileLB.OnDoubleClick);
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories = null!;
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = null!;
             var click = Assert.Throws<NullReferenceException>(() => dialog.Openbut.OnClick(dialog.Openbut));
             var doubleClick = Assert.Throws<NullReferenceException>(() => dialog.FileLB.OnDoubleClick(dialog.FileLB));
-            Assert.Contains(nameof(TFileDlgWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
-            Assert.Contains(nameof(TFileDlgWindow.OpenbutClick), doubleClick.ToString(), StringComparison.Ordinal);
+            Assert.Contains(nameof(FileDlgWindow.OpenbutClick), click.ToString(), StringComparison.Ordinal);
+            Assert.Contains(nameof(FileDlgWindow.OpenbutClick), doubleClick.ToString(), StringComparison.Ordinal);
         }
         finally
         {
-            Aow.Game.Ui.Dialogs.TFileDlgWindow.Directories = previousDirectories;
+            Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = previousDirectories;
             dialog?.Dispose();
             if (muted) system!.SetSFXEnabled(true);
             Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = previousImagePath;
@@ -157,36 +157,36 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void TwoLevelMouseDownFiresTheDerivedOwner()
     {
-        using var owner = new TComponent(null!);
-        var button = new TAOWButton(owner);
-        var other = new TAOWButton(owner);
-        TAOWButton? seen = null;
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var button = new AOWButton(owner);
+        var other = new AOWButton(owner);
+        AOWButton? seen = null;
         button.OnMouseDown = (sender, mouseButton, shift, x, y) => seen = sender;
-        TAOWBaseButton middle = button;
-        TMouseEvent<TAOWBaseButton> read = middle.OnMouseDown;
+        AOWBaseButton middle = button;
+        MouseEvent<AOWBaseButton> read = middle.OnMouseDown;
         Assert.NotSame(button.OnMouseDown, read);
 
-        button.FOnMouseDown(other, TMouseButton.mbLeft, default, 4, 5);
+        button.FOnMouseDown(other, MouseButton.Left, default, 4, 5);
 
         Assert.Same(button, seen);
-        read(other, TMouseButton.mbLeft, default, 4, 5);
+        read(other, MouseButton.Left, default, 4, 5);
         Assert.Same(button, seen);
     }
 
     [Fact]
     public void BaseReassignmentReplacesTheDerivedHandler()
     {
-        using var owner = new TComponent(null!);
-        var button = new TAOWButton(owner);
-        TAOWButton? seen = null;
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var button = new AOWButton(owner);
+        AOWButton? seen = null;
         button.OnMouseDown = (sender, mouseButton, shift, x, y) => seen = sender;
-        TAoWComponent component = button;
-        TAoWComponent? replaced = null;
-        TMouseEvent<TAoWComponent> replacement = (sender, mouseButton, shift, x, y) => replaced = sender;
+        AoWComponent component = button;
+        AoWComponent? replaced = null;
+        MouseEvent<AoWComponent> replacement = (sender, mouseButton, shift, x, y) => replaced = sender;
         component.OnMouseDown = replacement;
 
         Assert.Same(replacement, button.OnMouseDown);
-        button.FOnMouseDown(button, TMouseButton.mbLeft, default, 1, 2);
+        button.FOnMouseDown(button, MouseButton.Left, default, 1, 2);
 
         Assert.Null(seen);
         Assert.Same(button, replaced);
@@ -195,19 +195,19 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void SavedBaseFieldRestoresTheTypedHandler()
     {
-        using var owner = new TComponent(null!);
-        var button = new TAOWButton(owner);
-        var other = new TAOWButton(owner);
-        TAOWButton? seen = null;
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var button = new AOWButton(owner);
+        var other = new AOWButton(owner);
+        AOWButton? seen = null;
         byte key = 65;
-        TKeyPressEvent<TAOWButton> handler = (sender, ref pressed) =>
+        KeyPressEvent<AOWButton> handler = (sender, ref pressed) =>
         {
             seen = sender;
             pressed = 66;
         };
         button.OnKeyPress = handler;
-        TAoWComponent component = button;
-        TKeyPressEvent<TAoWComponent> saved = component.OnKeyPress;
+        AoWComponent component = button;
+        KeyPressEvent<AoWComponent> saved = component.OnKeyPress;
         button.OnKeyPress = null;
         Assert.Null(button.OnKeyPress);
         component.OnKeyPress = saved;
@@ -222,22 +222,22 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     [Fact]
     public void CopiedWrapperKeepsTheOriginalOwner()
     {
-        using var owner = new TComponent(null!);
-        var button = new TAOWButton(owner);
-        var other = new TAOWButton(owner);
-        TAOWButton? seen = null;
-        TMouseEvent<TAOWButton> handler = (sender, mouseButton, shift, x, y) => seen = sender;
+        using var owner = new global::Aow.Rtl.Component(null!);
+        var button = new AOWButton(owner);
+        var other = new AOWButton(owner);
+        AOWButton? seen = null;
+        MouseEvent<AOWButton> handler = (sender, mouseButton, shift, x, y) => seen = sender;
         button.OnMouseDown = handler;
         other.FOnMouseDown = button.FOnMouseDown;
 
         Assert.Same(button.FOnMouseDown, other.OnMouseDown);
         Assert.NotSame(handler, other.OnMouseDown);
-        other.FOnMouseDown(other, TMouseButton.mbLeft, default, 1, 2);
+        other.FOnMouseDown(other, MouseButton.Left, default, 1, 2);
 
         Assert.Same(button, seen);
     }
 
-    private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : TComponent, ILayoutModule
+    private static T Load<T>(LayoutSession session, T module, Action<T?> publish) where T : global::Aow.Rtl.Component, ILayoutModule
     {
         session.Load(module, publish);
         return module;
@@ -248,13 +248,13 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
     public sealed class Host : IDisposable
     {
         private readonly Action<string> previousMessage = Runtime.MessageHandler;
-        private readonly TIntGfxMod? previousGfx = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod;
-        private readonly TFontModule? previousFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule;
-        private readonly TGeneral? previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
-        private TIntGfxMod gfx = null!;
-        private TFontModule font = null!;
-        private TGeneral general = null!;
-        internal TEmailGameSettingsDlg Dialog = null!;
+        private readonly IntGfxMod? previousGfx = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod;
+        private readonly FontModule? previousFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule;
+        private readonly General? previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
+        private IntGfxMod gfx = null!;
+        private FontModule font = null!;
+        private General general = null!;
+        internal EmailGameSettingsDlg Dialog = null!;
 
         public Host()
         {
@@ -264,10 +264,10 @@ public sealed class TypedEventTests : IClassFixture<TypedEventTests.Host>
             try
             {
                 var session = new LayoutSession();
-                gfx = Load(session, new TIntGfxMod(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod = module);
-                font = Load(session, new TFontModule(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.FontModule = module);
-                general = Load(session, new TGeneral(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.General = module);
-                Dialog = Load(session, new TEmailGameSettingsDlg(null!), static module => { _ = module; });
+                gfx = Load(session, new IntGfxMod(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod = module);
+                font = Load(session, new FontModule(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.FontModule = module);
+                general = Load(session, new General(null!), module => Aow.Game.Ui.Dialogs.DialogHosts.General = module);
+                Dialog = Load(session, new EmailGameSettingsDlg(null!), static module => { _ = module; });
             }
             catch
             {

@@ -111,12 +111,12 @@ public sealed class DiplomaticProposalTests
         1 => new OfferPeace(Gold, Mana),
         2 => new ProposeAlliance(Gold, Mana),
         3 => new SendMessage(),
-        4 => new ThreatenToAttack(),
-        5 => new MakeTribute(Gold, Mana),
+        4 => new Aow.Game.Session.Player.ThreatenToAttack(),
+        5 => new Aow.Game.Session.Player.MakeTribute(Gold, Mana),
         6 => new BreakAlliance(),
-        7 => new SendMessageAsY(),
-        8 => new BreakAllianceWithY(Gold, Mana),
-        9 => new DeclareWarToY(Gold, Mana),
+        7 => new Aow.Game.Session.Player.SendMessageAsY(),
+        8 => new Aow.Game.Session.Player.BreakAllianceWithY(Gold, Mana),
+        9 => new Aow.Game.Session.Player.DeclareWarToY(Gold, Mana),
         _ => new UnknownProposal(Kind, Gold, Mana),
     };
 
@@ -131,38 +131,38 @@ public sealed class DiplomaticProposalTests
         return memory;
     }
 
-    private static TEngine CreateEngine()
+    private static Engine CreateEngine()
     {
         if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-        var engine = new TEngine(null!);
-        engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
-        engine.RegisterEClasses([EClass.Of<TDiplomaticAction>(), EClass.Of<TDiplomaticActionTE>(), EClass.Of<TDiplomaticActionEventLog>()]);
+        var engine = new Engine(null!);
+        engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
+        engine.RegisterEClasses([EClass.Of<DiplomaticAction>(), EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>()]);
         return engine;
     }
 
-    private static string Write(TEngine engine, TEObject value)
+    private static string Write(Engine engine, EObject value)
     {
         using var memory = new MemoryStream();
-        var writer = new TEWriteStorageStream(memory, engine, false);
+        var writer = new EWriteStorageStream(memory, engine, false);
         writer.rwCreateEObject(ref value, null!, 7);
         writer.Dispose();
         return Hex(memory);
     }
 
-    private static T Read<T>(TEngine engine, string hex) where T : TEObject
+    private static T Read<T>(Engine engine, string hex) where T : EObject
     {
         using var memory = Memory(hex);
-        TEObject result = null!;
-        using (var reader = new TEReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, null!, 7); }
+        EObject result = null!;
+        using (var reader = new EReadStorageStream(memory, engine, false)) { reader.rwCreateEObject(ref result, null!, 7); }
         return Assert.IsType<T>(result);
     }
 
-    private static TDiplomaticAction Action(Case c) => new(null!)
+    private static DiplomaticAction Action(Case c) => new(null!)
     {
         FSource = c.Source,
         FTarget = c.Target,
         FOtherPlayer = c.Other,
-        FReaction = (TDiplomaticActionReaction)c.Reaction,
+        FReaction = (DiplomaticActionReaction)c.Reaction,
         FEscrowGold = c.EscrowGold,
         FEscrowMana = c.EscrowMana,
         FEventLogID = c.EventLogId,
@@ -170,7 +170,7 @@ public sealed class DiplomaticProposalTests
         Proposal = Expected(c.Kind, c.Gold, c.Mana) with { Message = c.Message },
     };
 
-    private static void AssertCase(Case c, TDiplomaticAction action)
+    private static void AssertCase(Case c, DiplomaticAction action)
     {
         Assert.Equal(Expected(c.Kind, c.Gold, c.Mana) with { Message = c.Message }, action.Proposal);
         Assert.Equal((c.Source, c.Target, c.Other, c.Reaction), (action.FSource, action.FTarget, action.FOtherPlayer, (byte)action.FReaction));
@@ -193,28 +193,28 @@ public sealed class DiplomaticProposalTests
             Assert.Equal(c.Alone, Write(engine, action));
             action.Release();
 
-            var te = new TDiplomaticActionTE(null!) { FOperation = 1 };
+            var te = new DiplomaticActionTE(null!) { FOperation = 1 };
             action = Action(c);
             te.SetDiplomaticAction(action);
             action.Release();
             Assert.Equal(c.Token, Write(engine, te));
             te.Dispose();
 
-            var log = new TDiplomaticActionEventLog(null!) { FDay = 5, FAction = Action(c) };
+            var log = new DiplomaticActionEventLog(null!) { FDay = 5, FAction = Action(c) };
             Assert.Equal(c.Logged, Write(engine, log));
             log.Dispose();
 
-            var loaded = Read<TDiplomaticAction>(engine, c.Alone);
+            var loaded = Read<DiplomaticAction>(engine, c.Alone);
             AssertCase(c, loaded);
             Assert.Equal(c.Alone, Write(engine, loaded));
             loaded.Release();
 
-            var loadedEvent = Read<TDiplomaticActionTE>(engine, c.Token);
+            var loadedEvent = Read<DiplomaticActionTE>(engine, c.Token);
             AssertCase(c, loadedEvent.FAction);
             Assert.Equal(c.Token, Write(engine, loadedEvent));
             loadedEvent.Dispose();
 
-            var loadedLog = Read<TDiplomaticActionEventLog>(engine, c.Logged);
+            var loadedLog = Read<DiplomaticActionEventLog>(engine, c.Logged);
             AssertCase(c, loadedLog.FAction);
             Assert.Equal(c.Logged, Write(engine, loadedLog));
             loadedLog.Dispose();
@@ -232,16 +232,16 @@ public sealed class DiplomaticProposalTests
         try
         {
             string[] message = ["The Dark Elves declare war on the Humans.", "", "Second line."];
-            using var log = new TDiplomaticActionEventLog(null!) { FDay = 5 };
-            log.FAction = new TDiplomaticAction(null!) { FSource = 6, FTarget = 11, FOtherPlayer = -1, FEventLogID = 16, FDay = 7, Proposal = new DeclareWar() with { Message = message } };
+            using var log = new DiplomaticActionEventLog(null!) { FDay = 5 };
+            log.FAction = new DiplomaticAction(null!) { FSource = 6, FTarget = 11, FOtherPlayer = -1, FEventLogID = 16, FDay = 7, Proposal = new DeclareWar() with { Message = message } };
             string bytes = Write(engine, log);
-            var copy = Read<TDiplomaticActionEventLog>(engine, bytes);
+            var copy = Read<DiplomaticActionEventLog>(engine, bytes);
             Assert.Equal(message, copy.FAction.Proposal.Message);
             Assert.Equal("The Dark Elves declare war on the Humans.\r\n\r\nSecond line.\r\n", copy.FAction.Proposal.MessageText);
             Assert.Equal(bytes, Write(engine, copy));
 
             // The copy for an AI player's action list drops the message (Diplomacy.pas:938), the logged copy keeps it.
-            var listed = Read<TDiplomaticActionEventLog>(engine, bytes);
+            var listed = Read<DiplomaticActionEventLog>(engine, bytes);
             listed.FAction.Proposal = listed.FAction.Proposal with { Message = [] };
             Assert.Empty(listed.FAction.Proposal.Message);
             Assert.Equal(message, copy.FAction.Proposal.Message);
@@ -266,7 +266,7 @@ public sealed class DiplomaticProposalTests
             Assert.Equal((kind, gold, mana), proposal.ToFields());
             Assert.Same(proposal, proposal.WithOffer(5, 5));
         }
-        Assert.Equal(new DeclareWar(), new TDiplomaticAction(null!).Proposal);
+        Assert.Equal(new DeclareWar(), new DiplomaticAction(null!).Proposal);
     }
 
     // The kinds that carry no offer keep none. The census finds gold and mana on no kind.
@@ -301,11 +301,11 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void TheEditorBuildsTheProposal()
     {
-        var action = new TDiplomaticAction(null!) { FSource = 1, FTarget = 2, FOtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
+        var action = new DiplomaticAction(null!) { FSource = 1, FTarget = 2, FOtherPlayer = -1, Proposal = new OfferPeace() with { Message = ["Default text."] } };
         action.Proposal = action.Proposal with { Message = DiplomaticProposal.Lines("Peace?\r\nPlease.") };
         action.Proposal = action.Proposal.WithOffer(120, 30);
         Assert.Equal(new OfferPeace(120, 30) with { Message = ["Peace?", "Please."] }, action.Proposal);
-        var message = new TDiplomaticAction(null!) { Proposal = new SendMessage() };
+        var message = new DiplomaticAction(null!) { Proposal = new SendMessage() };
         message.Proposal = message.Proposal.WithOffer(120, 30);
         Assert.Equal(new SendMessage(), message.Proposal);
         action.Release();
@@ -347,16 +347,16 @@ public sealed class DiplomaticProposalTests
     private static int OldMiddleIcon(byte Kind, byte Reaction) => Kind == 0 || Kind == 9 && Reaction == 1 ? 0x15 : 0x16;
 
     // Diplomacy.pas:1265 GetText.
-    private static string OldText(byte Kind, TDiplomaticActionReaction Reaction, bool SourceSeated)
+    private static string OldText(byte Kind, DiplomaticActionReaction Reaction, bool SourceSeated)
     {
         static string T(string name) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(name);
         static string F(string format, string arg) => Aow.Game.Magic.Abilities.AbilityRules.Format(T(format), [arg]);
         string Answer(string none, string subject, string accepted, string otherwise) => Reaction switch
         {
-            TDiplomaticActionReaction.darNone => none,
-            TDiplomaticActionReaction.darReject => F(Aow.Game.Session.DiplomaticProposal.P5XRejectedRStr, subject),
-            TDiplomaticActionReaction.darAccept => accepted,
-            TDiplomaticActionReaction.darIgnore => F(Aow.Game.Session.DiplomaticProposal.P5XIgnoredRStr, subject),
+            DiplomaticActionReaction.None => none,
+            DiplomaticActionReaction.Reject => F(Aow.Game.Session.DiplomaticProposal.P5XRejectedRStr, subject),
+            DiplomaticActionReaction.Accept => accepted,
+            DiplomaticActionReaction.Ignore => F(Aow.Game.Session.DiplomaticProposal.P5XIgnoredRStr, subject),
             _ => otherwise,
         };
         return Kind switch
@@ -366,13 +366,13 @@ public sealed class DiplomaticProposalTests
                 SourceSeated ? F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Session.ProposeAlliance.P5AllianceProposalRStr)) : T(Aow.Game.Session.ProposeAlliance.P5MadeAllianceRStr), T(Aow.Game.Session.ProposeAlliance.P5AllianceProposalRStr)),
             1 => Answer(T(Aow.Game.Session.OfferPeace.P5PeaceOfferRStr), T(Aow.Game.Session.OfferPeace.P5PeaceOfferRStr),
                 SourceSeated ? F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Session.OfferPeace.P5PeaceOfferRStr)) : T(Aow.Game.Magic.Abilities.GameTables.P5PeaceRStr), ""),
-            5 => Answer(T(Aow.Game.Session.MakeTribute.P5TributeRStr), T(Aow.Game.Session.MakeTribute.P5TributeRStr), F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Session.MakeTribute.P5TributeRStr)), ""),
-            9 => Answer(T(Aow.Game.Session.DeclareWarToY.P5DeclareWarSuggestionRStr), T(Aow.Game.Magic.Abilities.GameText.P5DeclareWarRStr), F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.GameText.P5DeclareWarRStr)), ""),
-            8 => Answer(T(Aow.Game.Session.BreakAllianceWithY.P5BreakAllianceSuggestionRStr), T(Aow.Game.Magic.Abilities.GameText.P5BreakAllianceRStr), F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.GameText.P5BreakAllianceRStr)), ""),
+            5 => Answer(T(Aow.Game.Session.Player.MakeTribute.P5TributeRStr), T(Aow.Game.Session.Player.MakeTribute.P5TributeRStr), F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Session.Player.MakeTribute.P5TributeRStr)), ""),
+            9 => Answer(T(Aow.Game.Session.Player.DeclareWarToY.P5DeclareWarSuggestionRStr), T(Aow.Game.Magic.Abilities.GameText.P5DeclareWarRStr), F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.GameText.P5DeclareWarRStr)), ""),
+            8 => Answer(T(Aow.Game.Session.Player.BreakAllianceWithY.P5BreakAllianceSuggestionRStr), T(Aow.Game.Magic.Abilities.GameText.P5BreakAllianceRStr), F(Aow.Game.Session.DiplomaticProposal.P5XAcceptedRStr, T(Aow.Game.Magic.Abilities.GameText.P5BreakAllianceRStr)), ""),
             6 => T(Aow.Game.Session.BreakAlliance.P5AllianceBrokenRStr),
             3 or 7 => T(Aow.Game.Magic.Abilities.GameText.P5MessageRStr),
-            4 => T(Aow.Game.Session.ThreatenToAttack.P5ThreatRStr),
-            _ => "TDiplomaticActionEventLog",
+            4 => T(Aow.Game.Session.Player.ThreatenToAttack.P5ThreatRStr),
+            _ => "DiplomaticActionEventLog",
         };
     }
 
@@ -383,15 +383,15 @@ public sealed class DiplomaticProposalTests
         1 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.OfferPeace.P5OfferPeaceRStr),
         2 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.ProposeAlliance.P5ProposeAllianceRStr),
         3 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Engine.SendMessage.P5SendMessageRStr),
-        4 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.ThreatenToAttack.P5ThreatenToAttackRStr),
-        5 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.MakeTribute.P5MakeTributeRStr),
+        4 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.ThreatenToAttack.P5ThreatenToAttackRStr),
+        5 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.MakeTribute.P5MakeTributeRStr),
         6 => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P5BreakAllianceRStr),
         _ => "",
     };
 
     // Diplomacy.pas:1420 RetrieveDefaultDiplomaticActionMessage, the switch after the races and the alignment.
-    private static void OldDefaultMessage(TTextControl TextControl, int Alignment, string SourceRace, string TargetRace, string OtherRace,
-        byte Action, TDiplomaticActionReaction Reaction, TDiplomaticRelation Relation, TStrings Text)
+    private static void OldDefaultMessage(global::Aow.Game.Engine.TextControl TextControl, int Alignment, string SourceRace, string TargetRace, string OtherRace,
+        byte Action, DiplomaticActionReaction Reaction, DiplomaticRelation Relation, StringCollection Text)
     {
         Text.Clear();
         void Get(int number, string first, string second, string? third = null)
@@ -401,43 +401,43 @@ public sealed class DiplomaticProposalTests
         }
         switch (Action)
         {
-            case 0: Get(Relation == TDiplomaticRelation.drUnknown ? 151 : 100, SourceRace, TargetRace); break;
+            case 0: Get(Relation == DiplomaticRelation.Unknown ? 151 : 100, SourceRace, TargetRace); break;
             case 1:
-                if (Reaction == TDiplomaticActionReaction.darNone) Get(Relation == TDiplomaticRelation.drUnknown ? 103 : 154, SourceRace, TargetRace);
-                else if (Reaction == TDiplomaticActionReaction.darAccept) Get(127, TargetRace, SourceRace);
-                else if (Reaction == TDiplomaticActionReaction.darReject) Get(130, TargetRace, SourceRace);
+                if (Reaction == DiplomaticActionReaction.None) Get(Relation == DiplomaticRelation.Unknown ? 103 : 154, SourceRace, TargetRace);
+                else if (Reaction == DiplomaticActionReaction.Accept) Get(127, TargetRace, SourceRace);
+                else if (Reaction == DiplomaticActionReaction.Reject) Get(130, TargetRace, SourceRace);
                 break;
             case 2:
-                if (Reaction == TDiplomaticActionReaction.darNone) Get(106, SourceRace, TargetRace);
-                else if (Reaction == TDiplomaticActionReaction.darAccept) Get(121, TargetRace, SourceRace);
-                else if (Reaction == TDiplomaticActionReaction.darReject) Get(124, TargetRace, SourceRace);
+                if (Reaction == DiplomaticActionReaction.None) Get(106, SourceRace, TargetRace);
+                else if (Reaction == DiplomaticActionReaction.Accept) Get(121, TargetRace, SourceRace);
+                else if (Reaction == DiplomaticActionReaction.Reject) Get(124, TargetRace, SourceRace);
                 break;
             case 6: Get(109, SourceRace, TargetRace); break;
             case 4: Get(112, SourceRace, TargetRace); break;
             case 5:
-                if (Reaction == TDiplomaticActionReaction.darNone) Get(118, SourceRace, TargetRace);
-                else if (Reaction == TDiplomaticActionReaction.darAccept) Get(133, TargetRace, SourceRace);
-                else if (Reaction == TDiplomaticActionReaction.darReject) Get(136, TargetRace, SourceRace);
+                if (Reaction == DiplomaticActionReaction.None) Get(118, SourceRace, TargetRace);
+                else if (Reaction == DiplomaticActionReaction.Accept) Get(133, TargetRace, SourceRace);
+                else if (Reaction == DiplomaticActionReaction.Reject) Get(136, TargetRace, SourceRace);
                 break;
             case 8:
-                if (Reaction == TDiplomaticActionReaction.darNone) Get(160, SourceRace, TargetRace, OtherRace);
-                else if (Reaction == TDiplomaticActionReaction.darAccept) Get(139, TargetRace, SourceRace, OtherRace);
-                else if (Reaction == TDiplomaticActionReaction.darReject) Get(142, TargetRace, SourceRace, OtherRace);
+                if (Reaction == DiplomaticActionReaction.None) Get(160, SourceRace, TargetRace, OtherRace);
+                else if (Reaction == DiplomaticActionReaction.Accept) Get(139, TargetRace, SourceRace, OtherRace);
+                else if (Reaction == DiplomaticActionReaction.Reject) Get(142, TargetRace, SourceRace, OtherRace);
                 break;
             case 9:
-                if (Reaction == TDiplomaticActionReaction.darNone) Get(157, SourceRace, TargetRace, OtherRace);
-                else if (Reaction == TDiplomaticActionReaction.darAccept) Get(145, TargetRace, SourceRace, OtherRace);
-                else if (Reaction == TDiplomaticActionReaction.darReject) Get(148, TargetRace, SourceRace, OtherRace);
+                if (Reaction == DiplomaticActionReaction.None) Get(157, SourceRace, TargetRace, OtherRace);
+                else if (Reaction == DiplomaticActionReaction.Accept) Get(145, TargetRace, SourceRace, OtherRace);
+                else if (Reaction == DiplomaticActionReaction.Reject) Get(148, TargetRace, SourceRace, OtherRace);
                 break;
         }
     }
 
     // Texts 100 to 164, two lines each. The texts the switch formats with the other player's race
     // take three arguments, so a call with two of them throws.
-    private static TTextControl TextControl()
+    private static global::Aow.Game.Engine.TextControl TextControl()
     {
         int[] withOther = [157, 160, 139, 142, 145, 148];
-        var control = new TTextControl(null!);
+        var control = new global::Aow.Game.Engine.TextControl(null!);
         for (int id = 100; id <= 164; id++)
         {
             var item = control.New();
@@ -453,8 +453,8 @@ public sealed class DiplomaticProposalTests
     [Fact]
     public void ProposalsAnswerAsTheOldSwitches()
     {
-        var previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = new TAoWHSMap(null!);
+        var previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        Aow.Game.World.Map.AoWHSMap.Current = new AoWHSMap(null!);
         var control = TextControl();
         try
         {
@@ -466,31 +466,31 @@ public sealed class DiplomaticProposalTests
                 Assert.Equal(OldIcon(kind), proposal.Icon);
                 Assert.Equal(kind == 7, proposal.SignedAsOtherPlayer);
                 Assert.Equal(OldSample(kind), proposal.LoggedSample);
-                if (kind <= 6 || kind == 10) Assert.Equal(OldName(kind), proposal.Name(new TDiplomaticAction(null!) { Proposal = proposal }));
+                if (kind <= 6 || kind == 10) Assert.Equal(OldName(kind), proposal.Name(new DiplomaticAction(null!) { Proposal = proposal }));
                 checks += 5;
                 string error = "";
-                Assert.Equal(kind != 5, proposal.CanSend(new TDiplomaticAction(null!) { Proposal = proposal }, ref error));
-                Assert.Equal(kind == 5 ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.MakeTribute.P5NoGoldManaSpecifiedRStr) : "", error);
-                Assert.True(proposal.WithOffer(0, 1).CanSend(new TDiplomaticAction(null!), ref error));
+                Assert.Equal(kind != 5, proposal.CanSend(new DiplomaticAction(null!) { Proposal = proposal }, ref error));
+                Assert.Equal(kind == 5 ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.MakeTribute.P5NoGoldManaSpecifiedRStr) : "", error);
+                Assert.True(proposal.WithOffer(0, 1).CanSend(new DiplomaticAction(null!), ref error));
                 checks += 2;
                 foreach (byte reaction in new byte[] { 0, 1, 2, 3, 4 })
                 {
                     foreach (sbyte source in new sbyte[] { 0, 1 })
                     {
-                        var action = new TDiplomaticAction(null!) { FSource = source, FTarget = 2, FReaction = (TDiplomaticActionReaction)reaction, Proposal = proposal };
+                        var action = new DiplomaticAction(null!) { FSource = source, FTarget = 2, FReaction = (DiplomaticActionReaction)reaction, Proposal = proposal };
                         string where = proposal + " reaction " + reaction + " source " + source;
-                        Assert.True(OldText(kind, (TDiplomaticActionReaction)reaction, source == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer) == proposal.LogText(action), where);
+                        Assert.True(OldText(kind, (DiplomaticActionReaction)reaction, source == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) == proposal.LogText(action), where);
                         Assert.True(OldMiddleIcon(kind, reaction) == proposal.MiddleIcon(action), where);
                         checks += 2;
                     }
-                    foreach (var relation in new[] { TDiplomaticRelation.drPeace, TDiplomaticRelation.drWar, TDiplomaticRelation.drAlliance, TDiplomaticRelation.drUnknown })
+                    foreach (var relation in new[] { DiplomaticRelation.Peace, DiplomaticRelation.War, DiplomaticRelation.Alliance, DiplomaticRelation.Unknown })
                     {
                         foreach (int alignment in new[] { 0, 1, 2 })
                         {
-                            var expected = new TStringList();
-                            var actual = new TStringList();
-                            OldDefaultMessage(control, alignment, "Elves", "Orcs", "Dwarves", kind, (TDiplomaticActionReaction)reaction, relation, expected);
-                            proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, "Elves", "Orcs", "Dwarves", actual), (TDiplomaticActionReaction)reaction, relation);
+                            var expected = new StringList();
+                            var actual = new StringList();
+                            OldDefaultMessage(control, alignment, "Elves", "Orcs", "Dwarves", kind, (DiplomaticActionReaction)reaction, relation, expected);
+                            proposal.DefaultMessage(new DiplomaticMessageText(control, alignment, "Elves", "Orcs", "Dwarves", actual), (DiplomaticActionReaction)reaction, relation);
                             Assert.True(expected.Text == actual.Text, proposal + " reaction " + reaction + " relation " + relation + " alignment " + alignment);
                             checks++;
                         }
@@ -502,7 +502,7 @@ public sealed class DiplomaticProposalTests
         finally
         {
             control?.Dispose();
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
+            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
         }
     }
 }

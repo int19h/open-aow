@@ -17,13 +17,13 @@ namespace Aow.Game.World.Structures
 {
 
     // FIncome, FChangingCrops, FIncomeSource
-    public partial class TPlayerCropStructure : TPlayerStructure
+    public partial class PlayerCropStructure : PlayerStructure
     {
 
-        public TPlayerCropStructure(TECustomNode owner) : base(owner)
+        public PlayerCropStructure(ECustomNode owner) : base(owner)
         {
             FChangingCrops = false;
-            FIncomeSource = new TPlayerStructureIncomeSource(null);
+            FIncomeSource = new PlayerStructureIncomeSource(null);
             FIncomeSource.Setup(this);
         }
 
@@ -32,7 +32,7 @@ namespace Aow.Game.World.Structures
 
         public byte FIncome;
         public bool FChangingCrops;
-        public TPlayerStructureIncomeSource FIncomeSource;
+        public PlayerStructureIncomeSource FIncomeSource;
 
         // Crops.pas:278
         public override void Dispose()
@@ -44,9 +44,9 @@ namespace Aow.Game.World.Structures
         // Crops.pas:270
 
         // Crops.pas:528
-        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
+        public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Info)
         {
-            if (TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting, THSMapStatusElement.msActivated).IsSubsetOf(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status) && !FChangingCrops)
+            if (Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting, HSMapStatusElement.Activated).IsSubsetOf(Aow.Game.World.Map.AoWHSMap.Current.Status) && !FChangingCrops)
             {
                 UpdateCrops();
             }
@@ -71,7 +71,7 @@ namespace Aow.Game.World.Structures
             Player = FPlayer;
             if (Player != -1)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).RegisterIncomeSource(FIncomeSource);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).RegisterIncomeSource(FIncomeSource);
             }
 
             if (!GetEditMode())
@@ -88,16 +88,16 @@ namespace Aow.Game.World.Structures
             Player = FPlayer;
             if (Player != -1)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).UnregisterIncomeSource(FIncomeSource);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).UnregisterIncomeSource(FIncomeSource);
             }
 
             base.Deactivate();
         }
 
         // Crops.pas:560
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             int I;
             int HN;
             int X = default;
@@ -108,11 +108,11 @@ namespace Aow.Game.World.Structures
             if (Result && !GetEditMode())
             {
                 MapLevel = MapContainer.GetMapLevel(Lhx);
-                I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count;
+                I = ((PlayerCropStructureResource)FResource).FCropLocations.Count;
                 while (Result && I != 0)
                 {
                     I -= 1;
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
                     NX = X;
                     NY = Y;
                     HN = 0;
@@ -120,7 +120,7 @@ namespace Aow.Game.World.Structures
                     {
                         if (NX >= 0 && NX < MapLevel.Width && NY >= 0 && NY < MapLevel.Height)
                         {
-                            Result = MapLevel.GetField(NX, NY).FindNoneTransparentHS(typeof(TPlayerCropStructure)) == null;
+                            Result = MapLevel.GetField(NX, NY).FindNoneTransparentHS(typeof(PlayerCropStructure)) == null;
                         }
 
                         HN += 1;
@@ -133,7 +133,7 @@ namespace Aow.Game.World.Structures
         }
 
         // Crops.pas:586
-        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
             if (Result)
@@ -167,28 +167,28 @@ namespace Aow.Game.World.Structures
             {
                 if (FPlayer != -1)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).UnregisterIncomeSource(FIncomeSource);
                 }
 
                 base.SetPlayer(Player);
                 UpdateCrops();
                 if (FPlayer != -1)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).RegisterIncomeSource(FIncomeSource);
                 }
             }
         }
 
         // Crops.pas:440
-        public virtual bool CanPlaceCrop(TMapField Field)
+        public virtual bool CanPlaceCrop(MapField Field)
         {
             bool Result;
-            TArmyHS Army;
-            THexagonSprite HS;
+            ArmyHS Army;
+            HexagonSprite HS;
             if (!GetRazed())
             {
-                Army = (TArmyHS)Field.FindOwnedChild(131607);
-                Result = Army == null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetDiplomaticRelation(Army.FArmy.FPlayer, FPlayer) != TDiplomaticRelation.drWar;
+                Army = (ArmyHS)Field.FindOwnedChild(131607);
+                Result = Army == null || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Army.FArmy.FPlayer, FPlayer) != DiplomaticRelation.War;
                 if (Result)
                 {
                     HS = Field.GetMaxLevelNoneTransparentHS();
@@ -197,7 +197,7 @@ namespace Aow.Game.World.Structures
 
                 if (Result)
                 {
-                    Result = TSet<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)Field.TerrainType) || Field.TerrainType == 5 && GetRace() == 11;
+                    Result = Set<byte>.WithBounds(0, 255).With(12).WithRange(1, 4).Contains((byte)Field.TerrainType) || Field.TerrainType == 5 && GetRace() == 11;
                 }
             }
             else
@@ -214,7 +214,7 @@ namespace Aow.Game.World.Structures
         // Crops.pas:314
         public virtual void RegrowCrops()
         {
-            if (GetCropCount() < ((TPlayerCropStructureResource)FResource).FCropLocations.Count)
+            if (GetCropCount() < ((PlayerCropStructureResource)FResource).FCropLocations.Count)
             {
                 SetCropCount(GetCropCount() + 1);
             }
@@ -236,13 +236,13 @@ namespace Aow.Game.World.Structures
         // Crops.pas:401
         public virtual void UpdateCrops()
         {
-            if (!GetEditMode() && FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated))
+            if (!GetEditMode() && FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+                if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                 {
                     if (CropsEnabled())
                     {
-                        SetCropCount(((TPlayerCropStructureResource)FResource).FCropLocations.Count);
+                        SetCropCount(((PlayerCropStructureResource)FResource).FCropLocations.Count);
                     }
                 }
 
@@ -257,7 +257,7 @@ namespace Aow.Game.World.Structures
             sbyte Result;
             if (FPlayer > 0)
             {
-                Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+                Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
             }
             else
             {
@@ -279,9 +279,9 @@ namespace Aow.Game.World.Structures
             int Race;
             if (Player != FPlayer && FPlayer > 0 && Player > 0)
             {
-                Race = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FPlayerRace;
-                var playerRelationValue = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(Race).GetPlayerRelationValue(Player);
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(Race).SetPlayerRelationValue(Player, playerRelationValue - -5);
+                Race = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace;
+                var playerRelationValue = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(Race).GetPlayerRelationValue(Player);
+                Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(Race).SetPlayerRelationValue(Player, playerRelationValue - -5);
             }
         }
 
@@ -289,13 +289,13 @@ namespace Aow.Game.World.Structures
         public void SetIncome(byte Value)
         {
             sbyte Player;
-            if (Value != this.FIncome && this.FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated))
+            if (Value != this.FIncome && this.FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
             {
                 this.FIncome = Value;
                 Player = this.FPlayer;
                 if (Player != -1)
                 {
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).UpdateIncome();
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).UpdateIncome();
                 }
             }
         }
@@ -303,17 +303,17 @@ namespace Aow.Game.World.Structures
         // Crops.pas:382
         public void UpdateCropSettings()
         {
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             int X = default;
             int Y = default;
-            TCrop Crop;
-            MapLevel = (TMapLevel)Owner.Owner;
-            for (int I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
+            Crop Crop;
+            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+            for (int I = ((PlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
             {
-                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
+                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
                 if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
                 {
-                    Crop = (TCrop)MapLevel.GetField(X, Y).FindOwnedChild(131946);
+                    Crop = (global::Aow.Game.World.Terrain.Crop)MapLevel.GetField(X, Y).FindOwnedChild(131946);
                     if (Crop != null)
                     {
                         Crop.UpdateSettings();
@@ -325,18 +325,18 @@ namespace Aow.Game.World.Structures
         // Crops.pas:420
         public int GetCropCount()
         {
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             int X = default;
             int Y = default;
-            TCrop Crop;
+            Crop Crop;
             int Result = 0;
-            MapLevel = (TMapLevel)Owner.Owner;
-            for (int I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
+            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+            for (int I = ((PlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
             {
-                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
+                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
                 if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
                 {
-                    Crop = (TCrop)MapLevel.GetField(X, Y).FindChild(131946);
+                    Crop = (global::Aow.Game.World.Terrain.Crop)MapLevel.GetField(X, Y).FindChild(131946);
                     if (Crop != null)
                     {
                         if (Crop.FCropOwner == this)
@@ -353,22 +353,22 @@ namespace Aow.Game.World.Structures
         // Crops.pas:463
         public void SetCropCount(int Value)
         {
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             int I;
-            TCropResource Resource;
-            TMapField Field;
+            Aow.Game.World.Terrain.Crop.Resource Resource;
+            MapField Field;
             int X = default;
             int Y = default;
-            TList Crops;
-            TCrop Crop;
-            TWordList Locations;
-            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap) && !FChangingCrops)
+            DelphiList Crops;
+            Crop Crop;
+            WordList Locations;
+            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap) && !FChangingCrops)
             {
                 FChangingCrops = true;
-                MapLevel = (TMapLevel)Owner.Owner;
-                Crops = new TList();
-                Locations = new TWordList();
-                Locations.Assign(((TPlayerCropStructureResource)FResource).FCropLocations);
+                MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+                Crops = new DelphiList();
+                Locations = new WordList();
+                Locations.Assign(((PlayerCropStructureResource)FResource).FCropLocations);
                 I = Locations.Count - 1;
                 for (; I >= 0; I -= 1)
                 {
@@ -376,7 +376,7 @@ namespace Aow.Game.World.Structures
                     if (X >= 0 && X < MapLevel.Width && Y >= 0 && Y < MapLevel.Height)
                     {
                         Field = MapLevel.GetField(X, Y);
-                        Crop = (TCrop)Field.FindOwnedChild(131946);
+                        Crop = (global::Aow.Game.World.Terrain.Crop)Field.FindOwnedChild(131946);
                         if (Crop != null || !CanPlaceCrop(Field))
                         {
                             if (Crop != null && Crop.FCropOwner == this)
@@ -395,12 +395,12 @@ namespace Aow.Game.World.Structures
 
                 if (Crops.Count < Value)
                 {
-                    Resource = (TCropResource)FResource.Engine.HSSet.MapObjectResourceList.FindChild(131947);
+                    Resource = (Aow.Game.World.Terrain.Crop.Resource)FResource.Engine.HSSet.MapObjectResourceList.FindChild(131947);
                     if (Resource != null)
                     {
                         while (Crops.Count != Value && Locations.Count != 0)
                         {
-                            I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Locations.Count);
+                            I = Aow.Game.World.Map.AoWHSMap.Current.Random(Locations.Count);
                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, Locations.List[I], ref X, ref Y);
                             Crop = Resource.PlaceCrop((sbyte)X, (sbyte)Y, (sbyte)MapLevel.Lhx, this);
                             if (Crop != null)
@@ -419,7 +419,7 @@ namespace Aow.Game.World.Structures
                     {
                         while (Crops.Count != Value && Crops.Count != 0)
                         {
-                            I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Crops.Count);
+                            I = Aow.Game.World.Map.AoWHSMap.Current.Random(Crops.Count);
                             ((Crops[I] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
                             Crops.Delete(I);
                         }
@@ -437,22 +437,22 @@ namespace Aow.Game.World.Structures
         // Crops.pas:540
         public void LinkToCrops()
         {
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             int X = default;
             int Y = default;
-            TCrop Crop;
+            Crop Crop;
             if (GetEditMode())
             {
                 return;
             }
 
-            MapLevel = (TMapLevel)Owner.Owner;
-            for (int I = ((TPlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
+            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+            for (int I = ((PlayerCropStructureResource)FResource).FCropLocations.Count - 1; I >= 0; I--)
             {
-                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, ((TPlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
+                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, ((PlayerCropStructureResource)FResource).FCropLocations.List[I], ref X, ref Y);
                 if (X >= 0 && MapLevel.Width > X && Y >= 0 && MapLevel.Height > Y)
                 {
-                    Crop = (TCrop)MapLevel.GetField(X, Y).FindChild(131946);
+                    Crop = (global::Aow.Game.World.Terrain.Crop)MapLevel.GetField(X, Y).FindChild(131946);
                     if (Crop != null)
                     {
                         Crop.SetCropOwner(this);
@@ -466,15 +466,15 @@ namespace Aow.Game.World.Structures
     }
 
     // FCropLocations
-    public partial class TPlayerCropStructureResource : TPlayerStructureResource
+    public partial class PlayerCropStructureResource : PlayerStructureResource
     {
-        public TPlayerCropStructureResource(TECustomNode owner) : base(owner)
+        public PlayerCropStructureResource(ECustomNode owner) : base(owner)
         { }
 
         // Crops.pas:599
         public new const int ClassID = 131919;
 
-        public TWordList FCropLocations;
+        public WordList FCropLocations;
 
         // Crops.pas:592
         public override void Dispose()
@@ -485,7 +485,7 @@ namespace Aow.Game.World.Structures
         }
 
         // Crops.pas:605
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
@@ -509,21 +509,21 @@ namespace Aow.Game.World.Terrain
 {
 
     // FCropOwner
-    public partial class TCrop : TILTerrainMO
+    public partial class Crop : ILTerrainMO
     {
-        public TCrop(TECustomNode owner) : base(owner)
+        public Crop(ECustomNode owner) : base(owner)
         {
         }
 
         // Crops.pas:119
         public new const int ClassID = 131946;
 
-        public TPlayerCropStructure FCropOwner;
+        public PlayerCropStructure FCropOwner;
 
         // Crops.pas:109
 
         // Crops.pas:151
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001991)
@@ -533,22 +533,22 @@ namespace Aow.Game.World.Terrain
         }
 
         // Crops.pas:203
-        public override void TerrainChanged(in THSTerrainInfo Info)
+        public override void TerrainChanged(in HSTerrainInfo Info)
         {
-            THexagonSprite HS;
+            HexagonSprite HS;
             if (Info.HN != 0)
             {
                 return;
             }
 
-            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated))
+            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
             {
                 if (ValidTerrainType(Info.TerrainType))
                 {
                     FTerrainType = Info.TerrainType;
                     FImageIndex = GetTerrainTypeImage(Info.TerrainType);
                     HS = Info.MapField.GetMaxLevelNoneTransparentHS();
-                    if ((HS != null && HS.GetLevel() > GetLevel() && !(HS is TAbstractRoad)) || (Info.OverlayType >= 0 && Info.OverlayType != 4))
+                    if ((HS != null && HS.GetLevel() > GetLevel() && !(HS is AbstractRoad)) || (Info.OverlayType >= 0 && Info.OverlayType != 4))
                     {
                         Dispose();
                     }
@@ -565,7 +565,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // Crops.pas:157
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             if (Msg.MsgID != 16)
             {
@@ -588,7 +588,7 @@ namespace Aow.Game.World.Terrain
         // Crops.pas:189
         public override void Deactivate()
         {
-            if (FCropOwner != null && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msDestroying))
+            if (FCropOwner != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
             {
                 var playerCropStructure = FCropOwner;
                 this.FCropOwner = null;
@@ -602,13 +602,13 @@ namespace Aow.Game.World.Terrain
         public override bool CanSelect(int Xhp, int Yhp) => false;
 
         // Crops.pas:234
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            TMapField Field;
-            THexagonSprite HS;
+            MapField Field;
+            HexagonSprite HS;
             Field = MapContainer.GetField(Xhx, Yhx, Lhx);
             HS = Field.GetMaxLevelNoneTransparentHS();
-            return Field.FindOwnedHS(typeof(TFire)) == null && (HS == null || HS.GetLevel() < 10 || HS is TAbstractRoad);
+            return Field.FindOwnedHS(typeof(Fire)) == null && (HS == null || HS.GetLevel() < 10 || HS is AbstractRoad);
         }
 
         // Crops.pas:228
@@ -624,7 +624,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // Crops.pas:122
-        public void SetCropOwner(TPlayerCropStructure Value)
+        public void SetCropOwner(PlayerCropStructure Value)
         {
             FCropOwner = Value;
             UpdateSettings();
@@ -646,12 +646,12 @@ namespace Aow.Game.World.Terrain
         public void EndTurn(sbyte Player)
         {
             sbyte PlayerIndex;
-            TArmyHS Army;
-            Army = ((TAoWMapField)Owner).GetArmyHS();
+            ArmyHS Army;
+            Army = ((AoWMapField)Owner).GetArmyHS();
             PlayerIndex = Player;
             if (Army != null && Army.FArmy.FPlayer == PlayerIndex && FCropOwner.FPlayer > 0 && PlayerIndex != FCropOwner.FPlayer)
             {
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetDiplomaticRelation(FCropOwner.FPlayer, PlayerIndex) == TDiplomaticRelation.drWar)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FCropOwner.FPlayer, PlayerIndex) == DiplomaticRelation.War)
                 {
                     FCropOwner.CropTrampled(PlayerIndex);
                     Dispose();
@@ -662,71 +662,71 @@ namespace Aow.Game.World.Terrain
         // Crops.pas:163
         public void LinkToCropOwner()
         {
-            TPlayerCropStructure Found;
-            TMapLevel MapLevel;
-            THNWalkData Walk = default;
+            PlayerCropStructure Found;
+            MapLevel MapLevel;
+            HNWalkData Walk = default;
             Found = null;
-            MapLevel = (TMapLevel)Owner.Owner;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 1);
+            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 1);
             while (Walk.Radius <= 1 && Found == null)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
-                    Found = (TPlayerCropStructure)MapLevel.GetField(Walk.X, Walk.Y).FindNoneTransparentHS(typeof(TPlayerCropStructure));
+                    Found = (PlayerCropStructure)MapLevel.GetField(Walk.X, Walk.Y).FindNoneTransparentHS(typeof(PlayerCropStructure));
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             SetCropOwner(Found);
+        }
+
+        public new partial class Resource : ILTerrainMOR
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
+
+            // Crops.pas:245
+            public new const int ClassID = 131947;
+
+            // Crops.pas:251
+            public override int ResourceUserClassID() => 131946;
+
+            // Crops.pas:248
+            public override void SetLevel(byte Value)
+            {
+                base.SetLevel(5);
+            }
+
+            // Crops.pas:257
+            public Crop PlaceCrop(sbyte X, sbyte Y, sbyte L, PlayerCropStructure CropOwner)
+            {
+                Crop Result = new Crop(null);
+                Result.SetResource(this);
+                Result.ResourceLinked = true;
+                Result.FCropOwner = CropOwner;
+                if (!Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Result, X, Y, L))
+                {
+                    Result?.Dispose();
+                    Result = null;
+                }
+
+                return Result;
+            }
+
+            // Crops.pas:254
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.Crop.Resource.CropRStr);
+
+            private static readonly string CropRStr = "Crops";
+
         }
 
         // Crops.pas:68
 
     }
 
-    public partial class TCropResource : TILTerrainMOR
-    {
-        public TCropResource(TECustomNode owner) : base(owner)
-        { }
-
-        // Crops.pas:245
-        public new const int ClassID = 131947;
-
-        // Crops.pas:251
-        public override int ResourceUserClassID() => 131946;
-
-        // Crops.pas:248
-        public override void SetLevel(byte Value)
-        {
-            base.SetLevel(5);
-        }
-
-        // Crops.pas:257
-        public TCrop PlaceCrop(sbyte X, sbyte Y, sbyte L, TPlayerCropStructure CropOwner)
-        {
-            TCrop Result = new TCrop(null);
-            Result.SetResource(this);
-            Result.ResourceLinked = true;
-            Result.FCropOwner = CropOwner;
-            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Result, X, Y, L))
-            {
-                Result?.Dispose();
-                Result = null;
-            }
-
-            return Result;
-        }
-
-        // Crops.pas:254
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TCropResource.CropRStr);
-
-        private static readonly string CropRStr = "Crops";
-
-    }
-
     [StructLayout(LayoutKind.Explicit, Size = 25)]
-    public struct TCropILFields
+    public struct CropILFields
     {
         [FieldOffset(0)]
         public FixedArray_byte_20 Reserved;

@@ -110,7 +110,7 @@ internal static class Program
                 Shim.RandomTrace = randomTrace.Record;
                 Shim.TraceRound = randomTrace.Rounding;
                 HeadlessHooks.BeforeMove = randomTrace.Path;
-                TList.TraceSort = randomTrace.Sort;
+                DelphiList.TraceSort = randomTrace.Sort;
                 HeadlessHooks.ProcessCost = randomTrace.Cost;
                 if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
             }
@@ -119,7 +119,7 @@ internal static class Program
             Aow.Game.Combat.CombatClasses.Register(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             gameplay = true;
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.HSMap is not TAoWHSMap map)
+            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.HSMap is not AoWHSMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 0, 0);
             Shim.RandSeed = seed;
@@ -132,9 +132,9 @@ internal static class Program
             map.FExecuteEventLogEvents += notification =>
             {
                 var info = notification.Info;
-                if (info.Log is Aow.Game.Events.TMessageEventLog message)
+                if (info.Log is Aow.Game.Events.MessageEventLog message)
                 {
-                    bool yes = message.FButtons is Aow.Game.Events.TMessageEventLogButtons.mebYesNo or Aow.Game.Events.TMessageEventLogButtons.mebYesNoCancel;
+                    bool yes = message.FButtons is Aow.Game.Events.MessageEventLog.Buttons.YesNo or Aow.Game.Events.MessageEventLog.Buttons.YesNoCancel;
                     host.Show(new(message.FMessage.Text, message.FTitle, (int)message.FButtons, yes ? 6 : 1));
                     if (yes) message.Yes(); else message.OK();
                 }
@@ -145,7 +145,7 @@ internal static class Program
                 if (todos.Count != 0) throw new InvalidOperationException("reached TODO: " + string.Join("\n", todos));
                 if (runtimeErrors.Count != 0) throw new InvalidOperationException("gameplay exception: " + string.Join("\n", runtimeErrors));
             }
-            void Save(TPlayerControl control)
+            void Save(PlayerControl control)
             {
                 CheckTodos();
                 day = map.FDay;
@@ -170,7 +170,7 @@ internal static class Program
             CheckTodos();
             if (saves.Count == 0) Save(map.FPlayerControl);
             map.UpdateFPS(animationFps);
-            var viewer = new Aow.Game.World.Map.THSMapViewer(null!);
+            var viewer = new Aow.Game.World.Map.HSMapViewer(null!);
             viewer.HSMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
@@ -186,7 +186,7 @@ internal static class Program
                     var player = map.FPlayers.GetPlayers(map.FCurrentPlayer);
                     Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.FCurrentPlayer}, busy {player.GetBusy()}, ready {map.FTokenManager.PlayerReady(map.FCurrentPlayer)}, AI locks {map.FAILockCount}/{map.FAIExecuter.FLockCount}, AI {map.FAIExecuter.FStatus.Image:X}, phase {player.FAIControl.FPhase}, actions {player.FAIControl.FActions.Count}");
                 }
-                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is Aow.Game.Combat.TAoWCombatMap tacticalMap)
+                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is Aow.Game.Combat.AoWCombatMap tacticalMap)
                     Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.FCurrentCombatPlayer}, end pending {tacticalMap.FEndTurnPending}, AI {tacticalMap.FAI.Status}, effects {tacticalMap.FEffects.Count}, result {tacticalMap.FCombat.FCombatResult}");
                 map.NewFrame();
                 CheckTodos();
@@ -239,7 +239,7 @@ internal static class Program
             Shim.TraceRound = null;
             HeadlessHooks.BeforeMove = null;
             HeadlessHooks.BeforeAIPlayerProcess = null;
-            TList.TraceSort = null;
+            DelphiList.TraceSort = null;
             HeadlessHooks.ProcessCost = null;
             HeadlessHooks.MoveLine = null;
             randomTrace?.Dispose();

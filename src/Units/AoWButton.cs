@@ -17,19 +17,19 @@ namespace Aow.Game.Ui.Controls;
 // FBorderHeight when it is up), FButtonType (btText: drawn from FILButton, btIcon: from
 // FILIcon. set by Validate), FILButton, FILIcon, FILIndexUp, FILIndexDown, FILIndexLit,
 // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
-public partial class TAOWBaseButton : TAOWControl
+public partial class AOWBaseButton : AOWControl
 {
-    public TAOWBaseButton(TComponent owner) : base(owner)
+    public AOWBaseButton(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
     public int FBorderHeightSelected;
-    public TButtonType FButtonType;
-    public TInterfaceIL FILButton;
-    public TInterfaceIL FILIcon;
+    public Aow.Game.Ui.Controls.AoWComponent.ButtonType FButtonType;
+    public InterfaceIL FILButton;
+    public InterfaceIL FILIcon;
     public int FILIndexUp;
     public int FILIndexDown;
     public int FILIndexLit;
-    public TAOWMenu FPopupMenu;
+    public AOWMenu FPopupMenu;
     public bool FLit;
 
     // AoWButton.pas:85
@@ -67,14 +67,14 @@ public partial class TAOWBaseButton : TAOWControl
 
         if (FILButton != null)
         {
-            FButtonType = TButtonType.btText;
+            FButtonType = Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text;
             FValid = true;
         }
         else
         {
             if (FILIcon != null)
             {
-                FButtonType = TButtonType.btIcon;
+                FButtonType = Aow.Game.Ui.Controls.AoWComponent.ButtonType.Icon;
                 FValid = true;
             }
         }
@@ -87,7 +87,7 @@ public partial class TAOWBaseButton : TAOWControl
     {
         switch (FButtonType)
         {
-            case TButtonType.btText:
+            case Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text:
                 var ilButtonWidth = FILButton[FILIndexUp];
                 var ilButton = FILButton[FILIndexUp + 2];
                 if (ilButtonWidth.Width + ilButton.Width > FWinWidth)
@@ -99,7 +99,7 @@ public partial class TAOWBaseButton : TAOWControl
 
                 FWinHeight = FILButton[FILIndexUp].Height;
                 break;
-            case TButtonType.btIcon:
+            case Aow.Game.Ui.Controls.AoWComponent.ButtonType.Icon:
                 FWinWidth = FILIcon[FILIndexUp].Width;
                 FWinHeight = FILIcon[FILIndexUp].Height;
                 break;
@@ -120,7 +120,7 @@ public partial class TAOWBaseButton : TAOWControl
     }
 
     // AoWButton.pas:183
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         try
         {
@@ -133,14 +133,14 @@ public partial class TAOWBaseButton : TAOWControl
 
                 if (FChecked)
                 {
-                    if (FButtonType == TButtonType.btText)
+                    if (FButtonType == Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text)
                     {
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
                     }
                     else
                     {
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILIcon.DrawILI(FILIndexDown, rect, ref SurfDesc);
                     }
 
@@ -153,16 +153,16 @@ public partial class TAOWBaseButton : TAOWControl
                 }
                 else
                 {
-                    if (FButtonType == TButtonType.btText)
+                    if (FButtonType == Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text)
                     {
                         if (FLit)
                         {
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILButton.DrawILLh(FILIndexLit, rect, ref SurfDesc);
                         }
                         else
                         {
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
                         }
                     }
@@ -170,12 +170,12 @@ public partial class TAOWBaseButton : TAOWControl
                     {
                         if (FLit)
                         {
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILIcon.DrawILI(FILIndexLit, rect, ref SurfDesc);
                         }
                         else
                         {
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILIcon.DrawILI(FILIndexUp, rect, ref SurfDesc);
                         }
                     }
@@ -201,7 +201,7 @@ public partial class TAOWBaseButton : TAOWControl
     }
 
     // AoWButton.pas:136
-    public virtual void SetILButton(TInterfaceIL Value)
+    public virtual void SetILButton(InterfaceIL Value)
     {
         if (Value != FILButton)
         {
@@ -212,7 +212,7 @@ public partial class TAOWBaseButton : TAOWControl
     }
 
     // AoWButton.pas:146
-    public virtual void SetILIcon(TInterfaceIL Value)
+    public virtual void SetILIcon(InterfaceIL Value)
     {
         if (Value != FILIcon)
         {
@@ -260,7 +260,7 @@ public partial class TAOWBaseButton : TAOWControl
     }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
     public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
@@ -269,10 +269,10 @@ public partial class TAOWBaseButton : TAOWControl
     public int BorderHeightSelected { get => FBorderHeightSelected; set => FBorderHeightSelected = value; }
 
     [Published]
-    public TInterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
+    public InterfaceIL ILButton { get => FILButton; set => SetILButton(value); }
 
     [Published]
-    public TInterfaceIL ILIcon { get => FILIcon; set => SetILIcon(value); }
+    public InterfaceIL ILIcon { get => FILIcon; set => SetILIcon(value); }
 
     [Published]
     public int ILIndexDown { get => FILIndexDown; set => SetILDIndex(value); }
@@ -284,60 +284,60 @@ public partial class TAOWBaseButton : TAOWControl
     public int ILIndexUp { get => FILIndexUp; set => SetILUIndex(value); }
 
     [Published]
-    public TAOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
+    public AOWMenu PopupMenu { get => FPopupMenu; set => FPopupMenu = value; }
 
     [Published]
     public string Text { get => FText; set => SetGText(value); }
 
-    public new TNotifyEvent<TAOWBaseButton> OnChange
+    public new NotifyEvent<AOWBaseButton> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWBaseButton> OnMouseDown
+    public new MouseEvent<AOWBaseButton> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWBaseButton> OnMouseUp
+    public new MouseEvent<AOWBaseButton> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWBaseButton> OnMouseMove
+    public new MouseMoveEvent<AOWBaseButton> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWBaseButton> OnKeyPress
+    public new KeyPressEvent<AOWBaseButton> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWBaseButton> OnKeyDown
+    public new KeyEvent<AOWBaseButton> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWBaseButton> OnPreDraw
+    public new AoWOnDrawEvent<AOWBaseButton> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWBaseButton> OnDraw
+    public new AoWOnDrawEvent<AOWBaseButton> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWBaseButton> OnUpdate
+    public new NotifyEvent<AOWBaseButton> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
@@ -345,15 +345,15 @@ public partial class TAOWBaseButton : TAOWControl
 }
 
 // Fields: FOnClick
-public partial class TAOWButton : TAOWBaseButton
+public partial class AOWButton : AOWBaseButton
 {
-    public TAOWButton(TComponent owner) : base(owner)
+    public AOWButton(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TNotifyEvent<TAOWButton> FOnClick;
+    public NotifyEvent<AOWButton> FOnClick;
 
     // AoWButton.pas:239
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -363,7 +363,7 @@ public partial class TAOWButton : TAOWBaseButton
             if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
             {
                 FHandled = true;
-                if (Button == TMouseButton.mbLeft)
+                if (Button == MouseButton.Left)
                 {
                     FMouseDown = true;
                     FChecked = true;
@@ -380,7 +380,7 @@ public partial class TAOWButton : TAOWBaseButton
     }
 
     // AoWButton.pas:261
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         FChecked = false;
@@ -388,7 +388,7 @@ public partial class TAOWButton : TAOWBaseButton
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
         {
             FHandled = true;
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 if (FMouseDown && FOnClick != null)
                 {
@@ -413,7 +413,7 @@ public partial class TAOWButton : TAOWBaseButton
     }
 
     // AoWButton.pas:284
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         bool OldChecked;
         bool OldLit;
@@ -446,57 +446,57 @@ public partial class TAOWButton : TAOWBaseButton
     }
 
     [Published]
-    public TNotifyEvent<TAOWButton> OnClick { get => FOnClick; set => FOnClick = value; }
+    public NotifyEvent<AOWButton> OnClick { get => FOnClick; set => FOnClick = value; }
 
-    public new TNotifyEvent<TAOWButton> OnChange
+    public new NotifyEvent<AOWButton> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWButton> OnMouseDown
+    public new MouseEvent<AOWButton> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWButton> OnMouseUp
+    public new MouseEvent<AOWButton> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWButton> OnMouseMove
+    public new MouseMoveEvent<AOWButton> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWButton> OnKeyPress
+    public new KeyPressEvent<AOWButton> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWButton> OnKeyDown
+    public new KeyEvent<AOWButton> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWButton> OnPreDraw
+    public new AoWOnDrawEvent<AOWButton> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWButton> OnDraw
+    public new AoWOnDrawEvent<AOWButton> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWButton> OnUpdate
+    public new NotifyEvent<AOWButton> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

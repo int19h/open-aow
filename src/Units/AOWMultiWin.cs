@@ -41,65 +41,65 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // pending map, menu animation height
-public partial class TMultiWindow : TDataModule
+public partial class MultiWindow : DataModule
 {
-    public TMultiWindow(TComponent owner) : base(owner)
+    public MultiWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel JoinPnl;
-    public TAOWListBox GamesLB;
-    public TAOWVScrollBar GLBvsc;
-    public TAOWButton JoinBtn;
-    public TAOWPanel MultiPnl;
-    public TAOWButton BackBtn;
-    public TAOWPanel GamePanel;
-    public TAOWButton TCPBtn;
-    public TAOWButton IPXBtn;
-    public TAOWButton SingleBtn;
-    public TAOWButton EmailBtn;
-    public TAOWPanel TCPPnl;
-    public TAOWLabel TCPNameLbl;
-    public TAOWLabel Single;
-    public TAOWLabel Address;
-    public TAOWButton CancelTCP;
-    public TAOWButton Host;
-    public TAOWButton Find;
-    public TAOWLabel GameLbl;
-    public TAOWEdit TCPName;
-    public TAOWEdit IPEdit;
-    public TAOWPanel LanPnl;
-    public TAOWButton LANFind;
-    public TAOWLabel JoinLbl;
-    public TAOWPanel BottomPnl;
-    public TAOWButton BackButn;
-    public TAOWPanel MsgPnl;
-    public TAOWButton CancelOKBut;
-    public TAOWMemo MessageMemo;
-    public TAOWButton LANCancel;
-    public TAOWLabel AOWLabel1;
-    public TAOWLabel LANLbl;
-    public TAOWEdit IPXName;
-    public TAOWButton LANHost;
-    public TAOWPanel PBEMPnl;
-    public TAOWButton CancelPBEMBtn;
-    public TAOWButton CheckEmailBtn;
-    public TAOWButton NewPBEMGameBtn;
-    public TAOWButton LoadPBEMGameBtn;
-    public TAOWButton EmailSettingsBtn;
-    public TAOWButton HeatNetBtn;
-    public TIvTranslator Translator;
+    public AOWPanel JoinPnl;
+    public AOWListBox GamesLB;
+    public AOWVScrollBar GLBvsc;
+    public AOWButton JoinBtn;
+    public AOWPanel MultiPnl;
+    public AOWButton BackBtn;
+    public AOWPanel GamePanel;
+    public AOWButton TCPBtn;
+    public AOWButton IPXBtn;
+    public AOWButton SingleBtn;
+    public AOWButton EmailBtn;
+    public AOWPanel TCPPnl;
+    public AOWLabel TCPNameLbl;
+    public AOWLabel Single;
+    public AOWLabel Address;
+    public AOWButton CancelTCP;
+    public AOWButton Host;
+    public AOWButton Find;
+    public AOWLabel GameLbl;
+    public AOWEdit TCPName;
+    public AOWEdit IPEdit;
+    public AOWPanel LanPnl;
+    public AOWButton LANFind;
+    public AOWLabel JoinLbl;
+    public AOWPanel BottomPnl;
+    public AOWButton BackButn;
+    public AOWPanel MsgPnl;
+    public AOWButton CancelOKBut;
+    public AOWMemo MessageMemo;
+    public AOWButton LANCancel;
+    public AOWLabel AOWLabel1;
+    public AOWLabel LANLbl;
+    public AOWEdit IPXName;
+    public AOWButton LANHost;
+    public AOWPanel PBEMPnl;
+    public AOWButton CancelPBEMBtn;
+    public AOWButton CheckEmailBtn;
+    public AOWButton NewPBEMGameBtn;
+    public AOWButton LoadPBEMGameBtn;
+    public AOWButton EmailSettingsBtn;
+    public AOWButton HeatNetBtn;
+    public IvTranslator Translator;
     public string FPendingMap = "";
     public int FMenuHeight;
 
     // AOWMultiWin.pas:362
-    public int ConnectProvider(TConnectionType Kind)
+    public int ConnectProvider(ConnectionType Kind)
     {
         int I = 0;
         int Found = -1;
         int Result = 0;
         while (I < Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.ConnectionItems.Count)
         {
-            if (((TGDConnection)Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.ConnectionItems[I]).FType == Kind)
+            if (((GDConnection)Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.ConnectionItems[I]).FType == Kind)
             {
                 Found = I;
                 I = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.ConnectionItems.Count;
@@ -116,7 +116,7 @@ public partial class TMultiWindow : TDataModule
             // leaves the window as it is when the connection fails.
             if (Result != 0)
             {
-                RtlUnit.ShowMessage(Aow.Game.Ui.Dialogs.TMultiWindow.NetworkPlayNotAvailableText);
+                RtlUnit.ShowMessage(Aow.Game.Ui.Dialogs.MultiWindow.NetworkPlayNotAvailableText);
             }
         }
 
@@ -129,9 +129,9 @@ public partial class TMultiWindow : TDataModule
         bool Result;
         if (IsEmpty(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress()))
         {
-            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var pleaseSetupEmailSettingsFirst = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TMultiWindow.PleaseSetupEmailSettingsFirstRStr);
+            var pleaseSetupEmailSettingsFirst = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.MultiWindow.PleaseSetupEmailSettingsFirstRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseSetupEmailSettingsFirst);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
@@ -215,10 +215,10 @@ public partial class TMultiWindow : TDataModule
     public void FindClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (ConnectProvider(TConnectionType.conTCP) == 0)
+        if (ConnectProvider(ConnectionType.TCP) == 0)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.PlayerName = TCPName.Text;
-            Aow.Game.Ui.Dialogs.TMultiWindow.SessionRefreshDelay = 0;
+            Aow.Game.Ui.Dialogs.MultiWindow.SessionRefreshDelay = 0;
             TCPPnl.Visible = false;
             JoinPnl.Visible = true;
             GamesLB.Items.Clear();
@@ -230,10 +230,10 @@ public partial class TMultiWindow : TDataModule
     public void HostClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (ConnectProvider(TConnectionType.conTCP) == 0)
+        if (ConnectProvider(ConnectionType.TCP) == 0)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.PlayerName = TCPName.Text;
-            Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.SessionName = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TMultiWindow.XsGameRStr), [TCPName.Text]);
+            Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.SessionName = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.MultiWindow.XsGameRStr), [TCPName.Text]);
             if (Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.CreateSession() == 0)
             {
                 MultiPnl.Visible = false;
@@ -358,7 +358,7 @@ public partial class TMultiWindow : TDataModule
     // AOWMultiWin.pas:343
     public void EmailSettingsBtnClick()
     {
-        Aow.Game.Ui.Dialogs.TEmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
+        Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
     }
 
     // AOWMultiWin.pas:349
@@ -368,7 +368,7 @@ public partial class TMultiWindow : TDataModule
         // starts. The installed game has no GOTOHEAT.EXE, so the original does nothing there.
         if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
         {
-            Aow.Game.Ui.Dialogs.TMessageDlg.ShowDemoMessage();
+            Aow.Game.Ui.Dialogs.MessageDlg.ShowDemoMessage();
         }
     }
 
@@ -380,7 +380,7 @@ public partial class TMultiWindow : TDataModule
 
     internal const string NetworkPlayNotAvailableText = "Network play is not available in this version.";
 
-    internal static void ShowMultiplayer(TMultiWindow Dialog, string Name)
+    internal static void ShowMultiplayer(MultiWindow Dialog, string Name)
     {
         /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
         throw new NotImplementedException();

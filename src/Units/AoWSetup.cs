@@ -18,22 +18,22 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Session;
 
-public enum TSetupStatusElement : byte
+public enum SetupStatusElement : byte
 {
-    ssBusy = 0,
-    ssAborted = 1,
-    ssRemote = 2
+    Busy = 0,
+    Aborted = 1,
+    Remote = 2
 }
 
-public enum TPlayerSetupStatusElement : byte
+public enum PlayerSetupStatusElement : byte
 {
-    pssFixed = 0,
-    pssForced = 1,
-    pssLeaderCustomized = 2,
-    pssLoaded = 3
+    Fixed = 0,
+    Forced = 1,
+    LeaderCustomized = 2,
+    Loaded = 3
 }
 
-public partial class TSetupPackage : TEObject
+public partial class SetupPackage : EObject
 {
     // AoWSetup.pas:254
     public new const int ClassID = 131681;
@@ -41,12 +41,12 @@ public partial class TSetupPackage : TEObject
     public int FMessageID;
     public int FParam2;
     public int FParam1;
-    public TEObject FData;
+    public EObject FData;
 
     // AoWSetup.pas:245
     public override void Dispose()
     {
-        TEObject Data;
+        EObject Data;
         Data = FData;
         if (Data != null)
         {
@@ -57,7 +57,7 @@ public partial class TSetupPackage : TEObject
     }
 
     // AoWSetup.pas:257
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FMessageID, 20);
@@ -67,14 +67,14 @@ public partial class TSetupPackage : TEObject
     }
 
     // AoWSetup.pas:242
-    public TSetupPackage(TECustomNode owner) : base(owner)
+    public SetupPackage(ECustomNode owner) : base(owner)
     {
     }
 
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct TSetupPlayerBehavior
+public struct SetupPlayerBehavior
 {
     [FieldOffset(0)]
     public byte PlayerType;
@@ -84,22 +84,22 @@ public struct TSetupPlayerBehavior
     public int Flags;
 }
 
-public partial class TRemotePlayer : TEObject
+public partial class RemotePlayer : EObject
 {
     // AoWSetup.pas:266
     public new const int ClassID = 131682;
 
-    public TRemotePlayer(TECustomNode owner) : base(owner)
+    public RemotePlayer(ECustomNode owner) : base(owner)
     { }
 
     public string FName = "";
     public int FRemoteID;
     public byte FPreferredRace;
-    public TMapValidationInfo FMapValidation;
+    public MapValidationInfo FMapValidation;
     public int FVersion;
 
     // AoWSetup.pas:269
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwString(ref FName, 20);
@@ -121,13 +121,13 @@ public partial class TRemotePlayer : TEObject
 
 }
 
-public partial class TRemotePlayerList : TENode
+public partial class RemotePlayerList : ENode
 {
-    public TRemotePlayerList(TECustomNode owner) : base(owner)
+    public RemotePlayerList(ECustomNode owner) : base(owner)
     { }
 
     // AoWSetup.pas:279
-    public TRemotePlayer GetPlayers(int Index) => (TRemotePlayer)FChildren.List[Index];
+    public RemotePlayer GetPlayers(int Index) => (RemotePlayer)FChildren.List[Index];
 
     // AoWSetup.pas:284
     public int IndexOfRemoteID(int RemoteID)
@@ -137,7 +137,7 @@ public partial class TRemotePlayerList : TENode
         I = 0;
         while (Result == -1 && I != FChildren.Count)
         {
-            if (((TRemotePlayer)FChildren.List[I]).FRemoteID == RemoteID)
+            if (((RemotePlayer)FChildren.List[I]).FRemoteID == RemoteID)
             {
                 Result = I;
             }
@@ -151,17 +151,17 @@ public partial class TRemotePlayerList : TENode
 }
 
 // behaviors, race, status, leader, player, behavior, email
-public partial class TPlayerSetupSettings : TEObject
+public partial class PlayerSetupSettings : EObject
 {
     // AoWSetup.pas:312
     public new const int ClassID = 131683;
 
-    public TSetupPlayerBehavior FBehavior;
-    public TSetupPlayerBehavior FOriginalBehavior;
+    public SetupPlayerBehavior FBehavior;
+    public SetupPlayerBehavior FOriginalBehavior;
     public sbyte FRace;
     // AoW.exe
-    public TSet<TPlayerSetupStatusElement> FStatus;
-    public TLeader FLeader;
+    public Set<PlayerSetupStatusElement> FStatus;
+    public Leader FLeader;
     public byte FPlayerID;
     public byte FBehaviorMode;
     public string FEmailAddress = "";
@@ -175,7 +175,7 @@ public partial class TPlayerSetupSettings : TEObject
     }
 
     // AoWSetup.pas:315
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwByte(ref FPlayerID, 10);
@@ -188,22 +188,22 @@ public partial class TPlayerSetupSettings : TEObject
     }
 
     // AoWSetup.pas:296
-    public TPlayerSetupSettings(TECustomNode owner) : base(owner)
+    public PlayerSetupSettings(ECustomNode owner) : base(owner)
     {
-        FStatus = TSet<TPlayerSetupStatusElement>.Of();
-        FBehavior = Aow.Game.Session.TPlayerSetupSettings.DefaultBehavior;
-        FOriginalBehavior = Aow.Game.Session.TPlayerSetupSettings.DefaultOriginalBehavior;
-        FLeader = new TLeader(null);
+        FStatus = Set<PlayerSetupStatusElement>.Of();
+        FBehavior = Aow.Game.Session.PlayerSetupSettings.DefaultBehavior;
+        FOriginalBehavior = Aow.Game.Session.PlayerSetupSettings.DefaultOriginalBehavior;
+        FLeader = new Leader(null);
     }
 
-    private static global::Aow.Game.Session.TSetupPlayerBehavior DefaultBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    private static global::Aow.Game.Session.SetupPlayerBehavior DefaultBehavior = new global::Aow.Game.Session.SetupPlayerBehavior
     {
         PlayerType = 0,
         Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
-    private static global::Aow.Game.Session.TSetupPlayerBehavior DefaultOriginalBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    private static global::Aow.Game.Session.SetupPlayerBehavior DefaultOriginalBehavior = new global::Aow.Game.Session.SetupPlayerBehavior
     {
         PlayerType = 5,
         Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
@@ -214,7 +214,7 @@ public partial class TPlayerSetupSettings : TEObject
 
 // CRCs, day, play mode, victory, independent AI, seed, limits, players, connection, tactical
 // combat, email game name
-public partial class TSetupSettings : TENode
+public partial class SetupSettings : ENode
 {
     // AoWSetup.pas:356
     public new const int ClassID = 131680;
@@ -235,7 +235,7 @@ public partial class TSetupSettings : TENode
     public int FRandomSeed;
     public int FDayLimit;
     public int FTurnTime;
-    public TRemotePlayerList FRemotePlayers;
+    public RemotePlayerList FRemotePlayers;
     public byte FConnectionType;
     public byte FTacticalCombatAvailability;
     public bool FAlwaysViewTC;
@@ -249,7 +249,7 @@ public partial class TSetupSettings : TENode
     }
 
     // AoWSetup.pas:402
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwString(ref FFileName, 10);
@@ -300,9 +300,9 @@ public partial class TSetupSettings : TENode
     }
 
     // AoWSetup.pas:327
-    public TSetupSettings(TECustomNode owner) : base(owner)
+    public SetupSettings(ECustomNode owner) : base(owner)
     {
-        FRemotePlayers = new TRemotePlayerList(null);
+        FRemotePlayers = new RemotePlayerList(null);
         Reset();
     }
 
@@ -324,12 +324,12 @@ public partial class TSetupSettings : TENode
     }
 
     // AoWSetup.pas:359
-    public TPlayerSetupSettings GetSettings(int Index)
+    public PlayerSetupSettings GetSettings(int Index)
     {
-        TPlayerSetupSettings Result;
+        PlayerSetupSettings Result;
         if (Index >= 0 && Index < FChildren.Count)
         {
-            Result = (TPlayerSetupSettings)FChildren.List[Index];
+            Result = (PlayerSetupSettings)FChildren.List[Index];
         }
         else
         {
@@ -347,7 +347,7 @@ public partial class TSetupSettings : TENode
         I = 0;
         while (Result == -1 && I != FChildren.Count)
         {
-            if (((TPlayerSetupSettings)FChildren.List[I]).FPlayerID == Player)
+            if (((PlayerSetupSettings)FChildren.List[I]).FPlayerID == Player)
             {
                 Result = I;
             }
@@ -366,7 +366,7 @@ public partial class TSetupSettings : TENode
         I = 0;
         while (Result == -1 && I != FChildren.Count)
         {
-            if (((TPlayerSetupSettings)FChildren.List[I]).FBehavior.Flags == RemoteID)
+            if (((PlayerSetupSettings)FChildren.List[I]).FBehavior.Flags == RemoteID)
             {
                 Result = I;
             }
@@ -385,7 +385,7 @@ public partial class TSetupSettings : TENode
         I = 0;
         while (Result == -1 && I != FChildren.Count)
         {
-            if (Race == (byte)((TPlayerSetupSettings)FChildren.List[I]).FRace)
+            if (Race == (byte)((PlayerSetupSettings)FChildren.List[I]).FRace)
             {
                 Result = I;
             }
@@ -398,39 +398,39 @@ public partial class TSetupSettings : TENode
 
 }
 
-public partial class TCustomizeLeaderControl : TLeaderSetupControl
+public partial class CustomizeLeaderControl : LeaderSetupControl
 {
-    public TCustomizeLeaderControl(TECustomNode owner) : base(owner)
+    public CustomizeLeaderControl(ECustomNode owner) : base(owner)
     { }
 
-    public TSetupControl FSetupControl;
+    public SetupControl FSetupControl;
     public int FPlayerIndex;
 
     // intf_P1_03.inc:99
     public override bool Done() { FSetupControl.LeaderCustomized(this); return true; }
 }
 
-public partial class TSetupControl : TComponent
+public partial class SetupControl : global::Aow.Rtl.Component
 {
-    public TSet<TSetupStatusElement> FStatus;
-    public TSetupPhase FPhase;
-    public TSetupSettings FSettings;
+    public Set<SetupStatusElement> FStatus;
+    public SetupPhase FPhase;
+    public SetupSettings FSettings;
     public MemoryStream FStream;
     public int FUpdateCount;
-    public TRemotePlayer FRemotePlayer;
-    public TSetupControlEvent FOnSettingChanged;
-    public TLoadMapEvent FOnLoadMap;
-    public TSetupControlEvent FOnSetupMap;
-    public TSetupControlEvent FOnStart;
-    public TSetupControlEvent FOnAbort;
-    public TCustomizeLeaderEvent FOnCustomizeLeader;
-    public TSetupControlEvent FOnSynchronize;
-    public TSetupControlEvent FOnPlayerSetupDone;
-    public TEjectPlayerEvent FOnEjectPlayer;
-    public TIncompatibleVersionEvent FOnIncompatibleVersion;
-    public TSendDataEvent FOnSendData;
-    public TSendMapEvent FOnSendMap;
-    public TSetupControlEvent FOnSendingMaps;
+    public RemotePlayer FRemotePlayer;
+    public Event FOnSettingChanged;
+    public LoadMapEvent FOnLoadMap;
+    public Event FOnSetupMap;
+    public Event FOnStart;
+    public Event FOnAbort;
+    public CustomizeLeaderEvent FOnCustomizeLeader;
+    public Event FOnSynchronize;
+    public Event FOnPlayerSetupDone;
+    public EjectPlayerEvent FOnEjectPlayer;
+    public IncompatibleVersionEvent FOnIncompatibleVersion;
+    public SendDataEvent FOnSendData;
+    public SendMapEvent FOnSendMap;
+    public Event FOnSendingMaps;
 
     // AoWSetup.pas:448
     public override void Dispose()
@@ -442,10 +442,10 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:436
-    public TSetupControl(TComponent owner) : base(owner)
+    public SetupControl(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FSettings = new TSetupSettings(null);
-        FRemotePlayer = new TRemotePlayer(null);
+        FSettings = new SetupSettings(null);
+        FRemotePlayer = new RemotePlayer(null);
         FRemotePlayer.FRemoteID = 0;
         FRemotePlayer.FPreferredRace = 255;
         FStream = new MemoryStream();
@@ -461,7 +461,7 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:461
-    public void SendPackage(TSetupPackage Package, int Recipient)
+    public void SendPackage(SetupPackage Package, int Recipient)
     {
         MemoryStream Stream;
         Stream = new MemoryStream();
@@ -480,12 +480,12 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:476
-    public void SendMessage(int MessageID, TEObject Obj, int Param2, int Param1, int Recipient)
+    public void SendMessage(int MessageID, EObject Obj, int Param2, int Param1, int Recipient)
     {
-        TSetupPackage Package;
+        SetupPackage Package;
         if (GetRemote())
         {
-            Package = new TSetupPackage(null);
+            Package = new SetupPackage(null);
             Package.FMessageID = MessageID;
             if (Obj != null)
             {
@@ -500,12 +500,12 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:492
-    public void SendHostMessage(int MessageID, TEObject Obj, int Param2, int Param1)
+    public void SendHostMessage(int MessageID, EObject Obj, int Param2, int Param1)
     {
-        TSetupPackage Package;
+        SetupPackage Package;
         if (GetRemote())
         {
-            Package = new TSetupPackage(null);
+            Package = new SetupPackage(null);
             Package.FMessageID = MessageID;
             if (Obj != null)
             {
@@ -530,7 +530,7 @@ public partial class TSetupControl : TComponent
     // AoWSetup.pas:509
     public void DataReceived(object Data, int Size, int SenderID)
     {
-        TEObject Obj = default;
+        EObject Obj = default;
         MemoryStream Stream;
         Stream = new MemoryStream();
         Stream.SetLength(Size);
@@ -539,11 +539,11 @@ public partial class TSetupControl : TComponent
         try
         {
             Obj = Aow.Game.Magic.Abilities.GameTables.AoWEngine.RetrieveEObject(Stream, null);
-            if (Obj is TSetupPackage)
+            if (Obj is SetupPackage)
             {
                 var size = (int)Stream.Length;
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Net.NetworkSession.NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((TSetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
-                PackageReceived((TSetupPackage)Obj, SenderID);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Net.NetworkSession.NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((SetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
+                PackageReceived((SetupPackage)Obj, SenderID);
             }
 
             Obj?.Dispose();
@@ -567,15 +567,15 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:537
-    public void hConnectPlayer(TRemotePlayer Player)
+    public void hConnectPlayer(RemotePlayer Player)
     {
-        if (FPhase == TSetupPhase.spSetupPlayers && (ValidateCompatibleVersion(Player.FVersion) || FRemotePlayer.FRemoteID == Player.FRemoteID))
+        if (FPhase == SetupPhase.SetupPlayers && (ValidateCompatibleVersion(Player.FVersion) || FRemotePlayer.FRemoteID == Player.FRemoteID))
         {
             if (FSettings.FRemotePlayers.IndexOfRemoteID(Player.FRemoteID) == -1)
             {
-                Player = (TRemotePlayer)Player.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Player = (RemotePlayer)Player.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                 Player.FName = ValidatePlayerName(Player.FName);
-                Player.FMapValidation = TMapValidationInfo.mviUnknown;
+                Player.FMapValidation = MapValidationInfo.Unknown;
                 Player.SetOwner(FSettings.FRemotePlayers);
                 UpdateSettings();
             }
@@ -617,7 +617,7 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:569
-    public void hUpdatePlayer(TRemotePlayer Player)
+    public void hUpdatePlayer(RemotePlayer Player)
     {
         int I;
         I = FSettings.FRemotePlayers.IndexOfRemoteID(Player.FRemoteID);
@@ -642,7 +642,7 @@ public partial class TSetupControl : TComponent
             I = FSettings.FRemotePlayers.IndexOfRemoteID(RemoteID);
             if (I != -1)
             {
-                Result = FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == TMapValidationInfo.mviValid;
+                Result = FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == MapValidationInfo.Valid;
             }
             else
             {
@@ -679,10 +679,10 @@ public partial class TSetupControl : TComponent
     public void ValidateMap()
     {
         string FileName;
-        TMapValidationInfo Validation;
-        if (!IsEmpty(FSettings.FMapName) && FRemotePlayer.FMapValidation != TMapValidationInfo.mviValid)
+        MapValidationInfo Validation;
+        if (!IsEmpty(FSettings.FMapName) && FRemotePlayer.FMapValidation != MapValidationInfo.Valid)
         {
-            if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FHSSCRC == FSettings.FSetCRC)
+            if (Aow.Game.Engine.AoWHSSet.Current.FHSSCRC == FSettings.FSetCRC)
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
                 FileName = FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FSettings.FMapName);
@@ -690,24 +690,24 @@ public partial class TSetupControl : TComponent
                 {
                     if (FileBoundary.ImageCrc32(FileName, Aow.Formats.GameProfile.WorldMap) == FSettings.FMapCRC)
                     {
-                        Validation = TMapValidationInfo.mviValid;
+                        Validation = MapValidationInfo.Valid;
                     }
                     else
                     {
-                        Validation = TMapValidationInfo.mviInvalidMap;
+                        Validation = MapValidationInfo.InvalidMap;
                     }
                 }
                 else
                 {
-                    Validation = TMapValidationInfo.mviInvalidMap;
+                    Validation = MapValidationInfo.InvalidMap;
                 }
             }
             else
             {
-                Validation = TMapValidationInfo.mviInvalid;
+                Validation = MapValidationInfo.Invalid;
             }
 
-            bool condition = Validation == TMapValidationInfo.mviInvalidMap && FStream.Length != 0;
+            bool condition = Validation == MapValidationInfo.InvalidMap && FStream.Length != 0;
             if (condition)
             {
                 var size = (int)FStream.Length;
@@ -716,7 +716,7 @@ public partial class TSetupControl : TComponent
 
             if (condition)
             {
-                Validation = TMapValidationInfo.mviValid;
+                Validation = MapValidationInfo.Valid;
             }
 
             if (Validation != FRemotePlayer.FMapValidation)
@@ -728,13 +728,13 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:627
-    public void PackageReceived(TSetupPackage Package, int SenderID)
+    public void PackageReceived(SetupPackage Package, int SenderID)
     {
         int I = default;
         switch (Package.FMessageID)
         {
             case 1:
-                hConnectPlayer((TRemotePlayer)Package.FData);
+                hConnectPlayer((RemotePlayer)Package.FData);
                 break;
             case 2:
                 if (GetHost())
@@ -746,12 +746,12 @@ public partial class TSetupControl : TComponent
             case 3:
                 if (GetHost())
                 {
-                    hUpdatePlayer((TRemotePlayer)Package.FData);
+                    hUpdatePlayer((RemotePlayer)Package.FData);
                 }
 
                 break;
             case 4:
-                if (!GetHost() && FPhase == TSetupPhase.spSetupPlayers)
+                if (!GetHost() && FPhase == SetupPhase.SetupPlayers)
                 {
                     FSettings.Assign(Package.FData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     I = FSettings.FRemotePlayers.IndexOfRemoteID(FRemotePlayer.FRemoteID);
@@ -763,7 +763,7 @@ public partial class TSetupControl : TComponent
                         FRemotePlayer.FPreferredRace = playerPreferredRace.FPreferredRace;
                         var playerMapValidation = FSettings.FRemotePlayers.GetPlayers(I);
                         FRemotePlayer.FMapValidation = playerMapValidation.FMapValidation;
-                        if (FRemotePlayer.FMapValidation == TMapValidationInfo.mviUnknown)
+                        if (FRemotePlayer.FMapValidation == MapValidationInfo.Unknown)
                         {
                             ValidateMap();
                         }
@@ -789,7 +789,7 @@ public partial class TSetupControl : TComponent
                         FRemotePlayer.FPreferredRace = playerPreferredRace.FPreferredRace;
                         var playerMapValidation = FSettings.FRemotePlayers.GetPlayers(I);
                         FRemotePlayer.FMapValidation = playerMapValidation.FMapValidation;
-                        if (FRemotePlayer.FMapValidation == TMapValidationInfo.mviUnknown)
+                        if (FRemotePlayer.FMapValidation == MapValidationInfo.Unknown)
                         {
                             ValidateMap();
                         }
@@ -807,7 +807,7 @@ public partial class TSetupControl : TComponent
             case 8:
                 if (GetHost())
                 {
-                    hLeaderCustomized(Package.FParam2, (TLeader)Package.FData);
+                    hLeaderCustomized(Package.FParam2, (Leader)Package.FData);
                 }
 
                 break;
@@ -829,7 +829,7 @@ public partial class TSetupControl : TComponent
             case 10:
                 if (!GetHost())
                 {
-                    FPhase = TSetupPhase.spSendMap;
+                    FPhase = SetupPhase.SendMap;
                     if (FOnSendingMaps != null)
                     {
                         FOnSendingMaps(this);
@@ -861,7 +861,7 @@ public partial class TSetupControl : TComponent
     // AoWSetup.pas:683
     public void LoadMap()
     {
-        FPhase = TSetupPhase.spLoadMap;
+        FPhase = SetupPhase.LoadMap;
         if (FOnLoadMap != null)
         {
             FOnLoadMap(this, Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FSettings.FMapName);
@@ -885,7 +885,7 @@ public partial class TSetupControl : TComponent
             {
                 var setting = FSettings.GetSettings(I);
                 J = FSettings.FRemotePlayers.IndexOfRemoteID(setting.FBehavior.Flags);
-                if (J != -1 && FSettings.FRemotePlayers.GetPlayers(J).FMapValidation == TMapValidationInfo.mviInvalidMap)
+                if (J != -1 && FSettings.FRemotePlayers.GetPlayers(J).FMapValidation == MapValidationInfo.InvalidMap)
                 {
                     RemoteID = FSettings.GetSettings(I).FBehavior.Flags;
                 }
@@ -896,7 +896,7 @@ public partial class TSetupControl : TComponent
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
-            Stream = Aow.Game.Engine.TEngine.ImageStream(FileBoundary.LoadOrRaise(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
+            Stream = global::Aow.Game.Engine.Engine.ImageStream(FileBoundary.LoadOrRaise(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
             if (FOnSendMap != null)
             {
                 var size = (int)Stream.Length;
@@ -917,7 +917,7 @@ public partial class TSetupControl : TComponent
     // AoWSetup.pas:715
     public void hSendMap()
     {
-        FPhase = TSetupPhase.spSendMap;
+        FPhase = SetupPhase.SendMap;
         if (FOnSendingMaps != null)
         {
             FOnSendingMaps(this);
@@ -949,7 +949,7 @@ public partial class TSetupControl : TComponent
         if (GetHost())
         {
             var setting = FSettings.GetSettings(Index);
-            FSettings.GetSettings(Index).FStatus = setting.FStatus + TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssLoaded);
+            FSettings.GetSettings(Index).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
             if (!hValidateSetupMap())
             {
                 UpdateSettings();
@@ -963,7 +963,7 @@ public partial class TSetupControl : TComponent
         int I = default;
         if (FSettings.FMapDay != 0 || !FSettings.FCustomizeLeaders)
         {
-            FPhase = TSetupPhase.spSynchronize;
+            FPhase = SetupPhase.Synchronize;
             if (FOnSynchronize != null)
             {
                 FOnSynchronize(this);
@@ -991,7 +991,7 @@ public partial class TSetupControl : TComponent
                 if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
                 {
                     var setting = FSettings.GetSettings(I);
-                    FSettings.GetSettings(I).FStatus = setting.FStatus + TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssLoaded);
+                    FSettings.GetSettings(I).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Loaded);
                 }
             }
 
@@ -1008,13 +1008,13 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:768
-    public void hLeaderCustomized(int Index, TLeader Leader)
+    public void hLeaderCustomized(int Index, Leader Leader)
     {
         if (GetHost())
         {
             FSettings.GetSettings(Index).FLeader.Assign(Leader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             var setting = FSettings.GetSettings(Index);
-            FSettings.GetSettings(Index).FStatus = setting.FStatus + TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssLeaderCustomized);
+            FSettings.GetSettings(Index).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
             if (!hValidateSetupMap())
             {
                 UpdateSettings();
@@ -1027,14 +1027,14 @@ public partial class TSetupControl : TComponent
     {
         bool Found;
         int I;
-        TCustomizeLeaderControl CLC = default;
-        FPhase = TSetupPhase.spCustomizeLeaders;
+        CustomizeLeaderControl CLC = default;
+        FPhase = SetupPhase.CustomizeLeaders;
         bool Result = false;
         Found = false;
         I = 0;
         while (!Found && I != FSettings.Count)
         {
-            Found = FSettings.GetSettings(I).FBehavior.PlayerType == 0 && (!GetRemote() || FSettings.GetSettings(I).FBehavior.Flags == FRemotePlayer.FRemoteID) && !FSettings.GetSettings(I).FStatus.Contains(TPlayerSetupStatusElement.pssLeaderCustomized);
+            Found = FSettings.GetSettings(I).FBehavior.PlayerType == 0 && (!GetRemote() || FSettings.GetSettings(I).FBehavior.Flags == FRemotePlayer.FRemoteID) && !FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.LeaderCustomized);
             if (!Found)
             {
                 I += 1;
@@ -1043,7 +1043,7 @@ public partial class TSetupControl : TComponent
 
         if (Found)
         {
-            CLC = new TCustomizeLeaderControl(null);
+            CLC = new CustomizeLeaderControl(null);
             CLC.FSetupControl = this;
             CLC.FPlayerIndex = I;
             var settingRace = FSettings.GetSettings(I);
@@ -1060,7 +1060,7 @@ public partial class TSetupControl : TComponent
 
             if (!FSettings.FLeadersOnMap)
             {
-                CLC.FMode = TSet<TLeaderSetupModeElement>.FromMask((CLC.FMode - TSet<TLeaderSetupModeElement>.Of((TLeaderSetupModeElement)1)).Mask);
+                CLC.FMode = Set<LeaderSetupModeElement>.FromMask((CLC.FMode - Set<LeaderSetupModeElement>.Of((LeaderSetupModeElement)1)).Mask);
             }
 
             if (FOnCustomizeLeader != null)
@@ -1073,7 +1073,7 @@ public partial class TSetupControl : TComponent
         }
         else
         {
-            FPhase = TSetupPhase.spSynchronize;
+            FPhase = SetupPhase.Synchronize;
             if (FOnSynchronize != null)
             {
                 FOnSynchronize(this);
@@ -1084,7 +1084,7 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:817
-    public void LeaderCustomized(TCustomizeLeaderControl Control)
+    public void LeaderCustomized(CustomizeLeaderControl Control)
     {
         if (!GetHost())
         {
@@ -1096,16 +1096,16 @@ public partial class TSetupControl : TComponent
             hLeaderCustomized(Control.FPlayerIndex, Control.FOriginalLeader);
         }
 
-        if (FStatus.Contains(TSetupStatusElement.ssBusy))
+        if (FStatus.Contains(SetupStatusElement.Busy))
         {
             var setting = FSettings.GetSettings(Control.FPlayerIndex);
-            FSettings.GetSettings(Control.FPlayerIndex).FStatus = setting.FStatus + TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssLeaderCustomized);
+            FSettings.GetSettings(Control.FPlayerIndex).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.LeaderCustomized);
             CustomizeLeaders();
         }
     }
 
     // AoWSetup.pas:830
-    public void ListPCCInfo(TPlayerCommunicationControl PCC)
+    public void ListPCCInfo(PlayerCommunicationControl PCC)
     {
         string S;
         for (int I = 0, last = PCC.Count - 1; I <= last; I++)
@@ -1114,13 +1114,13 @@ public partial class TSetupControl : TComponent
             S = "Player (" + IntToStr(I) + ") at system:" + IntToStr(player.SystemID) + " CM:";
             switch (PCC.Players[I].ConnectionMode)
             {
-                case TConnectionMode.cmGlobal:
+                case ConnectionMode.Global:
                     S = S + "Global";
                     break;
-                case TConnectionMode.cmLocal:
+                case ConnectionMode.Local:
                     S = S + "Local";
                     break;
-                case TConnectionMode.cmRemote:
+                case ConnectionMode.Remote:
                     S = S + "Remote";
                     break;
             }
@@ -1132,11 +1132,11 @@ public partial class TSetupControl : TComponent
     // AoWSetup.pas:844
     public void RemoveIndependentPlayers()
     {
-        TPlayer Player;
-        for (int I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount() - 1; I >= 1; I--)
+        Player Player;
+        for (int I = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I >= 1; I--)
         {
-            Player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I);
-            if (Player.FPlayerType == TPlayerType.ptIndependent)
+            Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
+            if (Player.FPlayerType == PlayerType.Independent)
             {
                 for (int J = Player.FStructures.GetCount() - 1; J >= 0; J--)
                 {
@@ -1149,7 +1149,7 @@ public partial class TSetupControl : TComponent
                 }
 
                 Player.FLeader.SetOwner(null);
-                Player.FStatus = TPlayerStatus.psTerminated;
+                Player.FStatus = Aow.Game.Session.Player.Status.Terminated;
             }
         }
     }
@@ -1158,16 +1158,16 @@ public partial class TSetupControl : TComponent
     public void SetupMap()
     {
         int Index = default;
-        TPlayer Player = default;
-        TRemotePCC RemotePCC = default;
-        TLocalPCC LocalPCC = default;
-        FPhase = TSetupPhase.spSetupMap;
+        Player Player = default;
+        RemotePCC RemotePCC = default;
+        LocalPCC LocalPCC = default;
+        FPhase = SetupPhase.SetupMap;
         for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
         {
             var settingPlayerID = FSettings.GetSettings(I);
-            Player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)settingPlayerID.FPlayerID);
-            Player.FPlayerType = (TPlayerType)FSettings.GetSettings(I).FBehavior.PlayerType;
-            Player.FBehavior = (TPlayerBehavior)FSettings.GetSettings(I).FBehaviorMode;
+            Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)settingPlayerID.FPlayerID);
+            Player.FPlayerType = (PlayerType)FSettings.GetSettings(I).FBehavior.PlayerType;
+            Player.FBehavior = (Aow.Game.Session.Player.Behavior)FSettings.GetSettings(I).FBehaviorMode;
             if (FSettings.FConnectionType == 2)
             {
                 var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
@@ -1208,29 +1208,29 @@ public partial class TSetupControl : TComponent
             }
         }
 
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FConnectionType = (TPlayerConnectionType)FSettings.FConnectionType;
+        Aow.Game.World.Map.AoWHSMap.Current.FConnectionType = (PlayerConnectionType)FSettings.FConnectionType;
         if (GetRemote())
         {
-            RemotePCC = new TRemotePCC();
-            RemotePCC.Setup(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
-            RemotePCC.SetConnectionMode(0, TConnectionMode.cmGlobal);
+            RemotePCC = new global::Aow.Game.Net.RemotePCC();
+            RemotePCC.Setup(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
+            RemotePCC.SetConnectionMode(0, ConnectionMode.Global);
             RemotePCC.SetSystemID(0, FRemotePlayer.FRemoteID);
             for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
             {
                 if (FSettings.GetSettings(I).FBehavior.PlayerType != 0)
                 {
-                    RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, TConnectionMode.cmGlobal);
+                    RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Global);
                     RemotePCC.SetSystemID((sbyte)FSettings.GetSettings(I).FPlayerID, FRemotePlayer.FRemoteID);
                 }
                 else
                 {
                     if (FSettings.GetSettings(I).FBehavior.Flags == FRemotePlayer.FRemoteID)
                     {
-                        RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, TConnectionMode.cmLocal);
+                        RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Local);
                     }
                     else
                     {
-                        RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, TConnectionMode.cmRemote);
+                        RemotePCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Remote);
                     }
 
                     var setting = FSettings.GetSettings(I);
@@ -1238,49 +1238,49 @@ public partial class TSetupControl : TComponent
                 }
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.ActivatePCC(RemotePCC);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(RemotePCC);
             RemotePCC.OnSendData = FOnSendData;
             ListPCCInfo(RemotePCC);
             RemotePCC.Release();
         }
         else
         {
-            LocalPCC = new TLocalPCC();
-            LocalPCC.Setup(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount());
-            LocalPCC.SetConnectionMode(0, TConnectionMode.cmGlobal);
+            LocalPCC = new global::Aow.Game.Net.LocalPCC();
+            LocalPCC.Setup(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount());
+            LocalPCC.SetConnectionMode(0, ConnectionMode.Global);
             for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
             {
                 if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
                 {
-                    LocalPCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, TConnectionMode.cmLocal);
+                    LocalPCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Local);
                 }
                 else
                 {
-                    LocalPCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, TConnectionMode.cmGlobal);
+                    LocalPCC.SetConnectionMode((sbyte)FSettings.GetSettings(I).FPlayerID, ConnectionMode.Global);
                 }
             }
 
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.ActivatePCC(LocalPCC);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.ActivatePCC(LocalPCC);
             ListPCCInfo(LocalPCC);
             LocalPCC.Release();
         }
 
         if (FSettings.FMapDay == 0)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed = FSettings.FRandomSeed;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FFixedLeaders = FSettings.FLeadersOnMap;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAlliedVictory = FSettings.FAlliedVictory;
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetExplorationEnabled(FSettings.FExplorationEnabled);
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetFogEnabled(true);
+            Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed = FSettings.FRandomSeed;
+            Aow.Game.World.Map.AoWHSMap.Current.FFixedLeaders = FSettings.FLeadersOnMap;
+            Aow.Game.World.Map.AoWHSMap.Current.FAlliedVictory = FSettings.FAlliedVictory;
+            Aow.Game.World.Map.AoWHSMap.Current.SetExplorationEnabled(FSettings.FExplorationEnabled);
+            Aow.Game.World.Map.AoWHSMap.Current.SetFogEnabled(true);
         }
 
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDayLimit = FSettings.FDayLimit;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTurnTime = FSettings.FTurnTime;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FVictoryMode = FSettings.FTacticalCombatAvailability;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FLeadersFixed = FSettings.FCustomizeLeaders;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStartingGame = FSettings.FAlwaysViewTC;
+        Aow.Game.World.Map.AoWHSMap.Current.FDayLimit = FSettings.FDayLimit;
+        Aow.Game.World.Map.AoWHSMap.Current.FTurnTime = FSettings.FTurnTime;
+        Aow.Game.World.Map.AoWHSMap.Current.FVictoryMode = FSettings.FTacticalCombatAvailability;
+        Aow.Game.World.Map.AoWHSMap.Current.FLeadersFixed = FSettings.FCustomizeLeaders;
+        Aow.Game.World.Map.AoWHSMap.Current.FStartingGame = FSettings.FAlwaysViewTC;
         RemoveIndependentPlayers();
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetupPlayerControl((TPlayMode)FSettings.FPlayMode, (TPlayerConnectionType)FSettings.FConnectionType);
+        Aow.Game.World.Map.AoWHSMap.Current.SetupPlayerControl((PlayMode)FSettings.FPlayMode, (PlayerConnectionType)FSettings.FConnectionType);
         if (FOnSetupMap != null)
         {
             try
@@ -1319,7 +1319,7 @@ public partial class TSetupControl : TComponent
                 I -= 1;
                 if (FSettings.GetSettings(I).FBehavior.PlayerType == 0)
                 {
-                    Result = FSettings.GetSettings(I).FStatus.Contains(TPlayerSetupStatusElement.pssLoaded) && (!FSettings.FCustomizeLeaders || FSettings.GetSettings(I).FStatus.Contains(TPlayerSetupStatusElement.pssLeaderCustomized));
+                    Result = FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.Loaded) && (!FSettings.FCustomizeLeaders || FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.LeaderCustomized));
                 }
             }
 
@@ -1374,7 +1374,7 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:898
-    public bool GetRemote() => FStatus.Contains(TSetupStatusElement.ssRemote);
+    public bool GetRemote() => FStatus.Contains(SetupStatusElement.Remote);
 
     // AoWSetup.pas:902
     public bool GetHost() => FSettings.FHostRemoteID == FRemotePlayer.FRemoteID;
@@ -1382,10 +1382,10 @@ public partial class TSetupControl : TComponent
     // AoWSetup.pas:906
     public void Reset()
     {
-        FPhase = TSetupPhase.spIdle;
-        FStatus = TSet<TSetupStatusElement>.Of();
+        FPhase = SetupPhase.Idle;
+        FStatus = Set<SetupStatusElement>.Of();
         FRemotePlayer.FName = "";
-        FRemotePlayer.FMapValidation = TMapValidationInfo.mviUnknown;
+        FRemotePlayer.FMapValidation = MapValidationInfo.Unknown;
         FRemotePlayer.FPreferredRace = 255;
         FSettings.Reset();
         FStream.Clear();
@@ -1436,16 +1436,16 @@ public partial class TSetupControl : TComponent
             }
             else
             {
-                FSettings.GetSettings(Index).FBehavior = Aow.Game.Session.TSetupControl.CPUBehavior;
+                FSettings.GetSettings(Index).FBehavior = Aow.Game.Session.SetupControl.CPUBehavior;
             }
         }
         else
         {
-            FSettings.GetSettings(Index).FBehavior = Aow.Game.Session.TSetupControl.FreeBehavior;
+            FSettings.GetSettings(Index).FBehavior = Aow.Game.Session.SetupControl.FreeBehavior;
         }
 
         var settingStatus = FSettings.GetSettings(Index);
-        FSettings.GetSettings(Index).FStatus = settingStatus.FStatus - TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssForced);
+        FSettings.GetSettings(Index).FStatus = settingStatus.FStatus - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
     }
 
     // AoWSetup.pas:1289
@@ -1467,11 +1467,11 @@ public partial class TSetupControl : TComponent
                 if (Race != -1)
                 {
                     Target = FSettings.IndexOfRace((byte)Race);
-                    if (Target != -1 && FSettings.GetSettings(Target).FBehavior.Flags == 0 && (FSettings.GetSettings(Target).FStatus & TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssFixed, TPlayerSetupStatusElement.pssForced)) == TSet<TPlayerSetupStatusElement>.Of())
+                    if (Target != -1 && FSettings.GetSettings(Target).FBehavior.Flags == 0 && (FSettings.GetSettings(Target).FStatus & Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed, PlayerSetupStatusElement.Forced)) == Set<PlayerSetupStatusElement>.Of())
                     {
                         var playerRemoteID = FSettings.FRemotePlayers.GetPlayers(I);
                         Old = FSettings.IndexOfRemoteID(playerRemoteID.FRemoteID);
-                        if (Old == -1 || !FSettings.GetSettings(Old).FStatus.Contains(TPlayerSetupStatusElement.pssForced))
+                        if (Old == -1 || !FSettings.GetSettings(Old).FStatus.Contains(PlayerSetupStatusElement.Forced))
                         {
                             if (Old != -1)
                             {
@@ -1490,7 +1490,7 @@ public partial class TSetupControl : TComponent
                 {
                     var player = FSettings.FRemotePlayers.GetPlayers(I);
                     Old = FSettings.IndexOfRemoteID(player.FRemoteID);
-                    if (Old != -1 && !FSettings.GetSettings(Old).FStatus.Contains(TPlayerSetupStatusElement.pssForced))
+                    if (Old != -1 && !FSettings.GetSettings(Old).FStatus.Contains(PlayerSetupStatusElement.Forced))
                     {
                         ResetPlayerSettings(Old);
                         Again = true;
@@ -1503,7 +1503,7 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:944
-    public void ListAvailablePlayers(TStrings List)
+    public void ListAvailablePlayers(StringCollection List)
     {
         if (GetRemote())
         {
@@ -1536,10 +1536,10 @@ public partial class TSetupControl : TComponent
     public string ValidatePlayerName(string Name)
     {
         bool Done;
-        TStringList List;
+        StringList List;
         int I;
         bool Unique;
-        List = new TStringList();
+        List = new StringList();
         ListAvailablePlayers(List);
         Done = false;
         string Result = Name;
@@ -1556,7 +1556,7 @@ public partial class TSetupControl : TComponent
             if (!Unique)
             {
                 // { Original reads the last character without guarding an empty name. }
-                if (TSet<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(Result[Result.Length - 1])))
+                if (Set<byte>.WithBounds(0, 255).WithRange(49, 56).Contains(Cp1252.Byte(Result[Result.Length - 1])))
                 {
                     Result = Copy(Result, 1, Result.Length - 1) + IntToStr(Cp1252.Byte(Result[Result.Length - 1]) + 1 - 48);
                 }
@@ -1576,7 +1576,7 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:995
-    public bool PlayerNameToPlayerID(string Name, ref TSetupPlayerBehavior Behavior)
+    public bool PlayerNameToPlayerID(string Name, ref SetupPlayerBehavior Behavior)
     {
         int I;
         byte PlayerType;
@@ -1637,7 +1637,7 @@ public partial class TSetupControl : TComponent
             I -= 1;
             Result = FSettings.GetSettings(I).FBehavior.PlayerType != 5;
             var settingBehavior = FSettings.GetSettings(I);
-            if (TSet<byte>.WithBounds(0, 255).With(6).With(7).WithRange(0, 3).Contains(settingBehavior.FBehavior.PlayerType))
+            if (Set<byte>.WithBounds(0, 255).With(6).With(7).WithRange(0, 3).Contains(settingBehavior.FBehavior.PlayerType))
             {
                 PlayerCount += 1;
             }
@@ -1651,7 +1651,7 @@ public partial class TSetupControl : TComponent
                 if (condition)
                 {
                     var player = FSettings.FRemotePlayers.GetPlayers(J);
-                    condition = TSet<TMapValidationInfo>.Of(TMapValidationInfo.mviInvalidMap, TMapValidationInfo.mviValid).Contains(player.FMapValidation);
+                    condition = Set<MapValidationInfo>.Of(MapValidationInfo.InvalidMap, MapValidationInfo.Valid).Contains(player.FMapValidation);
                 }
 
                 Result = condition;
@@ -1678,7 +1678,7 @@ public partial class TSetupControl : TComponent
                 J = FSettings.FRemotePlayers.IndexOfRemoteID(setting.FBehavior.Flags);
                 if (J != -1)
                 {
-                    Result = FSettings.FRemotePlayers.GetPlayers(J).FMapValidation == TMapValidationInfo.mviValid;
+                    Result = FSettings.FRemotePlayers.GetPlayers(J).FMapValidation == MapValidationInfo.Valid;
                 }
             }
         }
@@ -1826,7 +1826,7 @@ public partial class TSetupControl : TComponent
     }
 
     // AoWSetup.pas:1157
-    public void hSetPlayerID(int Index, in TSetupPlayerBehavior Behavior, bool Forced)
+    public void hSetPlayerID(int Index, in SetupPlayerBehavior Behavior, bool Forced)
     {
         int I;
         int PlayerIndex;
@@ -1870,12 +1870,12 @@ public partial class TSetupControl : TComponent
             if (Forced && Behavior.PlayerType != 5)
             {
                 var setting = FSettings.GetSettings(PlayerIndex);
-                FSettings.GetSettings(PlayerIndex).FStatus = setting.FStatus + TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssForced);
+                FSettings.GetSettings(PlayerIndex).FStatus = setting.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
             }
             else
             {
                 var setting = FSettings.GetSettings(PlayerIndex);
-                FSettings.GetSettings(PlayerIndex).FStatus = setting.FStatus - TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssForced);
+                FSettings.GetSettings(PlayerIndex).FStatus = setting.FStatus - Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Forced);
             }
 
             UpdatePreferredRaces();
@@ -1926,10 +1926,10 @@ public partial class TSetupControl : TComponent
     {
         bool Result = default;
         bool FirstHuman = default;
-        TPlayerSetupSettings Settings = default;
-        TAoWHSMap Preview;
-        Preview = (TAoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
-        if (GetHost() && Preview != null && (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != TPlayerConnectionType.pcEmail)
+        PlayerSetupSettings Settings = default;
+        AoWHSMap Preview;
+        Preview = (AoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
+        if (GetHost() && Preview != null && (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != PlayerConnectionType.Email)
         {
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.InitializeHSSet(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + Preview.HSSFileName, null);
             Randomize();
@@ -1940,7 +1940,7 @@ public partial class TSetupControl : TComponent
             // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
             var fileCRC = FileBoundary.ImageCrc32(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
             FSettings.FMapCRC = fileCRC;
-            FSettings.FSetCRC = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FHSSCRC;
+            FSettings.FSetCRC = Aow.Game.Engine.AoWHSSet.Current.FHSSCRC;
             FSettings.FRandomSeed = RandSeed;
             FSettings.FVictoryCondition = (byte)(int)Preview.FVictoryCondition;
             if (Preview.FDay != 0)
@@ -1955,33 +1955,33 @@ public partial class TSetupControl : TComponent
 
             FirstHuman = true;
             FRemotePlayer.FPreferredRace = 255;
-            FRemotePlayer.FMapValidation = TMapValidationInfo.mviValid;
+            FRemotePlayer.FMapValidation = MapValidationInfo.Valid;
             for (int I = 0, last = FSettings.FRemotePlayers.GetCount() - 1; I <= last; I++)
             {
                 FSettings.FRemotePlayers.GetPlayers(I).FPreferredRace = 255;
                 if (FSettings.FRemotePlayers.GetPlayers(I).FRemoteID == FRemotePlayer.FRemoteID)
                 {
-                    FSettings.FRemotePlayers.GetPlayers(I).FMapValidation = TMapValidationInfo.mviValid;
+                    FSettings.FRemotePlayers.GetPlayers(I).FMapValidation = MapValidationInfo.Valid;
                 }
                 else
                 {
-                    FSettings.FRemotePlayers.GetPlayers(I).FMapValidation = TMapValidationInfo.mviUnknown;
+                    FSettings.FRemotePlayers.GetPlayers(I).FMapValidation = MapValidationInfo.Unknown;
                 }
             }
 
             for (int I = 1, last = Preview.FPlayers.GetCount() - 1; I <= last; I++)
             {
                 var player = Preview.FPlayers.GetPlayers(I);
-                if (player.FStatus != TPlayerStatus.psTerminated)
+                if (player.FStatus != Aow.Game.Session.Player.Status.Terminated)
                 {
-                    Settings = new TPlayerSetupSettings(this.FSettings);
+                    Settings = new PlayerSetupSettings(this.FSettings);
                     Settings.FPlayerID = (byte)I;
                     Settings.FRace = player.FPlayerRace;
                     Settings.FLeader.Assign(player.FLeaderSetup, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     Settings.FBehaviorMode = (byte)(int)player.FBehavior;
                     if (player.FParticipating)
                     {
-                        Settings.FStatus = Settings.FStatus + TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssFixed);
+                        Settings.FStatus = Settings.FStatus + Set<PlayerSetupStatusElement>.Of(PlayerSetupStatusElement.Fixed);
                     }
 
                     if (GetRemote() && !player.FParticipating)
@@ -1993,7 +1993,7 @@ public partial class TSetupControl : TComponent
                     {
                         Settings.FBehavior.PlayerType = (byte)(int)player.FPlayerType;
                         Settings.FOriginalBehavior.PlayerType = (byte)(int)player.FPlayerType;
-                        if (player.FPlayerType == TPlayerType.ptHuman)
+                        if (player.FPlayerType == PlayerType.Human)
                         {
                             if (!FirstHuman)
                             {
@@ -2051,7 +2051,7 @@ public partial class TSetupControl : TComponent
     public bool SetupHost(string Name, byte Mode, int RemoteID)
     {
         Reset();
-        FPhase = TSetupPhase.spSetupPlayers;
+        FPhase = SetupPhase.SetupPlayers;
         this.FSettings.FHostRemoteID = RemoteID;
         this.FSettings.FConnectionType = Mode;
         switch (Mode)
@@ -2070,11 +2070,11 @@ public partial class TSetupControl : TComponent
         this.FRemotePlayer.FPreferredRace = 255;
         this.FRemotePlayer.FVersion = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FVersion;
 
-        FStatus = FStatus + TSet<TSetupStatusElement>.Of(TSetupStatusElement.ssBusy);
+        FStatus = FStatus + Set<SetupStatusElement>.Of(SetupStatusElement.Busy);
         if (RemoteID != 0)
         {
             hConnectPlayer(FRemotePlayer);
-            FStatus = FStatus + TSet<TSetupStatusElement>.Of(TSetupStatusElement.ssRemote);
+            FStatus = FStatus + Set<SetupStatusElement>.Of(SetupStatusElement.Remote);
         }
 
         return true;
@@ -2088,112 +2088,106 @@ public partial class TSetupControl : TComponent
         FRemotePlayer.FRemoteID = RemoteID;
         FRemotePlayer.FPreferredRace = 255;
         FRemotePlayer.FVersion = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FVersion;
-        FStatus = FStatus + TSet<TSetupStatusElement>.Of(TSetupStatusElement.ssBusy, TSetupStatusElement.ssRemote);
+        FStatus = FStatus + Set<SetupStatusElement>.Of(SetupStatusElement.Busy, SetupStatusElement.Remote);
         SendHostMessage(1, FRemotePlayer, 0, 0);
-        FPhase = TSetupPhase.spSetupPlayers;
+        FPhase = SetupPhase.SetupPlayers;
         return true;
     }
 
     [Published]
-    public TSendMapEvent OnSendMap { get => FOnSendMap; set => FOnSendMap = value; }
+    public SendMapEvent OnSendMap { get => FOnSendMap; set => FOnSendMap = value; }
 
     [Published]
-    public TSendDataEvent OnSendData { get => FOnSendData; set => FOnSendData = value; }
+    public SendDataEvent OnSendData { get => FOnSendData; set => FOnSendData = value; }
 
     [Published]
-    public TSetupControlEvent OnPlayerSetupDone { get => FOnPlayerSetupDone; set => FOnPlayerSetupDone = value; }
+    public Event OnPlayerSetupDone { get => FOnPlayerSetupDone; set => FOnPlayerSetupDone = value; }
 
     [Published]
-    public TSetupControlEvent OnSettingChanged { get => FOnSettingChanged; set => FOnSettingChanged = value; }
+    public Event OnSettingChanged { get => FOnSettingChanged; set => FOnSettingChanged = value; }
 
     [Published]
-    public TCustomizeLeaderEvent OnCustomizeLeader { get => FOnCustomizeLeader; set => FOnCustomizeLeader = value; }
+    public CustomizeLeaderEvent OnCustomizeLeader { get => FOnCustomizeLeader; set => FOnCustomizeLeader = value; }
 
     [Published]
-    public TLoadMapEvent OnLoadMap { get => FOnLoadMap; set => FOnLoadMap = value; }
+    public LoadMapEvent OnLoadMap { get => FOnLoadMap; set => FOnLoadMap = value; }
 
     [Published]
-    public TSetupControlEvent OnSetupMap { get => FOnSetupMap; set => FOnSetupMap = value; }
+    public Event OnSetupMap { get => FOnSetupMap; set => FOnSetupMap = value; }
 
     [Published]
-    public TSetupControlEvent OnStart { get => FOnStart; set => FOnStart = value; }
+    public Event OnStart { get => FOnStart; set => FOnStart = value; }
 
     [Published]
-    public TSetupControlEvent OnAbort { get => FOnAbort; set => FOnAbort = value; }
+    public Event OnAbort { get => FOnAbort; set => FOnAbort = value; }
 
     [Published]
-    public TSetupControlEvent OnSynchronize { get => FOnSynchronize; set => FOnSynchronize = value; }
+    public Event OnSynchronize { get => FOnSynchronize; set => FOnSynchronize = value; }
 
     [Published]
-    public TEjectPlayerEvent OnEjectPlayer { get => FOnEjectPlayer; set => FOnEjectPlayer = value; }
+    public EjectPlayerEvent OnEjectPlayer { get => FOnEjectPlayer; set => FOnEjectPlayer = value; }
 
     [Published]
-    public TIncompatibleVersionEvent OnIncompatibleVersion { get => FOnIncompatibleVersion; set => FOnIncompatibleVersion = value; }
+    public IncompatibleVersionEvent OnIncompatibleVersion { get => FOnIncompatibleVersion; set => FOnIncompatibleVersion = value; }
 
     [Published]
-    public TSetupControlEvent OnSendingMaps { get => FOnSendingMaps; set => FOnSendingMaps = value; }
+    public Event OnSendingMaps { get => FOnSendingMaps; set => FOnSendingMaps = value; }
 
-    private static global::Aow.Game.Session.TSetupPlayerBehavior CPUBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    private static global::Aow.Game.Session.SetupPlayerBehavior CPUBehavior = new global::Aow.Game.Session.SetupPlayerBehavior
     {
         PlayerType = 1,
         Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
 
-    private static global::Aow.Game.Session.TSetupPlayerBehavior FreeBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    private static global::Aow.Game.Session.SetupPlayerBehavior FreeBehavior = new global::Aow.Game.Session.SetupPlayerBehavior
     {
         PlayerType = 5,
         Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
         Flags = 0
     };
+
+    public enum SetupPhase : byte
+    {
+        Idle = 0, SetupPlayers = 1, CustomizeLeaders = 2, SendMap = 3, LoadMap = 4, Synchronize = 5, SetupMap = 6
+    }
+
+    public delegate void Event(SetupControl SetupControl);
+    public delegate void CustomizeLeaderEvent(SetupControl SetupControl, CustomizeLeaderControl CLC);
+    public delegate void LoadMapEvent(SetupControl SetupControl, string Filename);
+    public delegate void EjectPlayerEvent(SetupControl SetupControl, int RemoteID);
+    public delegate void IncompatibleVersionEvent(SetupControl SetupControl, int MajorVersion, int MinorVersion);
+    public delegate void SendMapEvent(SetupControl SetupControl, object Data, int Size, int Recipient);
 }
 
-public enum TSetupPhase : byte
+public enum MapValidationInfo : byte
 {
-    spIdle = 0,
-    spSetupPlayers = 1,
-    spCustomizeLeaders = 2,
-    spSendMap = 3,
-    spLoadMap = 4,
-    spSynchronize = 5,
-    spSetupMap = 6
+    Unknown = 0,
+    Invalid = 1,
+    InvalidMap = 2,
+    Valid = 3
 }
-
-public enum TMapValidationInfo : byte
-{
-    mviUnknown = 0,
-    mviInvalid = 1,
-    mviInvalidMap = 2,
-    mviValid = 3
-}
-
-public delegate void TSetupControlEvent(TSetupControl SetupControl);
-public delegate void TCustomizeLeaderEvent(TSetupControl SetupControl, TCustomizeLeaderControl CLC);
-public delegate void TLoadMapEvent(TSetupControl SetupControl, string Filename);
-public delegate void TEjectPlayerEvent(TSetupControl SetupControl, int RemoteID);
-public delegate void TIncompatibleVersionEvent(TSetupControl SetupControl, int MajorVersion, int MinorVersion);
-public delegate void TSendMapEvent(TSetupControl SetupControl, object Data, int Size, int Recipient);
 
 [LegacyObject]
-public partial class TLeaderSetupView
+public partial class LeaderSetupView
 {
-    public TLeader OriginalLeader;
-    public TSet<byte> Options;
-    public TLeader Leader;
-    public TIntegerList Races;
+    public global::Aow.Game.Magic.Abilities.Leader OriginalLeader;
+    public Set<byte> Options;
+    public global::Aow.Game.Magic.Abilities.Leader Leader;
+    public IntegerList Races;
 
-    public TLeaderSetupView()
+    public LeaderSetupView()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public partial class TSetupHeroView
+public partial class SetupHeroView
 {
     public string Name = "";
 
-    public TSetupHeroView()
+    public SetupHeroView()
     {
         CaptureAddress.Assign(this);
     }

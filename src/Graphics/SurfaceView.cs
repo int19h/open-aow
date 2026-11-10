@@ -13,9 +13,9 @@ public readonly ref struct SurfaceView
     public readonly Span<byte> Memory;
     public readonly int Start;
     public readonly int Pitch;
-    public readonly TRect Clip;
+    public readonly Rect Clip;
 
-    public SurfaceView(Span<byte> memory, int start, int pitch, TRect clip = default)
+    public SurfaceView(Span<byte> memory, int start, int pitch, Rect clip = default)
     {
         Memory = memory;
         Start = start;

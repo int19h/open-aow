@@ -223,10 +223,10 @@ public sealed class ProbeTests(ITestOutputHelper output)
     public void SetsFixture()
     {
         var probe = new ProbeLines("sets");
-        string Bits(TSet<byte> set, int width) => string.Concat(Enumerable.Range(0, width).Select(i => set.Contains((byte)i) ? '1' : '0'));
+        string Bits(Set<byte> set, int width) => string.Concat(Enumerable.Range(0, width).Select(i => set.Contains((byte)i) ? '1' : '0'));
         foreach (int width in new[] { 8, 16, 32, 256 })
         {
-            var empty = TSet<byte>.WithBounds(0, width - 1);
+            var empty = Set<byte>.WithBounds(0, width - 1);
             var a = empty.With(0).With((byte)(width - 1));
             var b = empty.With(1).With((byte)(width - 1));
             probe.Fact($"size_{width}", a.StorageSize);
@@ -247,19 +247,19 @@ public sealed class ProbeTests(ITestOutputHelper output)
             probe.Fact($"empty_{width}", Bits(empty, width));
             probe.Fact($"full_{width}", Bits(empty.WithRange(0, (byte)(width - 1)), width));
         }
-        probe.Fact("byte_mask", (byte)TSet<byte>.Of(0, 7).Image);
-        probe.Fact("word_mask", (ushort)TSet<byte>.Of(0, 8, 15).Image);
-        var shifted = TSet<byte>.WithBounds(8, 15);
+        probe.Fact("byte_mask", (byte)Set<byte>.Of(0, 7).Image);
+        probe.Fact("word_mask", (ushort)Set<byte>.Of(0, 8, 15).Image);
+        var shifted = Set<byte>.WithBounds(8, 15);
         probe.Fact("shifted_size", shifted.StorageSize);
         probe.Fact("shifted_mask", (byte)shifted.With(8).With(15).Image);
         probe.Fact("shifted_low_mask", (byte)shifted.With(8).Image);
         probe.Fact("shifted_high_mask", (byte)shifted.With(15).Image);
-        var cross = TSet<byte>.WithBounds(7, 8);
+        var cross = Set<byte>.WithBounds(7, 8);
         probe.Fact("cross_size", cross.StorageSize);
         probe.Fact("cross_mask", (ushort)cross.With(7).With(8).Image);
         probe.Fact("cross_low_mask", (ushort)cross.With(7).Image);
         probe.Fact("cross_high_mask", (ushort)cross.With(8).Image);
-        var full = TSet<byte>.WithBounds(0, 255).WithRange(0, 255);
+        var full = Set<byte>.WithBounds(0, 255).WithRange(0, 255);
         for (int i = 0; i <= 255; i++) probe.Fact($"full_member_{i}", Ord(full.Contains((byte)i)));
         probe.End();
     }

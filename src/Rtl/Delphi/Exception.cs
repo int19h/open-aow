@@ -1,6 +1,6 @@
 namespace Aow.Rtl;
 
-public sealed class EHalt(int exitCode) : System.Exception
+public sealed class HaltException(int exitCode) : System.Exception
 {
     public int ExitCode { get; } = exitCode;
 }

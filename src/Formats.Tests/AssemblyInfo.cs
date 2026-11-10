@@ -33,9 +33,9 @@ internal struct TSamplePacked
 {
     [FieldOffset(0)] public byte Value__image;
 
-    public TSet<TSampleRank> Value
+    public Set<TSampleRank> Value
     {
-        get => TSet<TSampleRank>.FromMask(Value__image);
+        get => Set<TSampleRank>.FromMask(Value__image);
         set => Value__image = (byte)value.Image;
     }
 }
@@ -53,11 +53,11 @@ internal struct TEveryWidth
 
 enum TSampleRank : byte
 {
-    srNone = 0,
-    srGold = 1,
+    None = 0,
+    Gold = 1,
 }
 
 enum TOtherRank : byte
 {
-    orLow = 0,
+    Low = 0,
 }

@@ -10,9 +10,9 @@ using Aow.Game.World.Structures;
 namespace Aow.Game.World.Structures;
 
 // FCenterFrame (-1 when inactive)
-public partial class TReflectingPool : TPlayerStructure
+public partial class ReflectingPool : PlayerStructure
 {
-    public TReflectingPool(TECustomNode owner) : base(owner)
+    public ReflectingPool(ECustomNode owner) : base(owner)
     {
         FCenterFrame = -1;
     }
@@ -23,7 +23,7 @@ public partial class TReflectingPool : TPlayerStructure
     public int FCenterFrame;
 
     // ReflectingPool.pas:80
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
     }
@@ -31,7 +31,7 @@ public partial class TReflectingPool : TPlayerStructure
     // ReflectingPool.pas:52
 
     // ReflectingPool.pas:241
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
     {
         if (Msg.MsgID == 4362 && FResource.TerrainList.GetTerrain(Msg.HN) >= 0)
         {
@@ -62,7 +62,7 @@ public partial class TReflectingPool : TPlayerStructure
         base.Activate();
         if (FPlayer != -1)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
         }
     }
 
@@ -73,7 +73,7 @@ public partial class TReflectingPool : TPlayerStructure
         DeactivatePoolCentering();
         if (FPlayer != -1)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.RemoveChild(this);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FKnownStructures.RemoveChild(this);
         }
     }
 
@@ -84,17 +84,17 @@ public partial class TReflectingPool : TPlayerStructure
         {
             if (FPlayer != -1)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.RemoveChild(this);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FKnownStructures.RemoveChild(this);
             }
 
             base.SetPlayer(Player);
             if (FPlayer != -1)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FKnownStructures.AddChild(this);
             }
 
             UpdateReflectingPoolsExploration();
-            if (FPlayer != -1 && FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FKnownStructures.Count == 1)
+            if (FPlayer != -1 && FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FKnownStructures.Count == 1)
             {
                 ActivatePoolCentering();
             }
@@ -105,7 +105,7 @@ public partial class TReflectingPool : TPlayerStructure
     public override int VisibilityRange()
     {
         int Result = 8;
-        if (GetLhx() != 0 || FPlayer > 0 && (((byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
+        if (GetLhx() != 0 || FPlayer > 0 && (((byte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
         {
             Result = (int)(((uint)(Result + 1)) >> 1);
         }
@@ -119,11 +119,11 @@ public partial class TReflectingPool : TPlayerStructure
         int Range;
         int X = default;
         int Y = default;
-        if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap))
+        if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
         {
-            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated) && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != -1)
+            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated) && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
             {
-                if (PoolVisionPlayer(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
+                if (PoolVisionPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
                 {
                     Range = VisibilityRange();
                 }
@@ -146,7 +146,7 @@ public partial class TReflectingPool : TPlayerStructure
                         if (FResource.TerrainList.GetTerrain(I) >= 0)
                         {
                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FogArea(X, Y, ((TMapField)Owner).Lhx, FUnfogRange);
+                            Aow.Game.World.Map.AoWHSMap.Current.FogArea(X, Y, ((MapField)Owner).Lhx, FUnfogRange);
                         }
                     }
                 }
@@ -159,7 +159,7 @@ public partial class TReflectingPool : TPlayerStructure
                         if (FResource.TerrainList.GetTerrain(I) >= 0)
                         {
                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UnFogArea(X, Y, ((TMapField)Owner).Lhx, FUnfogRange);
+                            Aow.Game.World.Map.AoWHSMap.Current.UnFogArea(X, Y, ((MapField)Owner).Lhx, FUnfogRange);
                         }
                     }
                 }
@@ -172,9 +172,9 @@ public partial class TReflectingPool : TPlayerStructure
     {
         int X = default;
         int Y = default;
-        if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap))
+        if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
         {
-            for (int P = 1, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; P <= last; P++)
+            for (int P = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P <= last; P++)
             {
                 if (PoolVisionPlayer((sbyte)P))
                 {
@@ -184,7 +184,7 @@ public partial class TReflectingPool : TPlayerStructure
                         {
                             Aow.Game.World.Map.HexGeometry.CenterHNtoHX(FXhx, FYhx, I, ref X, ref Y);
                             var visibilityRange = VisibilityRange();
-                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ExploreArea(X, Y, ((TMapField)Owner).Lhx, (sbyte)P, visibilityRange);
+                            Aow.Game.World.Map.AoWHSMap.Current.ExploreArea(X, Y, ((MapField)Owner).Lhx, (sbyte)P, visibilityRange);
                         }
                     }
                 }
@@ -196,13 +196,13 @@ public partial class TReflectingPool : TPlayerStructure
     public override int GetDefaultAITargetPriority() => 1;
 
     // ReflectingPool.pas:61
-    public void ListReflectingPools(ref TPlayerStructureList List)
+    public void ListReflectingPools(ref PlayerStructureList List)
     {
-        for (int P = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; P >= 0; P--)
+        for (int P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P >= 0; P--)
         {
-            for (int I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.Count - 1; I >= 0; I--)
+            for (int I = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(P).FKnownStructures.Count - 1; I >= 0; I--)
             {
-                var structure = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.GetStructure(I);
+                var structure = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(P).FKnownStructures.GetStructure(I);
                 List.AddChild(structure);
             }
         }
@@ -211,17 +211,17 @@ public partial class TReflectingPool : TPlayerStructure
     // ReflectingPool.pas:99
     public void NewFrame(object Sender)
     {
-        TPlayerStructureList List = default;
-        TPlayerStructure Pool = default;
-        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == FPlayer)
+        PlayerStructureList List = default;
+        PlayerStructure Pool = default;
+        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer)
         {
             FCenterFrame += 1;
             if (FCenterFrame % 8 == 0)
             {
-                List = new TPlayerStructureList(null);
+                List = new PlayerStructureList(null);
                 ListReflectingPools(ref List);
                 List.RemoveChild(this);
-                List.SortStable(Aow.Game.World.Structures.TReflectingPool.ComparePools);
+                List.SortStable(Aow.Game.World.Structures.ReflectingPool.ComparePools);
                 var count = List.Count;
                 if (FCenterFrame / 8 < count)
                 {
@@ -229,14 +229,14 @@ public partial class TReflectingPool : TPlayerStructure
                     var lhx = Pool.GetLhx();
                     var yhx = Pool.GetYhx();
                     var xhx = Pool.GetXhx();
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(xhx, yhx, lhx);
+                    Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
                 }
                 else
                 {
                     var lhx = GetLhx();
                     var yhx = GetYhx();
                     var xhx = GetXhx();
-                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(xhx, yhx, lhx);
+                    Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, lhx);
                     DeactivatePoolCentering();
                 }
 
@@ -254,7 +254,7 @@ public partial class TReflectingPool : TPlayerStructure
     {
         DeactivatePoolCentering();
         FCenterFrame = 0;
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.NewFrameEvents += NewFrame;
+        Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents += NewFrame;
     }
 
     // ReflectingPool.pas:134
@@ -262,7 +262,7 @@ public partial class TReflectingPool : TPlayerStructure
     {
         if (FCenterFrame != -1)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.NewFrameEvents -= NewFrame;
+            Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents -= NewFrame;
             FCenterFrame = -1;
         }
     }
@@ -270,10 +270,10 @@ public partial class TReflectingPool : TPlayerStructure
     // ReflectingPool.pas:171
     public void UpdateReflectingPoolsExploration()
     {
-        TPlayer Player;
-        for (int P = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; P >= 0; P--)
+        Player Player;
+        for (int P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P >= 0; P--)
         {
-            Player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(P);
+            Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(P);
             for (int I = Player.FKnownStructures.Count - 1; I >= 0; I--)
             {
                 Player.FKnownStructures.GetStructure(I).UpdateExploration();
@@ -286,14 +286,14 @@ public partial class TReflectingPool : TPlayerStructure
     public bool PoolVisionPlayer(sbyte Player)
     {
         int P;
-        bool Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FKnownStructures.Count != 0;
+        bool Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FKnownStructures.Count != 0;
         if (!Result)
         {
-            P = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count;
+            P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
             while (P > 1 && !Result)
             {
                 P -= 1;
-                Result = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(P).FKnownStructures.Count != 0 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(P).FDiplomaticRelations.GetDiplomaticRelation(Player) == TDiplomaticRelation.drAlliance;
+                Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(P).FKnownStructures.Count != 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(P).FDiplomaticRelations.GetDiplomaticRelation(Player) == DiplomaticRelation.Alliance;
             }
         }
 
@@ -301,14 +301,14 @@ public partial class TReflectingPool : TPlayerStructure
     }
 
     // ReflectingPool.pas:233
-    public void NotifyPlayerChanged(TMapField MapField, int Distance)
+    public void NotifyPlayerChanged(MapField MapField, int Distance)
     {
-        for (int P = 1, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; P <= last; P++)
+        for (int P = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P <= last; P++)
         {
             if (PoolVisionPlayer((sbyte)P))
             {
                 var trueVisionRange = TrueVisionRange();
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdatePlayerSeen(P, MapField.Xhx, MapField.Yhx, MapField.Lhx, Distance, trueVisionRange);
+                Aow.Game.World.Map.AoWHSMap.Current.UpdatePlayerSeen(P, MapField.Xhx, MapField.Yhx, MapField.Lhx, Distance, trueVisionRange);
             }
         }
     }
@@ -318,35 +318,35 @@ public partial class TReflectingPool : TPlayerStructure
         return 0;
     }
 
-    // ReflectingPool.pas:20
-
-    // ReflectingPool.pas:20
-
-}
-
-public partial class TReflectingPoolResource : TPlayerStructureResource
-{
-    public TReflectingPoolResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : PlayerStructureResource
     {
-        FTerrainBound = true;
-        FConnectRoads = false;
-        FClaimed = false;
-        FRazeable = false;
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            FTerrainBound = true;
+            FConnectRoads = false;
+            FClaimed = false;
+            FRazeable = false;
+        }
+
+        // ReflectingPool.pas:266
+        public new const int ClassID = 132671;
+
+        // ReflectingPool.pas:254
+
+        // ReflectingPool.pas:269
+        public override int ResourceUserClassID() => 132670;
+
+        // ReflectingPool.pas:42
+
+        // ReflectingPool.pas:263
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ReflectingPool.Resource.ReflectingPoolRStr);
+
+        private static readonly string ReflectingPoolRStr = "Reflecting Pool";
+
     }
 
-    // ReflectingPool.pas:266
-    public new const int ClassID = 132671;
+    // ReflectingPool.pas:20
 
-    // ReflectingPool.pas:254
-
-    // ReflectingPool.pas:269
-    public override int ResourceUserClassID() => 132670;
-
-    // ReflectingPool.pas:42
-
-    // ReflectingPool.pas:263
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TReflectingPoolResource.ReflectingPoolRStr);
-
-    private static readonly string ReflectingPoolRStr = "Reflecting Pool";
+    // ReflectingPool.pas:20
 
 }

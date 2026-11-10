@@ -15,7 +15,7 @@ public sealed class EClassTests
     private static readonly JsonDocument Baseline = JsonDocument.Parse(typeof(EClassTests).Assembly
         .GetManifestResourceStream("Aow.Units.Tests.EClassBaseline.json")!);
 
-    private static IEnumerable<EClass> ProductClasses => EClass.All.Where(c => c.Type.Assembly == typeof(TEObject).Assembly);
+    private static IEnumerable<EClass> ProductClasses => EClass.All.Where(c => c.Type.Assembly == typeof(EObject).Assembly);
 
     [Fact]
     public void TableMatchesTheBaseCommitSnapshot()
@@ -33,7 +33,7 @@ public sealed class EClassTests
             else Assert.Equal(parent.GetString(), eclass.Parent!.Type.FullName);
             Assert.Same(eclass, EClass.Of(eclass.Type));
             Assert.Equal(NameTable.Stored(eclass.Type), eclass.ClassName);
-            Assert.Equal(NameTable.Delphi(eclass.Type), eclass.ClassName);
+            Assert.Equal(eclass.ClassName, NameTable.ResolveStored(NameTable.Delphi(eclass.Type)));
         }
     }
 
@@ -45,25 +45,25 @@ public sealed class EClassTests
         {
             Assert.True(eclass.Parent is null || seen.Contains(eclass.Parent), eclass.ClassName);
             Assert.True(seen.Add(eclass));
-            Assert.True(eclass.InheritsFrom(typeof(TEObject)));
+            Assert.True(eclass.InheritsFrom(typeof(EObject)));
         }
-        Assert.Same(EClass.Of<TAoWHSMap>(), EClass.Of(typeof(TAoWHSMap)));
-        Assert.Equal(131089, EClass.Of<TAoWHSMap>().ClassID);
-        Assert.Equal(TAoWHSMap.ClassID, EClass.Of<TAoWHSMap>().ClassID);
+        Assert.Same(EClass.Of<AoWHSMap>(), EClass.Of(typeof(AoWHSMap)));
+        Assert.Equal(131089, EClass.Of<AoWHSMap>().ClassID);
+        Assert.Equal(AoWHSMap.ClassID, EClass.Of<AoWHSMap>().ClassID);
         // An inherit-only class carries the ancestor's id with its own type.
-        Assert.Equal(TEObject.ClassID, EClass.Of<TAIBudgetManager>().ClassID);
-        Assert.Equal(typeof(TAIBudgetManager), EClass.Of<TAIBudgetManager>().Type);
+        Assert.Equal(EObject.ClassID, EClass.Of<AIBudgetManager>().ClassID);
+        Assert.Equal(typeof(AIBudgetManager), EClass.Of<AIBudgetManager>().Type);
     }
 
     [Fact]
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
         if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-        using var engine = new TEngine(null!);
-        var engines = new List<TEngine> { engine };
-        foreach (var other in Aow.Game.Engine.Nodes.EngineHost.Engines!.List.OfType<TEngine>())
+        using var engine = new Engine(null!);
+        var engines = new List<Engine> { engine };
+        foreach (var other in Aow.Game.Engine.Nodes.EngineHost.Engines!.List.OfType<Engine>())
             if (!ReferenceEquals(other, engine)) engines.Add(other);
-        Assert.Contains(EClass.Of<TEControlStyleObject>(), ProductRegistered(engine));
+        Assert.Contains(EClass.Of<EControlStyleObject>(), ProductRegistered(engine));
         foreach (var registered in engines)
         {
             var classes = ProductRegistered(registered);
@@ -78,13 +78,13 @@ public sealed class EClassTests
         }
     }
 
-    private static List<EClass> ProductRegistered(TEngine engine)
+    private static List<EClass> ProductRegistered(Engine engine)
     {
         var result = new List<EClass>();
         for (int i = 0; i < engine.EClasses.Count; i++)
         {
             var eclass = engine.EClasses.EClasses[i];
-            if (eclass.Type.Assembly == typeof(TEObject).Assembly) result.Add(eclass);
+            if (eclass.Type.Assembly == typeof(EObject).Assembly) result.Add(eclass);
         }
         return result;
     }
@@ -92,13 +92,13 @@ public sealed class EClassTests
     [Fact]
     public void EveryDescriptorWalksToTEObjectThroughParent()
     {
-        var root = EClass.Of<TEObject>();
+        var root = EClass.Of<EObject>();
         Assert.Null(root.Parent);
         foreach (var eclass in EClass.All)
         {
             var c = eclass;
             int steps = 0;
-            while (c.Type != typeof(TEObject))
+            while (c.Type != typeof(EObject))
             {
                 Assert.NotNull(c.Parent);
                 Assert.Equal(c.Type.BaseType, c.Parent!.Type);
@@ -112,12 +112,12 @@ public sealed class EClassTests
     [Fact]
     public void InstancesReachTheirDescriptorThroughTheCachedProperty()
     {
-        var created = EClass.Of<TEResourceEditSettings>().Create(null!);
+        var created = EClass.Of<EResourceEditSettings>().Create(null!);
         try
         {
-            Assert.Same(EClass.Of<TEResourceEditSettings>(), created.EClass);
+            Assert.Same(EClass.Of<EResourceEditSettings>(), created.EClass);
             Assert.Same(created.EClass, created.EClass);
-            Assert.Equal(TEResourceEditSettings.ClassID, created.EClass.ClassID);
+            Assert.Equal(EResourceEditSettings.ClassID, created.EClass.ClassID);
             Assert.Equal(1026, created.EClass.ClassID);
         }
         finally { created?.Dispose(); }
@@ -126,14 +126,14 @@ public sealed class EClassTests
     [Fact]
     public void CreationThroughTheDescriptorKeepsTheExactTypeAndThrowsWhenUnregistered()
     {
-        var created = EClass.Of<TEControlStyleObject>().Create(null!);
-        try { Assert.IsType<TEControlStyleObject>(created); }
+        var created = EClass.Of<EControlStyleObject>().Create(null!);
+        try { Assert.IsType<EControlStyleObject>(created); }
         finally { created?.Dispose(); }
-        var split = EClass.Of<TEResourceList>().Create(null!);
-        try { Assert.IsType<TEResourceList>(split); }
+        var split = EClass.Of<EResourceList>().Create(null!);
+        try { Assert.IsType<EResourceList>(split); }
         finally { split?.Dispose(); }
         Assert.Throws<InvalidOperationException>(() => EClass.Of(typeof(Unregistered)));
-        Assert.Throws<InvalidOperationException>(() => EClass.Register<TEObject>(80, static owner => new TEObject(null!), 8));
+        Assert.Throws<InvalidOperationException>(() => EClass.Register<EObject>(80, static owner => new EObject(null!), 8));
     }
 
     [Fact]
@@ -141,26 +141,26 @@ public sealed class EClassTests
     {
         // The static class references of inc/Combat.pas evaluate during type initialization, after
         // the module initializer filled the registry.
-        Assert.Equal(typeof(TCommandAbilityData), Aow.Game.Magic.Abilities.TCommandAbility.P4CommandDataClass.Type);
-        Assert.Equal(EClass.Of<TCommandAbilityData>().ClassID, Aow.Game.Magic.Abilities.TCommandAbility.P4CommandDataClass.ClassID);
+        Assert.Equal(typeof(CommandAbilityData), Aow.Game.Magic.Abilities.CommandAbility.P4CommandDataClass.Type);
+        Assert.Equal(EClass.Of<CommandAbilityData>().ClassID, Aow.Game.Magic.Abilities.CommandAbility.P4CommandDataClass.ClassID);
     }
 
-    private sealed class Unregistered : TEObject
+    private sealed class Unregistered : EObject
     {
         public Unregistered() : base(null!) { }
 
     }
 
-    private sealed class Registered(TECustomNode owner) : TEObject(owner);
+    private sealed class Registered(ECustomNode owner) : EObject(owner);
 
     [Fact]
     public void GenericRegistrationUsesTheTypedFactoryAndPreservesTheEarlierSnapshot()
     {
         var previous = EClass.All;
-        var descriptor = EClass.Register<Registered>(TEObject.ClassID, static owner => new Registered(owner), 8);
+        var descriptor = EClass.Register<Registered>(EObject.ClassID, static owner => new Registered(owner), 8);
         Assert.Same(descriptor, EClass.Of<Registered>());
         Assert.Same(descriptor, EClass.Of(typeof(Registered)));
-        Assert.Same(EClass.Of<TEObject>(), descriptor.Parent);
+        Assert.Same(EClass.Of<EObject>(), descriptor.Parent);
         Assert.Equal(previous.Count + 1, EClass.All.Count);
         Assert.Same(descriptor, EClass.All[^1]);
         Assert.DoesNotContain(descriptor, previous);

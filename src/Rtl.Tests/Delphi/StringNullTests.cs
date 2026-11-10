@@ -72,7 +72,7 @@ public sealed class StringNullTests
         {
             Assert.Throws<IndexOutOfRangeException>(() => RtlUnit.WithChar(null, 1, 'x'));
             Assert.Throws<FormatException>(() => RtlUnit.StrToInt((string?)null));
-            Assert.Throws<EAssertionFailed>(() => RtlUnit.Assert(false, (string?)null, "file.pas", 1));
+            Assert.Throws<AssertionFailedException>(() => RtlUnit.Assert(false, (string?)null, "file.pas", 1));
             Assert.Empty(Cp1252.Encode(null));
             Assert.Equal("", Cp1252.Normalize(null));
             Assert.True(RtlUnit.IsEmpty(null));

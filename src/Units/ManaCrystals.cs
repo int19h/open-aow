@@ -15,23 +15,10 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
 
-// { ManaCrystals of AoWEPACK.dpl: recovered bodies and original instance layouts.
-//   Remaining inherited declaration constraints are documented at local ABI adapters. }
-[StructLayout(LayoutKind.Explicit, Size = 3)]
-public struct TCrystalAIInfo
-{
-    [FieldOffset(0)]
-    public sbyte Player;
-    [FieldOffset(1)]
-    public sbyte OtherPlayer;
-    [FieldOffset(2)]
-    public byte Kind;
-}
-
 // FAmount, FSize
-public partial class TManaCrystals : TILTerrainMO
+public partial class ManaCrystals : ILTerrainMO
 {
-    public TManaCrystals(TECustomNode owner) : base(owner)
+    public ManaCrystals(ECustomNode owner) : base(owner)
     {
         FSize = 2;
         FAmount = 0;
@@ -44,7 +31,7 @@ public partial class TManaCrystals : TILTerrainMO
     public byte FSize;
 
     // ManaCrystals.pas:83
-    public override void ReadWrite(TEStorageStream Stream)
+    public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
         Stream.rwInteger(ref FAmount, 5);
@@ -54,22 +41,22 @@ public partial class TManaCrystals : TILTerrainMO
     // ManaCrystals.pas:73
 
     // ManaCrystals.pas:118
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1)
+        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
         {
             GenerateManaCrystalsAmount();
         }
     }
 
     // ManaCrystals.pas:148
-    public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+    public override void MapFieldMsgProc(ref MapFieldMsg Msg)
     {
         base.MapFieldMsgProc(ref Msg);
         if (Msg.MsgID == 4354)
         {
-            ArmyEntered(Msg.Param[0].As<TArmyHS>());
+            ArmyEntered(Msg.Param[0].As<ArmyHS>());
             return;
         }
 
@@ -78,11 +65,11 @@ public partial class TManaCrystals : TILTerrainMO
             if (FResource.TerrainList.Terrain[Msg.HN] >= 0)
             {
                 var query = Msg.Param[0].As<AITargetQuery>();
-                var info = new TCrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
+                var info = new CrystalAIInfo { Player = query.Info.Player, OtherPlayer = query.Info.IndependentRelation, Kind = (byte)query.Info.Mode };
                 UpdateAITarget(ref info, ref query.Data.Priority);
                 query.Info.Player = info.Player;
                 query.Info.IndependentRelation = info.OtherPlayer;
-                query.Info.Mode = (TAITargetMode)info.Kind;
+                query.Info.Mode = (AITargetMode)info.Kind;
                 // { Original marks the message only when the resulting priority is negative. }
                 if (Msg.Param[0].As<AITargetQuery>().Data.Priority < 0)
                 {
@@ -93,11 +80,11 @@ public partial class TManaCrystals : TILTerrainMO
     }
 
     // ManaCrystals.pas:111
-    public override void UpdateMapField(in THSMapFieldInfo Info)
+    public override void UpdateMapField(in HSMapFieldInfo Info)
     {
         if (Info.HN == 0)
         {
-            ((TAoWMapField)(object)Info.MapField).FFieldFlags = ((TAoWMapField)(object)Info.MapField).FFieldFlags | 134217728;
+            ((AoWMapField)(object)Info.MapField).FFieldFlags = ((AoWMapField)(object)Info.MapField).FFieldFlags | 134217728;
         }
     }
 
@@ -106,25 +93,25 @@ public partial class TManaCrystals : TILTerrainMO
     {
         if (FSize == 4)
         {
-            FSize = (byte)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(3) + 1);
+            FSize = (byte)(Aow.Game.World.Map.AoWHSMap.Current.Random(3) + 1);
         }
 
         switch (FSize)
         {
             case 1:
-                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 25;
+                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 25;
                 break;
             case 2:
-                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 50;
+                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 50;
                 break;
             case 3:
-                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(50) + 100;
+                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
 
     // ManaCrystals.pas:100
-    public void UpdateAITarget(ref TCrystalAIInfo Info, ref int Priority)
+    public void UpdateAITarget(ref CrystalAIInfo Info, ref int Priority)
     {
         int P;
         switch (Info.Kind)
@@ -144,21 +131,21 @@ public partial class TManaCrystals : TILTerrainMO
     }
 
     // ManaCrystals.pas:125
-    public void ArmyEntered(TArmyHS ArmyHS)
+    public void ArmyEntered(ArmyHS ArmyHS)
     {
-        TLocationTextEventLog Log;
+        LocationTextEventLog Log;
         if ((byte)ArmyHS.FArmy.FPlayer == 0)
         {
             return;
         }
 
-        bool condition = (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
+        bool condition = (byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
         if (!condition)
         {
             var lhx = GetLhx();
             var yhx = GetYhx();
             var xhx = GetXhx();
-            condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, lhx, 0);
+            condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
         }
 
         if (condition)
@@ -166,56 +153,69 @@ public partial class TManaCrystals : TILTerrainMO
             Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
         player.FMagicControl.SetMana(player.FMagicControl.FMana + FAmount);
 
-        Log = new TLocationTextEventLog(null);
+        Log = new LocationTextEventLog(null);
         Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-        Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TManaCrystals.ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
+        Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.ManaCrystals.ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
         var lhx2 = GetLhx();
         var yhx2 = GetYhx();
         Log.SetLocation(GetXhx(), yhx2, lhx2);
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
+        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
         Log.Release();
         Dispose();
     }
 
     private static readonly string ManaCrystalsFoundRStr = "%s mana crystals found";
 
+    // { ManaCrystals of AoWEPACK.dpl: recovered bodies and original instance layouts.
+    //   Remaining inherited declaration constraints are documented at local ABI adapters. }
+    [StructLayout(LayoutKind.Explicit, Size = 3)]
+    public struct CrystalAIInfo
+    {
+        [FieldOffset(0)]
+        public sbyte Player;
+        [FieldOffset(1)]
+        public sbyte OtherPlayer;
+        [FieldOffset(2)]
+        public byte Kind;
+    }
+
+    public new partial class Resource : ILTerrainMOR
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        { }
+
+        // ManaCrystals.pas:168
+        public new const int ClassID = 132031;
+
+        // ManaCrystals.pas:171
+        public override int ResourceUserClassID() => 132030;
+
+        // ManaCrystals.pas:165
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.ManaCrystals.Resource.ManaCrystalsRStr);
+
+        private static readonly string ManaCrystalsRStr = "Mana Crystals";
+
+    }
+
     // ManaCrystals.pas:28
 
     // ManaCrystals.pas:28
 
 }
 
-public partial class TManaCrystalsResource : TILTerrainMOR
+public partial class CrystalMagic : PlayerMagicControl
 {
-    public TManaCrystalsResource(TECustomNode owner) : base(owner)
-    { }
-
-    // ManaCrystals.pas:168
-    public new const int ClassID = 132031;
-
-    // ManaCrystals.pas:171
-    public override int ResourceUserClassID() => 132030;
-
-    // ManaCrystals.pas:165
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TManaCrystalsResource.ManaCrystalsRStr);
-
-    private static readonly string ManaCrystalsRStr = "Mana Crystals";
-
-}
-
-public partial class TCrystalMagic : TPlayerMagicControl
-{
-    public TCrystalMagic(TECustomNode owner) : base(owner)
+    public CrystalMagic(ECustomNode owner) : base(owner)
     { }
 
     public int Mana { get => FMana; set => SetMana(value); }
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 166)]
-public struct TCrystalMapFields
+public struct CrystalMapFields
 {
     [FieldOffset(0)]
     public FixedArray_byte_165 Reserved;
@@ -224,7 +224,7 @@ public struct TCrystalMapFields
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 28)]
-public struct TCrystalFieldFlags
+public struct CrystalFieldFlags
 {
     [FieldOffset(0)]
     public FixedArray_byte_24 Reserved;

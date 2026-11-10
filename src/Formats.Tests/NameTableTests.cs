@@ -20,21 +20,21 @@ public sealed class NameTableTests : FormatsTest
         int members = 0;
         foreach (var row in NameTable.Rows)
         {
-            bool identity = row.Current == row.Delphi || row.Current.EndsWith("." + row.Delphi, StringComparison.Ordinal);
-            Assert.True(identity, row.Kind + " " + row.Delphi + " " + row.Current);
+            Assert.False(string.IsNullOrEmpty(row.Delphi), row.Current);
+            Assert.False(string.IsNullOrEmpty(row.Current), row.Delphi);
             if (row.Kind == "type") types++;
             else members++;
         }
         Assert.True(types > 0);
         Assert.True(members > 0);
-        Assert.Contains(NameTable.Rows, row => row.Kind == "type" && row.Delphi == nameof(TPersistent)
-            && row.Current == NameTable.QualifiedName(typeof(TPersistent)));
+        Assert.Contains(NameTable.Rows, row => row.Kind == "type" && row.Delphi == "TPersistent"
+            && row.Current == NameTable.QualifiedName(typeof(Persistent)));
 
         var counts = EClass.All.GroupBy(eclass => eclass.ClassName).ToDictionary(group => group.Key, group => group.Count());
         foreach (var eclass in EClass.All)
         {
             Assert.Equal(NameTable.Stored(eclass.Type), eclass.ClassName);
-            Assert.Equal(NameTable.Delphi(eclass.Type), eclass.ClassName);
+            Assert.Equal(eclass.ClassName, NameTable.ResolveStored(NameTable.Delphi(eclass.Type)));
             if (counts[eclass.ClassName] == 1) Assert.Equal(eclass.Type, NameTable.Find(eclass.ClassName));
             else Assert.Throws<InvalidOperationException>(() => NameTable.Find(eclass.ClassName));
         }
@@ -48,7 +48,7 @@ public sealed class NameTableTests : FormatsTest
         }
 
         Assert.Equal(nameof(Unlisted), NameTable.Delphi(typeof(Unlisted)));
-        Assert.Equal(nameof(Unlisted), NameTable.Stored(typeof(Unlisted)));
+        Assert.Equal("NameTableTests.Unlisted", NameTable.Stored(typeof(Unlisted)));
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public sealed class NameTableTests : FormatsTest
     {
         string table = "kind,delphi,current\n"
             + "type,OldBox," + NameTable.QualifiedName(typeof(OldNameBox)) + "\n"
-            + "member,TSampleRank.oldGold," + NameTable.QualifiedName(typeof(TSampleRank)) + ".srGold\n";
+            + "member,TSampleRank.oldGold," + NameTable.QualifiedName(typeof(TSampleRank)) + ".Gold\n";
         var schema = FormatSchema.Load(Encoding.UTF8.GetBytes(RenamedSchema), "renamed.json");
         var holder = schema.Get("Holder");
         using (NameTable.Install(table))
@@ -66,8 +66,8 @@ public sealed class NameTableTests : FormatsTest
             Assert.True(schema.Get("OldNameBox").InheritsFrom("OldNameBox"));
             Assert.Equal("OldBox", NameTable.Delphi(typeof(OldNameBox)));
             Assert.Equal(nameof(OldNameBox), NameTable.Stored(typeof(OldNameBox)));
-            Assert.Equal("oldGold", NameTable.DelphiMember(typeof(TSampleRank), "srGold"));
-            Assert.Equal("srGold", NameTable.StoredMember(typeof(TSampleRank), "oldGold"));
+            Assert.Equal("oldGold", NameTable.DelphiMember(typeof(TSampleRank), "Gold"));
+            Assert.Equal("Gold", NameTable.StoredMember(typeof(TSampleRank), "oldGold"));
 
             var old = new JsonObject()
                 .Add("Rank", new JsonString("oldGold"))
@@ -77,7 +77,7 @@ public sealed class NameTableTests : FormatsTest
             Assert.Equal("OldBox", ((ObjectNode)loaded.Find("Child")!).ClassName);
 
             var current = new JsonObject()
-                .Add("Rank", new JsonString("srGold"))
+                .Add("Rank", new JsonString("Gold"))
                 .Add("Child", new JsonObject().Add("$class", new JsonString("OldNameBox")));
             var again = DocumentBackend.Read(current, holder, schema, "game");
             Assert.Equal(1, ((EnumNode)again.Find("Rank")!).Value);
@@ -87,7 +87,7 @@ public sealed class NameTableTests : FormatsTest
             live.Add("Rank", new EnumNode(NameTable.Stored(typeof(TSampleRank)), 1, false, 1));
             live.Add("Child", new ObjectNode(NameTable.Stored(typeof(OldNameBox)), null));
             var written = DocumentBackend.Write(live, holder, schema, "game");
-            Assert.Equal("srGold", ((JsonString)written["Rank"]!).Value);
+            Assert.Equal("Gold", ((JsonString)written["Rank"]!).Value);
             Assert.Equal(nameof(OldNameBox), ((JsonString)((JsonObject)written["Child"]!)["$class"]!).Value);
         }
     }
@@ -132,8 +132,30 @@ public sealed class NameTableTests : FormatsTest
             Assert.True(info.TryNumber(member, out long number));
             Assert.Equal(info.ByName[member], number);
             Assert.Equal(member, NameTable.StoredMember(clr, member));
-            Assert.Equal(member, NameTable.DelphiMember(clr, member));
+            string delphi = NameTable.DelphiMember(clr, member);
+            Assert.Equal(member, NameTable.StoredMember(clr, delphi));
+            Assert.True(info.TryNumber(delphi, out long fromDelphi));
+            Assert.Equal(number, fromDelphi);
         }
+    }
+
+    [Fact]
+    public void ADocumentFromBeforeTheRenameLoads()
+    {
+        var schema = FormatSchema.Current;
+        var bridge = schema.Get("TBridge");
+        Assert.Equal(NameTable.ResolveStored("TBridge"), bridge.Name);
+        var loadedBridge = DocumentBackend.Read(new JsonObject(), bridge, schema, "game");
+        Assert.Empty(loadedBridge.Members);
+
+        var group = schema.Get("TAIGroup");
+        var old = new JsonObject().Add("TargetType", new JsonString("gtsIdle"));
+        var loaded = DocumentBackend.Read(old, group, schema, "game");
+        var status = Assert.IsType<EnumNode>(loaded.Find("TargetType"));
+        var current = DocumentBackend.Read(new JsonObject().Add("TargetType", new JsonString("Idle")), group, schema, "game");
+        var again = Assert.IsType<EnumNode>(current.Find("TargetType"));
+        Assert.Equal(again.Value, status.Value);
+        Assert.Equal(NameTable.ResolveStored("TBridge"), schema.Find("TBridge")!.Name);
     }
 
     private const string RenamedSchema = """

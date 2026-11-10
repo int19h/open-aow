@@ -13,7 +13,7 @@ namespace Aow.Game.Session
     public interface IAIPlayerActionClass
     {
         static abstract int Priority { get; }
-        static abstract TSet<TAIPlayerProcessPhase> SupportedPhases { get; }
+        static abstract Set<AIPlayerProcessPhase> SupportedPhases { get; }
     }
 }
 
@@ -26,7 +26,7 @@ namespace Aow.Game.Ai
         private static readonly Catalog<Type, AIPlayerActionClass> catalog = new("AI player action class");
         private readonly Func<int> priority;
 
-        private AIPlayerActionClass(EClass eclass, Func<int> priority, TSet<TAIPlayerProcessPhase> supportedPhases)
+        private AIPlayerActionClass(EClass eclass, Func<int> priority, Set<AIPlayerProcessPhase> supportedPhases)
         {
             Class = eclass;
             this.priority = priority;
@@ -37,20 +37,20 @@ namespace Aow.Game.Ai
         public string ClassName => Class.ClassName;
         // Abstract base actions register without invoking their abstract priority getter.
         public int Priority => priority();
-        public TSet<TAIPlayerProcessPhase> SupportedPhases { get; }
+        public Set<AIPlayerProcessPhase> SupportedPhases { get; }
 
-        public TAIPlayerAction Create(TECustomNode AOwner) => (TAIPlayerAction)Class.Create(AOwner);
+        public AIPlayerAction Create(ECustomNode AOwner) => (AIPlayerAction)Class.Create(AOwner);
 
-        public static AIPlayerActionClass Register<T>() where T : TAIPlayerAction, IAIPlayerActionClass =>
+        public static AIPlayerActionClass Register<T>() where T : AIPlayerAction, IAIPlayerActionClass =>
             catalog.Add(typeof(T), new AIPlayerActionClass(EClass.Of<T>(), static () => T.Priority, T.SupportedPhases));
 
-        public static AIPlayerActionClass Of<T>() where T : TAIPlayerAction, IAIPlayerActionClass => catalog[typeof(T)];
+        public static AIPlayerActionClass Of<T>() where T : AIPlayerAction, IAIPlayerActionClass => catalog[typeof(T)];
         public static AIPlayerActionClass Of(Type type) => catalog[type];
 
         public static IReadOnlyList<AIPlayerActionClass> All => catalog.All;
     }
 
-    public partial class TAIPlayerAction
+    public partial class AIPlayerAction
     {
         private AIPlayerActionClass actionClass;
 
@@ -66,7 +66,7 @@ namespace Aow.Game.Ai.Groups
     // group (AIGroup.pas TAIGroup.Behavior).
     public interface IAIGroupClass
     {
-        static abstract TGroupBehavior Behavior { get; }
+        static abstract GroupBehavior Behavior { get; }
     }
 
     // One explicit registration per group class keeps descriptor identity in the game lists.
@@ -74,7 +74,7 @@ namespace Aow.Game.Ai.Groups
     {
         private static readonly Catalog<Type, AIGroupClass> catalog = new("AI group class");
 
-        private AIGroupClass(EClass eclass, TGroupBehavior behavior)
+        private AIGroupClass(EClass eclass, GroupBehavior behavior)
         {
             Class = eclass;
             Behavior = behavior;
@@ -82,20 +82,20 @@ namespace Aow.Game.Ai.Groups
 
         public EClass Class { get; }
         public string ClassName => Class.ClassName;
-        public TGroupBehavior Behavior { get; }
+        public GroupBehavior Behavior { get; }
 
-        public TAIGroup Create(TECustomNode AOwner) => (TAIGroup)Class.Create(AOwner);
+        public AIGroup Create(ECustomNode AOwner) => (AIGroup)Class.Create(AOwner);
 
-        public static AIGroupClass Register<T>() where T : TAIGroup, IAIGroupClass =>
+        public static AIGroupClass Register<T>() where T : AIGroup, IAIGroupClass =>
             catalog.Add(typeof(T), new AIGroupClass(EClass.Of<T>(), T.Behavior));
 
-        public static AIGroupClass Of<T>() where T : TAIGroup, IAIGroupClass => catalog[typeof(T)];
+        public static AIGroupClass Of<T>() where T : AIGroup, IAIGroupClass => catalog[typeof(T)];
         public static AIGroupClass Of(Type type) => catalog[type];
 
         public static IReadOnlyList<AIGroupClass> All => catalog.All;
     }
 
-    public partial class TAIGroup
+    public partial class AIGroup
     {
         private AIGroupClass groupClass;
 

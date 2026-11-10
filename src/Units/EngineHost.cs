@@ -45,11 +45,11 @@ public static class EngineHost
 
     internal static bool VerifyEObjectEnabled;
 
-    public static TList Engines;
+    public static DelphiList Engines;
 
-    public static TList PlugIns;
+    public static DelphiList PlugIns;
 
-    public static TStringList Packages;
+    public static StringList Packages;
 
     internal static int[] CRC32Table = [];
 
@@ -57,9 +57,9 @@ public static class EngineHost
     {
         CRC32Table = [];
         VerifyEObjectEnabled = true;
-        Engines = new TList();
-        PlugIns = new TList();
-        Packages = new TStringList();
+        Engines = new DelphiList();
+        PlugIns = new DelphiList();
+        Packages = new StringList();
     }
 
     internal static void Finalize()

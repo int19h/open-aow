@@ -5,30 +5,30 @@ using Aow.Game.World.Structures;
 
 namespace Aow.Game.World.Structures;
 
-public partial class TMonsterlair : TItemExplorationSite
+public partial class Monsterlair : ItemExplorationSite
 {
-    public TMonsterlair(TECustomNode owner) : base(owner)
+    public Monsterlair(ECustomNode owner) : base(owner)
     { }
 
     // MonsterL.pas:34
     public new const int ClassID = 131886;
 
-}
+    public new partial class Resource : ItemExplorationSiteResource
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        { }
 
-public partial class TMonsterlairResource : TItemExplorationSiteResource
-{
-    public TMonsterlairResource(TECustomNode owner) : base(owner)
-    { }
+        // MonsterL.pas:40
+        public new const int ClassID = 131887;
 
-    // MonsterL.pas:40
-    public new const int ClassID = 131887;
+        // MonsterL.pas:43
+        public override int ResourceUserClassID() => 131886;
 
-    // MonsterL.pas:43
-    public override int ResourceUserClassID() => 131886;
+        // MonsterL.pas:37
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Monsterlair.Resource.MonsterLairRStr);
 
-    // MonsterL.pas:37
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMonsterlairResource.MonsterLairRStr);
+        private static readonly string MonsterLairRStr = "Monster Lair";
 
-    private static readonly string MonsterLairRStr = "Monster Lair";
+    }
 
 }

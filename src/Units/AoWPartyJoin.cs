@@ -25,41 +25,41 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // done callback, join event, details flag, selection mask, unit list, face unit
-public partial class TPartyJoinDlg : TDataModule
+public partial class PartyJoinDlg : DataModule
 {
-    public TPartyJoinDlg(TComponent owner) : base(owner)
+    public PartyJoinDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWPanel UnitPnl;
-    public TAoWFrame U1;
-    public TAoWFrame U2;
-    public TAoWFrame U4;
-    public TAoWFrame U5;
-    public TAoWFrame U3;
-    public TAoWFrame U6;
-    public TAoWFrame U7;
-    public TAoWFrame U8;
-    public TAOWButton MiddleBtn;
-    public TAOWImage TitleIcon;
-    public TAOWLabel Title;
-    public TAoWFrame BCeltL;
-    public TAOWButton RightBtn;
-    public TAOWButton LeftBtn;
-    public TAOWWindow Dlg;
-    public TAoWFrame UnitLine1;
-    public TAoWFrame UnitLine2;
-    public TAOWMemo JoinMemo;
-    public TAOWLabel Header;
-    public TAOWImage FaceFrame;
-    public TAOWLabel DetailsLbl;
-    public TAOWButton Close;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TJoinEventLog FJoinEvent;
+    public AOWPanel UnitPnl;
+    public AoWFrame U1;
+    public AoWFrame U2;
+    public AoWFrame U4;
+    public AoWFrame U5;
+    public AoWFrame U3;
+    public AoWFrame U6;
+    public AoWFrame U7;
+    public AoWFrame U8;
+    public AOWButton MiddleBtn;
+    public AOWImage TitleIcon;
+    public AOWLabel Title;
+    public AoWFrame BCeltL;
+    public AOWButton RightBtn;
+    public AOWButton LeftBtn;
+    public AOWWindow Dlg;
+    public AoWFrame UnitLine1;
+    public AoWFrame UnitLine2;
+    public AOWMemo JoinMemo;
+    public AOWLabel Header;
+    public AOWImage FaceFrame;
+    public AOWLabel DetailsLbl;
+    public AOWButton Close;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public JoinEventLog FJoinEvent;
     public bool FDetailsOpen;
     public byte FSelection;
-    public TUnitUserList FUnits;
-    public TAbstractUnit FFaceUnit;
+    public UnitUserList FUnits;
+    public AbstractUnit FFaceUnit;
 
     // AoWPartyJoin.pas:73
     public bool ValidateJoin()
@@ -76,8 +76,8 @@ public partial class TPartyJoinDlg : TDataModule
     // AoWPartyJoin.pas:79
     public void FinishDialog()
     {
-        TEventLog Event;
-        TExecuteDoneEvent Done;
+        EventLog Event;
+        ExecuteDoneEvent Done;
         FUnits.Clear();
         if (FDetailsOpen)
         {
@@ -102,13 +102,13 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:99
-    public void DrawUnit(int Index, in TRect R, ref TSurfaceDesc Surface)
+    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc Surface)
     {
-        TAlignment Alignment;
+        Alignment Alignment;
         int X;
         int Y;
-        TRect OldClip;
-        TP2UnitShowInfo Info;
+        global::Aow.Rtl.Rect OldClip;
+        P2UnitShowInfo Info;
         if (Index < FUnits.GetCount())
         {
             OldClip = Surface.ClipRect;
@@ -124,7 +124,7 @@ public partial class TPartyJoinDlg : TDataModule
 
             Info = default;
             Info.Direction = 3;
-            Info.Overlays = TSet<TUnitOverlayModesElement>.Of(TUnitOverlayModesElement.uoHitPoints, TUnitOverlayModesElement.uoRank);
+            Info.Overlays = Set<UnitOverlayModesElement>.Of(UnitOverlayModesElement.HitPoints, UnitOverlayModesElement.Rank);
             FUnits.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
             if ((((int)(((uint)FSelection) >> Index)) & 1) == 0)
             {
@@ -139,7 +139,7 @@ public partial class TPartyJoinDlg : TDataModule
     // AoWPartyJoin.pas:127
     public void PartyJoinDlgCreate()
     {
-        FUnits = new TUnitUserList(null);
+        FUnits = new UnitUserList(null);
     }
 
     // AoWPartyJoin.pas:132
@@ -157,7 +157,7 @@ public partial class TPartyJoinDlg : TDataModule
             Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Accept(ref Reason))
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
             }
             else
             {
@@ -175,7 +175,7 @@ public partial class TPartyJoinDlg : TDataModule
             Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
             if (!FJoinEvent.Reject(ref Reason))
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
             }
             else
             {
@@ -205,9 +205,9 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:179
-    public void FaceFramePreDraw(TSurfaceDesc Surface)
+    public void FaceFramePreDraw(SurfaceDesc Surface)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (ValidateJoin())
         {
             R.Left = FaceFrame.WinLeft + Dlg.WinLeft;
@@ -225,9 +225,9 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:194
-    public void U1PreDraw(TAoWFrame Sender, TSurfaceDesc Surface, int Slot)
+    public void U1PreDraw(AoWFrame Sender, SurfaceDesc Surface, int Slot)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (ValidateJoin())
         {
             R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
@@ -240,7 +240,7 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:211
-    public void U1MouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y, int Slot)
+    public void U1MouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y, int Slot)
     {
         if (ValidateJoin())
         {
@@ -249,7 +249,7 @@ public partial class TPartyJoinDlg : TDataModule
             {
                 var unit = FUnits.GetUnit(Slot);
                 Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
-                if (Button == TMouseButton.mbLeft)
+                if (Button == MouseButton.Left)
                 {
                     FDetailsOpen = true;
                     Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
@@ -266,7 +266,7 @@ public partial class TPartyJoinDlg : TDataModule
     }
 
     // AoWPartyJoin.pas:231
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -274,7 +274,7 @@ public partial class TPartyJoinDlg : TDataModule
         }
     }
 
-    internal static void ResetPartyJoin(TPartyJoinDlg Dialog)
+    internal static void ResetPartyJoin(PartyJoinDlg Dialog)
     {
         Dialog.LeftBtn.Visible = true;
         Dialog.MiddleBtn.Visible = true;
@@ -283,21 +283,21 @@ public partial class TPartyJoinDlg : TDataModule
         Dialog.Title.Text = partyJoin;
     }
 
-    internal static void UpdatePartyJoin(TPartyJoinDlg Dialog)
+    internal static void UpdatePartyJoin(PartyJoinDlg Dialog)
     {
         if (Dialog.ValidateJoin())
         {
             Dialog.FUnits.Clear();
-            Dialog.FFaceUnit = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
+            Dialog.FFaceUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
             Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
             var text = Dialog.FJoinEvent.FJoinMessage.Text;
             Dialog.JoinMemo.Items.Text = text;
         }
     }
 
-    internal static void ShowPartyJoin(TPartyJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowPartyJoin(PartyJoinDlg Dialog, NegotiateRequestEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.TPartyJoinDlg.ResetPartyJoin(Dialog);
+        Aow.Game.Ui.Dialogs.PartyJoinDlg.ResetPartyJoin(Dialog);
         Dialog.Dlg.Visible = true;
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
@@ -308,15 +308,15 @@ public partial class TPartyJoinDlg : TDataModule
         Dialog.MiddleBtn.Text = attack;
         var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
         Dialog.RightBtn.Text = cancel;
-        Aow.Game.Ui.Dialogs.TPartyJoinDlg.UpdatePartyJoin(Dialog);
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(70, true, true);
+        Aow.Game.Ui.Dialogs.PartyJoinDlg.UpdatePartyJoin(Dialog);
+        Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(70, true, true);
     }
 
-    internal static void ShowPrisonersJoin(TPartyJoinDlg Dialog, TPrisonersJoinEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowPrisonersJoin(PartyJoinDlg Dialog, PrisonersJoinEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.TPartyJoinDlg.ResetPartyJoin(Dialog);
+        Aow.Game.Ui.Dialogs.PartyJoinDlg.ResetPartyJoin(Dialog);
         Dialog.Dlg.Visible = true;
-        var prisonerLiberation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TDungeon.PrisonerLiberationRStr);
+        var prisonerLiberation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Dungeon.PrisonerLiberationRStr);
         Dialog.Title.Text = prisonerLiberation;
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
@@ -326,7 +326,7 @@ public partial class TPartyJoinDlg : TDataModule
         Dialog.MiddleBtn.Visible = false;
         var reject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RejectRStr);
         Dialog.RightBtn.Text = reject;
-        Aow.Game.Ui.Dialogs.TPartyJoinDlg.UpdatePartyJoin(Dialog);
+        Aow.Game.Ui.Dialogs.PartyJoinDlg.UpdatePartyJoin(Dialog);
     }
 
 }

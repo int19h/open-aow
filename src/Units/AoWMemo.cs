@@ -7,20 +7,20 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
 
-public enum TMemoType : byte
+public enum MemoType : byte
 {
-    mtNormal = 0,
-    mtBlank = 1
+    Normal = 0,
+    Blank = 1
 }
 
 [LegacyObject]
 // the color of a wrapped line. FHasColor, FColor
-public partial class TColorChange
+public partial class ColorChange
 {
     public bool FHasColor;
     public int FColor;
 
-    public TColorChange()
+    public ColorChange()
     {
         CaptureAddress.Assign(this);
     }
@@ -36,16 +36,16 @@ public partial class TColorChange
 // transparent), FILIndexFrame, FILIndexTexture, FDrawIndex, FItemRect (the line being drawn,
 // for OnDrawItem), FLines (the wrapped lines). FRedraw is the focus: the memo takes the keys
 // while it is set
-public partial class TAOWMemo : TAOWControl
+public partial class AOWMemo : AOWControl
 {
     public int F114;
-    public TStringList FItems;
-    public TList FColorList;
-    public TAOWVScrollBar FVScrollBar;
+    public StringList FItems;
+    public DelphiList FColorList;
+    public AOWVScrollBar FVScrollBar;
     public int FNumVisible;
     public int FTopItem;
     public bool FScrollSet;
-    public TNotifyEvent<TAOWMemo> FOnDrawItem;
+    public NotifyEvent<AOWMemo> FOnDrawItem;
     public int FScrollWidth;
     public bool FScrollVisible;
     public byte FCursorChar;
@@ -57,8 +57,8 @@ public partial class TAOWMemo : TAOWControl
     public int FRealCol;
     public int FRealLine;
     public bool FEditable;
-    public TInterfaceIL FILFrame;
-    public TInterfaceIL FILTexture;
+    public InterfaceIL FILFrame;
+    public InterfaceIL FILTexture;
     public int FItemHeight;
     public byte FColorChangeChar;
     public TaowTextAlign FTextAlign;
@@ -66,16 +66,16 @@ public partial class TAOWMemo : TAOWControl
     public int FILIndexFrame;
     public int FILIndexTexture;
     public int FDrawIndex;
-    public TRect FItemRect;
-    public TStringList FLines;
+    public global::Aow.Rtl.Rect FItemRect;
+    public StringList FLines;
 
     // AoWMemo.pas:126
-    public TAOWMemo(TComponent owner) : base(owner)
+    public AOWMemo(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FLines = new TStringList();
-        FItems = new TStringList();
+        FLines = new StringList();
+        FItems = new StringList();
         FItems.OnChange = OnChangeText;
-        FColorList = new TList();
+        FColorList = new DelphiList();
         FNumVisible = 3;
         FCursorChar = 124;
         FEditable = true;
@@ -136,7 +136,7 @@ public partial class TAOWMemo : TAOWControl
         int J;
         int Start;
         int TW;
-        TColorChange CC;
+        ColorChange CC;
         if (FItemHeight < 1)
         {
             FItemHeight = 10;
@@ -180,7 +180,7 @@ public partial class TAOWMemo : TAOWControl
 
         for (int I = 0, last = FColorList.Count - 1; I <= last; I++)
         {
-            CC = (TColorChange)FColorList[I];
+            CC = (ColorChange)FColorList[I];
         }
 
         FColorList.Clear();
@@ -188,7 +188,7 @@ public partial class TAOWMemo : TAOWControl
         for (int I = 0, last = FItems.Count - 1; I <= last; I++)
         {
             FLines.Add("");
-            var colorChange = new TColorChange();
+            var colorChange = new ColorChange();
             FColorList.Add(colorChange);
             J = 0;
             Start = 0;
@@ -206,7 +206,7 @@ public partial class TAOWMemo : TAOWControl
             Len = text.Length;
             if (Len > 6 && text[0] == FColorChangeChar)
             {
-                CC = (TColorChange)FColorList[FColorList.Count - 1];
+                CC = (ColorChange)FColorList[FColorList.Count - 1];
                 CC.FHasColor = true;
                 try
                 {
@@ -230,7 +230,7 @@ public partial class TAOWMemo : TAOWControl
                     if (W + TW > FWinWidth)
                     {
                         FLines.Add(S);
-                        var colorChange2 = new TColorChange();
+                        var colorChange2 = new ColorChange();
                         FColorList.Add(colorChange2);
                         if (!FNoFrame)
                         {
@@ -392,14 +392,14 @@ public partial class TAOWMemo : TAOWControl
     // AoWMemo.pas:378
     // { Draw draws the frame and the texture, the visible lines (clipped to the text area) and the
     //   cursor }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         int X = default;
         int Y = default;
         int W = default;
-        TRect OldClip = default;
+        global::Aow.Rtl.Rect OldClip = default;
         int H = default;
-        TColorChange CC = default;
+        ColorChange CC = default;
         try
         {
             if (FValid && FVisible)
@@ -414,14 +414,14 @@ public partial class TAOWMemo : TAOWControl
                 switch (FNoFrame)
                 {
                     case false:
-                        var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
                         var ilFrameWidth = FILFrame[FILIndexFrame + 3];
                         var ilFrame2 = FILFrame[FILIndexFrame + 1];
                         var ilFrame3 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - FScrollWidth, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - FScrollWidth, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
                         X = FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width;
@@ -456,7 +456,7 @@ public partial class TAOWMemo : TAOWControl
                     var count = FLines.Count;
                     if (FTopItem + I < count)
                     {
-                        CC = (TColorChange)FColorList[FTopItem + I];
+                        CC = (ColorChange)FColorList[FTopItem + I];
                         if (CC.FHasColor)
                         {
                             FAOWFont.Color = CC.FColor;
@@ -464,11 +464,11 @@ public partial class TAOWMemo : TAOWControl
 
                         switch (FTextAlign)
                         {
-                            case TaowTextAlign.taLeft:
+                            case TaowTextAlign.Left:
                                 var line = FLines[FTopItem + I];
                                 FAOWFont.SetText(FBorderWidth + X, FBorderHeight + Y + FItemHeight * I, line, SurfDesc);
                                 break;
-                            case TaowTextAlign.taRight:
+                            case TaowTextAlign.Right:
                                 var line2 = FLines[FTopItem + I];
                                 var textWidth = FAOWFont.GetTextWidth(line2);
                                 var line3 = FLines[FTopItem + I];
@@ -483,7 +483,7 @@ public partial class TAOWMemo : TAOWControl
                         }
 
                         FDrawIndex = FTopItem + I;
-                        FItemRect = Rect(X, Y + FItemHeight * I, X + W, Y + (I + 1) * FItemHeight);
+                        FItemRect = global::Aow.Rtl.RtlUnit.Rect(X, Y + FItemHeight * I, X + W, Y + (I + 1) * FItemHeight);
                         if (FItemRect.Bottom > SurfDesc.ClipRect.Bottom)
                         {
                             FItemRect.Bottom = SurfDesc.ClipRect.Bottom;
@@ -524,7 +524,7 @@ public partial class TAOWMemo : TAOWControl
     }
 
     // AoWMemo.pas:497
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -539,7 +539,7 @@ public partial class TAOWMemo : TAOWControl
     }
 
     // AoWMemo.pas:610
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -673,7 +673,7 @@ public partial class TAOWMemo : TAOWControl
 
     // AoWMemo.pas:627
     // { CheckKeyDown moves the cursor with the arrow keys and deletes with Delete }
-    public override void CheckKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public override void CheckKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         bool Changed;
         bool Moved;
@@ -814,7 +814,7 @@ public partial class TAOWMemo : TAOWControl
     }
 
     // AoWMemo.pas:340
-    public virtual void SetILFrame(TInterfaceIL Value)
+    public virtual void SetILFrame(InterfaceIL Value)
     {
         if (Value != FILFrame)
         {
@@ -824,7 +824,7 @@ public partial class TAOWMemo : TAOWControl
     }
 
     // AoWMemo.pas:349
-    public virtual void SetILTexture(TInterfaceIL Value)
+    public virtual void SetILTexture(InterfaceIL Value)
     {
         if (Value != FILTexture)
         {
@@ -834,7 +834,7 @@ public partial class TAOWMemo : TAOWControl
     }
 
     // AoWMemo.pas:296
-    public void SetFStrings(TStringList Value)
+    public void SetFStrings(StringList Value)
     {
         FLines.Clear();
         FItems.Clear();
@@ -875,7 +875,7 @@ public partial class TAOWMemo : TAOWControl
     }
 
     // AoWMemo.pas:325
-    public void SetVScroll(TAOWVScrollBar Value)
+    public void SetVScroll(AOWVScrollBar Value)
     {
         FVScrollBar = Value;
         if (Value != null)
@@ -1008,10 +1008,10 @@ public partial class TAOWMemo : TAOWControl
     public int ListOffset { get => FTopItem; set => SetListOff(value); }
 
     [Published]
-    public TImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
+    public ImageLibraryFont AOWFont { get => FAOWFont; set => FAOWFont = value; }
 
     [Published]
-    public TStringList Items { get => FItems; set => SetFStrings(value); }
+    public StringList Items { get => FItems; set => SetFStrings(value); }
 
     [Published]
     public int BorderWidth { get => FBorderWidth; set => FBorderWidth = value; }
@@ -1020,10 +1020,10 @@ public partial class TAOWMemo : TAOWControl
     public int BorderHeight { get => FBorderHeight; set => FBorderHeight = value; }
 
     [Published]
-    public TAOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
+    public AOWVScrollBar VScrollBar { get => FVScrollBar; set => SetVScroll(value); }
 
     [Published]
-    public TNotifyEvent<TAOWMemo> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
+    public NotifyEvent<AOWMemo> OnDrawItem { get => FOnDrawItem; set => FOnDrawItem = value; }
 
     [Published]
     public byte CursorChar { get => FCursorChar; set => FCursorChar = value; }
@@ -1035,10 +1035,10 @@ public partial class TAOWMemo : TAOWControl
     public bool Editable { get => FEditable; set => FEditable = value; }
 
     [Published]
-    public TInterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
+    public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }
 
     [Published]
-    public TInterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
+    public InterfaceIL ILTexture { get => FILTexture; set => SetILTexture(value); }
 
     [Published]
     public int ILIndexFrame { get => FILIndexFrame; set => SetILFIndex(value); }
@@ -1055,55 +1055,55 @@ public partial class TAOWMemo : TAOWControl
     [Published]
     public TaowTextAlign TextAlign { get => FTextAlign; set => FTextAlign = value; }
 
-    public new TNotifyEvent<TAOWMemo> OnChange
+    public new NotifyEvent<AOWMemo> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWMemo> OnMouseDown
+    public new MouseEvent<AOWMemo> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWMemo> OnMouseUp
+    public new MouseEvent<AOWMemo> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWMemo> OnMouseMove
+    public new MouseMoveEvent<AOWMemo> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWMemo> OnKeyPress
+    public new KeyPressEvent<AOWMemo> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWMemo> OnKeyDown
+    public new KeyEvent<AOWMemo> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWMemo> OnPreDraw
+    public new AoWOnDrawEvent<AOWMemo> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWMemo> OnDraw
+    public new AoWOnDrawEvent<AOWMemo> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWMemo> OnUpdate
+    public new NotifyEvent<AOWMemo> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

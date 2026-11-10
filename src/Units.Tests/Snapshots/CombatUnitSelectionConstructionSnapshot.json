@@ -3,211 +3,211 @@
     "$jsonText": {
       "State": {
         "$jsonText": {
-          "$type": "Aow.Game.Combat.TCombatUnitSelectionControl",
-          "TCombatUnitSelectionControl.FCursorFrame": 0,
-          "TCombatUnitSelectionControl.FCursorImage": 0,
-          "TCombatUnitSelectionControl.FMouseOverTarget": null,
-          "TCombatUnitSelectionControl.FObstacles": {
-            "$type": "Aow.Rtl.TList",
-            "TList.count": 0,
-            "TList.items": []
+          "$type": "Aow.Game.Combat.CombatUnitSelectionControl",
+          "CombatUnitSelectionControl.FCursorFrame": 0,
+          "CombatUnitSelectionControl.FCursorImage": 0,
+          "CombatUnitSelectionControl.FMouseOverTarget": null,
+          "CombatUnitSelectionControl.FObstacles": {
+            "$type": "Aow.Rtl.DelphiList",
+            "DelphiList.count": 0,
+            "DelphiList.items": []
           },
-          "TCombatUnitSelectionControl.FPathInvalid": {
-            "$type": "Aow.Rtl.TSet`1[[Aow.Game.Combat.AnonymousEnum_piMove, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "TSet`1.a": 0,
-            "TSet`1.b": 0,
-            "TSet`1.bounded": false,
-            "TSet`1.c": 0,
-            "TSet`1.d": 0,
-            "TSet`1.high": 0,
-            "TSet`1.low": 0
+          "CombatUnitSelectionControl.FPathInvalid": {
+            "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatUnitSelectionControl+AnonymousEnum_piMove, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set`1.a": 0,
+            "Set`1.b": 0,
+            "Set`1.bounded": false,
+            "Set`1.c": 0,
+            "Set`1.d": 0,
+            "Set`1.high": 0,
+            "Set`1.low": 0
           },
-          "TCombatUnitSelectionControl.FRangedPath": {
-            "$type": "Aow.Game.Draw.TXYZList",
-            "TXYZList.FList": {
-              "$type": "Aow.Rtl.TList",
-              "TList.count": 0,
-              "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+          "CombatUnitSelectionControl.FRangedPath": {
+            "$type": "Aow.Game.Draw.XYZList",
+            "XYZList.FList": {
+              "$type": "Aow.Rtl.DelphiList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
             }
           },
-          "TCombatUnitSelectionControl.FRangedPathHS": {
-            "$type": "Aow.Game.Draw.TRangedPathHS",
-            "TEObject.FOwner": null,
-            "TFixedVisibleHS.FStatus": 0,
-            "TRangedPathHS.FFrame": 0,
-            "TRangedPathHS.FFrameCount": 0,
-            "TRangedPathHS.FMiscImages": null,
-            "TRangedPathHS.FRange": 0,
-            "TRangedPathHS.FSelection": null,
-            "TRangedPathHS.FTargetImages": {
-              "$type": "Aow.Game.Draw.Images.TImageLibrary",
-              "TComponent.<ComponentState>k__BackingField": {
-                "$type": "Aow.Rtl.TSet`1[[Aow.Rtl.TComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "TSet`1.a": 0,
-                "TSet`1.b": 0,
-                "TSet`1.bounded": false,
-                "TSet`1.c": 0,
-                "TSet`1.d": 0,
-                "TSet`1.high": 0,
-                "TSet`1.low": 0
+          "CombatUnitSelectionControl.FRangedPathHS": {
+            "$type": "Aow.Game.Draw.RangedPathHS",
+            "EObject.FOwner": null,
+            "FixedVisibleHS.FStatus": 0,
+            "RangedPathHS.FFrame": 0,
+            "RangedPathHS.FFrameCount": 0,
+            "RangedPathHS.FMiscImages": null,
+            "RangedPathHS.FRange": 0,
+            "RangedPathHS.FSelection": null,
+            "RangedPathHS.FTargetImages": {
+              "$type": "Aow.Game.Draw.Images.ImageLibrary",
+              "Component.<ComponentState>k__BackingField": {
+                "$type": "Aow.Rtl.Set`1[[Aow.Rtl.ComponentState, Aow.Rtl, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Set`1.a": 0,
+                "Set`1.b": 0,
+                "Set`1.bounded": false,
+                "Set`1.c": 0,
+                "Set`1.d": 0,
+                "Set`1.high": 0,
+                "Set`1.low": 0
               },
-              "TComponent.<Owner>k__BackingField": null,
-              "TComponent.<Tag>k__BackingField": 0,
-              "TComponent.children": [],
-              "TComponent.freeNotifies": null,
-              "TComponent.name": "",
-              "TCustomImageLibrary.FCapacity": 0,
-              "TCustomImageLibrary.FChangeLock": 0,
-              "TCustomImageLibrary.FCount": 0,
-              "TCustomImageLibrary.FDataOffset": 0,
-              "TCustomImageLibrary.FFileName": "",
-              "TCustomImageLibrary.FImages": null,
-              "TCustomImageLibrary.FLoadOnDemand": true,
-              "TCustomImageLibrary.FLoadedFileName": "",
-              "TCustomImageLibrary.FOnChange": null,
-              "TCustomImageLibrary.FPaletteManager": {
-                "$type": "Aow.Game.Draw.Images.TPaletteManager",
-                "TPaletteManager.FPalettes": {
-                  "$type": "Aow.Rtl.TList",
-                  "TList.count": 0,
-                  "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+              "Component.<Owner>k__BackingField": null,
+              "Component.<Tag>k__BackingField": 0,
+              "Component.children": [],
+              "Component.freeNotifies": null,
+              "Component.name": "",
+              "CustomImageLibrary.FCapacity": 0,
+              "CustomImageLibrary.FChangeLock": 0,
+              "CustomImageLibrary.FCount": 0,
+              "CustomImageLibrary.FDataOffset": 0,
+              "CustomImageLibrary.FFileName": "",
+              "CustomImageLibrary.FImages": null,
+              "CustomImageLibrary.FLoadOnDemand": true,
+              "CustomImageLibrary.FLoadedFileName": "",
+              "CustomImageLibrary.FOnChange": null,
+              "CustomImageLibrary.FPaletteManager": {
+                "$type": "Aow.Game.Draw.Images.PaletteManager",
+                "PaletteManager.FPalettes": {
+                  "$type": "Aow.Rtl.DelphiList",
+                  "DelphiList.count": 0,
+                  "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
                 }
               },
-              "TCustomImageLibrary.FReloading": false,
-              "TCustomImageLibrary.FStatus": {
-                "$type": "Aow.Rtl.TSet`1[[Aow.Game.Draw.Images.TImageLibraryStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-                "TSet`1.a": 0,
-                "TSet`1.b": 0,
-                "TSet`1.bounded": false,
-                "TSet`1.c": 0,
-                "TSet`1.d": 0,
-                "TSet`1.high": 0,
-                "TSet`1.low": 0
+              "CustomImageLibrary.FReloading": false,
+              "CustomImageLibrary.FStatus": {
+                "$type": "Aow.Rtl.Set`1[[Aow.Game.Draw.Images.ImageLibraryStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+                "Set`1.a": 0,
+                "Set`1.b": 0,
+                "Set`1.bounded": false,
+                "Set`1.c": 0,
+                "Set`1.d": 0,
+                "Set`1.high": 0,
+                "Set`1.low": 0
               }
             }
           },
-          "TCombatUnitSelectionControl.FTargetImages": "$ref:$.TCombatUnitSelectionControl.FRangedPathHS.TRangedPathHS.FTargetImages",
-          "TCombatUnitSelectionControl.FTargetX": 0,
-          "TCombatUnitSelectionControl.FTargetY": 0,
-          "TMoveSelector.FCurrentMove": -1,
-          "TMoveSelector.FMap": null,
-          "TMoveSelector.FMoveControlSettings": {
-            "$type": "Aow.Game.Combat.TCombatMoveControlSettings",
-            "TCombatMoveControlSettings.FMoveFlags": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.Combat.TCombatMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+          "CombatUnitSelectionControl.FTargetImages": "$ref:$.CombatUnitSelectionControl.FRangedPathHS.RangedPathHS.FTargetImages",
+          "CombatUnitSelectionControl.FTargetX": 0,
+          "CombatUnitSelectionControl.FTargetY": 0,
+          "MoveSelector.FCurrentMove": -1,
+          "MoveSelector.FMap": null,
+          "MoveSelector.FMoveControlSettings": {
+            "$type": "Aow.Game.Combat.CombatMoveControlSettings",
+            "CombatMoveControlSettings.FMoveFlags": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.Combat.CombatMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TEObject.FOwner": null,
-            "TMoveControlSettings.FArmyHS": null,
-            "TMoveControlSettings.FDestinationL": -1,
-            "TMoveControlSettings.FDestinationX": -1,
-            "TMoveControlSettings.FDestinationY": -1,
-            "TMoveControlSettings.FEvenOffsets": {
+            "EObject.FOwner": null,
+            "MoveControlSettings.FArmyHS": null,
+            "MoveControlSettings.FDestinationL": -1,
+            "MoveControlSettings.FDestinationX": -1,
+            "MoveControlSettings.FDestinationY": -1,
+            "MoveControlSettings.FEvenOffsets": {
               "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
-            "TMoveControlSettings.FHeight": 0,
-            "TMoveControlSettings.FLevelCount": 0,
-            "TMoveControlSettings.FLevelData": [],
-            "TMoveControlSettings.FMode": {
-              "$type": "Aow.Rtl.TSet`1[[Aow.Game.World.Movement.TMoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-              "TSet`1.a": 0,
-              "TSet`1.b": 0,
-              "TSet`1.bounded": false,
-              "TSet`1.c": 0,
-              "TSet`1.d": 0,
-              "TSet`1.high": 0,
-              "TSet`1.low": 0
+            "MoveControlSettings.FHeight": 0,
+            "MoveControlSettings.FLevelCount": 0,
+            "MoveControlSettings.FLevelData": [],
+            "MoveControlSettings.FMode": {
+              "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Movement.MoveModeElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+              "Set`1.a": 0,
+              "Set`1.b": 0,
+              "Set`1.bounded": false,
+              "Set`1.c": 0,
+              "Set`1.d": 0,
+              "Set`1.high": 0,
+              "Set`1.low": 0
             },
-            "TMoveControlSettings.FMovePointTable": {
+            "MoveControlSettings.FMovePointTable": {
               "$type": "Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16",
               "FixedArray_Aow_Units_FixedArray_sbyte_16_16.element0": {
                 "$type": "Aow.Game.Engine.Buffers.FixedArray_sbyte_16",
                 "FixedArray_sbyte_16.element0": -1
               }
             },
-            "TMoveControlSettings.FMovePointsClear": false,
-            "TMoveControlSettings.FMovePointsLimit": 0,
-            "TMoveControlSettings.FMovePointsMax": 4095,
-            "TMoveControlSettings.FOddOffsets": {
+            "MoveControlSettings.FMovePointsClear": false,
+            "MoveControlSettings.FMovePointsLimit": 0,
+            "MoveControlSettings.FMovePointsMax": 4095,
+            "MoveControlSettings.FOddOffsets": {
               "$type": "Aow.Game.Engine.Buffers.FixedArray_int_8",
               "FixedArray_int_8.element0": 0
             },
-            "TMoveControlSettings.FPath": {
-              "$type": "Aow.Game.World.Movement.TMovepath",
-              "TXYLList.FCapacity": 0,
-              "TXYLList.FCount": 0,
-              "TXYLList.FDefault": {
-                "$type": "Aow.Game.World.Map.TXYL",
-                "TXYL.Flag": 0,
-                "TXYL.L": -1,
-                "TXYL.X": -1,
-                "TXYL.XY": 65535,
-                "TXYL.XYL": 16777215,
-                "TXYL.Y": -1
+            "MoveControlSettings.FPath": {
+              "$type": "Aow.Game.World.Movement.Movepath",
+              "XYLList.FCapacity": 0,
+              "XYLList.FCount": 0,
+              "XYLList.FDefault": {
+                "$type": "Aow.Game.World.Map.XYL",
+                "XYL.Flag": 0,
+                "XYL.L": -1,
+                "XYL.X": -1,
+                "XYL.XY": 65535,
+                "XYL.Packed": 16777215,
+                "XYL.Y": -1
               },
-              "TXYLList.FList": []
+              "XYLList.FList": []
             },
-            "TMoveControlSettings.FPlayer": -1,
-            "TMoveControlSettings.FProcessedMapFields": {
-              "$type": "Aow.Rtl.TList",
-              "TList.count": 0,
-              "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+            "MoveControlSettings.FPlayer": -1,
+            "MoveControlSettings.FProcessedMapFields": {
+              "$type": "Aow.Rtl.DelphiList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
             },
-            "TMoveControlSettings.FRefCount": 1,
-            "TMoveControlSettings.FRowOffsets": [],
-            "TMoveControlSettings.FSelection": 0,
-            "TMoveControlSettings.FSourceL": -1,
-            "TMoveControlSettings.FSourceX": -1,
-            "TMoveControlSettings.FSourceY": -1,
-            "TMoveControlSettings.FStatus": 0,
-            "TMoveControlSettings.FSubMoveIndex": 0,
-            "TMoveControlSettings.FSubMoves": {
-              "$type": "Aow.Game.World.Movement.TSubMoveList",
-              "TENode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.TEObjectList",
-                "TList.count": 0,
-                "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+            "MoveControlSettings.FRefCount": 1,
+            "MoveControlSettings.FRowOffsets": [],
+            "MoveControlSettings.FSelection": 0,
+            "MoveControlSettings.FSourceL": -1,
+            "MoveControlSettings.FSourceX": -1,
+            "MoveControlSettings.FSourceY": -1,
+            "MoveControlSettings.FStatus": 0,
+            "MoveControlSettings.FSubMoveIndex": 0,
+            "MoveControlSettings.FSubMoves": {
+              "$type": "Aow.Game.World.Movement.SubMoveList",
+              "ENode.FChildren": {
+                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "DelphiList.count": 0,
+                "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
               },
-              "TEObject.FOwner": null
+              "EObject.FOwner": null
             },
-            "TMoveControlSettings.FTransporterArmy": null,
-            "TMoveControlSettings.FUnits": {
-              "$type": "Aow.Game.Units.TUnitUserList",
-              "TEChangeNotifyNode.FChildren": {
-                "$type": "Aow.Game.Engine.Nodes.TEObjectList",
-                "TList.count": 0,
-                "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+            "MoveControlSettings.FTransporterArmy": null,
+            "MoveControlSettings.FUnits": {
+              "$type": "Aow.Game.Units.UnitUserList",
+              "EChangeNotifyNode.FChildren": {
+                "$type": "Aow.Game.Engine.Nodes.EObjectList",
+                "DelphiList.count": 0,
+                "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
               },
-              "TEChangeNotifyNode.FUpdateCount": 0,
-              "TEObject.FOwner": null
+              "EChangeNotifyNode.FUpdateCount": 0,
+              "EObject.FOwner": null
             },
-            "TMoveControlSettings.FWidth": 0
+            "MoveControlSettings.FWidth": 0
           },
-          "TMoveSelector.FMoveSettingsList": {
-            "$type": "Aow.Game.World.Movement.TMoveSettingsList",
-            "TENode.FChildren": {
-              "$type": "Aow.Game.Engine.Nodes.TEObjectList",
-              "TList.count": 0,
-              "TList.items": "$ref:$.TCombatUnitSelectionControl.FObstacles.TList.items"
+          "MoveSelector.FMoveSettingsList": {
+            "$type": "Aow.Game.World.Movement.MoveSettingsList",
+            "ENode.FChildren": {
+              "$type": "Aow.Game.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.CombatUnitSelectionControl.FObstacles.DelphiList.items"
             },
-            "TEObject.FOwner": null
+            "EObject.FOwner": null
           },
-          "TMoveSelector.FStatus": {
-            "$type": "Aow.Rtl.TSet`1[[Aow.Game.World.Movement.TMoveSelectorStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-            "TSet`1.a": 0,
-            "TSet`1.b": 0,
-            "TSet`1.bounded": false,
-            "TSet`1.c": 0,
-            "TSet`1.d": 0,
-            "TSet`1.high": 0,
-            "TSet`1.low": 0
+          "MoveSelector.FStatus": {
+            "$type": "Aow.Rtl.Set`1[[Aow.Game.World.Movement.MoveSelectorStatusElement, Aow.Units, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set`1.a": 0,
+            "Set`1.b": 0,
+            "Set`1.bounded": false,
+            "Set`1.c": 0,
+            "Set`1.d": 0,
+            "Set`1.high": 0,
+            "Set`1.low": 0
           }
         }
       },

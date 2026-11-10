@@ -13,38 +13,38 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // cosmetic-surgery caster
-public partial class TDeformFaceDlg : TDataModule
+public partial class DeformFaceDlg : DataModule
 {
-    public TDeformFaceDlg(TComponent owner) : base(owner)
+    public DeformFaceDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAoWFrame FaceFrame;
-    public TAOWButton CancelBtn;
-    public TAOWImage TitleIcon;
-    public TAOWLabel Title;
-    public TAOWButton CastBtn;
-    public TAOWLabel SelectNewFaceLbl;
-    public TAOWButton Close;
-    public TAoWFrame LeftFace;
-    public TAoWFrame RightFace;
-    public TAoWFrame AoWFrame1;
-    public TAOWImage CeltM;
-    public TAOWImage CeltL;
-    public TAOWImage CeltR;
-    public TAOWButton PrevFaceBtn;
-    public TAOWButton NextFaceBtn;
-    public TAOWLabel UnitNameLbl;
-    public TIvTranslator Translator;
-    public TCosmeticSurgerySpellCaster FCaster;
+    public AOWWindow Dlg;
+    public AoWFrame FaceFrame;
+    public AOWButton CancelBtn;
+    public AOWImage TitleIcon;
+    public AOWLabel Title;
+    public AOWButton CastBtn;
+    public AOWLabel SelectNewFaceLbl;
+    public AOWButton Close;
+    public AoWFrame LeftFace;
+    public AoWFrame RightFace;
+    public AoWFrame AoWFrame1;
+    public AOWImage CeltM;
+    public AOWImage CeltL;
+    public AOWImage CeltR;
+    public AOWButton PrevFaceBtn;
+    public AOWButton NextFaceBtn;
+    public AOWLabel UnitNameLbl;
+    public IvTranslator Translator;
+    public CosmeticSurgerySpellCaster FCaster;
 
     // AoWDeformFaceDlg.pas:127
-    public void Execute(TCosmeticSurgerySpellCaster Caster)
+    public void Execute(CosmeticSurgerySpellCaster Caster)
     {
-        TAbstractUnit U;
+        AbstractUnit U;
         FCaster = Caster;
         FCaster.AddRef();
-        U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FCaster.FTargetUnitID);
+        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FTargetUnitID);
         if (U != null)
         {
             var name = U.GetName();
@@ -83,33 +83,33 @@ public partial class TDeformFaceDlg : TDataModule
         }
         else
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(Reason);
+            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(Reason);
         }
     }
 
     // AoWDeformFaceDlg.pas:73
-    public void DrawFace(TAoWFrame Sender, TSurfaceDesc SD, int Offset)
+    public void DrawFace(AoWFrame Sender, SurfaceDesc SD, int Offset)
     {
-        TRect R;
+        global::Aow.Rtl.Rect R;
         int Face;
-        TFaceResource Resource;
+        FaceResource Resource;
         Face = FCaster.FFaceIndex;
         while (Offset < 0)
         {
             Offset += 1;
-            Face = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.PrevFace(Face);
+            Face = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.PrevFace(Face);
         }
 
         while (Offset > 0)
         {
             Offset -= 1;
-            Face = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.NextFace(Face);
+            Face = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.NextFace(Face);
         }
 
-        R = Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
+        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
         if (Face != -1)
         {
-            Resource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.GetFaceResource(Face);
+            Resource = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.GetFaceResource(Face);
             Resource.AddRef();
             Resource.GetFaceImage().ShowStretched(R, SD);
             Resource.Release();
@@ -120,7 +120,7 @@ public partial class TDeformFaceDlg : TDataModule
     public void PrevFaceBtnClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        var prevFace = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.PrevFace(FCaster.FFaceIndex);
+        var prevFace = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.PrevFace(FCaster.FFaceIndex);
         FCaster.FFaceIndex = prevFace;
         Dlg.FDrawn = false;
     }
@@ -129,7 +129,7 @@ public partial class TDeformFaceDlg : TDataModule
     public void NextFaceBtnClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        var nextFace = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.NextFace(FCaster.FFaceIndex);
+        var nextFace = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.NextFace(FCaster.FFaceIndex);
         FCaster.FFaceIndex = nextFace;
         Dlg.FDrawn = false;
     }
@@ -141,7 +141,7 @@ public partial class TDeformFaceDlg : TDataModule
     }
 
     // AoWDeformFaceDlg.pas:142
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {

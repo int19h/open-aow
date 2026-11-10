@@ -7,16 +7,16 @@ public sealed record TranslationTarget(string ClassName, string PropertyName, in
 
 public static class TranslatorProperties
 {
-    internal sealed record Binding(Type Type, string Name, Func<TComponent, string[]> Read,
-        Action<TComponent, string[]> Write, bool IsList);
+    internal sealed record Binding(Type Type, string Name, Func<global::Aow.Rtl.Component, string[]> Read,
+        Action<global::Aow.Rtl.Component, string[]> Write, bool IsList);
 
     private static readonly Dictionary<(Type, string), Binding> bindings = [];
 
-    public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : TComponent
+    public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : global::Aow.Rtl.Component
         => bindings[(typeof(T), name)] = new(typeof(T), name, component => [read((T)component)],
             (component, values) => write((T)component, values[0]), false);
 
-    public static void RegisterStrings<T>(string name, Func<T, TStrings?> read) where T : TComponent
+    public static void RegisterStrings<T>(string name, Func<T, StringCollection?> read) where T : global::Aow.Rtl.Component
     {
         bindings[(typeof(T), name)] = new(typeof(T), name, component =>
         {
@@ -44,11 +44,11 @@ public static class TranslatorProperties
     }
 }
 
-public class TIvCustomTranslator : TComponent
+public class IvCustomTranslator : global::Aow.Rtl.Component
 {
-    public TIvCustomTranslator(TComponent? owner = null) : base(owner) { }
+    public IvCustomTranslator(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
-    private ConditionalWeakTable<TComponent, Dictionary<string, string[]>> nativeValues = new();
+    private ConditionalWeakTable<global::Aow.Rtl.Component, Dictionary<string, string[]>> nativeValues = new();
 
     public string DictionaryName { get; set; } = "AoW";
     public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();
@@ -62,14 +62,14 @@ public class TIvCustomTranslator : TComponent
 
     public void ClearNativeValues() => nativeValues = new();
 
-    public void Translate(TComponent module)
+    public void Translate(global::Aow.Rtl.Component module)
     {
         var dictionary = Dictionary ?? LocalizationRuntime.Dictionary(DictionaryName, Language);
         if (Language is int language && dictionary.Language != language) dictionary.SetLanguage(language);
         string form = NameTable.Delphi(module.GetType());
         Visit(module);
 
-        void Visit(TComponent component)
+        void Visit(global::Aow.Rtl.Component component)
         {
             foreach (var target in TargetsData)
             {

@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TPopupWindows : ILayoutModule
+public partial class PopupWindows : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -19,7 +19,7 @@ public partial class TPopupWindows : ILayoutModule
     {
         session.Begin(this);
         Name = "PopupWindows";
-        StartMenu = new TStartMenu(this);
+        StartMenu = new global::Aow.Game.Ui.Windows.StartMenu(this);
         session.BeginRead(StartMenu);
         StartMenu.Name = "StartMenu";
         StartMenu.Visible = false;
@@ -28,8 +28,8 @@ public partial class TPopupWindows : ILayoutModule
         StartMenu.WinTop = 12900;
         StartMenu.WinWidth = 250;
         StartMenu.Masked = true;
-        StartMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        StartMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        StartMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        StartMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         StartMenu.Alignment.HeightPercent = 0;
         StartMenu.Alignment.WidthPercent = 0;
         StartMenu.Alignment.LeftOffPercent = 0;
@@ -66,7 +66,7 @@ public partial class TPopupWindows : ILayoutModule
         StartMenu.SubMenuShowDelay = 5;
         StartMenu.WinHeight = 0;
         session.EndRead(StartMenu);
-        OverViewsMenu = new TAOWMenu(this);
+        OverViewsMenu = new AOWMenu(this);
         session.BeginRead(OverViewsMenu);
         OverViewsMenu.Name = "OverViewsMenu";
         OverViewsMenu.Visible = false;
@@ -75,8 +75,8 @@ public partial class TPopupWindows : ILayoutModule
         OverViewsMenu.WinTop = 0;
         OverViewsMenu.WinWidth = 200;
         OverViewsMenu.Masked = true;
-        OverViewsMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        OverViewsMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        OverViewsMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        OverViewsMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         OverViewsMenu.Alignment.HeightPercent = 0;
         OverViewsMenu.Alignment.WidthPercent = 0;
         OverViewsMenu.Alignment.LeftOffPercent = 0;
@@ -110,7 +110,7 @@ public partial class TPopupWindows : ILayoutModule
         OverViewsMenu.OnSelect = OverViewsMenuSelect;
         OverViewsMenu.WinHeight = 0;
         session.EndRead(OverViewsMenu);
-        SettingsMenu = new TAOWMenu(this);
+        SettingsMenu = new AOWMenu(this);
         session.BeginRead(SettingsMenu);
         SettingsMenu.Name = "SettingsMenu";
         SettingsMenu.Visible = false;
@@ -119,8 +119,8 @@ public partial class TPopupWindows : ILayoutModule
         SettingsMenu.WinTop = 0;
         SettingsMenu.WinWidth = 200;
         SettingsMenu.Masked = true;
-        SettingsMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        SettingsMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        SettingsMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        SettingsMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         SettingsMenu.Alignment.HeightPercent = 0;
         SettingsMenu.Alignment.WidthPercent = 0;
         SettingsMenu.Alignment.LeftOffPercent = 0;
@@ -158,7 +158,7 @@ public partial class TPopupWindows : ILayoutModule
         SettingsMenu.OnSelect = SettingsMenuSelect;
         SettingsMenu.WinHeight = 112;
         session.EndRead(SettingsMenu);
-        EndMenu = new TAOWMenu(this);
+        EndMenu = new AOWMenu(this);
         session.BeginRead(EndMenu);
         EndMenu.Name = "EndMenu";
         EndMenu.Visible = false;
@@ -167,8 +167,8 @@ public partial class TPopupWindows : ILayoutModule
         EndMenu.WinTop = 0;
         EndMenu.WinWidth = 200;
         EndMenu.Masked = true;
-        EndMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        EndMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        EndMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        EndMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         EndMenu.Alignment.HeightPercent = 0;
         EndMenu.Alignment.WidthPercent = 0;
         EndMenu.Alignment.LeftOffPercent = 0;
@@ -204,7 +204,7 @@ public partial class TPopupWindows : ILayoutModule
         EndMenu.OnSelect = EndMenuSelect;
         EndMenu.WinHeight = 92;
         session.EndRead(EndMenu);
-        DiskMenu = new TAOWMenu(this);
+        DiskMenu = new AOWMenu(this);
         session.BeginRead(DiskMenu);
         DiskMenu.Name = "DiskMenu";
         DiskMenu.Visible = false;
@@ -213,8 +213,8 @@ public partial class TPopupWindows : ILayoutModule
         DiskMenu.WinTop = 0;
         DiskMenu.WinWidth = 200;
         DiskMenu.Masked = true;
-        DiskMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        DiskMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        DiskMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        DiskMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         DiskMenu.Alignment.HeightPercent = 0;
         DiskMenu.Alignment.WidthPercent = 0;
         DiskMenu.Alignment.LeftOffPercent = 0;
@@ -249,7 +249,7 @@ public partial class TPopupWindows : ILayoutModule
         DiskMenu.OnSelect = DiskMenuSelect;
         DiskMenu.WinHeight = 0;
         session.EndRead(DiskMenu);
-        TCStartMenu = new TStartMenu(this);
+        TCStartMenu = new global::Aow.Game.Ui.Windows.StartMenu(this);
         session.BeginRead(TCStartMenu);
         TCStartMenu.Name = "TCStartMenu";
         TCStartMenu.Visible = false;
@@ -258,8 +258,8 @@ public partial class TPopupWindows : ILayoutModule
         TCStartMenu.WinTop = 1000;
         TCStartMenu.WinWidth = 250;
         TCStartMenu.Masked = true;
-        TCStartMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCStartMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCStartMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCStartMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         TCStartMenu.Alignment.HeightPercent = 0;
         TCStartMenu.Alignment.WidthPercent = 0;
         TCStartMenu.Alignment.LeftOffPercent = 0;
@@ -305,7 +305,7 @@ public partial class TPopupWindows : ILayoutModule
         created__Translator.TargetsData.Add(new TranslationTarget("", "Text", 0));
         created__Translator.TargetsData.Add(new TranslationTarget("", "ToolTipText", 0));
         session.EndRead(created__Translator);
-        HelpMenu = new TAOWMenu(this);
+        HelpMenu = new AOWMenu(this);
         session.BeginRead(HelpMenu);
         HelpMenu.Name = "HelpMenu";
         HelpMenu.Visible = false;
@@ -314,8 +314,8 @@ public partial class TPopupWindows : ILayoutModule
         HelpMenu.WinTop = 0;
         HelpMenu.WinWidth = 200;
         HelpMenu.Masked = true;
-        HelpMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        HelpMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        HelpMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        HelpMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         HelpMenu.Alignment.HeightPercent = 0;
         HelpMenu.Alignment.WidthPercent = 0;
         HelpMenu.Alignment.LeftOffPercent = 0;
@@ -351,7 +351,7 @@ public partial class TPopupWindows : ILayoutModule
         HelpMenu.OnSelect = HelpMenuSelect;
         HelpMenu.WinHeight = 0;
         session.EndRead(HelpMenu);
-        TCOVMenu = new TAOWMenu(this);
+        TCOVMenu = new AOWMenu(this);
         session.BeginRead(TCOVMenu);
         TCOVMenu.Name = "TCOVMenu";
         TCOVMenu.Visible = false;
@@ -360,8 +360,8 @@ public partial class TPopupWindows : ILayoutModule
         TCOVMenu.WinTop = 0;
         TCOVMenu.WinWidth = 200;
         TCOVMenu.Masked = true;
-        TCOVMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCOVMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCOVMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCOVMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         TCOVMenu.Alignment.HeightPercent = 0;
         TCOVMenu.Alignment.WidthPercent = 0;
         TCOVMenu.Alignment.LeftOffPercent = 0;
@@ -395,7 +395,7 @@ public partial class TPopupWindows : ILayoutModule
         TCOVMenu.OnSelect = OverViewsMenuSelect;
         TCOVMenu.WinHeight = 0;
         session.EndRead(TCOVMenu);
-        TCDiskMenu = new TAOWMenu(this);
+        TCDiskMenu = new AOWMenu(this);
         session.BeginRead(TCDiskMenu);
         TCDiskMenu.Name = "TCDiskMenu";
         TCDiskMenu.Visible = false;
@@ -404,8 +404,8 @@ public partial class TPopupWindows : ILayoutModule
         TCDiskMenu.WinTop = 0;
         TCDiskMenu.WinWidth = 200;
         TCDiskMenu.Masked = true;
-        TCDiskMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCDiskMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCDiskMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCDiskMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         TCDiskMenu.Alignment.HeightPercent = 0;
         TCDiskMenu.Alignment.WidthPercent = 0;
         TCDiskMenu.Alignment.LeftOffPercent = 0;
@@ -439,7 +439,7 @@ public partial class TPopupWindows : ILayoutModule
         TCDiskMenu.OnSelect = DiskMenuSelect;
         TCDiskMenu.WinHeight = 0;
         session.EndRead(TCDiskMenu);
-        TCHelpMenu = new TAOWMenu(this);
+        TCHelpMenu = new AOWMenu(this);
         session.BeginRead(TCHelpMenu);
         TCHelpMenu.Name = "TCHelpMenu";
         TCHelpMenu.Visible = false;
@@ -448,8 +448,8 @@ public partial class TPopupWindows : ILayoutModule
         TCHelpMenu.WinTop = 0;
         TCHelpMenu.WinWidth = 200;
         TCHelpMenu.Masked = true;
-        TCHelpMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCHelpMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCHelpMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCHelpMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         TCHelpMenu.Alignment.HeightPercent = 0;
         TCHelpMenu.Alignment.WidthPercent = 0;
         TCHelpMenu.Alignment.LeftOffPercent = 0;
@@ -485,7 +485,7 @@ public partial class TPopupWindows : ILayoutModule
         TCHelpMenu.OnSelect = HelpMenuSelect;
         TCHelpMenu.WinHeight = 0;
         session.EndRead(TCHelpMenu);
-        TCSettingsMenu = new TAOWMenu(this);
+        TCSettingsMenu = new AOWMenu(this);
         session.BeginRead(TCSettingsMenu);
         TCSettingsMenu.Name = "TCSettingsMenu";
         TCSettingsMenu.Visible = false;
@@ -494,8 +494,8 @@ public partial class TPopupWindows : ILayoutModule
         TCSettingsMenu.WinTop = 0;
         TCSettingsMenu.WinWidth = 200;
         TCSettingsMenu.Masked = true;
-        TCSettingsMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCSettingsMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCSettingsMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCSettingsMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         TCSettingsMenu.Alignment.HeightPercent = 0;
         TCSettingsMenu.Alignment.WidthPercent = 0;
         TCSettingsMenu.Alignment.LeftOffPercent = 0;
@@ -533,7 +533,7 @@ public partial class TPopupWindows : ILayoutModule
         TCSettingsMenu.OnSelect = SettingsMenuSelect;
         TCSettingsMenu.WinHeight = 0;
         session.EndRead(TCSettingsMenu);
-        TCEndMenu = new TAOWMenu(this);
+        TCEndMenu = new AOWMenu(this);
         session.BeginRead(TCEndMenu);
         TCEndMenu.Name = "TCEndMenu";
         TCEndMenu.Visible = false;
@@ -542,8 +542,8 @@ public partial class TPopupWindows : ILayoutModule
         TCEndMenu.WinTop = 0;
         TCEndMenu.WinWidth = 200;
         TCEndMenu.Masked = true;
-        TCEndMenu.Alignment.AlignWidth = TAOWAlignWidth.awNone;
-        TCEndMenu.Alignment.AlignHeight = TAOWAlignHeight.ahNone;
+        TCEndMenu.Alignment.AlignWidth = AOWAlignWidth.None;
+        TCEndMenu.Alignment.AlignHeight = AOWAlignHeight.None;
         TCEndMenu.Alignment.HeightPercent = 0;
         TCEndMenu.Alignment.WidthPercent = 0;
         TCEndMenu.Alignment.LeftOffPercent = 0;
@@ -608,7 +608,7 @@ public partial class TPopupWindows : ILayoutModule
         StartMenu.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         StartMenu.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         StartMenu.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10b;
-        session.Defer("TBWindow", (TTBWindow module) => StartMenu.OwnerMenuBar = module.StartMenuBar);
+        session.Defer("TBWindow", (TBWindow module) => StartMenu.OwnerMenuBar = module.StartMenuBar);
         StartMenu.ILWholeMenu = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.DragonMenu;
         OverViewsMenu.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
         OverViewsMenu.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;
@@ -635,7 +635,7 @@ public partial class TPopupWindows : ILayoutModule
         TCStartMenu.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         TCStartMenu.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
         TCStartMenu.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10b;
-        session.Defer("TBWindow", (TTBWindow module) => TCStartMenu.OwnerMenuBar = module.TCStartBar);
+        session.Defer("TBWindow", (TBWindow module) => TCStartMenu.OwnerMenuBar = module.TCStartBar);
         TCStartMenu.ILWholeMenu = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.DragonMenu;
         HelpMenu.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
         HelpMenu.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;

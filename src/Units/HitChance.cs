@@ -86,18 +86,18 @@ internal static class HitChance
         return Result;
     }
 
-    internal static void ShowHitPcnt(int X, int Y, in TSurfaceDesc Surface, int Percent)
+    internal static void ShowHitPcnt(int X, int Y, in SurfaceDesc Surface, int Percent)
     {
-        TSurfaceDesc SD;
+        SurfaceDesc SD;
         SD = Surface;
-        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatImages[0].Show(X + 20, Y + 54, SD);
+        Aow.Game.Engine.AoWHSSet.Current.FCombatImages[0].Show(X + 20, Y + 54, SD);
         SD.ClipRect.Right = X + 20 + (Percent + 3) / 4;
         if (SD.ClipRect.Right > Surface.ClipRect.Right)
         {
             SD.ClipRect.Right = Surface.ClipRect.Right;
         }
 
-        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatImages[1].Show(X + 20, Y + 54, SD);
+        Aow.Game.Engine.AoWHSSet.Current.FCombatImages[1].Show(X + 20, Y + 54, SD);
     }
 
 }

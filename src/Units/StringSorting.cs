@@ -15,23 +15,23 @@ namespace Aow.Game.Engine.Nodes;
 
 internal static class StringSorting
 {
-    internal static void SortStrings(TStrings Strings, TStringsSortCompare Compare)
+    internal static void SortStrings(StringCollection Strings, StringsSortCompare Compare)
     {
-        TSortStringsContext Ctx = default;
+        SortStringsContext Ctx = default;
         if (Strings.Count != 0)
         {
             Ctx.Strings = Strings;
             Ctx.Compare = Compare;
             Ctx.ExchangeProc = null;
             var count = Strings.Count;
-            Aow.Game.Engine.Collections.TSortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
+            Aow.Game.Engine.Collections.SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
         }
     }
 
-    internal static void SortStringsEx(TStrings Strings, TStringsSortCompare Compare, ReadOnlySpan<TStrings> LinkedStrings)
+    internal static void SortStringsEx(StringCollection Strings, StringsSortCompare Compare, ReadOnlySpan<StringCollection> LinkedStrings)
     {
-        TList Lists = default;
-        TSortStringsContext Ctx = default;
+        DelphiList Lists = default;
+        SortStringsContext Ctx = default;
         if (Strings.Count != 0)
         {
             Strings.BeginUpdate();
@@ -40,7 +40,7 @@ internal static class StringSorting
             // { Original unsigned test also takes an empty array. }
             if ((uint)(LinkedStrings.Length - 1) >= 0)
             {
-                Lists = new TList();
+                Lists = new DelphiList();
                 for (int I = 0, last = LinkedStrings.Length - 1; I <= last; I++)
                 {
                     LinkedStrings[I].BeginUpdate();
@@ -56,7 +56,7 @@ internal static class StringSorting
             }
 
             var count = Strings.Count;
-            Aow.Game.Engine.Collections.TSortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
+            Aow.Game.Engine.Collections.SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
             if (Lists != null)
             {
                 for (int I = 0, last = LinkedStrings.Length - 1; I <= last; I++)
@@ -71,22 +71,22 @@ internal static class StringSorting
         }
     }
 
-    internal static void SortStringsAscending(TStrings Strings, ReadOnlySpan<TStrings> LinkedStrings)
+    internal static void SortStringsAscending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
         Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareAscending, LinkedStrings);
     }
 
-    internal static void SortStringsDescending(TStrings Strings, ReadOnlySpan<TStrings> LinkedStrings)
+    internal static void SortStringsDescending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
         Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareDescending, LinkedStrings);
     }
 
-    internal static void SortStringsNumericalAscending(TStrings Strings, ReadOnlySpan<TStrings> LinkedStrings)
+    internal static void SortStringsNumericalAscending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
         Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareNumericalAscending, LinkedStrings);
     }
 
-    internal static void SortStringsNumericalDescending(TStrings Strings, ReadOnlySpan<TStrings> LinkedStrings)
+    internal static void SortStringsNumericalDescending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
         Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareNumericalDescending, LinkedStrings);
     }

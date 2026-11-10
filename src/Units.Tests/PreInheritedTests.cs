@@ -11,7 +11,7 @@ public sealed class PreInheritedTests
     private sealed class HookOwner : EngineFixture.Owner
     {
 
-        public override int AddChild(TEObject child)
+        public override int AddChild(EObject child)
         {
             Assert.Equal(17, ((Leaf)child).State);
             Events.Add("owner");
@@ -19,16 +19,16 @@ public sealed class PreInheritedTests
         }
     }
 
-    private class First : TEObject
+    private class First : EObject
     {
 
-        private protected First(ConstructionContext? context, TECustomNode? owner) : base(context!, owner!) => Events.Add("first body");
+        private protected First(ConstructionContext? context, ECustomNode? owner) : base(context!, owner!) => Events.Add("first body");
     }
 
     private class Middle : First
     {
 
-        private protected Middle(ConstructionContext? context, TECustomNode? owner) : base(context, owner) => Events.Add("middle body");
+        private protected Middle(ConstructionContext? context, ECustomNode? owner) : base(context, owner) => Events.Add("middle body");
     }
 
     private sealed class Leaf : Middle
@@ -36,7 +36,7 @@ public sealed class PreInheritedTests
         private readonly int initialized = InitializeField();
         internal int State;
 
-        internal Leaf(ConstructionContext? context, TECustomNode? owner) : base(context, owner) => Events.Add("leaf body");
+        internal Leaf(ConstructionContext? context, ECustomNode? owner) : base(context, owner) => Events.Add("leaf body");
 
         private static int InitializeField() { Events.Add("leaf field"); return 1; }
 

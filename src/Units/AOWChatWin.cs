@@ -11,22 +11,22 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // pending scroll to the newest message
-public partial class TChatWindow : TDataModule
+public partial class ChatWindow : DataModule
 {
-    public TChatWindow(TComponent owner) : base(owner)
+    public ChatWindow(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow ChatWin;
-    public TAOWMemo ChatMemo;
-    public TAOWEdit ChatEdit;
-    public TAOWListBox PlayerList;
-    public TAOWImage SIcon;
-    public TAOWLabel IWTitle;
-    public TAOWButton Min;
-    public TAOWPanel ChatPnl;
-    public TAOWVScrollBar NSBar;
-    public TAOWVScrollBar ChatSB;
-    public TIvTranslator Translator;
+    public AOWWindow ChatWin;
+    public AOWMemo ChatMemo;
+    public AOWEdit ChatEdit;
+    public AOWListBox PlayerList;
+    public AOWImage SIcon;
+    public AOWLabel IWTitle;
+    public AOWButton Min;
+    public AOWPanel ChatPnl;
+    public AOWVScrollBar NSBar;
+    public AOWVScrollBar ChatSB;
+    public IvTranslator Translator;
     public bool FScrollPending;
 
     // AOWChatWin.pas:47
@@ -49,7 +49,7 @@ public partial class TChatWindow : TDataModule
         var alignment = this.ChatWin.Alignment;
         alignment.LeftOffset = this.ChatWin.WinLeft;
         alignment.BottomOffset = this.ChatWin.FWinManager.WinHeight - this.ChatWin.WinTop - this.ChatWin.WinHeight;
-        alignment.AlignWidth = TAOWAlignWidth.awLeft;
+        alignment.AlignWidth = AOWAlignWidth.Left;
 
         FScrollPending = true;
     }
@@ -79,17 +79,17 @@ public partial class TChatWindow : TDataModule
     }
 
     // AOWChatWin.pas:97
-    public void PlayerListPreDrawItem(in TRect DrawRect, int DrawItem, in TSurfaceDesc SD)
+    public void PlayerListPreDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, in SurfaceDesc SD)
     {
         sbyte Player;
         if (DrawItem != 0)
         {
             var objectValue = PlayerList.Items.Objects[DrawItem];
-            Player = (sbyte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
+            Player = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
-            if (Player > 0 && Player < Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count)
+            if (Player > 0 && Player < Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count)
             {
-                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                 PlayerList.TextColor = Aow.Game.Magic.Abilities.AbilityRules.RaceColors[player.FPlayerRace];
             }
         }

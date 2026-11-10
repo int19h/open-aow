@@ -23,30 +23,30 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TPasswordDlg : TDataModule
+public partial class PasswordDlg : DataModule
 {
-    public TPasswordDlg(TComponent owner) : base(owner)
+    public PasswordDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel TitleLbl;
-    public TAoWFrame BCeltL;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCeltLineL;
-    public TAOWPanel OKCancelPnl;
-    public TAOWButton OKBtn;
-    public TAOWButton CancelBtn;
-    public TAOWLabel PasswordLbl;
-    public TAOWEdit PasswordEdit;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TPasswordEventLog FPasswordEvent;
+    public AOWWindow Dlg;
+    public AOWLabel TitleLbl;
+    public AoWFrame BCeltL;
+    public AoWFrame TCeltL;
+    public AOWImage TCeltLineL;
+    public AOWPanel OKCancelPnl;
+    public AOWButton OKBtn;
+    public AOWButton CancelBtn;
+    public AOWLabel PasswordLbl;
+    public AOWEdit PasswordEdit;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public PasswordEventLog FPasswordEvent;
 
     // AoWPasswordDlg.pas:43
     public void Finish()
     {
-        TExecuteDoneEvent Done;
-        TPasswordEventLog Event;
+        ExecuteDoneEvent Done;
+        PasswordEventLog Event;
         Dlg.Visible = false;
         Done = FDone;
         Event = FPasswordEvent;
@@ -78,7 +78,7 @@ public partial class TPasswordDlg : TDataModule
     public void OKBtnClick()
     {
         FPasswordEvent.FPassword = PasswordEdit.Text;
-        FPasswordEvent.FPressedButton = TPressedEventLogButton.pebOk;
+        FPasswordEvent.FPressedButton = PressedEventLogButton.Ok;
         Dlg.Visible = false;
     }
 
@@ -86,12 +86,12 @@ public partial class TPasswordDlg : TDataModule
     public void CancelBtnClick()
     {
         FPasswordEvent.FPassword = "";
-        FPasswordEvent.FPressedButton = TPressedEventLogButton.pebCancel;
+        FPasswordEvent.FPressedButton = PressedEventLogButton.Cancel;
         Dlg.Visible = false;
     }
 
     // AoWPasswordDlg.pas:72
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -99,9 +99,9 @@ public partial class TPasswordDlg : TDataModule
         }
     }
 
-    internal static void ShowPasswordEvent(TPasswordDlg Dialog, TPasswordEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowPasswordEvent(PasswordDlg Dialog, PasswordEventLog Event, ExecuteDoneEvent Done)
     {
-        TPasswordEventLog Log;
+        PasswordEventLog Log;
         Dialog.Reset();
         Dialog.FDone = Done;
         Dialog.FPasswordEvent = Event;

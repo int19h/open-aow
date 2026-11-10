@@ -16,7 +16,7 @@ public sealed class StringsTests
     public void ObjectsNamesValuesAndAssignmentPreserveSourceRules()
     {
         // CLASSES.PAS:2125..2163 and :2263..2354.
-        var list = new TStringList(); var obj = new TrackObject(); var other = new TrackObject();
+        var list = new StringList(); var obj = new TrackObject(); var other = new TrackObject();
         Assert.Equal(0, list.AddObject("First=one", obj)); list.InsertObject(1, "blank", other); list.Add("FIRST=two"); list.Add("=emptyname");
         Assert.Equal("First", list.Names[0]); Assert.Equal("", list.Names[1]); Assert.Equal(0, list.IndexOfName("first")); Assert.Equal(3, list.IndexOfName(""));
         Assert.Equal(1, list.IndexOfObject(other)); Assert.Equal(2, list.IndexOfObject(null)); Assert.Equal(-1, list.IndexOfObject(new object()));
@@ -25,12 +25,12 @@ public sealed class StringsTests
         list.Values["added"] = "new"; Assert.Equal("new", list.Values["added"]); list.Values["added"] = ""; Assert.Equal(-1, list.IndexOfName("added")); list.Values["absent"] = "";
         list.Strings[1] = "changed"; Assert.Equal("changed", list[1]);
         list.Objects[1] = obj; Assert.Same(obj, list.Objects[1]);
-        var copy = new TStringList(); copy.Assign(list); Assert.Equal(list.Text, copy.Text); Assert.Same(obj, copy.Objects[0]);
+        var copy = new StringList(); copy.Assign(list); Assert.Equal(list.Text, copy.Text); Assert.Same(obj, copy.Objects[0]);
         copy.AddStrings(list); Assert.Equal(list.Count * 2, copy.Count);
         list.Move(0, 2); Assert.Equal("FIRST=updated", list[2]); Assert.Same(obj, list.Objects[2]);
         list.Exchange(0, 2); Assert.Equal("FIRST=updated", list[0]); Assert.Same(obj, list.Objects[0]);
         list.Move(-1, -1);
-        Assert.Throws<FormatException>(() => copy.Assign(new TPersistent()));
+        Assert.Throws<FormatException>(() => copy.Assign(new Persistent()));
         copy.Assign(copy); Assert.Equal(0, copy.Count);
         list.Dispose(); Assert.False(obj.Destroyed); Assert.False(other.Destroyed);
     }
@@ -39,7 +39,7 @@ public sealed class StringsTests
     public void StringListEventsBatchAndSortedMutationErrorsFollowSource()
     {
         // CLASSES.PAS:2575..2615, :2719..2733 and :2775..2788.
-        var list = new TStringList(); var events = new List<string>();
+        var list = new StringList(); var events = new List<string>();
         list.OnChanging = s => { Assert.Same(list, s); events.Add("changing"); };
         list.OnChange = s => { Assert.Same(list, s); events.Add("changed"); };
         list.Clear(); Assert.Empty(events);
@@ -59,7 +59,7 @@ public sealed class StringsTests
             Assert.Throws<ArgumentOutOfRangeException>(() => list.Delete(i)); Assert.Throws<ArgumentOutOfRangeException>(() => list.Exchange(0, i));
         }
         Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(-1, "x")); Assert.Throws<ArgumentOutOfRangeException>(() => list.Insert(2, "x"));
-        list.Duplicates = TDuplicates.dupIgnore; list.Sorted = true; list.AddObject("A", new object()); Assert.Equal(1, list.Count);
+        list.Duplicates = Duplicates.Ignore; list.Sorted = true; list.AddObject("A", new object()); Assert.Equal(1, list.Count);
         events.Clear(); list.Dispose(); Assert.Empty(events); Assert.Null(list.OnChange); Assert.Null(list.OnChanging);
     }
 
@@ -67,7 +67,7 @@ public sealed class StringsTests
     public void CommaTextPortsTheDelphiParserIncludingEmptyAndTrailingFields()
     {
         // CLASSES.PAS:2239..2261 and :2454..2484, also checked with DCC32.
-        var list = new TStringList();
+        var list = new StringList();
         foreach (var (input, expected, canonical) in new[]{
             ("",Array.Empty<string>(),""), ("a,,b,",new[]{"a","","b"},"a,,b"), (",,",new[]{"",""},","),
             ("\"a\"\"b\", \"\",c",new[]{"a\"b","","c"},"\"a\"\"b\",,c"),
@@ -82,7 +82,7 @@ public sealed class StringsTests
     }
 
     // A minimal TStrings descendant exercises the base implementations separately from TStringList.
-    private sealed class PlainStrings : TStrings
+    private sealed class PlainStrings : StringCollection
     {
         private readonly List<string> items = [];
 
@@ -110,7 +110,7 @@ public sealed class StringsTests
         copy.LoadFromStream(memory); Assert.Equal("a\r\nb\r\n", copy.Text);
         memory.Clear(); copy.SaveToStream(memory); Assert.Equal(new byte[] { 97, 13, 10, 98, 13, 10 }, memory.ToArray());
         copy.SaveToFile("strings.txt"); copy.Clear(); copy.LoadFromFile("strings.txt"); Assert.Equal(source.Text, copy.Text);
-        Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => TStrings.Error("error %d", 1)).Message);
+        Assert.Equal("error 1", Assert.Throws<ArgumentException>(() => StringCollection.Error("error %d", 1)).Message);
         copy.BeginUpdate(); copy.EndUpdate(); copy.Dispose();
         var readOnly = new IndexedProperty<int, int>(i => i + 1); Assert.Equal(3, readOnly[2]); Assert.Throws<InvalidOperationException>(() => readOnly[2] = 4);
     }

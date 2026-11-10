@@ -51,9 +51,9 @@ public static class PixelFormats
         return Aow.Game.Draw.GfxState.ImageFileClassList.FindClass(extractFileExt) != null;
     }
 
-    internal static TSurface CreateSurfaceFromImageFile(string FileName)
+    internal static Surface CreateSurfaceFromImageFile(string FileName)
     {
-        TSurface Result;
+        Surface Result;
         ImageFileClass C;
         var extractFileExt = ExtractFileExt(FileName);
         C = Aow.Game.Draw.GfxState.ImageFileClassList.FindClass(extractFileExt);
@@ -126,7 +126,7 @@ public static class PixelFormats
 
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
-    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, TGFXEPalette Palette) => Aow.Game.Draw.PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, Aow.Game.Draw.PixelFormats.pfBGR24, null);
+    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, GFXEPalette Palette) => Aow.Game.Draw.PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, Aow.Game.Draw.PixelFormats.pfBGR24, null);
 
     internal static string GetErrorMsg(int ErrorCode)
     {
@@ -195,7 +195,7 @@ public static class PixelFormats
 
     public static bool MMXsupport() => false;
 
-    internal static int Color2PixelInfo(int Color, int PixelFormatID, TGFXEPalette Palette)
+    internal static int Color2PixelInfo(int Color, int PixelFormatID, GFXEPalette Palette)
     {
         int r = Color & 255, g = (Color >> 8) & 255, b = (Color >> 16) & 255;
         return PixelFormatID switch
@@ -209,7 +209,7 @@ public static class PixelFormats
         };
     }
 
-    public static int ColorFillSD(TRect R, int Color, in TSurfaceDesc SD)
+    public static int ColorFillSD(global::Aow.Rtl.Rect R, int Color, in SurfaceDesc SD)
     {
         if (SD.PixelFormatID != Aow.Game.Draw.PixelFormats.pfRGB555 && SD.PixelFormatID != Aow.Game.Draw.PixelFormats.pfARGB1555 && SD.PixelFormatID != Aow.Game.Draw.PixelFormats.pfRGB565) return Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
         int left = Math.Max(R.Left, SD.ClipRect.Left), right = Math.Min(R.Right, SD.ClipRect.Right);

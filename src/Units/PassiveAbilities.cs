@@ -12,56 +12,56 @@ namespace Aow.Game.Magic.Abilities.Passive;
 internal static class PassiveAbilities
 {
 
-    internal static TMovementAbility CreateMovementAbility(int ID, string Name, TSet<TMoveType> MoveTypes)
+    internal static MovementAbility CreateMovementAbility(int ID, string Name, Set<MoveType> MoveTypes)
     {
-        TMovementAbility Ability;
-        Ability = new TMovementAbility(null);
+        MovementAbility Ability;
+        Ability = new MovementAbility(null);
         Ability.FAbilityID = ID;
         Ability.FAbilityName = Name;
         Ability.FMoveTypes = MoveTypes;
-        if (MoveTypes.Contains(TMoveType.mtMountaineering) || MoveTypes.Contains(TMoveType.mtForestry) || MoveTypes.Contains(TMoveType.mtCaveCrawling))
+        if (MoveTypes.Contains(MoveType.Mountaineering) || MoveTypes.Contains(MoveType.Forestry) || MoveTypes.Contains(MoveType.CaveCrawling))
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astEditor);
+            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Editor);
         }
 
         return Ability;
     }
 
-    internal static TImmunityAbility CreateImmunityAbility(int ID, string Name, TSet<TDamageType> DamageTypes)
+    internal static ImmunityAbility CreateImmunityAbility(int ID, string Name, Set<DamageType> DamageTypes)
     {
-        TImmunityAbility Ability;
-        Ability = new TImmunityAbility(null);
+        ImmunityAbility Ability;
+        Ability = new ImmunityAbility(null);
         Ability.FAbilityID = ID;
         Ability.FAbilityName = Name;
         Ability.FImmunityTypes = DamageTypes;
-        if ((TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtDeath, TDamageType.dtHoly, TDamageType.dtMagic) & DamageTypes) == TSet<TDamageType>.Of())
+        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Death, DamageType.Holy, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
         {
-            Ability.FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem);
+            Ability.FSelectionTypes = Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Unit, Aow.Game.Magic.Abilities.AbilitySelectionType.RingItem);
         }
         else
         {
-            if ((TSet<TDamageType>.Of(TDamageType.dtDeath, TDamageType.dtHoly, TDamageType.dtMagic) & DamageTypes) == TSet<TDamageType>.Of())
+            if ((Set<DamageType>.Of(DamageType.Death, DamageType.Holy, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
             {
-                Ability.FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit, Aow.Game.Magic.Abilities.TAbilitySelectionType.astRingItem);
+                Ability.FSelectionTypes = Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Unit, Aow.Game.Magic.Abilities.AbilitySelectionType.RingItem);
             }
             else
             {
-                Ability.FSelectionTypes = TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astUnit);
+                Ability.FSelectionTypes = Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Unit);
             }
         }
 
-        if ((TSet<TDamageType>.Of(TDamageType.dtPhysical, TDamageType.dtMagic) & DamageTypes) == TSet<TDamageType>.Of())
+        if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType>.Of(Aow.Game.Magic.Abilities.TAbilitySelectionType.astTorsoItem);
+            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.TorsoItem);
         }
 
         return Ability;
     }
 
-    internal static TProtectionAbility CreateProtectionAbility(int ID, string Name, TSet<TDamageType> DamageTypes, TSet<Aow.Game.Magic.Abilities.TAbilitySelectionType> SelectionTypes)
+    internal static ProtectionAbility CreateProtectionAbility(int ID, string Name, Set<DamageType> DamageTypes, Set<Aow.Game.Magic.Abilities.AbilitySelectionType> SelectionTypes)
     {
-        TProtectionAbility Ability;
-        Ability = new TProtectionAbility(null);
+        ProtectionAbility Ability;
+        Ability = new ProtectionAbility(null);
         Ability.FAbilityID = ID;
         Ability.FAbilityName = Name;
         Ability.FProtectionTypes = DamageTypes;

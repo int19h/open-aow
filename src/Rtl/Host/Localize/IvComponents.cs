@@ -1,11 +1,11 @@
 namespace Aow.Rtl.Localize;
 
-public class TIvTranslator : TIvCustomTranslator
+public class IvTranslator : IvCustomTranslator
 {
-    public TIvTranslator(TComponent? owner = null) : base(owner) { }
+    public IvTranslator(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 }
 
-public partial class TIvDictionary : TComponent
+public partial class IvDictionary : global::Aow.Rtl.Component
 {
     public string FFileName = "";
     public int FLanguage;
@@ -14,4 +14,4 @@ public partial class TIvDictionary : TComponent
     public void SetDictionaryName(string name) => NameDictionary(name);
 }
 
-public class TIvBinaryDictionary : TIvDictionary { }
+public class IvBinaryDictionary : IvDictionary { }

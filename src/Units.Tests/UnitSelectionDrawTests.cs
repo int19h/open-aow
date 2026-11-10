@@ -21,14 +21,14 @@ public sealed class UnitSelectionDrawTests
         if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         var previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
         Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
-        var dialog = new TUnitSelectionDlg(null!);
+        var dialog = new UnitSelectionDlg(null!);
         try
         {
             // The layout (UnitSelectionDlg.Layout.cs) makes each slot a check box with this handler.
-            dialog.UnitPnl = new TAOWPanel(dialog);
-            dialog.U1 = new TAOWCheckBox(dialog) { OnPreDraw = (sender, surface) => dialog.U1PreDraw(sender, surface, 0) };
-            dialog.FEvent = new THealingUnitSelector();
-            TSurfaceDesc sd = default;
+            dialog.UnitPnl = new AOWPanel(dialog);
+            dialog.U1 = new AOWCheckBox(dialog) { OnPreDraw = (sender, surface) => dialog.U1PreDraw(sender, surface, 0) };
+            dialog.FEvent = new HealingUnitSelector();
+            SurfaceDesc sd = default;
             dialog.U1.OnPreDraw(dialog.U1, sd);
         }
         finally

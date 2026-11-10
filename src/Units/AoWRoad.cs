@@ -8,9 +8,9 @@ using Aow.Game.World.Map;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class TAoWRoad : TRoad
+public partial class AoWRoad : Road
 {
-    public TAoWRoad(TECustomNode owner) : base(owner)
+    public AoWRoad(ECustomNode owner) : base(owner)
     { }
 
     // AoWRoad.pas:35
@@ -19,23 +19,23 @@ public partial class TAoWRoad : TRoad
         byte OldTransitions;
         int Xhx = default;
         int Yhx = default;
-        TMapFieldMsg Msg = default;
-        TMapLevel Level;
-        TMapField MapField;
+        MapFieldMsg Msg = default;
+        MapLevel Level;
+        MapField MapField;
         bool HasRoad;
         OldTransitions = FTransitions;
-        Level = (TMapLevel)Owner.Owner;
+        Level = (MapLevel)Owner.Owner;
         FTransitions = 0;
         Msg.MsgID = 4401;
         Msg.Param[0] = Owner;
         for (int HN = 1; HN <= 6; HN++)
         {
             Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
-                if (MapField.FindOwnedHS(typeof(TAbstractRoad)) == null)
+                if (MapField.FindOwnedHS(typeof(AbstractRoad)) == null)
                 {
                     // { Original message stores its response in Param[1], rather than Result. }
                     Msg.Param[1] = 0;
@@ -66,13 +66,13 @@ public partial class TAoWRoad : TRoad
 
         if (OldTransitions != FTransitions)
         {
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.InvalidateStaticScene(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx);
+            Aow.Game.World.Map.AoWHSMap.Current.InvalidateStaticScene(((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, ((global::Aow.Game.World.Map.MapField)Owner).Lhx);
         }
     }
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 17)]
-public struct TRoadFields
+public struct RoadFields
 {
     [FieldOffset(0)]
     public FixedArray_byte_16 Reserved;

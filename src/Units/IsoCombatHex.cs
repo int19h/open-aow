@@ -10,25 +10,25 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
 
-public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
+public partial class IsometricCombatHexagon : UpperIsometricHexagon
 {
-    public TIsometricCombatHexagon(TECustomNode owner) : base(owner)
+    public IsometricCombatHexagon(ECustomNode owner) : base(owner)
     { }
 
     // IsoCombatHex.pas:40
     public new const int ClassID = 2229514;
 
     // IsoCombatHex.pas:43
-    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
+    public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
 
     // IsoCombatHex.pas:46
-    public override void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void ShowDynamic(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
-        TCustomImageLibrary IL;
+        CustomImageLibrary IL;
         int Xhp = default;
         int Yhp = default;
         int Variant;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -148,23 +148,23 @@ public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
         }
     }
 
-}
+    public new partial class Resource : Aow.Game.World.Hexes.UpperIsometricHexagon.Resource
+    {
+        public Resource(ECustomNode owner) : base(owner)
+        { }
 
-public partial class TIsometricCombatHexagonResource : TUpperIsometricHexagonResource
-{
-    public TIsometricCombatHexagonResource(TECustomNode owner) : base(owner)
-    { }
+        // IsoCombatHex.pas:108
+        public new const int ClassID = 2229515;
 
-    // IsoCombatHex.pas:108
-    public new const int ClassID = 2229515;
+        // IsoCombatHex.pas:114
+        public override int ResourceUserClassID() => 2229514;
 
-    // IsoCombatHex.pas:114
-    public override int ResourceUserClassID() => 2229514;
+        // IsoCombatHex.pas:117
+        public override HexagonControl GetHexagonControl() => ((AoWHSSet)Engine.HSSet).FCombatHexagons;
 
-    // IsoCombatHex.pas:117
-    public override THexagonControl GetHexagonControl() => ((TAoWHSSet)Engine.HSSet).FCombatHexagons;
+        // IsoCombatHex.pas:111
+        public override string ResourceEditName() => "Combat ISO-Hex";
 
-    // IsoCombatHex.pas:111
-    public override string ResourceEditName() => "Combat ISO-Hex";
+    }
 
 }

@@ -1,29 +1,29 @@
 namespace Aow.Rtl;
 
 [LegacyObject]
-public class TIniFile
+public class IniFile
 {
-    public TIniFile()
+    public IniFile()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public class TFiler
+public class Filer
 {
-    public TFiler()
+    public Filer()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public class TIToolServices
+public class IToolServices
 {
     public virtual string GetProjectName() => throw new NotImplementedException("Delphi IDE project service");
 
-    public TIToolServices()
+    public IToolServices()
     {
         CaptureAddress.Assign(this);
     }
@@ -31,5 +31,5 @@ public class TIToolServices
 
 public static partial class RtlUnit
 {
-    public static TIToolServices? ToolServices => null;
+    public static IToolServices? ToolServices => null;
 }

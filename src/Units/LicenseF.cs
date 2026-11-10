@@ -3,18 +3,18 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Windows;
 
-public partial class TLicenseForm : TForm
+public partial class LicenseForm : Form
 {
-    public TMemo LicenseMemo;
-    public TPanel Panel1;
-    public TImage Image1;
-    public TLabel Label1;
-    public TPanel Panel2;
-    public TBevel Bevel1;
-    public TLabel Label2;
-    public TButton YesBtn;
-    public TButton NoBtn;
-    public TImage Image2;
+    public Memo LicenseMemo;
+    public Panel Panel1;
+    public Image Image1;
+    public Label Label1;
+    public Panel Panel2;
+    public Bevel Bevel1;
+    public Label Label2;
+    public Button YesBtn;
+    public Button NoBtn;
+    public Image Image2;
 
     // LicenseF.pas:35
     public void FormCreate()

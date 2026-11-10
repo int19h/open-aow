@@ -1,6 +1,6 @@
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class THeroUpgradeDlg
+public partial class HeroUpgradeDlg
 {
     public override void Loaded()
     {

@@ -12,57 +12,57 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // editable email address list. setup control
-public partial class TEmailGameSettingsDlg : TDataModule
+public partial class EmailGameSettingsDlg : DataModule
 {
-    public TEmailGameSettingsDlg(TComponent owner) : base(owner)
+    public EmailGameSettingsDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWButton OKBtn;
-    public TAOWImage TitleIcon;
-    public TAOWLabel Title;
-    public TAOWButton CancelBut;
-    public TAOWWindow Dlg;
-    public TAOWLabel LocalEmailAdressLbl;
-    public TAOWImage DecoL;
-    public TAOWImage DecoR;
-    public TAoWFrame AoWFrame1;
-    public TAOWEdit LocalEmailAddressEdit;
-    public TAOWLabel PlayerEMailAddressesLbl;
-    public TAOWEdit EmailAddressEdit1;
-    public TAOWPanel PlayerPnl;
-    public TAOWLabel PlayerLbl1;
-    public TAOWVScrollBar PlayerSB;
-    public TAOWLabel PlayerLbl2;
-    public TAOWLabel PlayerLbl3;
-    public TAOWEdit EmailAddressEdit2;
-    public TAOWEdit EmailAddressEdit3;
-    public TAOWLabel PlayerLbl4;
-    public TAOWEdit EmailAddressEdit4;
-    public TAOWLabel EmailGameNameLbl;
-    public TAOWEdit EmailGameNameEdit;
-    public TAOWButton SettingsBtn;
-    public TAOWPanel Player1Pnl;
-    public TAOWPanel PowePnl;
-    public TAOWPanel Player2Pnl;
-    public TAOWPanel Player3Pnl;
-    public TAOWPanel Player4Pnl;
-    public TAOWLabel PlayerLbl5;
-    public TAOWEdit EmailAddressEdit5;
-    public TAOWLabel PlayerLbl6;
-    public TAOWEdit EmailAddressEdit6;
-    public TAOWPanel Player5Pnl;
-    public TAOWPanel Player6Pnl;
-    public TAOWPanel NamePnl;
-    public TAOWPanel LocalPnl;
-    public TAOWButton CloseBtn;
-    public TIvTranslator Translator;
-    public TStringList FEmailAddresses;
-    public TSetupControl FSetupControl;
+    public AOWButton OKBtn;
+    public AOWImage TitleIcon;
+    public AOWLabel Title;
+    public AOWButton CancelBut;
+    public AOWWindow Dlg;
+    public AOWLabel LocalEmailAdressLbl;
+    public AOWImage DecoL;
+    public AOWImage DecoR;
+    public AoWFrame AoWFrame1;
+    public AOWEdit LocalEmailAddressEdit;
+    public AOWLabel PlayerEMailAddressesLbl;
+    public AOWEdit EmailAddressEdit1;
+    public AOWPanel PlayerPnl;
+    public AOWLabel PlayerLbl1;
+    public AOWVScrollBar PlayerSB;
+    public AOWLabel PlayerLbl2;
+    public AOWLabel PlayerLbl3;
+    public AOWEdit EmailAddressEdit2;
+    public AOWEdit EmailAddressEdit3;
+    public AOWLabel PlayerLbl4;
+    public AOWEdit EmailAddressEdit4;
+    public AOWLabel EmailGameNameLbl;
+    public AOWEdit EmailGameNameEdit;
+    public AOWButton SettingsBtn;
+    public AOWPanel Player1Pnl;
+    public AOWPanel PowePnl;
+    public AOWPanel Player2Pnl;
+    public AOWPanel Player3Pnl;
+    public AOWPanel Player4Pnl;
+    public AOWLabel PlayerLbl5;
+    public AOWEdit EmailAddressEdit5;
+    public AOWLabel PlayerLbl6;
+    public AOWEdit EmailAddressEdit6;
+    public AOWPanel Player5Pnl;
+    public AOWPanel Player6Pnl;
+    public AOWPanel NamePnl;
+    public AOWPanel LocalPnl;
+    public AOWButton CloseBtn;
+    public IvTranslator Translator;
+    public StringList FEmailAddresses;
+    public SetupControl FSetupControl;
 
     // AoWEmailGameSettingsDlg.pas:85
     public void EmailGameSettingsDlgCreate()
     {
-        FEmailAddresses = new TStringList();
+        FEmailAddresses = new StringList();
     }
 
     // AoWEmailGameSettingsDlg.pas:90
@@ -78,7 +78,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:100
-    public void EmailAddressEdit1Change(TAOWEdit Sender, int Slot)
+    public void EmailAddressEdit1Change(AOWEdit Sender, int Slot)
     {
         int I;
         I = Slot + PlayerSB.Position;
@@ -111,9 +111,9 @@ public partial class TEmailGameSettingsDlg : TDataModule
         }
         else
         {
-            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var pleaseFillInAllSettings = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TEmailGameSettingsDlg.PleaseFillInAllSettingsRStr);
+            var pleaseFillInAllSettings = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.EmailGameSettingsDlg.PleaseFillInAllSettingsRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
@@ -129,7 +129,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     // AoWEmailGameSettingsDlg.pas:141
     public void SettingsBtnClick()
     {
-        Aow.Game.Ui.Dialogs.TEmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
+        Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
     }
 
     // AoWEmailGameSettingsDlg.pas:146
@@ -143,16 +143,16 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:152
-    public void Player6PnlDrawBack(TAOWPanel Sender, TSurfaceDesc SD, int Slot)
+    public void Player6PnlDrawBack(AOWPanel Sender, SurfaceDesc SD, int Slot)
     {
-        TRaceResource R;
+        RaceResource R;
         int I;
         var panel = Sender;
         I = Slot + PlayerSB.Position;
         if (I < FEmailAddresses.Count)
         {
             var objectValue = FEmailAddresses.Objects[I];
-            R = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
+            R = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
             R.AddRef();
             R.FImageLibrary[38].Show(panel.WinLeft, panel.WinTop, SD);
             R.Release();
@@ -160,7 +160,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:167
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -169,7 +169,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:173
-    public void UpdatePlayer(int Index, TAOWLabel NameLabel, TAOWEdit EmailEdit)
+    public void UpdatePlayer(int Index, AOWLabel NameLabel, AOWEdit EmailEdit)
     {
         if (Index < FEmailAddresses.Count)
         {
@@ -229,9 +229,9 @@ public partial class TEmailGameSettingsDlg : TDataModule
     }
 
     // AoWEmailGameSettingsDlg.pas:220
-    public void Execute(TSetupControl Control)
+    public void Execute(SetupControl Control)
     {
-        TSetupControl C;
+        SetupControl C;
         ResetSettings();
         FSetupControl = Control;
         C = FSetupControl;
@@ -252,9 +252,9 @@ public partial class TEmailGameSettingsDlg : TDataModule
         }
         else
         {
-            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-            var youNeed2HumanPlayersToPlayAnEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TEmailGameSettingsDlg.YouNeed2HumanPlayersToPlayAnEmailGameRStr);
+            var youNeed2HumanPlayersToPlayAnEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.EmailGameSettingsDlg.YouNeed2HumanPlayersToPlayAnEmailGameRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
             Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;

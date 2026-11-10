@@ -373,7 +373,7 @@ public static partial class Fixtures
     {
         var root = Root(document);
         foreach (var child in Arr(root["Children"]).Items)
-            if (Obj(child)["$class"] is JsonString { Value: "TMapContainer" })
+            if (Obj(child)["$class"] is JsonString { Value: "MapContainer" })
                 return Arr(Obj(Arr(Obj(child)["Children"]).Items[0])["Fields"]);
         throw new InvalidOperationException("No map container.");
     }

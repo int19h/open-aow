@@ -5,9 +5,9 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TScenSetup
+public partial class ScenSetup
 {
-    public void RacePnlDrawBack(TAOWPanel sender, TSurfaceDesc surface, int Slot)
+    public void RacePnlDrawBack(AOWPanel sender, SurfaceDesc surface, int Slot)
     {
         var panel = sender;
         Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields[Slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
@@ -15,5 +15,5 @@ public partial class TScenSetup
 
     public void ScenSetupPnlUpdate() { }
 
-    public void PingListDrawItem(in TRect drawRect, int drawItem, ref TSurfaceDesc surface) { }
+    public void PingListDrawItem(in Rect drawRect, int drawItem, ref SurfaceDesc surface) { }
 }

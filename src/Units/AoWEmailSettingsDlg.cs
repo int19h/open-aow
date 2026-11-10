@@ -15,30 +15,30 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TEmailSettingsDlg : TDataModule
+public partial class EmailSettingsDlg : DataModule
 {
-    public TEmailSettingsDlg(TComponent owner) : base(owner)
+    public EmailSettingsDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel TitleLbl;
-    public TAoWFrame BCeltL;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCeltLineL;
-    public TAOWImage AOWImage1;
-    public TAOWImage AOWImage2;
-    public TAOWPanel OKCancelPnl;
-    public TAOWButton OKBtn;
-    public TAOWButton CancelBtn;
-    public TAOWLabel LocalEmailAddressLbl;
-    public TAOWEdit LocalEmailAddressEdit;
-    public TAOWLabel SMTPServerLbl;
-    public TAOWEdit SMTPServerEdit;
-    public TAOWLabel AttachmentDirectoryLbl;
-    public TAOWEdit AttachmentDirectoryEdit;
-    public TAOWButton Close;
-    public TAOWImage TitleIcon;
-    public TIvTranslator Translator;
+    public AOWWindow Dlg;
+    public AOWLabel TitleLbl;
+    public AoWFrame BCeltL;
+    public AoWFrame TCeltL;
+    public AOWImage TCeltLineL;
+    public AOWImage AOWImage1;
+    public AOWImage AOWImage2;
+    public AOWPanel OKCancelPnl;
+    public AOWButton OKBtn;
+    public AOWButton CancelBtn;
+    public AOWLabel LocalEmailAddressLbl;
+    public AOWEdit LocalEmailAddressEdit;
+    public AOWLabel SMTPServerLbl;
+    public AOWEdit SMTPServerEdit;
+    public AOWLabel AttachmentDirectoryLbl;
+    public AOWEdit AttachmentDirectoryEdit;
+    public AOWButton Close;
+    public AOWImage TitleIcon;
+    public IvTranslator Translator;
 
     // AoWEmailSettingsDlg.pas:49
     public void OKBtnClick()
@@ -56,7 +56,7 @@ public partial class TEmailSettingsDlg : TDataModule
     }
 
     // AoWEmailSettingsDlg.pas:60
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {
@@ -64,7 +64,7 @@ public partial class TEmailSettingsDlg : TDataModule
         }
     }
 
-    internal static void ShowEmailSettings(TEmailSettingsDlg Dialog)
+    internal static void ShowEmailSettings(EmailSettingsDlg Dialog)
     {
         var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         Dialog.LocalEmailAddressEdit.Text = localEmailAddress;

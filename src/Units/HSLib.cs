@@ -9,30 +9,30 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw;
 
 // FList (the TLibraryHS it created), FHSEngine, FEngine
-public partial class THSLibrary : TImageLibrary
+public partial class HSLibrary : ImageLibrary
 {
-    internal TList FList;
-    internal THSEngine FHSEngine;
-    internal THexagonSpriteEngine FEngine;
+    internal DelphiList FList;
+    internal HSEngine FHSEngine;
+    internal HexagonSpriteEngine FEngine;
 
     // HSLib.pas:292
-    internal void SetEngine(THexagonSpriteEngine Value)
+    internal void SetEngine(HexagonSpriteEngine Value)
     {
-        if (!ComponentState.Contains(TComponentState.csDesigning) && Value != FEngine)
+        if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && Value != FEngine)
         {
             FEngine = Value;
             FHSEngine = FEngine.HSEngine;
             for (int I = FList.Count - 1; I >= 0; I--)
             {
-                ((THexagonSprite)FList[I]).Remove();
+                ((HexagonSprite)FList[I]).Remove();
             }
         }
     }
 
     // HSLib.pas:279
-    public THSLibrary(TComponent owner) : base(owner)
+    public HSLibrary(global::Aow.Rtl.Component owner) : base(owner)
     {
-        FList = new TList();
+        FList = new DelphiList();
     }
 
     // HSLib.pas:285
@@ -55,16 +55,16 @@ public partial class THSLibrary : TImageLibrary
     }
 
     // HSLib.pas:312
-    public void RemoveHS(TLibraryHS HS)
+    public void RemoveHS(LibraryHS HS)
     {
         FList.Remove(HS);
     }
 
     // HSLib.pas:317
-    public TLibraryHS CreateHS(int Index)
+    public LibraryHS CreateHS(int Index)
     {
-        TLibraryHS HS;
-        HS = new TLibraryHS(null);
+        LibraryHS HS;
+        HS = new LibraryHS(null);
         HS.SetImage(this[Index]);
         HS.FLibrary = this;
         FList.Add(HS);
@@ -72,24 +72,24 @@ public partial class THSLibrary : TImageLibrary
     }
 
     [Published]
-    public THexagonSpriteEngine Engine { get => FEngine; set => SetEngine(value); }
+    public HexagonSpriteEngine Engine { get => FEngine; set => SetEngine(value); }
 }
 
 // a library image shown at a pixel position of the map. FMapContainer, FLevel (the show level,
 // 30 by default), FImage, FDestroyOnShow, FLibrary (the THSLibrary that created it). FXhp =
 // Low(Integer) means not placed
-public partial class TLibraryHS : THPBasedHS
+public partial class LibraryHS : HPBasedHS
 {
-    public TLibraryHS(TECustomNode owner) : base(owner)
+    public LibraryHS(ECustomNode owner) : base(owner)
     {
         FLevel = 30;
     }
 
-    internal TMapContainer FMapContainer;
+    internal global::Aow.Game.World.Map.MapContainer FMapContainer;
     internal byte FLevel;
-    internal Aow.Game.Draw.Images.TLibraryImage FImage;
+    internal Aow.Game.Draw.Images.LibraryImage FImage;
     internal bool FDestroyOnShow;
-    internal THSLibrary FLibrary;
+    internal HSLibrary FLibrary;
 
     // HSLib.pas:75
 
@@ -113,13 +113,13 @@ public partial class TLibraryHS : THPBasedHS
     public override int GetShowPriority() => (FLevel << 26) + (FYhp << 13) + FXhp;
 
     // HSLib.pas:102
-    public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+    public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
     }
 
     // HSLib.pas:107
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         int Xhp;
         Xhp = FXhp;
@@ -255,7 +255,7 @@ public partial class TLibraryHS : THPBasedHS
     }
 
     // HSLib.pas:186
-    public void SetImage(Aow.Game.Draw.Images.TLibraryImage Value)
+    public void SetImage(Aow.Game.Draw.Images.LibraryImage Value)
     {
         int Xhp;
         if (FXhp != -2147483648)
@@ -277,7 +277,7 @@ public partial class TLibraryHS : THPBasedHS
     }
 
     // HSLib.pas:203
-    public override bool Place(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
+    public override bool Place(global::Aow.Game.World.Map.MapContainer MapContainer, int Xhp, int Yhp, int Lhx)
     {
         int I = default;
         int J = default;
@@ -381,14 +381,14 @@ public partial class TLibraryHS : THPBasedHS
     }
 
     // HSLib.pas:251
-    public bool PlaceEx(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx, byte Level)
+    public bool PlaceEx(global::Aow.Game.World.Map.MapContainer MapContainer, int Xhp, int Yhp, int Lhx, byte Level)
     {
         FLevel = Level;
         return Place(MapContainer, Xhp, Yhp, Lhx);
     }
 
     // HSLib.pas:257
-    public bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public bool PlaceHX(global::Aow.Game.World.Map.MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         int Xhp = default;
         int Yhp = default;
@@ -397,7 +397,7 @@ public partial class TLibraryHS : THPBasedHS
     }
 
     // HSLib.pas:265
-    public bool PlaceHXEx(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx, sbyte Level, bool Center)
+    public bool PlaceHXEx(global::Aow.Game.World.Map.MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx, sbyte Level, bool Center)
     {
         int Xhp = default;
         int Yhp = default;
@@ -412,9 +412,9 @@ public partial class TLibraryHS : THPBasedHS
         return Place(MapContainer, Xhp, Yhp, Lhx);
     }
 
-    public TMapContainer MapContainer { get => FMapContainer; }
+    public global::Aow.Game.World.Map.MapContainer MapContainer { get => FMapContainer; }
     public new byte Level { get => FLevel; set => FLevel = value; }
-    public Aow.Game.Draw.Images.TLibraryImage Image { get => FImage; set => SetImage(value); }
+    public Aow.Game.Draw.Images.LibraryImage Image { get => FImage; set => SetImage(value); }
     public bool DestroyOnShow { get => FDestroyOnShow; set => FDestroyOnShow = value; }
 
     // HSLib.pas:28

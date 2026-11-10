@@ -7,14 +7,6 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls;
 
-public enum TWindowType : byte
-{
-    winNormal = 0,
-    winHollow = 1,
-    winBorderless = 2,
-    winBlank = 3
-}
-
 // Fields: FModal, FOnDrawSurface, FOnPreDrawSurface, FDragging, FDragX, FDragY, FDraggable,
 // FResizable, FResizingX, FResizingY, FOnResize, FOnInternalResize, FDragHeight,
 // FOverlapTopCorners, FOldCursor, FWindowCursor, FOnChangeCursor, FMinWidth, FMinHeight,
@@ -22,11 +14,11 @@ public enum TWindowType : byte
 // FFrameLeft, FFrameTop, FFrameRight, FFrameBottom, FMaskColor, FUseVMem, FBackSurface,
 // (unused), FBackRect, (unused), FOnDrawBack, FOnEnter, FOnExit, FMouseInside, FILIndexFrame,
 // FILIndexTexture, FDockable
-public partial class TAOWWindowControl : TAoWComponent
+public partial class AOWWindowControl : AoWComponent
 {
     public bool FModal;
-    public TAoWOnDrawSurface<TAOWWindowControl> FOnDrawSurface;
-    public TAoWOnDrawSurface<TAOWWindowControl> FOnPreDrawSurface;
+    public AoWOnDrawSurface<AOWWindowControl> FOnDrawSurface;
+    public AoWOnDrawSurface<AOWWindowControl> FOnPreDrawSurface;
     public byte FDragging;
     public int FDragX;
     public int FDragY;
@@ -34,21 +26,21 @@ public partial class TAOWWindowControl : TAoWComponent
     public bool FResizable;
     public byte FResizingX;
     public byte FResizingY;
-    public TNotifyEvent<TAOWWindowControl> FOnResize;
-    public TNotifyEvent<TAOWWindowControl> FOnInternalResize;
+    public NotifyEvent<AOWWindowControl> FOnResize;
+    public NotifyEvent<AOWWindowControl> FOnInternalResize;
     public int FDragHeight;
     public bool FOverlapTopCorners;
     public int FOldCursor;
     public int FWindowCursor;
-    public TNotifyEvent<TAOWWindowControl> FOnChangeCursor;
+    public NotifyEvent<AOWWindowControl> FOnChangeCursor;
     public int FMinWidth;
     public int FMinHeight;
     public int FMaxWidth;
     public int FMaxHeight;
     public bool FInResizeArea;
-    public TWindowType FWindowType;
-    public TInterfaceIL FILFrame;
-    public TInterfaceIL FILTexture;
+    public WindowType FWindowType;
+    public InterfaceIL FILFrame;
+    public InterfaceIL FILTexture;
     public bool FUseManagerBorders;
     public int FFrameLeft;
     public int FFrameTop;
@@ -56,20 +48,20 @@ public partial class TAOWWindowControl : TAoWComponent
     public int FFrameBottom;
     public int FMaskColor;
     public bool FUseVMem;
-    public TSurface FBackSurface;
+    public Surface FBackSurface;
     public int F190;
-    public TRect FBackRect;
+    public global::Aow.Rtl.Rect FBackRect;
     public int F1A4;
-    public TAoWOnDrawBackEvent<TAOWWindowControl> FOnDrawBack;
-    public TNotifyEvent<TAOWWindowControl> FOnEnter;
-    public TNotifyEvent<TAOWWindowControl> FOnExit;
+    public AoWOnDrawBackEvent<AOWWindowControl> FOnDrawBack;
+    public NotifyEvent<AOWWindowControl> FOnEnter;
+    public NotifyEvent<AOWWindowControl> FOnExit;
     public bool FMouseInside;
     public int FILIndexFrame;
     public int FILIndexTexture;
     public bool FDockable;
 
     // AoWWinControl.pas:103
-    public TAOWWindowControl(TComponent owner) : base(owner)
+    public AOWWindowControl(global::Aow.Rtl.Component owner) : base(owner)
     {
         FOldCursor = -2;
         FWindowCursor = -2;
@@ -101,22 +93,22 @@ public partial class TAOWWindowControl : TAoWComponent
             {
                 if (FILTexture != null)
                 {
-                    FWindowType = TWindowType.winNormal;
+                    FWindowType = WindowType.Normal;
                 }
                 else
                 {
-                    FWindowType = TWindowType.winHollow;
+                    FWindowType = WindowType.Hollow;
                 }
             }
             else
             {
                 if (FILTexture != null)
                 {
-                    FWindowType = TWindowType.winBorderless;
+                    FWindowType = WindowType.Borderless;
                 }
                 else
                 {
-                    FWindowType = TWindowType.winBlank;
+                    FWindowType = WindowType.Blank;
                 }
             }
 
@@ -129,13 +121,13 @@ public partial class TAOWWindowControl : TAoWComponent
     // AoWWinControl.pas:224
     public override void CheckKeyPress(ref byte Key)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         if (FVisible)
         {
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.CheckKeyPress(ref Key);
                 if (C.FHandled == true)
                 {
@@ -156,15 +148,15 @@ public partial class TAOWWindowControl : TAoWComponent
     }
 
     // AoWWinControl.pas:246
-    public override void CheckKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public override void CheckKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
-        TAoWComponent C = default;
+        AoWComponent C = default;
         FHandled = false;
         if (FVisible)
         {
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TAoWComponent)FChildren[I];
+                C = (AoWComponent)FChildren[I];
                 C.CheckKeyDown(ref Key, Shift);
                 if (C.FHandled == true)
                 {
@@ -190,15 +182,15 @@ public partial class TAOWWindowControl : TAoWComponent
     }
 
     // AoWWinControl.pas:208
-    public virtual void Blt(TSurface Surface)
+    public virtual void Blt(Surface Surface)
     {
-        TRect R = default;
+        global::Aow.Rtl.Rect R = default;
         if (FOnPreDrawSurface != null)
         {
             FOnPreDrawSurface(this, Surface, FWinLeft, FWinTop);
         }
 
-        R = Rect(0, 0, FWinWidth, FWinHeight);
+        R = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
         if (!FMasked)
         {
             FBackSurface.BltAreaClipped(Surface, R, FWinLeft, FWinTop);
@@ -225,12 +217,12 @@ public partial class TAOWWindowControl : TAoWComponent
 
     // AoWWinControl.pas:149
     // { RadioChange unchecks the other children of the radio group of Sender }
-    public void RadioChange(TAoWComponent Sender)
+    public void RadioChange(AoWComponent Sender)
     {
-        TAoWComponent C;
+        AoWComponent C;
         for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
         {
-            C = (TAoWComponent)FChildren[I];
+            C = (AoWComponent)FChildren[I];
             if (Sender.FRadioIndex == C.FRadioIndex && C != Sender && C.FChecked == true)
             {
                 C.FChecked = false;
@@ -247,16 +239,16 @@ public partial class TAOWWindowControl : TAoWComponent
     // { VerifyBackSurface makes the back surface match Surface (a DirectDraw surface in video memory
     //   when Surface is one and UseVMem is set, else a surface in system memory or a data surface);
     //   True when the back surface was created or restored and has to be drawn again }
-    public bool VerifyBackSurface(TSurface Surface)
+    public bool VerifyBackSurface(Surface Surface)
     {
-        TSet<TDDSCreationFlagsElement> Flags;
-        TDDrawSurface DDS;
+        Set<DDSCreationFlagsElement> Flags;
+        DDrawSurface DDS;
         bool Result = false;
         if (FDoubleBuffered)
         {
             if (FBackSurface != null)
             {
-                if (FBackSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (FBackSurface is TDDrawSurface) ^ (Surface is TDDrawSurface))
+                if (FBackSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (FBackSurface is DDrawSurface) ^ (Surface is DDrawSurface))
                 {
                     FBackSurface?.Dispose();
                     FBackSurface = null;
@@ -265,18 +257,18 @@ public partial class TAOWWindowControl : TAoWComponent
 
             if (FBackSurface == null)
             {
-                if (Surface is TDDrawSurface)
+                if (Surface is DDrawSurface)
                 {
-                    if (((TDDrawSurface)Surface).Status.Contains(TDDrawSurfaceStatusElement.ssVideoMemory) && FUseVMem)
+                    if (((DDrawSurface)Surface).Status.Contains(DDrawSurfaceStatusElement.VideoMemory) && FUseVMem)
                     {
-                        Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfVideoMemory, TDDSCreationFlagsElement.cfSystemMemory);
+                        Flags = Set<DDSCreationFlagsElement>.Of(DDSCreationFlagsElement.VideoMemory, DDSCreationFlagsElement.SystemMemory);
                     }
                     else
                     {
-                        Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfSystemMemory);
+                        Flags = Set<DDSCreationFlagsElement>.Of(DDSCreationFlagsElement.SystemMemory);
                     }
 
-                    DDS = new TDDrawSurface();
+                    DDS = new DDrawSurface();
                     FBackSurface = DDS;
                     var pixelFormatID = Surface.GetPixelFormatID();
                     DDS.CreateSurface(FWinWidth, FWinHeight, pixelFormatID, Flags);
@@ -284,7 +276,7 @@ public partial class TAOWWindowControl : TAoWComponent
                 else
                 {
                     var pixelFormatID = Surface.GetPixelFormatID();
-                    FBackSurface = new TDataSurface(FWinWidth, FWinHeight, pixelFormatID, null);
+                    FBackSurface = new DataSurface(FWinWidth, FWinHeight, pixelFormatID, null);
                 }
 
                 if (FMasked)
@@ -296,9 +288,9 @@ public partial class TAOWWindowControl : TAoWComponent
             }
             else
             {
-                if (FBackSurface is TDDrawSurface && ((TDDrawSurface)FBackSurface).Lost())
+                if (FBackSurface is DDrawSurface && ((DDrawSurface)FBackSurface).Lost())
                 {
-                    Result = ((TDDrawSurface)FBackSurface).Restore() == Aow.Game.Draw.PixelFormats.DD_OK;
+                    Result = ((DDrawSurface)FBackSurface).Restore() == Aow.Game.Draw.PixelFormats.DD_OK;
                 }
             }
         }
@@ -307,67 +299,72 @@ public partial class TAOWWindowControl : TAoWComponent
     }
 
     [Published]
-    public TAoWOnDrawBackEvent<TAOWWindowControl> OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
+    public AoWOnDrawBackEvent<AOWWindowControl> OnDrawBack { get => FOnDrawBack; set => FOnDrawBack = value; }
 
     [Published]
-    public TNotifyEvent<TAOWWindowControl> OnEnter { get => FOnEnter; set => FOnEnter = value; }
+    public NotifyEvent<AOWWindowControl> OnEnter { get => FOnEnter; set => FOnEnter = value; }
 
     [Published]
-    public TNotifyEvent<TAOWWindowControl> OnExit { get => FOnExit; set => FOnExit = value; }
+    public NotifyEvent<AOWWindowControl> OnExit { get => FOnExit; set => FOnExit = value; }
 
-    public new TNotifyEvent<TAOWWindowControl> OnChange
+    public new NotifyEvent<AOWWindowControl> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWWindowControl> OnMouseDown
+    public new MouseEvent<AOWWindowControl> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWWindowControl> OnMouseUp
+    public new MouseEvent<AOWWindowControl> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWWindowControl> OnMouseMove
+    public new MouseMoveEvent<AOWWindowControl> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWWindowControl> OnKeyPress
+    public new KeyPressEvent<AOWWindowControl> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWWindowControl> OnKeyDown
+    public new KeyEvent<AOWWindowControl> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWWindowControl> OnPreDraw
+    public new AoWOnDrawEvent<AOWWindowControl> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWWindowControl> OnDraw
+    public new AoWOnDrawEvent<AOWWindowControl> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWWindowControl> OnUpdate
+    public new NotifyEvent<AOWWindowControl> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
+
+    public enum WindowType : byte
+    {
+        Normal = 0, Hollow = 1, Borderless = 2, Blank = 3
+    }
 }
 
-public delegate void TAoWOnDrawSurface<in TSender>(TSender Sender, TSurface Surface, int Left, int Top);
+public delegate void AoWOnDrawSurface<in TSender>(TSender Sender, Surface Surface, int Left, int Top);

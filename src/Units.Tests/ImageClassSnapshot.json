@@ -1,54 +1,54 @@
 [
   {
-    "Type": "Aow.Game.Draw.Images.TPicture08",
+    "Type": "Aow.Game.Draw.Images.Picture08",
     "ClassID": 1,
     "ClassVersion": 3,
     "Name": "Picture (08bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TRLESprite08",
+    "Type": "Aow.Game.Draw.Images.RLESprite08",
     "ClassID": 2,
     "ClassVersion": 3,
     "Name": "RLE Sprite (08bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TPicture16",
+    "Type": "Aow.Game.Draw.Images.Picture16",
     "ClassID": 16,
     "ClassVersion": 3,
     "Name": "Picture (16bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TTransparentPicture16",
+    "Type": "Aow.Game.Draw.Images.TransparentPicture16",
     "ClassID": 21,
     "ClassVersion": 3,
     "Name": "Transparent Picture (16bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TRLESprite16",
+    "Type": "Aow.Game.Draw.Images.RLESprite16",
     "ClassID": 17,
     "ClassVersion": 3,
     "Name": "RLE Sprite (16bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TTransparentRLESprite16",
+    "Type": "Aow.Game.Draw.Images.TransparentRLESprite16",
     "ClassID": 18,
     "ClassVersion": 3,
     "Name": "Transparent RLE Sprite (16bpp)"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TShadow",
+    "Type": "Aow.Game.Draw.Images.Shadow",
     "ClassID": 20,
     "ClassVersion": 3,
     "Name": "Shadow"
   },
   {
-    "Type": "Aow.Game.Draw.Images.TImageNode",
+    "Type": "Aow.Game.Draw.Images.ImageNode",
     "ClassID": 256,
     "ClassVersion": 3,
     "Name": ""
   },
   {
-    "Type": "Aow.Game.Draw.Images.TSprite16",
+    "Type": "Aow.Game.Draw.Images.Sprite16",
     "ClassID": 22,
     "ClassVersion": 3,
     "Name": "Sprite (16bpp)"

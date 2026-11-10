@@ -3,10 +3,10 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Controls;
 
-public partial class TAOWMemo
+public partial class AOWMemo
 {
     // AoWMemo.pas:511. The editable-byte comparison tests exactly one after the bounds checks.
-    public override void CheckMouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y)
+    public override void CheckMouseUp(MouseButton button, Set<ShiftState> shift, int x, int y)
     {
         FHandled = false;
         FMouseDown = false;
@@ -17,7 +17,7 @@ public partial class TAOWMemo
         {
             FItems.Add("");
             FLines.Add("");
-            FColorList.Add(new TColorChange());
+            FColorList.Add(new ColorChange());
         }
         if (x > FAOWWindow.FWinLeft + FWinLeft - 1 && x < FAOWWindow.FWinLeft + FWinLeft + FWinWidth &&
             y > FAOWWindow.FWinTop + FWinTop - 1 && y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -35,7 +35,7 @@ public partial class TAOWMemo
                 top = FAOWWindow.FWinTop + FWinTop + FBorderHeight - 1;
                 bottom = FAOWWindow.FWinTop + FWinTop + FWinHeight;
             }
-            if (FEditable && x > left && x < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - FScrollWidth && y > top && y < bottom && button == TMouseButton.mbLeft)
+            if (FEditable && x > left && x < FAOWWindow.FWinLeft + FWinLeft + FWinWidth - FScrollWidth && y > top && y < bottom && button == MouseButton.Left)
             {
                 if (Unsafe.As<bool, byte>(ref FEditable) == 1)
                 {

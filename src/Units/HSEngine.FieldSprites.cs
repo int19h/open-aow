@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World.Map;
 
-public partial class TMapField
+public partial class MapField
 {
     private byte[] directions = [];
 
@@ -29,7 +29,7 @@ public partial class TMapField
         directions[index] = value;
     }
 
-    public int AddHS(THexagonSprite sprite, int hn)
+    public int AddHS(HexagonSprite sprite, int hn)
     {
         try
         {
@@ -39,8 +39,8 @@ public partial class TMapField
         catch { }
         if (FCapacity == FCount) Resize((byte)(FCapacity + 1));
         int priority = sprite.GetShowPriority();
-        int index = FStatus.Contains(TMapFieldStatusElement.msComparing) ? FCount : 0;
-        if (!FStatus.Contains(TMapFieldStatusElement.msComparing))
+        int index = FStatus.Contains(MapFieldStatusElement.Comparing) ? FCount : 0;
+        if (!FStatus.Contains(MapFieldStatusElement.Comparing))
             while (index < FCount && priority > FHSList[index].GetShowPriority()) index++;
         if (index < FCount)
         {
@@ -54,7 +54,7 @@ public partial class TMapField
         return index;
     }
 
-    public int RemoveHS(THexagonSprite sprite)
+    public int RemoveHS(HexagonSprite sprite)
     {
         int index = 0;
         while (index < FCount && sprite != FHSList[index]) index++;
@@ -113,14 +113,14 @@ public partial class TMapField
     public void Loaded()
     {
         int count = FCount;
-        for (int i = 0; i < count; i++) Aow.Game.World.Map.TMapField.LoadedList[i] = FHSList[i];
+        for (int i = 0; i < count; i++) Aow.Game.World.Map.MapField.LoadedList[i] = FHSList[i];
         for (int i = count - 1; i >= 0; i--)
-            if (Aow.Game.World.Map.TMapField.LoadedList[i].Owner == this && !Aow.Game.World.Map.TMapField.LoadedList[i].MainLoaded()) Aow.Game.World.Map.TMapField.LoadedList[i]?.Dispose();
+            if (Aow.Game.World.Map.MapField.LoadedList[i].Owner == this && !Aow.Game.World.Map.MapField.LoadedList[i].MainLoaded()) Aow.Game.World.Map.MapField.LoadedList[i]?.Dispose();
     }
 
     public virtual void UpdateMapField()
     {
-        THSMapFieldInfo info = new() { MapField = this };
+        HSMapFieldInfo info = new() { MapField = this };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -138,7 +138,7 @@ public partial class TMapField
         }
         FOverlayType = Math.Max(overlay, (sbyte)-1);
         FTerrainType = Math.Max(terrain, (sbyte)-1);
-        THSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
+        HSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -147,29 +147,29 @@ public partial class TMapField
         UpdateMapField();
     }
 
-    public int SetHNofHS(THexagonSprite sprite, byte hn)
+    public int SetHNofHS(HexagonSprite sprite, byte hn)
     {
         int index = FindChildIndex(sprite);
         if (index != -1) directions[index] = hn;
         return index;
     }
 
-    public int GetHNofHS(THexagonSprite sprite)
+    public int GetHNofHS(HexagonSprite sprite)
     {
         int index = FindChildIndex(sprite);
         return index == -1 ? -1 : directions[index];
     }
 
-    private THexagonSprite FindTop(Func<THexagonSprite, byte, bool> matches)
+    private HexagonSprite FindTop(Func<HexagonSprite, byte, bool> matches)
     {
         for (int i = FCount - 1; i >= 0; i--)
             if (matches(FHSList[i], directions[i])) return FHSList[i];
         return null;
     }
 
-    public THexagonSprite GetMaxLevelNoneTransparentHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0 || sprite.GetOverlay(hn) >= 0);
-    public THexagonSprite GetMaxLevelTerrainHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0);
-    public THexagonSprite GetMaxLevelOverlayHS() => FindTop((sprite, hn) => sprite.GetOverlay(hn) >= 0);
+    public HexagonSprite GetMaxLevelNoneTransparentHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0 || sprite.GetOverlay(hn) >= 0);
+    public HexagonSprite GetMaxLevelTerrainHS() => FindTop((sprite, hn) => sprite.GetTerrain(hn) >= 0);
+    public HexagonSprite GetMaxLevelOverlayHS() => FindTop((sprite, hn) => sprite.GetOverlay(hn) >= 0);
 
     private (sbyte Terrain, sbyte Overlay) ReadTerrain()
     {
@@ -184,7 +184,7 @@ public partial class TMapField
 
     public void UpdateTerrain()
     {
-        if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) return;
+        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return;
         var (terrain, overlay) = ReadTerrain();
         if (terrain == FTerrainType && overlay == FOverlayType) return;
         FTerrainType = terrain;
@@ -194,7 +194,7 @@ public partial class TMapField
 
     public void UpdateTerrainType()
     {
-        if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) return;
+        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return;
         sbyte terrain = -1;
         for (int i = FCount - 1; i >= 0 && terrain < 0; i--) terrain = FHSList[i].GetTerrain(directions[i]);
         terrain = Math.Max(terrain, (sbyte)-1);
@@ -205,7 +205,7 @@ public partial class TMapField
 
     public void UpdateOverlayType()
     {
-        if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) return;
+        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return;
         sbyte overlay = -1;
         for (int i = FCount - 1; i >= 0 && overlay < 0; i--) overlay = FHSList[i].GetOverlay(directions[i]);
         overlay = Math.Max(overlay, (sbyte)-1);
@@ -216,10 +216,10 @@ public partial class TMapField
 
     public void TerrainChanged()
     {
-        var locked = TSet<TMapFieldStatusElement>.Of(TMapFieldStatusElement.msTerrainLocked);
-        if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) { FStatus += locked; return; }
+        var locked = Set<MapFieldStatusElement>.Of(MapFieldStatusElement.TerrainLocked);
+        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) { FStatus += locked; return; }
         FStatus += locked;
-        THSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
+        HSTerrainInfo info = new() { MapField = this, TerrainType = FTerrainType, OverlayType = FOverlayType };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -241,15 +241,15 @@ public partial class TMapField
         FStatus -= locked;
     }
 
-    public void NeighbourTerrainChanged(ref THSTerrainInfo info)
+    public void NeighbourTerrainChanged(ref HSTerrainInfo info)
     {
         for (int i = FCount - 1; i >= 0; i--) FHSList[i].NeighbourTerrainChanged(directions[i], info);
     }
 
-    public bool CanChangeTerrainEx(TEObject sender)
+    public bool CanChangeTerrainEx(EObject sender)
     {
-        if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) return false;
-        THSSenderInfo info = new() { MapField = this, Sender = sender };
+        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return false;
+        HSSenderInfo info = new() { MapField = this, Sender = sender };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -258,9 +258,9 @@ public partial class TMapField
         return true;
     }
 
-    public bool CanChangeTerrain(TEObject sender, sbyte terrain, sbyte overlay)
+    public bool CanChangeTerrain(EObject sender, sbyte terrain, sbyte overlay)
     {
-        if (FStatus.Contains(TMapFieldStatusElement.msTerrainLocked)) return false;
+        if (FStatus.Contains(MapFieldStatusElement.TerrainLocked)) return false;
         sbyte oldTerrain = FTerrainType, oldOverlay = FOverlayType;
         if (terrain >= 0) FTerrainType = terrain;
         if (overlay >= 0) FOverlayType = overlay;
@@ -274,7 +274,7 @@ public partial class TMapField
     // compares the slot as a MsgArg, whose equality is that of the original word: an int or a
     // reference answer stops the loop alike, and a handler that writes 0 into an empty slot has
     // not answered.
-    public void SendMapFieldMsg(ref TMapFieldMsg message)
+    public void SendMapFieldMsg(ref MapFieldMsg message)
     {
         MsgArg oldResult = message.Result;
         int i = FCount;
@@ -290,8 +290,8 @@ public partial class TMapField
 
     public int CanMoveOn(object sender, int defaultCode, int moveOverCode)
     {
-        THSMoveOnInfo info = new() { Sender = sender, MapField = this, MoveOverCode = moveOverCode };
-        THSMoveOnResult result = new() { Code = defaultCode, Done = false, Data = 0 };
+        HSMoveOnInfo info = new() { Sender = sender, MapField = this, MoveOverCode = moveOverCode };
+        HSMoveOnResult result = new() { Code = defaultCode, Done = false, Data = 0 };
         int i = FCount;
         while (!result.Done && i != 0)
         {
@@ -304,7 +304,7 @@ public partial class TMapField
 
     public int CanMoveOver(object sender)
     {
-        THSSenderInfo info = new() { Sender = sender, MapField = this };
+        HSSenderInfo info = new() { Sender = sender, MapField = this };
         int result = 1, i = FCount;
         while (result == 1 && i != 0)
         {
@@ -317,7 +317,7 @@ public partial class TMapField
 
     public void MoveExclusive(object sender)
     {
-        THSSenderInfo info = new() { Sender = sender, MapField = this };
+        HSSenderInfo info = new() { Sender = sender, MapField = this };
         for (int i = FCount - 1; i >= 0; i--)
         {
             info.HN = (sbyte)directions[i];
@@ -325,14 +325,14 @@ public partial class TMapField
         }
     }
 
-    public THexagonSprite FindNoneTransparentHS(Type type)
+    public HexagonSprite FindNoneTransparentHS(Type type)
     {
         for (int i = 0; i < FCount; i++)
             if (type.IsInstanceOfType(FHSList[i]) && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];
         return null;
     }
 
-    public THexagonSprite FindNoneTransparentHSCID(int classId)
+    public HexagonSprite FindNoneTransparentHSCID(int classId)
     {
         for (int i = 0; i < FCount; i++)
             if (FHSList[i].EClass.ClassID == classId && FHSList[i].GetTerrain(directions[i]) >= 0) return FHSList[i];

@@ -49,7 +49,7 @@ public sealed class RecordShapeTests : FormatsTest
         var source = new Holder
         {
             Behavior = new TSampleBehavior { PlayerType = 2, Flags = 9 },
-            Marks = new TSamplePacked { Value = TSet<TSampleRank>.FromMask(0x81) },
+            Marks = new TSamplePacked { Value = Set<TSampleRank>.FromMask(0x81) },
             AbCount = 4,
             Bits = [0x81],
             Raw = 0,
@@ -66,7 +66,7 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal(2, ((JsonInteger)behavior["PlayerType"]!).Value);
         Assert.Equal("010002", ((JsonString)behavior["$reserved"]!).Value);
         Assert.Equal(9, ((JsonInteger)behavior["Flags"]!).Value);
-        Assert.Equal(["srNone", 7L], Items(document["Marks"]!));
+        Assert.Equal(["None", 7L], Items(document["Marks"]!));
         Assert.Equal(4, ((JsonInteger)document["AbCount"]!).Value);
         var bits = (JsonObject)document["Bits"]!;
         Assert.Equal([0L], Items(bits["values"]!));
@@ -100,7 +100,7 @@ public sealed class RecordShapeTests : FormatsTest
     {
         var schema = Sample;
         var cls = schema.Get("THolder");
-        var source = new Holder { AbCount = 8, Bits = new byte[1], Marks = new TSamplePacked { Value = TSet<TSampleRank>.FromMask(0) } };
+        var source = new Holder { AbCount = 8, Bits = new byte[1], Marks = new TSamplePacked { Value = Set<TSampleRank>.FromMask(0) } };
         var document = DocumentBackend.Write(TreeWriter.Write(source, Factory), cls, schema, "game");
         Assert.Empty(((JsonObject)document["Behavior"]!).Members);
         Assert.Empty(((JsonArray)document["Marks"]!).Items);
@@ -385,11 +385,11 @@ public sealed class RecordShapeTests : FormatsTest
         Assert.Equal(["Left", "Bottom"], dimensions.Members.Select(m => m.Name).ToList());
         Assert.Equal(int.MinValue, ((JsonInteger)dimensions["Left"]!).Value);
 
-        var effects = new SetNode("TDamageType", 2, (1UL << 9) | (1UL << 15));
+        var effects = new SetNode("DamageType", 2, (1UL << 9) | (1UL << 15));
         var damage = new ObjectNode(null, null);
         damage.Add("Effects", effects);
         var damageDocument = RoundTrip(schema.Get("TDamageCA"), schema, damage);
-        Assert.Equal(["dtNone", 15L], Items(damageDocument["Effects"]!));
+        Assert.Equal(["None", 15L], Items(damageDocument["Effects"]!));
 
         var behavior = new RecordNode();
         behavior.Add("PlayerType", new IntegerNode(1, false, 2));

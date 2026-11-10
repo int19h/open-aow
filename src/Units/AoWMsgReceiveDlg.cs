@@ -24,27 +24,27 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // done callback, retained event
-public partial class TMsgReceiveDlg : TDataModule
+public partial class MsgReceiveDlg : DataModule
 {
-    public TMsgReceiveDlg(TComponent owner) : base(owner)
+    public MsgReceiveDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow MsgReceiveWin;
-    public TAOWMemo MessageMemo;
-    public TAOWButton Close;
-    public TAOWVScrollBar MessageSB;
-    public TAOWImage LShield;
-    public TAOWImage RShield;
-    public TAOWMemo HeaderMemo;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TEventLog FEvent;
+    public AOWWindow MsgReceiveWin;
+    public AOWMemo MessageMemo;
+    public AOWButton Close;
+    public AOWVScrollBar MessageSB;
+    public AOWImage LShield;
+    public AOWImage RShield;
+    public AOWMemo HeaderMemo;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public EventLog FEvent;
 
     // AoWMsgReceiveDlg.pas:54
     public void FinishDialog()
     {
-        TExecuteDoneEvent Done;
-        TEventLog Log;
+        ExecuteDoneEvent Done;
+        EventLog Log;
         Done = FDone;
         Log = FEvent;
         FDone = null;
@@ -73,16 +73,16 @@ public partial class TMsgReceiveDlg : TDataModule
         FinishDialog();
     }
 
-    internal static void ShowReceivedMessage(TMsgReceiveDlg Dialog, TEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowReceivedMessage(MsgReceiveDlg Dialog, EventLog Event, ExecuteDoneEvent Done)
     {
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
         Dialog.FDone = Done;
         var text = Event.GetText();
         Dialog.HeaderMemo.Items.Text = text;
-        var fMessageText = ((TGameOverEventLog)Event).FMessage.Text;
+        var fMessageText = ((GameOverEventLog)Event).FMessage.Text;
         Dialog.MessageMemo.Items.Text = fMessageText;
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Event.FPlayer);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FPlayer);
         Dialog.LShield.CurrentImage = player.FPlayerRace + 13;
         Dialog.RShield.CurrentImage = Dialog.LShield.CurrentImage;
         Dialog.MsgReceiveWin.Visible = true;

@@ -9,9 +9,9 @@ namespace Aow.Game.Layout;
 
 public static class ImageLibraryMethods
 {
-    public static TImageLibrary CheckIL(this TImageLibrary library, int Index, int Count, TComponent Sender)
+    public static ImageLibrary CheckIL(this ImageLibrary library, int Index, int Count, global::Aow.Rtl.Component Sender)
     {
-        TImageLibrary Result = library;
+        ImageLibrary Result = library;
         if (Index + Count > library.Count)
         {
             Result = null;
@@ -32,11 +32,11 @@ public static class ImageLibraryMethods
         return Result;
     }
 
-    public static void DrawILT(this TImageLibrary library, int Index, in TRect R, ref TSurfaceDesc SurfDesc)
+    public static void DrawILT(this ImageLibrary library, int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
-        TRect OldClip;
+        global::Aow.Rtl.Rect OldClip;
         OldClip = SurfDesc.ClipRect;
         if (R.Left + R.Right > SurfDesc.ClipRect.Right)
         {
@@ -56,7 +56,7 @@ public static class ImageLibraryMethods
             ClipBottom = R.Top + R.Bottom;
         }
 
-        var rect = Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect;
         if (R.Left + R.Right < OldClip.Right)
         {

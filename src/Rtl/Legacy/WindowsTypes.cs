@@ -3,29 +3,29 @@ using System.Runtime.InteropServices;
 namespace Aow.Rtl;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct TRGBQuad
+public struct RGBQuad
 {
     public byte rgbBlue, rgbGreen, rgbRed, rgbReserved;
 }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct TBitmapInfoHeader
+public struct BitmapInfoHeader
 {
     public int biSize, biWidth, biHeight;
     public ushort biPlanes, biBitCount;
     public int biCompression, biSizeImage, biXPelsPerMeter, biYPelsPerMeter, biClrUsed, biClrImportant;
 }
 
-public struct TGUID
+public struct GUID
 {
     public int D1;
     public ushort D2, D3;
     public byte[] D4;
 
-    public static implicit operator TGUID(string value)
+    public static implicit operator GUID(string value)
     {
         var bytes = Guid.Parse(value).ToByteArray();
-        return new TGUID { D1 = System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(bytes), D2 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(4)), D3 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(6)), D4 = bytes[8..] };
+        return new GUID { D1 = System.Buffers.Binary.BinaryPrimitives.ReadInt32LittleEndian(bytes), D2 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(4)), D3 = System.Buffers.Binary.BinaryPrimitives.ReadUInt16LittleEndian(bytes.AsSpan(6)), D4 = bytes[8..] };
     }
 }
 
@@ -43,17 +43,17 @@ public struct LongRec
     [FieldOffset(2)] public ushort Hi;
 }
 
-public struct TMessage { public int Msg, WParam, LParam, Result; }
+public struct Message { public int Msg, WParam, LParam, Result; }
 
-public struct TWMKey { public int Msg; public ushort CharCode, Unused; public int KeyData, Result; }
+public struct WMKey { public int Msg; public ushort CharCode, Unused; public int KeyData, Result; }
 
-public struct TCreateParams { public int Style, ExStyle, X, Y, Width, Height, WndParent, Param; }
-
-[StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct TPaletteEntry { public byte peRed, peGreen, peBlue, peFlags; }
+public struct CreateParams { public int Style, ExStyle, X, Y, Width, Height, WndParent, Param; }
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
-public struct TWaveFormatEx
+public struct PaletteEntry { public byte peRed, peGreen, peBlue, peFlags; }
+
+[StructLayout(LayoutKind.Sequential, Pack = 1)]
+public struct WaveFormatEx
 {
     public ushort wFormatTag, nChannels;
     public int nSamplesPerSec, nAvgBytesPerSec;
@@ -61,7 +61,7 @@ public struct TWaveFormatEx
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 8)]
-public struct TLargeInteger
+public struct LargeInteger
 {
     [FieldOffset(0)] public uint LowPart;
     [FieldOffset(4)] public int HighPart;

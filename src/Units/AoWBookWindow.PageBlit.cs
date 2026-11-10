@@ -1,16 +1,16 @@
 using Aow.Game.Draw;
 using Aow.Rtl;
-using TPageTurnMode = Aow.Game.Ui.Grids.TPageTurnMode;
+using PageTurnMode = Aow.Game.Ui.Grids.PageTurnMode;
 
 namespace Aow.Game.Ui.Windows;
 
-public partial class TAoWBookWindow
+public partial class AoWBookWindow
 {
-    public override void Blt(TSurface surface)
+    public override void Blt(Surface surface)
     {
         if (FPageSurface is not null && (FPageSurface.PixelFormatID != FBackSurface.PixelFormatID ||
             FPageSurface.Width != FBackSurface.Width || FPageSurface.Height != FBackSurface.Height ||
-            FPageSurface is TDDrawSurface != FBackSurface is TDDrawSurface))
+            FPageSurface is DDrawSurface != FBackSurface is DDrawSurface))
         {
             FPageSurface?.Dispose();
             FPageSurface = null;
@@ -18,16 +18,16 @@ public partial class TAoWBookWindow
         var area = RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
         if (FPageSurface is null)
         {
-            if (FBackSurface is TDDrawSurface direct)
+            if (FBackSurface is DDrawSurface direct)
             {
-                var flags = direct.Status.Contains(TDDrawSurfaceStatusElement.ssVideoMemory) && FUseVMem
-                    ? TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfVideoMemory, TDDSCreationFlagsElement.cfSystemMemory)
-                    : TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfSystemMemory);
-                var page = new TDDrawSurface();
+                var flags = direct.Status.Contains(DDrawSurfaceStatusElement.VideoMemory) && FUseVMem
+                    ? Set<DDSCreationFlagsElement>.Of(DDSCreationFlagsElement.VideoMemory, DDSCreationFlagsElement.SystemMemory)
+                    : Set<DDSCreationFlagsElement>.Of(DDSCreationFlagsElement.SystemMemory);
+                var page = new DDrawSurface();
                 page.CreateSurface(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, flags);
                 FPageSurface = page;
             }
-            else FPageSurface = new TDataSurface(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, null);
+            else FPageSurface = new DataSurface(FWinWidth, FWinHeight, FBackSurface.PixelFormatID, null);
             FBackSurface.BltAreaClipped(FPageSurface, area, 0, 0);
         }
         if (!FAnimating)
@@ -38,8 +38,8 @@ public partial class TAoWBookWindow
         if (FFirstAnimationFrame || !FPreviousSurfaceValid)
         {
             area = RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
-            TSurface initial = FPageTurnMode == TPageTurnMode.ptLeft ? FBackSurface : FPageSurface;
-            if (FPageTurnMode is TPageTurnMode.ptLeft or TPageTurnMode.ptRight)
+            Surface initial = FPageTurnMode == PageTurnMode.Left ? FBackSurface : FPageSurface;
+            if (FPageTurnMode is PageTurnMode.Left or PageTurnMode.Right)
             {
                 if (!FMasked) initial.BltAreaClipped(surface, area, FWinLeft, FWinTop);
                 else initial.BltAreaColorKeyClipped(surface, area, FWinLeft, FWinTop,
@@ -47,7 +47,7 @@ public partial class TAoWBookWindow
             }
             FFirstAnimationFrame = false;
         }
-        TSurfaceDesc destination = default, source = default, oldPage = default;
+        SurfaceDesc destination = default, source = default, oldPage = default;
         surface.Lock(ref destination);
         FBackSurface.Lock(ref source);
         FPageSurface.Lock(ref oldPage);

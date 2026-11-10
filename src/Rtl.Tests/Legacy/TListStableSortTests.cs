@@ -8,7 +8,7 @@ public sealed class TListStableSortTests
         var first = new object();
         var second = new object();
         var third = new object();
-        var stable = new TList();
+        var stable = new DelphiList();
         stable.Add(first);
         stable.Add(second);
         stable.Add(third);
@@ -17,7 +17,7 @@ public sealed class TListStableSortTests
         Assert.Same(second, stable[1]);
         Assert.Same(third, stable[2]);
 
-        var quick = new TList();
+        var quick = new DelphiList();
         quick.Add(first);
         quick.Add(second);
         quick.Add(third);

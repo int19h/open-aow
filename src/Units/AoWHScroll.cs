@@ -10,9 +10,9 @@ namespace Aow.Game.Ui.Controls;
 // { The AoWHScroll unit of aowInt.dpl: TAOWHScrollBar, the horizontal scroll bar (TAOWScrollBar of
 //   AoWVScroll with the decrement button at the left and the increment button at the right). }
 // no fields of its own
-public partial class TAOWHScrollBar : TAOWScrollBar
+public partial class AOWHScrollBar : AOWScrollBar
 {
-    public TAOWHScrollBar(TComponent owner) : base(owner)
+    public AOWHScrollBar(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
     // AoWHScroll.pas:31
@@ -27,7 +27,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
 
         switch (FScrollType)
         {
-            case TaowScrollType.stScroll:
+            case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.Scroll:
                 FWinHeight = FILTBack[FILIndexBack].Height;
                 var iliDecWidth = FILIDec[FILIndexDecUp];
                 var iliIncWidth = FILIInc[FILIndexIncUp];
@@ -44,10 +44,10 @@ public partial class TAOWHScrollBar : TAOWScrollBar
                 F134 = F130 * FNumberVisible / F14C;
                 switch (FTabType)
                 {
-                    case TaowTabType.ttIcon:
+                    case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Icon:
                         F134 = FILITab[FILIndexTab].Width;
                         break;
-                    case TaowTabType.ttBar:
+                    case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Bar:
                         var illTabWidth = FILLTab[FILIndexTab];
                         var illTab = FILLTab[FILIndexTab + 2];
                         if (F134 < illTabWidth.Width + illTab.Width)
@@ -61,16 +61,16 @@ public partial class TAOWHScrollBar : TAOWScrollBar
                 }
 
                 break;
-            case TaowScrollType.stSlider:
+            case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.Slider:
                 FWinHeight = FILLBack[FILIndexBack].Height;
                 F130 = FWinWidth;
                 F134 = F130 * FNumberVisible / F14C;
                 switch (FTabType)
                 {
-                    case TaowTabType.ttIcon:
+                    case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Icon:
                         F134 = FILITab[FILIndexTab].Width;
                         break;
-                    case TaowTabType.ttBar:
+                    case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Bar:
                         var illTabWidth = FILLTab[FILIndexTab];
                         var illTab = FILLTab[FILIndexTab + 2];
                         if (F134 < illTabWidth.Width + illTab.Width)
@@ -84,7 +84,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
                 }
 
                 break;
-            case TaowScrollType.stIncDec:
+            case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.IncDec:
                 FWinHeight = FILIDec[FILIndexDecUp].Height;
                 var iliDec3 = FILIDec[FILIndexDecUp];
                 var iliInc3 = FILIInc[FILIndexIncUp];
@@ -104,7 +104,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
     // { Draw: as TAOWVScrollBar.Draw across. The buttons of an increment/decrement pair keep parts of
     //   the vertical code: the increment button is drawn left of the control and below it, and the
     //   decrement button is FWinWidth wide and as high as its image (original) }
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         int TabPos = default;
         try
@@ -118,38 +118,38 @@ public partial class TAOWHScrollBar : TAOWScrollBar
 
                 switch (FScrollType)
                 {
-                    case TaowScrollType.stScroll:
+                    case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.Scroll:
                         if (F151 == 4 && F150 > 0)
                         {
                             var iliIncWidth = FILIInc[FILIndexIncDown];
                             var iliInc = FILIInc[FILIndexIncDown];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth - iliInc.Width, FAOWWindow.FWinTop + FWinTop, iliIncWidth.Width, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth - iliInc.Width, FAOWWindow.FWinTop + FWinTop, iliIncWidth.Width, FWinHeight);
                             FILIInc.DrawILT(FILIndexIncDown, rect, ref SurfDesc);
                         }
                         else
                         {
                             var iliInc = FILIInc[FILIndexIncUp];
                             var iliIncWidth = FILIInc[FILIndexIncDown];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth - iliIncWidth.Width, FAOWWindow.FWinTop + FWinTop, iliInc.Width, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth - iliIncWidth.Width, FAOWWindow.FWinTop + FWinTop, iliInc.Width, FWinHeight);
                             FILIInc.DrawILT(FILIndexIncUp, rect, ref SurfDesc);
                         }
 
                         if (F151 == 1 && F150 > 0)
                         {
                             var iliDec = FILIDec[FILIndexDecDown];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, iliDec.Width, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, iliDec.Width, FWinHeight);
                             FILIDec.DrawILT(FILIndexDecDown, rect, ref SurfDesc);
                         }
                         else
                         {
                             var iliDec = FILIDec[FILIndexDecUp];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, iliDec.Width, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, iliDec.Width, FWinHeight);
                             FILIDec.DrawILT(FILIndexDecUp, rect, ref SurfDesc);
                         }
 
                         var iltBack = FILTBack[FILIndexBack];
                         var iliDecWidth = FILIDec[FILIndexDecUp];
-                        var rect2 = Rect(FAOWWindow.FWinLeft + FWinLeft + iliDecWidth.Width, FAOWWindow.FWinTop + FWinTop, F130, iltBack.Height);
+                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + iliDecWidth.Width, FAOWWindow.FWinTop + FWinTop, F130, iltBack.Height);
                         FILTBack.DrawILT(FILIndexBack, rect2, ref SurfDesc);
                         TabPos = F130 * FPosition / F14C;
                         if (F134 + TabPos > F130)
@@ -159,21 +159,21 @@ public partial class TAOWHScrollBar : TAOWScrollBar
 
                         switch (FTabType)
                         {
-                            case TaowTabType.ttIcon:
+                            case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Icon:
                                 var iliDec = FILIDec[FILIndexDecUp];
-                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + iliDec.Width + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
+                                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + iliDec.Width + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
                                 FILITab.DrawILT(FILIndexTab, rect, ref SurfDesc);
                                 break;
-                            case TaowTabType.ttBar:
+                            case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Bar:
                                 var iliDec2 = FILIDec[FILIndexDecUp];
-                                var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft + iliDec2.Width + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
+                                var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + iliDec2.Width + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
                                 FILLTab.DrawILLh(FILIndexTab, rect3, ref SurfDesc);
                                 break;
                         }
 
                         break;
-                    case TaowScrollType.stSlider:
-                        var rect4 = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.Slider:
+                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILLBack.DrawILLh(FILIndexBack, rect4, ref SurfDesc);
                         TabPos = F130 * FPosition / F14C;
                         if (F134 + TabPos > F130)
@@ -183,43 +183,43 @@ public partial class TAOWHScrollBar : TAOWScrollBar
 
                         switch (FTabType)
                         {
-                            case TaowTabType.ttIcon:
-                                var rect = Rect(FAOWWindow.FWinLeft + FWinLeft + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
+                            case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Icon:
+                                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
                                 FILITab.DrawILT(FILIndexTab, rect, ref SurfDesc);
                                 break;
-                            case TaowTabType.ttBar:
-                                var rect3 = Rect(FAOWWindow.FWinLeft + FWinLeft + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
+                            case Aow.Game.Ui.Controls.AOWScrollBar.TaowTabType.Bar:
+                                var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + TabPos, FAOWWindow.FWinTop + FWinTop, F134, FWinHeight);
                                 FILLTab.DrawILLh(FILIndexTab, rect3, ref SurfDesc);
                                 break;
                         }
 
                         break;
-                    case TaowScrollType.stIncDec:
+                    case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.IncDec:
                         if (F151 == 4 && F150 > 0)
                         {
                             var iliIncWidth = FILIInc[FILIndexIncDown];
                             var iliInc = FILIInc[FILIndexIncDown];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft - iliInc.Width, FAOWWindow.FWinTop + FWinTop + FWinHeight, iliIncWidth.Width, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft - iliInc.Width, FAOWWindow.FWinTop + FWinTop + FWinHeight, iliIncWidth.Width, FWinHeight);
                             FILIInc.DrawILT(FILIndexIncDown, rect, ref SurfDesc);
                         }
                         else
                         {
                             var iliIncWidth = FILIInc[FILIndexIncUp];
                             var iliInc = FILIInc[FILIndexIncUp];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft - iliInc.Width, FAOWWindow.FWinTop + FWinTop + FWinHeight, iliIncWidth.Width, FWinHeight);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft - iliInc.Width, FAOWWindow.FWinTop + FWinTop + FWinHeight, iliIncWidth.Width, FWinHeight);
                             FILIInc.DrawILT(FILIndexIncUp, rect, ref SurfDesc);
                         }
 
                         if (F151 == 1 && F150 > 0)
                         {
                             var iliDec = FILIDec[FILIndexDecDown];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
                             FILIDec.DrawILT(FILIndexDecDown, rect, ref SurfDesc);
                         }
                         else
                         {
                             var iliDec = FILIDec[FILIndexDecUp];
-                            var rect = Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
+                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, iliDec.Height);
                             FILIDec.DrawILT(FILIndexDecUp, rect, ref SurfDesc);
                         }
 
@@ -242,7 +242,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
     // { CheckMouseDown: as TAOWVScrollBar.CheckMouseDown across, but OnChange is called once at the end
     //   when the position changed. The track after the tab ends at the width of the decrement button
     //   (original) }
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         int TabPos = default;
         int OldPos;
@@ -252,7 +252,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
         {
             OldPos = FPosition;
             FHandled = true;
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 F150 = 1;
                 F151 = 5;
@@ -262,7 +262,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
                     TabPos = F130 - F134;
                 }
 
-                if (FScrollType != TaowScrollType.stSlider)
+                if (FScrollType != Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.Slider)
                 {
                     var iliDec = FILIDec[FILIndexDecUp];
                     if (X < FAOWWindow.FWinLeft + FWinLeft + iliDec.Width - 1)
@@ -291,7 +291,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
                 {
                     switch (FScrollType)
                     {
-                        case TaowScrollType.stScroll:
+                        case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.Scroll:
                             var iliDecWidth = FILIDec[FILIndexDecUp];
                             bool condition = X > FAOWWindow.FWinLeft + FWinLeft + iliDecWidth.Width;
                             if (condition)
@@ -338,7 +338,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
                             }
 
                             break;
-                        case TaowScrollType.stSlider:
+                        case Aow.Game.Ui.Controls.AOWScrollBar.TaowScrollType.Slider:
                             if (X > FAOWWindow.FWinLeft + FWinLeft && X < FAOWWindow.FWinLeft + FWinLeft + TabPos)
                             {
                                 F154 = (X - FAOWWindow.FWinLeft - FWinLeft) * F14C / F130 + FMin;
@@ -388,7 +388,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
     }
 
     // AoWHScroll.pas:273
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (F151 == 1 || F151 == 4)
@@ -409,7 +409,7 @@ public partial class TAOWHScrollBar : TAOWScrollBar
     }
 
     // AoWHScroll.pas:291
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -443,55 +443,55 @@ public partial class TAOWHScrollBar : TAOWScrollBar
         }
     }
 
-    public new TNotifyEvent<TAOWHScrollBar> OnChange
+    public new NotifyEvent<AOWHScrollBar> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWHScrollBar> OnMouseDown
+    public new MouseEvent<AOWHScrollBar> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWHScrollBar> OnMouseUp
+    public new MouseEvent<AOWHScrollBar> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWHScrollBar> OnMouseMove
+    public new MouseMoveEvent<AOWHScrollBar> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWHScrollBar> OnKeyPress
+    public new KeyPressEvent<AOWHScrollBar> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWHScrollBar> OnKeyDown
+    public new KeyEvent<AOWHScrollBar> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWHScrollBar> OnPreDraw
+    public new AoWOnDrawEvent<AOWHScrollBar> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWHScrollBar> OnDraw
+    public new AoWOnDrawEvent<AOWHScrollBar> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWHScrollBar> OnUpdate
+    public new NotifyEvent<AOWHScrollBar> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

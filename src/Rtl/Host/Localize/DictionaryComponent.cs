@@ -2,7 +2,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Rtl.Localize;
 
-public partial class TIvDictionary
+public partial class IvDictionary
 {
     private readonly MldDictionary dictionary = new();
 

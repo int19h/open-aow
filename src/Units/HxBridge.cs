@@ -13,13 +13,13 @@ using Aow.Rtl;
 namespace Aow.Game.World.Hexes;
 
 // FTerrain, FDirection (-1 invalid), FSideA, FSideB
-public partial class THexagonBridge : TAbstractRoad
+public partial class HexagonBridge : AbstractRoad
 {
-    public THexagonBridge(TECustomNode owner) : base(owner)
+    public HexagonBridge(ECustomNode owner) : base(owner)
     {
         FDirection = -1;
-        FSideA = new TByteList();
-        FSideB = new TByteList();
+        FSideA = new ByteList();
+        FSideB = new ByteList();
     }
 
     // HxBridge.pas:84
@@ -27,8 +27,8 @@ public partial class THexagonBridge : TAbstractRoad
 
     public sbyte FTerrain;
     public sbyte FDirection;
-    public TByteList FSideA;
-    public TByteList FSideB;
+    public ByteList FSideA;
+    public ByteList FSideB;
 
     // HxBridge.pas:77
     public override void Dispose()
@@ -64,7 +64,7 @@ public partial class THexagonBridge : TAbstractRoad
     {
         int Xhp;
         int Yhp;
-        var mapField = (TMapField)Owner;
+        var mapField = (MapField)Owner;
         Xhp = mapField.Xhx * 32 + 8;
         Yhp = (mapField.Xhx & 1) * 16 + mapField.Yhx * 32;
 
@@ -74,17 +74,17 @@ public partial class THexagonBridge : TAbstractRoad
     // HxBridge.pas:117
     public override void Connect()
     {
-        THNWalkData Walk = default;
-        TMapLevel Level;
-        Level = (TMapLevel)Owner.Owner;
-        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
+        HNWalkData Walk = default;
+        MapLevel Level;
+        Level = (MapLevel)Owner.Owner;
+        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 1);
         while (Walk.Radius <= 1)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
             {
                 Level.GetField(Walk.X, Walk.Y).AddHS(this, Walk.HN);
                 // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -94,17 +94,17 @@ public partial class THexagonBridge : TAbstractRoad
     // HxBridge.pas:135
     public override void Disconnect()
     {
-        THNWalkData Walk = default;
-        TMapLevel Level;
-        Level = (TMapLevel)Owner.Owner;
-        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, 1);
+        HNWalkData Walk = default;
+        MapLevel Level;
+        Level = (MapLevel)Owner.Owner;
+        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 1);
         while (Walk.Radius <= 1)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
             {
                 Level.GetField(Walk.X, Walk.Y).RemoveHS(this);
                 // { Original bug: the walk never advances when a neighbour is out of bounds. }
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -112,13 +112,13 @@ public partial class THexagonBridge : TAbstractRoad
     }
 
     // HxBridge.pas:327
-    public override void ChangeTerrain(in THSTerrainInfo Msg)
+    public override void ChangeTerrain(in HSTerrainInfo Msg)
     {
         base.ChangeTerrain(Msg);
     }
 
     // HxBridge.pas:321
-    public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Msg)
+    public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Msg)
     {
         UpdateTransitions();
         if (FDirection == -1)
@@ -128,20 +128,20 @@ public partial class THexagonBridge : TAbstractRoad
     }
 
     // HxBridge.pas:186
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         FResource.ImageLibrary[FDirection].Show(Xhp - XhpSurf - 23, Yhp - YhpSurf - 20, SurfaceDesc);
     }
 
     // HxBridge.pas:160
-    public override void MoveExclusive(in THSSenderInfo Info)
+    public override void MoveExclusive(in HSSenderInfo Info)
     {
         int Xhx = default;
         int Yhx = default;
-        TMapField MapField;
+        MapField MapField;
         if (Info.HN != 0)
         {
             if (FSideA.IndexOf((byte)Info.HN) != -1)
@@ -149,9 +149,9 @@ public partial class THexagonBridge : TAbstractRoad
                 for (int I = 0, last = FSideB.Count - 1; I <= last; I++)
                 {
                     var sideB = FSideB[I];
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, sideB, ref Xhx, ref Yhx);
-                    MapField = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
-                    ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)MapField, ((TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, sideB, ref Xhx, ref Yhx);
+                    MapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((global::Aow.Game.World.Map.MapField)Owner).Lhx);
+                    ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)MapField, ((MoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                 }
             }
             else
@@ -161,9 +161,9 @@ public partial class THexagonBridge : TAbstractRoad
                     for (int I = 0, last = FSideA.Count - 1; I <= last; I++)
                     {
                         var sideA = FSideA[I];
-                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, sideA, ref Xhx, ref Yhx);
-                        MapField = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(Xhx, Yhx, ((TMapField)Owner).Lhx);
-                        ((TMoveControl)Info.Sender).ExecuteExternalMove((TAoWMapField)Info.MapField, (TAoWMapField)MapField, ((TMoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
+                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, sideA, ref Xhx, ref Yhx);
+                        MapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((global::Aow.Game.World.Map.MapField)Owner).Lhx);
+                        ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)MapField, ((MoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                     }
                 }
             }
@@ -178,16 +178,16 @@ public partial class THexagonBridge : TAbstractRoad
     }
 
     // HxBridge.pas:153
-    public override void UpdateMapField(in THSMapFieldInfo Info)
+    public override void UpdateMapField(in HSMapFieldInfo Info)
     {
         if (Info.HN != 0)
         {
-            ((TAoWMapField)Info.MapField).FFieldFlags = ((TAoWMapField)Info.MapField).FFieldFlags | 32768;
+            ((AoWMapField)Info.MapField).FFieldFlags = ((AoWMapField)Info.MapField).FFieldFlags | 32768;
         }
     }
 
     // HxBridge.pas:94
-    public override bool LinkToResource(TEngine AEngine)
+    public override bool LinkToResource(global::Aow.Game.Engine.Engine AEngine)
     {
         bool Result = base.LinkToResource(AEngine);
         FTerrain = FResource.TerrainList.Terrain[0];
@@ -195,32 +195,32 @@ public partial class THexagonBridge : TAbstractRoad
     }
 
     // HxBridge.pas:200
-    public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        TMapField MapField;
+        MapField MapField;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
         return base.CanPlace(MapContainer, Xhx, Yhx, Lhx) && (DirectionValid(MapField, 0) || DirectionValid(MapField, 1) || DirectionValid(MapField, 2));
     }
 
     // HxBridge.pas:209
-    public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
-        THexagonSprite Road;
-        TMapField MapField;
+        HexagonSprite Road;
+        MapField MapField;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
-        Road = MapField.FindHS(typeof(TAbstractRoad));
+        Road = MapField.FindHS(typeof(AbstractRoad));
         if (Road != null)
         {
             Road.Dispose();
         }
 
-        TECustomNode previous = Owner;
+        ECustomNode previous = Owner;
         Owner = MapField;
-        FStatus = FStatus + TSet<Aow.Game.World.TMapObjectStatusElement>.Of(Aow.Game.World.TMapObjectStatusElement.moPlacedOnMap);
+        FStatus = FStatus + Set<Aow.Game.World.MapObjectStatusElement>.Of(Aow.Game.World.MapObjectStatusElement.PlacedOnMap);
         FTerrain = MapField.TerrainType;
         // { Original bug: refresh the old owner's owner as a map field. }
         // FOwner lives on TEObject, so the old owner has it. A nil owner or a non-field owner is undefined in the original, so skip it.
-        if (previous?.Owner is TMapField field)
+        if (previous?.Owner is global::Aow.Game.World.Map.MapField field)
         {
             field.UpdateOverlayType();
         }
@@ -234,27 +234,27 @@ public partial class THexagonBridge : TAbstractRoad
     // HxBridge.pas:309
     public override void UpdateTransitions()
     {
-        if (FDirection == -1 || !DirectionValid((TMapField)Owner, FDirection))
+        if (FDirection == -1 || !DirectionValid((MapField)Owner, FDirection))
         {
-            if (DirectionValid((TMapField)Owner, 1))
+            if (DirectionValid((MapField)Owner, 1))
             {
                 FDirection = 1;
             }
             else
             {
-                if (DirectionValid((TMapField)Owner, 2))
+                if (DirectionValid((MapField)Owner, 2))
                 {
                     FDirection = 2;
                 }
                 else
                 {
-                    if (DirectionValid((TMapField)Owner, 0))
+                    if (DirectionValid((MapField)Owner, 0))
                     {
                         FDirection = 0;
                     }
                     else
                     {
-                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+                        if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                         {
                             FDirection = -1;
                         }
@@ -267,22 +267,22 @@ public partial class THexagonBridge : TAbstractRoad
     }
 
     // HxBridge.pas:229
-    public bool DirectionValid(TMapField MapField, sbyte Direction)
+    public bool DirectionValid(MapField MapField, sbyte Direction)
     {
-        TMapLevel Level;
+        MapLevel Level;
         int Xhx = default;
         int Yhx = default;
         bool Result = false;
-        Level = (TMapLevel)MapField.Owner;
+        Level = (MapLevel)MapField.Owner;
         Aow.Game.World.Map.HexGeometry.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 1, ref Xhx, ref Yhx);
         if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
         {
-            if (Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(Xhx, Yhx).TerrainType))
+            if (Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(Xhx, Yhx).TerrainType))
             {
                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(MapField.Xhx, MapField.Yhx, Direction + 4, ref Xhx, ref Yhx);
                 if (Xhx >= 0 && Yhx >= 0 && Xhx < Level.Width && Yhx < Level.Height)
                 {
-                    Result = Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(Xhx, Yhx).TerrainType);
+                    Result = Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(Xhx, Yhx).TerrainType);
                 }
             }
         }
@@ -297,38 +297,38 @@ public partial class THexagonBridge : TAbstractRoad
         int Yhx;
         int X = default;
         int Y = default;
-        TMapLevel Level;
+        MapLevel Level;
         FSideB.Clear();
         FSideA.Clear();
         if (FDirection != -1)
         {
-            Level = (TMapLevel)Owner.Owner;
-            Xhx = ((TMapField)Owner).Xhx;
-            Yhx = ((TMapField)Owner).Yhx;
+            Level = (MapLevel)Owner.Owner;
+            Xhx = ((MapField)Owner).Xhx;
+            Yhx = ((MapField)Owner).Yhx;
             // { Original bug: the neighbour lookups here have no bounds checks. }
             switch (FDirection)
             {
                 case 0:
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(2);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(3);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(5);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(6);
                     }
@@ -336,25 +336,25 @@ public partial class THexagonBridge : TAbstractRoad
                     break;
                 case 1:
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 3, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(3);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(4);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 6, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(6);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(1);
                     }
@@ -362,25 +362,25 @@ public partial class THexagonBridge : TAbstractRoad
                     break;
                 case 2:
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 1, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(1);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 2, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideB.Add(2);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 4, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(4);
                     }
 
                     Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, 5, ref X, ref Y);
-                    if (!Aow.Game.World.Hexes.THexagonBridge.Land(Level.GetField(X, Y).TerrainType))
+                    if (!Aow.Game.World.Hexes.HexagonBridge.Land(Level.GetField(X, Y).TerrainType))
                     {
                         FSideA.Add(5);
                     }
@@ -392,43 +392,43 @@ public partial class THexagonBridge : TAbstractRoad
 
     private static bool Land(sbyte Terrain)
     {
-        return !TSet<byte>.WithBounds(0, 255).With((byte)0).With((byte)6)
+        return !Set<byte>.WithBounds(0, 255).With((byte)0).With((byte)6)
             .With((byte)9)
             .With((byte)10)
             .With((byte)13)
             .Contains((byte)Terrain);
     }
 
-    // HxBridge.pas:25
-
-    // HxBridge.pas:25
-
-}
-
-public partial class THexagonBridgeResource : TAbstractRoadResource
-{
-    public THexagonBridgeResource(TECustomNode owner) : base(owner)
+    public new partial class Resource : AbstractRoadResource
     {
-        Level = 10;
+        public Resource(ECustomNode owner) : base(owner)
+        {
+            Level = 10;
+        }
+
+        // HxBridge.pas:348
+        public new const int ClassID = 133243;
+
+        // HxBridge.pas:332
+
+        // HxBridge.pas:338
+        public override int ResourceUserClassID() => 133242;
+
+        // HxBridge.pas:49
+
+        // HxBridge.pas:343
+        public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
+
     }
 
-    // HxBridge.pas:348
-    public new const int ClassID = 133243;
+    // HxBridge.pas:25
 
-    // HxBridge.pas:332
-
-    // HxBridge.pas:338
-    public override int ResourceUserClassID() => 133242;
-
-    // HxBridge.pas:49
-
-    // HxBridge.pas:343
-    public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
+    // HxBridge.pas:25
 
 }
 
 [StructLayout(LayoutKind.Explicit, Size = 305)]
-public struct TBridgeMoveData
+public struct BridgeMoveData
 {
     [FieldOffset(0)]
     public FixedArray_byte_49 Reserved;

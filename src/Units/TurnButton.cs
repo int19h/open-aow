@@ -10,21 +10,21 @@ namespace Aow.Game.Ui.Grids;
 // { ot=1 }
 // library, current player, last player, animating, animation phase, frame offset, done event,
 // change event, checked, animation frame
-public partial class TAOWTurnButton : TAOWControl
+public partial class AOWTurnButton : AOWControl
 {
-    public TImageLibrary FImageLib;
+    public ImageLibrary FImageLib;
     public int FCurPlayer;
     public int FLastPlayer;
     public bool FAnimating;
     public int FAnimationPhase;
     public int FFrameOffset;
-    public TNotifyEvent<TAOWTurnButton> FOnAnimDone;
-    public TNotifyEvent<TAOWTurnButton> FOnPlayerChange;
+    public NotifyEvent<AOWTurnButton> FOnAnimDone;
+    public NotifyEvent<AOWTurnButton> FOnPlayerChange;
     public bool FButtonChecked;
     public int FAnimationFrame;
 
     // TurnButton.pas:54
-    public TAOWTurnButton(TComponent owner) : base(owner)
+    public AOWTurnButton(global::Aow.Rtl.Component owner) : base(owner)
     {
         FFrameOffset = 11;
     }
@@ -111,7 +111,7 @@ public partial class TAOWTurnButton : TAOWControl
     }
 
     // TurnButton.pas:132
-    public override void Draw(TSurfaceDesc SurfDesc)
+    public override void Draw(SurfaceDesc SurfDesc)
     {
         try
         {
@@ -144,14 +144,14 @@ public partial class TAOWTurnButton : TAOWControl
     }
 
     // TurnButton.pas:151
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
         {
             FHandled = true;
-            if (Button == TMouseButton.mbLeft && Press())
+            if (Button == MouseButton.Left && Press())
             {
                 if (FOnMouseDown != null)
                 {
@@ -162,7 +162,7 @@ public partial class TAOWTurnButton : TAOWControl
     }
 
     // TurnButton.pas:169
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         if (X > FAOWWindow.FWinLeft + FWinLeft - 1 && X < FAOWWindow.FWinLeft + FWinLeft + FWinWidth && Y > FAOWWindow.FWinTop + FWinTop - 1 && Y < FAOWWindow.FWinTop + FWinTop + FWinHeight)
@@ -176,7 +176,7 @@ public partial class TAOWTurnButton : TAOWControl
     }
 
     // TurnButton.pas:180
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseMove(Shift, X, Y);
         FHandled = false;
@@ -191,7 +191,7 @@ public partial class TAOWTurnButton : TAOWControl
     }
 
     // TurnButton.pas:73
-    public virtual void SetILB(TImageLibrary Value)
+    public virtual void SetILB(ImageLibrary Value)
     {
         if (Value != null)
         {
@@ -204,7 +204,7 @@ public partial class TAOWTurnButton : TAOWControl
     }
 
     [Published]
-    public TImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
+    public ImageLibrary ImageLib { get => FImageLib; set => SetILB(value); }
 
     [Published]
     public int CurPlayer { get => FCurPlayer; set => FCurPlayer = value; }
@@ -216,65 +216,64 @@ public partial class TAOWTurnButton : TAOWControl
     public bool Animating { get => FAnimating; set => FAnimating = value; }
 
     [Published]
-    public TNotifyEvent<TAOWTurnButton> OnAnimDone { get => FOnAnimDone; set => FOnAnimDone = value; }
+    public NotifyEvent<AOWTurnButton> OnAnimDone { get => FOnAnimDone; set => FOnAnimDone = value; }
 
     [Published]
-    public new TNotifyEvent<TAOWTurnButton> OnChange { get => FOnPlayerChange; set => FOnPlayerChange = value; }
+    public new NotifyEvent<AOWTurnButton> OnChange { get => FOnPlayerChange; set => FOnPlayerChange = value; }
 
     [Published]
     public bool Checked { get => FButtonChecked; set => FButtonChecked = value; }
 
-    public new TMouseEvent<TAOWTurnButton> OnMouseDown
+    public new MouseEvent<AOWTurnButton> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWTurnButton> OnMouseUp
+    public new MouseEvent<AOWTurnButton> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWTurnButton> OnMouseMove
+    public new MouseMoveEvent<AOWTurnButton> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWTurnButton> OnKeyPress
+    public new KeyPressEvent<AOWTurnButton> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWTurnButton> OnKeyDown
+    public new KeyEvent<AOWTurnButton> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWTurnButton> OnPreDraw
+    public new AoWOnDrawEvent<AOWTurnButton> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWTurnButton> OnDraw
+    public new AoWOnDrawEvent<AOWTurnButton> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWTurnButton> OnUpdate
+    public new NotifyEvent<AOWTurnButton> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
-}
 
-public enum TButtonType : byte
-{
-    btText = 0,
-    btIcon = 1
+    public new enum ButtonType : byte
+    {
+        Text = 0, Icon = 1
+    }
 }

@@ -7,24 +7,24 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Grids;
 
 // FUnitIndexList, FSelectionControl, FShowUnitLevel, FDoubleUnitsEnabled, FSorted
-public partial class TUnitIndexGrid : TCustomImageDrawGrid
+public partial class UnitIndexGrid : CustomImageDrawGrid
 {
-    public TUnitIndexList FUnitIndexList;
-    public TUnitSelectionControl FSelectionControl;
+    public UnitIndexList FUnitIndexList;
+    public UnitSelectionControl FSelectionControl;
     public bool FShowUnitLevel;
     public bool FDoubleUnitsEnabled;
     public bool FSorted;
 
     // UnitIGrd.pas:51
     // Retained: The Graphics.Color implementation is absent. Preserve the throw before semantic base initialization.
-    public TUnitIndexGrid(TComponent owner) : base(owner)
+    public UnitIndexGrid(global::Aow.Rtl.Component owner) : base(owner)
     {
         /* TODO: Implement Graphics.Color in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // UnitIGrd.pas:89
-    protected internal override void DrawCell(int ACol, int ARow, TRect ARect, TSet<TGridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Graphics.Handle in the platform or editor service. */
         throw new NotImplementedException();
@@ -41,7 +41,7 @@ public partial class TUnitIndexGrid : TCustomImageDrawGrid
     public int GetUnitIndex(int Index) => FUnitIndexList[Index];
 
     // UnitIGrd.pas:75
-    public void SetUnitIndexList(TUnitIndexList Value)
+    public void SetUnitIndexList(UnitIndexList Value)
     {
         /* TODO: Implement Controls.Invalidate in the platform or editor service. */
         throw new NotImplementedException();

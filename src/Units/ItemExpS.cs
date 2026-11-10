@@ -16,9 +16,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Units
 {
 
-    public partial class TExplorationSiteItemList : TItemList
+    public partial class ExplorationSiteItemList : ItemList
     {
-        public TExplorationSiteItemList(TECustomNode owner) : base(owner)
+        public ExplorationSiteItemList(ECustomNode owner) : base(owner)
         { }
 
         // intf_P2_04.inc:118
@@ -30,11 +30,11 @@ namespace Aow.Game.World.Structures
 {
 
     // FItemCount, FItems
-    public partial class TItemExplorationSite : TExplorationSite
+    public partial class ItemExplorationSite : ExplorationSite
     {
-        public TItemExplorationSite(TECustomNode owner) : base(owner)
+        public ItemExplorationSite(ECustomNode owner) : base(owner)
         {
-            FItems = new TExplorationSiteItemList(null);
+            FItems = new ExplorationSiteItemList(null);
             FItemCount = 2;
         }
 
@@ -43,7 +43,7 @@ namespace Aow.Game.World.Structures
 
         public byte FItemCount;
         // 0 user-defined, 4 random
-        public TExplorationSiteItemList FItems;
+        public ExplorationSiteItemList FItems;
 
         // ItemExpS.pas:95
         public override void Dispose()
@@ -54,7 +54,7 @@ namespace Aow.Game.World.Structures
         }
 
         // ItemExpS.pas:107
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwEObject(FItems, 8);
@@ -80,7 +80,7 @@ namespace Aow.Game.World.Structures
         public override void NewDay()
         {
             base.NewDay();
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
             {
                 Generate();
             }
@@ -90,24 +90,24 @@ namespace Aow.Game.World.Structures
         public override bool GetExplored() => FItems.Count == 0;
 
         // ItemExpS.pas:146
-        public override void SetupCombat(TCombat Combat, TArmyHS Army)
+        public override void SetupCombat(global::Aow.Game.Combat.Combat Combat, ArmyHS Army)
         {
             base.SetupCombat(Combat, Army);
             Combat.FItems = FItems;
         }
 
         // ItemExpS.pas:152
-        public override void ExecuteSearchDone(TCombatType CombatType, TCombatResult CombatResult)
+        public override void ExecuteSearchDone(CombatType CombatType, CombatResult CombatResult)
         {
-            TArmyHS Army;
-            TItemExplorationSiteEventLog Log;
-            TItem Item = default;
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crNoDefenders).Contains(CombatResult))
+            ArmyHS Army;
+            ItemExplorationSiteEventLog Log;
+            Item Item = default;
+            if (Set<global::Aow.Game.Combat.CombatResult>.Of(global::Aow.Game.Combat.CombatResult.Victory, global::Aow.Game.Combat.CombatResult.NoDefenders).Contains(CombatResult))
             {
-                Army = (TArmyHS)Owner.FindOwnedChild(131607);
-                Log = new TItemExplorationSiteEventLog(null);
+                Army = (ArmyHS)Owner.FindOwnedChild(131607);
+                Log = new ItemExplorationSiteEventLog(null);
                 Log.FPlayer = Army.FArmy.FPlayer;
-                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TItemExplorationSite.ItemsFoundRStr);
+                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ItemExplorationSite.ItemsFoundRStr);
                 var xhx = GetXhx();
                 Log.FLocation.X = xhx;
                 var yhx = GetYhx();
@@ -121,15 +121,15 @@ namespace Aow.Game.World.Structures
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    Item.PlaceOnMap(Aow.Game.World.Map.TAoWHSMap.AoWHSMap, xhx2, yhx2, lhx2);
+                    Item.PlaceOnMap(Aow.Game.World.Map.AoWHSMap.Current, xhx2, yhx2, lhx2);
                 }
 
                 // { Original parses the formatted text as CSV. }
-                var itemsExplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TItemExplorationSite.ItemsExploredRStr);
+                var itemsExplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ItemExplorationSite.ItemsExploredRStr);
                 var resourceEditName = FResource.ResourceEditName();
                 var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
                 Log.FMessages.CommaText = format;
-                Log.Execute(false, TExecuteTrigger.etEvent, null);
+                Log.Execute(false, ExecuteTrigger.Event, null);
                 Log.Release();
                 Update();
             }
@@ -138,19 +138,19 @@ namespace Aow.Game.World.Structures
         // ItemExpS.pas:130
         public virtual void Generate()
         {
-            TItem Item;
+            Item Item;
             if (FItemCount != 0)
             {
-                RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
+                RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
                 if (FItemCount == 4)
                 {
-                    FItemCount = (byte)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(3) + 1);
+                    FItemCount = (byte)(Aow.Game.World.Map.AoWHSMap.Current.Random(3) + 1);
                 }
 
                 FItems.Clear();
                 for (int itemOrdinal = 1, last = FItemCount; itemOrdinal <= last; itemOrdinal++)
                 {
-                    Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.GenerateItem(Aow.Game.World.Structures.TItemExplorationSite.itAll, 0, 65535);
+                    Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GenerateItem(Aow.Game.World.Structures.ItemExplorationSite.itAll, 0, 65535);
                     if (Item != null)
                     {
                         Item.Owner = FItems;
@@ -161,7 +161,7 @@ namespace Aow.Game.World.Structures
 
         private static readonly string ItemsExploredRStr = "\"From the %s\",\"you recovered the following items:\"";
         private static readonly string ItemsFoundRStr = "Items Found";
-        private static TSet<global::Aow.Game.Units.TItemType> itAll = TSet<global::Aow.Game.Units.TItemType>.FromMask(127uL);
+        private static Set<global::Aow.Game.Units.ItemType> itAll = Set<global::Aow.Game.Units.ItemType>.FromMask(127uL);
 
         // ItemExpS.pas:32
 
@@ -174,22 +174,22 @@ namespace Aow.Game.Events
 {
 
     // FItemIDs, FMessages, FTitle, FLocation
-    public partial class TItemExplorationSiteEventLog : TEventLog
+    public partial class ItemExplorationSiteEventLog : EventLog
     {
         // ItemExpS.pas:187
-        public TItemExplorationSiteEventLog(TECustomNode owner) : base(owner)
+        public ItemExplorationSiteEventLog(ECustomNode owner) : base(owner)
         {
-            FItemIDs = new TIntegerList();
-            FMessages = new TStringList();
+            FItemIDs = new IntegerList();
+            FMessages = new StringList();
         }
 
         // ItemExpS.pas:201
         public new const int ClassID = 132085;
 
-        public TIntegerList FItemIDs;
-        public TStringList FMessages;
+        public IntegerList FItemIDs;
+        public StringList FMessages;
         public string FTitle = "";
-        public TXYL FLocation;
+        public XYL FLocation;
 
         // ItemExpS.pas:194
         public override void Dispose()
@@ -200,7 +200,7 @@ namespace Aow.Game.Events
         }
 
         // ItemExpS.pas:204
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(20, FItemIDs.LoadFromStream, FItemIDs.SaveToStream);
@@ -214,9 +214,9 @@ namespace Aow.Game.Events
 namespace Aow.Game.World.Structures
 {
 
-    public partial class TItemExplorationSiteResource : TExplorationSiteResource
+    public partial class ItemExplorationSiteResource : ExplorationSiteResource
     {
-        public TItemExplorationSiteResource(TECustomNode owner) : base(owner)
+        public ItemExplorationSiteResource(ECustomNode owner) : base(owner)
         { }
 
         // ItemExpS.pas:212

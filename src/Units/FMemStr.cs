@@ -10,14 +10,14 @@ namespace Aow.Game.Engine.Storage;
 //   32/128-byte capacity granularity and one-, two- and four-byte fast paths in Read and Write. }
 // FMemory, FSize, FPosition, FCapacity
 [LegacyObject]
-public partial class TFastMemoryStream : Stream
+public partial class FastMemoryStream : Stream
 {
     internal byte[] FMemory = [];
     internal int FSize;
     internal int FPosition;
     internal int FCapacity;
 
-    public TFastMemoryStream()
+    public FastMemoryStream()
     {
         CaptureAddress.Assign(this);
     }

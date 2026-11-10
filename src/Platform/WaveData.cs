@@ -16,7 +16,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
             throw new InvalidDataException("Expected RIFF WAVE data.");
         long end = 8L + BinaryPrimitives.ReadUInt32LittleEndian(bytes[4..]);
         if (end > bytes.Length || end < 12) throw new InvalidDataException("Truncated RIFF data.");
-        TWaveFormatEx format = default;
+        WaveFormatEx format = default;
         bool haveFormat = false, haveData = false;
         ReadOnlySpan<byte> data = default;
         for (long offset = 12; offset + 8 <= end;)
@@ -43,7 +43,7 @@ public sealed record WaveData(int SampleRate, int Channels, float[] Samples)
         return Decode(format, data);
     }
 
-    public static WaveData Decode(in TWaveFormatEx format, ReadOnlySpan<byte> data)
+    public static WaveData Decode(in WaveFormatEx format, ReadOnlySpan<byte> data)
     {
         int channels = format.nChannels, bits = format.wBitsPerSample;
         if (channels is not (1 or 2) || format.nSamplesPerSec <= 0 ||

@@ -10,18 +10,18 @@ public class IUnknown
 }
 
 [LegacyObject]
-public class TCanvas
+public class Canvas
 {
-    public TCanvas()
+    public Canvas()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public class TPopupMenu
+public class PopupMenu
 {
-    public TPopupMenu()
+    public PopupMenu()
     {
         CaptureAddress.Assign(this);
     }
@@ -37,9 +37,9 @@ public class Text
 }
 
 // These VCL controls retain component identity. Native drawing awaits the platform layer.
-public class TControl : TComponent
+public class Control : global::Aow.Rtl.Component
 {
-    public TControl(TComponent? owner = null) : base(owner) { }
+    public Control(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
     public int Width, Height, Left, Top, Color;
 
@@ -49,108 +49,110 @@ public class TControl : TComponent
     public void Hide() => throw new NotImplementedException("VCL.Hide");
     public void Show() => throw new NotImplementedException("VCL.Show");
 
-    public TControl? Parent;
+    public Control? Parent;
 
     public virtual void Invalidate() => throw new NotImplementedException("VCL.Invalidate");
     protected internal virtual void Paint() => throw new NotImplementedException("VCL.Paint");
 
-    protected internal virtual void KeyDown(ref ushort key, TSet<TShiftState> shift) { }
+    protected internal virtual void KeyDown(ref ushort key, Set<ShiftState> shift) { }
 
-    protected internal virtual void KeyUp(ref ushort key, TSet<TShiftState> shift) { }
+    protected internal virtual void KeyUp(ref ushort key, Set<ShiftState> shift) { }
 
     protected internal virtual void Click() { }
 
     protected internal virtual int GetPalette() => 0;
-    protected internal virtual void WndProc(ref TMessage message) => throw new NotImplementedException("VCL.WndProc");
+    protected internal virtual void WndProc(ref Message message) => throw new NotImplementedException("VCL.WndProc");
 }
 
-public class TCustomPanel : TWinControl
+public class CustomPanel : WinControl
 {
-    public TCustomPanel(TComponent? owner = null) : base(owner) { }
+    public CustomPanel(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 }
 
-public class TWinControl : TControl
+public class WinControl : Control
 {
-    public TWinControl(TComponent? owner = null) : base(owner) { }
+    public WinControl(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
-    protected internal virtual void CreateParams(ref TCreateParams parameters) => throw new NotImplementedException("VCL.CreateParams");
+    protected internal virtual void CreateParams(ref global::Aow.Rtl.CreateParams parameters) => throw new NotImplementedException("VCL.CreateParams");
     protected internal virtual void CreateWnd() => throw new NotImplementedException("VCL.CreateWnd");
     protected internal virtual void DestroyWnd() => throw new NotImplementedException("VCL.DestroyWnd");
 
-    protected internal virtual void MouseDown(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+    protected internal virtual void MouseDown(MouseButton button, Set<ShiftState> shift, int x, int y) { }
 
-    protected internal virtual void MouseUp(TMouseButton button, TSet<TShiftState> shift, int x, int y) { }
+    protected internal virtual void MouseUp(MouseButton button, Set<ShiftState> shift, int x, int y) { }
 
-    protected internal virtual void MouseMove(TSet<TShiftState> shift, int x, int y) { }
+    protected internal virtual void MouseMove(Set<ShiftState> shift, int x, int y) { }
 
     protected internal virtual void KeyPress(ref byte key) { }
 
     protected internal virtual void DblClick() { }
 }
 
-public class TForm : TWinControl { }
+public class Form : WinControl { }
 
-public class TButton : TWinControl { }
+public class Button : WinControl { }
 
-public class TPanel : TCustomPanel { }
+public class Panel : CustomPanel { }
 
-public class TMemo : TWinControl { }
+public class Memo : WinControl { }
 
-public class TImage : TControl { }
+public class Image : Control { }
 
-public class TLabel : TControl { }
+public class Label : Control { }
 
-public class TBevel : TControl { }
+public class Bevel : Control { }
 
-public class TTabControl : TWinControl
+public class TabControl : WinControl
 {
-    public TTabControl(TComponent? owner = null) : base(owner) { }
+    public TabControl(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
     protected internal virtual void Change() { }
 }
 
-public class TDataModule : TComponent
+public class DataModule : global::Aow.Rtl.Component
 {
-    public TDataModule(TComponent? owner) : base(owner) { }
+    public DataModule(global::Aow.Rtl.Component? owner) : base(owner) { }
 }
 
-public class TVideoPlayer : TComponent
+public class VideoPlayer : global::Aow.Rtl.Component
 {
-    public TVideoPlayer(TComponent? owner = null) : base(owner) { }
+    public VideoPlayer(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 }
 
-public class TCustomGrid : TWinControl
+public class CustomGrid : WinControl
 {
-    public TCustomGrid(TComponent? owner = null) : base(owner) { }
+    public CustomGrid(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
     public int ColCount, RowCount;
     public int Col, Row, DefaultColWidth, DefaultRowHeight;
-    public TScrollStyle ScrollBars;
+    public ScrollStyle ScrollBars;
 
     protected internal void SetColCount(int value) => ColCount = value;
     protected internal void SetRowCount(int value) => RowCount = value;
-    protected internal virtual void DrawCell(int col, int row, TRect rect, TSet<TGridDrawState> state) => throw new NotImplementedException("VCL.DrawCell");
+    protected internal virtual void DrawCell(int col, int row, Rect rect, Set<GridDrawState> state) => throw new NotImplementedException("VCL.DrawCell");
     protected internal virtual bool SelectCell(int col, int row) => true;
+
+    public enum ScrollStyle : byte { None, Horizontal, Vertical, Both }
 }
 
-public class TComboBox : TWinControl
+public class ComboBox : WinControl
 {
-    public TComboBox(TComponent? owner = null) : base(owner) { }
+    public ComboBox(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
     protected internal virtual void Change() { }
 
     protected internal virtual void DropDown() { }
 }
 
-public class TListBox : TWinControl
+public class ListBox : WinControl
 {
-    public TListBox(TComponent? owner = null) : base(owner) { }
+    public ListBox(global::Aow.Rtl.Component? owner = null) : base(owner) { }
 
 }
 
-public class TOpenDialog : TComponent
+public class OpenDialog : global::Aow.Rtl.Component
 {
-    public TOpenDialog(TComponent owner) : base(owner) { }
+    public OpenDialog(global::Aow.Rtl.Component owner) : base(owner) { }
 
     public string Filter = "", FileName = "", DefaultExt = "";
 
@@ -158,13 +160,13 @@ public class TOpenDialog : TComponent
 }
 
 [LegacyObject]
-public class TStringProperty
+public class StringProperty
 {
     public virtual void Edit() => throw new NotImplementedException("VCL.PropertyEditor");
-    public virtual TSet<TPropertyAttribute> GetAttributes() => default;
+    public virtual Set<PropertyAttribute> GetAttributes() => default;
     public virtual string GetValue() => throw new NotImplementedException("VCL.PropertyEditor");
 
-    public TStringProperty()
+    public StringProperty()
     {
         CaptureAddress.Assign(this);
     }

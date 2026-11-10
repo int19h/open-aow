@@ -5,7 +5,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.World;
 
-public partial class TMapObject
+public partial class MapObject
 {
     private int unlinkedResourceId;
 
@@ -18,30 +18,30 @@ public partial class TMapObject
         FResource = null;
     }
 
-    public virtual bool LinkToResource(TEngine engine)
+    public virtual bool LinkToResource(global::Aow.Game.Engine.Engine engine)
     {
         if (!GetResourceLinked())
         {
             var resource = GetResourceList(engine).FindResource(unlinkedResourceId);
             if (resource != null)
             {
-                FResource = (TMapObjectResource)resource;
+                FResource = (MapObjectResource)resource;
                 SetResourceLinked(true);
             }
         }
         return GetResourceLinked();
     }
 
-    public override void ReadWrite(TEStorageStream stream)
+    public override void ReadWrite(EStorageStream stream)
     {
-        if ((stream.StorageMode() & TSet<TStorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smCompare)) != default) return;
-        if (stream.StorageMode().Contains(TStorageModeElement.smRead))
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) != default) return;
+        if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             SetResourceLinked(false);
             stream.rwInteger(ref unlinkedResourceId, 1);
             FResource = null;
             LinkToResource(stream.Engine);
-            if (!GetResourceLinked()) throw new EMapObjectResourceMissing($"Resource Missing {GetType().Name} {unlinkedResourceId}");
+            if (!GetResourceLinked()) throw new MapObjectResourceMissingException($"Resource Missing {GetType().Name} {unlinkedResourceId}");
         }
         else
         {

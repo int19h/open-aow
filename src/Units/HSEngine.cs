@@ -18,89 +18,71 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Map
 {
 
-    public enum TTerrainCompareModeElement : byte
+    public enum TerrainCompareModeElement : byte
     {
-        cmSameOverlayType = 0,
-        cmSameTerrainType = 1
+        SameOverlayType = 0,
+        SameTerrainType = 1
     }
 
-    public enum TMapFieldStatusElement : byte
+    public enum MapFieldStatusElement : byte
     {
-        msTerrainLocked = 0,
-        msVisible = 1,
-        msLoading = 2,
-        msComparing = 3
+        TerrainLocked = 0,
+        Visible = 1,
+        Loading = 2,
+        Comparing = 3
     }
 
-    public enum TMouseStatusElement : byte
+    public enum HSMapStatusElement : byte
     {
-        msChangingCapture = 0
+        Modified = 0,
+        Editting = 1,
+        Activated = 2,
+        Destroying = 3,
+        PreviewMode = 4
     }
 
-    public enum THSMapStatusElement : byte
+    public enum HSSetStatusElement : byte
     {
-        msModified = 0,
-        msEditting = 1,
-        msActivated = 2,
-        msDestroying = 3,
-        msPreviewMode = 4
+        Modified = 0,
+        Editting = 1,
+        Activated = 2,
+        Destroying = 3
     }
 
-    public enum THSSetStatusElement : byte
+    public enum HSEngineStatusElement : byte
     {
-        ssModified = 0,
-        ssEditting = 1,
-        ssActivated = 2,
-        ssDestroying = 3
+        LoadingHSMSettings = 0,
+        LoadingHSM = 1,
+        SavingHSM = 2,
+        LoadingHSS = 3,
+        SavingHSS = 4
     }
 
-    public enum THSEngineStatusElement : byte
+    public enum ControlModeElement : byte
     {
-        esLoadingHSMSettings = 0,
-        esLoadingHSM = 1,
-        esSavingHSM = 2,
-        esLoadingHSS = 3,
-        esSavingHSS = 4
-    }
-
-    public enum TControlModeElement : byte
-    {
-        cmMultiSelect = 0,
-        cmShowSelectionSelf = 1
-    }
-}
-
-namespace Aow.Game.Draw
-{
-
-    public enum TLibraryImageHSStatusElement : byte
-    {
-        lsVisible = 0,
-        lsEditMode = 1,
-        lsDestroyOnShow = 2,
-        lsMapIsOwner = 3,
-        lsPlacedOnMap = 4
+        MultiSelect = 0,
+        ShowSelectionSelf = 1
     }
 }
 
 namespace Aow.Game.World
 {
 
-    public enum TMapObjectStatusElement : byte
+    public enum MapObjectStatusElement : byte
     {
-        moVisible = 0,
-        moResourceLinked = 1,
-        moEditMode = 2,
-        moPlacedOnMap = 3,
-        moSelected = 4,
-        moActivated = 5
+        Visible = 0,
+        ResourceLinked = 1,
+        EditMode = 2,
+        PlacedOnMap = 3,
+        Selected = 4,
+        Activated = 5
     }
 }
 
 namespace Aow.Game.World.Movement
 {
 
-    public delegate bool TWalkAroundRouteCallBack(int X, int Y, ref bool Cancel);
+    public delegate bool WalkAroundRouteCallBack(int X, int Y, ref bool Cancel);
 }
 
 namespace Aow.Game.World.Map
@@ -111,24 +93,24 @@ namespace Aow.Game.World.Map
     // one block and freed it with the level. The port allocates each field through the base
     // allocator. The sprites are sorted by their show priority. The first FStaticCount (priority
     // shr 26 <= 15) are the static ones
-    public partial class TMapField : TECustomNode
+    public partial class MapField : ECustomNode
     {
         // HSEngine.pas:1933
         public new const int ClassID = 65793;
 
-        public TMapField(TECustomNode owner) : base(owner)
+        public MapField(ECustomNode owner) : base(owner)
         {
             FTerrainType = -1;
             FOverlayType = -1;
-            FStatus = TSet<TMapFieldStatusElement>.Of();
+            FStatus = Set<MapFieldStatusElement>.Of();
             Resize(3);
         }
 
-        internal THexagonSprite[] FHSList = [];
+        internal HexagonSprite[] FHSList = [];
         internal byte FCapacity;
         internal byte FCount;
         internal byte FStaticCount;
-        internal TSet<TMapFieldStatusElement> FStatus;
+        internal Set<MapFieldStatusElement> FStatus;
         internal sbyte FXhx;
         internal sbyte FYhx;
         internal sbyte FLhx;
@@ -143,25 +125,25 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1928
-        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared);
+        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared);
 
         // HSEngine.pas:1923
-        public override void SetOwner(TECustomNode AOwner)
+        public override void SetOwner(ECustomNode AOwner)
         {
             FOwner = AOwner;
         }
 
         // HSEngine.pas:2029
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             int J;
             int I;
-            TEObject HS = default;
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText)) == TSet<TStorageModeElement>.Of())
+            EObject HS = default;
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText)) == Set<StorageModeElement>.Of())
             {
-                if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+                if (Stream.StorageMode().Contains(StorageModeElement.Read))
                 {
-                    if (Stream.StorageMode().Contains(TStorageModeElement.smCompare))
+                    if (Stream.StorageMode().Contains(StorageModeElement.Compare))
                     {
                         J = 0;
                         I = Stream.PropertyTable.First;
@@ -213,7 +195,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:2075
-        public override void MainReadWrite(TEStorageStream Stream)
+        public override void MainReadWrite(EStorageStream Stream)
         {
             ReadWrite(Stream);
         }
@@ -221,7 +203,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:1898
 
         // HSEngine.pas:1943
-        public override TEObject GetChild(int Index)
+        public override EObject GetChild(int Index)
         {
             if (Index >= FCount)
             {
@@ -232,29 +214,29 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1949
-        public override void SetChild(int Index, TEObject Child)
+        public override void SetChild(int Index, EObject Child)
         {
             if (Index >= FCount)
             {
                 throw new IndexOutOfRangeException("Index out of bounds");
             }
 
-            FHSList[Index] = (THexagonSprite)Child;
+            FHSList[Index] = (HexagonSprite)Child;
         }
 
         // HSEngine.pas:1972
         public override int GetCount() => FCount;
 
         // HSEngine.pas:2226
-        public override int RemoveChild(TEObject Child) => RemoveHS((THexagonSprite)Child);
+        public override int RemoveChild(EObject Child) => RemoveHS((HexagonSprite)Child);
 
         // HSEngine.pas:2221
-        public override int AddChild(TEObject Child) => AddHS((THexagonSprite)Child, 0);
+        public override int AddChild(EObject Child) => AddHS((HexagonSprite)Child, 0);
 
         // HSEngine.pas:2154
-        public override TEObject FindChild(int AClassID)
+        public override EObject FindChild(int AClassID)
         {
-            TEObject Result;
+            EObject Result;
             int I;
             I = 0;
             while (I < FCount && FHSList[I].EClass.ClassID != AClassID)
@@ -275,9 +257,9 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:2211
-        public override TEObject FindOwnedChild(int AClassID)
+        public override EObject FindOwnedChild(int AClassID)
         {
-            TEObject Result;
+            EObject Result;
             int I;
             I = 0;
             while (I < FCount && !(FHSList[I].EClass.ClassID == AClassID && FHSList[I].Owner == this))
@@ -304,9 +286,9 @@ namespace Aow.Game.World.Map
         public int HSListDataSize() => (FCapacity << 2) + ((FCapacity + 3) & 252);
 
         // HSEngine.pas:2163
-        public THexagonSprite FindHS(Type AClass)
+        public HexagonSprite FindHS(Type AClass)
         {
-            THexagonSprite Result;
+            HexagonSprite Result;
             int I;
             I = 0;
             while (I < FCount && !AClass.IsInstanceOfType(FHSList[I]))
@@ -327,12 +309,12 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:2172
-        public THexagonSprite FindOwnedHS(Type AClass)
+        public HexagonSprite FindOwnedHS(Type AClass)
         {
             int I;
-            THexagonSprite HS;
+            HexagonSprite HS;
             I = 0;
-            THexagonSprite Result = null;
+            HexagonSprite Result = null;
             while (I < FCount && Result == null)
             {
                 HS = FHSList[I];
@@ -348,7 +330,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:2300
-        public void CopyDynamicVisibleHS(TVisibilityList List)
+        public void CopyDynamicVisibleHS(VisibilityList List)
         {
             byte last = FStaticCount;
             for (int I = FCount - 1; I >= last; I--)
@@ -358,7 +340,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:2308
-        public void CopyStaticVisibleHS(TVisibilityList List)
+        public void CopyStaticVisibleHS(VisibilityList List)
         {
             for (int I = FStaticCount - 1; I >= 0; I--)
             {
@@ -407,7 +389,7 @@ namespace Aow.Game.World.Map
                 {
                     if (Level >= MinLevel)
                     {
-                        if (FHSList[I].Owner is TMapField)
+                        if (FHSList[I].Owner is MapField)
                         {
                             FHSList[I].Dispose();
                         }
@@ -456,7 +438,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:2581
         public sbyte GetDecorationType()
         {
-            TMapFieldMsg Msg = default;
+            MapFieldMsg Msg = default;
             Msg.MsgID = 17;
             Msg.Result = -1;
             SendMapFieldMsg(ref Msg);
@@ -466,27 +448,27 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:2591
         public void UpdateNeighbourTerrain()
         {
-            THSTerrainInfo Info = default;
-            THNWalkData Walk = default;
+            HSTerrainInfo Info = default;
+            HNWalkData Walk = default;
             Info.MapField = this;
             Info.TerrainType = FTerrainType;
             Info.OverlayType = FOverlayType;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             for (int I = 1; I <= 6; I++)
             {
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
-                if (Walk.X >= 0 && Walk.X < ((TMapLevel)Owner).FWidth && Walk.Y >= 0 && ((TMapLevel)Owner).FHeight > Walk.Y)
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                if (Walk.X >= 0 && Walk.X < ((MapLevel)Owner).FWidth && Walk.Y >= 0 && ((MapLevel)Owner).FHeight > Walk.Y)
                 {
-                    Info.HN = (sbyte)Aow.Game.World.Map.TMapField.OppositeHTTable[I - 1];
-                    ((TMapLevel)Owner).GetField(Walk.X, Walk.Y).NeighbourTerrainChanged(ref Info);
+                    Info.HN = (sbyte)Aow.Game.World.Map.MapField.OppositeHTTable[I - 1];
+                    ((MapLevel)Owner).GetField(Walk.X, Walk.Y).NeighbourTerrainChanged(ref Info);
                 }
             }
         }
 
-        public THexagonSprite[] HSList { get => FHSList; }
+        public HexagonSprite[] HSList { get => FHSList; }
         public byte Capacity { get => FCapacity; }
         public byte StaticCount { get => FStaticCount; }
-        public TSet<TMapFieldStatusElement> Status { get => FStatus; set => FStatus = value; }
+        public Set<MapFieldStatusElement> Status { get => FStatus; set => FStatus = value; }
         public sbyte Xhx { get => FXhx; set => FXhx = value; }
         public sbyte Yhx { get => FYhx; set => FYhx = value; }
         public sbyte Lhx { get => FLhx; set => FLhx = value; }
@@ -494,14 +476,14 @@ namespace Aow.Game.World.Map
         public sbyte TerrainType { get => FTerrainType; set => FTerrainType = value; }
         public sbyte OverlayType { get => FOverlayType; set => FOverlayType = value; }
 
-        public sealed class HNAccessor(TMapField target)
+        public sealed class HNAccessor(MapField target)
         {
             public byte this[int Index] { get => target.GetHN(Index); set => target.SetHN(Index, value); }
         }
 
         public HNAccessor HN => new HNAccessor(this);
 
-        public override void SendMsg(ref TEMsg message, TEObject sender)
+        public override void SendMsg(ref EMsg message, EObject sender)
         {
             if ((message.MsgID & 0x10000000) != 0)
             {
@@ -521,9 +503,9 @@ namespace Aow.Game.World.Map
             else
             {
                 int count = FCount;
-                for (int i = 0; i < count; i++) Aow.Game.World.Map.TMapField.SendMsgList[i] = FHSList[i];
+                for (int i = 0; i < count; i++) Aow.Game.World.Map.MapField.SendMsgList[i] = FHSList[i];
                 for (int i = count - 1; i >= 0; i--)
-                    if (Aow.Game.World.Map.TMapField.SendMsgList[i].Owner == this) Aow.Game.World.Map.TMapField.SendMsgList[i].MsgProc(ref message, this);
+                    if (Aow.Game.World.Map.MapField.SendMsgList[i].Owner == this) Aow.Game.World.Map.MapField.SendMsgList[i].MsgProc(ref message, this);
             }
         }
 
@@ -533,7 +515,7 @@ namespace Aow.Game.World.Map
     }
 
     // FWidth, FHeight, FLevelCount, FMap, FEngine. The levels of a map (the children, TMapLevel)
-    public partial class TMapContainer : TENode
+    public partial class MapContainer : ENode
     {
         // HSEngine.pas:3208
         public new const int ClassID = 65795;
@@ -541,29 +523,29 @@ namespace Aow.Game.World.Map
         internal int FWidth;
         internal int FHeight;
         internal int FLevelCount;
-        internal THSMap FMap;
-        internal TEngine FEngine;
+        internal HSMap FMap;
+        internal global::Aow.Game.Engine.Engine FEngine;
 
         // HSEngine.pas:3167
-        public override void SetOwner(TECustomNode AOwner)
+        public override void SetOwner(ECustomNode AOwner)
         {
             base.SetOwner(AOwner);
-            FMap = (THSMap)AOwner;
+            FMap = (HSMap)AOwner;
         }
 
         // HSEngine.pas:3203
-        public override TEngine GetEngine() => FEngine;
+        public override global::Aow.Game.Engine.Engine GetEngine() => FEngine;
 
         // HSEngine.pas:3173
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             byte W;
             byte H;
             byte L;
             base.ReadWrite(Stream);
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
-                FMap = (THSMap)Owner;
+                FMap = (HSMap)Owner;
                 FEngine = Stream.Engine;
                 FMap.FMapContainer = this;
             }
@@ -580,9 +562,9 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3197
-        public override void MainReadWrite(TEStorageStream Stream)
+        public override void MainReadWrite(EStorageStream Stream)
         {
-            if (!((THSMap)Owner).FStatus.Contains(THSMapStatusElement.msPreviewMode))
+            if (!((HSMap)Owner).FStatus.Contains(HSMapStatusElement.PreviewMode))
             {
                 base.MainReadWrite(Stream);
             }
@@ -593,7 +575,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3162
-        public TMapContainer(TECustomNode owner) : base(owner)
+        public MapContainer(ECustomNode owner) : base(owner)
         {
         }
 
@@ -607,11 +589,11 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3213
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = Msg.Payload.As<TEngine>();
+                FEngine = Msg.Payload.As<global::Aow.Game.Engine.Engine>();
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -627,8 +609,8 @@ namespace Aow.Game.World.Map
         {
             if (Index >= 0 && Index < FChildren.Count)
             {
-                ((TMapLevel)FChildren.List[Index]).DestroyHS();
-                ((TMapLevel)FChildren.List[Index])?.Dispose();
+                ((MapLevel)FChildren.List[Index]).DestroyHS();
+                ((MapLevel)FChildren.List[Index])?.Dispose();
                 FLevelCount -= 1;
             }
         }
@@ -638,11 +620,11 @@ namespace Aow.Game.World.Map
         {
             bool Result;
             EClass LevelClass;
-            TMapLevel Level;
+            MapLevel Level;
             LevelClass = FEngine.GetEClass(AClassID);
             if (LevelClass != null)
             {
-                Level = (TMapLevel)LevelClass.Create(this);
+                Level = (MapLevel)LevelClass.Create(this);
                 Level.FLhx = FLevelCount;
                 FEngine.ActivateEObject(Level);
                 Level.CreateMapFieldList(FWidth, FHeight);
@@ -658,17 +640,17 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3277
-        public virtual void New(TNewHSMapSettings Settings)
+        public virtual void New(NewHSMapSettings Settings)
         {
             EClass LevelClass;
-            TMapLevel Level;
+            MapLevel Level;
             Clear();
             try
             {
                 LevelClass = FEngine.GetEClass(Settings.MapLevelClassID);
                 for (int I = 0, last = Settings.Levels - 1; I <= last; I++)
                 {
-                    Level = (TMapLevel)LevelClass.Create(this);
+                    Level = (MapLevel)LevelClass.Create(this);
                     Level.FLhx = I;
                     FEngine.ActivateEObject(Level);
                     Level.New(Settings);
@@ -690,19 +672,19 @@ namespace Aow.Game.World.Map
         {
             for (int I = 0, last = FLevelCount - 1; I <= last; I++)
             {
-                ((TMapLevel)FChildren.List[I]).UpdateTerrain();
+                ((MapLevel)FChildren.List[I]).UpdateTerrain();
             }
         }
 
         // HSEngine.pas:3224
-        public TMapLevel GetMapLevel(int Index) => (TMapLevel)FChildren.List[Index];
+        public MapLevel GetMapLevel(int Index) => (MapLevel)FChildren.List[Index];
 
         // HSEngine.pas:3331
         public void Loaded()
         {
             for (int I = 0, last = FLevelCount - 1; I <= last; I++)
             {
-                ((TMapLevel)FChildren.List[I]).Loaded();
+                ((MapLevel)FChildren.List[I]).Loaded();
             }
         }
 
@@ -711,18 +693,18 @@ namespace Aow.Game.World.Map
         {
             for (int I = 0, last = FLevelCount - 1; I <= last; I++)
             {
-                ((TMapLevel)FChildren.List[I]).Activate();
+                ((MapLevel)FChildren.List[I]).Activate();
             }
         }
 
         public int Width { get => FWidth; }
         public int Height { get => FHeight; }
         public int LevelCount { get => FLevelCount; }
-        public THSMap Map { get => FMap; }
+        public HSMap Map { get => FMap; }
 
-        public sealed class MapLevelsAccessor(TMapContainer target)
+        public sealed class MapLevelsAccessor(MapContainer target)
         {
-            public TMapLevel this[int Index] { get => target.GetMapLevel(Index); }
+            public MapLevel this[int Index] { get => target.GetMapLevel(Index); }
         }
 
         public MapLevelsAccessor MapLevels => new MapLevelsAccessor(this);
@@ -731,9 +713,9 @@ namespace Aow.Game.World.Map
 
     // the sorted list of the visible sprites of a scene (THSMap). a sprite removed from it is made
     // invisible
-    public partial class TVisibilityList : TEControlStyleInverseSortNode
+    public partial class VisibilityList : EControlStyleInverseSortNode
     {
-        public TVisibilityList(TECustomNode owner) : base(owner)
+        public VisibilityList(ECustomNode owner) : base(owner)
         { }
 
         // HSEngine.pas:3871
@@ -743,9 +725,9 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3876
-        public override int RemoveChild(TEObject Child)
+        public override int RemoveChild(EObject Child)
         {
-            var hexagonSprite = (THexagonSprite)Child;
+            var hexagonSprite = (HexagonSprite)Child;
             if (hexagonSprite.GetVisible())
             {
                 hexagonSprite.SetVisible(false);
@@ -772,25 +754,25 @@ namespace Aow.Game.World.Map
     // FViewHeightHX (the hexagons it covers). Persisted (ReadWrite): 2 FHSSFileName (rwString, not
     // in text streams), 3 FVersion (rwByte of a Shortint copy), 4 FViewXhp, 5 FViewYhp, 6 FViewL
     // (rwInteger). FVersion is a guessed name: nothing but ReadWrite touches it
-    public partial class THSMap : TENode
+    public partial class HSMap : ENode
     {
         public new const int ClassID = 66048;
 
-        public THSMap(TECustomNode owner) : base(owner)
+        public HSMap(ECustomNode owner) : base(owner)
         {
             FMouse = CreateMouse();
             FMouse.FHSMap = this;
-            FSelection = new THexagonSpriteSelection(this);
-            FSelection.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FStaticVisibleHS = new TVisibilityList(this);
-            FStaticVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FDynamicVisibleHS = new TVisibilityList(this);
-            FDynamicVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FStaticFixedVisibleHS = new TVisibilityList(this);
-            FStaticFixedVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FDynamicFixedVisibleHS = new TVisibilityList(this);
-            FDynamicFixedVisibleHS.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FTimer = new TETimerNode(this);
+            FSelection = new HexagonSpriteSelection(this);
+            FSelection.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FStaticVisibleHS = new VisibilityList(this);
+            FStaticVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FDynamicVisibleHS = new VisibilityList(this);
+            FDynamicVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FStaticFixedVisibleHS = new VisibilityList(this);
+            FStaticFixedVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FDynamicFixedVisibleHS = new VisibilityList(this);
+            FDynamicFixedVisibleHS.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FTimer = new ETimerNode(this);
             FHSChangedEventsStore = new();
             FTerrainChangedEventsStore = new();
             FViewPortChangedEventsStore = new();
@@ -798,63 +780,63 @@ namespace Aow.Game.World.Map
             FDestroyEventsStore = new();
         }
 
-        internal THSMapMouse FMouse;
-        internal TMapContainer FMapContainer;
-        internal THSEngine FEngine;
-        internal THexagonSpriteSelection FSelection;
-        internal TVisibilityList FStaticVisibleHS;
-        internal TVisibilityList FDynamicVisibleHS;
-        internal TVisibilityList FStaticFixedVisibleHS;
-        internal TVisibilityList FDynamicFixedVisibleHS;
-        internal TETimerNode FTimer;
+        internal HSMapMouse FMouse;
+        internal global::Aow.Game.World.Map.MapContainer FMapContainer;
+        internal HSEngine FEngine;
+        internal HexagonSpriteSelection FSelection;
+        internal VisibilityList FStaticVisibleHS;
+        internal VisibilityList FDynamicVisibleHS;
+        internal VisibilityList FStaticFixedVisibleHS;
+        internal VisibilityList FDynamicFixedVisibleHS;
+        internal ETimerNode FTimer;
         internal bool FStaticSceneInvalid;
         internal bool FDynamicSceneInvalid;
         internal int FVersion;
         internal string FHSSFileName = "";
-        internal TSet<THSMapStatusElement> FStatus;
+        internal Set<HSMapStatusElement> FStatus;
         internal int FFrame;
 
         internal EventStore<TerrainChangedNotification> FTerrainChangedEventsStore;
 
-        internal event TNotifyEvent<TerrainChangedNotification> FTerrainChangedEvents
+        internal event NotifyEvent<TerrainChangedNotification> FTerrainChangedEvents
         {
             add => FTerrainChangedEventsStore.Add(value);
             remove => FTerrainChangedEventsStore.Remove(value);
         }
 
-        internal TCenterViewEvent FOnCenterView;
-        internal TChangeViewEvent FOnChangeView;
-        internal TViewLevelEvent FOnViewLevel;
-        internal Aow.Game.Engine.TProgressEvent FOnProgress;
+        internal CenterViewEvent FOnCenterView;
+        internal ChangeViewEvent FOnChangeView;
+        internal ViewLevelEvent FOnViewLevel;
+        internal Aow.Game.Engine.ProgressEvent FOnProgress;
         internal int FTerrainChangedLockCounter;
 
-        internal EventStore<THSMap> FNewFrameEventsStore;
+        internal EventStore<HSMap> FNewFrameEventsStore;
 
-        internal event TNotifyEvent<THSMap> FNewFrameEvents
+        internal event NotifyEvent<HSMap> FNewFrameEvents
         {
             add => FNewFrameEventsStore.Add(value);
             remove => FNewFrameEventsStore.Remove(value);
         }
 
-        internal EventStore<THSMap> FViewPortChangedEventsStore;
+        internal EventStore<HSMap> FViewPortChangedEventsStore;
 
-        internal event TNotifyEvent<THSMap> FViewPortChangedEvents
+        internal event NotifyEvent<HSMap> FViewPortChangedEvents
         {
             add => FViewPortChangedEventsStore.Add(value);
             remove => FViewPortChangedEventsStore.Remove(value);
         }
 
-        internal EventStore<THSMap> FDestroyEventsStore;
+        internal EventStore<HSMap> FDestroyEventsStore;
 
-        internal event TNotifyEvent<THSMap> FDestroyEvents
+        internal event NotifyEvent<HSMap> FDestroyEvents
         {
             add => FDestroyEventsStore.Add(value);
             remove => FDestroyEventsStore.Remove(value);
         }
 
-        internal EventStore<THexagonSprite> FHSChangedEventsStore;
+        internal EventStore<HexagonSprite> FHSChangedEventsStore;
 
-        internal event TNotifyEvent<THexagonSprite> FHSChangedEvents
+        internal event NotifyEvent<HexagonSprite> FHSChangedEvents
         {
             add => FHSChangedEventsStore.Add(value);
             remove => FHSChangedEventsStore.Remove(value);
@@ -874,12 +856,12 @@ namespace Aow.Game.World.Map
         // HSMAP.PAS:37
         public override void Dispose()
         {
-            TEMsg Msg = default;
+            EMsg Msg = default;
             LockTerrainChangedEvent();
-            FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
+            FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
             FSelection.FOnSelectStore.Clear();
             FSelection.FOnDeselectStore.Clear();
-            FSelection.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FSelection.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
             FSelection.UnselectAll();
             FDestroyEventsStore.Raise(this);
             FHSChangedEventsStore.Clear();
@@ -887,7 +869,7 @@ namespace Aow.Game.World.Map
             FDynamicVisibleHS.QuickClear();
             FStaticFixedVisibleHS.QuickClear();
             FDynamicFixedVisibleHS.QuickClear();
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 536936471, this);
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 536936471, this);
             SendMsg(ref Msg, this);
             FNewFrameEventsStore.Clear();
             base.Dispose();
@@ -901,16 +883,16 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:76
-        public override TSet<TEControlStyleElement> GetControlStyle() => base.GetControlStyle() + TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csReserved2);
+        public override Set<EControlStyleElement> GetControlStyle() => base.GetControlStyle() + Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csReserved2);
 
         // HSMAP.PAS:240
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             sbyte B = default;
             base.ReadWrite(Stream);
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smPartial)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smPartial))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smPartial)) == Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smPartial))
             {
-                FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msPreviewMode);
+                FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.PreviewMode);
             }
 
             if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
@@ -918,9 +900,9 @@ namespace Aow.Game.World.Map
                 Stream.rwString(ref FHSSFileName, 2);
             }
 
-            if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smPartial) && Stream.StorageMode().Contains(TStorageModeElement.smRead) && !IsEmpty(FHSSFileName))
+            if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smPartial) && Stream.StorageMode().Contains(StorageModeElement.Read) && !IsEmpty(FHSSFileName))
             {
-                ((THSEngine)Stream.Engine).InitializeHSSet(Stream.Engine.StartupDirectory + FHSSFileName, Stream.OnProgress);
+                ((HSEngine)Stream.Engine).InitializeHSSet(Stream.Engine.StartupDirectory + FHSSFileName, Stream.OnProgress);
             }
 
             B = (sbyte)FVersion;
@@ -932,10 +914,10 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:261
-        public override void MainReadWrite(TEStorageStream Stream)
+        public override void MainReadWrite(EStorageStream Stream)
         {
             base.MainReadWrite(Stream);
-            if (!FStatus.Contains(THSMapStatusElement.msPreviewMode) && (Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smSetupCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+            if (!FStatus.Contains(HSMapStatusElement.PreviewMode) && (Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.SetupCompare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 FMapContainer.Loaded();
             }
@@ -953,11 +935,11 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:189
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = (THSEngine)Msg.Payload.As<TEngine>();
+                FEngine = (HSEngine)Msg.Payload.As<global::Aow.Game.Engine.Engine>();
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -968,10 +950,10 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:71
-        public virtual THSMapMouse CreateMouse() => new THSMapMouse();
+        public virtual HSMapMouse CreateMouse() => new HSMapMouse();
 
         // HSMAP.PAS:236
-        public virtual void NotifyProgress(in TMapProgress Progress)
+        public virtual void NotifyProgress(in MapProgress Progress)
         {
         }
 
@@ -981,10 +963,10 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:141
-        public virtual void TriggerTerrainChangedEvent(in TRect R, sbyte L)
+        public virtual void TriggerTerrainChangedEvent(in global::Aow.Rtl.Rect R, sbyte L)
         {
             var notification = new TerrainChangedNotification();
-            ref var Info = ref notification.Info;
+            ref Aow.Game.World.Map.TerrainChangedNotification.TerrainChangedInfo Info = ref notification.Info;
             Info.Rect = R;
             Info.Level = L;
             var mapLevel = FMapContainer.GetMapLevel(L);
@@ -993,7 +975,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:705
-        public virtual void DrawStaticHS(ref TSurfaceDesc SD)
+        public virtual void DrawStaticHS(ref SurfaceDesc SD)
         {
             if (FStaticSceneInvalid)
             {
@@ -1002,12 +984,12 @@ namespace Aow.Game.World.Map
 
             for (int I = FStaticVisibleHS.FCount - 1; I >= 0; I--)
             {
-                ((THexagonSprite)FStaticVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
+                ((HexagonSprite)FStaticVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
             }
         }
 
         // HSMAP.PAS:725
-        public virtual void DrawDynamicHS(ref TSurfaceDesc SD)
+        public virtual void DrawDynamicHS(ref SurfaceDesc SD)
         {
             if (FDynamicSceneInvalid)
             {
@@ -1016,22 +998,22 @@ namespace Aow.Game.World.Map
 
             for (int I = FDynamicVisibleHS.FCount - 1; I >= 0; I--)
             {
-                ((THexagonSprite)FDynamicVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
+                ((HexagonSprite)FDynamicVisibleHS.FItems[I].Child).Show(FViewXhp, FViewYhp, SD);
             }
         }
 
         // HSMAP.PAS:715
-        public virtual void DrawStaticHSEx(ref TSurfaceDesc SD)
+        public virtual void DrawStaticHSEx(ref SurfaceDesc SD)
         {
         }
 
         // HSMAP.PAS:735
-        public virtual void DrawDynamicHSEx(ref TSurfaceDesc SD)
+        public virtual void DrawDynamicHSEx(ref SurfaceDesc SD)
         {
         }
 
         // HSMAP.PAS:273
-        public virtual void FillLevelWithResource(int L, Aow.Game.World.TMapObjectResource Resource)
+        public virtual void FillLevelWithResource(int L, Aow.Game.World.MapObjectResource Resource)
         {
             for (int Y = 0, last = FMapContainer.FHeight - 1; Y <= last; Y++)
             {
@@ -1048,23 +1030,23 @@ namespace Aow.Game.World.Map
         // HSMAP.PAS:101
         public virtual void Activate()
         {
-            if (FStatus.Contains(THSMapStatusElement.msActivated))
+            if (FStatus.Contains(HSMapStatusElement.Activated))
             {
                 throw new InvalidOperationException("HSMap already activated");
             }
 
-            FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
+            FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Activated);
         }
 
         // HSMAP.PAS:108
         public virtual void Deactivate()
         {
-            if (!FStatus.Contains(THSMapStatusElement.msActivated))
+            if (!FStatus.Contains(HSMapStatusElement.Activated))
             {
                 throw new InvalidOperationException("HSMap wasn't activated");
             }
 
-            FStatus = FStatus - TSet<THSMapStatusElement>.Of(THSMapStatusElement.msActivated);
+            FStatus = FStatus - Set<HSMapStatusElement>.Of(HSMapStatusElement.Activated);
         }
 
         // HSMAP.PAS:128
@@ -1112,7 +1094,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:543
-        public virtual bool CreateNewMap(TNewHSMapSettings Settings)
+        public virtual bool CreateNewMap(NewHSMapSettings Settings)
         {
             bool Result = default;
             Clear();
@@ -1120,7 +1102,7 @@ namespace Aow.Game.World.Map
             {
                 SetHSSFileName(Settings.HSSFileName);
                 FEngine.InitializeHSSet(Settings.HSSFileName, null);
-                FMapContainer = (TMapContainer)FEngine.CreateEObject(Settings.MapContainerClassID, this);
+                FMapContainer = (global::Aow.Game.World.Map.MapContainer)FEngine.CreateEObject(Settings.MapContainerClassID, this);
                 FEngine.ActivateEObject(FMapContainer);
                 FMapContainer.New(Settings);
                 Result = true;
@@ -1139,19 +1121,19 @@ namespace Aow.Game.World.Map
         // HSMAP.PAS:284
         // { ChangeTerrain, ChangeTerrainEx and ClearTerrain clip the right edge of the changed rectangle
         //   into its Left (original slip). }
-        public virtual int ChangeTerrain(TEObject MO, int X, int Y, int L, int Radius, int TerrainType)
+        public virtual int ChangeTerrain(EObject MO, int X, int Y, int L, int Radius, int TerrainType)
         {
-            TShortIntList List;
+            ShortIntList List;
             int Count;
-            TMapField MapF;
-            THNWalkData Walk = default;
-            TRect R = default;
-            TMapLevel MapLevel;
+            MapField MapF;
+            HNWalkData Walk = default;
+            global::Aow.Rtl.Rect R = default;
+            MapLevel MapLevel;
             LockTerrainChangedEvent();
-            List = new TShortIntList();
+            List = new ShortIntList();
             MapLevel = FMapContainer.GetMapLevel(L);
             Count = 0;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1161,10 +1143,10 @@ namespace Aow.Game.World.Map
                     MapF.FTerrainType = (sbyte)TerrainType;
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1177,10 +1159,10 @@ namespace Aow.Game.World.Map
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius)
             {
                 if (List[Walk.HN] != -127 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1190,7 +1172,7 @@ namespace Aow.Game.World.Map
                     Count += 1;
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             UnlockTerrainChangedEvent();
@@ -1228,28 +1210,28 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:357
-        public virtual int ChangeTerrainEx(TEObject MO, int X, int Y, int L, int Radius, TChangeTerrainProc ChangeTerrainProc, TTerrainChangedProc TerrainChangedProc)
+        public virtual int ChangeTerrainEx(EObject MO, int X, int Y, int L, int Radius, ChangeTerrainProc ChangeTerrainProc, TerrainChangedProc TerrainChangedProc)
         {
             int Result;
-            TShortIntList OrgList;
-            TShortIntList NewList;
-            TBitList Changed;
+            ShortIntList OrgList;
+            ShortIntList NewList;
+            BitList Changed;
             int Count;
             sbyte TerrainType = default;
             sbyte OverlayType = default;
-            TMapField MapF;
-            THNWalkData Walk = default;
-            TRect R = default;
-            TMapLevel MapLevel;
+            MapField MapF;
+            HNWalkData Walk = default;
+            global::Aow.Rtl.Rect R = default;
+            MapLevel MapLevel;
             if (ChangeTerrainProc != null)
             {
                 LockTerrainChangedEvent();
-                OrgList = new TShortIntList();
-                NewList = new TShortIntList();
-                Changed = new TBitList();
+                OrgList = new ShortIntList();
+                NewList = new ShortIntList();
+                Changed = new BitList();
                 MapLevel = FMapContainer.GetMapLevel(L);
                 Count = 0;
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1266,10 +1248,10 @@ namespace Aow.Game.World.Map
                         NewList[Walk.HN * 2 + 1] = OverlayType;
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
 
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1287,10 +1269,10 @@ namespace Aow.Game.World.Map
                         }
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
 
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
                 while (Walk.Radius <= Radius)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -1313,7 +1295,7 @@ namespace Aow.Game.World.Map
                         }
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
 
                 UnlockTerrainChangedEvent();
@@ -1364,7 +1346,7 @@ namespace Aow.Game.World.Map
         {
             int MaxX;
             int MaxY;
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             ResetVisibleStaticHS();
             MaxX = FViewXhx + FViewWidthHX - 1;
             MaxY = FViewYhx + FViewHeightHX - 1;
@@ -1379,7 +1361,7 @@ namespace Aow.Game.World.Map
 
             for (int X = 0, last = FStaticFixedVisibleHS.FCount - 1; X <= last; X++)
             {
-                ((THexagonSprite)FStaticFixedVisibleHS.Children[X]).MakeVisible(FStaticVisibleHS);
+                ((HexagonSprite)FStaticFixedVisibleHS.Children[X]).MakeVisible(FStaticVisibleHS);
             }
 
             FStaticVisibleHS.Sort();
@@ -1391,7 +1373,7 @@ namespace Aow.Game.World.Map
         {
             int MaxX;
             int MaxY;
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             ResetVisibleDynamicHS();
             MaxX = FViewXhx + FViewWidthHX - 1;
             MaxY = FViewYhx + FViewHeightHX - 1;
@@ -1406,7 +1388,7 @@ namespace Aow.Game.World.Map
 
             for (int X = 0, last = FDynamicFixedVisibleHS.FCount - 1; X <= last; X++)
             {
-                ((THexagonSprite)FDynamicFixedVisibleHS.Children[X]).MakeVisible(FDynamicVisibleHS);
+                ((HexagonSprite)FDynamicFixedVisibleHS.Children[X]).MakeVisible(FDynamicVisibleHS);
             }
 
             FDynamicVisibleHS.Sort();
@@ -1414,14 +1396,14 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:719
-        public virtual void DrawStaticScene(ref TSurfaceDesc SD)
+        public virtual void DrawStaticScene(ref SurfaceDesc SD)
         {
             DrawStaticHS(ref SD);
             DrawStaticHSEx(ref SD);
         }
 
         // HSMAP.PAS:739
-        public virtual void DrawDynamicScene(ref TSurfaceDesc SD)
+        public virtual void DrawDynamicScene(ref SurfaceDesc SD)
         {
             DrawDynamicHS(ref SD);
             DrawDynamicHSEx(ref SD);
@@ -1446,7 +1428,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:151
-        public void TerrainChanged(in TRect R, sbyte L)
+        public void TerrainChanged(in global::Aow.Rtl.Rect R, sbyte L)
         {
             if (FTerrainChangedLockCounter == 0)
             {
@@ -1457,8 +1439,8 @@ namespace Aow.Game.World.Map
         // HSMAP.PAS:157
         public void TerrainChangedRad(sbyte X, sbyte Y, sbyte L, int Radius)
         {
-            TMapLevel MapLevel;
-            TRect R = default;
+            MapLevel MapLevel;
+            global::Aow.Rtl.Rect R = default;
             MapLevel = FMapContainer.GetMapLevel(L);
             R.Left = X - Radius;
             if (R.Left < 0)
@@ -1507,13 +1489,13 @@ namespace Aow.Game.World.Map
         // HSMAP.PAS:198
         public void SetModified()
         {
-            FStatus = FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msModified);
+            FStatus = FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Modified);
         }
 
         // HSMAP.PAS:203
         public void ResetModified()
         {
-            FStatus = FStatus - TSet<THSMapStatusElement>.Of(THSMapStatusElement.msModified);
+            FStatus = FStatus - Set<HSMapStatusElement>.Of(HSMapStatusElement.Modified);
         }
 
         // HSMAP.PAS:208
@@ -1555,13 +1537,13 @@ namespace Aow.Game.World.Map
         // HSMAP.PAS:459
         public void ClearTerrain(int X, int Y, int L, int Radius, int TerrainType)
         {
-            THNWalkData Walk = default;
-            TMapLevel MapLevel;
-            TMapFieldMsg Msg = default;
-            TRect R = default;
+            HNWalkData Walk = default;
+            MapLevel MapLevel;
+            MapFieldMsg Msg = default;
+            global::Aow.Rtl.Rect R = default;
             LockTerrainChangedEvent();
             MapLevel = FMapContainer.GetMapLevel(L);
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             Msg.MsgID = 16;
             while (Walk.Radius <= Radius)
             {
@@ -1570,7 +1552,7 @@ namespace Aow.Game.World.Map
                     MapLevel.GetField(Walk.X, Walk.Y).SendMapFieldMsg(ref Msg);
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             if (TerrainType != -1)
@@ -1607,7 +1589,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:561
-        public bool PlaceHX(THexagonSprite HS, int Xhx, int Yhx, int L)
+        public bool PlaceHX(HexagonSprite HS, int Xhx, int Yhx, int L)
         {
             int Xhp = default;
             int Yhp = default;
@@ -1616,10 +1598,10 @@ namespace Aow.Game.World.Map
         }
 
         // HSMAP.PAS:569
-        public bool Place(THexagonSprite HS, int Xhp, int Yhp, int L) => HS.MainPlace(FMapContainer, Xhp, Yhp, L);
+        public bool Place(HexagonSprite HS, int Xhp, int Yhp, int L) => HS.MainPlace(FMapContainer, Xhp, Yhp, L);
 
         // HSMAP.PAS:574
-        public void Remove(THexagonSprite HS)
+        public void Remove(HexagonSprite HS)
         {
             HS.MainRemove();
         }
@@ -1703,7 +1685,7 @@ namespace Aow.Game.World.Map
             {
                 for (int I = FStaticVisibleHS.FCount - 1; I >= 0; I--)
                 {
-                    ((THexagonSprite)FStaticVisibleHS.FItems[I].Child).SetVisible(false);
+                    ((HexagonSprite)FStaticVisibleHS.FItems[I].Child).SetVisible(false);
                 }
 
                 FStaticVisibleHS.QuickClear();
@@ -1722,7 +1704,7 @@ namespace Aow.Game.World.Map
             {
                 try
                 {
-                    ((THexagonSprite)FDynamicVisibleHS.FItems[I].Child).SetVisible(false);
+                    ((HexagonSprite)FDynamicVisibleHS.FItems[I].Child).SetVisible(false);
                 }
                 catch
                 {
@@ -1740,52 +1722,52 @@ namespace Aow.Game.World.Map
             FStaticSceneInvalid = FStaticSceneInvalid || (Xhx >= FViewXhx && Xhx < FViewXhx + FViewWidthHX && Yhx >= FViewYhx && Yhx < FViewYhx + FViewHeightHX && Lhx == FViewL);
         }
 
-        public THSMapMouse Mouse { get => FMouse; }
-        public TMapContainer MapContainer { get => FMapContainer; }
-        public THSEngine Engine { get => FEngine; }
-        public THexagonSpriteSelection Selection { get => FSelection; }
-        public TVisibilityList StaticVisibleHS { get => FStaticVisibleHS; }
-        public TVisibilityList DynamicVisibleHS { get => FDynamicVisibleHS; }
-        public TVisibilityList StaticFixedVisibleHS { get => FStaticFixedVisibleHS; }
-        public TVisibilityList DynamicFixedVisibleHS { get => FDynamicFixedVisibleHS; }
-        public TETimerNode Timer { get => FTimer; }
+        public HSMapMouse Mouse { get => FMouse; }
+        public global::Aow.Game.World.Map.MapContainer MapContainer { get => FMapContainer; }
+        public HSEngine Engine { get => FEngine; }
+        public HexagonSpriteSelection Selection { get => FSelection; }
+        public VisibilityList StaticVisibleHS { get => FStaticVisibleHS; }
+        public VisibilityList DynamicVisibleHS { get => FDynamicVisibleHS; }
+        public VisibilityList StaticFixedVisibleHS { get => FStaticFixedVisibleHS; }
+        public VisibilityList DynamicFixedVisibleHS { get => FDynamicFixedVisibleHS; }
+        public ETimerNode Timer { get => FTimer; }
         public bool StaticSceneInvalid { get => FStaticSceneInvalid; set => FStaticSceneInvalid = value; }
         public bool DynamicSceneInvalid { get => FDynamicSceneInvalid; set => FDynamicSceneInvalid = value; }
         public int Version { get => FVersion; set => FVersion = value; }
         public string HSSFileName { get => FHSSFileName; set => SetHSSFileName(value); }
-        public TSet<THSMapStatusElement> Status { get => FStatus; set => FStatus = value; }
+        public Set<HSMapStatusElement> Status { get => FStatus; set => FStatus = value; }
         public int Frame { get => FFrame; }
 
-        public event TNotifyEvent<TerrainChangedNotification> TerrainChangedEvents
+        public event NotifyEvent<TerrainChangedNotification> TerrainChangedEvents
         {
             add => FTerrainChangedEventsStore.Add(value);
             remove => FTerrainChangedEventsStore.Remove(value);
         }
 
-        public TCenterViewEvent OnCenterView { get => FOnCenterView; set => FOnCenterView = value; }
-        public TChangeViewEvent OnChangeView { get => FOnChangeView; set => FOnChangeView = value; }
-        public TViewLevelEvent OnViewLevel { get => FOnViewLevel; set => FOnViewLevel = value; }
-        public Aow.Game.Engine.TProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
+        public CenterViewEvent OnCenterView { get => FOnCenterView; set => FOnCenterView = value; }
+        public ChangeViewEvent OnChangeView { get => FOnChangeView; set => FOnChangeView = value; }
+        public ViewLevelEvent OnViewLevel { get => FOnViewLevel; set => FOnViewLevel = value; }
+        public Aow.Game.Engine.ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
 
-        public event TNotifyEvent<THSMap> NewFrameEvents
+        public event NotifyEvent<HSMap> NewFrameEvents
         {
             add => FNewFrameEventsStore.Add(value);
             remove => FNewFrameEventsStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSMap> ViewPortChangedEvents
+        public event NotifyEvent<HSMap> ViewPortChangedEvents
         {
             add => FViewPortChangedEventsStore.Add(value);
             remove => FViewPortChangedEventsStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSMap> DestroyEvents
+        public event NotifyEvent<HSMap> DestroyEvents
         {
             add => FDestroyEventsStore.Add(value);
             remove => FDestroyEventsStore.Remove(value);
         }
 
-        public event TNotifyEvent<THexagonSprite> HSChangedEvents
+        public event NotifyEvent<HexagonSprite> HSChangedEvents
         {
             add => FHSChangedEventsStore.Add(value);
             remove => FHSChangedEventsStore.Remove(value);
@@ -1804,50 +1786,54 @@ namespace Aow.Game.World.Map
         public int MaxXhp { get => GetMaxXhp(); }
         public int MaxYhp { get => GetMaxYhp(); }
 
+        public delegate void CenterViewEvent(int Xhx, int Yhx, int Lhx);
+        public delegate void ChangeViewEvent(int Xhp, int Yhp, int Lhp);
+        public delegate void ViewLevelEvent(int Lhx);
+
     }
 
     // FStatus, FHSSet, FHSMap, FHSSetSearchPath, FHSSFileName, FOnHSMLoaded, FOnHSMClose,
     // FOnHSSLoaded, FOnHSSClose. The engine of the hex map: it owns the set (.hss: a 52-byte
     // header, the stored set and a CRC32) and the map (.hsm: a 16-byte header and the stored map,
     // compressed). the event lists are told when a map or a set is loaded or closed
-    public partial class THSEngine : TEngine
+    public partial class HSEngine : global::Aow.Game.Engine.Engine
     {
         // HSEngine.pas:4957
         public new const int ClassID = 65537;
 
-        internal TSet<THSEngineStatusElement> FStatus;
-        protected internal THSSet FHSSet;
-        protected internal THSMap FHSMap;
+        internal Set<HSEngineStatusElement> FStatus;
+        protected internal global::Aow.Game.World.Map.HSSet FHSSet;
+        protected internal global::Aow.Game.World.Map.HSMap FHSMap;
         internal string FHSSetSearchPath = "";
         internal string FHSSFileName = "";
 
-        internal EventStore<THSMap> FOnHSMLoadedStore;
+        internal EventStore<global::Aow.Game.World.Map.HSMap> FOnHSMLoadedStore;
 
-        internal event TNotifyEvent<THSMap> FOnHSMLoaded
+        internal event NotifyEvent<global::Aow.Game.World.Map.HSMap> FOnHSMLoaded
         {
             add => FOnHSMLoadedStore.Add(value);
             remove => FOnHSMLoadedStore.Remove(value);
         }
 
-        internal EventStore<THSMap> FOnHSMCloseStore;
+        internal EventStore<global::Aow.Game.World.Map.HSMap> FOnHSMCloseStore;
 
-        internal event TNotifyEvent<THSMap> FOnHSMClose
+        internal event NotifyEvent<global::Aow.Game.World.Map.HSMap> FOnHSMClose
         {
             add => FOnHSMCloseStore.Add(value);
             remove => FOnHSMCloseStore.Remove(value);
         }
 
-        internal EventStore<THSEngine> FOnHSSLoadedStore;
+        internal EventStore<HSEngine> FOnHSSLoadedStore;
 
-        internal event TNotifyEvent<THSEngine> FOnHSSLoaded
+        internal event NotifyEvent<HSEngine> FOnHSSLoaded
         {
             add => FOnHSSLoadedStore.Add(value);
             remove => FOnHSSLoadedStore.Remove(value);
         }
 
-        internal EventStore<THSEngine> FOnHSSCloseStore;
+        internal EventStore<HSEngine> FOnHSSCloseStore;
 
-        internal event TNotifyEvent<THSEngine> FOnHSSClose
+        internal event NotifyEvent<HSEngine> FOnHSSClose
         {
             add => FOnHSSCloseStore.Add(value);
             remove => FOnHSSCloseStore.Remove(value);
@@ -1866,16 +1852,16 @@ namespace Aow.Game.World.Map
             FOnHSSCloseStore.Clear();
         }
 
-        private protected THSEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected HSEngine(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
             FOnHSMLoadedStore = new();
             FOnHSMCloseStore = new();
             FOnHSSLoadedStore = new();
             FOnHSSCloseStore = new();
-            RegisterEClasses([EClass.Of<TMapContainer>(), EClass.Of<TMapLevel>(), EClass.Of<THSMap>(), EClass.Of<THSSet>()]);
-            RegisterEClasses([EClass.Of<Aow.Game.World.TMapObjectResource>(), EClass.Of<Aow.Game.World.TMultiHexMOR>()]);
-            RegisterEClasses([EClass.Of<TAbstractHexagon>(), EClass.Of<TAbstractBorderHexagon>(), EClass.Of<TAbstractRoad>()]);
-            Aow.Game.World.Map.THSEngine.HSEngineDID = RegisterDebugID("HS-Engine");
+            RegisterEClasses([EClass.Of<MapContainer>(), EClass.Of<MapLevel>(), EClass.Of<global::Aow.Game.World.Map.HSMap>(), EClass.Of<global::Aow.Game.World.Map.HSSet>()]);
+            RegisterEClasses([EClass.Of<Aow.Game.World.MapObjectResource>(), EClass.Of<Aow.Game.World.MultiHexMOR>()]);
+            RegisterEClasses([EClass.Of<AbstractHexagon>(), EClass.Of<AbstractBorderHexagon>(), EClass.Of<AbstractRoad>()]);
+            Aow.Game.World.Map.HSEngine.HSEngineDID = RegisterDebugID("HS-Engine");
             FHSSFileName = "noname.hss";
             CreateHSSet();
         }
@@ -1883,11 +1869,11 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5019
         public virtual void CreateHSSet()
         {
-            FHSSet = new THSSet(this);
+            FHSSet = new global::Aow.Game.World.Map.HSSet(this);
         }
 
         // HSEngine.pas:4962
-        public virtual void SetHSMap(THSMap Value)
+        public virtual void SetHSMap(global::Aow.Game.World.Map.HSMap Value)
         {
             FHSMap = Value;
         }
@@ -1895,10 +1881,10 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5210
         // The preflight of the file boundary finishes before the current map is freed. A refused
         // file leaves the current game and the file as they were (own-formats.md 2.7 and 4.1).
-        public virtual void LoadHSM(string FileName, bool Edit, Aow.Game.Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public virtual void LoadHSM(string FileName, bool Edit, Aow.Game.Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
-            TCompressStream Stream;
-            THSMHeader Header = default;
+            CompressStream Stream;
+            HSMHeader Header = default;
             byte[] Image = FileBoundary.Load(FileName, Profile);
             if (Image == null)
             {
@@ -1913,21 +1899,21 @@ namespace Aow.Game.World.Map
 
             try
             {
-                Stream = new TCompressStream();
+                Stream = new CompressStream();
                 try
                 {
                     Stream.LoadImage(Image);
                     Stream.ReadBytes(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.THSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.HSEngine.HSMID))
                     {
-                        SetHSMap((THSMap)CreateEObject(Header.ClassID, this));
+                        SetHSMap((global::Aow.Game.World.Map.HSMap)CreateEObject(Header.ClassID, this));
                         var expandFileName = ExpandFileName(FileName);
                         FHSMap.FFileName = expandFileName;
-                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                         if (Edit)
                         {
-                            FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
+                            FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
                         }
 
                         try
@@ -1944,7 +1930,7 @@ namespace Aow.Game.World.Map
                             SetHSMap(null);
                         }
 
-                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                     }
                 }
                 finally
@@ -1958,12 +1944,12 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5137
-        public virtual THSMap CreatePreviewHSM(string FileName, Aow.Formats.GameProfile Profile)
+        public virtual global::Aow.Game.World.Map.HSMap CreatePreviewHSM(string FileName, Aow.Formats.GameProfile Profile)
         {
-            TCompressStream Stream;
+            CompressStream Stream;
             string FullName;
-            THSMHeader Header = default;
-            THSMap Result = null;
+            HSMHeader Header = default;
+            global::Aow.Game.World.Map.HSMap Result = null;
             byte[] Image;
             FullName = ExpandFileName(FileName);
             Image = FileBoundary.Load(FullName, Profile, "preview");
@@ -1974,17 +1960,17 @@ namespace Aow.Game.World.Map
 
             try
             {
-                Stream = new TCompressStream();
+                Stream = new CompressStream();
                 try
                 {
                     Stream.LoadImage(Image);
                     Stream.ReadBytes(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.THSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.HSEngine.HSMID))
                     {
-                        Result = (THSMap)CreateEObject(Header.ClassID, this);
+                        Result = (global::Aow.Game.World.Map.HSMap)CreateEObject(Header.ClassID, this);
                         Result.FFileName = ExpandFileName(FileName);
-                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                         try
                         {
                             ReadPreviewEObject(Stream, Result, null);
@@ -1995,7 +1981,7 @@ namespace Aow.Game.World.Map
                             Result = null;
                         }
 
-                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                     }
                 }
                 finally
@@ -2013,10 +1999,10 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5291
         // The engine writes the image in memory and the file boundary writes the document, so a
         // failed conversion or write keeps the old file (own-formats.md 4.2).
-        public virtual void SaveHSM(string FileName, Aow.Game.Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public virtual void SaveHSM(string FileName, Aow.Game.Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
-            TCompressStream Stream;
-            THSMHeader Header;
+            CompressStream Stream;
+            HSMHeader Header;
             if (FHSMap != null)
             {
                 Header = default;
@@ -2024,9 +2010,9 @@ namespace Aow.Game.World.Map
                 var classID = FHSMap.EClass.ClassID;
                 Header.ClassID = classID;
                 Header.Reserved = 0;
-                Header.ID = Aow.Game.World.Map.THSEngine.HSMID;
-                Stream = new TCompressStream();
-                FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
+                Header.ID = Aow.Game.World.Map.HSEngine.HSMID;
+                Stream = new CompressStream();
+                FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
                 try
                 {
                     Stream.Write(Bytes.Of(ref Header, 16));
@@ -2035,14 +2021,14 @@ namespace Aow.Game.World.Map
                 }
                 finally
                 {
-                    FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
+                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
                     Stream?.Dispose();
                 }
             }
         }
 
         // HSEngine.pas:5368
-        public virtual void CloseHSM(Aow.Game.Engine.TProgressEvent AProgress)
+        public virtual void CloseHSM(Aow.Game.Engine.ProgressEvent AProgress)
         {
             if (FHSMap != null)
             {
@@ -2062,14 +2048,14 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4967
-        public TStringList GetHSSetFiles(string Mask)
+        public StringList GetHSSetFiles(string Mask)
         {
-            TStringList Files;
+            StringList Files;
             void Search(string Dir)
             {
-                TStringList Dirs;
-                THSSHeader Header = default;
-                TSearchRec SR = default;
+                StringList Dirs;
+                HSSHeader Header = default;
+                SearchRec SR = default;
                 bool Found;
                 Found = FindFirst(Dir + Mask, 63 & ~16, ref SR) == 0;
                 while (Found)
@@ -2079,7 +2065,7 @@ namespace Aow.Game.World.Map
                     var head = FileBoundary.ListingHeader(Dir + SR.Name, Aow.Formats.GameProfile.ScenarioSet, 52);
                     if (head.Length == 52)
                     {
-                        Header = MemoryMarshal.Read<THSSHeader>(head);
+                        Header = MemoryMarshal.Read<HSSHeader>(head);
                     }
 
                     if (Header.ID == "HSS\0")
@@ -2091,7 +2077,7 @@ namespace Aow.Game.World.Map
                 }
 
                 FindClose(ref SR);
-                Dirs = new TStringList();
+                Dirs = new StringList();
                 Found = FindFirst(Dir + "*.*", 16, ref SR) == 0;
                 while (Found)
                 {
@@ -2112,24 +2098,24 @@ namespace Aow.Game.World.Map
                 Dirs?.Dispose();
             }
 
-            Files = new TStringList();
+            Files = new StringList();
             Search(StartupDirectory);
             return Files;
         }
 
         // HSEngine.pas:5024
         // The preflight raises before the current set is cleared (own-formats.md 2.7).
-        public void LoadHSS(string FileName, bool Edit, Aow.Game.Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void LoadHSS(string FileName, bool Edit, Aow.Game.Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
             MemoryStream Mem;
-            THSSHeader Header = default;
-            TEMsg Msg = default;
+            HSSHeader Header = default;
+            EMsg Msg = default;
             int CRC;
             byte[] Image = FileBoundary.LoadOrRaise(ExpandFileName(FileName), Profile);
             FHSSet.Clear();
             FHSSFileName = ExpandFileName(FileName);
-            FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSS);
-            Mem = TEngine.ImageStream(Image);
+            FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSS);
+            Mem = global::Aow.Game.Engine.Engine.ImageStream(Image);
             try
             {
                 Mem.Read(Bytes.Of(ref Header, 52));
@@ -2150,31 +2136,31 @@ namespace Aow.Game.World.Map
 
                 ReadEObject(Mem, FHSSet, AProgress);
                 ActivateEObject(FHSSet);
-                Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 65556, this);
+                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 65556, this);
                 FHSSet.MsgProc(ref Msg, this);
                 ControlNode.MsgProc(ref Msg, this);
                 FOnHSSLoadedStore.Raise(this);
             }
             finally
             {
-                FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSS);
+                FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSS);
                 Mem?.Dispose();
             }
         }
 
         // HSEngine.pas:5060
-        public void SaveHSS(string FileName, Aow.Game.Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void SaveHSS(string FileName, Aow.Game.Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
             MemoryStream Mem;
             int CRC = default;
-            THSSHeader Header = default;
+            HSSHeader Header = default;
             if (FHSSet != null)
             {
                 Header.Size = 52;
                 Header.Name = FHSSet.Name;
                 Header.ID = "HSS\0";
                 FHSSFileName = ExpandFileName(FileName);
-                FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSS);
+                FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSS);
                 Mem = new MemoryStream();
                 try
                 {
@@ -2187,7 +2173,7 @@ namespace Aow.Game.World.Map
                 }
                 finally
                 {
-                    FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSS);
+                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSS);
                     Mem?.Dispose();
                 }
             }
@@ -2196,8 +2182,8 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5100
         public void LoadPreviewHSM(string FileName, Aow.Formats.GameProfile Profile)
         {
-            TCompressStream Stream;
-            THSMHeader Header = default;
+            CompressStream Stream;
+            HSMHeader Header = default;
             byte[] Image = FileBoundary.Load(FileName, Profile, "preview");
             if (Image == null)
             {
@@ -2212,19 +2198,19 @@ namespace Aow.Game.World.Map
 
             try
             {
-                Stream = new TCompressStream();
+                Stream = new CompressStream();
                 try
                 {
                     Stream.LoadImage(Image);
                     Stream.ReadBytes(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.THSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.HSEngine.HSMID))
                     {
-                        SetHSMap((THSMap)CreateEObject(Header.ClassID, this));
-                        FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msPreviewMode);
+                        SetHSMap((global::Aow.Game.World.Map.HSMap)CreateEObject(Header.ClassID, this));
+                        FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.PreviewMode);
                         var expandFileName = ExpandFileName(FileName);
                         FHSMap.FFileName = expandFileName;
-                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                         try
                         {
                             ReadEObject(Stream, FHSMap, null);
@@ -2235,7 +2221,7 @@ namespace Aow.Game.World.Map
                             SetHSMap(null);
                         }
 
-                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                     }
                 }
                 finally
@@ -2249,12 +2235,12 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5171
-        public THSMap LoadHSMEx(string FileName, bool Edit, Aow.Game.Engine.TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public global::Aow.Game.World.Map.HSMap LoadHSMEx(string FileName, bool Edit, Aow.Game.Engine.ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
-            TCompressStream Stream;
+            CompressStream Stream;
             string FullName;
-            THSMHeader Header = default;
-            THSMap Result = null;
+            HSMHeader Header = default;
+            global::Aow.Game.World.Map.HSMap Result = null;
             byte[] Image;
             FullName = ExpandFileName(FileName);
             Image = FileBoundary.Load(FullName, Profile);
@@ -2265,20 +2251,20 @@ namespace Aow.Game.World.Map
 
             try
             {
-                Stream = new TCompressStream();
+                Stream = new CompressStream();
                 try
                 {
                     Stream.LoadImage(Image);
                     Stream.ReadBytes(Bytes.Of(ref Header, 16));
                     Stream.Position = Header.Size;
-                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.THSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.HSEngine.HSMID))
                     {
-                        Result = (THSMap)CreateEObject(Header.ClassID, null);
+                        Result = (global::Aow.Game.World.Map.HSMap)CreateEObject(Header.ClassID, null);
                         Result.FFileName = FullName;
-                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                         if (Edit)
                         {
-                            Result.FStatus = Result.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
+                            Result.FStatus = Result.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
                         }
 
                         try
@@ -2295,7 +2281,7 @@ namespace Aow.Game.World.Map
                             Result = null;
                         }
 
-                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                     }
                 }
                 finally
@@ -2311,10 +2297,10 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5251
-        public void LoadHSMfromStream(Stream Stream, bool Edit, Aow.Game.Engine.TProgressEvent AProgress)
+        public void LoadHSMfromStream(Stream Stream, bool Edit, Aow.Game.Engine.ProgressEvent AProgress)
         {
-            TCompressStream CStream;
-            THSMHeader Header = default;
+            CompressStream CStream;
+            HSMHeader Header = default;
             if (FHSMap != null)
             {
                 FHSMap?.Dispose();
@@ -2323,19 +2309,19 @@ namespace Aow.Game.World.Map
 
             try
             {
-                CStream = new TCompressStream();
+                CStream = new CompressStream();
                 try
                 {
                     CStream.LoadFromStream(Stream);
                     CStream.ReadBytes(Bytes.Of(ref Header, 16));
                     CStream.Position = Header.Size;
-                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.THSEngine.HSMID))
+                    if (ArrayEquals<FixedArray_byte_4, byte>(Header.ID, Aow.Game.World.Map.HSEngine.HSMID))
                     {
-                        SetHSMap((THSMap)CreateEObject(Header.ClassID, this));
-                        FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        SetHSMap((global::Aow.Game.World.Map.HSMap)CreateEObject(Header.ClassID, this));
+                        FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                         if (Edit)
                         {
-                            FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
+                            FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
                         }
 
                         try
@@ -2352,7 +2338,7 @@ namespace Aow.Game.World.Map
                             SetHSMap(null);
                         }
 
-                        FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esLoadingHSM);
+                        FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM);
                     }
                 }
                 finally
@@ -2366,10 +2352,10 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5316
-        public void SaveHSMtoStream(Stream Stream, Aow.Game.Engine.TProgressEvent AProgress)
+        public void SaveHSMtoStream(Stream Stream, Aow.Game.Engine.ProgressEvent AProgress)
         {
-            TCompressStream CStream;
-            THSMHeader Header;
+            CompressStream CStream;
+            HSMHeader Header;
             if (FHSMap != null)
             {
                 Header = default;
@@ -2377,9 +2363,9 @@ namespace Aow.Game.World.Map
                 var classID = FHSMap.EClass.ClassID;
                 Header.ClassID = classID;
                 Header.Reserved = 0;
-                Header.ID = Aow.Game.World.Map.THSEngine.HSMID;
-                CStream = new TCompressStream();
-                FStatus = FStatus + TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
+                Header.ID = Aow.Game.World.Map.HSEngine.HSMID;
+                CStream = new CompressStream();
+                FStatus = FStatus + Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
                 try
                 {
                     CStream.Write(Bytes.Of(ref Header, 16));
@@ -2388,7 +2374,7 @@ namespace Aow.Game.World.Map
                 }
                 finally
                 {
-                    FStatus = FStatus - TSet<THSEngineStatusElement>.Of(THSEngineStatusElement.esSavingHSM);
+                    FStatus = FStatus - Set<HSEngineStatusElement>.Of(HSEngineStatusElement.SavingHSM);
                     CStream?.Dispose();
                 }
             }
@@ -2397,9 +2383,9 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5341
         // Every caller derives the name (RELEASE.HSS, the set a map names), so the own sibling opens
         // first (own-formats.md 2.9).
-        public void InitializeHSSet(string FileName, Aow.Game.Engine.TProgressEvent AProgress)
+        public void InitializeHSSet(string FileName, Aow.Game.Engine.ProgressEvent AProgress)
         {
-            TEMsg Msg = default;
+            EMsg Msg = default;
             FileName = FileBoundary.ReadName(FileName);
             if (FHSSet == null || CompareText(FileName, FHSSFileName) != 0)
             {
@@ -2407,13 +2393,13 @@ namespace Aow.Game.World.Map
             }
             else
             {
-                Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 65557, this);
+                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 65557, this);
                 FHSSet.MsgProc(ref Msg, this);
             }
         }
 
         // HSEngine.pas:5354
-        public THSMap NewHSM(int AClassID)
+        public global::Aow.Game.World.Map.HSMap NewHSM(int AClassID)
         {
             if (FHSMap != null)
             {
@@ -2421,46 +2407,46 @@ namespace Aow.Game.World.Map
                 SetHSMap(null);
             }
 
-            SetHSMap((THSMap)CreateEObject(AClassID, this));
-            FHSMap.FStatus = FHSMap.FStatus + TSet<THSMapStatusElement>.Of(THSMapStatusElement.msEditting);
+            SetHSMap((global::Aow.Game.World.Map.HSMap)CreateEObject(AClassID, this));
+            FHSMap.FStatus = FHSMap.FStatus + Set<HSMapStatusElement>.Of(HSMapStatusElement.Editting);
             ActivateEObject(FHSMap);
             FOnHSMLoadedStore.Raise(FHSMap);
             return FHSMap;
         }
 
-        public TSet<THSEngineStatusElement> Status { get => FStatus; }
-        public THSSet HSSet { get => FHSSet; }
-        public THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
+        public Set<HSEngineStatusElement> Status { get => FStatus; }
+        public global::Aow.Game.World.Map.HSSet HSSet { get => FHSSet; }
+        public global::Aow.Game.World.Map.HSMap HSMap { get => FHSMap; set => SetHSMap(value); }
         public string HSSetSearchPath { get => FHSSetSearchPath; set => FHSSetSearchPath = value; }
         public string HSSFileName { get => FHSSFileName; }
 
-        public event TNotifyEvent<THSMap> OnHSMLoaded
+        public event NotifyEvent<global::Aow.Game.World.Map.HSMap> OnHSMLoaded
         {
             add => FOnHSMLoadedStore.Add(value);
             remove => FOnHSMLoadedStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSMap> OnHSMClose
+        public event NotifyEvent<global::Aow.Game.World.Map.HSMap> OnHSMClose
         {
             add => FOnHSMCloseStore.Add(value);
             remove => FOnHSMCloseStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSEngine> OnHSSLoaded
+        public event NotifyEvent<HSEngine> OnHSSLoaded
         {
             add => FOnHSSLoadedStore.Add(value);
             remove => FOnHSSLoadedStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSEngine> OnHSSClose
+        public event NotifyEvent<HSEngine> OnHSSClose
         {
             add => FOnHSSCloseStore.Add(value);
             remove => FOnHSSCloseStore.Remove(value);
         }
 
         // HSEngine.pas:803
-        public static THSEngine Create(TECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, owner) => new THSEngine(context, owner));
+        public static HSEngine Create(ECustomNode owner) =>
+            ConstructionContext.Create(owner, static (context, owner) => new HSEngine(context, owner));
 
         private static global::Aow.Game.Engine.Buffers.FixedArray_byte_4 HSMID = global::Aow.Game.Engine.Buffers.FixedArray_byte_4.From("HSM\0"u8);
         internal static int HSEngineDID;
@@ -2473,9 +2459,9 @@ namespace Aow.Game.Draw
 
     // the base of everything placed on the map. Owner is the TMapField the sprite stands on (for
     // the multi-hex sprites the field of the base hexagon)
-    public partial class THexagonSprite : TEObject
+    public partial class HexagonSprite : EObject
     {
-        public THexagonSprite(TECustomNode owner) : base(owner)
+        public HexagonSprite(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 65872;
@@ -2529,13 +2515,13 @@ namespace Aow.Game.Draw
         public virtual bool GetSelected() => false;
 
         // HXSPRITE.PAS:87
-        public virtual sbyte GetXhx() => ((TMapField)Owner).FXhx;
+        public virtual sbyte GetXhx() => ((MapField)Owner).FXhx;
 
         // HXSPRITE.PAS:92
-        public virtual sbyte GetYhx() => ((TMapField)Owner).FYhx;
+        public virtual sbyte GetYhx() => ((MapField)Owner).FYhx;
 
         // HXSPRITE.PAS:97
-        public virtual sbyte GetLhx() => (sbyte)((TMapLevel)Owner.Owner).FLhx;
+        public virtual sbyte GetLhx() => (sbyte)((MapLevel)Owner.Owner).FLhx;
 
         // HXSPRITE.PAS:102
         public virtual int GetXYL() => GetXhx() + (GetYhx() << 8) + (GetLhx() << 16);
@@ -2562,27 +2548,27 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:167
-        public virtual bool CanChangeTerrain(in THSSenderInfo Info) => true;
+        public virtual bool CanChangeTerrain(in HSSenderInfo Info) => true;
 
         // HXSPRITE.PAS:172
-        public virtual void ChangeTerrain(in THSTerrainInfo Info)
+        public virtual void ChangeTerrain(in HSTerrainInfo Info)
         {
         }
 
         // HXSPRITE.PAS:176
-        public virtual void TerrainChanged(in THSTerrainInfo Info)
+        public virtual void TerrainChanged(in HSTerrainInfo Info)
         {
         }
 
         // HXSPRITE.PAS:180
-        public virtual void NeighbourTerrainChanged(int HN, in THSTerrainInfo Info)
+        public virtual void NeighbourTerrainChanged(int HN, in HSTerrainInfo Info)
         {
         }
 
         // HSEngine.pas:881
-        public virtual void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public virtual void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // HXSPRITE.PAS:197
@@ -2599,7 +2585,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:573
-        public virtual bool MainPlace(TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public virtual bool MainPlace(MapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result = Place(Map, Xhp, Yhp, Lhx);
             if (Result)
@@ -2630,7 +2616,7 @@ namespace Aow.Game.Draw
         public virtual bool MainLoaded() => Loaded();
 
         // HXSPRITE.PAS:184
-        public virtual bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx) => PlaceOnMap();
+        public virtual bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx) => PlaceOnMap();
 
         // HXSPRITE.PAS:208
         public virtual void Remove()
@@ -2646,31 +2632,31 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:26
-        public virtual void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public virtual void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
         }
 
         // HXSPRITE.PAS:30
-        public virtual void CanMoveOn(in THSMoveOnInfo Info, ref THSMoveOnResult MoveResult)
+        public virtual void CanMoveOn(in HSMoveOnInfo Info, ref HSMoveOnResult MoveResult)
         {
         }
 
         // HXSPRITE.PAS:34
-        public virtual int CanMoveOver(in THSSenderInfo Info) => 1;
+        public virtual int CanMoveOver(in HSSenderInfo Info) => 1;
 
         // HXSPRITE.PAS:39
-        public virtual void MoveExclusive(in THSSenderInfo Info)
+        public virtual void MoveExclusive(in HSSenderInfo Info)
         {
         }
 
         // HXSPRITE.PAS:63
         public virtual void Changed()
         {
-            TMapField MapF;
-            MapF = (TMapField)Owner;
+            MapField MapF;
+            MapF = (MapField)Owner;
             if (MapF != null)
             {
-                ((THSEngine)((TMapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEventsStore.Raise(this);
+                ((HSEngine)((MapLevel)MapF.Owner).FEngine).FHSMap.FHSChangedEventsStore.Raise(this);
             }
         }
 
@@ -2689,12 +2675,12 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:22
-        public virtual void UpdateMapField(in THSMapFieldInfo Info)
+        public virtual void UpdateMapField(in HSMapFieldInfo Info)
         {
         }
 
         // HXSPRITE.PAS:144
-        public virtual void MakeVisible(TVisibilityList VisibilityList)
+        public virtual void MakeVisible(VisibilityList VisibilityList)
         {
             if (!GetVisible())
             {
@@ -2706,11 +2692,11 @@ namespace Aow.Game.Draw
         // HXSPRITE.PAS:82
         public virtual void GetBaseHX(ref int XYL)
         {
-            XYL = ((TMapField)Owner).FXhx + (((TMapField)Owner).FYhx << 8) + (((TMapLevel)Owner.Owner).FLhx << 16);
+            XYL = ((MapField)Owner).FXhx + (((MapField)Owner).FYhx << 8) + (((MapLevel)Owner.Owner).FLhx << 16);
         }
 
         // HXSPRITE.PAS:57
-        public virtual bool CanSelect(int Xhp, int Yhp) => Owner != null && ((THSEngine)((TMapLevel)Owner.Owner).FEngine).FHSMap.FStatus.Contains(THSMapStatusElement.msEditting);
+        public virtual bool CanSelect(int Xhp, int Yhp) => Owner != null && ((HSEngine)((MapLevel)Owner.Owner).FEngine).FHSMap.FStatus.Contains(HSMapStatusElement.Editting);
 
         // HXSPRITE.PAS:107
         public virtual void Select()
@@ -2720,14 +2706,14 @@ namespace Aow.Game.Draw
         // HXSPRITE.PAS:111
         public virtual void Unselect()
         {
-            ((TMapLevel)Owner.Owner).FMap.FSelection.Unselect(this);
+            ((MapLevel)Owner.Owner).FMap.FSelection.Unselect(this);
         }
 
         // HXSPRITE.PAS:17
         public virtual string EditName() => "Hexagon Sprite";
 
         // HXSPRITE.PAS:219
-        public bool PlaceOnMapEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public bool PlaceOnMapEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             bool Result;
             int X = default;
@@ -2738,7 +2724,7 @@ namespace Aow.Game.Draw
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven;
-            TMapLevel MapL;
+            MapLevel MapL;
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
@@ -2847,7 +2833,7 @@ namespace Aow.Game.Draw
                     }
                 }
 
-                ((TMapField)FOwner).SetHNofHS(this, 0);
+                ((MapField)FOwner).SetHNofHS(this, 0);
                 Result = true;
             }
             else
@@ -2869,8 +2855,8 @@ namespace Aow.Game.Draw
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven;
-            TMapLevel MapL;
-            MapL = (TMapLevel)FOwner.Owner;
+            MapLevel MapL;
+            MapL = (MapLevel)FOwner.Owner;
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
@@ -2972,7 +2958,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:362
-        public bool PlaceUserOnMapEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public bool PlaceUserOnMapEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             bool Result;
             int X = default;
@@ -2983,7 +2969,7 @@ namespace Aow.Game.Draw
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven;
-            TMapLevel MapL;
+            MapLevel MapL;
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
             if (!((Xmin & 1) != 0))
@@ -3092,7 +3078,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:431
-        public void RemoveUserFromMapEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public void RemoveUserFromMapEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             int X = default;
             int Y = default;
@@ -3102,7 +3088,7 @@ namespace Aow.Game.Draw
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven;
-            TMapLevel MapL;
+            MapLevel MapL;
             MapL = Map.GetMapLevel(Lhx);
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
@@ -3203,7 +3189,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:497
-        public void SortMapFieldEx(TMapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
+        public void SortMapFieldEx(MapContainer Map, int Xhp, int Yhp, int Lhx, int Width, int Height)
         {
             int X = default;
             int Y = default;
@@ -3213,7 +3199,7 @@ namespace Aow.Game.Draw
             int Xmax = default;
             int YmaxOdd = default;
             int YmaxEven;
-            TMapLevel MapL;
+            MapLevel MapL;
             MapL = Map.GetMapLevel(Lhx);
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8, Yhp, ref Xmin, ref YminOdd);
             Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp - 8 + 32, Yhp, ref X, ref Y);
@@ -3313,7 +3299,7 @@ namespace Aow.Game.Draw
             }
         }
 
-        public sealed class TerrainAccessor(THexagonSprite target)
+        public sealed class TerrainAccessor(HexagonSprite target)
         {
             public sbyte this[int HN] { get => target.GetTerrain(HN); set => target.SetTerrain(HN, value); }
         }
@@ -3321,7 +3307,7 @@ namespace Aow.Game.Draw
         public TerrainAccessor Terrain => new TerrainAccessor(this);
         public int TerrainCount { get => GetTerrainCount(); }
 
-        public sealed class OverlayAccessor(THexagonSprite target)
+        public sealed class OverlayAccessor(HexagonSprite target)
         {
             public sbyte this[int HN] { get => target.GetOverlay(HN); set => target.SetOverlay(HN, value); }
         }
@@ -3339,7 +3325,7 @@ namespace Aow.Game.Draw
         public int ShowPriority { get => GetShowPriority(); }
 
         // HXSPRITE.PAS:77
-        public virtual TSet<TControlModeElement> ControlMode() => TSet<TControlModeElement>.Of();
+        public virtual Set<ControlModeElement> ControlMode() => Set<ControlModeElement>.Of();
 
     }
 }
@@ -3349,29 +3335,29 @@ namespace Aow.Game.World
 
     // a hexagon sprite drawn from a resource. FResource (the resource. until the object is linked
     // it holds the resource id, persisted as id 1), FStatus
-    public partial class TMapObject : THexagonSprite
+    public partial class MapObject : HexagonSprite
     {
-        public TMapObject(TECustomNode owner) : base(owner)
+        public MapObject(ECustomNode owner) : base(owner)
         { }
 
         public new const int ClassID = 65878;
 
-        protected internal TMapObjectResource FResource;
-        protected internal TSet<TMapObjectStatusElement> FStatus;
+        protected internal MapObjectResource FResource;
+        protected internal Set<MapObjectStatusElement> FStatus;
 
         // MAPOBJ.PAS:88
-        protected internal bool GetResourceLinked() => FStatus.Contains(TMapObjectStatusElement.moResourceLinked);
+        protected internal bool GetResourceLinked() => FStatus.Contains(MapObjectStatusElement.ResourceLinked);
 
         // MAPOBJ.PAS:93
         protected internal void SetResourceLinked(bool Value)
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moResourceLinked);
+                FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked);
             }
             else
             {
-                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moResourceLinked);
+                FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.ResourceLinked);
             }
         }
 
@@ -3379,7 +3365,7 @@ namespace Aow.Game.World
         public override sbyte GetTerrain(int Index)
         {
             sbyte Result = FResource.FTerrainList.GetTerrain(Index);
-            if (FStatus.Contains(TMapObjectStatusElement.moEditMode) && Result >= 0)
+            if (FStatus.Contains(MapObjectStatusElement.EditMode) && Result >= 0)
             {
                 Result = -1;
             }
@@ -3400,7 +3386,7 @@ namespace Aow.Game.World
         public override sbyte GetOverlay(int Index)
         {
             sbyte Result = FResource.FTerrainList.GetOverlay(Index);
-            if (FStatus.Contains(TMapObjectStatusElement.moEditMode) && Result >= 0)
+            if (FStatus.Contains(MapObjectStatusElement.EditMode) && Result >= 0)
             {
                 Result = -1;
             }
@@ -3425,52 +3411,52 @@ namespace Aow.Game.World
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moVisible);
+                FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
             }
             else
             {
-                if (FStatus.Contains(TMapObjectStatusElement.moVisible))
+                if (FStatus.Contains(MapObjectStatusElement.Visible))
                 {
-                    FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moVisible);
+                    FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
                 }
             }
         }
 
         // MAPOBJ.PAS:29
-        public override bool GetVisible() => FStatus.Contains(TMapObjectStatusElement.moVisible);
+        public override bool GetVisible() => FStatus.Contains(MapObjectStatusElement.Visible);
 
         // MAPOBJ.PAS:133
-        public override bool GetSelected() => FStatus.Contains(TMapObjectStatusElement.moSelected);
+        public override bool GetSelected() => FStatus.Contains(MapObjectStatusElement.Selected);
 
         // MAPOBJ.PAS:45
         public override sbyte GetXhx()
         {
             Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 47);
-            return ((TMapField)Owner).FXhx;
+            return ((MapField)Owner).FXhx;
         }
 
         // MAPOBJ.PAS:51
         public override sbyte GetYhx()
         {
             Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 53);
-            return ((TMapField)Owner).FYhx;
+            return ((MapField)Owner).FYhx;
         }
 
         // MAPOBJ.PAS:57
         public override sbyte GetLhx()
         {
             Assert(Owner != null, "Owner not set", "MAPOBJ.PAS", 59);
-            return ((TMapField)Owner).FLhx;
+            return ((MapField)Owner).FLhx;
         }
 
         // MAPOBJ.PAS:40
-        public override bool GetEditMode() => FStatus.Contains(TMapObjectStatusElement.moEditMode);
+        public override bool GetEditMode() => FStatus.Contains(MapObjectStatusElement.EditMode);
 
         // MAPOBJ.PAS:35
         // { Value is not used: the edit mode is only ever switched on }
         public override void SetEditMode(bool Value)
         {
-            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moEditMode);
+            FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.EditMode);
         }
 
         // MAPOBJ.PAS:214
@@ -3478,36 +3464,36 @@ namespace Aow.Game.World
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
             return FResource.FShowPriorityOffset + (Yhp << 13) + Xhp;
         }
 
         // MAPOBJ.PAS:235
         public override void Connect()
         {
-            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+            FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         }
 
         // MAPOBJ.PAS:240
         public override void Disconnect()
         {
             Owner = null;
-            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+            FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         }
 
         // MAPOBJ.PAS:222
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
             if (FResource.FImageSequenceList == null)
             {
                 FResource.FImageLibrary.Get(0).Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
             }
             else
             {
-                FResource.ShowComplexImage(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc, 0, (uint)(((TMapField)Owner).FXhx + ((TMapField)Owner).FYhx * 16));
+                FResource.ShowComplexImage(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc, 0, (uint)(((MapField)Owner).FXhx + ((MapField)Owner).FYhx * 16));
             }
         }
 
@@ -3517,19 +3503,19 @@ namespace Aow.Game.World
             Connect();
             if (FResource.FTerrainList.GetTerrain(0) >= 0 || FResource.FTerrainList.GetOverlay(0) >= 0)
             {
-                ((TMapField)Owner).UpdateTerrain();
+                ((MapField)Owner).UpdateTerrain();
             }
 
             if (GetLevel() <= 15)
             {
-                var mapField = (TMapField)Owner;
-                ((TMapLevel)mapField.Owner).FMap.InvalidateStaticScene(mapField.FXhx, mapField.FYhx, mapField.FLhx);
+                var mapField = (MapField)Owner;
+                ((MapLevel)mapField.Owner).FMap.InvalidateStaticScene(mapField.FXhx, mapField.FYhx, mapField.FLhx);
             }
 
             if (!GetEditMode())
             {
-                var mapField = (TMapField)Owner;
-                ((TMapLevel)mapField.Owner).FMap.TerrainChangedRad(mapField.FXhx, mapField.FYhx, mapField.FLhx, 0);
+                var mapField = (MapField)Owner;
+                ((MapLevel)mapField.Owner).FMap.TerrainChangedRad(mapField.FXhx, mapField.FYhx, mapField.FLhx, 0);
             }
 
             return true;
@@ -3538,14 +3524,14 @@ namespace Aow.Game.World
         // MAPOBJ.PAS:266
         public override void RemoveFromMap()
         {
-            TMapField MapField;
-            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            MapField MapField;
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
                 if (Owner != null)
                 {
-                    MapField = (TMapField)Owner;
+                    MapField = (global::Aow.Game.World.Map.MapField)Owner;
                     Disconnect();
-                    if (!((TMapLevel)MapField.Owner).FMap.FStatus.Contains(THSMapStatusElement.msDestroying))
+                    if (!((MapLevel)MapField.Owner).FMap.FStatus.Contains(HSMapStatusElement.Destroying))
                     {
                         if (GetTerrain(0) >= 0 || GetOverlay(0) >= 0)
                         {
@@ -3554,27 +3540,27 @@ namespace Aow.Game.World
 
                         if (GetLevel() <= 15 && GetVisible())
                         {
-                            ((TMapLevel)MapField.Owner).FMap.FStaticSceneInvalid = true;
+                            ((MapLevel)MapField.Owner).FMap.FStaticSceneInvalid = true;
                         }
                     }
 
                     if (!GetEditMode())
                     {
-                        ((TMapLevel)MapField.Owner).FMap.TerrainChangedRad(MapField.FXhx, MapField.FYhx, MapField.FLhx, 0);
+                        ((MapLevel)MapField.Owner).FMap.TerrainChangedRad(MapField.FXhx, MapField.FYhx, MapField.FLhx, 0);
                     }
                 }
 
-                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+                FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
             }
         }
 
         // MAPOBJ.PAS:341
-        public override bool MainPlace(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
+        public override bool MainPlace(MapContainer MapContainer, int Xhp, int Yhp, int Lhx)
         {
             bool Result;
             int Xhx = default;
             int Yhx = default;
-            if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            if (!FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
                 Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
                 if (GetEditMode() || CanPlace(MapContainer, (sbyte)Xhx, (sbyte)Yhx, (sbyte)Lhx))
@@ -3605,24 +3591,24 @@ namespace Aow.Game.World
         // MAPOBJ.PAS:363
         public override void MainRemove()
         {
-            if (FStatus.Contains(TMapObjectStatusElement.moSelected))
+            if (FStatus.Contains(MapObjectStatusElement.Selected))
             {
                 Unselect();
             }
 
-            if (FStatus.Contains(TMapObjectStatusElement.moActivated))
+            if (FStatus.Contains(MapObjectStatusElement.Activated))
             {
                 Deactivate();
             }
 
-            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
                 Remove();
             }
         }
 
         // MAPOBJ.PAS:206
-        public override bool Place(TMapContainer MapContainer, int Xhp, int Yhp, int Lhx)
+        public override bool Place(MapContainer MapContainer, int Xhp, int Yhp, int Lhx)
         {
             int Xhx = default;
             int Yhx = default;
@@ -3633,18 +3619,18 @@ namespace Aow.Game.World
         // MAPOBJ.PAS:291
         public override void Remove()
         {
-            TMapField MapField;
-            MapField = (TMapField)Owner;
+            MapField MapField;
+            MapField = (global::Aow.Game.World.Map.MapField)Owner;
             RemoveFromMap();
             if (GetVisible())
             {
                 if (GetLevel() <= 15)
                 {
-                    ((TMapLevel)MapField.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
+                    ((MapLevel)MapField.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
                 }
                 else
                 {
-                    ((TMapLevel)MapField.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
+                    ((MapLevel)MapField.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
                 }
 
                 SetVisible(false);
@@ -3659,7 +3645,7 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:373
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             base.MapFieldMsgProc(ref Msg);
             if (Msg.MsgID == 16)
@@ -3674,40 +3660,40 @@ namespace Aow.Game.World
         // MAPOBJ.PAS:330
         public override void Activate()
         {
-            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moActivated);
+            FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         }
 
         // MAPOBJ.PAS:335
         public override void Deactivate()
         {
             base.Deactivate();
-            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moActivated);
+            FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         }
 
         // MAPOBJ.PAS:117
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(TMapObjectStatusElement.moVisible))
+            if (!FStatus.Contains(MapObjectStatusElement.Visible))
             {
-                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moVisible);
+                FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Visible);
                 VisibilityList.AddSortChild(this, GetShowPriority());
             }
         }
 
         // MAPOBJ.PAS:126
-        public override bool CanSelect(int Xhp, int Yhp) => FResource.FEngine.FHSMap.FStatus.Contains(THSMapStatusElement.msEditting) && FResource.FTerrainList.FCount != 0 && (FResource.FTerrainList.GetTerrain(0) >= 0 || FResource.FTerrainList.GetOverlay(0) >= 0);
+        public override bool CanSelect(int Xhp, int Yhp) => FResource.FEngine.FHSMap.FStatus.Contains(HSMapStatusElement.Editting) && FResource.FTerrainList.FCount != 0 && (FResource.FTerrainList.GetTerrain(0) >= 0 || FResource.FTerrainList.GetOverlay(0) >= 0);
 
         // MAPOBJ.PAS:172
         public override void Select()
         {
-            FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moSelected);
+            FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Selected);
         }
 
         // MAPOBJ.PAS:177
         public override void Unselect()
         {
             base.Unselect();
-            FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moSelected);
+            FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Selected);
         }
 
         // MAPOBJ.PAS:21
@@ -3727,20 +3713,20 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:63
-        public virtual TMapObjectResourceList GetResourceList(TEngine AEngine) => ((THSEngine)AEngine).FHSSet.FMapObjectResourceList;
+        public virtual MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => ((HSEngine)AEngine).FHSSet.FMapObjectResourceList;
 
         // MAPOBJ.PAS:68
-        public virtual void SetResource(TMapObjectResource Value)
+        public virtual void SetResource(MapObjectResource Value)
         {
             FResource = Value;
         }
 
         // MAPOBJ.PAS:307
-        public virtual bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result;
-            THexagonSprite HS;
-            TMapField MapField;
+            HexagonSprite HS;
+            MapField MapField;
             if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount)
             {
                 MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
@@ -3763,38 +3749,38 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:324
-        public virtual bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             Owner = MapContainer.GetField(Xhx, Yhx, Lhx);
             return PlaceOnMap();
         }
 
-        public TMapObjectResource Resource { get => FResource; set => SetResource(value); }
+        public MapObjectResource Resource { get => FResource; set => SetResource(value); }
         public int ResourceID { get => GetResourceID(); set => SetResourceID(value); }
         public bool ResourceLinked { get => GetResourceLinked(); set => SetResourceLinked(value); }
-        public TSet<TMapObjectStatusElement> Status { get => FStatus; }
+        public Set<MapObjectStatusElement> Status { get => FStatus; }
 
     }
 
     // the resource of map objects. FEngine (set by the engine activation message),
     // FShowPriorityOffset (id 4), FImageLibrary (id 8), FImageSequenceList (nil without complex
     // images. ids 9, 10), FTerrainList (id 7), FLevel (id 5), FName (id 6)
-    public partial class TMapObjectResource : TEResource
+    public partial class MapObjectResource : EResource
     {
         public new const int ClassID = 65876;
 
-        public TMapObjectResource(TECustomNode owner) : base(owner)
+        public MapObjectResource(ECustomNode owner) : base(owner)
         {
-            FTerrainList = new TTerrainList();
-            FImageLibrary = new TImageLibrary(null);
+            FTerrainList = new global::Aow.Game.World.Map.TerrainList();
+            FImageLibrary = new global::Aow.Game.Draw.Images.ImageLibrary(null);
             SetLevel(26);
         }
 
-        protected internal THSEngine FEngine;
+        protected internal HSEngine FEngine;
         protected internal int FShowPriorityOffset;
-        protected internal TImageLibrary FImageLibrary;
-        protected internal TImageSequenceList FImageSequenceList;
-        protected internal TTerrainList FTerrainList;
+        protected internal global::Aow.Game.Draw.Images.ImageLibrary FImageLibrary;
+        protected internal global::Aow.Game.Draw.Images.ImageSequenceList FImageSequenceList;
+        protected internal global::Aow.Game.World.Map.TerrainList FTerrainList;
         protected internal byte FLevel;
         protected internal string FName = "";
 
@@ -3815,10 +3801,10 @@ namespace Aow.Game.World
         public override int ClassVersion() => 1;
 
         // MAPOBJ.PAS:400
-        public override TEngine GetEngine() => FEngine;
+        public override global::Aow.Game.Engine.Engine GetEngine() => FEngine;
 
         // MAPOBJ.PAS:470
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             bool Complex = default;
             base.ReadWrite(Stream);
@@ -3830,14 +3816,14 @@ namespace Aow.Game.World
             Stream.rwStreamProc(8, FImageLibrary.LoadFromStream, FImageLibrary.SaveToStream);
             if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
             {
-                if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+                if (Stream.StorageMode().Contains(StorageModeElement.Read))
                 {
                     Stream.rwBool(ref Complex, 9);
                     if (Complex)
                     {
                         if (FImageSequenceList == null)
                         {
-                            FImageSequenceList = new TImageSequenceList(null, FImageLibrary);
+                            FImageSequenceList = new global::Aow.Game.Draw.Images.ImageSequenceList(null, FImageLibrary);
                         }
                     }
                     else
@@ -3862,12 +3848,12 @@ namespace Aow.Game.World
         // MAPOBJ.PAS:383
 
         // MAPOBJ.PAS:620
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FEngine = (THSEngine)Msg.Payload.As<TEngine>();
+                FEngine = (HSEngine)Msg.Payload.As<global::Aow.Game.Engine.Engine>();
                 if (FImageSequenceList != null)
                 {
                     FImageSequenceList.FILManager = FEngine.FHSSet.FImageLibraryManager;
@@ -3891,11 +3877,11 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:450
-        public override Aow.Game.Draw.Images.TLibraryImage GetCellImage()
+        public override Aow.Game.Draw.Images.LibraryImage GetCellImage()
         {
             int I;
             I = 0;
-            Aow.Game.Draw.Images.TLibraryImage Result = null;
+            Aow.Game.Draw.Images.LibraryImage Result = null;
             while (I != FImageLibrary.Count && Result == null)
             {
                 Result = FImageLibrary.Get(I);
@@ -3911,20 +3897,20 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:465
-        public override void SetCellImage(Aow.Game.Draw.Images.TLibraryImage Value)
+        public override void SetCellImage(Aow.Game.Draw.Images.LibraryImage Value)
         {
             FImageLibrary.SetImage(0, Value);
         }
 
         // MAPOBJ.PAS:525
-        public override TEObject CreateResourceUser()
+        public override EObject CreateResourceUser()
         {
             int ID;
-            TMapObject MO;
+            MapObject MO;
             ID = ResourceUserClassID();
             if (ID != 0)
             {
-                MO = (TMapObject)FEngine.CreateEObject(ID, null);
+                MO = (MapObject)FEngine.CreateEObject(ID, null);
                 if (MO != null)
                 {
                     MO.SetResource(this);
@@ -3940,12 +3926,12 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:420
-        public override void Draw(TCanvas Canvas, TRect Rect, Aow.Game.Draw.Images.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+        public override void Draw(Canvas Canvas, global::Aow.Rtl.Rect Rect, Aow.Game.Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
             int I;
-            Aow.Game.Draw.Images.TLibraryImage Image;
-            TImageSequence Sequence;
-            TRect DrawRect = default;
+            Aow.Game.Draw.Images.LibraryImage Image;
+            ImageSequence Sequence;
+            global::Aow.Rtl.Rect DrawRect = default;
             I = 0;
             Image = null;
             while (I != FImageLibrary.Count && Image == null)
@@ -3967,7 +3953,7 @@ namespace Aow.Game.World
                     }
                 }
 
-                Aow.Game.World.TMapObjectResource.BltImageSequenceEx(Canvas, Sequence, 0, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
+                Aow.Game.World.MapObjectResource.BltImageSequenceEx(Canvas, Sequence, 0, Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref DrawRect);
             }
             else
             {
@@ -3983,11 +3969,11 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:556
-        public virtual TMapObject PlaceResourceUser(THSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             int Xhp = default;
             int Yhp = default;
-            TMapObject Result = (TMapObject)CreateResourceUser();
+            MapObject Result = (MapObject)CreateResourceUser();
             Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             Xhp += 16;
             Yhp += 16;
@@ -4007,13 +3993,13 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:507
-        public void ShowComplexImage(int X, int Y, in TSurfaceDesc SurfaceDesc, int Index, uint Offset)
+        public void ShowComplexImage(int X, int Y, in SurfaceDesc SurfaceDesc, int Index, uint Offset)
         {
-            TImageSequence Sequence;
+            ImageSequence Sequence;
             int Frame;
             if (Index < FImageSequenceList.Count)
             {
-                Sequence = (TImageSequence)FImageSequenceList.List[Index];
+                Sequence = (ImageSequence)FImageSequenceList.List[Index];
             }
             else
             {
@@ -4050,23 +4036,23 @@ namespace Aow.Game.World
         // MAPOBJ.PAS:586
         // { The resource was dropped on the map (message $10005): fill the hexagons in Param[1] rings around
         //   the drop point with its users, clearing the terrain first when Param[2] = 1 }
-        public void EditDropMsg(ref TEMsg Msg)
+        public void EditDropMsg(ref EMsg Msg)
         {
-            TMapLevel MapLevel;
+            MapLevel MapLevel;
             int Xhx = default;
             int Yhx = default;
             int Lhx;
             int Rad;
             bool Clear;
             bool Placed;
-            THNWalkData Walk = default;
+            HNWalkData Walk = default;
             Placed = true;
-            MapLevel = Msg.Param[0].As<TMapLevel>();
+            MapLevel = Msg.Param[0].As<global::Aow.Game.World.Map.MapLevel>();
             Lhx = Msg.Data[1];
             Rad = Msg.Param[1].Int;
             Aow.Game.World.Map.HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
             Clear = Msg.Param[2].Int == 1;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.Radius <= Rad)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -4079,7 +4065,7 @@ namespace Aow.Game.World
                     Placed = Placed && PlaceResourceUser(FEngine.FHSMap, (sbyte)Walk.X, (sbyte)Walk.Y, (sbyte)Lhx) != null;
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             if (Placed)
@@ -4092,36 +4078,36 @@ namespace Aow.Game.World
             }
         }
 
-        public THSEngine Engine { get => FEngine; }
+        public HSEngine Engine { get => FEngine; }
         public int ShowPriorityOffset { get => FShowPriorityOffset; set => FShowPriorityOffset = value; }
-        public TImageLibrary ImageLibrary { get => FImageLibrary; }
-        public TImageSequenceList ImageSequenceList { get => FImageSequenceList; set => FImageSequenceList = value; }
-        public TTerrainList TerrainList { get => FTerrainList; }
+        public global::Aow.Game.Draw.Images.ImageLibrary ImageLibrary { get => FImageLibrary; }
+        public global::Aow.Game.Draw.Images.ImageSequenceList ImageSequenceList { get => FImageSequenceList; set => FImageSequenceList = value; }
+        public global::Aow.Game.World.Map.TerrainList TerrainList { get => FTerrainList; }
         public byte Level { get => FLevel; set => SetLevel(value); }
         public string Name { get => FName; set => FName = value; }
 
         // MAPOBJ.PAS:415
         public override string ResourceEditName() => "";
 
-        internal static void BltImageSequenceEx(TCanvas Canvas, global::Aow.Game.Draw.Images.TImageSequence Sequence, int Frame, TRect Rect, global::Aow.Game.Draw.Images.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref TRect DrawRect)
+        internal static void BltImageSequenceEx(Canvas Canvas, global::Aow.Game.Draw.Images.ImageSequence Sequence, int Frame, global::Aow.Rtl.Rect Rect, global::Aow.Game.Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color, bool Selected, ref global::Aow.Rtl.Rect DrawRect)
         {
             throw new NotImplementedException();
         }
 
     }
 
-    public partial class TMapObjectResourceList : TEResourceList
+    public partial class MapObjectResourceList : EResourceList
     {
-        public TMapObjectResourceList(TECustomNode owner) : base(owner)
+        public MapObjectResourceList(ECustomNode owner) : base(owner)
         { }
 
         // MAPOBJ.PAS:641
-        public TMapObjectResource GetMOR(int Index) => (TMapObjectResource)FChildren.List[Index];
+        public MapObjectResource GetMOR(int Index) => (MapObjectResource)FChildren.List[Index];
 
         // MAPOBJ.PAS:646
-        public bool FindMOR(int AClassID, TTerrainList TerrainList, TSet<TTerrainCompareModeElement> Mode, ref TList List)
+        public bool FindMOR(int AClassID, TerrainList TerrainList, Set<TerrainCompareModeElement> Mode, ref DelphiList List)
         {
-            TMapObjectResource R;
+            MapObjectResource R;
             int[] I__cell = new int[1];
             ref int I = ref I__cell[0];
             // { Preserve the original stack locals. }
@@ -4130,7 +4116,7 @@ namespace Aow.Game.World
             int last = FChildren.Count - 1;
             for (; I <= last; I += 1)
             {
-                R = (TMapObjectResource)FChildren.List[I];
+                R = (MapObjectResource)FChildren.List[I];
                 if (R.EClass.ClassID == AClassID)
                 {
                     if (TerrainList == null || R.FTerrainList.CompareTerrain(TerrainList, Mode))
@@ -4144,9 +4130,9 @@ namespace Aow.Game.World
             return Result;
         }
 
-        public sealed class MORsAccessor(TMapObjectResourceList target)
+        public sealed class MORsAccessor(MapObjectResourceList target)
         {
-            public TMapObjectResource this[int Index] { get => target.GetMOR(Index); }
+            public MapObjectResource this[int Index] { get => target.GetMOR(Index); }
         }
 
         public MORsAccessor MORs => new MORsAccessor(this);
@@ -4160,7 +4146,7 @@ namespace Aow.Game.World.Map
     // { A map location: hexagon column X, row Y, map level L and a flag byte (LocationsConnected
     //     marks the locations it has reached with it); the items of TXYLList, made by PackXYL }
     [StructLayout(LayoutKind.Explicit, Size = 4)]
-    public struct TXYL
+    public struct XYL
     {
         [FieldOffset(0)]
         public sbyte X;
@@ -4173,7 +4159,7 @@ namespace Aow.Game.World.Map
         [FieldOffset(0)]
         public ushort XY;
         [FieldOffset(0)]
-        public int XYL;
+        public int Packed;
     }
 
     // { a column and row offset (HNtoXYTable) }
@@ -4193,7 +4179,7 @@ namespace Aow.Game.World.Movement
     // { State of a walk around a centre hexagon (InitHNWalk, WalkToNextHN): the hexagon numbers
     //     ring after ring, 6 * Radius hexagons on ring Radius }
     [StructLayout(LayoutKind.Explicit, Size = 32)]
-    public struct THNWalkData
+    public struct HNWalkData
     {
         [FieldOffset(0)]
         public int Side;
@@ -4212,7 +4198,7 @@ namespace Aow.Game.World.Movement
         [FieldOffset(28)]
         public int CenterY;
 
-        internal static void WalkToNextHN(ref THNWalkData walk)
+        internal static void WalkToNextHN(ref HNWalkData walk)
         {
             walk.HN = walk.HN + 1;
             int parity = walk.X & 1;
@@ -4238,7 +4224,7 @@ namespace Aow.Game.World.Movement
             }
         }
 
-        internal static void InitHNWalk(ref THNWalkData Walk, int Xhx, int Yhx, int Radius)
+        internal static void InitHNWalk(ref HNWalkData Walk, int Xhx, int Yhx, int Radius)
         {
             if (Radius == 0)
             {
@@ -4267,10 +4253,10 @@ namespace Aow.Game.World.Map
 
     [LegacyObject]
     // the parameters of a new map (THSMap.CreateNewMap)
-    public partial class TNewHSMapSettings
+    public partial class NewHSMapSettings
     {
 
-        public TNewHSMapSettings()
+        public NewHSMapSettings()
         {
             CaptureAddress.Assign(this);
             Width = 64;
@@ -4299,7 +4285,7 @@ namespace Aow.Game.World.Map
     [LegacyObject]
     // terrain and overlay types by hexagon number, two bytes per hexagon (terrain type, overlay
     // type. -2: none)
-    public partial class TTerrainList : IDisposable
+    public partial class TerrainList : IDisposable
     {
         internal int FCount;
         internal byte[] FList = [];
@@ -4311,7 +4297,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1417
-        public virtual void Assign(TTerrainList Source)
+        public virtual void Assign(TerrainList Source)
         {
             SetCount(Source.FCount);
             Array.Copy(Source.FList, 0, FList, 0, FCount * 2);
@@ -4467,19 +4453,19 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1516
-        public TWordList CreateSurroundingHNTable()
+        public WordList CreateSurroundingHNTable()
         {
             int HN;
             int Xhx = default;
             int Yhx = default;
-            THNWalkData Walk = default;
-            TWordList Result = new TWordList();
+            HNWalkData Walk = default;
+            WordList Result = new WordList();
             for (int I = 0, last = FCount - 1; I <= last; I++)
             {
                 if (GetTerrain(I) >= 0)
                 {
                     Aow.Game.World.Map.HexGeometry.HNtoHX(I, ref Xhx, ref Yhx);
-                    Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 1);
+                    Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 1);
                     while (Walk.HN != 7)
                     {
                         HN = Aow.Game.World.Map.HexGeometry.HXtoHN(Walk.X, Walk.Y);
@@ -4491,7 +4477,7 @@ namespace Aow.Game.World.Map
                             }
                         }
 
-                        Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                        Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                     }
                 }
             }
@@ -4500,7 +4486,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1538
-        public bool CompareTerrain(TTerrainList List, TSet<TTerrainCompareModeElement> Mode)
+        public bool CompareTerrain(TerrainList List, Set<TerrainCompareModeElement> Mode)
         {
             int I;
             int N;
@@ -4525,7 +4511,7 @@ namespace Aow.Game.World.Map
                 T2 = List.GetTerrain(I);
                 if (!(T1 < 0 && T2 < 0))
                 {
-                    Result = T1 >= 0 && T2 >= 0 && (!Mode.Contains(TTerrainCompareModeElement.cmSameTerrainType) || T1 == T2);
+                    Result = T1 >= 0 && T2 >= 0 && (!Mode.Contains(TerrainCompareModeElement.SameTerrainType) || T1 == T2);
                 }
 
                 if (Result)
@@ -4534,7 +4520,7 @@ namespace Aow.Game.World.Map
                     O2 = List.GetOverlay(I);
                     if (!(O1 < 0 && O2 < 0))
                     {
-                        Result = !Mode.Contains(TTerrainCompareModeElement.cmSameOverlayType) || O1 == O2;
+                        Result = !Mode.Contains(TerrainCompareModeElement.SameOverlayType) || O1 == O2;
                     }
                 }
 
@@ -4546,35 +4532,35 @@ namespace Aow.Game.World.Map
 
         public int Count { get => FCount; set => SetCount(value); }
 
-        public sealed class TerrainAccessor(TTerrainList target)
+        public sealed class TerrainAccessor(TerrainList target)
         {
             public sbyte this[int Index] { get => target.GetTerrain(Index); set => target.SetTerrain(Index, value); }
         }
 
         public TerrainAccessor Terrain => new TerrainAccessor(this);
 
-        public sealed class OverlayAccessor(TTerrainList target)
+        public sealed class OverlayAccessor(TerrainList target)
         {
             public sbyte this[int Index] { get => target.GetOverlay(Index); set => target.SetOverlay(Index, value); }
         }
 
         public OverlayAccessor Overlay => new OverlayAccessor(this);
 
-        public sealed class TandOAccessor(TTerrainList target)
+        public sealed class TandOAccessor(TerrainList target)
         {
             public ushort this[int Index] { get => target.GetTandO(Index); set => target.SetTandO(Index, value); }
         }
 
         public TandOAccessor TandO => new TandOAccessor(this);
 
-        public sealed class UsedAccessor(TTerrainList target)
+        public sealed class UsedAccessor(TerrainList target)
         {
             public bool this[int Index] { get => target.GetUsed(Index); }
         }
 
         public UsedAccessor Used => new UsedAccessor(this);
 
-        public TTerrainList()
+        public TerrainList()
         {
             CaptureAddress.Assign(this);
         }
@@ -4583,27 +4569,27 @@ namespace Aow.Game.World.Map
 
     // { The records a map field passes by reference to the methods of its sprites. }
     // { THexagonSprite.UpdateMapField (8 bytes) }
-    public struct THSMapFieldInfo
+    public struct HSMapFieldInfo
     {
-        public TMapField MapField;
+        public global::Aow.Game.World.Map.MapField MapField;
         public sbyte HN;
     }
 
     // { THexagonSprite.CanChangeTerrain, CanMoveOver, MoveExclusive (12 bytes): Sender is the object
     //     that asks (the sprite that changes the terrain, the mover) }
-    public struct THSSenderInfo
+    public struct HSSenderInfo
     {
         public object Sender;
-        public TMapField MapField;
+        public global::Aow.Game.World.Map.MapField MapField;
         public sbyte HN;
     }
 
     // { THexagonSprite.ChangeTerrain, TerrainChanged, NeighbourTerrainChanged (12 bytes) }
-    public struct THSTerrainInfo
+    public struct HSTerrainInfo
     {
         public sbyte TerrainType;
         public sbyte OverlayType;
-        public TMapField MapField;
+        public global::Aow.Game.World.Map.MapField MapField;
         public sbyte HN;
     }
 }
@@ -4612,16 +4598,16 @@ namespace Aow.Game.World.Movement
 {
 
     // { THexagonSprite.CanMoveOn (16 and 12 bytes) }
-    public struct THSMoveOnInfo
+    public struct HSMoveOnInfo
     {
         public object Sender;
-        public TMapField MapField;
+        public global::Aow.Game.World.Map.MapField MapField;
         public int MoveOverCode;
         public sbyte HN;
     }
 
     [StructLayout(LayoutKind.Explicit, Size = 12)]
-    public struct THSMoveOnResult
+    public struct HSMoveOnResult
     {
         [FieldOffset(0)]
         public int Code;
@@ -4635,11 +4621,11 @@ namespace Aow.Game.World.Movement
 namespace Aow.Game.World.Map
 {
 
-    public struct TMapFieldMsg
+    public struct MapFieldMsg
     {
         public int MsgID;
-        public TMapField MapField;
-        public TMapFieldMsgParams Param;
+        public global::Aow.Game.World.Map.MapField MapField;
+        public MapFieldMsgParams Param;
         public int HN;
         public MsgArg Result;
     }
@@ -4647,7 +4633,7 @@ namespace Aow.Game.World.Map
     // The parameter slots of a map field message. The count is the arity of the message protocol
     // (HSEngine.pas TMapFieldMsg.Param), not a count of content.
     [InlineArray(Arity)]
-    public struct TMapFieldMsgParams
+    public struct MapFieldMsgParams
     {
         public const int Arity = 4;
 
@@ -4656,12 +4642,12 @@ namespace Aow.Game.World.Map
 
     // A map level owns its fields in row order. The fields are its children.
     // Field size and neighbour offsets keep the recovered layout values.
-    public partial class TMapLevel : TECustomNode
+    public partial class MapLevel : ECustomNode
     {
         // HSEngine.pas:2837
         public new const int ClassID = 65794;
 
-        public TMapLevel(TECustomNode owner) : base(owner)
+        public MapLevel(ECustomNode owner) : base(owner)
         {
             FMapFieldCID = 65793;
         }
@@ -4670,24 +4656,24 @@ namespace Aow.Game.World.Map
         protected internal int FWidth;
         protected internal int FHeight;
         protected internal int FCount;
-        protected internal TMapContainer FMapContainer;
-        protected internal THSMap FMap;
-        protected internal TEngine FEngine;
+        protected internal global::Aow.Game.World.Map.MapContainer FMapContainer;
+        protected internal HSMap FMap;
+        protected internal global::Aow.Game.Engine.Engine FEngine;
         protected internal int FMapFieldCID;
         protected internal int FFieldSize;
         protected internal int FFieldsSize;
         public FixedArray_Aow_Units_FixedArray_int_8_2 FHNOffsets;
 
         // HSEngine.pas:2925
-        public override TEngine GetEngine() => FEngine;
+        public override global::Aow.Game.Engine.Engine GetEngine() => FEngine;
 
         // HSEngine.pas:2913
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = Msg.Payload.As<TEngine>();
-                FMapContainer = (TMapContainer)Owner;
+                FEngine = Msg.Payload.As<global::Aow.Game.Engine.Engine>();
+                FMapContainer = (global::Aow.Game.World.Map.MapContainer)Owner;
                 FMap = FMapContainer.FMap;
             }
             else
@@ -4704,7 +4690,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:2935
-        public override void SetChild(int Index, TEObject Child)
+        public override void SetChild(int Index, EObject Child)
         {
             throw new InvalidOperationException("Cannot set child in TMapLevel");
         }
@@ -4713,19 +4699,19 @@ namespace Aow.Game.World.Map
         public override int GetCount() => FCount;
 
         // HSEngine.pas:2945
-        public override int RemoveChild(TEObject Child)
+        public override int RemoveChild(EObject Child)
         {
             throw new InvalidOperationException("Cannot remove from TMapLevel");
         }
 
         // HSEngine.pas:2940
-        public override int AddChild(TEObject Child)
+        public override int AddChild(EObject Child)
         {
             throw new InvalidOperationException("Cannot add child to TMapLevel");
         }
 
         // HSEngine.pas:3140
-        public virtual void New(TNewHSMapSettings Settings)
+        public virtual void New(NewHSMapSettings Settings)
         {
             Clear();
             try
@@ -4740,20 +4726,20 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:2842
-        public virtual EClass MapFieldClass() => EClass.Of<TMapField>();
+        public virtual EClass MapFieldClass() => EClass.Of<MapField>();
 
         public int Lhx { get => FLhx; set => FLhx = value; }
         public int Width { get => FWidth; }
         public int Height { get => FHeight; }
-        public TMapContainer MapContainer { get => FMapContainer; }
-        public THSMap Map { get => FMap; }
+        public global::Aow.Game.World.Map.MapContainer MapContainer { get => FMapContainer; }
+        public HSMap Map { get => FMap; }
         public int MapFieldCID { get => FMapFieldCID; set => FMapFieldCID = value; }
         public int FieldSize { get => FFieldSize; }
-        public ReadOnlySpan<TMapField> Fields => fields;
+        public ReadOnlySpan<MapField> Fields => fields;
 
-        public sealed class FieldAccessor(TMapLevel target)
+        public sealed class FieldAccessor(MapLevel target)
         {
-            public TMapField this[int X, int Y] { get => target.GetField(X, Y); }
+            public MapField this[int X, int Y] { get => target.GetField(X, Y); }
         }
 
         public FieldAccessor Field => new FieldAccessor(this);
@@ -4764,32 +4750,32 @@ namespace Aow.Game.World.Map
     // FLocationHS the sprites selected by location (clicking on a hexagon), FOnSelect, FOnDeselect
     // (triggered with the map as the sender), FEventHS the sprite of the last event. The owner is
     // the map
-    public partial class THexagonSpriteSelection : TEControlStyleNode
+    public partial class HexagonSpriteSelection : EControlStyleNode
     {
-        internal TList FLocationHS;
+        internal DelphiList FLocationHS;
 
-        internal EventStore<TECustomNode> FOnSelectStore;
+        internal EventStore<ECustomNode> FOnSelectStore;
 
-        internal event TNotifyEvent<TECustomNode> FOnSelect
+        internal event NotifyEvent<ECustomNode> FOnSelect
         {
             add => FOnSelectStore.Add(value);
             remove => FOnSelectStore.Remove(value);
         }
 
-        internal EventStore<TECustomNode> FOnDeselectStore;
+        internal EventStore<ECustomNode> FOnDeselectStore;
 
-        internal event TNotifyEvent<TECustomNode> FOnDeselect
+        internal event NotifyEvent<ECustomNode> FOnDeselect
         {
             add => FOnDeselectStore.Add(value);
             remove => FOnDeselectStore.Remove(value);
         }
 
-        internal THexagonSprite FEventHS;
+        internal HexagonSprite FEventHS;
 
         // HSEngine.pas:3681
-        public THexagonSpriteSelection(TECustomNode owner) : base(owner)
+        public HexagonSpriteSelection(ECustomNode owner) : base(owner)
         {
-            FLocationHS = new TList();
+            FLocationHS = new DelphiList();
             FOnSelectStore = new();
             FOnDeselectStore = new();
         }
@@ -4811,21 +4797,21 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3699
-        public void TriggerDeselectEvent(THexagonSprite HS)
+        public void TriggerDeselectEvent(HexagonSprite HS)
         {
             FEventHS = HS;
             FOnDeselectStore.Raise(Owner);
         }
 
         // HSEngine.pas:3705
-        public void TriggerSelectEvent(THexagonSprite HS)
+        public void TriggerSelectEvent(HexagonSprite HS)
         {
             FEventHS = HS;
             FOnSelectStore.Raise(Owner);
         }
 
         // HSEngine.pas:3711
-        public void Unselect(THexagonSprite HS)
+        public void Unselect(HexagonSprite HS)
         {
             int I;
             I = FChildren.IndexOf(HS);
@@ -4846,7 +4832,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3727
-        public void Select(THexagonSprite HS)
+        public void Select(HexagonSprite HS)
         {
             FChildren.Add(HS);
             HS.Select();
@@ -4858,23 +4844,23 @@ namespace Aow.Game.World.Map
         {
             while (FChildren.Count != 0)
             {
-                Unselect((THexagonSprite)FChildren.List[FChildren.Count - 1]);
+                Unselect((HexagonSprite)FChildren.List[FChildren.Count - 1]);
             }
         }
 
         // HSEngine.pas:3740
-        public THexagonSprite FindClass(Type AClass)
+        public HexagonSprite FindClass(Type AClass)
         {
-            THexagonSprite HS;
+            HexagonSprite HS;
             int I;
-            THexagonSprite Result = null;
+            HexagonSprite Result = null;
             I = 0;
             while (I != Count && Result == null)
             {
-                HS = (THexagonSprite)FChildren.List[I];
+                HS = (HexagonSprite)FChildren.List[I];
                 if (AClass.IsInstanceOfType(HS))
                 {
-                    Result = (THexagonSprite)FChildren.List[I];
+                    Result = (HexagonSprite)FChildren.List[I];
                 }
 
                 I += 1;
@@ -4884,10 +4870,10 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3756
-        public THexagonSprite GetHS(int Index) => (THexagonSprite)FChildren.List[Index];
+        public HexagonSprite GetHS(int Index) => (HexagonSprite)FChildren.List[Index];
 
         // HSEngine.pas:3790
-        public void SelectLocationHS(THexagonSprite HS)
+        public void SelectLocationHS(HexagonSprite HS)
         {
             FLocationHS.Add(HS);
             Select(HS);
@@ -4907,31 +4893,31 @@ namespace Aow.Game.World.Map
         {
             while (FLocationHS.Count != 0)
             {
-                Unselect((THexagonSprite)FLocationHS.Last());
+                Unselect((HexagonSprite)FLocationHS.Last());
             }
         }
 
-        public sealed class HSAccessor(THexagonSpriteSelection target)
+        public sealed class HSAccessor(HexagonSpriteSelection target)
         {
-            public THexagonSprite this[int Index] { get => target.GetHS(Index); }
+            public HexagonSprite this[int Index] { get => target.GetHS(Index); }
         }
 
         public HSAccessor HS => new HSAccessor(this);
-        public TList LocationHS { get => FLocationHS; }
+        public DelphiList LocationHS { get => FLocationHS; }
 
-        public event TNotifyEvent<TECustomNode> OnSelect
+        public event NotifyEvent<ECustomNode> OnSelect
         {
             add => FOnSelectStore.Add(value);
             remove => FOnSelectStore.Remove(value);
         }
 
-        public event TNotifyEvent<TECustomNode> OnDeselect
+        public event NotifyEvent<ECustomNode> OnDeselect
         {
             add => FOnDeselectStore.Add(value);
             remove => FOnDeselectStore.Remove(value);
         }
 
-        public THexagonSprite EventHS { get => FEventHS; }
+        public HexagonSprite EventHS { get => FEventHS; }
 
     }
 
@@ -4940,10 +4926,10 @@ namespace Aow.Game.World.Map
     // when outside), FButton, FOnUp, FOnDown, FOnMove, FOnDblClick, FOnCaptureChanged, FCapture
     // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
     // FCursorVisible (and are used by the game only)
-    public partial class THSMapMouse : IDisposable
+    public partial class HSMapMouse : IDisposable
     {
 
-        public THSMapMouse()
+        public HSMapMouse()
         {
             CaptureAddress.Assign(this);
             FOnUpStore = new();
@@ -4954,57 +4940,57 @@ namespace Aow.Game.World.Map
             Reset();
         }
 
-        internal THSMap FHSMap;
+        internal global::Aow.Game.World.Map.HSMap FHSMap;
         internal int FX;
         internal int FY;
-        internal TMouseButton FButton;
+        internal MouseButton FButton;
 
-        internal EventStore<THSMapMouse> FOnUpStore;
+        internal EventStore<HSMapMouse> FOnUpStore;
 
-        internal event TNotifyEvent<THSMapMouse> FOnUp
+        internal event NotifyEvent<HSMapMouse> FOnUp
         {
             add => FOnUpStore.Add(value);
             remove => FOnUpStore.Remove(value);
         }
 
-        internal EventStore<THSMapMouse> FOnDownStore;
+        internal EventStore<HSMapMouse> FOnDownStore;
 
-        internal event TNotifyEvent<THSMapMouse> FOnDown
+        internal event NotifyEvent<HSMapMouse> FOnDown
         {
             add => FOnDownStore.Add(value);
             remove => FOnDownStore.Remove(value);
         }
 
-        internal EventStore<THSMapMouse> FOnMoveStore;
+        internal EventStore<HSMapMouse> FOnMoveStore;
 
-        internal event TNotifyEvent<THSMapMouse> FOnMove
+        internal event NotifyEvent<HSMapMouse> FOnMove
         {
             add => FOnMoveStore.Add(value);
             remove => FOnMoveStore.Remove(value);
         }
 
-        internal EventStore<THSMapMouse> FOnDblClickStore;
+        internal EventStore<HSMapMouse> FOnDblClickStore;
 
-        internal event TNotifyEvent<THSMapMouse> FOnDblClick
+        internal event NotifyEvent<HSMapMouse> FOnDblClick
         {
             add => FOnDblClickStore.Add(value);
             remove => FOnDblClickStore.Remove(value);
         }
 
-        internal EventStore<THSMapMouse> FOnCaptureChangedStore;
+        internal EventStore<HSMapMouse> FOnCaptureChangedStore;
 
-        internal event TNotifyEvent<THSMapMouse> FOnCaptureChanged
+        internal event NotifyEvent<HSMapMouse> FOnCaptureChanged
         {
             add => FOnCaptureChangedStore.Add(value);
             remove => FOnCaptureChangedStore.Remove(value);
         }
 
         internal object FCapture;
-        internal TSet<TMouseStatusElement> FStatus;
+        internal Set<MouseStatusElement> FStatus;
         internal int FCursor;
         internal int FCursorMode;
         internal bool FIgnoreDown;
-        internal TSet<TShiftState> FShift;
+        internal Set<ShiftState> FShift;
         internal bool FCursorVisible;
 
         // HSEngine.pas:3475
@@ -5034,7 +5020,7 @@ namespace Aow.Game.World.Map
             bool Result = true;
             if (FCapture == null && GetXhx() != -1)
             {
-                if (FButton == TMouseButton.mbLeft)
+                if (FButton == MouseButton.Left)
                 {
                     var yhp = GetYhp();
                     var xhp = GetXhp();
@@ -5043,7 +5029,7 @@ namespace Aow.Game.World.Map
                 }
                 else
                 {
-                    if (FButton == TMouseButton.mbRight && !FHSMap.FStatus.Contains(THSMapStatusElement.msEditting))
+                    if (FButton == MouseButton.Right && !FHSMap.FStatus.Contains(HSMapStatusElement.Editting))
                     {
                         FHSMap.FSelection.UnselectLocation();
                         Result = false;
@@ -5065,7 +5051,7 @@ namespace Aow.Game.World.Map
 
         // HSEngine.pas:3600
         // { Down and Up set FX twice when the position is outside (an original slip for FY). }
-        public virtual void Down(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+        public virtual void Down(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
         {
             if (!FIgnoreDown)
             {
@@ -5094,7 +5080,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3628
-        public virtual void Up(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+        public virtual void Up(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
         {
             if (X >= 0 && Y >= 0)
             {
@@ -5116,7 +5102,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3651
-        public virtual void Move(TSet<TShiftState> Shift, int X, int Y)
+        public virtual void Move(Set<ShiftState> Shift, int X, int Y)
         {
             // Port extension: a view wider or taller than the map takes scene points past MaxXhp or MaxYhp.
             // GetXhp and GetYhp still test the map coordinates.
@@ -5154,7 +5140,7 @@ namespace Aow.Game.World.Map
         {
             FX = -2147483648;
             FY = -2147483648;
-            FShift = TSet<TShiftState>.Of();
+            FShift = Set<ShiftState>.Of();
             FCursor = 0;
             SetCapture(null);
         }
@@ -5245,9 +5231,9 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:3570
         public void SetCapture(object Value)
         {
-            if (!FStatus.Contains(TMouseStatusElement.msChangingCapture) && Value != FCapture)
+            if (!FStatus.Contains(MouseStatusElement.ChangingCapture) && Value != FCapture)
             {
-                FStatus = FStatus + TSet<TMouseStatusElement>.Of(TMouseStatusElement.msChangingCapture);
+                FStatus = FStatus + Set<MouseStatusElement>.Of(MouseStatusElement.ChangingCapture);
                 FCapture = Value;
                 if (Value == null)
                 {
@@ -5255,45 +5241,45 @@ namespace Aow.Game.World.Map
                 }
 
                 FOnCaptureChangedStore.Raise(this);
-                FStatus = FStatus - TSet<TMouseStatusElement>.Of(TMouseStatusElement.msChangingCapture);
+                FStatus = FStatus - Set<MouseStatusElement>.Of(MouseStatusElement.ChangingCapture);
             }
         }
 
-        public THSMap HSMap { get => FHSMap; }
+        public global::Aow.Game.World.Map.HSMap HSMap { get => FHSMap; }
         public int X { get => FX; }
         public int Y { get => FY; }
         public int Xhp { get => GetXhp(); }
         public int Yhp { get => GetYhp(); }
         public int Xhx { get => GetXhx(); }
         public int Yhx { get => GetYhx(); }
-        public TMouseButton Button { get => FButton; }
-        public TSet<TShiftState> Shift { get => FShift; }
+        public MouseButton Button { get => FButton; }
+        public Set<ShiftState> Shift { get => FShift; }
 
-        public event TNotifyEvent<THSMapMouse> OnUp
+        public event NotifyEvent<HSMapMouse> OnUp
         {
             add => FOnUpStore.Add(value);
             remove => FOnUpStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSMapMouse> OnDown
+        public event NotifyEvent<HSMapMouse> OnDown
         {
             add => FOnDownStore.Add(value);
             remove => FOnDownStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSMapMouse> OnMove
+        public event NotifyEvent<HSMapMouse> OnMove
         {
             add => FOnMoveStore.Add(value);
             remove => FOnMoveStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSMapMouse> OnDblClick
+        public event NotifyEvent<HSMapMouse> OnDblClick
         {
             add => FOnDblClickStore.Add(value);
             remove => FOnDblClickStore.Remove(value);
         }
 
-        public event TNotifyEvent<THSMapMouse> OnCaptureChanged
+        public event NotifyEvent<HSMapMouse> OnCaptureChanged
         {
             add => FOnCaptureChangedStore.Add(value);
             remove => FOnCaptureChangedStore.Remove(value);
@@ -5305,65 +5291,59 @@ namespace Aow.Game.World.Map
         public bool IgnoreDown { get => FIgnoreDown; set => FIgnoreDown = value; }
         public bool CursorVisible { get => FCursorVisible; set => FCursorVisible = value; }
 
+        public enum MouseStatusElement : byte
+        {
+            ChangingCapture = 0
+        }
+
     }
 
-    public delegate void TCenterViewEvent(int Xhx, int Yhx, int Lhx);
-    public delegate void TChangeViewEvent(int Xhp, int Yhp, int Lhp);
-    public delegate void TViewLevelEvent(int Lhx);
-
-    public enum TMapProgressType : byte
+    public enum MapProgressType : byte
     {
-        ptLoading = 0,
-        ptSaving = 1,
-        ptInitializing = 2,
-        ptUpdatingTerrain = 3,
-        ptActivating = 4,
-        ptDestroying = 5
+        Loading = 0,
+        Saving = 1,
+        Initializing = 2,
+        UpdatingTerrain = 3,
+        Activating = 4,
+        Destroying = 5
     }
 
-    public delegate void TChangeTerrainProc(TMapField MapF, ref sbyte TerrainType, ref sbyte OverlayType);
-    public delegate void TTerrainChangedProc(TMapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType);
+    public delegate void ChangeTerrainProc(MapField MapF, ref sbyte TerrainType, ref sbyte OverlayType);
+    public delegate void TerrainChangedProc(MapField MapF, sbyte OriginalTerrainType, sbyte OriginalOverlayType);
 
     // { The record of THSMap.NotifyProgress (TMapLevel.Loaded fills one): the kind, the percentage
     //     done of the level and the level index. }
     [StructLayout(LayoutKind.Explicit, Size = 12)]
-    public struct TMapProgress
+    public struct MapProgress
     {
         [FieldOffset(0)]
-        public TMapProgressType ProgressType;
+        public MapProgressType ProgressType;
         [FieldOffset(4)]
         public int Percent;
         [FieldOffset(8)]
         public int Level;
     }
 
-    public struct TTerrainChangedInfo
-    {
-        public TRect Rect;
-        public int Level;
-        public TMapLevel MapLevel;
-    }
-
     // shows a map on a surface. FStaticSurface (the static scene, kept between frames),
     // FSceneWidth, FSceneHeight, FSceneX, FSceneY, FSceneL, FStaticSurfaceValid, FOnSceneChanged
     // (published), FHSMap. SetHSMap points the map's OnCenterView, OnChangeView and OnViewLevel at
     // CenterScene, ChangeScene and SetSceneL
-    public partial class THSMapViewer : TComponent
+    public partial class HSMapViewer : global::Aow.Rtl.Component
     {
-        internal TSurface FStaticSurface;
+        internal Surface FStaticSurface;
         internal int FSceneWidth;
         internal int FSceneHeight;
         internal int FSceneX;
         internal int FSceneY;
         internal int FSceneL;
         internal bool FStaticSurfaceValid;
-        internal TNotifyEvent<object> FOnSceneChanged;
-        internal THSMap FHSMap;
+        internal NotifyEvent<object> FOnSceneChanged;
+        internal global::Aow.Game.World.Map.HSMap FHSMap;
         // Port extension: the scene drawn under the original clamp before ShowCenteredMap centers it.
-        internal TSurface FCenteredSurface;
+        internal Surface FCenteredSurface;
 
         // HSEngine.pas:4670
-        public THSMapViewer(TComponent owner) : base(owner)
+        public HSMapViewer(global::Aow.Rtl.Component owner) : base(owner)
         {
             FStaticSurfaceValid = false;
             FOnSceneChanged = null;
@@ -5385,7 +5365,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4718
-        public virtual void SetHSMap(THSMap Value)
+        public virtual void SetHSMap(global::Aow.Game.World.Map.HSMap Value)
         {
             FHSMap = Value;
             if (FHSMap != null)
@@ -5398,12 +5378,12 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4794
-        public virtual void VerifyStaticSurface(TSurface Surface)
+        public virtual void VerifyStaticSurface(Surface Surface)
         {
             bool IsDDraw;
-            TSet<TDDSCreationFlagsElement> Flags;
-            IsDDraw = FStaticSurface is TDDrawSurface;
-            if (FStaticSurface != null && (FStaticSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (Surface is TDDrawSurface) ^ IsDDraw))
+            Set<DDSCreationFlagsElement> Flags;
+            IsDDraw = FStaticSurface is DDrawSurface;
+            if (FStaticSurface != null && (FStaticSurface.GetPixelFormatID() != Surface.GetPixelFormatID() || (Surface is DDrawSurface) ^ IsDDraw))
             {
                 FStaticSurface?.Dispose();
                 FStaticSurface = null;
@@ -5413,25 +5393,25 @@ namespace Aow.Game.World.Map
             {
                 if (FStaticSurface == null)
                 {
-                    if (Surface is TDDrawSurface)
+                    if (Surface is DDrawSurface)
                     {
-                        if (((TDDrawSurface)Surface).Status.Contains(TDDrawSurfaceStatusElement.ssVideoMemory))
+                        if (((DDrawSurface)Surface).Status.Contains(DDrawSurfaceStatusElement.VideoMemory))
                         {
-                            Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfVideoMemory, TDDSCreationFlagsElement.cfSystemMemory);
+                            Flags = Set<DDSCreationFlagsElement>.Of(DDSCreationFlagsElement.VideoMemory, DDSCreationFlagsElement.SystemMemory);
                         }
                         else
                         {
-                            Flags = TSet<TDDSCreationFlagsElement>.Of(TDDSCreationFlagsElement.cfSystemMemory);
+                            Flags = Set<DDSCreationFlagsElement>.Of(DDSCreationFlagsElement.SystemMemory);
                         }
 
-                        FStaticSurface = new TDDrawSurface();
+                        FStaticSurface = new DDrawSurface();
                         var pixelFormatID = Surface.GetPixelFormatID();
-                        ((TDDrawSurface)FStaticSurface).CreateSurface(FSceneWidth, FSceneHeight, pixelFormatID, Flags);
+                        ((DDrawSurface)FStaticSurface).CreateSurface(FSceneWidth, FSceneHeight, pixelFormatID, Flags);
                     }
                     else
                     {
                         var pixelFormatID = Surface.GetPixelFormatID();
-                        FStaticSurface = new TDataSurface(FSceneWidth, FSceneHeight, pixelFormatID, null);
+                        FStaticSurface = new DataSurface(FSceneWidth, FSceneHeight, pixelFormatID, null);
                     }
                 }
                 else
@@ -5439,14 +5419,14 @@ namespace Aow.Game.World.Map
                     FStaticSurface.Resize(FSceneWidth, FSceneHeight);
                 }
 
-                IsDDraw = FStaticSurface is TDDrawSurface;
+                IsDDraw = FStaticSurface is DDrawSurface;
                 FHSMap.FStaticSceneInvalid = true;
                 FStaticSurfaceValid = false;
             }
 
-            if (IsDDraw && ((TDDrawSurface)FStaticSurface).Lost())
+            if (IsDDraw && ((DDrawSurface)FStaticSurface).Lost())
             {
-                ((TDDrawSurface)FStaticSurface).Restore();
+                ((DDrawSurface)FStaticSurface).Restore();
                 FStaticSurfaceValid = false;
             }
         }
@@ -5548,7 +5528,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:4770
         public void SetSceneWidth(int Value)
         {
-            THSMap M;
+            global::Aow.Game.World.Map.HSMap M;
             M = FHSMap;
             if (M != null && Value > 0)
             {
@@ -5560,7 +5540,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:4782
         public void SetSceneHeight(int Value)
         {
-            THSMap M;
+            global::Aow.Game.World.Map.HSMap M;
             M = FHSMap;
             if (M != null && Value > 0)
             {
@@ -5577,13 +5557,13 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4843
-        public void ShowScene(int X, int Y, TSurface Surface)
+        public void ShowScene(int X, int Y, Surface Surface)
         {
-            THSMap M;
+            global::Aow.Game.World.Map.HSMap M;
             object MP;
-            TSurfaceDesc SD = default;
-            TRect R = default;
-            TSurface Target = Surface;
+            SurfaceDesc SD = default;
+            global::Aow.Rtl.Rect R = default;
+            global::Aow.Game.Draw.Surface Target = Surface;
             int TargetX = X;
             int TargetY = Y;
             try
@@ -5591,7 +5571,7 @@ namespace Aow.Game.World.Map
                 MP = FHSMap;
                 if (MP != null)
                 {
-                    M = (THSMap)MP;
+                    M = (global::Aow.Game.World.Map.HSMap)MP;
                     if (M.SetViewPort(FSceneX, FSceneY, FSceneL, FSceneWidth, FSceneHeight) && FOnSceneChanged != null)
                     {
                         FOnSceneChanged(this);
@@ -5681,9 +5661,9 @@ namespace Aow.Game.World.Map
 
         // Port extension: the part of the scene that shows the map under the original clamp. On an axis
         // where the scene fits inside the map it spans the scene.
-        public TRect GetMapSceneRect()
+        public global::Aow.Rtl.Rect GetMapSceneRect()
         {
-            TRect R = default;
+            global::Aow.Rtl.Rect R = default;
             if (FHSMap != null)
             {
                 R.Left = Math.Max(16 - FSceneX, 0);
@@ -5697,9 +5677,9 @@ namespace Aow.Game.World.Map
 
         // Port extension: where ShowScene shows the map, centered in the scene. It equals
         // GetMapSceneRect when the scene fits inside the map.
-        public TRect GetMapDisplayRect()
+        public global::Aow.Rtl.Rect GetMapDisplayRect()
         {
-            TRect R = GetMapSceneRect();
+            global::Aow.Rtl.Rect R = GetMapSceneRect();
             int Width = R.Right - R.Left;
             int Height = R.Bottom - R.Top;
             R.Left = (FSceneWidth - Width) >> 1;
@@ -5713,8 +5693,8 @@ namespace Aow.Game.World.Map
         // which the map mouse takes. A point outside the centered map gives false.
         public bool SceneToMapMouse(ref int X, ref int Y)
         {
-            TRect Shown;
-            TRect Source;
+            global::Aow.Rtl.Rect Shown;
+            global::Aow.Rtl.Rect Source;
             if (!GetSceneExceedsMap())
             {
                 return true;
@@ -5733,7 +5713,7 @@ namespace Aow.Game.World.Map
         }
 
         // Port extension: the scene-sized surface that ShowScene draws on when the scene exceeds the map.
-        public TSurface VerifyCenteredSurface(TSurface Surface)
+        public Surface VerifyCenteredSurface(Surface Surface)
         {
             if (FCenteredSurface != null && FCenteredSurface.GetPixelFormatID() != Surface.GetPixelFormatID())
             {
@@ -5743,7 +5723,7 @@ namespace Aow.Game.World.Map
 
             if (FCenteredSurface == null)
             {
-                FCenteredSurface = new TDataSurface(FSceneWidth, FSceneHeight, Surface.GetPixelFormatID(), null);
+                FCenteredSurface = new DataSurface(FSceneWidth, FSceneHeight, Surface.GetPixelFormatID(), null);
             }
             else if (FCenteredSurface.GetWidth() != FSceneWidth || FCenteredSurface.GetHeight() != FSceneHeight)
             {
@@ -5755,12 +5735,12 @@ namespace Aow.Game.World.Map
 
         // Port extension: fills the scene outside the centered map black and copies the map part of
         // FCenteredSurface into the centered rectangle.
-        public void ShowCenteredMap(TSurface Target, int X, int Y)
+        public void ShowCenteredMap(Surface Target, int X, int Y)
         {
-            TSurfaceDesc SD = default;
-            TRect Source = GetMapSceneRect();
-            TRect Shown = GetMapDisplayRect();
-            if (Target.LockEx(ref SD, Rect(X, Y, X + FSceneWidth, Y + FSceneHeight)) >= 0)
+            SurfaceDesc SD = default;
+            global::Aow.Rtl.Rect Source = GetMapSceneRect();
+            global::Aow.Rtl.Rect Shown = GetMapDisplayRect();
+            if (Target.LockEx(ref SD, global::Aow.Rtl.RtlUnit.Rect(X, Y, X + FSceneWidth, Y + FSceneHeight)) >= 0)
             {
                 FillOutsideRect(Shown, SD);
                 Target.UnlockEx(SD);
@@ -5770,16 +5750,16 @@ namespace Aow.Game.World.Map
         }
 
         // Port extension: fills every pixel of SD outside Inside black.
-        public static void FillOutsideRect(TRect Inside, in TSurfaceDesc SD)
+        public static void FillOutsideRect(global::Aow.Rtl.Rect Inside, in SurfaceDesc SD)
         {
-            Aow.Game.Draw.PixelFormats.ColorFillSD(Rect(0, 0, SD.Width, Inside.Top), 0, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(Rect(0, Inside.Bottom, SD.Width, SD.Height), 0, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(Rect(0, Inside.Top, Inside.Left, Inside.Bottom), 0, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(Rect(Inside.Right, Inside.Top, SD.Width, Inside.Bottom), 0, SD);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(global::Aow.Rtl.RtlUnit.Rect(0, 0, SD.Width, Inside.Top), 0, SD);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(global::Aow.Rtl.RtlUnit.Rect(0, Inside.Bottom, SD.Width, SD.Height), 0, SD);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(global::Aow.Rtl.RtlUnit.Rect(0, Inside.Top, Inside.Left, Inside.Bottom), 0, SD);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(global::Aow.Rtl.RtlUnit.Rect(Inside.Right, Inside.Top, SD.Width, Inside.Bottom), 0, SD);
         }
 
-        public THSMap HSMap { get => FHSMap; set => SetHSMap(value); }
-        public TSurface StaticSurface { get => FStaticSurface; }
+        public global::Aow.Game.World.Map.HSMap HSMap { get => FHSMap; set => SetHSMap(value); }
+        public Surface StaticSurface { get => FStaticSurface; }
         public bool StaticSurfaceValid { get => FStaticSurfaceValid; set => FStaticSurfaceValid = value; }
         public int SceneX { get => FSceneX; set => SetSceneX(value); }
         public int SceneY { get => FSceneY; set => SetSceneY(value); }
@@ -5788,7 +5768,7 @@ namespace Aow.Game.World.Map
         public int SceneHeight { get => FSceneHeight; set => SetSceneHeight(value); }
 
         [Published]
-        public TNotifyEvent<object> OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
+        public NotifyEvent<object> OnSceneChanged { get => FOnSceneChanged; set => FOnSceneChanged = value; }
     }
 
     // FHSEngine, FTries, FResources, FMOClass. The map object resources of one kind
@@ -5796,11 +5776,11 @@ namespace Aow.Game.World.Map
     // TList of resources per terrain type name of the set (THSSet.TerrainTypes), filled by
     // RegisterResource when a resource is activated. Place and PlaceClass put a random resource of
     // a terrain type on a map field
-    public partial class TMORTerrainControl : TEObject
+    public partial class MORTerrainControl : EObject
     {
-        internal THSEngine FHSEngine;
+        internal global::Aow.Game.World.Map.HSEngine FHSEngine;
         internal int FTries;
-        internal TList FResources;
+        internal DelphiList FResources;
         internal Type FMOClass;
 
         // HSEngine.pas:4522
@@ -5809,7 +5789,7 @@ namespace Aow.Game.World.Map
             Clear();
             for (int I = 0, last = FHSEngine.FHSSet.TerrainTypes.Count - 1; I <= last; I++)
             {
-                var list = new TList();
+                var list = new DelphiList();
                 FResources.Add(list);
             }
         }
@@ -5824,13 +5804,13 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4505
-        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared);
+        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared);
 
         // HSEngine.pas:4489
-        public TMORTerrainControl(TECustomNode owner) : base(owner)
+        public MORTerrainControl(ECustomNode owner) : base(owner)
         {
-            FResources = new TList();
-            FMOClass = typeof(Aow.Game.World.TMapObject);
+            FResources = new DelphiList();
+            FMOClass = typeof(Aow.Game.World.MapObject);
             FTries = 5;
         }
 
@@ -5848,32 +5828,32 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4531
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FHSEngine = (THSEngine)Msg.Payload.As<TEngine>();
+                FHSEngine = (global::Aow.Game.World.Map.HSEngine)Msg.Payload.As<global::Aow.Game.Engine.Engine>();
                 Initialize();
             }
         }
 
         // HSEngine.pas:4585
-        public virtual Aow.Game.World.TMapObject CreateMO(sbyte TerrainType)
+        public virtual Aow.Game.World.MapObject CreateMO(sbyte TerrainType)
         {
-            Aow.Game.World.TMapObject Result;
+            Aow.Game.World.MapObject Result;
             int I;
-            TList List;
+            DelphiList List;
             int Count;
-            Aow.Game.World.TMapObjectResource R;
+            Aow.Game.World.MapObjectResource R;
             I = TerrainType;
-            List = (TList)FResources[I];
+            List = (DelphiList)FResources[I];
             Count = List.Count;
             if (Count != 0)
             {
                 var random = Random(Count);
-                R = (Aow.Game.World.TMapObjectResource)List.List[random];
-                Result = (Aow.Game.World.TMapObject)R.CreateResourceUser();
+                R = (Aow.Game.World.MapObjectResource)List.List[random];
+                Result = (Aow.Game.World.MapObject)R.CreateResourceUser();
             }
             else
             {
@@ -5884,19 +5864,19 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4604
-        public virtual Aow.Game.World.TMapObject Place(TMapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType)
+        public virtual Aow.Game.World.MapObject Place(MapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType)
         {
-            TList List;
-            Aow.Game.World.TMapObjectResource R;
-            TMapField MapF;
-            Aow.Game.World.TMapObject MO;
-            Aow.Game.World.TMapObject Result = null;
-            List = (TList)FResources[TerrainType];
+            DelphiList List;
+            Aow.Game.World.MapObjectResource R;
+            MapField MapF;
+            Aow.Game.World.MapObject MO;
+            Aow.Game.World.MapObject Result = null;
+            List = (DelphiList)FResources[TerrainType];
             if (List.Count != 0)
             {
                 R = null;
                 MapF = Container.GetField(X, Y, L);
-                MO = (Aow.Game.World.TMapObject)MapF.FindOwnedHS(FMOClass);
+                MO = (Aow.Game.World.MapObject)MapF.FindOwnedHS(FMOClass);
                 if (MO != null)
                 {
                     R = GetRndResource(TerrainType, MO.FResource.EClass.ClassID);
@@ -5911,7 +5891,7 @@ namespace Aow.Game.World.Map
                 if (R == null)
                 {
                     var random = Random(List.Count);
-                    R = (Aow.Game.World.TMapObjectResource)List.List[random];
+                    R = (Aow.Game.World.MapObjectResource)List.List[random];
                     if (R != null)
                     {
                         Result = R.PlaceResourceUser(Container.FMap, X, Y, L);
@@ -5923,17 +5903,17 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4637
-        public virtual Aow.Game.World.TMapObject PlaceClass(TMapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType, int AClassID)
+        public virtual Aow.Game.World.MapObject PlaceClass(MapContainer Container, sbyte X, sbyte Y, sbyte L, sbyte TerrainType, int AClassID)
         {
-            Aow.Game.World.TMapObjectResource R;
-            TMapField MapF;
-            Aow.Game.World.TMapObject MO;
-            Aow.Game.World.TMapObject Result = null;
-            if (((TList)FResources[TerrainType]).Count != 0)
+            Aow.Game.World.MapObjectResource R;
+            MapField MapF;
+            Aow.Game.World.MapObject MO;
+            Aow.Game.World.MapObject Result = null;
+            if (((DelphiList)FResources[TerrainType]).Count != 0)
             {
                 R = null;
                 MapF = Container.GetField(X, Y, L);
-                MO = (Aow.Game.World.TMapObject)MapF.FindOwnedHS(FMOClass);
+                MO = (Aow.Game.World.MapObject)MapF.FindOwnedHS(FMOClass);
                 if (MO != null && MO.FResource.EClass.ClassID == AClassID)
                 {
                     R = GetRndResource(TerrainType, MO.FResource.EClass.ClassID);
@@ -5959,12 +5939,12 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4541
-        public Aow.Game.World.TMapObjectResource GetRndResource(int TerrainType, int AClassID)
+        public Aow.Game.World.MapObjectResource GetRndResource(int TerrainType, int AClassID)
         {
-            Aow.Game.World.TMapObjectResource Result;
-            TList List;
+            Aow.Game.World.MapObjectResource Result;
+            DelphiList List;
             int I;
-            List = (TList)FResources[TerrainType];
+            List = (DelphiList)FResources[TerrainType];
             if (List.Count != 0)
             {
                 I = 0;
@@ -5972,7 +5952,7 @@ namespace Aow.Game.World.Map
                 while (I != FTries && Result == null)
                 {
                     var random = Random(List.Count);
-                    Result = (Aow.Game.World.TMapObjectResource)List.List[random];
+                    Result = (Aow.Game.World.MapObjectResource)List.List[random];
                     if (Result.EClass.ClassID != AClassID)
                     {
                         Result = null;
@@ -5986,7 +5966,7 @@ namespace Aow.Game.World.Map
                     I = 0;
                     while (I != List.Count && Result == null)
                     {
-                        Result = (Aow.Game.World.TMapObjectResource)List.List[I];
+                        Result = (Aow.Game.World.MapObjectResource)List.List[I];
                         if (Result.EClass.ClassID != AClassID)
                         {
                             Result = null;
@@ -6005,40 +5985,40 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:4572
-        public void RegisterResource(Aow.Game.World.TMapObjectResource Resource)
+        public void RegisterResource(Aow.Game.World.MapObjectResource Resource)
         {
             sbyte TerrainType;
             TerrainType = Resource.FTerrainList.GetTerrain(0);
             if (TerrainType >= 0 && TerrainType < FResources.Count)
             {
-                if (((TList)FResources.List[TerrainType]).IndexOf(Resource) != -1 || Resource == null)
+                if (((DelphiList)FResources.List[TerrainType]).IndexOf(Resource) != -1 || Resource == null)
                 {
                     throw new InvalidOperationException("Resource double defined (TMORTerrainControl)");
                 }
 
-                ((TList)FResources.List[TerrainType]).Add(Resource);
+                ((DelphiList)FResources.List[TerrainType]).Add(Resource);
             }
         }
 
-        public THSEngine HSEngine { get => FHSEngine; }
+        public global::Aow.Game.World.Map.HSEngine HSEngine { get => FHSEngine; }
         public int Tries { get => FTries; set => FTries = value; }
-        public TList Resources { get => FResources; }
+        public DelphiList Resources { get => FResources; }
         public Type MOClass { get => FMOClass; set => FMOClass = value; }
 
     }
 
     // the hexagon resources of a set
-    public partial class THexagonControl : TMORTerrainControl
+    public partial class HexagonControl : MORTerrainControl
     {
-        public THexagonControl(TECustomNode owner) : base(owner)
+        public HexagonControl(ECustomNode owner) : base(owner)
         { }
 
     }
 
     // the road resources of a set
-    public partial class TRoadControl : TMORTerrainControl
+    public partial class RoadControl : MORTerrainControl
     {
-        public TRoadControl(TECustomNode owner) : base(owner)
+        public RoadControl(ECustomNode owner) : base(owner)
         { }
 
     }
@@ -6049,55 +6029,55 @@ namespace Aow.Game.World.Map
     // uses (an.hss file, THSEngine.LoadHSS). ReadWrite stores the name (id 4), the map object
     // resources (5), the resource edit settings (6) and the plug-ins (7). the type name lists are
     // filled by the game (TAoWHSSet.Create) and not stored
-    public partial class THSSet : TECustomOwner
+    public partial class HSSet : ECustomOwner
     {
         // HSEngine.pas:3394
         public new const int ClassID = 66049;
 
-        public THSSet(TECustomNode owner) : this(null, owner) { }
+        public HSSet(ECustomNode owner) : this(null, owner) { }
 
-        private protected THSSet(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected HSSet(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
-            SetControlStyle(GetControlStyle() + TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csReserved2));
-            FPlugInControl = new TPlugInControl(null);
-            FTerrainTypes = new TStringList();
-            FOverlayTypes = new TStringList();
-            FDecorationTypes = new TStringList();
-            FHexagonControl = new THexagonControl(this);
-            FHexagonControl.MOClass = typeof(TAbstractHexagon);
-            FRoadControl = new TRoadControl(this);
-            FRoadControl.MOClass = typeof(TAbstractRoad);
-            FMapObjectResourceList = new Aow.Game.World.TMapObjectResourceList(this);
-            FMapObjectResourceList.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FResourceEditSettings = new TEResourceEditSettings(this);
-            FResourceEditSettings.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FImageLibraryManager = new TImageLibraryManager(null);
-            FSFXManager = new Aow.Game.Audio.TSFXManager(null);
+            SetControlStyle(GetControlStyle() + Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csReserved2));
+            FPlugInControl = new global::Aow.Game.Engine.PlugInControl(null);
+            FTerrainTypes = new StringList();
+            FOverlayTypes = new StringList();
+            FDecorationTypes = new StringList();
+            FHexagonControl = new global::Aow.Game.World.Map.HexagonControl(this);
+            FHexagonControl.MOClass = typeof(AbstractHexagon);
+            FRoadControl = new global::Aow.Game.World.Map.RoadControl(this);
+            FRoadControl.MOClass = typeof(AbstractRoad);
+            FMapObjectResourceList = new global::Aow.Game.World.MapObjectResourceList(this);
+            FMapObjectResourceList.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FResourceEditSettings = new EResourceEditSettings(this);
+            FResourceEditSettings.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FImageLibraryManager = new global::Aow.Game.Draw.Images.ImageLibraryManager(null);
+            FSFXManager = new global::Aow.Game.Audio.SFXManager(null);
         }
 
-        internal TSet<THSSetStatusElement> FStatus;
-        internal THexagonControl FHexagonControl;
-        internal TRoadControl FRoadControl;
-        internal TEngine FActivatedEngine;
+        internal Set<HSSetStatusElement> FStatus;
+        internal global::Aow.Game.World.Map.HexagonControl FHexagonControl;
+        internal global::Aow.Game.World.Map.RoadControl FRoadControl;
+        internal global::Aow.Game.Engine.Engine FActivatedEngine;
 
-        public TEngine ActivatedEngine { get => FActivatedEngine; }
+        public global::Aow.Game.Engine.Engine ActivatedEngine { get => FActivatedEngine; }
 
-        internal Aow.Game.World.TMapObjectResourceList FMapObjectResourceList;
-        internal TEResourceEditSettings FResourceEditSettings;
-        internal TImageLibraryManager FImageLibraryManager;
-        internal Aow.Game.Audio.TSFXManager FSFXManager;
-        internal TPlugInControl FPlugInControl;
+        internal global::Aow.Game.World.MapObjectResourceList FMapObjectResourceList;
+        internal EResourceEditSettings FResourceEditSettings;
+        internal global::Aow.Game.Draw.Images.ImageLibraryManager FImageLibraryManager;
+        internal global::Aow.Game.Audio.SFXManager FSFXManager;
+        internal global::Aow.Game.Engine.PlugInControl FPlugInControl;
         internal string FName = "";
-        internal TStringList FTerrainTypes;
-        internal TStringList FOverlayTypes;
-        internal TStringList FDecorationTypes;
+        internal StringList FTerrainTypes;
+        internal StringList FOverlayTypes;
+        internal StringList FDecorationTypes;
 
         // HSEngine.pas:3368
         public override void Dispose()
         {
-            TEMsg Msg = default;
-            FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssDestroying);
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 66564, this);
+            EMsg Msg = default;
+            FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Destroying);
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66564, this);
             if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
             {
                 FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
@@ -6115,17 +6095,17 @@ namespace Aow.Game.World.Map
             FImageLibraryManager = null;
             FSFXManager?.Dispose();
             FSFXManager = null;
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 66565, this);
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66565, this);
             if (FActivatedEngine != null && FActivatedEngine.ControlNode != null)
             {
                 FActivatedEngine.ControlNode.MsgProc(ref Msg, this);
             }
 
-            FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssDestroying);
+            FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Destroying);
         }
 
         // HSEngine.pas:3410
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             SetEngine(Stream.Engine);
             FPlugInControl.Engine = Stream.Engine;
@@ -6143,44 +6123,44 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:3399
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FActivatedEngine = Msg.Payload.As<TEngine>();
+                FActivatedEngine = Msg.Payload.As<global::Aow.Game.Engine.Engine>();
             }
         }
 
         // HSEngine.pas:3421
         public void Activate(bool Edit)
         {
-            TEMsg Msg = default;
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 66560, this);
+            EMsg Msg = default;
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66560, this);
             GetEngine().ControlNode.MsgProc(ref Msg, this);
-            FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssActivated);
+            FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Activated);
             if (Edit)
             {
-                Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 66562, this);
+                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66562, this);
                 GetEngine().ControlNode.MsgProc(ref Msg, this);
-                FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
+                FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
             }
         }
 
         // HSEngine.pas:3436
         public void DeActivate()
         {
-            TEMsg Msg = default;
-            if (FStatus.Contains(THSSetStatusElement.ssActivated))
+            EMsg Msg = default;
+            if (FStatus.Contains(HSSetStatusElement.Activated))
             {
-                Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 66561, this);
+                Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66561, this);
                 GetEngine().ControlNode.MsgProc(ref Msg, this);
-                FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssActivated);
-                if (FStatus.Contains(THSSetStatusElement.ssEditting))
+                FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Activated);
+                if (FStatus.Contains(HSSetStatusElement.Editting))
                 {
-                    Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 66563, this);
+                    Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 66563, this);
                     GetEngine().ControlNode.MsgProc(ref Msg, this);
-                    FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
+                    FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
                 }
             }
         }
@@ -6188,54 +6168,54 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:3454
         public void SetModified()
         {
-            if (FStatus.Contains(THSSetStatusElement.ssEditting))
+            if (FStatus.Contains(HSSetStatusElement.Editting))
             {
-                FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssModified);
+                FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Modified);
             }
         }
 
         // HSEngine.pas:3459
         public void ResetModified()
         {
-            FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssModified);
+            FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Modified);
         }
 
         // HSEngine.pas:3464
         public void SetEditting()
         {
-            FStatus = FStatus + TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
+            FStatus = FStatus + Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
         }
 
         // HSEngine.pas:3468
         public void ResetEditting()
         {
-            FStatus = FStatus - TSet<THSSetStatusElement>.Of(THSSetStatusElement.ssEditting);
+            FStatus = FStatus - Set<HSSetStatusElement>.Of(HSSetStatusElement.Editting);
         }
 
-        public TSet<THSSetStatusElement> Status { get => FStatus; }
-        public THexagonControl HexagonControl { get => FHexagonControl; }
-        public TRoadControl RoadControl { get => FRoadControl; }
-        public Aow.Game.World.TMapObjectResourceList MapObjectResourceList { get => FMapObjectResourceList; }
-        public TEResourceEditSettings ResourceEditSettings { get => FResourceEditSettings; }
-        public TImageLibraryManager ImageLibraryManager { get => FImageLibraryManager; }
-        public Aow.Game.Audio.TSFXManager SFXManager { get => FSFXManager; }
-        public TPlugInControl PlugInControl { get => FPlugInControl; }
+        public Set<HSSetStatusElement> Status { get => FStatus; }
+        public global::Aow.Game.World.Map.HexagonControl HexagonControl { get => FHexagonControl; }
+        public global::Aow.Game.World.Map.RoadControl RoadControl { get => FRoadControl; }
+        public global::Aow.Game.World.MapObjectResourceList MapObjectResourceList { get => FMapObjectResourceList; }
+        public EResourceEditSettings ResourceEditSettings { get => FResourceEditSettings; }
+        public global::Aow.Game.Draw.Images.ImageLibraryManager ImageLibraryManager { get => FImageLibraryManager; }
+        public global::Aow.Game.Audio.SFXManager SFXManager { get => FSFXManager; }
+        public global::Aow.Game.Engine.PlugInControl PlugInControl { get => FPlugInControl; }
         public string Name { get => FName; set => FName = value; }
-        public TStringList TerrainTypes { get => FTerrainTypes; }
-        public TStringList OverlayTypes { get => FOverlayTypes; }
-        public TStringList DecorationTypes { get => FDecorationTypes; }
+        public StringList TerrainTypes { get => FTerrainTypes; }
+        public StringList OverlayTypes { get => FOverlayTypes; }
+        public StringList DecorationTypes { get => FDecorationTypes; }
 
     }
 
     // FHSEngine. The component that creates the engine (CreateEngine) and keeps it as
     // TEComponent.Engine. OnRegisterClasses and OnUnRegisterClasses are TEComponent's events,
     // called from Loaded and Destroy
-    public partial class THexagonSpriteEngine : TEComponent
+    public partial class HexagonSpriteEngine : EComponent
     {
-        internal THSEngine FHSEngine;
+        internal global::Aow.Game.World.Map.HSEngine FHSEngine;
 
         // HSEngine.pas:5381
-        public THexagonSpriteEngine(TComponent owner) : base(owner)
+        public HexagonSpriteEngine(global::Aow.Rtl.Component owner) : base(owner)
         {
             CreateEngine();
             if (FHSEngine != null)
@@ -6245,7 +6225,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:5388
-        public virtual void SetHSEngine(THSEngine Value)
+        public virtual void SetHSEngine(global::Aow.Game.World.Map.HSEngine Value)
         {
             FHSEngine = Value;
             Engine = FHSEngine;
@@ -6254,7 +6234,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:5394
         public virtual void CreateEngine()
         {
-            SetHSEngine(THSEngine.Create(null));
+            SetHSEngine(global::Aow.Game.World.Map.HSEngine.Create(null));
         }
 
         // HSEngine.pas:5399
@@ -6282,7 +6262,7 @@ namespace Aow.Game.World.Map
             return Result;
         }
 
-        public THSEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
+        public global::Aow.Game.World.Map.HSEngine HSEngine { get => FHSEngine; set => SetHSEngine(value); }
         public string HSSetSearchPath { get => GetHSSetSearchPath(); set => SetHSSetSearchPath(value); }
     }
 }
@@ -6292,9 +6272,9 @@ namespace Aow.Game.Draw
 
     // a sprite on one hexagon. FStatus: bit 1 visible, 2 edit mode, 4 selected, 8 activated (a
     // Byte: the original sets the bits with or/and, which a set with Include does not give)
-    public partial class TSingleHS : THexagonSprite
+    public partial class SingleHS : HexagonSprite
     {
-        public TSingleHS(TECustomNode owner) : base(owner)
+        public SingleHS(ECustomNode owner) : base(owner)
         { }
 
         internal byte FStatus;
@@ -6339,7 +6319,7 @@ namespace Aow.Game.Draw
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, ref Xhp, ref Yhp);
             return (GetLevel() << 26) + ((Yhp + 32) << 13) + (Xhp + 16);
         }
 
@@ -6355,7 +6335,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:749
-        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             int Xhx = default;
             int Yhx = default;
@@ -6366,21 +6346,21 @@ namespace Aow.Game.Draw
         // HXSPRITE.PAS:721
         public override void Remove()
         {
-            TMapField MapF;
+            MapField MapF;
             if (Owner != null)
             {
-                MapF = (TMapField)Owner;
+                MapF = (MapField)Owner;
                 RemoveFromMap();
                 if (GetVisible())
                 {
                     if (GetLevel() <= 15)
                     {
-                        ((TMapLevel)MapF.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
-                        ((TMapLevel)MapF.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
+                        ((MapLevel)MapF.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
+                        ((MapLevel)MapF.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
                     }
                     else
                     {
-                        ((TMapLevel)MapF.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
+                        ((MapLevel)MapF.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
                     }
                 }
 
@@ -6402,7 +6382,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:651
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
             if ((FStatus & 1) == 0)
             {
@@ -6426,10 +6406,10 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:743
-        public virtual bool CanPlace(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < Map.FWidth && Yhx < Map.FHeight && Lhx < Map.FLevelCount;
+        public virtual bool CanPlace(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < Map.FWidth && Yhx < Map.FHeight && Lhx < Map.FLevelCount;
 
         // HXSPRITE.PAS:757
-        public virtual bool PlaceHX(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool PlaceHX(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result;
             if (GetEditMode() || CanPlace(Map, Xhx, Yhx, Lhx))
@@ -6451,9 +6431,9 @@ namespace Aow.Game.Draw
     }
 
     // a sprite that is always in the visibility list (not on a field). FStatus: bit 1 visible
-    public partial class TFixedVisibleHS : THexagonSprite
+    public partial class FixedVisibleHS : HexagonSprite
     {
-        public TFixedVisibleHS(TECustomNode owner) : base(owner)
+        public FixedVisibleHS(ECustomNode owner) : base(owner)
         { }
 
         internal byte FStatus;
@@ -6486,7 +6466,7 @@ namespace Aow.Game.Draw
         }
 
         // HXSPRITE.PAS:779
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
             if ((FStatus & 1) == 0)
             {
@@ -6496,23 +6476,21 @@ namespace Aow.Game.Draw
         }
     }
 
-    public delegate void TOnShowHSEvent(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc);
-
     // FShowPriority, FOnShow (Show calls it). TAbstractAoWHSMap (AoWEPACK) creates two and sets
     // OnShow and ShowPriority
-    public partial class TCustomFixedVisibleHS : TFixedVisibleHS
+    public partial class CustomFixedVisibleHS : FixedVisibleHS
     {
-        public TCustomFixedVisibleHS(TECustomNode owner) : base(owner)
+        public CustomFixedVisibleHS(ECustomNode owner) : base(owner)
         { }
 
         internal int FShowPriority;
-        internal TOnShowHSEvent FOnShow;
+        internal OnShowHSEvent FOnShow;
 
         // HXSPRITE.PAS:800
         public override int GetShowPriority() => FShowPriority;
 
         // HXSPRITE.PAS:805
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             if (FOnShow != null)
             {
@@ -6521,26 +6499,28 @@ namespace Aow.Game.Draw
         }
 
         public new int ShowPriority { get => GetShowPriority(); set => FShowPriority = value; }
-        public TOnShowHSEvent OnShow { get => FOnShow; set => FOnShow = value; }
+        public OnShowHSEvent OnShow { get => FOnShow; set => FOnShow = value; }
+
+        public delegate void OnShowHSEvent(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc);
 
     }
 
     // an image of an image library shown at a pixel position. FStatus, FImage, FXhp, FYhp, FLhx,
     // FShowPriority (the top six bits are the level, the rest the offset SetShowPriorityOffset
     // adds). Persisted: 1 FStatus (rwData), 2 FShowPriority, 3 FXhp, 4 FYhp, 5 FLhx (rwByte)
-    public partial class TLibraryImageHS : THexagonSprite
+    public partial class LibraryImageHS : HexagonSprite
     {
         public new const int ClassID = 65875;
 
-        internal TSet<TLibraryImageHSStatusElement> FStatus;
-        internal Aow.Game.Draw.Images.TLibraryImage FImage;
+        internal Set<StatusElement> FStatus;
+        internal Aow.Game.Draw.Images.LibraryImage FImage;
         internal int FXhp;
         internal int FYhp;
         internal byte FLhx;
         internal int FShowPriority;
 
         // LibImgHS.PAS:111
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             RwSet(ref FStatus, 1, 1, Stream.rwData, 0);
@@ -6553,9 +6533,9 @@ namespace Aow.Game.Draw
         // LibImgHS.PAS:6
         // { LibImgHS.PAS: TLibraryImageHS (include file of HSEngine.pas; the original Asserts name
         //   D:\GEngine\HSENGINE\inc\LibImgHS.PAS) }
-        public TLibraryImageHS(TECustomNode owner) : base(owner)
+        public LibraryImageHS(ECustomNode owner) : base(owner)
         {
-            FStatus = TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner);
+            FStatus = Set<StatusElement>.Of(StatusElement.MapIsOwner);
             SetLevel(26);
         }
 
@@ -6567,30 +6547,30 @@ namespace Aow.Game.Draw
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsVisible);
+                FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Visible);
             }
             else
             {
-                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsVisible);
+                FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Visible);
             }
         }
 
         // LibImgHS.PAS:26
-        public override bool GetVisible() => FStatus.Contains(TLibraryImageHSStatusElement.lsVisible);
+        public override bool GetVisible() => FStatus.Contains(StatusElement.Visible);
 
         // LibImgHS.PAS:40
-        public override bool GetEditMode() => FStatus.Contains(TLibraryImageHSStatusElement.lsEditMode);
+        public override bool GetEditMode() => FStatus.Contains(StatusElement.EditMode);
 
         // LibImgHS.PAS:45
         public override void SetEditMode(bool Value)
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsEditMode);
+                FStatus = FStatus + Set<StatusElement>.Of(StatusElement.EditMode);
             }
             else
             {
-                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsEditMode);
+                FStatus = FStatus - Set<StatusElement>.Of(StatusElement.EditMode);
             }
         }
 
@@ -6598,17 +6578,17 @@ namespace Aow.Game.Draw
         public override int GetShowPriority() => (FYhp << 13) + FXhp + FShowPriority;
 
         // LibImgHS.PAS:194
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             FImage.Show(FXhp - XhpSurf, FYhp - YhpSurf, SurfaceDesc);
-            if (FStatus.Contains(TLibraryImageHSStatusElement.lsDestroyOnShow))
+            if (FStatus.Contains(StatusElement.DestroyOnShow))
             {
                 Dispose();
             }
         }
 
         // LibImgHS.PAS:126
-        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             bool Result;
             if (CanPlace(Map, Xhp, Yhp, Lhx))
@@ -6616,7 +6596,7 @@ namespace Aow.Game.Draw
                 FXhp = Xhp;
                 FYhp = Yhp;
                 FLhx = (byte)Lhx;
-                if (FStatus.Contains(TLibraryImageHSStatusElement.lsMapIsOwner))
+                if (FStatus.Contains(StatusElement.MapIsOwner))
                 {
                     Result = PlaceOnMapEx(Map, Xhp, Yhp, Lhx, FImage.Width, FImage.Height);
                 }
@@ -6627,7 +6607,7 @@ namespace Aow.Game.Draw
 
                 if (Result)
                 {
-                    FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsPlacedOnMap);
+                    FStatus = FStatus + Set<StatusElement>.Of(StatusElement.PlacedOnMap);
                 }
             }
             else
@@ -6641,21 +6621,21 @@ namespace Aow.Game.Draw
         // LibImgHS.PAS:152
         public override void Remove()
         {
-            THSEngine Engine;
-            if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
+            HSEngine Engine;
+            if (FStatus.Contains(StatusElement.PlacedOnMap))
             {
-                if (FStatus.Contains(TLibraryImageHSStatusElement.lsMapIsOwner))
+                if (FStatus.Contains(StatusElement.MapIsOwner))
                 {
                     if (GetVisible())
                     {
                         if (GetLevel() <= 15)
                         {
-                            ((TMapLevel)Owner.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
-                            ((TMapLevel)Owner.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
+                            ((MapLevel)Owner.Owner).FMapContainer.FMap.FStaticVisibleHS.RemoveChild(this);
+                            ((MapLevel)Owner.Owner).FMapContainer.FMap.FStaticSceneInvalid = true;
                         }
                         else
                         {
-                            ((TMapLevel)Owner.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
+                            ((MapLevel)Owner.Owner).FMapContainer.FMap.FDynamicVisibleHS.RemoveChild(this);
                         }
 
                         SetVisible(false);
@@ -6665,7 +6645,7 @@ namespace Aow.Game.Draw
                 }
                 else
                 {
-                    Engine = (THSEngine)GetEngine();
+                    Engine = (HSEngine)GetEngine();
                     if (GetVisible())
                     {
                         if (GetLevel() <= 15)
@@ -6684,24 +6664,24 @@ namespace Aow.Game.Draw
                     RemoveUserFromMapEx(Engine.FHSMap.FMapContainer, FXhp, FYhp, FLhx, FImage.Width, FImage.Height);
                 }
 
-                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsPlacedOnMap);
+                FStatus = FStatus - Set<StatusElement>.Of(StatusElement.PlacedOnMap);
             }
         }
 
         // LibImgHS.PAS:31
-        public override void MakeVisible(TVisibilityList VisibilityList)
+        public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(TLibraryImageHSStatusElement.lsVisible))
+            if (!FStatus.Contains(StatusElement.Visible))
             {
-                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsVisible);
+                FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Visible);
                 VisibilityList.AddSortChild(this, GetShowPriority());
             }
         }
 
         // LibImgHS.PAS:101
-        public virtual void SetImage(Aow.Game.Draw.Images.TLibraryImage Value)
+        public virtual void SetImage(Aow.Game.Draw.Images.LibraryImage Value)
         {
-            if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
+            if (FStatus.Contains(StatusElement.PlacedOnMap))
             {
                 if (Value == null || (FImage.Width != Value.Width || FImage.Height != Value.Height))
                 {
@@ -6717,10 +6697,10 @@ namespace Aow.Game.Draw
         }
 
         // LibImgHS.PAS:121
-        public virtual bool CanPlace(TMapContainer Map, int Xhp, int Yhp, int Lhx) => true;
+        public virtual bool CanPlace(MapContainer Map, int Xhp, int Yhp, int Lhx) => true;
 
         // LibImgHS.PAS:144
-        public virtual bool PlaceHX(TMapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public virtual bool PlaceHX(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             int Xhp = default;
             int Yhp = default;
@@ -6729,39 +6709,39 @@ namespace Aow.Game.Draw
         }
 
         // LibImgHS.PAS:53
-        public bool GetMapIsOwner() => FStatus.Contains(TLibraryImageHSStatusElement.lsMapIsOwner);
+        public bool GetMapIsOwner() => FStatus.Contains(StatusElement.MapIsOwner);
 
         // LibImgHS.PAS:58
         public void SetMapIsOwner(bool Value)
         {
-            if (FStatus.Contains(TLibraryImageHSStatusElement.lsPlacedOnMap))
+            if (FStatus.Contains(StatusElement.PlacedOnMap))
             {
                 Aow.Game.World.Map.HexGeometry.OriginalAssert("Cannot change MapIsOwner when places on map (TLibraryImageHS)", "D:\\GEngine\\HSENGINE\\inc\\LibImgHS.PAS", 6626);
             }
 
             if (Value)
             {
-                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner);
+                FStatus = FStatus + Set<StatusElement>.Of(StatusElement.MapIsOwner);
             }
             else
             {
-                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsMapIsOwner);
+                FStatus = FStatus - Set<StatusElement>.Of(StatusElement.MapIsOwner);
             }
         }
 
         // LibImgHS.PAS:67
-        public bool GetDestroyOnShow() => FStatus.Contains(TLibraryImageHSStatusElement.lsDestroyOnShow);
+        public bool GetDestroyOnShow() => FStatus.Contains(StatusElement.DestroyOnShow);
 
         // LibImgHS.PAS:72
         public void SetDestroyOnShow(bool Value)
         {
             if (Value)
             {
-                FStatus = FStatus + TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsDestroyOnShow);
+                FStatus = FStatus + Set<StatusElement>.Of(StatusElement.DestroyOnShow);
             }
             else
             {
-                FStatus = FStatus - TSet<TLibraryImageHSStatusElement>.Of(TLibraryImageHSStatusElement.lsDestroyOnShow);
+                FStatus = FStatus - Set<StatusElement>.Of(StatusElement.DestroyOnShow);
             }
         }
 
@@ -6778,20 +6758,25 @@ namespace Aow.Game.Draw
             FShowPriority = (FShowPriority & -67108864) + (OffsetY << 13) + (OffsetX << 13);
         }
 
-        public Aow.Game.Draw.Images.TLibraryImage Image { get => FImage; set => SetImage(value); }
+        public Aow.Game.Draw.Images.LibraryImage Image { get => FImage; set => SetImage(value); }
         public bool MapIsOwner { get => GetMapIsOwner(); set => SetMapIsOwner(value); }
         public bool DestroyOnShow { get => GetDestroyOnShow(); set => SetDestroyOnShow(value); }
         public new byte Level { get => GetLevel(); set => SetLevel(value); }
+
+        public enum StatusElement : byte
+        {
+            Visible = 0, EditMode = 1, DestroyOnShow = 2, MapIsOwner = 3, PlacedOnMap = 4
+        }
 
     }
 
     // a sprite placed at a pixel position. FVisible, FXhp, FYhp, FLhx (HSLib.TLibraryHS reads FXhp
     // and FYhp). Persisted: 4 FXhp, 5 FYhp, 6 FLhx (rwByte)
-    public partial class THPBasedHS : THexagonSprite
+    public partial class HPBasedHS : HexagonSprite
     {
         public new const int ClassID = 65874;
 
-        public THPBasedHS(TECustomNode owner) : base(owner)
+        public HPBasedHS(ECustomNode owner) : base(owner)
         {
             FXhp = -2147483648;
             FYhp = -2147483648;
@@ -6804,7 +6789,7 @@ namespace Aow.Game.Draw
         protected internal sbyte FLhx;
 
         // HXSPRITE.PAS:622
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FXhp, 4);
@@ -6824,7 +6809,7 @@ namespace Aow.Game.Draw
         public override bool GetVisible() => FVisible;
 
         // HXSPRITE.PAS:630
-        public override bool Place(TMapContainer Map, int Xhp, int Yhp, int Lhx)
+        public override bool Place(MapContainer Map, int Xhp, int Yhp, int Lhx)
         {
             FXhp = Xhp;
             FYhp = Yhp;
@@ -6840,27 +6825,27 @@ namespace Aow.Game.World
 
     // HSEngine.EMapObjectResourceMissing: TMapObject.ReadWrite raises it when the resource id read
     // from the stream is not in the resource list
-    public partial class EMapObjectResourceMissing : System.Exception
+    public partial class MapObjectResourceMissingException : System.Exception
     {
         // SysUtils.pas:174
-        public EMapObjectResourceMissing(string Msg) : base(Msg)
+        public MapObjectResourceMissingException(string Msg) : base(Msg)
         {
         }
     }
 
     // a map object that covers the hexagons of its terrain list around its main hexagon. FXhx, FYhx
     // (the main hexagon, ids 3 and 4)
-    public partial class TMultiHexMO : TMapObject
+    public partial class MultiHexMO : MapObject
     {
 
-        public TMultiHexMO(TECustomNode owner) : base(owner)
+        public MultiHexMO(ECustomNode owner) : base(owner)
         { }
 
         protected internal sbyte FXhx;
         protected internal sbyte FYhx;
 
         // MAPOBJ.PAS:923
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FXhx), 3);
@@ -6890,15 +6875,15 @@ namespace Aow.Game.World
         public override void Connect()
         {
             int Count;
-            TMapLevel MapLevel;
-            TMapField MapField;
-            THNWalkData Walk = default;
-            if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            MapLevel MapLevel;
+            MapField MapField;
+            HNWalkData Walk = default;
+            if (!FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
-                FStatus = FStatus + TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
+                FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
                 Count = GetTerrainCount();
-                MapLevel = (TMapLevel)Owner.Owner;
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6912,7 +6897,7 @@ namespace Aow.Game.World
                         MapField.AddHS(this, Walk.HN);
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
             }
         }
@@ -6921,14 +6906,14 @@ namespace Aow.Game.World
         public override void Disconnect()
         {
             int Count;
-            TMapLevel MapLevel;
-            THNWalkData Walk = default;
-            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            MapLevel MapLevel;
+            HNWalkData Walk = default;
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
                 Count = GetTerrainCount();
-                MapLevel = (TMapLevel)Owner.Owner;
-                FStatus = FStatus - TSet<TMapObjectStatusElement>.Of(TMapObjectStatusElement.moPlacedOnMap);
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+                FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                 while (Walk.HN < Count)
                 {
                     if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -6936,7 +6921,7 @@ namespace Aow.Game.World
                         MapLevel.GetField(Walk.X, Walk.Y).RemoveHS(this);
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
 
                 Owner = null;
@@ -6944,14 +6929,14 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:930
-        public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             int Xhp = default;
             int Yhp = default;
             Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             if (FResource.FImageSequenceList == null)
             {
-                FResource.FImageLibrary.Get(0).Show(Xhp - XhpSurf + ((TMultiHexMOR)FResource).FdXImage, Yhp - YhpSurf + ((TMultiHexMOR)FResource).FdYImage, SurfaceDesc);
+                FResource.FImageLibrary.Get(0).Show(Xhp - XhpSurf + ((MultiHexMOR)FResource).FdXImage, Yhp - YhpSurf + ((MultiHexMOR)FResource).FdYImage, SurfaceDesc);
             }
             else
             {
@@ -6963,24 +6948,24 @@ namespace Aow.Game.World
         public override bool PlaceOnMap()
         {
             int Count;
-            TMapLevel MapLevel;
-            THNWalkData Walk = default;
-            if (!FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            MapLevel MapLevel;
+            HNWalkData Walk = default;
+            if (!FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
                 Connect();
                 Count = GetTerrainCount();
-                MapLevel = (TMapLevel)Owner.Owner;
+                MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
                 if (GetLevel() <= 15)
                 {
-                    Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                    Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                     while (Walk.HN < Count)
                     {
                         if ((GetTerrain(Walk.HN) >= -1 || GetOverlay(Walk.HN) >= -1) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
                         {
-                            MapLevel.FMap.InvalidateStaticScene(Walk.X, Walk.Y, ((TMapField)Owner).FLhx);
+                            MapLevel.FMap.InvalidateStaticScene(Walk.X, Walk.Y, ((MapField)Owner).FLhx);
                         }
 
-                        Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                        Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                     }
                 }
 
@@ -6998,19 +6983,19 @@ namespace Aow.Game.World
         public override void RemoveFromMap()
         {
             int Count;
-            TMapLevel MapLevel;
-            TMapField MapField;
+            MapLevel MapLevel;
+            MapField MapField;
             sbyte TerrainType;
             sbyte OverlayType;
-            THNWalkData Walk = default;
-            if (FStatus.Contains(TMapObjectStatusElement.moPlacedOnMap))
+            HNWalkData Walk = default;
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
-                MapLevel = (TMapLevel)Owner.Owner;
+                MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
                 Disconnect();
-                if (!MapLevel.FMap.FStatus.Contains(THSMapStatusElement.msDestroying))
+                if (!MapLevel.FMap.FStatus.Contains(HSMapStatusElement.Destroying))
                 {
                     Count = GetTerrainCount();
-                    Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+                    Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
                     while (Walk.HN < Count)
                     {
                         TerrainType = GetTerrain(Walk.HN);
@@ -7029,7 +7014,7 @@ namespace Aow.Game.World
                             }
                         }
 
-                        Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                        Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                     }
 
                     var hNtoRad = Aow.Game.World.Map.HexGeometry.HNtoRad(Count);
@@ -7045,10 +7030,10 @@ namespace Aow.Game.World
             int Xhx = default;
             int Yhx = default;
             int HN;
-            if (FResource.FEngine.FHSMap.FStatus.Contains(THSMapStatusElement.msEditting))
+            if (FResource.FEngine.FHSMap.FStatus.Contains(HSMapStatusElement.Editting))
             {
                 Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
-                HN = Aow.Game.World.Map.HexGeometry.dHXtoHN(((TMapField)Owner).FXhx, ((TMapField)Owner).FYhx, Xhx, Yhx);
+                HN = Aow.Game.World.Map.HexGeometry.dHXtoHN(((MapField)Owner).FXhx, ((MapField)Owner).FYhx, Xhx, Yhx);
                 Result = HN < FResource.FTerrainList.FCount && (FResource.FTerrainList.GetTerrain(HN) >= 0 || FResource.FTerrainList.GetOverlay(HN) >= 0);
             }
             else
@@ -7060,16 +7045,16 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:1096
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             int Count;
             sbyte TerrainType;
             sbyte OverlayType;
-            THexagonSprite HS;
-            THNWalkData Walk = default;
+            HexagonSprite HS;
+            HNWalkData Walk = default;
             bool Result = true;
             Count = FResource.FTerrainList.FCount;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Result && Walk.HN < Count)
             {
                 TerrainType = GetTerrain(Walk.HN);
@@ -7080,14 +7065,14 @@ namespace Aow.Game.World
                     Result = HS == null || CanPlaceOnHS(HS);
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             return Result && MapContainer.FMap.CanChangeTerrain(this, Xhx, Yhx, Lhx, FResource.FTerrainList);
         }
 
         // MAPOBJ.PAS:1138
-        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             FXhx = Xhx;
             FYhx = Yhx;
@@ -7097,10 +7082,10 @@ namespace Aow.Game.World
         // MAPOBJ.PAS:1214
         public virtual void SortMapFields()
         {
-            TMapLevel MapLevel;
-            THNWalkData Walk = default;
-            MapLevel = (TMapLevel)Owner.Owner;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            MapLevel MapLevel;
+            HNWalkData Walk = default;
+            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (true)
             {
                 var terrainCount = GetTerrainCount();
@@ -7112,21 +7097,21 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).Sort();
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
         // MAPOBJ.PAS:1091
-        public virtual bool CanPlaceOnHS(THexagonSprite HS) => HS.GetLevel() < 10;
+        public virtual bool CanPlaceOnHS(HexagonSprite HS) => HS.GetLevel() < 10;
 
         // MAPOBJ.PAS:1146
         // { The terrain type that most of the fields under the object have (the counts of Default win ties) }
-        public virtual sbyte GetMostFrequentMapFieldTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx, sbyte Default)
+        public virtual sbyte GetMostFrequentMapFieldTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx, sbyte Default)
         {
-            TTerrainList TerrainList;
+            TerrainList TerrainList;
             sbyte TerrainType;
             FixedArray_byte_128 Counts;
-            THNWalkData Walk = default;
+            HNWalkData Walk = default;
             sbyte Result = Default;
             TerrainList = FResource.FTerrainList;
             if (Result < 0)
@@ -7135,7 +7120,7 @@ namespace Aow.Game.World
             }
 
             Counts = default;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN < TerrainList.FCount)
             {
                 if ((TerrainList.GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7151,7 +7136,7 @@ namespace Aow.Game.World
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
             if (Default >= 0 && Counts[Result] == Counts[Default])
@@ -7163,12 +7148,12 @@ namespace Aow.Game.World
         }
 
         // MAPOBJ.PAS:1059
-        public void UpdateTerrain(TMapLevel MapLevel, int Xhx, int Yhx)
+        public void UpdateTerrain(MapLevel MapLevel, int Xhx, int Yhx)
         {
             int Count;
-            THNWalkData Walk = default;
+            HNWalkData Walk = default;
             Count = FResource.FTerrainList.FCount;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
                 if ((GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7176,17 +7161,17 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).UpdateTerrain();
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
         // MAPOBJ.PAS:1075
-        public void UpdateMapFields(TMapLevel MapLevel, int Xhx, int Yhx)
+        public void UpdateMapFields(MapLevel MapLevel, int Xhx, int Yhx)
         {
             int Count;
-            THNWalkData Walk = default;
+            HNWalkData Walk = default;
             Count = FResource.FTerrainList.FCount;
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (Walk.HN != Count)
             {
                 if ((GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0) && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7194,7 +7179,7 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).UpdateMapField();
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -7202,13 +7187,13 @@ namespace Aow.Game.World
         public void OverrideTerrain()
         {
             int Count;
-            TMapLevel MapLevel;
-            TMapField MapField;
+            MapLevel MapLevel;
+            MapField MapField;
             FixedArray_sbyte_2 Terrain = default;
-            THNWalkData Walk = default;
-            MapLevel = (TMapLevel)Owner.Owner;
+            HNWalkData Walk = default;
+            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
             Count = GetTerrainCount();
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7229,10 +7214,10 @@ namespace Aow.Game.World
                     }
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
 
-            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
+            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
             while (Walk.HN < Count)
             {
                 if (GetTerrain(Walk.HN) >= 0 || GetOverlay(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.FWidth && Walk.Y < MapLevel.FHeight)
@@ -7241,18 +7226,18 @@ namespace Aow.Game.World
                     MapLevel.GetField(Walk.X, Walk.Y).TerrainChanged();
                 }
 
-                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
             }
         }
     }
 
     // FdXImage, FdYImage (the image offset, ids 12 and 13), FdXmainP, FdYmainP (the main point, ids
     // 14 and 15, part of the show priority offset)
-    public partial class TMultiHexMOR : TMapObjectResource
+    public partial class MultiHexMOR : MapObjectResource
     {
         public new const int ClassID = 65877;
 
-        public TMultiHexMOR(TECustomNode owner) : base(owner)
+        public MultiHexMOR(ECustomNode owner) : base(owner)
         {
             SetdXmainP(16);
             SetdYmainP(32);
@@ -7264,7 +7249,7 @@ namespace Aow.Game.World
         protected internal int FdYmainP;
 
         // MAPOBJ.PAS:1256
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FdXImage, 12);
@@ -7301,11 +7286,11 @@ namespace Aow.Game.World.Map
 {
 
     // the base of the terrain hexagons
-    public partial class TAbstractHexagon : Aow.Game.World.TMapObject
+    public partial class AbstractHexagon : Aow.Game.World.MapObject
     {
         public new const int ClassID = 65904;
 
-        public TAbstractHexagon(TECustomNode owner) : base(owner)
+        public AbstractHexagon(ECustomNode owner) : base(owner)
         { }
 
         // MAPOBJ.PAS:682
@@ -7316,19 +7301,19 @@ namespace Aow.Game.World.Map
         {
             int Xhp;
             int Yhp;
-            Xhp = ((TMapField)Owner).FXhx * 32 + 8;
-            Yhp = (((TMapField)Owner).FXhx & 1) * 16 + ((TMapField)Owner).FYhx * 32;
+            Xhp = ((MapField)Owner).FXhx * 32 + 8;
+            Yhp = (((MapField)Owner).FXhx & 1) * 16 + ((MapField)Owner).FYhx * 32;
             return Xhp + (Yhp << 13);
         }
 
         // MAPOBJ.PAS:704
-        public override void ChangeTerrain(in THSTerrainInfo Msg)
+        public override void ChangeTerrain(in HSTerrainInfo Msg)
         {
-            THexagonControl Control;
-            Aow.Game.World.TMapObjectResource R;
+            HexagonControl Control;
+            Aow.Game.World.MapObjectResource R;
             if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
             {
-                Control = ((TAbstractHexagonResource)FResource).GetHexagonControl();
+                Control = ((AbstractHexagonResource)FResource).GetHexagonControl();
                 if (Control != null)
                 {
                     var classID = FResource.EClass.ClassID;
@@ -7347,20 +7332,20 @@ namespace Aow.Game.World.Map
                         var lhx = GetLhx();
                         var yhx = GetYhx();
                         var xhx = GetXhx();
-                        ((TAbstractHexagonResource)FResource).GetHexagonControl().Place((TMapContainer)Owner.Owner.Owner, xhx, yhx, lhx, Msg.TerrainType);
+                        ((AbstractHexagonResource)FResource).GetHexagonControl().Place((MapContainer)Owner.Owner.Owner, xhx, yhx, lhx, Msg.TerrainType);
                     }
                 }
             }
         }
 
         // MAPOBJ.PAS:728
-        public override void TerrainChanged(in THSTerrainInfo Msg)
+        public override void TerrainChanged(in HSTerrainInfo Msg)
         {
             ChangeTerrain(Msg);
         }
 
         // MAPOBJ.PAS:762
-        public override void MapFieldMsgProc(ref TMapFieldMsg Msg)
+        public override void MapFieldMsgProc(ref MapFieldMsg Msg)
         {
             if (Msg.MsgID != 16)
             {
@@ -7376,21 +7361,21 @@ namespace Aow.Game.World.Map
         }
 
         // MAPOBJ.PAS:691
-        public override void SetResource(Aow.Game.World.TMapObjectResource Value)
+        public override void SetResource(Aow.Game.World.MapObjectResource Value)
         {
             base.SetResource(Value);
-            if (FStatus.Contains(Aow.Game.World.TMapObjectStatusElement.moActivated))
+            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
             {
                 UpdateTransitions();
             }
         }
 
         // MAPOBJ.PAS:733
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result;
-            TMapField MapField;
-            THexagonSprite HS;
+            MapField MapField;
+            HexagonSprite HS;
             if (Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount)
             {
                 MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
@@ -7405,7 +7390,7 @@ namespace Aow.Game.World.Map
                         test = MapField.CanChangeTerrain(this, GetTerrain(0), overlay);
                     }
 
-                    condition = test && !(HS is TAbstractBorderHexagon);
+                    condition = test && !(HS is AbstractBorderHexagon);
                 }
 
                 Result = condition;
@@ -7419,10 +7404,10 @@ namespace Aow.Game.World.Map
         }
 
         // MAPOBJ.PAS:750
-        public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            THexagonSprite HS;
-            HS = MapContainer.GetField(Xhx, Yhx, Lhx).FindOwnedHS(typeof(TAbstractHexagon));
+            HexagonSprite HS;
+            HS = MapContainer.GetField(Xhx, Yhx, Lhx).FindOwnedHS(typeof(AbstractHexagon));
             if (HS != null)
             {
                 HS.Dispose();
@@ -7444,10 +7429,10 @@ namespace Aow.Game.World.Map
 
     }
 
-    public partial class TAbstractHexagonResource : Aow.Game.World.TMapObjectResource
+    public partial class AbstractHexagonResource : Aow.Game.World.MapObjectResource
     {
 
-        public TAbstractHexagonResource(TECustomNode owner) : base(owner)
+        public AbstractHexagonResource(ECustomNode owner) : base(owner)
         {
             SetLevel(0);
         }
@@ -7455,7 +7440,7 @@ namespace Aow.Game.World.Map
         // MAPOBJ.PAS:770
 
         // MAPOBJ.PAS:781
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65556)
@@ -7468,32 +7453,32 @@ namespace Aow.Game.World.Map
         }
 
         // MAPOBJ.PAS:776
-        public virtual THexagonControl GetHexagonControl() => FEngine.FHSSet.FHexagonControl;
+        public virtual HexagonControl GetHexagonControl() => FEngine.FHSSet.FHexagonControl;
 
     }
 
-    public partial class TAbstractBorderHexagon : TAbstractHexagon
+    public partial class AbstractBorderHexagon : AbstractHexagon
     {
         public new const int ClassID = 65905;
 
-        public TAbstractBorderHexagon(TECustomNode owner) : base(owner)
+        public AbstractBorderHexagon(ECustomNode owner) : base(owner)
         { }
 
-    }
+        public new partial class Resource : AbstractHexagonResource
+        {
+            public Resource(ECustomNode owner) : base(owner)
+            { }
 
-    public partial class TAbstractBorderHexagonResource : TAbstractHexagonResource
-    {
-        public TAbstractBorderHexagonResource(TECustomNode owner) : base(owner)
-        { }
+        }
 
     }
 
     // the base of roads and bridges
-    public partial class TAbstractRoad : Aow.Game.World.TMapObject
+    public partial class AbstractRoad : Aow.Game.World.MapObject
     {
         public new const int ClassID = 65906;
 
-        public TAbstractRoad(TECustomNode owner) : base(owner)
+        public AbstractRoad(ECustomNode owner) : base(owner)
         { }
 
         // MAPOBJ.PAS:803
@@ -7504,19 +7489,19 @@ namespace Aow.Game.World.Map
         {
             int Xhp;
             int Yhp;
-            Xhp = ((TMapField)Owner).FXhx * 32 + 8;
-            Yhp = (((TMapField)Owner).FXhx & 1) * 16 + ((TMapField)Owner).FYhx * 32;
+            Xhp = ((MapField)Owner).FXhx * 32 + 8;
+            Yhp = (((MapField)Owner).FXhx & 1) * 16 + ((MapField)Owner).FYhx * 32;
             return Xhp + ((Yhp << 13) + 671088640);
         }
 
         // MAPOBJ.PAS:848
-        public override void ChangeTerrain(in THSTerrainInfo Msg)
+        public override void ChangeTerrain(in HSTerrainInfo Msg)
         {
-            Aow.Game.World.TMapObjectResource R;
+            Aow.Game.World.MapObjectResource R;
             if (Msg.HN == 0 && GetTerrain(0) != Msg.TerrainType)
             {
                 var classID = FResource.EClass.ClassID;
-                R = ((TAbstractRoadResource)FResource).GetRoadControl().GetRndResource(Msg.TerrainType, classID);
+                R = ((AbstractRoadResource)FResource).GetRoadControl().GetRndResource(Msg.TerrainType, classID);
                 if (R != null)
                 {
                     SetResource(R);
@@ -7531,7 +7516,7 @@ namespace Aow.Game.World.Map
                     var lhx = GetLhx();
                     var yhx = GetYhx();
                     var xhx = GetXhx();
-                    if (((TAbstractRoadResource)FResource).GetRoadControl().Place((TMapContainer)Owner.Owner.Owner, xhx, yhx, lhx, Msg.TerrainType) == null)
+                    if (((AbstractRoadResource)FResource).GetRoadControl().Place((MapContainer)Owner.Owner.Owner, xhx, yhx, lhx, Msg.TerrainType) == null)
                     {
                         Dispose();
                     }
@@ -7540,7 +7525,7 @@ namespace Aow.Game.World.Map
         }
 
         // MAPOBJ.PAS:843
-        public override void NeighbourTerrainChanged(int HN, in THSTerrainInfo Msg)
+        public override void NeighbourTerrainChanged(int HN, in HSTerrainInfo Msg)
         {
             UpdateTransitions();
         }
@@ -7552,10 +7537,10 @@ namespace Aow.Game.World.Map
         }
 
         // MAPOBJ.PAS:828
-        public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             bool Result;
-            THexagonSprite HS;
+            HexagonSprite HS;
             bool condition = Xhx >= 0 && Yhx >= 0 && Lhx >= 0 && Xhx < MapContainer.FWidth && Yhx < MapContainer.FHeight && Lhx < MapContainer.FLevelCount;
             if (condition)
             {
@@ -7567,7 +7552,7 @@ namespace Aow.Game.World.Map
             if (condition)
             {
                 HS = MapContainer.GetField(Xhx, Yhx, Lhx).GetMaxLevelNoneTransparentHS();
-                Result = HS == null || HS.GetLevel() < 10 || HS is TAbstractRoad;
+                Result = HS == null || HS.GetLevel() < 10 || HS is AbstractRoad;
             }
             else
             {
@@ -7584,13 +7569,13 @@ namespace Aow.Game.World.Map
 
     }
 
-    public partial class TAbstractRoadResource : Aow.Game.World.TMapObjectResource
+    public partial class AbstractRoadResource : Aow.Game.World.MapObjectResource
     {
-        public TAbstractRoadResource(TECustomNode owner) : base(owner)
+        public AbstractRoadResource(ECustomNode owner) : base(owner)
         { }
 
         // MAPOBJ.PAS:874
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 65556)
@@ -7605,11 +7590,11 @@ namespace Aow.Game.World.Map
         }
 
         // MAPOBJ.PAS:883
-        public override Aow.Game.World.TMapObject PlaceResourceUser(THSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override Aow.Game.World.MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.TMapObject Result = (Aow.Game.World.TMapObject)CreateResourceUser();
+            Aow.Game.World.MapObject Result = (Aow.Game.World.MapObject)CreateResourceUser();
             Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
             Xhp += 16;
             Yhp += 16;
@@ -7623,24 +7608,22 @@ namespace Aow.Game.World.Map
         }
 
         // MAPOBJ.PAS:869
-        public virtual TRoadControl GetRoadControl() => FEngine.FHSSet.FRoadControl;
+        public virtual RoadControl GetRoadControl() => FEngine.FHSSet.FRoadControl;
     }
-
-    public delegate int TXYLSortCompare(TXYL Item1, TXYL Item2);
 
     // Engine's value list (Classes.TList adapted to a value type, with a default item for new and
     // out-of-range items and a run-length encoded stream form) for map locations
-    public partial class TXYLList : TPersistent
+    public partial class XYLList : Persistent
     {
-        internal TXYL[] FList = [];
+        internal XYL[] FList = [];
         internal int FCount;
         internal int FCapacity;
-        internal TXYL FDefault;
+        internal XYL FDefault;
 
         // HSEngine.pas:1673
-        internal TXYL Get(int Index)
+        internal XYL Get(int Index)
         {
-            TXYL Result;
+            XYL Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -7654,7 +7637,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1746
-        internal void Put(int Index, TXYL Item)
+        internal void Put(int Index, XYL Item)
         {
             if (Index < 0)
             {
@@ -7729,7 +7712,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1578
-        public TXYLList()
+        public XYLList()
         {
             FDefault.X = -1;
             FDefault.Y = -1;
@@ -7744,11 +7727,11 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1592
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TXYLList)
+            if (Source is XYLList)
             {
-                var xylList = (TXYLList)Source;
+                var xylList = (XYLList)Source;
                 this.FCount = xylList.FCount;
                 this.SetCapacity(xylList.FCapacity);
                 Array.Copy(xylList.FList, 0, this.FList, 0, this.FCount);
@@ -7761,7 +7744,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1606
-        public int Add(TXYL Item)
+        public int Add(XYL Item)
         {
             int Result = FCount;
             if (Result == FCapacity)
@@ -7816,7 +7799,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:1651
         public void Exchange(int Index1, int Index2)
         {
-            TXYL Item;
+            XYL Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error("List index out of bounds (%d)", Index1);
@@ -7833,7 +7816,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1662
-        public TXYLList Expand()
+        public XYLList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -7844,13 +7827,13 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1668
-        public TXYL First() => Get(0);
+        public XYL First() => Get(0);
 
         // HSEngine.pas:1691
-        public int IndexOf(TXYL Item)
+        public int IndexOf(XYL Item)
         {
             int Result = 0;
-            while (Result < FCount && Unsafe.As<TXYL, int>(ref FList[Result]) != Unsafe.As<TXYL, int>(ref Item))
+            while (Result < FCount && Unsafe.As<XYL, int>(ref FList[Result]) != Unsafe.As<XYL, int>(ref Item))
             {
                 Result += 1;
             }
@@ -7866,7 +7849,7 @@ namespace Aow.Game.World.Map
         // HSEngine.pas:1698
         public int IndexOfXY(sbyte X, sbyte Y)
         {
-            TXYL Item = default;
+            XYL Item = default;
             Item.X = X;
             Item.Y = Y;
             int Result = 0;
@@ -7901,7 +7884,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1717
-        public void Insert(int Index, TXYL Item)
+        public void Insert(int Index, XYL Item)
         {
             if (Index < 0 || Index > FCount)
             {
@@ -7923,12 +7906,12 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1728
-        public TXYL Last() => Get(FCount - 1);
+        public XYL Last() => Get(FCount - 1);
 
         // HSEngine.pas:1733
         public void Move(int CurIndex, int NewIndex)
         {
-            TXYL Item;
+            XYL Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -7943,7 +7926,7 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1753
-        public int Remove(TXYL Item)
+        public int Remove(XYL Item)
         {
             int Result = IndexOf(Item);
             if (Result != -1)
@@ -7959,7 +7942,7 @@ namespace Aow.Game.World.Map
         {
             for (int I = FCount - 1; I >= 0; I--)
             {
-                if (Unsafe.BitCast<TXYL, int>(this[I]) == Unsafe.As<TXYL, int>(ref FDefault))
+                if (Unsafe.BitCast<XYL, int>(this[I]) == Unsafe.As<XYL, int>(ref FDefault))
                 {
                     Delete(I);
                 }
@@ -7967,23 +7950,23 @@ namespace Aow.Game.World.Map
         }
 
         // HSEngine.pas:1815
-        public void Sort(TXYLSortCompare Compare)
+        public void Sort(XYLSortCompare Compare)
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.World.Map.TXYLList.QuickSortXYL(FList, 0, Count - 1, Compare);
+                Aow.Game.World.Map.XYLList.QuickSortXYL(FList, 0, Count - 1, Compare);
             }
         }
 
         // HSEngine.pas:1821
-        public bool Compare(TXYLList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
+        public bool Compare(XYLList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
         // HSEngine.pas:1828
         public void LoadFromStream(Stream Stream)
         {
             int Count = default;
             int Run = default;
-            TXYL Item = default;
+            XYL Item = default;
             Clear();
             Stream.ReadBytes(Bytes.Of(ref FDefault, 4));
             Stream.ReadBytes(Bytes.Of(ref Count, 4));
@@ -7991,7 +7974,7 @@ namespace Aow.Game.World.Map
             while (Count != FCount)
             {
                 Stream.ReadBytes(Bytes.Of(ref Item, 4));
-                if (Unsafe.As<TXYL, int>(ref Item) == Unsafe.As<TXYL, int>(ref FDefault))
+                if (Unsafe.As<XYL, int>(ref Item) == Unsafe.As<XYL, int>(ref FDefault))
                 {
                     Stream.ReadBytes(Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
@@ -8013,7 +7996,7 @@ namespace Aow.Game.World.Map
                 int J;
                 int Result = 0;
                 J = I;
-                while (J < FCount && Unsafe.As<TXYL, int>(ref FList[J]) == Unsafe.As<TXYL, int>(ref FDefault))
+                while (J < FCount && Unsafe.As<XYL, int>(ref FList[J]) == Unsafe.As<XYL, int>(ref FDefault))
                 {
                     Result += 1;
                     J += 1;
@@ -8044,11 +8027,11 @@ namespace Aow.Game.World.Map
 
         public int Capacity { get => FCapacity; set => SetCapacity(value); }
         public int Count { get => FCount; set => SetCount(value); }
-        public TXYL Default { get => FDefault; set => FDefault = value; }
+        public XYL Default { get => FDefault; set => FDefault = value; }
 
-        public TXYL this[int Index] { get => Get(Index); set => Put(Index, value); }
+        public XYL this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public TXYL[] List { get => FList; }
+        public XYL[] List { get => FList; }
 
         // HSEngine.pas:1640
         protected internal static void Error(string Msg, int Data)
@@ -8056,12 +8039,12 @@ namespace Aow.Game.World.Map
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortXYL(Span<TXYL> SortList, int L, int R, TXYLSortCompare SCompare)
+        private static void QuickSortXYL(Span<XYL> SortList, int L, int R, XYLSortCompare SCompare)
         {
             int I;
             int J;
-            TXYL P;
-            TXYL T = default;
+            XYL P;
+            XYL T = default;
             do
             {
                 I = L;
@@ -8099,15 +8082,15 @@ namespace Aow.Game.World.Map
             while (!(I >= R));
         }
 
-        internal static bool LocationsConnected(TXYLList List)
+        internal static bool LocationsConnected(XYLList List)
         {
             bool Result = default;
-            TXYLList Locations;
-            TXYL XYL = default;
-            void Connect(TXYL XYL)
+            XYLList Locations;
+            XYL XYL = default;
+            void Connect(XYL XYL)
             {
-                THNWalkData Walk = default;
-                Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, XYL.X, XYL.Y, 1);
+                HNWalkData Walk = default;
+                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, XYL.X, XYL.Y, 1);
                 while (Walk.Radius <= 1)
                 {
                     for (int I = 0, last = Locations.Count - 1; I <= last; I++)
@@ -8116,7 +8099,7 @@ namespace Aow.Game.World.Map
                         {
                             var item = Locations[I];
                             var packXYL = Aow.Game.World.Map.HexGeometry.PackXYL((sbyte)Walk.X, (sbyte)Walk.Y, XYL.L);
-                            if (Unsafe.BitCast<TXYL, int>(item) == Unsafe.BitCast<TXYL, int>(packXYL))
+                            if (Unsafe.BitCast<global::Aow.Game.World.Map.XYL, int>(item) == Unsafe.BitCast<global::Aow.Game.World.Map.XYL, int>(packXYL))
                             {
                                 Locations.FList[I].Flag = 1;
                                 Connect(Locations[I]);
@@ -8124,11 +8107,11 @@ namespace Aow.Game.World.Map
                         }
                     }
 
-                    Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
                 }
             }
 
-            Locations = new TXYLList();
+            Locations = new XYLList();
             for (int I = 0, last = List.Count - 1; I <= last; I++)
             {
                 XYL = List[I];
@@ -8168,11 +8151,13 @@ namespace Aow.Game.World.Map
             return Result;
         }
 
+        public delegate int XYLSortCompare(XYL Item1, XYL Item2);
+
     }
 
     // { an XYL value (TMapField.GetXYL, PackXYL) as its bytes }
     [StructLayout(LayoutKind.Explicit, Size = 4)]
-    public struct TXYLRec
+    public struct XYLRec
     {
         [FieldOffset(0)]
         public sbyte X;
@@ -8186,9 +8171,9 @@ namespace Aow.Game.World.Map
 
     // The layout of TMapField up to its terrain and overlay types, which THSMap.CanChangeTerrain
     // saves and restores as one Word (the original reads word ptr [MapF])
-    public partial class TMapFieldTandO : TECustomNode
+    public partial class MapFieldTandO : ECustomNode
     {
-        public TMapFieldTandO(TECustomNode owner) : base(owner)
+        public MapFieldTandO(ECustomNode owner) : base(owner)
         { }
 
         internal object FHSList;
@@ -8200,7 +8185,7 @@ namespace Aow.Game.World.Map
     // { The header of an .hss file (52 bytes): the set follows at Size, a CRC32 of everything before it
     //     closes the file }
     [StructLayout(LayoutKind.Explicit, Size = 52)]
-    public struct THSSHeader
+    public struct HSSHeader
     {
         [FieldOffset(0)]
         public int Size;
@@ -8217,7 +8202,7 @@ namespace Aow.Game.World.Map
 
     // { The header of an .hsm file (16 bytes) in front of the stored map, inside the compressed stream }
     [StructLayout(LayoutKind.Explicit, Size = 16)]
-    public struct THSMHeader
+    public struct HSMHeader
     {
         [FieldOffset(0)]
         public int Size;
@@ -8232,11 +8217,18 @@ namespace Aow.Game.World.Map
     [LegacyObject]
     public sealed class TerrainChangedNotification
     {
-        public TTerrainChangedInfo Info;
+        public TerrainChangedInfo Info;
 
         public TerrainChangedNotification()
         {
             CaptureAddress.Assign(this);
+        }
+
+        public struct TerrainChangedInfo
+        {
+            public global::Aow.Rtl.Rect Rect;
+            public int Level;
+            public global::Aow.Game.World.Map.MapLevel MapLevel;
         }
     }
 }

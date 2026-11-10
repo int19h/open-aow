@@ -26,7 +26,7 @@ internal static unsafe class SdlVerification
             if (count != 1) throw new InvalidOperationException("Expected one SDL window.");
             var id = SDL_GetWindowID(windows[0]);
             SDL_free(windows);
-            var surface = new TSurfaceDesc { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB555, Data = new byte[68 * 24] };
+            var surface = new SurfaceDesc { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB555, Data = new byte[68 * 24] };
             display.Present(surface);
             surface.Pitch = -68;
             surface.Data = new byte[68 * 24];
@@ -74,13 +74,13 @@ internal static unsafe class SdlVerification
 
         public void Reset() => Keys = KeyUps = FocusChanges = CloseQueries = 0;
 
-        public void KeyDown(ushort key, TSet<TShiftState> shift)
+        public void KeyDown(ushort key, Set<ShiftState> shift)
         {
             if (key != 'A') throw new InvalidOperationException("Expected virtual key A.");
             Keys++;
         }
 
-        public void KeyUp(ushort key, TSet<TShiftState> shift) => KeyUps++;
+        public void KeyUp(ushort key, Set<ShiftState> shift) => KeyUps++;
         public void FocusChanged(bool active) => FocusChanges++;
 
         public bool CloseRequested() { CloseQueries++; return AllowClose; }

@@ -23,7 +23,6 @@ using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Magic.Spells;
 using Aow.Game.Magic.Spells.GlobalTarget;
-using Aow.Game.Magic.Spells.HolyG;
 using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
 using Aow.Game.Saves;
@@ -43,61 +42,50 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Engine.Nodes
 {
 
-    public enum TEControlStyleElement : byte
+    public enum EControlStyleElement : byte
     {
-        csSaveLoad = 0,
-        csFixedChild = 1,
-        csVerifyFixedChildren = 2,
-        csArrayMode = 3
-    }
-
-    public enum TEditModeElement : byte
-    {
-        emEdit = 0,
-        emCut = 1,
-        emCopy = 2,
-        emPaste = 3,
-        emDelete = 4
+        SaveLoad = 0,
+        FixedChild = 1,
+        VerifyFixedChildren = 2,
+        ArrayMode = 3
     }
 }
 
 namespace Aow.Game.Engine
 {
 
-    public enum TEngineUserElement : byte
+    public enum EngineUserElement : byte
     {
-        euProgrammer = 0,
-        euDesigner = 1,
-        euUser = 2
+        Programmer = 0,
+        Designer = 1,
+        User = 2
     }
 
-    public enum TEngineModeElement : byte
+    public enum EngineModeElement : byte
     {
-        emVerifyEObjects = 0
+        VerifyEObjects = 0
     }
 }
 
 namespace Aow.Game.Engine.Storage
 {
 
-    public enum TStorageModeElement : byte
+    public enum StorageModeElement : byte
     {
-        smRead = 0,
-        smWrite = 1,
-        smTextOnly = 2,
-        smPreview = 3,
-        smTranslate = 4,
-        smSetupCompare = 5,
-        smCompare = 6
+        Read = 0,
+        Write = 1,
+        TextOnly = 2,
+        Preview = 3,
+        Translate = 4,
+        SetupCompare = 5,
+        Compare = 6
     }
 }
 
 namespace Aow.Game.Engine.Collections
 {
 
-    public delegate int TIntegerSortCompare(int Item1, int Item2);
-
-    public partial class TIntegerList : TPersistent
+    public partial class IntegerList : Persistent
     {
         internal int[] FList = [];
         internal int FCount;
@@ -167,7 +155,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.TIntegerList.FillInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                Aow.Game.Engine.Collections.IntegerList.FillInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -255,11 +243,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3273
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TIntegerList)
+            if (Source is IntegerList)
             {
-                var integerList = (TIntegerList)Source;
+                var integerList = (IntegerList)Source;
                 this.FCount = integerList.FCount;
                 this.SetCapacity(integerList.FCount);
                 Array.Copy(integerList.FList, 0, this.FList, 0, this.FCount);
@@ -327,7 +315,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3332
-        public TIntegerList Expand()
+        public IntegerList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -424,16 +412,16 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3465
-        public void Sort(TIntegerSortCompare Compare)
+        public void Sort(IntegerSortCompare Compare)
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.TIntegerList.QuickSortInteger(FList, 0, Count - 1, Compare);
+                Aow.Game.Engine.Collections.IntegerList.QuickSortInteger(FList, 0, Count - 1, Compare);
             }
         }
 
         // Keeps the order of equal items. HeroGrid.SortHeroes is the only caller.
-        public void SortStable(TIntegerSortCompare Compare)
+        public void SortStable(IntegerSortCompare Compare)
         {
             for (int I = 1; I < Count; I++)
             {
@@ -450,7 +438,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3471
-        public bool Compare(TIntegerList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
+        public bool Compare(IntegerList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 4);
 
         // Engine.pas:3478
         public void LoadFromStream(Stream Stream)
@@ -575,7 +563,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortInteger(Span<int> SortList, int L, int R, TIntegerSortCompare SCompare)
+        private static void QuickSortInteger(Span<int> SortList, int L, int R, IntegerSortCompare SCompare)
         {
             int I;
             int J;
@@ -620,17 +608,17 @@ namespace Aow.Game.Engine.Collections
 
         internal static void FillInteger(Span<int> buffer, int count, int value) => Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
 
-        internal static int FillWithRandomUnits(TIntegerList Indexes, TUnitList Units, int Level, int Value, TSet<TUnitType> Types)
+        internal static int FillWithRandomUnits(IntegerList Indexes, UnitList Units, int Level, int Value, Set<UnitType> Types)
         {
-            TUnit TestUnit;
+            Unit TestUnit;
             int Index;
             int Tries;
             int I;
             int Difference;
             int BestIndex;
             int Delta;
-            TUnit Unit_;
-            bool CanUse(TUnit Unit_)
+            Unit Unit_;
+            bool CanUse(Unit Unit_)
             {
                 bool condition = Unit_.FUnitResource != null;
                 if (condition)
@@ -642,7 +630,7 @@ namespace Aow.Game.Engine.Collections
                 return condition && Unit_.GetUnitLevel() <= Level && Units.CanAddUnit(Unit_);
             }
 
-            TestUnit = new TUnit(null);
+            TestUnit = new Unit(null);
             int Result = 0;
             Tries = 50;
             Units.BeginUpdate();
@@ -652,7 +640,7 @@ namespace Aow.Game.Engine.Collections
                 Index = Indexes[Random(Indexes.Count)];
                 if (Index != -1)
                 {
-                    TestUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index));
+                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                     if (CanUse(TestUnit))
                     {
                         if (TestUnit.GetObtainValue() + Result > Value)
@@ -665,7 +653,7 @@ namespace Aow.Game.Engine.Collections
                                 Index = Indexes[Random(Indexes.Count)];
                                 if (Index != -1 && Index != BestIndex)
                                 {
-                                    TestUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index));
+                                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                                     if (CanUse(TestUnit))
                                     {
                                         Delta = Math.Abs(TestUnit.GetObtainValue() - (Value - Result));
@@ -683,8 +671,8 @@ namespace Aow.Game.Engine.Collections
                             Index = BestIndex;
                         }
 
-                        Unit_ = new TUnit(null);
-                        Unit_.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index));
+                        Unit_ = new Unit(null);
+                        Unit_.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                         Units.AddUnit(Unit_);
                         Result += Unit_.GetObtainValue();
                         Tries = 50;
@@ -698,16 +686,16 @@ namespace Aow.Game.Engine.Collections
             return Result;
         }
 
-        internal static int FillWithRandomUnitIndexes(TIntegerList Indexes, TIntegerList Units, int Level, int Value, TSet<TUnitType> Types)
+        internal static int FillWithRandomUnitIndexes(IntegerList Indexes, IntegerList Units, int Level, int Value, Set<UnitType> Types)
         {
-            TUnit TestUnit;
+            Unit TestUnit;
             int Index;
             int Tries;
             int I;
             int Difference;
             int BestIndex;
             int Delta;
-            bool CanUse(TUnit Unit_)
+            bool CanUse(Unit Unit_)
             {
                 bool condition = Unit_.FUnitResource != null;
                 if (condition)
@@ -719,7 +707,7 @@ namespace Aow.Game.Engine.Collections
                 return condition && Unit_.GetUnitLevel() <= Level;
             }
 
-            TestUnit = new TUnit(null);
+            TestUnit = new Unit(null);
             int Result = 0;
             Tries = 50;
             while (Result < Value && Tries != 0)
@@ -728,7 +716,7 @@ namespace Aow.Game.Engine.Collections
                 Index = Indexes[Random(Indexes.Count)];
                 if (Index != -1)
                 {
-                    TestUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index));
+                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                     if (CanUse(TestUnit))
                     {
                         if (TestUnit.GetObtainValue() + Result > Value)
@@ -741,7 +729,7 @@ namespace Aow.Game.Engine.Collections
                                 Index = Indexes[Random(Indexes.Count)];
                                 if (Index != -1 && Index != BestIndex)
                                 {
-                                    TestUnit.SetUnitResource(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index));
+                                    TestUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                                     if (CanUse(TestUnit))
                                     {
                                         Delta = Math.Abs(TestUnit.GetObtainValue() - (Value - Result));
@@ -760,7 +748,7 @@ namespace Aow.Game.Engine.Collections
                         }
 
                         Units.Add(Index);
-                        Result += Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index).FObtainValue;
+                        Result += Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FObtainValue;
                         Tries = 50;
                     }
                 }
@@ -770,13 +758,13 @@ namespace Aow.Game.Engine.Collections
             return Result;
         }
 
-        internal static int P4LevelCost(TIntegerList Costs, int Level) => Costs[Level];
+        internal static int P4LevelCost(IntegerList Costs, int Level) => Costs[Level];
+
+        public delegate int IntegerSortCompare(int Item1, int Item2);
 
     }
 
-    public delegate int TByteSortCompare(byte Item1, byte Item2);
-
-    public partial class TByteList : TPersistent
+    public partial class ByteList : Persistent
     {
         internal byte[] FList = [];
         internal int FCount;
@@ -938,11 +926,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3608
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TByteList)
+            if (Source is ByteList)
             {
-                var byteList = (TByteList)Source;
+                var byteList = (ByteList)Source;
                 this.FCount = byteList.FCount;
                 this.SetCapacity(byteList.FCount);
                 Array.Copy(byteList.FList, 0, this.FList, 0, this.FCount * 1);
@@ -1010,7 +998,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3667
-        public TByteList Expand()
+        public ByteList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -1107,16 +1095,16 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3800
-        public void Sort(TByteSortCompare Compare)
+        public void Sort(ByteSortCompare Compare)
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.TByteList.QuickSortByte(FList, 0, Count - 1, Compare);
+                Aow.Game.Engine.Collections.ByteList.QuickSortByte(FList, 0, Count - 1, Compare);
             }
         }
 
         // Engine.pas:3806
-        public bool Compare(TByteList List) => List.FCount == FCount && CompareMem(FList.AsSpan(0, FCount * 1), List.FList.AsSpan(0, FCount * 1), FCount * 1);
+        public bool Compare(ByteList List) => List.FCount == FCount && CompareMem(FList.AsSpan(0, FCount * 1), List.FList.AsSpan(0, FCount * 1), FCount * 1);
 
         // Engine.pas:3813
         public void LoadFromStream(Stream Stream)
@@ -1252,7 +1240,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortByte(global::System.Span<byte> SortList, int L, int R, global::Aow.Game.Engine.Collections.TByteSortCompare SCompare)
+        private static void QuickSortByte(global::System.Span<byte> SortList, int L, int R, ByteSortCompare SCompare)
         {
             byte b = 0;
             int num;
@@ -1294,11 +1282,11 @@ namespace Aow.Game.Engine.Collections
             while (num < R);
         }
 
+        public delegate int ByteSortCompare(byte Item1, byte Item2);
+
     }
 
-    public delegate int TShortIntSortCompare(sbyte Item1, sbyte Item2);
-
-    public partial class TShortIntList : TPersistent
+    public partial class ShortIntList : Persistent
     {
         internal sbyte[] FList = [];
         internal int FCount;
@@ -1403,11 +1391,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:3955
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TShortIntList)
+            if (Source is ShortIntList)
             {
-                var shortIntList = (TShortIntList)Source;
+                var shortIntList = (ShortIntList)Source;
                 this.FCount = shortIntList.FCount;
                 this.SetCapacity(shortIntList.FCount);
                 Array.Copy(shortIntList.FList, 0, this.FList, 0, this.FCount * 1);
@@ -1475,7 +1463,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4014
-        public TShortIntList Expand()
+        public ShortIntList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -1572,16 +1560,16 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4147
-        public void Sort(TShortIntSortCompare Compare)
+        public void Sort(ShortIntSortCompare Compare)
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.TShortIntList.QuickSortShortInt(FList, 0, Count - 1, Compare);
+                Aow.Game.Engine.Collections.ShortIntList.QuickSortShortInt(FList, 0, Count - 1, Compare);
             }
         }
 
         // Engine.pas:4153
-        public bool Compare(TShortIntList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount * 1)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount * 1)), FCount * 1);
+        public bool Compare(ShortIntList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount * 1)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount * 1)), FCount * 1);
 
         // Engine.pas:4160
         public void LoadFromStream(Stream Stream)
@@ -1716,7 +1704,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortShortInt(global::System.Span<sbyte> SortList, int L, int R, global::Aow.Game.Engine.Collections.TShortIntSortCompare SCompare)
+        private static void QuickSortShortInt(global::System.Span<sbyte> SortList, int L, int R, ShortIntSortCompare SCompare)
         {
             sbyte b = 0;
             int num;
@@ -1758,11 +1746,11 @@ namespace Aow.Game.Engine.Collections
             while (num < R);
         }
 
+        public delegate int ShortIntSortCompare(sbyte Item1, sbyte Item2);
+
     }
 
-    public delegate int TWordSortCompare(ushort Item1, ushort Item2);
-
-    public partial class TWordList : TPersistent
+    public partial class WordList : Persistent
     {
         internal ushort[] FList = [];
         internal int FCount;
@@ -1831,7 +1819,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.TWordList.FillWord(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                Aow.Game.Engine.Collections.WordList.FillWord(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -1867,11 +1855,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4266
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TWordList)
+            if (Source is WordList)
             {
-                var wordList = (TWordList)Source;
+                var wordList = (WordList)Source;
                 this.FCount = wordList.FCount;
                 this.SetCapacity(wordList.FCount);
                 Array.Copy(wordList.FList, 0, this.FList, 0, this.FCount);
@@ -1939,7 +1927,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4325
-        public TWordList Expand()
+        public WordList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -2036,16 +2024,16 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4458
-        public void Sort(TWordSortCompare Compare)
+        public void Sort(WordSortCompare Compare)
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.TWordList.QuickSortWord(FList, 0, Count - 1, Compare);
+                Aow.Game.Engine.Collections.WordList.QuickSortWord(FList, 0, Count - 1, Compare);
             }
         }
 
         // Engine.pas:4464
-        public bool Compare(TWordList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 2);
+        public bool Compare(WordList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 2);
 
         // Engine.pas:4471
         public void LoadFromStream(Stream Stream)
@@ -2181,7 +2169,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortWord(global::System.Span<ushort> SortList, int L, int R, global::Aow.Game.Engine.Collections.TWordSortCompare SCompare)
+        private static void QuickSortWord(global::System.Span<ushort> SortList, int L, int R, WordSortCompare SCompare)
         {
             ushort num = 0;
             int num2;
@@ -2228,9 +2216,11 @@ namespace Aow.Game.Engine.Collections
             global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
         }
 
+        public delegate int WordSortCompare(ushort Item1, ushort Item2);
+
     }
 
-    public partial class TBitList : TPersistent
+    public partial class BitList : Persistent
     {
         internal Memory<byte> FList = Memory<byte>.Empty;
         internal int FCount;
@@ -2386,11 +2376,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4576
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TBitList)
+            if (Source is BitList)
             {
-                var bitList = (TBitList)Source;
+                var bitList = (BitList)Source;
                 this.FCount = bitList.FCount;
                 this.SetCapacity(bitList.FCount);
                 RtlUnit.Move(bitList.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), this.FList.Span.Slice(0, (int)(((uint)(this.FCount + 31)) >> 5) * 4), (int)(((uint)(this.FCount + 31)) >> 5) * 4);
@@ -2460,7 +2450,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4635
-        public TBitList Expand()
+        public BitList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -2565,7 +2555,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4775
-        public bool Compare(TBitList List) => List.FCount == FCount && CompareMem(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), List.FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
+        public bool Compare(BitList List) => List.FCount == FCount && CompareMem(FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), List.FList.Span.Slice(0, (int)(((uint)(FCount + 7)) >> 3)), (int)(((uint)(FCount + 7)) >> 3));
 
         // Engine.pas:4782
         public void LoadFromStream(Stream Stream)
@@ -2603,17 +2593,17 @@ namespace Aow.Game.Engine.Collections
 
     }
 
-    public partial class TEventList : TPersistent
+    public partial class EventList : Persistent
     {
-        internal TNotifyEvent<object>[] FList = [];
+        internal NotifyEvent<object>[] FList = [];
         internal int FCount;
         internal int FCapacity;
-        internal TNotifyEvent<object> FDefault;
+        internal NotifyEvent<object> FDefault;
 
         // Engine.pas:4929
-        internal TNotifyEvent<object> Get(int Index)
+        internal NotifyEvent<object> Get(int Index)
         {
-            TNotifyEvent<object> Result;
+            NotifyEvent<object> Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -2627,7 +2617,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4987
-        internal void Put(int Index, TNotifyEvent<object> Item)
+        internal void Put(int Index, NotifyEvent<object> Item)
         {
             if (Index < 0)
             {
@@ -2716,11 +2706,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4859
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TEventList)
+            if (Source is EventList)
             {
-                var eventList = (TEventList)Source;
+                var eventList = (EventList)Source;
                 this.FCount = eventList.FCount;
                 this.SetCapacity(eventList.FCount);
                 Array.Copy(eventList.FList, 0, this.FList, 0, this.FCount);
@@ -2733,7 +2723,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4873
-        public int Add(TNotifyEvent<object> Item)
+        public int Add(NotifyEvent<object> Item)
         {
             int Result = FCount;
             if (Result == FCapacity)
@@ -2771,7 +2761,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:4907
         public void Exchange(int Index1, int Index2)
         {
-            TNotifyEvent<object> Item;
+            NotifyEvent<object> Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error("List index out of bounds (%d)", Index1);
@@ -2788,7 +2778,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4918
-        public TEventList Expand()
+        public EventList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -2799,10 +2789,10 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4924
-        public TNotifyEvent<object> First() => Get(0);
+        public NotifyEvent<object> First() => Get(0);
 
         // Engine.pas:4947
-        public int IndexOf(TNotifyEvent<object> Item)
+        public int IndexOf(NotifyEvent<object> Item)
         {
             Delegate M;
             int Result = 0;
@@ -2821,7 +2811,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4958
-        public void Insert(int Index, TNotifyEvent<object> Item)
+        public void Insert(int Index, NotifyEvent<object> Item)
         {
             if (Index < 0 || Index > FCount)
             {
@@ -2843,12 +2833,12 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4969
-        public TNotifyEvent<object> Last() => Get(FCount - 1);
+        public NotifyEvent<object> Last() => Get(FCount - 1);
 
         // Engine.pas:4974
         public void Move(int CurIndex, int NewIndex)
         {
-            TNotifyEvent<object> Item;
+            NotifyEvent<object> Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -2863,7 +2853,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:4994
-        public int Remove(TNotifyEvent<object> Item)
+        public int Remove(NotifyEvent<object> Item)
         {
             int Result = default;
             Result = IndexOf(Item);
@@ -2891,7 +2881,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5039
-        public bool Compare(TEventList List) => List.FCount == FCount && FList.AsSpan(0, FCount).SequenceEqual(List.FList.AsSpan(0, FCount));
+        public bool Compare(EventList List) => List.FCount == FCount && FList.AsSpan(0, FCount).SequenceEqual(List.FList.AsSpan(0, FCount));
 
         // Engine.pas:5046
         public void TriggerNotifyEvents(object Sender)
@@ -2907,11 +2897,11 @@ namespace Aow.Game.Engine.Collections
 
         public int Capacity { get => FCapacity; set => SetCapacity(value); }
         public int Count { get => FCount; set => SetCount(value); }
-        public TNotifyEvent<object> Default { get => FDefault; set => FDefault = value; }
+        public NotifyEvent<object> Default { get => FDefault; set => FDefault = value; }
 
-        public TNotifyEvent<object> this[int Index] { get => Get(Index); set => Put(Index, value); }
+        public NotifyEvent<object> this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public TNotifyEvent<object>[] List { get => FList; }
+        public NotifyEvent<object>[] List { get => FList; }
 
         // Engine.pas:4896
         protected internal static void Error(string Msg, int Data)
@@ -2921,28 +2911,17 @@ namespace Aow.Game.Engine.Collections
 
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct TDoubleItem
+    public partial class DoubleItemList : Persistent
     {
-        [FieldOffset(0)]
-        public int A;
-        [FieldOffset(4)]
-        public int B;
-    }
-
-    public delegate int TDoubleItemSortCompare(in TDoubleItem Item1, in TDoubleItem Item2);
-
-    public partial class TDoubleItemList : TPersistent
-    {
-        internal TDoubleItem[] FList = [];
+        internal DoubleItem[] FList = [];
         internal int FCount;
         internal int FCapacity;
-        internal TDoubleItem FDefault;
+        internal DoubleItem FDefault;
 
         // Engine.pas:5140
-        internal TDoubleItem Get(int Index)
+        internal DoubleItem Get(int Index)
         {
-            TDoubleItem Result;
+            DoubleItem Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -2956,7 +2935,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5208
-        internal void Put(int Index, TDoubleItem Item)
+        internal void Put(int Index, DoubleItem Item)
         {
             if (Index < 0)
             {
@@ -3001,7 +2980,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.TDoubleItemList.FillLargeInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                Aow.Game.Engine.Collections.DoubleItemList.FillLargeInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -3037,11 +3016,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5061
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TDoubleItemList)
+            if (Source is DoubleItemList)
             {
-                var doubleItemList = (TDoubleItemList)Source;
+                var doubleItemList = (DoubleItemList)Source;
                 this.FCount = doubleItemList.FCount;
                 this.SetCapacity(doubleItemList.FCount);
                 Array.Copy(doubleItemList.FList, 0, this.FList, 0, this.FCount);
@@ -3054,7 +3033,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5075
-        public int Add(in TDoubleItem Item)
+        public int Add(in DoubleItem Item)
         {
             int Result = FCount;
             if (Result == FCapacity)
@@ -3107,7 +3086,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5118
         public void Exchange(int Index1, int Index2)
         {
-            TDoubleItem Item;
+            DoubleItem Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error("List index out of bounds (%d)", Index1);
@@ -3124,7 +3103,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5129
-        public TDoubleItemList Expand()
+        public DoubleItemList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -3135,13 +3114,13 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5135
-        public TDoubleItem First() => Get(0);
+        public DoubleItem First() => Get(0);
 
         // Engine.pas:5158
-        public int IndexOf(in TDoubleItem Item)
+        public int IndexOf(in DoubleItem Item)
         {
             int Result = 0;
-            while (Result < FCount && (double)Unsafe.As<TDoubleItem, long>(ref FList[Result]) != Unsafe.BitCast<TDoubleItem, long>(Item))
+            while (Result < FCount && (double)Unsafe.As<DoubleItem, long>(ref FList[Result]) != Unsafe.BitCast<DoubleItem, long>(Item))
             {
                 Result += 1;
             }
@@ -3189,7 +3168,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5179
-        public void Insert(int Index, in TDoubleItem Item)
+        public void Insert(int Index, in DoubleItem Item)
         {
             if (Index < 0 || Index > FCount)
             {
@@ -3211,12 +3190,12 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5190
-        public TDoubleItem Last() => Get(FCount - 1);
+        public DoubleItem Last() => Get(FCount - 1);
 
         // Engine.pas:5195
         public void Move(int CurIndex, int NewIndex)
         {
-            TDoubleItem Item;
+            DoubleItem Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -3231,7 +3210,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5215
-        public int Remove(in TDoubleItem Item)
+        public int Remove(in DoubleItem Item)
         {
             int Result = IndexOf(Item);
             if (Result != -1)
@@ -3245,11 +3224,11 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5221
         public void Pack()
         {
-            TDoubleItem Item = default;
+            DoubleItem Item = default;
             for (int I = FCount - 1; I >= 0; I--)
             {
                 Item = this[I];
-                if ((double)Unsafe.As<TDoubleItem, long>(ref Item) == Unsafe.As<TDoubleItem, long>(ref FDefault))
+                if ((double)Unsafe.As<DoubleItem, long>(ref Item) == Unsafe.As<DoubleItem, long>(ref FDefault))
                 {
                     Delete(I);
                 }
@@ -3257,45 +3236,45 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5281
-        public void Sort(TDoubleItemSortCompare Compare)
+        public void Sort(DoubleItemSortCompare Compare)
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.TDoubleItemList.QuickSortDoubleItem(FList, 0, Count - 1, Compare);
+                Aow.Game.Engine.Collections.DoubleItemList.QuickSortDoubleItem(FList, 0, Count - 1, Compare);
             }
         }
 
         // Engine.pas:5307
         public void SortAscendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.TDoubleItemList.CompareDoubleItemAAscending);
+            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemAAscending);
         }
 
         // Engine.pas:5312
         public void SortAscendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.TDoubleItemList.CompareDoubleItemBAscending);
+            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemBAscending);
         }
 
         // Engine.pas:5317
         public void SortDescendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.TDoubleItemList.CompareDoubleItemADescending);
+            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemADescending);
         }
 
         // Engine.pas:5322
         public void SortDescendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.TDoubleItemList.CompareDoubleItemBDescending);
+            Sort(Aow.Game.Engine.Collections.DoubleItemList.CompareDoubleItemBDescending);
         }
 
         // Engine.pas:5327
-        public bool Compare(TDoubleItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 8);
+        public bool Compare(DoubleItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 8);
 
         // Engine.pas:5334
         public void LoadFromStream(Stream Stream)
         {
-            TDoubleItem Item = default;
+            DoubleItem Item = default;
             int Run = default;
             int Count = default;
             Clear();
@@ -3305,7 +3284,7 @@ namespace Aow.Game.Engine.Collections
             while (FCount < Count)
             {
                 Stream.ReadBytes(Bytes.Of(ref Item, 8));
-                if ((double)Unsafe.As<TDoubleItem, long>(ref Item) == Unsafe.As<TDoubleItem, long>(ref FDefault))
+                if ((double)Unsafe.As<DoubleItem, long>(ref Item) == Unsafe.As<DoubleItem, long>(ref FDefault))
                 {
                     Stream.ReadBytes(Bytes.Of(ref Run, 4));
                     SetCount(FCount + Run);
@@ -3327,7 +3306,7 @@ namespace Aow.Game.Engine.Collections
                 int J;
                 int Result = 0;
                 J = I;
-                while (J < FCount && (double)Unsafe.As<TDoubleItem, long>(ref FList[J]) == Unsafe.As<TDoubleItem, long>(ref FDefault))
+                while (J < FCount && (double)Unsafe.As<DoubleItem, long>(ref FList[J]) == Unsafe.As<DoubleItem, long>(ref FDefault))
                 {
                     Result += 1;
                     J += 1;
@@ -3448,11 +3427,11 @@ namespace Aow.Game.Engine.Collections
 
         public int Capacity { get => FCapacity; set => SetCapacity(value); }
         public int Count { get => FCount; set => SetCount(value); }
-        public TDoubleItem Default { get => FDefault; set => FDefault = value; }
+        public DoubleItem Default { get => FDefault; set => FDefault = value; }
 
-        public TDoubleItem this[int Index] { get => Get(Index); set => Put(Index, value); }
+        public DoubleItem this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public TDoubleItem[] List { get => FList; }
+        public DoubleItem[] List { get => FList; }
 
         // Engine.pas:5107
         protected internal static void Error(string Msg, int Data)
@@ -3460,15 +3439,15 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortDoubleItem(global::System.Span<global::Aow.Game.Engine.Collections.TDoubleItem> SortList, int L, int R, global::Aow.Game.Engine.Collections.TDoubleItemSortCompare SCompare)
+        private static void QuickSortDoubleItem(global::System.Span<DoubleItem> SortList, int L, int R, DoubleItemSortCompare SCompare)
         {
-            global::Aow.Game.Engine.Collections.TDoubleItem tDoubleItem = default(global::Aow.Game.Engine.Collections.TDoubleItem);
+            DoubleItem tDoubleItem = default(DoubleItem);
             int num;
             do
             {
                 num = L;
                 int num2 = R;
-                global::Aow.Game.Engine.Collections.TDoubleItem Item = SortList[L + R >>> 1];
+                DoubleItem Item = SortList[L + R >>> 1];
                 while (true)
                 {
                     if (SCompare(in SortList[num], in Item) < 0)
@@ -3502,59 +3481,55 @@ namespace Aow.Game.Engine.Collections
             while (num < R);
         }
 
-        private static int CompareDoubleItemAAscending(in global::Aow.Game.Engine.Collections.TDoubleItem Item1, in global::Aow.Game.Engine.Collections.TDoubleItem Item2)
+        private static int CompareDoubleItemAAscending(in DoubleItem Item1, in DoubleItem Item2)
         {
             return Item1.A - Item2.A;
         }
 
-        private static int CompareDoubleItemBAscending(in global::Aow.Game.Engine.Collections.TDoubleItem Item1, in global::Aow.Game.Engine.Collections.TDoubleItem Item2)
+        private static int CompareDoubleItemBAscending(in DoubleItem Item1, in DoubleItem Item2)
         {
             return Item1.B - Item2.B;
         }
 
-        private static int CompareDoubleItemADescending(in global::Aow.Game.Engine.Collections.TDoubleItem Item1, in global::Aow.Game.Engine.Collections.TDoubleItem Item2)
+        private static int CompareDoubleItemADescending(in DoubleItem Item1, in DoubleItem Item2)
         {
             return Item2.A - Item1.A;
         }
 
-        private static int CompareDoubleItemBDescending(in global::Aow.Game.Engine.Collections.TDoubleItem Item1, in global::Aow.Game.Engine.Collections.TDoubleItem Item2)
+        private static int CompareDoubleItemBDescending(in DoubleItem Item1, in DoubleItem Item2)
         {
             return Item2.B - Item1.B;
         }
 
-        private static void FillLargeInteger(global::System.Span<global::Aow.Game.Engine.Collections.TDoubleItem> buffer, int count, global::Aow.Game.Engine.Collections.TDoubleItem value)
+        private static void FillLargeInteger(global::System.Span<DoubleItem> buffer, int count, DoubleItem value)
         {
             global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
         }
 
+        [StructLayout(LayoutKind.Explicit, Size = 8)]
+        public struct DoubleItem
+        {
+            [FieldOffset(0)]
+            public int A;
+            [FieldOffset(4)]
+            public int B;
+        }
+
+        public delegate int DoubleItemSortCompare(in Aow.Game.Engine.Collections.DoubleItemList.DoubleItem Item1, in Aow.Game.Engine.Collections.DoubleItemList.DoubleItem Item2);
+
     }
 
-    [StructLayout(LayoutKind.Explicit, Size = 16)]
-    public struct TQuadInteger
+    public partial class QuadItemList : Persistent
     {
-        [FieldOffset(0)]
-        public int A;
-        [FieldOffset(4)]
-        public int B;
-        [FieldOffset(8)]
-        public int C;
-        [FieldOffset(12)]
-        public int D;
-    }
-
-    public delegate int TQuadItemSortCompare(in TQuadInteger Item1, in TQuadInteger Item2);
-
-    public partial class TQuadItemList : TPersistent
-    {
-        internal TQuadInteger[] FList = [];
+        internal QuadInteger[] FList = [];
         internal int FCount;
         internal int FCapacity;
-        internal TQuadInteger FDefault;
+        internal QuadInteger FDefault;
 
         // Engine.pas:5538
-        internal TQuadInteger Get(int Index)
+        internal QuadInteger Get(int Index)
         {
-            TQuadInteger Result;
+            QuadInteger Result;
             if (Index < 0 || Index >= FCount)
             {
                 Result = FDefault;
@@ -3568,7 +3543,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5621
-        internal void Put(int Index, TQuadInteger Item)
+        internal void Put(int Index, QuadInteger Item)
         {
             if (Index < 0)
             {
@@ -3613,7 +3588,7 @@ namespace Aow.Game.Engine.Collections
 
             if (NewCount > FCount)
             {
-                Aow.Game.Engine.Collections.TQuadItemList.FillQuadInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
+                Aow.Game.Engine.Collections.QuadItemList.FillQuadInteger(FList.AsSpan(FCount), NewCount - FCount, FDefault);
             }
 
             FCount = NewCount;
@@ -3649,11 +3624,11 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5457
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TQuadItemList)
+            if (Source is QuadItemList)
             {
-                var quadItemList = (TQuadItemList)Source;
+                var quadItemList = (QuadItemList)Source;
                 this.FCount = quadItemList.FCount;
                 this.SetCapacity(quadItemList.FCount);
                 Array.Copy(quadItemList.FList, 0, this.FList, 0, this.FCount);
@@ -3666,7 +3641,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5471
-        public int Add(in TQuadInteger Item)
+        public int Add(in QuadInteger Item)
         {
             int Result = FCount;
             if (Result == FCapacity)
@@ -3721,7 +3696,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5516
         public void Exchange(int Index1, int Index2)
         {
-            TQuadInteger Item;
+            QuadInteger Item;
             if (Index1 < 0 || Index1 >= FCount)
             {
                 Error("List index out of bounds (%d)", Index1);
@@ -3738,7 +3713,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5527
-        public TQuadItemList Expand()
+        public QuadItemList Expand()
         {
             if (FCount == FCapacity)
             {
@@ -3749,10 +3724,10 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5533
-        public TQuadInteger First() => Get(0);
+        public QuadInteger First() => Get(0);
 
         // Engine.pas:5556
-        public int IndexOf(in TQuadInteger Item)
+        public int IndexOf(in QuadInteger Item)
         {
             int Result = 0;
             while (Result < FCount && (FList[Result].A != Item.A || FList[Result].B != Item.B || FList[Result].C != Item.C || FList[Result].D != Item.D))
@@ -3837,7 +3812,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5592
-        public void Insert(int Index, in TQuadInteger Item)
+        public void Insert(int Index, in QuadInteger Item)
         {
             if (Index < 0 || Index > FCount)
             {
@@ -3859,12 +3834,12 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5603
-        public TQuadInteger Last() => Get(FCount - 1);
+        public QuadInteger Last() => Get(FCount - 1);
 
         // Engine.pas:5608
         public void Move(int CurIndex, int NewIndex)
         {
-            TQuadInteger Item;
+            QuadInteger Item;
             if (CurIndex != NewIndex)
             {
                 if (NewIndex < 0 || NewIndex >= FCount)
@@ -3879,7 +3854,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5628
-        public int Remove(in TQuadInteger Item)
+        public int Remove(in QuadInteger Item)
         {
             int Result = IndexOf(Item);
             if (Result != -1)
@@ -3903,71 +3878,71 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5691
-        public void Sort(TQuadItemSortCompare Compare)
+        public void Sort(QuadItemSortCompare Compare)
         {
             if (FList.Length != 0 && Count > 0)
             {
-                Aow.Game.Engine.Collections.TQuadItemList.QuickSortQuadItem(FList, 0, Count - 1, Compare);
+                Aow.Game.Engine.Collections.QuadItemList.QuickSortQuadItem(FList, 0, Count - 1, Compare);
             }
         }
 
         // Engine.pas:5737
         public void SortAscendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemAAscending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemAAscending);
         }
 
         // Engine.pas:5742
         public void SortAscendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemBAscending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemBAscending);
         }
 
         // Engine.pas:5747
         public void SortAscendingItemC()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemCAscending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemCAscending);
         }
 
         // Engine.pas:5752
         public void SortAscendingItemD()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemDAscending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemDAscending);
         }
 
         // Engine.pas:5757
         public void SortDescendingItemA()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemADescending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemADescending);
         }
 
         // Engine.pas:5762
         public void SortDescendingItemB()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemBDescending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemBDescending);
         }
 
         // Engine.pas:5767
         public void SortDescendingItemC()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemCDescending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemCDescending);
         }
 
         // Engine.pas:5772
         public void SortDescendingItemD()
         {
-            Sort(Aow.Game.Engine.Collections.TQuadItemList.CompareQuadItemDDescending);
+            Sort(Aow.Game.Engine.Collections.QuadItemList.CompareQuadItemDDescending);
         }
 
         // Engine.pas:5777
-        public bool Compare(TQuadItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 16);
+        public bool Compare(QuadItemList List) => List.FCount == FCount && CompareMem(MemoryMarshal.AsBytes(FList.AsSpan(0, FCount)), MemoryMarshal.AsBytes(List.FList.AsSpan(0, FCount)), FCount * 16);
 
         // Engine.pas:5784
         public void LoadFromStream(Stream Stream)
         {
             int Run = default;
             int Count = default;
-            TQuadInteger Item = default;
+            QuadInteger Item = default;
             Clear();
             Stream.ReadBytes(Bytes.Of(ref FDefault, 16));
             Stream.ReadBytes(Bytes.Of(ref Count, 4));
@@ -4028,11 +4003,11 @@ namespace Aow.Game.Engine.Collections
 
         public int Capacity { get => FCapacity; set => SetCapacity(value); }
         public int Count { get => FCount; set => SetCount(value); }
-        public TQuadInteger Default { get => FDefault; set => FDefault = value; }
+        public QuadInteger Default { get => FDefault; set => FDefault = value; }
 
-        public TQuadInteger this[int Index] { get => Get(Index); set => Put(Index, value); }
+        public QuadInteger this[int Index] { get => Get(Index); set => Put(Index, value); }
 
-        public TQuadInteger[] List { get => FList; }
+        public QuadInteger[] List { get => FList; }
 
         // Engine.pas:5505
         protected internal static void Error(string Msg, int Data)
@@ -4040,15 +4015,15 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortQuadItem(global::System.Span<global::Aow.Game.Engine.Collections.TQuadInteger> SortList, int L, int R, global::Aow.Game.Engine.Collections.TQuadItemSortCompare SCompare)
+        private static void QuickSortQuadItem(global::System.Span<QuadInteger> SortList, int L, int R, QuadItemSortCompare SCompare)
         {
-            global::Aow.Game.Engine.Collections.TQuadInteger tQuadInteger = default(global::Aow.Game.Engine.Collections.TQuadInteger);
+            QuadInteger tQuadInteger = default(QuadInteger);
             int num;
             do
             {
                 num = L;
                 int num2 = R;
-                global::Aow.Game.Engine.Collections.TQuadInteger Item = SortList[L + R >>> 1];
+                QuadInteger Item = SortList[L + R >>> 1];
                 while (true)
                 {
                     if (SCompare(in SortList[num], in Item) < 0)
@@ -4082,62 +4057,70 @@ namespace Aow.Game.Engine.Collections
             while (num < R);
         }
 
-        private static int CompareQuadItemAAscending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemAAscending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item1.A - Item2.A;
         }
 
-        private static int CompareQuadItemBAscending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemBAscending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item1.B - Item2.B;
         }
 
-        private static int CompareQuadItemCAscending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemCAscending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item1.C - Item2.C;
         }
 
-        private static int CompareQuadItemDAscending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemDAscending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item1.D - Item2.D;
         }
 
-        private static int CompareQuadItemADescending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemADescending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item2.A - Item1.A;
         }
 
-        private static int CompareQuadItemBDescending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemBDescending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item2.B - Item1.B;
         }
 
-        private static int CompareQuadItemCDescending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemCDescending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item2.C - Item1.C;
         }
 
-        private static int CompareQuadItemDDescending(in global::Aow.Game.Engine.Collections.TQuadInteger Item1, in global::Aow.Game.Engine.Collections.TQuadInteger Item2)
+        private static int CompareQuadItemDDescending(in QuadInteger Item1, in QuadInteger Item2)
         {
             return Item2.D - Item1.D;
         }
 
-        internal static void FillQuadInteger(global::System.Span<global::Aow.Game.Engine.Collections.TQuadInteger> buffer, int count, in global::Aow.Game.Engine.Collections.TQuadInteger value)
+        internal static void FillQuadInteger(global::System.Span<QuadInteger> buffer, int count, in QuadInteger value)
         {
-            global::Aow.Game.Engine.Collections.TQuadInteger value2 = value;
+            QuadInteger value2 = value;
             global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value2);
         }
 
+        [StructLayout(LayoutKind.Explicit, Size = 16)]
+        public struct QuadInteger
+        {
+            [FieldOffset(0)]
+            public int A;
+            [FieldOffset(4)]
+            public int B;
+            [FieldOffset(8)]
+            public int C;
+            [FieldOffset(12)]
+            public int D;
+        }
+
+        public delegate int QuadItemSortCompare(in Aow.Game.Engine.Collections.QuadItemList.QuadInteger Item1, in Aow.Game.Engine.Collections.QuadItemList.QuadInteger Item2);
+
     }
 
-    // The record lists above with an object column. Engine.pas stored Integer(Object) in column A of a
-    // TDoubleItemList or TQuadItemList and cast it back on read. These lists keep the reference itself,
-    // so no id table holds the object and the owner of the list alone decides its lifetime. Every
-    // column that held a number stays an int. Sort runs the quicksort of EngineUnit.QuickSortDoubleItem,
-    // so a list sorted on its int columns keeps the original order.
-    public delegate int TRecordSortCompare<TRecord>(in TRecord Item1, in TRecord Item2);
-
-    public class TRecordList<TRecord> : TPersistent where TRecord : struct
+    public class RecordList<TRecord> : Persistent where TRecord : struct
     {
         internal TRecord[] FList = [];
         internal int FCount;
@@ -4223,9 +4206,9 @@ namespace Aow.Game.Engine.Collections
             base.Dispose();
         }
 
-        public override void Assign(TPersistent Source)
+        public override void Assign(Persistent Source)
         {
-            if (Source is TRecordList<TRecord> list)
+            if (Source is RecordList<TRecord> list)
             {
                 Clear();
                 SetCapacity(list.FCount);
@@ -4305,7 +4288,7 @@ namespace Aow.Game.Engine.Collections
 
         public TRecord Last() => Get(FCount - 1);
 
-        public void Sort(TRecordSortCompare<TRecord> Compare)
+        public void Sort(RecordSortCompare<TRecord> Compare)
         {
             if (FCount > 0)
             {
@@ -4314,7 +4297,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5254, the quicksort of QuickSortDoubleItem and QuickSortQuadItem.
-        private static void QuickSort(Span<TRecord> SortList, int L, int R, TRecordSortCompare<TRecord> SCompare)
+        private static void QuickSort(Span<TRecord> SortList, int L, int R, RecordSortCompare<TRecord> SCompare)
         {
             int I;
             int J;
@@ -4365,17 +4348,24 @@ namespace Aow.Game.Engine.Collections
         {
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
+
+        // The record lists above with an object column. Engine.pas stored Integer(Object) in column A of a
+        // TDoubleItemList or TQuadItemList and cast it back on read. These lists keep the reference itself,
+        // so no id table holds the object and the owner of the list alone decides its lifetime. Every
+        // column that held a number stays an int. Sort runs the quicksort of EngineUnit.QuickSortDoubleItem,
+        // so a list sorted on its int columns keeps the original order.
+        public delegate int RecordSortCompare<TItem>(in TItem Item1, in TItem Item2);
     }
 
-    public struct TDoubleItem<TA> where TA : class
+    public struct DoubleItem<TA> where TA : class
     {
         public TA A;
         public int B;
     }
 
-    public class TDoubleItemList<TA> : TRecordList<TDoubleItem<TA>> where TA : class
+    public class DoubleItemList<TA> : RecordList<DoubleItem<TA>> where TA : class
     {
-        public int AddAB(TA A, int B) => Add(new TDoubleItem<TA> { A = A, B = B });
+        public int AddAB(TA A, int B) => Add(new DoubleItem<TA> { A = A, B = B });
 
         public int IndexOfItemA(TA A)
         {
@@ -4450,20 +4440,20 @@ namespace Aow.Game.Engine.Collections
         }
     }
 
-    public struct TQuadItem<TA> where TA : class
+    public struct QuadItem<TA> where TA : class
     {
         public TA A;
         public int B;
         public int C;
         public int D;
 
-        internal static int P3CompareRoundTargets(in TQuadItem<TCombatPredictorUnit> A, in TQuadItem<TCombatPredictorUnit> B) => A.D - B.D;
+        internal static int P3CompareRoundTargets(in QuadItem<CombatPredictorUnit> A, in QuadItem<CombatPredictorUnit> B) => A.D - B.D;
 
     }
 
-    public class TQuadItemList<TA> : TRecordList<TQuadItem<TA>> where TA : class
+    public class QuadItemList<TA> : RecordList<QuadItem<TA>> where TA : class
     {
-        public int AddABCD(TA A, int B, int C, int D) => Add(new TQuadItem<TA> { A = A, B = B, C = C, D = D });
+        public int AddABCD(TA A, int B, int C, int D) => Add(new QuadItem<TA> { A = A, B = B, C = C, D = D });
 
         public int IndexOfItemA(TA A)
         {
@@ -4526,35 +4516,15 @@ namespace Aow.Game.Engine.Collections
 namespace Aow.Game.Engine
 {
 
-    [StructLayout(LayoutKind.Explicit, Size = 8)]
-    public struct TPropertyItem
-    {
-        [FieldOffset(0)]
-        public int ID;
-        [FieldOffset(4)]
-        public int Offset;
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 12)]
-    public struct TPropertySettings
-    {
-        [FieldOffset(0)]
-        public int First;
-        [FieldOffset(4)]
-        public int NextIndex;
-        [FieldOffset(8)]
-        public int MaxID;
-    }
-
     [LegacyObject]
-    public partial class TPropertyTable : IDisposable
+    public partial class PropertyTable : IDisposable
     {
-        internal TPropertyItem[] FItems = [];
+        internal PropertyItem[] FItems = [];
         internal int FCapacity;
         internal int FCount;
         internal int FNextIndex;
         internal int FMaxID;
-        internal TPropertySettings[] FStack = [];
+        internal PropertySettings[] FStack = [];
         internal int FStackCount;
         internal int FStackCapacity;
         internal int FFirst;
@@ -4672,7 +4642,7 @@ namespace Aow.Game.Engine
                 Array.Resize(ref FStack, FStackCapacity);
             }
 
-            ref var propertySettings = ref FStack[FStackCount];
+            ref PropertySettings propertySettings = ref FStack[FStackCount];
             propertySettings.First = FFirst;
             propertySettings.NextIndex = FNextIndex;
             propertySettings.MaxID = FMaxID;
@@ -4688,7 +4658,7 @@ namespace Aow.Game.Engine
         {
             FStackCount -= 1;
             FCount = FFirst;
-            ref var propertySettings = ref FStack[FStackCount];
+            ref PropertySettings propertySettings = ref FStack[FStackCount];
             FFirst = propertySettings.First;
             FNextIndex = propertySettings.NextIndex;
             FMaxID = propertySettings.MaxID;
@@ -4790,13 +4760,33 @@ namespace Aow.Game.Engine
             }
         }
 
-        public TPropertyItem[] Items { get => FItems; }
+        public PropertyItem[] Items { get => FItems; }
         public int Count { get => FCount; }
         public int First { get => FFirst; }
 
-        public TPropertyTable()
+        public PropertyTable()
         {
             CaptureAddress.Assign(this);
+        }
+
+        [StructLayout(LayoutKind.Explicit, Size = 8)]
+        public struct PropertyItem
+        {
+            [FieldOffset(0)]
+            public int ID;
+            [FieldOffset(4)]
+            public int Offset;
+        }
+
+        [StructLayout(LayoutKind.Explicit, Size = 12)]
+        public struct PropertySettings
+        {
+            [FieldOffset(0)]
+            public int First;
+            [FieldOffset(4)]
+            public int NextIndex;
+            [FieldOffset(8)]
+            public int MaxID;
         }
     }
 }
@@ -4806,7 +4796,7 @@ namespace Aow.Game.Engine.Nodes
 
     [LegacyObject]
     // FOwner
-    public partial class TEObject : IDisposable, IPersistable
+    public partial class EObject : IDisposable, IPersistable
     {
         // Engine.pas:2461
         public const int ClassID = 80;
@@ -4819,9 +4809,9 @@ namespace Aow.Game.Engine.Nodes
         // The Delphi pre-inherited statements run after capture and before any inherited body.
         private protected virtual void InitializeBeforeInherited() { }
 
-        public TEObject(TECustomNode owner) : this(null, owner) { }
+        public EObject(ECustomNode owner) : this(null, owner) { }
 
-        private protected TEObject(ConstructionContext context, TECustomNode owner)
+        private protected EObject(ConstructionContext context, ECustomNode owner)
         {
             CaptureAddress.Assign(this);
             context?.Capture(this);
@@ -4829,12 +4819,12 @@ namespace Aow.Game.Engine.Nodes
             SetOwner(owner);
         }
 
-        protected internal TECustomNode FOwner;
+        protected internal ECustomNode FOwner;
 
         // Engine.pas:2487
         internal string GetEObjectPath()
         {
-            TEObject P;
+            EObject P;
             string S;
             S = this.GetType().Name;
             P = FOwner;
@@ -4851,10 +4841,10 @@ namespace Aow.Game.Engine.Nodes
         public virtual int ClassVersion() => 0;
 
         // Engine.pas:2563
-        public virtual TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored);
+        public virtual Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored);
 
         // Engine.pas:2568
-        public virtual void SetOwner(TECustomNode AOwner)
+        public virtual void SetOwner(ECustomNode AOwner)
         {
             if (AOwner != FOwner)
             {
@@ -4872,7 +4862,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2558
-        public virtual Aow.Game.Engine.TEngine GetEngine() => FOwner.GetEngine();
+        public virtual global::Aow.Game.Engine.Engine GetEngine() => FOwner.GetEngine();
 
         // Engine.pas:2502
         public virtual int GetLastMsg() => 2147483647;
@@ -4883,7 +4873,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2590
-        public virtual void ReadWrite(TEStorageStream Stream)
+        public virtual void ReadWrite(EStorageStream Stream)
         {
         }
 
@@ -4933,9 +4923,9 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2594
-        public virtual void MainReadWrite(TEStorageStream Stream)
+        public virtual void MainReadWrite(EStorageStream Stream)
         {
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 Clear();
             }
@@ -4961,7 +4951,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2511
-        public virtual bool Compare(TEObject Obj, Aow.Game.Engine.TEngine AEngine)
+        public virtual bool Compare(EObject Obj, global::Aow.Game.Engine.Engine AEngine)
         {
             MemoryStream S1;
             MemoryStream S2;
@@ -4998,12 +4988,12 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:2466
         public virtual EditorClass Editor()
         {
-            Aow.Game.Engine.TEngine E;
+            global::Aow.Game.Engine.Engine E;
             EditorClass Result = null;
             E = GetEngine();
             if (E != null)
             {
-                for (var C = EClass; C.Type != typeof(TEObject) && Result == null; C = C.Parent)
+                for (var C = EClass; C.Type != typeof(EObject) && Result == null; C = C.Parent)
                 {
                     Result = E.FEditors.FindEditor(C.ClassID);
                 }
@@ -5011,14 +5001,14 @@ namespace Aow.Game.Engine.Nodes
 
             if (Result == null)
             {
-                Result = EditorClass.Of<TEObjectEditor>();
+                Result = EditorClass.Of<EObjectEditor>();
             }
 
             return Result;
         }
 
         // Engine.pas:2529
-        public virtual void Assign(TEObject Source, Aow.Game.Engine.TEngine AEngine)
+        public virtual void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
         {
             MemoryStream S;
             S = new MemoryStream();
@@ -5035,12 +5025,12 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2483
-        public virtual void TimerEvent(int Tick, TEObject Sender)
+        public virtual void TimerEvent(int Tick, EObject Sender)
         {
         }
 
         // Engine.pas:2585
-        public virtual void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public virtual void MsgProc(ref EMsg Msg, EObject Sender)
         {
             if (Msg.MsgID == 1)
             {
@@ -5049,7 +5039,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2578
-        public virtual void SetArrayOwner(TECustomNode AOwner, int Index)
+        public virtual void SetArrayOwner(ECustomNode AOwner, int Index)
         {
             if (FOwner != null)
             {
@@ -5070,9 +5060,9 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2543
-        public TEObject Copy(Aow.Game.Engine.TEngine AEngine)
+        public EObject Copy(global::Aow.Game.Engine.Engine AEngine)
         {
-            TEObject Result = default;
+            EObject Result = default;
             MemoryStream S;
             S = new MemoryStream();
             try
@@ -5090,7 +5080,7 @@ namespace Aow.Game.Engine.Nodes
             return Result;
         }
 
-        public TECustomNode Owner { get => FOwner; set => SetOwner(value); }
+        public ECustomNode Owner { get => FOwner; set => SetOwner(value); }
         public string EObjectPath { get => GetEObjectPath(); }
         public int LastMsg { get => GetLastMsg(); set => SetLastMsg(value); }
 
@@ -5098,21 +5088,21 @@ namespace Aow.Game.Engine.Nodes
 
     // children through an abstract list interface. Message ids carry flags: $10000000 deliver once
     // per Seq, $20000000 owned children only, $40000000 do not forward to children
-    public partial class TECustomNode : TEObject
+    public partial class ECustomNode : EObject
     {
 
         // Engine.pas:2430
-        public TECustomNode(TECustomNode owner) : this(null, owner) { }
+        public ECustomNode(ECustomNode owner) : this(null, owner) { }
 
-        private protected TECustomNode(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected ECustomNode(ConstructionContext context, ECustomNode owner) : base(context, owner)
         { }
 
         // Engine.pas:2666
-        public override void MainReadWrite(TEStorageStream Stream)
+        public override void MainReadWrite(EStorageStream Stream)
         {
-            if (Stream.StorageMode().Contains(TStorageModeElement.smRead))
+            if (Stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of())
+                if ((Stream.StorageMode() & Set<StorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
                 {
                     Clear();
                 }
@@ -5136,7 +5126,7 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:2626
         public override void Clear()
         {
-            TEObject C;
+            EObject C;
             if (Count != 0)
             {
                 for (int I = Count - 1; I >= 0; I--)
@@ -5170,14 +5160,14 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2648
-        public override void Assign(TEObject Source, Aow.Game.Engine.TEngine AEngine)
+        public override void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
         {
             Clear();
             base.Assign(Source, AEngine);
         }
 
         // Engine.pas:2720
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
             if (SendToChild(ref Msg))
@@ -5187,36 +5177,36 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:593
-        public virtual TEObject GetChild(int Index)
+        public virtual EObject GetChild(int Index)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:594
-        public virtual void SetChild(int Index, TEObject Child)
+        public virtual void SetChild(int Index, EObject Child)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:595
         public virtual int GetCount()
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:2661
-        public virtual void ReadWriteChildren(TEStorageStream Stream)
+        public virtual void ReadWriteChildren(EStorageStream Stream)
         {
             Stream.rwChildren(this, 1);
         }
 
         // Engine.pas:2715
-        public virtual bool SendToChild(ref TEMsg Msg) => (Msg.MsgID & 1073741824) == 0;
+        public virtual bool SendToChild(ref EMsg Msg) => (Msg.MsgID & 1073741824) == 0;
 
         // Engine.pas:2608
         public virtual void DestroyAllChildren()
         {
-            TEObject C;
+            EObject C;
             for (int I = Count - 1; I >= 0; I--)
             {
                 C = Children[I];
@@ -5249,9 +5239,9 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2674
-        public virtual void SendMsg(ref TEMsg Msg, TEObject Sender)
+        public virtual void SendMsg(ref EMsg Msg, EObject Sender)
         {
-            TEObject C;
+            EObject C;
             if ((Msg.MsgID & 268435456) != 0)
             {
                 if ((Msg.MsgID & 536870912) == 0)
@@ -5307,22 +5297,22 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:601
-        public virtual int RemoveChild(TEObject Child)
+        public virtual int RemoveChild(EObject Child)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:602
-        public virtual int AddChild(TEObject Child)
+        public virtual int AddChild(EObject Child)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:2786
         // { The original tests Result before the child-count call. }
         public virtual int DestroyChildren(int AClassID)
         {
-            TEObject C;
+            EObject C;
             int N;
             N = 0;
             for (int I = Count - 1; I >= 0; I--)
@@ -5339,18 +5329,18 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2768
-        public virtual TEObject FindChildInTree(int AClassID)
+        public virtual EObject FindChildInTree(int AClassID)
         {
             int I;
-            TEObject Result = FindChild(AClassID);
+            EObject Result = FindChild(AClassID);
             if (Result == null)
             {
                 I = 0;
                 while (Result == null && I < Count)
                 {
-                    if (Children[I] is TECustomNode)
+                    if (Children[I] is ECustomNode)
                     {
-                        Result = ((TECustomNode)Children[I]).FindChildInTree(AClassID);
+                        Result = ((ECustomNode)Children[I]).FindChildInTree(AClassID);
                     }
 
                     I += 1;
@@ -5361,12 +5351,12 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2726
-        public virtual TEObject FindChild(int AClassID)
+        public virtual EObject FindChild(int AClassID)
         {
-            TEObject Result;
+            EObject Result;
             int I;
             bool Found;
-            TEObject C;
+            EObject C;
             I = 0;
             Found = false;
             C = null;
@@ -5390,12 +5380,12 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2744
-        public virtual TEObject FindOwnedChild(int AClassID)
+        public virtual EObject FindOwnedChild(int AClassID)
         {
-            TEObject Result;
+            EObject Result;
             int I;
             bool Found;
-            TEObject C;
+            EObject C;
             I = 0;
             Found = false;
             C = null;
@@ -5419,7 +5409,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2762
-        public virtual int FindChildIndex(TEObject Child)
+        public virtual int FindChildIndex(EObject Child)
         {
             int Result = Count - 1;
             while (Result >= 0 && Child != Children[Result])
@@ -5439,9 +5429,9 @@ namespace Aow.Game.Engine.Nodes
 
         public int Count { get => GetCount(); }
 
-        public sealed class ChildrenAccessor(TECustomNode target)
+        public sealed class ChildrenAccessor(ECustomNode target)
         {
-            public TEObject this[int Index] { get => target.GetChild(Index); set => target.SetChild(Index, value); }
+            public EObject this[int Index] { get => target.GetChild(Index); set => target.SetChild(Index, value); }
         }
 
         public ChildrenAccessor Children => new ChildrenAccessor(this);
@@ -5453,30 +5443,30 @@ namespace Aow.Game.Engine
 
     // FMsgCount, FEClasses, FClassTable, FEditors, FControlNode, FComponent (the owning component),
     // FDebugIDs, FDebugEvents, FStartupDirectory, FOptions. Every engine is in the Engines list
-    public partial class TEngine : TENode
+    public partial class Engine : ENode
     {
         // Engine.pas:8756
         public new const int ClassID = 17;
 
         internal int FMsgCount;
-        internal TEObjectClassList FEClasses;
-        internal TIntegerHashTable256 FClassTable;
-        internal TEObjectEditorList FEditors;
-        internal TEControlStyleNode FControlNode;
-        public TEComponent FComponent;
-        internal TStringList FDebugIDs;
+        internal EObjectClassList FEClasses;
+        internal IntegerHashTable256 FClassTable;
+        internal EObjectEditorList FEditors;
+        internal EControlStyleNode FControlNode;
+        public EComponent FComponent;
+        internal StringList FDebugIDs;
 
         internal EventStore<EngineDebugNotification> FDebugEventsStore;
 
-        internal event TNotifyEvent<EngineDebugNotification> FDebugEvents
+        internal event NotifyEvent<EngineDebugNotification> FDebugEvents
         {
             add => FDebugEventsStore.Add(value);
             remove => FDebugEventsStore.Remove(value);
         }
 
         internal string FStartupDirectory = "";
-        public TSet<TEngineUserElement> FUser;
-        internal TSet<TEngineModeElement> FOptions;
+        public Set<EngineUserElement> FUser;
+        internal Set<EngineModeElement> FOptions;
 
         // Engine.pas:8776
         internal int CreateUniqueDebugID()
@@ -5491,23 +5481,23 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8814
-        public override TEngine GetEngine() => this;
+        public override global::Aow.Game.Engine.Engine GetEngine() => this;
 
-        public TEngine(TECustomNode owner) : this(null, owner) { }
+        public Engine(ECustomNode owner) : this(null, owner) { }
 
-        private protected TEngine(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected Engine(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
             UpdateStartupDirectory();
-            FOptions = TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
+            FOptions = Set<EngineModeElement>.Of(global::Aow.Game.Engine.Engine.eoVerifyClasses);
             FDebugEventsStore = new();
-            FEClasses = new TEObjectClassList();
-            FClassTable = new TIntegerHashTable256();
-            FEditors = new TEObjectEditorList();
-            FControlNode = new TEControlStyleNode(this);
-            FControlNode.SetControlStyle(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
-            FDebugIDs = new TStringList();
-            FDebugIDs.AddObject(Aow.Game.Engine.TEngine.UserStr, IntToObject(-1));
-            RegisterEClasses([EClass.Of<TEControlStyleObject>(), EClass.Of<TEControlStyleNode>(), EClass.Of<TECustomOwner>(), EClass.Of<TEResourceEditSettings>()]);
+            FEClasses = new EObjectClassList();
+            FClassTable = new IntegerHashTable256();
+            FEditors = new EObjectEditorList();
+            FControlNode = new EControlStyleNode(this);
+            FControlNode.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FDebugIDs = new StringList();
+            FDebugIDs.AddObject(global::Aow.Game.Engine.Engine.UserStr, IntToObject(-1));
+            RegisterEClasses([EClass.Of<EControlStyleObject>(), EClass.Of<EControlStyleNode>(), EClass.Of<ECustomOwner>(), EClass.Of<EResourceEditSettings>()]);
             Aow.Game.Engine.Nodes.EngineHost.Engines.Add(this);
         }
 
@@ -5531,11 +5521,11 @@ namespace Aow.Game.Engine
         // Engine.pas:8766
         public virtual void UpdateStartupDirectory()
         {
-            FStartupDirectory = ExtractFilePath(Application.ExeName);
+            FStartupDirectory = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName);
         }
 
         // Engine.pas:8887
-        public virtual TEObject CreateEObject(int AClassID, TECustomNode AOwner)
+        public virtual EObject CreateEObject(int AClassID, ECustomNode AOwner)
         {
             EClass C;
             C = GetEClass(AClassID);
@@ -5582,7 +5572,7 @@ namespace Aow.Game.Engine
         public void OutputDebugStr(string S)
         {
             var notification = new EngineDebugNotification();
-            ref var Info = ref notification.Info;
+            ref Aow.Game.Engine.EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
             Info.ID = -1;
             Info.Text = S;
             FDebugEventsStore.Raise(notification);
@@ -5592,7 +5582,7 @@ namespace Aow.Game.Engine
         public void OutputDebugMessage(int ID, string S)
         {
             var notification = new EngineDebugNotification();
-            ref var Info = ref notification.Info;
+            ref Aow.Game.Engine.EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
             Info.ID = ID;
             Info.Text = S;
             FDebugEventsStore.Raise(notification);
@@ -5601,8 +5591,8 @@ namespace Aow.Game.Engine
         // Engine.pas:8819
         public void ResetMsgCount()
         {
-            TEMsg Msg = default;
-            Aow.Game.Engine.TEngine.InitMsgEx(ref Msg, 1, this, FMsgCount + 1);
+            EMsg Msg = default;
+            global::Aow.Game.Engine.Engine.InitMsgEx(ref Msg, 1, this, FMsgCount + 1);
             MsgProc(ref Msg, this);
             FMsgCount = 0;
         }
@@ -5624,7 +5614,7 @@ namespace Aow.Game.Engine
         {
             for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
             {
-                if (FOptions.Contains(Aow.Game.Engine.TEngine.eoVerifyClasses))
+                if (FOptions.Contains(global::Aow.Game.Engine.Engine.eoVerifyClasses))
                 {
                     VerifyEObjectClass(AClasses[I]);
                 }
@@ -5653,10 +5643,10 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8867
-        public TEObjectClassList GetDescendantClasses(Type AClass)
+        public EObjectClassList GetDescendantClasses(Type AClass)
         {
-            TEObjectClassList L;
-            L = new TEObjectClassList();
+            EObjectClassList L;
+            L = new EObjectClassList();
             for (int I = 0, last = FEClasses.Count - 1; I <= last; I++)
             {
                 if (((EClass)FEClasses[I]).InheritsFrom(AClass))
@@ -5669,19 +5659,19 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8878
-        public void ActivateEObject(TEObject Obj)
+        public void ActivateEObject(EObject Obj)
         {
-            TEMsg Msg = default;
-            Aow.Game.Engine.Nodes.TEMsg.InitMsg(ref Msg, 536870920, this);
+            EMsg Msg = default;
+            Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 536870920, this);
             Msg.Payload = this;
             Obj.MsgProc(ref Msg, this);
         }
 
         // Engine.pas:8895
-        public void WriteEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
+        public void WriteEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
         {
-            TEStorageStream S;
-            S = new TEWriteStorageStream(Stream, this, false);
+            EStorageStream S;
+            S = new EWriteStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5694,10 +5684,10 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8908
-        public void ReadEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
+        public void ReadEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
         {
-            TEStorageStream S;
-            S = new TEReadStorageStream(Stream, this, false);
+            EStorageStream S;
+            S = new EReadStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5710,10 +5700,10 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8921
-        public void WritePreviewEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
+        public void WritePreviewEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
         {
-            TEStorageStream S;
-            S = new TEWriteStorageStream(Stream, this, true);
+            EStorageStream S;
+            S = new EWriteStorageStream(Stream, this, true);
             S.OnProgress = AProgress;
             try
             {
@@ -5726,10 +5716,10 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8934
-        public void ReadPreviewEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
+        public void ReadPreviewEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
         {
-            TEStorageStream S;
-            S = new TEReadStorageStream(Stream, this, true);
+            EStorageStream S;
+            S = new EReadStorageStream(Stream, this, true);
             S.OnProgress = AProgress;
             try
             {
@@ -5742,10 +5732,10 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8947
-        public void StoreEObject(Stream Stream, TEObject Obj, TProgressEvent AProgress)
+        public void StoreEObject(Stream Stream, EObject Obj, ProgressEvent AProgress)
         {
-            TEStorageStream S;
-            S = new TEWriteStorageStream(Stream, this, false);
+            EStorageStream S;
+            S = new EWriteStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5758,11 +5748,11 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8960
-        public TEObject RetrieveEObject(Stream Stream, TProgressEvent AProgress)
+        public EObject RetrieveEObject(Stream Stream, ProgressEvent AProgress)
         {
-            TEObject Result = default;
-            TEStorageStream S;
-            S = new TEReadStorageStream(Stream, this, false);
+            EObject Result = default;
+            EStorageStream S;
+            S = new EReadStorageStream(Stream, this, false);
             S.OnProgress = AProgress;
             try
             {
@@ -5779,15 +5769,15 @@ namespace Aow.Game.Engine
         // Engine.pas:8973
         // The file goes through the game's file boundary with the caller's profile. A refused
         // preflight raises EGameFileError before an object is created (own-formats.md 4.1).
-        public TEObject RetrieveFromFile(string FileName, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public EObject RetrieveFromFile(string FileName, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
             return RetrieveFromImage(FileBoundary.LoadOrRaise(FileName, Profile), AProgress);
         }
 
         // Retrieves the object of an engine image whose preflight has passed.
-        public TEObject RetrieveFromImage(byte[] Image, TProgressEvent AProgress)
+        public EObject RetrieveFromImage(byte[] Image, ProgressEvent AProgress)
         {
-            TEObject Result = default;
+            EObject Result = default;
             MemoryStream M;
             M = ImageStream(Image);
             try
@@ -5805,7 +5795,7 @@ namespace Aow.Game.Engine
         // Engine.pas:8985
         // The engine writes the image in memory. The boundary converts, validates and replaces the
         // file only after the whole document is serialized.
-        public void StoreInFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void StoreInFile(string FileName, EObject Obj, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
             MemoryStream M;
             M = new MemoryStream();
@@ -5831,7 +5821,7 @@ namespace Aow.Game.Engine
 
         // The in-scope form of WriteToFile for the hero and item lists (own-formats.md 4.1). The
         // three-argument form below stays the original byte path of the excluded PFS callers.
-        public void WriteToFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void WriteToFile(string FileName, EObject Obj, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
             MemoryStream M;
             M = new MemoryStream();
@@ -5847,7 +5837,7 @@ namespace Aow.Game.Engine
         }
 
         // The in-scope form of ReadFromFile. A refused preflight raises before Obj is read.
-        public void ReadFromFile(string FileName, TEObject Obj, TProgressEvent AProgress, Aow.Formats.GameProfile Profile)
+        public void ReadFromFile(string FileName, EObject Obj, ProgressEvent AProgress, Aow.Formats.GameProfile Profile)
         {
             MemoryStream M;
             M = ImageStream(FileBoundary.LoadOrRaise(FileName, Profile));
@@ -5862,7 +5852,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8997
-        public void WriteToFile(string FileName, TEObject Obj, TProgressEvent AProgress)
+        public void WriteToFile(string FileName, EObject Obj, ProgressEvent AProgress)
         {
             MemoryStream M;
             Stream F = default;
@@ -5888,7 +5878,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9017
-        public void ReadFromFile(string FileName, TEObject Obj, TProgressEvent AProgress)
+        public void ReadFromFile(string FileName, EObject Obj, ProgressEvent AProgress)
         {
             MemoryStream M;
             Stream F;
@@ -5915,7 +5905,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9037
-        public void WriteToFileCRC(string FileName, TEObject Obj, TProgressEvent AProgress)
+        public void WriteToFileCRC(string FileName, EObject Obj, ProgressEvent AProgress)
         {
             int CRC1 = default;
             int CRC2 = default;
@@ -5949,7 +5939,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9061
-        public bool ReadFromFileCRC(string FileName, TEObject Obj, TProgressEvent AProgress)
+        public bool ReadFromFileCRC(string FileName, EObject Obj, ProgressEvent AProgress)
         {
             MemoryStream M;
             Stream F;
@@ -5993,14 +5983,14 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9091
-        public void ReadTextFromFile(string FileName, TEObject Obj)
+        public void ReadTextFromFile(string FileName, EObject Obj)
         {
-            TEStorageStream S;
+            EStorageStream S;
             Stream F;
             F = OpenFile(FileName, 0 | 32);
             try
             {
-                S = new TEReadTextStorageStream(F, this, 0);
+                S = new EReadTextStorageStream(F, this, 0);
                 try
                 {
                     S.rwEObject(Obj, 0);
@@ -6017,14 +6007,14 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9109
-        public void WriteTextToFile(string FileName, TEObject Obj)
+        public void WriteTextToFile(string FileName, EObject Obj)
         {
-            TEStorageStream S;
+            EStorageStream S;
             Stream F;
             F = OpenFile(FileName, 65535);
             try
             {
-                S = new TEWriteTextStorageStream(F, this);
+                S = new EWriteTextStorageStream(F, this);
                 try
                 {
                     S.rwEObject(Obj, 0);
@@ -6040,20 +6030,20 @@ namespace Aow.Game.Engine
             }
         }
 
-        public TEObjectClassList EClasses { get => FEClasses; }
-        public TIntegerHashTable256 ClassTable { get => FClassTable; }
-        public TEObjectEditorList Editors { get => FEditors; }
-        public TEControlStyleNode ControlNode { get => FControlNode; }
-        public TStringList DebugIDs { get => FDebugIDs; }
+        public EObjectClassList EClasses { get => FEClasses; }
+        public IntegerHashTable256 ClassTable { get => FClassTable; }
+        public EObjectEditorList Editors { get => FEditors; }
+        public EControlStyleNode ControlNode { get => FControlNode; }
+        public StringList DebugIDs { get => FDebugIDs; }
 
-        public event TNotifyEvent<EngineDebugNotification> DebugEvents
+        public event NotifyEvent<EngineDebugNotification> DebugEvents
         {
             add => FDebugEventsStore.Add(value);
             remove => FDebugEventsStore.Remove(value);
         }
 
         public string StartupDirectory { get => FStartupDirectory; set => SetStartupDirectory(value); }
-        public TSet<TEngineModeElement> Options { get => FOptions; set => FOptions = value; }
+        public Set<EngineModeElement> Options { get => FOptions; set => FOptions = value; }
 
         // Engine.pas:1126
         public bool VerifyEObjectClass(EClass type)
@@ -6064,9 +6054,9 @@ namespace Aow.Game.Engine
             return true;
         }
 
-        internal const Aow.Game.Engine.TEngineModeElement eoVerifyClasses = 0;
+        internal const Aow.Game.Engine.EngineModeElement eoVerifyClasses = 0;
 
-        private static void InitMsgEx(ref TEMsg Msg, int MsgID, TEObject Sender, int Seq)
+        private static void InitMsgEx(ref EMsg Msg, int MsgID, EObject Sender, int Seq)
         {
             Msg = default;
             Msg.MsgID = MsgID;
@@ -6077,15 +6067,15 @@ namespace Aow.Game.Engine
 
         private static readonly string UserStr = "User";
 
-        internal static void UnregisterSoundEngineClasses(TEngine AEngine)
+        internal static void UnregisterSoundEngineClasses(global::Aow.Game.Engine.Engine AEngine)
         {
-            AEngine.UnregisterEClasses([EClass.Of<TSFXSequence>(), EClass.Of<TSFXLibrary>(), EClass.Of<TSFX>()]);
+            AEngine.UnregisterEClasses([EClass.Of<SFXSequence>(), EClass.Of<SFXLibrary>(), EClass.Of<SFX>()]);
         }
 
-        internal static void UnRegisterStorms(TEngine AEngine)
+        internal static void UnRegisterStorms(global::Aow.Game.Engine.Engine AEngine)
         {
-            TSpellControl Spells;
-            Spells = ((TAoWEngine)AEngine).FGameSet.FSpellControl;
+            SpellControl Spells;
+            Spells = ((AoWEngine)AEngine).FGameSet.FSpellControl;
             Spells.UnregisterSpellID(3);
             Spells.UnregisterSpellID(5);
             Spells.UnregisterSpellID(6);
@@ -6094,80 +6084,80 @@ namespace Aow.Game.Engine
             Spells.UnregisterSpellID(9);
         }
 
-        internal static void InitializePlugIns(Aow.Game.Engine.TEngine AEngine)
+        internal static void InitializePlugIns(global::Aow.Game.Engine.Engine AEngine)
         {
             for (int I = 0, last = Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count - 1; I <= last; I++)
             {
-                ((Aow.Game.Engine.TPlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[I]).Initialize(AEngine);
+                ((Aow.Game.Engine.PlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[I]).Initialize(AEngine);
             }
         }
 
-        internal static void FinalizePlugIns(Aow.Game.Engine.TEngine AEngine)
+        internal static void FinalizePlugIns(global::Aow.Game.Engine.Engine AEngine)
         {
             for (int I = 0, last = Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count - 1; I <= last; I++)
             {
-                ((Aow.Game.Engine.TPlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[I]).Finalize(AEngine);
+                ((Aow.Game.Engine.PlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[I]).Finalize(AEngine);
             }
         }
 
-        internal static Aow.Game.Engine.TEngine CopyEngine;
+        internal static global::Aow.Game.Engine.Engine CopyEngine;
 
-        internal static void UnRegisterMountain(TEngine AEngine)
+        internal static void UnRegisterMountain(global::Aow.Game.Engine.Engine AEngine)
         {
-            AEngine.UnregisterEClasses([EClass.Of<TMountainMO>(), EClass.Of<TMountainMOR>(), EClass.Of<TRaiseTerrainTE>(), EClass.Of<TRaisedMountain>(), EClass.Of<TRaisedMountainResource>()]);
+            AEngine.UnregisterEClasses([EClass.Of<MountainMO>(), EClass.Of<MountainMOR>(), EClass.Of<RaiseTerrainTE>(), EClass.Of<RaisedMountain>(), EClass.Of<Aow.Game.World.Terrain.RaisedMountain.Resource>()]);
             // { Original unregisters spell 12, although Raise Terrain registers as spell 19. }
-            ((TAoWEngine)AEngine).FGameSet.FSpellControl.UnregisterSpellID(12);
+            ((AoWEngine)AEngine).FGameSet.FSpellControl.UnregisterSpellID(12);
         }
 
-        internal static void RegisterBorderHexagon(TEngine Engine)
+        internal static void RegisterBorderHexagon(global::Aow.Game.Engine.Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<TBorderHexagon>(), EClass.Of<TBorderHexagonResource>()]);
+            Engine.RegisterEClasses([EClass.Of<BorderHexagon>(), EClass.Of<Aow.Game.World.Hexes.BorderHexagon.Resource>()]);
         }
 
-        internal static void RegisterHexagon(TEngine Engine)
+        internal static void RegisterHexagon(global::Aow.Game.Engine.Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<THexagon>(), EClass.Of<THexagonResource>()]);
+            Engine.RegisterEClasses([EClass.Of<Hexagon>(), EClass.Of<HexagonResource>()]);
         }
 
-        internal static void RegisterIsometricHexagon(TEngine Engine)
+        internal static void RegisterIsometricHexagon(global::Aow.Game.Engine.Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<TIsometricHexagon>(), EClass.Of<TIsometricHexagonResource>(), EClass.Of<TUpperIsometricHexagon>(), EClass.Of<TUpperIsometricHexagonResource>(), EClass.Of<TLowerIsometricHexagon>(), EClass.Of<TLowerIsometricHexagonResource>()]);
+            Engine.RegisterEClasses([EClass.Of<IsometricHexagon>(), EClass.Of<IsometricHexagonResource>(), EClass.Of<UpperIsometricHexagon>(), EClass.Of<Aow.Game.World.Hexes.UpperIsometricHexagon.Resource>(), EClass.Of<LowerIsometricHexagon>(), EClass.Of<Aow.Game.World.Hexes.LowerIsometricHexagon.Resource>()]);
         }
 
-        internal static void RegisterRoad(TEngine Engine)
+        internal static void RegisterRoad(global::Aow.Game.Engine.Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<TRoad>(), EClass.Of<TRoadResource>()]);
+            Engine.RegisterEClasses([EClass.Of<Road>(), EClass.Of<Aow.Game.World.Hexes.Road.Resource>()]);
         }
 
-        internal static void RegisterTerrain(TEngine Engine)
+        internal static void RegisterTerrain(global::Aow.Game.Engine.Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<TTerrainMO>(), EClass.Of<TTerrainMOR>()]);
+            Engine.RegisterEClasses([EClass.Of<TerrainMO>(), EClass.Of<TerrainMOR>()]);
         }
 
-        internal static void RegisterHill(TEngine AEngine)
+        internal static void RegisterHill(global::Aow.Game.Engine.Engine AEngine)
         {
-            AEngine.RegisterEClasses([EClass.Of<THillMO>()]);
+            AEngine.RegisterEClasses([EClass.Of<HillMO>()]);
         }
 
-        internal static void RegisterAltar(TEngine AEngine)
+        internal static void RegisterAltar(global::Aow.Game.Engine.Engine AEngine)
         {
-            AEngine.RegisterEClasses([EClass.Of<TAltar>(), EClass.Of<TAltarResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<Altar>(), EClass.Of<AltarResource>()]);
         }
 
-        internal static void RegisterRandomNode(TEngine AEngine)
+        internal static void RegisterRandomNode(global::Aow.Game.Engine.Engine AEngine)
         {
-            AEngine.RegisterEClasses([EClass.Of<TRandomNode>(), EClass.Of<TRandomNodeResource>()]);
+            AEngine.RegisterEClasses([EClass.Of<RandomNode>(), EClass.Of<Aow.Game.World.Structures.RandomNode.Resource>()]);
         }
 
-        internal static void UnRegisterHolyGround(TEngine Engine)
+        internal static void UnRegisterHolyGround(global::Aow.Game.Engine.Engine Engine)
         {
-            Engine.UnregisterEClasses([EClass.Of<THolyGround>(), EClass.Of<THolyGroundResource>(), EClass.Of<THolyGroundSpellTE>()]);
-            ((TAoWEngine)Engine).FGameSet.FSpellControl.UnregisterSpellID(13);
+            Engine.UnregisterEClasses([EClass.Of<HolyGround>(), EClass.Of<Aow.Game.World.Terrain.HolyGround.Resource>(), EClass.Of<HolyGroundSpellTE>()]);
+            ((AoWEngine)Engine).FGameSet.FSpellControl.UnregisterSpellID(13);
         }
 
-        internal static void UnRegisterOverlayObject(TEngine AEngine)
+        internal static void UnRegisterOverlayObject(global::Aow.Game.Engine.Engine AEngine)
         {
-            AEngine.UnregisterEClasses([EClass.Of<TOverlayObject>(), EClass.Of<TOverlayObjectResource>()]);
+            AEngine.UnregisterEClasses([EClass.Of<OverlayObject>(), EClass.Of<Aow.Game.World.Terrain.OverlayObject.Resource>()]);
         }
 
     }
@@ -6179,51 +6169,51 @@ namespace Aow.Game.Engine.Storage
     [LegacyObject]
     // the base of every storage stream. The rw* methods do nothing here. the subclasses read,
     // write, compare or translate
-    public partial class TEStorageStream : IDisposable
+    public partial class EStorageStream : IDisposable
     {
 
-        internal Aow.Game.Engine.TEngine FEngine;
+        internal global::Aow.Game.Engine.Engine FEngine;
         internal Stream FStream;
         internal bool FErrorHandled;
-        internal Aow.Game.Engine.TPropertyTable FPropertyTable;
-        internal TStorageStreamError FOnError;
-        internal Aow.Game.Engine.TProgressEvent FOnProgress;
+        internal global::Aow.Game.Engine.PropertyTable FPropertyTable;
+        internal StorageStreamError FOnError;
+        internal Aow.Game.Engine.ProgressEvent FOnProgress;
 
         // Engine.pas:1184
-        public virtual TSet<TStorageModeElement> StorageMode()
+        public virtual Set<StorageModeElement> StorageMode()
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:9502
         public virtual Stream OpenPropertyStream(int ID) => null;
 
         // Engine.pas:1186
-        public virtual void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public virtual void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:1187
-        public virtual void rwEObject(TEObject Obj, int ID)
+        public virtual void rwEObject(EObject Obj, int ID)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:1188
-        public virtual void rwEObjectStream(TEObject Obj, int ID)
+        public virtual void rwEObjectStream(EObject Obj, int ID)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:1189
-        public virtual void rwChildren(TECustomNode Node, int ID)
+        public virtual void rwChildren(ECustomNode Node, int ID)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:9559
-        public virtual void rwStreamProc(int ID, TStreamProc LoadProc, TStreamProc SaveProc)
+        public virtual void rwStreamProc(int ID, StreamProc LoadProc, StreamProc SaveProc)
         {
         }
 
@@ -6238,12 +6228,12 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9515
-        public virtual void rwStrings(TStrings Strings, int ID)
+        public virtual void rwStrings(StringCollection Strings, int ID)
         {
         }
 
         // Engine.pas:9519
-        public virtual void rwStringsEx(TStrings Strings, int ID)
+        public virtual void rwStringsEx(StringCollection Strings, int ID)
         {
         }
 
@@ -6293,7 +6283,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9489
-        public TEStorageStream(Stream AStream, Aow.Game.Engine.TEngine AEngine)
+        public EStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine)
         {
             CaptureAddress.Assign(this);
             FEngine = AEngine;
@@ -6302,7 +6292,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9497
-        public void ShowProgress(TEObject Sender, string Msg, int Percent)
+        public void ShowProgress(EObject Sender, string Msg, int Percent)
         {
             if (FOnProgress != null)
             {
@@ -6310,16 +6300,16 @@ namespace Aow.Game.Engine.Storage
             }
         }
 
-        public Aow.Game.Engine.TEngine Engine { get => FEngine; }
+        public global::Aow.Game.Engine.Engine Engine { get => FEngine; }
         public Stream Stream { get => FStream; }
-        public Aow.Game.Engine.TPropertyTable PropertyTable { get => FPropertyTable; }
-        public TStorageStreamError OnError { get => FOnError; set => FOnError = value; }
-        public Aow.Game.Engine.TProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
+        public global::Aow.Game.Engine.PropertyTable PropertyTable { get => FPropertyTable; }
+        public StorageStreamError OnError { get => FOnError; set => FOnError = value; }
+        public Aow.Game.Engine.ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
 
         // Delphi var parameters alias a descendant reference through a base-class cast.
-        public void rwCreateEObject<T>(ref T value, TECustomNode owner, int id) where T : class
+        public void rwCreateEObject<T>(ref T value, ECustomNode owner, int id) where T : class
         {
-            TEObject result = (TEObject)(object)value;
+            EObject result = (EObject)(object)value;
             try { rwCreateEObject(ref result, owner, id); }
             finally { value = (T)(object)result; }
         }
@@ -6327,6 +6317,8 @@ namespace Aow.Game.Engine.Storage
         public virtual void Dispose()
         {
         }
+
+        public delegate void StorageStreamError(EStorageStream StorageStream, string Message, ref bool Handled);
     }
 }
 
@@ -6336,7 +6328,7 @@ namespace Aow.Game.Engine.Nodes
     [LegacyObject]
     // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
     //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
-    public partial class TEObjectEditorList
+    public partial class EObjectEditorList
     {
         private readonly List<EditorClass> FList = new();
 
@@ -6379,7 +6371,7 @@ namespace Aow.Game.Engine.Nodes
             return Result;
         }
 
-        public TEObjectEditorList()
+        public EObjectEditorList()
         {
             CaptureAddress.Assign(this);
         }
@@ -6387,27 +6379,27 @@ namespace Aow.Game.Engine.Nodes
 
     // FResourceList, FResourceID, FEditID (the edit id of the resource grid that placed it),
     // FEditIndex (its cell in that grid). all three integers are persisted (ids 1.3)
-    public partial class TEResource : TEObject
+    public partial class EResource : EObject
     {
         public new const int ClassID = 1024;
 
-        public TEResource(TECustomNode owner) : base(owner)
+        public EResource(ECustomNode owner) : base(owner)
         { }
 
-        internal TECustomNode FResourceList;
+        internal ECustomNode FResourceList;
         internal int FResourceID;
         internal int FEditID;
         internal int FEditIndex;
 
         // Engine.pas:8513
-        public override void SetOwner(TECustomNode AOwner)
+        public override void SetOwner(ECustomNode AOwner)
         {
             base.SetOwner(AOwner);
             FResourceList = AOwner;
         }
 
         // Engine.pas:8542
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwInteger(ref FResourceID, 1);
@@ -6424,17 +6416,17 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8519
-        public override void SetArrayOwner(TECustomNode AOwner, int Index)
+        public override void SetArrayOwner(ECustomNode AOwner, int Index)
         {
             base.SetArrayOwner(AOwner, Index);
             FResourceList = AOwner;
         }
 
         // Engine.pas:8533
-        public virtual Aow.Game.Draw.Images.TLibraryImage GetCellImage() => null;
+        public virtual Aow.Game.Draw.Images.LibraryImage GetCellImage() => null;
 
         // Engine.pas:8538
-        public virtual void SetCellImage(Aow.Game.Draw.Images.TLibraryImage Value)
+        public virtual void SetCellImage(Aow.Game.Draw.Images.LibraryImage Value)
         {
         }
 
@@ -6442,9 +6434,9 @@ namespace Aow.Game.Engine.Nodes
         public virtual int ResourceUserClassID() => 0;
 
         // Engine.pas:8555
-        public virtual TEObject CreateResourceUser()
+        public virtual EObject CreateResourceUser()
         {
-            TEObject Result;
+            EObject Result;
             int UserClassID;
             UserClassID = ResourceUserClassID();
             if (UserClassID != 0)
@@ -6460,35 +6452,35 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8525
-        public virtual void Draw(TCanvas Canvas, TRect Rect, Aow.Game.Draw.Images.TBltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+        public virtual void Draw(Canvas Canvas, global::Aow.Rtl.Rect Rect, Aow.Game.Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
-            TRect R = default;
+            global::Aow.Rtl.Rect R = default;
             Aow.Game.Draw.Images.LibraryDrawing.BltLibraryImage(Canvas, GetCellImage(), Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
         }
 
-        public TECustomNode ResourceList { get => FResourceList; set => FResourceList = value; }
+        public ECustomNode ResourceList { get => FResourceList; set => FResourceList = value; }
         public int EditID { get => FEditID; set => FEditID = value; }
         public int EditIndex { get => FEditIndex; set => FEditIndex = value; }
         public int ResourceID { get => FResourceID; set => FResourceID = value; }
-        public Aow.Game.Draw.Images.TLibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
+        public Aow.Game.Draw.Images.LibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
         // Engine.pas:8508
         public virtual string ResourceEditName() => GetType().Name;
 
     }
 
-    public struct TEMsg
+    public struct EMsg
     {
         public int MsgID;
         public int Seq;
-        public TEObject Sender;
-        public TEMsgParams Param;
+        public EObject Sender;
+        public EMsgParams Param;
         public MsgArg Payload;
 
         public FixedArray_int_4 Data;
         public int Result;
 
-        internal static void InitMsg(ref TEMsg Msg, int MsgID, TEObject Sender)
+        internal static void InitMsg(ref EMsg Msg, int MsgID, EObject Sender)
         {
             Msg = default;
             Msg.MsgID = MsgID;
@@ -6501,7 +6493,7 @@ namespace Aow.Game.Engine.Nodes
     // The parameter slots of an engine message. The count is the arity of the message protocol
     // (Engine.pas TEMsg.Param), not a count of content.
     [InlineArray(Arity)]
-    public struct TEMsgParams
+    public struct EMsgParams
     {
         public const int Arity = 3;
 
@@ -6509,20 +6501,14 @@ namespace Aow.Game.Engine.Nodes
     }
 }
 
-namespace Aow.Game.Engine.Storage
-{
-
-    public delegate void TStorageStreamError(TEStorageStream StorageStream, string Message, ref bool Handled);
-}
-
 namespace Aow.Game.Engine
 {
-    public delegate void TProgressEvent(TEObject Sender, string Message, int Progression);
+    public delegate void ProgressEvent(EObject Sender, string Message, int Progression);
 
-    public partial class EDoublePrioriyID : System.Exception
+    public partial class DoublePrioriyIDException : System.Exception
     {
         // SysUtils.pas:174
-        public EDoublePrioriyID(string Msg) : base(Msg)
+        public DoublePrioriyIDException(string Msg) : base(Msg)
         {
         }
     }
@@ -6532,25 +6518,17 @@ namespace Aow.Game.Engine.Storage
 {
 
     // the write stream's data buffer
-    public partial class TEBufferStream : TFastMemoryStream
+    public partial class EBufferStream : FastMemoryStream
     {
         // System.pas:111
-        public TEBufferStream()
+        public EBufferStream()
         { }
     }
 
-    public enum TCompressLevel : byte
-    {
-        cpNone = 0,
-        cpFastest = 1,
-        cpDefault = 2,
-        cpMax = 3
-    }
-
     [LegacyObject]
-    public partial class TCompressStream : MemoryStream
+    public partial class CompressStream : MemoryStream
     {
-        public TCompressStream()
+        public CompressStream()
         {
             CaptureAddress.Assign(this);
         }
@@ -6565,7 +6543,7 @@ namespace Aow.Game.Engine.Storage
             int Count;
             Stream.ReadBytes(((Span<byte>)Magic).Slice(0, 4));
             Stream.ReadBytes(Bytes.Of(ref Compressed, 1));
-            if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, Aow.Game.Engine.Storage.TCompressStream.CompressMagic))
+            if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, Aow.Game.Engine.Storage.CompressStream.CompressMagic))
             {
                 Compressed = false;
                 Stream.Seek(0, SeekOrigin.Begin);
@@ -6603,16 +6581,16 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:1752
-        public int SaveToStreamEx(Stream Stream, TCompressLevel Level)
+        public int SaveToStreamEx(Stream Stream, CompressLevel Level)
         {
             ZLibStream C;
             int StartSize;
             Position = 0;
             int Result = 100;
             StartSize = (int)Stream.Length;
-            Stream.Write(((ReadOnlySpan<byte>)Aow.Game.Engine.Storage.TCompressStream.CompressMagic).Slice(0, 4));
+            Stream.Write(((ReadOnlySpan<byte>)Aow.Game.Engine.Storage.CompressStream.CompressMagic).Slice(0, 4));
             Stream.Write(Bytes.Of(ref Level, 1));
-            if (Level != TCompressLevel.cpNone)
+            if (Level != CompressLevel.None)
             {
                 C = new ZLibStream(Stream, ZLibLevels.ForByte((byte)Level), true);
                 try
@@ -6636,11 +6614,11 @@ namespace Aow.Game.Engine.Storage
         // Engine.pas:1776
         public void SaveToStream(Stream Stream)
         {
-            SaveToStreamEx(Stream, TCompressLevel.cpDefault);
+            SaveToStreamEx(Stream, CompressLevel.Default);
         }
 
         // Engine.pas:1781
-        public int SaveToFileEx(string FileName, TCompressLevel Level)
+        public int SaveToFileEx(string FileName, CompressLevel Level)
         {
             int Result = default;
             Stream F;
@@ -6664,7 +6642,7 @@ namespace Aow.Game.Engine.Storage
             F = OpenFile(FileName, 65535);
             try
             {
-                SaveToStreamEx(F, TCompressLevel.cpDefault);
+                SaveToStreamEx(F, CompressLevel.Default);
             }
             finally
             {
@@ -6695,6 +6673,11 @@ namespace Aow.Game.Engine.Storage
         }
 
         private static global::Aow.Game.Engine.Buffers.FixedArray_byte_4 CompressMagic = global::Aow.Game.Engine.Buffers.FixedArray_byte_4.From("CFS\0"u8);
+
+        public enum CompressLevel : byte
+        {
+            None = 0, Fastest = 1, Default = 2, Max = 3
+        }
     }
 }
 
@@ -6704,19 +6687,19 @@ namespace Aow.Game.Engine
     [LegacyObject]
     // FRefCount, FEngines, FCounts. A plug-in registers itself in PlugIns on creation and counts
     // the engines it is initialized for
-    public partial class TPlugIn : IDisposable
+    public partial class PlugIn : IDisposable
     {
         internal int FRefCount;
-        internal TList FEngines;
-        internal TIntegerList FCounts;
+        internal DelphiList FEngines;
+        internal IntegerList FCounts;
 
         // Engine.pas:9144
-        public TPlugIn()
+        public PlugIn()
         {
             CaptureAddress.Assign(this);
-            FEngines = new TList();
-            FCounts = new TIntegerList();
-            Aow.Game.Engine.TPlugIn.RegisterPlugIn(this);
+            FEngines = new DelphiList();
+            FCounts = new IntegerList();
+            Aow.Game.Engine.PlugIn.RegisterPlugIn(this);
             FRefCount = 1;
         }
 
@@ -6725,12 +6708,12 @@ namespace Aow.Game.Engine
         {
             while (FEngines.Count != 0)
             {
-                Finalize((TEngine)FEngines[FEngines.Count - 1]);
+                Finalize((global::Aow.Game.Engine.Engine)FEngines[FEngines.Count - 1]);
             }
 
             FEngines?.Dispose();
             FCounts?.Dispose();
-            Aow.Game.Engine.TPlugIn.UnregisterPlugIn(this);
+            Aow.Game.Engine.PlugIn.UnregisterPlugIn(this);
         }
 
         // Engine.pas:9162
@@ -6753,7 +6736,7 @@ namespace Aow.Game.Engine
         public virtual string Name() => "Abstract PlugIn";
 
         // Engine.pas:9178
-        public virtual bool Initialize(TEngine AEngine)
+        public virtual bool Initialize(global::Aow.Game.Engine.Engine AEngine)
         {
             bool Result;
             int I;
@@ -6776,7 +6759,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9197
-        public virtual bool Finalize(TEngine AEngine)
+        public virtual bool Finalize(global::Aow.Game.Engine.Engine AEngine)
         {
             bool Result;
             int I;
@@ -6812,13 +6795,13 @@ namespace Aow.Game.Engine
 
         public int RefCount { get => FRefCount; }
 
-        private static void RegisterPlugIn(global::Aow.Game.Engine.TPlugIn PlugIn)
+        private static void RegisterPlugIn(global::Aow.Game.Engine.PlugIn PlugIn)
         {
             bool flag = false;
             int num = 0;
             while (!flag && num != global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count)
             {
-                flag = ((global::Aow.Game.Engine.TPlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[num]).Name() == PlugIn.Name();
+                flag = ((global::Aow.Game.Engine.PlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[num]).Name() == PlugIn.Name();
                 num++;
             }
             if (!flag)
@@ -6829,7 +6812,7 @@ namespace Aow.Game.Engine
             throw new InvalidOperationException("PlugIn " + PlugIn.Name() + " already registered");
         }
 
-        private static void UnregisterPlugIn(global::Aow.Game.Engine.TPlugIn PlugIn)
+        private static void UnregisterPlugIn(global::Aow.Game.Engine.PlugIn PlugIn)
         {
             if (global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.IndexOf((object)PlugIn) != -1)
             {
@@ -6845,29 +6828,29 @@ namespace Aow.Game.Engine
 
     }
 
-    public partial class EPlugInMissing : System.Exception
+    public partial class PlugInMissingException : System.Exception
     {
         // SysUtils.pas:174
-        public EPlugInMissing(string Msg) : base(Msg)
+        public PlugInMissingException(string Msg) : base(Msg)
         {
         }
     }
 
     // FEngine, FUsedPlugIns. the names of the plug-ins an engine uses, initialized and finalized as
     // the list changes
-    public partial class TPlugInControl : TEObject
+    public partial class PlugInControl : EObject
     {
-        internal TEngine FEngine;
-        internal TStringList FUsedPlugIns;
+        internal global::Aow.Game.Engine.Engine FEngine;
+        internal StringList FUsedPlugIns;
 
         // Engine.pas:9279
-        internal void SetUsedPlugIns(TStrings Value)
+        internal void SetUsedPlugIns(StringCollection Value)
         {
             FUsedPlugIns.Assign(Value);
         }
 
         // Engine.pas:9284
-        internal TStrings GetUsedPlugIns() => FUsedPlugIns;
+        internal StringCollection GetUsedPlugIns() => FUsedPlugIns;
 
         // Engine.pas:9289
         internal void OnChange(object Sender)
@@ -6886,19 +6869,19 @@ namespace Aow.Game.Engine
         {
             int[] I__cell = new int[1];
             ref int I = ref I__cell[0];
-            TPlugIn P;
+            PlugIn P;
             I = 0;
             int last = FUsedPlugIns.Count - 1;
             for (; I <= last; I += 1)
             {
-                P = Aow.Game.Engine.TPlugInControl.FindPlugIn(FUsedPlugIns[I]);
+                P = Aow.Game.Engine.PlugInControl.FindPlugIn(FUsedPlugIns[I]);
                 if (P != null)
                 {
                     P.Initialize(FEngine);
                 }
                 else
                 {
-                    throw new EPlugInMissing("PlugIn Missing (" + FUsedPlugIns[I] + ")");
+                    throw new PlugInMissingException("PlugIn Missing (" + FUsedPlugIns[I] + ")");
                 }
             }
         }
@@ -6906,10 +6889,10 @@ namespace Aow.Game.Engine
         // Engine.pas:9319
         internal void FinalizePlugIns()
         {
-            TPlugIn P;
+            PlugIn P;
             for (int I = 0, last = FUsedPlugIns.Count - 1; I <= last; I++)
             {
-                P = Aow.Game.Engine.TPlugInControl.FindPlugIn(FUsedPlugIns[I]);
+                P = Aow.Game.Engine.PlugInControl.FindPlugIn(FUsedPlugIns[I]);
                 if (P != null)
                 {
                     P.Finalize(FEngine);
@@ -6918,9 +6901,9 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9252
-        public TPlugInControl(TECustomNode owner) : base(owner)
+        public PlugInControl(ECustomNode owner) : base(owner)
         {
-            FUsedPlugIns = new TStringList();
+            FUsedPlugIns = new StringList();
             FUsedPlugIns.Sorted = true;
             FUsedPlugIns.OnChange = OnChange;
             FUsedPlugIns.OnChanging = OnChanging;
@@ -6936,27 +6919,27 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9269
-        public override TEngine GetEngine() => FEngine;
+        public override global::Aow.Game.Engine.Engine GetEngine() => FEngine;
 
         // Engine.pas:9274
-        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared);
+        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared);
 
         // Engine.pas:9331
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            if (!Stream.StorageMode().Contains(TStorageModeElement.smTranslate))
+            if (!Stream.StorageMode().Contains(StorageModeElement.Translate))
             {
                 Stream.rwStrings(FUsedPlugIns, 1);
             }
         }
 
-        public TEngine Engine { get => FEngine; set => FEngine = value; }
-        public TStrings UsedPlugIns { get => GetUsedPlugIns(); set => SetUsedPlugIns(value); }
+        public global::Aow.Game.Engine.Engine Engine { get => FEngine; set => FEngine = value; }
+        public StringCollection UsedPlugIns { get => GetUsedPlugIns(); set => SetUsedPlugIns(value); }
 
-        private static global::Aow.Game.Engine.TPlugIn FindPlugIn(string Name)
+        private static global::Aow.Game.Engine.PlugIn FindPlugIn(string Name)
         {
-            global::Aow.Game.Engine.TPlugIn tPlugIn = null;
+            global::Aow.Game.Engine.PlugIn tPlugIn = null;
             if (global::Aow.Game.Engine.Nodes.EngineHost.PlugIns != null)
             {
                 for (int i = 0; i != global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count; i++)
@@ -6965,9 +6948,9 @@ namespace Aow.Game.Engine
                     {
                         break;
                     }
-                    if (((global::Aow.Game.Engine.TPlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[i]).Name() == Name)
+                    if (((global::Aow.Game.Engine.PlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[i]).Name() == Name)
                     {
-                        tPlugIn = (global::Aow.Game.Engine.TPlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[i];
+                        tPlugIn = (global::Aow.Game.Engine.PlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[i];
                     }
                 }
             }
@@ -6980,34 +6963,34 @@ namespace Aow.Game.Engine.Nodes
 {
 
     // the child list of a TENode
-    public partial class TEObjectList : TList
+    public partial class EObjectList : DelphiList
     {
         // Engine.pas:7136
-        protected internal TEObject GetEObject(int Index) => (TEObject)this[Index];
+        protected internal EObject GetEObject(int Index) => (EObject)this[Index];
 
         // Engine.pas:7141
-        protected internal void SetEObject(int Index, TEObject Value)
+        protected internal void SetEObject(int Index, EObject Value)
         {
             this[Index] = Value;
         }
 
         // Engine.pas:7146
-        public TEObject FindObject(int AClassID)
+        public EObject FindObject(int AClassID)
         {
-            TEObject Result;
+            EObject Result;
             int I;
             bool Found;
             I = 0;
             Found = false;
             while (!Found && I < Count)
             {
-                Found = List[I] != null && AClassID == ((TEObject)List[I]).EClass.ClassID;
+                Found = List[I] != null && AClassID == ((EObject)List[I]).EClass.ClassID;
                 I += 1;
             }
 
             if (Found)
             {
-                Result = (TEObject)List[I - 1];
+                Result = (EObject)List[I - 1];
             }
             else
             {
@@ -7027,7 +7010,7 @@ namespace Aow.Game.Engine.Nodes
             Found = false;
             while (!Found && I < Count)
             {
-                Found = List[I] != null && AClassID == ((TEObject)List[I]).EClass.ClassID;
+                Found = List[I] != null && AClassID == ((EObject)List[I]).EClass.ClassID;
                 I += 1;
             }
 
@@ -7067,46 +7050,46 @@ namespace Aow.Game.Engine.Nodes
             OK = true;
             while (I < Count)
             {
-                OK = List[I] == null || AClassID == ((TEObject)List[I]).EClass.ClassID;
+                OK = List[I] == null || AClassID == ((EObject)List[I]).EClass.ClassID;
                 I += 1;
             }
 
             return OK && Count != 0;
         }
 
-        public sealed class EObjectsAccessor(TEObjectList target)
+        public sealed class EObjectsAccessor(EObjectList target)
         {
-            public TEObject this[int Index] { get => target.GetEObject(Index); set => target.SetEObject(Index, value); }
+            public EObject this[int Index] { get => target.GetEObject(Index); set => target.SetEObject(Index, value); }
         }
 
         public EObjectsAccessor EObjects => new EObjectsAccessor(this);
     }
 
     // FChildren
-    public partial class TENode : TECustomNode
+    public partial class ENode : ECustomNode
     {
         // Engine.pas:2861
         public new const int ClassID = 256;
 
         // Engine.pas:2807
-        public TENode(TECustomNode owner) : this(null, owner) { }
+        public ENode(ECustomNode owner) : this(null, owner) { }
 
-        private protected TENode(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected ENode(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
-            FChildren = new TEObjectList();
+            FChildren = new EObjectList();
         }
 
-        public TEObjectList FChildren;
+        public EObjectList FChildren;
 
         // Engine.pas:2833
         public override void Clear()
         {
             int I;
-            TEObject C;
+            EObject C;
             I = Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (TEObject)FChildren.List[I];
+                C = (EObject)FChildren.List[I];
                 if (C != null && C.Owner == this)
                 {
                     if (!C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared))
@@ -7125,7 +7108,7 @@ namespace Aow.Game.Engine.Nodes
                 I = Count - 1;
                 for (; I >= 0; I -= 1)
                 {
-                    C = (TEObject)FChildren.List[I];
+                    C = (EObject)FChildren.List[I];
                     if (C != null)
                     {
                         if (!(C.Owner == this && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared)))
@@ -7145,17 +7128,17 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2866
-        public override TEObject GetChild(int Index) => (TEObject)FChildren.List[Index];
+        public override EObject GetChild(int Index) => (EObject)FChildren.List[Index];
 
         // Engine.pas:2871
-        public override void SetChild(int Index, TEObject Child)
+        public override void SetChild(int Index, EObject Child)
         {
             while (Index >= Count)
             {
                 FChildren.Add(null);
             }
 
-            if (FChildren.List[Index] != null && ((TEObject)FChildren.List[Index]).Owner == this)
+            if (FChildren.List[Index] != null && ((EObject)FChildren.List[Index]).Owner == this)
             {
                 ((FChildren.List[Index] ?? throw new NullReferenceException()) as IDisposable)?.Dispose();
             }
@@ -7169,13 +7152,13 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:2819
         public override void DestroyAllChildren()
         {
-            TEObject C;
+            EObject C;
             Clear();
             if (FChildren.Count != 0)
             {
                 for (int I = FChildren.Count - 1; I >= 0; I--)
                 {
-                    C = (TEObject)FChildren.List[I];
+                    C = (EObject)FChildren.List[I];
                     if (C != null && C.Owner == this)
                     {
                         C.Dispose();
@@ -7185,7 +7168,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2884
-        public override void SendMsg(ref TEMsg Msg, TEObject Sender)
+        public override void SendMsg(ref EMsg Msg, EObject Sender)
         {
             var children = FChildren;
             if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
@@ -7198,7 +7181,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children.List[I];
+                                var node = (EObject)children.List[I];
                                 if (node.GetLastMsg() != Msg.Seq)
                                 {
                                     node.SetLastMsg(Msg.Seq);
@@ -7213,7 +7196,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children[I];
+                                var node = (EObject)children[I];
                                 if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                                 {
                                     node.SetLastMsg(Msg.Seq);
@@ -7231,7 +7214,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children.List[I];
+                                var node = (EObject)children.List[I];
                                 node.MsgProc(ref Msg, this);
                             }
                         }
@@ -7242,7 +7225,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children[I];
+                                var node = (EObject)children[I];
                                 if (node.Owner == this)
                                 {
                                     node.MsgProc(ref Msg, this);
@@ -7260,7 +7243,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children.List[I];
+                            var node = (EObject)children.List[I];
                             if (node.GetLastMsg() != Msg.Seq)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -7272,7 +7255,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children[I];
+                            var node = (EObject)children[I];
                             if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -7287,7 +7270,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children.List[I];
+                            var node = (EObject)children.List[I];
                             node.MsgProc(ref Msg, this);
                         }
                     }
@@ -7295,7 +7278,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children[I];
+                            var node = (EObject)children[I];
                             if (node.Owner == this)
                             {
                                 node.MsgProc(ref Msg, this);
@@ -7307,7 +7290,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2981
-        public override int RemoveChild(TEObject Child)
+        public override int RemoveChild(EObject Child)
         {
             int Result;
             if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
@@ -7327,25 +7310,25 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2992
-        public override int AddChild(TEObject Child)
+        public override int AddChild(EObject Child)
         {
             FChildren.Add(Child);
             return FChildren.Count - 1;
         }
 
         // Engine.pas:2998
-        public override TEObject FindChild(int AClassID)
+        public override EObject FindChild(int AClassID)
         {
-            TEObject Result;
+            EObject Result;
             int I;
             bool Found;
-            TEObject C;
+            EObject C;
             I = 0;
             Found = false;
             C = null;
             while (!Found && I < FChildren.Count)
             {
-                C = (TEObject)FChildren.List[I];
+                C = (EObject)FChildren.List[I];
                 Found = C != null && AClassID == C.EClass.ClassID;
                 I += 1;
             }
@@ -7363,10 +7346,10 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:3016
-        public override int FindChildIndex(TEObject Child)
+        public override int FindChildIndex(EObject Child)
         {
             int Result = Count - 1;
-            while (Result >= 0 && Child != (TEObject)FChildren.List[Result])
+            while (Result >= 0 && Child != (EObject)FChildren.List[Result])
             {
                 Result -= 1;
             }
@@ -7384,10 +7367,10 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:3022
         public void DestroyEObjects(int AClassID)
         {
-            TEObject C;
+            EObject C;
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                C = (TEObject)FChildren.List[I];
+                C = (EObject)FChildren.List[I];
                 if (C != null && AClassID == C.EClass.ClassID && C.Owner == this)
                 {
                     C.Dispose();
@@ -7400,7 +7383,7 @@ namespace Aow.Game.Engine.Nodes
 
     // FTick, FCount, FTimerLists[1.10]. Children sit in one of ten lists and get TimerEvent every
     // tick, every second tick. every tenth
-    public partial class TETimerNode : TECustomNode
+    public partial class ETimerNode : ECustomNode
     {
         // Engine.pas:1836
         public new const int ClassID = 264;
@@ -7410,7 +7393,7 @@ namespace Aow.Game.Engine.Nodes
         internal FixedArray_Aow_Rtl_TList_10 FTimerLists;
 
         // Engine.pas:1856
-        internal int FindTimerList(TEObject Child)
+        internal int FindTimerList(EObject Child)
         {
             int I;
             int Result = -1;
@@ -7435,12 +7418,12 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1819
-        public TETimerNode(TECustomNode owner) : base(owner)
+        public ETimerNode(ECustomNode owner) : base(owner)
         {
             FCount = 0;
             for (int I = 1; I <= 10; I++)
             {
-                var list = new TList();
+                var list = new DelphiList();
                 FTimerLists[I - 1] = list;
             }
         }
@@ -7456,16 +7439,16 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1841
-        public override TSet<TEControlStyleElement> GetControlStyle() => TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared, Aow.Game.Engine.Nodes.EngineServices.csReserved2);
+        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared, Aow.Game.Engine.Nodes.EngineServices.csReserved2);
 
         // Engine.pas:1846
         public override int GetCount() => FCount;
 
         // Engine.pas:1851
-        public TList GetTimerList(sbyte Timer) => FTimerLists[Timer - 1];
+        public DelphiList GetTimerList(sbyte Timer) => FTimerLists[Timer - 1];
 
         // Engine.pas:1871
-        public override int RemoveChild(TEObject Child)
+        public override int RemoveChild(EObject Child)
         {
             int Result;
             int L;
@@ -7487,7 +7470,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1885
-        public override int AddChild(TEObject Child)
+        public override int AddChild(EObject Child)
         {
             int Result = FTimerLists[1 - 1].Add(Child);
             FCount += 1;
@@ -7495,11 +7478,11 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1891
-        public override TEObject GetChild(int Index)
+        public override EObject GetChild(int Index)
         {
             int I;
             int Total;
-            TList L;
+            DelphiList L;
             I = 1;
             L = FTimerLists[1 - 1];
             Total = L.Count;
@@ -7512,17 +7495,17 @@ namespace Aow.Game.Engine.Nodes
 
             L = FTimerLists[I - 1];
             Total -= L.Count;
-            return (TEObject)L.List[Index - Total];
+            return (EObject)L.List[Index - Total];
         }
 
         // Engine.pas:1910
-        public override void SetChild(int Index, TEObject Child)
+        public override void SetChild(int Index, EObject Child)
         {
             throw new NotSupportedException("Set Child not supported (TETimerNode)");
         }
 
         // Engine.pas:1915
-        public int AddTimerChild(TEObject Child, sbyte Timer)
+        public int AddTimerChild(EObject Child, sbyte Timer)
         {
             int Result = FTimerLists[Timer - 1].Add(Child);
             FCount += 1;
@@ -7530,7 +7513,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1921
-        public int RemoveTimerChild(TEObject Child, sbyte Timer)
+        public int RemoveTimerChild(EObject Child, sbyte Timer)
         {
             int Result = FTimerLists[Timer - 1].Remove(Child);
             if (Result != -1)
@@ -7546,7 +7529,7 @@ namespace Aow.Game.Engine.Nodes
         {
             for (int I = 0, last = FTimerLists[Timer - 1].Count - 1; I <= last; I++)
             {
-                ((TEObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
+                ((EObject)FTimerLists[Timer - 1].List[I]).TimerEvent(FTick, this);
             }
         }
 
@@ -7611,18 +7594,18 @@ namespace Aow.Game.Engine.Nodes
     }
 
     // Engine.TEChangeNotifyNode (16 bytes): +8 FChildren, FUpdateCount. Changed on child changes
-    public partial class TEChangeNotifyNode : TECustomNode
+    public partial class EChangeNotifyNode : ECustomNode
     {
         // Engine.pas:7246
         public new const int ClassID = 265;
 
-        public TEChangeNotifyNode(TECustomNode owner) : base(owner)
+        public EChangeNotifyNode(ECustomNode owner) : base(owner)
         {
-            FChildren = new TEObjectList();
+            FChildren = new EObjectList();
             FUpdateCount = 0;
         }
 
-        public TEObjectList FChildren;
+        public EObjectList FChildren;
         internal int FUpdateCount;
 
         // Engine.pas:7212
@@ -7638,11 +7621,11 @@ namespace Aow.Game.Engine.Nodes
         public override void Clear()
         {
             int I;
-            TEObject C;
+            EObject C;
             I = Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (TEObject)FChildren.List[I];
+                C = (EObject)FChildren.List[I];
                 if (C != null && C.Owner == this)
                 {
                     if (!C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared))
@@ -7659,7 +7642,7 @@ namespace Aow.Game.Engine.Nodes
             I = Count - 1;
             for (; I >= 0; I -= 1)
             {
-                C = (TEObject)FChildren.List[I];
+                C = (EObject)FChildren.List[I];
                 if (C != null)
                 {
                     if (!(C.Owner == this && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared)))
@@ -7683,10 +7666,10 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:7251
-        public override TEObject GetChild(int Index) => (TEObject)FChildren.List[Index];
+        public override EObject GetChild(int Index) => (EObject)FChildren.List[Index];
 
         // Engine.pas:7256
-        public override void SetChild(int Index, TEObject Child)
+        public override void SetChild(int Index, EObject Child)
         {
             while (Index >= Count)
             {
@@ -7701,7 +7684,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:7263
-        public override void Assign(TEObject Source, Aow.Game.Engine.TEngine AEngine)
+        public override void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
         {
             BeginUpdate();
             base.Assign(Source, AEngine);
@@ -8411,7 +8394,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:7964
-        public void Sort(TListSortCompare Compare)
+        public void Sort(ListSortCompare Compare)
         {
             BeginUpdate();
             FChildren.Sort(Compare);
@@ -8419,7 +8402,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Keeps the order of equal items. Reflecting pool ordering is the only caller.
-        public void SortStable(TListSortCompare Compare)
+        public void SortStable(ListSortCompare Compare)
         {
             BeginUpdate();
             FChildren.SortStable(Compare);
@@ -8427,15 +8410,15 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:7971
-        public override void MainReadWrite(TEStorageStream Stream)
+        public override void MainReadWrite(EStorageStream Stream)
         {
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 BeginUpdate();
             }
 
             base.MainReadWrite(Stream);
-            if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 EndUpdate();
             }
@@ -8459,7 +8442,7 @@ namespace Aow.Game.Engine.Nodes
         public override int GetCount() => FChildren.Count;
 
         // Engine.pas:7983
-        public override void SendMsg(ref TEMsg Msg, TEObject Sender)
+        public override void SendMsg(ref EMsg Msg, EObject Sender)
         {
             var children = FChildren;
             if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
@@ -8472,7 +8455,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children.List[I];
+                                var node = (EObject)children.List[I];
                                 if (node.GetLastMsg() != Msg.Seq)
                                 {
                                     node.SetLastMsg(Msg.Seq);
@@ -8487,7 +8470,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children[I];
+                                var node = (EObject)children[I];
                                 if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                                 {
                                     node.SetLastMsg(Msg.Seq);
@@ -8505,7 +8488,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children.List[I];
+                                var node = (EObject)children.List[I];
                                 node.MsgProc(ref Msg, this);
                             }
                         }
@@ -8516,7 +8499,7 @@ namespace Aow.Game.Engine.Nodes
                         {
                             if (children.List[I] != null)
                             {
-                                var node = (TEObject)children[I];
+                                var node = (EObject)children[I];
                                 if (node.Owner == this)
                                 {
                                     node.MsgProc(ref Msg, this);
@@ -8534,7 +8517,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children.List[I];
+                            var node = (EObject)children.List[I];
                             if (node.GetLastMsg() != Msg.Seq)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -8546,7 +8529,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children[I];
+                            var node = (EObject)children[I];
                             if (node.GetLastMsg() != Msg.Seq && node.Owner == this)
                             {
                                 node.SetLastMsg(Msg.Seq);
@@ -8561,7 +8544,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children.List[I];
+                            var node = (EObject)children.List[I];
                             node.MsgProc(ref Msg, this);
                         }
                     }
@@ -8569,7 +8552,7 @@ namespace Aow.Game.Engine.Nodes
                     {
                         for (int I = children.Count - 1; I >= 0; I--)
                         {
-                            var node = (TEObject)children[I];
+                            var node = (EObject)children[I];
                             if (node.Owner == this)
                             {
                                 node.MsgProc(ref Msg, this);
@@ -8581,7 +8564,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8080
-        public override int RemoveChild(TEObject Child)
+        public override int RemoveChild(EObject Child)
         {
             int Result;
             if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
@@ -8606,7 +8589,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8092
-        public override int AddChild(TEObject Child)
+        public override int AddChild(EObject Child)
         {
             FChildren.Add(Child);
             if (FUpdateCount == 0)
@@ -8618,18 +8601,18 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8099
-        public override TEObject FindChild(int AClassID)
+        public override EObject FindChild(int AClassID)
         {
-            TEObject Result;
+            EObject Result;
             int I;
             bool Found;
-            TEObject C;
+            EObject C;
             I = 0;
             Found = false;
             C = null;
             while (!Found && I < FChildren.Count)
             {
-                C = (TEObject)FChildren.List[I];
+                C = (EObject)FChildren.List[I];
                 Found = C != null && AClassID == C.EClass.ClassID;
                 I += 1;
             }
@@ -8647,7 +8630,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8117
-        public override int FindChildIndex(TEObject Child)
+        public override int FindChildIndex(EObject Child)
         {
             int Result = Count - 1;
             while (Result >= 0 && Child != FChildren.List[Result])
@@ -8665,17 +8648,17 @@ namespace Aow.Game.Engine.Nodes
     }
 
     // FEvents, notified by Changed
-    public partial class TEChangeNotifyEventList : TEChangeNotifyNode
+    public partial class EChangeNotifyEventList : EChangeNotifyNode
     {
 
-        public TEChangeNotifyEventList(TECustomNode owner) : base(owner)
+        public EChangeNotifyEventList(ECustomNode owner) : base(owner)
         {
             FEventsStore = new();
         }
 
-        internal Aow.Game.Engine.EventStore<TEChangeNotifyEventList> FEventsStore;
+        internal Aow.Game.Engine.EventStore<EChangeNotifyEventList> FEventsStore;
 
-        internal event TNotifyEvent<TEChangeNotifyEventList> FEvents
+        internal event NotifyEvent<EChangeNotifyEventList> FEvents
         {
             add => FEventsStore.Add(value);
             remove => FEventsStore.Remove(value);
@@ -8694,27 +8677,27 @@ namespace Aow.Game.Engine.Nodes
             FEventsStore.Raise(this);
         }
 
-        public event TNotifyEvent<TEChangeNotifyEventList> Events
+        public event NotifyEvent<EChangeNotifyEventList> Events
         {
             add => FEventsStore.Add(value);
             remove => FEventsStore.Remove(value);
         }
     }
 
-    public enum TEditResult : byte
+    public enum EditResult : byte
     {
-        erOK = 0,
-        erCancel = 1
+        OK = 0,
+        Cancel = 1
     }
 
-    public delegate void TEditDoneEvent(TEditResult EditResult, TEObject EObject);
+    public delegate void EditDoneEvent(EditResult EditResult, EObject EObject);
 
     // editors are classes looked up by the class id of the object (TEObject.Editor). everything is
     // called on the class. The base editor edits nothing: Edit reports a cancel at once
-    public partial class TEObjectEditor : TEObject, IEObjectEditorClass
+    public partial class EObjectEditor : EObject, IEObjectEditorClass
     {
 
-        public TEObjectEditor(TECustomNode owner) : base(owner)
+        public EObjectEditor(ECustomNode owner) : base(owner)
         { }
 
         // Engine.pas:3036
@@ -8722,9 +8705,14 @@ namespace Aow.Game.Engine.Nodes
         public static int EditorClassID => 0;
 
         // Engine.pas:3041
-        public static void Edit(TEObject Obj, Aow.Game.Engine.TEngine AEngine, TEditDoneEvent Done)
+        public static void Edit(EObject Obj, global::Aow.Game.Engine.Engine AEngine, EditDoneEvent Done)
         {
-            Done(TEditResult.erCancel, Obj);
+            Done(EditResult.Cancel, Obj);
+        }
+
+        public enum EditModeElement : byte
+        {
+            Edit = 0, Cut = 1, Copy = 2, Paste = 3, Delete = 4
         }
 
     }
@@ -8733,20 +8721,12 @@ namespace Aow.Game.Engine.Nodes
 namespace Aow.Game.Engine.Collections
 {
 
-    // FCount, FCapacity, FItems. The hash classes come from an include file of the original,
-    // D:\GEngine\Engine\inc\HashTab.PAS, whose name the Assert calls carry
-    public struct THashItem
-    {
-        public IntOrRef Key;
-        public object Item;
-    }
-
     [LegacyObject]
-    public partial class THashList : IDisposable
+    public partial class HashList : IDisposable
     {
         internal int FCount;
         internal int FCapacity;
-        internal THashItem[] FItems = [];
+        internal HashItem[] FItems = [];
 
         // HashTab.PAS:18
         protected internal void SetCapacity(int NewCapacity)
@@ -8771,7 +8751,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // HashTab.PAS:36
-        protected internal void Add(THashItem Item)
+        protected internal void Add(HashItem Item)
         {
             if (FCapacity == FCount)
             {
@@ -8801,19 +8781,27 @@ namespace Aow.Game.Engine.Collections
 
         public int Count { get => FCount; }
 
-        public THashList()
+        public HashList()
         {
             CaptureAddress.Assign(this);
+        }
+
+        // FCount, FCapacity, FItems. The hash classes come from an include file of the original,
+        // D:\GEngine\Engine\inc\HashTab.PAS, whose name the Assert calls carry
+        public struct HashItem
+        {
+            public IntOrRef Key;
+            public object Item;
         }
     }
 
     // items keyed by an integer
-    public partial class TIntegerHashList : THashList
+    public partial class IntegerHashList : HashList
     {
         // HashTab.PAS:43
         public void Add(object Item, int Key)
         {
-            THashItem H = default;
+            Aow.Game.Engine.Collections.HashList.HashItem H = default;
             if (Find(Key) != null)
             {
                 throw new InvalidOperationException("ID already in HashTable");
@@ -8862,50 +8850,50 @@ namespace Aow.Game.Engine.Collections
 
     [LegacyObject]
     // the abstract table interface
-    public partial class TIntegerHashTable
+    public partial class IntegerHashTable
     {
         // Engine.pas:771
         public virtual void Add(object Item, int Key)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:772
         public virtual void Delete(int Key)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:773
         public virtual object Find(int Key)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:774
         public virtual void Clear()
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
-        public TIntegerHashTable()
+        public IntegerHashTable()
         {
             CaptureAddress.Assign(this);
         }
     }
 
     // 256 lists selected by the low key byte
-    public partial class TIntegerHashTable256 : TIntegerHashTable
+    public partial class IntegerHashTable256 : IntegerHashTable
     , IDisposable
     {
         internal FixedArray_Aow_Units_Engine_TIntegerHashList_256 FLists;
 
         // HashTab.PAS:83
-        public TIntegerHashTable256()
+        public IntegerHashTable256()
         {
             for (int I = 0; I <= 255; I++)
             {
-                var integerHashList = new TIntegerHashList();
+                var integerHashList = new IntegerHashList();
                 FLists[I] = integerHashList;
             }
         }
@@ -8981,7 +8969,7 @@ namespace Aow.Game.Engine.Collections
     }
 
     // THashList items whose key dword is a string
-    public partial class TStringHashList : THashList
+    public partial class StringHashList : HashList
     {
         // HashTab.PAS:143
         public override void Clear()
@@ -9019,7 +9007,7 @@ namespace Aow.Game.Engine.Collections
         // HashTab.PAS:170
         public void Add(object Item, string Key)
         {
-            THashItem H = default;
+            Aow.Game.Engine.Collections.HashList.HashItem H = default;
             if (Find(Key) != null)
             {
                 throw new InvalidOperationException("ID already in HashTable");
@@ -9056,50 +9044,50 @@ namespace Aow.Game.Engine.Collections
 
     [LegacyObject]
     // the abstract table interface
-    public partial class TStringHashTable
+    public partial class StringHashTable
     {
         // Engine.pas:804
         public virtual void Add(object Item, string Key)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:805
         public virtual void Delete(string Key)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:806
         public virtual object Find(string Key)
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Engine.pas:807
         public virtual void Clear()
         {
-            throw EAbstractError.Create("Abstract Error");
+            throw AbstractErrorException.Create("Abstract Error");
         }
 
-        public TStringHashTable()
+        public StringHashTable()
         {
             CaptureAddress.Assign(this);
         }
     }
 
     // 256 lists selected by a hash of the first and the second-to-last character and the length
-    public partial class TStringHashTable256 : TStringHashTable
+    public partial class StringHashTable256 : StringHashTable
     , IDisposable
     {
         internal FixedArray_Aow_Units_Engine_TStringHashList_256 FLists;
 
         // HashTab.PAS:199
-        public TStringHashTable256()
+        public StringHashTable256()
         {
             for (int I = 0; I <= 255; I++)
             {
-                var stringHashList = new TStringHashList();
+                var stringHashList = new StringHashList();
                 FLists[I] = stringHashList;
             }
         }
@@ -9191,33 +9179,33 @@ namespace Aow.Game.Engine.Nodes
 {
 
     // FControlStyle
-    public partial class TEControlStyleObject : TEObject
+    public partial class EControlStyleObject : EObject
     {
         // Engine.pas:8228
         public new const int ClassID = 81;
 
-        internal TSet<TEControlStyleElement> FControlStyle;
+        internal Set<EControlStyleElement> FControlStyle;
 
         // Engine.pas:8222
-        public TEControlStyleObject(TECustomNode owner) : this(null, owner) { }
+        public EControlStyleObject(ECustomNode owner) : this(null, owner) { }
 
         // Engine.pas:8222
-        private protected TEControlStyleObject(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected EControlStyleObject(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
             FControlStyle = base.GetControlStyle();
         }
 
         // Engine.pas:8233
-        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
+        public override Set<EControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:8238
-        public void SetControlStyle(TSet<TEControlStyleElement> Value)
+        public void SetControlStyle(Set<EControlStyleElement> Value)
         {
             FControlStyle = Value;
         }
 
         // Engine.pas:8243
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             RwSet(ref FControlStyle, 1, 1, Stream.rwData, 0);
         }
@@ -9230,29 +9218,29 @@ namespace Aow.Game.Engine.Nodes
     }
 
     // FControlStyle
-    public partial class TEControlStyleNode : TENode
+    public partial class EControlStyleNode : ENode
     {
         // Engine.pas:8199
         public new const int ClassID = 257;
 
-        public TEControlStyleNode(TECustomNode owner) : base(owner)
+        public EControlStyleNode(ECustomNode owner) : base(owner)
         {
             FControlStyle = base.GetControlStyle();
         }
 
-        internal TSet<TEControlStyleElement> FControlStyle;
+        internal Set<EControlStyleElement> FControlStyle;
 
         // Engine.pas:8204
-        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
+        public override Set<EControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:8209
-        public void SetControlStyle(TSet<TEControlStyleElement> Value)
+        public void SetControlStyle(Set<EControlStyleElement> Value)
         {
             FControlStyle = Value;
         }
 
         // Engine.pas:8214
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             RwSet(ref FControlStyle, 1, 2, Stream.rwData, 0);
@@ -9262,54 +9250,54 @@ namespace Aow.Game.Engine.Nodes
 
     // FEngine, FControlStyle. A node that knows its engine: message $20000008
     // (TEngine.ActivateEObject) carries the engine in the message
-    public partial class TECustomOwner : TENode
+    public partial class ECustomOwner : ENode
     {
         // Engine.pas:8257
         public new const int ClassID = 259;
 
         // Engine.pas:8250
-        public TECustomOwner(TECustomNode owner) : this(null, owner) { }
+        public ECustomOwner(ECustomNode owner) : this(null, owner) { }
 
-        private protected TECustomOwner(ConstructionContext context, TECustomNode owner) : base(context, owner)
+        private protected ECustomOwner(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
             FOwner = owner;
             FControlStyle = base.GetControlStyle();
         }
 
-        internal Aow.Game.Engine.TEngine FEngine;
-        internal TSet<TEControlStyleElement> FControlStyle;
+        internal global::Aow.Game.Engine.Engine FEngine;
+        internal Set<EControlStyleElement> FControlStyle;
 
         // Engine.pas:8262
-        public override Aow.Game.Engine.TEngine GetEngine() => FEngine;
+        public override global::Aow.Game.Engine.Engine GetEngine() => FEngine;
 
         // Engine.pas:8267
-        public void SetEngine(Aow.Game.Engine.TEngine AEngine)
+        public void SetEngine(global::Aow.Game.Engine.Engine AEngine)
         {
             FEngine = AEngine;
         }
 
         // Engine.pas:8272
-        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
+        public override Set<EControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:8277
-        public void SetControlStyle(TSet<TEControlStyleElement> Value)
+        public void SetControlStyle(Set<EControlStyleElement> Value)
         {
             FControlStyle = Value;
         }
 
         // Engine.pas:8282
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             RwSet(ref FControlStyle, 1, 2, Stream.rwData, 0);
         }
 
         // Engine.pas:8288
-        public override void MsgProc(ref TEMsg Msg, TEObject Sender)
+        public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = Msg.Payload.As<Aow.Game.Engine.TEngine>();
+                FEngine = Msg.Payload.As<global::Aow.Game.Engine.Engine>();
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -9323,7 +9311,7 @@ namespace Aow.Game.Engine
 {
 
     // a TList of class references
-    public partial class TEObjectClassList : TList
+    public partial class EObjectClassList : DelphiList
     {
         // Engine.pas:8296
         protected internal EClass GetEClass(int Index) => (EClass)this[Index];
@@ -9416,7 +9404,7 @@ namespace Aow.Game.Engine
             }
         }
 
-        public sealed class EClassesAccessor(TEObjectClassList target)
+        public sealed class EClassesAccessor(EObjectClassList target)
         {
             public EClass this[int Index] { get => target.GetEClass(Index); }
         }
@@ -9429,12 +9417,12 @@ namespace Aow.Game.Engine.Nodes
 {
 
     // FEditors, editor names with ids
-    public partial class TEResourceEditSettings : TEControlStyleObject
+    public partial class EResourceEditSettings : EControlStyleObject
     {
         // Engine.pas:8662
         public new const int ClassID = 1026;
 
-        internal TStringList FEditors;
+        internal StringList FEditors;
 
         // Engine.pas:8677
         internal int GetUniqueEditID()
@@ -9462,9 +9450,9 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8650
-        public TEResourceEditSettings(TECustomNode owner) : base(owner)
+        public EResourceEditSettings(ECustomNode owner) : base(owner)
         {
-            FEditors = new TStringList();
+            FEditors = new StringList();
         }
 
         // Engine.pas:8656
@@ -9519,7 +9507,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8720
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
@@ -9534,22 +9522,16 @@ namespace Aow.Game.Engine.Nodes
             Aow.Game.Engine.PersistSupport.LinesEx(persister, "Editors", FEditors);
         }
 
-        public TStringList Editors { get => FEditors; }
+        public StringList Editors { get => FEditors; }
 
     }
 
-    public struct TSortItem
-    {
-        public int SortValue;
-        public TEObject Child;
-    }
-
-    public partial class TESortNode : TECustomNode
+    public partial class ESortNode : ECustomNode
     {
         // Engine.pas:1478
         public new const int ClassID = 260;
 
-        public TESortNode(TECustomNode owner) : base(owner)
+        public ESortNode(ECustomNode owner) : base(owner)
         {
             FItems = [];
         }
@@ -9557,7 +9539,7 @@ namespace Aow.Game.Engine.Nodes
         protected internal bool FSorted;
         protected internal int FCount;
         protected internal int FCapacity;
-        protected internal TSortItem[] FItems = [];
+        protected internal SortItem[] FItems = [];
 
         // Engine.pas:1513
         protected internal void Resize(int NewCapacity)
@@ -9593,10 +9575,10 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1488
-        public override TEObject GetChild(int Index) => FItems[Index].Child;
+        public override EObject GetChild(int Index) => FItems[Index].Child;
 
         // Engine.pas:1493
-        public override void SetChild(int Index, TEObject Child)
+        public override void SetChild(int Index, EObject Child)
         {
             FItems[Index].Child = Child;
         }
@@ -9611,7 +9593,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1525
-        public override int RemoveChild(TEObject Child)
+        public override int RemoveChild(EObject Child)
         {
             int Result = FCount - 1;
             while (Result >= 0 && Child != FItems[Result].Child)
@@ -9632,10 +9614,10 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1537
-        public override int AddChild(TEObject Child) => AddSortChild(Child, 0);
+        public override int AddChild(EObject Child) => AddSortChild(Child, 0);
 
         // Engine.pas:1542
-        public virtual int AddSortChild(TEObject Child, int SortValue)
+        public virtual int AddSortChild(EObject Child, int SortValue)
         {
             int Result;
             int I;
@@ -9673,7 +9655,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1565
-        public override void ReadWrite(TEStorageStream Stream)
+        public override void ReadWrite(EStorageStream Stream)
         {
             throw new NotSupportedException("Read/Write not supported (TESortNode)");
         }
@@ -9683,13 +9665,13 @@ namespace Aow.Game.Engine.Nodes
         {
             if (!FSorted && FCount > 0)
             {
-                Aow.Game.Engine.Nodes.TESortNode.SortItems(FItems, 0, FCount - 1);
+                Aow.Game.Engine.Nodes.ESortNode.SortItems(FItems, 0, FCount - 1);
             }
 
             FSorted = true;
         }
 
-        public sealed class SortValueAccessor(TESortNode target)
+        public sealed class SortValueAccessor(ESortNode target)
         {
             public int this[int Index] { get => target.GetSortValue(Index); set => target.SetSortValue(Index, value); }
         }
@@ -9697,7 +9679,7 @@ namespace Aow.Game.Engine.Nodes
         public SortValueAccessor SortValue => new SortValueAccessor(this);
         public bool Sorted { get => FSorted; }
 
-        private static void SortItems(global::System.Span<global::Aow.Game.Engine.Nodes.TSortItem> SortList, int L, int R)
+        private static void SortItems(global::System.Span<SortItem> SortList, int L, int R)
         {
             int num;
             do
@@ -9718,7 +9700,7 @@ namespace Aow.Game.Engine.Nodes
                     }
                     if (num <= num2)
                     {
-                        global::Aow.Game.Engine.Nodes.TSortItem tSortItem = SortList[num];
+                        SortItem tSortItem = SortList[num];
                         SortList[num] = SortList[num2];
                         SortList[num2] = tSortItem;
                         num++;
@@ -9738,6 +9720,12 @@ namespace Aow.Game.Engine.Nodes
             while (num < R);
         }
 
+        public struct SortItem
+        {
+            public int SortValue;
+            public EObject Child;
+        }
+
         // Engine.pas:922
 
         // Engine.pas:922
@@ -9745,15 +9733,15 @@ namespace Aow.Game.Engine.Nodes
     }
 
     // { Engine.TEInverseSortNode: the same, sorted the other way }
-    public partial class TEInverseSortNode : TESortNode
+    public partial class EInverseSortNode : ESortNode
     {
         public new const int ClassID = 262;
 
-        public TEInverseSortNode(TECustomNode owner) : base(owner)
+        public EInverseSortNode(ECustomNode owner) : base(owner)
         { }
 
         // Engine.pas:1635
-        public override int AddSortChild(TEObject Child, int SortValue)
+        public override int AddSortChild(EObject Child, int SortValue)
         {
             int Result;
             int I;
@@ -9795,13 +9783,13 @@ namespace Aow.Game.Engine.Nodes
         {
             if (!FSorted && FCount > 0)
             {
-                Aow.Game.Engine.Nodes.TEInverseSortNode.InverseSortItems(FItems, 0, FCount - 1);
+                Aow.Game.Engine.Nodes.EInverseSortNode.InverseSortItems(FItems, 0, FCount - 1);
             }
 
             FSorted = true;
         }
 
-        private static void InverseSortItems(global::System.Span<global::Aow.Game.Engine.Nodes.TSortItem> SortList, int L, int R)
+        private static void InverseSortItems(global::System.Span<Aow.Game.Engine.Nodes.ESortNode.SortItem> SortList, int L, int R)
         {
             int num;
             do
@@ -9822,7 +9810,7 @@ namespace Aow.Game.Engine.Nodes
                     }
                     if (num <= num2)
                     {
-                        global::Aow.Game.Engine.Nodes.TSortItem tSortItem = SortList[num];
+                        Aow.Game.Engine.Nodes.ESortNode.SortItem tSortItem = SortList[num];
                         SortList[num] = SortList[num2];
                         SortList[num2] = tSortItem;
                         num++;
@@ -9845,24 +9833,24 @@ namespace Aow.Game.Engine.Nodes
     }
 
     // FControlStyle
-    public partial class TEControlStyleSortNode : TESortNode
+    public partial class EControlStyleSortNode : ESortNode
     {
         // Engine.pas:1672
         public new const int ClassID = 261;
 
-        internal TSet<TEControlStyleElement> FControlStyle;
+        internal Set<EControlStyleElement> FControlStyle;
 
         // Engine.pas:1666
-        public TEControlStyleSortNode(TECustomNode owner) : base(owner)
+        public EControlStyleSortNode(ECustomNode owner) : base(owner)
         {
             FControlStyle = base.GetControlStyle();
         }
 
         // Engine.pas:1677
-        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
+        public override Set<EControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:1682
-        public void SetControlStyle(TSet<TEControlStyleElement> Value)
+        public void SetControlStyle(Set<EControlStyleElement> Value)
         {
             FControlStyle = Value;
         }
@@ -9870,23 +9858,23 @@ namespace Aow.Game.Engine.Nodes
     }
 
     // FControlStyle
-    public partial class TEControlStyleInverseSortNode : TEInverseSortNode
+    public partial class EControlStyleInverseSortNode : EInverseSortNode
     {
         // Engine.pas:1695
         public new const int ClassID = 263;
 
-        public TEControlStyleInverseSortNode(TECustomNode owner) : base(owner)
+        public EControlStyleInverseSortNode(ECustomNode owner) : base(owner)
         {
             FControlStyle = base.GetControlStyle();
         }
 
-        internal TSet<TEControlStyleElement> FControlStyle;
+        internal Set<EControlStyleElement> FControlStyle;
 
         // Engine.pas:1700
-        public override TSet<TEControlStyleElement> GetControlStyle() => FControlStyle;
+        public override Set<EControlStyleElement> GetControlStyle() => FControlStyle;
 
         // Engine.pas:1705
-        public void SetControlStyle(TSet<TEControlStyleElement> Value)
+        public void SetControlStyle(Set<EControlStyleElement> Value)
         {
             FControlStyle = Value;
         }
@@ -9897,10 +9885,10 @@ namespace Aow.Game.Engine.Nodes
 
     // a TENode that holds references to objects owned elsewhere (AddRef on AddChild, Release on
     // removal)
-    public partial class TEReferenceNode : TENode
+    public partial class EReferenceNode : ENode
     {
 
-        public TEReferenceNode(TECustomNode owner) : base(owner)
+        public EReferenceNode(ECustomNode owner) : base(owner)
         { }
 
         // Engine.pas:8144
@@ -9908,42 +9896,42 @@ namespace Aow.Game.Engine.Nodes
         {
             for (int I = Count - 1; I >= 0; I--)
             {
-                ((TEObject)FChildren.List[I]).Release();
+                ((EObject)FChildren.List[I]).Release();
             }
 
             FChildren.Clear();
         }
 
         // Engine.pas:8157
-        public override void ReadWriteChildren(TEStorageStream Stream)
+        public override void ReadWriteChildren(EStorageStream Stream)
         {
-            if (Stream.StorageMode().Contains(TStorageModeElement.smWrite))
+            if (Stream.StorageMode().Contains(StorageModeElement.Write))
             {
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    if (((TEObject)FChildren.List[I]).FOwner == null)
+                    if (((EObject)FChildren.List[I]).FOwner == null)
                     {
-                        ((TEObject)FChildren.List[I]).FOwner = this;
+                        ((EObject)FChildren.List[I]).FOwner = this;
                     }
                 }
 
                 base.ReadWriteChildren(Stream);
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
-                    if (((TEObject)FChildren.List[I]).FOwner == this)
+                    if (((EObject)FChildren.List[I]).FOwner == this)
                     {
-                        ((TEObject)FChildren.List[I]).FOwner = null;
+                        ((EObject)FChildren.List[I]).FOwner = null;
                     }
                 }
             }
             else
             {
                 base.ReadWriteChildren(Stream);
-                if ((Stream.StorageMode() & TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smCompare)) == TSet<TStorageModeElement>.Of(TStorageModeElement.smRead))
+                if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
                 {
                     for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                     {
-                        ((TEObject)FChildren.List[I]).Release();
+                        ((EObject)FChildren.List[I]).Release();
                     }
                 }
             }
@@ -9956,7 +9944,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8177
-        public override int RemoveChild(TEObject Child)
+        public override int RemoveChild(EObject Child)
         {
             int Result = FChildren.Remove(Child);
             if (Result != -1)
@@ -9968,7 +9956,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8183
-        public override int AddChild(TEObject Child)
+        public override int AddChild(EObject Child)
         {
             if (Child.FOwner == this)
             {
@@ -9989,13 +9977,13 @@ namespace Aow.Game.Engine.Nodes
     }
 
     // FNode, the node the user is connected to
-    public partial class TEUser : TEObject
+    public partial class EUser : EObject
     {
         // Engine.pas:2430
-        public TEUser(TECustomNode owner) : base(owner)
+        public EUser(ECustomNode owner) : base(owner)
         { }
 
-        internal TECustomNode FNode;
+        internal ECustomNode FNode;
 
         // Engine.pas:7112
         // { Original source line layout for the HashTab assertions.
@@ -11221,7 +11209,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:7118
-        public void Connect(TECustomNode Node)
+        public void Connect(ECustomNode Node)
         {
             Disconnect();
             FNode = Node;
@@ -11241,19 +11229,19 @@ namespace Aow.Game.Engine.Nodes
             }
         }
 
-        public TECustomNode Node { get => FNode; }
+        public ECustomNode Node { get => FNode; }
     }
 
     // resources with unique ids
-    public partial class TEResourceList : TECustomOwner
+    public partial class EResourceList : ECustomOwner
     {
         public new const int ClassID = 1025;
 
-        public TEResourceList(TECustomNode owner) : base(owner)
+        public EResourceList(ECustomNode owner) : base(owner)
         { }
 
         // Engine.pas:8573
-        protected internal TEResource GetResource(int Index) => (TEResource)FChildren.List[Index];
+        protected internal EResource GetResource(int Index) => (EResource)FChildren.List[Index];
 
         // Engine.pas:8578
         public virtual void ResourceChanged()
@@ -11261,22 +11249,22 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8582
-        public TEResource FindResource(int ID)
+        public EResource FindResource(int ID)
         {
-            TEResource Result;
+            EResource Result;
             int I;
             bool Found;
             Found = false;
             I = 0;
             while (!Found && I != this.FChildren.Count)
             {
-                Found = this.FChildren.List[I] != null && ID == ((TEResource)this.FChildren.List[I]).FResourceID;
+                Found = this.FChildren.List[I] != null && ID == ((EResource)this.FChildren.List[I]).FResourceID;
                 I += 1;
             }
 
             if (Found)
             {
-                Result = (TEResource)this.FChildren.List[I - 1];
+                Result = (EResource)this.FChildren.List[I - 1];
             }
             else
             {
@@ -11327,9 +11315,9 @@ namespace Aow.Game.Engine.Nodes
             }
         }
 
-        public sealed class ResourcesAccessor(TEResourceList target)
+        public sealed class ResourcesAccessor(EResourceList target)
         {
-            public TEResource this[int Index] { get => target.GetResource(Index); }
+            public EResource this[int Index] { get => target.GetResource(Index); }
         }
 
         public ResourcesAccessor Resources => new ResourcesAccessor(this);
@@ -11339,11 +11327,11 @@ namespace Aow.Game.Engine.Nodes
     // FOnRegisterClasses (called from Loaded), FOnUnRegisterClasses (called from Destroy), FEngine,
     // the engine the component owns and frees. Descendants such as HSEngine's THexagonSpriteEngine
     // publish the two events
-    public partial class TEComponent : TComponent
+    public partial class EComponent : global::Aow.Rtl.Component
     {
-        internal TNotifyEvent<object> FOnRegisterClasses;
-        internal TNotifyEvent<object> FOnUnRegisterClasses;
-        internal Aow.Game.Engine.TEngine FEngine;
+        internal NotifyEvent<object> FOnRegisterClasses;
+        internal NotifyEvent<object> FOnUnRegisterClasses;
+        internal global::Aow.Game.Engine.Engine FEngine;
 
         // Engine.pas:8642
         public override void Loaded()
@@ -11355,8 +11343,8 @@ namespace Aow.Game.Engine.Nodes
             }
         }
 
-        protected internal TNotifyEvent<object> OnRegisterClasses { get => FOnRegisterClasses; set => FOnRegisterClasses = value; }
-        protected internal TNotifyEvent<object> OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
+        protected internal NotifyEvent<object> OnRegisterClasses { get => FOnRegisterClasses; set => FOnRegisterClasses = value; }
+        protected internal NotifyEvent<object> OnUnRegisterClasses { get => FOnUnRegisterClasses; set => FOnUnRegisterClasses = value; }
 
         // Engine.pas:8635
         public override void Dispose()
@@ -11370,9 +11358,9 @@ namespace Aow.Game.Engine.Nodes
             base.Dispose();
         }
 
-        public Aow.Game.Engine.TEngine Engine { get => FEngine; set => FEngine = value; }
+        public global::Aow.Game.Engine.Engine Engine { get => FEngine; set => FEngine = value; }
 
-        public TEComponent(TComponent owner) : base(owner)
+        public EComponent(global::Aow.Rtl.Component owner) : base(owner)
         { }
     }
 }
@@ -11380,28 +11368,22 @@ namespace Aow.Game.Engine.Nodes
 namespace Aow.Game.Engine.Collections
 {
 
-    public struct TCallBackEvent
-    {
-        public TNotifyEvent<object> Event;
-        public int Data;
-    }
-
     [LegacyObject]
-    public partial class TCallBackEventList : IDisposable
+    public partial class CallBackEventList : IDisposable
     {
-        internal List<TCallBackEvent> FList = [];
+        internal List<CallBackEvent> FList = [];
 
         // Engine.pas:5864
         internal int GetCount() => FList.Count;
 
         // Engine.pas:5869
-        internal ref TCallBackEvent GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
+        internal ref CallBackEvent GetItem(int Index) => ref CollectionsMarshal.AsSpan(FList)[Index];
 
         // Engine.pas:5846
-        public TCallBackEventList()
+        public CallBackEventList()
         {
             CaptureAddress.Assign(this);
-            FList = new List<TCallBackEvent>();
+            FList = new List<CallBackEvent>();
         }
 
         // Engine.pas:5852
@@ -11420,7 +11402,7 @@ namespace Aow.Game.Engine.Collections
         }
 
         // Engine.pas:5874
-        public void Add(in TCallBackEvent Event)
+        public void Add(in CallBackEvent Event)
         {
             FList.Add(Event);
         }
@@ -11436,20 +11418,13 @@ namespace Aow.Game.Engine.Collections
 
         public int Count { get => GetCount(); }
 
-        public ref TCallBackEvent this[int Index] => ref GetItem(Index);
-    }
-}
+        public ref CallBackEvent this[int Index] => ref GetItem(Index);
 
-namespace Aow.Game.Engine
-{
-
-    // { TEngine.OutputDebugStr / OutputDebugMessage hand this to the debug events }
-    public struct TEngineDebugInfo
-    {
-        public int ID;
-        private string text;
-
-        public string Text { readonly get => text ?? ""; set => text = value; }
+        public struct CallBackEvent
+        {
+            public NotifyEvent<object> Event;
+            public int Data;
+        }
     }
 }
 
@@ -11460,19 +11435,19 @@ namespace Aow.Game.Engine.Storage
     // the section of an object (its path is the ids of its parents joined with '\'), "[id]=value"
     // lines are its properties. the section is split into FValues with the property table pointing
     // at them
-    public partial class TEReadTextStorageStream : TEStorageStream
+    public partial class EReadTextStorageStream : EStorageStream
     {
         internal string FPath = "";
         internal int FSize;
-        internal TStringList FSections;
-        internal TStringList FText;
-        internal TStringList FValues;
+        internal StringList FSections;
+        internal StringList FText;
+        internal StringList FValues;
 
         // Engine.pas:10632
         internal void ReadStreamText()
         {
             string Line;
-            TStringList Text;
+            StringList Text;
             int P = 0;
             int Start;
             int L;
@@ -11491,7 +11466,7 @@ namespace Aow.Game.Engine.Storage
                     while ((P < text.Length ? text[P] : (byte)0) != 0)
                     {
                         Start = P;
-                        while (!TSet<byte>.WithBounds(0, 255).With(0).With(10).With(13).Contains(P < text.Length ? text[P] : (byte)0))
+                        while (!Set<byte>.WithBounds(0, 255).With(0).With(10).With(13).Contains(P < text.Length ? text[P] : (byte)0))
                         {
                             P += 1;
                         }
@@ -11558,7 +11533,7 @@ namespace Aow.Game.Engine.Storage
                 Value = "";
                 while (I <= Last)
                 {
-                    NewID = Aow.Game.Engine.Storage.TEReadTextStorageStream.GetLineID(FText[I]);
+                    NewID = Aow.Game.Engine.Storage.EReadTextStorageStream.GetLineID(FText[I]);
                     if (ID != -1)
                     {
                         if (NewID != ID && NewID != -1)
@@ -11567,7 +11542,7 @@ namespace Aow.Game.Engine.Storage
                             FPropertyTable.Add(ID, count);
                             FValues.Add(Value);
                             ID = NewID;
-                            Value = Aow.Game.Engine.Storage.TEReadTextStorageStream.GetLineValue(FText[I]);
+                            Value = Aow.Game.Engine.Storage.EReadTextStorageStream.GetLineValue(FText[I]);
                         }
                         else
                         {
@@ -11584,7 +11559,7 @@ namespace Aow.Game.Engine.Storage
                                 ID = NewID;
                             }
 
-                            Value = Aow.Game.Engine.Storage.TEReadTextStorageStream.GetLineValue(FText[I]);
+                            Value = Aow.Game.Engine.Storage.EReadTextStorageStream.GetLineValue(FText[I]);
                         }
                     }
 
@@ -11601,7 +11576,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10611
-        public TEReadTextStorageStream(Stream AStream, Aow.Game.Engine.TEngine AEngine, int ASize) : base(AStream, AEngine)
+        public EReadTextStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, int ASize) : base(AStream, AEngine)
         {
             FPath = "";
             if (ASize <= 0)
@@ -11613,10 +11588,10 @@ namespace Aow.Game.Engine.Storage
                 FSize = ASize;
             }
 
-            FValues = new TStringList();
-            FPropertyTable = new Aow.Game.Engine.TPropertyTable();
-            FText = new TStringList();
-            FSections = new TStringList();
+            FValues = new StringList();
+            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
+            FText = new StringList();
+            FSections = new StringList();
             ReadStreamText();
             ReadTextBuffer();
         }
@@ -11631,12 +11606,12 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10669
-        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText);
 
         // Engine.pas:10741
-        public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
-            TEObject O;
+            EObject O;
             O = Obj;
             if (O != null)
             {
@@ -11645,9 +11620,9 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10749
-        public override void rwEObject(TEObject Obj, int ID)
+        public override void rwEObject(EObject Obj, int ID)
         {
-            TStringList SavedValues;
+            StringList SavedValues;
             string SavedPath;
             bool Continue;
             SavedPath = FPath;
@@ -11662,7 +11637,7 @@ namespace Aow.Game.Engine.Storage
 
             SavedValues = FValues;
             FPropertyTable.BackupSettings();
-            FValues = new TStringList();
+            FValues = new StringList();
             try
             {
                 ReadTextBuffer();
@@ -11693,7 +11668,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10779
-        public override void rwEObjectStream(TEObject Obj, int ID)
+        public override void rwEObjectStream(EObject Obj, int ID)
         {
             rwEObject(Obj, ID);
         }
@@ -11714,7 +11689,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10792
-        public override void rwStrings(TStrings Strings, int ID)
+        public override void rwStrings(StringCollection Strings, int ID)
         {
             int Offset;
             Offset = FPropertyTable.FindOffset(ID);
@@ -11729,15 +11704,15 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10800
-        public override void rwStringsEx(TStrings Strings, int ID)
+        public override void rwStringsEx(StringCollection Strings, int ID)
         {
             rwStrings(Strings, ID);
         }
 
         // Engine.pas:10805
-        public override void rwChildren(TECustomNode Node, int ID)
+        public override void rwChildren(ECustomNode Node, int ID)
         {
-            TEObject C;
+            EObject C;
             // { the original saves the path and never restores it }
             if (!IsEmpty(FPath))
             {
@@ -11761,7 +11736,7 @@ namespace Aow.Game.Engine.Storage
         private static int GetLineID(string S)
         {
             int i;
-            for (i = 1; TSet<byte>.WithBounds(0, 255).With((byte)91).WithRange((byte)48, (byte)57)
+            for (i = 1; Set<byte>.WithBounds(0, 255).With((byte)91).WithRange((byte)48, (byte)57)
                 .Contains(Cp1252.Byte(S[i - 1])); i++)
             {
             }
@@ -11775,7 +11750,7 @@ namespace Aow.Game.Engine.Storage
         private static string GetLineValue(string S)
         {
             int i;
-            for (i = 1; TSet<byte>.WithBounds(0, 255).With((byte)91).With((byte)93)
+            for (i = 1; Set<byte>.WithBounds(0, 255).With((byte)91).With((byte)93)
                 .WithRange((byte)48, (byte)57)
                 .Contains(Cp1252.Byte(S[i - 1])); i++)
             {
@@ -11787,10 +11762,10 @@ namespace Aow.Game.Engine.Storage
 
     // FPath, FBuffer. Each object's properties are collected in FBuffer and written behind the
     // "[:path:]" line
-    public partial class TEWriteTextStorageStream : TEStorageStream
+    public partial class EWriteTextStorageStream : EStorageStream
     {
         internal string FPath = "";
-        protected internal TEBufferStream FBuffer;
+        protected internal EBufferStream FBuffer;
 
         // Engine.pas:10355
         internal void WriteTextBuffer(Stream Stream)
@@ -11810,11 +11785,11 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10335
-        public TEWriteTextStorageStream(Stream AStream, Aow.Game.Engine.TEngine AEngine) : base(AStream, AEngine)
+        public EWriteTextStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine) : base(AStream, AEngine)
         {
             FPath = "";
-            FBuffer = new TEBufferStream();
-            FPropertyTable = new Aow.Game.Engine.TPropertyTable();
+            FBuffer = new EBufferStream();
+            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
         }
 
         // Engine.pas:10343
@@ -11826,12 +11801,12 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10350
-        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, Aow.Game.Engine.Nodes.EngineServices.smText);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Write, Aow.Game.Engine.Nodes.EngineServices.smText);
 
         // Engine.pas:10368
-        public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
-            TEObject O;
+            EObject O;
             O = Obj;
             if (O != null)
             {
@@ -11840,9 +11815,9 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10376
-        public override void rwEObject(TEObject Obj, int ID)
+        public override void rwEObject(EObject Obj, int ID)
         {
-            TEBufferStream SavedBuffer;
+            EBufferStream SavedBuffer;
             string SavedPath;
             bool Continue;
             if (!FPropertyTable.PropertyExist(ID))
@@ -11850,7 +11825,7 @@ namespace Aow.Game.Engine.Storage
                 SavedBuffer = FBuffer;
                 SavedPath = FPath;
                 FPropertyTable.BackupSettings();
-                FBuffer = new TEBufferStream();
+                FBuffer = new EBufferStream();
                 if (!IsEmpty(FPath))
                 {
                     FPath = FPath + "\\" + IntToStr(ID);
@@ -11891,12 +11866,12 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
             }
         }
 
         // Engine.pas:10412
-        public override void rwEObjectStream(TEObject Obj, int ID)
+        public override void rwEObjectStream(EObject Obj, int ID)
         {
             rwEObject(Obj, ID);
         }
@@ -11916,12 +11891,12 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
             }
         }
 
         // Engine.pas:10434
-        public override void rwStrings(TStrings Strings, int ID)
+        public override void rwStrings(StringCollection Strings, int ID)
         {
             string Line;
             string P;
@@ -11941,21 +11916,21 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
             }
         }
 
         // Engine.pas:10458
-        public override void rwStringsEx(TStrings Strings, int ID)
+        public override void rwStringsEx(StringCollection Strings, int ID)
         {
             rwStrings(Strings, ID);
         }
 
         // Engine.pas:10463
-        public override void rwChildren(TECustomNode Node, int ID)
+        public override void rwChildren(ECustomNode Node, int ID)
         {
             string SavedPath;
-            TEObject C;
+            EObject C;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 SavedPath = FPath;
@@ -11982,7 +11957,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
             }
         }
 
@@ -11990,15 +11965,15 @@ namespace Aow.Game.Engine.Storage
 
     // FPartial, FDataBase. The constructor reads the root property table. every property is found
     // through the table and read at FDataBase + offset
-    public partial class TEReadStorageStream : TEStorageStream
+    public partial class EReadStorageStream : EStorageStream
     {
         internal bool FPartial;
         internal int FDataBase;
 
         // Engine.pas:9968
-        public TEReadStorageStream(Stream AStream, Aow.Game.Engine.TEngine AEngine, bool APartial) : base(AStream, AEngine)
+        public EReadStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, bool APartial) : base(AStream, AEngine)
         {
-            FPropertyTable = new Aow.Game.Engine.TPropertyTable();
+            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
             FPropertyTable.LoadFromStream(AStream);
             FDataBase = (int)(FStream.Position);
             FPartial = APartial;
@@ -12012,16 +11987,16 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9983
-        public override TSet<TStorageModeElement> StorageMode()
+        public override Set<StorageModeElement> StorageMode()
         {
-            TSet<TStorageModeElement> Result;
+            Set<StorageModeElement> Result;
             if (FPartial)
             {
-                Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smPartial);
+                Result = Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smPartial);
             }
             else
             {
-                Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smRead);
+                Result = Set<StorageModeElement>.Of(StorageModeElement.Read);
             }
 
             return Result;
@@ -12199,7 +12174,7 @@ namespace Aow.Game.Engine.Storage
                     FStream.Position = FDataBase + Offset;
                 }
 
-                Aow.Game.Engine.Storage.TEReadStorageStream.LoadStringFromStream(ref S, FStream);
+                Aow.Game.Engine.Storage.EReadStorageStream.LoadStringFromStream(ref S, FStream);
             }
             else
             {
@@ -12208,7 +12183,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10117
-        public override void rwStrings(TStrings Strings, int ID)
+        public override void rwStrings(StringCollection Strings, int ID)
         {
             int Offset;
             Offset = FPropertyTable.FindOffset(ID);
@@ -12219,7 +12194,7 @@ namespace Aow.Game.Engine.Storage
                     FStream.Position = FDataBase + Offset;
                 }
 
-                Aow.Game.Engine.Storage.TEReadStorageStream.StringsFromStream(Strings, FStream);
+                Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStream(Strings, FStream);
             }
             else
             {
@@ -12228,7 +12203,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10131
-        public override void rwStringsEx(TStrings Strings, int ID)
+        public override void rwStringsEx(StringCollection Strings, int ID)
         {
             int Offset;
             Offset = FPropertyTable.FindOffset(ID);
@@ -12239,7 +12214,7 @@ namespace Aow.Game.Engine.Storage
                     FStream.Position = FDataBase + Offset;
                 }
 
-                Aow.Game.Engine.Storage.TEReadStorageStream.StringsFromStreamEx(Strings, FStream);
+                Aow.Game.Engine.Storage.EReadStorageStream.StringsFromStreamEx(Strings, FStream);
             }
             else
             {
@@ -12264,7 +12239,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10157
-        public override void rwStreamProc(int ID, TStreamProc LoadProc, TStreamProc SaveProc)
+        public override void rwStreamProc(int ID, StreamProc LoadProc, StreamProc SaveProc)
         {
             int Offset;
             Offset = FPropertyTable.FindOffset(ID);
@@ -12327,7 +12302,7 @@ namespace Aow.Game.Engine.Storage
                 {
                     if (IsEmpty(E.Message))
                     {
-                        FOnError(this, Aow.Game.Engine.Storage.TEReadStorageStream.EStreamReadErrorStr, ref Continue);
+                        FOnError(this, Aow.Game.Engine.Storage.EReadStorageStream.EStreamReadErrorStr, ref Continue);
                     }
                     else
                     {
@@ -12345,7 +12320,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10208
-        public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
             int Offset;
             int SavedBase;
@@ -12392,12 +12367,12 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10246
-        public override void rwChildren(TECustomNode Node, int ID)
+        public override void rwChildren(ECustomNode Node, int ID)
         {
             int Offset;
             int SavedBase;
             int ChildID;
-            TEObject Child = default;
+            EObject Child = default;
             Offset = FPropertyTable.FindOffset(ID);
             if (Offset != -1)
             {
@@ -12437,7 +12412,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10277
-        public override void rwEObject(TEObject Obj, int ID)
+        public override void rwEObject(EObject Obj, int ID)
         {
             int Offset;
             int SavedBase;
@@ -12473,7 +12448,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10304
-        public override void rwEObjectStream(TEObject Obj, int ID)
+        public override void rwEObjectStream(EObject Obj, int ID)
         {
             int SavedBase;
             int Start;
@@ -12510,7 +12485,7 @@ namespace Aow.Game.Engine.Storage
 
         private static readonly string EStreamReadErrorStr = "Error Reading EObject";
 
-        internal static void StringsFromStream(TStrings Strings, Stream Stream)
+        internal static void StringsFromStream(StringCollection Strings, Stream Stream)
         {
             int num = 0;
             Strings.BeginUpdate();
@@ -12556,7 +12531,7 @@ namespace Aow.Game.Engine.Storage
             S = Cp1252.Decode((global::System.ReadOnlySpan<byte>)(array));
         }
 
-        internal static void StringsFromStreamEx(TStrings Strings, Stream Stream)
+        internal static void StringsFromStreamEx(StringCollection Strings, Stream Stream)
         {
             int num = 0;
             int num2 = 0;
@@ -12589,33 +12564,33 @@ namespace Aow.Game.Engine.Storage
     // FPartial, FBuffer. Values go into the buffer. the property table records (id, buffer
     // position). A nested object gets its own buffer, appended to the outer one as [table][data].
     // The destructor writes the root table and buffer
-    public partial class TEWriteStorageStream : TEStorageStream
+    public partial class EWriteStorageStream : EStorageStream
     {
 
         internal bool FPartial;
-        internal TEBufferStream FBuffer;
+        internal EBufferStream FBuffer;
 
         // Engine.pas:9592
         internal void PropertyExistError(int ID)
         {
-            throw new Aow.Game.Engine.EDoublePrioriyID("PropertyID already in use (" + IntToStr(ID) + " / " + this.GetType().Name + ")");
+            throw new Aow.Game.Engine.DoublePrioriyIDException("PropertyID already in use (" + IntToStr(ID) + " / " + this.GetType().Name + ")");
         }
 
         // Engine.pas:9565
         // Engine.pas:10489 TDebugWriteStream borrows the supplied stream as its buffer.
-        private protected TEWriteStorageStream(Stream stream, Aow.Game.Engine.TEngine engine, TEBufferStream buffer) : base(stream, engine)
+        private protected EWriteStorageStream(Stream stream, global::Aow.Game.Engine.Engine engine, EBufferStream buffer) : base(stream, engine)
         {
             FBuffer = buffer;
-            FPropertyTable = new Aow.Game.Engine.TPropertyTable();
+            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
             FPartial = false;
         }
 
-        public TEWriteStorageStream(Stream AStream, Aow.Game.Engine.TEngine AEngine, bool APartial) : base(AStream, AEngine)
+        public EWriteStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, bool APartial) : base(AStream, AEngine)
         {
             FEngine = AEngine;
             FStream = AStream;
-            FBuffer = new TEBufferStream();
-            FPropertyTable = new Aow.Game.Engine.TPropertyTable();
+            FBuffer = new EBufferStream();
+            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
             FPartial = APartial;
         }
 
@@ -12630,16 +12605,16 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9584
-        public override TSet<TStorageModeElement> StorageMode()
+        public override Set<StorageModeElement> StorageMode()
         {
-            TSet<TStorageModeElement> Result;
+            Set<StorageModeElement> Result;
             if (FPartial)
             {
-                Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite, Aow.Game.Engine.Nodes.EngineServices.smPartial);
+                Result = Set<StorageModeElement>.Of(StorageModeElement.Write, Aow.Game.Engine.Nodes.EngineServices.smPartial);
             }
             else
             {
-                Result = TSet<TStorageModeElement>.Of(TStorageModeElement.smWrite);
+                Result = Set<StorageModeElement>.Of(StorageModeElement.Write);
             }
 
             return Result;
@@ -12709,7 +12684,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("PropertyID already in use");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("PropertyID already in use");
             }
         }
 
@@ -12777,7 +12752,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("PropertyID already in use");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("PropertyID already in use");
             }
         }
 
@@ -12789,7 +12764,7 @@ namespace Aow.Game.Engine.Storage
                 if (!IsEmpty(S))
                 {
                     FPropertyTable.Add(ID, (int)(FBuffer.Position));
-                    Aow.Game.Engine.Storage.TEWriteStorageStream.SaveStringToStream(S, FBuffer);
+                    Aow.Game.Engine.Storage.EWriteStorageStream.SaveStringToStream(S, FBuffer);
                 }
             }
             else
@@ -12799,14 +12774,14 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9723
-        public override void rwStrings(TStrings Strings, int ID)
+        public override void rwStrings(StringCollection Strings, int ID)
         {
             if (!FPropertyTable.PropertyExist(ID))
             {
                 if (Strings.Count != 0)
                 {
                     FPropertyTable.Add(ID, (int)(FBuffer.Position));
-                    Aow.Game.Engine.Storage.TEWriteStorageStream.StringsToStream(Strings, FBuffer);
+                    Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStream(Strings, FBuffer);
                 }
             }
             else
@@ -12816,14 +12791,14 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9737
-        public override void rwStringsEx(TStrings Strings, int ID)
+        public override void rwStringsEx(StringCollection Strings, int ID)
         {
             if (!FPropertyTable.PropertyExist(ID))
             {
                 if (Strings.Count != 0)
                 {
                     FPropertyTable.Add(ID, (int)(FBuffer.Position));
-                    Aow.Game.Engine.Storage.TEWriteStorageStream.StringsToStreamEx(Strings, FBuffer);
+                    Aow.Game.Engine.Storage.EWriteStorageStream.StringsToStreamEx(Strings, FBuffer);
                 }
             }
             else
@@ -12850,7 +12825,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9765
-        public override void rwStreamProc(int ID, TStreamProc LoadProc, TStreamProc SaveProc)
+        public override void rwStreamProc(int ID, StreamProc LoadProc, StreamProc SaveProc)
         {
             if (!FPropertyTable.PropertyExist(ID))
             {
@@ -12914,7 +12889,7 @@ namespace Aow.Game.Engine.Storage
                 {
                     if (IsEmpty(E.Message))
                     {
-                        FOnError(this, Aow.Game.Engine.Storage.TEWriteStorageStream.EStreamWriteErrorStr, ref Continue);
+                        FOnError(this, Aow.Game.Engine.Storage.EWriteStorageStream.EStreamWriteErrorStr, ref Continue);
                     }
                     else
                     {
@@ -12932,12 +12907,12 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9820
-        public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
-            TEBufferStream Outer;
+            EBufferStream Outer;
             int Start;
             int AClassID;
-            TEObject O;
+            EObject O;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 Start = (int)(FBuffer.Position);
@@ -12954,7 +12929,7 @@ namespace Aow.Game.Engine.Storage
                 if (AClassID != 0)
                 {
                     Outer = FBuffer;
-                    FBuffer = new TEBufferStream();
+                    FBuffer = new EBufferStream();
                     FPropertyTable.BackupSettings();
                     try
                     {
@@ -12987,21 +12962,21 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
         // Engine.pas:9866
-        public override void rwChildren(TECustomNode Node, int ID)
+        public override void rwChildren(ECustomNode Node, int ID)
         {
-            TEBufferStream Outer;
+            EBufferStream Outer;
             int Start;
-            TEObject C = default;
+            EObject C = default;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 Start = (int)(FBuffer.Position);
                 Outer = FBuffer;
-                FBuffer = new TEBufferStream();
+                FBuffer = new EBufferStream();
                 FPropertyTable.BackupSettings();
                 for (int I = 0, last = Node.Count - 1; I <= last; I++)
                 {
@@ -13021,20 +12996,20 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
         // Engine.pas:9897
-        public override void rwEObject(TEObject Obj, int ID)
+        public override void rwEObject(EObject Obj, int ID)
         {
-            TEBufferStream Outer;
+            EBufferStream Outer;
             int Start;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 Start = (int)(FBuffer.Position);
                 Outer = FBuffer;
-                FBuffer = new TEBufferStream();
+                FBuffer = new EBufferStream();
                 FPropertyTable.BackupSettings();
                 try
                 {
@@ -13060,19 +13035,19 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
             }
         }
 
         // Engine.pas:9931
-        public override void rwEObjectStream(TEObject Obj, int ID)
+        public override void rwEObjectStream(EObject Obj, int ID)
         {
-            TEBufferStream Outer;
+            EBufferStream Outer;
             int Start;
             int Len = default;
             Start = (int)(FBuffer.Position);
             Outer = FBuffer;
-            FBuffer = new TEBufferStream();
+            FBuffer = new EBufferStream();
             FPropertyTable.BackupSettings();
             try
             {
@@ -13105,7 +13080,7 @@ namespace Aow.Game.Engine.Storage
 
         private static readonly string EStreamWriteErrorStr = "Error Writing EObject";
 
-        internal static void StringsToStream(TStrings Strings, Stream Stream)
+        internal static void StringsToStream(StringCollection Strings, Stream Stream)
         {
             global::System.ReadOnlySpan<byte> text = (global::System.ReadOnlySpan<byte>)(Cp1252.Encode(Strings.Text));
             int num = CStringLength(text);
@@ -13131,7 +13106,7 @@ namespace Aow.Game.Engine.Storage
             Stream.Write((global::System.Span<byte>)(MemoryExtensions.AsSpan<byte>(Cp1252.Encode(S)).Slice(0, length)));
         }
 
-        internal static void StringsToStreamEx(TStrings Strings, Stream Stream)
+        internal static void StringsToStreamEx(StringCollection Strings, Stream Stream)
         {
             int num = 0;
             global::System.ReadOnlySpan<byte> text = (global::System.ReadOnlySpan<byte>)(Cp1252.Encode(Strings.Text));
@@ -13156,11 +13131,11 @@ namespace Aow.Game.Engine.Storage
 
     // a write storage stream that writes every object's data straight into the stream (FBuffer is
     // the stream itself)
-    public partial class TDebugWriteStream : TEWriteStorageStream
+    public partial class DebugWriteStream : EWriteStorageStream
     {
         // Engine.pas:10489
         // Retained: The debug writer uses the supplied stream as FBuffer and skips the normal writer buffer allocation. Retire with a replacement-base storage protocol.
-        public TDebugWriteStream(Stream AStream, Aow.Game.Engine.TEngine AEngine) : base(AStream, AEngine, (TEBufferStream)AStream)
+        public DebugWriteStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine) : base(AStream, AEngine, (EBufferStream)AStream)
         { }
 
         // Engine.pas:10499
@@ -13171,10 +13146,10 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10505
-        public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
             int AClassID;
-            TEObject O;
+            EObject O;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 O = Obj;
@@ -13216,14 +13191,14 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
         // Engine.pas:10542
-        public override void rwChildren(TECustomNode Node, int ID)
+        public override void rwChildren(ECustomNode Node, int ID)
         {
-            TEObject C = default;
+            EObject C = default;
             if (!FPropertyTable.PropertyExist(ID))
             {
                 FPropertyTable.BackupSettings();
@@ -13242,12 +13217,12 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
         // Engine.pas:10565
-        public override void rwEObject(TEObject Obj, int ID)
+        public override void rwEObject(EObject Obj, int ID)
         {
             if (!FPropertyTable.PropertyExist(ID))
             {
@@ -13270,12 +13245,12 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.EDoublePrioriyID("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
+                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
             }
         }
 
         // Engine.pas:10587
-        public override void rwEObjectStream(TEObject Obj, int ID)
+        public override void rwEObjectStream(EObject Obj, int ID)
         {
             int Size = default;
             FPropertyTable.BackupSettings();
@@ -13302,12 +13277,12 @@ namespace Aow.Game.Engine.Storage
 
     // visits every string of an object tree through TranslateString and TranslateStrings. nothing
     // is read or written
-    public partial class TTranslateStorageStream : TEStorageStream
+    public partial class TranslateStorageStream : EStorageStream
     {
         // Engine.pas:10825
-        public TTranslateStorageStream(Aow.Game.Engine.TEngine AEngine) : base(null, AEngine)
+        public TranslateStorageStream(global::Aow.Game.Engine.Engine AEngine) : base(null, AEngine)
         {
-            FPropertyTable = new Aow.Game.Engine.TPropertyTable();
+            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
         }
 
         // Engine.pas:10831
@@ -13318,7 +13293,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10837
-        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smTranslate);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Translate);
 
         // Engine.pas:10842
         public override void rwString(ref string S, int ID)
@@ -13327,21 +13302,21 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10847
-        public override void rwStrings(TStrings Strings, int ID)
+        public override void rwStrings(StringCollection Strings, int ID)
         {
             TranslateStrings(ref Strings);
         }
 
         // Engine.pas:10852
-        public override void rwStringsEx(TStrings Strings, int ID)
+        public override void rwStringsEx(StringCollection Strings, int ID)
         {
             TranslateStrings(ref Strings);
         }
 
         // Engine.pas:10857
-        public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
-            TEObject O;
+            EObject O;
             O = Obj;
             if (O != null)
             {
@@ -13350,7 +13325,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10865
-        public override void rwEObject(TEObject Obj, int ID)
+        public override void rwEObject(EObject Obj, int ID)
         {
             bool Continue = default;
             try
@@ -13377,15 +13352,15 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10882
-        public override void rwEObjectStream(TEObject Obj, int ID)
+        public override void rwEObjectStream(EObject Obj, int ID)
         {
             rwEObject(Obj, ID);
         }
 
         // Engine.pas:10887
-        public override void rwChildren(TECustomNode Node, int ID)
+        public override void rwChildren(ECustomNode Node, int ID)
         {
-            TEObject C;
+            EObject C;
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
                 C = Node.Children[I];
@@ -13397,7 +13372,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10901
-        public virtual void TranslateStrings(ref TStrings Strings)
+        public virtual void TranslateStrings(ref StringCollection Strings)
         {
         }
 
@@ -13409,18 +13384,18 @@ namespace Aow.Game.Engine.Storage
     }
 
     // a read stream that announces a comparison to come (smSetupCompare)
-    public partial class TSetupCompareStorageStream : TEReadStorageStream
+    public partial class SetupCompareStorageStream : EReadStorageStream
     {
-        public TSetupCompareStorageStream(Stream AStream, Aow.Game.Engine.TEngine AEngine, bool APartial) : base(AStream, AEngine, APartial)
+        public SetupCompareStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, bool APartial) : base(AStream, AEngine, APartial)
         { }
 
         // Engine.pas:10911
-        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smSetupCompare);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.SetupCompare);
     }
 
     // reads a stored copy and calls Mismatch for every property that differs from the object.
     // Mismatch raises and swallows its own exception, a place for a breakpoint
-    public partial class TCompareStorageStream : TEReadStorageStream
+    public partial class CompareStorageStream : EReadStorageStream
     {
         // Engine.pas:11002
         internal void Mismatch(int ID)
@@ -13435,14 +13410,14 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10918
-        public TCompareStorageStream(Stream AStream, Aow.Game.Engine.TEngine AEngine) : base(AStream, AEngine, false)
+        public CompareStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine) : base(AStream, AEngine, false)
         { }
 
         // Engine.pas:10928
-        public override TSet<TStorageModeElement> StorageMode() => TSet<TStorageModeElement>.Of(TStorageModeElement.smRead, TStorageModeElement.smCompare);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.Compare);
 
         // Engine.pas:10933
-        public override void rwCreateEObject(ref TEObject Obj, TECustomNode AOwner, int ID)
+        public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
         {
             int Offset;
             int SavedBase;
@@ -13485,11 +13460,11 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10958
-        public override void rwChildren(TECustomNode Node, int ID)
+        public override void rwChildren(ECustomNode Node, int ID)
         {
             int SavedBase;
             int Start;
-            TEObject C = default;
+            EObject C = default;
             int Offset;
             int Index;
             Offset = FPropertyTable.FindOffset(ID);
@@ -13519,7 +13494,7 @@ namespace Aow.Game.Engine.Storage
                 else
                 {
                     Start = 0;
-                    while (Start < Node.Count && Node.Children[Start] != null && (Node.Children[Start].GetControlStyle() & TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared)) != TSet<TEControlStyleElement>.Of())
+                    while (Start < Node.Count && Node.Children[Start] != null && (Node.Children[Start].GetControlStyle() & Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared)) != Set<EControlStyleElement>.Of())
                     {
                         Start += 1;
                     }
@@ -13563,11 +13538,11 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:11030
-        public override void rwStrings(TStrings Strings, int ID)
+        public override void rwStrings(StringCollection Strings, int ID)
         {
-            TStringList L;
+            StringList L;
             // { the original never frees L }
-            L = new TStringList();
+            L = new StringList();
             base.rwStrings(L, ID);
             var text = Strings.Text;
             if (CompareText(L.Text, text) != 0)
@@ -13577,10 +13552,10 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:11040
-        public override void rwStringsEx(TStrings Strings, int ID)
+        public override void rwStringsEx(StringCollection Strings, int ID)
         {
-            TStringList L;
-            L = new TStringList();
+            StringList L;
+            L = new StringList();
             base.rwStrings(L, ID);
             var text = Strings.Text;
             if (CompareText(L.Text, text) != 0)
@@ -13694,9 +13669,9 @@ namespace Aow.Game.Engine.Storage
 namespace Aow.Game.Engine.Collections
 {
 
-    public delegate int TStringsSortCompare(string S1, string S2, object O1, object O2);
+    public delegate int StringsSortCompare(string S1, string S2, object O1, object O2);
 
-    public struct TStringHashItem
+    public struct StringHashItem
     {
         private string key;
 
@@ -13705,16 +13680,16 @@ namespace Aow.Game.Engine.Collections
         public object Item;
     }
 
-    public delegate void TExchangeProc(TList Data, int I, int J);
+    public delegate void ExchangeProc(DelphiList Data, int I, int J);
 
-    public struct TSortStringsContext
+    public struct SortStringsContext
     {
-        public TStrings Strings;
-        public TStringsSortCompare Compare;
-        public TExchangeProc ExchangeProc;
-        public TList ExchangeData;
+        public StringCollection Strings;
+        public StringsSortCompare Compare;
+        public global::Aow.Game.Engine.Collections.ExchangeProc ExchangeProc;
+        public DelphiList ExchangeData;
 
-        internal static void QuickSortStrings(ref TSortStringsContext Ctx, int L, int R)
+        internal static void QuickSortStrings(ref SortStringsContext Ctx, int L, int R)
         {
             int I;
             int J;
@@ -13763,7 +13738,7 @@ namespace Aow.Game.Engine.Collections
                 while (!(I > J));
                 if (L < J)
                 {
-                    Aow.Game.Engine.Collections.TSortStringsContext.QuickSortStrings(ref Ctx, L, J);
+                    Aow.Game.Engine.Collections.SortStringsContext.QuickSortStrings(ref Ctx, L, J);
                 }
 
                 L = I;
@@ -13775,12 +13750,12 @@ namespace Aow.Game.Engine.Collections
 
     [LegacyObject]
     // { the layout of TList, to write its count field straight from the object }
-    public partial class TListFields
+    public partial class ListFields
     {
         public object FList;
         public int FCount;
 
-        public TListFields()
+        public ListFields()
         {
             CaptureAddress.Assign(this);
         }

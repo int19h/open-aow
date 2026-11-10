@@ -11,35 +11,35 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // activation request
-public partial class TConstructDlg : TDataModule
+public partial class ConstructDlg : DataModule
 {
-    public TConstructDlg(TComponent owner) : base(owner)
+    public ConstructDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWImage TitleIcon;
-    public TAOWButton Close;
-    public TAOWLabel Title;
-    public TAoWFrame BCeltL;
-    public TAOWButton CancelBtn;
-    public TAOWButton ConstructBtn;
-    public TAOWWindow Dlg;
-    public TAOWPanel ConstructPnl;
-    public TAOWListBox ConstructionList;
-    public TAOWButton SortConstructionsBtn;
-    public TAOWButton SortConstructionCostBtn;
-    public TAOWListBox ConstructionCostList;
-    public TAOWListBox ConstructionTurnsList;
-    public TAOWButton SortConstructionTurnsBtn;
-    public TAOWLabel AOWLabel1;
-    public TAOWVScrollBar ConSB;
-    public TAOWImage CeltM;
-    public TAOWButton AOWButton2;
-    public TAOWVScrollBar T4VSB;
-    public TIvTranslator Translator;
-    public TActivateAbilityInfo FRequest;
+    public AOWImage TitleIcon;
+    public AOWButton Close;
+    public AOWLabel Title;
+    public AoWFrame BCeltL;
+    public AOWButton CancelBtn;
+    public AOWButton ConstructBtn;
+    public AOWWindow Dlg;
+    public AOWPanel ConstructPnl;
+    public AOWListBox ConstructionList;
+    public AOWButton SortConstructionsBtn;
+    public AOWButton SortConstructionCostBtn;
+    public AOWListBox ConstructionCostList;
+    public AOWListBox ConstructionTurnsList;
+    public AOWButton SortConstructionTurnsBtn;
+    public AOWLabel AOWLabel1;
+    public AOWVScrollBar ConSB;
+    public AOWImage CeltM;
+    public AOWButton AOWButton2;
+    public AOWVScrollBar T4VSB;
+    public IvTranslator Translator;
+    public ActivateAbilityInfo FRequest;
 
     // AoWConstructDlg.pas:117
-    public void Execute(TActivateAbilityInfo Request)
+    public void Execute(ActivateAbilityInfo Request)
     {
         if (FRequest != null)
         {
@@ -67,16 +67,16 @@ public partial class TConstructDlg : TDataModule
     {
         int Days = default;
         int Gold = default;
-        TAbstractUnit U;
+        AbstractUnit U;
         string Name = "";
-        TConstructAbility Ability;
-        TConstructionControl Control;
+        ConstructAbility Ability;
+        ConstructionControl Control;
         Dlg.FDrawn = false;
-        U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
+        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
         ConstructionList.Items.Clear();
         ConstructionCostList.Items.Clear();
         ConstructionTurnsList.Items.Clear();
-        Ability = (TConstructAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(125);
+        Ability = (ConstructAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(125);
         for (int I = 0, last = Ability.FConstructionControls.Count - 1; I <= last; I++)
         {
             Control = Ability.FConstructionControls.GetConstructionControl(I);
@@ -148,8 +148,8 @@ public partial class TConstructDlg : TDataModule
     public void ConstructBtnClick()
     {
         string Reason = "";
-        TConstructionControl Control;
-        TAbstractUnit U;
+        ConstructionControl Control;
+        AbstractUnit U;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         bool condition = ConstructionList.Selected >= 0;
         if (condition)
@@ -160,8 +160,8 @@ public partial class TConstructDlg : TDataModule
 
         if (condition)
         {
-            U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FRequest.FUnitID);
-            Control = (TConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
+            U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FRequest.FUnitID);
+            Control = (ConstructionControl)ConstructionList.Items.Objects[ConstructionList.Selected];
             if (Control.CanConstruct(U, ref Reason))
             {
                 if (Control.Construct(U))
@@ -171,7 +171,7 @@ public partial class TConstructDlg : TDataModule
             }
             else
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
             }
         }
     }
@@ -201,7 +201,7 @@ public partial class TConstructDlg : TDataModule
     }
 
     // AoWConstructDlg.pas:169
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {

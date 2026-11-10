@@ -53,7 +53,7 @@ public sealed class NameTableTests
                 Assert.Equal("from current", dictionary.TranslateContext("Hello", NameTable.Stored(typeof(TRenamedForm)), ""));
 
                 var form = new TRenamedForm { Caption = "Hello" };
-                var translator = new TIvCustomTranslator(form) { Dictionary = dictionary, Language = 1 };
+                var translator = new IvCustomTranslator(form) { Dictionary = dictionary, Language = 1 };
                 translator.TargetsData.Add(new TranslationTarget(NameTable.Delphi(typeof(TRenamedForm)), "Caption"));
                 translator.Translate(form);
                 Assert.Equal("from delphi", form.Caption);
@@ -101,7 +101,7 @@ public sealed class NameTableTests
         }
     }
 
-    private sealed class TRenamedForm : TComponent
+    private sealed class TRenamedForm : global::Aow.Rtl.Component
     {
         public string Caption { get; set; } = "";
     }

@@ -37,7 +37,7 @@ public sealed class EngineStartupTests
             using var fixture = new EngineFixture.RecordingHost(route);
             Runtime.InstallHost(fixture);
             var events = fixture.Events;
-            TEngine? value = null;
+            Engine? value = null;
             System.Exception? caught = null;
             void Thrown(object? sender, FirstChanceExceptionEventArgs args)
             {
@@ -54,9 +54,9 @@ public sealed class EngineStartupTests
                 {
                     value = route switch
                     {
-                        "Engine" => new TEngine(null!),
-                        "HS" => THSEngine.Create(null!),
-                        _ => TAoWEngine.Create(null!)
+                        "Engine" => new Engine(null!),
+                        "HS" => HSEngine.Create(null!),
+                        _ => AoWEngine.Create(null!)
                     };
                 }
                 catch (System.Exception error) { caught = error; }
@@ -77,7 +77,7 @@ public sealed class EngineStartupTests
                     Assert.True(Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine());
                     Assert.Same(value, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     result["ValidateAgain"] = true;
-                    result["FinalSnapshot"] = Snapshot((TAoWEngine)value!, fixture);
+                    result["FinalSnapshot"] = Snapshot((AoWEngine)value!, fixture);
                     result["MovePointTables"] = MovePoints();
                 }
                 else if (caught is not null)
@@ -127,7 +127,7 @@ public sealed class EngineStartupTests
         {
             if (!seen.Add(value)) return;
             result[path] = new JsonObject { ["Type"] = value.GetType().FullName };
-            if (value.GetType().Name is "TIntegerHashTable256" or "TStringHashTable256")
+            if (value.GetType().Name is "IntegerHashTable256" or "StringHashTable256")
             {
                 object buckets = value.GetType().GetField("FLists", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
                 object Bucket(int i) => buckets switch
@@ -146,7 +146,7 @@ public sealed class EngineStartupTests
                     Assert.True(lists.Add(bucket), path + " bucket " + i + " repeats an earlier list");
                 }
             }
-            if (value is TList list)
+            if (value is DelphiList list)
                 for (int i = 0; i < list.Count; i++)
                     if (list[i] is object child && IsLegacyObject(child)) Visit(child, path + $"[{i}]");
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
@@ -161,7 +161,7 @@ public sealed class EngineStartupTests
         return result;
     }
 
-    private static JsonObject Snapshot(TAoWEngine engine, EngineFixture.RecordingHost fixture) => new()
+    private static JsonObject Snapshot(AoWEngine engine, EngineFixture.RecordingHost fixture) => new()
     {
         ["Version"] = engine.FVersion,
         ["User"] = engine.FUser.Mask,

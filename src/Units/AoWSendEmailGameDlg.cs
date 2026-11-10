@@ -12,42 +12,42 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // callback, send event
-public partial class TSendEmailGameDlg : TDataModule
+public partial class SendEmailGameDlg : DataModule
 {
-    public TSendEmailGameDlg(TComponent owner) : base(owner)
+    public SendEmailGameDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel TitleLbl;
-    public TAoWFrame BCeltL;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCeltLineL;
-    public TAOWImage AOWImage1;
-    public TAOWImage AOWImage2;
-    public TAOWPanel OKCancelPnl;
-    public TAOWButton OKBtn;
-    public TAOWButton ExitBtn;
-    public TAOWEdit EmailAddressEdit;
-    public TAOWLabel SeletModeInfoLbl;
-    public TAOWCheckBox ManualChk;
-    public TAOWCheckBox AutomatedChk;
-    public TAOWLabel ManualLbl;
-    public TAOWLabel AutomatedLbl;
-    public TAOWLabel RecipientNameLbl;
-    public TAOWImage TitleIcon;
-    public TAOWPanel ModePnl;
-    public TAOWPanel ModePnlin;
-    public TAOWPanel EditPnl;
-    public TAOWButton Close;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TSendEmailGameEventLog FSendEvent;
+    public AOWWindow Dlg;
+    public AOWLabel TitleLbl;
+    public AoWFrame BCeltL;
+    public AoWFrame TCeltL;
+    public AOWImage TCeltLineL;
+    public AOWImage AOWImage1;
+    public AOWImage AOWImage2;
+    public AOWPanel OKCancelPnl;
+    public AOWButton OKBtn;
+    public AOWButton ExitBtn;
+    public AOWEdit EmailAddressEdit;
+    public AOWLabel SeletModeInfoLbl;
+    public AOWCheckBox ManualChk;
+    public AOWCheckBox AutomatedChk;
+    public AOWLabel ManualLbl;
+    public AOWLabel AutomatedLbl;
+    public AOWLabel RecipientNameLbl;
+    public AOWImage TitleIcon;
+    public AOWPanel ModePnl;
+    public AOWPanel ModePnlin;
+    public AOWPanel EditPnl;
+    public AOWButton Close;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public SendEmailGameEventLog FSendEvent;
 
     // AoWSendEmailGameDlg.pas:63
     public void FinishDialog()
     {
-        TExecuteDoneEvent Done;
-        TEventLog Event;
+        ExecuteDoneEvent Done;
+        EventLog Event;
         Dlg.Visible = false;
         Done = FDone;
         Event = FSendEvent;
@@ -65,17 +65,17 @@ public partial class TSendEmailGameDlg : TDataModule
     }
 
     // AoWSendEmailGameDlg.pas:77
-    public void ShowSendDialog(TSendEmailGameEventLog Event, TExecuteDoneEvent Done)
+    public void ShowSendDialog(SendEmailGameEventLog Event, ExecuteDoneEvent Done)
     {
         FDone = Done;
         FSendEvent = Event;
         FSendEvent.AddRef();
         var sendEmailGameEventLog = FSendEvent;
-        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
+        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
         EmailAddressEdit.Text = player.FPBEMSettings.FEmailGame.FEmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
-        var nameEx = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSendEmailGameDlg.NextPlayerXRStr), [nameEx]);
+        var nameEx = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SendEmailGameDlg.NextPlayerXRStr), [nameEx]);
         RecipientNameLbl.Text = format;
         if (sendEmailGameEventLog.FMode == 2)
         {
@@ -125,11 +125,11 @@ public partial class TSendEmailGameDlg : TDataModule
     // AoWSendEmailGameDlg.pas:120
     public void EmailAddressEditChange()
     {
-        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
+        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
     }
 
     // AoWSendEmailGameDlg.pas:125
-    public void DlgKeyDown(ref ushort Key, TSet<TShiftState> Shift)
+    public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
     {
         if (Key == 27)
         {

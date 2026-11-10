@@ -5,9 +5,9 @@ namespace Aow.Game.Draw;
 
 internal static class MemorySurfaces
 {
-    public static TSurfaceDesc Describe(int w, int h, int pitch, int format, byte[] bits, TGFXEPalette palette = null)
+    public static SurfaceDesc Describe(int w, int h, int pitch, int format, byte[] bits, GFXEPalette palette = null)
     {
-        var sd = new TSurfaceDesc
+        var sd = new SurfaceDesc
         {
             Width = w,
             Height = h,
@@ -74,13 +74,13 @@ internal static class MemorySurfaces
     }
 }
 
-public partial class TDIBSurface
+public partial class DIBSurface
 {
-    public int Setup(int AWidth, int AHeight, int APixelFormatID, TGFXEPalette APalette)
+    public int Setup(int AWidth, int AHeight, int APixelFormatID, GFXEPalette APalette)
     {
         Clear(); FPixelFormatID = APixelFormatID;
         if (APalette != null || (APixelFormatID & 255) == 8)
-        { FPalette = new TGFXEPalette(); if (APalette != null) FPalette.Assign(APalette); }
+        { FPalette = new GFXEPalette(); if (APalette != null) FPalette.Assign(APalette); }
         return Resize(AWidth, AHeight);
     }
 
@@ -88,12 +88,12 @@ public partial class TDIBSurface
 
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return Aow.Game.Draw.PixelFormats.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 4); FWidth = AWidth; FHeight = AHeight; return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
-    public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FBits, FPalette); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
+    public override int Lock(ref SurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FBits, FPalette); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
     public override int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_OK;
-    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
+    public override int Blt(Surface Dest, Rect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
+    public override int BltDC(int DC, Rect? SrcRect, Rect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
@@ -102,123 +102,123 @@ public partial class TDIBSurface
     public int Handle => throw new NotSupportedException("Native surface handle");
 }
 
-public partial class TDIB08Surface
+public partial class DIB08Surface
 {
-    public TDIB08Surface(int AWidth, int AHeight, TGFXEPalette APalette)
+    public DIB08Surface(int AWidth, int AHeight, GFXEPalette APalette)
     { SetPalette(APalette); Resize(AWidth, AHeight); }
 
-    public void SetPalette(TGFXEPalette Palette) { FPalette ??= new TGFXEPalette(); if (Palette != null && !ReferenceEquals(Palette, FPalette)) FPalette.Assign(Palette); }
+    public void SetPalette(GFXEPalette Palette) { FPalette ??= new GFXEPalette(); if (Palette != null && !ReferenceEquals(Palette, FPalette)) FPalette.Assign(Palette); }
 
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return Aow.Game.Draw.PixelFormats.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, Aow.Game.Draw.PixelFormats.pfPAL8, 4); FWidth = AWidth; FHeight = AHeight; return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
-    public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, Aow.Game.Draw.PixelFormats.pfPAL8, FBits, FPalette); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
+    public override int Lock(ref SurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, Aow.Game.Draw.PixelFormats.pfPAL8, FBits, FPalette); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
     public override int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_OK;
-    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
+    public override int Blt(Surface Dest, Rect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
+    public override int BltDC(int DC, Rect? SrcRect, Rect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
     public override int UpdatePalette() => Aow.Game.Draw.PixelFormats.GFXE_OK;
 }
 
-public partial class TDIB16Surface { private bool memoryLocked; }
+public partial class DIB16Surface { private bool memoryLocked; }
 
-public partial class TDIB16Surface
+public partial class DIB16Surface
 {
-    public TDIB16Surface(int AWidth, int AHeight, int APixelFormatID)
+    public DIB16Surface(int AWidth, int AHeight, int APixelFormatID)
     { SetPixelFormatID(APixelFormatID); Resize(AWidth, AHeight); }
 
     internal void SetPixelFormatID(int Value) { if (Value != Aow.Game.Draw.PixelFormats.pfRGB555 && Value != Aow.Game.Draw.PixelFormats.pfRGB565 && Value != Aow.Game.Draw.PixelFormats.pfARGB1555) throw new NotSupportedException("Pixel format"); if (memoryLocked && Value != FPixelFormatID) throw new InvalidOperationException("Pixel format after Lock"); FPixelFormatID = Value; }
 
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return Aow.Game.Draw.PixelFormats.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 4); FWidth = AWidth; FHeight = AHeight; return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
-    public override int Lock(ref TSurfaceDesc SD) { memoryLocked = true; SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FBits, null); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
+    public override int Lock(ref SurfaceDesc SD) { memoryLocked = true; SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FBits, null); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
     public override int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_OK;
-    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
+    public override int Blt(Surface Dest, Rect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
+    public override int BltDC(int DC, Rect? SrcRect, Rect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
     public int Handle => throw new NotSupportedException("Native surface handle");
 }
 
-public partial class TDIB24Surface
+public partial class DIB24Surface
 {
-    public TDIB24Surface(int AWidth, int AHeight)
+    public DIB24Surface(int AWidth, int AHeight)
     { Resize(AWidth, AHeight); }
 
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return Aow.Game.Draw.PixelFormats.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, Aow.Game.Draw.PixelFormats.pfRGB24, 4); FWidth = AWidth; FHeight = AHeight; return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
-    public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, Aow.Game.Draw.PixelFormats.pfRGB24, FBits, null); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
+    public override int Lock(ref SurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, Aow.Game.Draw.PixelFormats.pfRGB24, FBits, null); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
     public override int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_OK;
-    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
+    public override int Blt(Surface Dest, Rect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
+    public override int BltDC(int DC, Rect? SrcRect, Rect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 
     public int Handle => throw new NotSupportedException("Native surface handle");
 }
 
-public partial class TDIB32Surface
+public partial class DIB32Surface
 {
-    public TDIB32Surface(int AWidth, int AHeight)
+    public DIB32Surface(int AWidth, int AHeight)
     { Resize(AWidth, AHeight); }
 
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && FBits != null) return Aow.Game.Draw.PixelFormats.GFXE_OK; (FPitch, FBits) = MemorySurfaces.Allocate(AWidth, AHeight, Aow.Game.Draw.PixelFormats.pfRGB32, 4); FWidth = AWidth; FHeight = AHeight; return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
-    public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, Aow.Game.Draw.PixelFormats.pfRGB32, FBits, null); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
+    public override int Lock(ref SurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, Aow.Game.Draw.PixelFormats.pfRGB32, FBits, null); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 
     public override int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_OK;
-    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
+    public override int Blt(Surface Dest, Rect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
     public override int Cls(int Color) => base.Cls(Color);
-    public override int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
+    public override int BltDC(int DC, Rect? SrcRect, Rect? DestRect) => throw new NotSupportedException("Native device context");
 
     public override void Dispose() { FBits = null; FWidth = FHeight = FPitch = 0; base.Dispose(); }
 }
 
-public partial class TDDrawSurface
+public partial class DDrawSurface
 {
     private int memoryPitch;
     private byte[] memoryBits;
 
-    public int CreateSurface(int AWidth, int AHeight, int APixelFormatID, TSet<TDDSCreationFlagsElement> AFlags) { if (FPixelFormatID != APixelFormatID) memoryBits = null; FPixelFormatID = APixelFormatID; FCreationFlags = AFlags; FStatus = TSet<TDDrawSurfaceStatusElement>.Of(Aow.Game.Draw.TDDrawSurface.ssSystemMemory); return Resize(AWidth, AHeight); }
+    public int CreateSurface(int AWidth, int AHeight, int APixelFormatID, Set<DDSCreationFlagsElement> AFlags) { if (FPixelFormatID != APixelFormatID) memoryBits = null; FPixelFormatID = APixelFormatID; FCreationFlags = AFlags; FStatus = Set<DDrawSurfaceStatusElement>.Of(Aow.Game.Draw.DDrawSurface.ssSystemMemory); return Resize(AWidth, AHeight); }
 
     public override int Resize(int AWidth, int AHeight) { if (FWidth == AWidth && FHeight == AHeight && memoryBits != null) return Aow.Game.Draw.PixelFormats.DD_OK; (memoryPitch, memoryBits) = MemorySurfaces.Allocate(AWidth, AHeight, FPixelFormatID, 8); FWidth = AWidth; FHeight = AHeight; return Aow.Game.Draw.PixelFormats.DD_OK; }
 
-    public override int Lock(ref TSurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, memoryPitch, FPixelFormatID, memoryBits); return Aow.Game.Draw.PixelFormats.DD_OK; }
+    public override int Lock(ref SurfaceDesc SD) { SD = MemorySurfaces.Describe(FWidth, FHeight, memoryPitch, FPixelFormatID, memoryBits); return Aow.Game.Draw.PixelFormats.DD_OK; }
 
-    public override int Blt(TSurface Dest, TRect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
-    public override int BltColorKey(TSurface Dest, TRect? SrcRect, int X, int Y, int ColorKey) => base.BltColorKey(Dest, SrcRect, X, Y, ColorKey);
+    public override int Blt(Surface Dest, Rect? SrcRect, int X, int Y) => base.Blt(Dest, SrcRect, X, Y);
+    public override int BltColorKey(Surface Dest, Rect? SrcRect, int X, int Y, int ColorKey) => base.BltColorKey(Dest, SrcRect, X, Y, ColorKey);
     public override int Cls(int Color) => base.Cls(Color);
     public int AsyncCls(int Color) => Cls(Color);
     public bool Lost() => false;
     public int Restore() => Aow.Game.Draw.PixelFormats.DD_OK;
     public override int Unlock() => Aow.Game.Draw.PixelFormats.DD_OK;
-    public override int LockEx(ref TSurfaceDesc SD, in TRect R) => base.LockEx(ref SD, R);
-    public override int UnlockEx(in TSurfaceDesc SD) => Unlock();
+    public override int LockEx(ref SurfaceDesc SD, in Rect R) => base.LockEx(ref SD, R);
+    public override int UnlockEx(in SurfaceDesc SD) => Unlock();
 
     public override void Dispose() { memoryBits = null; FWidth = FHeight = 0; base.Dispose(); }
 }
 
-public partial class TDataSurface
+public partial class DataSurface
 {
-    public override int Lock(ref TSurfaceDesc SD)
+    public override int Lock(ref SurfaceDesc SD)
     { SD = MemorySurfaces.Describe(FWidth, FHeight, FPitch, FPixelFormatID, FMem, FPalette); return Aow.Game.Draw.PixelFormats.GFXE_OK; }
 }
 
-public partial class TSurface
+public partial class Surface
 {
-    public virtual int BltDC(int DC, TRect? SrcRect, TRect? DestRect) => throw new NotSupportedException("Native device context");
+    public virtual int BltDC(int DC, Rect? SrcRect, Rect? DestRect) => throw new NotSupportedException("Native device context");
 
     public virtual int Cls(int Color)
     {
-        TSurfaceDesc sd = default;
+        SurfaceDesc sd = default;
         int result = Lock(ref sd);
         if (result < 0) return result;
         try
@@ -243,7 +243,7 @@ public partial class TSurface
 
 }
 
-public partial class TGFXEPalette
+public partial class GFXEPalette
 {
     public int GetNearestColor(int Color)
     {
@@ -257,19 +257,19 @@ public partial class TGFXEPalette
     }
 }
 
-public partial class TGFXEPalette
+public partial class GFXEPalette
 {
-    public void Assign(TGFXEPalette Source)
+    public void Assign(GFXEPalette Source)
     {
         Array.Copy(Source.Entries, Entries, 256);
         PixelFormatID = Source.PixelFormatID;
     }
 }
 
-public partial class TBlendTable5Bit
+public partial class BlendTable5Bit
 {
-    public override void Assign(TBlendTable Source)
+    public override void Assign(BlendTable Source)
     {
-        if (Source is TBlendTable5Bit table) Array.Copy(table.FTable, FTable, 32 * 32);
+        if (Source is BlendTable5Bit table) Array.Copy(table.FTable, FTable, 32 * 32);
     }
 }

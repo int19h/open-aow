@@ -14,7 +14,7 @@ public sealed class StableOrderTests
     [Fact]
     public void TextControlKeepsEqualItemsInInsertionOrder()
     {
-        using var control = new TTextControl(null!);
+        using var control = new TextControl(null!);
         var high = Item(control, 2, "high");
         var low = Item(control, 1, "low");
         var tied = Item(control, 1, "tied");
@@ -27,10 +27,10 @@ public sealed class StableOrderTests
     [Fact]
     public void ItemNameKeepsEqualNamesInInsertionOrder()
     {
-        using var list = new TItemList(null!);
-        var high = new TItem(list) { FOwnerName = "m" };
-        var low = new TItem(list) { FOwnerName = "a" };
-        var tied = new TItem(list) { FOwnerName = "a" };
+        using var list = new ItemList(null!);
+        var high = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "m" };
+        var low = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "a" };
+        var tied = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "a" };
         list.SortOnName();
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
@@ -40,10 +40,10 @@ public sealed class StableOrderTests
     [Fact]
     public void ItemTypeKeepsEqualTypesInInsertionOrder()
     {
-        using var list = new TItemList(null!);
-        var high = new TItem(list) { FItemType = TItemType.itScroll };
-        var low = new TItem(list) { FItemType = TItemType.itHead };
-        var tied = new TItem(list) { FItemType = TItemType.itHead };
+        using var list = new ItemList(null!);
+        var high = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Scroll };
+        var low = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Head };
+        var tied = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Head };
         list.SortOnType();
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
@@ -53,16 +53,16 @@ public sealed class StableOrderTests
     [Fact]
     public void HeroNameKeepsEqualNamesInInsertionOrder()
     {
-        var heroes = new THeroList(null!);
-        _ = new THero(heroes) { FHeroName = "m" };
-        _ = new THero(heroes) { FHeroName = "a" };
-        _ = new THero(heroes) { FHeroName = "a" };
-        Aow.Game.Ui.Grids.THeroGrid.SortHeroList = heroes;
-        var indices = new TIntegerList();
+        var heroes = new HeroList(null!);
+        _ = new Hero(heroes) { FHeroName = "m" };
+        _ = new Hero(heroes) { FHeroName = "a" };
+        _ = new Hero(heroes) { FHeroName = "a" };
+        Aow.Game.Ui.Grids.HeroGrid.SortHeroList = heroes;
+        var indices = new IntegerList();
         indices.Add(0);
         indices.Add(1);
         indices.Add(2);
-        indices.SortStable(Aow.Game.Ui.Grids.THeroGrid.HeroGridCompareName);
+        indices.SortStable(Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareName);
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
@@ -72,18 +72,18 @@ public sealed class StableOrderTests
     [Fact]
     public void HeroLevelKeepsEqualLevelsInInsertionOrder()
     {
-        var heroes = new THeroList(null!);
-        var high = new THero(heroes) { FExperience = 15 };
-        var low = new THero(heroes);
-        var tied = new THero(heroes);
+        var heroes = new HeroList(null!);
+        var high = new Hero(heroes) { FExperience = 15 };
+        var low = new Hero(heroes);
+        var tied = new Hero(heroes);
         Assert.True(high.GetLevel() > low.GetLevel());
         Assert.Equal(low.GetLevel(), tied.GetLevel());
-        Aow.Game.Ui.Grids.THeroGrid.SortHeroList = heroes;
-        var indices = new TIntegerList();
+        Aow.Game.Ui.Grids.HeroGrid.SortHeroList = heroes;
+        var indices = new IntegerList();
         indices.Add(0);
         indices.Add(1);
         indices.Add(2);
-        indices.SortStable(Aow.Game.Ui.Grids.THeroGrid.HeroGridCompareLevel);
+        indices.SortStable(Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareLevel);
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
@@ -93,20 +93,20 @@ public sealed class StableOrderTests
     [Fact]
     public void ReflectingPoolsKeepInsertionOrder()
     {
-        using var pools = new TPlayerStructureList(null!);
-        var first = new TEObject(pools);
-        var second = new TEObject(pools);
-        var third = new TEObject(pools);
-        Assert.Equal(0, Aow.Game.World.Structures.TReflectingPool.ComparePools(first, third));
-        pools.SortStable(Aow.Game.World.Structures.TReflectingPool.ComparePools);
+        using var pools = new PlayerStructureList(null!);
+        var first = new EObject(pools);
+        var second = new EObject(pools);
+        var third = new EObject(pools);
+        Assert.Equal(0, Aow.Game.World.Structures.ReflectingPool.ComparePools(first, third));
+        pools.SortStable(Aow.Game.World.Structures.ReflectingPool.ComparePools);
         Assert.Same(first, pools.FChildren[0]);
         Assert.Same(second, pools.FChildren[1]);
         Assert.Same(third, pools.FChildren[2]);
     }
 
-    private static TTextControlItem Item(TTextControl control, int id, string name)
+    private static TextControlItem Item(TextControl control, int id, string name)
     {
-        var item = new TTextControlItem(control) { FID = id, FName = name };
+        var item = new TextControlItem(control) { FID = id, FName = name };
         item.FText.Add("line");
         return item;
     }

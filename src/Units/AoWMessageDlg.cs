@@ -24,46 +24,46 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // completion event, retained message event
-public partial class TMessageDlg : TDataModule
+public partial class MessageDlg : DataModule
 {
-    public TMessageDlg(TComponent owner) : base(owner)
+    public MessageDlg(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TAOWWindow Dlg;
-    public TAOWLabel TitleLbl;
-    public TAOWPanel YesNoPnl;
-    public TAOWButton YesBtn;
-    public TAOWButton NoBtn;
-    public TAoWFrame BCeltL;
-    public TAoWFrame TCeltL;
-    public TAOWImage TCeltLineL;
-    public TAOWImage AOWImage1;
-    public TAOWImage AOWImage2;
-    public TAOWButton OKBtn;
-    public TAOWPanel OKPnl;
-    public TAOWPanel OKCancelPnl;
-    public TAOWButton OKBtn2;
-    public TAOWButton CancelBtn;
-    public TAOWMemo MessageMemo;
-    public TAOWVScrollBar MessageMemoSB;
-    public TAOWPanel YesNoCancelPnl;
-    public TAOWButton YesBtn2;
-    public TAOWButton NoBtn2;
-    public TAOWButton CancelBtn2;
-    public TAOWPanel MemoPnl;
-    public TAOWPanel HeaderMemoPnl;
-    public TAOWMemo HeaderMemo;
-    public TAOWVScrollBar HeaderMemoSB;
-    public TAOWLabel HeaderLbl;
-    public TIvTranslator Translator;
-    public TExecuteDoneEvent FDone;
-    public TMessageEventLog FEvent;
+    public AOWWindow Dlg;
+    public AOWLabel TitleLbl;
+    public AOWPanel YesNoPnl;
+    public AOWButton YesBtn;
+    public AOWButton NoBtn;
+    public AoWFrame BCeltL;
+    public AoWFrame TCeltL;
+    public AOWImage TCeltLineL;
+    public AOWImage AOWImage1;
+    public AOWImage AOWImage2;
+    public AOWButton OKBtn;
+    public AOWPanel OKPnl;
+    public AOWPanel OKCancelPnl;
+    public AOWButton OKBtn2;
+    public AOWButton CancelBtn;
+    public AOWMemo MessageMemo;
+    public AOWVScrollBar MessageMemoSB;
+    public AOWPanel YesNoCancelPnl;
+    public AOWButton YesBtn2;
+    public AOWButton NoBtn2;
+    public AOWButton CancelBtn2;
+    public AOWPanel MemoPnl;
+    public AOWPanel HeaderMemoPnl;
+    public AOWMemo HeaderMemo;
+    public AOWVScrollBar HeaderMemoSB;
+    public AOWLabel HeaderLbl;
+    public IvTranslator Translator;
+    public ExecuteDoneEvent FDone;
+    public MessageEventLog FEvent;
 
     // AoWMessageDlg.pas:68
     public void FinishDialog()
     {
-        TExecuteDoneEvent Done;
-        TMessageEventLog Log;
+        ExecuteDoneEvent Done;
+        MessageEventLog Log;
         Dlg.Visible = false;
         Done = FDone;
         Log = FEvent;
@@ -138,7 +138,7 @@ public partial class TMessageDlg : TDataModule
 
     internal static void ShowDemoMessage()
     {
-        Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+        Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
         Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
         var demoVersionMessage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DemoVersionMessageRStr);
         Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
@@ -146,7 +146,7 @@ public partial class TMessageDlg : TDataModule
         Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
     }
 
-    internal static void ResetMessageDialog(TMessageDlg Dialog)
+    internal static void ResetMessageDialog(MessageDlg Dialog)
     {
         Dialog.YesNoPnl.Visible = false;
         Dialog.YesNoCancelPnl.Visible = false;
@@ -159,10 +159,10 @@ public partial class TMessageDlg : TDataModule
         Dialog.TitleLbl.Text = message;
     }
 
-    internal static void ShowMessageEvent(TMessageDlg Dialog, TMessageEventLog Event, TExecuteDoneEvent Done)
+    internal static void ShowMessageEvent(MessageDlg Dialog, MessageEventLog Event, ExecuteDoneEvent Done)
     {
-        TMessageEventLog Log;
-        Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Dialog);
+        MessageEventLog Log;
+        Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Dialog);
         Dialog.FDone = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
@@ -170,7 +170,7 @@ public partial class TMessageDlg : TDataModule
         Dialog.TitleLbl.Text = Log.FTitle;
         switch (Log.FLayout)
         {
-            case TMessageEventLogLayout.melNormal:
+            case Aow.Game.Events.MessageEventLog.Layout.Normal:
                 var text = Log.FMessage.Text;
                 Dialog.MessageMemo.Items.Text = text;
                 if (Dialog.MessageMemo.Items.Text.Length < 80)
@@ -179,7 +179,7 @@ public partial class TMessageDlg : TDataModule
                 }
 
                 break;
-            case TMessageEventLogLayout.melHeader:
+            case Aow.Game.Events.MessageEventLog.Layout.Header:
                 Dialog.MemoPnl.Visible = false;
                 Dialog.HeaderMemoPnl.Visible = true;
                 Dialog.HeaderLbl.Text = Log.FHeader;
@@ -190,16 +190,16 @@ public partial class TMessageDlg : TDataModule
 
         switch (Log.FButtons)
         {
-            case TMessageEventLogButtons.mebOk:
+            case Aow.Game.Events.MessageEventLog.Buttons.Ok:
                 Dialog.OKPnl.Visible = true;
                 break;
-            case TMessageEventLogButtons.mebOkCancel:
+            case Aow.Game.Events.MessageEventLog.Buttons.OkCancel:
                 Dialog.OKCancelPnl.Visible = true;
                 break;
-            case TMessageEventLogButtons.mebYesNo:
+            case Aow.Game.Events.MessageEventLog.Buttons.YesNo:
                 Dialog.YesNoPnl.Visible = true;
                 break;
-            case TMessageEventLogButtons.mebYesNoCancel:
+            case Aow.Game.Events.MessageEventLog.Buttons.YesNoCancel:
                 Dialog.YesNoCancelPnl.Visible = true;
                 break;
         }

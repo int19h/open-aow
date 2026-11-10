@@ -1,13 +1,13 @@
 using Aow.Game.World.Map;
 namespace Aow.Game.World.Movement;
 
-public partial class TMoveControl
+public partial class MoveControl
 {
     // MoveT.PAS:1687. Resolve native field offsets through hex neighbors.
     public int CalculateTurnAroundMovePoints(ref int gapIndex)
     {
         var start = FGapStarts[gapIndex];
-        var rightField = (TAoWMapField)FMapLevel.GetField(start.X, start.Y);
+        var rightField = (AoWMapField)FMapLevel.GetField(start.X, start.Y);
         var leftField = rightField;
         int rightDirection = start.L, leftDirection = start.L;
         int rightPoints = 0, leftPoints = 0;
@@ -22,11 +22,11 @@ public partial class TMoveControl
         gapIndex = index;
         return leftFound ? leftPoints : rightFound ? rightPoints : -1;
 
-        void Step(bool right, ref TAoWMapField field, ref int direction, ref int total,
+        void Step(bool right, ref AoWMapField field, ref int direction, ref int total,
             ref int over, ref bool active, ref bool found)
         {
             int attempts = 0, points, nextOver;
-            TAoWMapField next;
+            AoWMapField next;
             do
             {
                 next = NeighborField(field, direction);

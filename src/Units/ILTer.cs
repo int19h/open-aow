@@ -14,10 +14,10 @@ namespace Aow.Game.World.Terrain;
 //   variant that keeps its terrain type and updates the map terrain instead
 //   (TFixedILTerrainMO, $20188; TFixedILTerrainMOR, $20189). }
 // FImageIndex, FTerrainType
-public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
+public partial class ILTerrainMO : Aow.Game.World.MultiHexMO
 {
 
-    public TILTerrainMO(TECustomNode owner) : base(owner)
+    public ILTerrainMO(ECustomNode owner) : base(owner)
     {
         FTerrainType = -1;
     }
@@ -41,12 +41,12 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // ILTer.pas:131
-    public override bool CanChangeTerrain(in THSSenderInfo Info)
+    public override bool CanChangeTerrain(in HSSenderInfo Info)
     {
         bool Result;
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
         {
-            Result = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, FTerrainType) == Info.MapField.TerrainType;
+            Result = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, FTerrainType) == Info.MapField.TerrainType;
         }
         else
         {
@@ -57,7 +57,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // ILTer.pas:152
-    public override void ChangeTerrain(in THSTerrainInfo Info)
+    public override void ChangeTerrain(in HSTerrainInfo Info)
     {
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
         {
@@ -74,7 +74,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // ILTer.pas:140
-    public override void TerrainChanged(in THSTerrainInfo Info)
+    public override void TerrainChanged(in HSTerrainInfo Info)
     {
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
         {
@@ -91,14 +91,14 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // ILTer.pas:170
-    public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
+    public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         int Xhp = default;
         int Yhp = default;
         Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         if (this.FResource.ImageSequenceList == null)
         {
-            this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((Aow.Game.World.TMultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((Aow.Game.World.TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
+            this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((Aow.Game.World.MultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((Aow.Game.World.MultiHexMOR)this.FResource).dYImage, SurfaceDesc);
         }
         else
         {
@@ -112,7 +112,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
         bool Result = base.PlaceOnMap();
         if (Result)
         {
-            FTerrainType = GetValidTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx);
+            FTerrainType = GetValidTerrainType((MapLevel)Owner.Owner, FXhx, FYhx);
         }
 
         return Result;
@@ -125,24 +125,24 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     public override void Activate()
     {
         base.Activate();
-        FTerrainType = GetValidTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx);
+        FTerrainType = GetValidTerrainType((MapLevel)Owner.Owner, FXhx, FYhx);
         FImageIndex = GetTerrainTypeImage(FTerrainType);
     }
 
     // ILTer.pas:196
-    public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         bool CanPlaceHere;
         int Count;
         sbyte TerrainType;
-        THNWalkData Walk = default;
+        HNWalkData Walk = default;
         sbyte Overlay;
-        THexagonSprite HS;
-        TTerrainList TerrainList;
+        HexagonSprite HS;
+        TerrainList TerrainList;
         CanPlaceHere = true;
         Count = FResource.TerrainList.Count;
         FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
-        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (CanPlaceHere && Walk.HN < Count)
         {
             TerrainType = GetTerrain(Walk.HN);
@@ -153,12 +153,12 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
                 CanPlaceHere = HS == null || CanPlaceOnHS(HS);
             }
 
-            Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
+            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
         }
 
         if (CanPlaceHere)
         {
-            TerrainList = new TTerrainList();
+            TerrainList = new global::Aow.Game.World.Map.TerrainList();
             TerrainList.Assign(FResource.TerrainList);
             for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
             {
@@ -176,7 +176,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     }
 
     // ILTer.pas:236
-    public override bool PlaceHX(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         bool Result = base.PlaceHX(MapContainer, Xhx, Yhx, Lhx);
         if (Result)
@@ -206,7 +206,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     {
         bool Result;
         int Index;
-        TImageSequenceList Sequences;
+        ImageSequenceList Sequences;
         if (TerrainType >= 0)
         {
             Index = GetTerrainTypeImage(TerrainType);
@@ -232,10 +232,10 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     public virtual int GetTerrainTypeImage(int TerrainType) => TerrainType;
 
     // ILTer.pas:84
-    public virtual sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -2;
+    public virtual sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -2;
 
     // ILTer.pas:107
-    public virtual sbyte GetValidTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx)
+    public virtual sbyte GetValidTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx)
     {
         int Count;
         sbyte Result = GetMostFrequentMapFieldTerrainType(MapLevel, Xhx, Yhx, -1);
@@ -271,16 +271,16 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
 
 }
 
-public partial class TILTerrainMOR : Aow.Game.World.TMultiHexMOR
+public partial class ILTerrainMOR : Aow.Game.World.MultiHexMOR
 {
-    public TILTerrainMOR(TECustomNode owner) : base(owner)
+    public ILTerrainMOR(ECustomNode owner) : base(owner)
     { }
 
     // ILTer.pas:269
     public new const int ClassID = 131463;
 
     // ILTer.pas:279
-    public override void SetCellImage(Aow.Game.Draw.Images.TLibraryImage Value)
+    public override void SetCellImage(Aow.Game.Draw.Images.LibraryImage Value)
     {
     }
 
@@ -292,16 +292,16 @@ public partial class TILTerrainMOR : Aow.Game.World.TMultiHexMOR
 
 }
 
-public partial class TFixedILTerrainMO : TILTerrainMO
+public partial class FixedILTerrainMO : ILTerrainMO
 {
 
-    public TFixedILTerrainMO(TECustomNode owner) : base(owner)
+    public FixedILTerrainMO(ECustomNode owner) : base(owner)
     { }
 
     public new const int ClassID = 131464;
 
     // ILTer.pas:295
-    public override bool CanChangeTerrain(in THSSenderInfo Info)
+    public override bool CanChangeTerrain(in HSSenderInfo Info)
     {
         bool Result;
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
@@ -310,7 +310,7 @@ public partial class TFixedILTerrainMO : TILTerrainMO
             if (validTerrainType)
             {
                 var terrain = FResource.TerrainList.GetTerrain(Info.HN);
-                validTerrainType = GetMostFrequentMapFieldTerrainType((TMapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
+                validTerrainType = GetMostFrequentMapFieldTerrainType((MapLevel)Owner.Owner, FXhx, FYhx, terrain) == Info.MapField.TerrainType;
             }
 
             Result = validTerrainType;
@@ -324,7 +324,7 @@ public partial class TFixedILTerrainMO : TILTerrainMO
     }
 
     // ILTer.pas:305
-    public override void ChangeTerrain(in THSTerrainInfo Info)
+    public override void ChangeTerrain(in HSTerrainInfo Info)
     {
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
         {
@@ -337,14 +337,14 @@ public partial class TFixedILTerrainMO : TILTerrainMO
     }
 
     // ILTer.pas:315
-    public override void TerrainChanged(in THSTerrainInfo Info)
+    public override void TerrainChanged(in HSTerrainInfo Info)
     {
         if (FResource.TerrainList.GetTerrain(Info.HN) >= 0)
         {
             if (ValidTerrainType(Info.TerrainType))
             {
                 FTerrainType = Info.TerrainType;
-                UpdateTerrain((TMapLevel)Owner.Owner, FXhx, FYhx);
+                UpdateTerrain((MapLevel)Owner.Owner, FXhx, FYhx);
                 FImageIndex = GetTerrainTypeImage(Info.TerrainType);
             }
             else
@@ -362,13 +362,13 @@ public partial class TFixedILTerrainMO : TILTerrainMO
     }
 
     // ILTer.pas:290
-    public override sbyte ForceTerrainType(TMapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
+    public override sbyte ForceTerrainType(MapLevel MapLevel, sbyte Xhx, sbyte Yhx) => -1;
 
 }
 
-public partial class TFixedILTerrainMOR : TILTerrainMOR
+public partial class FixedILTerrainMOR : ILTerrainMOR
 {
-    public TFixedILTerrainMOR(TECustomNode owner) : base(owner)
+    public FixedILTerrainMOR(ECustomNode owner) : base(owner)
     { }
 
     // ILTer.pas:339

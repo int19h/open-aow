@@ -5,9 +5,9 @@ using Aow.Game.World.Hexes;
 
 namespace Aow.Game.World;
 
-public partial class THillMO : TTerrainMO
+public partial class HillMO : TerrainMO
 {
-    public THillMO(TECustomNode owner) : base(owner)
+    public HillMO(ECustomNode owner) : base(owner)
     { }
 
     // Hill.pas:39
@@ -17,19 +17,19 @@ public partial class THillMO : TTerrainMO
 
 }
 
-public partial class THillMOR : TTerrainMOR
+public partial class HillMOR : TerrainMOR
 {
-    public THillMOR(TECustomNode owner) : base(owner)
+    public HillMOR(ECustomNode owner) : base(owner)
     { }
 
     // Hill.pas:42
     public new const int ClassID = 131433;
 
     // Hill.pas:48
-    public override TEObject CreateResourceUser()
+    public override EObject CreateResourceUser()
     {
-        THillMO MO;
-        MO = new THillMO(null);
+        HillMO MO;
+        MO = new HillMO(null);
         MO.SetResource(this);
         MO.SetResourceLinked(true);
         return MO;

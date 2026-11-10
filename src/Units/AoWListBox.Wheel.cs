@@ -3,7 +3,7 @@ using Aow.Rtl;
 
 namespace Aow.Game.Ui.Controls;
 
-public partial class TAOWListBox
+public partial class AOWListBox
 {
     public override bool ContainsPoint(int X, int Y)
     {
@@ -13,10 +13,10 @@ public partial class TAOWListBox
 
     // A linked bar with room to move scrolls even when it is hidden, so shared columns stay together.
     // A bar with no room, or no bar when every item fits, leaves the wheel for the parent.
-    public override bool CheckMouseWheel(int Steps, TSet<TShiftState> Shift, int X, int Y)
+    public override bool CheckMouseWheel(int Steps, Set<ShiftState> Shift, int X, int Y)
     {
         if (Steps == 0 || !ContainsPoint(X, Y)) return false;
-        TAOWVScrollBar bar = WheelScrollBar ?? FVScrollBar;
+        AOWVScrollBar bar = WheelScrollBar ?? FVScrollBar;
         if (bar != null)
         {
             if (!bar.HasWheelRange()) return false;

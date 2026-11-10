@@ -10,15 +10,15 @@ namespace Aow.Game.Ui.Controls;
 //   on, and its window turns off the other radio buttons of the group (RadioChange). A right
 //   click opens its PopupMenu at the mouse, kept inside the window manager. }
 // Fields: FOnDoubleClick
-public partial class TAOWCheckBox : TAOWBaseButton
+public partial class AOWCheckBox : AOWBaseButton
 {
-    public TAOWCheckBox(TComponent owner) : base(owner)
+    public AOWCheckBox(global::Aow.Rtl.Component owner) : base(owner)
     { }
 
-    public TNotifyEvent<TAOWCheckBox> FOnDoubleClick;
+    public NotifyEvent<AOWCheckBox> FOnDoubleClick;
 
     // AoWCheckBox.pas:51
-    public override void CheckMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         base.CheckMouseDown(Button, Shift, X, Y);
         FHandled = false;
@@ -31,7 +31,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
                 FOnMouseDown(this, Button, Shift, X, Y);
             }
 
-            if (Button == TMouseButton.mbLeft)
+            if (Button == MouseButton.Left)
             {
                 if (FRadioIndex > 0)
                 {
@@ -59,7 +59,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
                     Checked = !FChecked;
                 }
 
-                if ((Shift & TSet<TShiftState>.Of(TShiftState.ssDouble)) == TSet<TShiftState>.Of(TShiftState.ssDouble))
+                if ((Shift & Set<ShiftState>.Of(ShiftState.Double)) == Set<ShiftState>.Of(ShiftState.Double))
                 {
                     if (FOnDoubleClick != null)
                     {
@@ -69,7 +69,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
             }
             else
             {
-                if (Button == TMouseButton.mbRight && FPopupMenu != null)
+                if (Button == MouseButton.Right && FPopupMenu != null)
                 {
                     FPopupMenu.WinLeft = X;
                     FPopupMenu.WinTop = Y;
@@ -94,7 +94,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
     }
 
     // AoWCheckBox.pas:105
-    public override void CheckMouseUp(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseUp(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         FHandled = false;
         FLit = false;
@@ -109,7 +109,7 @@ public partial class TAOWCheckBox : TAOWBaseButton
     }
 
     // AoWCheckBox.pas:119
-    public override void CheckMouseMove(TSet<TShiftState> Shift, int X, int Y)
+    public override void CheckMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
         bool OldLit;
         base.CheckMouseMove(Shift, X, Y);
@@ -163,57 +163,57 @@ public partial class TAOWCheckBox : TAOWBaseButton
     public int RadioIndex { get => FRadioIndex; set => FRadioIndex = value; }
 
     [Published]
-    public TNotifyEvent<TAOWCheckBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
+    public NotifyEvent<AOWCheckBox> OnDoubleClick { get => FOnDoubleClick; set => FOnDoubleClick = value; }
 
-    public new TNotifyEvent<TAOWCheckBox> OnChange
+    public new NotifyEvent<AOWCheckBox> OnChange
     {
         get => EventSlot.Get(this, FOnChange);
         set => EventSlot.Set(this, ref FOnChange, value);
     }
 
-    public new TMouseEvent<TAOWCheckBox> OnMouseDown
+    public new MouseEvent<AOWCheckBox> OnMouseDown
     {
         get => EventSlot.Get(this, FOnMouseDown);
         set => EventSlot.Set(this, ref FOnMouseDown, value);
     }
 
-    public new TMouseEvent<TAOWCheckBox> OnMouseUp
+    public new MouseEvent<AOWCheckBox> OnMouseUp
     {
         get => EventSlot.Get(this, FOnMouseUp);
         set => EventSlot.Set(this, ref FOnMouseUp, value);
     }
 
-    public new TMouseMoveEvent<TAOWCheckBox> OnMouseMove
+    public new MouseMoveEvent<AOWCheckBox> OnMouseMove
     {
         get => EventSlot.Get(this, FOnMouseMove);
         set => EventSlot.Set(this, ref FOnMouseMove, value);
     }
 
-    public new TKeyPressEvent<TAOWCheckBox> OnKeyPress
+    public new KeyPressEvent<AOWCheckBox> OnKeyPress
     {
         get => EventSlot.Get(this, FOnKeyPress);
         set => EventSlot.Set(this, ref FOnKeyPress, value);
     }
 
-    public new TKeyEvent<TAOWCheckBox> OnKeyDown
+    public new KeyEvent<AOWCheckBox> OnKeyDown
     {
         get => EventSlot.Get(this, FOnKeyDown);
         set => EventSlot.Set(this, ref FOnKeyDown, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWCheckBox> OnPreDraw
+    public new AoWOnDrawEvent<AOWCheckBox> OnPreDraw
     {
         get => EventSlot.Get(this, FOnPreDraw);
         set => EventSlot.Set(this, ref FOnPreDraw, value);
     }
 
-    public new TAoWOnDrawEvent<TAOWCheckBox> OnDraw
+    public new AoWOnDrawEvent<AOWCheckBox> OnDraw
     {
         get => EventSlot.Get(this, FOnDraw);
         set => EventSlot.Set(this, ref FOnDraw, value);
     }
 
-    public new TNotifyEvent<TAOWCheckBox> OnUpdate
+    public new NotifyEvent<AOWCheckBox> OnUpdate
     {
         get => EventSlot.Get(this, FOnUpdate);
         set => EventSlot.Set(this, ref FOnUpdate, value);

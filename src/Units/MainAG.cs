@@ -1,7 +1,6 @@
 // Translated from MainAG.pas.
 using Aow.Game.Ai;
 using Aow.Game.Ai.Groups;
-using Aow.Game.Ai.Groups.MainAG;
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Engine;
@@ -18,13 +17,13 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ai.Groups
 {
 
-    public partial class TPassiveAG : TAIGroup, IAIGroupClass
+    public partial class PassiveAG : AIGroup, IAIGroupClass
     {
         // MainAG.pas:129
         public new const int ClassID = 136280;
 
         // MainAG.pas:122
-        public TPassiveAG(TECustomNode owner) : base(owner)
+        public PassiveAG(ECustomNode owner) : base(owner)
         {
             FProcessPriority = 0;
             FRecruitmentPriority = 1;
@@ -33,28 +32,28 @@ namespace Aow.Game.Ai.Groups
         // MainAG.pas:138
         public override int GetLoc()
         {
-            TXYL Location = default;
-            if (FTargetMode == (byte)TGroupDefendMode.gdmCustom)
+            XYL Location = default;
+            if (FTargetMode == (byte)Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Custom)
             {
                 Location = FTargetXYL;
             }
             else
             {
-                Location.XYL = base.GetLoc();
+                Location.Packed = base.GetLoc();
             }
 
-            return Location.XYL;
+            return Location.Packed;
         }
 
         // MainAG.pas:147
-        public override bool GetRecruitableUnits(TAIGroup Recruiter, TUnitList Units, TUnitList Recruitable)
+        public override bool GetRecruitableUnits(AIGroup Recruiter, UnitList Units, UnitList Recruitable)
         {
-            TXYL Location = default;
-            TGroupDefenseSelector Selector;
-            TAbstractUnit AUnit;
-            Location.XYL = GetLoc();
+            XYL Location = default;
+            GroupDefenseSelector Selector;
+            AbstractUnit AUnit;
+            Location.Packed = GetLoc();
             bool Result = false;
-            Selector = new TGroupDefenseSelector();
+            Selector = new GroupDefenseSelector();
             Selector.Execute(this, Location.X, Location.Y, Location.L, Units);
             if (Selector.FDefenders.Count != 0)
             {
@@ -79,36 +78,36 @@ namespace Aow.Game.Ai.Groups
         }
 
         // MainAG.pas:135
-        public override EClass GroupControlClass() => EClass.Of<TPassiveAGC>();
+        public override EClass GroupControlClass() => EClass.Of<PassiveAGC>();
 
         // MainAG.pas:132
-        public static new TGroupBehavior Behavior => TGroupBehavior.gbPassive;
+        public static new GroupBehavior Behavior => GroupBehavior.Passive;
 
     }
 
-    public partial class TPassiveAGC : TAIGroupControl
+    public partial class PassiveAGC : AIGroupControl
     {
-        public TPassiveAGC(TECustomNode owner) : base(owner)
+        public PassiveAGC(ECustomNode owner) : base(owner)
         { }
 
         // MainAG.pas:199
         public override void ProcessStates()
         {
-            TXYL Location = default;
-            TGroupDefenseSelector Selector;
-            TAIGroup Group;
-            TAbstractUnit AUnit;
+            XYL Location = default;
+            GroupDefenseSelector Selector;
+            AIGroup Group;
+            AbstractUnit AUnit;
             switch (FState)
             {
                 case 0:
                     CombinePassiveGroups();
-                    Location.XYL = FGroup.GetLoc();
-                    Selector = new TGroupDefenseSelector();
+                    Location.Packed = FGroup.GetLoc();
+                    Selector = new GroupDefenseSelector();
                     Selector.Execute(FGroup, Location.X, Location.Y, Location.L, null);
                     if (Selector.FDefenders.Count != FGroup.Count && FGroup.FPlayer != 0)
                     {
-                        var randomGroupBehavior = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
-                        Group = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, randomGroupBehavior);
+                        var randomGroupBehavior = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
+                        Group = Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, randomGroupBehavior);
                         for (int I = FGroup.Count - 1; I >= 0; I--)
                         {
                             AUnit = FGroup.GetUnit(I);
@@ -121,12 +120,12 @@ namespace Aow.Game.Ai.Groups
                         Group.Release();
                     }
 
-                    if (Selector.FDefenseLocation.XYL != 16777215)
+                    if (Selector.FDefenseLocation.Packed != 16777215)
                     {
                         FGroup.FTargetXYL = Selector.FDefenseLocation;
-                        FGroup.FTargetMode = (byte)TGroupDefendMode.gdmCustom;
+                        FGroup.FTargetMode = (byte)Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Custom;
                         SetupME();
-                        FMoveExecuter.FMode = FMoveExecuter.FMode - TSet<TAIMoveExecuterModeElement>.Of(TAIMoveExecuterModeElement.memAdjacent);
+                        FMoveExecuter.FMode = FMoveExecuter.FMode - Set<AIMoveExecuterModeElement>.Of(AIMoveExecuterModeElement.Adjacent);
                         ExecuteME(Selector.FDefenseLocation.X, Selector.FDefenseLocation.Y, Selector.FDefenseLocation.L);
                         Done();
                     }
@@ -143,18 +142,18 @@ namespace Aow.Game.Ai.Groups
         // MainAG.pas:176
         public void CombinePassiveGroups()
         {
-            TPlayer Player;
-            TXYL Location = default;
-            TXYL OtherLocation = default;
-            TAIGroup Group;
-            Player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer);
-            Location.XYL = FGroup.GetLoc();
+            Player Player;
+            XYL Location = default;
+            XYL OtherLocation = default;
+            AIGroup Group;
+            Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+            Location.Packed = FGroup.GetLoc();
             for (int I = Player.FAIGroups.Count - 1; I >= 0; I--)
             {
                 Group = Player.FAIGroups.GetGroups(I);
                 if (FGroup.FGroupID != Group.FGroupID && Group.EClass.ClassID == 136280 && FGroup.FIndependentRelation == Group.FIndependentRelation)
                 {
-                    OtherLocation.XYL = Group.GetLoc();
+                    OtherLocation.Packed = Group.GetLoc();
                     if (Location.L == OtherLocation.L && Aow.Game.World.Map.HexGeometry.dHXtoRad(Location.X, Location.Y, OtherLocation.X, OtherLocation.Y) <= 1)
                     {
                         FGroup.AddUnits(Group);
@@ -164,33 +163,33 @@ namespace Aow.Game.Ai.Groups
         }
     }
 
-    public partial class TFortifyAG : TAIGroup, IAIGroupClass
+    public partial class FortifyAG : AIGroup, IAIGroupClass
     {
         // MainAG.pas:247
         public new const int ClassID = 136281;
 
         // MainAG.pas:240
-        public TFortifyAG(TECustomNode owner) : base(owner)
+        public FortifyAG(ECustomNode owner) : base(owner)
         {
             FProcessPriority = 15;
             FRecruitmentPriority = 0;
         }
 
         // MainAG.pas:253
-        public override EClass GroupControlClass() => EClass.Of<TFortifyAGC>();
+        public override EClass GroupControlClass() => EClass.Of<FortifyAGC>();
 
         // MainAG.pas:250
-        public static new TGroupBehavior Behavior => TGroupBehavior.gbFortify;
+        public static new GroupBehavior Behavior => GroupBehavior.Fortify;
 
     }
 
     // city location, enemy strength, required strength, target selector
-    public partial class TFortifyAGC : TAIGroupControl
+    public partial class FortifyAGC : AIGroupControl
     {
-        public TXYL FFortifyLocation;
+        public XYL FFortifyLocation;
         public int FEnemyStrength;
         public int FRequiredStrength;
-        public TAIGroupTargetSelector FTargetSelector;
+        public AIGroupTargetSelector FTargetSelector;
 
         // MainAG.pas:262
         public override void Dispose()
@@ -200,23 +199,23 @@ namespace Aow.Game.Ai.Groups
         }
 
         // MainAG.pas:256
-        public TFortifyAGC(TECustomNode owner) : base(owner)
+        public FortifyAGC(ECustomNode owner) : base(owner)
         {
-            FTargetSelector = new TAIGroupTargetSelector(null);
+            FTargetSelector = new AIGroupTargetSelector(null);
         }
 
         // MainAG.pas:278
-        public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+        public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
         {
             switch (Sender.FSelector.FTargetInfo.Mode)
             {
-                case Aow.Game.Ai.TAITargetMode.tmFortify:
+                case Aow.Game.Ai.AITargetMode.Fortify:
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                     break;
-                case Aow.Game.Ai.TAITargetMode.tmAttackArmies:
+                case Aow.Game.Ai.AITargetMode.AttackArmies:
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                     break;
-                case Aow.Game.Ai.TAITargetMode.tmAttack:
+                case Aow.Game.Ai.AITargetMode.Attack:
                     base.TargetFoundEvent(Sender, Target, ref SearchDone);
                     break;
             }
@@ -225,25 +224,25 @@ namespace Aow.Game.Ai.Groups
         // MainAG.pas:407
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder;
-            Aow.Game.Ai.TAIRecruitmentGroupFinder Recruitment;
-            Aow.Game.Ai.TAIProductionLocationFinder ProductionFinder;
-            TAIGroupRecruitControl Recruit;
-            TAIGroupProductionControl Produce;
-            TAIGroupDefenseControl Defense;
-            TAIGroupControlTarget CurrentTarget;
-            TAIGroupControlTarget NewTarget;
+            AIGroupTargetFinder Finder;
+            Aow.Game.Ai.AIRecruitmentGroupFinder Recruitment;
+            Aow.Game.Ai.AIProductionLocationFinder ProductionFinder;
+            AIGroupRecruitControl Recruit;
+            AIGroupProductionControl Produce;
+            AIGroupDefenseControl Defense;
+            AIGroupControlTarget CurrentTarget;
+            AIGroupControlTarget NewTarget;
             int I;
             int Excess;
-            TArmyHS Army;
-            TCity ACity;
+            ArmyHS Army;
+            City ACity;
             switch (FState)
             {
                 case 0:
-                    Finder = new TAIGroupTargetFinder(null);
+                    Finder = new AIGroupTargetFinder(null);
                     Finder.Setup(this);
-                    Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.TAITargetMode.tmFortify;
-                    Finder.FMode = Finder.FMode + TSet<TAIGroupTargetFinderModeElement>.Of(TAIGroupTargetFinderModeElement.tfmCalculateMovepathBFS);
+                    Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.Fortify;
+                    Finder.FMode = Finder.FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
                     Finder.FRange = 12;
                     ActivatePlugin(Finder);
                     Finder.Release();
@@ -251,7 +250,7 @@ namespace Aow.Game.Ai.Groups
                     break;
                 case 1:
                     I = 0;
-                    while (I < FTargets.Count && FTargets.GetTargets(I).FStatus.Contains(TAIGroupControlTargetStatusElement.gtsDone))
+                    while (I < FTargets.Count && FTargets.GetTargets(I).FStatus.Contains(AIGroupControlTargetStatusElement.Done))
                     {
                         I += 1;
                     }
@@ -261,7 +260,7 @@ namespace Aow.Game.Ai.Groups
                         var surroundingEnemyStrength = GetSurroundingEnemyStrength(FTargets.GetTargets(I).FLocation, 70);
                         FTargets.GetTargets(I).FDataA = surroundingEnemyStrength;
                         var target = FTargets.GetTargets(I);
-                        FTargets.GetTargets(I).FStatus = target.FStatus + TSet<TAIGroupControlTargetStatusElement>.Of(TAIGroupControlTargetStatusElement.gtsDone);
+                        FTargets.GetTargets(I).FStatus = target.FStatus + Set<AIGroupControlTargetStatusElement>.Of(AIGroupControlTargetStatusElement.Done);
                     }
                     else
                     {
@@ -272,7 +271,7 @@ namespace Aow.Game.Ai.Groups
                 case 2:
                     FTargets.Validate();
                     NewTarget = null;
-                    I = FTargets.IndexOfXYL(FLocation.XYL);
+                    I = FTargets.IndexOfXYL(FLocation.Packed);
                     if (I == -1)
                     {
                         CurrentTarget = null;
@@ -304,10 +303,10 @@ namespace Aow.Game.Ai.Groups
                                 target.FDataB -= (int)(((uint)Excess) >> 3);
                             }
 
-                            if (FTargets.GetTargets(I).FLocation.XYL != FLocation.XYL)
+                            if (FTargets.GetTargets(I).FLocation.Packed != FLocation.Packed)
                             {
                                 var targetLocation = FTargets.GetTargets(I);
-                                Army = ((TAoWMapField)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(targetLocation.FLocation.XYL)).GetArmyHS();
+                                Army = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(targetLocation.FLocation.Packed)).GetArmyHS();
                                 if (Army != null)
                                 {
                                     var count = Army.FArmy.Count;
@@ -351,14 +350,14 @@ namespace Aow.Game.Ai.Groups
                         }
                         else
                         {
-                            FFortifyLocation.XYL = 16777215;
+                            FFortifyLocation.Packed = 16777215;
                         }
                     }
 
                     FState += 1;
                     break;
                 case 3:
-                    if (FFortifyLocation.XYL == 16777215)
+                    if (FFortifyLocation.Packed == 16777215)
                     {
                         FEnemyStrength = GetSurroundingEnemyStrength(FLocation, 70);
                     }
@@ -371,7 +370,7 @@ namespace Aow.Game.Ai.Groups
                     FState += 1;
                     break;
                 case 4:
-                    Recruitment = new Aow.Game.Ai.TAIRecruitmentGroupFinder(null);
+                    Recruitment = new Aow.Game.Ai.AIRecruitmentGroupFinder(null);
                     Recruitment.Setup(this);
                     ActivatePlugin(Recruitment);
                     Recruitment.Release();
@@ -379,7 +378,7 @@ namespace Aow.Game.Ai.Groups
                     break;
                 case 5:
                     FProductionLocations.Clear();
-                    ProductionFinder = new Aow.Game.Ai.TAIProductionLocationFinder(null);
+                    ProductionFinder = new Aow.Game.Ai.AIProductionLocationFinder(null);
                     ProductionFinder.Setup(this);
                     ProductionFinder.FSelector.FMovePointsMax = 24;
                     ActivatePlugin(ProductionFinder);
@@ -389,11 +388,11 @@ namespace Aow.Game.Ai.Groups
                 case 6:
                     if (FRecruitmentGroups.Count != 0 && FRequiredStrength > FStrengthMax)
                     {
-                        Recruit = new TAIGroupRecruitControl(null);
+                        Recruit = new AIGroupRecruitControl(null);
                         Recruit.Setup(this);
-                        var strengthMax = FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
+                        var strengthMax = FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         Recruit.FRecruitStrength = FRequiredStrength - (strengthMax + FStrengthMax);
-                        Recruit.FMode = TAIGroupRecruitControlMode.rcmAutoRecruit;
+                        Recruit.FMode = Aow.Game.Ai.Groups.AIGroupRecruitControl.Mode.AutoRecruit;
                         ActivatePlugin(Recruit);
                         Recruit.Release();
                         FState += 1;
@@ -408,11 +407,11 @@ namespace Aow.Game.Ai.Groups
                     FRecruitmentGroups.Validate(this);
                     if (FStrengthMax < FRequiredStrength && FRecruitmentGroups.Count != 0)
                     {
-                        Recruit = new TAIGroupRecruitControl(null);
+                        Recruit = new AIGroupRecruitControl(null);
                         Recruit.Setup(this);
-                        var strengthMax = FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
+                        var strengthMax = FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         Recruit.FRecruitStrength = FRequiredStrength - (strengthMax + FStrengthMax);
-                        Recruit.FMode = TAIGroupRecruitControlMode.rcmForceRecruit;
+                        Recruit.FMode = Aow.Game.Ai.Groups.AIGroupRecruitControl.Mode.ForceRecruit;
                         ActivatePlugin(Recruit);
                         Recruit.Release();
                     }
@@ -423,11 +422,11 @@ namespace Aow.Game.Ai.Groups
                     if (FStrengthMax >= FEnemyStrength && FGroup.GetAdjacent())
                     {
                         FTargets.Clear();
-                        Finder = new TAIGroupTargetFinder(null);
+                        Finder = new AIGroupTargetFinder(null);
                         Finder.Setup(this);
-                        Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.TAITargetMode.tmAttackArmies;
+                        Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.AttackArmies;
                         Finder.FSelector.FMovePointsMax = 55;
-                        if (FFortifyLocation.XYL == 16777215)
+                        if (FFortifyLocation.Packed == 16777215)
                         {
                             Finder.FSelector.FSourceLocation = FLocation;
                         }
@@ -436,7 +435,7 @@ namespace Aow.Game.Ai.Groups
                             Finder.FSelector.FSourceLocation = FFortifyLocation;
                         }
 
-                        Finder.FMode = Finder.FMode + TSet<TAIGroupTargetFinderModeElement>.Of(TAIGroupTargetFinderModeElement.tfmCalculateMovepathBFS);
+                        Finder.FMode = Finder.FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
                         Finder.FRange = 12;
                         ActivatePlugin(Finder);
                         Finder.Release();
@@ -465,7 +464,7 @@ namespace Aow.Game.Ai.Groups
                             FTargetSelector.FCurrentPathStrengthFactor = (float)1.3;
                             FTargetSelector.FSuperiority = (float)1.6;
                             FTargetSelector.FNearSuperiority = (float)1.4;
-                            FTargetSelector.FMode = FTargetSelector.FMode - TSet<TAIGroupTargetSelectorModeElement>.Of(TAIGroupTargetSelectorModeElement.tsmMultiTargets);
+                            FTargetSelector.FMode = FTargetSelector.FMode - Set<AIGroupTargetSelectorModeElement>.Of(AIGroupTargetSelectorModeElement.MultiTargets);
                             ActivatePlugin(FTargetSelector);
                             FState += 1;
                         }
@@ -481,13 +480,13 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 12:
-                    if (FTargetSelector.FTargetStatus == TAIGroupTargetSelectorStatus.tssTargetConquered)
+                    if (FTargetSelector.FTargetStatus == AIGroupTargetSelectorStatus.TargetConquered)
                     {
                         FState = 10;
                     }
                     else
                     {
-                        if (FFortifyLocation.XYL != 16777215)
+                        if (FFortifyLocation.Packed != 16777215)
                         {
                             SetupME();
                             ExecuteME(FFortifyLocation.X, FFortifyLocation.Y, FFortifyLocation.L);
@@ -498,11 +497,11 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 13:
-                    ACity = (TCity)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(FLocation.XYL).FindNoneTransparentHS(typeof(TCity));
-                    if (ACity != null && ACity.GetActiveAction() == TCityAction.caMigrate)
+                    ACity = (City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(FLocation.Packed).FindNoneTransparentHS(typeof(City));
+                    if (ACity != null && ACity.GetActiveAction() == CityAction.Migrate)
                     {
-                        Defense = new TAIGroupDefenseControl(null);
-                        Defense.FDefendMode = TGroupDefendMode.gdmCustom;
+                        Defense = new AIGroupDefenseControl(null);
+                        Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Custom;
                         Defense.FCustomState = 19;
                         ActivatePlugin(Defense);
                         Defense.Release();
@@ -512,11 +511,11 @@ namespace Aow.Game.Ai.Groups
                     break;
                 case 14:
                     FTargets.Clear();
-                    Finder = new TAIGroupTargetFinder(null);
+                    Finder = new AIGroupTargetFinder(null);
                     Finder.Setup(this);
-                    Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.TAITargetMode.tmAttack;
+                    Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.Attack;
                     Finder.FSelector.FMovePointsMax = 55;
-                    if (FFortifyLocation.XYL == 16777215)
+                    if (FFortifyLocation.Packed == 16777215)
                     {
                         Finder.FSelector.FSourceLocation = FLocation;
                     }
@@ -525,7 +524,7 @@ namespace Aow.Game.Ai.Groups
                         Finder.FSelector.FSourceLocation = FFortifyLocation;
                     }
 
-                    Finder.FMode = Finder.FMode + TSet<TAIGroupTargetFinderModeElement>.Of(TAIGroupTargetFinderModeElement.tfmCalculateMovepathBFS);
+                    Finder.FMode = Finder.FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
                     Finder.FRange = 12;
                     ActivatePlugin(Finder);
                     Finder.Release();
@@ -539,7 +538,7 @@ namespace Aow.Game.Ai.Groups
                         FTargetSelector.FCurrentPathStrengthFactor = (float)1.3;
                         FTargetSelector.FSuperiority = (float)1.6;
                         FTargetSelector.FNearSuperiority = (float)1.4;
-                        FTargetSelector.FMode = FTargetSelector.FMode - TSet<TAIGroupTargetSelectorModeElement>.Of(TAIGroupTargetSelectorModeElement.tsmMultiTargets);
+                        FTargetSelector.FMode = FTargetSelector.FMode - Set<AIGroupTargetSelectorModeElement>.Of(AIGroupTargetSelectorModeElement.MultiTargets);
                         ActivatePlugin(FTargetSelector);
                         FState += 1;
                     }
@@ -550,13 +549,13 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 16:
-                    if (FTargetSelector.FTargetStatus == TAIGroupTargetSelectorStatus.tssTargetConquered)
+                    if (FTargetSelector.FTargetStatus == AIGroupTargetSelectorStatus.TargetConquered)
                     {
                         FState = 13;
                     }
                     else
                     {
-                        if (FFortifyLocation.XYL != 16777215 && !TSet<TAIGroupTargetSelectorStatus>.Of(TAIGroupTargetSelectorStatus.tssSettingupTarget, TAIGroupTargetSelectorStatus.tssExecutingTarget).Contains(FTargetSelector.FTargetStatus))
+                        if (FFortifyLocation.Packed != 16777215 && !Set<AIGroupTargetSelectorStatus>.Of(AIGroupTargetSelectorStatus.SettingupTarget, AIGroupTargetSelectorStatus.ExecutingTarget).Contains(FTargetSelector.FTargetStatus))
                         {
                             SetupME();
                             ExecuteME(FFortifyLocation.X, FFortifyLocation.Y, FFortifyLocation.L);
@@ -569,11 +568,11 @@ namespace Aow.Game.Ai.Groups
                 case 17:
                     if (FStrengthMax >= FEnemyStrength)
                     {
-                        ACity = (TCity)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(FLocation.XYL).FindNoneTransparentHS(typeof(TCity));
-                        if (ACity != null && ACity.GetActiveAction() == TCityAction.caMigrate)
+                        ACity = (City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(FLocation.Packed).FindNoneTransparentHS(typeof(City));
+                        if (ACity != null && ACity.GetActiveAction() == CityAction.Migrate)
                         {
-                            Defense = new TAIGroupDefenseControl(null);
-                            Defense.FDefendMode = TGroupDefendMode.gdmCustom;
+                            Defense = new AIGroupDefenseControl(null);
+                            Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Custom;
                             Defense.FCustomState = 19;
                             ActivatePlugin(Defense);
                             Defense.Release();
@@ -583,7 +582,7 @@ namespace Aow.Game.Ai.Groups
                     FState += 1;
                     break;
                 case 18:
-                    if (FFortifyLocation.XYL == 16777215)
+                    if (FFortifyLocation.Packed == 16777215)
                     {
                         SetupME();
                         ExecuteME(FLocation.X, FLocation.Y, FLocation.L);
@@ -614,31 +613,31 @@ namespace Aow.Game.Ai.Groups
                     break;
                 case 21:
                     ACity = FortifyCity();
-                    if (ACity != null && ACity.FProduction.FStatus == TProductionControlStatus.pcsIdle)
+                    if (ACity != null && ACity.FProduction.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
                     {
                         if (ACity.FWallType == 0)
                         {
                             var fortifyCost = ACity.FortifyCost();
-                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
+                            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
                             {
                                 if (ACity.Fortify(false))
                                 {
                                     var aCityFortifyCost = ACity.FortifyCost();
-                                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
+                                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
                                 }
                             }
                         }
                         else
                         {
-                            if (ACity.FWallType == 1 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay > 29)
+                            if (ACity.FWallType == 1 && Aow.Game.World.Map.AoWHSMap.Current.FDay > 29)
                             {
                                 var fortifyCost = ACity.FortifyCost();
-                                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
+                                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.RequestExpense(fortifyCost, 0))
                                 {
                                     if (ACity.Fortify(false))
                                     {
                                         var aCityFortifyCost = ACity.FortifyCost();
-                                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
+                                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIBudget.ExpenseMade(aCityFortifyCost, 0);
                                     }
                                 }
                             }
@@ -648,10 +647,10 @@ namespace Aow.Game.Ai.Groups
                     FState += 1;
                     break;
                 case 22:
-                    if (FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<TDamageType>.Of(TDamageType.dtWall)) + FStrengthMax < FRequiredStrength)
+                    if (FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) + FStrengthMax < FRequiredStrength)
                     {
                         FProductionLocations.Clear();
-                        ProductionFinder = new Aow.Game.Ai.TAIProductionLocationFinder(null);
+                        ProductionFinder = new Aow.Game.Ai.AIProductionLocationFinder(null);
                         ProductionFinder.Setup(this);
                         ProductionFinder.FSelector.FMovePointsMax = 24;
                         ActivatePlugin(ProductionFinder);
@@ -667,11 +666,11 @@ namespace Aow.Game.Ai.Groups
                 case 23:
                     if (FProductionLocations.Count > 0)
                     {
-                        Produce = new TAIGroupProductionControl(null);
+                        Produce = new AIGroupProductionControl(null);
                         Produce.Setup(this);
-                        var strengthMax = FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
+                        var strengthMax = FGroup.FProductions.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         Produce.FProduceStrength = FRequiredStrength - (strengthMax + FStrengthMax);
-                        Produce.FMode = TAIGroupProductionControlMode.pcmAutoProduce;
+                        Produce.FMode = Aow.Game.Ai.Groups.AIGroupProductionControl.Mode.AutoProduce;
                         ActivatePlugin(Produce);
                         Produce.Release();
                     }
@@ -681,8 +680,8 @@ namespace Aow.Game.Ai.Groups
                 case 24:
                     switch (FGroup.FTargetType)
                     {
-                        case TAIGroupTargetStatus.gtsNone:
-                        case TAIGroupTargetStatus.gtsIdle:
+                        case AIGroupTargetStatus.None:
+                        case AIGroupTargetStatus.Idle:
                             MakeUselessUnitsPassive();
                             break;
                     }
@@ -699,12 +698,12 @@ namespace Aow.Game.Ai.Groups
         public override bool Split() => false;
 
         // MainAG.pas:268
-        public TCity FortifyCity()
+        public City FortifyCity()
         {
-            TCity Result;
-            if (FFortifyLocation.XYL != 16777215)
+            City Result;
+            if (FFortifyLocation.Packed != 16777215)
             {
-                Result = (TCity)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(FFortifyLocation.XYL).FindNoneTransparentHS(typeof(TCity));
+                Result = (City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(FFortifyLocation.Packed).FindNoneTransparentHS(typeof(City));
             }
             else
             {
@@ -715,29 +714,29 @@ namespace Aow.Game.Ai.Groups
         }
 
         // MainAG.pas:287
-        public int GetSurroundingEnemyStrength(TXYL Location, int Radius)
+        public int GetSurroundingEnemyStrength(XYL Location, int Radius)
         {
-            TMoveControlSettings Settings;
-            TMapFieldMsg Msg = default;
+            MoveControlSettings Settings;
+            MapFieldMsg Msg = default;
             var query = new BattleFieldQuery();
             ref var Info = ref query.Info;
-            Settings = new TMoveControlSettings(null);
+            Settings = new MoveControlSettings(null);
             Settings.FPlayer = FGroup.FPlayer;
-            Settings.FMode = Settings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmLogProcessedMapFields, TMoveModeElement.mmAI);
+            Settings.FMode = Settings.FMode + Set<MoveModeElement>.Of(MoveModeElement.LogProcessedMapFields, MoveModeElement.AI);
             Settings.SetSourcePos(Location.X, Location.Y, Location.L);
             Settings.FMovePointsMax = Radius;
             Settings.FArmyHS = null;
             Settings.FSelection = 0;
-            var moveTypesToInt = Aow.Game.Magic.Abilities.MovementTables.MoveTypesToInt(TSet<TMoveType>.Of(TMoveType.mtFlying));
+            var moveTypesToInt = Aow.Game.Magic.Abilities.MovementTables.MoveTypesToInt(Set<MoveType>.Of(MoveType.Flying));
             Settings.FMovePointTable = Aow.Game.Magic.Abilities.MovementTables.MovePointTables[moveTypesToInt];
-            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMoveControl.ProcessMove(Settings);
-            Aow.Game.Combat.TBattleFieldInfo.SetupBattleFieldInfo(ref Info, FGroup.FPlayer, FGroup.FIndependentRelation, TSet<TBattleFieldInfoRequestsElement>.Of(TBattleFieldInfoRequestsElement.bfrIgnorePassiveIndependents), Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
-            Info.FriendlyRelations = TSet<byte>.WithBounds(0, 7);
+            Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.ProcessMove(Settings);
+            Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, FGroup.FPlayer, FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents), Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+            Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             Msg.MsgID = 4360;
             Msg.Param[0] = query;
             for (int I = Settings.FProcessedMapFields.Count - 1; I >= 0; I--)
             {
-                var mapField = (TAoWMapField)Settings.FProcessedMapFields[I];
+                var mapField = (AoWMapField)Settings.FProcessedMapFields[I];
                 if ((mapField.FFieldFlags & 67108864) != 0)
                 {
                     mapField.SendMapFieldMsg(ref Msg);
@@ -753,11 +752,11 @@ namespace Aow.Game.Ai.Groups
         public void UpdateRequiredStrength()
         {
             int Strength;
-            TPlayerStatistics Statistics;
+            PlayerStatistics Statistics;
             FRequiredStrength = FEnemyStrength;
-            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay > 5)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FDay > 5)
             {
-                Strength = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay / 5 * 5000;
+                Strength = Aow.Game.World.Map.AoWHSMap.Current.FDay / 5 * 5000;
                 if (Strength > 50000)
                 {
                     Strength = 50000;
@@ -769,12 +768,12 @@ namespace Aow.Game.Ai.Groups
                 }
             }
 
-            if (FRequiredStrength > 0 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay < 10)
+            if (FRequiredStrength > 0 && Aow.Game.World.Map.AoWHSMap.Current.FDay < 10)
             {
-                FRequiredStrength = Round((double)(FRequiredStrength * Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay) * 0.1);
+                FRequiredStrength = Round((double)(FRequiredStrength * Aow.Game.World.Map.AoWHSMap.Current.FDay) * 0.1);
             }
 
-            Statistics = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FGroup.FPlayer).FStatistics;
+            Statistics = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FStatistics;
             if (Statistics.FTurnInfo.Count > 0)
             {
                 var count = Statistics.FTurnInfo.Count;
@@ -791,9 +790,9 @@ namespace Aow.Game.Ai.Groups
                     Strength = 50000;
                 }
 
-                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay < 10)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FDay < 10)
                 {
-                    Strength = Round((double)(Strength * Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay) * 0.1);
+                    Strength = Round((double)(Strength * Aow.Game.World.Map.AoWHSMap.Current.FDay) * 0.1);
                 }
 
                 if (Strength > FRequiredStrength)
@@ -808,23 +807,23 @@ namespace Aow.Game.Ai.Groups
         {
             int Excess = default;
             int I = default;
-            TUnitUserList Units = default;
-            TUnitUserList Passive = default;
-            TAIGroup Group = default;
+            UnitUserList Units = default;
+            UnitUserList Passive = default;
+            AIGroup Group = default;
             Excess = FStrengthMax - FRequiredStrength;
             if (Excess > 0)
             {
-                Units = new TUnitUserList(null);
-                Passive = new TUnitUserList(null);
+                Units = new UnitUserList(null);
+                Passive = new UnitUserList(null);
                 Units.AddUnits(FGroup);
-                Units.FChildren.Sort(Aow.Game.Ai.Groups.TFortifyAGC.CompareFortifyUnits);
+                Units.FChildren.Sort(Aow.Game.Ai.Groups.FortifyAGC.CompareFortifyUnits);
                 I = Units.Count;
                 while (I != 0 && Excess > 0)
                 {
                     I -= 1;
-                    if (!(Units.GetUnit(I) is TLeader))
+                    if (!(Units.GetUnit(I) is Leader))
                     {
-                        Excess -= Units.GetUnit(I).GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<TDamageType>.Of(TDamageType.dtWall));
+                        Excess -= Units.GetUnit(I).GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         if (Excess >= 0)
                         {
                             Passive.AddUnit(Units.GetUnit(I));
@@ -835,7 +834,7 @@ namespace Aow.Game.Ai.Groups
 
                 if (Passive.Count != 0)
                 {
-                    Group = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, TGroupBehavior.gbPassive);
+                    Group = Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, FGroup.FIndependentRelation, GroupBehavior.Passive);
                     Group.AddUnits(Passive);
                     Group.Release();
                 }
@@ -849,14 +848,14 @@ namespace Aow.Game.Ai.Groups
         public bool CanBreachWall()
         {
             int I;
-            TAbstractUnit AUnit;
+            AbstractUnit AUnit;
             I = FGroup.Count;
-            bool Result = FGroup.GetStrength(TDamageType.dtWall) != 0;
+            bool Result = FGroup.GetStrength(DamageType.Wall) != 0;
             while (!Result && I != 0)
             {
                 I -= 1;
                 AUnit = FGroup.GetUnit(I);
-                Result = AUnit.GetAbilityEnabled(52) && ((TSpellCastingAbility)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(52)).CanCastBreachWallSpell(AUnit);
+                Result = AUnit.GetAbilityEnabled(52) && ((SpellCastingAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(52)).CanCastBreachWallSpell(AUnit);
             }
 
             return Result;
@@ -864,13 +863,13 @@ namespace Aow.Game.Ai.Groups
 
         private static int CompareFortifyUnits(object Item1, object Item2)
         {
-            int num = ((global::Aow.Game.Magic.Abilities.TAbstractUnit)Item1).GetStrengthMax(global::Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<global::Aow.Game.Combat.TDamageType>.Of(new global::Aow.Game.Combat.TDamageType[1] { global::Aow.Game.Combat.TDamageType.dtWall }));
-            int num2 = ((global::Aow.Game.Magic.Abilities.TAbstractUnit)Item2).GetStrengthMax(global::Aow.Game.Magic.Abilities.AbilityRules.dtAll - TSet<global::Aow.Game.Combat.TDamageType>.Of(new global::Aow.Game.Combat.TDamageType[1] { global::Aow.Game.Combat.TDamageType.dtWall }));
-            if (Item1 is global::Aow.Game.Magic.Abilities.TLeader)
+            int num = ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item1).GetStrengthMax(global::Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<global::Aow.Game.Combat.DamageType>.Of(new global::Aow.Game.Combat.DamageType[1] { global::Aow.Game.Combat.DamageType.Wall }));
+            int num2 = ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item2).GetStrengthMax(global::Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<global::Aow.Game.Combat.DamageType>.Of(new global::Aow.Game.Combat.DamageType[1] { global::Aow.Game.Combat.DamageType.Wall }));
+            if (Item1 is global::Aow.Game.Magic.Abilities.Leader)
             {
                 num = num2 + 16777215;
             }
-            if (Item2 is global::Aow.Game.Magic.Abilities.TLeader)
+            if (Item2 is global::Aow.Game.Magic.Abilities.Leader)
             {
                 num2 += 16777215;
             }
@@ -879,29 +878,29 @@ namespace Aow.Game.Ai.Groups
 
     }
 
-    public partial class TSuicidalAG : TAIGroup, IAIGroupClass
+    public partial class SuicidalAG : AIGroup, IAIGroupClass
     {
         // MainAG.pas:729
         public new const int ClassID = 136276;
 
         // MainAG.pas:722
-        public TSuicidalAG(TECustomNode owner) : base(owner)
+        public SuicidalAG(ECustomNode owner) : base(owner)
         {
             FProcessPriority = 1;
             FRecruitmentPriority = 2;
         }
 
         // MainAG.pas:735
-        public override EClass GroupControlClass() => EClass.Of<TSuicidalAGC>();
+        public override EClass GroupControlClass() => EClass.Of<SuicidalAGC>();
 
         // MainAG.pas:732
-        public static new TGroupBehavior Behavior => TGroupBehavior.gbSuicidal;
+        public static new GroupBehavior Behavior => GroupBehavior.Suicidal;
 
     }
 
-    public partial class TSuicidalAGC : TAIGroupControl
+    public partial class SuicidalAGC : AIGroupControl
     {
-        public TSuicidalAGC(TECustomNode owner) : base(owner)
+        public SuicidalAGC(ECustomNode owner) : base(owner)
         { }
 
         // MainAG.pas:750
@@ -910,13 +909,13 @@ namespace Aow.Game.Ai.Groups
             switch (FState)
             {
                 case 1:
-                    if (FMoveExecuter.FStatus == TAIMoveExecuterStatus.mesOutOfMovePoints)
+                    if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints)
                     {
                         Done();
                     }
                     else
                     {
-                        if (FMoveExecuter.FStatus == TAIMoveExecuterStatus.mesInvalidated)
+                        if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Invalidated)
                         {
                             Done();
                         }
@@ -927,11 +926,11 @@ namespace Aow.Game.Ai.Groups
         }
 
         // MainAG.pas:738
-        public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+        public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
         {
             SetupCP(Target);
             var execute = FCombatPredictor.Execute();
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(execute))
+            if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
             {
                 if (FCombatPredictor.GetEfficiency() > 0)
                 {
@@ -945,11 +944,11 @@ namespace Aow.Game.Ai.Groups
         // MainAG.pas:759
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder;
+            AIGroupTargetFinder Finder;
             switch (FState)
             {
                 case 0:
-                    Finder = new TAIGroupTargetFinder(null);
+                    Finder = new AIGroupTargetFinder(null);
                     Finder.Setup(this);
                     Finder.FSelector.FMovePointsMax = 100;
                     ActivatePlugin(Finder);
@@ -977,29 +976,29 @@ namespace Aow.Game.Ai.Groups
         }
     }
 
-    public partial class TTransportAG : TAIGroup, IAIGroupClass
+    public partial class TransportAG : AIGroup, IAIGroupClass
     {
         // MainAG.pas:801
         public new const int ClassID = 136295;
 
         // MainAG.pas:789
-        public TTransportAG(TECustomNode owner) : base(owner)
+        public TransportAG(ECustomNode owner) : base(owner)
         {
             FProcessPriority = 2;
             FRecruitmentPriority = 20;
         }
 
         // MainAG.pas:807
-        public override EClass GroupControlClass() => EClass.Of<TTransportAGC>();
+        public override EClass GroupControlClass() => EClass.Of<TransportAGC>();
 
         // MainAG.pas:804
-        public static new TGroupBehavior Behavior => TGroupBehavior.gbTransport;
+        public static new GroupBehavior Behavior => GroupBehavior.Transport;
 
     }
 
-    public partial class TTransportAGC : TAIGroupControl
+    public partial class TransportAGC : AIGroupControl
     {
-        public TTransportAGC(TECustomNode owner) : base(owner)
+        public TransportAGC(ECustomNode owner) : base(owner)
         { }
 
         // MainAG.pas:822
@@ -1008,13 +1007,13 @@ namespace Aow.Game.Ai.Groups
             switch (FState)
             {
                 case 1:
-                    if (FMoveExecuter.FStatus == TAIMoveExecuterStatus.mesOutOfMovePoints)
+                    if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints)
                     {
                         Done();
                     }
                     else
                     {
-                        if (FMoveExecuter.FStatus == TAIMoveExecuterStatus.mesInvalidated)
+                        if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Invalidated)
                         {
                             Done();
                         }
@@ -1025,11 +1024,11 @@ namespace Aow.Game.Ai.Groups
         }
 
         // MainAG.pas:810
-        public override void TargetFoundEvent(TAIGroupTargetFinder Sender, TAIGroupControlTarget Target, ref bool SearchDone)
+        public override void TargetFoundEvent(AIGroupTargetFinder Sender, AIGroupControlTarget Target, ref bool SearchDone)
         {
             SetupCP(Target);
             var execute = FCombatPredictor.Execute();
-            if (TSet<TCombatResult>.Of(TCombatResult.crVictory, TCombatResult.crDefeat, TCombatResult.crNoDefenders).Contains(execute))
+            if (Set<CombatResult>.Of(CombatResult.Victory, CombatResult.Defeat, CombatResult.NoDefenders).Contains(execute))
             {
                 if (FCombatPredictor.GetEfficiency() > 75)
                 {
@@ -1043,12 +1042,12 @@ namespace Aow.Game.Ai.Groups
         // MainAG.pas:849
         public override void ProcessStates()
         {
-            TAIGroupTargetFinder Finder;
-            TAIGroupWanderControl Wander;
+            AIGroupTargetFinder Finder;
+            AIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
-                    Finder = new TAIGroupTargetFinder(null);
+                    Finder = new AIGroupTargetFinder(null);
                     Finder.Setup(this);
                     Finder.FSelector.FMovePointsMax = 100;
                     ActivatePlugin(Finder);
@@ -1073,7 +1072,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 2:
-                    Wander = new TAIGroupWanderControl(null);
+                    Wander = new AIGroupWanderControl(null);
                     Wander.Setup(this);
                     Wander.FMovePointsMax = 125;
                     ActivatePlugin(Wander);
@@ -1089,13 +1088,13 @@ namespace Aow.Game.Ai.Groups
         // MainAG.pas:831
         public override void SetupME()
         {
-            TAbstractUnit Transporter;
-            TArmy Army;
+            AbstractUnit Transporter;
+            Army Army;
             base.SetupME();
             Transporter = FGroup.FLeader;
-            if (Transporter != null && Transporter.Owner is TArmy)
+            if (Transporter != null && Transporter.Owner is global::Aow.Game.Units.Army)
             {
-                Army = (TArmy)Transporter.Owner;
+                Army = (global::Aow.Game.Units.Army)Transporter.Owner;
                 for (int I = 0, last = Army.Count - 1; I <= last; I++)
                 {
                     bool condition = Transporter != Army.GetUnit(I);
@@ -1116,23 +1115,23 @@ namespace Aow.Game.Ai.Groups
     }
 }
 
-namespace Aow.Game.Ai.Groups.MainAG
+namespace Aow.Game.Ai.Groups
 {
 
     [LegacyObject]
     // no fields. map-load registration callback
-    public partial class TRegistrator
+    public partial class MainRegistrator
     {
         // MainAG.pas:115
-        public static void MapLoaded(THSMap Sender)
+        public static void MapLoaded(HSMap Sender)
         {
-            if (Sender == Aow.Game.World.Map.TAoWHSMap.AoWHSMap)
+            if (Sender == Aow.Game.World.Map.AoWHSMap.Current)
             {
-                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAIGroupManager.RegisterAIGroupClasses([Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.TPassiveAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.TSuicidalAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.TFortifyAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.TTransportAG>()]);
+                Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.PassiveAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.SuicidalAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.FortifyAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.TransportAG>()]);
             }
         }
 
-        public TRegistrator()
+        public MainRegistrator()
         {
             CaptureAddress.Assign(this);
         }

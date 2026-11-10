@@ -89,7 +89,7 @@ public sealed class GameSwitchTests
                 break;
             case "incompatible-class":
                 // A known class of the game table that is not a world map root.
-                Replace(root, "$class", new JsonString("TAoWHSSet"));
+                Replace(root, "$class", new JsonString("AoWHSSet"));
                 break;
             case "duplicate-slot":
                 Replace(Player(document, 3), "$slot", new JsonInteger(2));
@@ -134,7 +134,7 @@ public sealed class GameSwitchTests
         byte[] bytes = GameFiles.Write(document);
         File.WriteAllBytes(file, bytes);
         var engine = EngineFixture.Engine;
-        var live = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FDay = 7; value.FMapName = "live"; });
+        var live = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FDay = 7; value.FMapName = "live"; });
         var previous = engine.FHSMap;
         engine.FHSMap = live;
         try
@@ -252,17 +252,17 @@ public sealed class GameSwitchTests
     {
         var document = ShippedSave();
         var groups = Groups(document);
-        int passive = groups.Items.FindIndex(g => ((JsonObject)g)["$class"] is JsonString { Value: "TPassiveAG" });
+        int passive = groups.Items.FindIndex(g => ((JsonObject)g)["$class"] is JsonString { Value: "PassiveAG" });
         string before = Encoding.UTF8.GetString(JsonWriter.ToUtf8(groups.Items[passive]));
-        Replace((JsonObject)groups.Items[passive], "$class", new JsonString("TFortifyAG"));
+        Replace((JsonObject)groups.Items[passive], "$class", new JsonString("FortifyAG"));
         var result = Prepare(document);
         Assert.True(result.Succeeded, result.Report.Error?.ToString());
         var reread = Groups(GameFiles.ImportImage(result.Bytes!, GameProfile.WorldMap.Profile, "save").Document);
-        Assert.Equal(before.Replace("\"TPassiveAG\"", "\"TFortifyAG\""), Encoding.UTF8.GetString(JsonWriter.ToUtf8(reread.Items[passive])));
+        Assert.Equal(before.Replace("\"PassiveAG\"", "\"FortifyAG\""), Encoding.UTF8.GetString(JsonWriter.ToUtf8(reread.Items[passive])));
 
         document = ShippedSave();
-        var area = Groups(document).Items.Cast<JsonObject>().First(g => g["$class"] is JsonString { Value: "TGuardAreaAG" } && g["GuardLocation"] is not null);
-        Replace(area, "$class", new JsonString("TPassiveAG"));
+        var area = Groups(document).Items.Cast<JsonObject>().First(g => g["$class"] is JsonString { Value: "GuardAreaAG" } && g["GuardLocation"] is not null);
+        Replace(area, "$class", new JsonString("PassiveAG"));
         var refused = Prepare(document);
         Assert.Equal(Codes.UnknownMember, refused.Report.Error!.Code);
         Assert.EndsWith(".GuardLocation", refused.Report.Error.Path);
@@ -284,13 +284,13 @@ public sealed class GameSwitchTests
         Assert.Null(((JsonObject)reread.Items[index])["IndependentRelation"]);
 
         // The id table is weak since C12, so the unlinked group needs no teardown.
-        var group = new Aow.Game.Ai.Groups.TPassiveAG(null!);
+        var group = new Aow.Game.Ai.Groups.PassiveAG(null!);
         Assert.Equal(-1, group.FIndependentRelation);
         sbyte relation = group.FIndependentRelation;
         using var memory = new MemoryStream();
         memory.Write(new byte[] { 0 });
         memory.Position = 0;
-        var reader = new Aow.Game.Engine.Storage.TEReadStorageStream(memory, EngineFixture.Engine, false);
+        var reader = new Aow.Game.Engine.Storage.EReadStorageStream(memory, EngineFixture.Engine, false);
         try { reader.rwData(Bytes.Of(ref relation, 1), 1, 26); }
         finally { reader.Dispose(); }
         Assert.Equal(-1, relation);
@@ -474,7 +474,7 @@ public sealed class AtomicReplacementTests : IDisposable
     {
         Layers();
         byte[] before = File.ReadAllBytes(Old);
-        var error = Assert.Throws<EGameFileError>(() => FileBoundary.Save(Logical, GameProfile.HeroList, [1, 2, 3]));
+        var error = Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, [1, 2, 3]));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.False(error.Record.Succeeded);
@@ -486,7 +486,7 @@ public sealed class AtomicReplacementTests : IDisposable
         var layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failWrite: true);
-        Assert.Throws<EGameFileError>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
+        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
         Assert.Equal(Codes.Output, Assert.Single(log).Report.Error!.Code);
@@ -498,7 +498,7 @@ public sealed class AtomicReplacementTests : IDisposable
         var layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new FailingFiles(layers, failReplace: true);
-        Assert.Throws<EGameFileError>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
+        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }
@@ -522,7 +522,7 @@ public sealed class AtomicReplacementTests : IDisposable
         var layers = Layers();
         byte[] before = File.ReadAllBytes(Old);
         Runtime.Files = new NoReplaceFiles(layers);
-        Assert.Throws<EGameFileError>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
+        Assert.Throws<GameFileErrorException>(() => FileBoundary.Save(Logical, GameProfile.HeroList, HeroListImage("New")));
         Assert.Equal(before, File.ReadAllBytes(Old));
         Assert.False(File.Exists(Temporary));
     }
