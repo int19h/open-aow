@@ -1094,7 +1094,7 @@ namespace Aow.Game.Ai.Groups
             Transporter = FGroup.FLeader;
             if (Transporter != null && Transporter.Owner is Army)
             {
-                Army = (Army)Transporter.Owner;
+                Army = Transporter.ArmyOwner;
                 for (int I = 0, last = Army.Count - 1; I <= last; I++)
                 {
                     bool condition = Transporter != Army.GetUnit(I);

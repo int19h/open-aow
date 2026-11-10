@@ -1013,7 +1013,7 @@ public partial class CAbTouchMoveTE : CombatMoveTE
                                         {
                                             var path5 = FPath[0];
                                             var path6 = FPath[0];
-                                            FWall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510);
+                                            FWall = AoWCombatMap.Current.MapContainer.MapLevels[0].GetField(path6.X, path5.Y).FindOwnedChild(2229510) as CityWall;
                                         }
 
                                         if (FWall == null && FAbilityID == 117)

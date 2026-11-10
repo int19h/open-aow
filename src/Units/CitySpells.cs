@@ -527,7 +527,12 @@ namespace Aow.Game.Magic.Spells.City
             bool Result = base.SetupTE(Event, Source, X, Y, L);
             if (Result)
             {
-                Army = ((Army)Source.Owner).GetArmyHS();
+                if (Source.Owner is HeroList)
+                {
+                    return false;
+                }
+
+                Army = Source.ArmyOwner.GetArmyHS();
                 if (Army.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer && AoWHSMap.Current.FSelectedArmy.GetArmyHS() == Army)
                 {
                     Selection = AoWHSMap.Current.FSelectedArmy.GetSelection();

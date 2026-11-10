@@ -377,7 +377,7 @@ namespace Aow.Game.Combat
                                 {
                                     var path = Path[I];
                                     var path2 = Path[I];
-                                    Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510);
+                                    Wall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path2.X, path.Y].FindOwnedChild(2229510) as CityWall;
                                 }
                             }
                             else
@@ -696,7 +696,7 @@ namespace Aow.Game.Combat
                 Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
                 if (Wall == null)
                 {
-                    Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
+                    Wall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
                 }
 
                 if (!AoWCombatMap.Current.FCombat.FCombatData.FWallBreached && IgnoreWall != null && Wall != null && (Ignore == null || !(Ignore is CombatWall) || (Ignore is CombatWall && IgnoreWall != Wall)))
@@ -1399,7 +1399,7 @@ namespace Aow.Game.Combat
                                                                 {
                                                                     var path2 = Path[I];
                                                                     var path3 = Path[I];
-                                                                    CityWall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
+                                                                    CityWall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
                                                                 }
 
                                                                 if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -1833,7 +1833,7 @@ namespace Aow.Game.Combat
                                                             {
                                                                 var path2 = Path[I];
                                                                 var path3 = Path[I];
-                                                                CityWall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510);
+                                                                CityWall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[path3.X, path2.Y].FindOwnedChild(2229510) as CityWall;
                                                             }
 
                                                             if (!(CityWall == null || CityWall.FHitPoints <= 0 || U.GetAbilityEnabled(1) || U.GetAbilityEnabled(36) || U.GetAbilityEnabled(66)))
@@ -2960,7 +2960,7 @@ namespace Aow.Game.Combat
                                             Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229508);
                                             if (Wall == null)
                                             {
-                                                Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510);
+                                                Wall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[Move.X, Move.Y].FindOwnedChild(2229510) as CityWall;
                                             }
 
                                             if (Settings.FPath.Count == 2 && Move.MoveType == TaiMoveType.MoveRanged && Wall != null)
@@ -5791,7 +5791,8 @@ namespace Aow.Game.Combat
         // AoWTC.pas:2716
         public override void ProcessMove(MoveControlSettings Settings)
         {
-            FUnitHS = (TacticalCombatUnitHS)Settings.FArmyHS;
+            // An army sprite does not reach this override. Any other sprite is absent.
+            FUnitHS = Settings.FArmyHS is TacticalCombatUnitHS unit ? unit : null;
             FMoveFlags = ((CombatMoveControlSettings)Settings).FMoveFlags;
             base.ProcessMove(Settings);
         }
@@ -7581,7 +7582,7 @@ namespace Aow.Game.Combat
                     Wall = (CityWall)Field.FindOwnedChild(2229508);
                     if (Wall == null)
                     {
-                        Wall = (CityWall)Field.FindOwnedChild(2229510);
+                        Wall = Field.FindOwnedChild(2229510) as CityWall;
                     }
 
                     if (Wall != null)
@@ -9702,9 +9703,10 @@ namespace Aow.Game.Combat
                 });
                 FileName = FileName + Structure.CombatMapName(site);
                 RandomTerrain = site.RandomTerrain;
-                if (site.TakesCombatItems)
+                // Prisoners are an army on the same field. Only an item list is laid out.
+                if (site.TakesCombatItems && Combat.FItems is ItemList items)
                 {
-                    FItems = (ItemList)Combat.FItems;
+                    FItems = items;
                 }
 
                 for (int Direction = 1; Direction <= 6; Direction++)

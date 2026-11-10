@@ -695,7 +695,7 @@ public partial class TacticalCombatUnitHS
                 Wall = (CityWall)Owner.FindOwnedChild(2229508);
                 if (Wall == null)
                 {
-                    Wall = (CityWall)Owner.FindOwnedChild(2229510);
+                    Wall = Owner.FindOwnedChild(2229510) as CityWall;
                 }
 
                 if (FMoveStep == -1)
@@ -712,7 +712,7 @@ public partial class TacticalCombatUnitHS
                     NextWall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
                     if (NextWall == null)
                     {
-                        NextWall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
+                        NextWall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510) as CityWall;
                     }
 
                     var moveSteps = GetMoveSteps();
