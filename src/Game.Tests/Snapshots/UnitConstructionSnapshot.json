@@ -1,0 +1,1572 @@
+{
+  "AbstractUnit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.AbstractUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.AbstractUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": "$owner"
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.AbstractUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null
+        }
+      },
+      "insert:2:0:0"
+    ]
+  },
+  "AdjustableUnit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.AdjustableUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "AdjustableUnit.FAttack": 4,
+          "AdjustableUnit.FDamage": 3,
+          "AdjustableUnit.FDefense": 2,
+          "AdjustableUnit.FHitPoints": 5,
+          "AdjustableUnit.FHits": 5,
+          "AdjustableUnit.FImmunityTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 256,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
+          "AdjustableUnit.FProtectionTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AdjustableUnit.FResistance": 3,
+          "CustomAbilityList.FAbilityBits": [
+            1,
+            0,
+            32
+          ],
+          "CustomAbilityList.FAbilityCount": 22,
+          "EObject.FOwner": null
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.AdjustableUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "AdjustableUnit.FAttack": 4,
+          "AdjustableUnit.FDamage": 3,
+          "AdjustableUnit.FDefense": 2,
+          "AdjustableUnit.FHitPoints": 5,
+          "AdjustableUnit.FHits": 5,
+          "AdjustableUnit.FImmunityTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 256,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
+          "AdjustableUnit.FProtectionTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AdjustableUnit.FResistance": 3,
+          "CustomAbilityList.FAbilityBits": [
+            1,
+            0,
+            32
+          ],
+          "CustomAbilityList.FAbilityCount": 22,
+          "EObject.FOwner": "$owner"
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.AdjustableUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "AdjustableUnit.FAttack": 4,
+          "AdjustableUnit.FDamage": 3,
+          "AdjustableUnit.FDefense": 2,
+          "AdjustableUnit.FHitPoints": 5,
+          "AdjustableUnit.FHits": 5,
+          "AdjustableUnit.FImmunityTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 256,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": true,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 9,
+            "Set\u00601.low": 0
+          },
+          "AdjustableUnit.FProtectionTypes": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Combat.DamageType, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AdjustableUnit.FResistance": 3,
+          "CustomAbilityList.FAbilityBits": [
+            1,
+            0,
+            32
+          ],
+          "CustomAbilityList.FAbilityCount": 22,
+          "EObject.FOwner": null
+        }
+      },
+      "insert:2:0:0"
+    ]
+  },
+  "Hero": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Hero",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Hero",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": "$owner",
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0
+        }
+      },
+      "insert:3:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Hero",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0
+        }
+      },
+      "insert:3:0:0"
+    ]
+  },
+  "HeroCastingViewP4": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.HeroCastingViewP4",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.HeroCastingViewP4",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": "$owner",
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0
+        }
+      },
+      "insert:3:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.HeroCastingViewP4",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0
+        }
+      },
+      "insert:3:0:0"
+    ]
+  },
+  "Leader": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Leader",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": "$ref:$.Leader.FSpheres.ByteList.FList",
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0,
+          "Leader.FSpherePicksMax": 5,
+          "Leader.FSpheres": {
+            "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.FCapacity": 0,
+            "ByteList.FCount": 0,
+            "ByteList.FDefault": 0,
+            "ByteList.FList": []
+          }
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Leader",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": "$ref:$.Leader.FSpheres.ByteList.FList",
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": "$owner",
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0,
+          "Leader.FSpherePicksMax": 5,
+          "Leader.FSpheres": {
+            "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.FCapacity": 0,
+            "ByteList.FCount": 0,
+            "ByteList.FDefault": 0,
+            "ByteList.FList": []
+          }
+        }
+      },
+      "insert:3:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.Leader",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": "$ref:$.Leader.FSpheres.ByteList.FList",
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Hero.FCastSpellInstantly": false,
+          "Hero.FCastingMana": 0,
+          "Hero.FCastingPoints": 0,
+          "Hero.FCastingProgress": 0,
+          "Hero.FCastingSpellID": 0,
+          "Hero.FDeathDay": 0,
+          "Hero.FDeathPlayer": 0,
+          "Hero.FExperience": 0,
+          "Hero.FFaceIndex": 0,
+          "Hero.FGender": 0,
+          "Hero.FHeroItems": {
+            "$type": "Aow.Game.Units.HeroItems",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": []
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroItems.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FHeroName": "",
+          "Hero.FHeroResource": null,
+          "Hero.FHeroResourceIndex": -1,
+          "Hero.FHeroStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FHitPoints": 0,
+          "Hero.FInventory": {
+            "$type": "Aow.Game.Units.HeroInventory",
+            "EChangeNotifyNode.FChildren": {
+              "$type": "Aow.Engine.Nodes.EObjectList",
+              "DelphiList.count": 0,
+              "DelphiList.items": "$ref:$.Hero.FHeroItems.EChangeNotifyNode.FChildren.DelphiList.items"
+            },
+            "EChangeNotifyNode.FUpdateCount": 0,
+            "EObject.FOwner": null,
+            "HeroInventory.Hero": "$ref:$",
+            "ItemList.FOnChanged": null
+          },
+          "Hero.FLevel": 1,
+          "Hero.FLibraryID": -1,
+          "Hero.FLibraryName": "",
+          "Hero.FMode": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.HeroModeElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "Hero.FMovePoints": 0,
+          "Hero.FNickname": "",
+          "Hero.FPowerSource": {
+            "$type": "Aow.Game.Units.HeroPowerSource",
+            "EObject.FOwner": null,
+            "HeroPowerSource.FHero": "$ref:$"
+          },
+          "Hero.FRace": 0,
+          "Hero.FRegistered": false,
+          "Hero.FUnitAttack": 0,
+          "Hero.FUnitDamage": 0,
+          "Hero.FUnitDefense": 0,
+          "Hero.FUnitHits": 0,
+          "Hero.FUnitMoves": 0,
+          "Hero.FUnitResistance": 0,
+          "Hero.FUpgradePending": false,
+          "Hero.FUsedSkillPoints": 0,
+          "Leader.FSpherePicksMax": 5,
+          "Leader.FSpheres": {
+            "$type": "Aow.Engine.Collections.ByteList",
+            "ByteList.FCapacity": 0,
+            "ByteList.FCount": 0,
+            "ByteList.FDefault": 0,
+            "ByteList.FList": []
+          }
+        }
+      },
+      "insert:3:0:0"
+    ]
+  },
+  "Unit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Units.Unit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Unit.FAbAttack": 0,
+          "Unit.FAbDamage": 0,
+          "Unit.FAbDefense": 0,
+          "Unit.FAbResistance": 0,
+          "Unit.FExperience": 0,
+          "Unit.FHitPoints": 0,
+          "Unit.FMovePoints": 0,
+          "Unit.FUnitResource": null
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Units.Unit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": "$owner",
+          "Unit.FAbAttack": 0,
+          "Unit.FAbDamage": 0,
+          "Unit.FAbDefense": 0,
+          "Unit.FAbResistance": 0,
+          "Unit.FExperience": 0,
+          "Unit.FHitPoints": 0,
+          "Unit.FMovePoints": 0,
+          "Unit.FUnitResource": null
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Units.Unit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "Unit.FAbAttack": 0,
+          "Unit.FAbDamage": 0,
+          "Unit.FAbDefense": 0,
+          "Unit.FAbResistance": 0,
+          "Unit.FExperience": 0,
+          "Unit.FHitPoints": 0,
+          "Unit.FMovePoints": 0,
+          "Unit.FUnitResource": null
+        }
+      },
+      "insert:2:0:0"
+    ]
+  },
+  "WallUnit": {
+    "$lines": [
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.WallUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "WallUnit.FHitPoints": 0,
+          "WallUnit.FHits": 0,
+          "WallUnit.FWallType": 0
+        }
+      },
+      "",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.WallUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": "$owner",
+          "WallUnit.FHitPoints": 0,
+          "WallUnit.FHits": 0,
+          "WallUnit.FWallType": 0
+        }
+      },
+      "insert:2:0:0",
+      {
+        "$jsonText": {
+          "$type": "Aow.Game.Magic.Abilities.WallUnit",
+          "AbilityOwner.FAbilityData": null,
+          "AbstractUnit.FDefensiveStrength": 0,
+          "AbstractUnit.FGroup": null,
+          "AbstractUnit.FGroupID": 0,
+          "AbstractUnit.FMaxOffensiveStrength": 0,
+          "AbstractUnit.FMoraleValue": 0,
+          "AbstractUnit.FOffensiveStrength": {
+            "$type": "Aow.Engine.Buffers.FixedArray_byte_10",
+            "FixedArray_byte_10.element0": 0
+          },
+          "AbstractUnit.FPlayer": 0,
+          "AbstractUnit.FRefCount": 1,
+          "AbstractUnit.FUnitID": -1,
+          "AbstractUnit.FUnitStatus": {
+            "$type": "Aow.Rtl.Set\u00601[[Aow.Game.Units.UnitStatusElement, Aow.Game, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+            "Set\u00601.a": 0,
+            "Set\u00601.b": 0,
+            "Set\u00601.bounded": false,
+            "Set\u00601.c": 0,
+            "Set\u00601.d": 0,
+            "Set\u00601.high": 0,
+            "Set\u00601.low": 0
+          },
+          "AbstractUnit.F_AbstractUnit_38": 0,
+          "CustomAbilityList.FAbilityBits": [],
+          "CustomAbilityList.FAbilityCount": 0,
+          "EObject.FOwner": null,
+          "WallUnit.FHitPoints": 0,
+          "WallUnit.FHits": 0,
+          "WallUnit.FWallType": 0
+        }
+      },
+      "insert:2:0:0"
+    ]
+  }
+}

@@ -1,8 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <CheckForOverflowUnderflow>false</CheckForOverflowUnderflow>
+    <!-- The translation behind a TODO stub stays unreachable until the stub is implemented (CS0162).
+         Unit Finalize methods keep the Delphi section name (CS0465).
+         The metaclass registry runs before static fields (CA2255). -->
+    <!-- Delphi zeroes fields, including fields assigned only by pending boundary bodies (CS0649). -->
+    <NoWarn>$(NoWarn);CS0162;CS0465;CS0649;CA2255</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../Platform/Aow.Platform.csproj" />
+    <InternalsVisibleTo Include="Aow" />
+    <InternalsVisibleTo Include="Aow.Platform" />
+    <InternalsVisibleTo Include="Aow.Game.Tests" />
+    <InternalsVisibleTo Include="MovementChecks" />
+    <InternalsVisibleTo Include="RemainingTodos" />
+    <!-- The main file of a type compiles before its partials, so field initializers keep their order. -->
+    <Compile Include="**\*.cs" Exclude="**\*.*.cs;bin\**\*.cs;obj\**\*.cs" />
+    <Compile Include="**\*.*.cs" Exclude="**\*.Layout.cs;**\*.ComponentConstruction.cs;bin\**\*.cs;obj\**\*.cs" />
+    <Compile Include="**\*.ComponentConstruction.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
+    <Compile Include="**\*.Layout.cs" Exclude="bin\**\*.cs;obj\**\*.cs" />
+    <Compile Include="..\Engine\**\*.cs" Exclude="..\Engine\**\*.*.cs;..\Engine\bin\**\*.cs;..\Engine\obj\**\*.cs" />
+    <Compile Include="..\Engine\**\*.*.cs" Exclude="..\Engine\**\*.Layout.cs;..\Engine\**\*.ComponentConstruction.cs;..\Engine\bin\**\*.cs;..\Engine\obj\**\*.cs" />
+    <Compile Include="..\Engine\**\*.ComponentConstruction.cs" Exclude="..\Engine\bin\**\*.cs;..\Engine\obj\**\*.cs" />
+    <Compile Include="..\Engine\**\*.Layout.cs" Exclude="..\Engine\bin\**\*.cs;..\Engine\obj\**\*.cs" />
+    <ProjectReference Include="../Rtl/Aow.Rtl.csproj" />
+    <ProjectReference Include="../Graphics/Aow.Graphics.csproj" />
+    <!-- The own formats (own-formats.md 3.1). Formats never references the library. -->
+    <ProjectReference Include="../Formats/Aow.Formats.csproj" />
   </ItemGroup>
 </Project>

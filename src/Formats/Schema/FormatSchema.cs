@@ -1,4 +1,4 @@
-using System.Reflection;
+
 using System.Security.Cryptography;
 using Aow.Formats.Json;
 using Aow.Formats.Original;
@@ -158,7 +158,7 @@ public sealed class FormatSchema
 
 /// <summary>
 /// The current version's pins in versions.json (own-formats.md 2.6 and 3.1): the persisted
-/// classes whose game load needs a unit mapping registered by Aow.Units, and the kind classes
+/// classes whose game load needs a unit mapping registered by Aow.Game, and the kind classes
 /// that keep their accepted flat mapping until the briefs that map their cases.
 /// </summary>
 public static class FormatVersions

@@ -1,4 +1,3 @@
-using Aow.Rtl;
 
 namespace Aow.Graphics;
 

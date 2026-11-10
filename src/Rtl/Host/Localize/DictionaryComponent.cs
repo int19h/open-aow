@@ -1,4 +1,3 @@
-using Aow.Rtl.Localize;
 
 namespace Aow.Rtl.Localize;
 

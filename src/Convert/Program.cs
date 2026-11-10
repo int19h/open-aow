@@ -22,7 +22,7 @@ public static class Program
         return Run(args, Console.Out, Console.Error);
     }
 
-    // The built-in unit mappings register in Aow.Units' module initializer (own-formats.md 3.1).
+    // The built-in unit mappings register in Aow.Game's module initializer (own-formats.md 3.1).
     // Every conversion runs it first, so a mapped class never converts without its mapping.
     static Program()
     {

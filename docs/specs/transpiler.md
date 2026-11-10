@@ -1,7 +1,7 @@
 # Transpiler specification: Delphi 3 to C#
 
 Status: the product hand-over took place on 2026-10-27. This specification records the
-reference transpiler. Product source lives in `src/Units` and is edited by hand.
+reference transpiler. Product source lives in `src/Game` and `src/Engine` and is edited by hand.
 The RTL has since dropped members that only emitted code called (`Box`, `FromBox`,
 `Unbox(IntOrRef)`, `BytePointer`, `ReferenceFromId`, the implicit `Ptr<T>` to span conversions), so
 reference output that uses them no longer builds against `src/Rtl`. The sections below describe the
@@ -427,7 +427,7 @@ records or kinds is ported by hand into the product's form.
 CF-3 retires the product metaclass shim. The private transpiler continues to emit the historical
 `Meta` reference tree described below. Its output is a reference diff, not compilable replacement
 product source. Product creation and class-side dispatch use `EClass`, family descriptors and
-`Catalog<TKey, TValue>`, registered in the hand-maintained `src/Units/ClassRegistry.cs`.
+`Catalog<TKey, TValue>`, registered in the hand-maintained `src/Game/ClassRegistry.cs`.
 
 A class becomes `public partial class Name : Parent`. A class with no parent derives from the
 shim's `TObject`. Fields keep their names and become fields. Methods become methods. The partial
@@ -1032,8 +1032,8 @@ Each entry names the rule and the probe (section 11) that proves it.
 
 ## 8. Overrides
 
-Retired for the product on 2026-10-27. The replacements now live beside their units in
-`src/Units`, with no product manifest or skip mechanism. The specification below records the
+Retired for the product on 2026-10-27. The replacements now live beside their types in
+`src/Game` and `src/Engine`, with no product manifest or skip mechanism. The specification below records the
 first-stage mechanism. The private transpiler retains it in
 `tools/transpile/reference/overrides.toml` for upstream reference diffs and probe translation.
 Every product edit is a hand edit checked by `python tools/check.py`.

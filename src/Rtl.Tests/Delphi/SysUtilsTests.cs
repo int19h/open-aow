@@ -1,4 +1,4 @@
-using System.Globalization;
+
 using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
 

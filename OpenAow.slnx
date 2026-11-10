@@ -1,16 +1,16 @@
 <Solution>
-  <Project Path="src/Game/Aow.Game.csproj" />
+  <Project Path="src/Aow/Aow.csproj" />
   <Project Path="src/Headless/Aow.Headless.csproj" />
   <Folder Name="/src/" />
-  <Folder Name="/src/Units/" />
+  <Folder Name="/src/Game/" />
   <Folder Name="/src/Platform/">
     <Project Path="src/Platform/Aow.Platform.csproj" />
   </Folder>
   <Folder Name="/src/Rtl/" />
-  <Project Path="src/Units/Aow.Units.csproj" />
+  <Project Path="src/Game/Aow.Game.csproj" />
   <Project Path="src/Rtl/Aow.Rtl.csproj" />
   <Project Path="src/Rtl.Tests/Aow.Rtl.Tests.csproj" />
-  <Project Path="src/Units.Tests/Aow.Units.Tests.csproj" />
+  <Project Path="src/Game.Tests/Aow.Game.Tests.csproj" />
   <Project Path="src/Formats/Aow.Formats.csproj" />
   <Project Path="src/Formats.Tests/Aow.Formats.Tests.csproj" />
   <Project Path="src/Convert/Aow.Convert.csproj" />

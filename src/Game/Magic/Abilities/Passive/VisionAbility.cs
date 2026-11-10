@@ -1,0 +1,50 @@
+// Translated from PassiveAb.pas.
+using Aow.Engine.Nodes;
+
+using Aow.Rtl;
+
+namespace Aow.Game.Magic.Abilities.Passive;
+
+// inherited name, ability ID, selection types, ability type. maximum level, level costs
+public partial class VisionAbility : MultiLevelAbility
+{
+    // PassiveAb.pas:461
+    public VisionAbility(ECustomNode owner) : base(owner)
+    {
+        FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.Editor);
+        FMaxLevel = 4;
+        FAbilityID = 64;
+        FLevelCosts[1] = 5;
+        FLevelCosts[2] = 5;
+        FLevelCosts[3] = 5;
+        FLevelCosts[4] = 5;
+    }
+
+    // PassiveAb.pas:473
+    public override string GetLevelName(int Level)
+    {
+        string Result = "";
+        switch (Level)
+        {
+            case 0:
+                Result = AbilityRules.TranslateRStr(VisionRStr);
+                break;
+            case 1:
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " I";
+                break;
+            case 2:
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " II";
+                break;
+            case 3:
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " III";
+                break;
+            case 4:
+                Result = AbilityRules.TranslateRStr(VisionRStr) + " IV";
+                break;
+        }
+
+        return Result;
+    }
+
+    private static readonly string VisionRStr = "Vision";
+}

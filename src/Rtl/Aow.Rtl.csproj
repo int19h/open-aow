@@ -9,8 +9,8 @@
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="Aow.Rtl.Tests" />
-    <InternalsVisibleTo Include="Aow.Units.Tests" />
-    <InternalsVisibleTo Include="Aow.Units" />
+    <InternalsVisibleTo Include="Aow.Game.Tests" />
+    <InternalsVisibleTo Include="Aow.Game" />
     <InternalsVisibleTo Include="Aow.Formats.Tests" />
   </ItemGroup>
 </Project>

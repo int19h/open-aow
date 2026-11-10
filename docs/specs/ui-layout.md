@@ -12,31 +12,33 @@ surfaces it draws into and `platform.md` has the input events it receives. Facts
 
 ## 1. Decisions
 
-The hand-over took place on 2026-10-27. Layouts and units are source, edited by hand,
-and every edit keeps `python tools/check.py` passing. `src/Units/Aow.Units.csproj`
-compiles the layouts directly. The private generator writes reference output outside the
-product repository and the runtime never reads the recovered form files.
+The hand-over took place on 2026-10-27. Layouts and the game library are source, edited by hand,
+and every edit keeps `python tools/check.py` passing. `src/Game/Aow.Game.csproj`
+compiles the layouts directly, each partial beside its type. The private generator writes
+reference output outside the product repository and the runtime never reads the recovered form
+files.
 
-Ownership of `src/Layout`. From the hand-over to brief C11 of milestone 9.8, decision D3
+Ownership of the layout partials. From the hand-over to brief C11 of milestone 9.8, decision D3
 (`data/rewrite/review-9x.md`) kept `src/Layout` emitter-owned: every layout file was regenerated
 whole from the private generator and carried no hand edits, so that the 9.5 strings pass changed
-the generator once (P4, regenerated in 9.5-1). Since C11 (2026-11-05) `src/Layout` is hand-owned
-like every other directory under `src`, and a hand edit goes through the same review as any other
-product code. The generator is a reference emitter, as the transpiler is: it writes reference
-output outside the product repository for comparison, and nobody copies that output into
-`src/Layout` again. Section 8 says what the gate checks of it.
+the generator once (P4, regenerated in 9.5-1). Since C11 (2026-11-05) layout source is hand-owned
+like every other directory under `src`. Issue 161 (2026-11-10) moved each layout partial into the
+folder of its type's namespace, with the `.Layout.cs` suffix kept. A hand edit goes through the
+same review as any other product code. The generator is a reference emitter, as the transpiler is:
+it writes reference output outside the product repository for comparison, and nobody copies that
+output into the product tree. Section 8 says what the gate checks of it.
 
 1. The layouts become C# code (decided by the user on 2026-10-26). The text form format is an
    artifact of Delphi's component streaming, and C# object and collection initializers express the
    same trees directly, so the port needs no layout language of its own. A generator in the private
    repository (`tools/forms`) reads the 79 forms once, from the recovery's text files
    (`data/forms/AoW`, complete and lossless, `../design.md` open question 6), and writes one C#
-   file per module into `src/Layout/<Module>.Layout.cs`: a partial class of the module with an
+   file per module, `{Type}.Layout.cs` in the folder of that type's namespace under `src/Game`: a partial class of the module with an
    `InitializeComponent()` that creates its components and sets their properties with object
    initializers and collection initializers, as a WinForms designer file does. These files are
    then the source of truth, edited by hand like the rest of the second stage, and they are where
    a mod changes a layout later. The generator stays as a reference emitter (see above): its
-   output is compared with `src/Layout` and never replaces it.
+   output is compared with the layout partials in the product tree and never replaces them.
    Sections 3 and 4 below describe what the generator parses and the loading semantics the
    generated code must reproduce, because the order of creation, of property assignment, of
    `Loaded` and of reference fixups is behavior. One reader replaces 89,294 lines of generated
@@ -372,10 +374,10 @@ the 92 `AoW/` units predate the matching and are stale.
   without parameters.
 - The forms layer of the private gate (`tools/check.py`) builds the model and the generator, then
   runs `tests/forms`. Since C11 the generator tests hold the generator to its own recorded output
-  in `tests/forms/expected/generated` (80 files, one test per file and one for the file list), a
+  in `tests/forms/expected/generated` (120 files, one test per file and one for the file list), a
   regression test of the emitter, and keep the checks that it is deterministic, refuses a target
   inside the product repository and reports unknown or mistyped properties and handlers. No test
-  compares the generator's output with `src/Layout`. The layer writes the difference between the
+  compares the generator's output with the same relative paths under `src`. The layer writes the difference between the
   two to the gate's log folder as `forms-reference.diff`, as information and never as a failure,
   and its summary names how many files differ. `AOW_FORMS_RECORD=1` records a new expectation
   when the generator or the model it reads changes on purpose.

@@ -8,7 +8,7 @@ the recovered Delphi 3 source in `D:\git\aow`. `docs/process.md` describes how w
 - Work from the brief you were given. It names the specification, the files to change and the
   done measure. Read `docs/design.md` and the named specification before writing code.
 - Do not commit, do not switch branches, do not push, do not change git configuration.
-- The units under `src/Units/` are source and are edited by hand. Every edit keeps
+- The game library under `src/Game/` and `src/Engine/` is source and is edited by hand. Every edit keeps
   `python tools/check.py` passing from `D:\git\open-aow-private`. The transpiler emits only
   reference diffs outside the product repository.
 - Never change anything under `D:\git\aow` or `C:\git\int19h\aow`.

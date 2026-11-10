@@ -36,7 +36,7 @@ runs silent.
 ## Running
 
 ```
-dotnet run --project src/Game -- --game-root <install directory> [--scale 2] [--fullscreen] [--mute]
+dotnet run --project src/Aow -- --game-root <install directory> [--scale 2] [--fullscreen] [--mute]
 ```
 
 Saves and settings go to a separate user directory, never into the install:
@@ -54,7 +54,7 @@ is empty, so SDL finds no display. X11 works after linking WSLg's socket:
 
 ```
 sudo mkdir -p /tmp/.X11-unix && sudo ln -sf /mnt/wslg/.X11-unix/X0 /tmp/.X11-unix/X0
-DISPLAY=:0 SDL_VIDEO_DRIVER=x11 dotnet run --project src/Game -- --game-root "/mnt/c/GOG Games/Age of Wonders"
+DISPLAY=:0 SDL_VIDEO_DRIVER=x11 dotnet run --project src/Aow -- --game-root "/mnt/c/GOG Games/Age of Wonders"
 ```
 
 Over WSLg's Wayland socket (`XDG_RUNTIME_DIR=/mnt/wslg/runtime-dir`) the game runs but its window

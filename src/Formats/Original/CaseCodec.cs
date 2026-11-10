@@ -15,7 +15,7 @@ namespace Aow.Formats.Original;
 internal static class CaseCodec
 {
     private static ConversionException Missing(SchemaClass cls, SchemaMapping mapping, string? file, long offset, DocPath path) =>
-        new(new FormatDiagnostic(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Units registers.")
+        new(new FormatDiagnostic(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.")
         { File = file, Offset = offset, Path = path.ToString() });
 
     /// <summary>The number a stored discriminator or field holds: an integer, or little-endian record bytes.</summary>
@@ -98,7 +98,7 @@ internal static class CaseCodec
     public static JsonObject FromDocument(EncodeContext ctx, SchemaClass cls, SchemaMapping mapping, JsonObject obj, DocPath path)
     {
         var unit = CaseMappings.Find(cls.Name)
-            ?? throw ctx.Fail(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Units registers.", obj, path);
+            ?? throw ctx.Fail(Codes.Mapping, $"Class {cls.Name} needs its unit mapping {mapping.Name}, which Aow.Game registers.", obj, path);
         if (obj["$case"] is not JsonString caseName)
             throw ctx.Fail(obj["$case"] is null ? Codes.MissingMember : Codes.Type, $"A {cls.Name} names its {mapping.Name} case in $case.", obj["$case"] ?? obj, path.Member("$case"));
         var chosen = mapping.Cases.FirstOrDefault(c => c.Name == caseName.Value) ?? (mapping.Unknown.Name == caseName.Value ? mapping.Unknown : null)

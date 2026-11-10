@@ -140,7 +140,7 @@ contract (`strings.md` 2.1 and 2.7).
   `GateSwitches.Enter` turns the switch on when the environment variable `AOW_STRICT_STRINGS` is
   `1`. Game, Headless and the private gate hosts HostChecks and Localization.Tests call it at entry,
   and the gate sets the variable for every command it starts (`testing.md` section 6). The
-  `Rtl.Tests` and `Units.Tests` projects turn it on in a module initializer.
+  `Rtl.Tests` and `Aow.Game.Tests` projects turn it on in a module initializer.
 - `PChar`. `Ptr<byte>.Unbox(s)` returns a pointer to a zero-terminated encoded copy of `s`, so a
   write through it does not reach the string. `Rtl.StrPas(p)` and `Rtl.FromPChar(p)` decode up to
   the first zero byte, and a null pointer reads `""`. `Rtl.StrPasBuffer(span)` does the same over a
@@ -148,7 +148,7 @@ contract (`strings.md` 2.1 and 2.7).
 - Bytes exist only at the boundaries of `strings.md` 2.4: a stream writer encodes, a stream reader
   decodes, `Rtl.ReadShortString` decodes a Pascal length-prefixed image and `Rtl.WriteShortString`
   encodes and truncates to the image size. A font draws the glyph `Cp1252.Byte(c)` of each char.
-- Generated literals are C# string literals. The sources of `src/Units` are pure ASCII.
+- Generated literals are C# string literals. The sources of `src/Game` and `src/Engine` are pure ASCII.
 
 ### 1.3 `Set` (Delphi `TSet`)<E>
 

@@ -111,7 +111,7 @@ pass `default(AnsiString) == ""` held. In C# `s.Length` on null throws, and `s =
   `Rtl.StrictStrings`. Off, a null reads as empty, as Delphi reads nil, and that is the game. On, a
   null argument throws `NullStringException`. Game, Headless, HostChecks and Localization.Tests turn
   it on at entry (`GateSwitches.Enter`) when the environment variable `AOW_STRICT_STRINGS` is `1`,
-  which `check.py` sets for every command it starts. The `Rtl.Tests` and `Units.Tests` projects turn
+  which `check.py` sets for every command it starts. The `Rtl.Tests` and `Aow.Game.Tests` projects turn
   it on in a module initializer. Every gate run is strict.
 - Null sources that skip initializers get a reviewed fix each. They are the 34 string fields of
   structs, since `default(S)`, array elements and struct fields of classes skip constructors and
@@ -132,7 +132,7 @@ pass `default(AnsiString) == ""` held. In C# `s.Length` on null throws, and `s =
   initializer start from `From([])`. `IntOrRef.As<string>()` reads `""` for a slot that holds no
   string, and `Registry.ReadString` (Delphi `TRegistry`) reads `""` for a value that does not exist, as Delphi's does.
   `StaticStringTableTests` checks every static string field, array element and inline-array element
-  of `Aow.Units` after `Startup.InitializeAll()`. Nine static tables of `AoWE` are never filled, in
+  of `Aow.Game` after `Startup.InitializeAll()`. Nine static tables of `AoWE` are never filled, in
   the port and in the Delphi source, and their elements read `""` as the shim's empty value did.
 - `string ==` between two variables, one null and one empty, is false and passes through no RTL
   routine. Nothing but the closed sources above guards that case, which is why the sources are
@@ -392,7 +392,7 @@ The post-check stays after the pass. From 9.5-1 on,
 - an equality or relational operator between a `char` operand and a `byte` operand,
 - a sort, search or sorted collection over strings without a comparer (rule 6),
 - a `Cp1252` call inside a `ReadWrite` override (2.4),
-- in `src/Units`, `src/Layout` and the text routines of `src/Rtl`: `string.Compare`,
+- in `src/Game`, `src/Engine` and the text routines of `src/Rtl`: `string.Compare`,
   `CompareOrdinal`, `CompareTo` on `string`, `StringComparer`, `StringComparison`,
   `Comparer<string>.Default`, `ToUpper` and `ToLower` with their invariant forms on `string` and
   `char`, `char.IsLetter`, `IsDigit`, `IsWhiteSpace`, `IsUpper`, `IsLower`, `IsLetterOrDigit`,
@@ -400,7 +400,7 @@ The post-check stays after the pass. From 9.5-1 on,
   `IsNullOrWhiteSpace`, `Split` without separators, the `string` overloads of `IndexOf`,
   `LastIndexOf`, `StartsWith` and `EndsWith` without `StringComparison`, `Encoding.Latin1`,
   `Encoding.Default` and `Encoding.GetEncoding`,
-- in `src/Units` and `src/Layout` also `Substring`, `IndexOf`, `LastIndexOf`, `Remove` and `Insert`
+- in `src/Game` and `src/Engine` also `Substring`, `IndexOf`, `LastIndexOf`, `Remove` and `Insert`
   on `string`, whose zero-based positions mix badly with the one-based Pascal routines, until a
   later pass retires those routines unit by unit.
 

@@ -193,7 +193,7 @@ Every brief carries these:
 - Do not commit, do not switch branches, do not push.
 - Product code goes to `D:\git\open-aow`, everything else to `D:\git\open-aow-private`
   (`docs/design.md` section 8). The brief names the repository the task works in.
-- The units under `src/Units/` are source and are edited by hand. Every edit keeps
+- The game library under `src/Game/` and `src/Engine/` is source and is edited by hand. Every edit keeps
   `python tools/check.py` passing from the private repository. The hand-over took place on
   2026-10-27. The private transpiler emits reference diffs outside the product repository.
   The gate does not build or test the transpiler as its own layer.
