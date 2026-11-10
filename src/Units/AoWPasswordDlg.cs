@@ -25,7 +25,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class PasswordDlg : DataModule
 {
-    public PasswordDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public PasswordDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;

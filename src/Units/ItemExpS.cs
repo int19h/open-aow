@@ -80,7 +80,7 @@ namespace Aow.Game.World.Structures
         public override void NewDay()
         {
             base.NewDay();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (AoWHSMap.Current.FDay == 1)
             {
                 Generate();
             }
@@ -90,7 +90,7 @@ namespace Aow.Game.World.Structures
         public override bool GetExplored() => FItems.Count == 0;
 
         // ItemExpS.pas:146
-        public override void SetupCombat(global::Aow.Game.Combat.Combat Combat, ArmyHS Army)
+        public override void SetupCombat(Combat.Combat Combat, ArmyHS Army)
         {
             base.SetupCombat(Combat, Army);
             Combat.FItems = FItems;
@@ -102,12 +102,12 @@ namespace Aow.Game.World.Structures
             ArmyHS Army;
             ItemExplorationSiteEventLog Log;
             Item Item = default;
-            if (Set<global::Aow.Game.Combat.CombatResult>.Of(global::Aow.Game.Combat.CombatResult.Victory, global::Aow.Game.Combat.CombatResult.NoDefenders).Contains(CombatResult))
+            if (Set<CombatResult>.Of(Combat.CombatResult.Victory, Combat.CombatResult.NoDefenders).Contains(CombatResult))
             {
                 Army = (ArmyHS)Owner.FindOwnedChild(131607);
                 Log = new ItemExplorationSiteEventLog(null);
                 Log.FPlayer = Army.FArmy.FPlayer;
-                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ItemExplorationSite.ItemsFoundRStr);
+                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemsFoundRStr);
                 var xhx = GetXhx();
                 Log.FLocation.X = xhx;
                 var yhx = GetYhx();
@@ -121,11 +121,11 @@ namespace Aow.Game.World.Structures
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    Item.PlaceOnMap(Aow.Game.World.Map.AoWHSMap.Current, xhx2, yhx2, lhx2);
+                    Item.PlaceOnMap(AoWHSMap.Current, xhx2, yhx2, lhx2);
                 }
 
                 // { Original parses the formatted text as CSV. }
-                var itemsExplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ItemExplorationSite.ItemsExploredRStr);
+                var itemsExplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemsExploredRStr);
                 var resourceEditName = FResource.ResourceEditName();
                 var format = RtlUnit.Format(itemsExplored, [resourceEditName]);
                 Log.FMessages.CommaText = format;
@@ -150,7 +150,7 @@ namespace Aow.Game.World.Structures
                 FItems.Clear();
                 for (int itemOrdinal = 1, last = FItemCount; itemOrdinal <= last; itemOrdinal++)
                 {
-                    Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GenerateItem(Aow.Game.World.Structures.ItemExplorationSite.itAll, 0, 65535);
+                    Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.GenerateItem(itAll, 0, 65535);
                     if (Item != null)
                     {
                         Item.Owner = FItems;
@@ -161,7 +161,7 @@ namespace Aow.Game.World.Structures
 
         private static readonly string ItemsExploredRStr = "\"From the %s\",\"you recovered the following items:\"";
         private static readonly string ItemsFoundRStr = "Items Found";
-        private static Set<global::Aow.Game.Units.ItemType> itAll = Set<global::Aow.Game.Units.ItemType>.FromMask(127uL);
+        private static Set<ItemType> itAll = Set<ItemType>.FromMask(127uL);
 
         // ItemExpS.pas:32
 

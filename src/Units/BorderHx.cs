@@ -70,7 +70,7 @@ public partial class BorderHexagon : AbstractBorderHexagon
     // BorderHx.pas:95
     public override bool CanChangeTerrain(in HSSenderInfo Info) => Info.HN != 0;
 
-    public new partial class Resource : Aow.Game.World.Map.AbstractBorderHexagon.Resource
+    public new partial class Resource : AbstractBorderHexagon.Resource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

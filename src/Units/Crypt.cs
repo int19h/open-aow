@@ -25,7 +25,7 @@ public partial class Crypt : ItemExplorationSite
         public override int ResourceUserClassID() => 131850;
 
         // Crypt.pas:37
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Crypt.Resource.CryptRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CryptRStr);
 
         private static readonly string CryptRStr = "Crypt";
 

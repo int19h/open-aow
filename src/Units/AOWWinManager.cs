@@ -34,7 +34,7 @@ public partial class AOWWinManager : AoWComponent
     public bool FDrawOverlay;
 
     // AOWWinManager.pas:81
-    public AOWWinManager(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWWinManager(Component owner) : base(owner)
     {
         FWinHeight = 480;
         FWinWidth = 640;
@@ -103,10 +103,10 @@ public partial class AOWWinManager : AoWComponent
     //   (a rectangle from a window only when that window is not below the overlay priority): a
     //   double-buffered window adds it, in its own coordinates, to its blit list, any other window adds
     //   it to its draw list. The window itself is passed as the Sender. }
-    public override void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public override void InvalidateRect(int Index, ref Rect ARect, AoWComponent Sender)
     {
         AoWComponent C;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (FValid && FVisible)
         {
             if (Sender == null || Sender != null && Sender is AOWWindowControl && ((AoWComponent)FChildren[Index]).FPriority >= FOverlayPriority)
@@ -118,7 +118,7 @@ public partial class AOWWinManager : AoWComponent
                     {
                         if (C.FDoubleBuffered)
                         {
-                            R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left - C.FWinLeft, ARect.Top - C.FWinTop, ARect.Right - C.FWinLeft, ARect.Bottom - C.FWinTop);
+                            R = new Rect(ARect.Left - C.FWinLeft, ARect.Top - C.FWinTop, ARect.Right - C.FWinLeft, ARect.Bottom - C.FWinTop);
                             C.AddBltRect(ref R, C);
                         }
                         else
@@ -145,7 +145,7 @@ public partial class AOWWinManager : AoWComponent
         TaowRect D;
         bool WasValid;
         SurfaceDesc SD = default;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         try
         {
             Setup();
@@ -173,7 +173,7 @@ public partial class AOWWinManager : AoWComponent
                             if (C.FHidden == true)
                             {
                                 C.FHidden = false;
-                                R = global::Aow.Rtl.RtlUnit.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                                R = new Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
                                 AddDrawRect(ref R, C);
                             }
                             else
@@ -188,16 +188,16 @@ public partial class AOWWinManager : AoWComponent
                                     {
                                         if (C.FMasked)
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
                                         }
                                         else
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FWinLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
                                         }
                                     }
@@ -206,16 +206,16 @@ public partial class AOWWinManager : AoWComponent
                                     {
                                         if (C.FMasked)
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop + C.FFrameTop);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop + C.FFrameTop);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
                                         }
                                         else
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FWinTop);
                                             AddDrawRect(ref R, C);
                                         }
                                     }
@@ -224,16 +224,16 @@ public partial class AOWWinManager : AoWComponent
                                     {
                                         if (C.FMasked)
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FWinLeft + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FWinLeft + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FFrameBottom);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top + C.FFrameBottom, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
                                         }
                                         else
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FWinLeft + C.FWinWidth, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FWinLeft + C.FWinWidth, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
                                         }
                                     }
@@ -242,16 +242,16 @@ public partial class AOWWinManager : AoWComponent
                                     {
                                         if (C.FMasked)
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FWinTop + C.FFrameTop, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FWinTop + C.FFrameTop, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FBackRect.Top, C.FBackRect.Left + C.FFrameLeft, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left + C.FFrameRight, C.FBackRect.Top, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
                                         }
                                         else
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FBackRect.Left, C.FWinTop + C.FWinHeight, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
+                                            R = new Rect(C.FBackRect.Left, C.FWinTop + C.FWinHeight, C.FBackRect.Left + C.FBackRect.Right, C.FBackRect.Top + C.FBackRect.Bottom);
                                             AddDrawRect(ref R, C);
                                         }
                                     }
@@ -274,7 +274,7 @@ public partial class AOWWinManager : AoWComponent
                     Draw(SD);
                     if (FDrawOverlay && FOverlayPriority > 0)
                     {
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                        var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FForegroundTexture.DrawILT(FILIndexTFore, rect, ref SD);
                     }
 
@@ -310,12 +310,12 @@ public partial class AOWWinManager : AoWComponent
                             D.R.Bottom = FWinTop + FWinHeight;
                         }
 
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
+                        var rect = new Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
                         SD.ClipRect = rect;
                         Draw(SD);
                         if (FDrawOverlay && FOverlayPriority > 0)
                         {
-                            var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                            var rect2 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                             FForegroundTexture.DrawILT(FILIndexTFore, rect2, ref SD);
                         }
 
@@ -342,7 +342,7 @@ public partial class AOWWinManager : AoWComponent
                     C.DrawSurface(Surface);
                     if (!WasValid || !C.FSurfaceValid)
                     {
-                        R = global::Aow.Rtl.RtlUnit.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                        R = new Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
                         AddBltRect(ref R, C);
                     }
 
@@ -383,9 +383,9 @@ public partial class AOWWinManager : AoWComponent
                                     D.R.Bottom = C.FWinTop + C.FWinHeight;
                                 }
 
-                                var rect = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
+                                var rect = new Rect(D.R.Left, D.R.Top, D.R.Right, D.R.Bottom);
                                 SD.ClipRect = rect;
-                                var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                                var rect2 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                                 FForegroundTexture.DrawILT(FILIndexTFore, rect2, ref SD);
                             }
 
@@ -425,7 +425,7 @@ public partial class AOWWinManager : AoWComponent
         }
 
         FOverlayPriority = FNewOverlayPriority;
-        var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+        var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
         FBackgroundTexture.DrawILT(FILIndexTBack, rect, ref SurfDesc);
     }
 

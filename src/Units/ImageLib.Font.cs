@@ -19,7 +19,7 @@ public partial class ImageLibraryFont
         return width;
     }
 
-    internal void ShowText(int x, int y, string text, in Aow.Game.Draw.SurfaceDesc sd)
+    internal void ShowText(int x, int y, string text, in SurfaceDesc sd)
     {
         if (RtlUnit.IsEmpty(text)) return;
         foreach (char c in text)

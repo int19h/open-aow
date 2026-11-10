@@ -101,7 +101,7 @@ public sealed class NameTableTests
         }
     }
 
-    private sealed class TRenamedForm : global::Aow.Rtl.Component
+    private sealed class TRenamedForm : Component
     {
         public string Caption { get; set; } = "";
     }

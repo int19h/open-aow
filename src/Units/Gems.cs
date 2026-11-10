@@ -43,7 +43,7 @@ public partial class Gems : ILTerrainMO
     public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+        if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
         {
             GenerateGemsAmount();
         }
@@ -126,7 +126,7 @@ public partial class Gems : ILTerrainMO
         LocationTextEventLog Event;
         if (ArmyHS.FArmy.FPlayer != 0)
         {
-            bool condition = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
+            bool condition = AoWHSMap.Current.FSeatedPlayer == ArmyHS.FArmy.FPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
@@ -145,7 +145,7 @@ public partial class Gems : ILTerrainMO
 
             Event = new LocationTextEventLog(null);
             Event.FPlayer = ArmyHS.FArmy.FPlayer;
-            Event.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.Gems.GoldFoundRStr), [IntToStr(FAmount)]);
+            Event.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GoldFoundRStr), [IntToStr(FAmount)]);
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             Event.SetLocation(GetXhx(), yhx2, lhx2);
@@ -169,7 +169,7 @@ public partial class Gems : ILTerrainMO
         public override int ResourceUserClassID() => 132014;
 
         // Gems.pas:134
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.Gems.Resource.GoldRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GoldRStr);
 
         private static readonly string GoldRStr = "Gold";
 

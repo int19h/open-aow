@@ -87,7 +87,7 @@ namespace Aow.Game.Events
     public partial class GameOverEventLog
     {
         // The seated player sees the game over screen, every other player the message.
-        public override EventView View() => Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer ? EventView.GameOver : EventView.ReceivedMessage;
+        public override EventView View() => World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer ? EventView.GameOver : EventView.ReceivedMessage;
     }
 
     public partial class ShowBookEventLog
@@ -144,11 +144,11 @@ namespace Aow.Game.Events
 
             if (FObject == NegotiateObject.Army)
             {
-                var ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
+                var ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(FPlayer);
-                    return ArmyHS.FArmy.Hero(joinSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
+                    return ArmyHS.FArmy.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
                 }
             }
 
@@ -196,7 +196,7 @@ namespace Aow.Game.Events
     public partial class ArmyInfoEventLog
     {
         // A selection with a hero shows the hero, any other the army.
-        public override EventView View() => FArmyView.Hero(FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? EventView.ArmyInfo : EventView.HeroInfo;
+        public override EventView View() => FArmyView.Hero(FSelection, RosterTables.AllHeroTypes) == null ? EventView.ArmyInfo : EventView.HeroInfo;
     }
 
     public partial class SendEmailGameEventLog

@@ -31,7 +31,7 @@ public partial class AoWRoad : Road
         for (int HN = 1; HN <= 6; HN++)
         {
             Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
@@ -66,7 +66,7 @@ public partial class AoWRoad : Road
 
         if (OldTransitions != FTransitions)
         {
-            Aow.Game.World.Map.AoWHSMap.Current.InvalidateStaticScene(((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, ((global::Aow.Game.World.Map.MapField)Owner).Lhx);
+            Aow.Game.World.Map.AoWHSMap.Current.InvalidateStaticScene(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ((MapField)Owner).Lhx);
         }
     }
 }

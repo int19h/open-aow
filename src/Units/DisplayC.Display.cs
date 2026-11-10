@@ -25,17 +25,17 @@ public partial class CustomDisplay
         FramePresented?.Invoke(PresentedFrames);
     }
 
-    public CustomDisplay(global::Aow.Rtl.Component owner) : base(owner)
+    public CustomDisplay(Component owner) : base(owner)
     {
         Width = Height = 100;
         FOptions = Set<DisplayOptionsElement>.Of(AutoResizeBackSurface, AutoSwapDC,
             AutoStartUpdateFrameLoop, AutoActivatePrimaryDC, RestoreSurfacesOnSwap, BltOnWMPAINT);
-        FBufferingScheme = global::Aow.Game.Draw.BufferingScheme.Double;
-        FBackSurfaceControlMode = global::Aow.Game.Draw.BackSurfaceControlMode.BltSurface;
+        FBufferingScheme = Draw.BufferingScheme.Double;
+        FBackSurfaceControlMode = Draw.BackSurfaceControlMode.BltSurface;
         FBackSurfaceWidth = 640;
         FBackSurfaceHeight = 480;
         FSurfaceIndex = 1;
-        FUpdateFrameMode = global::Aow.Game.Draw.UpdateFrameMode.Synchrone;
+        FUpdateFrameMode = Draw.UpdateFrameMode.Synchrone;
         SetFrameRate(30);
     }
 
@@ -73,7 +73,7 @@ public partial class CustomDisplay
     public virtual void StartUpdateFrameLoop()
     {
         if (FStatus.Contains(FrameLoopActive)) return;
-        if (FUpdateFrameMode != global::Aow.Game.Draw.UpdateFrameMode.Synchrone) throw new NotSupportedException("Asynchronous display loop");
+        if (FUpdateFrameMode != Draw.UpdateFrameMode.Synchrone) throw new NotSupportedException("Asynchronous display loop");
         FStatus = FStatus.With(FrameLoopActive);
         try
         {
@@ -91,7 +91,7 @@ public partial class CustomDisplay
 
     public virtual void UpdateFrame()
     {
-        if (FBufferingScheme == global::Aow.Game.Draw.BufferingScheme.Tripple) FSurfaceIndex = FSurfaceIndex == 1 ? 2 : 1;
+        if (FBufferingScheme == Draw.BufferingScheme.Tripple) FSurfaceIndex = FSurfaceIndex == 1 ? 2 : 1;
         int x = -1, y = -1;
         GetMousePos(ref x, ref y);
         if (FMouseAboveSurface && x == -1 && GetMouseButton() == 0) EventSink.MouseMove(default, -1, -1);
@@ -125,7 +125,7 @@ public partial class CustomDisplay
             if (result < 0)
             {
                 if (previous is not null && previous.Activate(this) >= 0) FActiveDC = previous;
-                result = Aow.Game.Draw.CustomDisplay.DCERR_ACTIVATEFAILED;
+                result = DCERR_ACTIVATEFAILED;
             }
             else FActiveDC = dc;
             if (FActiveDC is null) return result;
@@ -147,7 +147,7 @@ public partial class CustomDisplay
         PauseFrameUpdateLoop();
         try
         {
-            if (Host is null) return Aow.Game.Draw.DisplayCodes.DCERR_NOTACTIVATED;
+            if (Host is null) return DisplayCodes.DCERR_NOTACTIVATED;
             Host.Fullscreen = !Host.Fullscreen;
             FOnSwapDC?.Invoke(FActiveDC);
             Resize();

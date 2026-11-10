@@ -106,11 +106,11 @@ public partial class HexagonResource : AbstractHexagonResource
     public override int ResourceUserClassID() => 131410;
 
     // Hexagon.pas:112
-    public override Aow.Game.World.MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public override MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         MapField MapField;
         MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-        Aow.Game.World.MapObject Result = (Aow.Game.World.MapObject)MapField.FindOwnedChild(ResourceUserClassID());
+        MapObject Result = (MapObject)MapField.FindOwnedChild(ResourceUserClassID());
         if (Result != null)
         {
             if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
@@ -128,7 +128,7 @@ public partial class HexagonResource : AbstractHexagonResource
         }
         else
         {
-            Result = (Aow.Game.World.MapObject)CreateResourceUser();
+            Result = (MapObject)CreateResourceUser();
             if (!Result.PlaceHX(Map.MapContainer, Xhx, Yhx, Lhx))
             {
                 Result?.Dispose();
@@ -188,7 +188,7 @@ public partial class HexagonResource : AbstractHexagonResource
     // Hexagon.pas:32
 
     // Hexagon.pas:107
-    public override string ResourceEditName() => Aow.Game.World.Hexes.HexagonResource.HexagonStr;
+    public override string ResourceEditName() => HexagonStr;
 
     private static readonly string HexagonStr = "Hexagon";
 

@@ -273,7 +273,7 @@ public partial class ProgressDialog : ILayoutModule
         AOWImage2.Animate = false;
         AOWImage2.AnimFrameDelay = 0;
         session.EndRead(AOWImage2);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -303,18 +303,18 @@ public partial class ProgressDialog : ILayoutModule
         AOWImage2.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Title.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        StatusLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        ProgDlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        ProgDlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        ProgDlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        Bar.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        Bar.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        Bar.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        TCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        AOWImage1.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        AOWImage2.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        Title.AOWFont = DialogHosts.FontModule.Age10;
+        TCeltLineL.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        BCeltL.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        StatusLbl.AOWFont = DialogHosts.FontModule.Age10s;
+        ProgDlg.WinManager = DialogHosts.General.Manager;
+        ProgDlg.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        ProgDlg.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        Bar.ILFrame = DialogHosts.IntGfxMod.CeltDeco;
+        Bar.ILTextureNormal = DialogHosts.IntGfxMod.GenericT;
+        Bar.ILTextureSelected = DialogHosts.IntGfxMod.GenericT;
+        TCeltL.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        AOWImage1.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        AOWImage2.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
     }
 }

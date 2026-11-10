@@ -3,9 +3,9 @@ namespace Aow.Rtl;
 // The offline DirectPlay component (aowDPlayComp.pas). It lists the TCP/IP provider that
 // DirectPlay lists on any current Windows, but it never connects and never joins a session, so
 // the original's guards on Connected and InSession take their offline branch.
-public class GDPlay : global::Aow.Rtl.Component
+public class GDPlay : Component
 {
-    public GDPlay(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public GDPlay(Component? owner = null) : base(owner) { }
 
     // DPlay.pas: the TCP/IP service provider.
     public static readonly GUID DPSPGUID_TCPIP = "36E95EE0-8577-11CF-960C-0080C7534E82";
@@ -14,7 +14,7 @@ public class GDPlay : global::Aow.Rtl.Component
     public GUID AppGUID { get; set; }
     public bool Connected => false;
     public bool InSession => false;
-    public global::Aow.Rtl.ConnectionType ConnectionType => global::Aow.Rtl.ConnectionType.None;
+    public ConnectionType ConnectionType => Rtl.ConnectionType.None;
     public object? DPlay => null;
     public int PlayerID => 0;
     public string SessionName { get; set; } = "";
@@ -33,7 +33,7 @@ public class GDPlay : global::Aow.Rtl.Component
         Connections.Clear();
         ConnectionItems.Clear();
         Connections.Add("Internet TCP/IP Connection For DirectPlay");
-        ConnectionItems.Add(new GDConnection { FGuid = DPSPGUID_TCPIP, FType = global::Aow.Rtl.ConnectionType.TCP });
+        ConnectionItems.Add(new GDConnection { FGuid = DPSPGUID_TCPIP, FType = Rtl.ConnectionType.TCP });
         return 0;
     }
 

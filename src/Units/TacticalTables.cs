@@ -161,7 +161,7 @@ internal static class TacticalTables
                         Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 20, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                         break;
                     default:
-                        switch (Aow.Game.Combat.TacticalTables.SpellTypes[Spell])
+                        switch (SpellTypes[Spell])
                         {
                             case TfxType.Breath:
                             case TfxType.Effect:
@@ -288,13 +288,13 @@ internal static class TacticalTables
             if ((X != StartX || Y != StartY) && (X != EndX || Y != EndY))
             {
                 Steps = 0;
-                if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
+                if (AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
                 {
                     Steps = 3;
                 }
                 else
                 {
-                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
+                    if (AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
                     {
                         Steps = 3;
                     }
@@ -307,13 +307,13 @@ internal static class TacticalTables
                         }
                         else
                         {
-                            UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                            UnitHS = (TacticalCombatUnitHS)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                         }
 
-                        Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+                        Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
                         if (Wall == null && Side == CombatSideIndex.Attacker)
                         {
-                            Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
+                            Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
                         }
 
                         if (A == 1)
@@ -339,7 +339,7 @@ internal static class TacticalTables
 
                                 if (Wall == null)
                                 {
-                                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
+                                    if (AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
                                     {
                                         Steps = 1;
                                     }
@@ -359,10 +359,10 @@ internal static class TacticalTables
                                             while (Wall == null && B < 7)
                                             {
                                                 Aow.Game.World.Map.HexGeometry.CenterHNtoHX(StartX, StartY, B, ref NX, ref NY);
-                                                Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
+                                                Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
                                                 if (Wall == null)
                                                 {
-                                                    Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
+                                                    Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
                                                 }
 
                                                 B += 1;

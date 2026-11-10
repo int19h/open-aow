@@ -13,7 +13,7 @@ namespace Aow.Game.Ui.Dialogs;
 // activation request
 public partial class ConstructDlg : DataModule
 {
-    public ConstructDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public ConstructDlg(Component owner) : base(owner)
     { }
 
     public AOWImage TitleIcon;

@@ -29,7 +29,7 @@ namespace Aow.Game.Ui.Dialogs;
 // enchantment sort, global sort, power sort
 public partial class MagicWin : DataModule
 {
-    public MagicWin(global::Aow.Rtl.Component owner) : base(owner)
+    public MagicWin(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -129,7 +129,7 @@ public partial class MagicWin : DataModule
         if (Index != -1)
         {
             Enchantment = (GlobalEnchantment)GlobalEnchantmentList.Items.Objects[Index];
-            var canRemove = Enchantment.CanRemove(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason);
+            var canRemove = Enchantment.CanRemove(AoWHSMap.Current.FSeatedPlayer, ref Reason);
             GlobalDispelBtn.Visible = canRemove;
         }
         else
@@ -271,7 +271,7 @@ public partial class MagicWin : DataModule
         if (condition)
         {
             var enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.DispelEnchantment((Enchantment)enchantment);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.DispelEnchantment((Enchantment)enchantment);
         }
     }
 
@@ -307,7 +307,7 @@ public partial class MagicWin : DataModule
         if (condition)
         {
             var globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.RemoveEnchantment(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, (GlobalEnchantment)globalEnchantment);
+            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.RemoveEnchantment(AoWHSMap.Current.FSeatedPlayer, (GlobalEnchantment)globalEnchantment);
         }
     }
 
@@ -362,7 +362,7 @@ public partial class MagicWin : DataModule
         Spell Spell;
         int X;
         int Y;
-        Magic = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
+        Magic = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
         if (Magic.FResearchSpellID != 0)
         {
             Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Magic.FResearchSpellID);
@@ -646,9 +646,9 @@ public partial class MagicWin : DataModule
         PlayerMagicControl Control;
         int Turns;
         Spell Spell;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+        if (AoWHSMap.Current.FSeatedPlayer != -1)
         {
-            Control = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
+            Control = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
             Window.EnchantmentList.Items.Clear();
             Window.BindingList.Items.Clear();
             Window.UpkeepList.Items.Clear();
@@ -690,13 +690,13 @@ public partial class MagicWin : DataModule
             {
                 Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Control.FResearchSpellID);
                 Window.SpellName.Text = Spell.FSpellName;
-                var magicSphere = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelRStr);
+                var magicSphere = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LevelRStr);
                 Window.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
-                var castingCost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CastingCostRStr);
-                var mana = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ManaRStr);
+                var castingCost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CastingCostRStr);
+                var mana = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ManaRStr);
                 Window.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
-                Turns = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
+                Turns = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
                 if (Turns < 999)
                 {
                     var fmtTurnsLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtTurnsLeftStr(Turns);
@@ -704,7 +704,7 @@ public partial class MagicWin : DataModule
                 }
                 else
                 {
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XTurnsRStr), [(byte)63]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XTurnsRStr), [(byte)63]);
                     Window.ResearchTurnsLeft.Text = format;
                 }
 
@@ -725,13 +725,13 @@ public partial class MagicWin : DataModule
     internal static void RefreshGlobalMagic(MagicWin Window)
     {
         GlobalMagicControl Control;
-        Control = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl;
+        Control = AoWHSMap.Current.FGlobalMagicControl;
         Window.GlobalEnchantmentList.Items.Clear();
         Window.GlobalNameList.Items.Clear();
         Window.GlobalUpkeepList.Items.Clear();
         for (int I = 0, last = Control.FEnchantments.Count - 1; I <= last; I++)
         {
-            if (Control.FEnchantments.GetEnchantments(I).VisibleForPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+            if (Control.FEnchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.Current.FSeatedPlayer))
             {
                 var name = Control.FEnchantments.GetEnchantments(I).GetName();
                 var enchantment = Control.FEnchantments.GetEnchantments(I);
@@ -751,7 +751,7 @@ public partial class MagicWin : DataModule
 
     internal static void ShowMagicEvent(MagicWin Window, PlayerMagicEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.TBWindow.ShowMagicWindow(Window);
+        Aow.Game.Ui.Dialogs.TaskBar.ShowMagicWindow(Window);
         if (Done != null)
         {
             Done(Event);

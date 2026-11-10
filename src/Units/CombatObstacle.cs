@@ -91,7 +91,7 @@ namespace Aow.Game.World
         public override void RemoveFromMap()
         {
             MapLevel MapLevel;
-            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+            MapLevel = (MapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(MapLevel, FXhx, FYhx);
         }
@@ -156,7 +156,7 @@ namespace Aow.Game.World
         }
 
         // CombatObstacle.pas:107
-        public override MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // CombatObstacle.pas:104
         public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -174,7 +174,7 @@ namespace Aow.Game.World
                     DestroyShadow();
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
+                if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
                 {
                     FShadow = new CombatObstacleShadow(null);
                     FShadow.FObstacle = this;
@@ -207,7 +207,7 @@ namespace Aow.Game.World
                     DestroyOverlay();
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
+                if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
                 {
                     FOverlay = new CombatObstacleOverlay(null);
                     FOverlay.FObstacle = this;
@@ -264,7 +264,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 2229546;
 
             // CombatObstacle.pas:242
-            public override string ResourceEditName() => "Combat " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ObstacleRStr);
+            public override string ResourceEditName() => "Combat " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.ObstacleRStr);
 
         }
 

@@ -57,7 +57,7 @@ namespace Aow.Game.Ui.Windows
         public int FTextHeight;
 
         // AoWHTMLMemo.pas:93
-        public TaowHTMLMemo(global::Aow.Rtl.Component owner) : base(owner)
+        public TaowHTMLMemo(Component owner) : base(owner)
         {
             FLines = new StringList();
             FItems = new StringList();
@@ -495,9 +495,9 @@ namespace Aow.Game.Ui.Windows
                             case IntParseMode.BG:
                                 if (Set<byte>.WithBounds(0, 255).With(32).With(62).Contains(C))
                                 {
-                                    if (FileExists(ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName) + Copy(item, TagStart + 1, J - TagStart)))
+                                    if (FileExists(ExtractFilePath(RtlUnit.Application.ExeName) + Copy(item, TagStart + 1, J - TagStart)))
                                     {
-                                        var filePath = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName);
+                                        var filePath = ExtractFilePath(RtlUnit.Application.ExeName);
                                         FImages.LoadFromFile(filePath + Copy(item, TagStart + 1, J - TagStart));
                                     }
 
@@ -615,7 +615,7 @@ namespace Aow.Game.Ui.Windows
         // { Update follows the scroll bar; a masked memo asks its owner to redraw it under the text }
         public override void Update()
         {
-            global::Aow.Rtl.Rect R;
+            Rect R;
             if (FVisible)
             {
                 if (FVScrollBar != null && FLines.Count > 0)
@@ -639,11 +639,11 @@ namespace Aow.Game.Ui.Windows
             {
                 if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                 {
-                    R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                    R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                 }
                 else
                 {
-                    R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                    R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                 }
 
                 FAOWOwner.AddDrawRect(ref R, this);
@@ -651,7 +651,7 @@ namespace Aow.Game.Ui.Windows
         }
 
         // AoWHTMLMemo.pas:122
-        public override void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+        public override void InvalidateRect(int Index, ref Rect ARect, AoWComponent Sender)
         {
             if (FValid && FVisible)
             {
@@ -680,7 +680,7 @@ namespace Aow.Game.Ui.Windows
             TaowTextAlign Align = default;
             string FontName = "";
             SurfaceDesc BackSD = default;
-            global::Aow.Rtl.Rect SrcR = default;
+            Rect SrcR = default;
             int Line = default;
             ChangeInfo CI = default;
             TaowRect R = default;
@@ -725,7 +725,7 @@ namespace Aow.Game.Ui.Windows
                         else
                         {
                             FBackSurface.Lock(ref BackSD);
-                            var rect = global::Aow.Rtl.RtlUnit.Rect(0, 0, FTextWidth, FTextHeight);
+                            var rect = new Rect(0, 0, FTextWidth, FTextHeight);
                             FImages.DrawILT(FILIndexTexture, rect, ref BackSD);
                         }
 
@@ -885,7 +885,7 @@ namespace Aow.Game.Ui.Windows
                                 R.R.Bottom = FAOWOwner.FWinTop + FWinTop + FWinHeight;
                             }
 
-                            SrcR = global::Aow.Rtl.RtlUnit.Rect(R.R.Left - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Top - FAOWOwner.FWinTop - FWinTop, R.R.Right - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Bottom - FAOWOwner.FWinTop - FWinTop);
+                            SrcR = new Rect(R.R.Left - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Top - FAOWOwner.FWinTop - FWinTop, R.R.Right - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Bottom - FAOWOwner.FWinTop - FWinTop);
                             if (FMasked)
                             {
                                 Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
@@ -898,7 +898,7 @@ namespace Aow.Game.Ui.Windows
                     }
                     else
                     {
-                        SrcR = global::Aow.Rtl.RtlUnit.Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
+                        SrcR = new Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
                         if (FMasked)
                         {
                             Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
@@ -979,7 +979,7 @@ namespace Aow.Game.Ui.Windows
         {
             ImageLibraryFont Font;
             int I;
-            FileName = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName) + FileName;
+            FileName = ExtractFilePath(RtlUnit.Application.ExeName) + FileName;
             Font = null;
             I = 0;
             while (I < FFonts.Count && Font == null)

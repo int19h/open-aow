@@ -37,8 +37,8 @@ public partial class MapLevel
         FHNOffsets = default;
         for (int hn = 1; hn <= 6; hn++)
             for (int parity = 0; parity <= 1; parity++)
-                FHNOffsets[parity][hn] = (Aow.Game.World.Map.HexGeometry.HNtoXYTable[parity][hn].X
-                    + Aow.Game.World.Map.HexGeometry.HNtoXYTable[parity][hn].Y * width) * FFieldSize;
+                FHNOffsets[parity][hn] = (HexGeometry.HNtoXYTable[parity][hn].X
+                    + HexGeometry.HNtoXYTable[parity][hn].Y * width) * FFieldSize;
 
     }
 
@@ -60,11 +60,11 @@ public partial class MapLevel
     {
         base.ReadWrite(stream);
         var mode = stream.StorageMode();
-        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText))
+        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText))
             == Set<StorageModeElement>.Of(StorageModeElement.Read))
         {
             FEngine = stream.Engine;
-            FMapContainer = (global::Aow.Game.World.Map.MapContainer)Owner;
+            FMapContainer = (MapContainer)Owner;
             FMap = FMapContainer.FMap;
         }
         byte width = (byte)FWidth, height = (byte)FHeight, level = (byte)FLhx;
@@ -82,13 +82,13 @@ public partial class MapLevel
         };
         bool notify = !mode.Contains(StorageModeElement.Translate);
         if (notify) FMap.NotifyProgress(progress);
-        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare))
+        if ((mode & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare))
             == Set<StorageModeElement>.Of(StorageModeElement.Read) && width != 0)
             CreateMapFieldList(width, height);
         if (mode.Contains(StorageModeElement.SetupCompare))
             foreach (var field in fields) field.FStatus += Set<MapFieldStatusElement>.Of(MapFieldStatusElement.Comparing);
         var property = stream.OpenPropertyStream(6);
-        if (property != null || mode.Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
+        if (property != null || mode.Contains(EngineServices.smText))
         {
             int step = FCount / 10;
             for (int i = 0; i < FCount; i++)

@@ -16,7 +16,7 @@ namespace Aow.Game.Ui.Dialogs;
 // setup control, phase, fixed spheres, working leader, selected sort, available sort
 public partial class LeaderSetupWin : DataModule
 {
-    public LeaderSetupWin(global::Aow.Rtl.Component owner) : base(owner)
+    public LeaderSetupWin(Component owner) : base(owner)
     { }
 
     public AOWListBox SelectedAbilities;
@@ -204,7 +204,7 @@ public partial class LeaderSetupWin : DataModule
         FSetup.AddRef();
         FSelectedSort = 0;
         FAvailableSort = 0;
-        LeaderPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleScreen;
+        LeaderPnl.ILTexture = DialogHosts.IntGfxMod.TitleScreen;
         LeaderPnl.ILIndexTexture = 4;
         RaceCB.Visible = FSetup.FItems.Count != 0 && FSetup.FMode.Contains(LeaderSetupModeElement.Campaign);
         RaceLbl.Visible = RaceCB.Visible;
@@ -214,7 +214,7 @@ public partial class LeaderSetupWin : DataModule
             for (int I = 0, last = FSetup.FItems.Count - 1; I <= last; I++)
             {
                 var item = FSetup.FItems[I];
-                var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[item]);
+                var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[item]);
                 var item2 = FSetup.FItems[I];
                 RaceCB.Items.AddObject(raceNames, IntToObject(item2));
             }
@@ -223,7 +223,7 @@ public partial class LeaderSetupWin : DataModule
             RaceCB.Selected = indexOf;
         }
 
-        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FSetup.FOriginalLeader.FRace]);
         SideNameLbl.Text = raceNamesPlural;
         ShieldL.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
         ShieldR.CurrentImage = FSetup.FOriginalLeader.FRace + 13;
@@ -258,7 +258,7 @@ public partial class LeaderSetupWin : DataModule
         LeaderSetupControl Control;
         SaveLeader();
         Control = FSetup;
-        Control.FStatus = Aow.Game.Units.LeaderSetupControl.LeaderSetupStatus.Done;
+        Control.FStatus = LeaderSetupControl.LeaderSetupStatus.Done;
         FSetup = null;
         LeaderPnl.Visible = false;
         Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.UpdatePlayerName(Control.FOriginalLeader.FHeroName);
@@ -272,7 +272,7 @@ public partial class LeaderSetupWin : DataModule
         LeaderSetupControl Control;
         SaveLeader();
         Control = FSetup;
-        Control.FStatus = Aow.Game.Units.LeaderSetupControl.LeaderSetupStatus.Canceled;
+        Control.FStatus = LeaderSetupControl.LeaderSetupStatus.Canceled;
         FSetup = null;
         LeaderPnl.Visible = false;
         Control.Done();
@@ -282,14 +282,14 @@ public partial class LeaderSetupWin : DataModule
     // AoWLeaderSetup.pas:750
     public void LoadLeader()
     {
-        FLeader.Assign(FSetup.FOriginalLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+        FLeader.Assign(FSetup.FOriginalLeader, GameTables.AoWEngine);
     }
 
     // AoWLeaderSetup.pas:755
     public void SaveLeader()
     {
         Leader Leader;
-        FSetup.FOriginalLeader.Assign(FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+        FSetup.FOriginalLeader.Assign(FLeader, GameTables.AoWEngine);
         Leader = FSetup.FOriginalLeader;
         LeaderName.Text = Leader.FHeroName;
         var inherentAttack = Leader.GetInherentAttack();
@@ -306,7 +306,7 @@ public partial class LeaderSetupWin : DataModule
         UMoves.Text = IntToStr(moves);
         UAbilities.Items.Clear();
         Leader.ListAbilities(UAbilities.Items);
-        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Leader.FRace]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Leader.FRace]);
         SideNameLbl.Text = raceNamesPlural;
         ShieldL.CurrentImage = Leader.FRace + 13;
         ShieldR.CurrentImage = Leader.FRace + 13;
@@ -316,7 +316,7 @@ public partial class LeaderSetupWin : DataModule
     public void UpdateSkillPoints()
     {
         var skillPoints = FLeader.GetSkillPoints();
-        var skillPointsText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.SkillPointsRStr);
+        var skillPointsText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SkillPointsRStr);
         var skillPointsMax = FLeader.GetSkillPointsMax();
         SkillPointsLbl.Text = skillPointsText + " " + IntToStr(skillPoints) + "/" + IntToStr(skillPointsMax);
     }
@@ -433,7 +433,7 @@ public partial class LeaderSetupWin : DataModule
                 Name = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(I).GetName(FLeader);
                 if (FLeader.FHeroResource.FAbilities.GetAbSet(I) && FLeader.FHeroResource.FAbilities.GetAbLevel(I) == FLeader.GetAbilityLevel(I))
                 {
-                    Name = Name + " (" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FixedRStr) + ")";
+                    Name = Name + " (" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FixedRStr) + ")";
                     Cost = "-";
                 }
                 else
@@ -492,12 +492,12 @@ public partial class LeaderSetupWin : DataModule
         MainFace.Visible = MainFaceFr.Visible;
         if (Value == 3 || (Value == 2 && (FSetup.FMode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()) || (Value == 1 && (FSetup.FMode & Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Settings, LeaderSetupModeElement.Spheres)) == Set<LeaderSetupModeElement>.Of()))
         {
-            var finish = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.FinishRStr);
+            var finish = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FinishRStr);
             NextBtn.Text = finish;
         }
         else
         {
-            var next = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.NextRStr);
+            var next = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NextRStr);
             NextBtn.Text = next;
         }
 
@@ -529,11 +529,11 @@ public partial class LeaderSetupWin : DataModule
         DefaultBtn.Visible = true;
         PrevBtn.Visible = true;
         NextBtn.Visible = true;
-        var step1CustomizeLeader = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.Step1CustomizeLeaderRStr);
+        var step1CustomizeLeader = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Step1CustomizeLeaderRStr);
         Phase1Header.Text = step1CustomizeLeader;
-        var step2AssignSkillPoints = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.Step2AssignSkillPointsRStr);
+        var step2AssignSkillPoints = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Step2AssignSkillPointsRStr);
         Phase2Header.Text = step2AssignSkillPoints;
-        var step3AssignSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.Step3AssignSpheresRStr);
+        var step3AssignSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Step3AssignSpheresRStr);
         Phase3Header.Text = step3AssignSpheres;
         SetFixedSpheres(0);
     }
@@ -626,7 +626,7 @@ public partial class LeaderSetupWin : DataModule
         }
 
         var sphereCount = FLeader.GetSphereCount();
-        var selectedSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.SelectedSpheresRStr);
+        var selectedSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SelectedSpheresRStr);
         SelectedSpheresLbl.Text = selectedSpheres + " (" + IntToStr(sphereCount) + "/" + IntToStr(FLeader.FSpherePicksMax) + ")";
         if (FLeader.CanAddSphere(MagicSphere.Life))
         {
@@ -755,7 +755,7 @@ public partial class LeaderSetupWin : DataModule
     {
         LeaderSetupControl Setup;
         int Index;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         FaceResource Face;
         Setup = FSetup;
         Index = FLeader.FFaceIndex;
@@ -772,7 +772,7 @@ public partial class LeaderSetupWin : DataModule
         }
 
         var image = Sender;
-        R = global::Aow.Rtl.RtlUnit.Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
+        R = new Rect(Phase1Pnl.WinLeft + image.WinLeft + 2, Phase1Pnl.WinTop + image.WinTop, Phase1Pnl.WinLeft + image.WinLeft + image.WinWidth - 2, Phase1Pnl.WinTop + image.WinTop + image.WinHeight - 2);
 
         if (Setup.FOriginalLeader.GetFace() != null)
         {
@@ -789,7 +789,7 @@ public partial class LeaderSetupWin : DataModule
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var prevFace = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.PrevFace(FLeader.FFaceIndex);
         FLeader.SetFaceIndex(prevFace);
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWLeaderSetup.pas:352
@@ -798,7 +798,7 @@ public partial class LeaderSetupWin : DataModule
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var nextFace = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.NextFace(FLeader.FFaceIndex);
         FLeader.SetFaceIndex(nextFace);
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWLeaderSetup.pas:359
@@ -864,7 +864,7 @@ public partial class LeaderSetupWin : DataModule
                     }
                 }
 
-                Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+                DialogHosts.TitleWindow.TitleWin.FDrawn = false;
                 break;
             case 2:
                 SaveLeader();
@@ -877,7 +877,7 @@ public partial class LeaderSetupWin : DataModule
                     Finish();
                 }
 
-                Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+                DialogHosts.TitleWindow.TitleWin.FDrawn = false;
                 break;
             case 3:
                 if (FLeader.GetSphereCount() == FLeader.FSpherePicksMax)
@@ -886,12 +886,12 @@ public partial class LeaderSetupWin : DataModule
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+                    Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(DialogHosts.MessageDlg);
                     Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-                    var pleaseAssignAllSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LeaderSetupWin.PleaseAssignAllSpheresRStr);
+                    var pleaseAssignAllSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PleaseAssignAllSpheresRStr);
                     Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseAssignAllSpheres);
-                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
-                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
+                    DialogHosts.MessageDlg.OKPnl.Visible = true;
+                    DialogHosts.MessageDlg.Dlg.Visible = true;
                 }
 
                 break;
@@ -902,12 +902,12 @@ public partial class LeaderSetupWin : DataModule
     public void MainFaceFrPreDraw(AoWFrame Sender, SurfaceDesc SD)
     {
         LeaderSetupControl Setup;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         Setup = FSetup;
         if (FPhase > 1)
         {
             var frame = Sender;
-            R = global::Aow.Rtl.RtlUnit.Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
+            R = new Rect(LMainPnl.WinLeft + frame.WinLeft + 2, LMainPnl.WinTop + frame.WinTop, LMainPnl.WinLeft + frame.WinLeft + frame.WinWidth - 2, LMainPnl.WinTop + frame.WinTop + frame.WinHeight - 2);
 
             if (Setup.FOriginalLeader.GetFace() != null)
             {
@@ -1096,7 +1096,7 @@ public partial class LeaderSetupWin : DataModule
     public void DefaultBtnClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
         switch (FPhase)
         {
             case 1:
@@ -1320,7 +1320,7 @@ public partial class LeaderSetupWin : DataModule
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
@@ -1336,7 +1336,7 @@ public partial class LeaderSetupWin : DataModule
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }

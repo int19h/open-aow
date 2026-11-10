@@ -87,17 +87,17 @@ namespace Aow.Game.World.Structures
                         }
                     }
 
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == TE.FParam)
+                    if (Map.AoWHSMap.Current.FSeatedPlayer == TE.FParam)
                     {
                         var arenaTE = (ArenaTE)TE;
                         if (arenaTE.FUnitIDs.Count == 1)
                         {
-                            var oneUnitTrained = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Arena.OneUnitTrainedRStr);
+                            var oneUnitTrained = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OneUnitTrainedRStr);
                             Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(oneUnitTrained);
                         }
                         else
                         {
-                            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Arena.XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
+                            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XUnitsTrainedRStr), [IntToStr(arenaTE.FUnitIDs.Count)]);
                             Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                         }
                     }
@@ -108,7 +108,7 @@ namespace Aow.Game.World.Structures
         }
 
         // Arena.pas:98
-        public override bool CanDblClick() => CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        public override bool CanDblClick() => CanEnter(Map.AoWHSMap.Current.FSeatedPlayer);
 
         // Arena.pas:101
         public int UnitTrainCost(AbstractUnit AUnit)
@@ -123,7 +123,7 @@ namespace Aow.Game.World.Structures
             if (AUnit is Unit)
             {
                 var unit = (Unit)AUnit;
-                if (unit.GetRank() != Aow.Game.Magic.Abilities.Unit.Rank.Gold)
+                if (unit.GetRank() != Unit.Rank.Gold)
                 {
                     Result = (unit.GetNextLevelExperience() - AUnit.GetExperience()) * 5;
                 }
@@ -205,14 +205,14 @@ namespace Aow.Game.World.Structures
                     else
                     {
                         Result = false;
-                        ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+                        ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
                     }
                 }
             }
             else
             {
                 Result = false;
-                ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NoUnitSelectedRStr);
+                ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
             }
 
             return Result;
@@ -267,7 +267,7 @@ namespace Aow.Game.World.Structures
             bool Result = default;
             EnterArenaEventLog Log;
             ArmyHS Army;
-            if (CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+            if (CanEnter(Map.AoWHSMap.Current.FSeatedPlayer))
             {
                 Log = new EnterArenaEventLog(null);
                 Log.FArena = this;
@@ -315,7 +315,7 @@ namespace Aow.Game.World.Structures
             // Arena.pas:45
 
             // Arena.pas:250
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Arena.Resource.ArenaRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ArenaRStr);
 
             private static readonly string ArenaRStr = "Arena";
 
@@ -387,7 +387,7 @@ namespace Aow.Game.Events
                 }
             }
 
-            bool Result = FArena.TrainUnits(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
+            bool Result = FArena.TrainUnits(World.Map.AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
             Units?.Dispose();
             return Result;
         }
@@ -405,7 +405,7 @@ namespace Aow.Game.Events
                 }
             }
 
-            bool Result = FArena.CanTrainUnits(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
+            bool Result = FArena.CanTrainUnits(World.Map.AoWHSMap.Current.FSeatedPlayer, Units, ref ErrorText);
             Units?.Dispose();
             return Result;
         }
@@ -432,7 +432,7 @@ namespace Aow.Game.Events
 
             if (Total != 0)
             {
-                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.EnterArenaEventLog.TotalCostXRStr), [IntToStr(Total)]);
+                Result = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TotalCostXRStr), [IntToStr(Total)]);
             }
             else
             {

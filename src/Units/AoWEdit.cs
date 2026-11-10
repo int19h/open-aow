@@ -35,7 +35,7 @@ public partial class AOWEdit : AOWControl
     public int FCursorPos;
 
     // AoWEdit.pas:79
-    public AOWEdit(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWEdit(Component owner) : base(owner)
     {
         FCursorChar = 124;
         FCursorShown = true;
@@ -116,7 +116,7 @@ public partial class AOWEdit : AOWControl
     public override void Draw(SurfaceDesc SurfDesc)
     {
         string S = "";
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -126,7 +126,7 @@ public partial class AOWEdit : AOWControl
                     FOnPreDraw(this, SurfDesc);
                 }
 
-                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FILEdit.DrawILLh(FILIndex, rect, ref SurfDesc);
                 OldClip = SurfDesc.ClipRect;
                 var ilEditWidth = FILEdit[FILIndex + 2];

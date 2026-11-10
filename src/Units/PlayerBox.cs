@@ -17,7 +17,7 @@ public partial class PlayerComboBox : ComboBox
     public override void Loaded()
     {
         base.Loaded();
-        if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing))
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing))
         {
             GenerateItems();
         }

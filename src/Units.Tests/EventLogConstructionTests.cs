@@ -111,7 +111,7 @@ public sealed class EventLogConstructionTests
                     {
                         Type type = typeof(EventLog).Assembly.GetType(name)!;
                         using var fixture = new OrderingRecording.Fixture(type);
-                        if (mapped == 1) Aow.Game.World.Map.AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
+                        if (mapped == 1) AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FDay = 7; value.FCurrentPlayer = unchecked((sbyte)200); });
                         var owner = owned == 1 ? new EventListOwner() : null;
                         EventLog? value = null;
                         string state;
@@ -124,8 +124,8 @@ public sealed class EventLogConstructionTests
                         catch (System.Exception error) when (error is not Xunit.Sdk.XunitException) { state = error.GetType().FullName + ":" + error.Message; }
                         Assert.NotNull(value);
                         actual.Add(name + $".map{mapped}.owner{owned}.route{route}.fail0", JsonSerializer.Serialize(new { State = state, owner?.Observations, owner?.Changes, Count = owner?.GetCount(), owner?.DestroyEntries, RefCount = (value ?? owner?.Last)?.FRefCount }));
-                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDictionary = fixture.Dictionary;
-                        Aow.Game.World.Map.AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<Aow.Game.World.Map.HSMapStatusElement>.Of(Aow.Game.World.Map.HSMapStatusElement.Destroying); });
+                        Game.Magic.Abilities.GameTables.AoWEngine.FDictionary = fixture.Dictionary;
+                        AoWHSMap.Current = EngineFixture.Configure(new AoWHSMap(null!), value => { value.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying); });
                         if (owner is not null) value?.AddRef();
                         value?.Dispose();
                         owner?.Dispose();

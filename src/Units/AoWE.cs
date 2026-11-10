@@ -639,7 +639,7 @@ namespace Aow.Game.Draw
         // Army.PAS:5524
         public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            global::Aow.Game.Draw.SurfaceDesc SurfaceDesc__value = SurfaceDesc;
+            SurfaceDesc SurfaceDesc__value = SurfaceDesc;
             ImageSequence Sequence;
             int Frame;
             void ShowGlobal(bool Shadow, bool Inverse)
@@ -675,7 +675,7 @@ namespace Aow.Game.Draw
                                 var point = FPath[FFrame];
                                 var fPathItem = FPath[FFrame];
                                 var xyz = FPath[FFrame];
-                                Sequence.ImageLibrary[Frame].ShowBlended(xyz.X + (SurfaceDesc__value.Width * FX / 100 + Sequence.dXshift), point.Y + (SurfaceDesc__value.Height * FY / 100 + Sequence.dYshift) - fPathItem.Z, SurfaceDesc__value, Aow.Game.Draw.GfxState.ShadowBlendTable.LookupTables[Brightness]);
+                                Sequence.ImageLibrary[Frame].ShowBlended(xyz.X + (SurfaceDesc__value.Width * FX / 100 + Sequence.dXshift), point.Y + (SurfaceDesc__value.Height * FY / 100 + Sequence.dYshift) - fPathItem.Z, SurfaceDesc__value, GfxState.ShadowBlendTable.LookupTables[Brightness]);
                             }
                         }
                         else
@@ -687,7 +687,7 @@ namespace Aow.Game.Draw
                                     var item = FPath[FFrame];
                                     var fPathItem = FPath[FFrame];
                                     var item2 = FPath[FFrame];
-                                    Sequence.ImageLibrary[Frame].ShowBlended(item2.X + (SurfaceDesc__value.Width * FX / 100 + Sequence.dXshift), item.Y + (SurfaceDesc__value.Height * FY / 100 + Sequence.dYshift) - fPathItem.Z, SurfaceDesc__value, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[100 - Brightness]);
+                                    Sequence.ImageLibrary[Frame].ShowBlended(item2.X + (SurfaceDesc__value.Width * FX / 100 + Sequence.dXshift), item.Y + (SurfaceDesc__value.Height * FY / 100 + Sequence.dYshift) - fPathItem.Z, SurfaceDesc__value, GfxState.IntensityBlendTable.LookupTables[100 - Brightness]);
                                 }
                             }
                             else
@@ -697,7 +697,7 @@ namespace Aow.Game.Draw
                                     var item = FPath[FFrame];
                                     var fPathItem = FPath[FFrame];
                                     var item2 = FPath[FFrame];
-                                    Sequence.ImageLibrary[Frame].ShowBlended(item2.X + (SurfaceDesc__value.Width * FX / 100 + Sequence.dXshift), item.Y + (SurfaceDesc__value.Height * FY / 100 + Sequence.dYshift) - fPathItem.Z, SurfaceDesc__value, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Brightness]);
+                                    Sequence.ImageLibrary[Frame].ShowBlended(item2.X + (SurfaceDesc__value.Width * FX / 100 + Sequence.dXshift), item.Y + (SurfaceDesc__value.Height * FY / 100 + Sequence.dYshift) - fPathItem.Z, SurfaceDesc__value, GfxState.IntensityBlendTable.LookupTables[Brightness]);
                                 }
                             }
                         }
@@ -739,7 +739,7 @@ namespace Aow.Game.Draw
                                 var item = FPath[FFrame];
                                 var fPathItem = FPath[FFrame];
                                 var item2 = FPath[FFrame];
-                                Sequence.ImageLibrary[Frame].ShowBlended(item2.X + Sequence.dXshift - XhpSurf, item.Y + Sequence.dYshift - fPathItem.Z - YhpSurf, SurfaceDesc__value, Aow.Game.Draw.GfxState.ShadowBlendTable.LookupTables[Brightness]);
+                                Sequence.ImageLibrary[Frame].ShowBlended(item2.X + Sequence.dXshift - XhpSurf, item.Y + Sequence.dYshift - fPathItem.Z - YhpSurf, SurfaceDesc__value, GfxState.ShadowBlendTable.LookupTables[Brightness]);
                             }
                         }
                         else
@@ -749,7 +749,7 @@ namespace Aow.Game.Draw
                                 var item = FPath[FFrame];
                                 var fPathItem = FPath[FFrame];
                                 var item2 = FPath[FFrame];
-                                Sequence.ImageLibrary[Frame].ShowBlended(item2.X + Sequence.dXshift - XhpSurf, item.Y + Sequence.dYshift - fPathItem.Z - YhpSurf, SurfaceDesc__value, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Brightness]);
+                                Sequence.ImageLibrary[Frame].ShowBlended(item2.X + Sequence.dXshift - XhpSurf, item.Y + Sequence.dYshift - fPathItem.Z - YhpSurf, SurfaceDesc__value, GfxState.IntensityBlendTable.LookupTables[Brightness]);
                             }
                         }
                     }
@@ -773,7 +773,7 @@ namespace Aow.Game.Draw
                             ShowGlobal(false, false);
                             break;
                         case TworldFXType.WMLParticle:
-                            if (Aow.Game.World.Map.AoWHSMap.Current.ViewL == FLayer)
+                            if (AoWHSMap.Current.ViewL == FLayer)
                             {
                                 Sequence = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(75).FCastImages.GetImageSequence(1);
                                 ShowLocal(false);
@@ -809,14 +809,14 @@ namespace Aow.Game.Draw
         public override void Activate()
         {
             base.Activate();
-            Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents += NewFrame;
+            AoWHSMap.Current.NewFrameEvents += NewFrame;
             FFrame = -1;
         }
 
         // Army.PAS:5347
         public override void Deactivate()
         {
-            Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents -= NewFrame;
+            AoWHSMap.Current.NewFrameEvents -= NewFrame;
             base.Deactivate();
         }
 
@@ -1204,13 +1204,13 @@ namespace Aow.Game.Units
 
         private static int CompareUnitProductionLevel(object Item1, object Item2)
         {
-            global::Aow.Game.Units.UnitProduction tUnitProduction = (global::Aow.Game.Units.UnitProduction)Item1;
+            UnitProduction tUnitProduction = (UnitProduction)Item1;
             int num = ((global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction.FUnitIndex) != null) ? (global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(tUnitProduction.FUnitIndex).FLevel * 2) : 0);
-            int num2 = ((global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(((global::Aow.Game.Units.UnitProduction)Item2).FUnitIndex) != null) ? (global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(((global::Aow.Game.Units.UnitProduction)Item2).FUnitIndex).FLevel * 2) : 0);
+            int num2 = ((global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(((UnitProduction)Item2).FUnitIndex) != null) ? (global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(((UnitProduction)Item2).FUnitIndex).FLevel * 2) : 0);
             int num3 = num - num2;
             if (num3 == 0)
             {
-                num3 = ((global::Aow.Game.Units.UnitProduction)Item1).FUnitIndex - ((global::Aow.Game.Units.UnitProduction)Item2).FUnitIndex;
+                num3 = ((UnitProduction)Item1).FUnitIndex - ((UnitProduction)Item2).FUnitIndex;
             }
             return num3;
         }
@@ -1259,7 +1259,7 @@ namespace Aow.Game.World.Structures
             }
             else
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
             return Result;
@@ -1275,7 +1275,7 @@ namespace Aow.Game.World.Structures
             }
             else
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
             return Result;
@@ -1680,7 +1680,7 @@ namespace Aow.Game.World.Structures
         {
             ProductionItem NewItem;
             BeginUpdate();
-            NewItem = (ProductionItem)Item.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            NewItem = (ProductionItem)Item.Copy(GameTables.AoWEngine);
             NewItem.SetOwner(FQueue);
             if (FQueue.Count == 1)
             {
@@ -2093,7 +2093,7 @@ namespace Aow.Game.World.Structures
             else
             {
                 Result = false;
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ProductionControl.ActionAlreadyQueuedRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ActionAlreadyQueuedRStr);
             }
 
             return Result;
@@ -2204,7 +2204,7 @@ namespace Aow.Game.World.Structures
                 Event = CreateProductionTE();
                 Event.FCommand = 0;
                 Event.FQueue = Queue;
-                Event.FItem = (ProductionItem)Item.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Event.FItem = (ProductionItem)Item.Copy(GameTables.AoWEngine);
                 var player2 = GetPlayer();
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(player2).AddEvent(Event);
                 Event.Release();
@@ -2454,10 +2454,10 @@ namespace Aow.Game.Magic
         }
 
         // Spells.PAS:1700
-        public virtual string GetName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Enchantment.P4UndefinedRStr);
+        public virtual string GetName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4UndefinedRStr);
 
         // Spells.PAS:1702
-        public virtual string GetBinding() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
+        public virtual string GetBinding() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.NoneRStr);
 
         // Spells.PAS:1734
         public virtual void SetUpkeep(int Value)
@@ -2519,7 +2519,7 @@ namespace Aow.Game.Magic
                 else
                 {
                     var binding = GetBinding();
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsOutOfSightRStr), [binding]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XIsOutOfSightRStr), [binding]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                 }
 
@@ -2725,16 +2725,16 @@ namespace Aow.Game.Events
             {
                 case PlayerMagicEventMode.SpellResearched:
                     var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerMagicEventLog.P4XResearchedRStr), [spell.FSpellName]);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4XResearchedRStr), [spell.FSpellName]);
                     break;
                 case PlayerMagicEventMode.OutOfMana:
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer)
+                    if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
                     {
-                        Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerMagicEventLog.P4XRemovedOutOfManaRStr), [FEnchantmentName]);
+                        Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4XRemovedOutOfManaRStr), [FEnchantmentName]);
                     }
                     else
                     {
-                        Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P4XRemovedRStr), [FEnchantmentName]);
+                        Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P4XRemovedRStr), [FEnchantmentName]);
                     }
 
                     break;
@@ -2756,7 +2756,7 @@ namespace Aow.Game.Events
                 case PlayerMagicEventMode.SpellResearched:
                     if (Trigger != ExecuteTrigger.User)
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn)
+                        if (AoWHSMap.Current.FPlayMode == PlayMode.Turn)
                         {
                             Show = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellResearched);
                         }
@@ -2866,7 +2866,7 @@ namespace Aow.Game.World.Structures
         public PlayerMagicControl FExternalPowerControl;
 
         // Spells.PAS:1835
-        public override string Name() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ExternalPowerSource.P4ExternalPowerRStr);
+        public override string Name() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4ExternalPowerRStr);
 
         // Engine.pas:524
         public override int Power() => FExternalPowerControl.FExternalPower;
@@ -3097,7 +3097,7 @@ namespace Aow.Game.Session
             if (Value != FMana)
             {
                 FMana = Value;
-                if (Aow.Game.World.Map.AoWHSMap.Current.FVictoryCondition == Aow.Game.World.Map.AoWHSMap.VictoryCondition.AccumulateMana && Aow.Game.World.Map.AoWHSMap.Current.FVictoryMana <= FMana)
+                if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.AccumulateMana && AoWHSMap.Current.FVictoryMana <= FMana)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.GameOver(FPlayer.FPlayerIndex, GameOverStatus.Won);
                 }
@@ -3144,7 +3144,7 @@ namespace Aow.Game.Session
                     Mana -= FEnchantments.GetEnchantments(Index).FUpkeep;
                     Log = new PlayerMagicEventLog(null);
                     Log.FPlayer = FPlayer.FPlayerIndex;
-                    Log.FMode = Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana;
+                    Log.FMode = PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana;
                     FEnchantments.GetEnchantments(Index).GetLocation(ref Log.FLocation.X, ref Log.FLocation.Y, ref Log.FLocation.L);
                     Log.FEnchantmentName = FEnchantments.GetEnchantments(Index).GetName();
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer.FPlayerIndex).FEventLogbook.AddEvent(Log);
@@ -3213,7 +3213,7 @@ namespace Aow.Game.Session
             int Index = default;
             Spell Spell = default;
             PlayerMagicEventLog Log;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1 && FPlayer.FPlayerIndex != 0 && (Aow.Game.World.Map.AoWHSMap.Current.FGameType != GameType.Campaign || FSpells.Count == 0))
+            if (AoWHSMap.Current.FDay == 1 && FPlayer.FPlayerIndex != 0 && (AoWHSMap.Current.FGameType != GameType.Campaign || FSpells.Count == 0))
             {
                 Candidates = new IntegerList();
                 for (int kindOrdinal = (int)(SpellType)0; kindOrdinal <= (int)(SpellType)2; kindOrdinal++)
@@ -3255,11 +3255,11 @@ namespace Aow.Game.Session
 
                         Log = new PlayerMagicEventLog(null);
                         Log.FPlayer = FPlayer.FPlayerIndex;
-                        Log.FMode = Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched;
+                        Log.FMode = PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched;
                         Log.FSpellID = FResearchSpellID;
                         FPlayer.FEventLogbook.AddEvent(Log);
                         ExecuteSpellResearched(FResearchSpellID);
-                        if (FPlayer.FPlayerIndex == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && FPlayer.FPlayerType == PlayerType.Human)
+                        if (FPlayer.FPlayerIndex == AoWHSMap.Current.FSeatedPlayer && FPlayer.FPlayerType == PlayerType.Human)
                         {
                             Log.Execute(false, ExecuteTrigger.Event, null);
                         }
@@ -3370,7 +3370,7 @@ namespace Aow.Game.Session
             bool Result;
             FixedArray_int_4 Counts;
             int Level;
-            global::Aow.Game.Magic.Spells.Spell Known;
+            Spell Known;
             if (FPlayer.FLeader.GetSpherePicks(Spell.FMagicSphere) >= Spell.FSpellLevel && FSpells.IndexOf(Spell.FSpellID) == -1)
             {
                 Counts = default;
@@ -3390,7 +3390,7 @@ namespace Aow.Game.Session
                     Level += 1;
                 }
 
-                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
+                if (GameTables.AoWEngine.FDemo)
                 {
                     Level = 2;
                 }
@@ -3616,7 +3616,7 @@ namespace Aow.Game.Session
             if (!FPlayer.GetBusy() && Index != -1)
             {
                 Event = CreateChangeMagicTE();
-                Event.FMode = Aow.Game.Commands.ChangePlayerMagicTE.ChangePlayerMagicMode.DispelEnchantment;
+                Event.FMode = ChangePlayerMagicTE.ChangePlayerMagicMode.DispelEnchantment;
                 Event.FValue = Index;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
                 Event.Release();
@@ -3648,7 +3648,7 @@ namespace Aow.Game.Session
                 if (Percentage != FResearchPercentage)
                 {
                     Event = CreateChangeMagicTE();
-                    Event.FMode = Aow.Game.Commands.ChangePlayerMagicTE.ChangePlayerMagicMode.ChangePowerSettings;
+                    Event.FMode = ChangePlayerMagicTE.ChangePlayerMagicMode.ChangePowerSettings;
                     Event.FValue = Percentage;
                     Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
                     Event.Release();
@@ -3699,7 +3699,7 @@ namespace Aow.Game.Session
             if (!FPlayer.GetBusy())
             {
                 Event = CreateChangeMagicTE();
-                Event.FMode = Aow.Game.Commands.ChangePlayerMagicTE.ChangePlayerMagicMode.ResearchSpell;
+                Event.FMode = ChangePlayerMagicTE.ChangePlayerMagicMode.ResearchSpell;
                 Event.FValue = SpellID;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer.FPlayerIndex).AddEvent(Event);
                 Event.Release();
@@ -3728,7 +3728,7 @@ namespace Aow.Game.Session
             }
 
             // { Original bug: this estimate also counts global enchantments owned by other players. }
-            GlobalControl = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl;
+            GlobalControl = AoWHSMap.Current.FGlobalMagicControl;
             for (int I = GlobalControl.FEnchantments.GetCount() - 1; I >= 0; I--)
             {
                 Enchantment = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(I);
@@ -3748,8 +3748,8 @@ namespace Aow.Game.Session
         {
             public int Order;
             public int Upkeep;
-            public global::Aow.Game.Magic.Enchantment Enchantment;
-            public global::Aow.Game.Magic.GlobalEnchantment GlobalEnchantment;
+            public Enchantment Enchantment;
+            public GlobalEnchantment GlobalEnchantment;
         }
 
         public int AIOverrideUpkeep(int priority, int amount)
@@ -3761,7 +3761,7 @@ namespace Aow.Game.Session
                 int order = enchantment.GetAIUpkeepPriority();
                 if (order <= priority) list.Add(new UpkeepCandidate { Order = order, Upkeep = enchantment.FUpkeep, Enchantment = enchantment });
             }
-            var global = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl;
+            var global = AoWHSMap.Current.FGlobalMagicControl;
             for (int i = global.FEnchantments.GetCount() - 1; i >= 0; i--)
             {
                 var enchantment = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FEnchantments.GetEnchantments(i);
@@ -3913,7 +3913,7 @@ namespace Aow.Game.Magic
             bool Result;
             if (FEnchantmentType != GlobalEnchantmentType.None && Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(FEnchantmentType))
             {
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsAlreadyActiveRStr), [FName]);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XIsAlreadyActiveRStr), [FName]);
                 Result = false;
             }
             else
@@ -3933,7 +3933,7 @@ namespace Aow.Game.Magic
             Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.ValidateEnchantmentID(this);
             if (FEnchantmentMode.Contains(GlobalEnchantmentModeElement.Owned))
             {
-                Owner = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FEnchantments;
+                Owner = AoWHSMap.Current.FGlobalMagicControl.FEnchantments;
             }
             else
             {
@@ -3967,7 +3967,7 @@ namespace Aow.Game.Magic
                     Log = new GlobalEnchantmentEventLog(null);
                     Log.FEnchantmentPlayer = Player;
                     Log.FPlayer = Player;
-                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XCastRStr), [FName]);
+                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XCastRStr), [FName]);
                     Aow.Game.Events.EventLog.DistributeEventLog(Log, false);
                     Log.Release();
                 }
@@ -4003,7 +4003,7 @@ namespace Aow.Game.Magic
                         Log.FEnchantmentPlayer = FPlayerIndex;
                         Log.SetLocation(Location.X, Location.Y, Location.L);
                         var name = GetName();
-                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.GlobalEnchantment.P4XDispelledRStr), [name]);
+                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4XDispelledRStr), [name]);
                         Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FEventLogbook.AddEvent(Log);
                         Log.Release();
                     }
@@ -4056,7 +4056,7 @@ namespace Aow.Game.Magic
                         Log.FEnchantmentPlayer = FPlayerIndex;
                         Log.SetLocation(Location.X, Location.Y, Location.L);
                         var name = GetName();
-                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P4XRemovedRStr), [name]);
+                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P4XRemovedRStr), [name]);
                         Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FEventLogbook.AddEvent(Log);
                         Log.Release();
                     }
@@ -4365,7 +4365,7 @@ namespace Aow.Game.Magic
                     Mana -= Enchantment.GetUpkeep();
                     Log = new PlayerMagicEventLog(null);
                     Log.FPlayer = Player;
-                    Log.FMode = Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana;
+                    Log.FMode = PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana;
                     Log.FEnchantmentName = FEnchantments.GetEnchantments(Index).GetName();
                     Aow.Game.Events.EventLog.DistributeEventLog(Log, false);
                     Log.Release();
@@ -4533,7 +4533,7 @@ namespace Aow.Game.Magic
                 if (Enchantment.CanDispel(Player, ref Reason))
                 {
                     Event = CreateChangeMagicTE();
-                    Event.FMode = Aow.Game.Commands.ChangeGlobalMagicTE.ChangeGlobalMagicMode.DispelEnchantment;
+                    Event.FMode = ChangeGlobalMagicTE.ChangeGlobalMagicMode.DispelEnchantment;
                     Event.FEnchantmentID = Enchantment.FEnchantmentID;
                     Event.FPlayerIndex = (byte)Player;
                     Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
@@ -4542,7 +4542,7 @@ namespace Aow.Game.Magic
                 }
                 else
                 {
-                    if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    if (Player == AoWHSMap.Current.FSeatedPlayer)
                     {
                         Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
                     }
@@ -4587,7 +4587,7 @@ namespace Aow.Game.Magic
                 if (Enchantment.CanRemove(Player, ref Reason))
                 {
                     Event = CreateChangeMagicTE();
-                    Event.FMode = Aow.Game.Commands.ChangeGlobalMagicTE.ChangeGlobalMagicMode.RemoveEnchantment;
+                    Event.FMode = ChangeGlobalMagicTE.ChangeGlobalMagicMode.RemoveEnchantment;
                     Event.FEnchantmentID = Enchantment.FEnchantmentID;
                     Event.FPlayerIndex = (byte)Player;
                     Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
@@ -4596,7 +4596,7 @@ namespace Aow.Game.Magic
                 }
                 else
                 {
-                    if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    if (Player == AoWHSMap.Current.FSeatedPlayer)
                     {
                         Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
                     }
@@ -4711,11 +4711,11 @@ namespace Aow.Game.Session
             Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.RaceToPlayer(Race);
             if (Player == -1)
             {
-                Result = global::Aow.Game.Session.Race.StatusValueToStatus(global::Aow.Game.Session.Race.StatusToStatusValue((Status)FDefaultRelations[Race]) + Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset);
+                Result = global::Aow.Game.Session.Race.StatusValueToStatus(global::Aow.Game.Session.Race.StatusToStatusValue((Status)FDefaultRelations[Race]) + AoWHSMap.Current.FRaces.FRelationOffset);
             }
             else
             {
-                Result = global::Aow.Game.Session.Race.StatusValueToStatus(FPlayerRelations[Player - 1] + Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset);
+                Result = global::Aow.Game.Session.Race.StatusValueToStatus(FPlayerRelations[Player - 1] + AoWHSMap.Current.FRaces.FRelationOffset);
             }
 
             return Result;
@@ -4727,8 +4727,8 @@ namespace Aow.Game.Session
             if (Player > 0)
             {
                 // { Original dereferences AoWHSMap before the nil check below. }
-                FPlayerRelations[Player - 1] = Value - Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset;
-                if (Aow.Game.World.Map.AoWHSMap.Current != null)
+                FPlayerRelations[Player - 1] = Value - AoWHSMap.Current.FRaces.FRelationOffset;
+                if (AoWHSMap.Current != null)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerRelationsChanged();
                 }
@@ -4741,7 +4741,7 @@ namespace Aow.Game.Session
             int Result;
             if (Player > 0)
             {
-                Result = FPlayerRelations[Player - 1] + Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset;
+                Result = FPlayerRelations[Player - 1] + AoWHSMap.Current.FRaces.FRelationOffset;
             }
             else
             {
@@ -4757,7 +4757,7 @@ namespace Aow.Game.Session
             Status Result;
             if (Player > 0)
             {
-                Result = Aow.Game.Session.Race.StatusValueToStatus(FPlayerRelations[Player - 1] + Aow.Game.World.Map.AoWHSMap.Current.FRaces.FRelationOffset);
+                Result = Aow.Game.Session.Race.StatusValueToStatus(FPlayerRelations[Player - 1] + AoWHSMap.Current.FRaces.FRelationOffset);
             }
             else
             {
@@ -4771,9 +4771,9 @@ namespace Aow.Game.Session
         public void NewDay()
         {
             int DefaultValue;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay != 1)
+            if (AoWHSMap.Current.FDay != 1)
             {
-                if ((Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
+                if ((AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments & Set<GlobalEnchantmentType>.Of(GlobalEnchantmentType.Hatred, GlobalEnchantmentType.Harmony)) == Set<GlobalEnchantmentType>.Of())
                 {
                     for (int I = 0, last = FPlayerRelations.Count - 1; I <= last; I++)
                     {
@@ -4831,7 +4831,7 @@ namespace Aow.Game.Session
             {
                 for (int I = 0; I <= 11; I++)
                 {
-                    FDefaultRelations.Add((byte)(int)Aow.Game.Session.Race.DefaultRaceRelations[FRace][I]);
+                    FDefaultRelations.Add((byte)(int)DefaultRaceRelations[FRace][I]);
                 }
             }
         }
@@ -4876,9 +4876,9 @@ namespace Aow.Game.Session
             }
         }
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12 DefaultRaceRelations = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12.From([FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Friendly, Status.Polite, Status.Polite, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Neutral, Status.Polite, Status.Friendly, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Polite, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Friendly, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Wary, Status.Wary, Status.Wary, Status.Friendly, Status.Polite, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Polite, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Friendly, Status.Friendly, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Wary, Status.Wary, Status.Wary, Status.Wary, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Polite, Status.Polite, Status.Friendly])]);
+        private static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12 DefaultRaceRelations = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TStatus_12_12.From([FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Friendly, Status.Polite, Status.Polite, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Polite, Status.Friendly, Status.Polite, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Neutral, Status.Polite, Status.Friendly, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary, Status.Neutral, Status.Neutral, Status.Neutral, Status.Wary]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Polite, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Polite, Status.Friendly, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Polite, Status.Wary, Status.Wary, Status.Wary, Status.Friendly, Status.Polite, Status.Friendly, Status.Friendly, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Polite, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Friendly, Status.Friendly, Status.Friendly, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Neutral, Status.Neutral, Status.Neutral, Status.Neutral, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Friendly, Status.Friendly, Status.Polite]), FixedArray_Aow_Units_AoWE_TStatus_12.From([Status.Wary, Status.Wary, Status.Wary, Status.Wary, Status.Hostile, Status.Hostile, Status.Hostile, Status.Hostile, Status.Polite, Status.Polite, Status.Polite, Status.Friendly])]);
 
-        private static int StatusToStatusValue(global::Aow.Game.Engine.Status Status)
+        private static int StatusToStatusValue(Status Status)
         {
             int result;
             switch ((int)Status)
@@ -4906,16 +4906,16 @@ namespace Aow.Game.Session
             return result;
         }
 
-        internal static global::Aow.Game.Engine.Status StatusValueToStatus(int Value)
+        internal static Status StatusValueToStatus(int Value)
         {
-            global::Aow.Game.Engine.Status result;
+            Status result;
             if (Value <= 20)
             {
-                result = global::Aow.Game.Engine.Status.Hostile;
+                result = Status.Hostile;
             }
             else if (Value > 80)
             {
-                result = global::Aow.Game.Engine.Status.Friendly;
+                result = Status.Friendly;
             }
             else
             {
@@ -4941,7 +4941,7 @@ namespace Aow.Game.Session
                     case 38:
                     case 39:
                     case 40:
-                        result = global::Aow.Game.Engine.Status.Wary;
+                        result = Status.Wary;
                         break;
                     case 41:
                     case 42:
@@ -4963,7 +4963,7 @@ namespace Aow.Game.Session
                     case 58:
                     case 59:
                     case 60:
-                        result = global::Aow.Game.Engine.Status.Neutral;
+                        result = Status.Neutral;
                         break;
                     case 61:
                     case 62:
@@ -4985,10 +4985,10 @@ namespace Aow.Game.Session
                     case 78:
                     case 79:
                     case 80:
-                        result = global::Aow.Game.Engine.Status.Polite;
+                        result = Status.Polite;
                         break;
                     default:
-                        result = global::Aow.Game.Engine.Status.Neutral;
+                        result = Status.Neutral;
                         new ArgumentException("Invalid StatusValue");
                         break;
                 }
@@ -5105,7 +5105,7 @@ namespace Aow.Game.Session
                 {
                     if (GetRace(I) == null)
                     {
-                        Race = new global::Aow.Game.Session.Race(null);
+                        Race = new Race(null);
                         Race.FRace = (sbyte)I;
                         Race.SetArrayOwner(this, I);
                         Race.SetEnabled(true);
@@ -5288,9 +5288,9 @@ namespace Aow.Game.Session
                     FPlayer.FLegacyNewRelations.Clear();
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                if (AoWHSMap.Current.FDay == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                 {
-                    for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                     {
                         // { The loop index supplies the player. }
                         var diplomaticRelation = GetDiplomaticRelation((sbyte)I);
@@ -5301,7 +5301,7 @@ namespace Aow.Game.Session
                 {
                     if (FPlayer.FLegacyRelations.Count != 0)
                     {
-                        for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                         {
                             var diplomaticRelation = FPlayer.FLegacyRelations.GetDiplomaticRelation(I);
                             GetHistory((sbyte)I).Add(diplomaticRelation, 0);
@@ -5333,9 +5333,9 @@ namespace Aow.Game.Session
         public void SetDiplomaticRelation(sbyte Player, DiplomaticRelation Value)
         {
             FRelations[Player] = (byte)Value;
-            if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && Aow.Game.World.Map.AoWHSMap.Current.FDay > 0)
+            if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && AoWHSMap.Current.FDay > 0)
             {
-                GetHistory(Player).Add(Value, Aow.Game.World.Map.AoWHSMap.Current.FDay);
+                GetHistory(Player).Add(Value, AoWHSMap.Current.FDay);
             }
         }
 
@@ -5345,12 +5345,12 @@ namespace Aow.Game.Session
         // Player.PAS:119
         public void ValidateHistory()
         {
-            while (FHistory.Count + 1 < Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count)
+            while (FHistory.Count + 1 < AoWHSMap.Current.FPlayers.Count)
             {
                 new DiplomaticRelationHistoryList(null).Owner = FHistory;
             }
 
-            while (FHistory.Count + 1 > Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count)
+            while (FHistory.Count + 1 > AoWHSMap.Current.FPlayers.Count)
             {
                 var count = FHistory.Count;
                 FHistory.Children[count - 1]?.Dispose();
@@ -5604,7 +5604,7 @@ namespace Aow.Game.Session
         // Player.PAS:256
         public void SetGame(EObject Game)
         {
-            FEmailGame.Assign(Game, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            FEmailGame.Assign(Game, GameTables.AoWEngine);
         }
 
         // intf_P1_03.inc:160
@@ -5778,7 +5778,7 @@ namespace Aow.Game.Session
                 FUpkeepChangedEventsStore.Clear();
                 try
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+                    if (AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
                     {
                         Assert(FVictoryLocations.Count == 0, "Victory Locations not correctly cleared (TPlayer)", "Player.PAS", 326);
                         Assert(FStructures.Count == 0, "Registered Player Structures not correctly cleared (TPlayer)", "Player.PAS", 327);
@@ -5940,7 +5940,7 @@ namespace Aow.Game.Session
             Stream.rwString(ref FDescription, 12);
             Stream.rwInteger(ref FGems, 16);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FPlayerIndex), 18);
-            if ((Aow.Game.Magic.Abilities.GameTables.AoWEngine.Status & Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM, HSEngineStatusElement.SavingHSM)) != Set<HSEngineStatusElement>.Of() || Stream.StorageMode().Contains(StorageModeElement.TextOnly))
+            if ((GameTables.AoWEngine.Status & Set<HSEngineStatusElement>.Of(HSEngineStatusElement.LoadingHSM, HSEngineStatusElement.SavingHSM)) != Set<HSEngineStatusElement>.Of() || Stream.StorageMode().Contains(StorageModeElement.TextOnly))
             {
                 if (!Stream.StorageMode().Contains(StorageModeElement.Write))
                 {
@@ -5955,7 +5955,7 @@ namespace Aow.Game.Session
 
             if (Stream.StorageMode().Contains(StorageModeElement.Write))
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayerIndex && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+                if (AoWHSMap.Current.FSeatedPlayer == FPlayerIndex && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.GetViewCenter(ref X, ref Y, ref L);
                     FViewX = (byte)X;
@@ -6028,7 +6028,7 @@ namespace Aow.Game.Session
             Stream.rwStreamProc(53, FAIValidAttackPlayers.LoadFromStream, FAIValidAttackPlayers.SaveToStream);
             Stream.rwEObject(FPBEMSettings, 54);
             Stream.rwBool(ref FHeroEmerging, 56);
-            if (Stream.StorageMode().Contains(StorageModeElement.Read) || Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+            if (Stream.StorageMode().Contains(StorageModeElement.Read) || AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
             {
                 Stream.rwInteger(ref FBaseHeroJoinDay, 57);
             }
@@ -6045,7 +6045,7 @@ namespace Aow.Game.Session
         {
             base.MsgProc(ref Msg, Sender);
             FDiplomaticRelations.MsgProc(ref Msg, Sender);
-            if (Msg.MsgID == 536870920 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 0)
+            if (Msg.MsgID == 536870920 && AoWHSMap.Current.FDay == 0)
             {
                 FFirstDaySeen.Clear();
                 FLastDaySeen.Clear();
@@ -6061,10 +6061,10 @@ namespace Aow.Game.Session
                 try
                 {
                     UpdateLogbook();
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+                    if (AoWHSMap.Current.FDay == 1)
                     {
                         FViewX = 255;
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FGameType != GameType.Campaign && !Aow.Game.World.Map.AoWHSMap.Current.FFixedLeaders && FLeader != null)
+                        if (AoWHSMap.Current.FGameType != GameType.Campaign && !AoWHSMap.Current.FFixedLeaders && FLeader != null)
                         {
                             FLeader.Owner = null;
                             FMagicControl.UnregisterPowerSource(FLeader.FPowerSource);
@@ -6103,7 +6103,7 @@ namespace Aow.Game.Session
                 }
             }
 
-            if (Msg.MsgID == 536870920 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 0)
+            if (Msg.MsgID == 536870920 && AoWHSMap.Current.FDay == 0)
             {
                 FViewX = 255;
                 FViewY = 255;
@@ -6120,8 +6120,8 @@ namespace Aow.Game.Session
         public bool GetBusy()
         {
             bool Result = FBusyCount != 0 || !Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayerIndex);
-            Result = Result || (Aow.Game.World.Map.AoWHSMap.Current.FCombat == null && Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer != FPlayerIndex);
-            Result = Result || Aow.Game.World.Map.AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer != FPlayerIndex;
+            Result = Result || (AoWHSMap.Current.FCombat == null && AoWHSMap.Current.FPlayMode == PlayMode.Turn && AoWHSMap.Current.FCurrentPlayer != FPlayerIndex);
+            Result = Result || AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer != FPlayerIndex;
             Result = Result || FGameOverStatus != GameOverStatus.None || !GetLocal();
             return Result || FPlayerType == PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimerEnabled() && Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimeLeft() <= 0;
         }
@@ -6173,12 +6173,12 @@ namespace Aow.Game.Session
             {
                 FGameOverStatus = Value;
                 Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.DeactivatePlayer(FPlayerIndex);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FGameType == GameType.Campaign && FPlayerType == PlayerType.Human)
+                if (AoWHSMap.Current.FGameType == GameType.Campaign && FPlayerType == PlayerType.Human)
                 {
                     if (FGameOverStatus == GameOverStatus.Lost)
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.FGameResult = Aow.Game.World.Map.AoWHSMap.GameResult.Failed;
-                        Campaign = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign;
+                        AoWHSMap.Current.FGameResult = AoWHSMap.GameResult.Failed;
+                        Campaign = GameTables.AoWEngine.FCampaign;
                         if (Campaign != null)
                         {
                             Campaign.RestartScenario();
@@ -6188,8 +6188,8 @@ namespace Aow.Game.Session
                     {
                         if (FGameOverStatus == GameOverStatus.Won)
                         {
-                            Aow.Game.World.Map.AoWHSMap.Current.FGameResult = Aow.Game.World.Map.AoWHSMap.GameResult.Succeeded;
-                            Campaign = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign;
+                            AoWHSMap.Current.FGameResult = AoWHSMap.GameResult.Succeeded;
+                            Campaign = GameTables.AoWEngine.FCampaign;
                             if (Campaign != null)
                             {
                                 Campaign.FinishScenario();
@@ -6224,16 +6224,16 @@ namespace Aow.Game.Session
                 Event.FPlayer = FPlayerIndex;
                 if (Value == GameOverStatus.Lost)
                 {
-                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FPlayerRace]);
+                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FPlayerRace]);
                     var name = GetName();
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.GameOverDefeatMessageRStr), [IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FDay), raceNamesPlural, name]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameOverDefeatMessageRStr), [IntToStr(AoWHSMap.Current.FDay), raceNamesPlural, name]);
                     Event.FMessage.Text = format;
                 }
                 else
                 {
-                    var raceNamesPluralText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FPlayerRace]);
+                    var raceNamesPluralText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FPlayerRace]);
                     var name = GetName();
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.GameOverVictoryMessageRStr), [IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FDay), raceNamesPluralText, name]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameOverVictoryMessageRStr), [IntToStr(AoWHSMap.Current.FDay), raceNamesPluralText, name]);
                     Event.FMessage.Text = format;
                 }
 
@@ -6299,29 +6299,29 @@ namespace Aow.Game.Session
             if (FPlayerIndex > 0)
             {
                 Result = true;
-                if (FLeader.GetSphereCount() != Aow.Game.World.Map.AoWHSMap.Current.FSphereCount)
+                if (FLeader.GetSphereCount() != AoWHSMap.Current.FSphereCount)
                 {
-                    var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[FPlayerRace]);
-                    LeaderName = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Session.Player.XLeaderRStr, [raceNames]);
-                    S = LeaderName + ": " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.NotAllSpheresAssignedRStr);
+                    var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[FPlayerRace]);
+                    LeaderName = Aow.Game.Magic.Abilities.AbilityRules.Format(XLeaderRStr, [raceNames]);
+                    S = LeaderName + ": " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NotAllSpheresAssignedRStr);
                     Errors.Add(S);
                     Result = false;
                 }
 
                 if (FLeader.Owner == null)
                 {
-                    var raceNamesText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[FPlayerRace]);
-                    LeaderName = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Session.Player.XLeaderRStr, [raceNamesText]);
-                    S = LeaderName + ": " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.NotPlacedOnMapRStr);
+                    var raceNamesText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[FPlayerRace]);
+                    LeaderName = Aow.Game.Magic.Abilities.AbilityRules.Format(XLeaderRStr, [raceNamesText]);
+                    S = LeaderName + ": " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NotPlacedOnMapRStr);
                     Errors.Add(S);
                     Result = false;
                 }
 
                 if (FLeader.GetSkillPoints() != 0)
                 {
-                    var translateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[FPlayerRace]);
-                    LeaderName = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Session.Player.XLeaderRStr, [translateRStr]);
-                    S = LeaderName + ": " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.NotAllSkillPointsAssignedRStr);
+                    var translateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[FPlayerRace]);
+                    LeaderName = Aow.Game.Magic.Abilities.AbilityRules.Format(XLeaderRStr, [translateRStr]);
+                    S = LeaderName + ": " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NotAllSkillPointsAssignedRStr);
                     Errors.Add(S);
                 }
             }
@@ -6400,7 +6400,7 @@ namespace Aow.Game.Session
                 FGemsChangedEventsStore.Raise(this);
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FVictoryCondition == Aow.Game.World.Map.AoWHSMap.VictoryCondition.AccumulateGold && Aow.Game.World.Map.AoWHSMap.Current.FVictoryGold <= FGems)
+            if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.AccumulateGold && AoWHSMap.Current.FVictoryGold <= FGems)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.GameOver(FPlayerIndex, GameOverStatus.Won);
             }
@@ -6515,12 +6515,12 @@ namespace Aow.Game.Session
 
                 if (IsEmpty(Result))
                 {
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.PlayerRStr) + " " + IntToStr(FPlayerIndex);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PlayerRStr) + " " + IntToStr(FPlayerIndex);
                 }
             }
             else
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.IndependentsRStr);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.IndependentsRStr);
             }
 
             return Result;
@@ -6533,8 +6533,8 @@ namespace Aow.Game.Session
             if (FPlayerIndex != 0)
             {
                 var name = GetName();
-                var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FPlayerRace]);
-                Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.PlayerNameExRStr), [name, raceNamesPlural]);
+                var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[FPlayerRace]);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PlayerNameExRStr), [name, raceNamesPlural]);
             }
             else
             {
@@ -6562,9 +6562,9 @@ namespace Aow.Game.Session
         }
 
         // Player.PAS:682
-        public Aow.Game.Draw.Images.LibraryImage GetFace()
+        public LibraryImage GetFace()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             if (FLeader != null)
             {
                 Result = FLeader.GetFace();
@@ -6622,7 +6622,7 @@ namespace Aow.Game.Session
                 }
             }
 
-            Maximum = Aow.Game.World.Map.AoWHSMap.Current.FHeroCountMax;
+            Maximum = AoWHSMap.Current.FHeroCountMax;
             if (Maximum < Result)
             {
                 Result = Maximum;
@@ -6645,7 +6645,7 @@ namespace Aow.Game.Session
             }
             else
             {
-                if (Average <= FHeroes.Count && FHeroes.Count != 0 && Aow.Game.World.Map.AoWHSMap.Current.FDay > 15)
+                if (Average <= FHeroes.Count && FHeroes.Count != 0 && AoWHSMap.Current.FDay > 15)
                 {
                     Result += 10;
                 }
@@ -6673,7 +6673,7 @@ namespace Aow.Game.Session
             }
             else
             {
-                if (Average < FHeroes.Count && FHeroes.Count != 0 && Aow.Game.World.Map.AoWHSMap.Current.FDay > 10)
+                if (Average < FHeroes.Count && FHeroes.Count != 0 && AoWHSMap.Current.FDay > 10)
                 {
                     Result += 10;
                 }
@@ -6695,7 +6695,7 @@ namespace Aow.Game.Session
         // Player.PAS:733
         public void ResetBaseHeroJoinDay()
         {
-            FLastHeroJoinDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+            FLastHeroJoinDay = AoWHSMap.Current.FDay;
         }
 
         // Player.PAS:738
@@ -6709,7 +6709,7 @@ namespace Aow.Game.Session
             DoubleItem<Hero> Item;
             int I;
             Hero Hero;
-            Heroes = new DoubleItemList<global::Aow.Game.Magic.Abilities.Hero>();
+            Heroes = new DoubleItemList<Hero>();
             if (Mode == HeroEmergeMode.Normal)
             {
                 I = Aow.Game.World.Map.AoWHSMap.Current.FHeroControl.GetCount() - 1;
@@ -6737,7 +6737,7 @@ namespace Aow.Game.Session
                         if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0 && Hero.Owner == null && Hero.GetAbilityEnabled(52) && Hero.GetLevel() >= 2 && Hero.GetLevel() <= 3)
                         {
                             var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(Hero.FRace).GetPlayerRelation(FPlayerIndex);
-                            if (Set<global::Aow.Game.Engine.Status>.Of(global::Aow.Game.Engine.Status.Polite, global::Aow.Game.Engine.Status.Friendly).Contains(playerRelation) && Hero.JoinAmount(FPlayerIndex) < FGems)
+                            if (Set<Engine.Status>.Of(Engine.Status.Polite, Engine.Status.Friendly).Contains(playerRelation) && Hero.JoinAmount(FPlayerIndex) < FGems)
                             {
                                 var level = Hero.GetLevel();
                                 Heroes.AddAB(Hero, (level - 2) * 1000 + 1);
@@ -6764,7 +6764,7 @@ namespace Aow.Game.Session
 
                 if (Locations.Count != 0)
                 {
-                    FLastHeroEmergeDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+                    FLastHeroEmergeDay = AoWHSMap.Current.FDay;
                     RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(1048575);
                     I = Heroes.RandomChanceItemB(0);
                     Item = Heroes[I];
@@ -6778,20 +6778,20 @@ namespace Aow.Game.Session
                     var item2 = Locations[I];
                     var item3 = Locations[I];
                     var item4 = Locations[I];
-                    Structure = (global::Aow.Game.World.Structures.Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.L).FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.Structure));
+                    Structure = (Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(item4.X, item3.Y, item2.L).FindNoneTransparentHS(typeof(Structure));
                     Log = new HeroEmergeEventLog(null);
-                    Log.Setup(Hero, FPlayerIndex, Aow.Game.Events.HeroEmergeEventLog.HeroJoinMode.Emerged);
+                    Log.Setup(Hero, FPlayerIndex, HeroEmergeEventLog.HeroJoinMode.Emerged);
                     if (Structure != null)
                     {
                         Log.FLocationName = Structure.GetName();
                     }
                     else
                     {
-                        Log.FLocationName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                        Log.FLocationName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
                     }
 
                     FEventLogbook.AddEvent(Log);
-                    if (FPlayerIndex == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FPlayerType == PlayerType.Human)
+                    if (FPlayerIndex == AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayerIndex).FPlayerType == PlayerType.Human)
                     {
                         Log.Execute(false, ExecuteTrigger.Event, null);
                     }
@@ -6834,8 +6834,8 @@ namespace Aow.Game.Session
             }
 
             FEmergingHeroID = 0;
-            Days = GetIdealHeroEmergeDay() - Aow.Game.World.Map.AoWHSMap.Current.FDay;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1 && FHeroes.Count == 1 && !Aow.Game.World.Map.AoWHSMap.Current.FFixedLeaders)
+            Days = GetIdealHeroEmergeDay() - AoWHSMap.Current.FDay;
+            if (AoWHSMap.Current.FDay == 1 && FHeroes.Count == 1 && !AoWHSMap.Current.FFixedLeaders)
             {
                 MakeHeroEmerge(HeroEmergeMode.FirstHero);
                 return;
@@ -6878,7 +6878,7 @@ namespace Aow.Game.Session
             int Days;
             int Result = FBaseHeroJoinLevel;
             var idealHeroJoinDay = GetIdealHeroJoinDay();
-            Days = Aow.Game.World.Map.AoWHSMap.Current.FDay - idealHeroJoinDay;
+            Days = AoWHSMap.Current.FDay - idealHeroJoinDay;
             if (Days > 0)
             {
                 Result += Days / 5;
@@ -6893,7 +6893,7 @@ namespace Aow.Game.Session
                 }
             }
 
-            if (Result < 3 && !Aow.Game.World.Map.AoWHSMap.Current.FFixedLeaders && Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (Result < 3 && !AoWHSMap.Current.FFixedLeaders && AoWHSMap.Current.FDay == 1)
             {
                 Result = 3;
             }
@@ -6908,9 +6908,9 @@ namespace Aow.Game.Session
             int ResourceIndex;
             HeroType HeroType;
             string Name;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && FPlayerIndex != 0)
+            if (AoWHSMap.Current != null && FPlayerIndex != 0)
             {
-                HeroType = global::Aow.Game.Units.HeroType.HeroLeader;
+                HeroType = Units.HeroType.HeroLeader;
                 if (FLeader != null && FLeader.GetHeroType() != HeroType)
                 {
                     Name = FLeader.FHeroName;
@@ -6937,7 +6937,7 @@ namespace Aow.Game.Session
                     }
                     else
                     {
-                        if (FLeader != null && !Aow.Game.World.Map.AoWHSMap.Current.FFixedLeaders && Aow.Game.World.Map.AoWHSMap.Current.FGameType != GameType.Campaign && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                        if (FLeader != null && !AoWHSMap.Current.FFixedLeaders && AoWHSMap.Current.FGameType != GameType.Campaign && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                         {
                             FLeader.Owner = null;
                         }
@@ -6977,7 +6977,7 @@ namespace Aow.Game.Session
                 if (condition)
                 {
                     var logs = FEventLogbook.GetLogs(0);
-                    condition = Aow.Game.World.Map.AoWHSMap.Current.FDay - logs.FDay >= 3;
+                    condition = AoWHSMap.Current.FDay - logs.FDay >= 3;
                 }
 
                 if (!condition)
@@ -7008,7 +7008,7 @@ namespace Aow.Game.Session
                         AUnit = Army.GetUnit(J);
                         if (Info.FArmyStrength < 1073741823)
                         {
-                            var strengthMax = AUnit.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                            var strengthMax = AUnit.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                             Info.FArmyStrength += strengthMax;
                         }
                     }
@@ -7019,7 +7019,7 @@ namespace Aow.Game.Session
         // Player.PAS:955
         public void UpdateAlliedPlayersSeen()
         {
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 if (I != FPlayerIndex)
                 {
@@ -7034,7 +7034,7 @@ namespace Aow.Game.Session
         // Player.PAS:965
         public void SetupAIValidAttackPlayers()
         {
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 if (I != FPlayerIndex)
                 {
@@ -7084,7 +7084,7 @@ namespace Aow.Game.Session
             }
             else
             {
-                Result = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+                Result = AoWHSMap.Current.FDay;
             }
 
             return Result;
@@ -7093,12 +7093,12 @@ namespace Aow.Game.Session
         // Player.PAS:1124
         public void PlayerSeen(sbyte Player)
         {
-            if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && (Player >= FLastDaySeen.Count || FLastDaySeen[Player] != Aow.Game.World.Map.AoWHSMap.Current.FDay))
+            if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && (Player >= FLastDaySeen.Count || FLastDaySeen[Player] != AoWHSMap.Current.FDay))
             {
-                FLastDaySeen[Player] = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+                FLastDaySeen[Player] = AoWHSMap.Current.FDay;
                 if (GetFirstDaySeen(Player) == -1)
                 {
-                    FFirstDaySeen[Player] = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+                    FFirstDaySeen[Player] = AoWHSMap.Current.FDay;
                 }
             }
         }
@@ -7123,7 +7123,7 @@ namespace Aow.Game.Session
         {
             bool Result;
             PlayerCommunicationControl Control;
-            Control = Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC;
+            Control = AoWHSMap.Current.FPlayerCommunicator.PCC;
             if (Control != null)
             {
                 var players = Control.GetPlayers(FPlayerIndex);
@@ -7152,7 +7152,7 @@ namespace Aow.Game.Session
         // Player.PAS:1169
         public void CheckCaptureLocations()
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FVictoryCondition == Aow.Game.World.Map.AoWHSMap.VictoryCondition.CaptureLocations)
+            if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.CaptureLocations)
             {
                 if (CaptureLocationsLeft() == 0)
                 {
@@ -7176,7 +7176,7 @@ namespace Aow.Game.Session
                         condition = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(structure.FPlayer, FPlayerIndex) == DiplomaticRelation.Alliance;
                     }
 
-                    if (!(condition && Aow.Game.World.Map.AoWHSMap.Current.FAlliedVictory))
+                    if (!(condition && AoWHSMap.Current.FAlliedVictory))
                     {
                         Result += 1;
                     }
@@ -7219,7 +7219,7 @@ namespace Aow.Game.Session
             while (!Result && I != 0)
             {
                 I -= 1;
-                if (Logbook.GetLogs(I).FDay == Aow.Game.World.Map.AoWHSMap.Current.FDay)
+                if (Logbook.GetLogs(I).FDay == AoWHSMap.Current.FDay)
                 {
                     if (Logbook.GetLogs(I) is DiplomaticActionEventLog)
                     {
@@ -7309,7 +7309,7 @@ namespace Aow.Game.Session
                     }
                 }
 
-                for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                 {
                     if (I != Player && I != FPlayerIndex && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing)
                     {
@@ -7332,7 +7332,7 @@ namespace Aow.Game.Session
                     }
                 }
 
-                for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                 {
                     if (I != Player && I != FPlayerIndex && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing)
                     {
@@ -7350,7 +7350,7 @@ namespace Aow.Game.Session
 
                 if (FPlayerRace == 5 && FHeroEmerging && FPlayerType == PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
                 {
-                    for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                     {
                         if (I != Player && I != FPlayerIndex && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Status.Playing && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human)
                         {
@@ -7452,9 +7452,9 @@ namespace Aow.Game.Session
 
             public override int Icon => 46;
 
-            public override string Name(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.ThreatenToAttack.P5ThreatenToAttackRStr);
+            public override string Name(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5ThreatenToAttackRStr);
 
-            public override string LogText(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.ThreatenToAttack.P5ThreatRStr);
+            public override string LogText(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5ThreatRStr);
 
             public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
                 Text.Proposing(112);
@@ -7474,11 +7474,11 @@ namespace Aow.Game.Session
 
             public override int Icon => 48;
 
-            public override string Name(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.MakeTribute.P5MakeTributeRStr);
+            public override string Name(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5MakeTributeRStr);
 
             public override string LogText(DiplomaticAction Action)
             {
-                var subject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.MakeTribute.P5TributeRStr);
+                var subject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5TributeRStr);
                 return Outcome(Action, subject, subject, AcceptedLine(subject), "");
             }
 
@@ -7491,7 +7491,7 @@ namespace Aow.Game.Session
             {
                 if (Gold == 0 && Mana == 0)
                 {
-                    ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.MakeTribute.P5NoGoldManaSpecifiedRStr);
+                    ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5NoGoldManaSpecifiedRStr);
                     return false;
                 }
 
@@ -7544,10 +7544,10 @@ namespace Aow.Game.Session
             public override string Name(DiplomaticAction Action)
             {
                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).GetName();
-                return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.SendMessageAsY.P5SendMessageAsXRStr), [name]);
+                return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5SendMessageAsXRStr), [name]);
             }
 
-            public override string LogText(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P5MessageRStr);
+            public override string LogText(DiplomaticAction Action) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P5MessageRStr);
 
             public override void Sent(DiplomaticAction Action) => Deliver(Action);
 
@@ -7566,13 +7566,13 @@ namespace Aow.Game.Session
             public override string Name(DiplomaticAction Action)
             {
                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).GetName();
-                return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.BreakAllianceWithY.P5SuggestAllianceBreakWithYRStr), [name]);
+                return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5SuggestAllianceBreakWithYRStr), [name]);
             }
 
             public override string LogText(DiplomaticAction Action)
             {
-                var subject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P5BreakAllianceRStr);
-                return Outcome(Action, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.BreakAllianceWithY.P5BreakAllianceSuggestionRStr), subject, AcceptedLine(subject), "");
+                var subject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P5BreakAllianceRStr);
+                return Outcome(Action, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5BreakAllianceSuggestionRStr), subject, AcceptedLine(subject), "");
             }
 
             public override void DefaultMessage(DiplomaticMessageText Text, DiplomaticActionReaction Reaction, DiplomaticRelation Relation) =>
@@ -7636,13 +7636,13 @@ namespace Aow.Game.Session
             public override string Name(DiplomaticAction Action)
             {
                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Action.FOtherPlayer).GetName();
-                return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.DeclareWarToY.P5SuggestWarWithYRStr), [name]);
+                return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5SuggestWarWithYRStr), [name]);
             }
 
             public override string LogText(DiplomaticAction Action)
             {
-                var subject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P5DeclareWarRStr);
-                return Outcome(Action, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.Player.DeclareWarToY.P5DeclareWarSuggestionRStr), subject, AcceptedLine(subject), "");
+                var subject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P5DeclareWarRStr);
+                return Outcome(Action, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5DeclareWarSuggestionRStr), subject, AcceptedLine(subject), "");
             }
 
             public override int MiddleIcon(DiplomaticAction Action) =>
@@ -7752,13 +7752,13 @@ namespace Aow.Game.Session
         public ByteList FLocalHumanPlayers;
 
         // Player.PAS:1543
-        public override void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
+        public override void Assign(EObject Source, Engine.Engine AEngine)
         {
             SetNumberOfPlayers(((PlayerList)Source).GetNumberOfPlayers());
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
                 var players = ((PlayerList)Source).GetPlayers(I);
-                ((EObject)FChildren.List[I]).Assign(players, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                ((EObject)FChildren.List[I]).Assign(players, GameTables.AoWEngine);
             }
         }
 
@@ -7766,11 +7766,11 @@ namespace Aow.Game.Session
         public int GetDiplomaticRelationCount(sbyte Player, Set<DiplomaticRelation> Relations)
         {
             int Result = 0;
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = Count - 1; I <= last; I++)
             {
                 if (I != Player)
                 {
-                    if (GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing)
+                    if (GetPlayers(I).FStatus == Session.Player.Status.Playing)
                     {
                         if (Relations.Contains(GetDiplomaticRelation(Player, (sbyte)I)))
                         {
@@ -7784,12 +7784,12 @@ namespace Aow.Game.Session
         }
 
         // Player.PAS:1445
-        public DiplomaticRelation GetDiplomaticRelation(sbyte Player, sbyte OtherPlayer) => ((global::Aow.Game.Session.Player)FChildren.List[Player]).FDiplomaticRelations.GetDiplomaticRelation(OtherPlayer);
+        public DiplomaticRelation GetDiplomaticRelation(sbyte Player, sbyte OtherPlayer) => ((Player)FChildren.List[Player]).FDiplomaticRelations.GetDiplomaticRelation(OtherPlayer);
 
         // Player.PAS:1450
         public void SetDiplomaticRelation(sbyte Player, sbyte OtherPlayer, DiplomaticRelation Relation)
         {
-            if (((global::Aow.Game.Session.Player)FChildren.List[Player]).FDiplomaticRelations.GetDiplomaticRelation(OtherPlayer) != Relation || ((global::Aow.Game.Session.Player)FChildren.List[OtherPlayer]).FDiplomaticRelations.GetDiplomaticRelation(Player) != Relation)
+            if (((Player)FChildren.List[Player]).FDiplomaticRelations.GetDiplomaticRelation(OtherPlayer) != Relation || ((Player)FChildren.List[OtherPlayer]).FDiplomaticRelations.GetDiplomaticRelation(Player) != Relation)
             {
                 if (Relation == DiplomaticRelation.Alliance)
                 {
@@ -7807,24 +7807,24 @@ namespace Aow.Game.Session
                     }
                 }
 
-                ((global::Aow.Game.Session.Player)FChildren.List[Player]).FDiplomaticRelations.SetDiplomaticRelation(OtherPlayer, Relation);
-                ((global::Aow.Game.Session.Player)FChildren.List[OtherPlayer]).FDiplomaticRelations.SetDiplomaticRelation(Player, Relation);
+                ((Player)FChildren.List[Player]).FDiplomaticRelations.SetDiplomaticRelation(OtherPlayer, Relation);
+                ((Player)FChildren.List[OtherPlayer]).FDiplomaticRelations.SetDiplomaticRelation(Player, Relation);
                 if (Relation == DiplomaticRelation.War)
                 {
-                    ((global::Aow.Game.Session.Player)FChildren.List[Player]).FAIValidAttackPlayers[OtherPlayer] = true;
-                    ((global::Aow.Game.Session.Player)FChildren.List[OtherPlayer]).FAIValidAttackPlayers[Player] = true;
+                    ((Player)FChildren.List[Player]).FAIValidAttackPlayers[OtherPlayer] = true;
+                    ((Player)FChildren.List[OtherPlayer]).FAIValidAttackPlayers[Player] = true;
                 }
 
                 if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(Relation))
                 {
-                    ((global::Aow.Game.Session.Player)FChildren.List[Player]).FAIValidAttackPlayers[OtherPlayer] = false;
-                    ((global::Aow.Game.Session.Player)FChildren.List[OtherPlayer]).FAIValidAttackPlayers[Player] = false;
+                    ((Player)FChildren.List[Player]).FAIValidAttackPlayers[OtherPlayer] = false;
+                    ((Player)FChildren.List[OtherPlayer]).FAIValidAttackPlayers[Player] = false;
                 }
 
                 Aow.Game.World.Map.AoWHSMap.Current.FDiplomaticRelationsChangedEventsStore.Raise(this);
                 for (int J = Count - 1; J >= 1; J--)
                 {
-                    ((global::Aow.Game.Session.Player)FChildren.List[J]).FMagicControl.UpdateEnemyEnchantments();
+                    ((Player)FChildren.List[J]).FMagicControl.UpdateEnemyEnchantments();
                 }
 
                 Aow.Game.World.Map.AoWHSMap.Current.UpdateVisibility();
@@ -7921,7 +7921,7 @@ namespace Aow.Game.Session
             int Result = 0;
             for (int I = 1, last = FChildren.Count - 1; I <= last; I++)
             {
-                Player = (global::Aow.Game.Session.Player)FChildren.EObjects[I];
+                Player = (Player)FChildren.EObjects[I];
                 for (int J = Player.FHeroes.Count - 1; J >= 0; J--)
                 {
                     Result += Player.FHeroes.GetHero(J).GetLevel();
@@ -8007,7 +8007,7 @@ namespace Aow.Game.Session
 
             while (Count <= Value)
             {
-                Player = new global::Aow.Game.Session.Player(null);
+                Player = new Player(null);
                 Player.SetPlayerIndex((sbyte)Count);
                 if (Count == 0)
                 {
@@ -8063,7 +8063,7 @@ namespace Aow.Game.Session
 
             I = 0;
             DefaultRace = -1;
-            while (I != Aow.Game.Engine.AoWHSSet.Current.FRaceResources.Count && DefaultRace == -1)
+            while (I != Count && DefaultRace == -1)
             {
                 if (Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(I) != null)
                 {
@@ -8110,7 +8110,7 @@ namespace Aow.Game.Session
             I = 1;
             while (Valid && I < FChildren.Count)
             {
-                Player = (global::Aow.Game.Session.Player)FChildren.List[I];
+                Player = (Player)FChildren.List[I];
                 Valid = Player.FPlayerRace != -1 && Races.GetRace(Player.FPlayerRace).FEnabled;
                 if (Valid)
                 {
@@ -8150,7 +8150,7 @@ namespace Aow.Game.Session
             BestPlayer = -1;
             for (int I = 1, last = Count - 1; I <= last; I++)
             {
-                if (GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing)
+                if (GetPlayers(I).FStatus == Player.Status.Playing)
                 {
                     Value = GetPlayers(I).GetSuperiority();
                     if (Value > Maximum)
@@ -8184,7 +8184,7 @@ namespace Aow.Game.Session
         // intf_P1_03.inc:319
         public void Update()
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC is null) return;
+            if (AoWHSMap.Current.FPlayerCommunicator.PCC is null) return;
             FLocalControlledPlayers.Clear();
             FLocalHumanPlayers.Clear();
             FLocalPlayers.Clear();
@@ -8192,7 +8192,7 @@ namespace Aow.Game.Session
             for (int i = 0; i < FChildren.Count; i++)
             {
                 var player = (Player)FChildren.List[i];
-                if (player.FStatus != Aow.Game.Session.Player.Status.Playing) continue;
+                if (player.FStatus != Player.Status.Playing) continue;
                 if (player.FGameOverStatus != GameOverStatus.Lost && i != 0) FActivePlayers.Add((byte)i);
                 if (player.GetLocal())
                 {
@@ -8474,7 +8474,7 @@ namespace Aow.Game.World.Map
                 if (MapField.FindNoneTransparentHS(typeof(Structure)) != null)
                 {
                     Result += 5;
-                    if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(Aow.Game.Magic.GlobalEnchantmentType.FireMastery))
+                    if (AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.FireMastery))
                     {
                         Result += 5;
                     }
@@ -8790,8 +8790,8 @@ namespace Aow.Game.World.Movement
                 Array.Clear(FLevelData);
                 for (int I = 1; I <= 6; I++)
                 {
-                    FEvenOffsets[I] = Aow.Game.World.Map.HexGeometry.HNtoXYTable[0][I].X * 4 + Aow.Game.World.Map.HexGeometry.HNtoXYTable[0][I].Y * (Width * 4);
-                    FOddOffsets[I] = Aow.Game.World.Map.HexGeometry.HNtoXYTable[1][I].X * 4 + Aow.Game.World.Map.HexGeometry.HNtoXYTable[1][I].Y * (Width * 4);
+                    FEvenOffsets[I] = HexGeometry.HNtoXYTable[0][I].X * 4 + HexGeometry.HNtoXYTable[0][I].Y * (Width * 4);
+                    FOddOffsets[I] = HexGeometry.HNtoXYTable[1][I].X * 4 + HexGeometry.HNtoXYTable[1][I].Y * (Width * 4);
                 }
             }
             else
@@ -8820,7 +8820,7 @@ namespace Aow.Game.World.Movement
         // MoveT.PAS:238
         public int[] GetMovePointLevelData(int Level) => FLevelData[Level];
 
-        internal static void FillInt(global::System.Span<byte> destination, int count, int value)
+        internal static void FillInt(Span<byte> destination, int count, int value)
         {
             Aow.Graphics.Blit.FillInt(destination, count, value);
         }
@@ -8950,7 +8950,7 @@ namespace Aow.Game.World.Movement
             {
                 FSettings.SetupLevel(FSettings.FSourceL);
                 FSettings.SetMovePoints(FSourceX, FSourceY, FSourceL, 0);
-                FSettings.FStatus = Aow.Game.World.Movement.MoveControlSettings.Status.Processed;
+                FSettings.FStatus = MoveControlSettings.Status.Processed;
             }
 
             return true;
@@ -8963,7 +8963,7 @@ namespace Aow.Game.World.Movement
             {
                 if (Activate(Settings))
                 {
-                    Assert(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo || Settings.FStatus != Aow.Game.World.Movement.MoveControlSettings.Status.Processed, "", "MoveT.PAS", 1541);
+                    Assert(GameTables.AoWEngine.FDemo || Settings.FStatus != MoveControlSettings.Status.Processed, "", "MoveT.PAS", 1541);
                     do
                     {
                     }
@@ -8973,7 +8973,7 @@ namespace Aow.Game.World.Movement
                         CalculatePathEx(Settings.FPath, (sbyte)FDestinationX, (sbyte)FDestinationY, (sbyte)FDestinationL);
                         if (Settings.FPath.Count == 0)
                         {
-                            Settings.FStatus = Aow.Game.World.Movement.MoveControlSettings.Status.Failed;
+                            Settings.FStatus = MoveControlSettings.Status.Failed;
                         }
                     }
 
@@ -8984,7 +8984,7 @@ namespace Aow.Game.World.Movement
             {
                 Settings.FPath.Clear();
                 Settings.FPath.AddXYL((sbyte)Settings.FSourceX, (sbyte)Settings.FSourceY, (sbyte)Settings.FSourceL);
-                Settings.FStatus = Aow.Game.World.Movement.MoveControlSettings.Status.Processed;
+                Settings.FStatus = MoveControlSettings.Status.Processed;
             }
         }
 
@@ -9114,7 +9114,7 @@ namespace Aow.Game.World.Movement
                     }
                     else
                     {
-                        SubMove = new global::Aow.Game.World.Movement.SubMove(null);
+                        SubMove = new SubMove(null);
                         var targetXYL = Target.GetXYL();
                         SubMove.FLocation.Packed = targetXYL;
                         var sourceXYL = Source.GetXYL();
@@ -9133,7 +9133,7 @@ namespace Aow.Game.World.Movement
             int Direction;
             int Count;
             int HT;
-            SubMove = new global::Aow.Game.World.Movement.SubMove(null);
+            SubMove = new SubMove(null);
             var xyl = MapF.GetXYL();
             SubMove.FLocation.Packed = xyl;
             if (Origin != null)
@@ -9171,7 +9171,7 @@ namespace Aow.Game.World.Movement
 
                 for (int I = 0; I <= 2; I++)
                 {
-                    HT = Aow.Game.World.Movement.MoveControl.P5OddDirections[Direction - 1][I];
+                    HT = P5OddDirections[Direction - 1][I];
                     Count = CalculateMovePointLine(MapF, HT, OverCode);
                     if (Count != 0)
                     {
@@ -9181,7 +9181,7 @@ namespace Aow.Game.World.Movement
 
                 for (int I = 0; I <= 2; I++)
                 {
-                    HT = Aow.Game.World.Movement.MoveControl.P5EvenDirections[Direction - 1][I];
+                    HT = P5EvenDirections[Direction - 1][I];
                     Count = CalculateMovePointLine(MapF, HT, OverCode);
                     if (Count != 0)
                     {
@@ -9224,11 +9224,11 @@ namespace Aow.Game.World.Movement
             Assert(FStatus.Contains(StatusElement.Activated), "", "MoveT.PAS", 1339);
             switch (FSettings.FStatus)
             {
-                case Aow.Game.World.Movement.MoveControlSettings.Status.Idle:
+                case MoveControlSettings.Status.Idle:
                     SetupMove();
-                    FSettings.FStatus = Aow.Game.World.Movement.MoveControlSettings.Status.Processing;
+                    FSettings.FStatus = MoveControlSettings.Status.Processing;
                     break;
-                case Aow.Game.World.Movement.MoveControlSettings.Status.Processing:
+                case MoveControlSettings.Status.Processing:
                     var count = FSettings.FSubMoves.Count;
                     if (FSettings.FSubMoveIndex < count)
                     {
@@ -9241,13 +9241,13 @@ namespace Aow.Game.World.Movement
                     var fSubMovesCount = FSettings.FSubMoves.Count;
                     if (FSettings.FSubMoveIndex >= fSubMovesCount)
                     {
-                        FSettings.FStatus = Aow.Game.World.Movement.MoveControlSettings.Status.Processed;
+                        FSettings.FStatus = MoveControlSettings.Status.Processed;
                     }
 
                     break;
             }
 
-            return FSettings.FStatus != Aow.Game.World.Movement.MoveControlSettings.Status.Processed && FSettings.FStatus != Aow.Game.World.Movement.MoveControlSettings.Status.Failed;
+            return FSettings.FStatus != MoveControlSettings.Status.Processed && FSettings.FStatus != MoveControlSettings.Status.Failed;
         }
 
         // MoveT.PAS:1436
@@ -9284,7 +9284,7 @@ namespace Aow.Game.World.Movement
             if (FStatus.Contains(StatusElement.Activated))
             {
                 FStatus = FStatus - Set<StatusElement>.Of(StatusElement.Activated);
-                if (FSettings.FStatus == Aow.Game.World.Movement.MoveControlSettings.Status.Processing)
+                if (FSettings.FStatus == MoveControlSettings.Status.Processing)
                 {
                     FSettings.FMovePointsLimit = FMovePointsLimit;
                 }
@@ -9563,10 +9563,10 @@ namespace Aow.Game.World.Movement
             return Points;
         }
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_int_7 P5OppositeDirections = global::Aow.Game.Engine.Buffers.FixedArray_int_7.From([0, 4, 5, 6, 1, 2, 3]);
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_int_2_7 P5SideDirections = FixedArray_Aow_Units_FixedArray_int_2_7.From([FixedArray_int_2.From([-1, -1]), FixedArray_int_2.From([6, 2]), FixedArray_int_2.From([1, 3]), FixedArray_int_2.From([2, 4]), FixedArray_int_2.From([3, 5]), FixedArray_int_2.From([4, 6]), FixedArray_int_2.From([5, 1])]);
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_byte_3_6 P5OddDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([1, 3, 5]), FixedArray_byte_3.From([3, 1, 5]), FixedArray_byte_3.From([3, 5, 1]), FixedArray_byte_3.From([5, 3, 1]), FixedArray_byte_3.From([5, 1, 3]), FixedArray_byte_3.From([1, 5, 3])]);
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_byte_3_6 P5EvenDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([2, 4, 6]), FixedArray_byte_3.From([4, 2, 6]), FixedArray_byte_3.From([4, 6, 2]), FixedArray_byte_3.From([6, 4, 2]), FixedArray_byte_3.From([6, 2, 4]), FixedArray_byte_3.From([2, 6, 4])]);
+        private static FixedArray_int_7 P5OppositeDirections = global::Aow.Game.Engine.Buffers.FixedArray_int_7.From([0, 4, 5, 6, 1, 2, 3]);
+        private static FixedArray_Aow_Units_FixedArray_int_2_7 P5SideDirections = FixedArray_Aow_Units_FixedArray_int_2_7.From([FixedArray_int_2.From([-1, -1]), FixedArray_int_2.From([6, 2]), FixedArray_int_2.From([1, 3]), FixedArray_int_2.From([2, 4]), FixedArray_int_2.From([3, 5]), FixedArray_int_2.From([4, 6]), FixedArray_int_2.From([5, 1])]);
+        private static FixedArray_Aow_Units_FixedArray_byte_3_6 P5OddDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([1, 3, 5]), FixedArray_byte_3.From([3, 1, 5]), FixedArray_byte_3.From([3, 5, 1]), FixedArray_byte_3.From([5, 3, 1]), FixedArray_byte_3.From([5, 1, 3]), FixedArray_byte_3.From([1, 5, 3])]);
+        private static FixedArray_Aow_Units_FixedArray_byte_3_6 P5EvenDirections = FixedArray_Aow_Units_FixedArray_byte_3_6.From([FixedArray_byte_3.From([2, 4, 6]), FixedArray_byte_3.From([4, 2, 6]), FixedArray_byte_3.From([4, 6, 2]), FixedArray_byte_3.From([6, 4, 2]), FixedArray_byte_3.From([6, 2, 4]), FixedArray_byte_3.From([2, 6, 4])]);
 
         public enum StatusElement : byte
         {
@@ -9614,7 +9614,7 @@ namespace Aow.Game.Events
             SaveGameEventLog Log = default;
             Log = new SaveGameEventLog(null);
             Log.FDefaultName = "";
-            Log.FDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\";
+            Log.FDirectory = GameTables.AoWEngine.StartupDirectory + "Save\\";
             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ExitSaveGameCallBack);
             Log.Release();
             return true;
@@ -9635,37 +9635,37 @@ namespace Aow.Game.Events
             switch (FReason)
             {
                 case 3:
-                    FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
-                    var outOfSync = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerConnectionEventLog.OutOfSyncRStr);
+                    FButtons = Buttons.YesNo;
+                    var outOfSync = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OutOfSyncRStr);
                     FMessage.Text = outOfSync;
-                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerConnectionEventLog.TerminateGameSaveRStr);
+                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TerminateGameSaveRStr);
                     FMessage.Add(aoWETranslateRStr);
                     break;
                 case 1:
-                    FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
+                    FButtons = Buttons.YesNo;
                     var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FDisconnectedPlayer).GetName();
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerConnectionEventLog.ConnectionXTimeOutRStr), [name]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ConnectionXTimeOutRStr), [name]);
                     FMessage.Text = format;
                     FMessage.Add("");
-                    var terminateGameSave = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerConnectionEventLog.TerminateGameSaveRStr);
+                    var terminateGameSave = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TerminateGameSaveRStr);
                     FMessage.Add(terminateGameSave);
                     break;
                 case 2:
-                    FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
+                    FButtons = Buttons.YesNo;
                     if (FDisconnectedPlayer != -1)
                     {
                         var name2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FDisconnectedPlayer).GetName();
-                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerConnectionEventLog.ConnectionXLostRStr), [name2]);
+                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ConnectionXLostRStr), [name2]);
                         FMessage.Text = aoWEFormat;
                     }
                     else
                     {
-                        var connectionLost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerConnectionEventLog.ConnectionLostRStr);
+                        var connectionLost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ConnectionLostRStr);
                         FMessage.Text = connectionLost;
                     }
 
                     FMessage.Add("");
-                    var terminateGameSaveText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.PlayerConnectionEventLog.TerminateGameSaveRStr);
+                    var terminateGameSaveText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TerminateGameSaveRStr);
                     FMessage.Add(terminateGameSaveText);
                     break;
             }
@@ -9676,7 +9676,7 @@ namespace Aow.Game.Events
         {
             if (!IsEmpty(((SaveGameEventLog)Log).FFileName))
             {
-                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                if (GameTables.AoWEngine.FCampaign != null)
                 {
                     Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveCampaign(((SaveGameEventLog)Log).FFileName);
                 }
@@ -9724,9 +9724,9 @@ namespace Aow.Game.Session
         // PlayerC.PAS:7
         public override void Dispose()
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FTokenManager != null)
+            if (AoWHSMap.Current != null && AoWHSMap.Current.FTokenManager != null)
             {
-                var tokenExecuter = Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter;
+                var tokenExecuter = AoWHSMap.Current.FTokenManager.TokenExecuter;
                 tokenExecuter.OnGetSyncValue = null;
                 tokenExecuter.OnSyncError = null;
             }
@@ -9748,16 +9748,16 @@ namespace Aow.Game.Session
             EMsg Msg = default;
             TextEventLog Log = default;
             MessageEventLog MessageLog;
-            Aow.Game.World.Map.AoWHSMap.Current.FDay += 1;
+            AoWHSMap.Current.FDay += 1;
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.BeginUpdate();
             Aow.Game.World.Map.AoWHSMap.Current.LockRelationsChanged();
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 Log = new NewDayEventLog(null);
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.NewDayRStr), [Aow.Game.World.Map.AoWHSMap.Current.FDay]);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FDayLimit != 0 && Aow.Game.World.Map.AoWHSMap.Current.FDayLimit - Aow.Game.World.Map.AoWHSMap.Current.FDay <= 10)
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NewDayRStr), [AoWHSMap.Current.FDay]);
+                if (AoWHSMap.Current.FDayLimit != 0 && AoWHSMap.Current.FDayLimit - AoWHSMap.Current.FDay <= 10)
                 {
-                    var fmtDaysLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtDaysLeftStr(Aow.Game.World.Map.AoWHSMap.Current.FDayLimit - Aow.Game.World.Map.AoWHSMap.Current.FDay);
+                    var fmtDaysLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtDaysLeftStr(AoWHSMap.Current.FDayLimit - AoWHSMap.Current.FDay);
                     Log.FText = Log.FText + " (" + fmtDaysLeftStr + ")";
                 }
 
@@ -9766,21 +9766,21 @@ namespace Aow.Game.Session
                 Log.Release();
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FTurnOrderMode == Aow.Game.World.Map.AoWHSMap.TurnOrderMode.Changing)
+            if (AoWHSMap.Current.FTurnOrderMode == AoWHSMap.TurnOrderMode.Changing)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.GenerateNewTurnOrder();
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (AoWHSMap.Current.FDay == 1)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FRaces.ResetPlayerRelations();
-                if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local)
+                if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local)
                 {
                     Randomize();
-                    Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed = RandSeed;
+                    AoWHSMap.Current.FInitialRandomSeed = RandSeed;
                 }
 
-                Aow.Game.World.Map.AoWHSMap.Current.FDefendersSeed = Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed;
+                AoWHSMap.Current.FDefendersSeed = AoWHSMap.Current.FInitialRandomSeed;
             }
 
             try
@@ -9800,18 +9800,18 @@ namespace Aow.Game.Session
             {
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDayLimit == Aow.Game.World.Map.AoWHSMap.Current.FDay)
+            if (AoWHSMap.Current.FDayLimit == AoWHSMap.Current.FDay)
             {
                 MessageLog = new MessageEventLog(null);
-                MessageLog.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InfoRStr);
-                MessageLog.FButtons = Aow.Game.Events.MessageEventLog.Buttons.Ok;
-                MessageLog.FLayout = Aow.Game.Events.MessageEventLog.Layout.Normal;
-                var turnLimitReached = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.TurnLimitReachedRStr);
+                MessageLog.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.InfoRStr);
+                MessageLog.FButtons = MessageEventLog.Buttons.Ok;
+                MessageLog.FLayout = MessageEventLog.Layout.Normal;
+                var turnLimitReached = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TurnLimitReachedRStr);
                 MessageLog.FMessage.Text = turnLimitReached;
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, null);
                 MessageLog.Release();
-                Aow.Game.World.Map.AoWHSMap.Current.GameOver(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, GameOverStatus.Lost);
-                for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                Aow.Game.World.Map.AoWHSMap.Current.GameOver(AoWHSMap.Current.FSeatedPlayer, GameOverStatus.Lost);
+                for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.GameOver((sbyte)I, GameOverStatus.Lost);
                 }
@@ -9826,7 +9826,7 @@ namespace Aow.Game.Session
         public virtual void NewTurn(sbyte Player)
         {
             EMsg Msg = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay != 1)
+            if (AoWHSMap.Current.FDay != 1)
             {
                 var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                 var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
@@ -9861,20 +9861,20 @@ namespace Aow.Game.Session
             Msg.Payload = Player;
             Aow.Game.World.Map.AoWHSMap.Current.SendMsg(ref Msg, this);
             Aow.Game.World.Map.AoWHSMap.Current.UnLockUpdateVisibility();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDebugSave)
+            if (AoWHSMap.Current.FDebugSave)
             {
                 try
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+                    if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
                     {
                         if (Player == 0)
                         {
-                            Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + Aow.Game.World.Map.AoWHSMap.Current.FMapName + IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FDay) + "_p" + IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
+                            Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
                         }
                     }
                     else
                     {
-                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + Aow.Game.World.Map.AoWHSMap.Current.FMapName + IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
+                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "DEBUG\\" + AoWHSMap.Current.FMapName + IntToStr(AoWHSMap.Current.FDay) + "-" + IntToStr(Player) + "_p" + IntToStr(AoWHSMap.Current.FSeatedPlayer) + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save), null, Aow.Formats.GameProfile.WorldMap);
                     }
                 }
                 catch
@@ -9887,17 +9887,17 @@ namespace Aow.Game.Session
         public virtual void AutoSave()
         {
             string FileName = "";
-            if (Aow.Game.World.Map.AoWHSMap.Current.FGameType == GameType.Campaign)
+            if (AoWHSMap.Current.FGameType == GameType.Campaign)
             {
                 try
                 {
                     // The autosave takes the extension the host writes (own-formats.md 4.2).
                     FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
-                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveCampaign(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName);
+                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveCampaign(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName);
                 }
                 catch
                 {
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CouldNotSaveXRStr), [FileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [FileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(format);
                 }
             }
@@ -9906,11 +9906,11 @@ namespace Aow.Game.Session
                 try
                 {
                     FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save);
-                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
+                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
                 }
                 catch
                 {
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CouldNotSaveXRStr), [FileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [FileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(format);
                 }
             }
@@ -9925,24 +9925,24 @@ namespace Aow.Game.Session
         public virtual void Setup()
         {
             LocalPCC PCC = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC == null)
+                if (AoWHSMap.Current.FPlayerCommunicator.PCC == null)
                 {
                     throw new InvalidOperationException("Please setup DirectPlayPCC");
                 }
 
-                var tokenExecuter = Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter;
+                var tokenExecuter = AoWHSMap.Current.FTokenManager.TokenExecuter;
                 tokenExecuter.OnGetSyncValue = this.GetSyncValue;
                 tokenExecuter.OnSyncError = OutOfSync;
             }
             else
             {
-                if ((Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(Aow.Game.World.Map.AoWHSMap.Current.FConnectionType)) && Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC == null)
+                if ((Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || Set<PlayerConnectionType>.Of(PlayerConnectionType.Local, PlayerConnectionType.Email).Contains(AoWHSMap.Current.FConnectionType)) && AoWHSMap.Current.FPlayerCommunicator.PCC == null)
                 {
                     PCC = new LocalPCC();
-                    PCC.Setup(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count);
-                    for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    PCC.Setup(AoWHSMap.Current.FPlayers.Count);
+                    for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                     {
                         if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType == PlayerType.Human)
                         {
@@ -9964,11 +9964,11 @@ namespace Aow.Game.Session
         // PlayerC.PAS:224
         public virtual void StartNewMap()
         {
-            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 if (I == 0 || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Independent)
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Aow.Game.Session.Player.Status.Playing;
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Player.Status.Playing;
                 }
             }
         }
@@ -9998,26 +9998,26 @@ namespace Aow.Game.Session
         // PlayerC.PAS:241
         public virtual void GameOver(sbyte Player, GameOverStatus Status)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FGameOverStatus != Status && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus != Aow.Game.Session.Player.Status.Terminated)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FGameOverStatus != Status && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus != Session.Player.Status.Terminated)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.LockGameOverEvent();
                 SetPlayerGameOverStatus(Player, Status);
                 if (Status == GameOverStatus.Lost)
                 {
-                    if (!Aow.Game.World.Map.AoWHSMap.Current.FAlliedVictory)
+                    if (!AoWHSMap.Current.FAlliedVictory)
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FActivePlayers.Count == 1)
+                        if (AoWHSMap.Current.FPlayers.FActivePlayers.Count == 1)
                         {
-                            GameOver((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FActivePlayers[0], GameOverStatus.Won);
+                            GameOver((sbyte)AoWHSMap.Current.FPlayers.FActivePlayers[0], GameOverStatus.Won);
                         }
                     }
                     else
                     {
                         if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetActivePlayersAllied())
                         {
-                            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                             {
-                                if (I != Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FGameOverStatus != GameOverStatus.Lost)
+                                if (I != Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Session.Player.Status.Playing && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FGameOverStatus != GameOverStatus.Lost)
                                 {
                                     SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
                                 }
@@ -10029,11 +10029,11 @@ namespace Aow.Game.Session
                 {
                     if (Status == GameOverStatus.Won)
                     {
-                        for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                         {
-                            if (I != Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FGameOverStatus != GameOverStatus.Lost)
+                            if (I != Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Session.Player.Status.Playing && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FGameOverStatus != GameOverStatus.Lost)
                             {
-                                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance && Aow.Game.World.Map.AoWHSMap.Current.FAlliedVictory)
+                                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, (sbyte)I) == DiplomaticRelation.Alliance && AoWHSMap.Current.FAlliedVictory)
                                 {
                                     SetPlayerGameOverStatus((sbyte)I, GameOverStatus.Won);
                                 }
@@ -10053,28 +10053,28 @@ namespace Aow.Game.Session
         // PlayerC.PAS:274
         public virtual void GameOverEventHandled(sbyte Player)
         {
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Aow.Game.Session.Player.Status.Terminated;
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Session.Player.Status.Terminated;
         }
 
         // PlayerC.PAS:388
         public virtual void ExitGame(ExitGameMode Mode, ExitGameCallBack Done)
         {
             MessageEventLog Log = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FCombat == null)
+            if (AoWHSMap.Current.FCombat == null)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && Aow.Game.World.Map.AoWHSMap.Current.FGameStatus != Aow.Game.World.Map.AoWHSMap.GameStatus.Terminated && Aow.Game.World.Map.AoWHSMap.Current.FGameType != GameType.Tutorial && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalPlayers.Count > 1)
+                if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && AoWHSMap.Current.FGameStatus != AoWHSMap.GameStatus.Terminated && AoWHSMap.Current.FGameType != GameType.Tutorial && AoWHSMap.Current.FPlayers.FLocalPlayers.Count > 1)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous || Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous || AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
                     {
                         FExitMode = Mode;
                         FExitCallBack = Done;
                         Log = new MessageEventLog(null);
-                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.ConfirmRStr);
-                        Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNoCancel;
-                        Log.FLayout = Aow.Game.Events.MessageEventLog.Layout.Normal;
-                        var yourAboutToExitAMultiPlayerGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.YourAboutToExitAMultiPlayerGameRStr);
+                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ConfirmRStr);
+                        Log.FButtons = MessageEventLog.Buttons.YesNoCancel;
+                        Log.FLayout = MessageEventLog.Layout.Normal;
+                        var yourAboutToExitAMultiPlayerGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(YourAboutToExitAMultiPlayerGameRStr);
                         Log.FMessage.Add(yourAboutToExitAMultiPlayerGame);
-                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.DoYouWantToContinueExitingRStr);
+                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DoYouWantToContinueExitingRStr);
                         Log.FMessage.Add(aoWETranslateRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ExitNetworkGameCallBack);
                         Log.Release();
@@ -10082,10 +10082,10 @@ namespace Aow.Game.Session
                     else
                     {
                         Log = new MessageEventLog(null);
-                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MessageRStr);
-                        Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.Ok;
-                        Log.FLayout = Aow.Game.Events.MessageEventLog.Layout.Normal;
-                        var pleaseWaitTillItIsYourTurn = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.PleaseWaitTillItIsYourTurnRStr);
+                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.MessageRStr);
+                        Log.FButtons = MessageEventLog.Buttons.Ok;
+                        Log.FLayout = MessageEventLog.Layout.Normal;
+                        var pleaseWaitTillItIsYourTurn = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PleaseWaitTillItIsYourTurnRStr);
                         Log.FMessage.Add(pleaseWaitTillItIsYourTurn);
                         Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
                         Log.Release();
@@ -10093,7 +10093,7 @@ namespace Aow.Game.Session
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Modified) && Aow.Game.World.Map.AoWHSMap.Current.FGameStatus != Aow.Game.World.Map.AoWHSMap.GameStatus.Terminated && Aow.Game.World.Map.AoWHSMap.Current.FGameType != GameType.Tutorial)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Modified) && AoWHSMap.Current.FGameStatus != AoWHSMap.GameStatus.Terminated && AoWHSMap.Current.FGameType != GameType.Tutorial)
                     {
                         if (!(FExitCallBack != null))
                         {
@@ -10102,30 +10102,30 @@ namespace Aow.Game.Session
                                 FExitMode = Mode;
                                 FExitCallBack = Done;
                                 Log = new MessageEventLog(null);
-                                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.ConfirmRStr);
-                                Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNoCancel;
-                                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign == null && !IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FileName) && !Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(Aow.Game.World.Map.AoWHSMap.Current.FileName)))
+                                Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ConfirmRStr);
+                                Log.FButtons = MessageEventLog.Buttons.YesNoCancel;
+                                if (GameTables.AoWEngine.FCampaign == null && !IsEmpty(AoWHSMap.Current.FileName) && !Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                                 {
-                                    Log.FLayout = Aow.Game.Events.MessageEventLog.Layout.Normal;
+                                    Log.FLayout = MessageEventLog.Layout.Normal;
                                     // The message names the file the save writes (own-formats.md 4.2).
-                                    var fileName = ExtractFileName(FileBoundary.WriteName(Aow.Game.World.Map.AoWHSMap.Current.FileName));
-                                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.SaveGameToXRStr), [fileName]);
+                                    var fileName = ExtractFileName(FileBoundary.WriteName(AoWHSMap.Current.FileName));
+                                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SaveGameToXRStr), [fileName]);
                                     Log.FMessage.Add(format);
                                 }
                                 else
                                 {
-                                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null && !IsEmpty(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FFileName) && !Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(Aow.Game.World.Map.AoWHSMap.Current.FileName)))
+                                    if (GameTables.AoWEngine.FCampaign != null && !IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) && !Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                                     {
                                         // { Original tests the map extension when saving a campaign. }
-                                        Log.FLayout = Aow.Game.Events.MessageEventLog.Layout.Normal;
-                                        var fileName = ExtractFileName(FileBoundary.WriteName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FFileName));
-                                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.SaveGameToXRStr), [fileName]);
+                                        Log.FLayout = MessageEventLog.Layout.Normal;
+                                        var fileName = ExtractFileName(FileBoundary.WriteName(GameTables.AoWEngine.FCampaign.FFileName));
+                                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SaveGameToXRStr), [fileName]);
                                         Log.FMessage.Add(format);
                                     }
                                     else
                                     {
-                                        Log.FLayout = Aow.Game.Events.MessageEventLog.Layout.Normal;
-                                        var doYouWantToSaveThisGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.DoYouWantToSaveThisGameRStr);
+                                        Log.FLayout = MessageEventLog.Layout.Normal;
+                                        var doYouWantToSaveThisGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DoYouWantToSaveThisGameRStr);
                                         Log.FMessage.Add(doYouWantToSaveThisGame);
                                     }
                                 }
@@ -10165,9 +10165,9 @@ namespace Aow.Game.Session
             int X = default;
             int Y = default;
             int L = default;
-            global::Aow.Game.Session.Player P;
+            Player P;
             Aow.Game.World.Map.AoWHSMap.Current.LockRelationsChanged();
-            if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Player == AoWHSMap.Current.FSeatedPlayer)
             {
                 P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                 P.SetEndTurn(true);
@@ -10190,9 +10190,9 @@ namespace Aow.Game.Session
         // PlayerC.PAS:279
         public virtual void SetSeatedPlayer(sbyte Player)
         {
-            if (Player != Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Player != AoWHSMap.Current.FSeatedPlayer)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer = Player;
+                AoWHSMap.Current.FSeatedPlayer = Player;
                 Aow.Game.World.Map.AoWHSMap.Current.SeatedPlayerChanged();
                 Aow.Game.World.Map.AoWHSMap.Current.ResetSeatedPlayerView();
             }
@@ -10209,7 +10209,7 @@ namespace Aow.Game.Session
                 Player = FDisconnectedPlayers[I].A;
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FGameOverStatus == GameOverStatus.None)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer) && Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActiveTC.Count == 0)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(AoWHSMap.Current.FCurrentPlayer) && AoWHSMap.Current.FTokenManager.TokenExecuter.ActiveTC.Count == 0)
                     {
                         Count = FDisconnectedPlayers[I].B;
                         if (Count > 0)
@@ -10246,25 +10246,25 @@ namespace Aow.Game.Session
         }
 
         // PlayerC.PAS:289
-        public virtual bool LockAI() => Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && !Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FAILockCount != 0;
+        public virtual bool LockAI() => AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && !AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FAILockCount != 0;
 
         // PlayerC.PAS:49
         public void GetSyncValue(ref int Value)
         {
-            Value = Aow.Game.World.Map.AoWHSMap.Current.FDefendersSeed;
+            Value = AoWHSMap.Current.FDefendersSeed;
         }
 
         // PlayerC.PAS:54
         public void OutOfSync(object Sender)
         {
             PlayerConnectionEventLog Log;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActiveTC.Active)
+            if (AoWHSMap.Current.FTokenManager.TokenExecuter.ActiveTC.Active)
             {
                 if (!FOutOfSyncShown)
                 {
                     Log = new PlayerConnectionEventLog(null);
                     Log.Setup(-1, 3);
-                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, Aow.Game.World.Map.AoWHSMap.Current.FCombat != null, null);
+                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, AoWHSMap.Current.FCombat != null, null);
                     Log.Release();
                     FOutOfSyncShown = true;
                 }
@@ -10281,14 +10281,14 @@ namespace Aow.Game.Session
             int Race;
             string Text;
             PlayerCommunicationControl PCC;
-            PCC = Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC;
-            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            PCC = AoWHSMap.Current.FPlayerCommunicator.PCC;
+            for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 Text = "Player " + IntToStr(I);
                 Race = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerRace;
                 if (Race != -1)
                 {
-                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Race]);
+                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race]);
                     Text = Text + "(" + raceNamesPlural + ")";
                 }
 
@@ -10307,7 +10307,7 @@ namespace Aow.Game.Session
         {
             if (!IsEmpty(((SaveGameEventLog)Log).FFileName))
             {
-                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                if (GameTables.AoWEngine.FCampaign != null)
                 {
                     Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveCampaign(((SaveGameEventLog)Log).FFileName);
                 }
@@ -10339,12 +10339,12 @@ namespace Aow.Game.Session
             SaveGameEventLog SaveLog = default;
             if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
             {
-                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign == null && (IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FileName) || Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(Aow.Game.World.Map.AoWHSMap.Current.FileName))) || Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null && (IsEmpty(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FFileName) || Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(Aow.Game.World.Map.AoWHSMap.Current.FileName))))
+                if (GameTables.AoWEngine.FCampaign == null && (IsEmpty(AoWHSMap.Current.FileName) || Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))) || GameTables.AoWEngine.FCampaign != null && (IsEmpty(GameTables.AoWEngine.FCampaign.FFileName) || Aow.Formats.DocumentKind.CampaignMap.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName))))
                 {
                     SaveLog = new SaveGameEventLog(null);
-                    if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FileName))
+                    if (!IsEmpty(AoWHSMap.Current.FileName))
                     {
-                        SaveLog.FDefaultName = ExtractFileName(Aow.Game.World.Map.AoWHSMap.Current.FileName);
+                        SaveLog.FDefaultName = ExtractFileName(AoWHSMap.Current.FileName);
                         if (Pos(".", SaveLog.FDefaultName) != 0)
                         {
                             SaveLog.FDefaultName = RtlUnit.Copy(SaveLog.FDefaultName, 1, Pos(".", SaveLog.FDefaultName) - 1);
@@ -10352,16 +10352,16 @@ namespace Aow.Game.Session
                     }
                     else
                     {
-                        SaveLog.FDefaultName = Aow.Game.World.Map.AoWHSMap.Current.FMapName;
+                        SaveLog.FDefaultName = AoWHSMap.Current.FMapName;
                     }
 
-                    SaveLog.FDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\";
+                    SaveLog.FDirectory = GameTables.AoWEngine.StartupDirectory + "Save\\";
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(SaveLog, false, ExitSaveGameCallBack);
                     SaveLog.Release();
                 }
                 else
                 {
-                    var aoWEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+                    var aoWEngine = GameTables.AoWEngine;
                     // The save writes the own sibling of an original's name, which stays untouched
                     // (own-formats.md 4.2).
                     if (aoWEngine.FCampaign != null)
@@ -10370,7 +10370,7 @@ namespace Aow.Game.Session
                     }
                     else
                     {
-                        aoWEngine.SaveHSM(FileBoundary.WriteName(Aow.Game.World.Map.AoWHSMap.Current.FileName), null, Aow.Formats.GameProfile.WorldMap);
+                        aoWEngine.SaveHSM(FileBoundary.WriteName(AoWHSMap.Current.FileName), null, Aow.Formats.GameProfile.WorldMap);
                     }
 
                     Aow.Game.World.Map.AoWHSMap.Current.ExecuteExitGame();
@@ -10415,13 +10415,13 @@ namespace Aow.Game.Session
             TerminatePlayerTE TE;
             if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous || Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous || AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
                     TE = new TerminatePlayerTE(null);
-                    TE.FPlayer = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+                    TE.FPlayer = AoWHSMap.Current.FSeatedPlayer;
                     TE.FExitCallBack = FExitCallBack;
                     TE.FExitMode = FExitMode;
-                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).AddEvent(TE);
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(AoWHSMap.Current.FSeatedPlayer).AddEvent(TE);
                     TE.Release();
                 }
             }
@@ -10452,12 +10452,12 @@ namespace Aow.Game.Session
             if (((PasswordEventLog)Log).FPressedButton != PressedEventLogButton.Ok || Password != FPassword)
             {
                 MessageLog = new MessageEventLog(null);
-                MessageLog.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WarningRStr);
-                MessageLog.FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
-                var passwordFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.PasswordFailedRStr);
+                MessageLog.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WarningRStr);
+                MessageLog.FButtons = MessageEventLog.Buttons.YesNo;
+                var passwordFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PasswordFailedRStr);
                 MessageLog.FMessage.Text = passwordFailed;
                 MessageLog.FMessage.Add("");
-                var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PlayerControl.DoYouWantToTryAgainRStr);
+                var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DoYouWantToTryAgainRStr);
                 MessageLog.FMessage.Add(aoWETranslateRStr);
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, PasswordTryAgainCallBack);
                 MessageLog.Release();
@@ -10472,7 +10472,7 @@ namespace Aow.Game.Session
         public void ValidatePassword(string Password)
         {
             PasswordEventLog Log = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+            if (AoWHSMap.Current.FSeatedPlayer != -1)
             {
                 SetSeatedPlayer(-1);
             }
@@ -10630,10 +10630,10 @@ namespace Aow.Game.Engine
 
         public static int CompareTextControlItems(object Item1, object Item2)
         {
-            int num = ((global::Aow.Game.Units.TextControlItem)Item1).FID - ((global::Aow.Game.Units.TextControlItem)Item2).FID;
+            int num = ((TextControlItem)Item1).FID - ((TextControlItem)Item2).FID;
             if (num == 0)
             {
-                num = ((global::Aow.Game.Units.TextControlItem)Item1).FText.Count - ((global::Aow.Game.Units.TextControlItem)Item2).FText.Count;
+                num = ((TextControlItem)Item1).FText.Count - ((TextControlItem)Item2).FText.Count;
             }
             return num;
         }
@@ -10685,9 +10685,9 @@ namespace Aow.Game.Session
             PlayerMagicEventLog MagicLog = default;
             Aow.Game.World.Map.AoWHSMap.Current.LockMapChangedEvent();
             Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Player);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)
+            if (AoWHSMap.Current.FRequestCombatType)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+                if (AoWHSMap.Current.FSeatedPlayer != -1)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer(-1);
                 }
@@ -10695,27 +10695,27 @@ namespace Aow.Game.Session
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
                 {
                     Log = new NewTurnEventLog(null);
-                    Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
-                    Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                    Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
+                    Log.FMode = NewTurnEventLog.Mode.Dialog;
                     Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.ItsYourTurnRStr);
+                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItsYourTurnRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ShowNewTurnCallBack);
                     Log.Release();
                 }
                 else
                 {
                     Log = new NewTurnEventLog(null);
-                    Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
-                    Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                    Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
+                    Log.FMode = NewTurnEventLog.Mode.Dialog;
                     Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
                     if (Player == 0)
                     {
-                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.IndependentsAreMovingRStr);
+                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(IndependentsAreMovingRStr);
                     }
                     else
                     {
                         var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
-                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.PlayerIsMovingRStr), [name]);
+                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PlayerIsMovingRStr), [name]);
                     }
 
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, true, null);
@@ -10724,18 +10724,18 @@ namespace Aow.Game.Session
             }
             else
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && Player == AoWHSMap.Current.FSeatedPlayer)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FGameType != GameType.Tutorial || Aow.Game.World.Map.AoWHSMap.Current.FDay != 1)
+                    if (AoWHSMap.Current.FGameType != GameType.Tutorial || AoWHSMap.Current.FDay != 1)
                     {
                         Aow.Game.World.Map.AoWHSMap.Current.ResetTurnTimer();
                         Aow.Game.World.Map.AoWHSMap.Current.EnableTurnTimer();
                         Aow.Game.World.Map.AoWHSMap.Current.ResetSeatedPlayerView();
                         Log = new NewTurnEventLog(null);
                         Log.FTurnPlayer = Player;
-                        Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                        Log.FMode = NewTurnEventLog.Mode.Dialog;
                         Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.ItsYourTurnRStr);
+                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItsYourTurnRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
                         Log.Release();
                         ReplayLogbook();
@@ -10748,7 +10748,7 @@ namespace Aow.Game.Session
             }
 
             base.NewTurn(Player);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Email && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAutoSave())
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Email && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAutoSave())
             {
                 AutoSave();
             }
@@ -10760,24 +10760,24 @@ namespace Aow.Game.Session
                 Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.ActivatePlayer(Player);
                 if (Player == 0)
                 {
-                    var independents = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.IndependentsRStr);
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.AreMovingRStr), [independents]);
+                    var independents = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.IndependentsRStr);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AreMovingRStr), [independents]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                 }
                 else
                 {
                     var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.AreMovingRStr), [raceNamesPlural]);
+                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AreMovingRStr), [raceNamesPlural]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                 }
             }
             else
             {
                 Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\NEWTURN.WAV");
-                if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1 && (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType || Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+                if (AoWHSMap.Current.FDay == 1 && (AoWHSMap.Current.FRequestCombatType || Player == AoWHSMap.Current.FSeatedPlayer))
                 {
-                    if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(Aow.Game.World.Map.AoWHSMap.Current.FGameType))
+                    if (Set<GameType>.Of(GameType.Custom, GameType.Tutorial).Contains(AoWHSMap.Current.FGameType))
                     {
                         BookLog = new ShowBookEventLog(null);
                         Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(BookLog, false, null);
@@ -10791,7 +10791,7 @@ namespace Aow.Game.Session
                         if (Spells.GetCount() > 0)
                         {
                             MagicLog = new PlayerMagicEventLog(null);
-                            MagicLog.FMode = Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.StartResearch;
+                            MagicLog.FMode = PlayerMagicEventLog.PlayerMagicEventMode.StartResearch;
                             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(MagicLog, false, null);
                             MagicLog.Release();
                         }
@@ -10809,15 +10809,15 @@ namespace Aow.Game.Session
         {
             if (Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimerEnabled())
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
                     if (Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimeLeft() <= 0)
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FSingleProcessCycle)
+                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FSingleProcessCycle)
                         {
-                            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+                            if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(AoWHSMap.Current.FSeatedPlayer))
                             {
-                                Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                                Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(AoWHSMap.Current.FSeatedPlayer);
                             }
                         }
                     }
@@ -10829,7 +10829,7 @@ namespace Aow.Game.Session
         public override void Setup()
         {
             base.Setup();
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
+            AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
         }
 
         // PlayerC.PAS:766
@@ -10838,22 +10838,22 @@ namespace Aow.Game.Session
             base.StartNewMap();
             DefaultStartMap();
             NewDay();
-            if (!Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)
+            if (!AoWHSMap.Current.FRequestCombatType)
             {
-                var item = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+                var item = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
                 Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
                 Aow.Game.World.Map.AoWHSMap.Current.ResetSeatedPlayerView();
             }
 
-            NewTurn((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder[1]);
+            NewTurn((sbyte)AoWHSMap.Current.FTurnOrder[1]);
         }
 
         // PlayerC.PAS:835
         public override void StartLoadedMap()
         {
-            if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FSettings))
+            if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings))
             {
-                ValidatePassword(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FSettings);
+                ValidatePassword(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings);
             }
             else
             {
@@ -10871,17 +10871,17 @@ namespace Aow.Game.Session
         public override void SetPlayerGameOverStatus(sbyte Player, GameOverStatus Status)
         {
             base.SetPlayerGameOverStatus(Player, Status);
-            if (!Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
+            if (!AoWHSMap.Current.FRequestCombatType || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Aow.Game.Session.Player.Status.Terminated;
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Session.Player.Status.Terminated;
                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Update();
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerPlayerTerminatedEvent(Player);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetLocal())
+                if (AoWHSMap.Current.FCurrentPlayer == Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetLocal())
                 {
-                    Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                    Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(AoWHSMap.Current.FCurrentPlayer);
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
+                if (AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerGameTerminatedEvent();
                 }
@@ -10899,18 +10899,18 @@ namespace Aow.Game.Session
         // PlayerC.PAS:842
         public override void GameOverEventHandled(sbyte Player)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)
+            if (AoWHSMap.Current.FRequestCombatType)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Aow.Game.Session.Player.Status.Terminated;
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Session.Player.Status.Terminated;
                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Update();
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerPlayerTerminatedEvent(Player);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
+                if (AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerGameTerminatedEvent();
                 }
                 else
                 {
-                    Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                    Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(AoWHSMap.Current.FCurrentPlayer);
                 }
             }
         }
@@ -10923,10 +10923,10 @@ namespace Aow.Game.Session
             bool Found;
             sbyte NextPlayer;
             base.EndTurn(Player);
-            if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Player == AoWHSMap.Current.FSeatedPlayer)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.ZeroTurnTimer();
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Aow.Game.Session.Player.Status.Playing)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.ClearExecuteEventLogBuffer();
                 }
@@ -10934,7 +10934,7 @@ namespace Aow.Game.Session
                 Aow.Game.World.Map.AoWHSMap.Current.Selection.UnselectLocation();
             }
 
-            if (Player == Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer)
+            if (Player == AoWHSMap.Current.FCurrentPlayer)
             {
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
                 {
@@ -10942,21 +10942,21 @@ namespace Aow.Game.Session
                 }
 
                 Log = new EndTurnEventLog(null);
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FEventLogbook.AddEvent(Log);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FEventLogbook.AddEvent(Log);
                 Log.Release();
-                Index = Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder.IndexOf((byte)Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                Index = Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder.IndexOf((byte)AoWHSMap.Current.FCurrentPlayer);
                 Found = false;
                 while (!Found)
                 {
                     Index += 1;
-                    if (Index == Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder.Count)
+                    if (Index == AoWHSMap.Current.FTurnOrder.Count)
                     {
                         NewDay();
                         Index = 0;
                     }
 
-                    NextPlayer = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder[Index];
-                    Found = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(NextPlayer).FStatus == Aow.Game.Session.Player.Status.Playing;
+                    NextPlayer = (sbyte)AoWHSMap.Current.FTurnOrder[Index];
+                    Found = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(NextPlayer).FStatus == Session.Player.Status.Playing;
                     if (!Found)
                     {
                         base.NewTurn(NextPlayer);
@@ -10964,9 +10964,9 @@ namespace Aow.Game.Session
                     }
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder.Count != 0)
+                if (AoWHSMap.Current.FTurnOrder.Count != 0)
                 {
-                    NewTurn((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder[Index]);
+                    NewTurn((sbyte)AoWHSMap.Current.FTurnOrder[Index]);
                 }
                 else
                 {
@@ -10989,34 +10989,34 @@ namespace Aow.Game.Session
         {
             NewTurnEventLog Log = default;
             DefaultStartMap();
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
+            if (AoWHSMap.Current.FRequestCombatType)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer(-1);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPlayerType == PlayerType.Human)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPlayerType == PlayerType.Human)
                 {
                     Log = new NewTurnEventLog(null);
-                    Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
-                    Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                    Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
+                    Log.FMode = NewTurnEventLog.Mode.Dialog;
                     Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.YourTurnContinuesRStr);
+                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.YourTurnContinuesRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, StartGameCallBack);
                     Log.Release();
                 }
                 else
                 {
                     Log = new NewTurnEventLog(null);
-                    Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
-                    Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                    Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
+                    Log.FMode = NewTurnEventLog.Mode.Dialog;
                     Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == 0)
+                    if (AoWHSMap.Current.FCurrentPlayer == 0)
                     {
-                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.IndependentsAreMovingRStr);
+                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(IndependentsAreMovingRStr);
                     }
                     else
                     {
-                        var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).GetName();
-                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.TurnPlayerControl.PlayerIsMovingRStr), [name]);
+                        var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).GetName();
+                        Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PlayerIsMovingRStr), [name]);
                     }
 
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, true, null);
@@ -11025,27 +11025,27 @@ namespace Aow.Game.Session
             }
             else
             {
-                var item = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+                var item = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
                 Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
                 Aow.Game.World.Map.AoWHSMap.Current.ResetSeatedPlayerView();
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPlayerType == PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPlayerType == PlayerType.Human && AoWHSMap.Current.FCurrentPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
                     Log = new NewTurnEventLog(null);
-                    Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
-                    Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                    Log.FTurnPlayer = AoWHSMap.Current.FSeatedPlayer;
+                    Log.FMode = NewTurnEventLog.Mode.Dialog;
                     Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.YourTurnContinuesRStr);
+                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.YourTurnContinuesRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, StartGameCallBack);
                     Log.Release();
                 }
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPlayerType != PlayerType.Human)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPlayerType != PlayerType.Human)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.ActivatePlayer(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.ActivatePlayer(AoWHSMap.Current.FCurrentPlayer);
             }
 
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FDefendersSeed));
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(AoWHSMap.Current.FDefendersSeed));
         }
 
         // PlayerC.PAS:683
@@ -11053,8 +11053,8 @@ namespace Aow.Game.Session
         {
             EventLogbook Book;
             int Index;
-            Book = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FEventLogbook;
-            Index = Book.FindFirstLogEx(131811, Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer, Aow.Game.World.Map.AoWHSMap.Current.FDay - 1);
+            Book = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FEventLogbook;
+            Index = Book.FindFirstLogEx(131811, AoWHSMap.Current.FCurrentPlayer, AoWHSMap.Current.FDay - 1);
             for (int I = Index + 1, last = Book.GetCount() - 1; I <= last; I++)
             {
                 Book.GetLogs(I).Execute(false, ExecuteTrigger.NewTurn, null);
@@ -11064,10 +11064,10 @@ namespace Aow.Game.Session
         // PlayerC.PAS:701
         public void ShowNewTurnCallBack(EventLog Log)
         {
-            SetSeatedPlayer(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+            SetSeatedPlayer(AoWHSMap.Current.FCurrentPlayer);
             Aow.Game.World.Map.AoWHSMap.Current.ResetTurnTimer();
             Aow.Game.World.Map.AoWHSMap.Current.EnableTurnTimer();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer != -1)
+            if (AoWHSMap.Current.FCurrentPlayer != -1)
             {
                 ReplayLogbook();
             }
@@ -11076,9 +11076,9 @@ namespace Aow.Game.Session
         // PlayerC.PAS:709
         public void StartGameCallBack(EventLog Log)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == -1)
+            if (AoWHSMap.Current.FSeatedPlayer == -1)
             {
-                SetSeatedPlayer(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                SetSeatedPlayer(AoWHSMap.Current.FCurrentPlayer);
             }
 
             Aow.Game.World.Map.AoWHSMap.Current.EnableTurnTimer();
@@ -11088,8 +11088,8 @@ namespace Aow.Game.Session
         public void DefaultStartMap()
         {
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Update();
-            Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType = Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email || (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count > 1);
-            Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves = !Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType;
+            AoWHSMap.Current.FRequestCombatType = AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email || (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count > 1);
+            AoWHSMap.Current.FShowIndependentMoves = !AoWHSMap.Current.FRequestCombatType;
         }
 
         private static readonly string ItsYourTurnRStr = "It's your turn!";
@@ -11135,7 +11135,7 @@ namespace Aow.Game.Session
         public override void NewTurn(sbyte Player)
         {
             SendEmailGameEventLog Log = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.NewTurn) || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Aow.Game.Session.Player.Status.Terminated)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.NewTurn) || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Terminated)
             {
                 base.NewTurn(Player);
                 var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
@@ -11143,7 +11143,7 @@ namespace Aow.Game.Session
             }
             else
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalPlayers.Count > 1 || Player != FLocalPlayer)
+                if (AoWHSMap.Current.FPlayers.FLocalPlayers.Count > 1 || Player != FLocalPlayer)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.SetCurrentPlayer(Player);
                     var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
@@ -11171,22 +11171,22 @@ namespace Aow.Game.Session
             DefaultStartMap();
             NewDay();
             I = 0;
-            int last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1;
+            int last = AoWHSMap.Current.FPlayers.Count - 1;
             for (; I <= last; I += 1)
             {
                 if (I == 0 || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Independent)
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Aow.Game.Session.Player.Status.Playing;
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Session.Player.Status.Playing;
                 }
             }
 
             I = 0;
             while (true)
             {
-                bool condition = I < Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder.Count;
+                bool condition = I < AoWHSMap.Current.FTurnOrder.Count;
                 if (condition)
                 {
-                    var item = Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder[I];
+                    var item = AoWHSMap.Current.FTurnOrder[I];
                     condition = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(item).FPlayerType != PlayerType.Human;
                 }
 
@@ -11195,7 +11195,7 @@ namespace Aow.Game.Session
                 I += 1;
             }
 
-            Player = Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder[I];
+            Player = AoWHSMap.Current.FTurnOrder[I];
             var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
             bool test = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.FindEmailGame(players.FPBEMSettings.FEmailGame) != null;
             if (test)
@@ -11215,15 +11215,15 @@ namespace Aow.Game.Session
                 Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer(-1);
             }
 
-            NewTurn((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FTurnOrder[1]);
+            NewTurn((sbyte)AoWHSMap.Current.FTurnOrder[1]);
         }
 
         // PlayerC.PAS:1187
         public override void StartLoadedMap()
         {
-            if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FSettings))
+            if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings))
             {
-                ValidatePassword(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FSettings);
+                ValidatePassword(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FSettings);
             }
             else
             {
@@ -11241,26 +11241,26 @@ namespace Aow.Game.Session
         public override void ExitGame(ExitGameMode Mode, ExitGameCallBack Done)
         {
             SaveGameEventLog Log = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.Playing))
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.Playing))
             {
-                if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(Aow.Game.World.Map.AoWHSMap.Current.FileName)))
+                if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                 {
                     Log = new SaveGameEventLog(null);
-                    Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.SaveEmailGameRStr);
-                    if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FName))
+                    Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SaveEmailGameRStr);
+                    if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FName))
                     {
-                        Log.FDefaultName = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FName + ".asg";
+                        Log.FDefaultName = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FName + ".asg";
                     }
 
-                    Log.FDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\";
+                    Log.FDirectory = GameTables.AoWEngine.StartupDirectory + "EmailIn\\";
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ExitGameSaveAsCallBack);
                     Log.Release();
                 }
                 else
                 {
                     // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
-                    Aow.Game.World.Map.AoWHSMap.Current.FileName = FileBoundary.WriteName(Aow.Game.World.Map.AoWHSMap.Current.FileName);
-                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.World.Map.AoWHSMap.Current.FileName, null, Aow.Formats.GameProfile.WorldMap);
+                    AoWHSMap.Current.FileName = FileBoundary.WriteName(AoWHSMap.Current.FileName);
+                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, Aow.Formats.GameProfile.WorldMap);
                     Aow.Game.World.Map.AoWHSMap.Current.ExecuteExitGame();
                 }
             }
@@ -11276,18 +11276,18 @@ namespace Aow.Game.Session
             SaveGameEventLog SaveLog = default;
             MessageEventLog MessageLog = default;
             bool Saved = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Aow.Game.Session.Player.Status.Playing)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
             {
-                if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(Aow.Game.World.Map.AoWHSMap.Current.FileName)))
+                if (Aow.Formats.DocumentKind.Map.HasExtension(ExtractFileExt(AoWHSMap.Current.FileName)))
                 {
                     SaveLog = new SaveGameEventLog(null);
-                    SaveLog.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.SaveEmailGameRStr);
+                    SaveLog.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SaveEmailGameRStr);
                     if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName))
                     {
                         SaveLog.FDefaultName = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FEmailGame.FName + ".asg";
                     }
 
-                    SaveLog.FDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\";
+                    SaveLog.FDirectory = GameTables.AoWEngine.StartupDirectory + "EmailIn\\";
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(SaveLog, false, EndTurnGameSavedCallBack);
                     SaveLog.Release();
                 }
@@ -11296,10 +11296,10 @@ namespace Aow.Game.Session
                     var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.TurnDone) - Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.Playing);
                     // A game file outside EmailIn takes the name the host writes (own-formats.md 4.2).
-                    Aow.Game.World.Map.AoWHSMap.Current.FileName = FileBoundary.WriteName(Aow.Game.World.Map.AoWHSMap.Current.FileName);
+                    AoWHSMap.Current.FileName = FileBoundary.WriteName(AoWHSMap.Current.FileName);
                     try
                     {
-                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.World.Map.AoWHSMap.Current.FileName, null, Aow.Formats.GameProfile.WorldMap);
+                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(AoWHSMap.Current.FileName, null, Aow.Formats.GameProfile.WorldMap);
                         Saved = true;
                     }
                     catch
@@ -11309,12 +11309,12 @@ namespace Aow.Game.Session
 
                     if (Saved)
                     {
-                        base.EndTurn(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                        base.EndTurn(AoWHSMap.Current.FCurrentPlayer);
                     }
                     else
                     {
                         MessageLog = new MessageEventLog(null);
-                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CouldNotSaveXRStr) + ".", [Aow.Game.World.Map.AoWHSMap.Current.FileName]);
+                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr) + ".", [AoWHSMap.Current.FileName]);
                         MessageLog.FMessage.Text = format;
                         Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
                         MessageLog.Release();
@@ -11324,7 +11324,7 @@ namespace Aow.Game.Session
             else
             {
                 // { Original uses current player, ignoring Player here. }
-                base.EndTurn(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                base.EndTurn(AoWHSMap.Current.FCurrentPlayer);
             }
         }
 
@@ -11349,7 +11349,7 @@ namespace Aow.Game.Session
             {
                 SendLog = new SendEmailGameEventLog(null);
                 SendLog.FMode = 1;
-                SendLog.FSendPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
+                SendLog.FSendPlayer = AoWHSMap.Current.FCurrentPlayer;
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(SendLog, false, SendEmailGameCallBack);
                 SendLog.Release();
             }
@@ -11369,7 +11369,7 @@ namespace Aow.Game.Session
                 try
                 {
                     Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                     Failed = false;
                 }
@@ -11386,7 +11386,7 @@ namespace Aow.Game.Session
             if (Failed)
             {
                 MessageLog = new MessageEventLog(null);
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CouldNotSaveXRStr) + ".", [((SaveGameEventLog)Log).FFileName]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr) + ".", [((SaveGameEventLog)Log).FFileName]);
                 MessageLog.FMessage.Text = format;
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
                 MessageLog.Release();
@@ -11394,7 +11394,7 @@ namespace Aow.Game.Session
             else
             {
                 MessageLog = new MessageEventLog(null);
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.GameSuccessfullySavedRStr) + ".", [((SaveGameEventLog)Log).FFileName]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameSuccessfullySavedRStr) + ".", [((SaveGameEventLog)Log).FFileName]);
                 MessageLog.FMessage.Text = format;
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(MessageLog, false, TerminateEmailGameCallBack);
                 MessageLog.Release();
@@ -11416,7 +11416,7 @@ namespace Aow.Game.Session
             Log = new RestartGameEventLog(null);
             Log.FPlayer = Player;
             var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.GameRestartEventLogXRStr), [name]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameRestartEventLogXRStr), [name]);
             Log.FMessage.Text = format;
             Aow.Game.Events.EventLog.DistributeEventLog(Log, false);
             Log.Release();
@@ -11431,19 +11431,19 @@ namespace Aow.Game.Session
             {
                 try
                 {
-                    var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.TurnDone) - Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.Playing);
+                    var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus = players.FPBEMSettings.FStatus + Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.TurnDone) - Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.Playing);
                     Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(((SaveGameEventLog)Log).FFileName, null, Aow.Formats.GameProfile.WorldMap);
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GameSavedRStr), [((SaveGameEventLog)Log).FFileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                     Aow.Game.World.Map.AoWHSMap.Current.SynchroniseBegin();
-                    base.EndTurn(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                    base.EndTurn(AoWHSMap.Current.FCurrentPlayer);
                     Aow.Game.World.Map.AoWHSMap.Current.SynchroniseEnd();
                     Failed = false;
                 }
                 catch
                 {
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CouldNotSaveXRStr), [((SaveGameEventLog)Log).FFileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [((SaveGameEventLog)Log).FFileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(format);
                     Failed = true;
                 }
@@ -11455,24 +11455,24 @@ namespace Aow.Game.Session
 
             if (Failed)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.TriggerEndTurnEvent(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                Aow.Game.World.Map.AoWHSMap.Current.TriggerEndTurnEvent(AoWHSMap.Current.FCurrentPlayer);
             }
         }
 
         // PlayerC.PAS:1094
         public void StartLoadedEmailGame()
         {
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FLastDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
-            var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FEmailGame.FLastDay = AoWHSMap.Current.FDay;
+            var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.UpdateGame(players.FPBEMSettings.FEmailGame);
-            var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus = fPlayersPlayers.FPBEMSettings.FStatus + Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.Playing);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.NewTurn))
+            var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus = fPlayersPlayers.FPBEMSettings.FStatus + Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.Playing);
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus.Contains(PBEMPlayerStatusElement.NewTurn))
             {
                 Aow.Game.World.Map.AoWHSMap.Current.SynchroniseBegin();
                 DefaultStartMap();
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
-                NewTurn(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
+                NewTurn(AoWHSMap.Current.FCurrentPlayer);
                 Aow.Game.World.Map.AoWHSMap.Current.SynchroniseEnd();
             }
             else
@@ -11487,7 +11487,7 @@ namespace Aow.Game.Session
             if (((MessageEventLog)Log).FPressedButton == PressedEventLogButton.Yes)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.SynchroniseBegin();
-                TriggerGameRestartedEvents(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                TriggerGameRestartedEvents(AoWHSMap.Current.FCurrentPlayer);
                 Aow.Game.World.Map.AoWHSMap.Current.SynchroniseEnd();
                 StartLoadedEmailGame();
             }
@@ -11504,8 +11504,8 @@ namespace Aow.Game.Session
             {
                 Aow.Game.World.Map.AoWHSMap.Current.SynchroniseBegin();
                 DefaultStartMap();
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
-                EndTurn(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
+                EndTurn(AoWHSMap.Current.FCurrentPlayer);
                 Aow.Game.World.Map.AoWHSMap.Current.SynchroniseEnd();
             }
             else
@@ -11519,36 +11519,36 @@ namespace Aow.Game.Session
         {
             bool Restarted = default;
             MessageEventLog Log = default;
-            FLocalPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
-            var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+            FLocalPlayer = AoWHSMap.Current.FCurrentPlayer;
+            var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
             if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.FindEmailGame(players.FPBEMSettings.FEmailGame) == null)
             {
-                var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
                 Restarted = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.EmailGameRestarted(fPlayersPlayers.FPBEMSettings.FEmailGame);
-                var players2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
-                var players3 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                var players2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
+                var players3 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
                 var emailGame = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.CreateEmailGame(players3.FPBEMSettings.FEmailGame.FName, players2.FPBEMSettings.FEmailGame.FEmailAddress);
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.SetGame(emailGame);
+                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.SetGame(emailGame);
                 if (Restarted)
                 {
-                    TriggerGameRestartedEvents(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                    TriggerGameRestartedEvents(AoWHSMap.Current.FCurrentPlayer);
                 }
 
                 StartLoadedEmailGame();
             }
             else
             {
-                var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+                var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer);
                 if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.EmailGameRestarted(fPlayersPlayers.FPBEMSettings.FEmailGame))
                 {
                     SetSeatedPlayer(-1);
                     Log = new MessageEventLog(null);
-                    Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
-                    Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WarningRStr);
-                    var pbemRestartCheat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.PBEMRestartCheatRStr);
+                    Log.FButtons = MessageEventLog.Buttons.YesNo;
+                    Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WarningRStr);
+                    var pbemRestartCheat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PBEMRestartCheatRStr);
                     Log.FMessage.Text = pbemRestartCheat;
                     Log.FMessage.Add("");
-                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.DoYouWantToContinueRStr);
+                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DoYouWantToContinueRStr);
                     Log.FMessage.Add(aoWETranslateRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ContinueRestartedGameCallBack);
                     Log.Release();
@@ -11556,15 +11556,15 @@ namespace Aow.Game.Session
                 else
                 {
                     SetSeatedPlayer(-1);
-                    if ((Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus & Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.NewTurn, PBEMPlayerStatusElement.TurnDone)) == Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.TurnDone))
+                    if ((Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).FPBEMSettings.FStatus & Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.NewTurn, PBEMPlayerStatusElement.TurnDone)) == Set<PBEMPlayerStatusElement>.Of(PBEMPlayerStatusElement.TurnDone))
                     {
                         Log = new MessageEventLog(null);
-                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WarningRStr);
-                        Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
-                        var pbemGameEnded = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.PBEMGameEndedRStr);
+                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WarningRStr);
+                        Log.FButtons = MessageEventLog.Buttons.YesNo;
+                        var pbemGameEnded = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PBEMGameEndedRStr);
                         Log.FMessage.Text = pbemGameEnded;
                         Log.FMessage.Add("");
-                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.PBEMPlayerControl.DoYouWantToContinueRStr);
+                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DoYouWantToContinueRStr);
                         Log.FMessage.Add(aoWETranslateRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ContinueTurnDoneGameCallBack);
                         Log.Release();
@@ -11589,7 +11589,7 @@ namespace Aow.Game.Session
                 }
                 catch
                 {
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CouldNotSaveXRStr), [((SaveGameEventLog)Log).FFileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CouldNotSaveXRStr), [((SaveGameEventLog)Log).FFileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(format);
                 }
             }
@@ -11620,7 +11620,7 @@ namespace Aow.Game.Session
         {
             Aow.Game.World.Map.AoWHSMap.Current.Selection.UnselectLocation();
             base.NewDay();
-            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 NewTurn((sbyte)I);
             }
@@ -11637,13 +11637,13 @@ namespace Aow.Game.Session
         {
             EventLog Log;
             SpellList Spells = default;
-            if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Player == AoWHSMap.Current.FSeatedPlayer)
             {
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+                    if (AoWHSMap.Current.FDay == 1)
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FGameType == GameType.Custom)
+                        if (AoWHSMap.Current.FGameType == GameType.Custom)
                         {
                             Log = new ShowBookEventLog(null);
                             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
@@ -11657,7 +11657,7 @@ namespace Aow.Game.Session
                             if (Spells.GetCount() > 0)
                             {
                                 Log = new PlayerMagicEventLog(null);
-                                ((PlayerMagicEventLog)Log).FMode = Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.StartResearch;
+                                ((PlayerMagicEventLog)Log).FMode = PlayerMagicEventLog.PlayerMagicEventMode.StartResearch;
                                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
                                 Log.Release();
                             }
@@ -11676,7 +11676,7 @@ namespace Aow.Game.Session
             base.NewTurn(Player);
             if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Aow.Game.Session.Player.Status.Playing)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus == Session.Player.Status.Playing)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.ActivatePlayer(Player);
                 }
@@ -11688,11 +11688,11 @@ namespace Aow.Game.Session
         {
             if (Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimerEnabled() && Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimeLeft() <= 0)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FSingleProcessCycle)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FGameOverStatus == GameOverStatus.None && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FSingleProcessCycle)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(AoWHSMap.Current.FSeatedPlayer))
                     {
-                        Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                        Aow.Game.Magic.Abilities.AbilityRules.EndPlayerTurn(AoWHSMap.Current.FSeatedPlayer);
                     }
                 }
             }
@@ -11702,7 +11702,7 @@ namespace Aow.Game.Session
         public override void Setup()
         {
             base.Setup();
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = false;
+            AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = false;
         }
 
         // PlayerC.PAS:1364
@@ -11710,31 +11710,31 @@ namespace Aow.Game.Session
         {
             NewTurnEventLog Log = default;
             base.StartNewMap();
-            Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves = false;
-            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            AoWHSMap.Current.FShowIndependentMoves = false;
+            for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 if (I == 0 || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Independent)
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Aow.Game.Session.Player.Status.Playing;
+                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus = Player.Status.Playing;
                 }
             }
 
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Update();
-            Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer = 0;
-            var item = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+            AoWHSMap.Current.FCurrentPlayer = 0;
+            var item = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
             Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
             Aow.Game.World.Map.AoWHSMap.Current.SeatedPlayerChanged();
-            Assert(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != 0, "", "PlayerC.PAS", 1584);
+            Assert(AoWHSMap.Current.FSeatedPlayer != 0, "", "PlayerC.PAS", 1584);
             Aow.Game.World.Map.AoWHSMap.Current.ResetSeatedPlayerView();
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
             Log = new NewTurnEventLog(null);
-            Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
-            Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+            Log.FTurnPlayer = AoWHSMap.Current.FSeatedPlayer;
+            Log.FMode = NewTurnEventLog.Mode.Dialog;
             Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-            Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.SimultaniousPlayerControl.LetTheGameBeginRStr);
+            Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LetTheGameBeginRStr);
             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, StartGameCallBack);
             Log.Release();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network)
+            if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.ResetTurnTimer();
                 Aow.Game.World.Map.AoWHSMap.Current.EnableTurnTimer();
@@ -11750,10 +11750,10 @@ namespace Aow.Game.Session
         // PlayerC.PAS:1639
         public override void StartLoadedMap()
         {
-            var item = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+            var item = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
             if (!IsEmpty(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(item).FSettings))
             {
-                var fLocalHumanPlayersItem = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+                var fLocalHumanPlayersItem = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
                 ValidatePassword(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(fLocalHumanPlayersItem).FSettings);
             }
             else
@@ -11772,11 +11772,11 @@ namespace Aow.Game.Session
         public override void SetPlayerGameOverStatus(sbyte Player, GameOverStatus Status)
         {
             base.SetPlayerGameOverStatus(Player, Status);
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Aow.Game.Session.Player.Status.Terminated;
+            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus = Session.Player.Status.Terminated;
             Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.GetTC(Player).Active = false;
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Update();
             Aow.Game.World.Map.AoWHSMap.Current.TriggerPlayerTerminatedEvent(Player);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
+            if (AoWHSMap.Current.FPlayers.FLocalHumanPlayers.Count == 0)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerGameTerminatedEvent();
             }
@@ -11803,25 +11803,25 @@ namespace Aow.Game.Session
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).SetEndTurn(true);
             AllDone = true;
             I = 1;
-            while (AllDone && I != Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count)
+            while (AllDone && I != AoWHSMap.Current.FPlayers.Count)
             {
-                AllDone = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Aow.Game.Session.Player.Status.Playing || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FSingleProcessCycle;
+                AllDone = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Session.Player.Status.Playing || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FSingleProcessCycle;
                 I += 1;
             }
 
             if (AllDone)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
+                if (AoWHSMap.Current.FSeatedPlayer == Player)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.ClearExecuteEventLogBuffer();
                 }
 
                 Aow.Game.World.Map.AoWHSMap.Current.LockRelationsChanged();
                 I = 0;
-                int last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1;
+                int last = AoWHSMap.Current.FPlayers.Count - 1;
                 for (; I <= last; I += 1)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Session.Player.Status.Playing)
                     {
                         if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Human)
                         {
@@ -11846,7 +11846,7 @@ namespace Aow.Game.Session
         // PlayerC.PAS:1354
         public void StartGameCallBack(EventLog Log)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+            if (AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.Unlock();
                 Aow.Game.World.Map.AoWHSMap.Current.ResetTurnTimer();
@@ -11859,37 +11859,37 @@ namespace Aow.Game.Session
         {
             NewTurnEventLog Log = default;
             Player Player = default;
-            Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves = false;
-            var item = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+            AoWHSMap.Current.FShowIndependentMoves = false;
+            var item = AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
             Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer((sbyte)item);
             Aow.Game.World.Map.AoWHSMap.Current.SeatedPlayerChanged();
             Aow.Game.World.Map.AoWHSMap.Current.ResetSeatedPlayerView();
-            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
-                if (Player.FStatus == Aow.Game.Session.Player.Status.Playing && Player.FPlayerType != PlayerType.Human)
+                if (Player.FStatus == Session.Player.Status.Playing && Player.FPlayerType != PlayerType.Human)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.ActivatePlayer((sbyte)I);
                 }
             }
 
-            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 0, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Aow.Game.Session.Player.Status.Playing)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus != Session.Player.Status.Playing)
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[I].Active = false;
+                    AoWHSMap.Current.FTokenManager.TokenControls[I].Active = false;
                 }
             }
 
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(AoWHSMap.Current.FCurrentPlayer);
             Log = new NewTurnEventLog(null);
-            Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
-            Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+            Log.FTurnPlayer = AoWHSMap.Current.FSeatedPlayer;
+            Log.FMode = NewTurnEventLog.Mode.Dialog;
             Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-            Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.SimultaniousPlayerControl.TheGameContinuesRStr);
+            Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TheGameContinuesRStr);
             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, StartGameCallBack);
             Log.Release();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network)
+            if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.ResetTurnTimer();
                 Aow.Game.World.Map.AoWHSMap.Current.EnableTurnTimer();
@@ -12158,7 +12158,7 @@ namespace Aow.Game.World.Movement
             HSMapMouse Mouse;
             Mouse = FMap.Mouse;
             Capture = Mouse.Capture;
-            if ((Capture != this && Capture != Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection) || Mouse.Button == MouseButton.Right)
+            if ((Capture != this && Capture != AoWHSMap.Current.FTargetSelection) || Mouse.Button == MouseButton.Right)
             {
                 Unselect();
             }
@@ -12324,11 +12324,11 @@ namespace Aow.Game.World.Movement
                                         Aow.Game.World.Map.HexGeometry.HXtoHP(X1, Y1, ref Xhp, ref Yhp);
                                         if (FCurrentMove == I || FCurrentMove == -1)
                                         {
-                                            Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                            AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
                                         }
                                         else
                                         {
-                                            Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                            AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
                                         }
                                     }
                                 }
@@ -12346,7 +12346,7 @@ namespace Aow.Game.World.Movement
                                         }
 
                                         Aow.Game.World.Map.HexGeometry.HXtoHP(X1, Y1, ref Xhp, ref Yhp);
-                                        Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                        AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
                                         if (PointsLeft - Settings.FPath[J].Flag != 0 && Settings.FPath[J + 1].L == FMap.ViewL)
                                         {
                                             if (PointsLeft - Settings.FPath[J].Flag <= Settings.FMovePoints)
@@ -12359,7 +12359,7 @@ namespace Aow.Game.World.Movement
                                             }
 
                                             Aow.Game.World.Map.HexGeometry.HXtoHP(X2, Y2, ref Xhp, ref Yhp);
-                                            Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                            AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
                                         }
                                     }
                                     else
@@ -12374,7 +12374,7 @@ namespace Aow.Game.World.Movement
                                         }
 
                                         Aow.Game.World.Map.HexGeometry.HXtoHP(X1, Y1, ref Xhp, ref Yhp);
-                                        Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                        AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
                                         if (PointsLeft - Settings.FPath[J].Flag <= Settings.FMovePoints)
                                         {
                                             ImageIndex = 41;
@@ -12385,7 +12385,7 @@ namespace Aow.Game.World.Movement
                                         }
 
                                         Aow.Game.World.Map.HexGeometry.HXtoHP(X2, Y2, ref Xhp, ref Yhp);
-                                        Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
+                                        AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp - FMap.ViewXhp - 8, Yhp - FMap.ViewYhp - 8, Surface);
                                     }
                                 }
                             }
@@ -12405,10 +12405,10 @@ namespace Aow.Game.World.Movement
                             if (Settings.FMovePoints < Settings.FPathMovePoints)
                             {
                                 ImageIndex = 48;
-                                Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
+                                AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
                                 // { Original sets the font color before checking the font for nil. }
-                                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.Color = 0;
-                                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont != null)
+                                GameTables.AoWEngine.FCombatFont.Color = 0;
+                                if (GameTables.AoWEngine.FCombatFont != null)
                                 {
                                     Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(Xhp + 25, Yhp + 9, IntToStr((Settings.FPathMovePoints - Settings.FMovePoints - 1) / Settings.FMoves + 1), Surface);
                                 }
@@ -12418,11 +12418,11 @@ namespace Aow.Game.World.Movement
                                 ImageIndex = 41;
                                 if (FCurrentMove == I || FCurrentMove == -1)
                                 {
-                                    Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
+                                    AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
                                 }
                                 else
                                 {
-                                    Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp, Yhp, Surface);
+                                    AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp, Yhp, Surface);
                                 }
                             }
                         }
@@ -12439,18 +12439,18 @@ namespace Aow.Game.World.Movement
                                 ImageIndex = 41;
                                 if (FCurrentMove == I || FCurrentMove == -1)
                                 {
-                                    Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
+                                    AoWHSSet.Current.FCursorImages[ImageIndex].Show(Xhp, Yhp, Surface);
                                 }
                                 else
                                 {
-                                    Aow.Game.Engine.AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp, Yhp, Surface);
+                                    AoWHSSet.Current.FCursorImages[ImageIndex].ShowTransparent(Xhp, Yhp, Surface);
                                 }
                             }
                         }
                     }
                     else
                     {
-                        if (Settings.FPath.Count == 1 && Aow.Game.World.Map.AoWHSMap.Current.FCombat != null)
+                        if (Settings.FPath.Count == 1 && AoWHSMap.Current.FCombat != null)
                         {
                             var item = Settings.FPath[0];
                             var fPathItem = Settings.FPath[0];
@@ -12459,7 +12459,7 @@ namespace Aow.Game.World.Movement
                             Aow.Game.World.Map.HexGeometry.HXtoHP(MapField.Xhx, MapField.Yhx, ref Xhp, ref Yhp);
                             Xhp = Xhp - FMap.ViewXhp - 8;
                             Yhp = Yhp - FMap.ViewYhp - 8;
-                            Aow.Game.Engine.AoWHSSet.Current.FCursorImages[41].Show(Xhp, Yhp, Surface);
+                            AoWHSSet.Current.FCursorImages[41].Show(Xhp, Yhp, Surface);
                         }
                     }
                 }
@@ -12576,12 +12576,12 @@ namespace Aow.Game.Units
                         }
                     }
 
-                    if (Aow.Game.World.Map.AoWHSMap.Current.Mouse.Xhx != -1)
+                    if (AoWHSMap.Current.Mouse.Xhx != -1)
                     {
-                        var yhx = Aow.Game.World.Map.AoWHSMap.Current.Mouse.Yhx;
-                        var xhx = Aow.Game.World.Map.AoWHSMap.Current.Mouse.Xhx;
-                        ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.World.Map.AoWHSMap.Current.ViewL).FindOwnedChild(131607);
-                        if (ArmyHS != null && ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                        var yhx = AoWHSMap.Current.Mouse.Yhx;
+                        var xhx = AoWHSMap.Current.Mouse.Xhx;
+                        ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, AoWHSMap.Current.ViewL).FindOwnedChild(131607);
+                        if (ArmyHS != null && ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                         {
                             Index = FMoveSettingsList.IndexOfMoveObject(ArmyHS);
                             if (Index == -1)
@@ -12607,12 +12607,12 @@ namespace Aow.Game.Units
                 {
                     if (Aow.Game.World.Map.AoWHSMap.Current.Mouse.Shift.Contains(ShiftState.Ctrl))
                     {
-                        if (FMoveSettingsList.Count > 1 && Aow.Game.World.Map.AoWHSMap.Current.Mouse.Xhx != -1)
+                        if (FMoveSettingsList.Count > 1 && AoWHSMap.Current.Mouse.Xhx != -1)
                         {
-                            var yhx = Aow.Game.World.Map.AoWHSMap.Current.Mouse.Yhx;
-                            var xhx = Aow.Game.World.Map.AoWHSMap.Current.Mouse.Xhx;
-                            ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.World.Map.AoWHSMap.Current.ViewL).FindOwnedChild(131607);
-                            if (ArmyHS != null && ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                            var yhx = AoWHSMap.Current.Mouse.Yhx;
+                            var xhx = AoWHSMap.Current.Mouse.Xhx;
+                            ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, AoWHSMap.Current.ViewL).FindOwnedChild(131607);
+                            if (ArmyHS != null && ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                             {
                                 Index = FMoveSettingsList.IndexOfMoveObject(ArmyHS);
                                 if (Index != -1)
@@ -12632,13 +12632,13 @@ namespace Aow.Game.Units
                     }
                     else
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture != Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection && (Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture != this || FMap.Mouse.Button == MouseButton.Right))
+                        if (AoWHSMap.Current.Mouse.Capture != AoWHSMap.Current.FTargetSelection && (AoWHSMap.Current.Mouse.Capture != this || FMap.Mouse.Button == MouseButton.Right))
                         {
                             Unselect();
                         }
                         else
                         {
-                            if (Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture == this && Aow.Game.World.Map.AoWHSMap.Current.Mouse.Button == MouseButton.Left)
+                            if (AoWHSMap.Current.Mouse.Capture == this && AoWHSMap.Current.Mouse.Button == MouseButton.Left)
                             {
                                 var yhx = FMap.Mouse.Yhx;
                                 SelectPath((sbyte)FMap.Mouse.Xhx, (sbyte)yhx, (sbyte)FMap.ViewL);
@@ -12661,7 +12661,7 @@ namespace Aow.Game.Units
             if (X != -1)
             {
                 Settings = FMoveSettingsList.GetMoveSettings(Index);
-                ArmyHS = (global::Aow.Game.Draw.ArmyHS)Settings.FMoveObject;
+                ArmyHS = (ArmyHS)Settings.FMoveObject;
                 Settings.FPathMovePoints = 0;
                 FMoveControlSettings.Reset();
                 var lhx = ArmyHS.GetLhx();
@@ -12672,7 +12672,7 @@ namespace Aow.Game.Units
                 FMoveControlSettings.FArmyHS = ArmyHS;
                 FMoveControlSettings.SetDestinationPos(X, Y, L);
                 FMoveControlSettings.FUnits.AddUnitsEx(ArmyHS.FArmy, (byte)Settings.FSelection);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled)
+                if (AoWHSMap.Current.FExplorationEnabled)
                 {
                     FMoveControlSettings.FMode = FMoveControlSettings.FMode + Set<MoveModeElement>.Of(MoveModeElement.ExploredTerrainOnly);
                 }
@@ -12693,7 +12693,7 @@ namespace Aow.Game.Units
                         if (Settings.FMovePoints < Settings.FPathMovePoints)
                         {
                             Settings.FPath.Clear();
-                            var armyNotEnoughMovePoints = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.SelectedArmy.ArmyNotEnoughMovePointsRStr);
+                            var armyNotEnoughMovePoints = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ArmyNotEnoughMovePointsRStr);
                             Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(armyNotEnoughMovePoints);
                         }
                         else
@@ -12701,7 +12701,7 @@ namespace Aow.Game.Units
                             if (Settings.FPath.Count != 0)
                             {
                                 var roadConstructionCost = Aow.Game.Magic.Abilities.AbilityRules.RoadConstructionCost(GetArmyHS().FArmy.FPlayer, Settings.FPath, Settings.FMovePoints);
-                                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.SelectedArmy.ArmyRoadConstructionCostRStr), [IntToStr(roadConstructionCost)]);
+                                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ArmyRoadConstructionCostRStr), [IntToStr(roadConstructionCost)]);
                                 Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                             }
                         }
@@ -12740,7 +12740,7 @@ namespace Aow.Game.Units
             bool Valid;
             int I;
             MoveSettings Settings;
-            if (GetArmyHS() != null && GetArmyHS().GetXhx() == Aow.Game.World.Map.AoWHSMap.Current.Mouse.Xhx && GetArmyHS().GetYhx() == Aow.Game.World.Map.AoWHSMap.Current.Mouse.Yhx && GetArmyHS().GetLhx() == Aow.Game.World.Map.AoWHSMap.Current.ViewL)
+            if (GetArmyHS() != null && GetArmyHS().GetXhx() == AoWHSMap.Current.Mouse.Xhx && GetArmyHS().GetYhx() == AoWHSMap.Current.Mouse.Yhx && GetArmyHS().GetLhx() == AoWHSMap.Current.ViewL)
             {
                 var lhx = GetArmyHS().GetLhx();
                 var yhx = GetArmyHS().GetYhx();
@@ -12868,7 +12868,7 @@ namespace Aow.Game.Units
                             }
                             else
                             {
-                                var notEnoughGold = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+                                var notEnoughGold = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
                                 Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(notEnoughGold);
                             }
                         }
@@ -12899,12 +12899,12 @@ namespace Aow.Game.Units
                     }
                     else
                     {
-                        if (((Field.FFieldFlags >> 16) & 255) != 0 || !Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled)
+                        if (((Field.FFieldFlags >> 16) & 255) != 0 || !AoWHSMap.Current.FFogEnabled)
                         {
                             var player = Field.GetPlayer();
                             var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player);
-                            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
-                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.SelectedArmy.ArmyNotAtWarRStr), [raceNamesPlural]);
+                            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
+                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ArmyNotAtWarRStr), [raceNamesPlural]);
                             Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                         }
                     }
@@ -12920,7 +12920,7 @@ namespace Aow.Game.Units
                         var item = moveSettings.FPath[0];
                         var fPathItem = moveSettings.FPath[0];
                         var item2 = moveSettings.FPath[0];
-                        ((global::Aow.Game.Draw.ArmyHS)moveSettings.FMoveObject).FArmy.SetDestinationPos(item2.X, fPathItem.Y, item.L);
+                        ((ArmyHS)moveSettings.FMoveObject).FArmy.SetDestinationPos(item2.X, fPathItem.Y, item.L);
                         moveSettings.FPath.Clear();
                     }
 
@@ -12941,7 +12941,7 @@ namespace Aow.Game.Units
         // Army.PAS:3642
         public override void ShowMovePaths(in SurfaceDesc Surface)
         {
-            if (this == Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture)
+            if (this == AoWHSMap.Current.Mouse.Capture)
             {
                 base.ShowMovePaths(Surface);
             }
@@ -13099,12 +13099,12 @@ namespace Aow.Game.Units
             int Xhp = default;
             int Yhp = default;
             ArmyHSList Armies;
-            global::Aow.Rtl.Rect R;
+            Rect R;
             MapLevel Level;
             ArmyHS ArmyHS;
             Armies = new ArmyHSList(null);
             R = Sender.FSelectionRectangle;
-            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Aow.Game.World.Map.AoWHSMap.Current.ViewL);
+            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(AoWHSMap.Current.ViewL);
             Aow.Game.World.Map.HexGeometry.HPtoHX(R.Left, R.Top, ref X1, ref Y1);
             Aow.Game.World.Map.HexGeometry.HPtoHX(R.Right, R.Bottom, ref X2, ref Y2);
             for (int X = X1 - 1, last = X2 + 1; X <= last; X++)
@@ -13117,7 +13117,7 @@ namespace Aow.Game.Units
                     if (X >= 0 && X < Level.Width && Y > 0 && Y < Level.Height && Xhp >= R.Left && Xhp < R.Right && Yhp >= R.Top && Yhp < R.Bottom)
                     {
                         ArmyHS = ((AoWMapField)Level.GetField(X, Y)).GetArmyHS();
-                        if (ArmyHS != null && ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                        if (ArmyHS != null && ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                         {
                             Armies.AddChild(ArmyHS);
                         }
@@ -13158,7 +13158,7 @@ namespace Aow.Game.Units
             bool Valid;
             ArmyHS ArmyHS;
             Player = Field.GetPlayer();
-            Valid = Player == -1 || Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+            Valid = Player == -1 || Player == AoWHSMap.Current.FSeatedPlayer;
             ArmyHS = Field.GetArmyHS();
             if (ArmyHS != null)
             {
@@ -13171,7 +13171,7 @@ namespace Aow.Game.Units
         // Army.PAS:4002
         public void ActivateMoveSelection()
         {
-            Activate(Aow.Game.World.Map.AoWHSMap.Current);
+            Activate(AoWHSMap.Current);
         }
 
         // Army.PAS:4013
@@ -13196,7 +13196,7 @@ namespace Aow.Game.Units
             for (int I = 0, last = FMoveSettingsList.Count - 1; I <= last; I++)
             {
                 Selection = (byte)FMoveSettingsList.GetMoveSettings(I).FSelection;
-                ArmyHS = (global::Aow.Game.Draw.ArmyHS)FMoveSettingsList.GetMoveSettings(I).FMoveObject;
+                ArmyHS = (ArmyHS)FMoveSettingsList.GetMoveSettings(I).FMoveObject;
                 var movePoints = ArmyHS.FArmy.MovePoints(Selection);
                 FMoveSettingsList.GetMoveSettings(I).FMovePoints = movePoints;
                 var moves = ArmyHS.FArmy.Moves(Selection);
@@ -13207,8 +13207,8 @@ namespace Aow.Game.Units
             {
                 for (int I = 0, last = FMoveSettingsList.Count - 1; I <= last; I++)
                 {
-                    ArmyHS = (global::Aow.Game.Draw.ArmyHS)FMoveSettingsList.GetMoveSettings(I).FMoveObject;
-                    if (ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    ArmyHS = (ArmyHS)FMoveSettingsList.GetMoveSettings(I).FMoveObject;
+                    if (ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                     {
                         if (ArmyHS.FArmy.FDestinationX != -1 && ArmyHS.FArmy.FDestinationX != 0)
                         {
@@ -13250,7 +13250,7 @@ namespace Aow.Game.Units
                 if (Group != null)
                 {
                     var behavior = Group.GroupClass.Behavior;
-                    Text = Text + Aow.Game.Units.SelectedArmy.TGroupBehaviorStr[(int)behavior] + "(GID:" + IntToStr(Group.FGroupID) + "/Target:" + IntToStr(Group.FTargetXYL.X) + "," + IntToStr(Group.FTargetXYL.Y) + "," + IntToStr(Group.FTargetXYL.L) + "/Budget:" + IntToStr(Group.FGoldBudget) + "/MP:" + IntToStr(Group.FTargetMovePoints) + ")";
+                    Text = Text + TGroupBehaviorStr[(int)behavior] + "(GID:" + IntToStr(Group.FGroupID) + "/Target:" + IntToStr(Group.FTargetXYL.X) + "," + IntToStr(Group.FTargetXYL.Y) + "," + IntToStr(Group.FTargetXYL.L) + "/Budget:" + IntToStr(Group.FGoldBudget) + "/MP:" + IntToStr(Group.FTargetMovePoints) + ")";
                     if (Group.FTargetType == AIGroupTargetStatus.Setup)
                     {
                         Text = Text + "-setup";
@@ -13273,7 +13273,7 @@ namespace Aow.Game.Units
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr(Text);
             }
 
-            var strengthMax = GetArmyHS().FArmy.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.None));
+            var strengthMax = GetArmyHS().FArmy.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.None));
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("Army strength: " + IntToStr(strengthMax));
         }
 
@@ -13287,7 +13287,7 @@ namespace Aow.Game.Units
                 FMode = Mode.Default;
                 if (ArmyHS != null)
                 {
-                    if (ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    if (ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                     {
                         ActivateMoveSelection();
                     }
@@ -13325,9 +13325,9 @@ namespace Aow.Game.Units
             ECustomNode Army;
             ArmyHS ArmyHS;
             Army = AUnit.Owner;
-            if (Army is global::Aow.Game.Units.Army)
+            if (Army is Army)
             {
-                ArmyHS = ((global::Aow.Game.Units.Army)Army).GetArmyHS();
+                ArmyHS = ((Army)Army).GetArmyHS();
                 ArmyHS.FArmy.ResetDestinationPos();
                 if (ArmyHS != GetArmyHS())
                 {
@@ -13342,7 +13342,7 @@ namespace Aow.Game.Units
                     FCurrentMove = 0;
                 }
 
-                var selectRoadConstructionPath = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.SelectedArmy.SelectRoadConstructionPathRStr);
+                var selectRoadConstructionPath = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SelectRoadConstructionPathRStr);
                 Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(selectRoadConstructionPath);
                 FRoadBuilderID = AUnit.FUnitID;
                 FMode = Mode.BuildRoads;
@@ -13354,7 +13354,7 @@ namespace Aow.Game.Units
         {
             if (GetArmyHS() != null)
             {
-                var aoWHSMap = Aow.Game.World.Map.AoWHSMap.Current;
+                var aoWHSMap = AoWHSMap.Current;
                 var lhx = GetArmyHS().GetLhx();
                 var yhx = GetArmyHS().GetYhx();
                 aoWHSMap.CenterViewTo(GetArmyHS().GetXhx(), yhx, lhx);
@@ -13364,7 +13364,7 @@ namespace Aow.Game.Units
         // Army.PAS:4153
         public void TurnDone()
         {
-            if (GetArmyHS() != null && GetArmyHS().FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (GetArmyHS() != null && GetArmyHS().FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
             {
                 var armyHS = GetArmyHS();
                 GetArmyHS().FArmy.FUserMode = armyHS.FArmy.FUserMode + Set<ArmyUserModeElement>.Of(ArmyUserModeElement.TurnDone);
@@ -13378,7 +13378,7 @@ namespace Aow.Game.Units
             ArmyHS ArmyHS;
             Army Army;
             ArmyHS = GetArmyHS();
-            if (ArmyHS != null && ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (ArmyHS != null && ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
             {
                 Army = ArmyHS.FArmy;
                 if (ArmyHS.FArmy.FUserMode.Contains(ArmyUserModeElement.Guard))
@@ -13397,7 +13397,7 @@ namespace Aow.Game.Units
         // intf_P2_02.inc:23
         public override void UpdateMoveCursor()
         {
-            var map = Aow.Game.World.Map.AoWHSMap.Current;
+            var map = AoWHSMap.Current;
             var mouse = map.Mouse;
             if (mouse.Xhx == -1 || mouse.Yhx == -1 || mouse.Capture != this) return;
             var field = (AoWMapField)map.MapContainer.GetField(mouse.Xhx, mouse.Yhx, map.ViewL);
@@ -13419,29 +13419,29 @@ namespace Aow.Game.Units
             if (cost == 0 || map.FExplorationEnabled && !field.GetExplored(map.FSeatedPlayer)) mouse.Cursor |= 1;
         }
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_string_19 TGroupBehaviorStr = global::Aow.Game.Engine.Buffers.FixedArray_string_19.From(default(global::System.ReadOnlySpan<string>));
+        private static FixedArray_string_19 TGroupBehaviorStr = global::Aow.Game.Engine.Buffers.FixedArray_string_19.From(default(ReadOnlySpan<string>));
         private static readonly string SelectRoadConstructionPathRStr = "Select road construction path";
         private static readonly string ArmyNotEnoughMovePointsRStr = "Not enough move points";
         private static readonly string ArmyRoadConstructionCostRStr = "Constructing road will cost %s gold";
         private static readonly string ArmyNotAtWarRStr = "Not at war with the %s";
 
-        private static bool ExecuteMultiArmyMove(global::Aow.Game.World.Movement.MoveSettingsList Moves)
+        private static bool ExecuteMultiArmyMove(MoveSettingsList Moves)
         {
             bool flag = false;
-            global::Aow.Game.Commands.MultiMoveTE tMultiMoveTE = null;
-            global::Aow.Game.World.Movement.Movepath tMovepath = null;
-            global::Aow.Game.World.Movement.MoveSettings tMoveSettings = null;
-            global::Aow.Game.Commands.ArmyDefaultMoveTE tArmyDefaultMoveTE = null;
+            MultiMoveTE tMultiMoveTE = null;
+            Movepath tMovepath = null;
+            MoveSettings tMoveSettings = null;
+            ArmyDefaultMoveTE tArmyDefaultMoveTE = null;
             bool flag2 = Moves.Count != 0;
             if (flag2)
             {
-                global::Aow.Game.World.Movement.MoveSettings moveSettings = Moves.GetMoveSettings(0);
-                flag2 = global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(((global::Aow.Game.Draw.ArmyHS)moveSettings.FMoveObject).FArmy.FPlayer);
+                MoveSettings moveSettings = Moves.GetMoveSettings(0);
+                flag2 = global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(((ArmyHS)moveSettings.FMoveObject).FArmy.FPlayer);
             }
             if (flag2)
             {
-                tMovepath = new global::Aow.Game.World.Movement.Movepath();
-                tMultiMoveTE = new global::Aow.Game.Commands.MultiMoveTE(null);
+                tMovepath = new Movepath();
+                tMultiMoveTE = new MultiMoveTE(null);
                 tMultiMoveTE.FSimultaneous = false;
                 Moves.CalculateMovePositions(ValidateMultiArmyMove);
                 int i = 0;
@@ -13456,10 +13456,10 @@ namespace Aow.Game.Units
                         {
                             tMovepath.Add(tMoveSettings.FPath[j]);
                         }
-                        tArmyDefaultMoveTE = new global::Aow.Game.Commands.ArmyDefaultMoveTE(null);
-                        global::Aow.Game.World.Map.XYL tXYL = tMovepath[0];
-                        global::Aow.Game.World.Map.XYL tXYL2 = tMovepath[0];
-                        global::Aow.Game.World.Map.XYL tXYL3 = tMovepath[0];
+                        tArmyDefaultMoveTE = new ArmyDefaultMoveTE(null);
+                        XYL tXYL = tMovepath[0];
+                        XYL tXYL2 = tMovepath[0];
+                        XYL tXYL3 = tMovepath[0];
                         global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr(string.Concat(new string[6]
                         {
                             "Moving to: ",
@@ -13469,7 +13469,7 @@ namespace Aow.Game.Units
                             ",",
                             RtlUnit.IntToStr((int)tXYL3.L)
                         }));
-                        if (tArmyDefaultMoveTE.Setup((global::Aow.Game.Draw.ArmyHS)tMoveSettings.FMoveObject, (byte)tMoveSettings.FSelection, tMovepath, Set<global::Aow.Game.Units.ArmyMoveModeElement>.Of(global::System.Array.Empty<global::Aow.Game.Units.ArmyMoveModeElement>())))
+                        if (tArmyDefaultMoveTE.Setup((ArmyHS)tMoveSettings.FMoveObject, (byte)tMoveSettings.FSelection, tMovepath, Set<ArmyMoveModeElement>.Of(global::System.Array.Empty<ArmyMoveModeElement>())))
                         {
                             tMultiMoveTE.FEvents.Add(tArmyDefaultMoveTE);
                         }
@@ -13478,8 +13478,8 @@ namespace Aow.Game.Units
                 }
                 if (tMultiMoveTE.FEvents.Count != 0)
                 {
-                    global::Aow.Game.World.Movement.MoveSettings moveSettings2 = Moves.GetMoveSettings(0);
-                    global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(((global::Aow.Game.Draw.ArmyHS)moveSettings2.FMoveObject).FArmy.FPlayer).AddEvent(tMultiMoveTE);
+                    MoveSettings moveSettings2 = Moves.GetMoveSettings(0);
+                    global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(((ArmyHS)moveSettings2.FMoveObject).FArmy.FPlayer).AddEvent(tMultiMoveTE);
                     flag = true;
                 }
                 else
@@ -13499,18 +13499,18 @@ namespace Aow.Game.Units
             return flag;
         }
 
-        private static bool ValidateMultiArmyMove(global::Aow.Game.World.Movement.MoveSettingsList Moves, int Index)
+        private static bool ValidateMultiArmyMove(MoveSettingsList Moves, int Index)
         {
             bool flag = true;
-            sbyte fPlayer = ((global::Aow.Game.Draw.ArmyHS)Moves.GetMoveSettings(Index).FMoveObject).FArmy.FPlayer;
-            global::Aow.Game.World.Movement.MoveSettings moveSettings = Moves.GetMoveSettings(Index);
+            sbyte fPlayer = ((ArmyHS)Moves.GetMoveSettings(Index).FMoveObject).FArmy.FPlayer;
+            MoveSettings moveSettings = Moves.GetMoveSettings(Index);
             int num = moveSettings.FMovePos;
             while (flag && num != moveSettings.FPath.Count)
             {
-                global::Aow.Game.World.Map.XYL tXYL = moveSettings.FPath[num];
-                global::Aow.Game.World.Map.XYL tXYL2 = moveSettings.FPath[num];
-                global::Aow.Game.World.Map.XYL tXYL3 = moveSettings.FPath[num];
-                global::Aow.Game.World.Map.AoWMapField tAoWMapField = (global::Aow.Game.World.Map.AoWMapField)global::Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(tXYL3.X, tXYL2.Y, tXYL.L);
+                XYL tXYL = moveSettings.FPath[num];
+                XYL tXYL2 = moveSettings.FPath[num];
+                XYL tXYL3 = moveSettings.FPath[num];
+                AoWMapField tAoWMapField = (AoWMapField)global::Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(tXYL3.X, tXYL2.Y, tXYL.L);
                 sbyte player = tAoWMapField.GetPlayer();
                 flag = player == -1 || player == fPlayer;
                 num++;
@@ -13523,11 +13523,11 @@ namespace Aow.Game.Units
                 UnitCount = 0;
                 Transporters = 0;
                 Capacity = 8;
-                global::Aow.Game.World.Movement.MoveSettings moveSettings2 = Moves.GetMoveSettings(Index);
-                AddArmy((global::Aow.Game.Draw.ArmyHS)Moves.GetMoveSettings(Index).FMoveObject, (byte)moveSettings2.FSelection);
-                global::Aow.Game.World.Map.XYL moveLoc = Moves.GetMoveSettings(Index).GetMoveLoc();
-                global::Aow.Game.World.Map.AoWMapField tAoWMapField = (global::Aow.Game.World.Map.AoWMapField)global::Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(moveLoc.X, moveLoc.Y, moveLoc.L);
-                global::Aow.Game.Draw.ArmyHS tArmyHS = (global::Aow.Game.Draw.ArmyHS)tAoWMapField.FindOwnedChild(131607);
+                MoveSettings moveSettings2 = Moves.GetMoveSettings(Index);
+                AddArmy((ArmyHS)Moves.GetMoveSettings(Index).FMoveObject, (byte)moveSettings2.FSelection);
+                XYL moveLoc = Moves.GetMoveSettings(Index).GetMoveLoc();
+                AoWMapField tAoWMapField = (AoWMapField)global::Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(moveLoc.X, moveLoc.Y, moveLoc.L);
+                ArmyHS tArmyHS = (ArmyHS)tAoWMapField.FindOwnedChild(131607);
                 if (tArmyHS != null)
                 {
                     AddArmy(tArmyHS, 255);
@@ -13540,12 +13540,12 @@ namespace Aow.Game.Units
                         bool flag2 = moveSettings.FValid && Moves.GetMoveSettings(Index).GetMovePrio() >= moveSettings.GetMovePrio();
                         if (flag2)
                         {
-                            global::Aow.Game.World.Map.XYL moveLoc2 = Moves.GetMoveSettings(Index).GetMoveLoc();
-                            flag2 = global::System.Runtime.CompilerServices.Unsafe.BitCast<global::Aow.Game.World.Map.XYL, int>(moveSettings.GetMoveLoc()) == global::System.Runtime.CompilerServices.Unsafe.BitCast<global::Aow.Game.World.Map.XYL, int>(moveLoc2);
+                            XYL moveLoc2 = Moves.GetMoveSettings(Index).GetMoveLoc();
+                            flag2 = global::System.Runtime.CompilerServices.Unsafe.BitCast<XYL, int>(moveSettings.GetMoveLoc()) == global::System.Runtime.CompilerServices.Unsafe.BitCast<XYL, int>(moveLoc2);
                         }
                         if (flag2)
                         {
-                            AddArmy((global::Aow.Game.Draw.ArmyHS)moveSettings.FMoveObject, (byte)moveSettings.FSelection);
+                            AddArmy((ArmyHS)moveSettings.FMoveObject, (byte)moveSettings.FSelection);
                         }
                     }
                 }
@@ -13553,11 +13553,11 @@ namespace Aow.Game.Units
             }
             return flag;
             [CompilerGenerated]
-            void AddArmy(global::Aow.Game.Draw.ArmyHS ArmyHS, byte Selection)
+            void AddArmy(ArmyHS ArmyHS, byte Selection)
             {
                 int num2 = ArmyHS.FArmy.SelectionCount(Selection);
                 UnitCount += num2;
-                global::Aow.Game.Magic.Abilities.AbstractUnit tAbstractUnit = ArmyHS.FArmy.Transporter(Selection);
+                AbstractUnit tAbstractUnit = ArmyHS.FArmy.Transporter(Selection);
                 if (tAbstractUnit != null)
                 {
                     Transporters++;
@@ -13622,9 +13622,9 @@ namespace Aow.Game.Combat
         public string FTitle = "";
         public string FCancelText = "";
         public int FSourceUnitID;
-        public Aow.Game.Draw.Images.LibraryImage FSourceImage;
-        public Aow.Game.Draw.Images.LibraryImage FValidTargetImage;
-        public Aow.Game.Draw.Images.LibraryImage FInvalidTargetImage;
+        public LibraryImage FSourceImage;
+        public LibraryImage FValidTargetImage;
+        public LibraryImage FInvalidTargetImage;
 
         // Structur.PAS:3793
         public virtual void Dispose()
@@ -13664,14 +13664,14 @@ namespace Aow.Game.Combat
             HSMapMouse Mouse;
             if (FStatus.Contains(TargetSelectionStatusElement.Activated))
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture != this || Aow.Game.World.Map.AoWHSMap.Current.Mouse.Button == MouseButton.Right)
+                if (AoWHSMap.Current.Mouse.Capture != this || AoWHSMap.Current.Mouse.Button == MouseButton.Right)
                 {
                     Deactivate();
-                    Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.FIgnoreMouseDown = true;
+                    AoWHSMap.Current.FSelectedArmy.FIgnoreMouseDown = true;
                 }
                 else
                 {
-                    Mouse = Aow.Game.World.Map.AoWHSMap.Current.Mouse;
+                    Mouse = AoWHSMap.Current.Mouse;
                     if (Mouse.Capture == this && Mouse.Button == MouseButton.Left)
                     {
                         if (ValidTarget(FTargetX, FTargetY, FTargetL))
@@ -13679,7 +13679,7 @@ namespace Aow.Game.Combat
                             TriggerOnChangeEvent(TargetSelectionChange.Selected);
                             if (!FStatus.Contains(TargetSelectionStatusElement.Activated))
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.FIgnoreMouseDown = true;
+                                AoWHSMap.Current.FSelectedArmy.FIgnoreMouseDown = true;
                             }
                         }
                     }
@@ -13730,13 +13730,13 @@ namespace Aow.Game.Combat
             {
                 if (FStatus.Contains(TargetSelectionStatusElement.Visible))
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.Mouse.SetCursor(110 + (int)(((uint)Aow.Game.World.Map.AoWHSMap.Current.Frame) >> 2) % 10);
-                    Aow.Game.World.Map.AoWHSMap.Current.Mouse.CursorVisible = true;
+                    Aow.Game.World.Map.AoWHSMap.Current.Mouse.SetCursor(110 + (int)(((uint)AoWHSMap.Current.Frame) >> 2) % 10);
+                    AoWHSMap.Current.Mouse.CursorVisible = true;
                 }
                 else
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.Mouse.SetCursor(120);
-                    Aow.Game.World.Map.AoWHSMap.Current.Mouse.CursorVisible = false;
+                    AoWHSMap.Current.Mouse.CursorVisible = false;
                 }
             }
         }
@@ -13748,12 +13748,12 @@ namespace Aow.Game.Combat
             {
                 FTargetX = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.Mouse.GetXhx();
                 FTargetY = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.Mouse.GetYhx();
-                FTargetL = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.ViewL;
+                FTargetL = (sbyte)AoWHSMap.Current.ViewL;
                 bool condition = Aow.Game.World.Map.AoWHSMap.Current.Mouse.GetXhx() != -1 && Aow.Game.World.Map.AoWHSMap.Current.Mouse.GetYhx() != -1;
                 if (condition)
                 {
                     var yhx = Aow.Game.World.Map.AoWHSMap.Current.Mouse.GetYhx();
-                    condition = ValidTarget((sbyte)Aow.Game.World.Map.AoWHSMap.Current.Mouse.GetXhx(), (sbyte)yhx, (sbyte)Aow.Game.World.Map.AoWHSMap.Current.ViewL);
+                    condition = ValidTarget((sbyte)Aow.Game.World.Map.AoWHSMap.Current.Mouse.GetXhx(), (sbyte)yhx, (sbyte)AoWHSMap.Current.ViewL);
                 }
 
                 if (condition)
@@ -13832,11 +13832,11 @@ namespace Aow.Game.Combat
             {
                 FStatus = FStatus + Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
                 Aow.Game.World.Map.AoWHSMap.Current.Mouse.SetCapture(this);
-                Aow.Game.World.Map.AoWHSMap.Current.Mouse.OnDown += MouseDownEvent;
-                Aow.Game.World.Map.AoWHSMap.Current.Mouse.OnMove += MouseMoveEvent;
-                Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents += NewFrameEvent;
-                Aow.Game.World.Map.AoWHSMap.Current.Selection.OnDeselect += DeselectHS;
-                Aow.Game.World.Map.AoWHSMap.Current.Mouse.CursorMode = 256;
+                AoWHSMap.Current.Mouse.OnDown += MouseDownEvent;
+                AoWHSMap.Current.Mouse.OnMove += MouseMoveEvent;
+                AoWHSMap.Current.NewFrameEvents += NewFrameEvent;
+                AoWHSMap.Current.Selection.OnDeselect += DeselectHS;
+                AoWHSMap.Current.Mouse.CursorMode = 256;
                 Aow.Game.World.Map.AoWHSMap.Current.FKeyboard.Lock();
                 TriggerOnChangeEvent(TargetSelectionChange.Activated);
                 MouseMoveEvent(this);
@@ -13854,11 +13854,11 @@ namespace Aow.Game.Combat
             if (FStatus.Contains(TargetSelectionStatusElement.Activated))
             {
                 FStatus = FStatus - Set<TargetSelectionStatusElement>.Of(TargetSelectionStatusElement.Activated);
-                Aow.Game.World.Map.AoWHSMap.Current.Mouse.OnDown -= MouseDownEvent;
-                Aow.Game.World.Map.AoWHSMap.Current.Mouse.OnMove -= MouseMoveEvent;
-                Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents -= NewFrameEvent;
-                Aow.Game.World.Map.AoWHSMap.Current.Selection.OnDeselect -= DeselectHS;
-                if (Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture == this)
+                AoWHSMap.Current.Mouse.OnDown -= MouseDownEvent;
+                AoWHSMap.Current.Mouse.OnMove -= MouseMoveEvent;
+                AoWHSMap.Current.NewFrameEvents -= NewFrameEvent;
+                AoWHSMap.Current.Selection.OnDeselect -= DeselectHS;
+                if (AoWHSMap.Current.Mouse.Capture == this)
                 {
                     if (Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null)
                     {
@@ -13929,7 +13929,7 @@ namespace Aow.Game.World.Map
                 {
                     case Mode.Default:
                         TranslatedKey = Key;
-                        switch (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FLanguage)
+                        switch (GameTables.AoWEngine.FLanguage)
                         {
                             case 3:
                                 switch (Key)
@@ -13992,15 +13992,15 @@ namespace Aow.Game.World.Map
                             switch (TranslatedKey)
                             {
                                 case 79:
-                                    Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves = !Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves;
-                                    if (Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves)
+                                    AoWHSMap.Current.FShowIndependentMoves = !AoWHSMap.Current.FShowIndependentMoves;
+                                    if (AoWHSMap.Current.FShowIndependentMoves)
                                     {
-                                        var observeEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Map.AoWHSMapKeyboard.ObserveEnabledRStr);
+                                        var observeEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ObserveEnabledRStr);
                                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(observeEnabled);
                                     }
                                     else
                                     {
-                                        var observeDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Map.AoWHSMapKeyboard.ObserveDisabledRStr);
+                                        var observeDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ObserveDisabledRStr);
                                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(observeDisabled);
                                     }
 
@@ -14026,7 +14026,7 @@ namespace Aow.Game.World.Map
                                     Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.ToggleGuard();
                                     break;
                                 case 76:
-                                    Aow.Game.World.Map.AoWHSMap.Current.CenterOnLeader(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, true, false);
+                                    Aow.Game.World.Map.AoWHSMap.Current.CenterOnLeader(AoWHSMap.Current.FSeatedPlayer, true, false);
                                     break;
                                 case 67:
                                     if (!Shift.Contains(ShiftState.Ctrl))
@@ -14036,9 +14036,9 @@ namespace Aow.Game.World.Map
 
                                     break;
                                 case 82:
-                                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+                                    if (GameTables.AoWEngine.FDebug)
                                     {
-                                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(Aow.Game.World.Map.AoWHSMap.Current.FDefendersSeed));
+                                        Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugStr("Random Seed: " + IntToStr(AoWHSMap.Current.FDefendersSeed));
                                     }
 
                                     break;
@@ -14050,14 +14050,14 @@ namespace Aow.Game.World.Map
 
                                     break;
                                 case 65:
-                                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDeveloper() && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FPlayerType != PlayerType.Human)
+                                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDeveloper() && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FPlayerType != PlayerType.Human)
                                     {
-                                        Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.ActivatePlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                                        Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.ActivatePlayer(AoWHSMap.Current.FSeatedPlayer);
                                     }
 
                                     break;
                                 case 73:
-                                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+                                    if (GameTables.AoWEngine.FDebug)
                                     {
                                         var heapStatus = GetHeapStatus();
                                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage("Allocated Memory: " + IntToStr(heapStatus.TotalAllocated));
@@ -14080,16 +14080,16 @@ namespace Aow.Game.World.Map
                         while (I != 0 && !Complete)
                         {
                             I -= 1;
-                            Prefix = Prefix || CompareText(FCheatText, RtlUnit.Copy(Aow.Game.World.Map.AoWHSMapKeyboard.CheatNames[I], 1, FCheatText.Length)) == 0;
-                            Complete = CompareText(FCheatText, Aow.Game.World.Map.AoWHSMapKeyboard.CheatNames[I]) == 0;
+                            Prefix = Prefix || CompareText(FCheatText, RtlUnit.Copy(CheatNames[I], 1, FCheatText.Length)) == 0;
+                            Complete = CompareText(FCheatText, CheatNames[I]) == 0;
                         }
 
-                        if (Complete && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1 && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetBusy())
+                        if (Complete && AoWHSMap.Current.FSeatedPlayer != -1 && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetBusy())
                         {
                             Cheat = new CheatTE(null);
-                            Cheat.FPlayer = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+                            Cheat.FPlayer = AoWHSMap.Current.FSeatedPlayer;
                             Cheat.FCheatID = I;
-                            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).AddEvent(Cheat);
+                            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(AoWHSMap.Current.FSeatedPlayer).AddEvent(Cheat);
                             Cheat.Release();
                             FCheatText = "";
                             FMode = Mode.Default;
@@ -14107,7 +14107,7 @@ namespace Aow.Game.World.Map
                 }
             }
 
-            if (Key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & Shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Email && !Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
+            if (Key == 67 && (Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) & Shift) == Set<ShiftState>.Of(ShiftState.Shift, ShiftState.Ctrl) && CompareText(ParamStr(1), "beatrix") == 0 && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Email && !GameTables.AoWEngine.FDemo)
             {
                 Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB02.WAV");
                 FMode = Mode.Cheat;
@@ -14133,12 +14133,12 @@ namespace Aow.Game.World.Map
             string FileName;
             FileName = "autosave" + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.Save);
             // { Original saves the autosave file. }
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName, null, Aow.Formats.GameProfile.WorldMap);
         }
 
         private static readonly string ObserveEnabledRStr = "Observe enabled";
         private static readonly string ObserveDisabledRStr = "Observe disabled";
-        private static global::Aow.Game.Engine.Buffers.FixedArray_string_10 CheatNames = FixedArray_string_10.From(["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"]);
+        private static FixedArray_string_10 CheatNames = FixedArray_string_10.From(["gold", "mana", "explore", "fog", "spells", "win", "freemove", "towns", "lose", "research"]);
 
         public enum Mode : byte
         {
@@ -14160,7 +14160,7 @@ namespace Aow.Game.World.Map
             FRectangleSelectEventsStore = new();
         }
 
-        public global::Aow.Rtl.Rect FSelectionRectangle;
+        public Rect FSelectionRectangle;
 
         internal EventStore<AbstractAoWHSMapMouse> FRectangleSelectEventsStore;
 
@@ -14288,7 +14288,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:1104
         public void StopRectangleSelection(int Xhp, int Yhp)
         {
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             FSelectionRectangle.Right = Xhp;
             FSelectionRectangle.Bottom = Yhp;
             if (FSelectionRectangle.Left < FSelectionRectangle.Right)
@@ -14347,7 +14347,7 @@ namespace Aow.Game.World.Map
         {
             int Result;
             AbstractAoWCombatMap CombatMap;
-            CombatMap = Aow.Game.World.Map.AoWHSMap.Current.FCombatMap;
+            CombatMap = AoWHSMap.Current.FCombatMap;
             if (CombatMap != null)
             {
                 Result = CombatMap.Mouse.GetCursor();
@@ -14363,7 +14363,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:1157
         public override void Down(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+            if (AoWHSMap.Current.FCombatMap != null)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FCombatMap.Mouse.Down(Button, Shift, X, Y);
             }
@@ -14383,7 +14383,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:1167
         public override void Up(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+            if (AoWHSMap.Current.FCombatMap != null)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FCombatMap.Mouse.Up(Button, Shift, X, Y);
             }
@@ -14397,7 +14397,7 @@ namespace Aow.Game.World.Map
         public override void Move(Set<ShiftState> Shift, int X, int Y)
         {
             AbstractAoWCombatMap CombatMap;
-            CombatMap = Aow.Game.World.Map.AoWHSMap.Current.FCombatMap;
+            CombatMap = AoWHSMap.Current.FCombatMap;
             if (CombatMap != null)
             {
                 CombatMap.Mouse.Move(Shift, X, Y);
@@ -14414,7 +14414,7 @@ namespace Aow.Game.World.Map
             AbstractAoWCombatMap CombatMap;
             bool SelectStructure;
             Structure Structure;
-            CombatMap = Aow.Game.World.Map.AoWHSMap.Current.FCombatMap;
+            CombatMap = AoWHSMap.Current.FCombatMap;
             if (CombatMap != null)
             {
                 CombatMap.Mouse.DblClick();
@@ -14422,16 +14422,16 @@ namespace Aow.Game.World.Map
             }
 
             SelectStructure = Capture == null;
-            if (Capture == Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy)
+            if (Capture == AoWHSMap.Current.FSelectedArmy)
             {
-                SelectStructure = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.FMoveSettingsList.Count == 1 && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS().Xhx == Xhx && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS().Yhx == Yhx && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS().Lhx == Aow.Game.World.Map.AoWHSMap.Current.ViewL;
+                SelectStructure = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS() != null && AoWHSMap.Current.FSelectedArmy.FMoveSettingsList.Count == 1 && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS().Xhx == Xhx && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS().Yhx == Yhx && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS().Lhx == AoWHSMap.Current.ViewL;
             }
 
             if (SelectStructure && Xhx != -1)
             {
                 var yhx = Yhx;
                 var xhx = Xhx;
-                Structure = (global::Aow.Game.World.Structures.Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, Aow.Game.World.Map.AoWHSMap.Current.ViewL).FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.Structure));
+                Structure = (Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, AoWHSMap.Current.ViewL).FindNoneTransparentHS(typeof(Structure));
                 if (Structure != null && Structure.CanDblClick())
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.Selection.UnselectLocation();
@@ -14525,7 +14525,7 @@ namespace Aow.Game.World.Map
         public override HSMapMouse CreateMouse() => new AbstractAoWHSMapMouse();
 
         // AoWHSMap.PAS:440
-        public override void TriggerTerrainChangedEvent(in global::Aow.Rtl.Rect R, sbyte L)
+        public override void TriggerTerrainChangedEvent(in Rect R, sbyte L)
         {
             base.TriggerTerrainChangedEvent(R, L);
             if (FMapChangedLockCount == 0)
@@ -14627,12 +14627,12 @@ namespace Aow.Game.World.Map
         {
             int Xhp = default;
             int Yhp = default;
-            if (FSelectorX != -1 && FSelectorY != -1 && Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture == Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy)
+            if (FSelectorX != -1 && FSelectorY != -1 && Mouse.Capture == AoWHSMap.Current.FSelectedArmy)
             {
                 Aow.Game.World.Map.HexGeometry.HXtoHP(FSelectorX, FSelectorY, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf - 32 + 2;
-                Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[7].Show(Xhp, Yhp, SurfaceDesc);
+                AoWHSSet.Current.FGeneralImages[7].Show(Xhp, Yhp, SurfaceDesc);
             }
         }
 
@@ -14641,12 +14641,12 @@ namespace Aow.Game.World.Map
         {
             int Xhp = default;
             int Yhp = default;
-            if (FSelectorX != -1 && FSelectorY != -1 && Aow.Game.World.Map.AoWHSMap.Current.Mouse.Capture == Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy)
+            if (FSelectorX != -1 && FSelectorY != -1 && Mouse.Capture == AoWHSMap.Current.FSelectedArmy)
             {
                 Aow.Game.World.Map.HexGeometry.HXtoHP(FSelectorX, FSelectorY, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf - 32 + 2;
-                Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[6].Show(Xhp, Yhp, SurfaceDesc);
+                AoWHSSet.Current.FGeneralImages[6].Show(Xhp, Yhp, SurfaceDesc);
             }
         }
 
@@ -14812,7 +14812,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:445
-        public void MapChanged(in global::Aow.Rtl.Rect R, int L)
+        public void MapChanged(in Rect R, int L)
         {
             if (FMapChangedLockCount == 0 && Status.Contains(HSMapStatusElement.Activated))
             {
@@ -14823,7 +14823,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:451
         public void MapChangedRad(int X, int Y, int L, int Radius)
         {
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             MapLevel Level;
             Level = MapContainer.GetMapLevel(L);
             R.Left = X - Radius;
@@ -14856,7 +14856,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:468
         public void InvalidateMap()
         {
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             R.Left = 0;
             R.Right = MapContainer.Width;
             R.Top = 0;
@@ -14868,7 +14868,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:480
-        public void TriggerMapChangedEvent(in global::Aow.Rtl.Rect R, int L)
+        public void TriggerMapChangedEvent(in Rect R, int L)
         {
             var notification = new MapChangedNotification();
             ref var Info = ref notification.Info;
@@ -14893,7 +14893,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:500
-        public void ScannerIconsChanged(in global::Aow.Rtl.Rect R, int L)
+        public void ScannerIconsChanged(in Rect R, int L)
         {
             if (FScannerIconsChangedLockCount == 0 && (Set<HSMapStatusElement>.Of(HSMapStatusElement.Activated, HSMapStatusElement.Destroying) & Status) == Set<HSMapStatusElement>.Of(HSMapStatusElement.Activated))
             {
@@ -14904,7 +14904,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:506
         public void ScannerIconsChangedRad(int Xhx, int Yhx, int Lhx, int Radius)
         {
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             MapLevel Level;
             Level = MapContainer.GetMapLevel(Lhx);
             R.Left = Xhx - Radius;
@@ -14937,7 +14937,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:522
         public void InvalidateScannerIcons()
         {
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             R.Left = 0;
             R.Right = MapContainer.Width;
             R.Top = 0;
@@ -14949,7 +14949,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:533
-        public void TriggerScannerIconsChangedEvent(in global::Aow.Rtl.Rect R, int L)
+        public void TriggerScannerIconsChangedEvent(in Rect R, int L)
         {
             var notification = new MapChangedNotification();
             ref var Info = ref notification.Info;
@@ -15115,7 +15115,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:892
-        public void DrawSelectionRect(int XhpSurf, int YhpSurf, in global::Aow.Rtl.Rect R, in SurfaceDesc SurfaceDesc)
+        public void DrawSelectionRect(int XhpSurf, int YhpSurf, in Rect R, in SurfaceDesc SurfaceDesc)
         {
             int Color;
             Color = 2134015;
@@ -15131,7 +15131,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:666 advances a pointer one row. GetField retains that row order.
         public void DrawFog(in SurfaceDesc surface)
         {
-            bool exploration = FExplorationEnabled || Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == -1;
+            bool exploration = FExplorationEnabled || FSeatedPlayer == -1;
             if (!FFogEnabled && !exploration) return;
             var level = MapContainer.GetMapLevel(ViewL);
             for (int x = ViewXhx; x < ViewXhx + ViewWidthHX; x++)
@@ -15144,9 +15144,9 @@ namespace Aow.Game.World.Map
                 {
                     var field = (AoWMapField)level.GetField(x, y);
                     bool unexplored = exploration && (FSeatedPlayer == -1 || !field.GetExplored(FSeatedPlayer));
-                    if (unexplored) Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[3].Show(xhp, yhp, surface);
+                    if (unexplored) AoWHSSet.Current.FGeneralImages[3].Show(xhp, yhp, surface);
                     else if (FFogEnabled && ((field.FFieldFlags >> 16) & 255) == 0)
-                        Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[1].Show(xhp, yhp, surface);
+                        AoWHSSet.Current.FGeneralImages[1].Show(xhp, yhp, surface);
                 }
             }
         }
@@ -15163,11 +15163,11 @@ namespace Aow.Game.World.Map
                 yhp = yhp - ViewYhp - 4 + 4;
                 for (int y = ViewYhx; y <= maxY; y++, yhp += 32)
                     if (level.GetField(x, y).TerrainType != 15)
-                        Aow.Game.Engine.AoWHSSet.Current.FFlagControl.FFlags[7].Show(xhp, yhp, surface);
+                        AoWHSSet.Current.FFlagControl.FFlags[7].Show(xhp, yhp, surface);
             }
         }
 
-        private static void DrawLine(int X1, int Y1, int X2, int Y2, int Skip, int Color, in global::Aow.Game.Draw.SurfaceDesc SD)
+        private static void DrawLine(int X1, int Y1, int X2, int Y2, int Skip, int Color, in SurfaceDesc SD)
         {
             int pixelFormatID = SD.PixelFormatID;
             int num = pixelFormatID;
@@ -15178,7 +15178,7 @@ namespace Aow.Game.World.Map
             }
         }
 
-        private static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in global::Aow.Game.Draw.SurfaceDesc SD)
+        private static void DrawLine16(int X1, int Y1, int X2, int Y2, int Skip, ushort Color, in SurfaceDesc SD)
         {
             Aow.Graphics.Blit.DrawLine16(X1, Y1, X2, Y2, Skip, Color, SD.View());
         }
@@ -15258,7 +15258,7 @@ namespace Aow.Game.Ui.Controls
         public void ShowMessage(int ID, bool Immediate, bool OnceOnly)
         {
             TutorialMessageEventLog Log;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FGameType == GameType.Tutorial && Aow.Game.World.Map.AoWHSMap.Current.FTextControl.FindID(ID) != null)
+            if (AoWHSMap.Current.FGameType == GameType.Tutorial && Aow.Game.World.Map.AoWHSMap.Current.FTextControl.FindID(ID) != null)
             {
                 if (OnceOnly && FShownMessages.IndexOf(ID) != -1)
                 {
@@ -15304,7 +15304,7 @@ namespace Aow.Game.Audio
                 }
                 catch
                 {
-                    Name = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FileNotFoundRStr);
+                    Name = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FileNotFoundRStr);
                 }
 
                 SongNames.Insert(0, Name);
@@ -15347,7 +15347,7 @@ namespace Aow.Game.World.Map
         public GameResult FGameResult;
         public GameType FGameType;
         public AbstractAoWCombatMap FCombatMap;
-        public global::Aow.Game.Combat.Combat FCombat;
+        public Combat.Combat FCombat;
         public TutorialControl FTutorialControl;
         public AIExecuter FAIExecuter;
         public AIPlayerActionManager FAIPlayerActionManager;
@@ -15393,9 +15393,9 @@ namespace Aow.Game.World.Map
         public bool FShowAllPlayers;
         public int FRelationsChangedLockCount;
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FPlayerChangedEventsStore;
+        internal EventStore<AoWHSMap> FPlayerChangedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FPlayerChangedEvents
+        public event NotifyEvent<AoWHSMap> FPlayerChangedEvents
         {
             add => FPlayerChangedEventsStore.Add(value);
             remove => FPlayerChangedEventsStore.Remove(value);
@@ -15425,25 +15425,25 @@ namespace Aow.Game.World.Map
             remove => FEndTurnEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FCurrentPlayerChangedEventsStore;
+        internal EventStore<AoWHSMap> FCurrentPlayerChangedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FCurrentPlayerChangedEvents
+        public event NotifyEvent<AoWHSMap> FCurrentPlayerChangedEvents
         {
             add => FCurrentPlayerChangedEventsStore.Add(value);
             remove => FCurrentPlayerChangedEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FSeatedPlayerChangedEventsStore;
+        internal EventStore<AoWHSMap> FSeatedPlayerChangedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FSeatedPlayerChangedEvents
+        public event NotifyEvent<AoWHSMap> FSeatedPlayerChangedEvents
         {
             add => FSeatedPlayerChangedEventsStore.Add(value);
             remove => FSeatedPlayerChangedEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.Combat.Combat> FCombatEventsStore;
+        internal EventStore<Combat.Combat> FCombatEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.Combat.Combat> FCombatEvents
+        public event NotifyEvent<Combat.Combat> FCombatEvents
         {
             add => FCombatEventsStore.Add(value);
             remove => FCombatEventsStore.Remove(value);
@@ -15457,17 +15457,17 @@ namespace Aow.Game.World.Map
             remove => FPlayerTerminatedEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FGameOverEventsStore;
+        internal EventStore<AoWHSMap> FGameOverEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FGameOverEvents
+        public event NotifyEvent<AoWHSMap> FGameOverEvents
         {
             add => FGameOverEventsStore.Add(value);
             remove => FGameOverEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FGameTerminatedEventsStore;
+        internal EventStore<AoWHSMap> FGameTerminatedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FGameTerminatedEvents
+        public event NotifyEvent<AoWHSMap> FGameTerminatedEvents
         {
             add => FGameTerminatedEventsStore.Add(value);
             remove => FGameTerminatedEventsStore.Remove(value);
@@ -15475,9 +15475,9 @@ namespace Aow.Game.World.Map
 
         public bool FExitPending;
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FExitEventsStore;
+        internal EventStore<AoWHSMap> FExitEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FExitEvents
+        public event NotifyEvent<AoWHSMap> FExitEvents
         {
             add => FExitEventsStore.Add(value);
             remove => FExitEventsStore.Remove(value);
@@ -15522,9 +15522,9 @@ namespace Aow.Game.World.Map
             remove => FDiplomaticRelationsChangedEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FUpdateVisibilityEventsStore;
+        internal EventStore<AoWHSMap> FUpdateVisibilityEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FUpdateVisibilityEvents
+        public event NotifyEvent<AoWHSMap> FUpdateVisibilityEvents
         {
             add => FUpdateVisibilityEventsStore.Add(value);
             remove => FUpdateVisibilityEventsStore.Remove(value);
@@ -15585,25 +15585,25 @@ namespace Aow.Game.World.Map
             remove => FStructureDestroyedEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FTokenControlActivatedEventsStore;
+        internal EventStore<AoWHSMap> FTokenControlActivatedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FTokenControlActivatedEvents
+        public event NotifyEvent<AoWHSMap> FTokenControlActivatedEvents
         {
             add => FTokenControlActivatedEventsStore.Add(value);
             remove => FTokenControlActivatedEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FCombatMapCreatedEventsStore;
+        internal EventStore<AoWHSMap> FCombatMapCreatedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FCombatMapCreatedEvents
+        public event NotifyEvent<AoWHSMap> FCombatMapCreatedEvents
         {
             add => FCombatMapCreatedEventsStore.Add(value);
             remove => FCombatMapCreatedEventsStore.Remove(value);
         }
 
-        internal EventStore<global::Aow.Game.World.Map.AoWHSMap> FCombatMapDestroyedEventsStore;
+        internal EventStore<AoWHSMap> FCombatMapDestroyedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.World.Map.AoWHSMap> FCombatMapDestroyedEvents
+        public event NotifyEvent<AoWHSMap> FCombatMapDestroyedEvents
         {
             add => FCombatMapDestroyedEventsStore.Add(value);
             remove => FCombatMapDestroyedEventsStore.Remove(value);
@@ -15750,7 +15750,7 @@ namespace Aow.Game.World.Map
             int L = default;
             if (Stream.StorageMode().Contains(StorageModeElement.Read) && !Stream.StorageMode().Contains(StorageModeElement.Translate))
             {
-                Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.OneMomentPleaseStr), 0);
+                Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OneMomentPleaseStr), 0);
             }
 
             if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Write, StorageModeElement.TextOnly)) == Set<StorageModeElement>.Of(StorageModeElement.Write))
@@ -15870,11 +15870,11 @@ namespace Aow.Game.World.Map
             {
                 if (FGameType == GameType.Campaign)
                 {
-                    FileName = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
+                    FileName = GameTables.AoWEngine.StartupDirectory + "Dict\\" + "CampMaps" + ".mld";
                 }
                 else
                 {
-                    FileName = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
+                    FileName = GameTables.AoWEngine.StartupDirectory + "Dict\\" + "CustMaps" + ".mld";
                 }
 
                 if (FileExists(FileName))
@@ -15888,12 +15888,12 @@ namespace Aow.Game.World.Map
         public AoWHSMap(ECustomNode owner) : base(owner)
         {
             FItemControl = new ItemControl(null);
-            FTokenManager = new AoWTokenManager(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            FTokenManager = new AoWTokenManager(GameTables.AoWEngine);
             FTokenManager.TokenExecuter.OnActivateTC += TokenControlActivatedEvent;
             FTokenManager.TokenExecuter.OnExecuteTokenEvent = OnExecuteTokenEvent;
             FTokenManager.OnMessage = OnTokenManagerMessage;
             FPlayerCommunicator = new PlayerCommunicator(null);
-            FPlayerCommunicator.Engine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+            FPlayerCommunicator.Engine = GameTables.AoWEngine;
             FConnectionType = PlayerConnectionType.Local;
             FAIExecuter = new AIExecuter(null);
             FAIGroupManager = new AIGroupManager(null);
@@ -16027,7 +16027,7 @@ namespace Aow.Game.World.Map
             FItemControl.MsgProc(ref Msg, Sender);
             FHeroControl.MsgProc(ref Msg, Sender);
             FAIGroupManager.MsgProc(ref Msg, Sender);
-            if (Msg.MsgID == 537001986 && Msg.Payload.Int == global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Msg.MsgID == 537001986 && Msg.Payload.Int == FSeatedPlayer)
             {
                 if (FSelectedArmy.GetArmyHS() != null)
                 {
@@ -16048,15 +16048,15 @@ namespace Aow.Game.World.Map
             int Total = default;
             if (OnProgress != null)
             {
-                DefaultText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.OneMomentPleaseStr);
+                DefaultText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OneMomentPleaseStr);
                 switch (Progress.ProgressType)
                 {
                     case MapProgressType.Loading:
                         Total = Progress.Percent + Progress.Level * 100;
                         Percent = Round((double)((double)Total / 3) / MapContainer.LevelCount);
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+                        if (GameTables.AoWEngine.FDebug)
                         {
-                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.LoadingLevelRStr) + IntToStr(Progress.Level);
+                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LoadingLevelRStr) + IntToStr(Progress.Level);
                         }
                         else
                         {
@@ -16068,9 +16068,9 @@ namespace Aow.Game.World.Map
                     case MapProgressType.Initializing:
                         Total = Progress.Percent + Progress.Level * 100;
                         Percent = Round((double)((double)((double)Total / 4.5) / MapContainer.LevelCount) + (double)100 / 3);
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+                        if (GameTables.AoWEngine.FDebug)
                         {
-                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.InitializingLevelRStr) + IntToStr(Progress.Level);
+                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(InitializingLevelRStr) + IntToStr(Progress.Level);
                         }
                         else
                         {
@@ -16082,9 +16082,9 @@ namespace Aow.Game.World.Map
                     case MapProgressType.UpdatingTerrain:
                         Total = Progress.Percent + Progress.Level * 100;
                         Percent = Round((double)((double)((double)Total / 4.5) / MapContainer.LevelCount) + (double)500 / 9);
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+                        if (GameTables.AoWEngine.FDebug)
                         {
-                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.UpdatingTerrainLevelRStr) + IntToStr(Progress.Level);
+                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UpdatingTerrainLevelRStr) + IntToStr(Progress.Level);
                         }
                         else
                         {
@@ -16096,9 +16096,9 @@ namespace Aow.Game.World.Map
                     case MapProgressType.Activating:
                         Total = Progress.Percent + Progress.Level * 100;
                         Percent = Round((double)((double)((double)Total / 4.5) / MapContainer.LevelCount) + (double)700 / 9);
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+                        if (GameTables.AoWEngine.FDebug)
                         {
-                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.ActivatingLevelRStr) + IntToStr(Progress.Level);
+                            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ActivatingLevelRStr) + IntToStr(Progress.Level);
                         }
                         else
                         {
@@ -16108,11 +16108,11 @@ namespace Aow.Game.World.Map
                         OnProgress(this, Text, Percent);
                         break;
                     case MapProgressType.Saving:
-                        var savingLevel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.SavingLevelRStr);
+                        var savingLevel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SavingLevelRStr);
                         OnProgress(this, savingLevel + IntToStr(Progress.Level), Progress.Percent);
                         break;
                     case MapProgressType.Destroying:
-                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.DestroyingLevelRStr);
+                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DestroyingLevelRStr);
                         OnProgress(this, aoWETranslateRStr + IntToStr(Progress.Level), Progress.Percent);
                         break;
                 }
@@ -16131,16 +16131,16 @@ namespace Aow.Game.World.Map
                 InitializeMapLevel((sbyte)L);
             }
 
-            for (int I = 0, last = Aow.Game.Engine.AoWHSSet.Current.FItemLibraries.FSystemLibrary.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Obj = Aow.Game.Engine.AoWHSSet.Current.FItemLibraries.FSystemLibrary.GetItem(I).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Obj = Aow.Game.Engine.AoWHSSet.Current.FItemLibraries.FSystemLibrary.GetItem(I).Copy(GameTables.AoWEngine);
                 FItemControl.RegisterItem((Item)Obj);
                 Obj.Release();
             }
 
-            for (int I = 0, last = Aow.Game.Engine.AoWHSSet.Current.FHeroLibraries.FSystemLibrary.Count - 1; I <= last; I++)
+            for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Obj = Aow.Game.Engine.AoWHSSet.Current.FHeroLibraries.FSystemLibrary.GetHero(I).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Obj = Aow.Game.Engine.AoWHSSet.Current.FHeroLibraries.FSystemLibrary.GetHero(I).Copy(GameTables.AoWEngine);
                 FHeroControl.RegisterHero((Hero)Obj);
                 Obj.Release();
             }
@@ -16170,12 +16170,12 @@ namespace Aow.Game.World.Map
             if (FDay == 0 || FGameSongs.Songs.Count == 0)
             {
                 FGameSongs.Songs.Clear();
-                for (int I = 0, last = global::Aow.Game.World.Map.AoWHSMap.Current.FStartupSongs.Songs.Count - 1; I <= last; I++)
+                for (int I = 0, last = FStartupSongs.Songs.Count - 1; I <= last; I++)
                 {
-                    var fileNotFound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FileNotFoundRStr);
-                    if (CompareText(global::Aow.Game.World.Map.AoWHSMap.Current.FStartupSongs.SongNames[I], fileNotFound) != 0)
+                    var fileNotFound = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FileNotFoundRStr);
+                    if (CompareText(FStartupSongs.SongNames[I], fileNotFound) != 0)
                     {
-                        var item = global::Aow.Game.World.Map.AoWHSMap.Current.FStartupSongs.Songs[I];
+                        var item = FStartupSongs.Songs[I];
                         FGameSongs.Songs.Add(item);
                     }
                 }
@@ -16188,10 +16188,10 @@ namespace Aow.Game.World.Map
             FPlayers.EndUpdate();
             for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
             {
-                if (FPlayers.GetPlayers(I).FBehavior == Aow.Game.Session.Player.Behavior.Random)
+                if (FPlayers.GetPlayers(I).FBehavior == Player.Behavior.Random)
                 {
                     var random = global::Aow.Game.World.Map.AoWHSMap.Current.Random(5);
-                    FPlayers.GetPlayers(I).FBehavior = (Aow.Game.Session.Player.Behavior)random;
+                    FPlayers.GetPlayers(I).FBehavior = (Player.Behavior)random;
                 }
             }
 
@@ -16303,7 +16303,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:1887
-        public virtual void TriggerCombatEvent(global::Aow.Game.Combat.Combat Combat)
+        public virtual void TriggerCombatEvent(Combat.Combat Combat)
         {
             FCombatEventsStore.Raise(Combat);
         }
@@ -16457,11 +16457,11 @@ namespace Aow.Game.World.Map
         {
             bool Result;
             SaveGameTE Event;
-            if (global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+            if (FSeatedPlayer != -1)
             {
                 Event = new SaveGameTE(null);
                 Event.FFileName = ExpandFileName(FileName);
-                global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).AddEvent(Event);
+                global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FSeatedPlayer).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -16480,7 +16480,7 @@ namespace Aow.Game.World.Map
             AoWMapField Field;
             HNWalkData Walk = default;
             // { Original returns true immediately when exploration is enabled. }
-            bool Result = global::Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled;
+            bool Result = FExplorationEnabled;
             MapLevel = MapContainer.GetMapLevel(L);
             Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.Radius <= Radius && !Result)
@@ -16488,7 +16488,7 @@ namespace Aow.Game.World.Map
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
                     Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                    Result = Field.GetExplored(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                    Result = Field.GetExplored(FSeatedPlayer);
                 }
 
                 if (!Result)
@@ -16514,7 +16514,7 @@ namespace Aow.Game.World.Map
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
                     Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                    Result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0 || !global::Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled) && (Field.GetExplored(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) || !global::Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled);
+                    Result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0 || !FFogEnabled) && (Field.GetExplored(FSeatedPlayer) || !FExplorationEnabled);
                 }
 
                 if (!Result)
@@ -16540,7 +16540,7 @@ namespace Aow.Game.World.Map
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
                     Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                    Result = (Field.GetExplored(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) || !global::Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled) && Viewing(Walk.X, Walk.Y, L);
+                    Result = (Field.GetExplored(FSeatedPlayer) || !FExplorationEnabled) && Viewing(Walk.X, Walk.Y, L);
                 }
 
                 if (!Result)
@@ -16566,7 +16566,7 @@ namespace Aow.Game.World.Map
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
                 {
                     Field = (AoWMapField)MapLevel.GetField(Walk.X, Walk.Y);
-                    Result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0 || !global::Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled) && (Field.GetExplored(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) || !global::Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled) && Viewing(Walk.X, Walk.Y, L);
+                    Result = (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0 || !FFogEnabled) && (Field.GetExplored(FSeatedPlayer) || !FExplorationEnabled) && Viewing(Walk.X, Walk.Y, L);
                 }
 
                 if (!Result)
@@ -16586,7 +16586,7 @@ namespace Aow.Game.World.Map
             AoWMapField Field;
             HNWalkData Walk = default;
             int WX;
-            if (FShowIndependentMoves && Player != global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (FShowIndependentMoves && Player != FSeatedPlayer)
             {
                 Result = false;
                 MapLevel = MapContainer.GetMapLevel(L);
@@ -16597,7 +16597,7 @@ namespace Aow.Game.World.Map
                     if (WX >= 0 && Walk.Y >= 0 && WX < MapLevel.Width && Walk.Y < MapLevel.Height)
                     {
                         Field = (AoWMapField)MapLevel.GetField(WX, Walk.Y);
-                        Result = Field.GetExplored(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) || !global::Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled;
+                        Result = Field.GetExplored(FSeatedPlayer) || !FExplorationEnabled;
                     }
 
                     if (!Result)
@@ -16784,7 +16784,7 @@ namespace Aow.Game.World.Map
             MapContainer.SendMsg(ref Msg, this);
             Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 537001993, this);
             MapContainer.SendMsg(ref Msg, this);
-            FSeatedPlayerChangedEventsStore.Raise(global::Aow.Game.World.Map.AoWHSMap.Current);
+            FSeatedPlayerChangedEventsStore.Raise(Current);
             ShowMessage("");
         }
 
@@ -17035,16 +17035,16 @@ namespace Aow.Game.World.Map
         {
             Player Player;
             GameOverEventLog Log;
-            for (int I = 1, last = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = Count - 1; I <= last; I++)
             {
                 Player = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
                 if (I == Event.FPlayer || Player.FGameOverStatus == GameOverStatus.None)
                 {
-                    Log = (GameOverEventLog)Event.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Log = (GameOverEventLog)Event.Copy(GameTables.AoWEngine);
                     if (FGameOverLockCount == 0)
                     {
                         Player.FEventLogbook.AddEvent(Log);
-                        if (I == global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                        if (I == FSeatedPlayer)
                         {
                             Log.Execute(false, ExecuteTrigger.Event, null);
                         }
@@ -17071,9 +17071,9 @@ namespace Aow.Game.World.Map
                 while (FExecuteEventLogBuffer.Count != 0)
                 {
                     Player = ((GameOverEventLog)FExecuteEventLogBuffer.GetEvents(0)).FTargetPlayer;
-                    Log = (EventLog)FExecuteEventLogBuffer.GetEvents(0).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Log = (EventLog)FExecuteEventLogBuffer.GetEvents(0).Copy(GameTables.AoWEngine);
                     global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Log);
-                    if (Player == global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    if (Player == FSeatedPlayer)
                     {
                         Log.Execute(false, ExecuteTrigger.Event, null);
                     }
@@ -17116,11 +17116,11 @@ namespace Aow.Game.World.Map
             bool Result = Msg.Data[0] == 0;
             if (Result)
             {
-                Messages.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.MapSuccessfullyValidatedRStr));
+                Messages.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MapSuccessfullyValidatedRStr));
             }
             else
             {
-                Messages.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Map.AoWHSMap.MapValidationFailedRStr));
+                Messages.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MapValidationFailedRStr));
             }
 
             return Result;
@@ -17309,7 +17309,7 @@ namespace Aow.Game.World.Map
             {
                 if (FFogEnabled)
                 {
-                    if (Player != global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    if (Player != FSeatedPlayer)
                     {
                         Msg.MsgID = 4362;
                         Msg.Result = 0;
@@ -17362,12 +17362,12 @@ namespace Aow.Game.World.Map
                 var yhx = Mouse.Yhx;
                 var xhx = Mouse.Xhx;
                 Field = (AoWMapField)MapContainer.GetField(xhx, yhx, FViewL);
-                if (global::Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled && !Field.GetExplored(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+                if (FExplorationEnabled && !Field.GetExplored(FSeatedPlayer))
                 {
                     return;
                 }
 
-                if (!global::Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0)
+                if (!FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref Field.FFieldFlags).Hi).Lo != 0)
                 {
                     var yhp = Mouse.Yhp;
                     var xhp = Mouse.Xhp;
@@ -17685,7 +17685,7 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:2870
-        public void InitializeCombatMap(global::Aow.Game.Combat.Combat Combat, string FileName)
+        public void InitializeCombatMap(Combat.Combat Combat, string FileName)
         {
             Player Player = default;
             int X = default;
@@ -17702,7 +17702,7 @@ namespace Aow.Game.World.Map
                     Player.FViewL = (byte)L;
                 }
 
-                FCombatMap = (AbstractAoWCombatMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FileName), false, null, Aow.Formats.GameProfile.TacticalMap);
+                FCombatMap = (AbstractAoWCombatMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSMEx(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + FileName), false, null, Aow.Formats.GameProfile.TacticalMap);
                 FCombatMapCreatedEventsStore.Raise(this);
             }
         }
@@ -17720,12 +17720,12 @@ namespace Aow.Game.World.Map
         }
 
         // AoWHSMap.PAS:2903
-        public global::Aow.Game.Combat.Combat CreateCombat(int AClassID)
+        public Combat.Combat CreateCombat(int AClassID)
         {
-            global::Aow.Game.Combat.Combat Result;
+            Combat.Combat Result;
             if (FCombat == null)
             {
-                Result = (global::Aow.Game.Combat.Combat)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreateEObject(AClassID, null);
+                Result = (Combat.Combat)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreateEObject(AClassID, null);
                 FCombat = Result;
                 if (FGameType == GameType.Tutorial && AClassID == 2228496)
                 {
@@ -17734,7 +17734,7 @@ namespace Aow.Game.World.Map
 
                 if (AClassID == 2228496)
                 {
-                    ((AbstractAoWHSMapMouse)global::Aow.Game.World.Map.AoWHSMap.Current.Mouse).ResetRectangleSelection();
+                    ((AbstractAoWHSMapMouse)Mouse).ResetRectangleSelection();
                     global::Aow.Game.World.Map.AoWHSMap.Current.Selection.UnselectLocation();
                     FTargetSelection.Deactivate();
                     DisableTurnTimer();
@@ -17751,7 +17751,7 @@ namespace Aow.Game.World.Map
         // AoWHSMap.PAS:2922
         public void ShowSeatedPlayerCallBack(EventLog Log)
         {
-            SetSeatedPlayer(global::Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer);
+            SetSeatedPlayer(FCurrentPlayer);
             EnableTurnTimer();
         }
 
@@ -17773,14 +17773,14 @@ namespace Aow.Game.World.Map
                 {
                     FCombat.Finalize();
                     Player = FCombat.FCombatData.FPlayers.GetPlayers(FCombat.FCombatData.FAttackerPlayer).FPlayer;
-                    if (global::Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && FPlayMode == PlayMode.Simultaneous)
+                    if (FConnectionType == PlayerConnectionType.Network && FPlayMode == PlayMode.Simultaneous)
                     {
-                        Count = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                        Count = FPlayers.Count;
                         Player = FCombat.FCombatData.FPlayers.GetPlayers(FCombat.FCombatData.FAttackerPlayer).FPlayer;
-                        while (Count != 0 && global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus != Aow.Game.Session.Player.Status.Playing)
+                        while (Count != 0 && global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FStatus != Session.Player.Status.Playing)
                         {
                             Player = (sbyte)(Player + 1);
-                            if (Player == global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count)
+                            if (Player == FPlayers.Count)
                             {
                                 Player = 0;
                             }
@@ -17792,7 +17792,7 @@ namespace Aow.Game.World.Map
                     global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Player);
                     if (FPlayMode == PlayMode.Simultaneous)
                     {
-                        global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = false;
+                        FTokenManager.TokenExecuter.HoldTC = false;
                     }
                 }
 
@@ -17801,9 +17801,9 @@ namespace Aow.Game.World.Map
                     LockExecuteEventLog();
                     Log = new NewTurnEventLog(null);
                     Log.FTurnPlayer = FCurrentPlayer;
-                    Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                    Log.FMode = NewTurnEventLog.Mode.Dialog;
                     Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.YourTurnContinuesRStr);
+                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.YourTurnContinuesRStr);
                     TriggerExecuteEventLog(Log, false, ShowSeatedPlayerCallBack);
                     Log.Release();
                     UnlockGameOverEvent();
@@ -17972,16 +17972,16 @@ namespace Aow.Game.World.Map
         {
             EObjectList Resources;
             DelphiList Candidates;
-            Aow.Game.World.MapObjectResource Resource;
+            MapObjectResource Resource;
             RandSeed = global::Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
-            Resources = Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FChildren;
+            Resources = FChildren;
             if (!Set<byte>.WithBounds(0, 255).With(4).With(5).Contains((byte)OverlayType))
             {
                 Candidates = new DelphiList();
                 Candidates.Clear();
                 for (int I = 0, last = Resources.Count - 1; I <= last; I++)
                 {
-                    Resource = (Aow.Game.World.MapObjectResource)Resources.List[I];
+                    Resource = (MapObjectResource)Resources.List[I];
                     if (Resource.EClass.ClassID == 131431 && Resource.TerrainList.UsedTerrain() == 1 && Resource.TerrainList.Terrain[0] == TerrainType && Resource.TerrainList.Overlay[0] == OverlayType)
                     {
                         Candidates.Add(Resource);
@@ -17990,14 +17990,14 @@ namespace Aow.Game.World.Map
 
                 if (Candidates.Count != 0)
                 {
-                    ((Aow.Game.World.MapObjectResource)Candidates[Random(Candidates.Count)]).PlaceResourceUser(global::Aow.Game.World.Map.AoWHSMap.Current, X, Y, L);
+                    ((MapObjectResource)Candidates[Random(Candidates.Count)]).PlaceResourceUser(Current, X, Y, L);
                 }
 
                 Candidates?.Dispose();
             }
             else
             {
-                Aow.Game.Engine.AoWHSSet.Current.RoadControl.Place(global::Aow.Game.World.Map.AoWHSMap.Current.MapContainer, X, Y, L, TerrainType);
+                Aow.Game.Engine.AoWHSSet.Current.RoadControl.Place(MapContainer, X, Y, L, TerrainType);
             }
         }
 
@@ -18041,7 +18041,7 @@ namespace Aow.Game.World.Map
 
         public bool ValidateObservation(sbyte player, sbyte x, sbyte y, sbyte level, int radius)
         {
-            if (!FShowIndependentMoves || player == global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) return false;
+            if (!FShowIndependentMoves || player == FSeatedPlayer) return false;
             HNWalkData walk = default;
             Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref walk, x, y, 0);
             MapLevel mapLevel = null;
@@ -18056,8 +18056,8 @@ namespace Aow.Game.World.Map
                     if (walk.X < mapLevel.Width && walk.Y < mapLevel.Height)
                     {
                         var field = (AoWMapField)mapLevel.GetField(walk.X, walk.Y);
-                        result = (((field.FFieldFlags >> 16) & 0xff) != 0 || !global::Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled) &&
-                            (field.GetExplored(global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) || !global::Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled);
+                        result = (((field.FFieldFlags >> 16) & 0xff) != 0 || !FFogEnabled) &&
+                            (field.GetExplored(FSeatedPlayer) || !FExplorationEnabled);
                     }
                 }
                 if (!result) Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
@@ -18105,8 +18105,8 @@ namespace Aow.Game.World.Map
             {
                 Event = new EndTurnTE(null);
                 Event.FPlayer = Player;
-                Event.FDay = global::Aow.Game.World.Map.AoWHSMap.Current.FDay;
-                Event.FMode = Aow.Game.Commands.EndTurnTE.EndTurnMode.CancelEndTurn;
+                Event.FDay = Current.FDay;
+                Event.FMode = EndTurnTE.EndTurnMode.CancelEndTurn;
                 global::Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).AddEvent(Event);
                 Event.Release();
                 Result = true;
@@ -18121,7 +18121,7 @@ namespace Aow.Game.World.Map
 
         private static readonly string OneMomentPleaseStr = "One moment please...";
 
-        public static global::Aow.Game.World.Map.AoWHSMap Current;
+        public static AoWHSMap Current;
 
         // { Interface declaration run owned by P5. }
         // allied victory. . points. gold. mana. next scenario
@@ -18240,14 +18240,14 @@ namespace Aow.Game.Units
         }
 
         // UnitHS.PAS:27
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // UnitHS.PAS:116
         public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
             Stream.rwStreamProc(5, FSequences.LoadFromStream, FSequences.SaveToStream);
-            if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
+            if (!Stream.StorageMode().Contains(EngineServices.smText))
             {
                 Stream.rwString(ref FFaceImageLibraryName, 6);
                 Stream.rwString(ref FName, 7);
@@ -18278,7 +18278,7 @@ namespace Aow.Game.Units
         public override int Release()
         {
             FRefCount -= 1;
-            if (FRefCount == 0 && !Aow.Game.Engine.AoWHSSet.Current.Status.Contains(HSSetStatusElement.Editting) && (Aow.Game.World.Map.AoWHSMap.Current == null || !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting)))
+            if (FRefCount == 0 && !Aow.Game.Engine.AoWHSSet.Current.Status.Contains(HSSetStatusElement.Editting) && (AoWHSMap.Current == null || !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting)))
             {
                 ReleaseIL();
             }
@@ -18292,14 +18292,14 @@ namespace Aow.Game.Units
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 536870920)
             {
-                FSequences.FILManager = ((HSEngine)Msg.Payload.As<global::Aow.Game.Engine.Engine>()).HSSet.ImageLibraryManager;
+                FSequences.FILManager = ((HSEngine)Msg.Payload.As<Engine.Engine>()).HSSet.ImageLibraryManager;
             }
         }
 
         // UnitHS.PAS:88
-        public override Aow.Game.Draw.Images.LibraryImage GetCellImage()
+        public override LibraryImage GetCellImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             AddRef();
             if (FSequences.GetImageSequence(2) != null)
             {
@@ -18364,9 +18364,9 @@ namespace Aow.Game.Units
         }
 
         // UnitHS.PAS:80
-        public Aow.Game.Draw.Images.LibraryImage GetFaceImage()
+        public LibraryImage GetFaceImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             AddRef();
             if (FFaceImageLibrary != null)
             {
@@ -18414,7 +18414,7 @@ namespace Aow.Game.Units
         // UnitHS.PAS:133
         public UnitGFXResourceList(ECustomNode owner) : base(owner)
         {
-            SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, Aow.Game.Engine.Nodes.EngineServices.csKeepIndex));
+            SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild, EngineServices.csKeepIndex));
         }
 
         // UnitHS.PAS:138
@@ -18926,7 +18926,7 @@ namespace Aow.Game.Draw
                 DestroyShadow();
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
+            if (AoWHSMap.Current.FShowUnitShadows)
             {
                 FShadow = new UnitShadowHS(null);
                 FShadow.FUnitHS = this;
@@ -19163,7 +19163,7 @@ namespace Aow.Game.Magic.Abilities
         {
             FDescription = new StringList();
             FSFXLibrary = new SFXLibrary(null);
-            FImageSequences = new ImageSequenceList(Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager, null);
+            FImageSequences = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
         }
 
         public string FAbilityName = "";
@@ -19221,22 +19221,22 @@ namespace Aow.Game.Magic.Abilities
         public virtual sbyte GetDamage(AbilityOwner Owner) => 0;
 
         // Ability.PAS:1472
-        public virtual Set<MoveType> GetMoveTypes(AbilityOwner Owner) => Aow.Game.Magic.Abilities.Ability.P1EmptyMoveTypes;
+        public virtual Set<MoveType> GetMoveTypes(AbilityOwner Owner) => P1EmptyMoveTypes;
 
         // Ability.PAS:1482
         public virtual int GetLevel(AbilityOwner Owner) => 0;
 
         // Ability.PAS:1550
-        public virtual Set<DamageType> GetImmunityTypes(AbilityOwner Owner) => Aow.Game.Magic.Abilities.Ability.P1EmptyDamageTypes;
+        public virtual Set<DamageType> GetImmunityTypes(AbilityOwner Owner) => P1EmptyDamageTypes;
 
         // Ability.PAS:1555
-        public virtual Set<DamageType> GetProtectionTypes(AbilityOwner Owner) => Aow.Game.Magic.Abilities.Ability.P1EmptyDamageTypes;
+        public virtual Set<DamageType> GetProtectionTypes(AbilityOwner Owner) => P1EmptyDamageTypes;
 
         // Ability.PAS:1268
         public virtual CombatMode GetCombatMode(AbilityOwner Owner) => 0;
 
         // Ability.PAS:1341
-        public virtual Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner) => Aow.Game.Magic.Abilities.Ability.P1EmptyWallFeatures;
+        public virtual Set<WallCombatFeaturesElement> GetWallCombatFeatures(AbilityOwner Owner) => P1EmptyWallFeatures;
 
         // Ability.PAS:1256
         public virtual string GetSourceName(AbilityOwner Owner) => Owner.GetOwnerName();
@@ -19245,7 +19245,7 @@ namespace Aow.Game.Magic.Abilities
         public virtual int GetInherentLevel(AbilityOwner Owner) => 0;
 
         // Ability.PAS:1264
-        public virtual Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => Aow.Game.Magic.Abilities.Ability.P1EmptyControlType;
+        public virtual Set<AbilityControlTypeElement> GetControlType(AbilityOwner Owner) => P1EmptyControlType;
 
         // Ability.PAS:1298
         // { Original leaves Reserved untouched. }
@@ -19382,7 +19382,7 @@ namespace Aow.Game.Magic.Abilities
         // Ability.PAS:1276
         public virtual void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            ref Aow.Game.Magic.Abilities.P1AbilityView.P1DamageValues p1DamageValues = ref Unsafe.As<AbilityDamageValues, Aow.Game.Magic.Abilities.P1AbilityView.P1DamageValues>(ref DamageValues);
+            ref P1AbilityView.P1DamageValues p1DamageValues = ref Unsafe.As<AbilityDamageValues, P1AbilityView.P1DamageValues>(ref DamageValues);
             p1DamageValues.Damage = 0;
             p1DamageValues.Experience = 0;
             p1DamageValues.CounterDamage = 0;
@@ -19393,14 +19393,14 @@ namespace Aow.Game.Magic.Abilities
         public virtual void GetOffensiveStrength(AbilityOwner Owner, ref int Strength, ref Set<DamageType> Types)
         {
             Strength = 0;
-            Types = Aow.Game.Magic.Abilities.Ability.P1EmptyDamageTypes;
+            Types = P1EmptyDamageTypes;
         }
 
         // Ability.PAS:1287
         // { Original leaves Reserved untouched. }
         public virtual void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            ref Aow.Game.Magic.Abilities.P1AbilityView.P1DamageValues p1DamageValues = ref Unsafe.As<AbilityDamageValues, Aow.Game.Magic.Abilities.P1AbilityView.P1DamageValues>(ref DamageValues);
+            ref P1AbilityView.P1DamageValues p1DamageValues = ref Unsafe.As<AbilityDamageValues, P1AbilityView.P1DamageValues>(ref DamageValues);
             p1DamageValues.Damage = 0;
             p1DamageValues.Experience = 0;
             p1DamageValues.CounterDamage = 0;
@@ -19424,8 +19424,8 @@ namespace Aow.Game.Magic.Abilities
         // Ability.PAS:1324
         public virtual int tcGetDamageValue(CombatObject Source, CombatObject Target)
         {
-            Aow.Game.Magic.Abilities.P1AbilityView.P1DamageValues Values = default;
-            this.tcGetDamageValueEx(Source, Target, ref Unsafe.As<Aow.Game.Magic.Abilities.P1AbilityView.P1DamageValues, AbilityDamageValues>(ref Values));
+            P1AbilityView.P1DamageValues Values = default;
+            this.tcGetDamageValueEx(Source, Target, ref Unsafe.As<P1AbilityView.P1DamageValues, AbilityDamageValues>(ref Values));
             return Values.Damage;
         }
 
@@ -19460,7 +19460,7 @@ namespace Aow.Game.Magic.Abilities
             }
 
             var abilityType = this.GetAbilityType();
-            Text.Add("Type: " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TAbilityTypeRStr[(int)abilityType]));
+            Text.Add("Type: " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TAbilityTypeRStr[(int)abilityType]));
             if (this.GetAttack(null) != 0)
             {
                 Text.Add("Attack modifier: " + IntToStr(this.GetAttack(null)));
@@ -19490,7 +19490,7 @@ namespace Aow.Game.Magic.Abilities
             if (this.GetCombatMode(null) != CombatMode.None)
             {
                 var combatMode = this.GetCombatMode(null);
-                Text.Add("Combat mode: " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Ability.TCombatModeRStr[(int)combatMode]));
+                Text.Add("Combat mode: " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TCombatModeRStr[(int)combatMode]));
             }
 
             if (Mode.Contains(AbilityInfoModeElement.Statistics))
@@ -19524,7 +19524,7 @@ namespace Aow.Game.Magic.Abilities
                                 DamageNames = DamageNames + ",";
                             }
 
-                            DamageNames = DamageNames + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Ability.TDamageTypeRStr[(int)DamageType_]);
+                            DamageNames = DamageNames + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TDamageTypeRStr[(int)DamageType_]);
                         }
                     }
 
@@ -19582,12 +19582,12 @@ namespace Aow.Game.Magic.Abilities
         public virtual int GetSkillPoints(AbilityOwner owner) => owner.GetAbSet(FAbilityID) ? FSkillPointCost : 0;
         public virtual bool GetEnabled(AbilityOwner owner) => owner.GetAbSet(FAbilityID);
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_string_6 TCombatModeRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_6.From(default(global::System.ReadOnlySpan<string>));
-        private static global::Aow.Game.Engine.Buffers.FixedArray_string_10 TDamageTypeRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_10.From(default(global::System.ReadOnlySpan<string>));
-        private static Set<global::Aow.Game.World.Movement.MoveType> P1EmptyMoveTypes = Set<global::Aow.Game.World.Movement.MoveType>.FromMask(0uL);
-        private static Set<global::Aow.Game.Combat.DamageType> P1EmptyDamageTypes = Set<global::Aow.Game.Combat.DamageType>.FromMask(0uL);
-        private static Set<global::Aow.Game.Combat.WallCombatFeaturesElement> P1EmptyWallFeatures = Set<global::Aow.Game.Combat.WallCombatFeaturesElement>.FromMask(0uL);
-        private static Set<global::Aow.Game.Magic.Abilities.AbilityControlTypeElement> P1EmptyControlType = Set<global::Aow.Game.Magic.Abilities.AbilityControlTypeElement>.FromMask(0uL);
+        private static FixedArray_string_6 TCombatModeRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_6.From(default(ReadOnlySpan<string>));
+        private static FixedArray_string_10 TDamageTypeRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_10.From(default(ReadOnlySpan<string>));
+        private static Set<MoveType> P1EmptyMoveTypes = Set<MoveType>.FromMask(0uL);
+        private static Set<DamageType> P1EmptyDamageTypes = Set<DamageType>.FromMask(0uL);
+        private static Set<WallCombatFeaturesElement> P1EmptyWallFeatures = Set<WallCombatFeaturesElement>.FromMask(0uL);
+        private static Set<AbilityControlTypeElement> P1EmptyControlType = Set<AbilityControlTypeElement>.FromMask(0uL);
     }
 
     // ability-bit buffer, bit count
@@ -20078,7 +20078,7 @@ namespace Aow.Game.Magic.Abilities
             Data = Source.FAbilityData;
             while (Data != null)
             {
-                AddAbilityData((AbilityData)Data.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine));
+                AddAbilityData((AbilityData)Data.Copy(GameTables.AoWEngine));
                 Data = Data.FNext;
             }
         }
@@ -20159,7 +20159,7 @@ namespace Aow.Game.Magic.Abilities
                     if (Data != null)
                     {
                         RemoveAbilityDataID(I);
-                        Data = (AbilityData)Data.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                        Data = (AbilityData)Data.Copy(GameTables.AoWEngine);
                         AddAbilityData(Data);
                     }
 
@@ -20569,7 +20569,7 @@ namespace Aow.Game.Magic.Abilities
                 {
                     var abilityType = Ability.GetAbilityType();
                     FAbilitiesByType[(int)abilityType].Remove(Ability);
-                    ((global::Aow.Game.Magic.Abilities.Ability)FAbilities.List[ID]).FImageSequences.ReleaseIL();
+                    ((Ability)FAbilities.List[ID]).FImageSequences.ReleaseIL();
                     (FAbilities.List[ID] as IDisposable)?.Dispose();
                     FAbilities.List[ID] = null;
                 }
@@ -20655,7 +20655,7 @@ namespace Aow.Game.Magic.Abilities
             return CompareStr(((Ability)Item1).GetName(null), name);
         }
 
-        internal static void UnregisterPassiveAbilities(Aow.Game.Magic.Abilities.AbilityControl Control)
+        internal static void UnregisterPassiveAbilities(AbilityControl Control)
         {
             Control.UnregisterAbilityID(0);
             Control.UnregisterAbilityID(1);
@@ -20770,7 +20770,7 @@ namespace Aow.Game.Units
         public bool FHidden;
 
         // Army.PAS:5093
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // Army.PAS:5167
         public override void ReadWrite(EStorageStream Stream)
@@ -20820,9 +20820,9 @@ namespace Aow.Game.Units
         }
 
         // Army.PAS:5152
-        public override Aow.Game.Draw.Images.LibraryImage GetCellImage()
+        public override LibraryImage GetCellImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Image;
+            LibraryImage Image;
             AddRef();
             Image = FImageLibrary[FImageIndex];
             Release();
@@ -20877,9 +20877,9 @@ namespace Aow.Game.Units
         }
 
         // Army.PAS:5161
-        public Aow.Game.Draw.Images.LibraryImage GetItemImage()
+        public LibraryImage GetItemImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             if (FImageLibrary != null)
             {
                 Result = FImageLibrary[FImageIndex];
@@ -21098,17 +21098,17 @@ namespace Aow.Game.Magic.Abilities
         public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText) || !GetLibraryItem())
+            if (!Stream.StorageMode().Contains(EngineServices.smText) || !GetLibraryItem())
             {
                 Stream.rwInteger(ref FItemGFXIndex, 7);
             }
 
-            if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText) || FOwner is ItemLibrary || !GetLibraryItem())
+            if (!Stream.StorageMode().Contains(EngineServices.smText) || FOwner is ItemLibrary || !GetLibraryItem())
             {
                 Stream.rwString(ref FOwnerName, 8);
             }
 
-            if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText) || !GetLibraryItem())
+            if (!Stream.StorageMode().Contains(EngineServices.smText) || !GetLibraryItem())
             {
                 Stream.rwString(ref FName, 9);
                 Stream.rwData(Bytes.Of(ref FAvailability, 1), 1, 10);
@@ -21123,7 +21123,7 @@ namespace Aow.Game.Magic.Abilities
                 Stream.rwInteger(ref FObtainValue, 19);
                 Stream.rwInteger(ref FSpellID, 20);
                 Stream.rwIntegerEx(ref FLibraryID, -1, 21);
-                if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
+                if (!Stream.StorageMode().Contains(EngineServices.smText))
                 {
                     Stream.rwString(ref FLibraryName, 22);
                 }
@@ -21235,13 +21235,13 @@ namespace Aow.Game.Magic.Abilities
                 {
                     Result = false;
                     var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Item.ItemSpellAlreadyResearchedRStr), [spell.FSpellName]);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemSpellAlreadyResearchedRStr), [spell.FSpellName]);
                 }
             }
             else
             {
                 Result = false;
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Item.ItemNotUseableRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemNotUseableRStr);
             }
 
             return Result;
@@ -21282,11 +21282,11 @@ namespace Aow.Game.Magic.Abilities
                 {
                     case ItemType.Scroll:
                         Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FMagicControl.ExecuteSpellResearched(FSpellID);
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Hero.FPlayer)
+                        if (AoWHSMap.Current.FSeatedPlayer == Hero.FPlayer)
                         {
                             Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\MAGICB01.WAV");
                             var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Item.ItemSpellResearchedRStr), [spell.FSpellName]);
+                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemSpellResearchedRStr), [spell.FSpellName]);
                             Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                         }
 
@@ -21317,7 +21317,7 @@ namespace Aow.Game.Magic.Abilities
         {
             if (!FStatus.Contains(ItemStatusElement.Activated))
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || Aow.Game.World.Map.AoWHSMap.Current.FDay == 0)
+                if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0)
                 {
                     UpdateFromLibrary();
                 }
@@ -21354,9 +21354,9 @@ namespace Aow.Game.Magic.Abilities
         public int GetCampaignTransferPoints() => GetObtainValue();
 
         // Army.PAS:4356
-        public Aow.Game.Draw.Images.LibraryImage GetImage()
+        public LibraryImage GetImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             ItemGFX GFX;
             GFX = Aow.Game.Engine.AoWHSSet.Current.FItemGFXResources.GetItemGFX(FItemGFXIndex);
             if (GFX != null)
@@ -21385,7 +21385,7 @@ namespace Aow.Game.Magic.Abilities
                 Result = FLibraryName;
                 if (IsEmpty(Result))
                 {
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Item.ItemSystemLibraryRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemSystemLibraryRStr);
                 }
             }
 
@@ -21403,7 +21403,7 @@ namespace Aow.Game.Magic.Abilities
                 if (Item != null)
                 {
                     ID = FItemID;
-                    Assign(Item, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Assign(Item, GameTables.AoWEngine);
                     FItemID = ID;
                     Changed();
                 }
@@ -21501,7 +21501,7 @@ namespace Aow.Game.Magic.Abilities
             int L;
             L = Msg.Lhp;
             Aow.Game.World.Map.HexGeometry.HPtoHX(Msg.Xhp, Msg.Yhp, ref X, ref Y);
-            if (!PlaceOnMap(Aow.Game.World.Map.AoWHSMap.Current, (sbyte)X, (sbyte)Y, (sbyte)L))
+            if (!PlaceOnMap(AoWHSMap.Current, (sbyte)X, (sbyte)Y, (sbyte)L))
             {
                 Msg.Result = -1;
             }
@@ -21564,7 +21564,7 @@ namespace Aow.Game.Units
         public override void MainReadWrite(EStorageStream Stream)
         {
             base.MainReadWrite(Stream);
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                 {
@@ -21680,7 +21680,7 @@ namespace Aow.Game.Units
                 Result = null;
                 while (I != FChildren.Count && Result == null)
                 {
-                    Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                    Item = (Item)FChildren.List[I];
                     if (Item != null && ItemID == Item.FItemID)
                     {
                         Result = Item;
@@ -21721,7 +21721,7 @@ namespace Aow.Game.Units
             Item Item;
             for (int I = FChildren.Count - 1; I >= 0; I--)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null && !Item.FStatus.Contains(ItemStatusElement.Registered))
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FItemControl.RegisterItem(Item);
@@ -21745,14 +21745,14 @@ namespace Aow.Game.Units
         {
             if (Item1 != null && Item2 != null)
             {
-                return RtlUnit.CompareText(((global::Aow.Game.Magic.Abilities.Item)Item1).FOwnerName, ((global::Aow.Game.Magic.Abilities.Item)Item2).FOwnerName);
+                return RtlUnit.CompareText(((Item)Item1).FOwnerName, ((Item)Item2).FOwnerName);
             }
             return 0;
         }
 
         private static int CompareItemTypes(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Magic.Abilities.Item)Item1).FItemType - ((global::Aow.Game.Magic.Abilities.Item)Item2).FItemType;
+            return ((Item)Item1).FItemType - ((Item)Item2).FItemType;
         }
 
         // intf_P2_04.inc:118
@@ -21797,7 +21797,7 @@ namespace Aow.Game.Units
             string Result = FName;
             if (IsEmpty(Result))
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.ItemLibrary.SystemItemLibraryRStr);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SystemItemLibraryRStr);
             }
 
             return Result;
@@ -21846,7 +21846,7 @@ namespace Aow.Game.Units
         public Item CreateItem()
         {
             Item Item;
-            Item = new global::Aow.Game.Magic.Abilities.Item(null);
+            Item = new Item(null);
             Item.FLibraryID = CreateUniqueLibraryID();
             Item.FLibraryName = FName;
             Item.SetOwner(this);
@@ -21902,7 +21902,7 @@ namespace Aow.Game.Units
             base.ReadWrite(Stream);
             if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
             {
-                Directory = ExtractFilePath(Aow.Game.Magic.Abilities.GameTables.AoWEngine.HSSFileName);
+                Directory = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
                 if (Stream.StorageMode().Contains(StorageModeElement.Read))
                 {
                     ReadUserLibraries();
@@ -21934,12 +21934,12 @@ namespace Aow.Game.Units
             FLibraries.AddChild(FSystemLibrary);
             // Both extensions list, and a list present in both forms loads its own document once
             // (own-formats.md 4.2).
-            foreach (var Listed in FileBoundary.FindDocuments(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.ItemList))
+            foreach (var Listed in FileBoundary.FindDocuments(GameTables.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.ItemList))
             {
-                ItemLibrary = new global::Aow.Game.Units.ItemLibrary(null);
+                ItemLibrary = new ItemLibrary(null);
                 try
                 {
-                    ItemLibrary.LoadFromFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + Listed);
+                    ItemLibrary.LoadFromFile(GameTables.AoWEngine.StartupDirectory + "User\\" + Listed);
                     ItemLibrary.SetOwner(FLibraries);
                 }
                 catch
@@ -21957,7 +21957,7 @@ namespace Aow.Game.Units
             {
                 ItemLibrary = GetLibrary(I);
                 var name = ItemLibrary.GetName();
-                ItemLibrary.SaveToFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
+                ItemLibrary.SaveToFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
             }
         }
 
@@ -22015,7 +22015,7 @@ namespace Aow.Game.Units
                 Result = new ItemLibrary(FLibraries);
                 Result.FName = LibraryName;
                 // { Original creates in Release while reading and deleting from User. }
-                Result.SaveToFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
+                Result.SaveToFile(GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.ItemList));
             }
             else
             {
@@ -22032,8 +22032,8 @@ namespace Aow.Game.Units
             {
                 var name = GetLibrary(Index).GetName();
                 // The list goes in both forms, so an original of the same name does not return.
-                DeleteFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OriginalExtension);
-                DeleteFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OwnExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OriginalExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.ItemList.OwnExtension);
                 GetLibrary(Index)?.Dispose();
             }
         }
@@ -22105,7 +22105,7 @@ namespace Aow.Game.Units
                 ID = 10;
                 for (int I = 0, last = FItems.Count - 1; I <= last; I++)
                 {
-                    Item = (global::Aow.Game.Magic.Abilities.Item)FItems[I];
+                    Item = (Item)FItems[I];
                     if (Item.Owner == null)
                     {
                         Stream.rwCreateEObject(ref Item, null, ID);
@@ -22251,11 +22251,11 @@ namespace Aow.Game.Units
         // Army.PAS:4779
         public void RegisterItem(Item Item)
         {
-            global::Aow.Game.Magic.Abilities.Item Existing;
+            Item Existing;
             if (!Item.FStatus.Contains(ItemStatusElement.Registered))
             {
                 Existing = FindItem(Item.FItemID);
-                if (Existing != null && Existing.Compare(Item, Aow.Game.Magic.Abilities.GameTables.AoWEngine) && Existing.FRefCount == 1)
+                if (Existing != null && Existing.Compare(Item, GameTables.AoWEngine) && Existing.FRefCount == 1)
                 {
                     UnRegisterItem(Existing);
                 }
@@ -22292,10 +22292,10 @@ namespace Aow.Game.Units
             DoubleItemList<Item> List;
             int Value;
             Item Item;
-            List = new DoubleItemList<global::Aow.Game.Magic.Abilities.Item>();
+            List = new DoubleItemList<Item>();
             for (int I = 0, last = GetCount() - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FItems.List[I];
+                Item = (Item)FItems.List[I];
                 if (Item.FRefCount == 1 && Types.Contains(Item.FItemType))
                 {
                     Value = Item.GetObtainValue();
@@ -22329,12 +22329,12 @@ namespace Aow.Game.Units
             int Distance;
             bool Done;
             Item Item;
-            global::Aow.Game.Magic.Abilities.Item Candidate;
+            Item Candidate;
             int Result = 0;
-            List = new DoubleItemList<global::Aow.Game.Magic.Abilities.Item>();
+            List = new DoubleItemList<Item>();
             for (int I = 0, last = GetCount() - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FItems.List[I];
+                Item = (Item)FItems.List[I];
                 if (Types.Contains(Item.FItemType) && Item.FRefCount == 1)
                 {
                     List.AddAB(Item, (int)Item.FAvailability);
@@ -22469,7 +22469,7 @@ namespace Aow.Game.Draw
         public override void MsgProc(ref EMsg Msg, EObject Sender)
         {
             base.MsgProc(ref Msg, Sender);
-            if (Msg.MsgID == 537001985 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
             {
                 GenerateItems();
             }
@@ -22503,10 +22503,10 @@ namespace Aow.Game.Draw
         {
             int Xhp = default;
             int Yhp = default;
-            if (!GetSelected() || (Aow.Game.World.Map.AoWHSMap.Current.Frame & 6) != 6)
+            if (!GetSelected() || (AoWHSMap.Current.Frame & 6) != 6)
             {
                 Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
-                Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[0].Show(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc);
+                AoWHSSet.Current.FGeneralImages[0].Show(Xhp - XhpSurf, Yhp - YhpSurf, SurfaceDesc);
             }
         }
 
@@ -22527,7 +22527,7 @@ namespace Aow.Game.Draw
         public override bool CanSelect(int Xhp, int Yhp)
         {
             bool Result;
-            if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo == 0 && Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled)
+            if (Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo == 0 && AoWHSMap.Current.FFogEnabled)
             {
                 Result = false;
             }
@@ -22540,7 +22540,7 @@ namespace Aow.Game.Draw
         }
 
         // Army.PAS:5255
-        public override string EditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Draw.ItemHS.ItemBagRStr);
+        public override string EditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemBagRStr);
 
         // Army.PAS:5297
         public override bool CanPlace(MapContainer Map, sbyte Xhx, sbyte Yhx, sbyte Lhx) => base.CanPlace(Map, Xhx, Yhx, Lhx);
@@ -22548,7 +22548,7 @@ namespace Aow.Game.Draw
         // Army.PAS:5228
         public void ItemsChanged(object Sender)
         {
-            if (FItems.Count == 0 && (FGenerateMode == ItemGenerateMode.UserDefined || Aow.Game.World.Map.AoWHSMap.Current.FDay > 0))
+            if (FItems.Count == 0 && (FGenerateMode == ItemGenerateMode.UserDefined || AoWHSMap.Current.FDay > 0))
             {
                 Dispose();
             }
@@ -22620,7 +22620,7 @@ namespace Aow.Game.Units
         public bool FDeveloperOnly;
 
         // Ability.PAS:445
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // Ability.PAS:512
         public override void ReadWrite(EStorageStream Stream)
@@ -22660,10 +22660,10 @@ namespace Aow.Game.Units
         }
 
         // Ability.PAS:496
-        public override Aow.Game.Draw.Images.LibraryImage GetCellImage()
+        public override LibraryImage GetCellImage()
         {
             AddRef();
-            Aow.Game.Draw.Images.LibraryImage Result = FImageLibrary[FImageIndex];
+            LibraryImage Result = FImageLibrary[FImageIndex];
             Release();
             return Result;
         }
@@ -22717,9 +22717,9 @@ namespace Aow.Game.Units
         }
 
         // Ability.PAS:503
-        public Aow.Game.Draw.Images.LibraryImage GetFaceImage()
+        public LibraryImage GetFaceImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             CustomImageLibrary Images;
             Images = FImageLibrary;
             if (Images != null)
@@ -22745,7 +22745,7 @@ namespace Aow.Game.Units
         }
 
         // Ability.PAS:526
-        public int IndexOfFaceImage(Aow.Game.Draw.Images.LibraryImage Image)
+        public int IndexOfFaceImage(LibraryImage Image)
         {
             FaceResource Face;
             int Result = GetCount();
@@ -22983,7 +22983,7 @@ namespace Aow.Game.Magic.Abilities
                 Deactivate();
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.UnitDestroyed(this);
             }
@@ -23119,10 +23119,10 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Unit.PAS:590
-        public override string GetOwnerName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2InherentRStr);
+        public override string GetOwnerName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2InherentRStr);
 
         // Unit.PAS:171
-        public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => Aow.Game.Magic.Abilities.AbstractSets.TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes;
+        public override Set<AbilitySelectionType> GetAbilitySelectionTypes() => AbstractSets.TAbstractUnit_GetAbilitySelectionTypes__SelectionTypes;
 
         // Unit.PAS:1411
         public override void Changed()
@@ -23133,7 +23133,7 @@ namespace Aow.Game.Magic.Abilities
                 UpdateOffensiveStrength();
                 UpdateDefensiveStrength();
                 UpdateEnchanted();
-                if (Aow.Game.World.Map.AoWHSMap.Current != null)
+                if (AoWHSMap.Current != null)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.UnitChanged(this);
                 }
@@ -23241,7 +23241,7 @@ namespace Aow.Game.Magic.Abilities
         public virtual Set<DamageType> GetProtectionTypes() => this.GetAbProtectionTypesAll();
 
         // Unit.PAS:977
-        public virtual Aow.Game.Draw.Images.LibraryImage GetFace() => null;
+        public virtual LibraryImage GetFace() => null;
 
         // Unit.PAS:981
         public virtual string GetName() => "";
@@ -23250,7 +23250,7 @@ namespace Aow.Game.Magic.Abilities
         public virtual Alignment GetAlignment() => Alignment.Neutral;
 
         // Unit.PAS:985
-        public virtual Aow.Game.Draw.Images.LibraryImage GetPreviewImage() => null;
+        public virtual LibraryImage GetPreviewImage() => null;
 
         // Unit.PAS:813
         public virtual byte GetTransportCapacity() => 0;
@@ -23488,13 +23488,13 @@ namespace Aow.Game.Magic.Abilities
                         RawTerrain = (byte)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx).TerrainType;
                         RaceIndex = Race;
                         TerrainType = (AoWTerrainType)RawTerrain;
-                        if (Aow.Game.World.Structures.City.RaceTerrain[RaceIndex].Penalty.Contains((byte)(int)TerrainType))
+                        if (City.RaceTerrain[RaceIndex].Penalty.Contains((byte)(int)TerrainType))
                         {
                             // { Read the original shared table, not the private copy. }
                             Morale -= 10;
                         }
 
-                        if (Aow.Game.World.Structures.City.RaceTerrain[RaceIndex].Bonus.Contains((byte)(int)TerrainType))
+                        if (City.RaceTerrain[RaceIndex].Bonus.Contains((byte)(int)TerrainType))
                         {
                             Morale += 10;
                         }
@@ -23593,7 +23593,7 @@ namespace Aow.Game.Magic.Abilities
                 }
             }
 
-            if (!Aow.Game.World.Map.AoWHSMap.Current.FUnlimitedMoves || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human)
+            if (!AoWHSMap.Current.FUnlimitedMoves || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human)
             {
                 if (Cost > GetMovePoints())
                 {
@@ -23613,7 +23613,7 @@ namespace Aow.Game.Magic.Abilities
             if (OldField != null)
             {
                 Army = Owner;
-                Transported = Army is global::Aow.Game.Units.Army && ((global::Aow.Game.Units.Army)Army).Transporter(255) != null;
+                Transported = Army is Army && ((Army)Army).Transporter(255) != null;
                 if (!Transported)
                 {
                     if (OldField.Lhx == 0)
@@ -23647,7 +23647,7 @@ namespace Aow.Game.Magic.Abilities
         // Unit.PAS:1890
         public virtual bool CanDisband(ref string Reason)
         {
-            bool Result = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer;
+            bool Result = AoWHSMap.Current.FSeatedPlayer == FPlayer;
             if (Result && GetTransporter() && Owner is Army)
             {
                 Result = ((Army)Owner).UnitsInTransporter() == 0;
@@ -23676,13 +23676,13 @@ namespace Aow.Game.Magic.Abilities
                 {
                     var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                     Alignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
-                    if (GetAlignment() != global::Aow.Game.Engine.Alignment.None)
+                    if (GetAlignment() != Engine.Alignment.None)
                     {
                         Relation = Aow.Game.Magic.Abilities.AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment);
                         if (Relation == DiplomaticRelation.Unknown && this is Unit)
                         {
                             Result = false;
-                            I = Aow.Game.World.Map.AoWHSMap.Current.FRaces.Count;
+                            I = AoWHSMap.Current.FRaces.Count;
                             while (!Result && I != 0)
                             {
                                 I -= 1;
@@ -23763,7 +23763,7 @@ namespace Aow.Game.Magic.Abilities
                     {
                         var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                         Alignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
-                        if ((GetAlignment() != global::Aow.Game.Engine.Alignment.None || GetUnitType() == UnitType.Machine) && Aow.Game.Magic.Abilities.AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment) != DiplomaticRelation.Peace)
+                        if ((GetAlignment() != Engine.Alignment.None || GetUnitType() == UnitType.Machine) && Aow.Game.Magic.Abilities.AlignmentTables.dAlignmentToDiplomaticRelation(GetAlignment(), Alignment) != DiplomaticRelation.Peace)
                         {
                             Result = false;
                         }
@@ -23799,22 +23799,22 @@ namespace Aow.Game.Magic.Abilities
                     {
                         if (Count == 0)
                         {
-                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2RefugeJoinRStr);
+                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2RefugeJoinRStr);
                         }
                         else
                         {
-                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2RefugeesJoinRStr);
+                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2RefugeesJoinRStr);
                         }
                     }
                     else
                     {
                         if (Count == 0)
                         {
-                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2BribeUnitJoinRStr), [IntToStr(Amount)]);
+                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2BribeUnitJoinRStr), [IntToStr(Amount)]);
                         }
                         else
                         {
-                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2BribeUnitsJoinRStr), [IntToStr(Amount)]);
+                            Messages.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2BribeUnitsJoinRStr), [IntToStr(Amount)]);
                         }
                     }
 
@@ -23926,14 +23926,14 @@ namespace Aow.Game.Magic.Abilities
                     var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                     var playerAlignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
                     var unitAlignment = GetAlignment();
-                    Result = Aow.Game.Magic.Abilities.AlignmentTables.P2AlignmentToStatusValue[(int)unitAlignment][(int)playerAlignment];
+                    Result = AlignmentTables.P2AlignmentToStatusValue[(int)unitAlignment][(int)playerAlignment];
                 }
             }
             else
             {
                 var iRtoAlignment = Aow.Game.Magic.Abilities.AbilityRules.IRtoAlignment(IndependentRelation);
                 var alignment = GetAlignment();
-                Result = Aow.Game.Magic.Abilities.AlignmentTables.P2AlignmentToStatusValue[(int)alignment][(int)iRtoAlignment];
+                Result = AlignmentTables.P2AlignmentToStatusValue[(int)alignment][(int)iRtoAlignment];
             }
 
             return Result;
@@ -24023,7 +24023,7 @@ namespace Aow.Game.Magic.Abilities
             int I;
             AbilityTypeList List;
             bool Enchanted;
-            List = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
+            List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
             Enchanted = false;
             I = List.Count;
             while (!Enchanted && I != 0)
@@ -24048,7 +24048,7 @@ namespace Aow.Game.Magic.Abilities
             Ability Ability;
             AbilityTypeList List;
             AddRef();
-            List = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
+            List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
             for (int I = List.Count - 1; I >= 0; I--)
             {
                 Ability = List.GetAbility(I);
@@ -24077,7 +24077,7 @@ namespace Aow.Game.Magic.Abilities
             Ability Ability;
             AbilityTypeList List;
             UnitEnchantmentAbilityData Data;
-            List = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
+            List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
             for (int I = List.Count - 1; I >= 0; I--)
             {
                 Ability = List.GetAbility(I);
@@ -24098,7 +24098,7 @@ namespace Aow.Game.Magic.Abilities
             Ability Ability;
             AbilityTypeList List;
             UnitEnchantmentAbilityData Data;
-            List = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
+            List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
             for (int I = List.Count - 1; I >= 0; I--)
             {
                 Ability = List.GetAbility(I);
@@ -24146,7 +24146,7 @@ namespace Aow.Game.Magic.Abilities
             int I;
             AbilityTypeList List;
             UnitEnchantment Enchantment;
-            List = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
+            List = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
             I = List.Count;
             bool Result = false;
             while (!Result && I != 0)
@@ -24171,7 +24171,7 @@ namespace Aow.Game.Magic.Abilities
         {
             AbilityTypeList Abilities;
             UnitEnchantment Enchantment;
-            Abilities = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
+            Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[4];
             for (int I = Abilities.Count - 1; I >= 0; I--)
             {
                 Enchantment = AbilityToEnchantment(Abilities.GetAbility(I).FAbilityID);
@@ -24221,12 +24221,12 @@ namespace Aow.Game.Magic.Abilities
                 UpdateOffensiveStrength();
             }
 
-            if (DamageTypes != Aow.Game.Magic.Abilities.AbstractSets.TAbstractUnit_GetStrengthMax__AllDamageTypes)
+            if (DamageTypes != AbstractSets.TAbstractUnit_GetStrengthMax__AllDamageTypes)
             {
                 Result = 0;
-                for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+                for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                 {
-                    DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                    DamageType = (DamageType)damageTypeOrdinal;
                     if (DamageTypes.Contains(DamageType))
                     {
                         if (Result < FOffensiveStrength[(int)DamageType])
@@ -24264,7 +24264,7 @@ namespace Aow.Game.Magic.Abilities
             Ability Ability;
             AbilityDamageValues Info = default;
             int Result = 0;
-            Abilities = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
+            Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
             for (int I = Abilities.Count - 1; I >= 0; I--)
             {
                 Ability = Abilities.GetAbility(I);
@@ -24294,7 +24294,7 @@ namespace Aow.Game.Magic.Abilities
         public int GetManaUpkeep()
         {
             int Result;
-            Aow.Game.Magic.Enchantment Enchantment;
+            Enchantment Enchantment;
             if (GetAbilityEnabled(155))
             {
                 Enchantment = ((UnitEnchantmentAbilityData)this.GetAbilityData(155)).FEnchantment;
@@ -24346,13 +24346,13 @@ namespace Aow.Game.Magic.Abilities
             bool Faster;
             bool Slower;
             Moves = GetMoveTypes();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FCombat != null)
+            if (AoWHSMap.Current.FCombat != null)
             {
                 Moves = Moves - Set<MoveType>.Of(MoveType.Tunneling);
             }
 
             var moveTypesToInt = Aow.Game.Magic.Abilities.MovementTables.MoveTypesToInt(Moves);
-            Table = Aow.Game.Magic.Abilities.MovementTables.MovePointTables[moveTypesToInt];
+            Table = MovementTables.MovePointTables[moveTypesToInt];
             if (FPlayer > 0)
             {
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FActiveEnchantments.Contains(PlayerEnchantmentType.EnchantedRoads))
@@ -24449,7 +24449,7 @@ namespace Aow.Game.Magic.Abilities
             // { Original retrieves the movement set twice and retains the first dead store. }
             GetMoveTypes();
             var moveTypesToInt = Aow.Game.Magic.Abilities.MovementTables.MoveTypesToInt(GetMoveTypes());
-            Cost = Aow.Game.Magic.Abilities.MovementTables.MovePointTables[moveTypesToInt][TerrainType][OverlayType - -1];
+            Cost = MovementTables.MovePointTables[moveTypesToInt][TerrainType][OverlayType - -1];
             if (Cost == -1 || Cost > GetMoves())
             {
                 Result = false;
@@ -24477,7 +24477,7 @@ namespace Aow.Game.Magic.Abilities
                     Field = (AoWMapField)Level.GetField(Walk.X, Walk.Y);
                     if (Field.TerrainType != (int)AoWTerrainType.Border)
                     {
-                        for (int Player = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; Player <= last; Player++)
+                        for (int Player = 1, last = AoWHSMap.Current.FPlayers.Count - 1; Player <= last; Player++)
                         {
                             if (Player != FPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Player) == DiplomaticRelation.War && Field.GetExplored(Player) && !Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(Walk.X, Walk.Y, MapField.Lhx, (sbyte)Player))
                             {
@@ -24660,7 +24660,7 @@ namespace Aow.Game.Magic.Abilities
                     Overlay = Field.OverlayType;
                     Moves = Moves - Set<MoveType>.Of(MoveType.Flying);
                     var moveTypesToInt = Aow.Game.Magic.Abilities.MovementTables.MoveTypesToInt(Moves);
-                    DoubleDamage = Aow.Game.Magic.Abilities.MovementTables.MovePointTables[moveTypesToInt][Terrain][Overlay - -1] == 0;
+                    DoubleDamage = MovementTables.MovePointTables[moveTypesToInt][Terrain][Overlay - -1] == 0;
                 }
             }
 
@@ -24701,7 +24701,7 @@ namespace Aow.Game.Magic.Abilities
                 Result = Result * 2;
             }
 
-            Result = ExecuteDamageRole(Attack, Result, Set<DamageType>.Of(Aow.Game.Units.Army.StormDamageType[(int)Storm]));
+            Result = ExecuteDamageRole(Attack, Result, Set<DamageType>.Of(Army.StormDamageType[(int)Storm]));
             if (Result > GetHitPoints())
             {
                 Result = GetHitPoints();
@@ -24940,13 +24940,13 @@ namespace Aow.Game.Magic.Abilities
             AoWMapField Field;
             ArmyHS ArmyHS;
             sbyte FieldPlayer;
-            if (X >= 0 && Y >= 0 && X < Aow.Game.World.Map.AoWHSMap.Current.MapContainer.Width && Y < Aow.Game.World.Map.AoWHSMap.Current.MapContainer.Height)
+            if (X >= 0 && Y >= 0 && X < AoWHSMap.Current.MapContainer.Width && Y < AoWHSMap.Current.MapContainer.Height)
             {
                 Field = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L);
                 FieldPlayer = Field.GetPlayer();
                 if (Mode.Contains(UnitPlaceModeElement.NeglectEmptyPlayerLocation) || FieldPlayer == Player || FieldPlayer == -1 || Player == -1)
                 {
-                    ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
+                    ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindOwnedChild(131607);
                     if (ArmyHS != null)
                     {
                         if (Mode.Contains(UnitPlaceModeElement.CreateNewArmy) || (Player != -1 && ArmyHS.FArmy.FPlayer != Player) || !ArmyHS.FArmy.CanAddUnit(this))
@@ -24981,16 +24981,16 @@ namespace Aow.Game.Magic.Abilities
         {
             HNWalkData Walk = default;
             ArmyHS ArmyHS;
-            global::Aow.Game.Draw.ArmyHS Result = null;
+            ArmyHS Result = null;
             Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Result == null && (Walk.Radius == 0 || Mode.Contains(UnitPlaceModeElement.ScanArea)) && Walk.Radius < 30)
             {
                 if (CanPlace(Walk.X, Walk.Y, L, Player, Mode))
                 {
-                    ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Walk.X, Walk.Y, L).FindOwnedChild(131607);
+                    ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Walk.X, Walk.Y, L).FindOwnedChild(131607);
                     if (ArmyHS == null)
                     {
-                        ArmyHS = new global::Aow.Game.Draw.ArmyHS(null);
+                        ArmyHS = new ArmyHS(null);
                         if (Player != -1)
                         {
                             ArmyHS.FArmy.SetPlayer(Player);
@@ -25053,9 +25053,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Unit.PAS:1610
-        public void ShowFace(in global::Aow.Rtl.Rect R, in SurfaceDesc SD)
+        public void ShowFace(in Rect R, in SurfaceDesc SD)
         {
-            Aow.Game.Draw.Images.LibraryImage Image;
+            LibraryImage Image;
             Image = GetFace();
             if (Image != null)
             {
@@ -25064,11 +25064,11 @@ namespace Aow.Game.Magic.Abilities
 
             if (GetAbilityEnabled(129))
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current != null)
+                if (AoWHSMap.Current != null)
                 {
-                    if (Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[45] != null)
+                    if (AoWHSSet.Current.FGeneralImages[45] != null)
                     {
-                        Aow.Game.Engine.AoWHSSet.Current.FGeneralImages[45].ShowStretched(R, SD);
+                        AoWHSSet.Current.FGeneralImages[45].ShowStretched(R, SD);
                     }
                 }
             }
@@ -25343,14 +25343,14 @@ namespace Aow.Game.Magic.Abilities
                 var ability = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(i);
                 var name = ability.GetName(owner);
                 if (!IsEmpty(name)) names.AddObject(name, IntToObject(i));
-                types?.AddObject(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TAbilityTypeRStr[(int)ability.GetAbilityType()]), IntToObject(i));
+                types?.AddObject(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TAbilityTypeRStr[(int)ability.GetAbilityType()]), IntToObject(i));
                 var source = ability.GetSourceName(owner);
                 sources?.AddObject(source, IntToObject(i));
             }
         }
 
         // Unit.PAS:1715. Native hard casts retain identity across the intermediate local type.
-        public Set<DamageType> ExecuteCombatDamageEffects(global::Aow.Game.Combat.Combat combat, Set<DamageType> damageTypes)
+        public Set<DamageType> ExecuteCombatDamageEffects(Combat.Combat combat, Set<DamageType> damageTypes)
         {
             Set<DamageType> result = default;
             var active = damageTypes - GetImmunityTypes();
@@ -25384,7 +25384,7 @@ namespace Aow.Game.Magic.Abilities
 
         public void UpdateOffensiveStrength()
         {
-            var abilities = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
+            var abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
             FMaxOffensiveStrength = 0;
             FOffensiveStrength = default;
             for (int i = abilities.Count - 1; i >= 0; i--)
@@ -25431,7 +25431,7 @@ namespace Aow.Game.Units
         public int FUnitGFXResourceIndex;
 
         // UnitRes.PAS:1
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // UnitRes.PAS:37
         public override void ReadWrite(EStorageStream Stream)
@@ -25456,13 +25456,13 @@ namespace Aow.Game.Units
         }
 
         // UnitRes.PAS:29
-        public override Aow.Game.Draw.Images.LibraryImage GetCellImage() => GetPreviewImage();
+        public override LibraryImage GetCellImage() => GetPreviewImage();
 
         // UnitRes.PAS:44
         public virtual bool DropUnit(int Xhx, int Yhx, int Lhx) => false;
 
         // UnitRes.PAS:19
-        public virtual Aow.Game.Draw.Images.LibraryImage GetPreviewImage()
+        public virtual LibraryImage GetPreviewImage()
         {
             UnitGFXResource Resource;
             Resource = Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(FUnitGFXResourceIndex);
@@ -25475,7 +25475,7 @@ namespace Aow.Game.Units
         }
 
         // UnitRes.PAS:9
-        public virtual Aow.Game.Draw.Images.LibraryImage GetFace()
+        public virtual LibraryImage GetFace()
         {
             UnitGFXResource Resource;
             Resource = Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(FUnitGFXResourceIndex);
@@ -25530,12 +25530,12 @@ namespace Aow.Game.Units
         // UnitRes.PAS:73
         public UnitResource(ECustomNode owner) : base(owner)
         {
-            Aow.Game.Magic.Abilities.Unit.Rank Rank;
+            Unit.Rank Rank;
 
             FDescription = new StringList();
-            for (int rankOrdinal = (int)(Aow.Game.Magic.Abilities.Unit.Rank)0; rankOrdinal <= (int)(Aow.Game.Magic.Abilities.Unit.Rank)2; rankOrdinal++)
+            for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
             {
-                Rank = (Aow.Game.Magic.Abilities.Unit.Rank)rankOrdinal;
+                Rank = (Unit.Rank)rankOrdinal;
                 var unitResourceAbilityOwner = new UnitResourceAbilityOwner(null);
                 FAbilities[(int)Rank] = unitResourceAbilityOwner;
             }
@@ -25574,11 +25574,11 @@ namespace Aow.Game.Units
         // UnitRes.PAS:92
         public override void Dispose()
         {
-            Aow.Game.Magic.Abilities.Unit.Rank Rank;
+            Unit.Rank Rank;
             FDescription?.Dispose();
-            for (int rankOrdinal = (int)(Aow.Game.Magic.Abilities.Unit.Rank)0; rankOrdinal <= (int)(Aow.Game.Magic.Abilities.Unit.Rank)2; rankOrdinal++)
+            for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
             {
-                Rank = (Aow.Game.Magic.Abilities.Unit.Rank)rankOrdinal;
+                Rank = (Unit.Rank)rankOrdinal;
                 FAbilities[(int)Rank]?.Dispose();
             }
 
@@ -25588,7 +25588,7 @@ namespace Aow.Game.Units
         // UnitRes.PAS:156
         public override void ReadWrite(EStorageStream Stream)
         {
-            Aow.Game.Magic.Abilities.Unit.Rank Rank;
+            Unit.Rank Rank;
             base.ReadWrite(Stream);
             Stream.rwString(ref FName, 10);
             Stream.rwString(ref FNickname, 11);
@@ -25605,18 +25605,18 @@ namespace Aow.Game.Units
             Stream.rwData(Bytes.Of(ref FChampion, 1), 1, 22);
             Stream.rwData(Bytes.Of(ref FGender, 1), 1, 23);
             Stream.rwByte(ref FTransportCapacity, 24);
-            Stream.rwEObject(FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None], 25);
+            Stream.rwEObject(FAbilities[(int)Unit.Rank.None], 25);
             Stream.rwStrings(FDescription, 26);
             Stream.rwInteger(ref FObtainValue, 27);
             Stream.rwData(Bytes.Of(ref FUnitSize, 1), 1, 28);
             Stream.rwData(Bytes.Of(ref FBloodType, 1), 1, 29);
-            Stream.rwEObject(FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.Silver], 30);
-            Stream.rwEObject(FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.Gold], 31);
+            Stream.rwEObject(FAbilities[(int)Unit.Rank.Silver], 30);
+            Stream.rwEObject(FAbilities[(int)Unit.Rank.Gold], 31);
             if (Stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                for (int rankOrdinal = (int)(Aow.Game.Magic.Abilities.Unit.Rank)0; rankOrdinal <= (int)(Aow.Game.Magic.Abilities.Unit.Rank)2; rankOrdinal++)
+                for (int rankOrdinal = (int)(Unit.Rank)0; rankOrdinal <= (int)(Unit.Rank)2; rankOrdinal++)
                 {
-                    Rank = (Aow.Game.Magic.Abilities.Unit.Rank)rankOrdinal;
+                    Rank = (Unit.Rank)rankOrdinal;
                     FAbilities[(int)Rank].ValidateOwnerTypeAbilities();
                 }
             }
@@ -25647,7 +25647,7 @@ namespace Aow.Game.Units
                 Player = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, Lhx)).GetPlayer();
                 if (Player == -1)
                 {
-                    Player = Aow.Game.World.Map.AoWHSMap.Current.FEditorPlayer;
+                    Player = AoWHSMap.Current.FEditorPlayer;
                 }
             }
             else
@@ -25666,12 +25666,12 @@ namespace Aow.Game.Units
         public override int GetObtainValue() => FObtainValue;
 
         // UnitRes.PAS:102
-        public Set<MoveType> GetMoveTypes() => FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbMoveTypesAll();
+        public Set<MoveType> GetMoveTypes() => FAbilities[(int)Unit.Rank.None].GetAbMoveTypesAll();
 
         // UnitRes.PAS:111
         public byte GetTransportCapacity()
         {
-            byte Result = (byte)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(50).GetLevel(FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None]);
+            byte Result = (byte)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(50).GetLevel(FAbilities[(int)Unit.Rank.None]);
             if (Result < FTransportCapacity)
             {
                 Result = FTransportCapacity;
@@ -25822,21 +25822,21 @@ namespace Aow.Game.Magic.Abilities
         public override sbyte GetInherentAttack()
         {
             var rank = GetRank();
-            return (sbyte)(Aow.Game.Magic.Abilities.RankTables.P2RankAttack[(int)rank] + FUnitResource.FAttack);
+            return (sbyte)(RankTables.P2RankAttack[(int)rank] + FUnitResource.FAttack);
         }
 
         // Unit.PAS:2033
         public override sbyte GetInherentDefense()
         {
             var rank = GetRank();
-            return (sbyte)(Aow.Game.Magic.Abilities.RankTables.P2RankDefense[(int)rank] + FUnitResource.FDefense);
+            return (sbyte)(RankTables.P2RankDefense[(int)rank] + FUnitResource.FDefense);
         }
 
         // Unit.PAS:2041
         public override sbyte GetInherentDamage()
         {
             var rank = GetRank();
-            return (sbyte)(Aow.Game.Magic.Abilities.RankTables.P2RankDamage[(int)rank] + FUnitResource.FDamage);
+            return (sbyte)(RankTables.P2RankDamage[(int)rank] + FUnitResource.FDamage);
         }
 
         // Unit.PAS:2049
@@ -25846,7 +25846,7 @@ namespace Aow.Game.Magic.Abilities
         public override sbyte GetAttack()
         {
             var rank = GetRank();
-            sbyte Result = (sbyte)(Aow.Game.Magic.Abilities.RankTables.P2RankAttack[(int)rank] + (FUnitResource.FAttack + FAbAttack));
+            sbyte Result = (sbyte)(RankTables.P2RankAttack[(int)rank] + (FUnitResource.FAttack + FAbAttack));
             if (Result < 1)
             {
                 Result = 1;
@@ -25865,7 +25865,7 @@ namespace Aow.Game.Magic.Abilities
         {
             var rank = GetRank();
             var morale = GetMorale();
-            sbyte Result = (sbyte)(Aow.Game.Magic.Abilities.RankTables.P2RankDefense[(int)rank] + (FUnitResource.FDefense + FAbDefense) + Aow.Game.Magic.Abilities.Hero.P2MoraleDefense[(int)morale]);
+            sbyte Result = (sbyte)(RankTables.P2RankDefense[(int)rank] + (FUnitResource.FDefense + FAbDefense) + Hero.P2MoraleDefense[(int)morale]);
             if (Result < 1)
             {
                 Result = 1;
@@ -25883,7 +25883,7 @@ namespace Aow.Game.Magic.Abilities
         public override sbyte GetDamage()
         {
             var rank = GetRank();
-            sbyte Result = (sbyte)(Aow.Game.Magic.Abilities.RankTables.P2RankDamage[(int)rank] + (FUnitResource.FDamage + FAbDamage));
+            sbyte Result = (sbyte)(RankTables.P2RankDamage[(int)rank] + (FUnitResource.FDamage + FAbDamage));
             if (Result < 1)
             {
                 Result = 1;
@@ -25902,7 +25902,7 @@ namespace Aow.Game.Magic.Abilities
         {
             var morale = GetMorale();
             var rank = GetRank();
-            sbyte Result = (sbyte)(Aow.Game.Magic.Abilities.Hero.P2MoraleResistance[(int)morale] + (FUnitResource.FResistance + FAbResistance) + Aow.Game.Magic.Abilities.RankTables.P2RankResistance[(int)rank]);
+            sbyte Result = (sbyte)(Hero.P2MoraleResistance[(int)morale] + (FUnitResource.FResistance + FAbResistance) + RankTables.P2RankResistance[(int)rank]);
             if (Result < 1)
             {
                 Result = 1;
@@ -25920,7 +25920,7 @@ namespace Aow.Game.Magic.Abilities
         public override sbyte GetHits()
         {
             var rank = GetRank();
-            return (sbyte)(Aow.Game.Magic.Abilities.RankTables.P2RankHits[(int)rank] + FUnitResource.FHits);
+            return (sbyte)(RankTables.P2RankHits[(int)rank] + FUnitResource.FHits);
         }
 
         // Unit.PAS:2077
@@ -25966,16 +25966,16 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Unit.PAS:1972
-        public override Aow.Game.Draw.Images.LibraryImage GetFace()
+        public override LibraryImage GetFace()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             int FaceIndex;
             if (!GetAbilityEnabled(126))
             {
                 return Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(FUnitResource.FUnitGFXResourceIndex).GetFaceImage();
             }
 
-            FaceIndex = ((Aow.Game.Magic.CosmeticSurgeryEnchantment)(object)((UnitEnchantmentAbilityData)this.GetAbilityData(126)).FEnchantment).FFaceIndex;
+            FaceIndex = ((CosmeticSurgeryEnchantment)(object)((UnitEnchantmentAbilityData)this.GetAbilityData(126)).FEnchantment).FFaceIndex;
             if (Aow.Game.Engine.AoWHSSet.Current.FFaceResources.GetFaceResource(FaceIndex) != null)
             {
                 Result = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.GetFaceResource(FaceIndex).GetCellImage();
@@ -26003,7 +26003,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Unit.PAS:2081
-        public override Aow.Game.Draw.Images.LibraryImage GetPreviewImage() => FUnitResource.GetPreviewImage();
+        public override LibraryImage GetPreviewImage() => FUnitResource.GetPreviewImage();
 
         // Unit.PAS:2083
         public override byte GetTransportCapacity()
@@ -26037,7 +26037,7 @@ namespace Aow.Game.Magic.Abilities
         {
             Rank Rank;
             base.NewDay();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (AoWHSMap.Current.FDay == 1)
             {
                 SetAbCount(0);
                 for (int rankOrdinal = (int)Rank.None, last = (int)GetRank(); rankOrdinal <= last; rankOrdinal++)
@@ -26135,10 +26135,10 @@ namespace Aow.Game.Magic.Abilities
                 switch (GetRank())
                 {
                     case Rank.Silver:
-                        Aow.Game.Engine.AoWHSSet.Current.FCombatImages[5].Show(X + 33, Y + 12, SD);
+                        AoWHSSet.Current.FCombatImages[5].Show(X + 33, Y + 12, SD);
                         break;
                     case Rank.Gold:
-                        Aow.Game.Engine.AoWHSSet.Current.FCombatImages[6].Show(X + 33, Y + 12, SD);
+                        AoWHSSet.Current.FCombatImages[6].Show(X + 33, Y + 12, SD);
                         break;
                 }
             }
@@ -26672,8 +26672,8 @@ namespace Aow.Game.Units
                 {
                     Unit_ = (AbstractUnit)Units.FChildren.List[I];
                     Alignment = Unit_.GetAlignment();
-                    Evil = Evil && Aow.Game.Magic.Abilities.AlignmentTables.alsEvil.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<global::Aow.Game.Engine.Alignment>.Of(global::Aow.Game.Engine.Alignment.Evil, global::Aow.Game.Engine.Alignment.PureEvil).Contains(Alignment));
-                    Good = Good && Aow.Game.Magic.Abilities.AlignmentTables.alsGood.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<global::Aow.Game.Engine.Alignment>.Of(global::Aow.Game.Engine.Alignment.PureGood, global::Aow.Game.Engine.Alignment.Good).Contains(Alignment));
+                    Evil = Evil && Aow.Game.Magic.Abilities.AlignmentTables.alsEvil.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.Evil, Engine.Alignment.PureEvil).Contains(Alignment));
+                    Good = Good && Aow.Game.Magic.Abilities.AlignmentTables.alsGood.Contains(Alignment) && (Unit_.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.PureGood, Engine.Alignment.Good).Contains(Alignment));
                     Neutral = Neutral && Aow.Game.Magic.Abilities.AlignmentTables.alsNeutral.Contains(Alignment);
                 }
 
@@ -26824,7 +26824,7 @@ namespace Aow.Game.Units
         // UnitRes.PAS:262
         public void SortUnits()
         {
-            if (Aow.Game.Engine.AoWHSSet.Current != null)
+            if (AoWHSSet.Current != null)
             {
                 Pack();
                 try
@@ -26840,8 +26840,8 @@ namespace Aow.Game.Units
         private static int P2CompareUnitIndexes(int Item1, int Item2)
         {
             RtlUnit.Assert(global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Item1) != null && global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Item1) != null, "Undefined UnitResource Used!", "UnitRes.PAS", 256);
-            global::Aow.Game.Units.UnitResource unitResource = global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Item2);
-            global::Aow.Game.Units.UnitResource unitResource2 = global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Item1);
+            UnitResource unitResource = global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Item2);
+            UnitResource unitResource2 = global::Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Item1);
             return unitResource.FLevel - unitResource2.FLevel;
         }
 
@@ -27102,7 +27102,7 @@ namespace Aow.Game.Units
         public void SetSelectedUnitIndex(int Value)
         {
             UnitResource Resource;
-            if (Aow.Game.Engine.AoWHSSet.Current != null)
+            if (AoWHSSet.Current != null)
             {
                 Resource = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Value);
                 if (Resource != null)
@@ -27180,7 +27180,7 @@ namespace Aow.Game.Units
         // Ability.PAS:826
         public void Reset()
         {
-            FAlignments = Aow.Game.Units.UnitSelectionControl.alsAll;
+            FAlignments = alsAll;
             FMinimumLevel = 0;
             FMaximumLevel = 255;
             FRacesEnabled.Clear();
@@ -27191,7 +27191,7 @@ namespace Aow.Game.Units
             FShowRaceCategories = true;
             FShowAllCategory = false;
             FShowTypeCategories = true;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
                 for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetCount() - 1; I <= last; I++)
                 {
@@ -27228,7 +27228,7 @@ namespace Aow.Game.Units
             FRaceUnits.Clear();
             FTypeUnits.Clear();
             FAllUnits.Clear();
-            Resources = Aow.Game.Engine.AoWHSSet.Current.FUnitResources;
+            Resources = AoWHSSet.Current.FUnitResources;
             // { Original intersects FAlignments with itself, ignoring the unit alignment. }
             if (FShowAllCategory)
             {
@@ -27299,7 +27299,7 @@ namespace Aow.Game.Units
                     UnitType_ = (UnitType)unitTypeOrdinal;
                     if (FTypesEnabled[(int)UnitType_] && FTypeUnits.GetCategory((int)UnitType_) != null && (FTypeUnits.GetCategory((int)UnitType_).Count != 0 || FShowEmptyCategories))
                     {
-                        AddObject(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.UnitSelectionControl.UnitTypePluralRStr[(int)UnitType_]), IntToObject(-((int)UnitType_ + 1)));
+                        AddObject(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitTypePluralRStr[(int)UnitType_]), IntToObject(-((int)UnitType_ + 1)));
                     }
                 }
             }
@@ -27316,8 +27316,8 @@ namespace Aow.Game.Units
             }
         }
 
-        private static Set<global::Aow.Game.Engine.Alignment> alsAll = Set<global::Aow.Game.Engine.Alignment>.FromMask(123uL);
-        private static global::Aow.Game.Engine.Buffers.FixedArray_string_3 UnitTypePluralRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_3.From(default(global::System.ReadOnlySpan<string>));
+        private static Set<Alignment> alsAll = Set<Alignment>.FromMask(123uL);
+        private static FixedArray_string_3 UnitTypePluralRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_3.From(default(ReadOnlySpan<string>));
 
         // intf_P1_08.inc:32
 
@@ -27392,7 +27392,7 @@ namespace Aow.Game.Units
             bool Result;
             if (FSelection == 0)
             {
-                Error = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NoUnitSelectedRStr);
+                Error = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
                 Result = false;
             }
             else
@@ -27552,7 +27552,7 @@ namespace Aow.Game.Units
             int Result = 0;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null && Result < Item.GetAbCount())
                 {
                     Result = Item.GetAbCount();
@@ -27569,7 +27569,7 @@ namespace Aow.Game.Units
             AbilityOwner Result = null;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null && Item.GetAbEnabled(AbilityID) && Item.FItemType == ItemType.Use)
                 {
                     if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
@@ -27591,7 +27591,7 @@ namespace Aow.Game.Units
             I = 0;
             while (!Result && I < Count)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 Result = Item != null && Item.FItemType == ItemType.Use && Item.GetAbEnabled(AbilityID);
                 I += 1;
             }
@@ -27608,7 +27608,7 @@ namespace Aow.Game.Units
             I = 0;
             while (!Result && I < Count)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 Result = Item != null && Item.FItemType == ItemType.Use && Item.GetAbSet(AbilityID);
                 I += 1;
             }
@@ -27623,7 +27623,7 @@ namespace Aow.Game.Units
             AbilityOwner Result = null;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null && Item.GetAbSet(AbilityID) && Item.FItemType == ItemType.Use)
                 {
                     if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
@@ -27693,7 +27693,7 @@ namespace Aow.Game.Units
             sbyte Result = 0;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null)
                 {
                     Result = (sbyte)(Result + Item.FAttack);
@@ -27710,7 +27710,7 @@ namespace Aow.Game.Units
             sbyte Result = 0;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null)
                 {
                     Result = (sbyte)(Result + Item.FDefense);
@@ -27727,7 +27727,7 @@ namespace Aow.Game.Units
             sbyte Result = 0;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null)
                 {
                     Result = (sbyte)(Result + Item.FDamage);
@@ -27744,7 +27744,7 @@ namespace Aow.Game.Units
             sbyte Result = 0;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null)
                 {
                     Result = (sbyte)(Result + Item.FResistance);
@@ -27761,7 +27761,7 @@ namespace Aow.Game.Units
             Set<MoveType> Result = Set<MoveType>.Of();
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null)
                 {
                     Result = Result + Item.GetAbMoveTypesAll();
@@ -27778,7 +27778,7 @@ namespace Aow.Game.Units
             Set<DamageType> Result = Set<DamageType>.Of();
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null)
                 {
                     Result = Result + Item.GetAbImmunityTypesAll();
@@ -27795,7 +27795,7 @@ namespace Aow.Game.Units
             Set<DamageType> Result = Set<DamageType>.Of();
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null)
                 {
                     Result = Result + Item.GetAbProtectionTypesAll();
@@ -27812,7 +27812,7 @@ namespace Aow.Game.Units
             int Result = 0;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null && Result < Item.GetAbCount())
                 {
                     Result = Item.GetAbCount();
@@ -27829,7 +27829,7 @@ namespace Aow.Game.Units
             AbilityOwner Result = null;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null && Item.GetAbEnabled(AbilityID))
                 {
                     if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
@@ -27849,7 +27849,7 @@ namespace Aow.Game.Units
             AbilityOwner Result = null;
             for (int I = 0, last = Count - 1; I <= last; I++)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 if (Item != null && Item.GetAbSet(AbilityID))
                 {
                     if (Result == null || Item.GetAbLevel(AbilityID) > Result.GetAbLevel(AbilityID))
@@ -27871,7 +27871,7 @@ namespace Aow.Game.Units
             I = 0;
             while (!Result && I < Count)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 Result = Item != null && Item.GetAbEnabled(AbilityID);
                 I += 1;
             }
@@ -27888,7 +27888,7 @@ namespace Aow.Game.Units
             I = 0;
             while (!Result && I < Count)
             {
-                Item = (global::Aow.Game.Magic.Abilities.Item)FChildren.List[I];
+                Item = (Item)FChildren.List[I];
                 Result = Item != null && Item.GetAbSet(AbilityID);
                 I += 1;
             }
@@ -27915,10 +27915,10 @@ namespace Aow.Game.Units
         }
 
         // Hero.PAS:558
-        public ItemType GetPositionItemType(HeroItemPosition Position) => Aow.Game.Units.HeroItems.THeroItems_GetPositionItemType__Types[(int)Position];
+        public ItemType GetPositionItemType(HeroItemPosition Position) => THeroItems_GetPositionItemType__Types[(int)Position];
 
         // Hero.PAS:564
-        public HeroItemPosition GetItemTypePosition(ItemType ItemType) => Aow.Game.Units.HeroItems.THeroItems_GetItemTypePosition__Positions[(int)ItemType];
+        public HeroItemPosition GetItemTypePosition(ItemType ItemType) => THeroItems_GetItemTypePosition__Positions[(int)ItemType];
 
         // Hero.PAS:571
         public bool CanPlaceItem(Item Item, HeroItemPosition Position) => Item != null && (int)Position < 6 && GetPositionItem(Position) == null && GetPositionItemType(Position) == Item.FItemType;
@@ -27940,25 +27940,25 @@ namespace Aow.Game.Units
             return Result;
         }
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_TItemType_6 THeroItems_GetPositionItemType__Types = global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_TItemType_6.From((global::System.ReadOnlySpan<global::Aow.Game.Units.ItemType>)new global::Aow.Game.Units.ItemType[6]
+        private static FixedArray_Aow_Units_AoWE_TItemType_6 THeroItems_GetPositionItemType__Types = global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_TItemType_6.From((ReadOnlySpan<ItemType>)new ItemType[6]
         {
-            global::Aow.Game.Units.ItemType.Attack,
-            global::Aow.Game.Units.ItemType.Head,
-            global::Aow.Game.Units.ItemType.Defense,
-            global::Aow.Game.Units.ItemType.Ring,
-            global::Aow.Game.Units.ItemType.Torso,
-            global::Aow.Game.Units.ItemType.Ring
+            ItemType.Attack,
+            ItemType.Head,
+            ItemType.Defense,
+            ItemType.Ring,
+            ItemType.Torso,
+            ItemType.Ring
         });
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_THeroItemPosition_7 THeroItems_GetItemTypePosition__Positions = global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_THeroItemPosition_7.From((global::System.ReadOnlySpan<global::Aow.Game.Units.HeroItemPosition>)new global::Aow.Game.Units.HeroItemPosition[7]
+        private static FixedArray_Aow_Units_AoWE_THeroItemPosition_7 THeroItems_GetItemTypePosition__Positions = global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_THeroItemPosition_7.From((ReadOnlySpan<HeroItemPosition>)new HeroItemPosition[7]
         {
-            global::Aow.Game.Units.HeroItemPosition.HeadSlot,
-            global::Aow.Game.Units.HeroItemPosition.TorsoSlot,
-            global::Aow.Game.Units.HeroItemPosition.AttackSlot,
-            global::Aow.Game.Units.HeroItemPosition.DefenseSlot,
-            global::Aow.Game.Units.HeroItemPosition.LeftRingSlot,
-            global::Aow.Game.Units.HeroItemPosition.None,
-            global::Aow.Game.Units.HeroItemPosition.None
+            HeroItemPosition.HeadSlot,
+            HeroItemPosition.TorsoSlot,
+            HeroItemPosition.AttackSlot,
+            HeroItemPosition.DefenseSlot,
+            HeroItemPosition.LeftRingSlot,
+            HeroItemPosition.None,
+            HeroItemPosition.None
         });
 
         // intf_P2_06.inc:25
@@ -28019,7 +28019,7 @@ namespace Aow.Game.Commands
         {
             Hero Hero;
             ExecuteResult Result = base.Execute(TE);
-            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(FUnitID);
+            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
             if (Hero != null && Hero.GetHitPoints() != 0 && Hero.FPlayer == FPlayer)
             {
                 Hero.SetUnitAttack((sbyte)(Hero.FUnitAttack + FAttack));
@@ -28084,7 +28084,7 @@ namespace Aow.Game.Commands
                 _ = unit.FPlayer;
             }
 
-            if (unit is Hero Hero && ((Aow.Game.World.Map.AoWHSMap.Current.FCombat == null && Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == Hero.FPlayer) || (Aow.Game.World.Map.AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == Hero.FPlayer)))
+            if (unit is Hero Hero && ((AoWHSMap.Current.FCombat == null && AoWHSMap.Current.FCurrentPlayer == Hero.FPlayer) || (AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == Hero.FPlayer)))
             {
                 switch (FMode)
                 {
@@ -28202,18 +28202,18 @@ namespace Aow.Game.Events
         {
             string Result = "";
             Hero Hero;
-            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(FUnitID);
+            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
             if (Hero != null)
             {
                 if (FNewLevel - FOldLevel == 1)
                 {
                     var name = Hero.GetName();
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroUpgradeEventLog.XMadeALevelRStr), [name]);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XMadeALevelRStr), [name]);
                 }
                 else
                 {
                     var name = Hero.GetName();
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroUpgradeEventLog.XMadeYLevelsRStr), [name, (FNewLevel - FOldLevel)]);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XMadeYLevelsRStr), [name, (FNewLevel - FOldLevel)]);
                 }
             }
 
@@ -28227,17 +28227,17 @@ namespace Aow.Game.Events
             Hero Hero;
             AbstractUnit UnitItem;
             bool ExecuteNow;
-            var unitControl = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl;
+            var unitControl = AoWHSMap.Current.FUnitControl;
             UnitItem = unitControl.FindUnit(FUnitID);
 
-            Hero = (global::Aow.Game.Magic.Abilities.Hero)UnitItem;
-            if (Hero != null && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Hero.FPlayer)
+            Hero = (Hero)UnitItem;
+            if (Hero != null && AoWHSMap.Current.FSeatedPlayer == Hero.FPlayer)
             {
                 if (Hero.FUpgradePending)
                 {
                     ExecuteNow = Trigger == ExecuteTrigger.User;
-                    ExecuteNow = ExecuteNow || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
-                    ExecuteNow = ExecuteNow || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                    ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
+                    ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroUpgrade);
                     if (ExecuteNow)
                     {
                         Result = base.Execute(Mode, Trigger, Done);
@@ -28251,12 +28251,12 @@ namespace Aow.Game.Events
                 {
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FDay == FDay)
                     {
-                        var canOnlyUpgradeHeroOnce = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroUpgradeEventLog.CanOnlyUpgradeHeroOnceRStr);
+                        var canOnlyUpgradeHeroOnce = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CanOnlyUpgradeHeroOnceRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(canOnlyUpgradeHeroOnce);
                     }
                     else
                     {
-                        var canOnlyUpgradeOnTheDayALevelIsMade = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroUpgradeEventLog.CanOnlyUpgradeOnTheDayALevelIsMadeRStr);
+                        var canOnlyUpgradeOnTheDayALevelIsMade = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CanOnlyUpgradeOnTheDayALevelIsMadeRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(canOnlyUpgradeOnTheDayALevelIsMade);
                     }
 
@@ -28393,7 +28393,7 @@ namespace Aow.Game.Events
             else
             {
                 Result = false;
-                ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P5NotEnoughGoldRStr);
+                ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P5NotEnoughGoldRStr);
             }
 
             return Result;
@@ -28447,15 +28447,15 @@ namespace Aow.Game.Events
             Hero Hero;
             AbstractUnit UnitItem;
             bool ExecuteNow;
-            var unitControl = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl;
+            var unitControl = AoWHSMap.Current.FUnitControl;
             UnitItem = unitControl.FindUnit(FFirstUnitID);
 
-            Hero = (global::Aow.Game.Magic.Abilities.Hero)UnitItem;
+            Hero = (Hero)UnitItem;
             if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
             {
                 ExecuteNow = Trigger == ExecuteTrigger.User;
-                ExecuteNow = ExecuteNow || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
-                ExecuteNow = ExecuteNow || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
+                ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
+                ExecuteNow = ExecuteNow || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.HeroJoin);
                 if (ExecuteNow)
                 {
                     Result = base.Execute(Mode, Trigger, Done);
@@ -28488,12 +28488,12 @@ namespace Aow.Game.Events
                 TE.FPlayer = FPlayer;
                 TE.FObject = NegotiateObject.Army;
                 TE.FGold = FGold;
-                TE.FOffer = Aow.Game.Commands.NegotiateTE.NegotiateOffer.OfferBribe;
+                TE.FOffer = NegotiateTE.NegotiateOffer.OfferBribe;
                 TE.FX = (byte)Location.X;
                 TE.FY = (byte)Location.Y;
                 TE.FL = (byte)Location.L;
                 TE.FMode = Set<NegotiateModeElement>.Of();
-                TE.FResult = Aow.Game.Commands.NegotiateTE.NegotiateResult.Accept;
+                TE.FResult = NegotiateTE.NegotiateResult.Accept;
                 TE.FEventLogID = FJoinIndex;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
                 TE.Release();
@@ -28511,7 +28511,7 @@ namespace Aow.Game.Events
             Hero Hero;
             string ErrorText = "";
             bool Result = false;
-            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(FFirstUnitID);
+            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FFirstUnitID);
             if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
             {
                 var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
@@ -28520,7 +28520,7 @@ namespace Aow.Game.Events
                     if (Accept(ref ErrorText))
                     {
                         var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.BudgetExpenseMade(FGold, 0, fPlayersPlayers.FAIBudget.FDefaultBudget, Aow.Game.Ai.AIBudgetManager.BudgetExpenseMode.BudgetThenPool);
+                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.BudgetExpenseMade(FGold, 0, fPlayersPlayers.FAIBudget.FDefaultBudget, AIBudgetManager.BudgetExpenseMode.BudgetThenPool);
                     }
 
                     Result = true;
@@ -28574,17 +28574,17 @@ namespace Aow.Game.Events
             }
             else
             {
-                Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(FUnitID);
+                Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
                 if (Hero != null)
                 {
                     if (Hero.FPlayer == FPlayer)
                     {
-                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroEmergeEventLog.XAlreadyJoinedRStr), [Hero.FHeroName]);
+                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XAlreadyJoinedRStr), [Hero.FHeroName]);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(format);
                     }
                     else
                     {
-                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroEmergeEventLog.XDoesntWantToJoinAnymoreRStr), [Hero.FHeroName]);
+                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XDoesntWantToJoinAnymoreRStr), [Hero.FHeroName]);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(format);
                     }
                 }
@@ -28619,7 +28619,7 @@ namespace Aow.Game.Events
             string Name;
             FPlayer = Player;
             FUnitID = Hero.FUnitID;
-            FDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+            FDay = AoWHSMap.Current.FDay;
             FMode = Mode;
             Name = Hero.FHeroName;
             if (!IsEmpty(Hero.GetNickname()))
@@ -28628,7 +28628,7 @@ namespace Aow.Game.Events
             }
 
             // { Original builds Name but formats the message from FHeroName instead. }
-            FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroEmergeEventLog.XOffersToJoinRStr), [Hero.FHeroName]);
+            FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XOffersToJoinRStr), [Hero.FHeroName]);
         }
 
         // Hero.PAS:214
@@ -28636,7 +28636,7 @@ namespace Aow.Game.Events
         {
             HeroJoinEventLog Result;
             Hero Hero;
-            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(FUnitID);
+            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
             if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
             {
                 Result = new HeroJoinEventLog(null);
@@ -28646,13 +28646,13 @@ namespace Aow.Game.Events
                     case HeroJoinMode.Emerged:
                         Result.SetupJoinArmy((Army)Hero.Owner, FPlayer, Result.FJoinMode);
                         Result.FFirstUnitID = Hero.FUnitID;
-                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroEmergeEventLog.XEmergedAtYAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, FLocationName, Result.FGold]);
+                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XEmergedAtYAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, FLocationName, Result.FGold]);
                         Result.FJoinMessage.Text = format;
                         break;
                     case HeroJoinMode.Resurrected:
                         Result.SetupJoinArmy((Army)Hero.Owner, FPlayer, Result.FJoinMode);
                         Result.FFirstUnitID = Hero.FUnitID;
-                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.HeroEmergeEventLog.XwasResurrectedAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, Result.FGold]);
+                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XwasResurrectedAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, Result.FGold]);
                         Result.FJoinMessage.Text = aoWEFormat;
                         break;
                 }
@@ -28752,7 +28752,7 @@ namespace Aow.Game.Magic.Abilities
             AddRef();
             // { Original repeats the reference increment four times. }
             AddRef();
-            if (FRegistered && Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (FRegistered && AoWHSMap.Current != null)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FHeroControl.UnRegisterHero(this);
             }
@@ -28777,7 +28777,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:700
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // Hero.PAS:1625
         public override void ReadWrite(EStorageStream Stream)
@@ -28891,7 +28891,7 @@ namespace Aow.Game.Magic.Abilities
         public override void Changed()
         {
             base.Changed();
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+            if (AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FHeroControl.HeroChanged(this);
             }
@@ -28968,7 +28968,7 @@ namespace Aow.Game.Magic.Abilities
 
             var defense = FHeroItems.GetDefense();
             var morale = GetMorale();
-            Result = (sbyte)(defense + (FUnitDefense + Result + FHeroResource.FDefense) + Aow.Game.Magic.Abilities.Hero.P2MoraleDefense[(int)morale]);
+            Result = (sbyte)(defense + (FUnitDefense + Result + FHeroResource.FDefense) + P2MoraleDefense[(int)morale]);
             if (Result < 1)
             {
                 Result = 1;
@@ -29032,7 +29032,7 @@ namespace Aow.Game.Magic.Abilities
 
             var resistance = FHeroItems.GetResistance();
             var morale = GetMorale();
-            Result = (sbyte)(resistance + (FUnitResistance + Result + FHeroResource.FResistance) + Aow.Game.Magic.Abilities.Hero.P2MoraleResistance[(int)morale]);
+            Result = (sbyte)(resistance + (FUnitResistance + Result + FHeroResource.FResistance) + P2MoraleResistance[(int)morale]);
             if (Result < 1)
             {
                 Result = 1;
@@ -29136,9 +29136,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:1596
-        public override Aow.Game.Draw.Images.LibraryImage GetFace()
+        public override LibraryImage GetFace()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             FaceResource Resource;
             int Index;
             if (!GetAbilityEnabled(126))
@@ -29155,7 +29155,7 @@ namespace Aow.Game.Magic.Abilities
             }
             else
             {
-                Index = ((Aow.Game.Magic.CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)GetAbilityData(126)).FEnchantment).FFaceIndex;
+                Index = ((CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)GetAbilityData(126)).FEnchantment).FFaceIndex;
                 Result = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.GetFaceResource(Index).GetCellImage();
             }
 
@@ -29191,9 +29191,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:1538
-        public override Aow.Game.Draw.Images.LibraryImage GetPreviewImage()
+        public override LibraryImage GetPreviewImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             if (FHeroResource != null)
             {
                 Result = FHeroResource.GetPreviewImage();
@@ -29273,9 +29273,9 @@ namespace Aow.Game.Magic.Abilities
         public override void NewDay()
         {
             base.NewDay();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (AoWHSMap.Current.FDay == 1)
             {
-                if ((Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign == null || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) == null || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human) && (!Aow.Game.World.Map.AoWHSMap.Current.FLeadersFixed || !(this is Leader)))
+                if ((GameTables.AoWEngine.FCampaign == null || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) == null || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human) && (!AoWHSMap.Current.FLeadersFixed || !(this is Leader)))
                 {
                     FUsedSkillPoints = GetSkillPoints();
                 }
@@ -29311,7 +29311,7 @@ namespace Aow.Game.Magic.Abilities
                         Log.FUnitID = FUnitID;
                         Log.FSpellID = FCastingSpellID;
                         Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FEventLogbook.AddEvent(Log);
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.Human)
+                        if (AoWHSMap.Current.FSeatedPlayer == FPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.Human)
                         {
                             Log.Execute(false, ExecuteTrigger.Event, null);
                         }
@@ -29425,7 +29425,7 @@ namespace Aow.Game.Magic.Abilities
                 bool condition = FPlayer != -1;
                 if (condition)
                 {
-                    var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                    var count = AoWHSMap.Current.FPlayers.Count;
                     condition = FPlayer < count;
                 }
 
@@ -29510,9 +29510,9 @@ namespace Aow.Game.Magic.Abilities
             }
 
             base.Activate();
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
-                if (!FMode.Contains(HeroModeElement.SkipLibraryUpdate) && (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || Aow.Game.World.Map.AoWHSMap.Current.FDay == 0))
+                if (!FMode.Contains(HeroModeElement.SkipLibraryUpdate) && (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) || AoWHSMap.Current.FDay == 0))
                 {
                     UpdateFromLibrary();
                 }
@@ -29539,7 +29539,7 @@ namespace Aow.Game.Magic.Abilities
             bool condition = FPlayer != -1;
             if (condition)
             {
-                var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                var count = AoWHSMap.Current.FPlayers.Count;
                 condition = FPlayer < count;
             }
 
@@ -29556,7 +29556,7 @@ namespace Aow.Game.Magic.Abilities
         public override bool CanJoin(sbyte Player)
         {
             bool Result;
-            global::Aow.Game.Session.Player APlayer;
+            Player APlayer;
             if (FRace != -1)
             {
                 APlayer = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
@@ -29595,7 +29595,7 @@ namespace Aow.Game.Magic.Abilities
         public override bool OfferToJoin(sbyte Player)
         {
             bool Result;
-            global::Aow.Game.Session.Player APlayer;
+            Player APlayer;
             int Seed;
             int Chance;
             if (CanJoin(Player))
@@ -29607,7 +29607,7 @@ namespace Aow.Game.Magic.Abilities
                     {
                         Chance = APlayer.GetHeroJoinChance(GetLevel());
                         Seed = RandSeed;
-                        RandSeed = (Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed + Aow.Game.World.Map.AoWHSMap.Current.FDay + FUnitID * 16) & 4088;
+                        RandSeed = (AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + FUnitID * 16) & 4088;
                         Result = Random(100) < Chance;
                         RandSeed = Seed;
                     }
@@ -29635,7 +29635,7 @@ namespace Aow.Game.Magic.Abilities
             int Result = base.ShowEx(X, Y, SD, Info);
             if (Info.Overlays.Contains(UnitOverlayModesElement.Rank))
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.Color = 16777215;
+                GameTables.AoWEngine.FCombatFont.Color = 16777215;
                 var level = GetLevel();
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 43, Y + 12, IntToStr(level), SD);
             }
@@ -29725,7 +29725,7 @@ namespace Aow.Game.Magic.Abilities
                     Player = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L)).GetPlayer();
                     if (Player == -1)
                     {
-                        Player = Aow.Game.World.Map.AoWHSMap.Current.FEditorPlayer;
+                        Player = AoWHSMap.Current.FEditorPlayer;
                     }
                 }
                 else
@@ -29756,7 +29756,7 @@ namespace Aow.Game.Magic.Abilities
             string Result = FLibraryName;
             if (IsEmpty(Result))
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SystemRStr);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SystemRStr);
             }
 
             return Result;
@@ -29786,7 +29786,7 @@ namespace Aow.Game.Magic.Abilities
                 {
                     ID = FUnitID;
                     FMode = FMode + Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
-                    Assign(Hero, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Assign(Hero, GameTables.AoWEngine);
                     FMode = FMode - Set<HeroModeElement>.Of(HeroModeElement.UpdatingFromLibrary);
                     FUnitID = ID;
                     Changed();
@@ -29820,7 +29820,7 @@ namespace Aow.Game.Magic.Abilities
         public sbyte EmergedToPlayer()
         {
             int I;
-            I = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+            I = AoWHSMap.Current.FPlayers.Count;
             sbyte Result = -1;
             while (I != 1 && Result == -1)
             {
@@ -29865,7 +29865,7 @@ namespace Aow.Game.Magic.Abilities
             OtherGroupID = Hero.FGroupID;
             Hero.FGroupID = 0;
             FGroupID = 0;
-            bool Result = Hero.Compare(this, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            bool Result = Hero.Compare(this, GameTables.AoWEngine);
             Hero.FGroupID = OtherGroupID;
             FGroupID = GroupID;
             return Result;
@@ -29875,7 +29875,7 @@ namespace Aow.Game.Magic.Abilities
         public int GetSkillPoints()
         {
             int Result;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 var usedSkillPoints = UsedSkillPoints();
                 Result = FLevel * 10 + 15 - usedSkillPoints - FUsedSkillPoints;
@@ -29897,9 +29897,9 @@ namespace Aow.Game.Magic.Abilities
         {
             int Maximum;
             int Result = 30;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FCampaignSettings != null && Aow.Game.World.Map.AoWHSMap.Current.FCampaignSettings.FHeroLevelMax > 0)
+            if (AoWHSMap.Current != null && AoWHSMap.Current.FCampaignSettings != null && AoWHSMap.Current.FCampaignSettings.FHeroLevelMax > 0)
             {
-                Maximum = Aow.Game.World.Map.AoWHSMap.Current.FCampaignSettings.FHeroLevelMax;
+                Maximum = AoWHSMap.Current.FCampaignSettings.FHeroLevelMax;
                 if (Maximum < Result)
                 {
                     Result = Maximum;
@@ -29920,7 +29920,7 @@ namespace Aow.Game.Magic.Abilities
                 Quotient = I / 5;
                 if (Quotient <= 5)
                 {
-                    Total += Aow.Game.Magic.Abilities.Hero.HeroExperienceTable[Quotient].Experience;
+                    Total += HeroExperienceTable[Quotient].Experience;
                 }
             }
 
@@ -29938,7 +29938,7 @@ namespace Aow.Game.Magic.Abilities
             Maximum = GetLevelMax();
             do
             {
-                Total += Aow.Game.Magic.Abilities.Hero.HeroExperienceTable[Level / 5].Experience;
+                Total += HeroExperienceTable[Level / 5].Experience;
                 if (Experience < Total)
                 {
                     break;
@@ -30197,7 +30197,7 @@ namespace Aow.Game.Magic.Abilities
             DoubleItemList Choices;
             int Points;
             int Index;
-            Aow.Game.Engine.Collections.DoubleItemList.DoubleItem Choice;
+            DoubleItemList.DoubleItem Choice;
             Choices = new DoubleItemList();
             while (true)
             {
@@ -30317,29 +30317,29 @@ namespace Aow.Game.Magic.Abilities
                 {
                     if (FPlayer > 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU2)
                     {
-                        SetExperience(GetExperience() + (Aow.Game.Magic.Abilities.Hero.HeroExperienceTable[Level / 5].DailyExperience + 1));
+                        SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 1));
                     }
                     else
                     {
                         if (FPlayer > 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU3)
                         {
-                            SetExperience(GetExperience() + (Aow.Game.Magic.Abilities.Hero.HeroExperienceTable[Level / 5].DailyExperience + 2));
+                            SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 2));
                         }
                         else
                         {
                             if (FPlayer > 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU4)
                             {
-                                SetExperience(GetExperience() + (Aow.Game.Magic.Abilities.Hero.HeroExperienceTable[Level / 5].DailyExperience + 3));
+                                SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 3));
                             }
                             else
                             {
                                 if (FPlayer > 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType == PlayerType.CPU5)
                                 {
-                                    SetExperience(GetExperience() + (Aow.Game.Magic.Abilities.Hero.HeroExperienceTable[Level / 5].DailyExperience + 4));
+                                    SetExperience(GetExperience() + (HeroExperienceTable[Level / 5].DailyExperience + 4));
                                 }
                                 else
                                 {
-                                    SetExperience(GetExperience() + Aow.Game.Magic.Abilities.Hero.HeroExperienceTable[Level / 5].DailyExperience);
+                                    SetExperience(GetExperience() + HeroExperienceTable[Level / 5].DailyExperience);
                                 }
                             }
                         }
@@ -30466,7 +30466,7 @@ namespace Aow.Game.Magic.Abilities
             FUnitResistance = 0;
             FExperience = 0;
             FRace = FHeroResource.FRace;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 FFaceIndex = FHeroResource.FFaceIndex;
             }
@@ -30527,7 +30527,7 @@ namespace Aow.Game.Magic.Abilities
         {
             ItemList Result;
             AbstractAoWCombatMap Map;
-            Map = Aow.Game.World.Map.AoWHSMap.Current.FCombatMap;
+            Map = AoWHSMap.Current.FCombatMap;
             if (Map != null)
             {
                 Result = Map.GetHeroItemsOnGround(this);
@@ -30593,7 +30593,7 @@ namespace Aow.Game.Magic.Abilities
             {
                 GetLocation(ref X, ref Y, ref L);
                 Item.GetLocation(ref IX, ref IY, ref IL);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null || (X == IX && Y == IY && L == IL))
+                if (AoWHSMap.Current.FCombatMap != null || (X == IX && Y == IY && L == IL))
                 {
                     if (Set<HeroItemPosition>.Of().WithRange(HeroItemPosition.AttackSlot, HeroItemPosition.RightRingSlot).Contains(Position))
                     {
@@ -30647,7 +30647,7 @@ namespace Aow.Game.Magic.Abilities
             if (CanSwapItem(ItemID1, ItemID2) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 TE = CreateHeroUpdateTE();
-                TE.FMode = Aow.Game.Commands.HeroUpdateTE.HeroUpdateMode.SwapItem;
+                TE.FMode = HeroUpdateTE.HeroUpdateMode.SwapItem;
                 TE.FItemID = ItemID1;
                 TE.FParameter = ItemID2;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
@@ -30670,7 +30670,7 @@ namespace Aow.Game.Magic.Abilities
             if (CanPlaceItem(ItemID, Position) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 TE = CreateHeroUpdateTE();
-                TE.FMode = Aow.Game.Commands.HeroUpdateTE.HeroUpdateMode.PlaceItem;
+                TE.FMode = HeroUpdateTE.HeroUpdateMode.PlaceItem;
                 TE.FItemID = ItemID;
                 TE.FParameter = (int)Position;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
@@ -30775,7 +30775,7 @@ namespace Aow.Game.Magic.Abilities
                 switch (Position)
                 {
                     case HeroItemPosition.Ground:
-                        Map = Aow.Game.World.Map.AoWHSMap.Current.FCombatMap;
+                        Map = AoWHSMap.Current.FCombatMap;
                         if (Map != null)
                         {
                             Map.DropHeroItem(this, Item);
@@ -30827,9 +30827,9 @@ namespace Aow.Game.Magic.Abilities
                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.SetMana(fPlayersPlayers.FMagicControl.FMana - FCastingProgress);
                 FCastingMana = FCastingPoints;
                 FCastingPoints = 0;
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer)
+                if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
                 {
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Hero.CastingXInProgressRStr), [Spell.FSpellName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CastingXInProgressRStr), [Spell.FSpellName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                 }
 
@@ -31007,7 +31007,7 @@ namespace Aow.Game.Magic.Abilities
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2NotEnoughCastingPointsRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2NotEnoughCastingPointsRStr);
                 }
             }
             else
@@ -31035,15 +31035,15 @@ namespace Aow.Game.Magic.Abilities
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughManaRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
                 }
             }
             else
             {
                 Result = SpellID == FCastingSpellID;
-                if (Result && Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(SpellID).FSpellType == SpellType.Global && Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+                if (Result && Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(SpellID).FSpellType == SpellType.Global && AoWHSMap.Current.FCombatMap != null)
                 {
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Hero.CannotCastSpellInCombatRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CannotCastSpellInCombatRStr);
                     Result = false;
                 }
             }
@@ -31075,7 +31075,7 @@ namespace Aow.Game.Magic.Abilities
                             if (players.FMagicControl.FMana >= castingMana)
                             {
                                 TE = CreateHeroUpdateTE();
-                                TE.FMode = Aow.Game.Commands.HeroUpdateTE.HeroUpdateMode.StartCasting;
+                                TE.FMode = HeroUpdateTE.HeroUpdateMode.StartCasting;
                                 TE.FItemID = SpellID;
                                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
                                 TE.Release();
@@ -31084,7 +31084,7 @@ namespace Aow.Game.Magic.Abilities
                             else
                             {
                                 Result = false;
-                                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughManaRStr);
+                                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
                             }
                         }
                         else
@@ -31133,13 +31133,13 @@ namespace Aow.Game.Magic.Abilities
                     else
                     {
                         Result = false;
-                        Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughManaRStr);
+                        Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
                     }
                 }
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.Hero.NotEnoughChannelingPointsRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NotEnoughChannelingPointsRStr);
                 }
             }
             else
@@ -31178,7 +31178,7 @@ namespace Aow.Game.Magic.Abilities
             if (FCastingSpellID != -1 && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
             {
                 TE = CreateHeroUpdateTE();
-                TE.FMode = Aow.Game.Commands.HeroUpdateTE.HeroUpdateMode.CancelCasting;
+                TE.FMode = HeroUpdateTE.HeroUpdateMode.CancelCasting;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(TE);
                 TE.Release();
                 Result = true;
@@ -31194,9 +31194,9 @@ namespace Aow.Game.Magic.Abilities
         private static readonly string CastingXInProgressRStr = "Casting %s...";
         private static readonly string CannotCastSpellInCombatRStr = "Cannot cast spell in combat";
         private static readonly string NotEnoughChannelingPointsRStr = "Not enough channeling points";
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 HeroExperienceTable = FixedArray_Aow_Units_AoWE_TP2HeroLevel_6.From([new P2HeroLevel { DailyExperience = 1, Experience = 15 }, new P2HeroLevel { DailyExperience = 1, Experience = 15 }, new P2HeroLevel { DailyExperience = 1, Experience = 20 }, new P2HeroLevel { DailyExperience = 1, Experience = 20 }, new P2HeroLevel { DailyExperience = 1, Experience = 25 }, new P2HeroLevel { DailyExperience = 1, Experience = 25 }]);
-        internal static global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5 P2MoraleResistance = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
-        internal static global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5 P2MoraleDefense = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
+        private static FixedArray_Aow_Units_AoWE_TP2HeroLevel_6 HeroExperienceTable = FixedArray_Aow_Units_AoWE_TP2HeroLevel_6.From([new P2HeroLevel { DailyExperience = 1, Experience = 15 }, new P2HeroLevel { DailyExperience = 1, Experience = 15 }, new P2HeroLevel { DailyExperience = 1, Experience = 20 }, new P2HeroLevel { DailyExperience = 1, Experience = 20 }, new P2HeroLevel { DailyExperience = 1, Experience = 25 }, new P2HeroLevel { DailyExperience = 1, Experience = 25 }]);
+        internal static FixedArray_sbyte_5 P2MoraleResistance = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
+        internal static FixedArray_sbyte_5 P2MoraleDefense = FixedArray_sbyte_5.From([-2, -1, 0, 0, 0]);
 
     }
 
@@ -31211,7 +31211,7 @@ namespace Aow.Game.Magic.Abilities
         // Hero.PAS:2766
         public override void Dispose()
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) != null && this == Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader)
+            if (AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer) != null && this == Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FLeader)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).SetLeader(null);
             }
@@ -31221,7 +31221,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:2898
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // Hero.PAS:2891
         public override void ReadWrite(EStorageStream Stream)
@@ -31244,7 +31244,7 @@ namespace Aow.Game.Magic.Abilities
             base.MsgProc(ref Msg, Sender);
             if (Msg.MsgID == 537001989)
             {
-                SetSpherePicksMax((byte)Aow.Game.World.Map.AoWHSMap.Current.FSphereCount);
+                SetSpherePicksMax((byte)AoWHSMap.Current.FSphereCount);
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() > FPlayer)
                 {
                     // { reload FPlayer }
@@ -31266,7 +31266,7 @@ namespace Aow.Game.Magic.Abilities
         public override void Changed()
         {
             base.Changed();
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+            if (AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FOnLeaderChangedStore.Raise(this);
             }
@@ -31383,7 +31383,7 @@ namespace Aow.Game.Magic.Abilities
         // Hero.PAS:2915
         public override void Killed()
         {
-            if (FUnitStatus.Contains(UnitStatusElement.Activated) && Aow.Game.World.Map.AoWHSMap.Current.FCombat == null)
+            if (FUnitStatus.Contains(UnitStatusElement.Activated) && AoWHSMap.Current.FCombat == null)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.GameOver(FPlayer, GameOverStatus.Lost);
             }
@@ -31395,9 +31395,9 @@ namespace Aow.Game.Magic.Abilities
         public override string GetNickname()
         {
             string Result;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FGameType != GameType.Campaign)
+                if (AoWHSMap.Current.FGameType != GameType.Campaign)
                 {
                     Result = "";
                 }
@@ -31417,7 +31417,7 @@ namespace Aow.Game.Magic.Abilities
         // Hero.PAS:2795
         public override void SetNickname(string Value)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FGameType == GameType.Campaign)
+            if (AoWHSMap.Current != null && AoWHSMap.Current.FGameType == GameType.Campaign)
             {
                 base.SetNickname(Value);
             }
@@ -31427,7 +31427,7 @@ namespace Aow.Game.Magic.Abilities
         public override void SetHeroResourceIndex(int Value)
         {
             base.SetHeroResourceIndex(Value);
-            if (FHeroResource != null && Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (FHeroResource != null && AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 FHeroName = FHeroResource.FName;
             }
@@ -31464,10 +31464,10 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:2800
-        public byte GetSpherePicks(Aow.Game.Magic.MagicSphere Sphere)
+        public byte GetSpherePicks(MagicSphere Sphere)
         {
             byte Result;
-            if (Sphere != Aow.Game.Magic.MagicSphere.Cosmos)
+            if (Sphere != MagicSphere.Cosmos)
             {
                 Result = 0;
                 for (int I = FSpheres.Count - 1; I >= 0; I--)
@@ -31487,7 +31487,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:2812
-        public Aow.Game.Magic.MagicSphere GetSpheres(int Index) => (Aow.Game.Magic.MagicSphere)FSpheres.List[Index];
+        public MagicSphere GetSpheres(int Index) => (MagicSphere)FSpheres.List[Index];
 
         // Hero.PAS:2815
         public int GetSphereCount() => FSpheres.Count;
@@ -31503,18 +31503,18 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:2824
-        public bool CanAddSphere(Aow.Game.Magic.MagicSphere Sphere)
+        public bool CanAddSphere(MagicSphere Sphere)
         {
             bool Result;
             if (FSpheres.Count < FSpherePicksMax)
             {
-                if (Sphere == Aow.Game.Magic.MagicSphere.Cosmos)
+                if (Sphere == MagicSphere.Cosmos)
                 {
                     Result = false;
                 }
                 else
                 {
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo && GetSpherePicks(Sphere) >= 2)
+                    if (GameTables.AoWEngine.FDemo && GetSpherePicks(Sphere) >= 2)
                     {
                         Result = false;
                     }
@@ -31526,37 +31526,37 @@ namespace Aow.Game.Magic.Abilities
                         }
                         else
                         {
-                            if (Sphere == Aow.Game.Magic.MagicSphere.Fire && GetSpherePicks(Aow.Game.Magic.MagicSphere.Water) != 0)
+                            if (Sphere == MagicSphere.Fire && GetSpherePicks(MagicSphere.Water) != 0)
                             {
                                 Result = false;
                             }
                             else
                             {
-                                if (Sphere == Aow.Game.Magic.MagicSphere.Water && GetSpherePicks(Aow.Game.Magic.MagicSphere.Fire) != 0)
+                                if (Sphere == MagicSphere.Water && GetSpherePicks(MagicSphere.Fire) != 0)
                                 {
                                     Result = false;
                                 }
                                 else
                                 {
-                                    if (Sphere == Aow.Game.Magic.MagicSphere.Life && GetSpherePicks(Aow.Game.Magic.MagicSphere.Death) != 0)
+                                    if (Sphere == MagicSphere.Life && GetSpherePicks(MagicSphere.Death) != 0)
                                     {
                                         Result = false;
                                     }
                                     else
                                     {
-                                        if (Sphere == Aow.Game.Magic.MagicSphere.Death && GetSpherePicks(Aow.Game.Magic.MagicSphere.Life) != 0)
+                                        if (Sphere == MagicSphere.Death && GetSpherePicks(MagicSphere.Life) != 0)
                                         {
                                             Result = false;
                                         }
                                         else
                                         {
-                                            if (Sphere == Aow.Game.Magic.MagicSphere.Earth && GetSpherePicks(Aow.Game.Magic.MagicSphere.Air) != 0)
+                                            if (Sphere == MagicSphere.Earth && GetSpherePicks(MagicSphere.Air) != 0)
                                             {
                                                 Result = false;
                                             }
                                             else
                                             {
-                                                if (Sphere == Aow.Game.Magic.MagicSphere.Air && GetSpherePicks(Aow.Game.Magic.MagicSphere.Earth) != 0)
+                                                if (Sphere == MagicSphere.Air && GetSpherePicks(MagicSphere.Earth) != 0)
                                                 {
                                                     Result = false;
                                                 }
@@ -31582,7 +31582,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:2842
-        public bool AddSphere(Aow.Game.Magic.MagicSphere Sphere)
+        public bool AddSphere(MagicSphere Sphere)
         {
             bool Result = CanAddSphere(Sphere);
             if (Result)
@@ -31611,7 +31611,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Hero.PAS:2870
-        public bool DeleteSphere(Aow.Game.Magic.MagicSphere Sphere)
+        public bool DeleteSphere(MagicSphere Sphere)
         {
             int I;
             I = FSpheres.Count;
@@ -31831,7 +31831,7 @@ namespace Aow.Game.Units
             while (Result != 0)
             {
                 Result -= 1;
-                Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.FChildren.List[Result];
+                Hero = (Hero)FHeroes.FChildren.List[Result];
                 if (Hero.FLibraryID == LibraryID && CompareText(Hero.GetLibraryName(), LibraryName) == 0)
                 {
                     return Result;
@@ -31847,7 +31847,7 @@ namespace Aow.Game.Units
             Hero Hero;
             for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
             {
-                Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.FChildren.List[I];
+                Hero = (Hero)FHeroes.FChildren.List[I];
                 if (Hero != null && Hero.FLibraryID != -1 && Aow.Game.Engine.AoWHSSet.Current.FHeroLibraries.FindHero(Hero.FLibraryName, Hero.FLibraryID) == null)
                 {
                     if (Hero.Owner == null)
@@ -31868,7 +31868,7 @@ namespace Aow.Game.Units
             Hero Hero;
             for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
             {
-                Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.FChildren.List[I];
+                Hero = (Hero)FHeroes.FChildren.List[I];
                 if (!Hero.FUnitStatus.Contains(UnitStatusElement.Activated) && Hero.Owner == null)
                 {
                     Hero.Activate();
@@ -31882,7 +31882,7 @@ namespace Aow.Game.Units
             Hero Hero;
             for (int I = FHeroes.GetCount() - 1; I >= 0; I--)
             {
-                Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.FChildren.List[I];
+                Hero = (Hero)FHeroes.FChildren.List[I];
                 if (Hero.FUnitStatus.Contains(UnitStatusElement.Activated) && Hero.Owner == null)
                 {
                     Hero.Deactivate();
@@ -31938,7 +31938,7 @@ namespace Aow.Game.Units
             Count = 0;
             for (int I = FHeroes.FChildren.Count - 1; I >= 0; I--)
             {
-                Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.FChildren.List[I];
+                Hero = (Hero)FHeroes.FChildren.List[I];
                 if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0)
                 {
                     Result += Hero.GetLevel();
@@ -31965,7 +31965,7 @@ namespace Aow.Game.Units
             int Result = 30;
             for (int I = FHeroes.FChildren.Count - 1; I >= 0; I--)
             {
-                Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.FChildren.List[I];
+                Hero = (Hero)FHeroes.FChildren.List[I];
                 if (!Hero.FHeroStatus.Contains(HeroStatusElement.Died) && Hero.FPlayer <= 0 && Result > Hero.GetLevel())
                 {
                     Result = Hero.GetLevel();
@@ -31981,7 +31981,7 @@ namespace Aow.Game.Units
             Hero Hero;
             for (int I = FHeroes.FChildren.Count - 1; I >= 0; I--)
             {
-                Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.FChildren.List[I];
+                Hero = (Hero)FHeroes.FChildren.List[I];
                 if (Hero.FHeroStatus.Contains(HeroStatusElement.Died))
                 {
                     List.AddChild(Hero);
@@ -32055,7 +32055,7 @@ namespace Aow.Game.Units
         public Hero CreateHero()
         {
             Hero Hero;
-            Hero = new global::Aow.Game.Magic.Abilities.Hero(null);
+            Hero = new Hero(null);
             Hero.SetHeroResourceIndex(0);
             Hero.FLibraryID = CreateUniqueLibraryID();
             Hero.FLibraryName = FLibraryName;
@@ -32070,7 +32070,7 @@ namespace Aow.Game.Units
             string Result = FLibraryName;
             if (IsEmpty(Result))
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SystemRStr);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SystemRStr);
             }
 
             return Result;
@@ -32137,7 +32137,7 @@ namespace Aow.Game.Units
             base.ReadWrite(Stream);
             if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
             {
-                Directory = ExtractFilePath(Aow.Game.Magic.Abilities.GameTables.AoWEngine.HSSFileName);
+                Directory = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
                 if (Stream.StorageMode().Contains(StorageModeElement.Read))
                 {
                     ReadUserLibraries();
@@ -32169,12 +32169,12 @@ namespace Aow.Game.Units
             FLibraries.AddChild(FSystemLibrary);
             // Both extensions list, and a list present in both forms loads its own document once
             // (own-formats.md 4.2).
-            foreach (var Listed in FileBoundary.FindDocuments(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.HeroList))
+            foreach (var Listed in FileBoundary.FindDocuments(GameTables.AoWEngine.StartupDirectory + "User\\", Aow.Formats.DocumentKind.HeroList))
             {
                 Lib = new HeroLibrary(null);
                 try
                 {
-                    Lib.LoadFromFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + Listed);
+                    Lib.LoadFromFile(GameTables.AoWEngine.StartupDirectory + "User\\" + Listed);
                     Lib.SetOwner(FLibraries);
                 }
                 catch
@@ -32192,7 +32192,7 @@ namespace Aow.Game.Units
             {
                 Lib = GetLibrary(I);
                 var name = Lib.GetName();
-                Lib.SaveToFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
+                Lib.SaveToFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
             }
         }
 
@@ -32249,7 +32249,7 @@ namespace Aow.Game.Units
             {
                 Result = new HeroLibrary(FLibraries);
                 Result.FLibraryName = LibraryName;
-                Result.SaveToFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
+                Result.SaveToFile(GameTables.AoWEngine.StartupDirectory + "Release\\" + LibraryName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.HeroList));
             }
             else
             {
@@ -32266,8 +32266,8 @@ namespace Aow.Game.Units
             {
                 var name = GetLibrary(Index).GetName();
                 // The list goes in both forms, so an original of the same name does not return.
-                DeleteFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OriginalExtension);
-                DeleteFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OwnExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OriginalExtension);
+                DeleteFile(GameTables.AoWEngine.StartupDirectory + "User\\" + name + Aow.Formats.DocumentKind.HeroList.OwnExtension);
                 GetLibrary(Index)?.Dispose();
             }
         }
@@ -32559,7 +32559,7 @@ namespace Aow.Game.Magic.Abilities
         public override sbyte GetHitPoints() => FHitPoints;
 
         // Unit.PAS:2503
-        public override Set<DamageType> GetImmunityTypes() => Aow.Game.Magic.Abilities.AbilityRules.TWallUnit_GetImmunityTypes__AllDamageTypes - Aow.Game.Magic.Abilities.AbilityRules.TWallUnit_GetImmunityTypes__WallDamageTypes;
+        public override Set<DamageType> GetImmunityTypes() => AbilityRules.TWallUnit_GetImmunityTypes__AllDamageTypes - AbilityRules.TWallUnit_GetImmunityTypes__WallDamageTypes;
 
         // Unit.PAS:2522
         public override string GetName()
@@ -32568,13 +32568,13 @@ namespace Aow.Game.Magic.Abilities
             switch (FWallType)
             {
                 case WallType.Wood:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2WoodenWallRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2WoodenWallRStr);
                     break;
                 case WallType.Stone:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2StoneWallRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2StoneWallRStr);
                     break;
                 case WallType.None:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2UndefinedWallRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2UndefinedWallRStr);
                     break;
             }
 
@@ -32760,7 +32760,7 @@ namespace Aow.Game.Units
         }
 
         // Army.PAS:588
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // Army.PAS:1898
         public override void ReadWrite(EStorageStream Stream)
@@ -32770,7 +32770,7 @@ namespace Aow.Game.Units
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FX), 5);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FY), 6);
             Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FL), 7);
-            if (!Stream.StorageMode().Contains(StorageModeElement.Write) || Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
+            if (!Stream.StorageMode().Contains(StorageModeElement.Write) || AoWHSMap.Current == null || AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
             {
                 Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationX), 8);
                 Stream.rwByte(ref Unsafe.As<sbyte, byte>(ref FDestinationY), 9);
@@ -32793,7 +32793,7 @@ namespace Aow.Game.Units
             PersistSupport.UnsignedByte(persister, "X", ref FX);
             PersistSupport.UnsignedByte(persister, "Y", ref FY);
             PersistSupport.UnsignedByte(persister, "L", ref FL);
-            if (persister.Loading || Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
+            if (persister.Loading || AoWHSMap.Current == null || AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
             {
                 PersistSupport.UnsignedByte(persister, "DestinationX", ref FDestinationX);
                 PersistSupport.UnsignedByte(persister, "DestinationY", ref FDestinationY);
@@ -32834,7 +32834,7 @@ namespace Aow.Game.Units
             }
             else
             {
-                if (Msg.MsgID == 537001990 && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+                if (Msg.MsgID == 537001990 && AoWHSMap.Current.FSeatedPlayer != -1)
                 {
                     UpdateUnfog();
                     UpdateConcealment();
@@ -32845,7 +32845,7 @@ namespace Aow.Game.Units
                     {
                         UpdateVisibilityRanges();
                         UpdateExploration();
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+                        if (AoWHSMap.Current.FSeatedPlayer != -1)
                         {
                             UpdateUnfog();
                             UpdateConcealment();
@@ -33031,7 +33031,7 @@ namespace Aow.Game.Units
             if (Player != -1)
             {
                 Result = true;
-                Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[FL];
+                Level = AoWHSMap.Current.MapContainer.MapLevels[FL];
                 Msg.MsgID = 4363;
                 Msg.Result = 0;
                 Msg.Param[1] = Player;
@@ -33327,7 +33327,7 @@ namespace Aow.Game.Units
             byte Selection;
             int Index;
             GroupBehavior Behavior;
-            global::Aow.Game.Magic.Abilities.Hero AHero;
+            Hero AHero;
             Selection = 255;
             AHero = Hero(Selection, Set<HeroType>.Of(HeroType.Leader, HeroType.HeroLeader));
             if (AHero != null)
@@ -33351,7 +33351,7 @@ namespace Aow.Game.Units
                 Behavior = FOldAIBehavior;
                 if (Behavior == GroupBehavior.None)
                 {
-                    if (FPlayer == 0 && Aow.Game.World.Map.AoWHSMap.Current.GetIndependentAIMode() != Aow.Game.World.Map.AoWHSMap.IndependentAIMode.Off)
+                    if (FPlayer == 0 && Aow.Game.World.Map.AoWHSMap.Current.GetIndependentAIMode() != AoWHSMap.IndependentAIMode.Off)
                     {
                         if (FX != -1 && Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindNoneTransparentHS(typeof(PlayerStructure)) == null)
                         {
@@ -33405,7 +33405,7 @@ namespace Aow.Game.Units
                 }
                 else
                 {
-                    if (FPlayer == 0 && Aow.Game.World.Map.AoWHSMap.Current.GetIndependentAIMode() != Aow.Game.World.Map.AoWHSMap.IndependentAIMode.Off && FX != -1)
+                    if (FPlayer == 0 && Aow.Game.World.Map.AoWHSMap.Current.GetIndependentAIMode() != AoWHSMap.IndependentAIMode.Off && FX != -1)
                     {
                         if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL).FindNoneTransparentHS(typeof(PlayerStructure)) == null)
                         {
@@ -33515,14 +33515,14 @@ namespace Aow.Game.Units
         public void UpdateConcealment()
         {
             bool Concealed;
-            global::Aow.Game.Magic.Abilities.Leader ALeader;
+            Leader ALeader;
             bool Changed;
             bool ShowCrown;
             if (FStatus.Contains(ArmyStatusElement.Activated))
             {
-                if (FConcealedUnits != 0 && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != FPlayer && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                if (FConcealedUnits != 0 && AoWHSMap.Current.FSeatedPlayer != FPlayer && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                 {
-                    Concealed = GetConcealedForPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                    Concealed = GetConcealedForPlayer(AoWHSMap.Current.FSeatedPlayer);
                 }
                 else
                 {
@@ -33736,15 +33736,15 @@ namespace Aow.Game.Units
 
             if (Selection != 0)
             {
-                if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && Aow.Game.World.Map.AoWHSMap.Current.FDay != 0)
+                if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && AoWHSMap.Current.FDay != 0)
                 {
                     BeginUpdate();
                     Log = new ArmyEventLog(null);
                     Log.FPlayer = Player;
                     if (Set<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)TerrainType))
                     {
-                        Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.UnitsDrownRStr);
-                        var unitsDrown = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.UnitsDrownRStr);
+                        Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitsDrownRStr);
+                        var unitsDrown = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitsDrownRStr);
                         Log.FArmyMessages.Add(unitsDrown);
                         Log.FArmyIcon = 3;
                     }
@@ -33753,14 +33753,14 @@ namespace Aow.Game.Units
                         switch (TerrainType)
                         {
                             case 9:
-                                Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.UnitsBurnedRStr);
-                                var unitsBurned = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.UnitsBurnedRStr);
+                                Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitsBurnedRStr);
+                                var unitsBurned = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitsBurnedRStr);
                                 Log.FArmyMessages.Add(unitsBurned);
                                 Log.FArmyIcon = 0;
                                 break;
                             default:
-                                Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.UnitsCrushedRStr);
-                                var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.UnitsCrushedRStr);
+                                Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitsCrushedRStr);
+                                var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitsCrushedRStr);
                                 Log.FArmyMessages.Add(aoWETranslateRStr);
                                 Log.FArmyIcon = 2;
                                 break;
@@ -33851,7 +33851,7 @@ namespace Aow.Game.Units
                     {
                         Level = UnitLevel;
                         SourceName = AUnit.GetAbilityOwner(46).GetOwnerName();
-                        if (SourceName == Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.ArmyInherentRStr))
+                        if (SourceName == Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ArmyInherentRStr))
                         {
                             SourceName = AUnit.GetName();
                         }
@@ -33979,12 +33979,12 @@ namespace Aow.Game.Units
         }
 
         // Army.PAS:1211
-        public byte ValidateSelection(byte Selection) => (byte)(Selection & Aow.Game.Magic.Abilities.AbilityRules.ArmySelectionMasks[FChildren.Count]);
+        public byte ValidateSelection(byte Selection) => (byte)(Selection & AbilityRules.ArmySelectionMasks[FChildren.Count]);
 
         // Army.PAS:1216
         public int SelectionCount(byte Selection)
         {
-            Selection = (byte)(Selection & Aow.Game.Magic.Abilities.AbilityRules.ArmySelectionMasks[FChildren.Count]);
+            Selection = (byte)(Selection & AbilityRules.ArmySelectionMasks[FChildren.Count]);
             int Result = 0;
             while (Selection != 0)
             {
@@ -34087,7 +34087,7 @@ namespace Aow.Game.Units
                         Aow.Game.World.Map.AoWHSMap.Current.ScannerIconsChangedRad(FX, FY, FL, 0);
                     }
 
-                    if (FPlayer > 0 && Aow.Game.World.Map.AoWHSMap.Current.FDay > 0)
+                    if (FPlayer > 0 && AoWHSMap.Current.FDay > 0)
                     {
                         if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
                         {
@@ -34111,7 +34111,7 @@ namespace Aow.Game.Units
         public Set<DamageType> ImmunityTypes(byte Selection)
         {
             int I;
-            Set<DamageType> Result = Aow.Game.Magic.Abilities.AbilityRules.dtAll;
+            Set<DamageType> Result = AbilityRules.dtAll;
             I = 0;
             while (Result != Set<DamageType>.Of() && I != GetCount())
             {
@@ -34260,8 +34260,8 @@ namespace Aow.Game.Units
             Transport = Transporter(Selection);
             if (Transport == null)
             {
-                Common = Set<global::Aow.Game.World.Movement.MoveType>.Of().WithRange(global::Aow.Game.World.Movement.MoveType.Walking, global::Aow.Game.World.Movement.MoveType.Tunneling);
-                MoveType = (int)global::Aow.Game.World.Movement.MoveType.Flying;
+                Common = Set<MoveType>.Of().WithRange(World.Movement.MoveType.Walking, World.Movement.MoveType.Tunneling);
+                MoveType = (int)World.Movement.MoveType.Flying;
                 for (int I = 0, last = GetCount() - 1; I <= last; I++)
                 {
                     if (((1 << I) & Selection) != 0)
@@ -34270,34 +34270,34 @@ namespace Aow.Game.Units
                         Common = Common & Moves;
                         if (MoveType != -1)
                         {
-                            if ((global::Aow.Game.World.Movement.MoveType)MoveType == global::Aow.Game.World.Movement.MoveType.Flying)
+                            if ((MoveType)MoveType == World.Movement.MoveType.Flying)
                             {
-                                if (!Moves.Contains(global::Aow.Game.World.Movement.MoveType.Flying))
+                                if (!Moves.Contains(World.Movement.MoveType.Flying))
                                 {
-                                    if (Moves.Contains(global::Aow.Game.World.Movement.MoveType.Swimming))
+                                    if (Moves.Contains(World.Movement.MoveType.Swimming))
                                     {
-                                        MoveType = (int)global::Aow.Game.World.Movement.MoveType.Swimming;
+                                        MoveType = (int)World.Movement.MoveType.Swimming;
                                     }
                                     else
                                     {
-                                        MoveType = (int)global::Aow.Game.World.Movement.MoveType.Walking;
+                                        MoveType = (int)World.Movement.MoveType.Walking;
                                     }
                                 }
                             }
                             else
                             {
-                                if ((global::Aow.Game.World.Movement.MoveType)MoveType == global::Aow.Game.World.Movement.MoveType.Swimming)
+                                if ((MoveType)MoveType == World.Movement.MoveType.Swimming)
                                 {
-                                    if ((Set<global::Aow.Game.World.Movement.MoveType>.Of(global::Aow.Game.World.Movement.MoveType.Flying, global::Aow.Game.World.Movement.MoveType.Swimming) & Moves) == Set<global::Aow.Game.World.Movement.MoveType>.Of())
+                                    if ((Set<MoveType>.Of(World.Movement.MoveType.Flying, World.Movement.MoveType.Swimming) & Moves) == Set<MoveType>.Of())
                                     {
-                                        MoveType = (int)global::Aow.Game.World.Movement.MoveType.Walking;
+                                        MoveType = (int)World.Movement.MoveType.Walking;
                                     }
                                 }
                                 else
                                 {
-                                    if ((global::Aow.Game.World.Movement.MoveType)MoveType == global::Aow.Game.World.Movement.MoveType.Walking)
+                                    if ((MoveType)MoveType == World.Movement.MoveType.Walking)
                                     {
-                                        if ((Set<global::Aow.Game.World.Movement.MoveType>.Of(global::Aow.Game.World.Movement.MoveType.Walking, global::Aow.Game.World.Movement.MoveType.Flying).WithRange(global::Aow.Game.World.Movement.MoveType.Forestry, global::Aow.Game.World.Movement.MoveType.LavaCrossing) & Moves) == Set<global::Aow.Game.World.Movement.MoveType>.Of())
+                                        if ((Set<MoveType>.Of(World.Movement.MoveType.Walking, World.Movement.MoveType.Flying).WithRange(World.Movement.MoveType.Forestry, World.Movement.MoveType.LavaCrossing) & Moves) == Set<MoveType>.Of())
                                         {
                                             MoveType = -1;
                                         }
@@ -34311,7 +34311,7 @@ namespace Aow.Game.Units
                 // { Original leaves Result uninitialized when the units share no movement mode. }
                 if (MoveType != -1)
                 {
-                    Result = Set<global::Aow.Game.World.Movement.MoveType>.Of((global::Aow.Game.World.Movement.MoveType)MoveType);
+                    Result = Set<MoveType>.Of((MoveType)MoveType);
                 }
 
                 Result = Result + Common;
@@ -34511,20 +34511,20 @@ namespace Aow.Game.Units
         }
 
         // Army.PAS:1576
-        public global::Aow.Game.Magic.Abilities.Hero Hero(byte Selection, Set<HeroType> Types)
+        public Hero Hero(byte Selection, Set<HeroType> Types)
         {
             int I;
             AbstractUnit AUnit;
             I = 0;
-            global::Aow.Game.Magic.Abilities.Hero Result = null;
+            Hero Result = null;
             while (I != GetCount() && Result == null)
             {
                 if ((Selection & 1) != 0)
                 {
                     AUnit = (AbstractUnit)FChildren.List[I];
-                    if (AUnit is global::Aow.Game.Magic.Abilities.Hero && Types.Contains(((global::Aow.Game.Magic.Abilities.Hero)AUnit).GetHeroType()))
+                    if (AUnit is Hero && Types.Contains(((Hero)AUnit).GetHeroType()))
                     {
-                        Result = (global::Aow.Game.Magic.Abilities.Hero)AUnit;
+                        Result = (Hero)AUnit;
                     }
                 }
 
@@ -34536,18 +34536,18 @@ namespace Aow.Game.Units
         }
 
         // Army.PAS:1593
-        public global::Aow.Game.Magic.Abilities.Leader Leader(byte Selection)
+        public Leader Leader(byte Selection)
         {
             int I;
             I = 0;
-            global::Aow.Game.Magic.Abilities.Leader Result = null;
+            Leader Result = null;
             while (I != GetCount() && Result == null)
             {
                 if ((Selection & 1) != 0)
                 {
                     if (((EObject)FChildren.List[I]).EClass.ClassID == 131634)
                     {
-                        Result = (global::Aow.Game.Magic.Abilities.Leader)FChildren.List[I];
+                        Result = (Leader)FChildren.List[I];
                     }
                 }
 
@@ -34695,7 +34695,7 @@ namespace Aow.Game.Units
             int Range;
             if (FStatus.Contains(ArmyStatusElement.Activated))
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1 && (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) == DiplomaticRelation.Alliance))
+                if (AoWHSMap.Current.FSeatedPlayer != -1 && (AoWHSMap.Current.FSeatedPlayer == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.FSeatedPlayer) == DiplomaticRelation.Alliance))
                 {
                     Range = VisibilityRange();
                 }
@@ -35054,7 +35054,7 @@ namespace Aow.Game.Units
                     var race = AUnit.GetRace();
                     if (Races.List[race] == null)
                     {
-                        var army = new global::Aow.Game.Units.Army(null);
+                        var army = new Army(null);
                         var aUnitRace = AUnit.GetRace();
                         Races.List[aUnitRace] = army;
                     }
@@ -35093,7 +35093,7 @@ namespace Aow.Game.Units
                     {
                         if (GoodArmy == null)
                         {
-                            GoodArmy = new global::Aow.Game.Units.Army(null);
+                            GoodArmy = new Army(null);
                         }
 
                         GoodArmy.AddUnit(AUnit);
@@ -35103,7 +35103,7 @@ namespace Aow.Game.Units
                     {
                         if (EvilArmy == null)
                         {
-                            EvilArmy = new global::Aow.Game.Units.Army(null);
+                            EvilArmy = new Army(null);
                         }
 
                         EvilArmy.AddUnit(AUnit);
@@ -35120,13 +35120,13 @@ namespace Aow.Game.Units
             {
                 if (Races.List[I] != null)
                 {
-                    ArmyHS = PlaceIndependentArmy(X, Y, L, (global::Aow.Game.Units.Army)Races.List[I]);
+                    ArmyHS = PlaceIndependentArmy(X, Y, L, (Army)Races.List[I]);
                     if (Armies != null && ArmyHS != null)
                     {
                         Armies.AddChild(ArmyHS);
                     }
 
-                    ((global::Aow.Game.Units.Army)Races.List[I])?.Dispose();
+                    ((Army)Races.List[I])?.Dispose();
                     Races.List[I] = null;
                 }
             }
@@ -35255,8 +35255,8 @@ namespace Aow.Game.Units
                     {
                         AUnit = (AbstractUnit)FChildren.List[I];
                         Alignment = AUnit.GetAlignment();
-                        Evil = Evil && Aow.Game.Magic.Abilities.AlignmentTables.alsEvil.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<global::Aow.Game.Engine.Alignment>.Of(global::Aow.Game.Engine.Alignment.Evil, global::Aow.Game.Engine.Alignment.PureEvil).Contains(Alignment));
-                        Good = Good && Aow.Game.Magic.Abilities.AlignmentTables.alsGood.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<global::Aow.Game.Engine.Alignment>.Of(global::Aow.Game.Engine.Alignment.PureGood, global::Aow.Game.Engine.Alignment.Good).Contains(Alignment));
+                        Evil = Evil && Aow.Game.Magic.Abilities.AlignmentTables.alsEvil.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.Evil, Engine.Alignment.PureEvil).Contains(Alignment));
+                        Good = Good && Aow.Game.Magic.Abilities.AlignmentTables.alsGood.Contains(Alignment) && (AUnit.GetRace() == -1 || Set<Alignment>.Of(Engine.Alignment.PureGood, Engine.Alignment.Good).Contains(Alignment));
                         Neutral = Neutral && Aow.Game.Magic.Abilities.AlignmentTables.alsNeutral.Contains(Alignment);
                     }
 
@@ -35304,42 +35304,42 @@ namespace Aow.Game.Units
             Log.FArmyView.Setup(this, 255);
             Log.FSelection = Selection;
             Log.FPlayer = FPlayer;
-            Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.DesertionRStr);
+            Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertionRStr);
             Log.FTriggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+            if (AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
             {
                 Log.FTriggers = Log.FTriggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)
+                if (AoWHSMap.Current.FRequestCombatType)
                 {
                     Log.FTriggers = Log.FTriggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.NewTurn);
                 }
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
+            if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Rebellion))
             {
                 Log.FTriggers = Log.FTriggers + Set<ExecuteTrigger>.Of(ExecuteTrigger.Event, ExecuteTrigger.NewTurn);
             }
 
-            Log.FDescription = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.TheLeaderOfThePartyStepsForwardRStr);
+            Log.FDescription = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TheLeaderOfThePartyStepsForwardRStr);
             if (Count == 1)
             {
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.OneUnitDesertedRStr);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OneUnitDesertedRStr);
             }
             else
             {
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.XUnitsDesertedRStr), [IntToStr(Count)]);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XUnitsDesertedRStr), [IntToStr(Count)]);
             }
 
             if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FGems == 0 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetUpkeep() > Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FIncome)
             {
                 if (Count == 1)
                 {
-                    var desertUnitNoUpkeep = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.DesertUnitNoUpkeepRStr);
+                    var desertUnitNoUpkeep = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertUnitNoUpkeepRStr);
                     Log.FMessages.Text = desertUnitNoUpkeep;
                 }
                 else
                 {
-                    var desertUnitsNoUpkeep = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.DesertUnitsNoUpkeepRStr);
+                    var desertUnitsNoUpkeep = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertUnitsNoUpkeepRStr);
                     Log.FMessages.Text = desertUnitsNoUpkeep;
                 }
             }
@@ -35349,12 +35349,12 @@ namespace Aow.Game.Units
                 {
                     if (Count == 1)
                     {
-                        var desertUnitLowMorale = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.DesertUnitLowMoraleRStr);
+                        var desertUnitLowMorale = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertUnitLowMoraleRStr);
                         Log.FMessages.Text = desertUnitLowMorale;
                     }
                     else
                     {
-                        var desertUnitsLowMorale = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.DesertUnitsLowMoraleRStr);
+                        var desertUnitsLowMorale = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertUnitsLowMoraleRStr);
                         Log.FMessages.Text = desertUnitsLowMorale;
                     }
                 }
@@ -35362,12 +35362,12 @@ namespace Aow.Game.Units
                 {
                     if (Count == 1)
                     {
-                        var desertUnitLowMoraleSplit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.DesertUnitLowMoraleSplitRStr);
+                        var desertUnitLowMoraleSplit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertUnitLowMoraleSplitRStr);
                         Log.FMessages.Text = desertUnitLowMoraleSplit;
                     }
                     else
                     {
-                        var desertUnitsLowMoraleSplit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.DesertUnitsLowMoraleSplitRStr);
+                        var desertUnitsLowMoraleSplit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertUnitsLowMoraleSplitRStr);
                         Log.FMessages.Text = desertUnitsLowMoraleSplit;
                     }
                 }
@@ -35597,7 +35597,7 @@ namespace Aow.Game.Units
         // Army.PAS:2245
         public void NewDay()
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (AoWHSMap.Current.FDay == 1)
             {
                 ResetDestinationPos();
                 if (FX != -1 && FPlayer > 0)
@@ -35740,7 +35740,7 @@ namespace Aow.Game.Units
             {
                 Log.SetupJoinArmy(this, Log.FPlayer, JoinMode.Default);
                 Log.FObject = NegotiateObject.Army;
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2PartyJoinHeaderRStr);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2PartyJoinHeaderRStr);
                 Result = Log.FSelection != 0;
             }
 
@@ -35753,7 +35753,7 @@ namespace Aow.Game.Units
             bool Result;
             ArmyInfoEventLog Log;
             byte Selection;
-            global::Aow.Game.Magic.Abilities.Hero AHero;
+            Hero AHero;
             XYLList Locations;
             int I;
             int J;
@@ -35765,7 +35765,7 @@ namespace Aow.Game.Units
             bool Placed;
             if (Offer.FObject == NegotiateObject.Army)
             {
-                if (Offer.FResult == Aow.Game.Commands.NegotiateTE.NegotiateResult.Accept)
+                if (Offer.FResult == NegotiateTE.NegotiateResult.Accept)
                 {
                     Selection = GetJoinSelection(Offer.FPlayer);
                     JoinCount = SelectionCount(Selection);
@@ -35777,32 +35777,32 @@ namespace Aow.Game.Units
                         Log.FArmyView.Setup(this, Selection);
                         Log.FSelection = 255;
                         Log.FDescription = "";
-                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2PartyJoinRStr);
+                        Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2PartyJoinRStr);
                         Log.FTriggers = Set<ExecuteTrigger>.Of(ExecuteTrigger.User);
                         AHero = Hero(Selection, Set<HeroType>.Of(HeroType.Hero));
                         if (AHero == null)
                         {
                             if (JoinCount == 1)
                             {
-                                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2OneUnitJoinedRStr);
+                                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2OneUnitJoinedRStr);
                                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).GetName();
-                                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2AUnitJoinedTheForcesofYRStr), [name]);
+                                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2AUnitJoinedTheForcesofYRStr), [name]);
                                 Log.FMessages.Text = format;
                             }
                             else
                             {
-                                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2XUnitsJoinedRStr), [IntToStr(JoinCount)]);
+                                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2XUnitsJoinedRStr), [IntToStr(JoinCount)]);
                                 var selectionCount = SelectionCount(Selection);
                                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).GetName();
-                                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2XUnitsJoinedTheForcesofYRStr), [selectionCount, name]);
+                                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2XUnitsJoinedTheForcesofYRStr), [selectionCount, name]);
                                 Log.FMessages.Text = format;
                             }
                         }
                         else
                         {
-                            Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2XJoinedRStr), [AHero.FHeroName]);
+                            Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2XJoinedRStr), [AHero.FHeroName]);
                             var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Offer.FPlayer).GetName();
-                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2XJoinedTheForcesOfYRStr), [AHero.FHeroName, name]);
+                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2XJoinedTheForcesOfYRStr), [AHero.FHeroName, name]);
                             Log.FMessages.Text = format;
                         }
 
@@ -35884,7 +35884,7 @@ namespace Aow.Game.Units
                 }
                 else
                 {
-                    if (Offer.FResult == Aow.Game.Commands.NegotiateTE.NegotiateResult.Reject && !Offer.FMode.Contains(NegotiateModeElement.PrisonerJoin))
+                    if (Offer.FResult == NegotiateTE.NegotiateResult.Reject && !Offer.FMode.Contains(NegotiateModeElement.PrisonerJoin))
                     {
                         Offer.Reject();
                     }
@@ -35909,9 +35909,9 @@ namespace Aow.Game.Units
             bool Damaged;
             RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
             Log = new ArmyEventLog(null);
-            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2FireDamageRStr);
+            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2FireDamageRStr);
             Log.FPlayer = GetArmyHS().FArmy.FPlayer;
-            var p2FireDamage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Units.Army.P2FireDamageRStr);
+            var p2FireDamage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2FireDamageRStr);
             Log.FArmyMessages.Add(p2FireDamage);
             Log.FArmyIcon = 0;
             var armyHS = GetArmyHS();
@@ -36005,7 +36005,7 @@ namespace Aow.Game.Units
                     AUnit = GetUnit(I);
                     if (AUnit.FPlayer != 0 || AUnit.FGroup != null && AUnit.FGroup.GroupClass.Behavior != GroupBehavior.Passive)
                     {
-                        AUnit.RetrieveDamageInfo((sbyte)Attack, (sbyte)Damage, Set<DamageType>.Of(Aow.Game.Units.Army.StormDamageType[(int)Storm]), ref Value, ref Amount);
+                        AUnit.RetrieveDamageInfo((sbyte)Attack, (sbyte)Damage, Set<DamageType>.Of(StormDamageType[(int)Storm]), ref Value, ref Amount);
                         if (Info.FriendlyRelations.Contains(Relation))
                         {
                             Info.FriendlyDamage += Amount;
@@ -36031,10 +36031,10 @@ namespace Aow.Game.Units
             int Damage;
             RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
             Log = new ArmyEventLog(null);
-            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStormTypeRStr[(int)Storm]);
+            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TStormTypeRStr[(int)Storm]);
             Log.FPlayer = Player;
             // { Original appends the storm message. }
-            var stormType = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStormTypeRStr[(int)Storm]);
+            var stormType = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TStormTypeRStr[(int)Storm]);
             Log.FArmyMessages.Add(stormType);
             Log.FArmyIcon = 2;
             Log.FArmyView.Setup(this, 255);
@@ -36049,7 +36049,7 @@ namespace Aow.Game.Units
                 }
 
                 Log.FDamageValues.Add((byte)Damage);
-                Log.FDamageTypes.Add((byte)(int)Aow.Game.Units.Army.StormDamageType[(int)Storm]);
+                Log.FDamageTypes.Add((byte)(int)StormDamageType[(int)Storm]);
             }
 
             if (Damaged)
@@ -36236,15 +36236,15 @@ namespace Aow.Game.Units
             return GetUnit(index).ConcealedOnMapF(field) && GetConcealedForPlayer(player);
         }
 
-        internal static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_TDamageType_7 StormDamageType = global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_TDamageType_7.From((global::System.ReadOnlySpan<global::Aow.Game.Combat.DamageType>)new global::Aow.Game.Combat.DamageType[7]
+        internal static FixedArray_Aow_Units_AoWE_TDamageType_7 StormDamageType = global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_AoWE_TDamageType_7.From((ReadOnlySpan<DamageType>)new DamageType[7]
         {
-            global::Aow.Game.Combat.DamageType.None,
-            global::Aow.Game.Combat.DamageType.Fire,
-            global::Aow.Game.Combat.DamageType.Death,
-            global::Aow.Game.Combat.DamageType.Holy,
-            global::Aow.Game.Combat.DamageType.Cold,
-            global::Aow.Game.Combat.DamageType.Lightning,
-            global::Aow.Game.Combat.DamageType.Poison
+            DamageType.None,
+            DamageType.Fire,
+            DamageType.Death,
+            DamageType.Holy,
+            DamageType.Cold,
+            DamageType.Lightning,
+            DamageType.Poison
         });
 
         private static readonly string UnitsDrownRStr = "Units Drowned";
@@ -36353,7 +36353,7 @@ namespace Aow.Game.Units
             {
                 if ((Selection & 1) != 0)
                 {
-                    AUnit = (AbstractUnit)Army.GetUnit(I).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    AUnit = (AbstractUnit)Army.GetUnit(I).Copy(GameTables.AoWEngine);
                     AUnit.SetOwner(this);
                     AUnit.Release();
                     var unit = Army.GetUnit(I);
@@ -36528,7 +36528,7 @@ namespace Aow.Game.Draw
             }
 
             base.RemoveFromMap();
-            if (Field != null && Aow.Game.World.Map.AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+            if (Field != null && AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
             {
                 Msg.MsgID = 4355;
                 Msg.Param[0] = this;
@@ -36544,7 +36544,7 @@ namespace Aow.Game.Draw
             {
                 if (Msg.MsgID == 4364)
                 {
-                    if (!FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed) && (!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0))
+                    if (!FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed) && (!AoWHSMap.Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0))
                     {
                         if (FArmy.FPlayer != 0)
                         {
@@ -36605,7 +36605,7 @@ namespace Aow.Game.Draw
                                             }
                                             else
                                             {
-                                                if (FArmy.FConcealedUnits != Aow.Game.Magic.Abilities.AbilityRules.ArmySelectionMasks[FArmy.FChildren.Count])
+                                                if (FArmy.FConcealedUnits != AbilityRules.ArmySelectionMasks[FArmy.FChildren.Count])
                                                 {
                                                     Msg.Result = FArmy.FPlayer;
                                                 }
@@ -36867,7 +36867,7 @@ namespace Aow.Game.Draw
         public override bool CanSelect(int Xhp, int Yhp)
         {
             bool Result;
-            if (!GetFogEnabled() && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+            if (!GetFogEnabled() && AoWHSMap.Current.FSeatedPlayer != -1)
             {
                 if (FArmy.FStatus.Contains(ArmyStatusElement.FullyConcealed) || !base.CanSelect(Xhp, Yhp))
                 {
@@ -36908,7 +36908,7 @@ namespace Aow.Game.Draw
         }
 
         // Army.PAS:2679
-        public override string EditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Draw.ArmyHS.P2ArmyRStr);
+        public override string EditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2ArmyRStr);
 
         // Army.PAS:3140
         public override bool MoveTo(MapField Field, int MoveCost)
@@ -37030,10 +37030,10 @@ namespace Aow.Game.Draw
             Result = base.MoveFirst(Direction, Instant);
             switch (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetMovementSpeed())
             {
-                case Aow.Game.Engine.AoWRegistry.MovementSpeed.Normal:
+                case AoWRegistry.MovementSpeed.Normal:
                     FMoveSteps = (sbyte)base.GetMoveSteps();
                     break;
-                case Aow.Game.Engine.AoWRegistry.MovementSpeed.Fast:
+                case AoWRegistry.MovementSpeed.Fast:
                     FMoveSteps = (sbyte)base.GetMoveSteps();
                     if (FMoveSteps > 8)
                     {
@@ -37045,20 +37045,20 @@ namespace Aow.Game.Draw
                     }
 
                     break;
-                case Aow.Game.Engine.AoWRegistry.MovementSpeed.Turbo:
+                case AoWRegistry.MovementSpeed.Turbo:
                     FMoveSteps = 2;
                     break;
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FFPS > 0)
+            if (AoWHSMap.Current.FFPS > 0)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FFPS < 15)
+                if (AoWHSMap.Current.FFPS < 15)
                 {
                     FMoveSteps = (sbyte)(FMoveSteps / 2);
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FFPS < 25)
+                    if (AoWHSMap.Current.FFPS < 25)
                     {
                         FMoveSteps = (sbyte)(FMoveSteps - 2);
                     }
@@ -37111,10 +37111,10 @@ namespace Aow.Game.Draw
         }
 
         // Army.PAS:2667
-        public bool GetFogEnabled() => Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo == 0;
+        public bool GetFogEnabled() => AoWHSMap.Current.FFogEnabled && Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo == 0;
 
         // Army.PAS:2673
-        public bool VisibleForSeatedPlayer() => (!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0) && !FArmy.GetFullyConcealed();
+        public bool VisibleForSeatedPlayer() => (!AoWHSMap.Current.FFogEnabled || Unsafe.As<ushort, WordRec>(ref Unsafe.As<int, LongRec>(ref ((AoWMapField)Owner).FFieldFlags).Hi).Lo != 0) && !FArmy.GetFullyConcealed();
 
         // Army.PAS:2745
         public void ArmyUpdated(object Sender)
@@ -37200,7 +37200,7 @@ namespace Aow.Game.Draw
             {
                 Info.Overlays = Set<UnitOverlayModesElement>.Of();
                 Info.Animation = UnitAnimation.None;
-                Info.Frame = Aow.Game.World.Map.AoWHSMap.Current.Frame + (int)(((uint)(X + Y + Y)) >> 4);
+                Info.Frame = AoWHSMap.Current.Frame + (int)(((uint)(X + Y + Y)) >> 4);
                 Info.Looped = true;
                 FArmy.GetUnit(FUnitIndex).ShowEx(X - 16, Y - 20, SurfaceDesc, Info);
             }
@@ -37499,10 +37499,10 @@ namespace Aow.Game.Events
                 case ExecuteTrigger.Event:
                 case ExecuteTrigger.NewTurn:
                     ShowEvent = false;
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer)
+                    if (AoWHSMap.Current.FSeatedPlayer == FPlayer || AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer)
                     {
-                        ShowEvent = ShowEvent || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
-                        ShowEvent = ShowEvent || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                        ShowEvent = ShowEvent || AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
+                        ShowEvent = ShowEvent || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.PartyDamage);
                     }
 
                     ShowEvent = ShowEvent || FGameOver;
@@ -37532,7 +37532,7 @@ namespace Aow.Game.Events
         // Army.PAS:181
         public void SetArmyView(ArmyView Value)
         {
-            FArmyView.Assign(Value, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            FArmyView.Assign(Value, GameTables.AoWEngine);
         }
 
         // Army.PAS:187
@@ -37630,7 +37630,7 @@ namespace Aow.Game.Events
                         Result = true;
                         break;
                     case ExecuteTrigger.NewTurn:
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer)
+                        if (AoWHSMap.Current.FSeatedPlayer == FPlayer || AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer)
                         {
                             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
                             Result = true;
@@ -37638,7 +37638,7 @@ namespace Aow.Game.Events
 
                         break;
                     case ExecuteTrigger.Event:
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer))
+                        if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && (AoWHSMap.Current.FSeatedPlayer == FPlayer || AoWHSMap.Current.FSeatedPlayer == FArmyView.FPlayer))
                         {
                             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(this, false, Done);
                             Result = true;
@@ -37669,7 +37669,7 @@ namespace Aow.Game.Events
         // Army.PAS:284
         public void SetArmyView(ArmyView Value)
         {
-            FArmyView.Assign(Value, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            FArmyView.Assign(Value, GameTables.AoWEngine);
         }
 
     }
@@ -37717,7 +37717,7 @@ namespace Aow.Game.Session
         }
 
         // PlayerC.PAS:1749
-        public override global::Aow.Game.Engine.Engine GetEngine() => Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        public override Engine.Engine GetEngine() => GameTables.AoWEngine;
 
         // PlayerC.PAS:1861
         public override void ReadWrite(EStorageStream Stream)
@@ -37773,11 +37773,11 @@ namespace Aow.Game.Session
         }
 
         // PlayerC.PAS:1818
-        public override Aow.Game.Draw.Images.LibraryImage GetCellImage()
+        public override LibraryImage GetCellImage()
         {
             int I;
             AddRef();
-            Aow.Game.Draw.Images.LibraryImage Result = null;
+            LibraryImage Result = null;
             if (FImageLibrary != null)
             {
                 I = 0;
@@ -37793,14 +37793,14 @@ namespace Aow.Game.Session
         }
 
         // PlayerC.PAS:1836
-        public override void SetCellImage(Aow.Game.Draw.Images.LibraryImage Value)
+        public override void SetCellImage(LibraryImage Value)
         {
         }
 
         // PlayerC.PAS:1752
-        public Aow.Game.Draw.Images.LibraryImage GetFace()
+        public LibraryImage GetFace()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             CustomImageLibrary Images;
             AddRef();
             Images = FFaceLibrary;
@@ -37866,9 +37866,9 @@ namespace Aow.Game.Session
         }
 
         // PlayerC.PAS:1839
-        public Aow.Game.Draw.Images.LibraryImage GetCityImage(int Size, int Terrain, int Level)
+        public LibraryImage GetCityImage(int Size, int Terrain, int Level)
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             int Index;
             if (Terrain == 5)
             {
@@ -37912,36 +37912,36 @@ namespace Aow.Game.Session
         public Alignment GetAlignment()
         {
             Alignment Result;
-            if (FAlignments == Aow.Game.Magic.Abilities.AlignmentTables.alsPureGood)
+            if (FAlignments == AlignmentTables.alsPureGood)
             {
                 return Alignment.PureGood;
             }
 
-            if (FAlignments == Aow.Game.Magic.Abilities.AlignmentTables.alsGood)
+            if (FAlignments == AlignmentTables.alsGood)
             {
                 Result = Alignment.Good;
             }
             else
             {
-                if (FAlignments == Aow.Game.Magic.Abilities.AlignmentTables.alsNeutral)
+                if (FAlignments == AlignmentTables.alsNeutral)
                 {
                     Result = Alignment.Neutral;
                 }
                 else
                 {
-                    if (FAlignments == Aow.Game.Magic.Abilities.AlignmentTables.alsEvil)
+                    if (FAlignments == AlignmentTables.alsEvil)
                     {
                         Result = Alignment.Evil;
                     }
                     else
                     {
-                        if (FAlignments == Aow.Game.Magic.Abilities.AlignmentTables.alsPureEvil)
+                        if (FAlignments == AlignmentTables.alsPureEvil)
                         {
                             Result = Alignment.PureEvil;
                         }
                         else
                         {
-                            if (FAlignments == Aow.Game.Session.RaceResource.alsPureNeutral)
+                            if (FAlignments == alsPureNeutral)
                             {
                                 Result = Alignment.PureNeutral;
                             }
@@ -37962,7 +37962,7 @@ namespace Aow.Game.Session
         // PlayerC.PAS:1815
         public override string ResourceEditName() => "Race";
 
-        private static Set<global::Aow.Game.Engine.Alignment> alsPureNeutral = Set<global::Aow.Game.Engine.Alignment>.FromMask(72uL);
+        private static Set<Alignment> alsPureNeutral = Set<Alignment>.FromMask(72uL);
 
     }
 
@@ -38138,13 +38138,13 @@ namespace Aow.Game.World.Structures
                 DestroyShadow();
             }
 
-            if (Owner != null && FStatus.Contains(Aow.Game.World.MapObjectStatusElement.ResourceLinked) && ((StructureResource)FResource).FTerrainBound)
+            if (Owner != null && FStatus.Contains(MapObjectStatusElement.ResourceLinked) && ((StructureResource)FResource).FTerrainBound)
             {
                 Owner.DestroyChildren(131334);
             }
 
             base.Dispose();
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
+            if (AoWHSMap.Current != null && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Destroying))
             {
                 Aow.Game.World.Map.AoWHSMap.Current.StructureDestroyed(this);
             }
@@ -38264,7 +38264,7 @@ namespace Aow.Game.World.Structures
         public override void RemoveFromMap()
         {
             MapField MapField;
-            MapField = (global::Aow.Game.World.Map.MapField)Owner;
+            MapField = (MapField)Owner;
             base.RemoveFromMap();
             if (MapField != null && !GetEditMode())
             {
@@ -38345,7 +38345,7 @@ namespace Aow.Game.World.Structures
                                                 {
                                                     if (Msg.MsgID == 4364 && Msg.HN == 0)
                                                     {
-                                                        if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && (!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled || !FFogged))
+                                                        if (FResource.TerrainList.Terrain[Msg.HN] >= 0 && (!AoWHSMap.Current.FFogEnabled || !FFogged))
                                                         {
                                                             Msg.Param[0] = Msg.Param[0].Int + 3584;
                                                         }
@@ -38367,7 +38367,7 @@ namespace Aow.Game.World.Structures
         {
             base.Activate();
             Aow.Game.World.Map.AoWHSMap.Current.FStructureControl.Register(this);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows && ((StructureResource)FResource).FCastsShadow && !GetEditMode())
+            if (AoWHSMap.Current.FShowUnitShadows && ((StructureResource)FResource).FCastsShadow && !GetEditMode())
             {
                 CreateShadow();
             }
@@ -38396,7 +38396,7 @@ namespace Aow.Game.World.Structures
             int X = default;
             int Y = default;
             int HN;
-            if (!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled || !FFogged)
+            if (!AoWHSMap.Current.FFogEnabled || !FFogged)
             {
                 Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref X, ref Y);
                 HN = Aow.Game.World.Map.HexGeometry.dHXtoHN(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, X, Y);
@@ -38495,7 +38495,7 @@ namespace Aow.Game.World.Structures
         }
 
         // Structur.PAS:1292
-        public override bool ValidTerrainType(int TerrainType) => ((StructureResource)FResource).FTerrainBound && Aow.Game.Engine.AoWHSSet.Current.FPadControl.FTerrainTypes[TerrainType] || base.ValidTerrainType(TerrainType);
+        public override bool ValidTerrainType(int TerrainType) => ((StructureResource)FResource).FTerrainBound && AoWHSSet.Current.FPadControl.FTerrainTypes[TerrainType] || base.ValidTerrainType(TerrainType);
 
         // Structur.PAS:1053
         public override int GetTerrainTypeImage(int TerrainType)
@@ -38565,9 +38565,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Structur.PAS:1239
-        public virtual Aow.Game.Draw.Images.LibraryImage GetTopBorderImage()
+        public virtual LibraryImage GetTopBorderImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             ImageSequenceList Sequences;
             Sequences = FResource.ImageSequenceList;
             if (Sequences != null)
@@ -38590,9 +38590,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Structur.PAS:1251
-        public virtual Aow.Game.Draw.Images.LibraryImage GetMiddleBorderImage()
+        public virtual LibraryImage GetMiddleBorderImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             ImageSequenceList Sequences;
             Sequences = FResource.ImageSequenceList;
             if (Sequences != null)
@@ -38615,9 +38615,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Structur.PAS:1263
-        public virtual Aow.Game.Draw.Images.LibraryImage GetBottomBorderImage()
+        public virtual LibraryImage GetBottomBorderImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            LibraryImage Result;
             ImageSequenceList Sequences;
             Sequences = FResource.ImageSequenceList;
             if (Sequences != null)
@@ -38855,12 +38855,12 @@ namespace Aow.Game.World.Structures
             if (GetRazed())
             {
                 var editName = EditName();
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Structure.StructureRebuiltRStr), [editName]);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(StructureRebuiltRStr), [editName]);
             }
             else
             {
                 var editName = EditName();
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Structure.StructureBuiltRStr), [editName]);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(StructureBuiltRStr), [editName]);
             }
 
             var lhx = GetLhx();
@@ -38919,7 +38919,7 @@ namespace Aow.Game.World.Structures
             UnitIndexList Indexes;
             var xhx = GetXhx();
             var yhx = GetYhx();
-            RandSeed = xhx + Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed + yhx;
+            RandSeed = xhx + AoWHSMap.Current.FInitialRandomSeed + yhx;
             Collection = ((StructureResource)FResource).FDefenders.GetRndCollection();
             if (Collection != -1)
             {
@@ -38993,7 +38993,7 @@ namespace Aow.Game.World.Structures
                 Log = new LocationTextEventLog(null);
                 Log.FPlayer = Player;
                 var editName = EditName();
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Structure.StructureRazedRStr), [editName]);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(StructureRazedRStr), [editName]);
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 Log.SetLocation(GetXhx(), yhx, lhx);
@@ -39060,7 +39060,7 @@ namespace Aow.Game.World.Structures
                 var xhx = GetXhx();
                 var yhx = GetYhx();
                 var lhx = GetLhx();
-                Messages.Add(Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Structure.XatLocationYRStr), [editName, "(" + IntToStr(xhx) + ", " + IntToStr(yhx) + ", " + IntToStr(lhx) + ")"]));
+                Messages.Add(Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XatLocationYRStr), [editName, "(" + IntToStr(xhx) + ", " + IntToStr(yhx) + ", " + IntToStr(lhx) + ")"]));
                 for (int I = 0, last = Errors.Count - 1; I <= last; I++)
                 {
                     Messages.Add("  " + Errors[I]);
@@ -39201,7 +39201,7 @@ namespace Aow.Game.World.Structures
                     }
                     else
                     {
-                        Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+                        Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
                         Result = false;
                     }
                 }
@@ -39254,11 +39254,11 @@ namespace Aow.Game.World.Structures
                 {
                     Log = new RazeStructureEventLog(null);
                     Log.FStructure = this;
-                    Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
-                    Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WarningRStr);
-                    var razeStructureWarning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Structure.RazeStructureWarningRStr);
+                    Log.FButtons = MessageEventLog.Buttons.YesNo;
+                    Log.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WarningRStr);
+                    var razeStructureWarning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RazeStructureWarningRStr);
                     Log.FMessage.Add(razeStructureWarning);
-                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Structure.DoYouWishToContinueRStr);
+                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DoYouWishToContinueRStr);
                     Log.FMessage.Add(aoWETranslateRStr);
                     Log.Execute(true, ExecuteTrigger.User, null);
                     Log.Release();
@@ -39309,7 +39309,7 @@ namespace Aow.Game.World.Structures
                 Result = Set<byte>.WithBounds(0, 255).With(3).With(4).With(6).Contains(Predictor.FResult) && Predictor.GetSuperiority() > 50;
                 if (!Result)
                 {
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Structure.NotEnoughForcesRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NotEnoughForcesRStr);
                 }
 
                 Defenders?.Dispose();
@@ -39375,7 +39375,7 @@ namespace Aow.Game.World.Structures
             HNWalkData Walk = default;
             int Count;
             MapLevel Level;
-            FFogged = Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled;
+            FFogged = AoWHSMap.Current.FFogEnabled;
             if (FFogged)
             {
                 Count = GetTerrainCount();
@@ -39423,11 +39423,11 @@ namespace Aow.Game.World.Structures
         public bool GetBuilding() => FBuildingPlayer != -1;
 
         // Structur.PAS:1655
-        public bool ShowBorderImage(SurfaceDesc SurfaceDesc, global::Aow.Rtl.Rect R)
+        public bool ShowBorderImage(SurfaceDesc SurfaceDesc, Rect R)
         {
-            Aow.Game.Draw.Images.LibraryImage TopImage;
-            Aow.Game.Draw.Images.LibraryImage MiddleImage;
-            Aow.Game.Draw.Images.LibraryImage BottomImage;
+            LibraryImage TopImage;
+            LibraryImage MiddleImage;
+            LibraryImage BottomImage;
             int Height;
             int Y;
             bool Result = false;
@@ -39472,22 +39472,22 @@ namespace Aow.Game.World.Structures
         }
 
         // Structur.PAS:1688
-        public bool ShowBorderImageDC(int DC, global::Aow.Rtl.Rect R)
+        public bool ShowBorderImageDC(int DC, Rect R)
         {
             DIB16Surface Surface;
             int Width;
             int Height;
             SurfaceDesc SurfaceDesc = default;
-            global::Aow.Rtl.Rect BorderRect;
+            Rect BorderRect;
             bool Result = false;
             if (GetBottomBorderImage() != null)
             {
                 Width = R.Right - R.Left;
                 Height = R.Bottom - R.Top;
-                Surface = new DIB16Surface(Width, Height, Aow.Game.Draw.PixelFormats.pfRGB565);
+                Surface = new DIB16Surface(Width, Height, PixelFormats.pfRGB565);
                 try
                 {
-                    BorderRect = global::Aow.Rtl.RtlUnit.Rect(0, 0, Width, Height);
+                    BorderRect = new Rect(0, 0, Width, Height);
                     Surface.Lock(ref SurfaceDesc);
                     Result = ShowBorderImage(SurfaceDesc, BorderRect);
                     Surface.Unlock();
@@ -39506,10 +39506,10 @@ namespace Aow.Game.World.Structures
         // Structur.PAS:1795
         public void ShowRazeAnimation(Animation Animation, int X, int Y, in SurfaceDesc SurfaceDesc)
         {
-            if (((ImageSequenceAnimation)Animation).FImageSequence.GetUnloopedFrameIndex(Animation.FFrameCounter) == 0 && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != (byte)DetailLevel.Low)
+            if (((ImageSequenceAnimation)Animation).FImageSequence.GetUnloopedFrameIndex(Animation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != (byte)DetailLevel.Low)
             {
                 var random = Random(2);
-                Aow.Game.Audio.AudioPlayback.PlaySample(Aow.Game.Magic.Abilities.AbilityRules.ExplosionSFX[random]);
+                Aow.Game.Audio.AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
             }
         }
 
@@ -39736,7 +39736,7 @@ namespace Aow.Game.World.Structures
             int Offset;
             int FrameIndex;
             ImageSequence Sequence;
-            if (Structure.GetSelected() && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 6) == 6)
+            if (Structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
             {
                 Index = Structure.ImageIndex;
                 Offset = ((MapField)Structure.Owner).Xhx + ((MapField)Structure.Owner).Yhx * 16;
@@ -39745,7 +39745,7 @@ namespace Aow.Game.World.Structures
                     Sequence = (ImageSequence)FImageSequenceList.List[Index];
                     while (Sequence != null)
                     {
-                        FrameIndex = Sequence.GetFrameIndex(Aow.Game.World.Map.AoWHSMap.Current.Frame, Offset);
+                        FrameIndex = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, Offset);
                         if (FrameIndex != -1)
                         {
                             if (Sequence.ImageLibrary[FrameIndex].ShowInfo.ShowMode == ShowMode.Opaque)
@@ -39815,7 +39815,7 @@ namespace Aow.Game.Events
         // (FStructure)
         public override bool Yes()
         {
-            FStructure.RazeEx(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+            FStructure.RazeEx(AoWHSMap.Current.FSeatedPlayer);
             return true;
         }
 
@@ -39966,7 +39966,7 @@ namespace Aow.Game.World.Structures
             Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
-            if (FFlagID != 63 && (!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled || !FFogged))
+            if (FFlagID != 63 && (!AoWHSMap.Current.FFogEnabled || !FFogged))
             {
                 var playerStructureResource = (PlayerStructureResource)FResource;
                 if (playerStructureResource.FFlagType <= 1)
@@ -39987,7 +39987,7 @@ namespace Aow.Game.World.Structures
         {
             if (Msg.MsgID == 4364 && Msg.HN == 0 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
             {
-                if (!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled || !FFogged)
+                if (!AoWHSMap.Current.FFogEnabled || !FFogged)
                 {
                     if (FPlayer >= 0)
                     {
@@ -40006,7 +40006,7 @@ namespace Aow.Game.World.Structures
                         Msg.Param[0] = Msg.Param[0].Int + 3584;
                     }
 
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FVictoryCondition == Aow.Game.World.Map.AoWHSMap.VictoryCondition.CaptureLocations && FVictoryLocations[Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer])
+                    if (AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.CaptureLocations && FVictoryLocations[AoWHSMap.Current.FSeatedPlayer])
                     {
                         Msg.Param[0] = Msg.Param[0].Int | 16777216;
                     }
@@ -40105,13 +40105,13 @@ namespace Aow.Game.World.Structures
             {
                 if (Msg.MsgID == 4368 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
                 {
-                    FinalizeCombat(Msg.Param[0].As<global::Aow.Game.Combat.Combat>());
+                    FinalizeCombat(Msg.Param[0].As<Combat.Combat>());
                 }
                 else
                 {
                     if (Msg.MsgID == 4361 && FResource.TerrainList.Terrain[Msg.HN] >= 0)
                     {
-                        var combatEventText = GetCombatEventText(Msg.Param[0].As<global::Aow.Game.Combat.Combat>());
+                        var combatEventText = GetCombatEventText(Msg.Param[0].As<Combat.Combat>());
                         Msg.Result.As<CombatResultQuery>().Text = combatEventText;
                     }
                 }
@@ -40207,7 +40207,7 @@ namespace Aow.Game.World.Structures
         public override void NewDay()
         {
             base.NewDay();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1 && FPlayer > 0)
+            if (AoWHSMap.Current.FDay == 1 && FPlayer > 0)
             {
                 UpdateExploration();
                 UpdatePlayerSeen();
@@ -40319,7 +40319,7 @@ namespace Aow.Game.World.Structures
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FStructures.RemoveChild(this);
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current.FDay > 0)
+                if (AoWHSMap.Current.FDay > 0)
                 {
                     StructureCaptured(FPlayer, Player);
                 }
@@ -40344,13 +40344,13 @@ namespace Aow.Game.World.Structures
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FStructures.AddChild(this);
                 }
 
-                if (FPlayer > 0 && Aow.Game.World.Map.AoWHSMap.Current.FVictoryCondition == Aow.Game.World.Map.AoWHSMap.VictoryCondition.CaptureLocations)
+                if (FPlayer > 0 && AoWHSMap.Current.FVictoryCondition == AoWHSMap.VictoryCondition.CaptureLocations)
                 {
-                    for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                    for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                     {
                         if (FVictoryLocations[I])
                         {
-                            if (I == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FAlliedVictory && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FPlayer, (sbyte)I) == DiplomaticRelation.Alliance)
+                            if (I == FPlayer || AoWHSMap.Current.FAlliedVictory && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FPlayer, (sbyte)I) == DiplomaticRelation.Alliance)
                             {
                                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).CheckCaptureLocations();
                             }
@@ -40371,7 +40371,7 @@ namespace Aow.Game.World.Structures
         // Structur.PAS:2159
         public virtual void UpdateFlagID()
         {
-            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.EditMode))
+            if (!FStatus.Contains(MapObjectStatusElement.EditMode))
             {
                 if (FPlayer > 0)
                 {
@@ -40421,12 +40421,12 @@ namespace Aow.Game.World.Structures
             int Range;
             int X = default;
             int Y = default;
-            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
+            if (!FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
                 return;
             }
 
-            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated) && FPlayer != -1 && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1 && (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) == DiplomaticRelation.Alliance))
+            if (FStatus.Contains(MapObjectStatusElement.Activated) && FPlayer != -1 && AoWHSMap.Current.FSeatedPlayer != -1 && (AoWHSMap.Current.FSeatedPlayer == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation(AoWHSMap.Current.FSeatedPlayer) == DiplomaticRelation.Alliance))
             {
                 Range = VisibilityRange();
             }
@@ -40469,9 +40469,9 @@ namespace Aow.Game.World.Structures
         {
             int X = default;
             int Y = default;
-            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap) && FPlayer > 0)
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap) && FPlayer > 0)
             {
-                for (int Player = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; Player <= last; Player++)
+                for (int Player = 1, last = AoWHSMap.Current.FPlayers.Count - 1; Player <= last; Player++)
                 {
                     if (Player == FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FDiplomaticRelations.GetDiplomaticRelation((sbyte)Player) == DiplomaticRelation.Alliance)
                     {
@@ -40491,7 +40491,7 @@ namespace Aow.Game.World.Structures
 
         // Structur.PAS:2124
         // { Original leaves the result unchanged for a razed structure. }
-        public virtual void FinalizeCombat(global::Aow.Game.Combat.Combat Combat)
+        public virtual void FinalizeCombat(Combat.Combat Combat)
         {
             if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
             {
@@ -40500,7 +40500,7 @@ namespace Aow.Game.World.Structures
         }
 
         // Structur.PAS:2115
-        public virtual string GetCombatEventText(global::Aow.Game.Combat.Combat Combat)
+        public virtual string GetCombatEventText(Combat.Combat Combat)
         {
             string Result = "";
             if (!GetRazed())
@@ -40508,7 +40508,7 @@ namespace Aow.Game.World.Structures
                 if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
                 {
                     var editName = EditName();
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StructureCapturedRStr), [editName]);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.StructureCapturedRStr), [editName]);
                 }
                 else
                 {
@@ -40523,12 +40523,12 @@ namespace Aow.Game.World.Structures
         public virtual void StructureCaptured(sbyte OldPlayer, sbyte NewPlayer)
         {
             LocationTextEventLog Log;
-            if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated) && !((PlayerStructureResource)FResource).FClaimed)
+            if (!GetRazed() && !GetBuilding() && OldPlayer == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting) && FStatus.Contains(MapObjectStatusElement.Activated) && !((PlayerStructureResource)FResource).FClaimed)
             {
                 Log = new LocationTextEventLog(null);
                 Log.FPlayer = NewPlayer;
                 var editName = EditName();
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StructureCapturedRStr), [editName]);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.StructureCapturedRStr), [editName]);
                 Log.FXhx = GetXhx();
                 Log.FYhx = GetYhx();
                 Log.FLhx = GetLhx();
@@ -40670,7 +40670,7 @@ namespace Aow.Game.World.Structures
         {
             int X = default;
             int Y = default;
-            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap) && FPlayer > 0)
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap) && FPlayer > 0)
             {
                 for (int I = 0, last = FResource.TerrainList.Count - 1; I <= last; I++)
                 {
@@ -40704,7 +40704,7 @@ namespace Aow.Game.World.Structures
         public bool FClaimed;
         public int FFlagX;
         public int FFlagY;
-        public Aow.Game.World.FlagControl FFlagControl;
+        public FlagControl FFlagControl;
 
         // Structur.PAS:2456
         public override void ReadWrite(EStorageStream Stream)
@@ -40733,12 +40733,12 @@ namespace Aow.Game.World.Structures
         public override int ResourceUserClassID() => 131916;
 
         // Structur.PAS:2473
-        public override Aow.Game.World.MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override MapObject PlaceResourceUser(HSMap HSMap, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
-            Aow.Game.World.MapObject Result = base.PlaceResourceUser(HSMap, Xhx, Yhx, Lhx);
+            MapObject Result = base.PlaceResourceUser(HSMap, Xhx, Yhx, Lhx);
             if (Result != null && Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
-                ((PlayerStructure)Result).SetPlayer(Aow.Game.World.Map.AoWHSMap.Current.FEditorPlayer);
+                ((PlayerStructure)Result).SetPlayer(AoWHSMap.Current.FEditorPlayer);
             }
 
             return Result;
@@ -40840,7 +40840,7 @@ namespace Aow.Game.Commands
             Structure Structure;
             AoWMapField MapField;
             MapField = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-            Structure = (global::Aow.Game.World.Structures.Structure)MapField.FindOwnedChild(FStructureClassID);
+            Structure = (Structure)MapField.FindOwnedChild(FStructureClassID);
             if (Structure != null && Structure.EClass.ClassID == FStructureClassID)
             {
                 Result = MapField.GetPlayer() == FPlayer;
@@ -40862,7 +40862,7 @@ namespace Aow.Game.Commands
             FY = Y;
             FL = L;
             MapField = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FX, FY, FL);
-            Structure = (global::Aow.Game.World.Structures.Structure)MapField.FindOwnedChild(AClassID);
+            Structure = (Structure)MapField.FindOwnedChild(AClassID);
             Assert(AClassID == Structure.EClass.ClassID, "Invalid position (StructureTE)", "Structur.PAS", 3045);
             FStructureClassID = AClassID;
             FRazed = Structure.GetRazed();
@@ -40938,7 +40938,7 @@ namespace Aow.Game.Draw
             var xhx = Xhx;
             var yhx2 = Yhx;
             var yhx3 = Yhx;
-            Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ShowLoopedEx(70, X, Y, Aow.Game.World.Map.AoWHSMap.Current.Frame, xhx + yhx2 + yhx3 * 2, SurfaceDesc);
+            Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ShowLoopedEx(70, X, Y, AoWHSMap.Current.Frame, xhx + yhx2 + yhx3 * 2, SurfaceDesc);
         }
 
         // Structur.PAS:4494
@@ -41064,7 +41064,7 @@ namespace Aow.Game.World
             if (Resource != null)
             {
                 Pad = (ILTerrainMO)Resource.CreateResourceUser();
-                Result = Pad.CanPlace(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, X, Y, L);
+                Result = Pad.CanPlace(AoWHSMap.Current.MapContainer, X, Y, L);
                 Pad?.Dispose();
             }
             else
@@ -41083,7 +41083,7 @@ namespace Aow.Game.World
             Resource = GetPadResource(Size);
             if (Resource != null)
             {
-                Result = (ILTerrainMO)Resource.PlaceResourceUser(Aow.Game.World.Map.AoWHSMap.Current, X, Y, L);
+                Result = (ILTerrainMO)Resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
             }
             else
             {
@@ -41218,9 +41218,9 @@ namespace Aow.Game.Engine
         public FireControl FFireControl;
         public AbilityControl FAbilityControl;
         public SpellControl FSpellControl;
-        public global::Aow.Game.World.MapObjectResourceList FCombatResources;
-        public global::Aow.Game.World.Map.HexagonControl FCombatHexagons;
-        public global::Aow.Game.World.Map.RoadControl FCombatRoads;
+        public MapObjectResourceList FCombatResources;
+        public HexagonControl FCombatHexagons;
+        public RoadControl FCombatRoads;
         public ImageSequenceList FImageSequences;
         public TextControl FTextControl;
         public int FHSSCRC;
@@ -41247,7 +41247,7 @@ namespace Aow.Game.Engine
             bool Loaded = default;
             if (Stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.LoadingGamePackRStr), 0);
+                Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LoadingGamePackRStr), 0);
             }
 
             base.ReadWrite(Stream);
@@ -41255,16 +41255,16 @@ namespace Aow.Game.Engine
             Stream.rwEObject(FItemLibraries, 11);
             if (!Stream.StorageMode().Contains(StorageModeElement.TextOnly))
             {
-                Path = ExtractFilePath(Aow.Game.Magic.Abilities.GameTables.AoWEngine.HSSFileName);
+                Path = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
                 if (Stream.StorageMode().Contains(StorageModeElement.Read))
                 {
                     Loaded = Aow.Game.Magic.Abilities.GameTables.AoWEngine.ReadFromFileCRC(Path + "ABILITY.PFS", FAbilityControl, null);
-                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.LoadingUnitsRStr), 70);
+                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LoadingUnitsRStr), 70);
                     Loaded = Loaded && Aow.Game.Magic.Abilities.GameTables.AoWEngine.ReadFromFileCRC(Path + "UNITRES.PFS", FUnitResources, null);
                     Loaded = Loaded && Aow.Game.Magic.Abilities.GameTables.AoWEngine.ReadFromFileCRC(Path + "UNITGFX.PFS", FUnitGFXResources, null);
-                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.LoadingHeroesRStr), 80);
+                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LoadingHeroesRStr), 80);
                     Loaded = Loaded && Aow.Game.Magic.Abilities.GameTables.AoWEngine.ReadFromFileCRC(Path + "HERORES.PFS", FHeroResources, null);
-                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.LoadingItemsRStr), 90);
+                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LoadingItemsRStr), 90);
                     Loaded = Loaded && Aow.Game.Magic.Abilities.GameTables.AoWEngine.ReadFromFileCRC(Path + "ITEMGFX.PFS", FItemGFXResources, null);
                     Loaded = Loaded && Aow.Game.Magic.Abilities.GameTables.AoWEngine.ReadFromFileCRC(Path + "FACERES.PFS", FFaceResources, null);
                     Loaded = Loaded && Aow.Game.Magic.Abilities.GameTables.AoWEngine.ReadFromFileCRC(Path + "COMB_RES.PFS", FCombatResources, null);
@@ -41275,7 +41275,7 @@ namespace Aow.Game.Engine
                         throw new InvalidOperationException("CRC-CHECK FAILED");
                     }
 
-                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.GamePackLoadedRStr), 100);
+                    Stream.ShowProgress(this, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GamePackLoadedRStr), 100);
                 }
                 else
                 {
@@ -41318,7 +41318,7 @@ namespace Aow.Game.Engine
             base.MainReadWrite(Stream);
             if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, StorageModeElement.TextOnly, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
-                DictionaryFile = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Dict\\" + "Release" + ".mld";
+                DictionaryFile = GameTables.AoWEngine.StartupDirectory + "Dict\\" + "Release" + ".mld";
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.TranslateEObjectFromFile(this, DictionaryFile);
             }
         }
@@ -41326,78 +41326,78 @@ namespace Aow.Game.Engine
         private protected AoWHSSet(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
             BitList Enabled;
-            FCombatResources = new global::Aow.Game.World.MapObjectResourceList(this);
+            FCombatResources = new MapObjectResourceList(this);
             FCombatResources.SetControlStyle(Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.FixedChild));
-            FCombatHexagons = new global::Aow.Game.World.Map.HexagonControl(this);
+            FCombatHexagons = new HexagonControl(this);
             FCombatHexagons.MOClass = typeof(AbstractHexagon);
-            FCombatRoads = new global::Aow.Game.World.Map.RoadControl(this);
+            FCombatRoads = new RoadControl(this);
             FCombatRoads.MOClass = typeof(AbstractRoad);
-            ImageLibraryManager.ExecutePathSearch(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "IMAGES");
-            SFXManager.ExecutePathSearch(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "SFX");
+            ImageLibraryManager.ExecutePathSearch(GameTables.AoWEngine.StartupDirectory + "IMAGES");
+            SFXManager.ExecutePathSearch(GameTables.AoWEngine.StartupDirectory + "SFX");
             FImageSequences = new ImageSequenceList(ImageLibraryManager, null);
-            var water = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.WaterRStr);
+            var water = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.WaterRStr);
             TerrainTypes.Add(water);
-            var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.GrassRStr);
+            var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GrassRStr);
             TerrainTypes.Add(aoWETranslateRStr);
-            var desert = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.DesertRStr);
+            var desert = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesertRStr);
             TerrainTypes.Add(desert);
-            var snow = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.SnowRStr);
+            var snow = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SnowRStr);
             TerrainTypes.Add(snow);
-            var steppe = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.SteppeRStr);
+            var steppe = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SteppeRStr);
             TerrainTypes.Add(steppe);
-            var wasteland = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.WastelandRStr);
+            var wasteland = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WastelandRStr);
             TerrainTypes.Add(wasteland);
-            var ice = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.IceRStr);
+            var ice = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(IceRStr);
             TerrainTypes.Add(ice);
-            var earth = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.EarthRStr);
+            var earth = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.EarthRStr);
             TerrainTypes.Add(earth);
-            var rock = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.RockRStr);
+            var rock = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RockRStr);
             TerrainTypes.Add(rock);
-            var lava = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.LavaRStr);
+            var lava = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LavaRStr);
             TerrainTypes.Add(lava);
-            var waterText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.WaterRStr);
+            var waterText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.WaterRStr);
             TerrainTypes.Add(waterText);
-            var reserved = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.ReservedRStr);
+            var reserved = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ReservedRStr);
             TerrainTypes.Add(reserved);
-            var dirt = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.DirtRStr);
+            var dirt = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DirtRStr);
             TerrainTypes.Add(dirt);
-            var iceText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.IceRStr);
+            var iceText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(IceRStr);
             TerrainTypes.Add(iceText);
-            var coast = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.CoastRStr);
+            var coast = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CoastRStr);
             TerrainTypes.Add(coast);
-            var border = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.BorderRStr);
+            var border = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BorderRStr);
             TerrainTypes.Add(border);
-            var mountain = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MountainRStr);
+            var mountain = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.MountainRStr);
             OverlayTypes.Add(mountain);
-            var denseVegetation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.DenseVegetationRStr);
+            var denseVegetation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DenseVegetationRStr);
             OverlayTypes.Add(denseVegetation);
-            var hill = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HillRStr);
+            var hill = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.HillRStr);
             OverlayTypes.Add(hill);
-            var vegetation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.VegetationRStr);
+            var vegetation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(VegetationRStr);
             OverlayTypes.Add(vegetation);
-            var road = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.RoadRStr);
+            var road = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RoadRStr);
             OverlayTypes.Add(road);
-            var bridge = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.BridgeRStr);
+            var bridge = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BridgeRStr);
             OverlayTypes.Add(bridge);
-            var rubble = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.RubbleRStr);
+            var rubble = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RubbleRStr);
             OverlayTypes.Add(rubble);
-            var structure = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StructureRStr);
+            var structure = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.StructureRStr);
             OverlayTypes.Add(structure);
-            var obstacle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ObstacleRStr);
+            var obstacle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ObstacleRStr);
             OverlayTypes.Add(obstacle);
-            var lightVegetation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.LightVegetationRStr);
+            var lightVegetation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LightVegetationRStr);
             OverlayTypes.Add(lightVegetation);
-            var solid = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.SolidRStr);
+            var solid = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SolidRStr);
             OverlayTypes.Add(solid);
-            var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
+            var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.NoneRStr);
             DecorationTypes.Add(none);
-            var rocks = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.RocksRStr);
+            var rocks = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RocksRStr);
             DecorationTypes.Add(rocks);
-            var bones = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.BonesRStr);
+            var bones = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BonesRStr);
             DecorationTypes.Add(bones);
-            var deadTree = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.DeadTreeRStr);
+            var deadTree = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DeadTreeRStr);
             DecorationTypes.Add(deadTree);
-            var toadstools = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Engine.AoWHSSet.ToadstoolsRStr);
+            var toadstools = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ToadstoolsRStr);
             DecorationTypes.Add(toadstools);
             FPadControl = new PadControl(this);
             Enabled = FPadControl.FTerrainTypes;
@@ -41466,7 +41466,7 @@ namespace Aow.Game.Engine
             IntegerList CRCs;
             string Path;
             CRCs = new IntegerList();
-            Path = ExtractFilePath(Aow.Game.Magic.Abilities.GameTables.AoWEngine.HSSFileName);
+            Path = ExtractFilePath(GameTables.AoWEngine.HSSFileName);
             // { Original includes ABILITY.PFS twice and does not free CRCs on a read error. }
             CRCs.Add(GetFileCRC(Path + "ABILITY.PFS", false));
             CRCs.Add(GetFileCRC(Path + "ABILITY.PFS", false));
@@ -41486,8 +41486,8 @@ namespace Aow.Game.Engine
         }
 
         // intf_P1_10.inc:44
-        public static global::Aow.Game.Engine.AoWHSSet Create(ECustomNode owner) =>
-            ConstructionContext.Create(owner, static (context, owner) => new global::Aow.Game.Engine.AoWHSSet(context, owner));
+        public static AoWHSSet Create(ECustomNode owner) =>
+            ConstructionContext.Create(owner, static (context, owner) => new AoWHSSet(context, owner));
 
         private static readonly string GrassRStr = "Grass";
 
@@ -41545,7 +41545,7 @@ namespace Aow.Game.Engine
 
         private static readonly string GamePackLoadedRStr = "Game Pack Loaded";
 
-        public static global::Aow.Game.Engine.AoWHSSet Current;
+        public static AoWHSSet Current;
 
     }
 }
@@ -41649,7 +41649,7 @@ namespace Aow.Game.Net
         {
             string FileName;
             FGames.Clear();
-            FileName = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
+            FileName = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
             if (FileExists(FileName))
             {
                 if (Aow.Game.Net.EmailGameControl.GetFileCRC32(FileName) == Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetEmailGamesCRC())
@@ -41665,8 +41665,8 @@ namespace Aow.Game.Net
             string FileName;
             try
             {
-                FileName = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.WriteToFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", FGames, null);
+                FileName = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs";
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.WriteToFile(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + "egames.pfs", FGames, null);
                 var fileCRC = Aow.Game.Net.EmailGameControl.GetFileCRC32(FileName);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetEmailGamesCRC(fileCRC);
             }
@@ -41783,9 +41783,9 @@ namespace Aow.Game.Net
                             if (Map.FDay > LocalGame.FLastDay)
                             {
                                 Name = Map.FPlayers.GetPlayers(Map.FCurrentPlayer).FPBEMSettings.FEmailGame.FName;
-                                if (FileExists(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg"))
+                                if (FileExists(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg"))
                                 {
-                                    PreviousMap = (AoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg", Aow.Formats.GameProfile.WorldMap);
+                                    PreviousMap = (AoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg", Aow.Formats.GameProfile.WorldMap);
                                     if (PreviousMap != null)
                                     {
                                         // { Original bug: the previous map's player is checked against the new map's count. }
@@ -41827,11 +41827,11 @@ namespace Aow.Game.Net
                         if (!IsEmpty(Name))
                         {
                             I = 0;
-                            Destination = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg";
+                            Destination = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + ".asg";
                             while (!Overwrite && FileExists(Destination))
                             {
                                 I += 1;
-                                Destination = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + IntToStr(I) + ".asg";
+                                Destination = GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + Name + IntToStr(I) + ".asg";
                             }
                         }
                     }
@@ -41855,7 +41855,7 @@ namespace Aow.Game.Net
                 {
                     StreamExtensions.LoadFromStream(val, val2);
                     int size = (int)((Stream)val).Length;
-                    result = global::Aow.Game.Engine.Nodes.EngineServices.GetCRC32((global::System.ReadOnlySpan<byte>)(val.GetBuffer()), size);
+                    result = global::Aow.Game.Engine.Nodes.EngineServices.GetCRC32((ReadOnlySpan<byte>)(val.GetBuffer()), size);
                 }
                 finally
                 {
@@ -41894,7 +41894,7 @@ namespace Aow.Game.Events
         public new const int ClassID = 131831;
 
         // Diplomacy.pas:2453
-        public override string GetText() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.RestartGameEventLog.GameRestartedRStr);
+        public override string GetText() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameRestartedRStr);
 
         // Diplomacy.pas:2456
         public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
@@ -42035,7 +42035,7 @@ namespace Aow.Game.World.Terrain
             int Y = default;
             if (FExplosionFrame != 0)
             {
-                Frame = Aow.Game.World.Map.AoWHSMap.Current.Frame - FExplosionFrame;
+                Frame = AoWHSMap.Current.Frame - FExplosionFrame;
                 if (Frame >= 0 && Frame < FResource.ImageSequenceList.GetImageSequence(20).GetTotalSequenceFrames())
                 {
                     Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
@@ -42072,7 +42072,7 @@ namespace Aow.Game.World.Terrain
         public override void RemoveFromMap()
         {
             MapField MapField;
-            MapField = (global::Aow.Game.World.Map.MapField)Owner;
+            MapField = (MapField)Owner;
             if (MapField != null)
             {
                 base.RemoveFromMap();
@@ -42138,10 +42138,10 @@ namespace Aow.Game.World.Terrain
         // Structur.PAS:3509
         public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Visible) && FExplosionFrame != 0 && Aow.Game.World.Map.AoWHSMap.Current.Frame == FExplosionFrame)
+            if (!FStatus.Contains(MapObjectStatusElement.Visible) && FExplosionFrame != 0 && AoWHSMap.Current.Frame == FExplosionFrame)
             {
                 var xhx = GetXhx();
-                Aow.Game.Audio.AudioPlayback.PlaySample(Aow.Game.Magic.Abilities.AbilityRules.ExplosionSFX[(xhx + Aow.Game.World.Map.AoWHSMap.Current.Frame) % 2]);
+                Aow.Game.Audio.AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[(xhx + AoWHSMap.Current.Frame) % 2]);
             }
 
             base.MakeVisible(VisibilityList);
@@ -42235,7 +42235,7 @@ namespace Aow.Game.World.Terrain
         {
             if (FResource.ImageSequenceList.GetImageSequence(20) != null)
             {
-                FExplosionFrame = Delay + Aow.Game.World.Map.AoWHSMap.Current.Frame;
+                FExplosionFrame = Delay + AoWHSMap.Current.Frame;
             }
         }
 
@@ -42293,7 +42293,7 @@ namespace Aow.Game.World.Terrain
             Fire Fire;
             if (FAge > 0)
             {
-                MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+                MapLevel = (MapLevel)Owner.Owner;
                 var yhx = GetYhx();
                 var xhx = GetXhx();
                 Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, xhx, yhx, 1);
@@ -42395,7 +42395,7 @@ namespace Aow.Game.World.Terrain
             public override int ResourceUserClassID() => 132990;
 
             // Structur.PAS:3692
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.FireRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.FireRStr);
 
         }
 
@@ -42424,14 +42424,14 @@ namespace Aow.Game.World.Terrain
         }
 
         // Structur.PAS:3732
-        public Aow.Game.World.Terrain.Fire.Resource GetRndFireResource(FireType FireType)
+        public Fire.Resource GetRndFireResource(FireType FireType)
         {
-            Aow.Game.World.Terrain.Fire.Resource Result;
+            Fire.Resource Result;
             DelphiList Resources;
             Resources = new DelphiList();
             for (int I = 0, last = FResources.Count - 1; I <= last; I++)
             {
-                if (((Aow.Game.World.Terrain.Fire.Resource)FResources.List[I]).FFireType == FireType)
+                if (((Fire.Resource)FResources.List[I]).FFireType == FireType)
                 {
                     Resources.Add(FResources.List[I]);
                 }
@@ -42440,7 +42440,7 @@ namespace Aow.Game.World.Terrain
             if (Resources.Count != 0)
             {
                 var random = Random(Resources.Count);
-                Result = (Aow.Game.World.Terrain.Fire.Resource)Resources.List[random];
+                Result = (Fire.Resource)Resources.List[random];
             }
             else
             {
@@ -42455,13 +42455,13 @@ namespace Aow.Game.World.Terrain
         public Fire PlaceFire(int X, int Y, int L, FireType FireType)
         {
             Fire Result;
-            Aow.Game.World.Terrain.Fire.Resource Resource;
+            Fire.Resource Resource;
             Fire Fire;
             Resource = GetRndFireResource(FireType);
             if (Resource != null)
             {
-                Fire = (global::Aow.Game.World.Terrain.Fire)Resource.CreateResourceUser();
-                Fire.FPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
+                Fire = (Fire)Resource.CreateResourceUser();
+                Fire.FPlayer = AoWHSMap.Current.FCurrentPlayer;
                 if (!Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Fire, X, Y, L))
                 {
                     Fire?.Dispose();
@@ -42482,13 +42482,13 @@ namespace Aow.Game.World.Terrain
         }
 
         // Structur.PAS:3771
-        public void RegisterFireResource(Aow.Game.World.Terrain.Fire.Resource Resource)
+        public void RegisterFireResource(Fire.Resource Resource)
         {
             FResources.Add(Resource);
         }
 
         // Structur.PAS:3776
-        public void UnregisterFireResource(Aow.Game.World.Terrain.Fire.Resource Resource)
+        public void UnregisterFireResource(Fire.Resource Resource)
         {
             FResources.Remove(Resource);
         }
@@ -42882,7 +42882,7 @@ namespace Aow.Game.Combat
                 FRoundTargets.List[I].D = Priority;
             }
 
-            FRoundTargets.Sort(Aow.Game.Engine.Collections.QuadItem<Aow.Game.Combat.CombatPredictorUnit>.P3CompareRoundTargets);
+            FRoundTargets.Sort(Aow.Game.Engine.Collections.QuadItem<CombatPredictorUnit>.P3CompareRoundTargets);
         }
 
         // CombatPredictor.pas:231
@@ -43417,7 +43417,7 @@ namespace Aow.Game.Combat
         {
             WallUnit Wall;
             CombatPredictorUnit UnitObj;
-            if (WallType == global::Aow.Game.Combat.WallType.None)
+            if (WallType == Game.Combat.WallType.None)
             {
                 // { Preserve the original assertion diagnostic. }
                 Assert(false, "Use DeleteWall instead!", "D:\\AoWDev\\AoWE\\inc\\CombatPredictor.pas", 18391);
@@ -43508,7 +43508,7 @@ namespace Aow.Game.Combat
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                     {
-                        ArmyHS = (global::Aow.Game.Draw.ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                        ArmyHS = (ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                         if (ArmyHS != null && ArmyHS != Army)
                         {
                             Side = Aow.Game.Magic.Abilities.CombatAbilityTables.GetCombatSide((sbyte)Player, (sbyte)Relation, (sbyte)Defender, (sbyte)DefenderRelation, ArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FIndependentRelation);
@@ -43569,7 +43569,7 @@ namespace Aow.Game.Combat
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                     {
-                        ArmyHS = (global::Aow.Game.Draw.ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                        ArmyHS = (ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                         if (ArmyHS != null)
                         {
                             Side = Aow.Game.Magic.Abilities.CombatAbilityTables.GetCombatSide((sbyte)Player, (sbyte)Relation, (sbyte)Defender, (sbyte)DefenderRelation, ArmyHS.FArmy.FPlayer, ArmyHS.FArmy.FIndependentRelation);
@@ -44007,7 +44007,7 @@ namespace Aow.Game.Combat
             return Result;
         }
 
-        private static int P3CompareRequiredUnits(in global::Aow.Game.Engine.Collections.DoubleItem<global::Aow.Game.Combat.CombatPredictorUnit> A, in global::Aow.Game.Engine.Collections.DoubleItem<global::Aow.Game.Combat.CombatPredictorUnit> B)
+        private static int P3CompareRequiredUnits(in DoubleItem<CombatPredictorUnit> A, in DoubleItem<CombatPredictorUnit> B)
         {
             return B.B - A.B;
         }
@@ -44032,7 +44032,7 @@ namespace Aow.Game.Combat
             FCombatPlayer = -1;
         }
 
-        public global::Aow.Game.Combat.Combat FCombat;
+        public Combat FCombat;
         public byte FID;
         public QuadItemList<CombatObject> FTargets;
         public QuadItemList<CombatObject> FTargetedBy;
@@ -44180,8 +44180,8 @@ namespace Aow.Game.Combat
         public virtual void SetCombatPlayer(byte Player)
         {
             bool ChangedSide;
-            global::Aow.Game.Combat.Combat Combat;
-            global::Aow.Game.Combat.Combat NewCombat;
+            Combat Combat;
+            Combat NewCombat;
             if (FStatus.Contains(CombatObjectStatusElement.Activated))
             {
                 bool condition = Player != 255;
@@ -44288,10 +44288,10 @@ namespace Aow.Game.Combat
         public virtual AbilityOwner GetAbilityOwner() => null;
 
         // Combat.pas:5672
-        public virtual void Activate(global::Aow.Game.Combat.Combat ACombat)
+        public virtual void Activate(Combat ACombat)
         {
             byte Player;
-            global::Aow.Game.Combat.Combat Combat;
+            Combat Combat;
             FCombat = ACombat;
             FStatus = FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
             Player = (byte)FCombatPlayer;
@@ -44308,7 +44308,7 @@ namespace Aow.Game.Combat
         public virtual void Deactivate()
         {
             byte Player;
-            global::Aow.Game.Combat.Combat Combat;
+            Combat Combat;
             FStatus = FStatus - Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Activated);
             Player = (byte)FCombatPlayer;
             if (Player != 255)
@@ -44356,7 +44356,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat.pas:5697
-        public virtual void Initialize(global::Aow.Game.Combat.Combat ACombat)
+        public virtual void Initialize(Combat ACombat)
         {
             FCombat = ACombat;
         }
@@ -44978,7 +44978,7 @@ namespace Aow.Game.Combat
                 U = FUnit;
                 CV = 0;
                 DV = 0;
-                Abilities = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
+                Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
                 for (int I = Abilities.Count - 1; I >= 0; I--)
                 {
                     Ability = Abilities.GetAbility(I);
@@ -45254,7 +45254,7 @@ namespace Aow.Game.Combat
         public override AbilityOwner GetAbilityOwner() => FUnit;
 
         // Combat.pas:1178
-        public override void Activate(global::Aow.Game.Combat.Combat ACombat)
+        public override void Activate(Combat ACombat)
         {
             base.Activate(ACombat);
             UpdateParty();
@@ -45288,7 +45288,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat.pas:1193
-        public override void Initialize(global::Aow.Game.Combat.Combat ACombat)
+        public override void Initialize(Combat ACombat)
         {
             base.Initialize(ACombat);
             if (FUnit is Leader)
@@ -45482,7 +45482,7 @@ namespace Aow.Game.Combat
                 U.ShowEx(X, Y, Surface, Info);
                 if (FStatus.Contains(CombatObjectStatusElement.Fled))
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatImages[7].Show(X + 18, Y + 10, Surface);
+                    AoWHSSet.Current.FCombatImages[7].Show(X + 18, Y + 10, Surface);
                 }
             }
         }
@@ -45797,9 +45797,9 @@ namespace Aow.Game.Combat
             int Result = 0;
             for (int I = 0; I <= 2; I++)
             {
-                if (GetAbilityEnabled(Aow.Game.Magic.Abilities.CombatAbilityTables.TCombatUnit_CommandingTargetPriority__CommandAbilityIDs[I]))
+                if (GetAbilityEnabled(CombatAbilityTables.TCombatUnit_CommandingTargetPriority__CommandAbilityIDs[I]))
                 {
-                    Data = (CommandAbilityData)FUnit.GetAbilityData(Aow.Game.Magic.Abilities.CombatAbilityTables.TCombatUnit_CommandingTargetPriority__CommandAbilityIDs[I]);
+                    Data = (CommandAbilityData)FUnit.GetAbilityData(CombatAbilityTables.TCombatUnit_CommandingTargetPriority__CommandAbilityIDs[I]);
                     if (Data != null)
                     {
                         Result += Data.CommandingTargetPriority(FCombat);
@@ -45817,9 +45817,9 @@ namespace Aow.Game.Combat
             int Result = 0;
             for (int I = 0; I <= 2; I++)
             {
-                if (GetAbilityEnabled(Aow.Game.Magic.Abilities.CombatAbilityTables.TCombatUnit_CommandingTargetStrength__CommandAbilityIDs[I]))
+                if (GetAbilityEnabled(CombatAbilityTables.TCombatUnit_CommandingTargetStrength__CommandAbilityIDs[I]))
                 {
-                    Data = (CommandAbilityData)FUnit.GetAbilityData(Aow.Game.Magic.Abilities.CombatAbilityTables.TCombatUnit_CommandingTargetStrength__CommandAbilityIDs[I]);
+                    Data = (CommandAbilityData)FUnit.GetAbilityData(CombatAbilityTables.TCombatUnit_CommandingTargetStrength__CommandAbilityIDs[I]);
                     if (Data != null)
                     {
                         Result += Data.CommandingTargetStrength(FCombat);
@@ -45954,7 +45954,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat.pas:1712
-        public override void Activate(global::Aow.Game.Combat.Combat ACombat)
+        public override void Activate(Combat ACombat)
         {
             base.Activate(ACombat);
             ACombat.FCombatData.FWall = this;
@@ -45976,10 +45976,10 @@ namespace Aow.Game.Combat
             switch (FWallType)
             {
                 case 1:
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatImages[21].Show(X + 15, Y + 5, Surface);
+                    AoWHSSet.Current.FCombatImages[21].Show(X + 15, Y + 5, Surface);
                     break;
                 case 2:
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatImages[22].Show(X + 15, Y + 5, Surface);
+                    AoWHSSet.Current.FCombatImages[22].Show(X + 15, Y + 5, Surface);
                     break;
             }
 
@@ -46099,11 +46099,11 @@ namespace Aow.Game.Combat
             string S;
             if (FSideIndex == 0)
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.CombatAbilityTables.CombatDID, "--- Combat Side Attacker ---");
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(CombatAbilityTables.CombatDID, "--- Combat Side Attacker ---");
             }
             else
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.CombatAbilityTables.CombatDID, "--- Combat Side Defender ---");
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(CombatAbilityTables.CombatDID, "--- Combat Side Defender ---");
             }
 
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
@@ -46112,7 +46112,7 @@ namespace Aow.Game.Combat
                 var targetPriority = GetObjects(I).GetTargetPriority();
                 var targetStrength = GetObjects(I).GetTargetStrength();
                 S = "(" + IntToStr(I) + "):" + idStr + " (Priority:" + IntToStr(targetPriority) + "/Strength:" + IntToStr(targetStrength) + ")";
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.CombatAbilityTables.CombatDID, S);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(CombatAbilityTables.CombatDID, S);
             }
         }
 
@@ -46251,7 +46251,7 @@ namespace Aow.Game.Combat
 
         private static int CompareFastCombatCommands(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Combat.FastCombatCommand)Item2).FExpectedDV - ((global::Aow.Game.Combat.FastCombatCommand)Item1).FExpectedDV;
+            return ((FastCombatCommand)Item2).FExpectedDV - ((FastCombatCommand)Item1).FExpectedDV;
         }
 
         // intf_P5_05.inc:23
@@ -46268,14 +46268,14 @@ namespace Aow.Game.Combat
         public CombatViewer()
         {
             CaptureAddress.Assign(this);
-            FCombat = new global::Aow.Game.Combat.Combat(null);
+            FCombat = new Combat(null);
             FTime = -1;
             FSpeed = 5;
             FDelay = 5;
         }
 
         public Set<CombatViewerStatusElement> FStatus;
-        public global::Aow.Game.Combat.Combat FCombat;
+        public Combat FCombat;
         public byte FDelay;
         public byte FSpeed;
         public int FPosition;
@@ -46306,7 +46306,7 @@ namespace Aow.Game.Combat
             FLogbook.AddRef();
             FPosition = 0;
             FTime = -1;
-            FCombat.FCombatData.Assign(Logbook.FInitialData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            FCombat.FCombatData.Assign(Logbook.FInitialData, GameTables.AoWEngine);
             FCombat.Activate();
             FDelay = FSpeed;
         }
@@ -46352,7 +46352,7 @@ namespace Aow.Game.Combat
                 if (Position > 0 && Position <= FLogbook.FActions.Count)
                 {
                     FCombat.Deactivate();
-                    FCombat.FCombatData.Assign(FLogbook.FInitialData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    FCombat.FCombatData.Assign(FLogbook.FInitialData, GameTables.AoWEngine);
                     FCombat.Activate();
                     FPosition = 0;
                     while (Position > FPosition)
@@ -46370,14 +46370,14 @@ namespace Aow.Game.Combat
                     {
                         FPosition = 0;
                         FCombat.Deactivate();
-                        FCombat.FCombatData.Assign(FLogbook.FInitialData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                        FCombat.FCombatData.Assign(FLogbook.FInitialData, GameTables.AoWEngine);
                         FCombat.Activate();
                     }
                     else
                     {
                         FPosition = GetEndPosition();
                         FCombat.Deactivate();
-                        FCombat.FCombatData.Assign(FLogbook.FFinalData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                        FCombat.FCombatData.Assign(FLogbook.FFinalData, GameTables.AoWEngine);
                         FCombat.Activate();
                     }
                 }
@@ -46568,31 +46568,31 @@ namespace Aow.Game.Combat.Actions
         public virtual string GetName() => this.GetType().Name;
 
         // intf_P3_02.inc:42
-        public virtual void Execute(global::Aow.Game.Combat.Combat Combat)
+        public virtual void Execute(Combat Combat)
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
 
         // intf_P3_02.inc:43
-        public virtual bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public virtual bool Play(CombatViewer Viewer)
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
 
         // Combat2.pas:716
-        public virtual void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public virtual void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             Obj.Show(Frame, Direction, X, Y, Surface);
         }
 
         // Combat2.pas:721
-        public virtual void ShowFieldObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public virtual void ShowFieldObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             Obj.Show(Frame, Direction, X, Y, Surface);
         }
 
         // Combat2.pas:726
-        public virtual void ShowFightingObjects(Aow.Game.Combat.CombatViewer Viewer, int Frame, int X, int Y, in SurfaceDesc Surface)
+        public virtual void ShowFightingObjects(CombatViewer Viewer, int Frame, int X, int Y, in SurfaceDesc Surface)
         {
         }
 
@@ -46608,7 +46608,7 @@ namespace Aow.Game.Combat.Actions
         {
         }
 
-        public Set<Aow.Game.Combat.SingleTargetModeElement> FMode;
+        public Set<SingleTargetModeElement> FMode;
         public byte FSourceID;
         public byte FTargetID;
 
@@ -46630,48 +46630,48 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:749
-        public override void ShowFieldObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowFieldObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
-            if (!FMode.Contains(Aow.Game.Combat.SingleTargetModeElement.Defensive))
+            if (!FMode.Contains(SingleTargetModeElement.Defensive))
             {
                 if (Obj.FID == FSourceID)
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatImages[2].Show(X + 15, Y + 18, Surface);
+                    AoWHSSet.Current.FCombatImages[2].Show(X + 15, Y + 18, Surface);
                 }
             }
             else
             {
                 if (Obj.FID == FTargetID)
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatImages[2].Show(X + 15, Y + 18, Surface);
+                    AoWHSSet.Current.FCombatImages[2].Show(X + 15, Y + 18, Surface);
                 }
             }
 
             ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
-            if (!FMode.Contains(Aow.Game.Combat.SingleTargetModeElement.Defensive))
+            if (!FMode.Contains(SingleTargetModeElement.Defensive))
             {
                 if (Obj.FID == FTargetID)
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatImages[3].Show(X + 15, Y + 18, Surface);
+                    AoWHSSet.Current.FCombatImages[3].Show(X + 15, Y + 18, Surface);
                 }
             }
             else
             {
                 if (Obj.FID == FSourceID)
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatImages[3].Show(X + 15, Y + 18, Surface);
+                    AoWHSSet.Current.FCombatImages[3].Show(X + 15, Y + 18, Surface);
                 }
             }
         }
 
         // Combat2.pas:764
-        public override void ShowFightingObjects(Aow.Game.Combat.CombatViewer Viewer, int Frame, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowFightingObjects(CombatViewer Viewer, int Frame, int X, int Y, in SurfaceDesc Surface)
         {
-            Aow.Game.Combat.CombatObject Source;
-            Aow.Game.Combat.CombatObject Target;
+            CombatObject Source;
+            CombatObject Target;
             Source = Viewer.FCombat.FCombatData.FindID(FSourceID);
             Target = Viewer.FCombat.FCombatData.FindID(FTargetID);
-            if (!FMode.Contains(Aow.Game.Combat.SingleTargetModeElement.Defensive))
+            if (!FMode.Contains(SingleTargetModeElement.Defensive))
             {
                 Viewer.DefaultShowFightingObjects(Source, Target, Frame, X, Y, Surface);
             }
@@ -46682,18 +46682,18 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:740
-        public bool GetDefensive() => FMode.Contains(Aow.Game.Combat.SingleTargetModeElement.Defensive);
+        public bool GetDefensive() => FMode.Contains(SingleTargetModeElement.Defensive);
 
         // Combat2.pas:743
         public void SetDefensive(bool Defensive)
         {
             if (Defensive)
             {
-                FMode = FMode + Set<Aow.Game.Combat.SingleTargetModeElement>.Of(Aow.Game.Combat.SingleTargetModeElement.Defensive);
+                FMode = FMode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
             }
             else
             {
-                FMode = FMode - Set<Aow.Game.Combat.SingleTargetModeElement>.Of(Aow.Game.Combat.SingleTargetModeElement.Defensive);
+                FMode = FMode - Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
             }
         }
     }
@@ -46710,8 +46710,8 @@ namespace Aow.Game.Combat.Actions
         }
 
         public byte FDamage;
-        public Aow.Game.Combat.P3PackedDamageTypes FDamageTypes;
-        public Aow.Game.Combat.P3PackedDamageTypes FEffects;
+        public P3PackedDamageTypes FDamageTypes;
+        public P3PackedDamageTypes FEffects;
         public byte FDamageDone;
 
         // Combat2.pas:777
@@ -46732,10 +46732,10 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:817
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatObject Target;
-            Aow.Game.Combat.CombatObject Source;
+            CombatObject Target;
+            CombatObject Source;
             Source = Combat.FCombatData.FindID(FSourceID);
             Target = Combat.FCombatData.FindID(FTargetID);
             if (FDamage != 0)
@@ -46743,19 +46743,19 @@ namespace Aow.Game.Combat.Actions
                 FDamageDone = (byte)Source.DoDamage(Target, FDamage);
             }
 
-            if (FEffects.Value != Set<Aow.Game.Combat.DamageType>.Of())
+            if (FEffects.Value != Set<DamageType>.Of())
             {
                 Target.ExecuteDamageEffects(FEffects.Value);
             }
         }
 
         // Combat2.pas:826
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             int HitFrame;
             int Duration;
             int EffectFrames;
-            Aow.Game.Combat.CombatObject Target;
+            CombatObject Target;
             if (Viewer.FDelay < 5)
             {
                 HitFrame = Viewer.FDelay;
@@ -46771,7 +46771,7 @@ namespace Aow.Game.Combat.Actions
                 Target = Viewer.FCombat.FCombatData.FindID(FTargetID);
                 if (FDamageDone != 0)
                 {
-                    if (!Target.FStatus.Contains(Aow.Game.Combat.CombatObjectStatusElement.Destroyed))
+                    if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
                     {
                         Target.PlaySFX(2);
                     }
@@ -46783,7 +46783,7 @@ namespace Aow.Game.Combat.Actions
             }
 
             Duration = Viewer.FDelay * 2;
-            if (FEffects.Value != Set<Aow.Game.Combat.DamageType>.Of())
+            if (FEffects.Value != Set<DamageType>.Of())
             {
                 EffectFrames = Aow.Game.Combat.Actions.DamageCA.DamageEffectsAnimationFrames(FEffects.Value) + Viewer.FDelay;
                 HitFrame = Viewer.FDelay * 3;
@@ -46802,7 +46802,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:848
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             int HitFrame;
             if (Obj.FID == FSourceID)
@@ -46823,7 +46823,7 @@ namespace Aow.Game.Combat.Actions
                 if (Obj.FID == FTargetID && FDamageDone != 0 && HitFrame <= Viewer.FTime)
                 {
                     Obj.Show(Frame, Direction, X, Y, Surface);
-                    if (FEffects.Value != Set<Aow.Game.Combat.DamageType>.Of())
+                    if (FEffects.Value != Set<DamageType>.Of())
                     {
                         Aow.Game.Combat.Actions.DamageCA.ShowDamageEffects(FEffects.Value, X, Y, Viewer.FTime - HitFrame, Surface);
                     }
@@ -46839,7 +46839,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:785
-        public virtual void Setup(byte SourceID, byte TargetID, byte Damage, Set<Aow.Game.Combat.DamageType> Effects, Set<Aow.Game.Combat.DamageType> DamageTypes, bool Defensive)
+        public virtual void Setup(byte SourceID, byte TargetID, byte Damage, Set<DamageType> Effects, Set<DamageType> DamageTypes, bool Defensive)
         {
             FSourceID = SourceID;
             FTargetID = TargetID;
@@ -46848,12 +46848,12 @@ namespace Aow.Game.Combat.Actions
             FDamageTypes.Value = DamageTypes;
             if (Defensive)
             {
-                FMode = FMode + Set<Aow.Game.Combat.SingleTargetModeElement>.Of(Aow.Game.Combat.SingleTargetModeElement.Defensive);
+                FMode = FMode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
             }
         }
 
         // Combat2.pas:795
-        public virtual void Generate(Aow.Game.Combat.CombatObject Source, Aow.Game.Combat.CombatObject Target, sbyte Attack, sbyte Damage, Set<Aow.Game.Combat.DamageType> DamageTypes)
+        public virtual void Generate(CombatObject Source, CombatObject Target, sbyte Attack, sbyte Damage, Set<DamageType> DamageTypes)
         {
             FSourceID = Source.FID;
             FTargetID = Target.FID;
@@ -46865,7 +46865,7 @@ namespace Aow.Game.Combat.Actions
             }
             else
             {
-                FEffects.Value = Set<Aow.Game.Combat.DamageType>.Of();
+                FEffects.Value = Set<DamageType>.Of();
             }
 
             var immunityTypes = Target.GetImmunityTypes();
@@ -46873,7 +46873,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:806
-        public virtual void GenerateEx(Aow.Game.Combat.CombatObject Source, Aow.Game.Combat.CombatObject Target, sbyte Attack, sbyte Damage, Set<Aow.Game.Combat.DamageType> DamageTypes, byte DamageMode)
+        public virtual void GenerateEx(CombatObject Source, CombatObject Target, sbyte Attack, sbyte Damage, Set<DamageType> DamageTypes, byte DamageMode)
         {
             FSourceID = Source.FID;
             FTargetID = Target.FID;
@@ -46885,43 +46885,43 @@ namespace Aow.Game.Combat.Actions
             }
             else
             {
-                FEffects.Value = Set<Aow.Game.Combat.DamageType>.Of();
+                FEffects.Value = Set<DamageType>.Of();
             }
 
             var immunityTypes = Target.GetImmunityTypes();
             FDamageTypes.Value = DamageTypes - immunityTypes;
         }
 
-        private static bool ShowDamageEffects(Set<global::Aow.Game.Combat.DamageType> DamageTypes, int X, int Y, int Frame, in global::Aow.Game.Draw.SurfaceDesc Surface)
+        private static bool ShowDamageEffects(Set<DamageType> DamageTypes, int X, int Y, int Frame, in SurfaceDesc Surface)
         {
             bool flag = false;
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Fire))
+            if (DamageTypes.Contains(DamageType.Fire))
             {
                 flag = flag || global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(127).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Poison))
+            if (DamageTypes.Contains(DamageType.Poison))
             {
                 flag = flag || global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(96).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Cold))
+            if (DamageTypes.Contains(DamageType.Cold))
             {
                 flag = flag || global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(95).FImageSequences.Show(1, X + 32, Y + 32, Frame, in Surface);
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Death))
+            if (DamageTypes.Contains(DamageType.Death))
             {
                 flag = flag || global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(93).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Holy))
+            if (DamageTypes.Contains(DamageType.Holy))
             {
                 flag = flag || global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(98).FImageSequences.Show(0, X + 32, Y + 32, Frame, in Surface);
             }
             return flag;
         }
 
-        private static int DamageEffectsAnimationFrames(Set<global::Aow.Game.Combat.DamageType> DamageTypes)
+        private static int DamageEffectsAnimationFrames(Set<DamageType> DamageTypes)
         {
             int num = 0;
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Fire))
+            if (DamageTypes.Contains(DamageType.Fire))
             {
                 int framesCount = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(127).FImageSequences.GetFramesCount(0);
                 if (framesCount > num)
@@ -46929,7 +46929,7 @@ namespace Aow.Game.Combat.Actions
                     num = framesCount;
                 }
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Poison))
+            if (DamageTypes.Contains(DamageType.Poison))
             {
                 int framesCount = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(96).FImageSequences.GetFramesCount(0);
                 if (framesCount > num)
@@ -46937,7 +46937,7 @@ namespace Aow.Game.Combat.Actions
                     num = framesCount;
                 }
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Cold))
+            if (DamageTypes.Contains(DamageType.Cold))
             {
                 int framesCount = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(95).FImageSequences.GetFramesCount(1);
                 if (framesCount > num)
@@ -46945,7 +46945,7 @@ namespace Aow.Game.Combat.Actions
                     num = framesCount;
                 }
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Death))
+            if (DamageTypes.Contains(DamageType.Death))
             {
                 int framesCount = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(93).FImageSequences.GetFramesCount(0);
                 if (framesCount > num)
@@ -46953,7 +46953,7 @@ namespace Aow.Game.Combat.Actions
                     num = framesCount;
                 }
             }
-            if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Holy))
+            if (DamageTypes.Contains(DamageType.Holy))
             {
                 int framesCount = global::Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(98).FImageSequences.GetFramesCount(0);
                 if (framesCount > num)
@@ -46964,45 +46964,45 @@ namespace Aow.Game.Combat.Actions
             return num;
         }
 
-        private static global::Aow.Game.Combat.DamageType DamageTypesToDamageType(Set<global::Aow.Game.Combat.DamageType> DamageTypes)
+        private static DamageType DamageTypesToDamageType(Set<DamageType> DamageTypes)
         {
-            if (DamageTypes != Set<global::Aow.Game.Combat.DamageType>.Of(global::System.Array.Empty<global::Aow.Game.Combat.DamageType>()))
+            if (DamageTypes != Set<DamageType>.Of(global::System.Array.Empty<DamageType>()))
             {
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Holy))
+                if (DamageTypes.Contains(DamageType.Holy))
                 {
-                    return global::Aow.Game.Combat.DamageType.Holy;
+                    return DamageType.Holy;
                 }
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Magic))
+                if (DamageTypes.Contains(DamageType.Magic))
                 {
-                    return global::Aow.Game.Combat.DamageType.Magic;
+                    return DamageType.Magic;
                 }
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Death))
+                if (DamageTypes.Contains(DamageType.Death))
                 {
-                    return global::Aow.Game.Combat.DamageType.Death;
+                    return DamageType.Death;
                 }
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Cold))
+                if (DamageTypes.Contains(DamageType.Cold))
                 {
-                    return global::Aow.Game.Combat.DamageType.Cold;
+                    return DamageType.Cold;
                 }
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Fire))
+                if (DamageTypes.Contains(DamageType.Fire))
                 {
-                    return global::Aow.Game.Combat.DamageType.Fire;
+                    return DamageType.Fire;
                 }
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Poison))
+                if (DamageTypes.Contains(DamageType.Poison))
                 {
-                    return global::Aow.Game.Combat.DamageType.Poison;
+                    return DamageType.Poison;
                 }
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Physical))
+                if (DamageTypes.Contains(DamageType.Physical))
                 {
-                    return global::Aow.Game.Combat.DamageType.Physical;
+                    return DamageType.Physical;
                 }
-                if (DamageTypes.Contains(global::Aow.Game.Combat.DamageType.Wall))
+                if (DamageTypes.Contains(DamageType.Wall))
                 {
-                    return global::Aow.Game.Combat.DamageType.Wall;
+                    return DamageType.Wall;
                 }
-                return global::Aow.Game.Combat.DamageType.None;
+                return DamageType.None;
             }
-            return global::Aow.Game.Combat.DamageType.None;
+            return DamageType.None;
         }
 
         // intf_P3_02.inc:38
@@ -47020,7 +47020,7 @@ namespace Aow.Game.Combat.Actions
         public DamageEffectCA(ECustomNode owner) : base(owner)
         { }
 
-        public Aow.Game.Combat.DamageType FDamageType;
+        public DamageType FDamageType;
 
         // Combat2.pas:879
         public override void ReadWrite(EStorageStream Stream)
@@ -47030,17 +47030,17 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:890
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatObject Target;
-            Aow.Game.Combat.CombatObject Source;
+            CombatObject Target;
+            CombatObject Source;
             // { Use the incoming combat. }
             Target = Combat.FCombatData.FindID(FTargetID);
-            if (!Target.FStatus.Contains(Aow.Game.Combat.CombatObjectStatusElement.Destroyed))
+            if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
-                Target.ExecuteDamageEffects(Set<Aow.Game.Combat.DamageType>.Of(FDamageType));
-                if (Target.FStatus.Contains(Aow.Game.Combat.CombatObjectStatusElement.Destroyed))
+                Target.ExecuteDamageEffects(Set<DamageType>.Of(FDamageType));
+                if (Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
                 {
                     Source.SetExperience(Source.GetExperience() + Target.GetLevel());
                 }
@@ -47048,29 +47048,29 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:926
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             if (Obj.FID == FTargetID)
             {
                 switch (FDamageType)
                 {
-                    case Aow.Game.Combat.DamageType.Fire:
+                    case DamageType.Fire:
                         Obj.Show(Frame, Direction, X, Y, Surface);
                         Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(127).FImageSequences.Show(0, X + 32, Y + 32, Viewer.FTime, Surface);
                         break;
-                    case Aow.Game.Combat.DamageType.Poison:
+                    case DamageType.Poison:
                         Obj.Show(Frame, Direction, X, Y, Surface);
                         Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(96).FImageSequences.Show(0, X + 32, Y + 32, Viewer.FTime, Surface);
                         break;
-                    case Aow.Game.Combat.DamageType.Cold:
+                    case DamageType.Cold:
                         Obj.Show(Frame, Direction, X, Y, Surface);
                         Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(95).FImageSequences.Show(1, X + 32, Y + 32, Viewer.FTime, Surface);
                         break;
-                    case Aow.Game.Combat.DamageType.Death:
+                    case DamageType.Death:
                         Obj.Show(Frame, Direction, X, Y, Surface);
                         Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(93).FImageSequences.Show(0, X + 32, Y + 32, Viewer.FTime, Surface);
                         break;
-                    case Aow.Game.Combat.DamageType.Holy:
+                    case DamageType.Holy:
                         Obj.Show(Frame, Direction, X, Y, Surface);
                         Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(98).FImageSequences.Show(0, X + 32, Y + 32, Viewer.FTime, Surface);
                         break;
@@ -47090,14 +47090,14 @@ namespace Aow.Game.Combat.Actions
         {
             FSourceID = SourceID;
             FTargetID = TargetID;
-            FDamageType = (global::Aow.Game.Combat.DamageType)DamageType;
+            FDamageType = (DamageType)DamageType;
             if (Defensive)
             {
-                FMode = FMode + Set<Aow.Game.Combat.SingleTargetModeElement>.Of(Aow.Game.Combat.SingleTargetModeElement.Defensive);
+                FMode = FMode + Set<SingleTargetModeElement>.Of(SingleTargetModeElement.Defensive);
             }
         }
 
-        public override bool Play(Aow.Game.Combat.CombatViewer viewer)
+        public override bool Play(CombatViewer viewer)
         {
             if (viewer.FDelay * 2 == viewer.FTime) Execute(viewer.FCombat);
             return viewer.FDelay * 2 > viewer.FTime;
@@ -47122,13 +47122,13 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:969
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
             Combat.FCombatData.FHeader = F_UpdateHeaderCA_0C;
         }
 
         // intf_P3_02.inc:38
-        public override bool Play(Aow.Game.Combat.CombatViewer viewer) { Execute(viewer.FCombat); return false; }
+        public override bool Play(CombatViewer viewer) { Execute(viewer.FCombat); return false; }
     }
 
     public partial class NewCombatTurnCA : CombatAction
@@ -47149,7 +47149,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:991
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
             Combat.FCombatData.FCurrentPlayer = F_NewCombatTurnCA_0C;
             for (int I = Combat.FCombatData.GetCount() - 1; I >= 0; I--)
@@ -47159,7 +47159,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:999
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -47183,7 +47183,7 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // Combat2.pas:1012
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
             var combatData = Combat.FCombatData;
             combatData.FRound += 1;
@@ -47195,7 +47195,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // intf_P3_02.inc:38
-        public override bool Play(Aow.Game.Combat.CombatViewer viewer) { if (viewer.FTime == 0) Execute(viewer.FCombat); return viewer.FDelay > viewer.FTime; }
+        public override bool Play(CombatViewer viewer) { if (viewer.FTime == 0) Execute(viewer.FCombat); return viewer.FDelay > viewer.FTime; }
     }
 
     public partial class CombatObjectTurnDoneCA : CombatAction
@@ -47216,15 +47216,15 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:1047
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatObject Obj;
+            CombatObject Obj;
             Obj = Combat.FCombatData.FindID(F_CombatObjectTurnDoneCA_0C);
-            Obj.FStatus = Obj.FStatus + Set<Aow.Game.Combat.CombatObjectStatusElement>.Of(Aow.Game.Combat.CombatObjectStatusElement.TurnDone);
+            Obj.FStatus = Obj.FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.TurnDone);
         }
 
         // intf_P3_02.inc:38
-        public override bool Play(Aow.Game.Combat.CombatViewer viewer) { if (viewer.FTime == 0) Execute(viewer.FCombat); return viewer.FDelay > viewer.FTime; }
+        public override bool Play(CombatViewer viewer) { if (viewer.FTime == 0) Execute(viewer.FCombat); return viewer.FDelay > viewer.FTime; }
     }
 
     public partial class MoveWallCA : CombatAction
@@ -47247,23 +47247,23 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:1082
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.FastCombatUnit Obj;
-            Obj = (Aow.Game.Combat.FastCombatUnit)Combat.FCombatData.FindID(F_MoveWallCA_0C);
+            FastCombatUnit Obj;
+            Obj = (FastCombatUnit)Combat.FCombatData.FindID(F_MoveWallCA_0C);
             if (F_MoveWallCA_0D == 0)
             {
-                Obj.FState = Obj.FState + Set<Aow.Game.Combat.FastCombatUnitStateElement>.Of(Aow.Game.Combat.FastCombatUnitStateElement.OutsideWall);
+                Obj.FState = Obj.FState + Set<FastCombatUnitStateElement>.Of(FastCombatUnitStateElement.OutsideWall);
             }
 
             if (F_MoveWallCA_0D == 1)
             {
-                Obj.FState = Obj.FState - Set<Aow.Game.Combat.FastCombatUnitStateElement>.Of(Aow.Game.Combat.FastCombatUnitStateElement.OutsideWall);
+                Obj.FState = Obj.FState - Set<FastCombatUnitStateElement>.Of(FastCombatUnitStateElement.OutsideWall);
             }
         }
 
         // intf_P3_02.inc:38
-        public override bool Play(Aow.Game.Combat.CombatViewer viewer) { Execute(viewer.FCombat); return false; }
+        public override bool Play(CombatViewer viewer) { Execute(viewer.FCombat); return false; }
     }
 
     public partial class FleeCA : CombatAction
@@ -47284,15 +47284,15 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Combat2.pas:1108
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatObject Obj;
+            CombatObject Obj;
             Obj = Combat.FCombatData.FindID(FObjectID);
-            Obj.FStatus = Obj.FStatus + Set<Aow.Game.Combat.CombatObjectStatusElement>.Of(Aow.Game.Combat.CombatObjectStatusElement.Fled);
+            Obj.FStatus = Obj.FStatus + Set<CombatObjectStatusElement>.Of(CombatObjectStatusElement.Fled);
         }
 
         // intf_P3_02.inc:38
-        public override bool Play(Aow.Game.Combat.CombatViewer viewer) { Execute(viewer.FCombat); return false; }
+        public override bool Play(CombatViewer viewer) { Execute(viewer.FCombat); return false; }
     }
 }
 
@@ -47351,14 +47351,14 @@ namespace Aow.Game.Combat
         }
 
         // Combat2.pas:61
-        public void Activate(global::Aow.Game.Combat.Combat ACombat)
+        public void Activate(Combat ACombat)
         {
             var players = ACombat.FCombatData.FPlayers.GetPlayers((sbyte)FPlayerIndex);
             FArmy.SetPlayer(players.FPlayer);
         }
 
         // Combat2.pas:67
-        public void Deactivate(global::Aow.Game.Combat.Combat ACombat)
+        public void Deactivate(Combat ACombat)
         {
         }
 
@@ -47375,7 +47375,7 @@ namespace Aow.Game.Combat
         public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EControlStyleElement.SaveLoad, EControlStyleElement.ArrayMode);
 
         // Combat2.pas:73
-        public CombatParty CreateParty(global::Aow.Game.Combat.Combat ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, Army Army)
+        public CombatParty CreateParty(Combat ACombat, byte Position, byte CombatPlayer, int X, int Y, int L, Army Army)
         {
             CombatParty P;
             if (GetParty(Position) == null)
@@ -47422,7 +47422,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat2.pas:99
-        public void Activate(global::Aow.Game.Combat.Combat ACombat)
+        public void Activate(Combat ACombat)
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
@@ -47434,7 +47434,7 @@ namespace Aow.Game.Combat
         }
 
         // Combat2.pas:107
-        public void Deactivate(global::Aow.Game.Combat.Combat ACombat)
+        public void Deactivate(Combat ACombat)
         {
             for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
             {
@@ -47739,13 +47739,13 @@ namespace Aow.Game.Combat
         // Combat2.pas:368
         public void SetInitialData(CombatData Data)
         {
-            FInitialData.Assign(Data, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            FInitialData.Assign(Data, GameTables.AoWEngine);
         }
 
         // Combat2.pas:371
         public void SetFinalData(CombatData Data)
         {
-            FFinalData.Assign(Data, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            FFinalData.Assign(Data, GameTables.AoWEngine);
         }
 
         // intf_P3_02.inc:278
@@ -47781,9 +47781,9 @@ namespace Aow.Game.Combat
         public CombatLogbook FLogbook;
         public FixedArray_Aow_Units_AoWE_TCombatSide_2 FSides;
 
-        internal EventStore<global::Aow.Game.Combat.Combat> FExecutedEventsStore;
+        internal EventStore<Combat> FExecutedEventsStore;
 
-        public event NotifyEvent<global::Aow.Game.Combat.Combat> FExecutedEvents
+        public event NotifyEvent<Combat> FExecutedEvents
         {
             add => FExecutedEventsStore.Add(value);
             remove => FExecutedEventsStore.Remove(value);
@@ -47792,7 +47792,7 @@ namespace Aow.Game.Combat
         public int FExecutedLock;
         public ExecutedEvent FOnExecuted;
         public bool FTerminated;
-        public NotifyEvent<global::Aow.Game.Combat.Combat> FOnTerminated;
+        public NotifyEvent<Combat> FOnTerminated;
         public byte FExplorationSite;
         public EObject FItems;
 
@@ -48360,7 +48360,7 @@ namespace Aow.Game.Combat
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
-                    ArmyHS = (global::Aow.Game.Draw.ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
+                    ArmyHS = (ArmyHS)Level.GetField(Walk.X, Walk.Y).FindOwnedChild(131607);
                     if (ArmyHS != null)
                     {
                         if (Walk.HN != 0)
@@ -48560,7 +48560,7 @@ namespace Aow.Game.Combat
             {
                 FExplorationSite = 2;
                 AddArmy(Army, CombatSideIndex.Attacker, X, Y, L);
-                ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL).FindOwnedChild(131607);
+                ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Data.FX, Data.FY, Data.FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     AddArmy(ArmyHS.FArmy, CombatSideIndex.Defender, Data.FX, Data.FY, Data.FL);
@@ -48611,29 +48611,29 @@ namespace Aow.Game.Combat
             {
                 if (FCombatResult == CombatResult.Victory)
                 {
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Combat.Combat.BattleWonRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BattleWonRStr);
                 }
                 else
                 {
                     if (FCombatResult == CombatResult.Defeat)
                     {
-                        Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Combat.Combat.BattleLostRStr);
+                        Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BattleLostRStr);
                     }
                     else
                     {
                         if (FCombatResult == CombatResult.CannotBreachWall)
                         {
-                            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotBreachWallRStr);
+                            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CannotBreachWallRStr);
                         }
                         else
                         {
                             if (FCombatResult == CombatResult.CannotInflictDamage)
                             {
-                                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotInflictDamageRStr);
+                                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CannotInflictDamageRStr);
                             }
                             else
                             {
-                                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Combat.Combat.BattleDrawnRStr);
+                                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BattleDrawnRStr);
                             }
                         }
                     }
@@ -48664,7 +48664,7 @@ namespace Aow.Game.Combat
         private static readonly string BattleLostRStr = "Battle Lost";
         private static readonly string BattleDrawnRStr = "Battle Drawn";
 
-        public delegate void ExecutedEvent(global::Aow.Game.Combat.Combat pCombat);
+        public delegate void ExecutedEvent(Combat pCombat);
 
         // intf_P3_02.inc:318
 
@@ -48722,11 +48722,11 @@ namespace Aow.Game.Events
             {
                 var players = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
                 var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(players.FPlayer);
-                Result = Aow.Game.Magic.Abilities.AbilityRules.RaceColors[fPlayersPlayers.FPlayerRace];
+                Result = AbilityRules.RaceColors[fPlayersPlayers.FPlayerRace];
             }
             else
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.RaceColors[12];
+                Result = AbilityRules.RaceColors[12];
             }
 
             return Result;
@@ -48776,7 +48776,7 @@ namespace Aow.Game.Events
         // Combat2.pas:467
         public override void PlayLoggedSFX(EventLogbook Logbook)
         {
-            if (FLogbook.FInitialData.FPlayers.IndexOfPlayer((byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) != -1)
+            if (FLogbook.FInitialData.FPlayers.IndexOfPlayer((byte)AoWHSMap.Current.FSeatedPlayer) != -1)
             {
                 Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\ROLL.WAV");
             }
@@ -48800,13 +48800,13 @@ namespace Aow.Game.Events
                     break;
                 case ExecuteTrigger.Event:
                 case ExecuteTrigger.NewTurn:
-                    if (FLogbook.FInitialData.FPlayers.IndexOfPlayer((byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) != -1)
+                    if (FLogbook.FInitialData.FPlayers.IndexOfPlayer((byte)AoWHSMap.Current.FSeatedPlayer) != -1)
                     {
                         Data = FLogbook.FInitialData;
-                        ShowCombat = Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
-                        ShowCombat = ShowCombat || Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email && FLogbook.FInitialData.FPlayers.GetPlayers(FLogbook.FInitialData.FDefenderPlayer).FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
-                        ShowCombat = ShowCombat || Trigger == ExecuteTrigger.Event && Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
-                        ShowCombat = ShowCombat || Trigger == ExecuteTrigger.Event && Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                        ShowCombat = Data.FPlayers.GetPlayers(Data.FAttackerPlayer).FPlayer == AoWHSMap.Current.FSeatedPlayer;
+                        ShowCombat = ShowCombat || AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email && FLogbook.FInitialData.FPlayers.GetPlayers(FLogbook.FInitialData.FDefenderPlayer).FPlayer == AoWHSMap.Current.FSeatedPlayer;
+                        ShowCombat = ShowCombat || Trigger == ExecuteTrigger.Event && AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Combat);
+                        ShowCombat = ShowCombat || Trigger == ExecuteTrigger.Event && AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Combat);
                         ShowCombat = ShowCombat && FLogbook.FCombatResult != CombatResult.NoDefenders;
                     }
                     else
@@ -49041,7 +49041,7 @@ namespace Aow.Game.Ai
 
         private static int CompareAIPlayerActionClasses(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.AIPlayerActionClass)Item2).Priority - ((global::Aow.Game.Ai.AIPlayerActionClass)Item1).Priority;
+            return ((AIPlayerActionClass)Item2).Priority - ((AIPlayerActionClass)Item1).Priority;
         }
 
         // intf_P5_06.inc:32
@@ -49118,10 +49118,10 @@ namespace Aow.Game.Ai.Groups
 
         private static int CompareAIGroupProcessPriority(object Item1, object Item2)
         {
-            int num = ((global::Aow.Game.Ai.Groups.AIGroup)Item2).GetProcessPriority() - ((global::Aow.Game.Ai.Groups.AIGroup)Item1).GetProcessPriority();
+            int num = ((AIGroup)Item2).GetProcessPriority() - ((AIGroup)Item1).GetProcessPriority();
             if (num == 0)
             {
-                num = ((global::Aow.Game.Ai.Groups.AIGroup)Item2).FGroupID - ((global::Aow.Game.Ai.Groups.AIGroup)Item1).FGroupID;
+                num = ((AIGroup)Item2).FGroupID - ((AIGroup)Item1).FGroupID;
             }
             return num;
         }
@@ -49280,9 +49280,9 @@ namespace Aow.Game.Ai
         public void Activate(AIExecuter Executer)
         {
             Reset();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay < 10)
+            if (AoWHSMap.Current.FDay < 10)
             {
-                FDefenseStrengthMultiplier = (float)((double)Aow.Game.World.Map.AoWHSMap.Current.FDay * 0.1);
+                FDefenseStrengthMultiplier = (float)((double)AoWHSMap.Current.FDay * 0.1);
             }
             else
             {
@@ -49329,12 +49329,12 @@ namespace Aow.Game.Ai
             {
                 var random = Random(10);
                 var independentAIMode = Aow.Game.World.Map.AoWHSMap.Current.GetIndependentAIMode();
-                Result = Aow.Game.Ai.AIPlayerControl.IndependentGroupBehaviorTable[(int)independentAIMode][random];
+                Result = IndependentGroupBehaviorTable[(int)independentAIMode][random];
             }
             else
             {
                 var random = Random(10);
-                Result = Aow.Game.Ai.AIPlayerControl.Player2GroupBehaviorTable[(int)Player.FBehavior][random];
+                Result = Player2GroupBehaviorTable[(int)Player.FBehavior][random];
             }
 
             return Result;
@@ -49360,7 +49360,7 @@ namespace Aow.Game.Ai
                 }
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay > 5)
+            if (AoWHSMap.Current.FDay > 5)
             {
                 WantedCount = FPlayer.FAIGroups.Count / 6;
                 if (WantedCount > 4)
@@ -49368,7 +49368,7 @@ namespace Aow.Game.Ai
                     WantedCount = 4;
                 }
 
-                if (WantedCount == 0 && (Aow.Game.World.Map.AoWHSMap.Current.FDay & 16) == 16)
+                if (WantedCount == 0 && (AoWHSMap.Current.FDay & 16) == 16)
                 {
                     WantedCount = 1;
                 }
@@ -49452,11 +49452,11 @@ namespace Aow.Game.Ai
             Peace.Clear();
             War.Clear();
             Peace.Add((byte)FPlayer.FPlayerIndex);
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 if (I != FPlayer.FPlayerIndex)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Player.Status.Playing)
                     {
                         Relation = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FPlayer.FPlayerIndex, (sbyte)I);
                         if (Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace, DiplomaticRelation.Alliance).Contains(Relation))
@@ -49496,14 +49496,14 @@ namespace Aow.Game.Ai
             int Days;
             int MiddlePlayer;
             DiplomaticAction Action;
-            Aow.Game.Engine.Collections.DoubleItemList.DoubleItem Item;
+            DoubleItemList.DoubleItem Item;
             Peace.Clear();
             War.Clear();
             Players = new DoubleItemList();
             Players.AddAB(FPlayer.FPlayerIndex, 999);
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
-                if (I != FPlayer.FPlayerIndex && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing)
+                if (I != FPlayer.FPlayerIndex && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Player.Status.Playing)
                 {
                     Priority = 0;
                     Relation = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FPlayer.FPlayerIndex, (sbyte)I);
@@ -49513,7 +49513,7 @@ namespace Aow.Game.Ai
                     Action = FPlayer.FDiplomaticActions.FindLastAction(DeclareWar.Kind, DiplomaticActionReaction.None, (sbyte)I, FPlayer.FPlayerIndex, -1);
                     if (Action != null)
                     {
-                        Days = Aow.Game.World.Map.AoWHSMap.Current.FDay - Action.FDay;
+                        Days = AoWHSMap.Current.FDay - Action.FDay;
                         if (Days < 30)
                         {
                             Priority = Days + (Priority - 30);
@@ -49649,7 +49649,7 @@ namespace Aow.Game.Ai
                     }
                 }
 
-                Result = !(PeaceCount > WarCount && !(WarCount == 0 && PeaceCount == 1 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FActivePlayers.Count > 2));
+                Result = !(PeaceCount > WarCount && !(WarCount == 0 && PeaceCount == 1 && AoWHSMap.Current.FPlayers.FActivePlayers.Count > 2));
                 if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(FPlayer.FPlayerType))
                 {
                     var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)Player);
@@ -49755,9 +49755,9 @@ namespace Aow.Game.Ai
             bool Result;
             if (CanOfferPeace(Player) && FPlayer.FDiplomaticRelations.GetDiplomaticRelation((sbyte)Player) == DiplomaticRelation.Peace)
             {
-                Result = Aow.Game.World.Map.AoWHSMap.Current.FDay > 10;
+                Result = AoWHSMap.Current.FDay > 10;
                 var lastModifiedOnDay = FPlayer.FDiplomaticRelations.GetHistory((sbyte)Player).GetLastModifiedOnDay();
-                if (Aow.Game.World.Map.AoWHSMap.Current.FDay - lastModifiedOnDay < 8)
+                if (AoWHSMap.Current.FDay - lastModifiedOnDay < 8)
                 {
                     Result = false;
                 }
@@ -49778,8 +49778,8 @@ namespace Aow.Game.Ai
             return Result;
         }
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5 Player2GroupBehaviorTable = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5.From([FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch])]);
-        private static global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4 IndependentGroupBehaviorTable = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4.From([FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Patrol, GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Scout, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Patrol, GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Scout, GroupBehavior.Suicidal, GroupBehavior.Suicidal, GroupBehavior.Raid, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive])]);
+        private static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5 Player2GroupBehaviorTable = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_5.From([FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal, GroupBehavior.Normal]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive, GroupBehavior.Aggressive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive, GroupBehavior.Defensive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand, GroupBehavior.Expand]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch, GroupBehavior.Scorch])]);
+        private static FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4 IndependentGroupBehaviorTable = FixedArray_Aow_Units_FixedArray_Aow_Units_AoWE_TGroupBehavior_10_4.From([FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Patrol, GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Scout, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive]), FixedArray_Aow_Units_AoWE_TGroupBehavior_10.From([GroupBehavior.Patrol, GroupBehavior.Patrol, GroupBehavior.Scout, GroupBehavior.Scout, GroupBehavior.Suicidal, GroupBehavior.Suicidal, GroupBehavior.Raid, GroupBehavior.Passive, GroupBehavior.Passive, GroupBehavior.Passive])]);
 
         // intf_P5_06.inc:65
 
@@ -49945,10 +49945,10 @@ namespace Aow.Game.Ai
         // AI.pas:644
         public void TokenControlDoneEvent(object Sender)
         {
-            if (FStatus.Contains(AIExecuterStatusElement.Enabled) && Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+            if (FStatus.Contains(AIExecuterStatusElement.Enabled) && AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
             {
                 FTokenControlDone = true;
-                if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == 0 && Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
+                if (AoWHSMap.Current.FCurrentPlayer == 0 && AoWHSMap.Current.FCombatMap == null)
                 {
                     CaptureTokenCycles(5);
                 }
@@ -50008,7 +50008,7 @@ namespace Aow.Game.Ai
 
                 try
                 {
-                    switch (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode)
+                    switch (AoWHSMap.Current.FPlayMode)
                     {
                         case PlayMode.Turn:
                             if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy() && Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer))
@@ -50549,7 +50549,7 @@ namespace Aow.Game.Ai.Groups
                 if (Transporter != null)
                 {
                     var moveTypesToInt = Aow.Game.Magic.Abilities.MovementTables.MoveTypesToInt(Transporter.GetMoveTypes());
-                    FTransportMovePointTable = Aow.Game.Magic.Abilities.MovementTables.MovePointTables[moveTypesToInt];
+                    FTransportMovePointTable = MovementTables.MovePointTables[moveTypesToInt];
                 }
             }
         }
@@ -50759,7 +50759,7 @@ namespace Aow.Game.World.Movement
 
         private static int CompareMoveTargets(object Item1, object Item2)
         {
-            return ((global::Aow.Game.World.Movement.MoveTarget)Item1).FMovePoints - ((global::Aow.Game.World.Movement.MoveTarget)Item2).FMovePoints;
+            return ((MoveTarget)Item1).FMovePoints - ((MoveTarget)Item2).FMovePoints;
         }
 
         // Engine.pas:631
@@ -50794,7 +50794,7 @@ namespace Aow.Game.Ai.Groups
         public int FProcessCycles;
         public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FTransportMovePointTable;
         public XYL FSourceLocation;
-        public Aow.Game.Ai.AITargetInfo FTargetInfo;
+        public AITargetInfo FTargetInfo;
         public FixedArray_Aow_Units_FixedArray_sbyte_16_16 FMovePointTable;
         public int FMovePointsMax;
         public int FMovePointsMin;
@@ -50928,7 +50928,7 @@ namespace Aow.Game.Ai.Groups
                 Gaps = new IntegerList();
                 Target = FBufferedTargets.GetTarget(0);
                 FTransporter.GetLocation(ref Location.X, ref Location.Y, ref Location.L);
-                if (Aow.Game.Ai.Groups.AIMoveTargetSelector.ListMovementGaps(Aow.Game.World.Map.AoWHSMap.Current, Target.FMovepath, FMovePointTable, Gaps, null) != 0)
+                if (Aow.Game.Ai.Groups.AIMoveTargetSelector.ListMovementGaps(AoWHSMap.Current, Target.FMovepath, FMovePointTable, Gaps, null) != 0)
                 {
                     FSettings.Reset();
                     this.FSettings.FPlayer = FTargetInfo.Player;
@@ -50981,7 +50981,7 @@ namespace Aow.Game.Ai.Groups
             MoveControlSettings Settings;
             AoWMapField Field;
             MoveTarget Target;
-            Aow.Game.Ai.AITargetData Data = default;
+            AITargetData Data = default;
             Yield = false;
             switch (FState)
             {
@@ -51016,7 +51016,7 @@ namespace Aow.Game.Ai.Groups
 
                     Yield = Processing;
                     Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.Deactivate();
-                    if (FSettings.FStatus != Aow.Game.World.Movement.MoveControlSettings.Status.Processing)
+                    if (FSettings.FStatus != MoveControlSettings.Status.Processing)
                     {
                         FState = 2;
                     }
@@ -51122,7 +51122,7 @@ namespace Aow.Game.Ai.Groups
                     }
 
                     Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.Deactivate();
-                    if (FSettings.FStatus != Aow.Game.World.Movement.MoveControlSettings.Status.Processing)
+                    if (FSettings.FStatus != MoveControlSettings.Status.Processing)
                     {
                         FState = 12;
                     }
@@ -51228,7 +51228,7 @@ namespace Aow.Game.Ai.Groups
             return Result;
         }
 
-        private static int ListMovementGaps(global::Aow.Game.World.Map.AoWHSMap Map, global::Aow.Game.World.Movement.Movepath Path, global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16 Table, global::Aow.Game.Engine.Collections.IntegerList Starts, global::Aow.Game.Engine.Collections.IntegerList Ends)
+        private static int ListMovementGaps(AoWHSMap Map, Movepath Path, FixedArray_Aow_Units_FixedArray_sbyte_16_16 Table, IntegerList Starts, IntegerList Ends)
         {
             int num = Path.Count - 1;
             int num2 = 0;
@@ -51236,10 +51236,10 @@ namespace Aow.Game.Ai.Groups
             while (num > 1)
             {
                 num--;
-                global::Aow.Game.World.Map.XYL tXYL = Path[num];
-                global::Aow.Game.World.Map.XYL tXYL2 = Path[num];
-                global::Aow.Game.World.Map.XYL tXYL3 = Path[num];
-                global::Aow.Game.World.Map.MapField field = Map.MapContainer.GetField(tXYL3.X, tXYL2.Y, tXYL.L);
+                XYL tXYL = Path[num];
+                XYL tXYL2 = Path[num];
+                XYL tXYL3 = Path[num];
+                MapField field = Map.MapContainer.GetField(tXYL3.X, tXYL2.Y, tXYL.L);
                 if (Table[(int)field.TerrainType][field.OverlayType - -1] == -1)
                 {
                     if (!flag)
@@ -51420,7 +51420,7 @@ namespace Aow.Game.Ai.Groups
                 N = 8;
             }
 
-            return (byte)(Selection & Aow.Game.Magic.Abilities.AbilityRules.ArmySelectionMasks[N]);
+            return (byte)(Selection & AbilityRules.ArmySelectionMasks[N]);
         }
 
         // AIGroup.pas:4375
@@ -51771,7 +51771,7 @@ namespace Aow.Game.Ai.Groups
 
         private static int CompareExecuterArmies(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.Groups.AIMoveExecuterArmy)Item1).MovePoints(255) - ((global::Aow.Game.Ai.Groups.AIMoveExecuterArmy)Item2).MovePoints(255);
+            return ((AIMoveExecuterArmy)Item1).MovePoints(255) - ((AIMoveExecuterArmy)Item2).MovePoints(255);
         }
 
         // Engine.pas:631
@@ -52108,7 +52108,7 @@ namespace Aow.Game.Ai.Groups
             ArmyHS ArmyHS;
             AoWMapField MapF;
             AIMoveExecuterMove Move;
-            global::Aow.Game.Units.Army ExistingArmy;
+            Army ExistingArmy;
             AIMoveExecuterUnit Transporter;
             UnitCount = 0;
             TransporterCount = 0;
@@ -52259,7 +52259,7 @@ namespace Aow.Game.Ai.Groups
                 FMoveControl.Process();
             }
 
-            while (FMoveControl.FStatus != AIMoveControlStatus.Processing && TimeLeft > 0 && FExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Busy && FExecuter.FState == 0 && FState != -1)
+            while (FMoveControl.FStatus != AIMoveControlStatus.Processing && TimeLeft > 0 && FExecuter.FStatus == AIMoveExecuter.Status.Busy && FExecuter.FState == 0 && FState != -1)
             {
                 CalculateMoves();
                 TimeLeft = Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft();
@@ -52707,7 +52707,7 @@ namespace Aow.Game.Engine
                                     {
                                         if (MoveResult == 3)
                                         {
-                                            FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed;
+                                            FExecuter.FStatus = AIMoveExecuter.Status.Failed;
                                             FState = 3;
                                         }
                                         else
@@ -52778,7 +52778,7 @@ namespace Aow.Game.Engine
                                 {
                                     if (MoveResult == 3)
                                     {
-                                        FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed;
+                                        FExecuter.FStatus = AIMoveExecuter.Status.Failed;
                                         FExecuter.FMoves.Reset();
                                         FState = 3;
                                     }
@@ -52817,13 +52817,13 @@ namespace Aow.Game.Engine
                         }
                         else
                         {
-                            FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed;
+                            FExecuter.FStatus = AIMoveExecuter.Status.Failed;
                             FState = 3;
                         }
                     }
                     else
                     {
-                        FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed;
+                        FExecuter.FStatus = AIMoveExecuter.Status.Failed;
                         FState = 3;
                     }
 
@@ -53380,7 +53380,7 @@ namespace Aow.Game.Engine
         {
             if (!TransportDone())
             {
-                FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints;
+                FExecuter.FStatus = AIMoveExecuter.Status.OutOfMovePoints;
             }
 
             for (int I = FExecuter.FUnits.Count - 1; I >= 0; I--)
@@ -53564,7 +53564,7 @@ namespace Aow.Game.Engine
                     }
                     else
                     {
-                        FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints;
+                        FExecuter.FStatus = AIMoveExecuter.Status.OutOfMovePoints;
                     }
                 }
                 else
@@ -53611,7 +53611,7 @@ namespace Aow.Game.Engine
                     }
                     else
                     {
-                        FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints;
+                        FExecuter.FStatus = AIMoveExecuter.Status.OutOfMovePoints;
                     }
                 }
                 else
@@ -53796,7 +53796,7 @@ namespace Aow.Game.Engine
             }
             else
             {
-                FExecuter.FStatus = Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed;
+                FExecuter.FStatus = AIMoveExecuter.Status.Failed;
             }
 
             Armies?.Dispose();
@@ -54437,8 +54437,8 @@ namespace Aow.Game.Ai
             {
                 Event = new EndTurnTE(null);
                 Event.FPlayer = FControl.FPlayer.FPlayerIndex;
-                Event.FDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
-                Event.FMode = Aow.Game.Commands.EndTurnTE.EndTurnMode.EndTurn;
+                Event.FDay = AoWHSMap.Current.FDay;
+                Event.FMode = EndTurnTE.EndTurnMode.EndTurn;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FControl.FPlayer.FPlayerIndex).AddEvent(Event);
                 Event.Release();
                 Result = true;
@@ -54768,7 +54768,7 @@ namespace Aow.Game.Ai
         // AI.pas:1678
         public virtual void OutputDebugInfo()
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.TMPDID, this.GetType().Name + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, this.GetType().Name + " Gold:" + IntToStr(FGold) + "/" + IntToStr(FRequiredGold) + " Mana:" + IntToStr(FMana) + "/" + IntToStr(FRequiredMana));
         }
 
         // AI.pas:1675
@@ -55019,7 +55019,7 @@ namespace Aow.Game.Ai
             for (int I = this.FPlayer.FProductionControls.Count - 1; I >= 0; I--)
             {
                 Control = this.FPlayer.FProductionControls.GetPC(I);
-                if (Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Producing && Control.FQueue.GetItem(0).Order is ProduceUnit && Control.FSettings.FUnit != null)
+                if (Control.FStatus == ProductionControl.Status.Producing && Control.FQueue.GetItem(0).Order is ProduceUnit && Control.FSettings.FUnit != null)
                 {
                     FProductionGoldUpkeep += Control.FSettings.FGoldUpkeep;
                     FProductionManaUpkeep += Control.FSettings.FManaUpkeep;
@@ -55199,7 +55199,7 @@ namespace Aow.Game.Ai
 
             if (Gold > 0 || Mana > 0)
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.TMPDID, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "RETURNING FROM BUDGETS (GOLD:" + IntToStr(Gold) + "/MANA:" + IntToStr(Mana) + ")");
                 ReturnFromBudgets(Gold, Mana);
             }
         }
@@ -55214,9 +55214,9 @@ namespace Aow.Game.Ai
 
             var groupsGoldBudget = GetGroupsGoldBudget();
             var groupsManaBudget = GetGroupsManaBudget();
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.TMPDID, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.TMPDID, "POOL (GOLD:" + IntToStr(FGold) + "/MANA:" + IntToStr(FMana) + ")");
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.TMPDID, "REAL (GOLD:" + IntToStr(FPlayer.FGems) + "/MANA:" + IntToStr(FPlayer.FMagicControl.FMana) + ")");
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "GROUPS BUDGET (GOLD:" + IntToStr(groupsGoldBudget) + "/MANA:" + IntToStr(groupsManaBudget) + ")");
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "POOL (GOLD:" + IntToStr(FGold) + "/MANA:" + IntToStr(FMana) + ")");
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.TMPDID, "REAL (GOLD:" + IntToStr(FPlayer.FGems) + "/MANA:" + IntToStr(FPlayer.FMagicControl.FMana) + ")");
         }
 
         // AI.pas:1954
@@ -55636,7 +55636,7 @@ namespace Aow.Game.Ai
                         var player = FControl.FPlayer;
                         if (player.FPlayerIndex != 0)
                         {
-                            if (FindAvailableTransporter() == null && !ProducingTransporter() && Aow.Game.World.Map.AoWHSMap.Current.FDay > 5)
+                            if (FindAvailableTransporter() == null && !ProducingTransporter() && AoWHSMap.Current.FDay > 5)
                             {
                                 Budget = (AIBudget)player.FAIBudget.FBudgets.FindChild(131742);
                                 if (Budget == null)
@@ -55746,7 +55746,7 @@ namespace Aow.Game.Ai
             int UnitIndex;
             int Priority;
             int Bonus;
-            if (Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
+            if (Control.FStatus == ProductionControl.Status.Idle)
             {
                 Bonus = 0;
                 for (int I = 0, last = Control.FUnitProductions.Count - 1; I <= last; I++)
@@ -55775,7 +55775,7 @@ namespace Aow.Game.Ai
             int GoldUpkeep;
             int ManaUpkeep;
             bool Result = false;
-            if (FControl.FPlayer.FProductionControls.IndexOf(Control) != -1 && Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
+            if (FControl.FPlayer.FProductionControls.IndexOf(Control) != -1 && Control.FStatus == ProductionControl.Status.Idle)
             {
                 Gold = Control.UnitProductionGold(Index);
                 Mana = Control.UnitProductionMana(Index);
@@ -55809,7 +55809,7 @@ namespace Aow.Game.Ai
             int Gold;
             int Mana;
             bool Result = false;
-            if (FControl.FPlayer.FProductionControls.IndexOf(Control) != -1 && Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
+            if (FControl.FPlayer.FProductionControls.IndexOf(Control) != -1 && Control.FStatus == ProductionControl.Status.Idle)
             {
                 // { Original behavior: affordability uses production prices for research. }
                 Gold = Control.UnitProductionGold(Index);
@@ -55878,7 +55878,7 @@ namespace Aow.Game.Ai
                 {
                     I -= 1;
                     Control = Player.FProductionControls.GetPC(I);
-                    if (Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
+                    if (Control.FStatus == ProductionControl.Status.Idle)
                     {
                         for (int J = 0, last = Control.FUnitProductions.Count - 1; J <= last; J++)
                         {
@@ -55965,7 +55965,7 @@ namespace Aow.Game.Ai
                 {
                     I -= 1;
                     Control = Player.FProductionControls.GetPC(I);
-                    if (Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
+                    if (Control.FStatus == ProductionControl.Status.Idle)
                     {
                         for (int J = 0, last = Control.FUnitProductions.Count - 1; J <= last; J++)
                         {
@@ -56104,7 +56104,7 @@ namespace Aow.Game.Ai
             {
                 I -= 1;
                 Control = player.FProductionControls.GetPC(I);
-                if (Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Producing)
+                if (Control.FStatus == ProductionControl.Status.Producing)
                 {
                     if (Control.FQueue.GetItem(0).Order is ProduceUnit)
                     {
@@ -56129,7 +56129,7 @@ namespace Aow.Game.Ai
             {
                 I -= 1;
                 Control = player.FProductionControls.GetPC(I);
-                if (Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Producing)
+                if (Control.FStatus == ProductionControl.Status.Producing)
                 {
                     if (Control.FQueue.GetItem(0).Order is ResearchSpell)
                     {
@@ -56151,7 +56151,7 @@ namespace Aow.Game.Ai
         // AI.pas:1214
         public static new int Priority => 12;
 
-        private static int CompareAutoProductions(in global::Aow.Game.Engine.Collections.QuadItem<global::Aow.Game.World.Structures.ProductionControl> Item1, in global::Aow.Game.Engine.Collections.QuadItem<global::Aow.Game.World.Structures.ProductionControl> Item2)
+        private static int CompareAutoProductions(in QuadItem<ProductionControl> Item1, in QuadItem<ProductionControl> Item2)
         {
             return Item2.D - Item1.D;
         }
@@ -56179,7 +56179,7 @@ namespace Aow.Game.Ai
             {
                 if (FLogIndex == -1)
                 {
-                    FLogIndex = FControl.FPlayer.FEventLogbook.FindFirstLogEx(131811, FControl.FPlayer.FPlayerIndex, Aow.Game.World.Map.AoWHSMap.Current.FDay - 1) + 1;
+                    FLogIndex = FControl.FPlayer.FEventLogbook.FindFirstLogEx(131811, FControl.FPlayer.FPlayerIndex, AoWHSMap.Current.FDay - 1) + 1;
                 }
                 else
                 {
@@ -56443,7 +56443,7 @@ namespace Aow.Game.Ai.Groups
         // AIGroup.pas:72
         public override void Dispose()
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FUnitControl == null && Count != 0)
+            if (AoWHSMap.Current != null && AoWHSMap.Current.FUnitControl == null && Count != 0)
             {
                 // { Original diagnostic raises and immediately swallows its exception. }
                 try
@@ -56856,7 +56856,7 @@ namespace Aow.Game.Ai.Groups
             {
                 ReturnTargetExpense();
                 var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.BudgetExpenseMade(Gold, Mana, players.FAIBudget.FDefaultBudget, Aow.Game.Ai.AIBudgetManager.BudgetExpenseMode.PoolThenBudget);
+                Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIBudget.BudgetExpenseMade(Gold, Mana, players.FAIBudget.FDefaultBudget, AIBudgetManager.BudgetExpenseMode.PoolThenBudget);
                 if (Result)
                 {
                     FGoldBudget = Gold;
@@ -57208,8 +57208,8 @@ namespace Aow.Game.Ai.Groups
         }
 
         public int FRefCount;
-        public Aow.Game.Ai.AITargetInfo FInfo;
-        public Aow.Game.Ai.AITargetData FData;
+        public AITargetInfo FInfo;
+        public AITargetData FData;
         public XYL FLocation;
         public int FMovePoints;
         public int FTransporterID;
@@ -57242,7 +57242,7 @@ namespace Aow.Game.Ai.Groups
         public virtual bool Validate(AIGroupControl Control)
         {
             bool Result;
-            Aow.Game.Ai.AITargetData Data = default;
+            AITargetData Data = default;
             sbyte X;
             X = FLocation.X;
             if (X != -1)
@@ -57354,12 +57354,12 @@ namespace Aow.Game.Ai.Groups
 
         private static int CompareAIGroupTargetPriority(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.Groups.AIGroupControlTarget)Item2).FData.Priority - ((global::Aow.Game.Ai.Groups.AIGroupControlTarget)Item1).FData.Priority;
+            return ((AIGroupControlTarget)Item2).FData.Priority - ((AIGroupControlTarget)Item1).FData.Priority;
         }
 
         private static int CompareAIGroupTargetDataB(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.Groups.AIGroupControlTarget)Item2).FDataB - ((global::Aow.Game.Ai.Groups.AIGroupControlTarget)Item1).FDataB;
+            return ((AIGroupControlTarget)Item2).FDataB - ((AIGroupControlTarget)Item1).FDataB;
         }
 
         // Engine.pas:631
@@ -57488,7 +57488,7 @@ namespace Aow.Game.Ai
                 Text = Text + "/Loc:(" + IntToStr(Group.FLocation.X) + "," + IntToStr(Group.FLocation.Y) + "," + IntToStr(Group.FLocation.L) + ")";
                 Text = Text + "/MP:" + IntToStr(Group.FMovePoints);
                 Text = Text + "/MPBFS:" + IntToStr(Group.FPathStrength);
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, Text);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, Text);
             }
         }
 
@@ -57557,7 +57557,7 @@ namespace Aow.Game.Ai
 
         private static int CompareAIRecruitmentGroupMovePoints(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.AIRecruitmentGroup)Item2).FMovePoints - ((global::Aow.Game.Ai.AIRecruitmentGroup)Item1).FMovePoints;
+            return ((AIRecruitmentGroup)Item2).FMovePoints - ((AIRecruitmentGroup)Item1).FMovePoints;
         }
 
         // Engine.pas:631
@@ -57698,7 +57698,7 @@ namespace Aow.Game.Ai.Groups
 
         private static int CompareAIProductionLocationMovePoints(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.Groups.AIGroupProductionLocation)Item2).FMovePoints - ((global::Aow.Game.Ai.Groups.AIGroupProductionLocation)Item1).FMovePoints;
+            return ((AIGroupProductionLocation)Item2).FMovePoints - ((AIGroupProductionLocation)Item1).FMovePoints;
         }
 
         // Engine.pas:631
@@ -57821,7 +57821,7 @@ namespace Aow.Game.Ai.Groups
         {
             FTargets = new AIGroupControlTargetList(null);
             FTargets.FControl = this;
-            FRecruitmentGroups = new Aow.Game.Ai.AIRecruitmentGroupList(null);
+            FRecruitmentGroups = new AIRecruitmentGroupList(null);
             FProductionLocations = new AIGroupProductionLocationList(null);
             FCombatPredictor = new CombatPredictor();
         }
@@ -57840,7 +57840,7 @@ namespace Aow.Game.Ai.Groups
         public Set<DamageType> FImmunityTypes;
         public CombatPredictor FCombatPredictor;
         public AIMoveExecuter FMoveExecuter;
-        public Aow.Game.Ai.AIRecruitmentGroupList FRecruitmentGroups;
+        public AIRecruitmentGroupList FRecruitmentGroups;
         public AIGroupProductionLocationList FProductionLocations;
         public AIGroupControlPlugin FPlugin;
         public int FState;
@@ -57865,13 +57865,13 @@ namespace Aow.Game.Ai.Groups
                 FGroup.DeleteUnit(FGroup.FTransporter);
             }
 
-            if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Invalidated)
+            if (FMoveExecuter.FStatus == AIMoveExecuter.Status.Invalidated)
             {
                 FState = 0;
             }
             else
             {
-                if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed)
+                if (FMoveExecuter.FStatus == AIMoveExecuter.Status.Failed)
                 {
                     if (!FGroup.FStatus.Contains(AIGroupStatusElement.Split))
                     {
@@ -57895,7 +57895,7 @@ namespace Aow.Game.Ai.Groups
         }
 
         // AIGroup.pas:1155
-        public virtual void RecruitmentGroupFoundEvent(Aow.Game.Ai.AIRecruitmentGroup Group, ref bool SearchDone)
+        public virtual void RecruitmentGroupFoundEvent(AIRecruitmentGroup Group, ref bool SearchDone)
         {
             FRecruitmentGroups.Add(Group);
         }
@@ -58083,9 +58083,9 @@ namespace Aow.Game.Ai.Groups
         {
             DamageType DamageType;
             int Result = 0;
-            for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+            for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
             {
-                DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                DamageType = (DamageType)damageTypeOrdinal;
                 if (DamageTypes.Contains(DamageType) && Result < FStrength[(int)DamageType])
                 {
                     Result = FStrength[(int)DamageType];
@@ -58103,7 +58103,7 @@ namespace Aow.Game.Ai.Groups
             FixedArray_Aow_Units_FixedArray_sbyte_16_16 MovePointTable = default;
             if (FGroup.FStatus.Contains(AIGroupStatusElement.Changed) || FProcessCycles == 1)
             {
-                FImmunityTypes = Aow.Game.Magic.Abilities.AbilityRules.dtAll;
+                FImmunityTypes = AbilityRules.dtAll;
                 FStrengthMax = 0;
                 FStrength = default;
                 if (FGroup.Count != 0)
@@ -58121,14 +58121,14 @@ namespace Aow.Game.Ai.Groups
                     FImmunityTypes = AUnit.GetImmunityTypes() & FImmunityTypes;
                     AUnit.CreateMovePointTable(ref MovePointTable);
                     Aow.Game.Magic.Abilities.AbilityRules.MaximizeMovePointTable(Bytes.Of(ref FMovePointTable), Bytes.Of(ref MovePointTable));
-                    for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+                    for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                     {
-                        DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                        DamageType = (DamageType)damageTypeOrdinal;
                         var strength = AUnit.GetStrength(DamageType);
                         FStrength[(int)DamageType] += strength;
                     }
 
-                    var strengthMax = AUnit.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll);
+                    var strengthMax = AUnit.GetStrengthMax(AbilityRules.dtAll);
                     FStrengthMax += strengthMax;
                 }
 
@@ -58271,7 +58271,7 @@ namespace Aow.Game.Ai.Groups
                 try
                 {
                     Busy = false;
-                    while (!Busy && !FGroup.FStatus.Contains(AIGroupStatusElement.Done) && Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() >= 0 && FMoveExecuter.FStatus != Aow.Game.Ai.Groups.AIMoveExecuter.Status.Busy)
+                    while (!Busy && !FGroup.FStatus.Contains(AIGroupStatusElement.Done) && Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.GetProcessTimeLeft() >= 0 && FMoveExecuter.FStatus != AIMoveExecuter.Status.Busy)
                     {
                         if (FPlugin != null)
                         {
@@ -58380,7 +58380,7 @@ namespace Aow.Game.Ai.Groups
         }
 
         // AIGroup.pas:1958
-        public override bool GetBusy() => FSelector.FStatus == Aow.Game.Ai.Groups.AIMoveTargetSelector.Status.Searching;
+        public override bool GetBusy() => FSelector.FStatus == AIMoveTargetSelector.Status.Searching;
 
         // AIGroup.pas:1948
         public override bool Activate(AIGroupControl Control)
@@ -58400,7 +58400,7 @@ namespace Aow.Game.Ai.Groups
         public override bool Process()
         {
             bool Result;
-            if (FSelector.FStatus == Aow.Game.Ai.Groups.AIMoveTargetSelector.Status.Searching)
+            if (FSelector.FStatus == AIMoveTargetSelector.Status.Searching)
             {
                 Result = FSelector.Process();
                 if (!Result)
@@ -58426,7 +58426,7 @@ namespace Aow.Game.Ai.Groups
             this.FSelector.FMovePointsMax = 200;
             this.FSelector.FMovePointsMin = 150;
 
-            FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
+            FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
             FRange = 9;
             FTargetRange = 9;
             FStep = 4;
@@ -58441,7 +58441,7 @@ namespace Aow.Game.Ai.Groups
             FSelector.FMovePointTable = Control.FMovePointTable;
             FSelector.FTargetInfo.Player = Control.FGroup.FPlayer;
             FSelector.FTargetInfo.IndependentRelation = Control.FGroup.FIndependentRelation;
-            FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.Attack;
+            FSelector.FTargetInfo.Mode = AITargetMode.Attack;
             FSelector.FUnits.AddUnits(Control.FGroup);
             FMode = FMode + Set<AIGroupTargetFinderModeElement>.Of(AIGroupTargetFinderModeElement.CalculateMovepathBFS);
             return true;
@@ -58500,7 +58500,7 @@ namespace Aow.Game.Ai.Groups
         {
             DefensePriority Priority;
             int Location;
-            global::Aow.Game.Session.Player P;
+            Player P;
             AIGroup Group;
             bool Result = false;
             Location = Unsafe.BitCast<XYL, int>(Aow.Game.World.Map.HexGeometry.PackXYL(X, Y, L));
@@ -58524,9 +58524,9 @@ namespace Aow.Game.Ai.Groups
         {
             bool Result = default;
             DamageType DamageType;
-            for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+            for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
             {
-                DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                DamageType = (DamageType)damageTypeOrdinal;
                 Result = Strengths[(int)DamageType] <= 0;
                 if (!Result)
                 {
@@ -58542,9 +58542,9 @@ namespace Aow.Game.Ai.Groups
         {
             bool Result = default;
             DamageType DamageType;
-            for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+            for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
             {
-                DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                DamageType = (DamageType)damageTypeOrdinal;
                 Result = Strengths[(int)DamageType] > 0 && AUnit.GetStrength(DamageType) > 0;
                 if (Result)
                 {
@@ -58594,16 +58594,16 @@ namespace Aow.Game.Ai.Groups
                     {
                         UpdateDefenseLocation(MapF);
                         GetDefenders(Group.FPlayer, (sbyte)Walk.X, (sbyte)Walk.Y, L, Candidates);
-                        Aow.Game.Ai.Groups.GroupDefenseSelector.DefenseSortGroupID = Group.FGroupID;
-                        Aow.Game.Ai.Groups.GroupDefenseSelector.DefenseSortUnits = Units;
+                        DefenseSortGroupID = Group.FGroupID;
+                        DefenseSortUnits = Units;
                         Candidates.FChildren.Sort(Aow.Game.Ai.Groups.GroupDefenseSelector.CompareDefenseUnits);
                         I = 0;
                         while (Candidates.Count != I && Candidates.GetUnit(I).FGroupID != Group.FGroupID)
                         {
                             AUnit = Candidates.GetUnit(I);
-                            for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+                            for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                             {
-                                DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                                DamageType = (DamageType)damageTypeOrdinal;
                                 var strength = AUnit.GetStrength(DamageType);
                                 Strengths.DamageStrengths[(int)DamageType] -= strength;
                             }
@@ -58617,9 +58617,9 @@ namespace Aow.Game.Ai.Groups
                         for (; I <= last; I += 1)
                         {
                             AUnit = FDefenders.GetUnit(I);
-                            for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+                            for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                             {
-                                DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                                DamageType = (DamageType)damageTypeOrdinal;
                                 var strength = AUnit.GetStrength(DamageType);
                                 Strengths.DamageStrengths[(int)DamageType] -= strength;
                             }
@@ -58632,9 +58632,9 @@ namespace Aow.Game.Ai.Groups
                             if (FDefenders.FChildren.IndexOf(AUnit) == -1 && UsefullUnit(AUnit, ref Strengths.DamageStrengths))
                             {
                                 FDefenders.AddUnit(AUnit);
-                                for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+                                for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
                                 {
-                                    DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+                                    DamageType = (DamageType)damageTypeOrdinal;
                                     var strength = AUnit.GetStrength(DamageType);
                                     Strengths.DamageStrengths[(int)DamageType] -= strength;
                                 }
@@ -58673,15 +58673,15 @@ namespace Aow.Game.Ai.Groups
         }
 
         private static int DefenseSortGroupID;
-        private static global::Aow.Game.Units.UnitList DefenseSortUnits;
+        private static UnitList DefenseSortUnits;
 
         private static int CompareDefenseUnits(object Item1, object Item2)
         {
-            int num = ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item1).FGroup.FRecruitmentPriority - ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item2).FGroup.FRecruitmentPriority;
+            int num = ((AbstractUnit)Item1).FGroup.FRecruitmentPriority - ((AbstractUnit)Item2).FGroup.FRecruitmentPriority;
             if (num == 0)
             {
-                num = ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item1).FGroupID - ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item2).FGroupID;
-                if (num == 0 && ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item1).FGroupID == DefenseSortGroupID)
+                num = ((AbstractUnit)Item1).FGroupID - ((AbstractUnit)Item2).FGroupID;
+                if (num == 0 && ((AbstractUnit)Item1).FGroupID == DefenseSortGroupID)
                 {
                     if (DefenseSortUnits != null)
                     {
@@ -58698,7 +58698,7 @@ namespace Aow.Game.Ai.Groups
                     }
                     if (num == 0)
                     {
-                        num = ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item1).GetStrengthMax(global::Aow.Game.Magic.Abilities.AbilityRules.dtAll) - ((global::Aow.Game.Magic.Abilities.AbstractUnit)Item2).GetStrengthMax(global::Aow.Game.Magic.Abilities.AbilityRules.dtAll);
+                        num = ((AbstractUnit)Item1).GetStrengthMax(AbilityRules.dtAll) - ((AbstractUnit)Item2).GetStrengthMax(AbilityRules.dtAll);
                     }
                 }
             }
@@ -58858,7 +58858,7 @@ namespace Aow.Game.Ai
         }
 
         // AIGroup.pas:1993
-        public override bool GetBusy() => FSelector.FStatus == Aow.Game.Ai.Groups.AIMoveTargetSelector.Status.Searching;
+        public override bool GetBusy() => FSelector.FStatus == AIMoveTargetSelector.Status.Searching;
 
         // AIGroup.pas:2051
         public override bool Activate(AIGroupControl Control)
@@ -58878,7 +58878,7 @@ namespace Aow.Game.Ai
         public override bool Process()
         {
             bool Result;
-            if (FSelector.FStatus == Aow.Game.Ai.Groups.AIMoveTargetSelector.Status.Searching)
+            if (FSelector.FStatus == AIMoveTargetSelector.Status.Searching)
             {
                 Result = FSelector.Process();
             }
@@ -59064,7 +59064,7 @@ namespace Aow.Game.Ai.Groups
         // AIGroup.pas:2102
         public int GetRecruitMoveDays()
         {
-            Aow.Game.Ai.AIRecruitmentGroup Group;
+            AIRecruitmentGroup Group;
             int Days;
             int Result = -1;
             for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
@@ -59197,12 +59197,12 @@ namespace Aow.Game.Ai.Groups
         }
 
         // AIGroup.pas:2196
-        public bool ValidRecruitmentGroup(Aow.Game.Ai.AIRecruitmentGroup Group)
+        public bool ValidRecruitmentGroup(AIRecruitmentGroup Group)
         {
             bool Result;
             if (Group.FPathStrength != 0)
             {
-                Result = Group.FGroup.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)Group.FPathStrength * FPathStrengthFactor);
+                Result = Group.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)Group.FPathStrength * FPathStrengthFactor);
                 if (!Result)
                 {
                     if (FMode != Mode.ForceRecruit)
@@ -59224,7 +59224,7 @@ namespace Aow.Game.Ai.Groups
         }
 
         // AIGroup.pas:2212
-        public bool RecruitFromGroup(Aow.Game.Ai.AIRecruitmentGroup Group)
+        public bool RecruitFromGroup(AIRecruitmentGroup Group)
         {
             UnitUserList Units;
             UnitUserList Recruitable;
@@ -59281,7 +59281,7 @@ namespace Aow.Game.Ai.Groups
             FMovesMin = 0;
             FSuperiority = -1;
             FRecruitStrength = 0;
-            FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
+            FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
             // { Original bug: clears only the maximum strength, not the per-type array. }
             FillBytes(Bytes.Of(ref FRecruitStrength, 4), 0);
             FMoveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
@@ -59306,12 +59306,12 @@ namespace Aow.Game.Ai.Groups
         // AIGroup.pas:2839
         public AIGroupCooperationControl(ECustomNode owner) : base(owner)
         {
-            FGroups = new Aow.Game.Ai.AIRecruitmentGroupList(null);
+            FGroups = new AIRecruitmentGroupList(null);
         }
 
         public bool FComplete;
         public AIGroupControl FControl;
-        public Aow.Game.Ai.AIRecruitmentGroupList FGroups;
+        public AIRecruitmentGroupList FGroups;
         public AIGroupCooperateControlMode FMode;
         public int FRemainingStrength;
         public FixedArray_int_10 FRemainingStrengths;
@@ -59452,7 +59452,7 @@ namespace Aow.Game.Ai.Groups
             FMode = AIGroupCooperateControlMode.None;
             FTarget = null;
             FCooperateStrength = 0;
-            FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
+            FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
             FCooperateStrengths = default;
             FSuperiority = 120;
             FPathStrengthFactor = (float)0.8;
@@ -59460,7 +59460,7 @@ namespace Aow.Game.Ai.Groups
         }
 
         // AIGroup.pas:2940
-        public void AddCooperationGroup(Aow.Game.Ai.AIRecruitmentGroup Group)
+        public void AddCooperationGroup(AIRecruitmentGroup Group)
         {
             AbstractUnit AUnit;
             DamageType D;
@@ -59487,7 +59487,7 @@ namespace Aow.Game.Ai.Groups
         }
 
         // AIGroup.pas:2958
-        public bool ValidCooperationGroup(Aow.Game.Ai.AIRecruitmentGroup Group)
+        public bool ValidCooperationGroup(AIRecruitmentGroup Group)
         {
             bool Result;
             int Strength1;
@@ -59507,14 +59507,14 @@ namespace Aow.Game.Ai.Groups
                 if (Group.FPathStrength != 0)
                 {
                     Location = Group.FGroup.GetLoc();
-                    Strength1 = Group.FGroup.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                    Strength1 = Group.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                     Group1 = Group.FGroup;
-                    Advantage1 = -Aow.Game.Ai.Groups.AIGroupCooperationControl.GetBattleFieldStrengthAdvantage(Location, Group1.FPlayer, Group1.FIndependentRelation, Group1, 1, 10, Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                    Advantage1 = -Aow.Game.Ai.Groups.AIGroupCooperationControl.GetBattleFieldStrengthAdvantage(Location, Group1.FPlayer, Group1.FIndependentRelation, Group1, 1, 10, AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
 
                     Location = FControl.FGroup.GetLoc();
-                    Strength2 = FControl.FGroup.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                    Strength2 = FControl.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                     Group2 = FControl.FGroup;
-                    Advantage2 = -Aow.Game.Ai.Groups.AIGroupCooperationControl.GetBattleFieldStrengthAdvantage(Location, Group2.FPlayer, Group2.FIndependentRelation, Group2, 1, 10, Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                    Advantage2 = -Aow.Game.Ai.Groups.AIGroupCooperationControl.GetBattleFieldStrengthAdvantage(Location, Group2.FPlayer, Group2.FIndependentRelation, Group2, 1, 10, AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
 
                     if (Strength1 < Strength2)
                     {
@@ -59591,20 +59591,20 @@ namespace Aow.Game.Ai.Groups
             }
         }
 
-        private static int GetBattleFieldStrengthAdvantage(int Location, sbyte Player, sbyte Relation, global::Aow.Game.Units.UnitList Units, int FriendlyRadius, int EnemyRadius, Set<global::Aow.Game.Combat.DamageType> DamageTypes)
+        private static int GetBattleFieldStrengthAdvantage(int Location, sbyte Player, sbyte Relation, UnitList Units, int FriendlyRadius, int EnemyRadius, Set<DamageType> DamageTypes)
         {
-            global::Aow.Game.Combat.BattleFieldInfo Info = default(global::Aow.Game.Combat.BattleFieldInfo);
-            global::Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, Relation, Set<global::Aow.Game.Combat.BattleFieldInfoRequestsElement>.Of(global::System.Array.Empty<global::Aow.Game.Combat.BattleFieldInfoRequestsElement>()), DamageTypes);
+            BattleFieldInfo Info = default(BattleFieldInfo);
+            global::Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, Relation, Set<BattleFieldInfoRequestsElement>.Of(global::System.Array.Empty<BattleFieldInfoRequestsElement>()), DamageTypes);
             Info.EnemyRelations = Set<byte>.WithBounds(0, 7);
             Info.Units = Units;
-            Info.Requests += Set<global::Aow.Game.Combat.BattleFieldInfoRequestsElement>.Of(new global::Aow.Game.Combat.BattleFieldInfoRequestsElement[1] { global::Aow.Game.Combat.BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
-            global::Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(global::System.Runtime.CompilerServices.Unsafe.As<int, global::Aow.Game.World.Map.XYL>(ref Location).X, global::System.Runtime.CompilerServices.Unsafe.As<int, global::Aow.Game.World.Map.XYL>(ref Location).Y, global::System.Runtime.CompilerServices.Unsafe.As<int, global::Aow.Game.World.Map.XYL>(ref Location).L, FriendlyRadius, ref Info);
+            Info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
+            global::Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(global::System.Runtime.CompilerServices.Unsafe.As<int, XYL>(ref Location).X, global::System.Runtime.CompilerServices.Unsafe.As<int, XYL>(ref Location).Y, global::System.Runtime.CompilerServices.Unsafe.As<int, XYL>(ref Location).L, FriendlyRadius, ref Info);
             int friendlyStrength = Info.FriendlyStrength;
-            global::Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, Relation, Set<global::Aow.Game.Combat.BattleFieldInfoRequestsElement>.Of(global::System.Array.Empty<global::Aow.Game.Combat.BattleFieldInfoRequestsElement>()), DamageTypes);
+            global::Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, Relation, Set<BattleFieldInfoRequestsElement>.Of(global::System.Array.Empty<BattleFieldInfoRequestsElement>()), DamageTypes);
             Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             Info.Units = Units;
-            Info.Requests += Set<global::Aow.Game.Combat.BattleFieldInfoRequestsElement>.Of(new global::Aow.Game.Combat.BattleFieldInfoRequestsElement[1] { global::Aow.Game.Combat.BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
-            global::Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(global::System.Runtime.CompilerServices.Unsafe.As<int, global::Aow.Game.World.Map.XYL>(ref Location).X, global::System.Runtime.CompilerServices.Unsafe.As<int, global::Aow.Game.World.Map.XYL>(ref Location).Y, global::System.Runtime.CompilerServices.Unsafe.As<int, global::Aow.Game.World.Map.XYL>(ref Location).L, EnemyRadius, ref Info);
+            Info.Requests += Set<BattleFieldInfoRequestsElement>.Of(new BattleFieldInfoRequestsElement[1] { BattleFieldInfoRequestsElement.IgnorePassiveIndependents });
+            global::Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(global::System.Runtime.CompilerServices.Unsafe.As<int, XYL>(ref Location).X, global::System.Runtime.CompilerServices.Unsafe.As<int, XYL>(ref Location).Y, global::System.Runtime.CompilerServices.Unsafe.As<int, XYL>(ref Location).L, EnemyRadius, ref Info);
             int strength = Info.Strength;
             return friendlyStrength - strength;
         }
@@ -59648,7 +59648,7 @@ namespace Aow.Game.Ai
         }
 
         // AIGroup.pas:2315
-        public override bool GetBusy() => FSelector.FStatus == Aow.Game.Ai.Groups.AIMoveTargetSelector.Status.Searching;
+        public override bool GetBusy() => FSelector.FStatus == AIMoveTargetSelector.Status.Searching;
 
         // AIGroup.pas:2365
         public override bool Activate(AIGroupControl Control)
@@ -59668,7 +59668,7 @@ namespace Aow.Game.Ai
         public override bool Process()
         {
             bool Result;
-            if (FSelector.FStatus == Aow.Game.Ai.Groups.AIMoveTargetSelector.Status.Searching)
+            if (FSelector.FStatus == AIMoveTargetSelector.Status.Searching)
             {
                 Result = FSelector.Process();
                 if (!Result)
@@ -60238,7 +60238,7 @@ namespace Aow.Game.Ai.Groups
             FGoldUpkeep = 0;
             FManaUpkeep = 0;
             FProduceStrength = 0;
-            FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
+            FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
             FProduceStrengths = default;
             FMoveTypes = Set<MoveType>.Of(MoveType.Walking, MoveType.Flying);
             FComplete = false;
@@ -60259,7 +60259,7 @@ namespace Aow.Game.Ai.Groups
             Unit TestUnit;
             Unit NewUnit;
             bool Result = false;
-            if (Location.FProductionControl.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
+            if (Location.FProductionControl.FStatus == ProductionControl.Status.Idle)
             {
                 TestUnit = new Unit(null);
                 for (int I = 0, last = Location.FProductionControl.FUnitProductions.Count - 1; I <= last; I++)
@@ -60347,7 +60347,7 @@ namespace Aow.Game.Ai.Groups
             bool Result;
             if (Location.FPathStrength != 0)
             {
-                Result = FControl.FGroup.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)Location.FPathStrength * FPathStrengthFactor) || FControl.FGroup.GetMovePointsMin() >= Location.FMovePoints;
+                Result = FControl.FGroup.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) >= Round((double)Location.FPathStrength * FPathStrengthFactor) || FControl.FGroup.GetMovePointsMin() >= Location.FMovePoints;
             }
             else
             {
@@ -60374,7 +60374,7 @@ namespace Aow.Game.Ai.Groups
 
         private static int CompareProduceableUnits(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.Groups.AIGroupUnitProduction)Item2).FPriority - ((global::Aow.Game.Ai.Groups.AIGroupUnitProduction)Item1).FPriority;
+            return ((AIGroupUnitProduction)Item2).FPriority - ((AIGroupUnitProduction)Item1).FPriority;
         }
 
         public enum Mode : byte
@@ -60501,7 +60501,7 @@ namespace Aow.Game.Ai.Groups
                 bool condition = Valid;
                 if (condition)
                 {
-                    bool test = Target.FData.TargetType != Aow.Game.Ai.AITargetType.Negotiate;
+                    bool test = Target.FData.TargetType != AITargetType.Negotiate;
                     if (!test)
                     {
                         var targetMana = Target.GetTargetMana();
@@ -60631,7 +60631,7 @@ namespace Aow.Game.Ai.Groups
                                         FCooperation.Setup(FGroupControl, FTarget);
                                         FCooperation.FSuperiority = Superiority;
                                         FCooperation.FCooperateStrength = Strength - FGroupControl.FStrengthMax;
-                                        FCooperation.FMode = Aow.Game.Ai.Groups.AIGroupCooperationControl.AIGroupCooperateControlMode.None;
+                                        FCooperation.FMode = AIGroupCooperationControl.AIGroupCooperateControlMode.None;
                                         ActivatePlugin(FCooperation);
                                         FState = 1;
                                     }
@@ -60735,7 +60735,7 @@ namespace Aow.Game.Ai.Groups
                             FRecruitment.FRecruitStrength -= cooperatedStrength;
                         }
 
-                        FRecruitment.FMode = Aow.Game.Ai.Groups.AIGroupRecruitControl.Mode.None;
+                        FRecruitment.FMode = AIGroupRecruitControl.Mode.None;
                         ActivatePlugin(FRecruitment);
                         FState = 3;
                         break;
@@ -60783,7 +60783,7 @@ namespace Aow.Game.Ai.Groups
                             FProduction.FProduceStrength -= recruitedStrength;
                         }
 
-                        FProduction.FMode = Aow.Game.Ai.Groups.AIGroupProductionControl.Mode.None;
+                        FProduction.FMode = AIGroupProductionControl.Mode.None;
                         ActivatePlugin(FProduction);
                         FState = 5;
                         break;
@@ -60838,7 +60838,7 @@ namespace Aow.Game.Ai.Groups
                                     FCooperation.FSuperiority = requiredCombatPredictorSuperiority3;
                                     var requiredStrength3 = GetRequiredStrength(FTarget);
                                     FCooperation.FCooperateStrength = requiredStrength3 - FGroupControl.FStrengthMax;
-                                    FCooperation.FMode = Aow.Game.Ai.Groups.AIGroupCooperationControl.AIGroupCooperateControlMode.AutoCooperate;
+                                    FCooperation.FMode = AIGroupCooperationControl.AIGroupCooperateControlMode.AutoCooperate;
                                     ActivatePlugin(FCooperation);
                                     FState = 11;
                                 }
@@ -60901,7 +60901,7 @@ namespace Aow.Game.Ai.Groups
                         FRecruitment.FSuperiority = requiredCombatPredictorSuperiority4;
                         var requiredStrength4 = GetRequiredStrength(FTarget);
                         FRecruitment.FRecruitStrength = requiredStrength4 - FGroupControl.FStrengthMax;
-                        FRecruitment.FMode = Aow.Game.Ai.Groups.AIGroupRecruitControl.Mode.AutoRecruit;
+                        FRecruitment.FMode = AIGroupRecruitControl.Mode.AutoRecruit;
                         ActivatePlugin(FRecruitment);
                         FState += 1;
                         break;
@@ -60930,7 +60930,7 @@ namespace Aow.Game.Ai.Groups
                         FProduction.FSuperiority = requiredCombatPredictorSuperiority5;
                         var requiredStrength5 = GetRequiredStrength(FTarget);
                         FProduction.FProduceStrength = requiredStrength5 - FGroupControl.FStrengthMax;
-                        FProduction.FMode = Aow.Game.Ai.Groups.AIGroupProductionControl.Mode.AutoProduce;
+                        FProduction.FMode = AIGroupProductionControl.Mode.AutoProduce;
                         ActivatePlugin(FProduction);
                         FState = 20;
                         break;
@@ -61191,7 +61191,7 @@ namespace Aow.Game.Ai.Groups
             FMoveDayFactor = (float)0.1;
             FSpareUnits.Clear();
             FMode = Set<AIGroupTargetSelectorModeElement>.Of(AIGroupTargetSelectorModeElement.MultiTargets, AIGroupTargetSelectorModeElement.Cooperate, AIGroupTargetSelectorModeElement.Recruit, AIGroupTargetSelectorModeElement.Produce);
-            FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
+            FDamageTypes = AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall);
             FBattleFieldFactor = 1;
             FCurrentBattleFieldFactor = (float)0.8;
             FBattleFieldMoveFactor = 0;
@@ -61325,7 +61325,7 @@ namespace Aow.Game.Ai.Groups
         {
             float Result;
             int Days;
-            if (Target.FData.TargetType != Aow.Game.Ai.AITargetType.Negotiate)
+            if (Target.FData.TargetType != AITargetType.Negotiate)
             {
                 var group = FGroupControl.FGroup;
                 if (Unsafe.As<XYL, int>(ref group.FTargetXYL) == Unsafe.As<XYL, int>(ref Target.FLocation) && group.FTargetType == AIGroupTargetStatus.Execute || group.GetMovesMin() >= Target.FMovePoints)
@@ -61361,7 +61361,7 @@ namespace Aow.Game.Ai.Groups
             int Result;
             DefenseRequirements Strengths = default;
             BattleFieldInfo Info = default;
-            if (Target.FData.TargetType != Aow.Game.Ai.AITargetType.Negotiate)
+            if (Target.FData.TargetType != AITargetType.Negotiate)
             {
                 Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, FGroupControl.FGroup.FPlayer, FGroupControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), FDamageTypes);
                 Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
@@ -61400,7 +61400,7 @@ namespace Aow.Game.Ai.Groups
             int Result;
             BattleFieldInfo Info = default;
             int PathStrength;
-            if (((double)FBattleFieldFactor > 0 || (double)FCurrentBattleFieldFactor > 0) && Target.FData.TargetType != Aow.Game.Ai.AITargetType.Negotiate)
+            if (((double)FBattleFieldFactor > 0 || (double)FCurrentBattleFieldFactor > 0) && Target.FData.TargetType != AITargetType.Negotiate)
             {
                 Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, FGroupControl.FGroup.FPlayer, FGroupControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), FDamageTypes);
                 Info.Units = FGroupControl.FGroup;
@@ -61547,7 +61547,7 @@ namespace Aow.Game.Ai.Groups
         {
             string Text = "";
             AIGroupControlTarget Target;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, "Targets for Group (ID:" + IntToStr(FGroupControl.FGroup.FGroupID) + ")");
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "Targets for Group (ID:" + IntToStr(FGroupControl.FGroup.FGroupID) + ")");
             for (int I = 0, last = FGroupControl.FTargets.Count - 1; I <= last; I++)
             {
                 Target = FGroupControl.FTargets.GetTargets(I);
@@ -61582,7 +61582,7 @@ namespace Aow.Game.Ai.Groups
                     Text = Text + "d";
                 }
 
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, Text);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, Text);
             }
         }
 
@@ -61615,7 +61615,7 @@ namespace Aow.Game.Ai.Groups
             bool test = Result;
             if (test)
             {
-                bool passed = Target.FData.TargetType != Aow.Game.Ai.AITargetType.Negotiate;
+                bool passed = Target.FData.TargetType != AITargetType.Negotiate;
                 if (!passed)
                 {
                     var movePointsMin = FGroupControl.FGroup.GetMovePointsMin();
@@ -61628,15 +61628,15 @@ namespace Aow.Game.Ai.Groups
             return test;
         }
 
-        private static int StrengthInfoMax(global::System.ReadOnlySpan<byte> Strengths)
+        private static int StrengthInfoMax(ReadOnlySpan<byte> Strengths)
         {
             int num = 0;
             for (int i = 0; i <= 9; i++)
             {
-                global::Aow.Game.Combat.DamageType tDamageType = (global::Aow.Game.Combat.DamageType)i;
-                if (MemoryMarshal.Cast<byte, global::Aow.Game.Engine.Buffers.FixedArray_int_10>(Strengths)[0][(int)tDamageType] > num)
+                DamageType tDamageType = (DamageType)i;
+                if (MemoryMarshal.Cast<byte, FixedArray_int_10>(Strengths)[0][(int)tDamageType] > num)
                 {
-                    num = MemoryMarshal.Cast<byte, global::Aow.Game.Engine.Buffers.FixedArray_int_10>(Strengths)[0][(int)tDamageType];
+                    num = MemoryMarshal.Cast<byte, FixedArray_int_10>(Strengths)[0][(int)tDamageType];
                 }
             }
             return num;
@@ -61644,7 +61644,7 @@ namespace Aow.Game.Ai.Groups
 
         private static int CompareTargetSetupPriority(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.Groups.AIGroupControlTarget)Item2).FDataA - ((global::Aow.Game.Ai.Groups.AIGroupControlTarget)Item1).FDataA;
+            return ((AIGroupControlTarget)Item2).FDataA - ((AIGroupControlTarget)Item1).FDataA;
         }
 
         [LegacyObject]
@@ -61810,7 +61810,7 @@ namespace Aow.Game.Ai.Groups
                     {
                         Finder = new AIGroupTargetFinder(null);
                         Finder.Setup(this);
-                        Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.Hunt;
+                        Finder.FSelector.FTargetInfo.Mode = AITargetMode.Hunt;
                         ActivatePlugin(Finder);
                         Finder.Release();
                         FState += 1;
@@ -61973,16 +61973,16 @@ namespace Aow.Game.Commands
         {
             ExecuteResult Result;
             base.Execute(TE);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == FDay)
+            if (AoWHSMap.Current.FDay == FDay)
             {
                 if (FMode == EndTurnMode.EndTurn && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FSingleProcessCycle)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayerControl.EndTurn(FPlayer);
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace != -1)
+                    if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerRace != -1)
                     {
                         var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
-                        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
-                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.EndTurnTE.P5FinishedTheirTurnRStr);
+                        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
+                        var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5FinishedTheirTurnRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(raceNamesPlural + " " + aoWETranslateRStr);
                     }
                 }
@@ -62444,7 +62444,7 @@ namespace Aow.Game.Commands
                     Settings = new MoveControlSettings(null);
                     Settings.SetupArmy(FArmyHS, FSelection);
                     Settings.FMode = Settings.FMode.With(MoveModeElement.AI);
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human && AoWHSMap.Current.FExplorationEnabled)
                     {
                         Settings.FMode = Settings.FMode.With(MoveModeElement.ExploredTerrainOnly);
                     }
@@ -62469,7 +62469,7 @@ namespace Aow.Game.Commands
                 }
             }
 
-            if (!Result && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Busy)
+            if (!Result && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType != PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.FMoveExecuter.FStatus == AIMoveExecuter.Status.Busy)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FAIControl.FMoveExecuter.InvalidateMove(FArmyHS, FSelection);
             }
@@ -62489,13 +62489,13 @@ namespace Aow.Game.Commands
             var validateSelection = FArmyHS.FArmy.ValidateSelection(255);
             if (FSelection != validateSelection)
             {
-                ArmyHS = new global::Aow.Game.Draw.ArmyHS(null);
+                ArmyHS = new ArmyHS(null);
                 ArmyHS.FArmy.SetPlayer(FArmyHS.FArmy.FPlayer);
                 ArmyHS.FArmy.AddUnitSelection(FArmyHS.FArmy, FSelection);
                 var item = FPath[Last];
                 var fPathItem = FPath[Last];
                 var item2 = FPath[Last];
-                ArmyHS.PlacePrivate(Aow.Game.World.Map.AoWHSMap.Current.MapContainer, item2.X, fPathItem.Y, item.L);
+                ArmyHS.PlacePrivate(AoWHSMap.Current.MapContainer, item2.X, fPathItem.Y, item.L);
                 FArmyHS.FArmy.ResetDestinationPos();
                 if (FArmyHS.GetSelected())
                 {
@@ -62594,7 +62594,7 @@ namespace Aow.Game.Commands
                 if (Animating())
                 {
                     UpdateAnimation();
-                    bool condition = FArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+                    bool condition = FArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer;
                     if (!condition)
                     {
                         var lhx = FArmyHS.GetLhx();
@@ -62641,7 +62641,7 @@ namespace Aow.Game.Commands
             int Direction;
             bool Instant;
             AoWMapField Field;
-            if ((MoveVisible(FMoveIndex) || FAnimate) && (FPath[FMoveIndex].L == Aow.Game.World.Map.AoWHSMap.Current.ViewL || Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves))
+            if ((MoveVisible(FMoveIndex) || FAnimate) && (FPath[FMoveIndex].L == AoWHSMap.Current.ViewL || AoWHSMap.Current.FShowIndependentMoves))
             {
                 FAnimate = true;
                 Direction = GetDirection(FMoveIndex);
@@ -62809,7 +62809,7 @@ namespace Aow.Game.Commands
             bool Visible;
             MultiMoveTE Event;
             Visible = MoveVisible(Index);
-            bool Result = Visible && Aow.Game.World.Map.AoWHSMap.Current.FShowIndependentMoves && (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != FArmyHS.FArmy.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FPlayerType != PlayerType.Human);
+            bool Result = Visible && AoWHSMap.Current.FShowIndependentMoves && (AoWHSMap.Current.FSeatedPlayer != FArmyHS.FArmy.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)(byte)AoWHSMap.Current.FSeatedPlayer).FPlayerType != PlayerType.Human);
             if (Result && Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.GetExecutingTokenEvent() is MultiMoveTE && ((MultiMoveTE)Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.GetExecutingTokenEvent()).FSimultaneous)
             {
                 Event = (MultiMoveTE)Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.GetExecutingTokenEvent();
@@ -62824,7 +62824,7 @@ namespace Aow.Game.Commands
         public bool MoveVisible(int Index)
         {
             bool Result;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+            if (AoWHSMap.Current.FSeatedPlayer != -1)
             {
                 var item = FPath[Index];
                 var fPathItem = FPath[Index];
@@ -62858,7 +62858,7 @@ namespace Aow.Game.Commands
             return null;
         }
 
-        private static bool ConstructRoad(sbyte Player, global::Aow.Game.World.Map.AoWMapField Field)
+        private static bool ConstructRoad(sbyte Player, AoWMapField Field)
         {
             return false;
         }
@@ -62989,15 +62989,15 @@ namespace Aow.Game.Commands
             return Result;
         }
 
-        private static void NegotiateArmy(sbyte Player, global::Aow.Game.Draw.ArmyHS ArmyHS, byte Selection, sbyte X, sbyte Y, sbyte L, int MovePoints)
+        private static void NegotiateArmy(sbyte Player, ArmyHS ArmyHS, byte Selection, sbyte X, sbyte Y, sbyte L, int MovePoints)
         {
             string ErrorText = "";
-            global::Aow.Game.World.Map.MapFieldMsg message = default(global::Aow.Game.World.Map.MapFieldMsg);
-            if (global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == global::Aow.Game.Session.PlayerType.Human)
+            MapFieldMsg message = default(MapFieldMsg);
+            if (global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
             {
-                if (Player == global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (Player == AoWHSMap.Current.FSeatedPlayer)
                 {
-                    global::Aow.Game.Events.NegotiateRequestEventLog tNegotiateRequestEventLog = new global::Aow.Game.Events.NegotiateRequestEventLog(null);
+                    NegotiateRequestEventLog tNegotiateRequestEventLog = new NegotiateRequestEventLog(null);
                     tNegotiateRequestEventLog.FArmyID = ArmyHS.FArmy.CreateID(Selection);
                     tNegotiateRequestEventLog.FMovePoints = MovePoints;
                     tNegotiateRequestEventLog.FX = (sbyte)(byte)X;
@@ -63011,14 +63011,14 @@ namespace Aow.Game.Commands
                     global::Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).SendMapFieldMsg(ref message);
                     if (message.Param[1].Int != 0)
                     {
-                        tNegotiateRequestEventLog.Execute(mode: true, global::Aow.Game.Events.ExecuteTrigger.Event, null);
+                        tNegotiateRequestEventLog.Execute(mode: true, ExecuteTrigger.Event, null);
                     }
                     tNegotiateRequestEventLog.Release();
                 }
             }
             else if (global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetLocal())
             {
-                global::Aow.Game.Events.NegotiateRequestEventLog tNegotiateRequestEventLog = new global::Aow.Game.Events.NegotiateRequestEventLog(null);
+                NegotiateRequestEventLog tNegotiateRequestEventLog = new NegotiateRequestEventLog(null);
                 tNegotiateRequestEventLog.FArmyID = ArmyHS.FArmy.CreateID(Selection);
                 tNegotiateRequestEventLog.FMovePoints = MovePoints;
                 tNegotiateRequestEventLog.FX = (sbyte)(byte)X;
@@ -63062,7 +63062,7 @@ namespace Aow.Game.Commands
             Army SourceArmy;
             Army TargetArmy;
             AddUnitsResult CombineResult;
-            if (FMoveIndex == 1 && FPath[0].X == FTargetX && FPath[0].Y == FTargetY && FPath[0].L == FTargetL && FArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (FMoveIndex == 1 && FPath[0].X == FTargetX && FPath[0].Y == FTargetY && FPath[0].L == FTargetL && FArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
             {
                 ArmyHS = GetMapF(FPath[0]).GetArmyHS();
                 if (ArmyHS != null && ArmyHS.FArmy.FPlayer == FArmyHS.FArmy.FPlayer)
@@ -63087,15 +63087,15 @@ namespace Aow.Game.Commands
             switch (Reason)
             {
                 case AddUnitsResult.InvalidMoveType:
-                    var p5CannotCombineArmies = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.ArmyCombineMoveTE.P5CannotCombineArmiesRStr);
+                    var p5CannotCombineArmies = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5CannotCombineArmiesRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5CannotCombineArmies);
                     break;
                 case AddUnitsResult.TooManyUnits:
-                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.ArmyCombineMoveTE.P5CannotCombineArmiesRStr);
+                    var aoWETranslateRStr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5CannotCombineArmiesRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(aoWETranslateRStr);
                     break;
                 case AddUnitsResult.MultipleTransporters:
-                    var p5CannotCombineTransporters = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.ArmyCombineMoveTE.P5CannotCombineTransportersRStr);
+                    var p5CannotCombineTransporters = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5CannotCombineTransportersRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5CannotCombineTransporters);
                     break;
             }
@@ -63323,13 +63323,13 @@ namespace Aow.Game.Commands
                 {
                     Flow = new CombatFlowControlTE(null);
                     Flow.FMode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.UnlockAIExecuter, CombatFlowControlModeElement.ActivateTC, CombatFlowControlModeElement.EnableTurnTimer);
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+                    if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
                     {
                         Flow.FMode = Flow.FMode + Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch);
                     }
 
                     Flow.FPlayer = Request.FPlayer;
-                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).AddEvent(Flow);
+                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(AoWHSMap.Current.FSeatedPlayer).AddEvent(Flow);
                     Flow.Release();
                     if (Request.FArmyID.RetrieveArmy(ref FArmyHS, ref FSelection))
                     {
@@ -63348,7 +63348,7 @@ namespace Aow.Game.Commands
                         {
                             // { created combat move }
                             Move.FCombatType = ((CombatTypeRequestEventLog)Log).FCombatType;
-                            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).AddEvent(Move);
+                            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(AoWHSMap.Current.FSeatedPlayer).AddEvent(Move);
                             Move.Release();
                         }
                         else
@@ -63359,11 +63359,11 @@ namespace Aow.Game.Commands
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
+                    if (AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous)
                     {
                         Flow = new CombatFlowControlTE(null);
                         Flow.FMode = Set<CombatFlowControlModeElement>.Of(CombatFlowControlModeElement.SetAutoSwitch, CombatFlowControlModeElement.UnlockAIExecuter, CombatFlowControlModeElement.EnableTurnTimer);
-                        Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).AddEvent(Flow);
+                        Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(AoWHSMap.Current.FSeatedPlayer).AddEvent(Flow);
                         Flow.Release();
                     }
                 }
@@ -63380,17 +63380,17 @@ namespace Aow.Game.Commands
             NewTurnEventLog Log;
             Aow.Game.World.Map.AoWHSMap.Current.SetSeatedPlayer(-1);
             Log = new NewTurnEventLog(null);
-            Log.FTurnPlayer = Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer;
-            Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+            Log.FTurnPlayer = AoWHSMap.Current.FCurrentPlayer;
+            Log.FMode = NewTurnEventLog.Mode.Dialog;
             Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer == 0)
+            if (AoWHSMap.Current.FCurrentPlayer == 0)
             {
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.ArmyCombatMoveTE.P5IndependentsAreMovingRStr);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5IndependentsAreMovingRStr);
             }
             else
             {
-                var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer).GetName();
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.ArmyCombatMoveTE.P5PlayerIsMovingRStr), [name]);
+                var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FCurrentPlayer).GetName();
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5PlayerIsMovingRStr), [name]);
             }
 
             Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, true, null);
@@ -63423,23 +63423,23 @@ namespace Aow.Game.Commands
         {
             AoWMapField Field = default;
             sbyte Player = default;
-            global::Aow.Game.Combat.Combat Combat = default;
+            Combat.Combat Combat = default;
             MapFieldMsg Msg = default;
             CombatTypeRequestEventLog Request = default;
             NewTurnEventLog Log = default;
             Field = GetMapF(FPath[0]);
             if (FCombatType == CombatType.None)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local)
+                if (AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local)
                 {
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.AlwaysFC)
+                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.AlwaysFC)
                     {
                         FCombatType = CombatType.Fast;
                         FCombatMode = CombatMoveMode.SetupReady;
                     }
                     else
                     {
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.AlwaysTC)
+                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.AlwaysTC)
                         {
                             bool condition = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human;
                             if (!condition)
@@ -63474,16 +63474,16 @@ namespace Aow.Game.Commands
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && (!Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalPlayers.Count == 1 || Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human))
+                    if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && (!AoWHSMap.Current.FRequestCombatType && AoWHSMap.Current.FPlayers.FLocalPlayers.Count == 1 || AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human))
                     {
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.AlwaysFC)
+                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.AlwaysFC)
                         {
                             FCombatType = CombatType.Fast;
                             FCombatMode = CombatMoveMode.SetupReady;
                         }
                         else
                         {
-                            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.AlwaysTC)
+                            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.AlwaysTC)
                             {
                                 bool condition = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human;
                                 if (!condition)
@@ -63518,7 +63518,7 @@ namespace Aow.Game.Commands
                     }
                     else
                     {
-                        bool condition = Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human && Field.GetPlayer() >= 0;
+                        bool condition = AoWHSMap.Current.FConnectionType == PlayerConnectionType.Email && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human && Field.GetPlayer() >= 0;
                         if (condition)
                         {
                             var player = Field.GetPlayer();
@@ -63527,14 +63527,14 @@ namespace Aow.Game.Commands
 
                         if (condition)
                         {
-                            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.AlwaysFC)
+                            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.AlwaysFC)
                             {
                                 FCombatType = CombatType.Fast;
                                 FCombatMode = CombatMoveMode.SetupReady;
                             }
                             else
                             {
-                                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.AlwaysTC)
+                                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.AlwaysTC)
                                 {
                                     bool test = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human;
                                     if (!test)
@@ -63570,7 +63570,7 @@ namespace Aow.Game.Commands
                         else
                         {
                             // { Original tests connection type here, not play mode. }
-                            if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network)
+                            if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network)
                             {
                                 bool test = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType == PlayerType.Human;
                                 if (!test)
@@ -63587,7 +63587,7 @@ namespace Aow.Game.Commands
 
                                 if (test)
                                 {
-                                    switch (Aow.Game.World.Map.AoWHSMap.Current.FVictoryMode)
+                                    switch (AoWHSMap.Current.FVictoryMode)
                                     {
                                         case 0:
                                             FCombatType = CombatType.Fast;
@@ -63647,7 +63647,7 @@ namespace Aow.Game.Commands
 
             if (FCombatMode == CombatMoveMode.RequestingCombatType || (FCombatType == CombatType.Tactical && FCombatMode == CombatMoveMode.SetupReady))
             {
-                Combat = new global::Aow.Game.Combat.Combat(null);
+                Combat = new Combat.Combat(null);
                 var yhx = FArmyHS.GetYhx();
                 var lhx = FArmyHS.GetLhx();
                 var player = Field.GetPlayer();
@@ -63680,7 +63680,7 @@ namespace Aow.Game.Commands
             }
 
             // { Original uses connection type here too. }
-            if (Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && FCombatMode == CombatMoveMode.RequestingCombatType)
+            if (AoWHSMap.Current.FConnectionType == PlayerConnectionType.Network && FCombatMode == CombatMoveMode.RequestingCombatType)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.DisableTurnTimer();
                 Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.Lock();
@@ -63698,9 +63698,9 @@ namespace Aow.Game.Commands
                     Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Player).ClearEvents();
                 }
 
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
+                AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = true;
                 Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.ActivateTC(Player);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
+                if (AoWHSMap.Current.FSeatedPlayer == Player)
                 {
                     Request = new CombatTypeRequestEventLog(null);
                     Request.FPlayer = FArmyHS.FArmy.FPlayer;
@@ -63711,9 +63711,9 @@ namespace Aow.Game.Commands
                     Request.SetTokenEvent(this);
                     Request.FCreateNewMove = true;
                     Request.FArmyID = FArmyHS.FArmy.CreateID(FSelection);
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.Choose)
+                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.Choose)
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != Request.FPlayer)
+                        if (AoWHSMap.Current.FSeatedPlayer != Request.FPlayer)
                         {
                             var lhx = FArmyHS.GetLhx();
                             var yhx = FArmyHS.GetYhx();
@@ -63729,7 +63729,7 @@ namespace Aow.Game.Commands
                     {
                         FinishMove();
                         FArmyHS = null;
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == Aow.Game.Engine.AoWRegistry.CombatResolveMode.AlwaysTC)
+                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode() == AoWRegistry.CombatResolveMode.AlwaysTC)
                         {
                             Request.Select(CombatType.Tactical);
                         }
@@ -63752,26 +63752,26 @@ namespace Aow.Game.Commands
                 FCombatMode = CombatMoveMode.CancelCombat;
             }
 
-            if (FCombatMode == CombatMoveMode.RequestingCombatType && Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType != PlayerType.Human)
+            if (FCombatMode == CombatMoveMode.RequestingCombatType && AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType != PlayerType.Human)
             {
                 Log = new NewTurnEventLog(null);
                 Log.FTurnPlayer = Field.GetPlayer();
-                Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                Log.FMode = NewTurnEventLog.Mode.Dialog;
                 Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.ArmyCombatMoveTE.P5YouAreBeingAttackedRStr);
+                Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5YouAreBeingAttackedRStr);
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ShowHotSeatPlayerCallBack);
                 Log.Release();
             }
             else
             {
-                if (FCombatMode == CombatMoveMode.SetupReady && FCombatType == CombatType.Tactical && Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType != PlayerType.Human)
+                if (FCombatMode == CombatMoveMode.SetupReady && FCombatType == CombatType.Tactical && AoWHSMap.Current.FRequestCombatType && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FArmyHS.FArmy.FPlayer).FPlayerType != PlayerType.Human)
                 {
                     FCombatMode = CombatMoveMode.SetupHotseat;
                     Log = new NewTurnEventLog(null);
                     Log.FTurnPlayer = Field.GetPlayer();
-                    Log.FMode = Aow.Game.Events.NewTurnEventLog.Mode.Dialog;
+                    Log.FMode = NewTurnEventLog.Mode.Dialog;
                     Log.FDialogStyle = Set<NewTurnEventLogDialogStyleElement>.Of(NewTurnEventLogDialogStyleElement.Closeable);
-                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.ArmyCombatMoveTE.P5YouAreBeingAttackedRStr);
+                    Log.FText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5YouAreBeingAttackedRStr);
                     Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, ShowHotSeatPlayerCallBack);
                     Log.Release();
                 }
@@ -63786,7 +63786,7 @@ namespace Aow.Game.Commands
                 Request.FX = Field.Xhx;
                 Request.FY = Field.Yhx;
                 Request.FL = Field.Lhx;
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != Request.FPlayer)
+                if (AoWHSMap.Current.FSeatedPlayer != Request.FPlayer)
                 {
                     var lhx = FArmyHS.GetLhx();
                     var yhx = FArmyHS.GetYhx();
@@ -63800,7 +63800,7 @@ namespace Aow.Game.Commands
         }
 
         // MoveT.PAS:2801
-        public void CombatExecuted(global::Aow.Game.Combat.Combat Combat)
+        public void CombatExecuted(Combat.Combat Combat)
         {
             ArmyHS ArmyHS;
             Army Army;
@@ -63811,7 +63811,7 @@ namespace Aow.Game.Commands
             {
                 if (Set<CombatResult>.Of(CombatResult.Victory).Contains(Combat.FCombatResult))
                 {
-                    ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Combat.FCombatData.FAttackerX, Combat.FCombatData.FAttackerY, Combat.FCombatData.FAttackerL).FindOwnedChild(131607);
+                    ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Combat.FCombatData.FAttackerX, Combat.FCombatData.FAttackerY, Combat.FCombatData.FAttackerL).FindOwnedChild(131607);
                     if (ArmyHS != null)
                     {
                         Army = ArmyHS.FArmy;
@@ -63853,7 +63853,7 @@ namespace Aow.Game.Commands
                 }
                 else
                 {
-                    ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Combat.FCombatData.FAttackerX, Combat.FCombatData.FAttackerY, Combat.FCombatData.FAttackerL).FindOwnedChild(131607);
+                    ArmyHS = (ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Combat.FCombatData.FAttackerX, Combat.FCombatData.FAttackerY, Combat.FCombatData.FAttackerL).FindOwnedChild(131607);
                     if (ArmyHS != null)
                     {
                         for (int I = ArmyHS.FArmy.Count - 1; I >= 0; I--)
@@ -63862,14 +63862,14 @@ namespace Aow.Game.Commands
                             ArmyHS.FArmy.GetUnit(I).FUnitStatus = unit.FUnitStatus - Set<UnitStatusElement>.Of(UnitStatusElement.Moving);
                         }
 
-                        if (ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                        if (ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                         {
                             Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
                         }
                     }
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType && Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer).FPlayer != Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (AoWHSMap.Current.FRequestCombatType && Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer).FPlayer != AoWHSMap.Current.FSeatedPlayer)
                 {
                     RestoreHotseatMode();
                 }
@@ -63902,29 +63902,29 @@ namespace Aow.Game.Commands
         private static readonly string P5PlayerIsMovingRStr = "%s is moving";
         private static readonly string P5YouAreBeingAttackedRStr = "You're being attacked!";
 
-        private static void DistributeCombatEvent(global::Aow.Game.Combat.CombatLogbook Logbook, bool Execute)
+        private static void DistributeCombatEvent(CombatLogbook Logbook, bool Execute)
         {
-            global::Aow.Game.Combat.CombatData fFinalData = Logbook.FFinalData;
+            CombatData fFinalData = Logbook.FFinalData;
             int i = 1;
             for (int num = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; i <= num; i++)
             {
                 if (global::Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(fFinalData.FX, fFinalData.FY, fFinalData.FL, (sbyte)i) || Logbook.FInitialData.FPlayers.IndexOfPlayer((byte)i) != -1)
                 {
-                    global::Aow.Game.Events.CombatEventLog tCombatEventLog = new global::Aow.Game.Events.CombatEventLog(null);
+                    CombatEventLog tCombatEventLog = new CombatEventLog(null);
                     tCombatEventLog.SetCombatLogbook(Logbook);
                     global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(i).FEventLogbook.AddEvent(tCombatEventLog);
-                    if (Execute && i == global::Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(i).FPlayerType == global::Aow.Game.Session.PlayerType.Human && Logbook.FFinalData.F_CombatData_30 != 6)
+                    if (Execute && i == AoWHSMap.Current.FSeatedPlayer && global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(i).FPlayerType == PlayerType.Human && Logbook.FFinalData.F_CombatData_30 != 6)
                     {
-                        tCombatEventLog.Execute(Mode: false, global::Aow.Game.Events.ExecuteTrigger.Event, null);
+                        tCombatEventLog.Execute(Mode: false, ExecuteTrigger.Event, null);
                     }
                     tCombatEventLog.Release();
                 }
             }
         }
 
-        private static global::Aow.Game.Commands.MoveArmyTE CreateArmyMoveXYLTE(global::Aow.Game.Draw.ArmyHS Army, byte Selection, sbyte X, sbyte Y, sbyte L, global::Aow.Game.World.Movement.MoveAction Action, Set<global::Aow.Game.Units.ArmyMoveModeElement> Mode)
+        private static MoveArmyTE CreateArmyMoveXYLTE(ArmyHS Army, byte Selection, sbyte X, sbyte Y, sbyte L, MoveAction Action, Set<ArmyMoveModeElement> Mode)
         {
-            global::Aow.Game.World.Movement.MoveControlSettings tMoveControlSettings = new global::Aow.Game.World.Movement.MoveControlSettings(null);
+            MoveControlSettings tMoveControlSettings = new MoveControlSettings(null);
             sbyte lhx = Army.GetLhx();
             sbyte yhx = Army.GetYhx();
             tMoveControlSettings.SetSourcePos(Army.GetXhx(), yhx, lhx);
@@ -63932,9 +63932,9 @@ namespace Aow.Game.Commands
             tMoveControlSettings.FArmyHS = Army;
             tMoveControlSettings.FSelection = Selection;
             tMoveControlSettings.SetDestinationPos(X, Y, L);
-            Army.FArmy.CreateMovePointTable(Selection, Bytes.Of<global::Aow.Game.Engine.Buffers.FixedArray_Aow_Units_FixedArray_sbyte_16_16>(ref tMoveControlSettings.FMovePointTable));
+            Army.FArmy.CreateMovePointTable(Selection, Bytes.Of<FixedArray_Aow_Units_FixedArray_sbyte_16_16>(ref tMoveControlSettings.FMovePointTable));
             global::Aow.Game.World.Map.AoWHSMap.Current.FMoveControl.ProcessMove(tMoveControlSettings);
-            global::Aow.Game.Commands.MoveArmyTE result = ((tMoveControlSettings.FPath.Count == 0) ? null : global::Aow.Game.Draw.ArmyHS.CreateArmyMoveTE(Army, Selection, tMoveControlSettings.FPath, Action, Set<global::Aow.Game.Units.ArmyMoveModeElement>.Of(global::System.Array.Empty<global::Aow.Game.Units.ArmyMoveModeElement>())));
+            MoveArmyTE result = ((tMoveControlSettings.FPath.Count == 0) ? null : global::Aow.Game.Draw.ArmyHS.CreateArmyMoveTE(Army, Selection, tMoveControlSettings.FPath, Action, Set<ArmyMoveModeElement>.Of(global::System.Array.Empty<ArmyMoveModeElement>())));
             tMoveControlSettings.Release();
             return result;
         }
@@ -63965,7 +63965,7 @@ namespace Aow.Game.Events
         // MoveT.PAS:2494
         public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
         {
-            FCombatMove.FCombatMode = Aow.Game.Commands.ArmyCombatMoveTE.CombatMoveMode.Moving;
+            FCombatMove.FCombatMode = ArmyCombatMoveTE.CombatMoveMode.Moving;
             FCombatMove.RestoreHotseatMode();
             return false;
         }
@@ -64217,9 +64217,9 @@ namespace Aow.Game.Events
 
                 TE = CreateNegotiateTE();
                 TE.FGold = FGold;
-                TE.FOffer = Aow.Game.Commands.NegotiateTE.NegotiateOffer.OfferBribe;
-                TE.FResult = Aow.Game.Commands.NegotiateTE.NegotiateResult.Accept;
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
+                TE.FOffer = NegotiateTE.NegotiateOffer.OfferBribe;
+                TE.FResult = NegotiateTE.NegotiateResult.Accept;
+                AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -64244,9 +64244,9 @@ namespace Aow.Game.Events
 
                 TE = CreateNegotiateTE();
                 TE.FGold = 0;
-                TE.FOffer = Aow.Game.Commands.NegotiateTE.NegotiateOffer.ForceOffer;
-                TE.FResult = Aow.Game.Commands.NegotiateTE.NegotiateResult.Reject;
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
+                TE.FOffer = NegotiateTE.NegotiateOffer.ForceOffer;
+                TE.FResult = NegotiateTE.NegotiateResult.Reject;
+                AoWHSMap.Current.FTokenManager.TokenControls[FPlayer].AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -64270,7 +64270,7 @@ namespace Aow.Game.Events
             ID = FArmyID;
             if (ID != null)
             {
-                Event.FArmyID = (ArmyID)ID.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Event.FArmyID = (ArmyID)ID.Copy(GameTables.AoWEngine);
                 Event.FMovePoints = FMovePoints;
             }
             else
@@ -64281,7 +64281,7 @@ namespace Aow.Game.Events
             return Event;
         }
 
-        public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger == 0 && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer && base.Execute(mode, trigger, done);
+        public override bool Execute(bool mode, ExecuteTrigger trigger, ExecuteDoneEvent done) => trigger == 0 && AoWHSMap.Current.FSeatedPlayer == FPlayer && base.Execute(mode, trigger, done);
     }
 }
 
@@ -64339,32 +64339,32 @@ namespace Aow.Game.Commands
         {
             ExecuteResult Result = default;
             base.Execute(TE);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == TE.ActiveTCIndex)
+            if (AoWHSMap.Current.FSeatedPlayer == TE.ActiveTCIndex)
             {
                 if (TE.ExecuteCount == 0)
                 {
                     var fileName = ExtractFileName(FFileName);
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.SaveGameTE.P5SavingGameRStr), [fileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5SavingGameRStr), [fileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                     Result = ExecuteResult.Retry;
                 }
                 else
                 {
                     var fileName = ExtractFileName(FFileName);
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GameSavedRStr), [fileName]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GameSavedRStr), [fileName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                     try
                     {
                         Aow.Game.World.Map.AoWHSMap.Current.DisableTurnTimer();
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                        if (GameTables.AoWEngine.FCampaign != null)
                         {
                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveCampaign(FFileName);
-                            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FFileName = FFileName;
+                            GameTables.AoWEngine.FCampaign.FFileName = FFileName;
                         }
                         else
                         {
                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(FFileName, null, Aow.Formats.GameProfile.WorldMap);
-                            Aow.Game.World.Map.AoWHSMap.Current.FileName = FFileName;
+                            AoWHSMap.Current.FileName = FFileName;
                         }
 
                         Aow.Game.World.Map.AoWHSMap.Current.EnableTurnTimer();
@@ -64372,7 +64372,7 @@ namespace Aow.Game.Commands
                     catch
                     {
                         // { Original leaves the turn timer disabled after a save failure. }
-                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.SaveGameTE.P5ErrorSavingRStr), [FFileName]);
+                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5ErrorSavingRStr), [FFileName]);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(aoWEFormat);
                     }
 
@@ -64422,7 +64422,7 @@ namespace Aow.Game.Commands
             {
                 case 0:
                     {
-                        for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                         {
                             var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
                             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).SetGems(players.FGems + 1000);
@@ -64432,7 +64432,7 @@ namespace Aow.Game.Commands
                     break;
                 case 1:
                     {
-                        for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                         {
                             var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I);
                             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.SetMana(players.FMagicControl.FMana + 1000);
@@ -64441,29 +64441,29 @@ namespace Aow.Game.Commands
 
                     break;
                 case 2:
-                    Aow.Game.World.Map.AoWHSMap.Current.SetExplorationEnabled(!Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled);
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled)
+                    Aow.Game.World.Map.AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.FExplorationEnabled);
+                    if (AoWHSMap.Current.FExplorationEnabled)
                     {
-                        var p5ExplorationEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5ExplorationEnabledRStr);
+                        var p5ExplorationEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5ExplorationEnabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5ExplorationEnabled);
                     }
                     else
                     {
-                        var p5ExplorationDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5ExplorationDisabledRStr);
+                        var p5ExplorationDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5ExplorationDisabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5ExplorationDisabled);
                     }
 
                     break;
                 case 3:
-                    Aow.Game.World.Map.AoWHSMap.Current.SetFogEnabled(!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled);
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled)
+                    Aow.Game.World.Map.AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FFogEnabled);
+                    if (AoWHSMap.Current.FFogEnabled)
                     {
-                        var p5FogEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5FogEnabledRStr);
+                        var p5FogEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5FogEnabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5FogEnabled);
                     }
                     else
                     {
-                        var p5FogDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5FogDisabledRStr);
+                        var p5FogDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5FogDisabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5FogDisabled);
                     }
 
@@ -64473,17 +64473,17 @@ namespace Aow.Game.Commands
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FCheatEnabled = !cheatEnabled;
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled())
                     {
-                        var p5SpellCheatEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5SpellCheatEnabledRStr);
+                        var p5SpellCheatEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5SpellCheatEnabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5SpellCheatEnabled);
                     }
                     else
                     {
-                        var p5SpellCheatDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5SpellCheatDisabledRStr);
+                        var p5SpellCheatDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5SpellCheatDisabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5SpellCheatDisabled);
                     }
 
                     {
-                        for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                         {
                             var fMagicControlCheatEnabled = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.GetCheatEnabled();
                             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.FCheatEnabled = fMagicControlCheatEnabled;
@@ -64495,15 +64495,15 @@ namespace Aow.Game.Commands
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayerControl.GameOver(FPlayer, GameOverStatus.Won);
                     break;
                 case 6:
-                    Aow.Game.World.Map.AoWHSMap.Current.FUnlimitedMoves = !Aow.Game.World.Map.AoWHSMap.Current.FUnlimitedMoves;
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FUnlimitedMoves)
+                    AoWHSMap.Current.FUnlimitedMoves = !AoWHSMap.Current.FUnlimitedMoves;
+                    if (AoWHSMap.Current.FUnlimitedMoves)
                     {
-                        var p5FreeMovementEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5FreeMovementEnabledRStr);
+                        var p5FreeMovementEnabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5FreeMovementEnabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5FreeMovementEnabled);
                     }
                     else
                     {
-                        var p5FreeMovementDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.CheatTE.P5FreeMovementDisabledRStr);
+                        var p5FreeMovementDisabled = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5FreeMovementDisabledRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(p5FreeMovementDisabled);
                     }
 
@@ -64525,7 +64525,7 @@ namespace Aow.Game.Commands
                     break;
                 case 9:
                     {
-                        for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+                        for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
                         {
                             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FMagicControl.FSpells.Clear();
                             for (int J = 1, lastJ = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetCount() - 1; J <= lastJ; J++)
@@ -64656,7 +64656,7 @@ namespace Aow.Game.Commands
 
                 AUnit.RemoveEnchantments();
                 AUnit.Release();
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer)
+                if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.Unselect();
                 }
@@ -64695,7 +64695,7 @@ namespace Aow.Game.Commands
         {
             if (FMode.Contains(CombatFlowControlModeElement.SetAutoSwitch))
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = false;
+                AoWHSMap.Current.FTokenManager.TokenExecuter.HoldTC = false;
             }
 
             if (FMode.Contains(CombatFlowControlModeElement.LockAIExecuter))
@@ -64753,7 +64753,7 @@ namespace Aow.Game.Commands
         {
             MessageEventLog Log = default;
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FPlayerType = PlayerType.CPU3;
-            var remotePCC = (RemotePCC)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC;
+            var remotePCC = (RemotePCC)AoWHSMap.Current.FPlayerCommunicator.PCC;
             remotePCC.SetConnectionMode(FPlayer, ConnectionMode.Global);
             remotePCC.SetSystemID(FPlayer, 0);
 
@@ -64763,13 +64763,13 @@ namespace Aow.Game.Commands
             }
 
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Update();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != FPlayer)
+            if (AoWHSMap.Current.FSeatedPlayer != FPlayer)
             {
                 Log = new MessageEventLog(null);
-                Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.Ok;
-                Log.FLayout = Aow.Game.Events.MessageEventLog.Layout.Normal;
+                Log.FButtons = MessageEventLog.Buttons.Ok;
+                Log.FLayout = MessageEventLog.Layout.Normal;
                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetName();
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Commands.TerminatePlayerTE.P5XLeftTheGameRStr), [name]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5XLeftTheGameRStr), [name]);
                 Log.FMessage.Add(format);
                 // { Append the departure message, as in the original. }
                 Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
@@ -64833,7 +64833,7 @@ namespace Aow.Game.Combat
                 AUnit = FUnit;
                 CV = 0;
                 DV = 0;
-                Abilities = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
+                Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
                 for (int I = Abilities.Count - 1; I >= 0; I--)
                 {
                     Ability = Abilities.GetAbility(I);
@@ -64913,7 +64913,7 @@ namespace Aow.Game.Combat
                 Wall = WallSituation.Target;
             }
 
-            Abilities = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
+            Abilities = AoWHSSet.Current.FAbilityControl.FAbilitiesByType[(int)AbilityType.Combat];
             for (int I = Abilities.Count - 1; I >= 0; I--)
             {
                 Ability = Abilities.GetAbility(I);
@@ -65044,7 +65044,7 @@ namespace Aow.Game.Combat
         }
 
         // AIGroup.pas:7011
-        public override void Activate(global::Aow.Game.Combat.Combat ACombat)
+        public override void Activate(Combat ACombat)
         {
             base.Activate(ACombat);
             if (ACombat is FastCombat)
@@ -65064,7 +65064,7 @@ namespace Aow.Game.Combat
         }
 
         // AIGroup.pas:7002
-        public override void Initialize(global::Aow.Game.Combat.Combat ACombat)
+        public override void Initialize(Combat ACombat)
         {
             AbstractUnit AUnit;
             base.Initialize(ACombat);
@@ -65229,7 +65229,7 @@ namespace Aow.Game.Combat
         {
             if (FState.Contains(FastCombatUnitStateElement.OutsideWall))
             {
-                Aow.Game.Engine.AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
+                AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
             }
 
             base.Show(Frame, Direction, X, Y, Surface);
@@ -65240,7 +65240,7 @@ namespace Aow.Game.Combat
         {
             if (Direction != 6 && FState.Contains(FastCombatUnitStateElement.OutsideWall))
             {
-                Aow.Game.Engine.AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
+                AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
             }
 
             return base.ShowAttackAnimation(Frame, Direction, X, Y, Surface);
@@ -65251,7 +65251,7 @@ namespace Aow.Game.Combat
         {
             if (FState.Contains(FastCombatUnitStateElement.OutsideWall))
             {
-                Aow.Game.Engine.AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
+                AoWHSSet.Current.FCombatImages[21].Show(X + 10, Y, Surface);
             }
 
             // { The original uses the attack animation for this hit-animation override. }
@@ -65282,7 +65282,7 @@ namespace Aow.Game.Combat
             if (AUnit is Hero && FCombat.FStatus.Contains(CombatStatusElement.Executing))
             {
                 var combatData = FCombat.FCombatData;
-                ((Hero)AUnit).DropItemsOnMap(Aow.Game.World.Map.AoWHSMap.Current, (sbyte)combatData.FX, (sbyte)combatData.FY, (sbyte)combatData.FL);
+                ((Hero)AUnit).DropItemsOnMap(AoWHSMap.Current, (sbyte)combatData.FX, (sbyte)combatData.FY, (sbyte)combatData.FL);
             }
 
             base.KillUnit();
@@ -65336,7 +65336,7 @@ namespace Aow.Game.Combat
     }
 
     // wall siege object count
-    public partial class FastCombat : global::Aow.Game.Combat.Combat
+    public partial class FastCombat : Combat
     {
         // AIGroup.pas:7128
         public new const int ClassID = 131760;
@@ -65389,7 +65389,7 @@ namespace Aow.Game.Combat
                     else
                     {
                         FCombatResult = CombatResult.CannotInflictDamage;
-                        Header = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotInflictDamageRStr);
+                        Header = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CannotInflictDamageRStr);
                         SetLogbookHeader(Header);
                     }
                 }
@@ -65400,7 +65400,7 @@ namespace Aow.Game.Combat
             }
             else
             {
-                Header = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotBreachWallRStr);
+                Header = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CannotBreachWallRStr);
                 SetLogbookHeader(Header);
                 FCombatResult = CombatResult.CannotBreachWall;
             }
@@ -65534,7 +65534,7 @@ namespace Aow.Game.Combat
             Idle = true;
             Objects = new CombatObjectList();
             var round = GetRound();
-            SetLogbookHeader(Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Combat.FastCombat.P5RoundXRStr), [IntToStr(round)]));
+            SetLogbookHeader(Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5RoundXRStr), [IntToStr(round)]));
             for (int PlayerIndex = 0, last = FCombatData.FTurnOrder.Count - 1; PlayerIndex <= last; PlayerIndex++)
             {
                 NewTurn(FCombatData.FTurnOrder[PlayerIndex]);
@@ -65598,10 +65598,10 @@ namespace Aow.Game.Magic.Abilities
     public partial class AbilityPlugIn : PlugIn
     {
         // AoWAb.PAS:5569
-        public override string Name() => Aow.Game.Magic.Abilities.AbilityPlugIn.P4AbilitiesRStr;
+        public override string Name() => P4AbilitiesRStr;
 
         // AoWAb.PAS:5573
-        public override bool Initialize(global::Aow.Game.Engine.Engine AEngine)
+        public override bool Initialize(Engine.Engine AEngine)
         {
             bool Result;
             if (AEngine is AoWEngine)
@@ -65617,7 +65617,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:5578
-        public override bool Finalize(global::Aow.Game.Engine.Engine AEngine)
+        public override bool Finalize(Engine.Engine AEngine)
         {
             AddRef();
             bool Result = base.Finalize(AEngine);
@@ -65714,7 +65714,7 @@ namespace Aow.Game.Magic.Abilities
                         {
                             var duration = GetDuration(Owner);
                             var totalDuration = GetTotalDuration();
-                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
+                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
                             Result = Result + " " + format;
                         }
 
@@ -65722,12 +65722,12 @@ namespace Aow.Game.Magic.Abilities
                     case DurationMode.CombatTurn:
                         var duration2 = GetDuration(Owner);
                         var totalDuration2 = GetTotalDuration();
-                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
                         Result = base.GetName(Owner) + " " + aoWEFormat;
                         break;
                     case DurationMode.EntireCombat:
                         var name = base.GetName(Owner);
-                        var durationEntireCombat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DurationEntireCombatRStr);
+                        var durationEntireCombat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DurationEntireCombatRStr);
                         Result = name + " " + durationEntireCombat;
                         break;
                 }
@@ -65744,7 +65744,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:40
         public override void NewDay(AbilityOwner Owner)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+            if (AoWHSMap.Current.FDay == 1)
             {
                 Owner.RemoveAbility(FAbilityID);
             }
@@ -65925,7 +65925,7 @@ namespace Aow.Game.Magic.Abilities
 
         // AoWAb.PAS:317
         // { branch past the missing-data exit and nil-owner zero result }
-        public override EClass AbilityDataClass() => Aow.Game.Magic.Abilities.AbilityRules.P4MultiLevelDataClass;
+        public override EClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
 
         public override int GetLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
         public override int GetInherentLevel(AbilityOwner owner) => owner == null ? 0 : ((MultiLevelAbilityData)owner.GetAbilityData(FAbilityID))?.FLevel ?? 0;
@@ -65986,7 +65986,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:947
-        public override string GetLevelName(int Level) => Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.TransportAbility.P4TransportUnitsRStr), [IntToStr(Level)]);
+        public override string GetLevelName(int Level) => Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4TransportUnitsRStr), [IntToStr(Level)]);
 
         private static readonly string P4TransportUnitsRStr = "Transport (%s units)";
     }
@@ -66003,7 +66003,7 @@ namespace Aow.Game.Combat.Actions
         public StrikeCA(ECustomNode owner) : base(owner)
         { }
 
-        public Set<Aow.Game.Combat.StrikeModeElement> FStrikeMode;
+        public Set<StrikeModeElement> FStrikeMode;
 
         // AoWAb.PAS:1157
         public override void ReadWrite(EStorageStream Stream)
@@ -66013,33 +66013,33 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:1163
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatObject Source;
-            Aow.Game.Combat.CombatObject Target;
+            CombatObject Source;
+            CombatObject Target;
             UnitEnchantmentAbilityData Data;
             Source = Combat.FCombatData.FindID(FSourceID);
             Target = Combat.FCombatData.FindID(FTargetID);
             FDamageDone = (byte)Source.DoDamage(Target, FDamage);
-            if (FEffects.Value != Set<Aow.Game.Combat.DamageType>.Of())
+            if (FEffects.Value != Set<DamageType>.Of())
             {
                 Target.ExecuteDamageEffects(FEffects.Value);
             }
 
-            if (FDamageDone != 0 && FStrikeMode.Contains(Aow.Game.Combat.StrikeModeElement.LifeStealing) && Target is Aow.Game.Combat.CombatUnit && ((Aow.Game.Combat.CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine)
+            if (FDamageDone != 0 && FStrikeMode.Contains(StrikeModeElement.LifeStealing) && Target is CombatUnit && ((CombatUnit)Target).FUnit.GetUnitType() != UnitType.Machine)
             {
                 Source.SetHitPoints((byte)(Source.GetHitPoints() + 1));
             }
 
-            if (FStrikeMode.Contains(Aow.Game.Combat.StrikeModeElement.CausedFear) && Target is Aow.Game.Combat.CombatUnit)
+            if (FStrikeMode.Contains(StrikeModeElement.CausedFear) && Target is CombatUnit)
             {
-                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(108).Expand(((Aow.Game.Combat.CombatUnit)Target).FUnit);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(108).Expand(((CombatUnit)Target).FUnit);
             }
 
-            if (FStrikeMode.Contains(Aow.Game.Combat.StrikeModeElement.Entangled) && Target is Aow.Game.Combat.CombatUnit)
+            if (FStrikeMode.Contains(StrikeModeElement.Entangled) && Target is CombatUnit)
             {
-                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(94).Expand(((Aow.Game.Combat.CombatUnit)Target).FUnit);
-                Data = (UnitEnchantmentAbilityData)((Aow.Game.Combat.CombatUnit)Target).FUnit.GetAbilityData(94);
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(94).Expand(((CombatUnit)Target).FUnit);
+                Data = (UnitEnchantmentAbilityData)((CombatUnit)Target).FUnit.GetAbilityData(94);
                 if (Data != null)
                 {
                     Data.FEnchantmentPlayerIndex = Source.FCombatPlayer;
@@ -66048,7 +66048,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:1187
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 1)
             {
@@ -66066,19 +66066,19 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:1197
-        public override void Generate(Aow.Game.Combat.CombatObject Source, Aow.Game.Combat.CombatObject Target, sbyte Attack, sbyte Damage, Set<Aow.Game.Combat.DamageType> DamageTypes)
+        public override void Generate(CombatObject Source, CombatObject Target, sbyte Attack, sbyte Damage, Set<DamageType> DamageTypes)
         {
             base.Generate(Source, Target, Attack, Damage, DamageTypes);
             if (FDamage != 0)
             {
                 if (Source.GetAbilityEnabled(51) && !Target.GetAbilityEnabled(67) && Aow.Game.Magic.Abilities.HitChance.HitRole(3 - Target.GetResistance()))
                 {
-                    FStrikeMode = FStrikeMode + Set<Aow.Game.Combat.StrikeModeElement>.Of(Aow.Game.Combat.StrikeModeElement.CausedFear);
+                    FStrikeMode = FStrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.CausedFear);
                 }
 
                 if (Source.GetAbilityEnabled(119) && Aow.Game.Magic.Abilities.HitChance.HitRole(7 - Target.GetResistance()))
                 {
-                    FStrikeMode = FStrikeMode + Set<Aow.Game.Combat.StrikeModeElement>.Of(Aow.Game.Combat.StrikeModeElement.Entangled);
+                    FStrikeMode = FStrikeMode + Set<StrikeModeElement>.Of(StrikeModeElement.Entangled);
                 }
             }
         }
@@ -66618,13 +66618,13 @@ namespace Aow.Game.Combat
             return FDefenderDV;
         }
 
-        internal static int StatisticsToDV(int Attack, int Damage, Set<global::Aow.Game.Combat.DamageType> DamageTypes, int Defense, int Resistance, Set<global::Aow.Game.Combat.DamageType> ImmunityTypes, Set<global::Aow.Game.Combat.DamageType> ProtectionTypes)
+        internal static int StatisticsToDV(int Attack, int Damage, Set<DamageType> DamageTypes, int Defense, int Resistance, Set<DamageType> ImmunityTypes, Set<DamageType> ProtectionTypes)
         {
             DamageTypes -= ImmunityTypes;
-            if (DamageTypes != Set<global::Aow.Game.Combat.DamageType>.Of(global::System.Array.Empty<global::Aow.Game.Combat.DamageType>()))
+            if (DamageTypes != Set<DamageType>.Of(global::System.Array.Empty<DamageType>()))
             {
                 Attack -= Defense;
-                if (DamageTypes - ProtectionTypes == Set<global::Aow.Game.Combat.DamageType>.Of(global::System.Array.Empty<global::Aow.Game.Combat.DamageType>()))
+                if (DamageTypes - ProtectionTypes == Set<DamageType>.Of(global::System.Array.Empty<DamageType>()))
                 {
                     Damage = Damage + 1 >>> 1;
                 }
@@ -66685,7 +66685,7 @@ namespace Aow.Game.Magic.Abilities
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem);
             FAbilityType = AbilityType.Combat;
             FAbilityID = 21;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.StrikeAbility.StrikeRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(StrikeRStr);
             FMeleeRound = new MeleeRound();
         }
 
@@ -66748,7 +66748,7 @@ namespace Aow.Game.Magic.Abilities
             CombatObject Target;
             CombatAction Action;
             MoveWallCA MoveCA;
-            Aow.Game.Combat.MeleeRound.MeleeStrike Strike = default;
+            MeleeRound.MeleeStrike Strike = default;
             Target = Command.FTarget;
             Round = new MeleeRound();
             Round.Calculate(Source, Target);
@@ -66817,7 +66817,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:1308
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)))
+            if (WallSituation == Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)))
             {
                 FMeleeRound.CalculateUnit(Attacker, Defender);
                 var attackerDV = FMeleeRound.GetAttackerDV();
@@ -66867,7 +66867,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:1328
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)))
+            if (WallSituation == Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)))
             {
                 FMeleeRound.Calculate(Attacker, Defender);
                 var attackerDV = FMeleeRound.GetAttackerDV();
@@ -67034,7 +67034,7 @@ namespace Aow.Game.Combat.Actions
         public override string GetName() => Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(FAbilityID).GetName(null);
 
         // AoWAb.PAS:4647
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 1)
             {
@@ -67045,7 +67045,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:4636
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FTargetID && Viewer.FTime != 0)
@@ -67208,7 +67208,7 @@ namespace Aow.Game.Magic.Abilities
             int Damage;
             int Repeats;
             Defense = Defender.GetDefense();
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.Target)
+            if (WallSituation == Combat.WallSituation.Target)
             {
                 Defense += 2;
             }
@@ -67250,14 +67250,14 @@ namespace Aow.Game.Magic.Abilities
             int Repeats;
             CombatRange Range;
             Range = GetRangeRA(Attacker.GetAbilityOwner());
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None || Set<CombatRange>.Of(CombatRange.Medium, CombatRange.Long).Contains(Range) || Attacker.GetAbilityEnabled(1))
+            if (WallSituation == Combat.WallSituation.None || Set<CombatRange>.Of(CombatRange.Medium, CombatRange.Long).Contains(Range) || Attacker.GetAbilityEnabled(1))
             {
                 ProtectionTypes = Defender.GetProtectionTypes();
                 ImmunityTypes = Defender.GetImmunityTypes();
                 DamageTypes = GetDamageTypesRA(Attacker.GetAbilityOwner());
                 Damage = GetDamageRA(Attacker.GetAbilityOwner());
                 Defense = Defender.GetDefense();
-                if (WallSituation == global::Aow.Game.Combat.WallSituation.Target)
+                if (WallSituation == Combat.WallSituation.Target)
                 {
                     Defense += 2;
                 }
@@ -67372,15 +67372,15 @@ namespace Aow.Game.Magic.Abilities
             return Action;
         }
 
-        private static global::Aow.Game.Combat.CombatMode CombatRangeToCombatMode(CombatRange Range)
+        private static CombatMode CombatRangeToCombatMode(CombatRange Range)
         {
             return Range switch
             {
-                CombatRange.Long => global::Aow.Game.Combat.CombatMode.LongRange,
-                CombatRange.Medium => global::Aow.Game.Combat.CombatMode.MediumRange,
-                CombatRange.Short => global::Aow.Game.Combat.CombatMode.ShortRange,
-                CombatRange.Touch => global::Aow.Game.Combat.CombatMode.Touch,
-                _ => global::Aow.Game.Combat.CombatMode.None,
+                CombatRange.Long => CombatMode.LongRange,
+                CombatRange.Medium => CombatMode.MediumRange,
+                CombatRange.Short => CombatMode.ShortRange,
+                CombatRange.Touch => CombatMode.Touch,
+                _ => CombatMode.None,
             };
         }
 
@@ -67397,7 +67397,7 @@ namespace Aow.Game.Magic.Abilities
         {
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
             FAbilityType = AbilityType.Combat;
-            FRangeRA = Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Medium;
+            FRangeRA = CombatRange.Medium;
             FAttackRepeatRA = 1;
         }
     }
@@ -67407,7 +67407,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:4852
         public BreathAbility(ECustomNode owner) : base(owner)
         {
-            FRangeRA = Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Short;
+            FRangeRA = CombatRange.Short;
             FAttackRepeatRA = 1;
             FAttackRA = 7;
             FDamageRA = 5;
@@ -67416,7 +67416,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:4894
         public override bool fcExecuteCombatCommand(CombatObject Source, FastCombatCommand Command)
         {
-            global::Aow.Game.Combat.Combat Combat;
+            Combat.Combat Combat;
             DelphiList Targets;
             CombatObject Target;
             CombatObject Other;
@@ -67476,7 +67476,7 @@ namespace Aow.Game.Magic.Abilities
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             int Count;
-            global::Aow.Game.Combat.Combat Combat;
+            Combat.Combat Combat;
             CombatObject Target;
             base.fcGetDamageValueEx(Attacker, Defender, WallSituation, ref DamageValues);
             if (DamageValues.SourceDamage != 0)
@@ -67525,7 +67525,7 @@ namespace Aow.Game.Magic.Abilities
         public FlameThrowingAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 30;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.FlameThrowingAbility.FlameThrowingRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FlameThrowingRStr);
             FAttackRA = 4;
             FDamageRA = 3;
             FDamageTypesRA.Value = Set<DamageType>.Of(DamageType.Fire);
@@ -67752,26 +67752,26 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2484
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Source;
-            Aow.Game.Combat.CombatUnit Target;
+            CombatUnit Source;
+            CombatUnit Target;
             AbstractUnit NewUnit;
             AbstractUnit OldUnit;
             PossessedAbilityData Data;
             int Experience;
             if (FSuccessful)
             {
-                Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
+                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
                 }
 
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
+                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
                 }
 
                 NewUnit = Target.FUnit;
@@ -67818,7 +67818,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2537
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -67834,7 +67834,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2529
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID || Obj.FID == FTargetID)
@@ -67865,7 +67865,7 @@ namespace Aow.Game.Magic.Abilities
         public PossessAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 106;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.PossessAbility.PossessRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PossessRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
         }
 
@@ -67915,7 +67915,7 @@ namespace Aow.Game.Magic.Abilities
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             float Probability;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
+            if (WallSituation == Combat.WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
             {
                 Probability = TouchRoleProbability(Attacker, Defender);
                 var hitPoints = Defender.GetHitPoints();
@@ -67957,7 +67957,7 @@ namespace Aow.Game.Magic.Abilities
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             float Probability;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 Probability = CombatTouchRoleProbability((CombatUnit)Attacker, Defender);
                 var hitPoints = Defender.GetHitPoints();
@@ -68044,7 +68044,7 @@ namespace Aow.Game.Magic.Abilities
         public PossessedAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 107;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.PossessedAbility.PossessedRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PossessedRStr);
             FAbilityType = AbilityType.Enchantment;
             FSelectionTypes = Set<AbilitySelectionType>.Of();
         }
@@ -68111,9 +68111,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:2592
-        public override EClass AbilityDataClass() => Aow.Game.Magic.Abilities.PossessedAbility.P4PossessedDataClass;
+        public override EClass AbilityDataClass() => P4PossessedDataClass;
 
-        private static global::Aow.Game.Engine.EClass P4PossessedDataClass = global::Aow.Game.Engine.EClass.Of<global::Aow.Game.Magic.Abilities.PossessedAbilityData>();
+        private static EClass P4PossessedDataClass = global::Aow.Game.Engine.EClass.Of<PossessedAbilityData>();
         private static readonly string PossessedRStr = "Possessed";
 
     }
@@ -68140,18 +68140,18 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2778
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Target;
+            CombatUnit Target;
             if (FSuccessful)
             {
-                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
                 Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(97).Expand(Target.FUnit);
             }
         }
 
         // AoWAb.PAS:2797
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -68167,7 +68167,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2789
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FTargetID)
@@ -68198,7 +68198,7 @@ namespace Aow.Game.Magic.Abilities
         public WebAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 27;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.WebAbility.WebRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WebRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
         }
 
@@ -68248,7 +68248,7 @@ namespace Aow.Game.Magic.Abilities
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             float Probability;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && !Defender.GetImmunityTypes().Contains(DamageType.None))
+            if (WallSituation == Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && !Defender.GetImmunityTypes().Contains(DamageType.None))
             {
                 Probability = TouchRoleProbability(Attacker, Defender);
                 var hitPoints = Defender.GetHitPoints();
@@ -68285,7 +68285,7 @@ namespace Aow.Game.Magic.Abilities
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             float Probability;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 Probability = CombatTouchRoleProbability((CombatUnit)Attacker, Defender);
                 var hitPoints = Defender.GetHitPoints();
@@ -68351,15 +68351,15 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2938
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Source;
-            Aow.Game.Combat.CombatUnit Target;
+            CombatUnit Source;
+            CombatUnit Target;
             UnitEnchantmentAbilityData Data;
             if (FSuccessful)
             {
-                Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
                 Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(94).Expand(Target.FUnit);
                 Data = (UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(94);
                 if (Data != null)
@@ -68370,7 +68370,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2960
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -68386,7 +68386,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2953
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FTargetID)
@@ -68417,7 +68417,7 @@ namespace Aow.Game.Magic.Abilities
         public EntangleAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 40;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EntangleRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.EntangleRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
         }
 
@@ -68467,7 +68467,7 @@ namespace Aow.Game.Magic.Abilities
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             float Probability;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
+            if (WallSituation == Combat.WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
             {
                 Probability = TouchRoleProbability(Attacker, Defender);
                 var hitPoints = Defender.GetHitPoints();
@@ -68504,7 +68504,7 @@ namespace Aow.Game.Magic.Abilities
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             float Probability;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 Probability = CombatTouchRoleProbability((CombatUnit)Attacker, Defender);
                 var hitPoints = Defender.GetHitPoints();
@@ -68568,10 +68568,10 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3420
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatObject Source;
-            Aow.Game.Combat.CombatObject Target;
+            CombatObject Source;
+            CombatObject Target;
             if (FSuccessful)
             {
                 Source = Combat.FCombatData.FindID(FSourceID);
@@ -68581,7 +68581,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3412
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -68597,7 +68597,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3405
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FTargetID)
@@ -68628,7 +68628,7 @@ namespace Aow.Game.Magic.Abilities
         public InvokeDeathAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 35;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.InvokeDeathAbility.InvokeDeathRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(InvokeDeathRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem);
         }
 
@@ -68679,7 +68679,7 @@ namespace Aow.Game.Magic.Abilities
         {
             float Probability;
             int HitPoints;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && !Defender.GetImmunityTypes().Contains(DamageType.None))
+            if (WallSituation == Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && !Defender.GetImmunityTypes().Contains(DamageType.None))
             {
                 Probability = TouchRoleProbability(Attacker, Defender);
                 HitPoints = Defender.GetHitPoints();
@@ -68719,7 +68719,7 @@ namespace Aow.Game.Magic.Abilities
         {
             float Probability;
             int HitPoints;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 Probability = CombatTouchRoleProbability((CombatUnit)Attacker, Defender);
                 HitPoints = Defender.GetHitPoints();
@@ -68814,17 +68814,17 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:3088
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Source;
-            Aow.Game.Combat.CombatUnit Target;
+            CombatUnit Source;
+            CombatUnit Target;
             UnitEnchantmentAbilityData Data;
             base.Execute(Combat);
             if (FDamage != 0)
             {
-                Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
-                if (!Target.FStatus.Contains(Aow.Game.Combat.CombatObjectStatusElement.Destroyed))
+                Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                if (!Target.FStatus.Contains(CombatObjectStatusElement.Destroyed))
                 {
                     Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(34).Expand(Target.FUnit);
                     Data = (UnitEnchantmentAbilityData)Target.FUnit.GetAbilityData(34);
@@ -68838,7 +68838,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3115
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             bool Result = base.Play(Viewer);
             if (Viewer.FTime == 0)
@@ -68850,7 +68850,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3108
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FTargetID)
@@ -68877,7 +68877,7 @@ namespace Aow.Game.Magic.Abilities
         {
             FAbilityID = 38;
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.HeadItem, AbilitySelectionType.TorsoItem, AbilitySelectionType.DefenseItem, AbilitySelectionType.RingItem, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TurnUndeadRStr);
             FAbilityType = AbilityType.Combat;
         }
 
@@ -69047,7 +69047,7 @@ namespace Aow.Game.Magic.Abilities
         {
             float Probability;
             int HitPoints;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
+            if (WallSituation == Combat.WallSituation.None && CanTouchUnit(Attacker, Defender) && !Defender.GetImmunityTypes().Contains(DamageType.None))
             {
                 Probability = TouchRoleProbability(Attacker, Defender);
                 HitPoints = Defender.GetHitPoints();
@@ -69095,7 +69095,7 @@ namespace Aow.Game.Magic.Abilities
         {
             float Probability;
             int HitPoints;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 Probability = CombatTouchRoleProbability((CombatUnit)Attacker, Defender);
                 HitPoints = Defender.GetHitPoints();
@@ -69199,19 +69199,19 @@ namespace Aow.Game.Magic.Abilities
             switch (Level)
             {
                 case 0:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TurnUndeadRStr);
                     break;
                 case 1:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr) + " I";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " I";
                     break;
                 case 2:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr) + " II";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " II";
                     break;
                 case 3:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr) + " III";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " III";
                     break;
                 case 4:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TurnUndeadRStr) + " IV";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TurnUndeadRStr) + " IV";
                     break;
             }
 
@@ -69267,7 +69267,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:3164
-        public override EClass AbilityDataClass() => Aow.Game.Magic.Abilities.AbilityRules.P4MultiLevelDataClass;
+        public override EClass AbilityDataClass() => AbilityRules.P4MultiLevelDataClass;
 
     }
 
@@ -69278,7 +69278,7 @@ namespace Aow.Game.Magic.Abilities
         {
             FAbilityID = 114;
             FAbilityType = AbilityType.Combat;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.RoundAttackAbility.RoundAttackRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RoundAttackRStr);
         }
 
         // AoWAb.PAS:2404
@@ -69287,7 +69287,7 @@ namespace Aow.Game.Magic.Abilities
             Set<DamageType> DamageTypes;
             int Count;
             StrikeCA Action;
-            global::Aow.Game.Combat.Combat Combat;
+            Combat.Combat Combat;
             DelphiList Targets;
             CombatObject Target;
             CombatObject Other;
@@ -69365,7 +69365,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:2318
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouchUnit(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouchUnit(Attacker, Defender))
             {
                 var p4UnitStrikeDV = Aow.Game.Magic.Abilities.AbstractUnit.P4UnitStrikeDV(Attacker, Defender);
                 DamageValues.SourceDamage = p4UnitStrikeDV * 2;
@@ -69407,9 +69407,9 @@ namespace Aow.Game.Magic.Abilities
         {
             int Count;
             Set<DamageType> DamageTypes;
-            global::Aow.Game.Combat.Combat Combat;
+            Combat.Combat Combat;
             CombatObject Target;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 DamageTypes = Aow.Game.Combat.CombatObject.MeleeDamageTypes(Attacker);
                 var strikeDV = Aow.Game.Combat.CombatObject.StrikeDV(Attacker, Defender);
@@ -69581,9 +69581,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:5019
-        public override EClass AbilityDataClass() => Aow.Game.Magic.Abilities.CommandedAbility.P4CommandedDataClass;
+        public override EClass AbilityDataClass() => P4CommandedDataClass;
 
-        private static global::Aow.Game.Engine.EClass P4CommandedDataClass = global::Aow.Game.Engine.EClass.Of<global::Aow.Game.Magic.Abilities.CommandedAbilityData>();
+        private static EClass P4CommandedDataClass = global::Aow.Game.Engine.EClass.Of<CommandedAbilityData>();
 
     }
 }
@@ -69611,23 +69611,23 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:5063
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Source;
-            Aow.Game.Combat.CombatUnit Target;
+            CombatUnit Source;
+            CombatUnit Target;
             if (FSuccessful)
             {
-                Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
-                Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+                Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
                 Source.SetExperience(Source.GetExperience() + Target.GetLevel());
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
+                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).ResetCommandedUnits(Target);
                 }
 
                 for (int I = 0; I <= 2; I++)
                 {
-                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(Aow.Game.Magic.Abilities.AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
+                    ((CommandAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(AbilityRules.CommandAbilityIDs[I])).Uncommand(Target);
                 }
 
                 if (Source.GetSide() != Target.GetSide())
@@ -69638,7 +69638,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:5081
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -69654,7 +69654,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:5056
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FSourceID)
@@ -69712,7 +69712,7 @@ namespace Aow.Game.Magic.Abilities
         public override int GetAbilityID() => FAbilityID;
 
         // AoWAb.PAS:4973
-        public int CommandingTargetPriority(global::Aow.Game.Combat.Combat Combat)
+        public int CommandingTargetPriority(Combat.Combat Combat)
         {
             CombatObject Target;
             int Result = 0;
@@ -69729,7 +69729,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:4985
-        public int CommandingTargetStrength(global::Aow.Game.Combat.Combat Combat)
+        public int CommandingTargetStrength(Combat.Combat Combat)
         {
             CombatObject Target;
             int Result = 0;
@@ -69852,7 +69852,7 @@ namespace Aow.Game.Magic.Abilities
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             float Probability;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && Defender.GetUnitType() != UnitType.Machine)
+            if (WallSituation == Combat.WallSituation.None && (!Defender.GetAbilityEnabled(1) || Attacker.GetAbilityEnabled(1)) && Defender.GetUnitType() != UnitType.Machine)
             {
                 Probability = TouchRoleProbability(Attacker, Defender);
                 var hitPoints = Defender.GetHitPoints();
@@ -70035,9 +70035,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:5093
-        public override EClass AbilityDataClass() => Aow.Game.Magic.Abilities.CommandAbility.P4CommandDataClass;
+        public override EClass AbilityDataClass() => P4CommandDataClass;
 
-        internal static global::Aow.Game.Engine.EClass P4CommandDataClass = global::Aow.Game.Engine.EClass.Of<global::Aow.Game.Magic.Abilities.CommandAbilityData>();
+        internal static EClass P4CommandDataClass = global::Aow.Game.Engine.EClass.Of<CommandAbilityData>();
 
     }
 
@@ -70047,7 +70047,7 @@ namespace Aow.Game.Magic.Abilities
         public DominatedAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 150;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.DominatedAbility.DominatedRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DominatedRStr);
         }
 
         private static readonly string DominatedRStr = "Dominated";
@@ -70059,7 +70059,7 @@ namespace Aow.Game.Magic.Abilities
         public DominateAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 28;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.DominateAbility.DominateRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DominateRStr);
             FCommandedAbilityID = 150;
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
         }
@@ -70076,7 +70076,7 @@ namespace Aow.Game.Magic.Abilities
         public CharmedAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 149;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.CharmedAbility.CharmedRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CharmedRStr);
         }
 
         private static readonly string CharmedRStr = "Charmed";
@@ -70088,7 +70088,7 @@ namespace Aow.Game.Magic.Abilities
         public CharmAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 148;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.CharmAbility.CharmRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CharmRStr);
             FCommandedAbilityID = 149;
         }
 
@@ -70120,7 +70120,7 @@ namespace Aow.Game.Magic.Abilities
         public SeducedAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 48;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SeducedAbility.SeducedRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SeducedRStr);
         }
 
         private static readonly string SeducedRStr = "Seduced";
@@ -70132,7 +70132,7 @@ namespace Aow.Game.Magic.Abilities
         public SeduceAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 29;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SeduceAbility.SeduceRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SeduceRStr);
             FCommandedAbilityID = 48;
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
         }
@@ -70171,14 +70171,14 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:2116
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatObject Source;
-            Aow.Game.Combat.CombatObject Target;
+            CombatObject Source;
+            CombatObject Target;
             Source = Combat.FCombatData.FindID(FSourceID);
             Target = Combat.FCombatData.FindID(FTargetID);
             FDamageDone = (byte)Source.DoDamage(Target, FDamage);
-            if (FEffects.Value != Set<Aow.Game.Combat.DamageType>.Of())
+            if (FEffects.Value != Set<DamageType>.Of())
             {
                 Target.ExecuteDamageEffects(FEffects.Value);
             }
@@ -70187,7 +70187,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:2127
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if ((Obj.FID == FTargetID || Obj.FID == FSourceID) && Viewer.FTime >= Viewer.FDelay - 2)
@@ -70211,7 +70211,7 @@ namespace Aow.Game.Magic.Abilities
         {
             FAbilityID = 65;
             FAbilityType = AbilityType.Combat;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SelfDestructAbility.SelfDestructRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SelfDestructRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
         }
 
@@ -70255,7 +70255,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:2154
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouchUnit(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouchUnit(Attacker, Defender))
             {
                 DamageValues.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
                 var hitPoints = Defender.GetHitPoints();
@@ -70294,7 +70294,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:2175
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 DamageValues.DamageTypes = Set<DamageType>.Of(DamageType.Fire, DamageType.Wall);
                 var hitPoints = Defender.GetHitPoints();
@@ -70384,7 +70384,7 @@ namespace Aow.Game.Magic.Abilities
         {
             FAbilityID = 117;
             FAbilityType = AbilityType.Combat;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.WallCrushingAbility.WallCrushingRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WallCrushingRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.AttackItem, AbilitySelectionType.UseItem);
         }
 
@@ -70405,7 +70405,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:2006
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None)
+            if (WallSituation == Combat.WallSituation.None)
             {
                 // { Original leaves DamageTypes untouched on this successful path. }
                 var hitPoints = Defender.GetHitPoints();
@@ -70519,9 +70519,9 @@ namespace Aow.Game.Magic.Abilities
 
         private static readonly string WallCrushingRStr = "Wall Crushing";
 
-        private static global::Aow.Game.Combat.Actions.DamageCA CreateDamageCA(global::Aow.Game.Combat.CombatObject Source, global::Aow.Game.Combat.CombatObject Target, int Attack, int Damage, Set<global::Aow.Game.Combat.DamageType> DamageTypes)
+        private static DamageCA CreateDamageCA(CombatObject Source, CombatObject Target, int Attack, int Damage, Set<DamageType> DamageTypes)
         {
-            global::Aow.Game.Combat.Actions.DamageCA tDamageCA = new global::Aow.Game.Combat.Actions.DamageCA(null);
+            DamageCA tDamageCA = new DamageCA(null);
             tDamageCA.Generate(Source, Target, (sbyte)Attack, (sbyte)Damage, DamageTypes);
             return tDamageCA;
         }
@@ -70539,18 +70539,18 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:3579
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Source;
-            Aow.Game.Combat.CombatUnit Target;
-            Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
-            Target = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FTargetID);
+            CombatUnit Source;
+            CombatUnit Target;
+            Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
+            Target = (CombatUnit)Combat.FCombatData.FindID(FTargetID);
             ((HealingAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(47)).SetEnabled(Source.FUnit, false);
             ((HealingAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(47)).HealUnit(Target.FUnit);
         }
 
         // AoWAb.PAS:3595
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -70566,7 +70566,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3588
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FTargetID)
@@ -70671,7 +70671,7 @@ namespace Aow.Game.Commands
                         Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
                     }
 
-                    if ((byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FSourcePlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, L, 0))
+                    if ((byte)AoWHSMap.Current.FSeatedPlayer == FSourcePlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, L, 0))
                     {
                         Ability.FSFXLibrary.Play(0);
                     }
@@ -70774,7 +70774,7 @@ namespace Aow.Game.Magic.Abilities
         public HealingAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 47;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.HealingAbility.HealingRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HealingRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
             FAbilityType = AbilityType.Enhancement;
         }
@@ -70789,7 +70789,7 @@ namespace Aow.Game.Magic.Abilities
             }
             else
             {
-                var used = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UsedRStr);
+                var used = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UsedRStr);
                 Result = FAbilityName + " (" + LowerCase(used) + ")";
             }
 
@@ -70889,8 +70889,8 @@ namespace Aow.Game.Magic.Abilities
                 }
 
                 Selector = new HealingUnitSelector();
-                var healing = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.HealingAbility.HealingRStr);
-                Selector.FCaption = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SelectUnitForXRStr), [healing]);
+                var healing = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HealingRStr);
+                Selector.FCaption = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SelectUnitForXRStr), [healing]);
                 if (unit != null)
                 {
                     Selector.Setup(unit, (UnitList)unit.Owner);
@@ -70943,7 +70943,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:3718
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && !Defender.GetImmunityTypes().Contains(DamageType.None))
+            if (WallSituation == Combat.WallSituation.None && !Defender.GetImmunityTypes().Contains(DamageType.None))
             {
                 var hits = Defender.GetHits();
                 var hitPoints = Defender.GetHitPoints();
@@ -70972,7 +70972,7 @@ namespace Aow.Game.Magic.Abilities
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             int HitPoints;
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 HitPoints = GetHealHitPoints(Defender);
                 DamageValues.SourceCost = HitPoints;
@@ -71104,9 +71104,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:3659
-        public override EClass AbilityDataClass() => Aow.Game.Magic.Abilities.HealingAbility.P4HealingDataClass;
+        public override EClass AbilityDataClass() => P4HealingDataClass;
 
-        private static global::Aow.Game.Engine.EClass P4HealingDataClass = global::Aow.Game.Engine.EClass.Of<global::Aow.Game.Magic.Abilities.HealingAbilityData>();
+        private static EClass P4HealingDataClass = global::Aow.Game.Engine.EClass.Of<HealingAbilityData>();
         private static readonly string HealingRStr = "Healing";
 
     }
@@ -71142,19 +71142,19 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3951
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
             EnchantmentList Enchantments;
-            Aow.Game.Combat.CombatObject Source;
-            Aow.Game.Combat.CombatObject Target;
+            CombatObject Source;
+            CombatObject Target;
             Enchantment Enchantment;
             bool WasSummoned;
             Source = Combat.FCombatData.FindID(FSourceID);
             Target = Combat.FCombatData.FindID(FTargetID);
-            if (Source is Aow.Game.Combat.CombatUnit && Target is Aow.Game.Combat.CombatUnit)
+            if (Source is CombatUnit && Target is CombatUnit)
             {
                 Enchantments = new EnchantmentList(null);
-                var combatUnit = (Aow.Game.Combat.CombatUnit)Target;
+                var combatUnit = (CombatUnit)Target;
                 combatUnit.FUnit.ListEnchantments(Enchantments);
                 WasSummoned = combatUnit.FUnit.GetAbilityEnabled(155);
 
@@ -71167,7 +71167,7 @@ namespace Aow.Game.Combat.Actions
                     }
                 }
 
-                if (WasSummoned && !((Aow.Game.Combat.CombatUnit)Target).FUnit.GetAbilityEnabled(155))
+                if (WasSummoned && !((CombatUnit)Target).FUnit.GetAbilityEnabled(155))
                 {
                     Source.DoDamage(Target, Target.GetHitPoints());
                 }
@@ -71177,7 +71177,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3986
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             if (Viewer.FTime == 0)
             {
@@ -71193,7 +71193,7 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3979
-        public override void ShowObject(Aow.Game.Combat.CombatViewer Viewer, Aow.Game.Combat.CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
+        public override void ShowObject(CombatViewer Viewer, CombatObject Obj, int Frame, int Direction, int X, int Y, in SurfaceDesc Surface)
         {
             base.ShowObject(Viewer, Obj, Frame, Direction, X, Y, Surface);
             if (Obj.FID == FTargetID)
@@ -71203,16 +71203,16 @@ namespace Aow.Game.Combat.Actions
         }
 
         // AoWAb.PAS:3994
-        public void Generate(Aow.Game.Combat.CombatObject Source, Aow.Game.Combat.CombatObject Target, int DispelMana)
+        public void Generate(CombatObject Source, CombatObject Target, int DispelMana)
         {
             EnchantmentList Enchantments;
             int Chance;
             FSourceID = Source.FID;
             FTargetID = Target.FID;
-            if (Source is Aow.Game.Combat.CombatUnit && Target is Aow.Game.Combat.CombatUnit)
+            if (Source is CombatUnit && Target is CombatUnit)
             {
                 Enchantments = new EnchantmentList(null);
-                ((Aow.Game.Combat.CombatUnit)Target).FUnit.ListEnchantments(Enchantments);
+                ((CombatUnit)Target).FUnit.ListEnchantments(Enchantments);
                 for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
                 {
                     Chance = Enchantments.GetEnchantments(I).DispelChance(DispelMana);
@@ -71239,11 +71239,11 @@ namespace Aow.Game.Combat.Actions
         { }
 
         // AoWAb.PAS:4018
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Source;
+            CombatUnit Source;
             base.Execute(Combat);
-            Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
+            Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
             ((DispelMagicAbility)Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(60)).SetEnabled(Source.FUnit, false);
         }
 
@@ -71321,16 +71321,16 @@ namespace Aow.Game.Commands
                     }
                 }
 
-                if (Source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (Source.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
                     if (Count > 0)
                     {
-                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
+                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                     }
                     else
                     {
-                        var dispelMagicFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicFailedRStr);
+                        var dispelMagicFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicFailedRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(dispelMagicFailed);
                     }
                 }
@@ -71345,7 +71345,7 @@ namespace Aow.Game.Commands
                     Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, X, Y, L);
                 }
 
-                if ((byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FSourcePlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, L, 0))
+                if ((byte)AoWHSMap.Current.FSeatedPlayer == FSourcePlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, L, 0))
                 {
                     Ability.FSFXLibrary.Play(0);
                 }
@@ -71461,7 +71461,7 @@ namespace Aow.Game.Magic.Abilities
         public DispelMagicAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 60;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.UseItem, AbilitySelectionType.Editor);
             FAbilityType = AbilityType.Enhancement;
         }
@@ -71472,7 +71472,7 @@ namespace Aow.Game.Magic.Abilities
             string Result = GetLevelName(GetLevel(Owner));
             if (Owner != null && !GetEnabled(Owner))
             {
-                Result = Result + " (" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UsedRStr)) + ")";
+                Result = Result + " (" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UsedRStr)) + ")";
             }
 
             return Result;
@@ -71611,8 +71611,8 @@ namespace Aow.Game.Magic.Abilities
                 }
 
                 Selector = new DispelMagicAbilityUnitSelector();
-                var dispelMagic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr);
-                Selector.FCaption = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SelectUnitForXRStr), [dispelMagic]);
+                var dispelMagic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
+                Selector.FCaption = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SelectUnitForXRStr), [dispelMagic]);
                 if (unit != null)
                 {
                     Selector.Setup(unit, (UnitList)unit.Owner);
@@ -71731,7 +71731,7 @@ namespace Aow.Game.Magic.Abilities
         public override void GetDamageValueEx(AbstractUnit Attacker, AbstractUnit Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
             // { Original evaluates dispelling with the healing hit-point formula. }
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && !Defender.GetImmunityTypes().Contains(DamageType.None))
+            if (WallSituation == Combat.WallSituation.None && !Defender.GetImmunityTypes().Contains(DamageType.None))
             {
                 var hits = Defender.GetHits();
                 var hitPoints = Defender.GetHitPoints();
@@ -71759,7 +71759,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:4242
         public override void fcGetDamageValueEx(CombatObject Attacker, CombatObject Defender, WallSituation WallSituation, ref AbilityDamageValues DamageValues)
         {
-            if (WallSituation == global::Aow.Game.Combat.WallSituation.None && CanTouch(Attacker, Defender))
+            if (WallSituation == Combat.WallSituation.None && CanTouch(Attacker, Defender))
             {
                 // { Original assigns zero benefit, so its prefetch loop emits no commands. }
                 DamageValues.SourceCost = 0;
@@ -71831,16 +71831,16 @@ namespace Aow.Game.Magic.Abilities
             switch (Level)
             {
                 case 0:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
                     break;
                 case 1:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr) + " I";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicRStr) + " I";
                     break;
                 case 2:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr) + " II";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicRStr) + " II";
                     break;
                 case 3:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr) + " III";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicRStr) + " III";
                     break;
             }
 
@@ -71871,9 +71871,9 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:4092
-        public override EClass AbilityDataClass() => Aow.Game.Magic.Abilities.DispelMagicAbility.P4DispelMagicDataClass;
+        public override EClass AbilityDataClass() => P4DispelMagicDataClass;
 
-        private static global::Aow.Game.Engine.EClass P4DispelMagicDataClass = global::Aow.Game.Engine.EClass.Of<global::Aow.Game.Magic.Abilities.DispelMagicAbilityData>();
+        private static EClass P4DispelMagicDataClass = global::Aow.Game.Engine.EClass.Of<DispelMagicAbilityData>();
 
     }
 
@@ -71921,7 +71921,7 @@ namespace Aow.Game.Magic.Abilities
             Level = GetLevel(Owner);
             if (Level != 0)
             {
-                Result = Aow.Game.Magic.Abilities.LeadershipAbility.P4LeadershipAttack[Level];
+                Result = P4LeadershipAttack[Level];
             }
             else
             {
@@ -71939,7 +71939,7 @@ namespace Aow.Game.Magic.Abilities
             Level = GetLevel(Owner);
             if (Level != 0)
             {
-                Result = Aow.Game.Magic.Abilities.LeadershipAbility.P4LeadershipDefense[Level];
+                Result = P4LeadershipDefense[Level];
             }
             else
             {
@@ -72026,7 +72026,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // AoWAb.PAS:1097
-        public override string GetLevelName(int Level) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.LeadershipAbility.LeadershipRStr);
+        public override string GetLevelName(int Level) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LeadershipRStr);
 
         // AoWAb.PAS:1024
         public void SetExternalSource(AbilityOwner Owner, byte Level, string SourceName)
@@ -72083,8 +72083,8 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:973
         public override EClass AbilityDataClass() => EClass.Of<LeadershipAbilityData>();
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5 P4LeadershipAttack = global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5.From((global::System.ReadOnlySpan<sbyte>)new sbyte[5] { 0, 1, 1, 2, 2 });
-        private static global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5 P4LeadershipDefense = global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5.From((global::System.ReadOnlySpan<sbyte>)new sbyte[5] { 2, 0, 1, 1, 2 });
+        private static FixedArray_sbyte_5 P4LeadershipAttack = global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 0, 1, 1, 2, 2 });
+        private static FixedArray_sbyte_5 P4LeadershipDefense = global::Aow.Game.Engine.Buffers.FixedArray_sbyte_5.From((ReadOnlySpan<sbyte>)new sbyte[5] { 2, 0, 1, 1, 2 });
         private static readonly string LeadershipRStr = "Leadership";
 
     }
@@ -72129,7 +72129,7 @@ namespace Aow.Game.Units
         {
             string Result;
             AbstractUnit Source;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
                 Source = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
                 if (Source != null)
@@ -72241,7 +72241,7 @@ namespace Aow.Game.Units
                 else
                 {
                     var binding = GetBinding();
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XIsOutOfSightRStr), [binding]);
+                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XIsOutOfSightRStr), [binding]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                 }
             }
@@ -72349,7 +72349,7 @@ namespace Aow.Game.Magic.Abilities
                         {
                             var duration = GetDuration(Owner);
                             var totalDuration = GetTotalDuration();
-                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
+                            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DurationDaysRStr), [IntToStr(duration), IntToStr(totalDuration)]);
                             Result = Result + " " + format;
                         }
 
@@ -72357,12 +72357,12 @@ namespace Aow.Game.Magic.Abilities
                     case DurationMode.CombatTurn:
                         var duration2 = GetDuration(Owner);
                         var totalDuration2 = GetTotalDuration();
-                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
+                        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DurationCombatTurnRStr), [IntToStr(duration2), IntToStr(totalDuration2)]);
                         Result = base.GetName(Owner) + " " + aoWEFormat;
                         break;
                     case DurationMode.EntireCombat:
                         var name = base.GetName(Owner);
-                        var durationEntireCombat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DurationEntireCombatRStr);
+                        var durationEntireCombat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DurationEntireCombatRStr);
                         Result = name + " " + durationEntireCombat;
                         break;
                     default:
@@ -72384,20 +72384,20 @@ namespace Aow.Game.Magic.Abilities
             string Result;
             UnitEnchantmentAbilityData Data;
             AbstractUnit Source;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
                 Data = (UnitEnchantmentAbilityData)Owner.GetAbilityData(FAbilityID);
                 Source = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(Data.FEnchantment.FUnitID);
                 // { Original also reports player zero as unknown. }
                 if (Data.FEnchantment.FSource <= 0)
                 {
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
                 }
                 else
                 {
                     if (Source != null && Source.FPlayer == Data.FEnchantment.FSource)
                     {
-                        Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.UnitEnchantmentAbility.P4ManaRStr);
+                        Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4ManaRStr);
                     }
                     else
                     {
@@ -72407,7 +72407,7 @@ namespace Aow.Game.Magic.Abilities
             }
             else
             {
-                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
             return Result;
@@ -72487,7 +72487,7 @@ namespace Aow.Game.Magic.Abilities
             Data = (UnitEnchantmentAbilityData)owner.GetAbilityData(FAbilityID);
             if (Data != null)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current != null && Data.FEnchantment.FSource > -1)
+                if (AoWHSMap.Current != null && Data.FEnchantment.FSource > -1)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Data.FEnchantment.FSource).FMagicControl.UnregisterEnchantment(Data.FEnchantment);
                 }
@@ -72606,7 +72606,7 @@ namespace Aow.Game.World.Structures
             GetInfo(AUnit, ref Text, ref Gold, ref Days);
             if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AUnit.FPlayer).FGems < Gold)
             {
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ConstructionControl.P4NotEnoughGoldRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4NotEnoughGoldRStr);
                 Result = false;
             }
             else
@@ -72668,7 +72668,7 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:5537
         public ConstructAbility(ECustomNode owner) : base(owner)
         {
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.ConstructAbility.P4ConstructRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4ConstructRStr);
             FAbilityID = 125;
             FAbilityType = AbilityType.Enhancement;
             FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
@@ -72756,7 +72756,7 @@ namespace Aow.Game.Magic
             Source = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
             // { Original supplies an argument to the unformatted 'Cosmagic Surgery' text. }
             var name = Source.GetName();
-            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CosmeticSurgeryRStr), [name]);
+            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CosmeticSurgeryRStr), [name]);
         }
 
         // intf_P4_02.inc:846
@@ -72772,12 +72772,12 @@ namespace Aow.Game.Magic.Abilities
         // AoWAb.PAS:910
         public CosmeticSurgeryAbility(ECustomNode owner) : base(owner)
         {
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CosmeticSurgeryRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CosmeticSurgeryRStr);
             FAbilityID = 126;
         }
 
         // AoWAb.PAS:917
-        public override UnitEnchantment CreateEnchantment() => new Aow.Game.Magic.CosmeticSurgeryEnchantment(null);
+        public override UnitEnchantment CreateEnchantment() => new CosmeticSurgeryEnchantment(null);
     }
 
     public partial class SpellCastingAbility : MultiLevelAbility
@@ -72786,7 +72786,7 @@ namespace Aow.Game.Magic.Abilities
         public SpellCastingAbility(ECustomNode owner) : base(owner)
         {
             FAbilityID = 52;
-            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SpellCastingAbility.SpellCastingRStr);
+            FAbilityName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellCastingRStr);
             FAbilityType = AbilityType.Enhancement;
             FMaxLevel = 5;
             FLevelCosts[1] = 20;
@@ -72879,7 +72879,7 @@ namespace Aow.Game.Magic.Abilities
             bool Result = base.Expand(owner);
             if (Result)
             {
-                if (owner is AbstractUnit && Aow.Game.World.Map.AoWHSMap.Current != null)
+                if (owner is AbstractUnit && AoWHSMap.Current != null)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(((AbstractUnit)owner).FPlayer).FMagicControl.Update();
                 }
@@ -72894,7 +72894,7 @@ namespace Aow.Game.Magic.Abilities
             bool Result = base.Remove(owner);
             if (Result)
             {
-                if (owner is AbstractUnit && Aow.Game.World.Map.AoWHSMap.Current != null)
+                if (owner is AbstractUnit && AoWHSMap.Current != null)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(((AbstractUnit)owner).FPlayer).FMagicControl.Update();
                 }
@@ -72968,22 +72968,22 @@ namespace Aow.Game.Magic.Abilities
             switch (Level)
             {
                 case 0:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SpellCastingAbility.SpellCastingRStr);
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellCastingRStr);
                     break;
                 case 1:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SpellCastingAbility.SpellCastingRStr) + " I";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellCastingRStr) + " I";
                     break;
                 case 2:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SpellCastingAbility.SpellCastingRStr) + " II";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellCastingRStr) + " II";
                     break;
                 case 3:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SpellCastingAbility.SpellCastingRStr) + " III";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellCastingRStr) + " III";
                     break;
                 case 4:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SpellCastingAbility.SpellCastingRStr) + " IV";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellCastingRStr) + " IV";
                     break;
                 case 5:
-                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.SpellCastingAbility.SpellCastingRStr) + " V";
+                    Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellCastingRStr) + " V";
                     break;
             }
 
@@ -73038,7 +73038,7 @@ namespace Aow.Game.Magic.Abilities
             int SourceStrength;
             int TargetStrength;
             float Ratio;
-            Hero = (global::Aow.Game.Magic.Abilities.Hero)Source.FUnit;
+            Hero = (Hero)Source.FUnit;
             bool Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Hero.FPlayer).FPlayerType != PlayerType.Human || Hero.FCastingSpellID == 0;
             if (Result)
             {
@@ -73089,7 +73089,7 @@ namespace Aow.Game.Magic.Spells
         public override string GetName()
         {
             var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-            string Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.SpellCC.P4CastXRStr), [spell.FSpellName]);
+            string Result = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4CastXRStr), [spell.FSpellName]);
             if (FTarget != null)
             {
                 Result = Result + " on " + FTarget.IDStr();
@@ -73116,7 +73116,7 @@ namespace Aow.Game.Magic.Spells
         {
             FSpellText = new StringList();
             FCastSounds = new SFXLibrary(null);
-            FCastImages = new ImageSequenceList(Aow.Game.Engine.AoWHSSet.Current.ImageLibraryManager, null);
+            FCastImages = new ImageSequenceList(AoWHSSet.Current.ImageLibraryManager, null);
             FResearchCost = 1;
             FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
         }
@@ -73127,7 +73127,7 @@ namespace Aow.Game.Magic.Spells
         public int FBaseManaCost;
         public int FResearchCost;
         public int FManaUpkeep;
-        public Aow.Game.Magic.MagicSphere FMagicSphere;
+        public MagicSphere FMagicSphere;
         public byte FSpellLevel;
         public SpellType FSpellType;
         // stGlobal guard
@@ -73173,7 +73173,7 @@ namespace Aow.Game.Magic.Spells
                     Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Animation, X, Y, Layer);
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
+                if (AoWHSMap.Current.FSeatedPlayer == Player || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
                 {
                     Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
                 }
@@ -73200,9 +73200,9 @@ namespace Aow.Game.Magic.Spells
             bool Result;
             if (FSpellType == SpellType.Global)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(Aow.Game.Magic.GlobalEnchantmentType.SpellWard))
+                if (Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
                 {
-                    MessageText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr);
+                    MessageText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr);
                     Result = false;
                 }
                 else
@@ -73223,9 +73223,9 @@ namespace Aow.Game.Magic.Spells
             bool Result;
             if (FSpellType == SpellType.Global)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(Aow.Game.Magic.GlobalEnchantmentType.SpellWard))
+                if (Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.SpellWard))
                 {
-                    MessageText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr);
+                    MessageText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CannotCastGlobalEnchantmentWhenSpellWardIsActiveRStr);
                     Result = false;
                 }
                 else
@@ -73247,7 +73247,7 @@ namespace Aow.Game.Magic.Spells
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+            if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
             {
                 Source.GetLocation(ref X, ref Y, ref L);
                 if (X != -1)
@@ -73265,7 +73265,7 @@ namespace Aow.Game.Magic.Spells
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+            if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
             {
                 Source.GetLocation(ref X, ref Y, ref L);
                 if (X != -1)
@@ -73399,7 +73399,7 @@ namespace Aow.Game.Magic.Spells
                 Manager = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FAIBudget;
                 if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).FMagicControl.GetCheatEnabled())
                 {
-                    Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Manager.FDefaultBudget, (Aow.Game.Ai.AIBudgetManager.BudgetExpenseMode)2);
+                    Result = Manager.BudgetExpenseMadeEx(0, Budget, 0, Mana, Manager.FDefaultBudget, (AIBudgetManager.BudgetExpenseMode)2);
                 }
                 else
                 {
@@ -73414,7 +73414,7 @@ namespace Aow.Game.Magic.Spells
             return Result;
         }
 
-        public virtual bool CanActivateCombat(AbstractUnit source, ref string reason) => Aow.Game.World.Map.AoWHSMap.Current.FCombat != null;
+        public virtual bool CanActivateCombat(AbstractUnit source, ref string reason) => AoWHSMap.Current.FCombat != null;
 
         public virtual void GetCombatInfo(AbstractUnit source, ref SpellCombatInfo info)
         {
@@ -73539,7 +73539,7 @@ namespace Aow.Game.Magic.Spells
                 if (FRegisteredSpells.List[ID] != null)
                 {
                     Spell.FCastImages.ReleaseIL();
-                    ((global::Aow.Game.Magic.Spells.Spell)FRegisteredSpells.List[ID])?.Dispose();
+                    ((Spell)FRegisteredSpells.List[ID])?.Dispose();
                     FRegisteredSpells.List[ID] = null;
                 }
             }
@@ -73571,7 +73571,7 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Spells.PAS:659
-        public void ListSpells(StringCollection SpellStrings, Set<Aow.Game.Magic.MagicSphere> Spheres)
+        public void ListSpells(StringCollection SpellStrings, Set<MagicSphere> Spheres)
         {
             SpellStrings.Clear();
             for (int I = 0, last = this.FRegisteredSpells.Count - 1; I <= last; I++)
@@ -73584,7 +73584,7 @@ namespace Aow.Game.Magic.Spells
         }
 
         // Spells.PAS:674
-        public int GetRandomSpell(int MinLevel, int MaxLevel, Set<Aow.Game.Magic.MagicSphere> Spheres)
+        public int GetRandomSpell(int MinLevel, int MaxLevel, Set<MagicSphere> Spheres)
         {
             int Result;
             IntegerList Candidates;
@@ -73592,7 +73592,7 @@ namespace Aow.Game.Magic.Spells
             Candidates = new IntegerList();
             for (int I = this.FRegisteredSpells.Count - 1; I >= 0; I--)
             {
-                Spell = (global::Aow.Game.Magic.Spells.Spell)this.FRegisteredSpells.List[I];
+                Spell = (Spell)this.FRegisteredSpells.List[I];
                 if (Spell != null && Spheres.Contains(Spell.FMagicSphere) && Spell.FSpellLevel >= MinLevel && Spell.FSpellLevel <= MaxLevel)
                 {
                     Candidates.Add(I);
@@ -73686,20 +73686,20 @@ namespace Aow.Game.Magic.Spells
 
         public static int P4CompareSpellNames(object Item1, object Item2)
         {
-            int num = RtlUnit.CompareText(((global::Aow.Game.Magic.Spells.Spell)Item1).FSpellName, ((global::Aow.Game.Magic.Spells.Spell)Item2).FSpellName);
+            int num = RtlUnit.CompareText(((Spell)Item1).FSpellName, ((Spell)Item2).FSpellName);
             if (num == 0)
             {
-                num = ((global::Aow.Game.Magic.Spells.Spell)Item1).FSpellLevel - ((global::Aow.Game.Magic.Spells.Spell)Item2).FSpellLevel;
+                num = ((Spell)Item1).FSpellLevel - ((Spell)Item2).FSpellLevel;
             }
             return num;
         }
 
         public static int P4CompareSpellLevels(object Item1, object Item2)
         {
-            int num = ((global::Aow.Game.Magic.Spells.Spell)Item1).FSpellLevel - ((global::Aow.Game.Magic.Spells.Spell)Item2).FSpellLevel;
+            int num = ((Spell)Item1).FSpellLevel - ((Spell)Item2).FSpellLevel;
             if (num == 0)
             {
-                num = RtlUnit.CompareText(((global::Aow.Game.Magic.Spells.Spell)Item1).FSpellName, ((global::Aow.Game.Magic.Spells.Spell)Item2).FSpellName);
+                num = RtlUnit.CompareText(((Spell)Item1).FSpellName, ((Spell)Item2).FSpellName);
             }
             return num;
         }
@@ -73895,7 +73895,7 @@ namespace Aow.Game.Events
         public override string GetText()
         {
             var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Events.SpellCastEventLog.P4XCastingReadyRStr), [spell.FSpellName]);
+            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4XCastingReadyRStr), [spell.FSpellName]);
         }
 
         // Spells.PAS:818
@@ -73905,12 +73905,12 @@ namespace Aow.Game.Events
             AbstractUnit Hero;
             string Reason = "";
             Show = Trigger == ExecuteTrigger.User;
-            Show = Show || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
-            Show = Show || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+            Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
+            Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
             if (Show)
             {
                 Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-                if (Hero is global::Aow.Game.Magic.Abilities.Hero && ((global::Aow.Game.Magic.Abilities.Hero)Hero).FCastingSpellID == FSpellID && ((global::Aow.Game.Magic.Abilities.Hero)Hero).CastingReady())
+                if (Hero is Hero && ((Hero)Hero).FCastingSpellID == FSpellID && ((Hero)Hero).CastingReady())
                 {
                     Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(52).Activate(Hero, ref Reason);
                 }
@@ -73969,7 +73969,7 @@ namespace Aow.Game.Units
             bool Result;
             Hero Hero;
             int Mana;
-            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(FCasterSourceID);
+            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FCasterSourceID);
             if (Hero != null && !Hero.FUnitStatus.Contains(UnitStatusElement.Killed))
             {
                 if (FSelectionMask != 0)
@@ -73991,13 +73991,13 @@ namespace Aow.Game.Units
                             else
                             {
                                 Result = false;
-                                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughManaRStr);
+                                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
                             }
                         }
                         else
                         {
                             Result = false;
-                            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P2NotEnoughCastingPointsRStr);
+                            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P2NotEnoughCastingPointsRStr);
                         }
                     }
                     else
@@ -74008,7 +74008,7 @@ namespace Aow.Game.Units
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NoUnitSelectedRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NoUnitSelectedRStr);
                 }
             }
             else
@@ -74278,13 +74278,13 @@ namespace Aow.Game.Combat.Actions
         }
 
         // Spells.PAS:1111
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
             ((UnitSpell)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID)).ExecuteCA(Combat, this);
         }
 
         // Spells.PAS:1115
-        public override bool Play(Aow.Game.Combat.CombatViewer Viewer)
+        public override bool Play(CombatViewer Viewer)
         {
             Execute(Viewer.FCombat);
             return false;
@@ -74299,14 +74299,14 @@ namespace Aow.Game.Magic.Spells.Unit
 {
 
     // (multiple targets, range, dispel resistance, AI value)
-    public partial class UnitSpell : Aow.Game.Magic.Spells.Spell
+    public partial class UnitSpell : Spell
     {
 
         // Spells.PAS:1210
         public UnitSpell(ECustomNode owner) : base(owner)
         {
             FAIValue = -1;
-            FSpellType = Aow.Game.Magic.Spells.SpellType.Unit;
+            FSpellType = SpellType.Unit;
             FAllowMultipleTargets = true;
             FTargetRange = 0;
         }
@@ -74408,7 +74408,7 @@ namespace Aow.Game.Magic.Spells.Unit
                 }
                 else
                 {
-                    SetupTargetSelection(Source, Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection);
+                    SetupTargetSelection(Source, AoWHSMap.Current.FTargetSelection);
                     Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Activate();
                 }
 
@@ -74426,7 +74426,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override bool CanActivateCombat(AbstractUnit source, ref string reason)
         {
             bool Result;
-            if (!FSpellControlTypes.Contains(Aow.Game.Magic.Spells.SpellControlTypeElement.Combat) || !base.CanActivateCombat(source, ref reason))
+            if (!FSpellControlTypes.Contains(SpellControlTypeElement.Combat) || !base.CanActivateCombat(source, ref reason))
             {
                 Result = false;
             }
@@ -74443,7 +74443,7 @@ namespace Aow.Game.Magic.Spells.Unit
         {
             CombatAction Result;
             UnitSpellCA Action;
-            if (FSpellControlTypes.Contains(Aow.Game.Magic.Spells.SpellControlTypeElement.Combat))
+            if (FSpellControlTypes.Contains(SpellControlTypeElement.Combat))
             {
                 Action = new UnitSpellCA(null);
                 Action.FSpellID = FSpellID;
@@ -74465,7 +74465,7 @@ namespace Aow.Game.Magic.Spells.Unit
         }
 
         // Spells.PAS:1218
-        public override void GetCombatInfo(AbstractUnit Source, ref Aow.Game.Magic.Spells.SpellCombatInfo Info)
+        public override void GetCombatInfo(AbstractUnit Source, ref SpellCombatInfo Info)
         {
             base.GetCombatInfo(Source, ref Info);
             Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend);
@@ -74479,7 +74479,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public virtual void ValidateUnitSelection(AbstractUnit Source, UnitList Targets, ref byte Selection)
         {
             var count = Targets.GetCount();
-            Selection = (byte)(Selection & Aow.Game.Magic.Spells.Unit.UnitSpell.P4SelectionMasks[count]);
+            Selection = (byte)(Selection & P4SelectionMasks[count]);
             for (int I = 0, last = Targets.GetCount() - 1; I <= last; I++)
             {
                 if ((Selection & (1 << I)) != 0)
@@ -74561,7 +74561,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public virtual UnitSpellCA CreateCAEx(CombatObject Source, CombatObject Target, int Mana)
         {
             UnitSpellCA Result;
-            if (FSpellControlTypes.Contains(Aow.Game.Magic.Spells.SpellControlTypeElement.Combat))
+            if (FSpellControlTypes.Contains(SpellControlTypeElement.Combat))
             {
                 Result = new UnitSpellCA(null);
                 Result.FSpellID = FSpellID;
@@ -74577,7 +74577,7 @@ namespace Aow.Game.Magic.Spells.Unit
         }
 
         // Spells.PAS:1411
-        public virtual void ExecuteCA(global::Aow.Game.Combat.Combat Combat, UnitSpellCA Action)
+        public virtual void ExecuteCA(Game.Combat.Combat Combat, UnitSpellCA Action)
         {
             CombatObject Source;
             CombatObject Target;
@@ -74693,7 +74693,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // Spells.PAS:1310
         public void ResetTargetSelection()
         {
-            var targetSelectionControl = Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection;
+            var targetSelectionControl = AoWHSMap.Current.FTargetSelection;
             targetSelectionControl.FOnChange -= OnTargetSelectionChange;
             targetSelectionControl.Deactivate();
         }
@@ -74722,17 +74722,17 @@ namespace Aow.Game.Magic.Spells.Unit
             Control.FSourceL = L;
             Control.FOnChange += OnTargetSelectionChange;
             Control.FOnValidateTarget = OnValidateTarget;
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.UnitSpell.P4SelectTargetPartyForXRStr), [FSpellName]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4SelectTargetPartyForXRStr), [FSpellName]);
             Control.FText.Text = format;
             Control.FTitle = FSpellName;
-            Control.FCancelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
+            Control.FCancelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CancelRStr);
             Control.FSourceUnitID = Source.FUnitID;
             Control.FSourceImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(20).GetPreviewImage();
             Control.FValidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(21).GetPreviewImage();
             Control.FInvalidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.GetImageSequence(22).GetPreviewImage();
         }
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_byte_9 P4SelectionMasks = global::Aow.Game.Engine.Buffers.FixedArray_byte_9.From((global::System.ReadOnlySpan<byte>)new byte[9] { 0, 1, 3, 7, 15, 31, 63, 127, 255 });
+        private static FixedArray_byte_9 P4SelectionMasks = global::Aow.Game.Engine.Buffers.FixedArray_byte_9.From((ReadOnlySpan<byte>)new byte[9] { 0, 1, 3, 7, 15, 31, 63, 127, 255 });
         private static readonly string P4SelectTargetPartyForXRStr = "Select target party for %s on map";
     }
 }
@@ -74819,7 +74819,7 @@ namespace Aow.Game.Ai
 
         private static int P4CompareCastSpellPriority(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Ai.AICastSpellAction)Item2).FPriority - ((global::Aow.Game.Ai.AICastSpellAction)Item1).FPriority;
+            return ((AICastSpellAction)Item2).FPriority - ((AICastSpellAction)Item1).FPriority;
         }
 
         // Engine.pas:631
@@ -74960,7 +74960,7 @@ namespace Aow.Game.Ai
                     {
                         Done = false;
                         var item = FPendingHeroes[0];
-                        Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(item);
+                        Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(item);
                         if (Hero != null && Hero.Owner != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
                         {
                             if (Hero.FCastingSpellID != 0)
@@ -75002,7 +75002,7 @@ namespace Aow.Game.Ai
                     if (FPendingHeroes.Count != 0)
                     {
                         var item = FPendingHeroes[0];
-                        Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(item);
+                        Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(item);
                         if (Hero != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
                         {
                             PrefetchCastSpellActions(Hero);
@@ -75041,7 +75041,7 @@ namespace Aow.Game.Ai
 
                             Index = Aow.Game.World.Map.AoWHSMap.Current.Random(I);
                             var castSpellActions2 = FCastSpellActions.GetCastSpellActions(Index);
-                            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.Hero>(castSpellActions2.FSourceUnitID);
+                            Hero = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit<Hero>(castSpellActions2.FSourceUnitID);
                             if (Hero != null && (((byte)Hero.FUnitStatus.Image) & 16) == 0)
                             {
                                 var castSpellActions = FCastSpellActions.GetCastSpellActions(Index);
@@ -75209,7 +75209,7 @@ namespace Aow.Game.Session
             LevelCounts[1 - 1] = 8;
             LevelCounts[2 - 1] = 4;
             LevelCounts[3 - 1] = 1;
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FRaceHistory.Count > 2)
+            if (GameTables.AoWEngine.FCampaign.FRaceHistory.Count > 2)
             {
                 LevelCounts[4 - 1] = 1;
             }
@@ -75255,13 +75255,13 @@ namespace Aow.Game.Session
             AbstractUnit NewUnit;
             Hero Hero;
             Item Item;
-            global::Aow.Game.Magic.Abilities.Item CopyItem;
+            Item CopyItem;
             Clear();
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
                 Units = new UnitUserList(null);
-                Player = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalPlayers[0];
-                FLeader = (Leader)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Player = (sbyte)AoWHSMap.Current.FPlayers.FLocalPlayers[0];
+                FLeader = (Leader)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FLeader.Copy(GameTables.AoWEngine);
                 FLeader.RemoveEnchantments();
                 FLeader.RemoveHandicaps();
                 FLeader.ExecuteCancelCasting();
@@ -75270,7 +75270,7 @@ namespace Aow.Game.Session
                     Item = FLeader.FInventory.GetItem(J);
                     if (Item != null)
                     {
-                        CopyItem = (global::Aow.Game.Magic.Abilities.Item)Item.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                        CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
                         CopyItem.SetOwner(FItems);
                         CopyItem.FItemID = FLeader.FUnitID;
                         CopyItem.Release();
@@ -75283,7 +75283,7 @@ namespace Aow.Game.Session
                     Item = FLeader.FHeroItems.GetItem(J);
                     if (Item != null)
                     {
-                        CopyItem = (global::Aow.Game.Magic.Abilities.Item)Item.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                        CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
                         CopyItem.SetOwner(FItems);
                         CopyItem.FItemID = FLeader.FUnitID;
                         CopyItem.Release();
@@ -75296,9 +75296,9 @@ namespace Aow.Game.Session
                     AUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.GetUnit(I);
                     if (AUnit.FPlayer == Player && AUnit.GetUnitType() != UnitType.Machine && (AUnit.GetMoveTypes() & Set<MoveType>.Of(MoveType.Walking, MoveType.Flying)) != Set<MoveType>.Of() && !(AUnit is Leader) && !AUnit.GetAbilityEnabled(155))
                     {
-                        if (AUnit is global::Aow.Game.Magic.Abilities.Hero)
+                        if (AUnit is Hero)
                         {
-                            Hero = (global::Aow.Game.Magic.Abilities.Hero)AUnit.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                            Hero = (Hero)AUnit.Copy(GameTables.AoWEngine);
                             Hero.SetOwner(FHeroes);
                             Hero.RemoveEnchantments();
                             Hero.RemoveHandicaps();
@@ -75308,7 +75308,7 @@ namespace Aow.Game.Session
                                 Item = Hero.FInventory.GetItem(J);
                                 if (Item != null)
                                 {
-                                    CopyItem = (global::Aow.Game.Magic.Abilities.Item)Item.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                                    CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
                                     CopyItem.SetOwner(FItems);
                                     CopyItem.FItemID = Hero.FUnitID;
                                     CopyItem.Release();
@@ -75321,7 +75321,7 @@ namespace Aow.Game.Session
                                 Item = Hero.FHeroItems.GetItem(J);
                                 if (Item != null)
                                 {
-                                    CopyItem = (global::Aow.Game.Magic.Abilities.Item)Item.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                                    CopyItem = (Item)Item.Copy(GameTables.AoWEngine);
                                     CopyItem.SetOwner(FItems);
                                     CopyItem.FItemID = Hero.FUnitID;
                                     CopyItem.Release();
@@ -75333,7 +75333,7 @@ namespace Aow.Game.Session
                         }
                         else
                         {
-                            NewUnit = (AbstractUnit)AUnit.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                            NewUnit = (AbstractUnit)AUnit.Copy(GameTables.AoWEngine);
                             NewUnit.RemoveEnchantments();
                             NewUnit.RemoveHandicaps();
                             Units.AddUnit(NewUnit);
@@ -75521,12 +75521,12 @@ namespace Aow.Game.Session
             ClearSelection();
             Map = (AoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(FileName, Aow.Formats.GameProfile.WorldMap);
             FTransferPointsMax = Map.FCampaignSettings.FTransferPointsMax;
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel == Aow.Game.Session.AoWCampaign.CampaignDifficultyLevel.Easy)
+            if (GameTables.AoWEngine.FCampaign.FDifficultyLevel == AoWCampaign.CampaignDifficultyLevel.Easy)
             {
                 FTransferPointsMax = Round((double)FTransferPointsMax * 1.5);
             }
 
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FDifficultyLevel == Aow.Game.Session.AoWCampaign.CampaignDifficultyLevel.Hard)
+            if (GameTables.AoWEngine.FCampaign.FDifficultyLevel == AoWCampaign.CampaignDifficultyLevel.Hard)
             {
                 FTransferPointsMax = Round((double)FTransferPointsMax * 0.5);
             }
@@ -75623,17 +75623,17 @@ namespace Aow.Game.Session
             AbstractUnit AUnit;
             Hero Hero;
             Item Item;
-            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+            if (AoWHSMap.Current != null)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.SynchroniseBegin();
                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Update();
-                Player = (sbyte)(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1);
+                Player = (sbyte)(AoWHSMap.Current.FPlayers.Count - 1);
                 while (Player > 1 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
                 {
                     Player = (sbyte)(Player - 1);
                 }
 
-                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FCompletedScenarios.Count != 0)
+                if (GameTables.AoWEngine.FCampaign.FCompletedScenarios.Count != 0)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FMagicControl.FResearchPercentage = FResearchPercentage;
                 }
@@ -75650,7 +75650,7 @@ namespace Aow.Game.Session
                 if (FLeader != null)
                 {
                     Leader.Deactivate();
-                    Leader.Assign(FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Leader.Assign(FLeader, GameTables.AoWEngine);
                     Leader.SetSpherePicksMax((byte)(Leader.GetSphereCount() + FSelectedSpheres.Count));
                     for (int I = 0, last = FSelectedSpheres.Count - 1; I <= last; I++)
                     {
@@ -75664,7 +75664,7 @@ namespace Aow.Game.Session
                         if (Leader.FUnitID == Item.FItemID)
                         {
                             var fSelectedItemsItem = FSelectedItems[J];
-                            Item = (global::Aow.Game.Magic.Abilities.Item)FItems.GetItem(fSelectedItemsItem).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                            Item = (Item)FItems.GetItem(fSelectedItemsItem).Copy(GameTables.AoWEngine);
                             if (Leader.AutoPlaceItem(Item))
                             {
                                 FSelectedItems.Delete(J);
@@ -75682,7 +75682,7 @@ namespace Aow.Game.Session
                 for (int I = FSelectedUnits.Count - 1; I >= 0; I--)
                 {
                     var item = FSelectedUnits[I];
-                    AUnit = (AbstractUnit)FUnits.GetUnit(item).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    AUnit = (AbstractUnit)FUnits.GetUnit(item).Copy(GameTables.AoWEngine);
                     AUnit.FUnitID = -1;
                     AUnit.Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
                     AUnit.Release();
@@ -75691,7 +75691,7 @@ namespace Aow.Game.Session
                 for (int I = FSelectedHeroes.Count - 1; I >= 0; I--)
                 {
                     var item = FSelectedHeroes[I];
-                    Hero = (global::Aow.Game.Magic.Abilities.Hero)FHeroes.GetHero(item).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Hero = (Hero)FHeroes.GetHero(item).Copy(GameTables.AoWEngine);
                     for (int J = FSelectedItems.Count - 1; J >= 0; J--)
                     {
                         var fSelectedItemsItem = FSelectedItems[J];
@@ -75699,7 +75699,7 @@ namespace Aow.Game.Session
                         if (Hero.FUnitID == Item.FItemID)
                         {
                             var item2 = FSelectedItems[J];
-                            Item = (global::Aow.Game.Magic.Abilities.Item)FItems.GetItem(item2).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                            Item = (Item)FItems.GetItem(item2).Copy(GameTables.AoWEngine);
                             if (Hero.AutoPlaceItem(Item))
                             {
                                 FSelectedItems.Delete(J);
@@ -75719,9 +75719,9 @@ namespace Aow.Game.Session
                 for (int I = FSelectedItems.Count - 1; I >= 0; I--)
                 {
                     var item = FSelectedItems[I];
-                    Item = (global::Aow.Game.Magic.Abilities.Item)FItems.GetItem(item).Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Item = (Item)FItems.GetItem(item).Copy(GameTables.AoWEngine);
                     Aow.Game.World.Map.AoWHSMap.Current.FItemControl.RegisterItem(Item);
-                    Item.PlaceOnMap(Aow.Game.World.Map.AoWHSMap.Current, X, Y, L);
+                    Item.PlaceOnMap(AoWHSMap.Current, X, Y, L);
                     Item.Release();
                 }
 
@@ -75729,7 +75729,7 @@ namespace Aow.Game.Session
             }
         }
 
-        private static int CompareCampaignTransfer(in Aow.Game.Engine.Collections.QuadItemList.QuadInteger Item1, in Aow.Game.Engine.Collections.QuadItemList.QuadInteger Item2)
+        private static int CompareCampaignTransfer(in QuadItemList.QuadInteger Item1, in QuadItemList.QuadInteger Item2)
         {
             return Item2.C - Item1.C;
         }
@@ -75952,7 +75952,7 @@ namespace Aow.Game.Session
 
         // Diplomacy.pas:2413
         // The name takes the extension the host writes for a campaign save (own-formats.md 4.2).
-        public virtual string GetAutoSaveFileName(CampaignAutoSaveType Auto) => Aow.Game.World.Map.AoWHSMap.Current.FMapName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
+        public virtual string GetAutoSaveFileName(CampaignAutoSaveType Auto) => AoWHSMap.Current.FMapName + FileBoundary.WriteExtension(Aow.Formats.DocumentKind.CampaignSave);
 
         // Diplomacy.pas:2330
         public virtual void SelectNextScenario(int ID)
@@ -75967,7 +75967,7 @@ namespace Aow.Game.Session
         }
 
         // Diplomacy.pas:2336
-        public virtual void StartScenario(int ID, Aow.Game.Draw.ProgressEvent Progress)
+        public virtual void StartScenario(int ID, Draw.ProgressEvent Progress)
         {
             FStream.Clear();
             FNextScenarioID = -1;
@@ -75982,14 +75982,14 @@ namespace Aow.Game.Session
             Spell Spell;
             Race Race;
             byte Relation;
-            Player = (sbyte)(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1);
+            Player = (sbyte)(AoWHSMap.Current.FPlayers.Count - 1);
             while (Player > 1 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
             {
                 Player = (sbyte)(Player - 1);
             }
 
             Level = 1 + FCompletedScenarios.Count / 4;
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 if (I != Player)
                 {
@@ -76014,7 +76014,7 @@ namespace Aow.Game.Session
                 }
             }
 
-            for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
+            for (int I = 1, last = AoWHSMap.Current.FPlayers.Count - 1; I <= last; I++)
             {
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerType != PlayerType.Human && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation((sbyte)I, Player) != DiplomaticRelation.Alliance)
                 {
@@ -76059,7 +76059,7 @@ namespace Aow.Game.Session
             }
 
             Aow.Game.World.Map.AoWHSMap.Current.SetupPlayerControl(FPlayMode, PlayerConnectionType.Local);
-            for (int R = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FRaces.Count - 1; R <= last; R++)
+            for (int R = 0, last = AoWHSMap.Current.FRaces.Count - 1; R <= last; R++)
             {
                 if (Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(R) != null)
                 {
@@ -76094,7 +76094,7 @@ namespace Aow.Game.Session
                 }
             }
 
-            Aow.Game.World.Map.AoWHSMap.Current.FAlliedVictory = Aow.Game.World.Map.AoWHSMap.Current.FCampaignSettings.FAlliedVictory;
+            AoWHSMap.Current.FAlliedVictory = AoWHSMap.Current.FCampaignSettings.FAlliedVictory;
             FTransferSettings.ExecuteSelection();
             FScenarioStarted = true;
         }
@@ -76108,7 +76108,7 @@ namespace Aow.Game.Session
             FCompletedScenarios.Add(FCurrentScenarioID);
             FTransferSettings.Retrieve();
             FStream.Clear();
-            Player = (sbyte)(Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1);
+            Player = (sbyte)(AoWHSMap.Current.FPlayers.Count - 1);
             while (Player > 1 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType != PlayerType.Human)
             {
                 Player = (sbyte)(Player - 1);
@@ -76122,7 +76122,7 @@ namespace Aow.Game.Session
             }
 
             FileName = GetAutoSaveFileName(CampaignAutoSaveType.ScenarioFinished);
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveCampaign(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveCampaign(GameTables.AoWEngine.StartupDirectory + "Save\\" + FileName);
         }
 
         // Diplomacy.pas:2432
@@ -76247,7 +76247,7 @@ namespace Aow.Game.Session
             if (Msg.MsgID == 537001986 && Msg.Payload.Int == FSource && FReaction == DiplomaticActionReaction.None)
             {
                 Ignore = Proposal.LapsesUnanswered(this);
-                if (Ignore && (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode != PlayMode.Simultaneous || Aow.Game.World.Map.AoWHSMap.Current.FDay > FDay + 1))
+                if (Ignore && (AoWHSMap.Current.FPlayMode != PlayMode.Simultaneous || AoWHSMap.Current.FDay > FDay + 1))
                 {
                     FReaction = DiplomaticActionReaction.Ignore;
                     Log = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FTarget).FEventLogbook.FindID(FEventLogID);
@@ -76362,13 +76362,13 @@ namespace Aow.Game.Session
                 else
                 {
                     Result = false;
-                    ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.DiplomaticAction.P5NotEnoughManaRStr);
+                    ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P5NotEnoughManaRStr);
                 }
             }
             else
             {
                 Result = false;
-                ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.P5NotEnoughGoldRStr);
+                ErrorText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.P5NotEnoughGoldRStr);
             }
 
             return Result;
@@ -76381,11 +76381,11 @@ namespace Aow.Game.Session
             DiplomaticActionTE TE;
             if (CanSend(ref ErrorText) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSource).GetBusy())
             {
-                FDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+                FDay = AoWHSMap.Current.FDay;
                 TE = new DiplomaticActionTE(null);
                 TE.SetDiplomaticAction(this);
                 TE.FOperation = 0;
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[FSource].AddEvent(TE);
+                AoWHSMap.Current.FTokenManager.TokenControls[FSource].AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -76410,7 +76410,7 @@ namespace Aow.Game.Session
                 TE = new DiplomaticActionTE(null);
                 TE.SetDiplomaticAction(this);
                 TE.FOperation = 1;
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[FTarget].AddEvent(TE);
+                AoWHSMap.Current.FTokenManager.TokenControls[FTarget].AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -76435,7 +76435,7 @@ namespace Aow.Game.Session
                 TE = new DiplomaticActionTE(null);
                 TE.SetDiplomaticAction(this);
                 TE.FOperation = 2;
-                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[FTarget].AddEvent(TE);
+                AoWHSMap.Current.FTokenManager.TokenControls[FTarget].AddEvent(TE);
                 TE.Release();
                 Result = true;
             }
@@ -76458,7 +76458,7 @@ namespace Aow.Game.Session
         {
             DiplomaticActionEventLog Log;
             Log = new DiplomaticActionEventLog(null);
-            Log.FDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+            Log.FDay = AoWHSMap.Current.FDay;
             Log.SetDiplomaticAction(this);
             return Log;
         }
@@ -76470,7 +76470,7 @@ namespace Aow.Game.Session
             var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
             if (Set<PlayerType>.Of().WithRange(PlayerType.CPU1, PlayerType.CPU3).WithRange(PlayerType.CPU4, PlayerType.CPU5).Contains(players.FPlayerType))
             {
-                Action = (DiplomaticAction)Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Action = (DiplomaticAction)Copy(GameTables.AoWEngine);
                 Action.Proposal = Action.Proposal with { Message = [] };
                 Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FDiplomaticActions.AddChild(Action);
                 Action.Release();
@@ -76479,37 +76479,37 @@ namespace Aow.Game.Session
 
         private static readonly string P5NotEnoughManaRStr = "Not enough mana.";
 
-        private static void RetrieveDefaultDiplomaticActionMessage(sbyte Source, sbyte Target, sbyte Other, global::Aow.Game.Session.DiplomaticProposal Proposal, global::Aow.Game.Session.DiplomaticActionReaction Reaction, StringCollection Text)
+        private static void RetrieveDefaultDiplomaticActionMessage(sbyte Source, sbyte Target, sbyte Other, DiplomaticProposal Proposal, DiplomaticActionReaction Reaction, StringCollection Text)
         {
             Text.Clear();
-            global::Aow.Game.Engine.TextControl fTextControl = global::Aow.Game.Engine.AoWHSSet.Current.FTextControl;
-            global::Aow.Game.Session.DiplomaticRelation diplomaticRelation = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Source, Target);
-            global::Aow.Game.Session.Player players = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source);
-            string sourceRace = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
-            global::Aow.Game.Session.Player players2 = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target);
-            string targetRace = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[players2.FPlayerRace]);
+            TextControl fTextControl = AoWHSSet.Current.FTextControl;
+            DiplomaticRelation diplomaticRelation = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Source, Target);
+            Player players = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source);
+            string sourceRace = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
+            Player players2 = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Target);
+            string targetRace = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players2.FPlayerRace]);
             string otherRace;
             if (Other > 0)
             {
-                global::Aow.Game.Session.Player players3 = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Other);
-                otherRace = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[players3.FPlayerRace]);
+                Player players3 = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Other);
+                otherRace = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players3.FPlayerRace]);
             }
             else
             {
                 otherRace = "";
             }
-            global::Aow.Game.Session.Player players4 = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source);
-            global::Aow.Game.Engine.Alignment alignment = global::Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players4.FPlayerRace).GetAlignment();
-            int alignment2 = ((!Set<global::Aow.Game.Engine.Alignment>.Of(new global::Aow.Game.Engine.Alignment[2]
+            Player players4 = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source);
+            Alignment alignment = global::Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players4.FPlayerRace).GetAlignment();
+            int alignment2 = ((!Set<Alignment>.Of(new Alignment[2]
             {
-                global::Aow.Game.Engine.Alignment.PureGood,
-                global::Aow.Game.Engine.Alignment.Good
-            }).Contains(alignment)) ? ((!Set<global::Aow.Game.Engine.Alignment>.Of(new global::Aow.Game.Engine.Alignment[2]
+                Alignment.PureGood,
+                Alignment.Good
+            }).Contains(alignment)) ? ((!Set<Alignment>.Of(new Alignment[2]
             {
-                global::Aow.Game.Engine.Alignment.Evil,
-                global::Aow.Game.Engine.Alignment.PureEvil
+                Alignment.Evil,
+                Alignment.PureEvil
             }).Contains(alignment)) ? 1 : 2) : 0);
-            Proposal.DefaultMessage(new global::Aow.Game.Session.DiplomaticMessageText(fTextControl, alignment2, sourceRace, targetRace, otherRace, Text), Reaction, diplomaticRelation);
+            Proposal.DefaultMessage(new DiplomaticMessageText(fTextControl, alignment2, sourceRace, targetRace, otherRace, Text), Reaction, diplomaticRelation);
         }
 
         // intf_P5_08.inc:143
@@ -76701,7 +76701,7 @@ namespace Aow.Game.Events
                 bool condition = FAction.FOtherPlayer > 0;
                 if (condition)
                 {
-                    var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                    var count = AoWHSMap.Current.FPlayers.Count;
                     condition = FAction.FOtherPlayer < count;
                 }
 
@@ -76714,7 +76714,7 @@ namespace Aow.Game.Events
                     Race = 12;
                 }
 
-                Result = Aow.Game.Events.DiplomaticActionEventLog.P5RaceColors[Race];
+                Result = P5RaceColors[Race];
             }
             else
             {
@@ -76723,7 +76723,7 @@ namespace Aow.Game.Events
                     bool condition = FAction.FTarget > 0;
                     if (condition)
                     {
-                        var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                        var count = AoWHSMap.Current.FPlayers.Count;
                         condition = FAction.FTarget < count;
                     }
 
@@ -76736,16 +76736,16 @@ namespace Aow.Game.Events
                         Race = 12;
                     }
 
-                    Result = Aow.Game.Events.DiplomaticActionEventLog.P5RaceColors[Race];
+                    Result = P5RaceColors[Race];
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != FAction.FSource)
+                    if (AoWHSMap.Current.FSeatedPlayer != FAction.FSource)
                     {
                         bool condition = FAction.FSource > 0;
                         if (condition)
                         {
-                            var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                            var count = AoWHSMap.Current.FPlayers.Count;
                             condition = FAction.FSource < count;
                         }
 
@@ -76758,14 +76758,14 @@ namespace Aow.Game.Events
                             Race = 12;
                         }
 
-                        Result = Aow.Game.Events.DiplomaticActionEventLog.P5RaceColors[Race];
+                        Result = P5RaceColors[Race];
                     }
                     else
                     {
                         bool condition = FAction.FTarget > 0;
                         if (condition)
                         {
-                            var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                            var count = AoWHSMap.Current.FPlayers.Count;
                             condition = FAction.FTarget < count;
                         }
 
@@ -76778,7 +76778,7 @@ namespace Aow.Game.Events
                             Race = 12;
                         }
 
-                        Result = Aow.Game.Events.DiplomaticActionEventLog.P5RaceColors[Race];
+                        Result = P5RaceColors[Race];
                     }
                 }
             }
@@ -76797,7 +76797,7 @@ namespace Aow.Game.Events
                 bool condition = Action.FSource > 0;
                 if (condition)
                 {
-                    var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                    var count = AoWHSMap.Current.FPlayers.Count;
                     condition = Action.FSource < count;
                 }
 
@@ -76815,7 +76815,7 @@ namespace Aow.Game.Events
                 bool condition = Action.FOtherPlayer > 0;
                 if (condition)
                 {
-                    var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                    var count = AoWHSMap.Current.FPlayers.Count;
                     condition = Action.FOtherPlayer < count;
                 }
 
@@ -76842,7 +76842,7 @@ namespace Aow.Game.Events
             bool condition = Action.FTarget > 0;
             if (condition)
             {
-                var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                var count = AoWHSMap.Current.FPlayers.Count;
                 condition = Action.FTarget < count;
             }
 
@@ -76882,10 +76882,10 @@ namespace Aow.Game.Events
             bool Result = default;
             bool Show;
             Show = Trigger == ExecuteTrigger.User;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FAction.FTarget || Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FAction.FSource)
+            if (AoWHSMap.Current.FSeatedPlayer == FAction.FTarget || AoWHSMap.Current.FSeatedPlayer == FAction.FSource)
             {
-                Show = Show || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && Trigger == ExecuteTrigger.NewTurn;
-                Show = Show || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+                Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && Trigger == ExecuteTrigger.NewTurn;
+                Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
             }
 
             Show = Show && (Trigger == ExecuteTrigger.User || FAction.FReaction != DiplomaticActionReaction.Ignore);
@@ -76916,7 +76916,7 @@ namespace Aow.Game.Events
 
                 if (Action != null)
                 {
-                    FAction = (DiplomaticAction)Action.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    FAction = (DiplomaticAction)Action.Copy(GameTables.AoWEngine);
                 }
                 else
                 {
@@ -76932,10 +76932,10 @@ namespace Aow.Game.Events
         internal static bool P5DiplomaticExecute(DiplomaticActionEventLog log, bool immediate, ExecuteTrigger trigger, object data, ExecuteDoneEvent done)
         {
             bool result = trigger == ExecuteTrigger.User;
-            if (log.FAction.FTarget == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || log.FAction.FSource == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (log.FAction.FTarget == AoWHSMap.Current.FSeatedPlayer || log.FAction.FSource == AoWHSMap.Current.FSeatedPlayer)
             {
-                result = result || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
-                result = result || Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
+                result = result || AoWHSMap.Current.FPlayMode == PlayMode.Turn && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy) && trigger == ExecuteTrigger.NewTurn;
+                result = result || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.Diplomacy);
             }
             result = result && (trigger == ExecuteTrigger.User || log.FAction.FReaction != DiplomaticActionReaction.Ignore);
             if (!result) return false;
@@ -76975,26 +76975,26 @@ namespace Aow.Game.Ai
             {
                 while (true)
                 {
-                    var count = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                    var count = AoWHSMap.Current.FPlayers.Count;
                     if (!(FNextPlayer < count && !FControl.FPlayer.GetBusy()))
                         break;
                     FNextPlayer = (sbyte)(FNextPlayer + 1);
                     while (true)
                     {
-                        var fPlayersCount = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                        var fPlayersCount = AoWHSMap.Current.FPlayers.Count;
                         if (!(FNextPlayer < fPlayersCount && (FControl.FPlayer.GetFirstDaySeen((sbyte)(byte)FNextPlayer) == -1 || FControl.FPlayer.FPlayerIndex == FNextPlayer)))
                             break;
                         FNextPlayer = (sbyte)(FNextPlayer + 1);
                     }
 
-                    var count2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                    var count2 = AoWHSMap.Current.FPlayers.Count;
                     if (FNextPlayer < count2)
                     {
                         ExecuteDiplomacy(FNextPlayer);
                     }
                 }
 
-                var count3 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+                var count3 = AoWHSMap.Current.FPlayers.Count;
                 Result = FNextPlayer < count3;
             }
             else
@@ -77013,7 +77013,7 @@ namespace Aow.Game.Ai
             DiplomaticAction Last;
             Player = FControl.FPlayer.FPlayerIndex;
             Last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FDiplomaticActions.FindLastAction(Action.ToFields().Kind, DiplomaticActionReaction.None, Player, Target, Other);
-            if (Last == null || Aow.Game.World.Map.AoWHSMap.Current.FDay - Last.FDay >= MinDays)
+            if (Last == null || AoWHSMap.Current.FDay - Last.FDay >= MinDays)
             {
                 Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).CreateDiplomaticAction(Action, Target, Other);
             }
@@ -77082,7 +77082,7 @@ namespace Aow.Game.Ai
                 case DiplomaticRelation.Peace:
                     if (!FControl.CanOfferPeace((byte)Player) && IdealWar.IndexOf((byte)Player) != -1)
                     {
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed + Aow.Game.World.Map.AoWHSMap.Current.FDay + Source;
+                        RandSeed = AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Source;
                         Index = Random(IdealWar.Count);
                         if (IdealWar[Index] == Player)
                         {
@@ -77093,7 +77093,7 @@ namespace Aow.Game.Ai
                     {
                         if (FControl.CanProposeAlliance((byte)Player))
                         {
-                            RandSeed = (int)(((uint)(Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed + Aow.Game.World.Map.AoWHSMap.Current.FDay + Source)) >> 2);
+                            RandSeed = (int)(((uint)(AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Source)) >> 2);
                             if (Random(100) < 30)
                             {
                                 Action = CreateDA(new ProposeAlliance(), Player, -1, 10);
@@ -77105,7 +77105,7 @@ namespace Aow.Game.Ai
                 case DiplomaticRelation.Alliance:
                     if (!FControl.CanOfferPeace((byte)Player) && IdealWar.IndexOf((byte)Player) != -1)
                     {
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed + Aow.Game.World.Map.AoWHSMap.Current.FDay + Source + 1;
+                        RandSeed = AoWHSMap.Current.FInitialRandomSeed + AoWHSMap.Current.FDay + Source + 1;
                         Index = Random(IdealWar.Count);
                         if (IdealWar[Index] == Player)
                         {
@@ -77124,7 +77124,7 @@ namespace Aow.Game.Ai
                             if (War.IndexOf((byte)Candidate) != -1 && FControl.CanOfferPeace((byte)Candidate))
                             {
                                 Action = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, Source, Candidate, -1);
-                                if (Action == null || Aow.Game.World.Map.AoWHSMap.Current.FDay - Action.FDay > 12)
+                                if (Action == null || AoWHSMap.Current.FDay - Action.FDay > 12)
                                 {
                                     Score = -I;
                                     Score -= Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
@@ -77144,7 +77144,7 @@ namespace Aow.Game.Ai
                                 if (War.IndexOf((byte)Candidate) != -1)
                                 {
                                     Action = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Source).FDiplomaticActions.FindLastAction(OfferPeace.Kind, DiplomaticActionReaction.None, Source, Candidate, -1);
-                                    if (Action == null || Aow.Game.World.Map.AoWHSMap.Current.FDay - Action.FDay > 12)
+                                    if (Action == null || AoWHSMap.Current.FDay - Action.FDay > 12)
                                     {
                                         Score = J;
                                         Score -= Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelationCount((sbyte)(byte)Candidate, Set<DiplomaticRelation>.Of(DiplomaticRelation.Peace)) * 5;
@@ -77198,28 +77198,28 @@ namespace Aow.Game.Ai
             FControl.ListIdealPeaceWarPlayers(IdealPeace, IdealWar);
             Player = FControl.FPlayer.FPlayerIndex;
             var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            S = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
+            S = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[players.FPlayerRace]);
             var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
             S = S + "/" + name;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, "DIPLOMACY (" + S + ")");
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, "IDEAL PEACE PLAYERS");
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "DIPLOMACY (" + S + ")");
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "IDEAL PEACE PLAYERS");
             for (int I = 0, last = IdealPeace.Count - 1; I <= last; I++)
             {
                 var item = IdealPeace[I];
                 var fPlayersPlayers = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(item);
-                S = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[fPlayersPlayers.FPlayerRace]);
+                S = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[fPlayersPlayers.FPlayerRace]);
                 var idealPeaceItem = IdealPeace[I];
                 var name2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(idealPeaceItem).GetName();
                 S = S + "/" + name2;
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, S);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, S);
             }
 
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, "IDEAL WAR PLAYERS");
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, "IDEAL WAR PLAYERS");
             for (int I = 0, last = IdealWar.Count - 1; I <= last; I++)
             {
                 var item = IdealWar[I];
                 var name2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(item).GetName();
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Magic.Abilities.AbilityRules.AIDID, name2);
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(AbilityRules.AIDID, name2);
             }
 
             IdealPeace?.Dispose();
@@ -77240,7 +77240,7 @@ namespace Aow.Game.Engine
     public partial class AoWDictionary : IvBinaryDictionary
     {
 
-        public AoWDictionary(global::Aow.Rtl.Component owner)
+        public AoWDictionary(Component owner)
         { }
 
         // IvAMulti.pas:21
@@ -77282,7 +77282,7 @@ namespace Aow.Game.Engine
         // Army.PAS:5767-5786
         private protected sealed override void InitializeBeforeInherited()
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = this;
+            GameTables.AoWEngine = this;
             SetVersion(1, 36, 53);
             FRegistry = new AoWRegistry();
             FUser = Set<EngineUserElement>.Of(EngineUserElement.Programmer, EngineUserElement.Designer, EngineUserElement.User);
@@ -77295,22 +77295,22 @@ namespace Aow.Game.Engine
             // { Original selects English for every explicit language here. }
             switch (FRegistry.GetLanguage())
             {
-                case Aow.Game.Engine.AoWRegistry.AoWLanguage.Auto:
+                case AoWRegistry.AoWLanguage.Auto:
                     FDictionary.SetLanguage(-1);
                     break;
-                case Aow.Game.Engine.AoWRegistry.AoWLanguage.English:
+                case AoWRegistry.AoWLanguage.English:
                     FDictionary.SetLanguage(1);
                     break;
-                case Aow.Game.Engine.AoWRegistry.AoWLanguage.German:
+                case AoWRegistry.AoWLanguage.German:
                     FDictionary.SetLanguage(1);
                     break;
-                case Aow.Game.Engine.AoWRegistry.AoWLanguage.French:
+                case AoWRegistry.AoWLanguage.French:
                     FDictionary.SetLanguage(1);
                     break;
-                case Aow.Game.Engine.AoWRegistry.AoWLanguage.Italian:
+                case AoWRegistry.AoWLanguage.Italian:
                     FDictionary.SetLanguage(1);
                     break;
-                case Aow.Game.Engine.AoWRegistry.AoWLanguage.Spanish:
+                case AoWRegistry.AoWLanguage.Spanish:
                     FDictionary.SetLanguage(1);
                     break;
             }
@@ -77334,7 +77334,7 @@ namespace Aow.Game.Engine
             RegisterEClasses([EClass.Of<CombatEventLog>(), EClass.Of<CombatPlayer>(), EClass.Of<DiplomaticAction>(), EClass.Of<EmailGame>(), EClass.Of<RestartGameEventLog>()]);
             RegisterEClasses([EClass.Of<Structure>(), EClass.Of<StructureResource>(), EClass.Of<StructureTE>(), EClass.Of<ConstructStructureTE>(), EClass.Of<ProductionTE>(), EClass.Of<HeroUpdateTE>()]);
             RegisterEClasses([EClass.Of<PlayerStructure>(), EClass.Of<PlayerStructureResource>(), EClass.Of<ProductionItem>(), EClass.Of<UnitProduction>()]);
-            RegisterEClasses([EClass.Of<Fire>(), EClass.Of<Aow.Game.World.Terrain.Fire.Resource>()]);
+            RegisterEClasses([EClass.Of<Fire>(), EClass.Of<Fire.Resource>()]);
             RegisterEClasses([EClass.Of<NewDayEventLog>(), EClass.Of<ArmyInfoEventLog>(), EClass.Of<TextControlItem>(), EClass.Of<HeroUpgradeEventLog>()]);
             RegisterEClasses([EClass.Of<DiplomaticActionTE>(), EClass.Of<DiplomaticActionEventLog>(), EClass.Of<PlayerMagicEventLog>(), EClass.Of<DiplomaticRelationHistoryItem>(), EClass.Of<DiplomaticRelationHistoryList>()]);
             RegisterEClasses([EClass.Of<HuntAG>(), EClass.Of<AIBudget>(), EClass.Of<AISavingsBudget>(), EClass.Of<AITransporterBudget>()]);
@@ -77345,10 +77345,10 @@ namespace Aow.Game.Engine
             Aow.Game.Engine.AoWEngine.RegisterEventLog(this);
             Aow.Game.Engine.AoWEngine.P2RegisterAbilities(FGameSet.FAbilityControl);
             Aow.Game.Engine.AoWEngine.P2RegisterSpells(this);
-            Aow.Game.Magic.Abilities.CombatAbilityTables.CombatDID = RegisterDebugID("Combat");
-            Aow.Game.Magic.Abilities.AbilityRules.AIDID = RegisterDebugID("AI");
-            Aow.Game.Magic.Abilities.AbilityRules.TMPDID = RegisterDebugID("TMP");
-            Aow.Game.Engine.AoWEngine.MAGICDID = RegisterDebugID("MAGIC");
+            CombatAbilityTables.CombatDID = RegisterDebugID("Combat");
+            AbilityRules.AIDID = RegisterDebugID("AI");
+            AbilityRules.TMPDID = RegisterDebugID("TMP");
+            MAGICDID = RegisterDebugID("MAGIC");
             Editors.RegisterClass(EditorClass.Of<AoWMapObjectEditor>());
             Aow.Game.Engine.AoWEngine.LoadExternalPlugIns(StartupDirectory + "PLUGINS");
             FEmailGames.Load();
@@ -77363,7 +77363,7 @@ namespace Aow.Game.Engine
             }
             else
             {
-                SetStartupDirectory(ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName));
+                SetStartupDirectory(ExtractFilePath(RtlUnit.Application.ExeName));
             }
 
             if (StartupDirectory[StartupDirectory.Length - 1] != 92)
@@ -77371,8 +77371,8 @@ namespace Aow.Game.Engine
                 SetStartupDirectory(StartupDirectory + "\\");
             }
 
-            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = StartupDirectory;
-            Aow.Game.Audio.AudioHost.BaseSoundEnginePath = StartupDirectory;
+            ImageLibraries.BaseImageLibraryPath = StartupDirectory;
+            AudioHost.BaseSoundEnginePath = StartupDirectory;
             FDictionary.FFileName = StartupDirectory + "Dict\\" + "ResStr" + ".mld";
             FDictionary.Open();
         }
@@ -77385,28 +77385,28 @@ namespace Aow.Game.Engine
         {
             FHSSet = AoWHSSet.Create(this);
             FGameSet = (AoWHSSet)FHSSet;
-            Aow.Game.Engine.AoWHSSet.Current = FGameSet;
+            AoWHSSet.Current = FGameSet;
         }
 
         // Army.PAS:5973
-        public override void SetHSMap(global::Aow.Game.World.Map.HSMap Value)
+        public override void SetHSMap(HSMap Value)
         {
             base.SetHSMap(Value);
             if (Value is AoWHSMap)
             {
                 FGameMap = (AoWHSMap)FHSMap;
-                Aow.Game.World.Map.AoWHSMap.Current = (AoWHSMap)Value;
+                AoWHSMap.Current = (AoWHSMap)Value;
             }
         }
 
         // Army.PAS:5962
-        public override void CloseHSM(Aow.Game.Engine.ProgressEvent AProgress)
+        public override void CloseHSM(ProgressEvent AProgress)
         {
             try
             {
                 base.CloseHSM(AProgress);
                 FGameMap = null;
-                Aow.Game.World.Map.AoWHSMap.Current = null;
+                AoWHSMap.Current = null;
             }
             catch
             {
@@ -77443,22 +77443,22 @@ namespace Aow.Game.Engine
                     Dictionary.Open();
                     switch (FRegistry.GetLanguage())
                     {
-                        case Aow.Game.Engine.AoWRegistry.AoWLanguage.Auto:
+                        case AoWRegistry.AoWLanguage.Auto:
                             Dictionary.SetLanguage(-1);
                             break;
-                        case Aow.Game.Engine.AoWRegistry.AoWLanguage.English:
+                        case AoWRegistry.AoWLanguage.English:
                             Dictionary.SetLanguage(1);
                             break;
-                        case Aow.Game.Engine.AoWRegistry.AoWLanguage.German:
+                        case AoWRegistry.AoWLanguage.German:
                             Dictionary.SetLanguage(2);
                             break;
-                        case Aow.Game.Engine.AoWRegistry.AoWLanguage.French:
+                        case AoWRegistry.AoWLanguage.French:
                             Dictionary.SetLanguage(3);
                             break;
-                        case Aow.Game.Engine.AoWRegistry.AoWLanguage.Italian:
+                        case AoWRegistry.AoWLanguage.Italian:
                             Dictionary.SetLanguage(4);
                             break;
-                        case Aow.Game.Engine.AoWRegistry.AoWLanguage.Spanish:
+                        case AoWRegistry.AoWLanguage.Spanish:
                             Dictionary.SetLanguage(5);
                             break;
                     }
@@ -77507,9 +77507,9 @@ namespace Aow.Game.Engine
             }
             else
             {
-                if (CompareText(S, Aow.Game.Engine.AoWEngine.P2UndeadPluralRStr) == 0)
+                if (CompareText(S, P2UndeadPluralRStr) == 0)
                 {
-                    Result = Aow.Game.Engine.AoWEngine.P2UndeadRStr;
+                    Result = P2UndeadRStr;
                 }
                 else
                 {
@@ -77629,7 +77629,7 @@ namespace Aow.Game.Engine
             {
                 Mem = new MemoryStream();
                 // { Original leaks Mem if opening or loading the file raises. }
-                FileStream = OpenFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
+                FileStream = OpenFile(StartupDirectory + "RELEASE\\GENERAL.PFS", 0 | 32);
                 try
                 {
                     Mem.LoadFromStream(FileStream);
@@ -77671,7 +77671,7 @@ namespace Aow.Game.Engine
                 Mem = new MemoryStream();
                 try
                 {
-                    Mem.LoadFromFile(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "RELEASE\\GENERAL.PFS");
+                    Mem.LoadFromFile(StartupDirectory + "RELEASE\\GENERAL.PFS");
                     Mem.Read(Bytes.Of(ref Registered, 1));
                     Aow.Game.Engine.AoWEngine.StringFromStream(ref Name, Mem);
                     Result = Aow.Game.Magic.Abilities.AbilityRules.Encode(Name, 0);
@@ -77730,7 +77730,7 @@ namespace Aow.Game.Engine
         }
 
         // Army.PAS:6059
-        public void LoadCampaignMap(Aow.Game.Engine.ProgressEvent AProgress)
+        public void LoadCampaignMap(ProgressEvent AProgress)
         {
             if (FCampaign != null && FCampaign.FStream != null)
             {
@@ -77751,7 +77751,7 @@ namespace Aow.Game.Engine
         {
             CloseCampaign();
             FCampaign = (AoWCampaign)RetrieveFromImage(Image, null);
-            TranslateEObjectFromFile(FCampaign, Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Dict\\" + "Campaign" + ".mld");
+            TranslateEObjectFromFile(FCampaign, StartupDirectory + "Dict\\" + "Campaign" + ".mld");
             FCampaign.FFileName = FileName;
         }
 
@@ -77847,7 +77847,7 @@ namespace Aow.Game.Engine
 
         private static void UnregisterCoreAbilities(AbilityControl Control)
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.UnregisterEClasses([EClass.Of<Aow.Game.Magic.CosmeticSurgeryEnchantment>(), EClass.Of<LeadershipAbilityData>()]);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.UnregisterEClasses([EClass.Of<CosmeticSurgeryEnchantment>(), EClass.Of<LeadershipAbilityData>()]);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.UnregisterEClasses([EClass.Of<DurationAbilityData>(), EClass.Of<MultiLevelAbilityData>(), EClass.Of<RangedAttackCA>(), EClass.Of<SelfDestructCA>(), EClass.Of<StrikeCA>(), EClass.Of<DispelMagicAbilityCA>()]);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.UnregisterEClasses([EClass.Of<UnitEnchantmentAbilityData>(), EClass.Of<UnitEnchantment>(), EClass.Of<DispelMagicAbilityTE>()]);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.UnregisterEClasses([EClass.Of<CommandCA>(), EClass.Of<CommandedAbilityData>(), EClass.Of<CommandAbilityData>(), EClass.Of<HealingTE>(), EClass.Of<DispelMagicAbilityData>()]);
@@ -77955,7 +77955,7 @@ namespace Aow.Game.Engine
 
         private static readonly string P2RegisterDoomGazeRStr = "Doom Gaze";
 
-        private static RangedAttackAbility P2CreateRangedAttack(int ID, string Name, sbyte Attack, sbyte Damage, sbyte Repeats, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange Range, Set<DamageType> DamageTypes, int Enchantment)
+        private static RangedAttackAbility P2CreateRangedAttack(int ID, string Name, sbyte Attack, sbyte Damage, sbyte Repeats, RangedAttackAbility.CombatRange Range, Set<DamageType> DamageTypes, int Enchantment)
         {
             RangedAttackAbility Ability;
             Ability = new RangedAttackAbility(null);
@@ -77976,7 +77976,7 @@ namespace Aow.Game.Engine
             Ability = new BoltsAbility(null);
             Ability.FAbilityID = ID;
             Ability.FAbilityName = Name;
-            Ability.FDamageTypesRA.Value = Set<global::Aow.Game.Combat.DamageType>.Of(DamageType);
+            Ability.FDamageTypesRA.Value = Set<DamageType>.Of(DamageType);
             Ability.FDamageRA = Damage;
             Ability.FAttackRA = (sbyte)Attack;
             // { Original ignores Enchantment. }
@@ -77989,7 +77989,7 @@ namespace Aow.Game.Engine
             Ability = new BreathAbility(null);
             Ability.FAbilityID = ID;
             Ability.FAbilityName = Name;
-            Ability.FDamageTypesRA.Value = Set<global::Aow.Game.Combat.DamageType>.Of(DamageType);
+            Ability.FDamageTypesRA.Value = Set<DamageType>.Of(DamageType);
             // { Original ignores Enchantment. }
             return Ability;
         }
@@ -78021,25 +78021,25 @@ namespace Aow.Game.Engine
             Control.RegisterAbility(P2CreateBreath(89, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterDivineBreathRStr), DamageType.Holy, -1));
             Control.RegisterAbility(P2CreateBreath(90, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterGasBreathRStr), DamageType.Poison, -1));
             Control.RegisterAbility(new FlameThrowingAbility(null));
-            Control.RegisterAbility(P2CreateRangedAttack(57, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterShootJavelinRStr), 5, 5, 2, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 122));
-            Control.RegisterAbility(P2CreateRangedAttack(58, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterShootBlackJavelinRStr), 5, 5, 2, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death, DamageType.Physical), 123));
-            Control.RegisterAbility(P2CreateRangedAttack(25, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterHurlStonesRStr), 3, 1, 4, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), 111));
+            Control.RegisterAbility(P2CreateRangedAttack(57, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterShootJavelinRStr), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 122));
+            Control.RegisterAbility(P2CreateRangedAttack(58, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterShootBlackJavelinRStr), 5, 5, 2, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death, DamageType.Physical), 123));
+            Control.RegisterAbility(P2CreateRangedAttack(25, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterHurlStonesRStr), 3, 1, 4, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), 111));
         }
 
         private static void P2RegisterRangedGroup3(AbilityControl Control)
         {
-            Control.RegisterAbility(P2CreateRangedAttack(45, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterFireMusketRStr), 5, 7, 1, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 113));
-            Control.RegisterAbility(P2CreateRangedAttack(44, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterFireCannonRStr), 5, 8, 1, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 112));
-            Control.RegisterAbility(P2CreateRangedAttack(24, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterHurlBoulderRStr), 3, 7, 1, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 110));
-            Control.RegisterAbility(P2CreateRangedAttack(62, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterVenomousSpitRStr), 5, 4, 1, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Short, Set<DamageType>.Of(DamageType.Poison), -1));
-            Control.RegisterAbility(P2CreateRangedAttack(31, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterCallFlamesRStr), 5, 4, 1, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Fire), -1));
-            Control.RegisterAbility(P2CreateRangedAttack(22, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterArcheryRStr), 4, 2, 2, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), -1));
+            Control.RegisterAbility(P2CreateRangedAttack(45, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterFireMusketRStr), 5, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical), 113));
+            Control.RegisterAbility(P2CreateRangedAttack(44, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterFireCannonRStr), 5, 8, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 112));
+            Control.RegisterAbility(P2CreateRangedAttack(24, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterHurlBoulderRStr), 3, 7, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Physical, DamageType.Wall), 110));
+            Control.RegisterAbility(P2CreateRangedAttack(62, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterVenomousSpitRStr), 5, 4, 1, RangedAttackAbility.CombatRange.Short, Set<DamageType>.Of(DamageType.Poison), -1));
+            Control.RegisterAbility(P2CreateRangedAttack(31, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterCallFlamesRStr), 5, 4, 1, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Fire), -1));
+            Control.RegisterAbility(P2CreateRangedAttack(22, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterArcheryRStr), 4, 2, 2, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Physical), -1));
         }
 
         private static void P2RegisterRangedGroup4(AbilityControl Control)
         {
-            Control.RegisterAbility(P2CreateRangedAttack(61, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterPoisonDartsRStr), 4, 1, 3, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Poison, DamageType.Physical), 114));
-            Control.RegisterAbility(P2CreateRangedAttack(55, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterDoomGazeRStr), 6, 5, 1, Aow.Game.Magic.Abilities.RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death), -1));
+            Control.RegisterAbility(P2CreateRangedAttack(61, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterPoisonDartsRStr), 4, 1, 3, RangedAttackAbility.CombatRange.Medium, Set<DamageType>.Of(DamageType.Poison, DamageType.Physical), 114));
+            Control.RegisterAbility(P2CreateRangedAttack(55, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P2RegisterDoomGazeRStr), 6, 5, 1, RangedAttackAbility.CombatRange.Long, Set<DamageType>.Of(DamageType.Death), -1));
         }
 
         private static void P2RegisterStrikeGroup1(AbilityControl Control)
@@ -78089,7 +78089,7 @@ namespace Aow.Game.Engine
         private static void P2InitializeMovePoints()
         {
             int Points;
-            FillBytes(MemoryMarshal.AsBytes((Span<FixedArray_Aow_Units_FixedArray_sbyte_16_16>)Aow.Game.Magic.Abilities.MovementTables.MovePointTables).Slice(0, 65536), 255);
+            FillBytes(MemoryMarshal.AsBytes((Span<FixedArray_Aow_Units_FixedArray_sbyte_16_16>)MovementTables.MovePointTables).Slice(0, 65536), 255);
             for (int Mask = 0; Mask <= 255; Mask++)
             {
                 for (int Overlay = -1; Overlay <= 11; Overlay++)
@@ -78107,7 +78107,7 @@ namespace Aow.Game.Engine
 
                         if (Points != 127)
                         {
-                            Aow.Game.Magic.Abilities.MovementTables.MovePointTables[Mask][Terrain][Overlay - -1] = (sbyte)Points;
+                            MovementTables.MovePointTables[Mask][Terrain][Overlay - -1] = (sbyte)Points;
                         }
                     }
                 }
@@ -78126,7 +78126,7 @@ namespace Aow.Game.Engine
 
         private static void P2RegisterAbilities(AbilityControl Control)
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisterEClasses([EClass.Of<Aow.Game.Magic.CosmeticSurgeryEnchantment>(), EClass.Of<LeadershipAbilityData>(), EClass.Of<DispelMagicAbilityCA>()]);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisterEClasses([EClass.Of<CosmeticSurgeryEnchantment>(), EClass.Of<LeadershipAbilityData>(), EClass.Of<DispelMagicAbilityCA>()]);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisterEClasses([EClass.Of<DurationAbilityData>(), EClass.Of<MultiLevelAbilityData>(), EClass.Of<RangedAttackCA>(), EClass.Of<SelfDestructCA>(), EClass.Of<StrikeCA>()]);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisterEClasses([EClass.Of<UnitEnchantmentAbilityData>(), EClass.Of<UnitEnchantment>(), EClass.Of<DispelMagicAbilityTE>(), EClass.Of<PossessedAbilityData>()]);
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisterEClasses([EClass.Of<CommandCA>(), EClass.Of<CommandedAbilityData>(), EClass.Of<CommandAbilityData>(), EClass.Of<HealingTE>(), EClass.Of<DispelMagicAbilityData>()]);
@@ -78234,18 +78234,18 @@ namespace Aow.Game.Engine
             S = Cp1252.Decode(buffer);
         }
 
-        private static void RegisterEventLog(global::Aow.Game.Engine.Engine AEngine)
+        private static void RegisterEventLog(Engine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<TextEventLog>(), EClass.Of<EndTurnEventLog>(), EClass.Of<GameOverEventLog>(), EClass.Of<LocationTextEventLog>()]);
         }
 
-        private static void RegisterNetworkEngine(global::Aow.Game.Engine.Engine AEngine)
+        private static void RegisterNetworkEngine(Engine AEngine)
         {
-            Aow.Game.Net.NetworkSession.NetworkEngineDID = AEngine.RegisterDebugID("Network Engine");
+            NetworkSession.NetworkEngineDID = AEngine.RegisterDebugID("Network Engine");
             AEngine.RegisterEClasses([EClass.Of<TokenPackage>(), EClass.Of<PassTokenTE>(), EClass.Of<SyncTE>()]);
         }
 
-        private static void RegisterSoundEngineClasses(global::Aow.Game.Engine.Engine AEngine)
+        private static void RegisterSoundEngineClasses(Engine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<SFXSequence>(), EClass.Of<SFXLibrary>(), EClass.Of<SFX>()]);
         }
@@ -78266,7 +78266,7 @@ namespace Aow.Game.Engine
 
         internal static void UnregisterCombatSpells(AoWEngine Engine)
         {
-            Aow.Game.Magic.Spells.SpellControl Control;
+            SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
             Engine.UnregisterEClasses([EClass.Of<CombatSpellCA>(), EClass.Of<FastCombatTerrorCA>(), EClass.Of<TacticalCombatTerrorCA>(), EClass.Of<RecallSpiritCA>(), EClass.Of<AnimateDeadCA>(), EClass.Of<FastCombatHighPrayerCA>(), EClass.Of<TacticalCombatHighPrayerCA>(), EClass.Of<EntangleSpellCA>(), EClass.Of<MindDecayCA>(), EClass.Of<TurnUndeadSpellCA>(), EClass.Of<SlowCA>()]);
             Control.UnregisterSpellID(100);
@@ -78303,7 +78303,7 @@ namespace Aow.Game.Engine
 
         internal static void UnregisterGlobalSpells(AoWEngine Engine)
         {
-            Aow.Game.Magic.Spells.SpellControl Control;
+            SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
             Engine.UnregisterEClasses([EClass.Of<WarpPartyTE>(), EClass.Of<DisjunctionTE>()]);
             Control.UnregisterSpellID(1);
@@ -78318,7 +78318,7 @@ namespace Aow.Game.Engine
 
         internal static void UnregisterGlobalEnchantmentSpells(AoWEngine AEngine)
         {
-            Aow.Game.Magic.Spells.SpellControl Control;
+            SpellControl Control;
             Control = AEngine.FGameSet.FSpellControl;
             Control.UnregisterSpellID(44);
             Control.UnregisterSpellID(46);
@@ -78332,14 +78332,14 @@ namespace Aow.Game.Engine
             Control.UnregisterSpellID(64);
             Control.UnregisterSpellID(45);
             Control.UnregisterSpellID(65);
-            AEngine.UnregisterEClasses([EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.EnchantedRoadsEnchantment>(), EClass.Of<GlobalEnchantmentSpellTE>(), EClass.Of<GlobalEnchantmentEventLog>()]);
-            AEngine.UnregisterEClasses([EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.WaterMasteryEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.HatredEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.HarmonyEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.PowerLeakEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.FloodEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.AirMasteryEnchantment>()]);
-            AEngine.UnregisterEClasses([EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.LifeMasteryEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.DeathMasteryEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.FireMasteryEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.EarthMasteryEnchantment>(), EClass.Of<Aow.Game.Magic.Spells.GlobalEnchantment.SpellWardEnchantment>()]);
+            AEngine.UnregisterEClasses([EClass.Of<Magic.Spells.GlobalEnchantment.EnchantedRoadsEnchantment>(), EClass.Of<GlobalEnchantmentSpellTE>(), EClass.Of<GlobalEnchantmentEventLog>()]);
+            AEngine.UnregisterEClasses([EClass.Of<Magic.Spells.GlobalEnchantment.WaterMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.HatredEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.HarmonyEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.PowerLeakEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.FloodEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.AirMasteryEnchantment>()]);
+            AEngine.UnregisterEClasses([EClass.Of<Magic.Spells.GlobalEnchantment.LifeMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.DeathMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.FireMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.EarthMasteryEnchantment>(), EClass.Of<Magic.Spells.GlobalEnchantment.SpellWardEnchantment>()]);
         }
 
         internal static void UnregisterGlobalTargetSpells(AoWEngine Engine)
         {
-            Aow.Game.Magic.Spells.SpellControl Control;
+            SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
             Control.UnregisterSpellID(10);
             Control.UnregisterSpellID(11);
@@ -78355,7 +78355,7 @@ namespace Aow.Game.Engine
 
         internal static void UnregisterSummonSpells(AoWEngine AEngine)
         {
-            Aow.Game.Magic.Spells.SpellControl Control;
+            SpellControl Control;
             Control = AEngine.FGameSet.FSpellControl;
             AEngine.UnregisterEClasses([EClass.Of<SummonSpellTE>()]);
             Control.UnregisterSpellID(24);
@@ -78375,7 +78375,7 @@ namespace Aow.Game.Engine
 
         internal static void UnregisterUnitSpells(AoWEngine Engine)
         {
-            Aow.Game.Magic.Spells.SpellControl Control;
+            SpellControl Control;
             Control = Engine.FGameSet.FSpellControl;
             Control.UnregisterSpellID(8);
             Control.UnregisterSpellID(15);
@@ -78400,13 +78400,13 @@ namespace Aow.Game.Engine
 
         internal static void UnRegisterPoisonPlant(AoWEngine AEngine)
         {
-            AEngine.UnregisterEClasses([EClass.Of<PoisonPlant>(), EClass.Of<Aow.Game.World.Terrain.PoisonPlant.Resource>(), EClass.Of<PoisonPlantSpellTE>()]);
+            AEngine.UnregisterEClasses([EClass.Of<PoisonPlant>(), EClass.Of<PoisonPlant.Resource>(), EClass.Of<PoisonPlantSpellTE>()]);
             AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
         }
 
         internal static void UnRegisterUnholyGround(AoWEngine AEngine)
         {
-            AEngine.UnregisterEClasses([EClass.Of<UnHolyGround>(), EClass.Of<Aow.Game.World.Terrain.UnHolyGround.Resource>(), EClass.Of<UnholyGroundSpellTE>()]);
+            AEngine.UnregisterEClasses([EClass.Of<UnHolyGround>(), EClass.Of<UnHolyGround.Resource>(), EClass.Of<UnholyGroundSpellTE>()]);
             AEngine.FGameSet.FSpellControl.UnregisterSpellID(14);
         }
 
@@ -78416,10 +78416,10 @@ namespace Aow.Game.Engine
     public partial class AgeOfWondersEngine : HexagonSpriteEngine
     {
 
-        public AgeOfWondersEngine(global::Aow.Rtl.Component owner) : base(owner)
+        public AgeOfWondersEngine(Component owner) : base(owner)
         { }
 
-        public global::Aow.Game.World.Map.HSEngine FGameEngine;
+        public HSEngine FGameEngine;
 
         // Army.PAS:6104
         public override void Dispose()
@@ -78430,7 +78430,7 @@ namespace Aow.Game.Engine
         }
 
         // Army.PAS:6092
-        public override void SetHSEngine(global::Aow.Game.World.Map.HSEngine Value)
+        public override void SetHSEngine(HSEngine Value)
         {
             base.SetHSEngine(Value);
             FGameEngine = Value;
@@ -78440,9 +78440,9 @@ namespace Aow.Game.Engine
         public override void CreateEngine()
         {
             Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine();
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine != null)
+            if (GameTables.AoWEngine != null)
             {
-                SetHSEngine(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                SetHSEngine(GameTables.AoWEngine);
             }
         }
     }
@@ -78488,7 +78488,7 @@ namespace Aow.Game.World.Structures
         // Structur.PAS:3162
         public virtual bool ValidateLocation(AbstractUnit AUnit, ref string Reason)
         {
-            global::Aow.Game.World.Structures.StructureResource Resource;
+            StructureResource Resource;
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
@@ -78523,14 +78523,14 @@ namespace Aow.Game.World.Structures
 
             if (!Result)
             {
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.StructureConstructionControl.CannotBuildOnCurrentLocationRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CannotBuildOnCurrentLocationRStr);
             }
 
             return Result;
         }
 
         // Structur.PAS:3158
-        public virtual global::Aow.Game.World.Structures.StructureResource StructureResource(AbstractUnit AUnit) => null;
+        public virtual StructureResource StructureResource(AbstractUnit AUnit) => null;
 
         private static readonly string CannotBuildOnCurrentLocationRStr = "Cannot build on current location";
     }
@@ -78600,7 +78600,7 @@ namespace Aow.Game.Commands
 
                     Owner = (EChangeNotifyNode)AUnit.Owner;
                     Owner.BeginUpdate();
-                    Structure = (global::Aow.Game.World.Structures.Structure)Resource.PlaceResourceUser(Aow.Game.World.Map.AoWHSMap.Current, X, Y, L);
+                    Structure = (Structure)Resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
                     if (Structure != null)
                     {
                         Control.GetInfo(AUnit, ref Text, ref Gold, ref Days);
@@ -78644,7 +78644,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
+                throw new DoublePrioriyIDException("Double priorityID found");
             }
         }
 
@@ -78683,12 +78683,12 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
+                throw new DoublePrioriyIDException("Double priorityID found");
             }
         }
 
         // Engine.pas:1327
-        public ExportTextStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine) : base(AStream, AEngine)
+        public ExportTextStream(Stream AStream, Engine AEngine) : base(AStream, AEngine)
         { }
     }
 
@@ -78756,7 +78756,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:1343
-        public TranslateTextStream(global::Aow.Game.Engine.Engine AEngine) : base(AEngine)
+        public TranslateTextStream(Engine AEngine) : base(AEngine)
         { }
     }
 }
@@ -78797,13 +78797,13 @@ namespace Aow.Game.World.Structures
             if (Structure != null)
             {
                 var editName = Structure.EditName();
-                Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.RebuildConstructionControl.P4RebuildXRStr), [editName]);
+                Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4RebuildXRStr), [editName]);
                 Structure.GetRebuildInfo(ref Gold, ref Days);
             }
             else
             {
-                var p4Structure = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.RebuildConstructionControl.P4StructureRStr);
-                Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.RebuildConstructionControl.P4RebuildXRStr), [p4Structure]);
+                var p4Structure = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4StructureRStr);
+                Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4RebuildXRStr), [p4Structure]);
                 Gold = 0;
                 Days = 0;
             }
@@ -78819,7 +78819,7 @@ namespace Aow.Game.World.Structures
             }
             else
             {
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.RebuildConstructionControl.P4NoRazedStructuresRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4NoRazedStructuresRStr);
                 Result = false;
             }
 
@@ -78868,7 +78868,7 @@ namespace Aow.Game.World
         // AoWAb.PAS:5458
         public override void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
         {
-            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.BuildRoadsControl.P4BuildRoadRStr);
+            Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4BuildRoadRStr);
             Gold = 0;
             Days = 0;
         }
@@ -78888,8 +78888,8 @@ namespace Aow.Game.World
             else
             {
                 Result = false;
-                var p4Roads = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.BuildRoadsControl.P4RoadsRStr);
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.BuildRoadsControl.P4CannotBuildUndergroundRStr), [p4Roads]);
+                var p4Roads = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4RoadsRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(P4CannotBuildUndergroundRStr), [p4Roads]);
             }
 
             return Result;
@@ -79652,7 +79652,7 @@ namespace Aow.Game.Combat
 namespace Aow.Game.Events
 {
 
-    public delegate void RectangleSelectEvent(in global::Aow.Rtl.Rect SelectionRect);
+    public delegate void RectangleSelectEvent(in Rect SelectionRect);
 }
 
 namespace Aow.Game.World.Movement
@@ -80034,9 +80034,9 @@ namespace Aow.Game.World.Map
     // events, scanner events, scanner lock, fog/exploration, selectors, selector visibility
     public struct MapChangedInfo
     {
-        public global::Aow.Rtl.Rect Bounds;
+        public Rect Bounds;
         public int Level;
-        public global::Aow.Game.World.Map.MapLevel MapLevel;
+        public MapLevel MapLevel;
     }
 }
 
@@ -81155,7 +81155,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Combat.pas:376
-        public virtual global::Aow.Game.Magic.Abilities.AbilityType AbilityType()
+        public virtual AbilityType AbilityType()
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
@@ -81365,7 +81365,7 @@ namespace Aow.Game.Magic.Abilities
         }
 
         // Combat.pas:407
-        public virtual global::Aow.Game.Ai.Groups.GroupBehavior GroupBehavior()
+        public virtual GroupBehavior GroupBehavior()
         {
             throw AbstractErrorException.Create("Abstract Error");
         }

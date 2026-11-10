@@ -20,17 +20,17 @@ public partial class MoveControl
     {
         RtlUnit.Assert(!FStatus.Contains(StatusElement.Activated), "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea8);
         RtlUnit.Assert(settings.FSourceX != -1 && settings.FSourceY != -1 && settings.FSourceL != -1, "Assertion failure", @"D:\AoWDev\AoWE\inc\MoveT.PAS", 0x7ea9);
-        if (settings.FStatus == Aow.Game.World.Movement.MoveControlSettings.Status.Failed) return false;
+        if (settings.FStatus == MoveControlSettings.Status.Failed) return false;
         FStatus += Set<StatusElement>.Of(StatusElement.Activated);
         FSettings = settings;
         FSettings.AddRef();
-        if (FSettings.FStatus == Aow.Game.World.Movement.MoveControlSettings.Status.Idle)
+        if (FSettings.FStatus == MoveControlSettings.Status.Idle)
         {
             var container = FMap.MapContainer;
             FSettings.SetupMovePointData(container.Width, container.Height, container.LevelCount);
             FMovePointsLimit = FSettings.FMovePointsMax;
         }
-        else if (FSettings.FStatus is Aow.Game.World.Movement.MoveControlSettings.Status.Processing or Aow.Game.World.Movement.MoveControlSettings.Status.Processed)
+        else if (FSettings.FStatus is MoveControlSettings.Status.Processing or MoveControlSettings.Status.Processed)
             FMovePointsLimit = FSettings.FMovePointsLimit;
         FPointOffsets[0] = FSettings.FEvenOffsets;
         FPointOffsets[1] = FSettings.FOddOffsets;

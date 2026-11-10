@@ -24,7 +24,7 @@ internal static class EffectPaths
 
         for (int I = 0; I <= Steps - 1; I++)
         {
-            XYZ = new global::Aow.Game.Draw.XYZ();
+            XYZ = new XYZ();
             List.Add(XYZ);
             XYZ.X = X1 + (X2 - X1) * I / (Steps - 1);
             XYZ.Y = Y1 + (Y2 - Y1) * I / (Steps - 1);
@@ -53,7 +53,7 @@ internal static class EffectPaths
                     break;
             }
 
-            XYZ = new global::Aow.Game.Draw.XYZ();
+            XYZ = new XYZ();
             XYZ.X = Round((double)Math.Sin(Rad) * R) + X;
             XYZ.Y = Round((double)Math.Cos(Rad) * R) + Y;
             List.Add(XYZ);
@@ -146,7 +146,7 @@ internal static class EffectPaths
         {
             while ((double)Z >= 0)
             {
-                XYZ = new global::Aow.Game.Draw.XYZ();
+                XYZ = new XYZ();
                 XYZ.X = Round(FX);
                 XYZ.Y = Round(FY);
                 XYZ.Z = Round(Z);
@@ -177,7 +177,7 @@ internal static class EffectPaths
 
         while (I <= Steps)
         {
-            XYZ = new global::Aow.Game.Draw.XYZ();
+            XYZ = new XYZ();
             List.Add(XYZ);
             XYZ.X = X1 + (X2 - X1) * I / Steps;
             XYZ.Y = Y1 + (Y2 - Y1) * I / Steps;

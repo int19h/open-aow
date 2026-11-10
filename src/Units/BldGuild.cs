@@ -36,7 +36,7 @@ public partial class BuildersGuild : ProductionPlace
         // BldGuild.pas:26
 
         // BldGuild.pas:50
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.BuildersGuild.Resource.BuildersGuildRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BuildersGuildRStr);
 
         private static readonly string BuildersGuildRStr = "Builders Guild";
 

@@ -19,11 +19,11 @@ namespace Aow.Game.Ui.Controls;
 // FPopupMenu, FLit (the mouse is over the button). FChecked is the down state
 public partial class AOWBaseButton : AOWControl
 {
-    public AOWBaseButton(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWBaseButton(Component owner) : base(owner)
     { }
 
     public int FBorderHeightSelected;
-    public Aow.Game.Ui.Controls.AoWComponent.ButtonType FButtonType;
+    public ButtonType FButtonType;
     public InterfaceIL FILButton;
     public InterfaceIL FILIcon;
     public int FILIndexUp;
@@ -67,14 +67,14 @@ public partial class AOWBaseButton : AOWControl
 
         if (FILButton != null)
         {
-            FButtonType = Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text;
+            FButtonType = ButtonType.Text;
             FValid = true;
         }
         else
         {
             if (FILIcon != null)
             {
-                FButtonType = Aow.Game.Ui.Controls.AoWComponent.ButtonType.Icon;
+                FButtonType = ButtonType.Icon;
                 FValid = true;
             }
         }
@@ -87,7 +87,7 @@ public partial class AOWBaseButton : AOWControl
     {
         switch (FButtonType)
         {
-            case Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text:
+            case ButtonType.Text:
                 var ilButtonWidth = FILButton[FILIndexUp];
                 var ilButton = FILButton[FILIndexUp + 2];
                 if (ilButtonWidth.Width + ilButton.Width > FWinWidth)
@@ -99,7 +99,7 @@ public partial class AOWBaseButton : AOWControl
 
                 FWinHeight = FILButton[FILIndexUp].Height;
                 break;
-            case Aow.Game.Ui.Controls.AoWComponent.ButtonType.Icon:
+            case ButtonType.Icon:
                 FWinWidth = FILIcon[FILIndexUp].Width;
                 FWinHeight = FILIcon[FILIndexUp].Height;
                 break;
@@ -133,14 +133,14 @@ public partial class AOWBaseButton : AOWControl
 
                 if (FChecked)
                 {
-                    if (FButtonType == Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text)
+                    if (FButtonType == ButtonType.Text)
                     {
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
                     }
                     else
                     {
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILIcon.DrawILI(FILIndexDown, rect, ref SurfDesc);
                     }
 
@@ -153,16 +153,16 @@ public partial class AOWBaseButton : AOWControl
                 }
                 else
                 {
-                    if (FButtonType == Aow.Game.Ui.Controls.AoWComponent.ButtonType.Text)
+                    if (FButtonType == ButtonType.Text)
                     {
                         if (FLit)
                         {
-                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILButton.DrawILLh(FILIndexLit, rect, ref SurfDesc);
                         }
                         else
                         {
-                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
                         }
                     }
@@ -170,12 +170,12 @@ public partial class AOWBaseButton : AOWControl
                     {
                         if (FLit)
                         {
-                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILIcon.DrawILI(FILIndexLit, rect, ref SurfDesc);
                         }
                         else
                         {
-                            var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                            var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                             FILIcon.DrawILI(FILIndexUp, rect, ref SurfDesc);
                         }
                     }
@@ -347,7 +347,7 @@ public partial class AOWBaseButton : AOWControl
 // Fields: FOnClick
 public partial class AOWButton : AOWBaseButton
 {
-    public AOWButton(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWButton(Component owner) : base(owner)
     { }
 
     public NotifyEvent<AOWButton> FOnClick;

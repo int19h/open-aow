@@ -6,7 +6,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class IntGfxMod : DataModule
 {
-    public IntGfxMod(global::Aow.Rtl.Component owner) : base(owner)
+    public IntGfxMod(Component owner) : base(owner)
     { }
 
     public InterfaceIL GenericT;

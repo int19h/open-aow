@@ -121,7 +121,7 @@ namespace Aow.Game.World
 
     }
 
-    public partial class MountainMOR : Aow.Game.World.Hexes.AoWTerrain.Resource
+    public partial class MountainMOR : AoWTerrain.Resource
     {
         public MountainMOR(ECustomNode owner) : base(owner)
         { }
@@ -133,7 +133,7 @@ namespace Aow.Game.World
         public override int ResourceUserClassID() => 131432;
 
         // Mountain.pas:172
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MountainRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.MountainRStr);
 
     }
 }
@@ -234,7 +234,7 @@ namespace Aow.Game.World.Terrain
             // { Original tests the base mountain ID, although this object is raised terrain. }
             if (this == Field.FindOwnedChild(131432) && Anim.FFrameCounter == 0)
             {
-                bool condition = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
+                bool condition = AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
                 if (!condition)
                 {
                     var lhx2 = GetLhx();
@@ -275,7 +275,7 @@ namespace Aow.Game.World.Terrain
             public override int ResourceUserClassID() => 131434;
 
             // Mountain.pas:252
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.RaisedMountain.Resource.RaisedMountainRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RaisedMountainRStr);
 
             private static readonly string RaisedMountainRStr = "Raised Mountain";
 
@@ -317,8 +317,8 @@ namespace Aow.Game.Commands
             int I = default;
             bool Found = default;
             ImageSequenceAnimation Anim = default;
-            Resources = Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FChildren;
-            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, Location>(ref FLocation).Layer];
+            Resources = AoWHSSet.Current.MapObjectResourceList.FChildren;
+            Level = AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, Location>(ref FLocation).Layer];
             Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
@@ -375,11 +375,11 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     {
         public RaiseTerrain(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain.RaiseTerrainRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RaiseTerrainRStr);
             FSpellID = 19;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
+            FMagicSphere = MagicSphere.Earth;
             FAboveGroundOnly = true;
         }
 

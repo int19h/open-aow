@@ -180,7 +180,7 @@ public sealed class GraphicsArrayTests
     [Fact]
     public void InvalidBlockSizeFindsTheLargestBlock()
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
+        using var owner = new Component(null!);
         var dc = new DisplayCtrl(owner);
         var matrix = new Matrix(4, 4);
         foreach (var (x, y) in new[] { (0, 0), (1, 0), (0, 1), (1, 1), (2, 1), (1, 2), (2, 2), (0, 3) }) matrix.SetVal((byte)x, (byte)y, 1);

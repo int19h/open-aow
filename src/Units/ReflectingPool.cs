@@ -94,7 +94,7 @@ public partial class ReflectingPool : PlayerStructure
             }
 
             UpdateReflectingPoolsExploration();
-            if (FPlayer != -1 && FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FKnownStructures.Count == 1)
+            if (FPlayer != -1 && FPlayer == AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FKnownStructures.Count == 1)
             {
                 ActivatePoolCentering();
             }
@@ -119,11 +119,11 @@ public partial class ReflectingPool : PlayerStructure
         int Range;
         int X = default;
         int Y = default;
-        if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
+        if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated) && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+            if (FStatus.Contains(MapObjectStatusElement.Activated) && AoWHSMap.Current.FSeatedPlayer != -1)
             {
-                if (PoolVisionPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+                if (PoolVisionPlayer(AoWHSMap.Current.FSeatedPlayer))
                 {
                     Range = VisibilityRange();
                 }
@@ -172,9 +172,9 @@ public partial class ReflectingPool : PlayerStructure
     {
         int X = default;
         int Y = default;
-        if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
+        if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            for (int P = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P <= last; P++)
+            for (int P = 1, last = AoWHSMap.Current.FPlayers.Count - 1; P <= last; P++)
             {
                 if (PoolVisionPlayer((sbyte)P))
                 {
@@ -198,7 +198,7 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:61
     public void ListReflectingPools(ref PlayerStructureList List)
     {
-        for (int P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P >= 0; P--)
+        for (int P = AoWHSMap.Current.FPlayers.Count - 1; P >= 0; P--)
         {
             for (int I = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(P).FKnownStructures.Count - 1; I >= 0; I--)
             {
@@ -213,7 +213,7 @@ public partial class ReflectingPool : PlayerStructure
     {
         PlayerStructureList List = default;
         PlayerStructure Pool = default;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == FPlayer)
+        if (AoWHSMap.Current.FSeatedPlayer == FPlayer)
         {
             FCenterFrame += 1;
             if (FCenterFrame % 8 == 0)
@@ -254,7 +254,7 @@ public partial class ReflectingPool : PlayerStructure
     {
         DeactivatePoolCentering();
         FCenterFrame = 0;
-        Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents += NewFrame;
+        AoWHSMap.Current.NewFrameEvents += NewFrame;
     }
 
     // ReflectingPool.pas:134
@@ -262,7 +262,7 @@ public partial class ReflectingPool : PlayerStructure
     {
         if (FCenterFrame != -1)
         {
-            Aow.Game.World.Map.AoWHSMap.Current.NewFrameEvents -= NewFrame;
+            AoWHSMap.Current.NewFrameEvents -= NewFrame;
             FCenterFrame = -1;
         }
     }
@@ -271,7 +271,7 @@ public partial class ReflectingPool : PlayerStructure
     public void UpdateReflectingPoolsExploration()
     {
         Player Player;
-        for (int P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P >= 0; P--)
+        for (int P = AoWHSMap.Current.FPlayers.Count - 1; P >= 0; P--)
         {
             Player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(P);
             for (int I = Player.FKnownStructures.Count - 1; I >= 0; I--)
@@ -289,7 +289,7 @@ public partial class ReflectingPool : PlayerStructure
         bool Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FKnownStructures.Count != 0;
         if (!Result)
         {
-            P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count;
+            P = AoWHSMap.Current.FPlayers.Count;
             while (P > 1 && !Result)
             {
                 P -= 1;
@@ -303,7 +303,7 @@ public partial class ReflectingPool : PlayerStructure
     // ReflectingPool.pas:233
     public void NotifyPlayerChanged(MapField MapField, int Distance)
     {
-        for (int P = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count - 1; P <= last; P++)
+        for (int P = 1, last = AoWHSMap.Current.FPlayers.Count - 1; P <= last; P++)
         {
             if (PoolVisionPlayer((sbyte)P))
             {
@@ -339,7 +339,7 @@ public partial class ReflectingPool : PlayerStructure
         // ReflectingPool.pas:42
 
         // ReflectingPool.pas:263
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ReflectingPool.Resource.ReflectingPoolRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ReflectingPoolRStr);
 
         private static readonly string ReflectingPoolRStr = "Reflecting Pool";
 

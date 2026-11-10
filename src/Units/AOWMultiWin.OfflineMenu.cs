@@ -9,7 +9,7 @@ public partial class MultiWindow
 {
     public void Execute(string mapName)
     {
-        var songs = Aow.Game.Audio.AudioHost.SongPlayer;
+        var songs = AudioHost.SongPlayer;
         if (songs.CurrentIndex == -1 || songs.CurrentIndex >= songs.Songs.Count || songs.Songs[songs.CurrentIndex] != "SONGS\\TITLE.IT")
         {
             songs.Songs.Clear();
@@ -18,10 +18,10 @@ public partial class MultiWindow
         }
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
         FPendingMap = mapName;
-        var dplay = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay;
+        var dplay = DialogHosts.SetupEvents.DPlay;
         if (dplay.Connected) dplay.DisConnect();
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitlePnl.Visible = false;
+        DialogHosts.TitleWindow.TitleWin.Visible = true;
+        DialogHosts.TitleWindow.TitlePnl.Visible = false;
         MultiPnl.Visible = GamePanel.Visible = true;
         TCPPnl.Visible = LanPnl.Visible = JoinPnl.Visible = TCPBtn.Visible = IPXBtn.Visible = PBEMPnl.Visible = false;
         // A provider button shows only when DirectPlay lists that provider. The offline component

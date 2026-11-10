@@ -16,22 +16,6 @@ using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
 
-namespace Aow.Game.World.Terrain
-{
-
-    public enum CaveMoveFlagsElement : byte
-    {
-        tm0 = 0,
-        tm1 = 1,
-        tm2 = 2,
-        tm3 = 3,
-        tm4 = 4,
-        tm5 = 5,
-        tm6 = 6,
-        tm7 = 7
-    }
-}
-
 namespace Aow.Game.World.Structures
 {
 
@@ -56,7 +40,7 @@ namespace Aow.Game.World.Structures
             Cave Partner;
             OldEntrance = FEntrance;
             FEntrance = Entrance.Idle;
-            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap) && Owner != null)
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap) && Owner != null)
             {
                 if (!GetEditMode())
                 {
@@ -138,7 +122,7 @@ namespace Aow.Game.World.Structures
         public override void Deactivate()
         {
             base.Deactivate();
-            FStatus = FStatus - Set<Aow.Game.World.MapObjectStatusElement>.Of(Aow.Game.World.MapObjectStatusElement.Activated);
+            FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
             ((MapField)Owner).UpdateMapField();
         }
 
@@ -238,9 +222,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Cave.pas:163
-        public override Aow.Game.Draw.Images.LibraryImage GetTopBorderImage()
+        public override Draw.Images.LibraryImage GetTopBorderImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            Draw.Images.LibraryImage Result;
             if (FEntrance == Entrance.Up)
             {
                 if (FResource.ImageSequenceList != null && FResource.ImageSequenceList.ImageSequences[33] != null)
@@ -261,9 +245,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Cave.pas:175
-        public override Aow.Game.Draw.Images.LibraryImage GetMiddleBorderImage()
+        public override Draw.Images.LibraryImage GetMiddleBorderImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            Draw.Images.LibraryImage Result;
             if (FEntrance == Entrance.Up)
             {
                 if (FResource.ImageSequenceList != null && FResource.ImageSequenceList.ImageSequences[34] != null)
@@ -284,9 +268,9 @@ namespace Aow.Game.World.Structures
         }
 
         // Cave.pas:187
-        public override Aow.Game.Draw.Images.LibraryImage GetBottomBorderImage()
+        public override Draw.Images.LibraryImage GetBottomBorderImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result;
+            Draw.Images.LibraryImage Result;
             if (FEntrance == Entrance.Up)
             {
                 if (FResource.ImageSequenceList != null && FResource.ImageSequenceList.ImageSequences[35] != null)
@@ -386,7 +370,7 @@ namespace Aow.Game.World.Structures
         public bool CanEnter(sbyte Player)
         {
             ArmyHS ArmyHS;
-            ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
             return ArmyHS != null && Player == ArmyHS.FArmy.FPlayer && CanEnterSelection(ArmyHS.FArmy) != 0;
         }
 
@@ -401,7 +385,7 @@ namespace Aow.Game.World.Structures
             ArmyHS ArmyHS;
             AoWMapField Field;
             TokenEvent Event;
-            ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
             if (ArmyHS != null && CanEnter(ArmyHS.FArmy.FPlayer))
             {
                 Selection = CanEnterSelection(ArmyHS.FArmy);
@@ -464,7 +448,7 @@ namespace Aow.Game.World.Structures
                         Result = global::Aow.Game.Draw.ArmyHS.MoveArmyEx(ArmyHS, Selection, Path, Set<ArmyMoveModeElement>.Of(), false);
                     }
 
-                    if (Result && (byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
+                    if (Result && (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
                     {
                         Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(L);
                         Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
@@ -473,12 +457,12 @@ namespace Aow.Game.World.Structures
                 else
                 {
                     // { Original only warns the seated player. }
-                    if (ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                    if (ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                     {
                         var player = Field.GetPlayer();
                         var playerPlayerRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player);
-                        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                        MessageText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
+                        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
+                        MessageText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(MessageText);
                     }
 
@@ -504,14 +488,14 @@ namespace Aow.Game.World.Structures
             EnterCaveEventLog Log;
             if (CanEnter(Player))
             {
-                ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+                ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
                 if (CanEnterSelection(ArmyHS.FArmy) != ArmyHS.FArmy.ValidateSelection(255))
                 {
                     Log = new EnterCaveEventLog(null);
                     Log.FCave = this;
-                    var splitOnEnterCaveWarning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Cave.SplitOnEnterCaveWarningRStr);
+                    var splitOnEnterCaveWarning = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SplitOnEnterCaveWarningRStr);
                     Log.FMessage.Text = splitOnEnterCaveWarning;
-                    Log.FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNo;
+                    Log.FButtons = MessageEventLog.Buttons.YesNo;
                     Log.Execute(true, ExecuteTrigger.User, null);
                     Log.Release();
                     Result = true;
@@ -550,7 +534,7 @@ namespace Aow.Game.World.Structures
             // Cave.pas:49
 
             // Cave.pas:433
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Cave.Resource.CaveRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CaveRStr);
 
             private static readonly string CaveRStr = "Cave";
 

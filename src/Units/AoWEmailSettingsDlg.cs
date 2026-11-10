@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class EmailSettingsDlg : DataModule
 {
-    public EmailSettingsDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public EmailSettingsDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;

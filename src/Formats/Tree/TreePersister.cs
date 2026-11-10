@@ -135,9 +135,9 @@ sealed class MemberPersister : IPersister
         Store(name, new EnumNode(typeName, width, signed, Convert.ToInt64(value)));
     }
 
-    public void Set<E>(string name, ref global::Aow.Rtl.Set<E> value) where E : unmanaged, Enum
+    public void Set<E>(string name, ref Set<E> value) where E : unmanaged, Enum
     {
-        int width = default(global::Aow.Rtl.Set<E>).StorageSize;
+        int width = default(Set<E>).StorageSize;
         string typeName = NameTable.Stored(typeof(E));
         if (width is < 1 or > 8)
             throw new InvalidOperationException("A set image is 1 to 8 bytes.");

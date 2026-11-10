@@ -34,12 +34,12 @@ public partial class HeroControlGrid : CustomImageDrawGrid
 
     // HeroCtrl.pas:122
     // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-    public HeroControlGrid(global::Aow.Rtl.Component owner) : base(owner)
+    public HeroControlGrid(Component owner) : base(owner)
     {
 
         DefaultColWidth = 155;
         DefaultRowHeight = 46;
-        GrowDirection = Aow.Game.Draw.Images.CustomImageDrawGrid.ILGrowDirection.Vertical;
+        GrowDirection = ILGrowDirection.Vertical;
         ScrollBars = Aow.Rtl.CustomGrid.ScrollStyle.Vertical;
         FIndices = new IntegerList();
         FStream = new MemoryStream();
@@ -47,7 +47,7 @@ public partial class HeroControlGrid : CustomImageDrawGrid
     }
 
     // HeroCtrl.pas:263
-    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Controls.Canvas in the platform or editor service. */
         throw new NotImplementedException();
@@ -204,8 +204,8 @@ public partial class HeroControlGrid : CustomImageDrawGrid
     [LegacyObject]
     public partial class GridMapView
     {
-        public global::Aow.Game.Units.ItemControl ItemControl;
-        public global::Aow.Game.Units.HeroControl HeroControl;
+        public ItemControl ItemControl;
+        public HeroControl HeroControl;
         public PlayerList Players;
         public EventList LeaderEvent;
 

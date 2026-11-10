@@ -28,9 +28,9 @@ public sealed class StableOrderTests
     public void ItemNameKeepsEqualNamesInInsertionOrder()
     {
         using var list = new ItemList(null!);
-        var high = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "m" };
-        var low = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "a" };
-        var tied = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "a" };
+        var high = new Item(list) { FOwnerName = "m" };
+        var low = new Item(list) { FOwnerName = "a" };
+        var tied = new Item(list) { FOwnerName = "a" };
         list.SortOnName();
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
@@ -41,9 +41,9 @@ public sealed class StableOrderTests
     public void ItemTypeKeepsEqualTypesInInsertionOrder()
     {
         using var list = new ItemList(null!);
-        var high = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Scroll };
-        var low = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Head };
-        var tied = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Head };
+        var high = new Item(list) { FItemType = ItemType.Scroll };
+        var low = new Item(list) { FItemType = ItemType.Head };
+        var tied = new Item(list) { FItemType = ItemType.Head };
         list.SortOnType();
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
@@ -57,7 +57,7 @@ public sealed class StableOrderTests
         _ = new Hero(heroes) { FHeroName = "m" };
         _ = new Hero(heroes) { FHeroName = "a" };
         _ = new Hero(heroes) { FHeroName = "a" };
-        Aow.Game.Ui.Grids.HeroGrid.SortHeroList = heroes;
+        HeroGrid.SortHeroList = heroes;
         var indices = new IntegerList();
         indices.Add(0);
         indices.Add(1);
@@ -78,7 +78,7 @@ public sealed class StableOrderTests
         var tied = new Hero(heroes);
         Assert.True(high.GetLevel() > low.GetLevel());
         Assert.Equal(low.GetLevel(), tied.GetLevel());
-        Aow.Game.Ui.Grids.HeroGrid.SortHeroList = heroes;
+        HeroGrid.SortHeroList = heroes;
         var indices = new IntegerList();
         indices.Add(0);
         indices.Add(1);

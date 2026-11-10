@@ -19,7 +19,7 @@ public partial class IsometricCombatHexagon : UpperIsometricHexagon
     public new const int ClassID = 2229514;
 
     // IsoCombatHex.pas:43
-    public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // IsoCombatHex.pas:46
     public override void ShowDynamic(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
@@ -148,7 +148,7 @@ public partial class IsometricCombatHexagon : UpperIsometricHexagon
         }
     }
 
-    public new partial class Resource : Aow.Game.World.Hexes.UpperIsometricHexagon.Resource
+    public new partial class Resource : UpperIsometricHexagon.Resource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

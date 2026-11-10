@@ -66,11 +66,11 @@ public partial class AOWMemo : AOWControl
     public int FILIndexFrame;
     public int FILIndexTexture;
     public int FDrawIndex;
-    public global::Aow.Rtl.Rect FItemRect;
+    public Rect FItemRect;
     public StringList FLines;
 
     // AoWMemo.pas:126
-    public AOWMemo(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWMemo(Component owner) : base(owner)
     {
         FLines = new StringList();
         FItems = new StringList();
@@ -397,7 +397,7 @@ public partial class AOWMemo : AOWControl
         int X = default;
         int Y = default;
         int W = default;
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         int H = default;
         ColorChange CC = default;
         try
@@ -414,14 +414,14 @@ public partial class AOWMemo : AOWControl
                 switch (FNoFrame)
                 {
                     case false:
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
                         var ilFrameWidth = FILFrame[FILIndexFrame + 3];
                         var ilFrame2 = FILFrame[FILIndexFrame + 1];
                         var ilFrame3 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - FScrollWidth, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - FScrollWidth, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
                         X = FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width;
@@ -483,7 +483,7 @@ public partial class AOWMemo : AOWControl
                         }
 
                         FDrawIndex = FTopItem + I;
-                        FItemRect = global::Aow.Rtl.RtlUnit.Rect(X, Y + FItemHeight * I, X + W, Y + (I + 1) * FItemHeight);
+                        FItemRect = new Rect(X, Y + FItemHeight * I, X + W, Y + (I + 1) * FItemHeight);
                         if (FItemRect.Bottom > SurfDesc.ClipRect.Bottom)
                         {
                             FItemRect.Bottom = SurfDesc.ClipRect.Bottom;

@@ -43,7 +43,7 @@ namespace Aow.Game.Ui.Dialogs;
 // diplomatic actions, player indices, race indices, controls
 public partial class RelWindow : DataModule
 {
-    public RelWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public RelWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow RelWin;
@@ -208,7 +208,7 @@ public partial class RelWindow : DataModule
         FPlayers.Clear();
         for (int I = 1, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)I) != -1 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)I) != -1 && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Player.Status.Playing)
             {
                 FPlayers.Add(I);
             }
@@ -219,10 +219,10 @@ public partial class RelWindow : DataModule
             if (I <= FPlayers.Count)
             {
                 ((AoWComponent)FControls[I + 23]).Visible = true;
-                ((Aow.Game.Ui.Controls.AOWControl)FControls[I + 23]).ToolTipText.Clear();
+                ((AOWControl)FControls[I + 23]).ToolTipText.Clear();
                 var player = FPlayers[I - 1];
                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player).GetName();
-                ((Aow.Game.Ui.Controls.AOWControl)FControls[I + 23]).ToolTipText.Add(name);
+                ((AOWControl)FControls[I + 23]).ToolTipText.Add(name);
             }
             else
             {
@@ -230,7 +230,7 @@ public partial class RelWindow : DataModule
             }
         }
 
-        var indexOf = FPlayers.IndexOf(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var indexOf = FPlayers.IndexOf(AoWHSMap.Current.FSeatedPlayer);
         PlyrGlow.Alignment.LeftOffset = indexOf * 51 - 37 + 51;
         PlyrGlow.FAligned = false;
     }
@@ -241,7 +241,7 @@ public partial class RelWindow : DataModule
         int Index;
         ClearActions();
         ResetChecks();
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+        DialogHosts.General.Manager.OverlayPriority = 49;
         FRaces.Clear();
         for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetCount() - 1; I <= last; I++)
         {
@@ -256,11 +256,11 @@ public partial class RelWindow : DataModule
             if (I < FRaces.Count)
             {
                 ((AoWComponent)FControls[I + 36]).Visible = true;
-                ((Aow.Game.Ui.Controls.AOWControl)FControls[I + 36]).ToolTipText.Clear();
+                ((AOWControl)FControls[I + 36]).ToolTipText.Clear();
                 var race = FRaces[I];
                 var fRacesRace = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(race);
-                var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[fRacesRace.FRace]);
-                ((Aow.Game.Ui.Controls.AOWControl)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
+                var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[fRacesRace.FRace]);
+                ((AOWControl)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
             }
             else
             {
@@ -277,7 +277,7 @@ public partial class RelWindow : DataModule
             playerCheck.Checked = true;
         }
 
-        Index = FPlayers.IndexOf(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        Index = FPlayers.IndexOf(AoWHSMap.Current.FSeatedPlayer);
         if (FControls[Index + 24] is AOWCheckBox seatedCheck)
         {
             seatedCheck.Checked = true;
@@ -318,10 +318,10 @@ public partial class RelWindow : DataModule
         HighlightPlayer(Player);
         ShowPlayerInformation(Player);
         Selected = ActionsLB.Selected;
-        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).ListDiplomaticActions(Player, ref FActions);
+        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).ListDiplomaticActions(Player, ref FActions);
         for (int I = 0, last = FActions.GetCount() - 1; I <= last; I++)
         {
-            var name = FActions.GetDiplomaticActions(I).GetName(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+            var name = FActions.GetDiplomaticActions(I).GetName(AoWHSMap.Current.FSeatedPlayer);
             var diplomaticAction = FActions.GetDiplomaticActions(I);
             ActionsLB.Items.AddObject(name, diplomaticAction);
         }
@@ -349,17 +349,17 @@ public partial class RelWindow : DataModule
         LShield.Visible = true;
         RShield.CurrentImage = LShield.CurrentImage;
         RShield.Visible = true;
-        var firstDaySeen = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(Player);
+        var firstDaySeen = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(Player);
         NoContact.Visible = firstDaySeen == -1;
         APlayer.Visible = !NoContact.Visible;
         OfTheLbl.Visible = APlayer.Visible;
         PRaceLbl.Visible = APlayer.Visible;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) != -1)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFirstDaySeen(AoWHSMap.Current.FSeatedPlayer) != -1)
         {
-            if (Player != Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Player != AoWHSMap.Current.FSeatedPlayer)
             {
-                Relation = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
-                var diplomaticRelation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TDiplomaticRelationRStr[(int)Relation]);
+                Relation = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, AoWHSMap.Current.FSeatedPlayer);
+                var diplomaticRelation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TDiplomaticRelationRStr[(int)Relation]);
                 PlStatV.Text = diplomaticRelation;
                 if (Relation != DiplomaticRelation.Unknown)
                 {
@@ -380,15 +380,15 @@ public partial class RelWindow : DataModule
         else
         {
             PlStatIcn.Visible = false;
-            var noContact = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.RelWindow.NoContactRStr);
+            var noContact = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NoContactRStr);
             PlStatV.Text = noContact;
         }
 
         var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetName();
         APlayer.Text = name;
-        OfTheLbl.Text = Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.LeadL.Text;
+        OfTheLbl.Text = DialogHosts.PInfoW.LeadL.Text;
         var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
         PRaceLbl.Text = raceNamesPlural;
         var playerPlayerType = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
         if (Set<PlayerType>.Of(PlayerType.Human, PlayerType.CPU1, PlayerType.CPU2, PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(playerPlayerType.FPlayerType))
@@ -423,7 +423,7 @@ public partial class RelWindow : DataModule
         }
 
         var player2 = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        var playerType = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[(int)player2.FPlayerType]);
+        var playerType = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[(int)player2.FPlayerType]);
         APlyrType.Text = playerType;
     }
 
@@ -440,7 +440,7 @@ public partial class RelWindow : DataModule
             Check = (AOWCheckBox)FControls[FSelectedIndex + 24];
             Check.Alignment.TopOffset = 20;
             Check.Checked = true;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
+            if (AoWHSMap.Current.FSeatedPlayer == Player)
             {
                 PlyrGlow.Alignment.TopOffset = Check.Alignment.TopOffset;
             }
@@ -475,20 +475,20 @@ public partial class RelWindow : DataModule
             switch (((AOWImage)FControls[I]).CurrentImage)
             {
                 case 1:
-                    ((Aow.Game.Ui.Controls.AOWControl)FControls[I]).ToolTipText.Clear();
+                    ((AOWControl)FControls[I]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                         {
                             var player = FPlayers[I];
-                            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
+                            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                             {
                                 var player2 = FPlayers[I];
                                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSelectedPlayer).GetFirstDaySeen((sbyte)player2) != -1)
                                 {
                                     var player3 = FPlayers[I];
                                     var diplomaticRelation = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)player3);
-                                    ((Aow.Game.Ui.Controls.AOWControl)FControls[I]).ToolTipText.Add(Aow.Game.Magic.Abilities.GameTables.TDiplomaticRelationRStr[(int)diplomaticRelation]);
+                                    ((AOWControl)FControls[I]).ToolTipText.Add(GameTables.TDiplomaticRelationRStr[(int)diplomaticRelation]);
                                 }
                             }
                         }
@@ -496,7 +496,7 @@ public partial class RelWindow : DataModule
 
                     break;
                 default:
-                    ((Aow.Game.Ui.Controls.AOWControl)FControls[I]).ToolTipText.Clear();
+                    ((AOWControl)FControls[I]).ToolTipText.Clear();
                     break;
             }
         }
@@ -515,23 +515,23 @@ public partial class RelWindow : DataModule
             switch (((AOWImage)FControls[I + 12]).CurrentImage)
             {
                 case 4:
-                    ((Aow.Game.Ui.Controls.AOWControl)FControls[I + 12]).ToolTipText.Clear();
+                    ((AOWControl)FControls[I + 12]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                         {
                             var race = FRaces[I];
                             var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(race).GetPlayerRelation(FSelectedPlayer);
-                            var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation]);
+                            var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation]);
                             var race2 = FRaces[I];
                             var playerRelationValue = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(race2).GetPlayerRelationValue(FSelectedPlayer);
-                            ((Aow.Game.Ui.Controls.AOWControl)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                            ((AOWControl)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
                     }
 
                     break;
                 default:
-                    ((Aow.Game.Ui.Controls.AOWControl)FControls[I + 12]).ToolTipText.Clear();
+                    ((AOWControl)FControls[I + 12]).ToolTipText.Clear();
                     break;
             }
         }
@@ -548,30 +548,30 @@ public partial class RelWindow : DataModule
         ActionPnl.Visible = true;
         LInfoPlayerPnl.Visible = false;
         LInfoRacePnl.Visible = true;
-        var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace((sbyte)Race).GetPlayerRelation(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace((sbyte)Race).GetPlayerRelation(AoWHSMap.Current.FSeatedPlayer);
         RlRelIcn.CurrentImage = (int)playerRelation + 11;
-        var playerRelation2 = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace((sbyte)Race).GetPlayerRelation(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
-        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation2]);
+        var playerRelation2 = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace((sbyte)Race).GetPlayerRelation(AoWHSMap.Current.FSeatedPlayer);
+        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation2]);
         RlRelV.Text = status;
-        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[(sbyte)Race]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[(sbyte)Race]);
         ARace2.Text = raceNamesPlural;
         switch (Race)
         {
             case >= 0 and <= 3:
-                var neutral = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NeutralRStr);
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [neutral]);
+                var neutral = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.NeutralRStr);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AlignmentXRStr), [neutral]);
                 AAlignmentLbl.Text = format;
                 AAlignment.CurrentImage = 33;
                 break;
             case >= 4 and <= 7:
-                var good = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.RelWindow.GoodRStr);
-                var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [good]);
+                var good = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GoodRStr);
+                var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AlignmentXRStr), [good]);
                 AAlignmentLbl.Text = aoWEFormat;
                 AAlignment.CurrentImage = 31;
                 break;
             case >= 8 and <= 11:
-                var evil = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.RelWindow.EvilRStr);
-                var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [evil]);
+                var evil = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(EvilRStr);
+                var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AlignmentXRStr), [evil]);
                 AAlignmentLbl.Text = format2;
                 AAlignment.CurrentImage = 35;
                 break;
@@ -605,21 +605,21 @@ public partial class RelWindow : DataModule
             switch (((AOWImage)FControls[I]).CurrentImage)
             {
                 case 1:
-                    ((Aow.Game.Ui.Controls.AOWControl)FControls[I]).ToolTipText.Clear();
+                    ((AOWControl)FControls[I]).ToolTipText.Clear();
                     var player = FPlayers[I];
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                     {
                         var player2 = FPlayers[I];
                         var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(FSelectedRace).GetPlayerRelation((sbyte)player2);
-                        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation]);
+                        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation]);
                         var player3 = FPlayers[I];
                         var playerRelationValue = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(FSelectedRace).GetPlayerRelationValue((sbyte)player3);
-                        ((Aow.Game.Ui.Controls.AOWControl)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
+                        ((AOWControl)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                     }
 
                     break;
                 default:
-                    ((Aow.Game.Ui.Controls.AOWControl)FControls[I]).ToolTipText.Clear();
+                    ((AOWControl)FControls[I]).ToolTipText.Clear();
                     break;
             }
         }
@@ -627,7 +627,7 @@ public partial class RelWindow : DataModule
         for (int I = 0; I <= 11; I++)
         {
             ((AOWImage)FControls[I + 12]).CurrentImage = 5;
-            ((Aow.Game.Ui.Controls.AOWControl)FControls[I + 12]).ToolTipText.Clear();
+            ((AOWControl)FControls[I + 12]).ToolTipText.Clear();
         }
     }
 
@@ -678,7 +678,7 @@ public partial class RelWindow : DataModule
     public void FinishDialog()
     {
         SetAction(null);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         FinishEvent();
         Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(71, true, true);
     }
@@ -832,19 +832,19 @@ public partial class RelWindow : DataModule
     public void P1CBPreDraw(AOWCheckBox Sender, SurfaceDesc Surface, int Slot)
     {
         sbyte Player;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         AoWComponent Component;
         Component = Sender;
         if (Slot < FPlayers.Count)
         {
             Player = (sbyte)FPlayers[Slot];
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(Player) == -1)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(Player) == -1)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[28].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
+                DialogHosts.IntGfxMod.RelWin[28].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
             }
             else
             {
-                R = global::Aow.Rtl.RtlUnit.Rect(Component.WinLeft + 1, Component.WinTop + 1, Component.WinLeft + Component.WinWidth - 1, Component.WinTop + Component.WinHeight - 1);
+                R = new Rect(Component.WinLeft + 1, Component.WinTop + 1, Component.WinLeft + Component.WinWidth - 1, Component.WinTop + Component.WinHeight - 1);
                 if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFace() != null)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetFace().ShowStretched(R, Surface);
@@ -852,7 +852,7 @@ public partial class RelWindow : DataModule
             }
 
             var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[player.FPlayerRace + 16].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
+            DialogHosts.IntGfxMod.RelWin[player.FPlayerRace + 16].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
         }
     }
 
@@ -861,14 +861,14 @@ public partial class RelWindow : DataModule
     {
         AoWComponent Control;
         sbyte Race;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         DiplomaticAction Action;
         int Modifier;
         Control = Sender;
         if (Slot - 20 < FRaces.Count)
         {
             Race = (sbyte)FRaces[Slot - 20];
-            R = global::Aow.Rtl.RtlUnit.Rect(Control.WinLeft + 1, Control.WinTop + 1, Control.WinLeft + Control.WinWidth - 1, Control.WinTop + Control.WinHeight - 1);
+            R = new Rect(Control.WinLeft + 1, Control.WinTop + 1, Control.WinLeft + Control.WinWidth - 1, Control.WinTop + Control.WinHeight - 1);
             Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(Race).GetFace().ShowStretched(R, Surface);
             Action = FAction;
             if (Action == null && RNewActionPnl.Visible && ActionsLB.Selected != -1)
@@ -878,10 +878,10 @@ public partial class RelWindow : DataModule
 
             if (Action != null)
             {
-                Modifier = Action.GetRelationModifier(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, Race);
+                Modifier = Action.GetRelationModifier(AoWHSMap.Current.FSeatedPlayer, Race);
                 if (Modifier != 0)
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10.Color = 16777215;
+                    DialogHosts.FontModule.Age10.Color = 16777215;
                     Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10.SetTextCentered(R.Left + (R.Right - R.Left) / 2, R.Top + 50, IntToStr(Modifier), Surface);
                 }
             }
@@ -900,9 +900,9 @@ public partial class RelWindow : DataModule
             Player = FPlayers[Slot];
             if (FSelectedPlayer != -1)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
+                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
                     {
                         if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSelectedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
                         {
@@ -916,17 +916,17 @@ public partial class RelWindow : DataModule
                                 Image = 50;
                             }
 
-                            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[Image].Show(component.WinLeft, component.WinTop + 8, Surface);
+                            DialogHosts.IntGfxMod.RelWin[Image].Show(component.WinLeft, component.WinTop + 8, Surface);
                         }
                     }
                 }
             }
             else
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
                 {
                     var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(FSelectedRace).GetPlayerRelation((sbyte)Player);
-                    Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, Surface);
+                    DialogHosts.IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, Surface);
                 }
             }
         }
@@ -940,11 +940,11 @@ public partial class RelWindow : DataModule
         S = Sender;
         if (FSelectedPlayer != -1 && Slot - 20 < FRaces.Count)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
             {
                 RaceIndex = FRaces[Slot - 20];
                 var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(RaceIndex).GetPlayerRelation(FSelectedPlayer);
-                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, Surface);
+                DialogHosts.IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, Surface);
             }
         }
     }
@@ -1021,19 +1021,19 @@ public partial class RelWindow : DataModule
     // AoWRelations.pas:763
     public void PlyrGlowDraw(SurfaceDesc Surface)
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[44].ShowBlended(PlyrGlow.WinLeft, PlyrGlow.WinTop, Surface, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FGlowIntensity]);
+        DialogHosts.IntGfxMod.RelWin[44].ShowBlended(PlyrGlow.WinLeft, PlyrGlow.WinTop, Surface, GfxState.IntensityBlendTable.LookupTables[FGlowIntensity]);
     }
 
     // AoWRelations.pas:768
     public void FaceFrPreDraw(SurfaceDesc Surface)
     {
-        global::Aow.Rtl.Rect R;
-        R = global::Aow.Rtl.RtlUnit.Rect(FaceFr.WinLeft + 1, FaceFr.WinTop, FaceFr.WinLeft + FaceFr.WinWidth, FaceFr.WinTop + FaceFr.WinHeight);
+        Rect R;
+        R = new Rect(FaceFr.WinLeft + 1, FaceFr.WinTop, FaceFr.WinLeft + FaceFr.WinWidth, FaceFr.WinTop + FaceFr.WinHeight);
         if (FAction == null)
         {
             if (FSelectedPlayer != -1)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSelectedPlayer).FLeader.ShowFace(R, Surface);
                 }
@@ -1051,7 +1051,7 @@ public partial class RelWindow : DataModule
             }
             else
             {
-                if (FAction.FSource == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (FAction.FSource == AoWHSMap.Current.FSeatedPlayer)
                 {
                     Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FAction.FTarget).FLeader.ShowFace(R, Surface);
                 }
@@ -1110,13 +1110,13 @@ public partial class RelWindow : DataModule
                 RSBribePnl.Visible = true;
                 SBGoldSlid.Position = 0;
                 SBManaSlid.Position = 0;
-                var playerGems = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                var playerGems = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
                 SBGoldSlid.Max = playerGems.FGems;
-                var playerMagicControl = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                var playerMagicControl = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer);
                 SBManaSlid.Max = playerMagicControl.FMagicControl.FMana;
                 SBManaSlidChange();
                 SBGoldSlidChange();
-                var name = FAction.GetName(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                var name = FAction.GetName(AoWHSMap.Current.FSeatedPlayer);
                 BribeHeaderLbl.Text = name;
                 if (FAction.Proposal.Icon >= 0)
                 {
@@ -1231,7 +1231,7 @@ public partial class RelWindow : DataModule
     public void IIOkBtnClick()
     {
         FinishEvent();
-        if (FAction.FSource == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+        if (FAction.FSource == AoWHSMap.Current.FSeatedPlayer)
         {
             ShowPlayerActions(FAction.FTarget);
         }
@@ -1270,7 +1270,7 @@ public partial class RelWindow : DataModule
         Dialog.FEvent = Event;
         Event.AddRef();
 
-        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStatus == Aow.Game.Session.Player.Status.Playing)
+        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStatus == Player.Status.Playing)
         {
             Dialog.ShowRelations(Event.FAction.FTarget);
             Dialog.SetAction(Event.FAction);
@@ -1286,7 +1286,7 @@ public partial class RelWindow : DataModule
                 var text = proposal.MessageText;
                 Dialog.RMMemo.Items.Text = text;
                 var name = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(from).GetName();
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MessageFromXRStr), [name]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.MessageFromXRStr), [name]);
                 Dialog.RMHeaderLbl.Text = format;
             }
             else if (view == ProposalView.Offer)
@@ -1309,7 +1309,7 @@ public partial class RelWindow : DataModule
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Dialog.FAction.FSource && Dialog.FAction.FReaction != (DiplomaticActionReaction)3)
+                    if (AoWHSMap.Current.FSeatedPlayer == Dialog.FAction.FSource && Dialog.FAction.FReaction != (DiplomaticActionReaction)3)
                     {
                         Dialog.HighlightPlayer(Dialog.FAction.FTarget);
                         Dialog.ShowPlayerInformation(Dialog.FAction.FTarget);
@@ -1338,14 +1338,14 @@ public partial class RelWindow : DataModule
             }
             else if (view == ProposalView.Notice)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Dialog.FAction.FSource)
+                if (AoWHSMap.Current.FSeatedPlayer == Dialog.FAction.FSource)
                 {
                     Dialog.FinishEvent();
                     Dialog.ShowPlayerActions(Dialog.FAction.FTarget);
                 }
                 else
                 {
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Dialog.FAction.FTarget)
+                    if (AoWHSMap.Current.FSeatedPlayer == Dialog.FAction.FTarget)
                     {
                         Dialog.HighlightPlayer(Dialog.FAction.FSource);
                         Dialog.ShowPlayerInformation(Dialog.FAction.FSource);

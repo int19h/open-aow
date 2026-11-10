@@ -27,7 +27,7 @@ namespace Aow.Game.Ui.Dialogs;
 // unit-info window open. completion callback. army-info event
 public partial class ArmyInfoDlg : DataModule
 {
-    public ArmyInfoDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public ArmyInfoDlg(Component owner) : base(owner)
     { }
 
     public AOWPanel UnitPnl;
@@ -57,11 +57,11 @@ public partial class ArmyInfoDlg : DataModule
     public ArmyInfoEventLog FEvent;
 
     // AoWArmyInfoDlg.pas:63
-    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc SD)
+    public void DrawUnit(int Index, in Rect R, ref SurfaceDesc SD)
     {
-        global::Aow.Rtl.Rect SaveRect;
+        Rect SaveRect;
         P2UnitShowInfo Info;
-        Aow.Game.Draw.Images.LibraryImage Img;
+        LibraryImage Img;
         Alignment Alignment;
         int X;
         int Y;
@@ -72,10 +72,10 @@ public partial class ArmyInfoDlg : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             Alignment = FEvent.FArmyView.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
             }
 
@@ -85,7 +85,7 @@ public partial class ArmyInfoDlg : DataModule
             FEvent.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, SD, Info);
             if ((((int)(((uint)FEvent.FSelection) >> Index)) & 1) == 0)
             {
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
+                Img = DialogHosts.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X - Img.Width / 2, Y - Img.Height / 2, SD);
             }
 
@@ -101,8 +101,8 @@ public partial class ArmyInfoDlg : DataModule
         if (FUnitInfoShown)
         {
             FUnitInfoShown = false;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Priority;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = false;
+            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWin.ControlWindow.Priority;
+            DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
         Notify = FOnClose;
@@ -141,12 +141,12 @@ public partial class ArmyInfoDlg : DataModule
         if (Slot < count)
         {
             var unit = FEvent.FArmyView.GetUnit(Slot);
-            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
+            DialogHosts.General.FSelectedUnit = unit;
             if (Button == MouseButton.Left)
             {
                 FUnitInfoShown = true;
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }
     }
@@ -154,7 +154,7 @@ public partial class ArmyInfoDlg : DataModule
     // AoWArmyInfoDlg.pas:134
     public void U1PreDraw(AoWFrame Sender, SurfaceDesc SD, int Slot)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
         R.Right = Sender.WinWidth + R.Left;
         R.Top = Sender.WinTop + UnitPnl.WinTop;
@@ -165,7 +165,7 @@ public partial class ArmyInfoDlg : DataModule
     // AoWArmyInfoDlg.pas:146
     public void FaceFramePreDraw(SurfaceDesc SD)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         int I;
         R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
         R.Right = this.FaceFrame.WinWidth + R.Left;

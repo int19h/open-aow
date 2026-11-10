@@ -44,7 +44,7 @@ namespace Aow.Game.Ui.Dialogs;
 // map-validation delay. setup control. ping delay. chat scroll pending
 public partial class ScenSetup : DataModule
 {
-    public ScenSetup(global::Aow.Rtl.Component owner) : base(owner)
+    public ScenSetup(Component owner) : base(owner)
     { }
 
     public AOWMemo ChatMemo;
@@ -246,7 +246,7 @@ public partial class ScenSetup : DataModule
     {
         byte Availability;
         FSetupControl = Control;
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = true;
+        DialogHosts.TitleWindow.TitleWin.Visible = true;
         ScenSetupPnl.Visible = true;
         ChatMemo.Items.Clear();
         ChatEdit.Text = "";
@@ -271,7 +271,7 @@ public partial class ScenSetup : DataModule
             for (int availabilityOrdinal = 0; availabilityOrdinal <= 2; availabilityOrdinal++)
             {
                 Availability = (byte)availabilityOrdinal;
-                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.TTacticalCombatAvailabilityRStr[Availability]);
+                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TTacticalCombatAvailabilityRStr[Availability]);
                 TacticalCombatCB.Items.AddObject(tacticalCombatAvailability, IntToObject(Availability));
             }
         }
@@ -286,7 +286,7 @@ public partial class ScenSetup : DataModule
             CustomizeLeadersLbl.TextColor = 8421504;
             CustomizeLeaders.FCaptureInput = false;
             PlayModeCB.Items.Clear();
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ClassicRStr);
             PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
         else
@@ -294,20 +294,20 @@ public partial class ScenSetup : DataModule
             CustomizeLeadersLbl.TextColor = AlliedVictoryLbl.TextColor;
             CustomizeLeaders.FCaptureInput = true;
             PlayModeCB.Items.Clear();
-            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.SimultaneousRStr);
+            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SimultaneousRStr);
             PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ClassicRStr);
             PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
 
-        bool condition = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex == -1;
+        bool condition = AudioHost.SongPlayer.CurrentIndex == -1;
         if (!condition)
         {
-            var count = Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count;
-            condition = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex >= count;
+            var count = AudioHost.SongPlayer.Songs.Count;
+            condition = AudioHost.SongPlayer.CurrentIndex >= count;
         }
 
-        if (condition || Aow.Game.Audio.AudioHost.SongPlayer.Songs[Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex] != "SONGS\\TITLE.IT")
+        if (condition || AudioHost.SongPlayer.Songs[AudioHost.SongPlayer.CurrentIndex] != "SONGS\\TITLE.IT")
         {
             Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
             Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
@@ -327,8 +327,8 @@ public partial class ScenSetup : DataModule
     // AoWScenSetup.pas:584
     public void PickMap()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FMode = 2;
-        Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+        DialogHosts.FileDlgWindow.FMode = 2;
+        DialogHosts.FileDlgWindow.FileDialog.Visible = true;
     }
 
     // AoWScenSetup.pas:257
@@ -356,7 +356,7 @@ public partial class ScenSetup : DataModule
                     }
                 }
 
-                if (Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.Connected)
+                if (DialogHosts.SetupEvents.DPlay.Connected)
                 {
                     Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.CloseSession();
                 }
@@ -364,7 +364,7 @@ public partial class ScenSetup : DataModule
 
             Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.DisConnect();
             CloseSetup();
-            if (Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.FLobbyGame)
+            if (DialogHosts.SetupEvents.FLobbyGame)
             {
                 GameHost.MainForm.CloseRequested();
             }
@@ -386,7 +386,7 @@ public partial class ScenSetup : DataModule
     }
 
     // AoWScenSetup.pas:295
-    public void PlayerListDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SD)
+    public void PlayerListDrawItem(in Rect DrawRect, int DrawItem, ref SurfaceDesc SD)
     {
         int I;
         if (DrawItem < PlayerList.Items.Count)
@@ -397,14 +397,14 @@ public partial class ScenSetup : DataModule
             {
                 if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == MapValidationInfo.Invalid)
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.Color = 255;
+                    DialogHosts.FontModule.Age8s.Color = 255;
                     Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, "X", SD);
                 }
                 else
                 {
                     if (FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FMapValidation == MapValidationInfo.InvalidMap)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.Color = 32768;
+                        DialogHosts.FontModule.Age8s.Color = 32768;
                         Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s.SetText(DrawRect.Right - 8, DrawRect.Top + 4, "X", SD);
                     }
                 }
@@ -520,7 +520,7 @@ public partial class ScenSetup : DataModule
     {
         var objectValue = PlayModeCB.Items.Objects[PlayModeCB.Selected];
         FSetupControl.hSetPlayMode((byte)ObjectToInt(objectValue));
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWScenSetup.pas:428
@@ -536,7 +536,7 @@ public partial class ScenSetup : DataModule
             FSetupControl.hSetPlayerID(indexOfRace, Behavior, true);
         }
 
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWScenSetup.pas:437
@@ -546,7 +546,7 @@ public partial class ScenSetup : DataModule
         Control = Sender;
         var indexOfRace = FSetupControl.FSettings.IndexOfRace((byte)Slot);
         FSetupControl.hSetPlayerBehavior(indexOfRace, (byte)Control.Selected);
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+        DialogHosts.TitleWindow.TitleWin.FDrawn = false;
     }
 
     // AoWScenSetup.pas:444
@@ -639,12 +639,12 @@ public partial class ScenSetup : DataModule
     {
         if (TurnTimeSl.Position == 0)
         {
-            var noTimer = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.NoTimerRStr);
+            var noTimer = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NoTimerRStr);
             TurnTimeVal.Text = LowerCase(noTimer);
         }
         else
         {
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.XMinutesRStr), [IntToStr(TurnTimeSl.Position)]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XMinutesRStr), [IntToStr(TurnTimeSl.Position)]);
             TurnTimeVal.Text = format;
         }
     }
@@ -654,12 +654,12 @@ public partial class ScenSetup : DataModule
     {
         if (TurnsSl.Position == 0)
         {
-            var noLimit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.NoLimitRStr);
+            var noLimit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NoLimitRStr);
             TurnsVal.Text = LowerCase(noLimit);
         }
         else
         {
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XTurnsRStr)), [IntToStr(TurnsSl.Position * 10)]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XTurnsRStr)), [IntToStr(TurnsSl.Position * 10)]);
             TurnsVal.Text = format;
         }
     }
@@ -710,7 +710,7 @@ public partial class ScenSetup : DataModule
     {
         byte B;
         Setup.FSetupControl = Control;
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = true;
+        DialogHosts.TitleWindow.TitleWin.Visible = true;
         Setup.ScenSetupPnl.Visible = true;
         Setup.ChatMemo.Items.Clear();
         Setup.ChatEdit.Text = "";
@@ -735,7 +735,7 @@ public partial class ScenSetup : DataModule
             for (int bOrdinal = 0; bOrdinal <= 2; bOrdinal++)
             {
                 B = (byte)bOrdinal;
-                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.TTacticalCombatAvailabilityRStr[B]);
+                var tacticalCombatAvailability = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TTacticalCombatAvailabilityRStr[B]);
                 Setup.TacticalCombatCB.Items.AddObject(tacticalCombatAvailability, IntToObject(B));
             }
         }
@@ -750,7 +750,7 @@ public partial class ScenSetup : DataModule
             Setup.CustomizeLeadersLbl.TextColor = 8421504;
             Setup.CustomizeLeaders.CaptureInput = false;
             Setup.PlayModeCB.Items.Clear();
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ClassicRStr);
             Setup.PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
         else
@@ -758,20 +758,20 @@ public partial class ScenSetup : DataModule
             Setup.CustomizeLeadersLbl.TextColor = Setup.AlliedVictoryLbl.TextColor;
             Setup.CustomizeLeaders.CaptureInput = true;
             Setup.PlayModeCB.Items.Clear();
-            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.SimultaneousRStr);
+            var simultaneous = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SimultaneousRStr);
             Setup.PlayModeCB.Items.AddObject(simultaneous, IntToObject(2));
-            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenSetup.ClassicRStr);
+            var classic = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ClassicRStr);
             Setup.PlayModeCB.Items.AddObject(classic, IntToObject(1));
         }
 
-        bool condition = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex != -1;
+        bool condition = AudioHost.SongPlayer.CurrentIndex != -1;
         if (condition)
         {
-            var count = Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count;
-            condition = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex < count;
+            var count = AudioHost.SongPlayer.Songs.Count;
+            condition = AudioHost.SongPlayer.CurrentIndex < count;
         }
 
-        if (!(condition && Aow.Game.Audio.AudioHost.SongPlayer.Songs[Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex] == "SONGS\\TITLE.IT"))
+        if (!(condition && AudioHost.SongPlayer.Songs[AudioHost.SongPlayer.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
             Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add("SONGS\\TITLE.IT");
@@ -800,12 +800,12 @@ public partial class ScenSetup : DataModule
                 Setup.PlayerList.Items.AddObject(Player.FName, IntToObject(Player.FRemoteID));
                 if (Player.FPreferredRace != 255)
                 {
-                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[(sbyte)Player.FPreferredRace]);
+                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[(sbyte)Player.FPreferredRace]);
                     Setup.PreferredRaceList.Items.Add(raceNamesPlural);
                 }
                 else
                 {
-                    var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
+                    var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.NoneRStr);
                     Setup.PreferredRaceList.Items.Add(none);
                 }
 
@@ -852,14 +852,14 @@ public partial class ScenSetup : DataModule
             if (Setup.PreferredRaceCB.Visible)
             {
                 Setup.PreferredRaceCB.Items.Clear();
-                var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
+                var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.NoneRStr);
                 Setup.PreferredRaceCB.Items.AddObject(none, IntToObject(-1));
                 for (int I = 0, last = Setup.FSetupControl.FSettings.Count - 1; I <= last; I++)
                 {
                     if (!Setup.FSetupControl.FSettings.GetSettings(I).FStatus.Contains(PlayerSetupStatusElement.Fixed))
                     {
                         var settingRace = Setup.FSetupControl.FSettings.GetSettings(I);
-                        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[settingRace.FRace]);
+                        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[settingRace.FRace]);
                         var setting = Setup.FSetupControl.FSettings.GetSettings(I);
                         Setup.PreferredRaceCB.Items.AddObject(raceNamesPlural, IntToObject(setting.FRace));
                     }
@@ -897,19 +897,19 @@ public partial class ScenSetup : DataModule
             Aow.Game.Ui.Dialogs.ScenSetup.UpdateScenarioRow(Setup, Control.FSettings.GetSettings(indexOfRace11), Setup.R12PlayerCB, Setup.R12BehaviorCB, Setup.R12PlayerIcon, Setup.R12PlayerLbl, Setup.R12InfoLbl, Setup.R12FogPnl);
             if (Setup.FSetupControl.GetRemote())
             {
-                switch (Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.DPlay.ConnectionType)
+                switch (DialogHosts.SetupEvents.DPlay.ConnectionType)
                 {
                     case ConnectionType.TCP:
-                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TCPIPRStr);
+                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TCPIPRStr);
                         break;
                     case ConnectionType.IPX:
-                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.IPXRStr);
+                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.IPXRStr);
                         break;
                     case ConnectionType.Modem:
-                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ModemRStr);
+                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ModemRStr);
                         break;
                     case ConnectionType.Serial:
-                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SerialRStr);
+                        Connection = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SerialRStr);
                         break;
                     default:
                         Connection = "";
@@ -931,11 +931,11 @@ public partial class ScenSetup : DataModule
                 Setup.HostNameLbl.Visible = true;
                 Setup.FileNameLbl.Visible = true;
                 Setup.PlayerNameLbl.Visible = true;
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XHostYRStr), [Connection, HostName]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XHostYRStr), [Connection, HostName]);
                 Setup.HostNameLbl.Text = format;
-                var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.PlayerNameXRStr), [Setup.FSetupControl.FRemotePlayer.FName]);
+                var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.PlayerNameXRStr), [Setup.FSetupControl.FRemotePlayer.FName]);
                 Setup.PlayerNameLbl.Text = aoWEFormat;
-                var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FileNameXRStr), [Setup.FSetupControl.FSettings.FMapName]);
+                var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FileNameXRStr), [Setup.FSetupControl.FSettings.FMapName]);
                 Setup.FileNameLbl.Text = format2;
                 if (Setup.FSetupControl.FRemotePlayer.FMapValidation == MapValidationInfo.Invalid)
                 {
@@ -953,9 +953,9 @@ public partial class ScenSetup : DataModule
                 Setup.PlayerNameLbl.Visible = false;
             }
 
-            var format3 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ScenarioXRStr), [Setup.FSetupControl.FSettings.FFileName]);
+            var format3 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ScenarioXRStr), [Setup.FSetupControl.FSettings.FFileName]);
             Setup.ScenarioLbl.Text = format3;
-            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.FDrawn = false;
+            DialogHosts.TitleWindow.TitleWin.FDrawn = false;
         }
     }
 
@@ -1015,12 +1015,12 @@ public partial class ScenSetup : DataModule
                     }
                     else
                     {
-                        PlayerName.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.HumanRStr);
+                        PlayerName.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.HumanRStr);
                     }
                 }
                 else
                 {
-                    PlayerName.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[Settings.FBehavior.PlayerType]);
+                    PlayerName.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerTypeRStr[Settings.FBehavior.PlayerType]);
                 }
             }
 
@@ -1030,7 +1030,7 @@ public partial class ScenSetup : DataModule
             {
                 if (Settings.FStatus.Contains(PlayerSetupStatusElement.Fixed))
                 {
-                    Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FixedRStr);
+                    Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FixedRStr);
                 }
                 else
                 {
@@ -1042,11 +1042,11 @@ public partial class ScenSetup : DataModule
                             // { Original compares race bytes, including the FF sentinel. }
                             if (Setup.FSetupControl.FSettings.FRemotePlayers.GetPlayers(I).FPreferredRace == (byte)Settings.FRace)
                             {
-                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TakenRStr);
+                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TakenRStr);
                             }
                             else
                             {
-                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ForcedRStr);
+                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ForcedRStr);
                             }
                         }
                     }
@@ -1054,13 +1054,13 @@ public partial class ScenSetup : DataModule
                     {
                         if (Settings.FBehavior.Flags != 0)
                         {
-                            Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TakenRStr);
+                            Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TakenRStr);
                         }
                         else
                         {
                             if (Set<byte>.WithBounds(0, 255).WithRange(1, 3).WithRange(6, 7).Contains(Settings.FBehavior.PlayerType))
                             {
-                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)(Aow.Game.Session.Player.Behavior)Settings.FBehaviorMode]);
+                                Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerBehaviorRStr[(int)(Player.Behavior)Settings.FBehaviorMode]);
                             }
                         }
                     }
@@ -1075,7 +1075,7 @@ public partial class ScenSetup : DataModule
                 for (int bOrdinal = 0; bOrdinal <= 5; bOrdinal++)
                 {
                     B = (byte)bOrdinal;
-                    var playerBehavior = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)(Aow.Game.Session.Player.Behavior)B]);
+                    var playerBehavior = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TPlayerBehaviorRStr[(int)(Player.Behavior)B]);
                     BehaviorBox.Items.AddObject(playerBehavior, IntToObject(B));
                 }
 
@@ -1118,7 +1118,7 @@ public partial class ScenSetup : DataModule
             BehaviorBox.Visible = false;
             PlayerName.Visible = false;
             Info.Visible = true;
-            Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UnavailableRStr);
+            Info.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UnavailableRStr);
             Fog.Visible = true;
         }
     }

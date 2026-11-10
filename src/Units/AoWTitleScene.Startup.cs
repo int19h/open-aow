@@ -13,23 +13,23 @@ public partial class TitleScene
 {
     public void ShowScene(bool playMusic)
     {
-        var player = Aow.Game.Audio.AudioHost.SongPlayer;
+        var player = AudioHost.SongPlayer;
         if (playMusic && !(player.CurrentIndex >= 0 && player.CurrentIndex < player.Songs.Count && player.Songs[player.CurrentIndex] == "SONGS\\TITLE.IT"))
         {
             player.Songs.Clear();
             player.Songs.Add("SONGS\\TITLE.IT");
             player.Play(0);
         }
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         TitleSceneIL.LoadDiscardableImageData();
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.SetSceneSize(640, 480);
-        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Ui.Dialogs.VideoDialog.ScreenMode.Title);
+        Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Title);
         Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         GameHost.MainForm.Display.SetFrameRate(30);
         GameHost.MainForm.DXDC.UseVerticalBlank = true;
         FRedrawBackground = true;
         FPressedButton = FHoverButton = -1;
-        FFont = FCreditsFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        FFont = FCreditsFont = DialogHosts.FontModule.AoW15WhiteGrey;
         Window.WinManager.ILIndexTBack = 4;
         Window.Visible = true;
     }
@@ -59,32 +59,32 @@ public partial class TitleScene
                     Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.Execute("");
                     break;
                 case 1:
-                    if (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
+                    if (!GameTables.AoWEngine.FDemo)
                     {
                         Window.Visible = false;
                         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-                        Aow.Game.Ui.Dialogs.TitleScene.ShowFactionSelection(Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin);
+                        Aow.Game.Ui.Dialogs.TitleScene.ShowFactionSelection(DialogHosts.SelFactionWin);
                     }
                     else Aow.Game.Ui.Dialogs.MessageDlg.ShowDemoMessage();
                     break;
                 case 2:
-                    Aow.Game.Ui.Dialogs.TitleScene.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
-                    if (Aow.Game.World.Map.AoWHSMap.Current is { } map)
+                    Aow.Game.Ui.Dialogs.TitleScene.LoadGame(DialogHosts.General, FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\TUTORIAL.HSM"));
+                    if (World.Map.AoWHSMap.Current is { } map)
                     {
                         map.FFixedLeaders = true;
-                        Aow.Game.Ui.Dialogs.TitleScene.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
+                        Aow.Game.Ui.Dialogs.TitleScene.StartGame(DialogHosts.General);
                         Window.Visible = false;
                     }
                     break;
                 case 3:
                     Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-                    Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FMode = 0;
-                    Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                    DialogHosts.FileDlgWindow.FMode = 0;
+                    DialogHosts.FileDlgWindow.FileDialog.Visible = true;
                     break;
                 case 4:
                     Window.Visible = false;
                     Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo) Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.ShowExitSplash();
+                    if (GameTables.AoWEngine.FDemo) Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.ShowExitSplash();
                     else GameHost.MainForm.CloseRequested();
                     break;
             }

@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Windows;
 // no fields of its own
 public partial class AOWGenericWindow : AOWBaseWindow
 {
-    public AOWGenericWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWGenericWindow(Component owner) : base(owner)
     { }
 
     // AoWWinGeneric.pas:39

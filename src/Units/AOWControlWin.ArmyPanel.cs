@@ -27,8 +27,8 @@ public partial class ControlWin
             frames[i].ILIndexFrame = 12;
         }
         PartyActionLbl1.Visible = PartyActionLbl2.Visible = false;
-        var army = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList;
-        bool readOnly = army.FPlayer != Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+        var army = DialogHosts.General.FUnitList;
+        bool readOnly = army.FPlayer != World.Map.AoWHSMap.Current.FSeatedPlayer;
         if (army.FPlayer == 0)
         {
             PartyBPnl.Visible = false;
@@ -36,26 +36,26 @@ public partial class ControlWin
             PartyILbl.Text = "";
             readOnly = true;
             PartyActionLbl1.Visible = PartyActionLbl2.Visible = true;
-            PartyActionLbl1.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ControlWin.PartyActionRStr);
+            PartyActionLbl1.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PartyActionRStr);
             PartyActionLbl2.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(((int)army.GetBehavior(255) & 127) switch
             {
-                1 => Aow.Game.Ui.Dialogs.ControlWin.PatrollingRStr,
-                2 or 3 => Aow.Game.Ui.Dialogs.ControlWin.GuardingRStr,
-                4 => Aow.Game.Ui.Dialogs.ControlWin.ScoutingRStr,
-                5 => Aow.Game.Ui.Dialogs.ControlWin.SeekingRefugeRStr,
-                6 => Aow.Game.Ui.Dialogs.ControlWin.RaidingRStr,
-                7 => Aow.Game.Ui.Dialogs.ControlWin.HuntingRStr,
-                8 => Aow.Game.Ui.Dialogs.ControlWin.ProtectingRStr,
-                9 => Aow.Game.Ui.Dialogs.ControlWin.FortifiedRStr,
-                10 => Aow.Game.Ui.Dialogs.ControlWin.BerserkRStr,
-                _ => Aow.Game.Ui.Dialogs.ControlWin.WanderingRStr
+                1 => PatrollingRStr,
+                2 or 3 => GuardingRStr,
+                4 => ScoutingRStr,
+                5 => SeekingRefugeRStr,
+                6 => RaidingRStr,
+                7 => HuntingRStr,
+                8 => ProtectingRStr,
+                9 => FortifiedRStr,
+                10 => BerserkRStr,
+                _ => WanderingRStr
             });
         }
         else if (readOnly)
         {
             PartyBPnl.Visible = false;
             PartyIPnl.Visible = true;
-            PartyILbl.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ControlWin.PartyOwnerXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
+            PartyILbl.Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PartyOwnerXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(army.FPlayer).FPlayerRace])]);
             PControlPnl.Visible = false;
         }
         else
@@ -71,7 +71,7 @@ public partial class ControlWin
         }
         for (int i = 0; i < 8; i++)
         {
-            int index = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[i];
+            int index = DialogHosts.General.FSelectedUnits[i];
             if (index == -1) continue;
             byte selection = (byte)(1 << index);
             icons[i].CurrentImage = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(army.MoveTypes(selection));
@@ -83,7 +83,7 @@ public partial class ControlWin
             checks[i].Visible = !readOnly;
             emptyChecks[i].Visible = readOnly;
         }
-        if (!Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.ConButton.Visible) ControlWindow.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.ConButton.Visible = true;
+        if (!DialogHosts.TBWindow.ConButton.Visible) ControlWindow.Visible = true;
+        DialogHosts.TBWindow.ConButton.Visible = true;
     }
 }

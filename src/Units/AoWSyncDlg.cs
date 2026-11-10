@@ -12,7 +12,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class SynchronizeDlg : DataModule
 {
-    public SynchronizeDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public SynchronizeDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -36,7 +36,7 @@ public partial class SynchronizeDlg : DataModule
     {
         PlayerSetupSettings Result;
         int Index;
-        Index = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+        Index = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
         if (Index != -1)
         {
             Result = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.GetSettings(Index);
@@ -53,11 +53,11 @@ public partial class SynchronizeDlg : DataModule
     public void FaceFramePreDraw(SurfaceDesc Surface)
     {
         PlayerSetupSettings Settings;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         Settings = GetPlayerSetup();
         if (Settings != null)
         {
-            R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, Dlg.WinLeft + 188 + 103, Dlg.WinTop + 40 + 128);
+            R = new Rect(Dlg.WinLeft + 188, Dlg.WinTop + 40, Dlg.WinLeft + 188 + 103, Dlg.WinTop + 40 + 128);
             Settings.FLeader.ShowFace(R, Surface);
         }
     }
@@ -71,9 +71,9 @@ public partial class SynchronizeDlg : DataModule
         Settings = GetPlayerSetup();
         if (Settings != null)
         {
-            if (!Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
+            if (!DialogHosts.SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
             {
-                I = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+                I = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
                 if (I != -1)
                 {
                     var player = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
@@ -89,15 +89,15 @@ public partial class SynchronizeDlg : DataModule
                 PlayerName.Text = Settings.FLeader.FHeroName;
             }
 
-            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Settings.FRace]);
+            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[Settings.FRace]);
             PlayerRace.Text = raceNamesPlural;
-            Day = Aow.Game.World.Map.AoWHSMap.Current.FDay;
+            Day = World.Map.AoWHSMap.Current.FDay;
             if (Day == 0)
             {
                 Day = 1;
             }
 
-            var day = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DayRStr);
+            var day = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.DayRStr);
             Turn.Text = day + " " + IntToStr(Day);
             LShield.CurrentImage = Settings.FRace + 26;
             RShield.CurrentImage = Settings.FRace + 26;

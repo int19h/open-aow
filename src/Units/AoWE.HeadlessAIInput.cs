@@ -19,7 +19,7 @@ public partial class AIPlayerControl
                 while (!done && FActions.Count != 0 && !FPlayer.GetBusy() &&
                     Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
                 {
-                    if (FMoveExecuter.FStatus != Aow.Game.Ai.Groups.AIMoveExecuter.Status.Busy)
+                    if (FMoveExecuter.FStatus != AIMoveExecuter.Status.Busy)
                     {
                         while (FAction is null && FActions.Count != 0)
                             if (!ActivateAction(0)) FActions.GetActions(0)?.Dispose();
@@ -45,7 +45,7 @@ public partial class AIPlayerControl
                 while (!done && index < FActions.Count && !FPlayer.GetBusy() &&
                     Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
                 {
-                    if (FMoveExecuter.FStatus != Aow.Game.Ai.Groups.AIMoveExecuter.Status.Busy)
+                    if (FMoveExecuter.FStatus != AIMoveExecuter.Status.Busy)
                     {
                         while (FAction is null && index != FActions.Count)
                         {

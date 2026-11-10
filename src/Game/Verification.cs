@@ -177,11 +177,11 @@ internal static class Verification
                 {
                     switch (kind)
                     {
-                        case "integer": int number = 37; registry.rwInteger(section, name, ref number, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
-                        case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
-                        case "string": string text = "default"; registry.rwString(section, name, ref text, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
-                        case "rectangle": Rect rect = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rect, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(7, rect.Left, "missing rectangle keeps getter default"); break;
-                        case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
+                        case "integer": int number = 37; registry.rwInteger(section, name, ref number, AoWRegistry.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
+                        case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, AoWRegistry.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
+                        case "string": string text = "default"; registry.rwString(section, name, ref text, AoWRegistry.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
+                        case "rectangle": Rect rect = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rect, AoWRegistry.ReadWriteMode.Read); Equal(7, rect.Left, "missing rectangle keeps getter default"); break;
+                        case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, AoWRegistry.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
                     }
                 }
             foreach (var (section, kind, names) in schemas)

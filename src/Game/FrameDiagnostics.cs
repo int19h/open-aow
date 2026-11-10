@@ -32,7 +32,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Random(RandomTraceEvent entry)
     {
-        if (entry.Kind == "random" && (Aow.Game.World.Map.AoWHSMap.Current is null || Aow.Game.World.Map.AoWHSMap.Current is { FDay: 1, Frame: <= 1 }))
+        if (entry.Kind == "random" && (AoWHSMap.Current is null || AoWHSMap.Current is { FDay: 1, Frame: <= 1 }))
             writer.WriteLine(JsonSerializer.Serialize(new
             {
                 kind = "startup-random",
@@ -44,7 +44,7 @@ internal sealed class FrameDiagnostics : IDisposable
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
             }));
-        if (Aow.Game.World.Map.AoWHSMap.Current is not { FDay: 2 } map || entry.Kind != "random") return;
+        if (AoWHSMap.Current is not { FDay: 2 } map || entry.Kind != "random") return;
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units").ToArray();
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "AoWHSMap" })) return;
@@ -65,7 +65,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Cost(int cost, int used)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current is not { FDay: 2 } map) return;
+        if (AoWHSMap.Current is not { FDay: 2 } map) return;
         writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "cost",
@@ -82,9 +82,9 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Snapshot(string name)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current is not { } map) return;
-        var viewer = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer;
-        var window = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow;
+        if (AoWHSMap.Current is not { } map) return;
+        var viewer = Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer;
+        var window = Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
         var objects = new List<object>();
         for (int y = 0; y < level.Height; y++)
@@ -109,8 +109,8 @@ internal sealed class FrameDiagnostics : IDisposable
                                     mode = sequence.SequenceMode.ToString(),
                                     sequence.SpeedCount,
                                     sequence.ImageIndex,
-                                    lastFrame = typeof(Aow.Game.Draw.Images.ImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
-                                    counter = typeof(Aow.Game.Draw.Images.ImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
+                                    lastFrame = typeof(ImageSequence).GetField("FLastFrame", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence),
+                                    counter = typeof(ImageSequence).GetField("FFrameCounter", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)!.GetValue(sequence)
                                 });
                     objects.Add(new
                     {

@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Dialogs;
 // player indices, checkbox controls
 public partial class ResultsWin : DataModule
 {
-    public ResultsWin(global::Aow.Rtl.Component owner) : base(owner)
+    public ResultsWin(Component owner) : base(owner)
     { }
 
     public AOWCheckBox P1CB;
@@ -132,14 +132,14 @@ public partial class ResultsWin : DataModule
             }
         }
 
-        var turn = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ResultsWin.TurnRStr);
+        var turn = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TurnRStr);
         TurnLbl.Text = turn + " " + IntToStr(FMaxTurns);
     }
 
     // AoWResultsWin.pas:250
     public void DrawGraphs(in SurfaceDesc Surface)
     {
-        global::Aow.Rtl.Rect Bounds = default;
+        Rect Bounds = default;
         Bounds.Left = ResultsPnl.WinLeft + Axis.WinLeft + 5;
         Bounds.Top = ResultsPnl.WinTop + Axis.WinTop + 4;
         Bounds.Right = ResultsPnl.WinLeft + Axis.WinLeft + 338;
@@ -179,7 +179,7 @@ public partial class ResultsWin : DataModule
     }
 
     // AoWResultsWin.pas:123
-    public void DrawGraph(Aow.Game.Draw.Images.LibraryImage Image, IntegerList Values, int Turns, int Maximum, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
+    public void DrawGraph(Draw.Images.LibraryImage Image, IntegerList Values, int Turns, int Maximum, in Rect R, in SurfaceDesc Surface)
     {
         int Width;
         int LastY;
@@ -233,7 +233,7 @@ public partial class ResultsWin : DataModule
     }
 
     // AoWResultsWin.pas:160
-    public void DrawGold(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
+    public void DrawGold(sbyte Player, in Rect R, in SurfaceDesc Surface)
     {
         IntegerList Values;
         TurnInfo Info;
@@ -245,13 +245,13 @@ public partial class ResultsWin : DataModule
         }
 
         var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
+        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxGold);
     }
 
     // AoWResultsWin.pas:175
-    public void DrawMana(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
+    public void DrawMana(sbyte Player, in Rect R, in SurfaceDesc Surface)
     {
         IntegerList Values;
         TurnInfo Info;
@@ -263,13 +263,13 @@ public partial class ResultsWin : DataModule
         }
 
         var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
+        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxMana);
     }
 
     // AoWResultsWin.pas:190
-    public void DrawHeroes(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
+    public void DrawHeroes(sbyte Player, in Rect R, in SurfaceDesc Surface)
     {
         IntegerList Values;
         TurnInfo Info;
@@ -281,13 +281,13 @@ public partial class ResultsWin : DataModule
         }
 
         var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
+        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxHeroes);
     }
 
     // AoWResultsWin.pas:205
-    public void DrawArmies(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
+    public void DrawArmies(sbyte Player, in Rect R, in SurfaceDesc Surface)
     {
         IntegerList Values;
         TurnInfo Info;
@@ -299,13 +299,13 @@ public partial class ResultsWin : DataModule
         }
 
         var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
+        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxArmies);
     }
 
     // AoWResultsWin.pas:220
-    public void DrawStructures(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
+    public void DrawStructures(sbyte Player, in Rect R, in SurfaceDesc Surface)
     {
         IntegerList Values;
         TurnInfo Info;
@@ -317,13 +317,13 @@ public partial class ResultsWin : DataModule
         }
 
         var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
+        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxStructures);
     }
 
     // AoWResultsWin.pas:235
-    public void DrawStrength(sbyte Player, in global::Aow.Rtl.Rect R, in SurfaceDesc Surface)
+    public void DrawStrength(sbyte Player, in Rect R, in SurfaceDesc Surface)
     {
         IntegerList Values;
         TurnInfo Info;
@@ -335,7 +335,7 @@ public partial class ResultsWin : DataModule
         }
 
         var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
+        DrawGraph(DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
         Values?.Dispose();
         // { Original strength graph labels the structures maximum. }
         KeyMax.Text = IntToStr(FMaxStructures);
@@ -370,25 +370,25 @@ public partial class ResultsWin : DataModule
     // AoWResultsWin.pas:294
     public void ContinueBtnClick()
     {
-        Aow.Game.Ui.Dialogs.ResultsWin.FinishPyre(Aow.Game.Ui.Dialogs.DialogHosts.PyreScreen);
+        Aow.Game.Ui.Dialogs.ResultsWin.FinishPyre(DialogHosts.PyreScreen);
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.ResultsWin.ResultsPnl.Visible = false;
-        Aow.Game.Audio.AudioPlayback.FadeMusicVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position, 2);
-        if (Aow.Game.World.Map.AoWHSMap.Current.FGameStatus == Aow.Game.World.Map.AoWHSMap.GameStatus.Terminated)
+        ResultsPnl.Visible = false;
+        Aow.Game.Audio.AudioPlayback.FadeMusicVolume(DialogHosts.SoundDlg.MusicVolume.Position, 2);
+        if (AoWHSMap.Current.FGameStatus == AoWHSMap.GameStatus.Terminated)
         {
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign == null)
+            if (Magic.Abilities.GameTables.AoWEngine.FCampaign == null)
             {
                 Aow.Game.Ui.Dialogs.DialogHosts.General.ReturnToTitle();
             }
             else
             {
-                Aow.Game.Ui.Dialogs.WorldMap.ShowCampaignMap(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap);
+                Aow.Game.Ui.Dialogs.WorldMap.ShowCampaignMap(DialogHosts.WorldMap);
             }
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = false;
-            Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, Aow.Game.Ui.Dialogs.VideoDialog.ScreenMode.Game);
+            DialogHosts.TitleWindow.TitleWin.Visible = false;
+            Aow.Game.Ui.Dialogs.VideoDialog.SetVideoMode(DialogHosts.VideoDialog, VideoDialog.ScreenMode.Game);
             Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         }
     }
@@ -427,11 +427,11 @@ public partial class ResultsWin : DataModule
     // AoWResultsWin.pas:339
     public void P1CBPreDraw(AOWCheckBox Sender, SurfaceDesc Surface, int Slot)
     {
-        global::Aow.Rtl.Rect R;
+        Rect R;
         var component = Sender;
         if (Slot < FPlayers.Count)
         {
-            R = global::Aow.Rtl.RtlUnit.Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
+            R = new Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
             var player = FPlayers[Slot];
             if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player).GetFace() != null)
             {
@@ -441,7 +441,7 @@ public partial class ResultsWin : DataModule
 
             var player3 = FPlayers[Slot];
             var playerPlayerRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player3);
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
+            DialogHosts.IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
         }
     }
 
@@ -469,9 +469,9 @@ public partial class ResultsWin : DataModule
 
     private static readonly string TurnRStr = "Turn";
 
-    private static void FinishPyre(global::Aow.Game.Ui.Dialogs.PyreScreen Dialog)
+    private static void FinishPyre(PyreScreen Dialog)
     {
-        global::Aow.Game.Audio.AudioPlayback.SetSFXVolume(global::Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.SFXVolume.Position);
+        global::Aow.Game.Audio.AudioPlayback.SetSFXVolume(DialogHosts.SoundDlg.SFXVolume.Position);
         Dialog.ClearFire();
         if (Dialog.FSavedSongStatus != null)
         {
@@ -479,16 +479,16 @@ public partial class ResultsWin : DataModule
             Dialog.FSavedSongStatus = null;
         }
         Dialog.FGameOverEvent.Handled();
-        global::Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
-        global::Aow.Game.Events.ExecuteDoneEvent fDone = Dialog.FDone;
-        global::Aow.Game.Events.GameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
+        DialogHosts.General.Manager.OverlayPriority = 0;
+        Events.ExecuteDoneEvent fDone = Dialog.FDone;
+        Events.GameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
         Dialog.FDone = null;
         Dialog.FGameOverEvent = null;
         fDone?.Invoke(fGameOverEvent);
         fGameOverEvent?.Release();
     }
 
-    private static void DrawImageLine(global::Aow.Game.Draw.Images.LibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in global::Aow.Game.Draw.SurfaceDesc SD)
+    private static void DrawImageLine(Draw.Images.LibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in SurfaceDesc SD)
     {
         int num = 0;
         int i;

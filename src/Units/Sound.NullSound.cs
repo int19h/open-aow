@@ -28,7 +28,7 @@ public sealed class NullSoundSystem : SoundSystem
 
     protected internal override void Process()
     {
-        for (int i = Aow.Game.Audio.AudioHost.SampleList.Count - 1; i >= 0; i--) ((Sample)Aow.Game.Audio.AudioHost.SampleList[i]).Update();
+        for (int i = AudioHost.SampleList.Count - 1; i >= 0; i--) ((Sample)AudioHost.SampleList[i]).Update();
     }
 
     protected internal override int GetMusicVolume() => musicVolume;
@@ -63,16 +63,16 @@ public sealed class NullSoundSystem : SoundSystem
 
     public override bool RestoreSongStatus(SongStatus status) { song = status.FileName; return true; }
 
-    internal static void RegisterSoundSystem(global::Aow.Game.Audio.SoundSystemClass AClass)
+    internal static void RegisterSoundSystem(SoundSystemClass AClass)
     {
-        if (global::Aow.Game.Audio.AudioHost.SoundSystems == null)
+        if (AudioHost.SoundSystems == null)
         {
-            global::Aow.Game.Audio.AudioHost.SoundSystems = new global::Aow.Game.Audio.SoundSystemList();
+            AudioHost.SoundSystems = new SoundSystemList();
         }
         string name = AClass.Name;
         if (global::Aow.Game.Audio.AudioHost.SoundSystems.Find(name) == null)
         {
-            ((DelphiList)global::Aow.Game.Audio.AudioHost.SoundSystems).Add((object)AClass);
+            ((DelphiList)AudioHost.SoundSystems).Add((object)AClass);
             return;
         }
         throw new InvalidOperationException("Sound System with name: " + AClass.Name + " already registered");
@@ -81,10 +81,10 @@ public sealed class NullSoundSystem : SoundSystem
 
 internal class NullSample : Sample
 {
-    private protected NullSample(ConstructionContext context, global::Aow.Game.Audio.SampleData data) : base(context, data)
+    private protected NullSample(ConstructionContext context, SampleData data) : base(context, data)
     { }
 
-    public static new NullSample Create(global::Aow.Game.Audio.SampleData data) =>
+    public static new NullSample Create(SampleData data) =>
             ConstructionContext.Create(data, static (context, value) => new NullSample(context, value));
 
     private int volume;

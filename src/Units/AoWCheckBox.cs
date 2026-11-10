@@ -12,7 +12,7 @@ namespace Aow.Game.Ui.Controls;
 // Fields: FOnDoubleClick
 public partial class AOWCheckBox : AOWBaseButton
 {
-    public AOWCheckBox(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWCheckBox(Component owner) : base(owner)
     { }
 
     public NotifyEvent<AOWCheckBox> FOnDoubleClick;

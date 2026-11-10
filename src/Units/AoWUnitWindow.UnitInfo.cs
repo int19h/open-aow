@@ -14,11 +14,11 @@ public partial class UnitWindow
     {
         Hero H = default;
         AbstractUnit U = default;
-        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
+        if (DialogHosts.General.FSelectedUnit != null)
         {
             Aow.Game.Ui.Dialogs.DialogHosts.General.BuildAbilities();
-            U = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit;
-            if (U != null && Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == U.FPlayer)
+            U = DialogHosts.General.FSelectedUnit;
+            if (U != null && World.Map.AoWHSMap.Current.FSeatedPlayer == U.FPlayer)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(64, true, true);
             }
@@ -32,445 +32,445 @@ public partial class UnitWindow
                 H = null;
             }
 
-            if (Aow.Game.Combat.AoWCombatMap.Current == null && Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList != null && Aow.Game.Ui.Dialogs.DialogHosts.General.IndexOfUnit(U) > -1 && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[1] > -1)
+            if (Combat.AoWCombatMap.Current == null && DialogHosts.General.FUnitList != null && Aow.Game.Ui.Dialogs.DialogHosts.General.IndexOfUnit(U) > -1 && DialogHosts.General.FSelectedUnits[1] > -1)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.PPrev.Visible = true;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.PNext.Visible = true;
+                PPrev.Visible = true;
+                PNext.Visible = true;
             }
             else
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.PPrev.Visible = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.PNext.Visible = false;
+                PPrev.Visible = false;
+                PNext.Visible = false;
             }
 
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Mana.Visible = false;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ManaIcon.Visible = false;
+            Mana.Visible = false;
+            ManaIcon.Visible = false;
             Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Items.Clear();
-            var abilities = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.AbilitiesRStr);
+            var abilities = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AbilitiesRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Items.Add(abilities);
-            var info = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.InfoRStr);
+            var info = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(InfoRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Items.Add(info);
             if (U.GetRace() > -1)
             {
                 var race = U.GetRace();
-                var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[race]);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text = raceNames;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RelationIcn.Visible = true;
+                var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[race]);
+                TypeV.Text = raceNames;
+                RelationIcn.Visible = true;
                 var uRace = U.GetRace();
-                var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(uRace).GetPlayerRelation(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RelationIcn.CurrentImage = (int)playerRelation + 11;
+                var playerRelation = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(uRace).GetPlayerRelation(World.Map.AoWHSMap.Current.FSeatedPlayer);
+                RelationIcn.CurrentImage = (int)playerRelation + 11;
                 var race2 = U.GetRace();
-                var playerRelation2 = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(race2).GetPlayerRelation(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
-                var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation2]);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RelationV.Text = status;
+                var playerRelation2 = Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(race2).GetPlayerRelation(World.Map.AoWHSMap.Current.FSeatedPlayer);
+                var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.TStatusRStr[(int)playerRelation2]);
+                RelationV.Text = status;
             }
             else
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text = "";
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RelationIcn.Visible = false;
-                var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.NoneRStr);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RelationV.Text = none;
+                TypeV.Text = "";
+                RelationIcn.Visible = false;
+                var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NoneRStr);
+                RelationV.Text = none;
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == U.FPlayer && !(U is Leader) && Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
+            if (World.Map.AoWHSMap.Current.FSeatedPlayer == U.FPlayer && !(U is Leader) && World.Map.AoWHSMap.Current.FCombatMap == null)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.DisbandBtn.Visible = true;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BCloseBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
+                DisbandBtn.Visible = true;
+                BCloseBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
             }
             else
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.DisbandBtn.Visible = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BCloseBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
+                DisbandBtn.Visible = false;
+                BCloseBtn.Alignment.AlignWidth = AOWAlignWidth.Center;
             }
 
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BCloseBtn.FAligned = false;
+            BCloseBtn.FAligned = false;
             switch (U.GetUnitType())
             {
                 case UnitType.Creature:
-                    var creature = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.CreatureRStr);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text = Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text + " " + creature;
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeIcn.CurrentImage = 21;
+                    var creature = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CreatureRStr);
+                    TypeV.Text = TypeV.Text + " " + creature;
+                    TypeIcn.CurrentImage = 21;
                     break;
                 case UnitType.Machine:
-                    var machine = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.MachineRStr);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text = Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text + " " + machine;
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeIcn.CurrentImage = 22;
+                    var machine = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MachineRStr);
+                    TypeV.Text = TypeV.Text + " " + machine;
+                    TypeIcn.CurrentImage = 22;
                     break;
                 default:
                     if (H == null)
                     {
-                        var unit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.UnitRStr);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text = Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text + " " + unit;
+                        var unit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnitRStr);
+                        TypeV.Text = TypeV.Text + " " + unit;
                     }
                     else
                     {
                         if (H is Leader)
                         {
-                            var leader = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.LeaderRStr);
-                            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text = Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text + " " + leader;
+                            var leader = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LeaderRStr);
+                            TypeV.Text = TypeV.Text + " " + leader;
                         }
                         else
                         {
-                            var hero = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.HeroRStr);
-                            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text = Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeV.Text + " " + hero;
+                            var hero = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HeroRStr);
+                            TypeV.Text = TypeV.Text + " " + hero;
                         }
                     }
 
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.TypeIcn.CurrentImage = 23;
+                    TypeIcn.CurrentImage = 23;
                     break;
             }
 
             if (H == null)
             {
-                var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.LevelRStr);
+                var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LevelRStr);
                 var unitLevel = U.GetUnitLevel();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Level.Text = level + " " + IntToStr(unitLevel);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T2Leader.Visible = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T2Text.Visible = true;
+                Level.Text = level + " " + IntToStr(unitLevel);
+                T2Leader.Visible = false;
+                T2Text.Visible = true;
                 var description = U.GetDescription();
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T2Memo.Items.Assign(description);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T2SBar.Position = 0;
+                T2SBar.Position = 0;
                 var name = U.GetName();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitName.Text = name;
+                UnitName.Text = name;
             }
             else
             {
                 if (H.FPlayer == 0)
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.SelPnl.Visible = false;
-                    var noLeader = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.NoLeaderRStr);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.SphereLbl.Text = noLeader;
+                    SelPnl.Visible = false;
+                    var noLeader = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NoLeaderRStr);
+                    SphereLbl.Text = noLeader;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.SelPnl.Visible = true;
+                    SelPnl.Visible = true;
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 0)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel1.Visible = true;
+                        Sel1.Visible = true;
                         var sphere = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(0);
                         var sphereToImage = Aow.Game.Ui.Dialogs.DialogHosts.General.SphereToImage(sphere);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel1.ILIndexUp = sphereToImage;
+                        Sel1.ILIndexUp = sphereToImage;
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel1.Visible = false;
+                        Sel1.Visible = false;
                     }
 
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 1)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel2.Visible = true;
+                        Sel2.Visible = true;
                         var sphere = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(1);
                         var sphereToImage = Aow.Game.Ui.Dialogs.DialogHosts.General.SphereToImage(sphere);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel2.ILIndexUp = sphereToImage;
+                        Sel2.ILIndexUp = sphereToImage;
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel2.Visible = false;
+                        Sel2.Visible = false;
                     }
 
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 2)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel3.Visible = true;
+                        Sel3.Visible = true;
                         var sphere = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(2);
                         var sphereToImage = Aow.Game.Ui.Dialogs.DialogHosts.General.SphereToImage(sphere);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel3.ILIndexUp = sphereToImage;
+                        Sel3.ILIndexUp = sphereToImage;
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel3.Visible = false;
+                        Sel3.Visible = false;
                     }
 
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 3)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel4.Visible = true;
+                        Sel4.Visible = true;
                         var sphere = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(3);
                         var sphereToImage = Aow.Game.Ui.Dialogs.DialogHosts.General.SphereToImage(sphere);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel4.ILIndexUp = sphereToImage;
+                        Sel4.ILIndexUp = sphereToImage;
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel4.Visible = false;
+                        Sel4.Visible = false;
                     }
 
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 4)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel5.Visible = true;
+                        Sel5.Visible = true;
                         var sphere = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(4);
                         var sphereToImage = Aow.Game.Ui.Dialogs.DialogHosts.General.SphereToImage(sphere);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel5.ILIndexUp = sphereToImage;
+                        Sel5.ILIndexUp = sphereToImage;
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel5.Visible = false;
+                        Sel5.Visible = false;
                     }
 
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 5)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel6.Visible = true;
+                        Sel6.Visible = true;
                         var sphere = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(5);
                         var sphereToImage = Aow.Game.Ui.Dialogs.DialogHosts.General.SphereToImage(sphere);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel6.ILIndexUp = sphereToImage;
+                        Sel6.ILIndexUp = sphereToImage;
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel6.Visible = false;
+                        Sel6.Visible = false;
                     }
 
                     if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSphereCount() > 6)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel7.Visible = true;
+                        Sel7.Visible = true;
                         var sphere = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(H.FPlayer).FLeader.GetSpheres(6);
                         var sphereToImage = Aow.Game.Ui.Dialogs.DialogHosts.General.SphereToImage(sphere);
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel7.ILIndexUp = sphereToImage;
+                        Sel7.ILIndexUp = sphereToImage;
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Sel7.Visible = false;
+                        Sel7.Visible = false;
                     }
 
-                    var leaderSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.LeaderSpheresRStr);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.SphereLbl.Text = leaderSpheres;
+                    var leaderSpheres = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LeaderSpheresRStr);
+                    SphereLbl.Text = leaderSpheres;
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current.FCombat == null && H.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer)
+                if (World.Map.AoWHSMap.Current.FCombat == null && H.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer)
                 {
-                    var items = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.ItemsRStr);
+                    var items = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemsRStr);
                     Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Items.Add(items);
                 }
 
                 if (H.GetCastingPointsMax() > 0)
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Mana.Visible = true;
+                    Mana.Visible = true;
                     var castingPoints = H.GetCastingPoints();
                     var castingPointsMax = H.GetCastingPointsMax();
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Mana.Text = IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ManaIcon.Visible = true;
+                    Mana.Text = IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
+                    ManaIcon.Visible = true;
                 }
 
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ItemUseBtn.Visible = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.FGroundOffset = 0;
-                var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.LevelRStr);
+                ItemUseBtn.Visible = false;
+                FGroundOffset = 0;
+                var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LevelRStr);
                 var hLevel = H.GetLevel();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Level.Text = level + " " + IntToStr(hLevel);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T2Leader.Visible = true;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T2Text.Visible = false;
+                Level.Text = level + " " + IntToStr(hLevel);
+                T2Leader.Visible = true;
+                T2Text.Visible = false;
                 var nickname = H.GetNickname();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitName.Text = H.FHeroName + " " + nickname;
+                UnitName.Text = H.FHeroName + " " + nickname;
             }
 
-            var exp = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.ExpRStr);
+            var exp = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ExpRStr);
             var experience = U.GetExperience();
             var nextLevelExperience = U.GetNextLevelExperience();
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.XP.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Cursor = 0;
-            if (Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Items.Count <= Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Selected || Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Selected < 0)
+            XP.Text = exp + " (" + IntToStr(experience) + "/" + IntToStr(nextLevelExperience) + ")";
+            UnitWin.Cursor = 0;
+            if (UnitTab.Items.Count <= UnitTab.Selected || UnitTab.Selected < 0)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Selected = 0;
+                UnitTab.Selected = 0;
             }
 
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = true;
-            if (H != null && (Aow.Game.World.Map.AoWHSMap.Current.FCombat == null && H.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer))
+            UnitWin.Visible = true;
+            if (H != null && (World.Map.AoWHSMap.Current.FCombat == null && H.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer || World.Map.AoWHSMap.Current.FCombat != null && Aow.Game.World.Map.AoWHSMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)World.Map.AoWHSMap.Current.FCombat.FCombatData.FCurrentPlayer).FPlayer == H.FPlayer))
             {
                 if (H.FInventory.GetItem(0) != null)
                 {
                     var inventory = H.FInventory.GetItem(0);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP1.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP1.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FInventory.GetItem(1) != null)
                 {
                     var inventory = H.FInventory.GetItem(1);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP2.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP2.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FInventory.GetItem(2) != null)
                 {
                     var inventory = H.FInventory.GetItem(2);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP3.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP3.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FInventory.GetItem(3) != null)
                 {
                     var inventory = H.FInventory.GetItem(3);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP4.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP4.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FInventory.GetItem(4) != null)
                 {
                     var inventory = H.FInventory.GetItem(4);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP5.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP5.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FInventory.GetItem(5) != null)
                 {
                     var inventory = H.FInventory.GetItem(5);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP6.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP6.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FInventory.GetItem(6) != null)
                 {
                     var inventory = H.FInventory.GetItem(6);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP7.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP7.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FInventory.GetItem(7) != null)
                 {
                     var inventory = H.FInventory.GetItem(7);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP8.Tag = inventory.FItemID;
+                    Tag = inventory.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP8.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FHeroItems.GetPositionItem(HeroItemPosition.AttackSlot) != null)
                 {
                     var positionItem = H.FHeroItems.GetPositionItem(HeroItemPosition.AttackSlot);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Attack.Tag = positionItem.FItemID;
+                    Tag = positionItem.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Attack.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FHeroItems.GetPositionItem(HeroItemPosition.DefenseSlot) != null)
                 {
                     var positionItem = H.FHeroItems.GetPositionItem(HeroItemPosition.DefenseSlot);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Defend.Tag = positionItem.FItemID;
+                    Tag = positionItem.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Defend.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FHeroItems.GetPositionItem(HeroItemPosition.HeadSlot) != null)
                 {
                     var positionItem = H.FHeroItems.GetPositionItem(HeroItemPosition.HeadSlot);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Head.Tag = positionItem.FItemID;
+                    Tag = positionItem.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Head.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FHeroItems.GetPositionItem(HeroItemPosition.TorsoSlot) != null)
                 {
                     var positionItem = H.FHeroItems.GetPositionItem(HeroItemPosition.TorsoSlot);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Torso.Tag = positionItem.FItemID;
+                    Tag = positionItem.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Torso.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FHeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot) != null)
                 {
                     var positionItem = H.FHeroItems.GetPositionItem(HeroItemPosition.LeftRingSlot);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RingL.Tag = positionItem.FItemID;
+                    Tag = positionItem.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RingL.Tag = -1;
+                    Tag = -1;
                 }
 
                 if (H.FHeroItems.GetPositionItem(HeroItemPosition.RightRingSlot) != null)
                 {
                     var positionItem = H.FHeroItems.GetPositionItem(HeroItemPosition.RightRingSlot);
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RingR.Tag = positionItem.FItemID;
+                    Tag = positionItem.FItemID;
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RingR.Tag = -1;
+                    Tag = -1;
                 }
 
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UpdateGround(0);
-                Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem = null;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP1.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP2.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP3.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP4.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP5.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP6.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP7.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.BP8.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Attack.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Defend.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Head.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.Torso.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RingL.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.RingR.Checked = false;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ItemUseBtn.Visible = false;
+                SelectedItem = null;
+                BP1.Checked = false;
+                BP2.Checked = false;
+                BP3.Checked = false;
+                BP4.Checked = false;
+                BP5.Checked = false;
+                BP6.Checked = false;
+                BP7.Checked = false;
+                BP8.Checked = false;
+                Attack.Checked = false;
+                Defend.Checked = false;
+                Head.Checked = false;
+                Torso.Checked = false;
+                RingL.Checked = false;
+                RingR.Checked = false;
+                ItemUseBtn.Visible = false;
             }
 
             if (U != null)
             {
                 var hitPoints = U.GetHitPoints();
                 var hits = U.GetHits();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UHits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
+                UHits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
+                if (World.Map.AoWHSMap.Current.FCombatMap == null)
                 {
                     var movePoints = U.GetMovePoints();
                     var moves = U.GetMoves();
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UMoves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
+                    UMoves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
                 }
                 else
                 {
-                    if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null)
+                    if (DialogHosts.General.FCombatUnit != null)
                     {
                         var moves = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetMoves();
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UMoves.Text = IntToStr(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints) + "/" + IntToStr(moves);
+                        UMoves.Text = IntToStr(DialogHosts.General.FCombatUnit.FUnit.FMovePoints) + "/" + IntToStr(moves);
                     }
                 }
 
                 var attack = U.GetAttack();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UAttack.Text = IntToStr(attack);
+                UAttack.Text = IntToStr(attack);
                 var damage = U.GetDamage();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UDamage.Text = IntToStr(damage);
+                UDamage.Text = IntToStr(damage);
                 var defense = U.GetDefense();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UDefense.Text = IntToStr(defense);
+                UDefense.Text = IntToStr(defense);
                 var resistance = U.GetResistance();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UResistance.Text = IntToStr(resistance);
+                UResistance.Text = IntToStr(resistance);
                 var moveTypes = U.GetMoveTypes();
                 var mTtoInt = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(moveTypes);
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UMovesIcon.CurrentImage = mTtoInt;
+                UMovesIcon.CurrentImage = mTtoInt;
                 if (U.GetManaUpkeep() > 0)
                 {
                     var manaUpkeep = U.GetManaUpkeep();
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UpKeep.Text = IntToStr(manaUpkeep);
+                    UpKeep.Text = IntToStr(manaUpkeep);
                     UpkeepIcon.CurrentImage = 52;
                 }
                 else
                 {
                     var upkeep = U.GetUpkeep();
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UpKeep.Text = IntToStr(upkeep);
+                    UpKeep.Text = IntToStr(upkeep);
                     UpkeepIcon.CurrentImage = 51;
                 }
 
@@ -497,32 +497,32 @@ public partial class UnitWindow
                 }
 
                 var uAlignment = U.GetAlignment();
-                var alignmentText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TAlignmentRStr[(int)uAlignment]);
+                var alignmentText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TAlignmentRStr[(int)uAlignment]);
                 AAlignmentLbl.Text = alignmentText;
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T1AbilityLB.Items.Clear();
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T1TypeLB.Items.Clear();
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T1SrcLB.Items.Clear();
                 var morale = U.GetMorale();
-                var moraleText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.TMoraleRStr[(int)morale]);
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.UnitWindow.MoraleXRStr), [moraleText]);
+                var moraleText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TMoraleRStr[(int)morale]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MoraleXRStr), [moraleText]);
                 MoraleLbl.Text = format;
                 var unitType = U.GetUnitType();
                 MoraleLbl.Visible = unitType != UnitType.Machine;
-                if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
+                if (World.Map.AoWHSMap.Current.FCombatMap == null)
                 {
                     U.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
                     Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(T1AbilityLB.Items, Aow.Game.Ui.Dialogs.UnitWindow.CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
                 }
                 else
                 {
-                    if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit != null)
+                    if (DialogHosts.General.FCombatUnit != null && DialogHosts.General.FCombatUnit.FUnit != null && DialogHosts.General.FCombatUnit.FUnit.FUnit != null)
                     {
                         Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.ListAbilityInfo(T1AbilityLB.Items, T1TypeLB.Items, T1SrcLB.Items);
                         Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(T1AbilityLB.Items, Aow.Game.Ui.Dialogs.UnitWindow.CompareUnitAbilities, [T1TypeLB.Items, T1SrcLB.Items]);
                     }
                 }
 
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T1AbilityLB.Selected = -1;
+                T1AbilityLB.Selected = -1;
                 Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.T1AbilityLBChange(T1AbilityLB);
                 UnitWin.FDrawn = false;
             }

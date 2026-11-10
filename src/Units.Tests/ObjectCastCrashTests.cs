@@ -27,7 +27,7 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly AoWHSMap previous = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly AoWHSMap previous = AoWHSMap.Current;
 
         public MapScope()
         {
@@ -38,14 +38,14 @@ public sealed class ObjectCastCrashTests
             container.FMap = Map;
             Map.FMapContainer = container;
             Field = container.GetField(0, 0, 0);
-            Aow.Game.World.Map.AoWHSMap.Current = Map;
+            AoWHSMap.Current = Map;
         }
 
         public AoWHSMap Map { get; }
 
         public MapField Field { get; }
 
-        public void Dispose() => Aow.Game.World.Map.AoWHSMap.Current = previous;
+        public void Dispose() => AoWHSMap.Current = previous;
     }
 
     private sealed class MasteryUnit : AbstractUnit
@@ -156,7 +156,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        var control = Aow.Game.Engine.AoWHSSet.Current.FSpellControl;
+        var control = AoWHSSet.Current.FSpellControl;
         control.RegisterSpell(new StoneSkin(null!));
         control.RegisterSpell(new Bless(null!));
         try
@@ -233,11 +233,11 @@ public sealed class ObjectCastCrashTests
     public void ShowRelationsSkipsAnImageAndChecksABox()
     {
         using var scope = new MapScope();
-        var previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
-        var previousSound = Aow.Game.Audio.AudioHost.SoundSystem;
-        Aow.Game.Audio.AudioHost.SoundSystem = null;
-        Aow.Game.Ui.Dialogs.DialogHosts.General = new General(null!);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager = new AOWWinManager(null!);
+        var previousGeneral = DialogHosts.General;
+        var previousSound = AudioHost.SoundSystem;
+        AudioHost.SoundSystem = null;
+        DialogHosts.General = new General(null!);
+        DialogHosts.General.Manager = new AOWWinManager(null!);
         try
         {
             var window = new RecordingRelWindow();
@@ -318,7 +318,7 @@ public sealed class ObjectCastCrashTests
 
             var player = scope.Map.FPlayers.GetPlayers(1);
             player.FPlayerIndex = 1;
-            player.FStatus = Aow.Game.Session.Player.Status.Playing;
+            player.FStatus = Player.Status.Playing;
             scope.Map.FSeatedPlayer = 1;
             window.ShowRelations(1);
             Assert.Equal(1, window.ShowCount);
@@ -328,8 +328,8 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General = previousGeneral;
-            Aow.Game.Audio.AudioHost.SoundSystem = previousSound;
+            DialogHosts.General = previousGeneral;
+            AudioHost.SoundSystem = previousSound;
         }
     }
 
@@ -385,7 +385,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MovingAPlacedBridgeSkipsTheLevelOverlay()
     {
-        AoWHSMap previous = Aow.Game.World.Map.AoWHSMap.Current;
+        AoWHSMap previous = AoWHSMap.Current;
         try
         {
             var map = new AoWHSMap(null!);
@@ -394,11 +394,11 @@ public sealed class ObjectCastCrashTests
             level.CreateMapFieldList(2, 1);
             container.FMap = map;
             map.FMapContainer = container;
-            Aow.Game.World.Map.AoWHSMap.Current = map;
+            AoWHSMap.Current = map;
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);
             var bridge = new Bridge(null!);
-            bridge.FResource = new Aow.Game.World.Bridge.Resource(null!);
+            bridge.FResource = new Bridge.Resource(null!);
             Assert.True(bridge.PlaceHX(container, 0, 0, 0));
             Assert.Same(first, bridge.Owner);
             Assert.True(bridge.PlaceHX(container, 1, 0, 0));
@@ -407,7 +407,7 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            Aow.Game.World.Map.AoWHSMap.Current = previous;
+            AoWHSMap.Current = previous;
         }
     }
 }

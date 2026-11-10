@@ -312,7 +312,7 @@ public partial class PasswordDlg : ILayoutModule
         PasswordEdit.ILIndex = 15;
         PasswordEdit.PassWordChar = 42;
         session.EndRead(PasswordEdit);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -344,20 +344,20 @@ public partial class PasswordDlg : ILayoutModule
         PasswordEdit.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        Dlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        TitleLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        TCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        OKBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        OKBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        CancelBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        CancelBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        PasswordLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        PasswordEdit.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        PasswordEdit.ILEdit = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericE;
+        Dlg.WinManager = DialogHosts.General.Manager;
+        Dlg.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        Dlg.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        TitleLbl.AOWFont = DialogHosts.FontModule.Age10;
+        BCeltL.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        TCeltL.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        TCeltLineL.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        OKBtn.AOWFont = DialogHosts.FontModule.Age10;
+        OKBtn.ILButton = DialogHosts.IntGfxMod.GenericB;
+        CancelBtn.AOWFont = DialogHosts.FontModule.Age10;
+        CancelBtn.ILButton = DialogHosts.IntGfxMod.GenericB;
+        PasswordLbl.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        PasswordEdit.AOWFont = DialogHosts.FontModule.Age10s;
+        PasswordEdit.ILEdit = DialogHosts.IntGfxMod.GenericE;
     }
 
     private void Layout_DlgHide_0()

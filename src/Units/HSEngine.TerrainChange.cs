@@ -6,7 +6,7 @@ namespace Aow.Game.World.Map;
 public partial class HSMap
 {
     // HSMAP.PAS:496. The view combines the two signed terrain bytes as one word.
-    public bool CanChangeTerrain(Aow.Game.World.MapObject sender, int x, int y, int level, TerrainList terrain)
+    public bool CanChangeTerrain(MapObject sender, int x, int y, int level, TerrainList terrain)
     {
         bool result = true;
         var saved = new TerrainList();

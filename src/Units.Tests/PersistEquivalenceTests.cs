@@ -79,14 +79,14 @@ public sealed class PersistEquivalenceTests
             FPlayer = -1,
             FID = int.MinValue,
             FTitle = "Jörg",
-            FLayout = Aow.Game.Events.MessageEventLog.Layout.Header,
-            FButtons = Aow.Game.Events.MessageEventLog.Buttons.YesNoCancel,
+            FLayout = MessageEventLog.Layout.Header,
+            FButtons = MessageEventLog.Buttons.YesNoCancel,
         };
         full.FMessage.Add("one");
         full.FMessage.Add("");
         full.FMessage.Add("two");
         Check("MessageEventLog", full);
-        var edge = new MessageEventLog(null!) { FLayout = (Aow.Game.Events.MessageEventLog.Layout)255, FButtons = (Aow.Game.Events.MessageEventLog.Buttons)255, FTitle = "" };
+        var edge = new MessageEventLog(null!) { FLayout = (MessageEventLog.Layout)255, FButtons = (MessageEventLog.Buttons)255, FTitle = "" };
         edge.FMessage.Add("line");
         Check("MessageEventLog", edge);
     }
@@ -265,12 +265,12 @@ public sealed class PersistEquivalenceTests
     {
         Each<DiplomaticRelation>(value => Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { FDay = 3, FRelation = value }));
         Check("DiplomaticRelationHistoryItem", new DiplomaticRelationHistoryItem(null!) { FRelation = (DiplomaticRelation)255, FDay = int.MinValue });
-        Each<Aow.Game.Commands.ChangeGlobalMagicTE.ChangeGlobalMagicMode>(value => Check("ChangeGlobalMagicTE", new ChangeGlobalMagicTE(null!) { FMode = value, FPlayerIndex = 1, FEnchantmentID = 2, FValue = 3 }));
-        Check("ChangeGlobalMagicTE", new ChangeGlobalMagicTE(null!) { FMode = (Aow.Game.Commands.ChangeGlobalMagicTE.ChangeGlobalMagicMode)255, FPlayerIndex = 255, FEnchantmentID = int.MaxValue, FValue = int.MinValue });
+        Each<ChangeGlobalMagicTE.ChangeGlobalMagicMode>(value => Check("ChangeGlobalMagicTE", new ChangeGlobalMagicTE(null!) { FMode = value, FPlayerIndex = 1, FEnchantmentID = 2, FValue = 3 }));
+        Check("ChangeGlobalMagicTE", new ChangeGlobalMagicTE(null!) { FMode = (ChangeGlobalMagicTE.ChangeGlobalMagicMode)255, FPlayerIndex = 255, FEnchantmentID = int.MaxValue, FValue = int.MinValue });
         Each<GlobalEnchantmentType>(value => Check("GlobalEnchantment", new GlobalEnchantment(null!) { FEnchantmentType = value }));
         Each<ItemType>(value => Check("ItemGFX", new ItemGFX(null!) { FItemType = value }));
-        Each<Aow.Game.Events.MessageEventLog.Layout>(value => Check("MessageEventLog", new MessageEventLog(null!) { FLayout = value }));
-        Each<Aow.Game.Events.MessageEventLog.Buttons>(value => Check("MessageEventLog", new MessageEventLog(null!) { FButtons = value }));
+        Each<MessageEventLog.Layout>(value => Check("MessageEventLog", new MessageEventLog(null!) { FLayout = value }));
+        Each<MessageEventLog.Buttons>(value => Check("MessageEventLog", new MessageEventLog(null!) { FButtons = value }));
         Each<CityEnchantmentID>(value =>
         {
             var control = new GlobalMagicControl(null!);
@@ -317,10 +317,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void ArmyViewCoversBothArrayWidths()
     {
-        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
         map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
-        Aow.Game.World.Map.AoWHSMap.Current = map;
+        AoWHSMap.Current = map;
         try
         {
             Check("Army", new Army(null!));
@@ -347,7 +347,7 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            Aow.Game.World.Map.AoWHSMap.Current = previous!;
+            AoWHSMap.Current = previous!;
             map.Dispose();
         }
     }
@@ -847,17 +847,17 @@ public sealed class PersistEquivalenceTests
 
     private static void WithDestroyingMap(Action<AoWHSMap> body)
     {
-        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
         map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
-        Aow.Game.World.Map.AoWHSMap.Current = map;
+        AoWHSMap.Current = map;
         try
         {
             body(map);
         }
         finally
         {
-            Aow.Game.World.Map.AoWHSMap.Current = previous!;
+            AoWHSMap.Current = previous!;
             map.Dispose();
         }
     }
@@ -925,7 +925,7 @@ public sealed class PersistEquivalenceTests
         throw new InvalidOperationException("The engine has no class " + className + ".");
     }
 
-    private static void Load(EObject obj, byte[] image, Aow.Game.Engine.Storage.EStorageStream.StorageStreamError? onError = null)
+    private static void Load(EObject obj, byte[] image, EStorageStream.StorageStreamError? onError = null)
     {
         using var memory = new MemoryStream();
         memory.Write(image);
@@ -946,7 +946,7 @@ public sealed class PersistEquivalenceTests
     {
         var ability = new Ability(null!);
         ability.FAbilityID = id;
-        var list = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilities;
+        var list = AoWHSSet.Current.FAbilityControl.FAbilities;
         while (id >= list.Count) list.Add(null);
         list[id] = ability;
         return ability;
@@ -954,7 +954,7 @@ public sealed class PersistEquivalenceTests
 
     private static void ReleaseAbility(Ability ability)
     {
-        var list = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.FAbilities;
+        var list = AoWHSSet.Current.FAbilityControl.FAbilities;
         int id = ability.FAbilityID;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability)) list[id] = null;
         ability.Dispose();

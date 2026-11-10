@@ -149,8 +149,8 @@ public partial class HexagonBridge : AbstractRoad
                 for (int I = 0, last = FSideB.Count - 1; I <= last; I++)
                 {
                     var sideB = FSideB[I];
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, sideB, ref Xhx, ref Yhx);
-                    MapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((global::Aow.Game.World.Map.MapField)Owner).Lhx);
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, sideB, ref Xhx, ref Yhx);
+                    MapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((MapField)Owner).Lhx);
                     ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)MapField, ((MoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                 }
             }
@@ -161,8 +161,8 @@ public partial class HexagonBridge : AbstractRoad
                     for (int I = 0, last = FSideA.Count - 1; I <= last; I++)
                     {
                         var sideA = FSideA[I];
-                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, sideA, ref Xhx, ref Yhx);
-                        MapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((global::Aow.Game.World.Map.MapField)Owner).Lhx);
+                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, sideA, ref Xhx, ref Yhx);
+                        MapField = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(Xhx, Yhx, ((MapField)Owner).Lhx);
                         ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)MapField, ((MoveControl)Info.Sender).FMovePointTable[MapField.TerrainType][MapField.OverlayType - -1]);
                     }
                 }
@@ -187,7 +187,7 @@ public partial class HexagonBridge : AbstractRoad
     }
 
     // HxBridge.pas:94
-    public override bool LinkToResource(global::Aow.Game.Engine.Engine AEngine)
+    public override bool LinkToResource(Engine.Engine AEngine)
     {
         bool Result = base.LinkToResource(AEngine);
         FTerrain = FResource.TerrainList.Terrain[0];
@@ -216,11 +216,11 @@ public partial class HexagonBridge : AbstractRoad
 
         ECustomNode previous = Owner;
         Owner = MapField;
-        FStatus = FStatus + Set<Aow.Game.World.MapObjectStatusElement>.Of(Aow.Game.World.MapObjectStatusElement.PlacedOnMap);
+        FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         FTerrain = MapField.TerrainType;
         // { Original bug: refresh the old owner's owner as a map field. }
         // FOwner lives on TEObject, so the old owner has it. A nil owner or a non-field owner is undefined in the original, so skip it.
-        if (previous?.Owner is global::Aow.Game.World.Map.MapField field)
+        if (previous?.Owner is MapField field)
         {
             field.UpdateOverlayType();
         }
@@ -417,7 +417,7 @@ public partial class HexagonBridge : AbstractRoad
         // HxBridge.pas:49
 
         // HxBridge.pas:343
-        public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
+        public override string ResourceEditName() => HexText.BridgeStr;
 
     }
 

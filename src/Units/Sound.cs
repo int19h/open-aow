@@ -13,8 +13,8 @@ public enum SoundOutputModeElement : byte
 {
     Mono = 0,
     Stereo = 1,
-    om8bit = 2,
-    om16bit = 3,
+    Bits8 = 2,
+    Bits16 = 3,
     HighQuality = 4
 }
 
@@ -38,7 +38,7 @@ public partial class Sample : IDisposable
     public static SampleClass Descriptor { get; } = new("Sample", Create);
 
     internal int FDelay;
-    internal global::Aow.Game.Audio.SampleData FSampleData;
+    internal SampleData FSampleData;
     internal SampleCallBack FCallBack;
     internal Set<StatusElement> FStatus;
 
@@ -107,7 +107,7 @@ public partial class Sample : IDisposable
     }
 
     // Sound.pas:727
-    protected Sample(ConstructionContext context, global::Aow.Game.Audio.SampleData ASampleData)
+    protected Sample(ConstructionContext context, SampleData ASampleData)
     {
         CaptureAddress.Assign(this);
         context.Capture(this);
@@ -157,7 +157,7 @@ public partial class Sample : IDisposable
         }
     }
 
-    public global::Aow.Game.Audio.SampleData SampleData { get => FSampleData; }
+    public SampleData SampleData { get => FSampleData; }
     public int Delay { get => FDelay; set => FDelay = value; }
     public SampleCallBack CallBack { get => FCallBack; set => FCallBack = value; }
     public Set<StatusElement> Status { get => FStatus; }
@@ -167,7 +167,7 @@ public partial class Sample : IDisposable
     public SamplePanning Panning { get => GetPanning(); set => SetPanning(value); }
 
     // Sound.pas:89
-    public static Sample Create(global::Aow.Game.Audio.SampleData data) =>
+    public static Sample Create(SampleData data) =>
         ConstructionContext.Create(data, static (context, value) => new Sample(context, value));
 
     public enum StatusElement : byte
@@ -193,7 +193,7 @@ public partial class SongStatus
     internal static bool RestoreSongStatus(SongStatus Status)
     {
         bool Result;
-        if (Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
             Result = Aow.Game.Audio.AudioHost.SoundSystem.RestoreSongStatus(Status);
         }
@@ -309,7 +309,7 @@ public partial class SampleData : IDisposable
     public static Sample CreateSample(SampleData SampleData)
     {
         Sample Result;
-        if (Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
             Result = Aow.Game.Audio.AudioHost.SoundSystem.SampleClass().Create(SampleData);
         }
@@ -529,13 +529,13 @@ public partial class SFXList : StringList
 
 // FSearchPath, FSFX. ExecutePathSearch lists every wave file under a directory (with its
 // subdirectories) relative to the search path
-public partial class SFXManager : global::Aow.Rtl.Component
+public partial class SFXManager : Component
 {
     internal string FSearchPath = "";
     internal SFXList FSFX;
 
     // Sound.pas:407
-    public SFXManager(global::Aow.Rtl.Component owner) : base(owner)
+    public SFXManager(Component owner) : base(owner)
     {
         FSFX = new SFXList();
     }
@@ -563,7 +563,7 @@ public partial class SFXManager : global::Aow.Rtl.Component
             SearchRec SR = default;
             StringList Dirs;
             bool Found;
-            Found = FindFirst(FSearchPath + Dir + "*." + Aow.Game.Audio.SFXManager.SFXExtension, 63 & ~16, ref SR) == 0;
+            Found = FindFirst(FSearchPath + Dir + "*." + SFXExtension, 63 & ~16, ref SR) == 0;
             while (Found)
             {
                 FSFX.Add(UpperCase(Dir + SR.Name));
@@ -603,7 +603,7 @@ public partial class SFXManager : global::Aow.Rtl.Component
         SetCurrentDir(Path);
         Search("");
         SetCurrentDir(OldDir);
-        FSearchPath = UpperCase(ExtractRelativePath(Aow.Game.Audio.AudioHost.BaseSoundEnginePath, FSearchPath));
+        FSearchPath = UpperCase(ExtractRelativePath(AudioHost.BaseSoundEnginePath, FSearchPath));
     }
 
     [Published]
@@ -619,13 +619,13 @@ public partial class SFXManager : global::Aow.Rtl.Component
 // FSFXManager, FSubDirectory, FSkipDirectories ('.'-separated), FEmptySFXName
 public partial class SFXManagerComboBox : ComboBox
 {
-    internal global::Aow.Game.Audio.SFXManager FSFXManager;
+    internal SFXManager FSFXManager;
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptySFXName = "";
 
     // Sound.pas:472
-    internal void SetSFXManager(global::Aow.Game.Audio.SFXManager Value)
+    internal void SetSFXManager(SFXManager Value)
     {
         FSFXManager = Value;
         GenerateItems();
@@ -657,7 +657,7 @@ public partial class SFXManagerComboBox : ComboBox
 
     // Sound.pas:485
 
-    public SFXManagerComboBox(global::Aow.Rtl.Component owner) : base(owner)
+    public SFXManagerComboBox(Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -675,7 +675,7 @@ public partial class SFXManagerComboBox : ComboBox
     public string SFXName { get => GetSFXName(); set => SetSFXName(value); }
 
     [Published]
-    public global::Aow.Game.Audio.SFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
+    public SFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
 
     [Published]
     public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
@@ -690,13 +690,13 @@ public partial class SFXManagerComboBox : ComboBox
 // FSFXManager, FSubDirectory, FSkipDirectories, FEmptySFXName. The same as the combo box
 public partial class SFXManagerListBox : ListBox
 {
-    internal global::Aow.Game.Audio.SFXManager FSFXManager;
+    internal SFXManager FSFXManager;
     internal string FSubDirectory = "";
     internal string FSkipDirectories = "";
     internal string FEmptySFXName = "";
 
     // Sound.pas:566
-    internal void SetSFXManager(global::Aow.Game.Audio.SFXManager Value)
+    internal void SetSFXManager(SFXManager Value)
     {
         FSFXManager = Value;
         GenerateItems();
@@ -728,7 +728,7 @@ public partial class SFXManagerListBox : ListBox
 
     // Sound.pas:579
 
-    public SFXManagerListBox(global::Aow.Rtl.Component owner) : base(owner)
+    public SFXManagerListBox(Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -744,7 +744,7 @@ public partial class SFXManagerListBox : ListBox
     public string SFXName { get => GetSFXName(); set => SetSFXName(value); }
 
     [Published]
-    public global::Aow.Game.Audio.SFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
+    public SFXManager SFXManager { get => FSFXManager; set => SetSFXManager(value); }
 
     [Published]
     public string SubDirectory { get => FSubDirectory; set => SetSubDirectory(value); }
@@ -801,7 +801,7 @@ public partial class Songlist : EObject
     public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
+        if (!Stream.StorageMode().Contains(EngineServices.smText))
         {
             Stream.rwStrings(FSongs, 10);
         }
@@ -828,7 +828,7 @@ public partial class Songlist : EObject
             Path = Path + "\\";
         }
 
-        FullPath = Aow.Game.Audio.AudioHost.BaseSoundEnginePath + Path;
+        FullPath = AudioHost.BaseSoundEnginePath + Path;
         FSongs.BeginUpdate();
         Found = FindFirst(FullPath + "*." + Ext, 63 & ~16, ref SR) == 0;
         while (Found)
@@ -907,7 +907,7 @@ public partial class SongPlayer : IDisposable
             }
             else
             {
-                if (Aow.Game.Audio.AudioHost.SoundSystem != null)
+                if (AudioHost.SoundSystem != null)
                 {
                     Aow.Game.Audio.AudioHost.SoundSystem.StopSong();
                 }
@@ -939,7 +939,7 @@ public partial class SongPlayer : IDisposable
     // { Called every tick (ProcessSound): starts the next song when the last one has ended. }
     public void Update()
     {
-        if (Aow.Game.Audio.AudioHost.SoundSystem != null && FStatus.Contains(StatusElement.Playing) && !FStatus.Contains(StatusElement.Paused) && !Aow.Game.Audio.AudioHost.SoundSystem.PlayingSong && Aow.Game.Audio.AudioHost.SoundSystem.MusicEnabled)
+        if (AudioHost.SoundSystem != null && FStatus.Contains(StatusElement.Playing) && !FStatus.Contains(StatusElement.Paused) && !AudioHost.SoundSystem.PlayingSong && AudioHost.SoundSystem.MusicEnabled)
         {
             FCurrentIndex += 1;
             if (FSongs.Count <= FCurrentIndex)
@@ -963,7 +963,7 @@ public partial class SongPlayer : IDisposable
     public bool PlayEx(int Index, int FadeOut, int FadeIn)
     {
         bool Result;
-        if (Aow.Game.Audio.AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        if (AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
             FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
             var item = FSongs[Index];
@@ -995,7 +995,7 @@ public partial class SongPlayer : IDisposable
     public bool Play(int Index)
     {
         bool Result;
-        if (Aow.Game.Audio.AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
+        if (AudioHost.SoundSystem != null && Index >= 0 && Index < FSongs.Count)
         {
             FStatus = FStatus + Set<StatusElement>.Of(StatusElement.Playing);
             var item = FSongs[Index];
@@ -1027,7 +1027,7 @@ public partial class SongPlayer : IDisposable
     public bool Stop(bool StopMusic)
     {
         bool Result;
-        if (Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
             if (StopMusic)
             {
@@ -1124,7 +1124,7 @@ public partial class SFX : EObject
     public override void ReadWrite(EStorageStream Stream)
     {
         base.ReadWrite(Stream);
-        if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
+        if (!Stream.StorageMode().Contains(EngineServices.smText))
         {
             Stream.rwString(ref FFileName, 5);
         }
@@ -1158,7 +1158,7 @@ public partial class SFXSequence : ENode
     }
 
     // Sound.pas:1052
-    public global::Aow.Game.Audio.SFX GetSFX(int Index) => (global::Aow.Game.Audio.SFX)this.FChildren.List[Index];
+    public SFX GetSFX(int Index) => (SFX)this.FChildren.List[Index];
 
     // Sound.pas:1063
     public Sample Play()
@@ -1167,7 +1167,7 @@ public partial class SFXSequence : ENode
         if (this.FChildren.Count != 0)
         {
             var random = Random(this.FChildren.Count);
-            Result = ((global::Aow.Game.Audio.SFX)this.FChildren.List[random]).Play();
+            Result = ((SFX)this.FChildren.List[random]).Play();
         }
         else
         {
@@ -1184,7 +1184,7 @@ public partial class SFXSequence : ENode
         if (this.FChildren.Count != 0)
         {
             var random = Random(this.FChildren.Count);
-            Result = ((global::Aow.Game.Audio.SFX)this.FChildren.List[random]).PlayEx(Volume, Looped, Delay, Panning, CallBack);
+            Result = ((SFX)this.FChildren.List[random]).PlayEx(Volume, Looped, Delay, Panning, CallBack);
         }
         else
         {
@@ -1198,7 +1198,7 @@ public partial class SFXSequence : ENode
 
     public sealed class SFXAccessor(SFXSequence target)
     {
-        public global::Aow.Game.Audio.SFX this[int Index] { get => target.GetSFX(Index); }
+        public SFX this[int Index] { get => target.GetSFX(Index); }
     }
 
     public SFXAccessor SFX => new SFXAccessor(this);

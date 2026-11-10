@@ -126,26 +126,26 @@ public static class PixelFormats
 
     internal static Span<ushort> Words(Span<byte> row) => MemoryMarshal.Cast<byte, ushort>(row);
 
-    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, GFXEPalette Palette) => Aow.Game.Draw.PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, Aow.Game.Draw.PixelFormats.pfBGR24, null);
+    internal static int PixelInfo2Color(int PixelInfo, int PixelFormatID, GFXEPalette Palette) => Aow.Game.Draw.PixelRemap.RemapPixelInfo(PixelInfo, PixelFormatID, Palette, pfBGR24, null);
 
     internal static string GetErrorMsg(int ErrorCode)
     {
         string Result;
         switch (ErrorCode)
         {
-            case Aow.Game.Draw.PixelFormats.GFXE_OK:
+            case GFXE_OK:
                 Result = "No ERROR occurred!";
                 break;
-            case Aow.Game.Draw.PixelFormats.GFXE_ERROR:
+            case GFXE_ERROR:
                 Result = "Undefine ERROR occurred";
                 break;
-            case Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED:
+            case GFXE_NOTSUPPORTED:
                 Result = "Function is not supported";
                 break;
-            case Aow.Game.Draw.PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED:
+            case GFXE_PIXELFORMATNOTSUPPORTED:
                 Result = "PixelFormat is not supported";
                 break;
-            case Aow.Game.Draw.PixelFormats.GFXE_BITMAPFORMATNOTSUPPORTED:
+            case GFXE_BITMAPFORMATNOTSUPPORTED:
                 Result = "Bitmap format is not supported";
                 break;
             default:
@@ -158,13 +158,13 @@ public static class PixelFormats
 
     internal static void ForceOptimal16BitPixelFormatID(int PixelFormatID)
     {
-        if (PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB565 || PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555)
+        if (PixelFormatID == pfRGB565 || PixelFormatID == pfRGB555)
         {
-            Aow.Game.Draw.GfxState.ForcedPixelFormatID = PixelFormatID;
+            GfxState.ForcedPixelFormatID = PixelFormatID;
         }
         else
         {
-            Aow.Game.Draw.GfxState.ForcedPixelFormatID = 0;
+            GfxState.ForcedPixelFormatID = 0;
         }
     }
 
@@ -200,24 +200,24 @@ public static class PixelFormats
         int r = Color & 255, g = (Color >> 8) & 255, b = (Color >> 16) & 255;
         return PixelFormatID switch
         {
-            Aow.Game.Draw.PixelFormats.pfPAL8 => Palette is null ? throw new InvalidOperationException("Palette required") : Palette.GetNearestColor(Color),
-            Aow.Game.Draw.PixelFormats.pfRGB555 or Aow.Game.Draw.PixelFormats.pfARGB1555 => ((r & 248) << 7) + ((g & 248) << 2) + (b >> 3),
-            Aow.Game.Draw.PixelFormats.pfRGB565 => ((r & 248) << 8) + ((g & 252) << 3) + (b >> 3),
-            Aow.Game.Draw.PixelFormats.pfRGB24 or Aow.Game.Draw.PixelFormats.pfRGB32 or Aow.Game.Draw.PixelFormats.pfXRGB32 => (r << 16) + (g << 8) + b,
-            Aow.Game.Draw.PixelFormats.pfBGR24 => Color & 0xFFFFFF,
+            pfPAL8 => Palette is null ? throw new InvalidOperationException("Palette required") : Palette.GetNearestColor(Color),
+            pfRGB555 or pfARGB1555 => ((r & 248) << 7) + ((g & 248) << 2) + (b >> 3),
+            pfRGB565 => ((r & 248) << 8) + ((g & 252) << 3) + (b >> 3),
+            pfRGB24 or pfRGB32 or pfXRGB32 => (r << 16) + (g << 8) + b,
+            pfBGR24 => Color & 0xFFFFFF,
             _ => throw new NotSupportedException("Pixel format")
         };
     }
 
-    public static int ColorFillSD(global::Aow.Rtl.Rect R, int Color, in SurfaceDesc SD)
+    public static int ColorFillSD(Rect R, int Color, in SurfaceDesc SD)
     {
-        if (SD.PixelFormatID != Aow.Game.Draw.PixelFormats.pfRGB555 && SD.PixelFormatID != Aow.Game.Draw.PixelFormats.pfARGB1555 && SD.PixelFormatID != Aow.Game.Draw.PixelFormats.pfRGB565) return Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+        if (SD.PixelFormatID != pfRGB555 && SD.PixelFormatID != pfARGB1555 && SD.PixelFormatID != pfRGB565) return GFXE_NOTSUPPORTED;
         int left = Math.Max(R.Left, SD.ClipRect.Left), right = Math.Min(R.Right, SD.ClipRect.Right);
         int top = Math.Max(R.Top, SD.ClipRect.Top), bottom = Math.Min(R.Bottom, SD.ClipRect.Bottom);
-        if (left >= right || top >= bottom) return Aow.Game.Draw.PixelFormats.GFXE_OK;
+        if (left >= right || top >= bottom) return GFXE_OK;
         int pixel = Aow.Game.Draw.PixelFormats.Color2PixelInfo(Color, SD.PixelFormatID, null);
         for (int y = top; y < bottom; y++) Blit.FillWord(SD.Data.AsSpan(SD.DataIndex + y * SD.Pitch + left * 2), right - left, pixel);
-        return Aow.Game.Draw.PixelFormats.GFXE_OK;
+        return GFXE_OK;
     }
 
 }

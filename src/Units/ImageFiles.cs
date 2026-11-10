@@ -12,14 +12,14 @@ internal static class ImageFiles
     internal static string GetImageFilesFilter()
     {
         string Result = "";
-        for (int I = 0, last = Aow.Game.Draw.GfxState.ImageFileClassList.Count - 1; I <= last; I++)
+        for (int I = 0, last = GfxState.ImageFileClassList.Count - 1; I <= last; I++)
         {
             if (!IsEmpty(Result))
             {
                 Result = Result + "|";
             }
 
-            Result = Result + Aow.Game.Draw.GfxState.ImageFileClassList.Classes[I].Description + "|*." + Aow.Game.Draw.GfxState.ImageFileClassList.Classes[I].Extension;
+            Result = Result + GfxState.ImageFileClassList.Classes[I].Description + "|*." + GfxState.ImageFileClassList.Classes[I].Extension;
         }
 
         return Result;
@@ -37,7 +37,7 @@ internal static class ImageFiles
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+            Result = PixelFormats.GFXE_NOTSUPPORTED;
         }
 
         return Result;

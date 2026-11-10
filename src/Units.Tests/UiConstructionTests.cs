@@ -14,11 +14,11 @@ namespace Aow.Units.Tests;
 [EngineState]
 public sealed class UiConstructionTests
 {
-    private sealed class ComponentOwner : global::Aow.Rtl.Component
+    private sealed class ComponentOwner : Component
     {
         internal readonly List<string> Observations = [];
 
-        public override void Notification(global::Aow.Rtl.Component child, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component child, Aow.Rtl.Component.Operation operation)
         {
             if (operation == Aow.Rtl.Component.Operation.Insert) Observations.Add(Snapshot(child));
             base.Notification(child, operation);
@@ -27,31 +27,31 @@ public sealed class UiConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
-        private readonly Aow.Game.Combat.AoWCombatMap previousCombat = Aow.Game.Combat.AoWCombatMap.Current;
+        private readonly AoWEngine previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSMap previousMap = AoWHSMap.Current;
+        private readonly Game.Combat.AoWCombatMap previousCombat = Game.Combat.AoWCombatMap.Current;
         private readonly EventStore<HSMap> loaded;
         private readonly EventStore<HSMap> closed;
 
         internal Fixture()
         {
-            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
-            loaded = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore;
-            closed = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<HSMap>();
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<HSMap>();
-            Aow.Game.World.Map.AoWHSMap.Current = null!;
-            Aow.Game.Combat.AoWCombatMap.Current = null!;
+            if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+            loaded = Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore;
+            closed = Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore;
+            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = new EventStore<HSMap>();
+            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = new EventStore<HSMap>();
+            AoWHSMap.Current = null!;
+            Game.Combat.AoWCombatMap.Current = null!;
         }
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = loaded;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = closed;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
-            Aow.Game.Combat.AoWCombatMap.Current = previousCombat;
+            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore = loaded;
+            Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore = closed;
+            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            AoWHSMap.Current = previousMap;
+            Game.Combat.AoWCombatMap.Current = previousCombat;
         }
     }
 
@@ -166,8 +166,8 @@ public sealed class UiConstructionTests
         "Aow.Game.Ui.Dialogs.RelWindow",
         "Aow.Game.Ui.Dialogs.ResultsWin",
         "Aow.Game.Ui.Dialogs.SMTPDlg",
-        "Aow.Game.Net.TmsMessage",
-        "Aow.Game.Net.TmsSMTP",
+        "Aow.Game.Net.MailMessage",
+        "Aow.Game.Net.SmtpSender",
         "Aow.Game.Ui.Dialogs.SWindow",
         "Aow.Game.Ui.Dialogs.ScenSetup",
         "Aow.Game.Ui.Dialogs.SelFactionWin",
@@ -176,9 +176,9 @@ public sealed class UiConstructionTests
         "Aow.Game.Ui.Dialogs.SoundDlg",
         "Aow.Game.Ui.Dialogs.SpellBook",
         "Aow.Game.Ui.Dialogs.SynchronizeDlg",
-        "Aow.Game.Ui.Dialogs.TBWindow",
-        "Aow.Game.Ui.Dialogs.TCScanner",
-        "Aow.Game.Ui.Dialogs.TCUnit",
+        "Aow.Game.Ui.Dialogs.TaskBar",
+        "Aow.Game.Ui.Dialogs.CombatScanner",
+        "Aow.Game.Ui.Dialogs.CombatUnitInfo",
         "Aow.Game.Ui.Controls.AOWTabPanel",
         "Aow.Game.Ui.Dialogs.TargetSelectionDlg",
         "Aow.Game.Ui.Dialogs.TitleScene",
@@ -207,13 +207,13 @@ public sealed class UiConstructionTests
         "Aow.Game.Engine.PlugInManager",
         "Aow.Game.Ui.Grids.Scanner",
         "Aow.Game.Ui.Windows.StartMenu",
-        "Aow.Game.Ui.Dialogs.TCFCDialog",
+        "Aow.Game.Ui.Dialogs.CombatChoice",
         "Aow.Game.Ui.Grids.AOWTurnButton",
         "Aow.Game.Ui.Dialogs.HelpWindow",
         "Aow.Game.Ui.Dialogs.IntGfxMod",
         "Aow.Game.Ui.Dialogs.MapEvents",
         "Aow.Game.Ui.Dialogs.SetupEvents",
-        "Aow.Game.Ui.Dialogs.TCMapEvents",
+        "Aow.Game.Ui.Dialogs.CombatMapEvents",
         "Aow.Game.Ui.Controls.TaowUserDrawBox",
     ];
 
@@ -222,8 +222,8 @@ public sealed class UiConstructionTests
     [Fact]
     public void InheritOnlyLineHasItsOwnCompletedOwnerConstructor()
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
-        var line = new Aow.Game.Ui.Controls.AoWLenLine(owner);
+        using var owner = new Component(null!);
+        var line = new AoWLenLine(owner);
         Assert.Same(owner, line.Owner);
         Assert.Same(line, owner.Components[0]);
         Assert.True(line.FVisible);
@@ -236,14 +236,14 @@ public sealed class UiConstructionTests
         Assert.Equal(0, owner.ComponentCount);
     }
 
-    private static global::Aow.Rtl.Component Direct(Type type, global::Aow.Rtl.Component? owner)
+    private static Component Direct(Type type, Component? owner)
     {
         try
         {
-            var constructor = type.GetConstructor([typeof(global::Aow.Rtl.Component)]);
-            if (constructor is not null) return (global::Aow.Rtl.Component)constructor.Invoke([owner]);
-            var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(global::Aow.Rtl.Component)]);
-            if (factory is not null) return (global::Aow.Rtl.Component)factory.Invoke(null, [owner])!;
+            var constructor = type.GetConstructor([typeof(Component)]);
+            if (constructor is not null) return (Component)constructor.Invoke([owner]);
+            var factory = type.GetMethod("Create", BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly, [typeof(Component)]);
+            if (factory is not null) return (Component)factory.Invoke(null, [owner])!;
             throw new InvalidOperationException(type.FullName + " has no completed owner entry.");
         }
         catch (TargetInvocationException error) when (error.InnerException is not null)
@@ -263,7 +263,7 @@ public sealed class UiConstructionTests
             using var fixture = new Fixture();
             var owner = owned == 0 ? null : new ComponentOwner();
             var states = new List<string>();
-            global::Aow.Rtl.Component? value = null;
+            Component? value = null;
             try
             {
                 value = Direct(type, owner);
@@ -279,7 +279,7 @@ public sealed class UiConstructionTests
             }
             states.Add("owner:" + (owner?.ComponentCount ?? 0));
             if (owner is not null) states.Add(JsonSerializer.Serialize(owner.Observations));
-            states.Add("subscriptions:" + Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore.Count + ":" + Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore.Count);
+            states.Add("subscriptions:" + Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoadedStore.Count + ":" + Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMCloseStore.Count);
             string actual = string.Join("\n", states);
             string key = name + ".owner" + owned;
             ConstructionSnapshot.Check("UiConstruction", key, actual);

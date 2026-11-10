@@ -58,10 +58,10 @@ public sealed class EClassTests
     [Fact]
     public void EngineRegisteredSetsMatchTheSnapshot()
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         using var engine = new Engine(null!);
         var engines = new List<Engine> { engine };
-        foreach (var other in Aow.Game.Engine.Nodes.EngineHost.Engines!.List.OfType<Engine>())
+        foreach (var other in EngineHost.Engines!.List.OfType<Engine>())
             if (!ReferenceEquals(other, engine)) engines.Add(other);
         Assert.Contains(EClass.Of<EControlStyleObject>(), ProductRegistered(engine));
         foreach (var registered in engines)
@@ -141,8 +141,8 @@ public sealed class EClassTests
     {
         // The static class references of inc/Combat.pas evaluate during type initialization, after
         // the module initializer filled the registry.
-        Assert.Equal(typeof(CommandAbilityData), Aow.Game.Magic.Abilities.CommandAbility.P4CommandDataClass.Type);
-        Assert.Equal(EClass.Of<CommandAbilityData>().ClassID, Aow.Game.Magic.Abilities.CommandAbility.P4CommandDataClass.ClassID);
+        Assert.Equal(typeof(CommandAbilityData), CommandAbility.P4CommandDataClass.Type);
+        Assert.Equal(EClass.Of<CommandAbilityData>().ClassID, CommandAbility.P4CommandDataClass.ClassID);
     }
 
     private sealed class Unregistered : EObject

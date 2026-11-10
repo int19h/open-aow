@@ -15,16 +15,16 @@ of the port is written from that format document, not transpiled.
 1. The port implements the dictionary and the translator itself: a reader for the format, the
    lookup the original performs (an exact, case-sensitive binary search over the loaded column),
    and the component walk the translator performs after a form loads. These replace the four stub
-   units under their original class names (`TIvDictionary`, `TIvBinaryDictionary`,
-   `TIvCustomTranslator`, `TIvTranslator`), so the transpiled callers (`TAoWDictionary`,
-   `TAoWEngine`, the 62 translator components) compile unchanged.
+   units under their original class names (`IvDictionary` (Delphi `TIvDictionary`), `IvBinaryDictionary` (Delphi `TIvBinaryDictionary`),
+   `IvCustomTranslator` (Delphi `TIvCustomTranslator`), `IvTranslator` (Delphi `TIvTranslator`)), so the transpiled callers (`AoWDictionary` (Delphi `TAoWDictionary`),
+   `AoWEngine` (Delphi `TAoWEngine`), the 62 translator components) compile unchanged.
 2. English is exact by construction. Across the 6,683 entries of the eight dictionaries exactly one
    English translation differs from its source, `Undead(plural)` to `Undead` in `ResStr.mld`, and
    `TranslateRStr` hard-codes the same substitution for language 0. The port loads `ResStr.mld` at
    startup as the original does and translates through it; the result for English players is the
    source text everywhere plus that one substitution, which is what the shipped game shows.
 3. The four other languages are offered as a setting. The shipped code forces English twice
-   (`TAoWEngine.Create` maps every language to 1, `TAoWRegistry.GetLanguage` returns `alEnglish`
+   (`AoWEngine.Create` maps every language to 1, `AoWRegistry.GetLanguage` (Delphi `TAoWRegistry`) returns `alEnglish`
    after reading the setting), although the dictionaries carry complete German, French, Italian and
    Spanish columns and the map, campaign and ability loaders already pass the registry's language
    through. The port keeps the forced behavior as the default and adds a `Language` setting that,
@@ -51,11 +51,11 @@ translation is an empty string. The parser consumes every byte of every file.
 
 | file | entries | used by | what it holds |
 |---|---:|---|---|
-| `ResStr.mld` | 1,164 | `TAoWEngine` at startup, through `TranslateRStr` (987 calls in AoWEPACK, 514 in AoW, 8 in AoWTCPCK) | the resource strings of the code; 358 of the 368 distinct `resourcestring` values of the recovered source, the rest belong to the editor |
+| `ResStr.mld` | 1,164 | `AoWEngine` at startup, through `TranslateRStr` (987 calls in AoWEPACK, 514 in AoW, 8 in AoWTCPCK) | the resource strings of the code; 358 of the 368 distinct `resourcestring` values of the recovered source, the rest belong to the editor |
 | `Release.mld` | 917 | `TAbilityControl` loading (`Ability.PAS:202`) | ability and release texts |
-| `CampMaps.mld`, `CustMaps.mld` | 1,166, 1,107 | `TAoWHSMap.MainReadWrite` on a day-0 read, campaign or custom by `FGameType` | map texts: names, descriptions, messages |
+| `CampMaps.mld`, `CustMaps.mld` | 1,166, 1,107 | `AoWHSMap.MainReadWrite` (Delphi `TAoWHSMap`) on a day-0 read, campaign or custom by `FGameType` | map texts: names, descriptions, messages |
 | `Campaign.mld` | 394 | `TAoWCampaign` loading (`Army.PAS:6072`) | campaign texts |
-| `AoW.mld` | 1,095 | the 62 `TIvTranslator` components of `AoW.exe`'s forms (`DictionaryName = 'AoW'`) | form texts with form class and component context; all 1,027 context rows match the recovered form files |
+| `AoW.mld` | 1,095 | the 62 `IvTranslator` components of `AoW.exe`'s forms (`DictionaryName = 'AoW'`) | form texts with form class and component context; all 1,027 context rows match the recovered form files |
 | `AoWSetup.mld`, `AoWEd.mld` | 75, 765 | the setup program and the editor | out of scope |
 
 Known defects in the shipped data, which the port reproduces by using the files as they are: two
@@ -85,18 +85,18 @@ the column to keep; after `Open` the dictionary reloads.
 
 All three are transpiled code; the port only supplies the dictionary classes under them.
 
-1. Resource strings. `TAoWEngine.TranslateRStr(S)` returns `FDictionary.Translate(S)` when the
+1. Resource strings. `AoWEngine.TranslateRStr(S)` returns `FDictionary.Translate(S)` when the
    dictionary's language is above 0, otherwise `S`, except that `P2UndeadPluralRStr` becomes
    `P2UndeadRStr`. `FDictionary` is opened on `ResStr.mld` in `UpdateStartupDirectory`. Every
    user-visible string of the rules and the executable passes through it (1,509 call sites).
-2. Object texts. `TTranslateStorageStream` (Engine) walks an object tree as a read-mode storage
+2. Object texts. `TranslateStorageStream` (Delphi `TTranslateStorageStream`) (Engine) walks an object tree as a read-mode storage
    stream whose `rwString` and `rwStrings` translate in place instead of reading;
-   `TTranslateTextStream` (AoWEPACK) binds it to a dictionary, joining string lists with `<eol>`
+   `TranslateTextStream` (Delphi `TTranslateTextStream`) (AoWEPACK) binds it to a dictionary, joining string lists with `<eol>`
    for the lookup and splitting the result on `<eol>` or line feeds. `TranslateEObjectFromFile(Obj,
-   File)` opens a `TAoWDictionary` on the file, sets the language from `FRegistry.GetLanguage`
+   File)` opens a `AoWDictionary` on the file, sets the language from `FRegistry.GetLanguage`
    (`alEnglish` is 1, `alGerman` 2, `alFrench` 3, `alItalian` 4, `alSpanish` 5), translates, and
    closes. Maps call it at the end of a day-0 read, abilities at load, the campaign at load.
-3. Form texts. Each module's `TIvTranslator` (`ui-layout.md` section 6) carries `DictionaryName`
+3. Form texts. Each module's `IvTranslator` (`ui-layout.md` section 6) carries `DictionaryName`
    and `TargetsData`, the list of property names to translate per class (`Items`, `Text`,
    `ToolTipText` in the game's forms). After the module loads, `Translate` walks the module's
    components and, for each listed string property, replaces the value by the context lookup
@@ -110,9 +110,9 @@ running the same code over the same files.
 ## 5. The language setting
 
 `Language` under `General` (`platform.md` section 8) is 0 automatic, 1 English, 2 German, 3
-French, 4 Italian, 5 Spanish (`TAoWLanguage`). With the default (English, or automatic) the
+French, 4 Italian, 5 Spanish (`AoWLanguage` (Delphi `TAoWLanguage`)). With the default (English, or automatic) the
 transpiled forcing code runs as shipped. With another value two overrides apply:
-`TAoWRegistry.GetLanguage` returns the setting, and the language table in `TAoWEngine.Create`
+`AoWRegistry.GetLanguage` returns the setting, and the language table in `AoWEngine.Create`
 maps each language to its own column. `TranslateEObjectFromFile` and the translators then follow,
 because they already read the registry. Two consequences the port states in its settings
 description: the fonts of the English release have no glyphs for some accented characters of the
@@ -129,11 +129,11 @@ maps it to English unless the system language is one of the four others.
 - `MldDictionary`: the reader (header, language records, entries, trailer) with the byte-exact
   validation `mld_dump.py check` performs; `Open`, `Close`, `SetLanguage`, `Translate(S)`,
   `TranslateContext(S, Form, Component)` with the sort and search of section 3.
-- `TIvDictionary`, `TIvBinaryDictionary`: the component shells the transpiled `TAoWDictionary`
+- `IvDictionary`, `IvBinaryDictionary`: the component shells the transpiled `AoWDictionary`
   derives from, with `FFileName`, `FLanguage`, `SetDictionaryName`, `Open`, `Close`, `SetLanguage`,
   `Translate`, backed by one `MldDictionary`. `SetDictionaryName('ResourceStringDictionary')` is the
   name the engine gives its dictionary before `UpdateStartupDirectory` sets the file.
-- `TIvCustomTranslator`, `TIvTranslator`: the component the forms create, with `DictionaryName`,
+- `IvCustomTranslator`, `IvTranslator`: the component the forms create, with `DictionaryName`,
   `TargetsData` (read from the form file's list), and `Translate`, which the form loader calls
   after a module's `OnCreate` as the original translator did when its owner finished loading. A
   dictionary named `'AoW'` resolves to `Dict\AoW.mld` under the startup directory.

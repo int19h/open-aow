@@ -72,7 +72,7 @@ public static class AbilityRules
 
     internal static string TranslateRStr(string S)
     {
-        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine != null)
+        if (GameTables.AoWEngine != null)
         {
             return Aow.Game.Magic.Abilities.GameTables.AoWEngine.TranslateRStr(S);
         }
@@ -317,16 +317,16 @@ public static class AbilityRules
 
     internal static void ShowDamageIcon(int X, int Y, in SurfaceDesc Surface, int Damage, DamageType DamageType)
     {
-        if (DamageType != global::Aow.Game.Combat.DamageType.None)
+        if (DamageType != Combat.DamageType.None)
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[(int)DamageType + 10].Show(X + 15, Y + 10, Surface);
-            if (Set<global::Aow.Game.Combat.DamageType>.Of(global::Aow.Game.Combat.DamageType.Cold, global::Aow.Game.Combat.DamageType.Lightning, global::Aow.Game.Combat.DamageType.Magic, global::Aow.Game.Combat.DamageType.Holy).Contains(DamageType))
+            AoWHSSet.Current.FCombatImages[(int)DamageType + 10].Show(X + 15, Y + 10, Surface);
+            if (Set<DamageType>.Of(Combat.DamageType.Cold, Combat.DamageType.Lightning, Combat.DamageType.Magic, Combat.DamageType.Holy).Contains(DamageType))
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.Color = 0;
+                GameTables.AoWEngine.FCombatFont.Color = 0;
             }
             else
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.Color = 16777215;
+                GameTables.AoWEngine.FCombatFont.Color = 16777215;
             }
 
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(Damage), Surface);
@@ -363,34 +363,34 @@ public static class AbilityRules
         return Result;
     }
 
-    internal static Aow.Game.Magic.Abilities.AbstractUnit.Morale MoraleValueToMorale(int Value)
+    internal static AbstractUnit.Morale MoraleValueToMorale(int Value)
     {
-        Aow.Game.Magic.Abilities.AbstractUnit.Morale Result;
+        AbstractUnit.Morale Result;
         if (Value <= 20)
         {
-            Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.Terrible;
+            Result = AbstractUnit.Morale.Terrible;
         }
         else
         {
             if (Value > 80)
             {
-                Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.High;
+                Result = AbstractUnit.Morale.High;
             }
             else
             {
                 switch (Value)
                 {
                     case >= 21 and <= 40:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.Poor;
+                        Result = AbstractUnit.Morale.Poor;
                         break;
                     case >= 41 and <= 60:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.OK;
+                        Result = AbstractUnit.Morale.OK;
                         break;
                     case >= 61 and <= 80:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.Good;
+                        Result = AbstractUnit.Morale.Good;
                         break;
                     default:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.OK;
+                        Result = AbstractUnit.Morale.OK;
                         // { Original leaks the exception without raising it. }
                         new ArgumentException("Invalid MoralValue");
                         break;
@@ -527,13 +527,13 @@ public static class AbilityRules
         return Result;
     }
 
-    internal static global::Aow.Game.Session.DiplomaticRelation DiplomaticRelation(sbyte Player, sbyte IndependentRelation, sbyte OtherPlayer, sbyte OtherIndependentRelation)
+    internal static DiplomaticRelation DiplomaticRelation(sbyte Player, sbyte IndependentRelation, sbyte OtherPlayer, sbyte OtherIndependentRelation)
     {
-        global::Aow.Game.Session.DiplomaticRelation Result;
+        DiplomaticRelation Result;
         sbyte Race;
         sbyte OtherRace;
         Alignment Alignment;
-        global::Aow.Game.Engine.Alignment OtherAlignment;
+        Alignment OtherAlignment;
         if (Player == 0 || OtherPlayer == 0)
         {
             if (Player != 0)
@@ -603,7 +603,7 @@ public static class AbilityRules
             }
             else
             {
-                Result = global::Aow.Game.Session.DiplomaticRelation.Alliance;
+                Result = Session.DiplomaticRelation.Alliance;
             }
         }
 
@@ -613,13 +613,13 @@ public static class AbilityRules
     internal static bool ValidAttackRelation(sbyte Player, sbyte IndependentRelation, sbyte TargetPlayer, sbyte TargetRace)
     {
         bool Result;
-        global::Aow.Game.Session.DiplomaticRelation Relation;
+        DiplomaticRelation Relation;
         if (Player == 0)
         {
             if (TargetPlayer != 0)
             {
                 Relation = Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Player, IndependentRelation, TargetPlayer, TargetRace);
-                Result = Set<global::Aow.Game.Session.DiplomaticRelation>.Of(global::Aow.Game.Session.DiplomaticRelation.War, global::Aow.Game.Session.DiplomaticRelation.Unknown).Contains(Relation);
+                Result = Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(Relation);
             }
             else
             {
@@ -656,13 +656,13 @@ public static class AbilityRules
     internal static Set<DamageType> InvertDamageTypes(Set<DamageType> Types)
     {
         DamageType DamageType;
-        Set<global::Aow.Game.Combat.DamageType> Result = Set<global::Aow.Game.Combat.DamageType>.Of();
-        for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+        Set<DamageType> Result = Set<DamageType>.Of();
+        for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
         {
-            DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+            DamageType = (DamageType)damageTypeOrdinal;
             if (!Types.Contains(DamageType))
             {
-                Result = Result + Set<global::Aow.Game.Combat.DamageType>.Of(DamageType);
+                Result = Result + Set<DamageType>.Of(DamageType);
             }
         }
 
@@ -692,14 +692,14 @@ public static class AbilityRules
                 I = Movepath.Count - TargetRange;
             }
 
-            Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+            Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), dtAll - Set<DamageType>.Of(DamageType.Wall));
             Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             Info.Requests = Info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
             if (Step > 0)
             {
                 Units = new UnitUserList(null);
                 var item = Movepath[Movepath.Count - 1];
-                Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[item.L];
+                Level = AoWHSMap.Current.MapContainer.MapLevels[item.L];
                 var movepathItem = Movepath[Movepath.Count - 1];
                 var item2 = Movepath[Movepath.Count - 1];
                 Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, item2.X, movepathItem.Y, 0);
@@ -814,11 +814,11 @@ public static class AbilityRules
 
     internal static Set<AbilitySelectionType> astAll = Set<AbilitySelectionType>.Of().WithRange(AbilitySelectionType.Unit, AbilitySelectionType.Editor);
 
-    internal static Set<Aow.Game.Magic.MagicSphere> msAll = Set<Aow.Game.Magic.MagicSphere>.Of().WithRange(Aow.Game.Magic.MagicSphere.Cosmos, Aow.Game.Magic.MagicSphere.None);
+    internal static Set<MagicSphere> msAll = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.None);
 
     internal static int AIDID;
 
-    internal static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 P2RaceTerrain = FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12.From([new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Desert), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Water), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert, AoWTerrainType.Wasteland) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Grass) }]);
+    internal static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 P2RaceTerrain = FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12.From([new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Desert), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Water), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert, AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Grass) }]);
 
     internal static FixedArray_string_5 P2AbilityTypeNames = FixedArray_string_5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
 
@@ -849,9 +849,9 @@ public static class AbilityRules
         EndTurnTE Event;
         Event = new EndTurnTE(null);
         Event.FPlayer = Player;
-        Event.FDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
-        Event.FMode = Aow.Game.Commands.EndTurnTE.EndTurnMode.EndTurn;
-        Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[Player].AddEvent(Event);
+        Event.FDay = AoWHSMap.Current.FDay;
+        Event.FMode = EndTurnTE.EndTurnMode.EndTurn;
+        AoWHSMap.Current.FTokenManager.TokenControls[Player].AddEvent(Event);
         Event.Release();
         return true;
     }
@@ -917,7 +917,7 @@ public static class AbilityRules
         MapFieldMsg Msg = default;
         HNWalkData Walk = default;
         MapLevel Level;
-        Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L];
+        Level = AoWHSMap.Current.MapContainer.MapLevels[L];
         Msg.MsgID = 4432;
         Msg.Param[0] = (int)Storm;
         Msg.Param[2] = Player;

@@ -12,7 +12,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.World.Hexes;
 
 // FDecorationType (-1 none), FTerrainType. persisted as ids $12 and $11
-public partial class TerrainMOR : Aow.Game.World.MultiHexMOR
+public partial class TerrainMOR : MultiHexMOR
 {
     public TerrainMOR(ECustomNode owner) : base(owner)
     {
@@ -44,13 +44,13 @@ public partial class TerrainMOR : Aow.Game.World.MultiHexMOR
     // Terrain.pas:42
 
     // Terrain.pas:317
-    public override string ResourceEditName() => Aow.Game.World.Hexes.TerrainMOR.TerrainStr;
+    public override string ResourceEditName() => TerrainStr;
 
     private static readonly string TerrainStr = "Terrain";
 
 }
 
-public partial class TerrainMO : Aow.Game.World.MultiHexMO
+public partial class TerrainMO : MultiHexMO
 {
     public TerrainMO(ECustomNode owner) : base(owner)
     {

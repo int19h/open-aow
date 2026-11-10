@@ -20,7 +20,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
     public void Cost(int cost, int used) => writer.WriteLine(JsonSerializer.Serialize(new
     { kind = "cost", frame = frame(), cost, used }));
 
-    public void Path(Aow.Game.Commands.MoveTE move) => writer.WriteLine(JsonSerializer.Serialize(new
+    public void Path(Game.Commands.MoveTE move) => writer.WriteLine(JsonSerializer.Serialize(new
     {
         kind = "path",
         frame = frame(),
@@ -37,7 +37,7 @@ internal sealed class RandomTrace(string path, Func<long> frame) : IDisposable
             compare = compare.Method.Name,
             targets = Enumerable.Range(0, list.Count).Select(i =>
             {
-                var target = (Aow.Game.Ai.Groups.AIGroupControlTarget)list[i]!;
+                var target = (AIGroupControlTarget)list[i]!;
                 return new
                 {
                     location = target.FLocation.Packed,

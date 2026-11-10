@@ -27,7 +27,7 @@ namespace Aow.Game.World.Structures
         public WizardsTower(ECustomNode owner) : base(owner)
         {
             FGenerateSpell = true;
-            FMagicSpheres = Aow.Game.World.Structures.WizardsTower.AllMagicSpheres;
+            FMagicSpheres = AllMagicSpheres;
             FSpellLevel = 2;
         }
 
@@ -63,10 +63,10 @@ namespace Aow.Game.World.Structures
                 var buyCost = BuyCost();
                 Player.SetGems(Player.FGems - buyCost);
                 Player.FMagicControl.FSpells.Add(FSpellID);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == TE.FParam)
+                if (AoWHSMap.Current.FSeatedPlayer == TE.FParam)
                 {
                     var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID);
-                    var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.WizardsTower.TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
+                    var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TheyTaughtYouTheSpellXRStr), [spell.FSpellName]);
                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                 }
             }
@@ -78,7 +78,7 @@ namespace Aow.Game.World.Structures
         public override void NewDay()
         {
             base.NewDay();
-            if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1 && (FGenerateSpell || FSpellID == 0))
+            if (AoWHSMap.Current.FDay == 1 && (FGenerateSpell || FSpellID == 0))
             {
                 GenerateSettings();
             }
@@ -105,11 +105,11 @@ namespace Aow.Game.World.Structures
                 Found = false;
                 var lhx = GetLhx();
                 var yhx = GetYhx();
-                Location = Unsafe.BitCast<global::Aow.Game.World.Map.XYL, int>(Aow.Game.World.Map.HexGeometry.PackXYL(GetXhx(), yhx, lhx));
+                Location = Unsafe.BitCast<XYL, int>(Aow.Game.World.Map.HexGeometry.PackXYL(GetXhx(), yhx, lhx));
                 while (!Found && I != Army.Count)
                 {
                     Group = Army.GetUnit(I).FGroup;
-                    Found = Group != null && Unsafe.As<global::Aow.Game.World.Map.XYL, int>(ref Group.FTargetXYL) == Location && Group.FGoldBudget == Cost;
+                    Found = Group != null && Unsafe.As<XYL, int>(ref Group.FTargetXYL) == Location && Group.FGoldBudget == Cost;
                     I += 1;
                 }
 
@@ -150,7 +150,7 @@ namespace Aow.Game.World.Structures
         }
 
         // WizardsTower.pas:96
-        public override bool CanDblClick() => CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        public override bool CanDblClick() => CanEnter(AoWHSMap.Current.FSeatedPlayer);
 
         // WizardsTower.pas:99
         public bool ValidAITarget(sbyte Player)
@@ -179,7 +179,7 @@ namespace Aow.Game.World.Structures
         {
             bool Result;
             ArmyHS ArmyHS;
-            ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
             if (ArmyHS == null || ArmyHS.FArmy.FPlayer != Player)
             {
                 Result = false;
@@ -197,7 +197,7 @@ namespace Aow.Game.World.Structures
         {
             bool Result = default;
             EnterWizardsTowerEventLog Log;
-            if (CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+            if (CanEnter(AoWHSMap.Current.FSeatedPlayer))
             {
                 Log = new EnterWizardsTowerEventLog(null);
                 Log.FTower = this;
@@ -246,13 +246,13 @@ namespace Aow.Game.World.Structures
                     else
                     {
                         Result = false;
-                        Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+                        Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NotEnoughGoldRStr);
                     }
                 }
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.WizardsTower.SpellIsAlreadyResearchedRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpellIsAlreadyResearchedRStr);
                 }
             }
             else
@@ -289,7 +289,7 @@ namespace Aow.Game.World.Structures
 
         private static readonly string SpellIsAlreadyResearchedRStr = "Spell already researched";
         private static readonly string TheyTaughtYouTheSpellXRStr = "They taught you the spell %s";
-        private static Set<global::Aow.Game.Magic.MagicSphere> AllMagicSpheres = Set<global::Aow.Game.Magic.MagicSphere>.FromMask(255uL);
+        private static Set<MagicSphere> AllMagicSpheres = Set<MagicSphere>.FromMask(255uL);
 
         public new partial class Resource : StructureResource
         {
@@ -303,7 +303,7 @@ namespace Aow.Game.World.Structures
             public override int ResourceUserClassID() => 133278;
 
             // WizardsTower.pas:260
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.WizardsTower.Resource.WizardsTowerRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WizardsTowerRStr);
 
             private static readonly string WizardsTowerRStr = "Wizards Tower";
 

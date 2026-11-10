@@ -13,7 +13,7 @@ namespace Aow.Game.Ui.Dialogs;
 // sound quality, sound settings (rate, music, DirectSound, window, SFX, voices)
 public partial class SoundDlg : DataModule
 {
-    public SoundDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public SoundDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -94,18 +94,18 @@ public partial class SoundDlg : DataModule
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Aow.Game.Audio.AudioHost.SongPlayer.Songs.Delete(PlayLB.Selected);
-        if (Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex == -1)
+        if (AudioHost.SongPlayer.CurrentIndex == -1)
         {
-            var count = Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count;
+            var count = AudioHost.SongPlayer.Songs.Count;
             if (PlayLB.Selected < count)
             {
                 Aow.Game.Audio.AudioHost.SongPlayer.Play(PlayLB.Selected);
             }
             else
             {
-                if (Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count != 0)
+                if (AudioHost.SongPlayer.Songs.Count != 0)
                 {
-                    var songsCount = Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count;
+                    var songsCount = AudioHost.SongPlayer.Songs.Count;
                     Aow.Game.Audio.AudioHost.SongPlayer.Play(songsCount - 1);
                 }
             }
@@ -118,13 +118,13 @@ public partial class SoundDlg : DataModule
     public void SoundSetup()
     {
         PlayLB.Items.Clear();
-        for (int I = 0, last = Aow.Game.Audio.AudioHost.SongPlayer.SongNames.Count - 1; I <= last; I++)
+        for (int I = 0, last = AudioHost.SongPlayer.SongNames.Count - 1; I <= last; I++)
         {
-            var songName = Aow.Game.Audio.AudioHost.SongPlayer.SongNames[I];
+            var songName = AudioHost.SongPlayer.SongNames[I];
             PlayLB.Items.Add(songName);
         }
 
-        PlayLB.Selected = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex;
+        PlayLB.Selected = AudioHost.SongPlayer.CurrentIndex;
         PlayLB.FSized = false;
         if (PlayLB.Selected == -1)
         {
@@ -136,7 +136,7 @@ public partial class SoundDlg : DataModule
         {
             RemoveBtn.Visible = true;
             PlayBtn.Visible = true;
-            var songName = Aow.Game.Audio.AudioHost.SongPlayer.SongNames[PlayLB.Selected];
+            var songName = AudioHost.SongPlayer.SongNames[PlayLB.Selected];
             CurrentSongLbl.Text = songName;
         }
 
@@ -162,7 +162,7 @@ public partial class SoundDlg : DataModule
     // AoWSoundDlg.pas:172
     public void SongChange()
     {
-        var songName = Aow.Game.Audio.AudioHost.SongPlayer.SongNames[Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex];
+        var songName = AudioHost.SongPlayer.SongNames[AudioHost.SongPlayer.CurrentIndex];
         CurrentSongLbl.Text = songName;
         MainPnl.FDrawn = false;
         PlayLB.FDrawn = false;
@@ -175,7 +175,7 @@ public partial class SoundDlg : DataModule
         SearchRec Search = default;
         SongLB.Items.Clear();
         Aow.Game.Ui.Dialogs.SoundDlg.SongFiles.Clear();
-        SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "\\Songs");
+        SetCurrentDir(Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "\\Songs");
         Directory = GetCurrentDir();
         if (Copy(Directory, Directory.Length, 1) == "\\")
         {
@@ -200,7 +200,7 @@ public partial class SoundDlg : DataModule
         }
 
         FindClose(ref Search);
-        Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(SongLB.Items, [Aow.Game.Ui.Dialogs.SoundDlg.SongFiles]);
+        Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(SongLB.Items, [SongFiles]);
         SongLB.Selected = -1;
         SongLB.ListOffset = 0;
         SongSB.Position = 0;
@@ -219,7 +219,7 @@ public partial class SoundDlg : DataModule
     public void AddBtnClick()
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        var songFile = Aow.Game.Ui.Dialogs.SoundDlg.SongFiles[SongLB.Selected];
+        var songFile = SongFiles[SongLB.Selected];
         Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add(songFile);
         SoundSetup();
     }
@@ -227,13 +227,13 @@ public partial class SoundDlg : DataModule
     // AoWSoundDlg.pas:218
     public void SoundDlgWindowCreate()
     {
-        Aow.Game.Ui.Dialogs.SoundDlg.SongFiles = new StringList();
+        SongFiles = new StringList();
     }
 
     // AoWSoundDlg.pas:223
     public void SoundDlgWindowDestroy()
     {
-        Aow.Game.Ui.Dialogs.SoundDlg.SongFiles?.Dispose();
+        SongFiles?.Dispose();
     }
 
     // AoWSoundDlg.pas:228
@@ -276,13 +276,13 @@ public partial class SoundDlg : DataModule
             FSoundQuality = 1;
             if (Aow.Game.Ui.Dialogs.SoundDlg.SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.om8bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
                 FSettings.SampleRate = 22050;
                 Aow.Game.Ui.Dialogs.SoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
-                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.om8bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Mono, SoundOutputModeElement.Bits8);
                 FSettings.SampleRate = 22050;
                 Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
@@ -306,13 +306,13 @@ public partial class SoundDlg : DataModule
             FSoundQuality = 2;
             if (Aow.Game.Ui.Dialogs.SoundDlg.SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
                 FSettings.SampleRate = 44100;
                 Aow.Game.Ui.Dialogs.SoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
-                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16);
                 FSettings.SampleRate = 44100;
                 Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
@@ -336,13 +336,13 @@ public partial class SoundDlg : DataModule
             FSoundQuality = 3;
             if (Aow.Game.Ui.Dialogs.SoundDlg.SoundSystemStatus().Contains(SoundSystemStatusElement.Activated))
             {
-                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit, SoundOutputModeElement.HighQuality);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
                 FSettings.SampleRate = 44100;
                 Aow.Game.Ui.Dialogs.SoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
-                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.om16bit, SoundOutputModeElement.HighQuality);
+                FSettings.OutputMode = Set<SoundOutputModeElement>.Of(SoundOutputModeElement.Stereo, SoundOutputModeElement.Bits16, SoundOutputModeElement.HighQuality);
                 FSettings.SampleRate = 44100;
                 Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
@@ -359,11 +359,11 @@ public partial class SoundDlg : DataModule
     }
 
     // AoWSoundDlg.pas:317
-    public void PlayLBDrawItem(in global::Aow.Rtl.Rect R, int Index, ref SurfaceDesc SurfDesc)
+    public void PlayLBDrawItem(in Rect R, int Index, ref SurfaceDesc SurfDesc)
     {
-        if (Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex == Index)
+        if (AudioHost.SongPlayer.CurrentIndex == Index)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.SoundWin[2].ShowClipped(R.Left, R.Top, SurfDesc);
+            DialogHosts.IntGfxMod.SoundWin[2].ShowClipped(R.Left, R.Top, SurfDesc);
         }
     }
 
@@ -438,18 +438,18 @@ public partial class SoundDlg : DataModule
 
     private static StringList SongFiles;
 
-    private static Set<global::Aow.Game.Audio.SoundSystemStatusElement> SoundSystemStatus()
+    private static Set<SoundSystemStatusElement> SoundSystemStatus()
     {
-        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
-            return global::Aow.Game.Audio.AudioHost.SoundSystem.FStatus;
+            return AudioHost.SoundSystem.FStatus;
         }
-        return Set<global::Aow.Game.Audio.SoundSystemStatusElement>.Of(global::System.Array.Empty<global::Aow.Game.Audio.SoundSystemStatusElement>());
+        return Set<SoundSystemStatusElement>.Of(global::System.Array.Empty<SoundSystemStatusElement>());
     }
 
     private static bool SetMusicEnabled(bool Value)
     {
-        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
             return global::Aow.Game.Audio.AudioHost.SoundSystem.SetMusicEnabled(Value);
         }
@@ -458,16 +458,16 @@ public partial class SoundDlg : DataModule
 
     private static bool SetSFXEnabled(bool Value)
     {
-        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
             return global::Aow.Game.Audio.AudioHost.SoundSystem.SetSFXEnabled(Value);
         }
         return false;
     }
 
-    private static bool SetSoundSettings(in global::Aow.Game.Audio.SoundSettings Settings)
+    private static bool SetSoundSettings(in SoundSettings Settings)
     {
-        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (AudioHost.SoundSystem != null)
         {
             return global::Aow.Game.Audio.AudioHost.SoundSystem.SetSoundSettings(in Settings);
         }

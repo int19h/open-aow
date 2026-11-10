@@ -20,7 +20,7 @@ internal static class Program
             {
                 // own-formats.md 4.2: every open and write at the file boundary, refusals included.
                 var log = fileLog = new StreamWriter(Path.GetFullPath(fileLogPath), false, new System.Text.UTF8Encoding(false));
-                Aow.Game.Saves.FileBoundary.Log = record => { log.Write(record.ToJson() + "\n"); log.Flush(); };
+                Game.Saves.FileBoundary.Log = record => { log.Write(record.ToJson() + "\n"); log.Flush(); };
             }
             string root = Value(args, "--game-root") ?? @"D:\Games\GOG\Age of Wonders";
             if (args.Contains("--verify")) return Verification.Run(root, Value(args, "--source-root"));
@@ -51,7 +51,7 @@ internal static class Program
             if (frames < 0) throw new ArgumentOutOfRangeException(nameof(frames));
             using var host = new SdlHost(root, single ?? Value(args, "--user-data"), scale, args.Contains("--fullscreen") ? true : null, vsync: args.Contains("--no-vsync") ? false : null);
             Rtl.RtlUnit.InstallHost(host);
-            using var form = TMainForm.Create(host.Display, args.FirstOrDefault(TMainForm.IsSaveName) ?? "", args.Contains("--mute"), audioOutput: true);
+            using MainForm form = MainForm.Create(host.Display, args.FirstOrDefault(MainForm.IsSaveName) ?? "", args.Contains("--mute"), audioOutput: true);
             form.Run(frames);
             Console.WriteLine($"Title scene: presented {form.Display.PresentedFrames} frames, mute={args.Contains("--mute")}");
             return 0;
@@ -59,7 +59,7 @@ internal static class Program
         catch (System.Exception error) { Console.Error.WriteLine(error.ToString()); return 1; }
         finally
         {
-            Aow.Game.Saves.FileBoundary.Log = null;
+            Game.Saves.FileBoundary.Log = null;
             fileLog?.Dispose();
         }
     }

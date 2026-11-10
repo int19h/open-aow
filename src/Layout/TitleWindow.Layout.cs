@@ -138,10 +138,10 @@ public partial class TitleWindow : ILayoutModule
         SplashPnl.Loaded();
         DemoIL.Loaded();
         session.Resolve(this);
-        TitleWin.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        TitleWin.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        TitlePnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleScreen;
-        SplashPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleScreen;
+        TitleWin.WinManager = DialogHosts.General.Manager;
+        TitleWin.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        TitlePnl.ILTexture = DialogHosts.IntGfxMod.TitleScreen;
+        SplashPnl.ILTexture = DialogHosts.IntGfxMod.TitleScreen;
     }
 
     private void Layout_SplashPnlUpdate_0()

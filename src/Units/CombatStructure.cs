@@ -159,7 +159,7 @@ public partial class CombatStructure : CombatFixedILTerrain
                 case 200711:
                     RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
                     var defense12 = GetDefense();
-                    var executeDamageRole12 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(Aow.Game.Combat.TacticalTables.TCDamage[1], Aow.Game.Combat.TacticalTables.TCAttack[1] - defense12);
+                    var executeDamageRole12 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[1], TacticalTables.TCAttack[1] - defense12);
                     SetHitPoints(FHitPoints - executeDamageRole12);
                     break;
             }
@@ -201,7 +201,7 @@ public partial class CombatStructure : CombatFixedILTerrain
         {
             FPlaySound = true;
             Razed = false;
-            Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Aow.Game.Combat.CombatPlacement.CombatLLoc).GetField(Aow.Game.Combat.CombatPlacement.CombatXLoc, Aow.Game.Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
+            Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
             if (Structure != null)
             {
                 Razed = Structure.GetRazed();
@@ -283,7 +283,7 @@ public partial class CombatStructure : CombatFixedILTerrain
         {
             if (Value == 0)
             {
-                if (FPlaySound && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
+                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
                     Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
@@ -297,7 +297,7 @@ public partial class CombatStructure : CombatFixedILTerrain
             }
             else
             {
-                if (FPlaySound && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
+                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
                     Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
@@ -312,7 +312,7 @@ public partial class CombatStructure : CombatFixedILTerrain
 
 }
 
-public partial class CombatStructureResource : Aow.Game.World.Terrain.CombatFixedILTerrain.Resource
+public partial class CombatStructureResource : CombatFixedILTerrain.Resource
 {
     public CombatStructureResource(ECustomNode owner) : base(owner)
     { }

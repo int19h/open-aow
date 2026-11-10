@@ -46,7 +46,7 @@ namespace Aow.Game.World.Structures
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FText, 7);
-            if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
+            if (AoWHSMap.Current != null && AoWHSMap.Current.FConnectionType != (PlayerConnectionType)1)
             {
                 Stream.rwStreamProc(8, FTextSeen.LoadFromStream, FTextSeen.SaveToStream);
             }
@@ -63,7 +63,7 @@ namespace Aow.Game.World.Structures
             base.Select();
             if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
-                FTextSeen[Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer] = true;
+                FTextSeen[AoWHSMap.Current.FSeatedPlayer] = true;
             }
         }
 
@@ -82,7 +82,7 @@ namespace Aow.Game.World.Structures
         {
             ArmyHS ArmyHS;
             ArmyHS = ((AoWMapField)Owner).GetArmyHS();
-            return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+            return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.Current.FSeatedPlayer;
         }
 
         // Sign.pas:134
@@ -137,7 +137,7 @@ namespace Aow.Game.World.Structures
                 {
                     Index = Structure.ImageIndex;
                     Offset = ((MapField)Structure.Owner).Xhx + ((MapField)Structure.Owner).Yhx * 16;
-                    Animate = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer < 0 || !((Sign)Structure).GetTextSeen(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                    Animate = AoWHSMap.Current.FSeatedPlayer < 0 || !((Sign)Structure).GetTextSeen(AoWHSMap.Current.FSeatedPlayer);
                     if (Index < FImageSequenceList.Count)
                     {
                         Sequence = (ImageSequence)FImageSequenceList.List[Index];
@@ -151,7 +151,7 @@ namespace Aow.Game.World.Structures
                     {
                         if (Animate)
                         {
-                            Image = Sequence.GetFrameIndex(Aow.Game.World.Map.AoWHSMap.Current.Frame, Offset);
+                            Image = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, Offset);
                         }
                         else
                         {
@@ -160,7 +160,7 @@ namespace Aow.Game.World.Structures
 
                         if (Image != -1)
                         {
-                            if (Structure.GetSelected() && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 6) == 6)
+                            if (Structure.GetSelected() && (AoWHSMap.Current.Frame & 6) == 6)
                             {
                                 Sequence.ImageLibrary[Image].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
                             }
@@ -178,7 +178,7 @@ namespace Aow.Game.World.Structures
             // Sign.pas:37
 
             // Sign.pas:162
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Sign.Resource.SignRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SignRStr);
 
             private static readonly string SignRStr = "Sign";
 
@@ -232,12 +232,12 @@ namespace Aow.Game.Commands
         {
             ExecuteResult Result;
             Sign Sign;
-            Sign = (global::Aow.Game.World.Structures.Sign)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
+            Sign = (Sign)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
             if (Sign != null)
             {
                 Sign.SetText(FText);
                 Sign.FTextSeen.Clear();
-                Sign.FTextSeen[Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer] = true;
+                Sign.FTextSeen[AoWHSMap.Current.FCurrentPlayer] = true;
                 Result = ExecuteResult.Done;
             }
             else

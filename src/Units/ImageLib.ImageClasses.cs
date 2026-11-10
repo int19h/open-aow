@@ -43,12 +43,12 @@ public sealed class LibraryImageClass
 
     public static IReadOnlyList<LibraryImageClass> All => catalog.All;
 
-    public int GrabImages(in Aow.Game.Draw.SurfaceDesc SD, GrabInfo GrabInfo, CustomImageLibrary ImageLibrary, GrabProgressEvent OnProgress)
+    public int GrabImages(in SurfaceDesc SD, GrabInfo GrabInfo, CustomImageLibrary ImageLibrary, GrabProgressEvent OnProgress)
     {
         int Result = default;
         LibraryImageClass ImageClass;
         LibraryImage Image = default;
-        Aow.Game.Draw.RectangleList Rects = default;
+        RectangleList Rects = default;
         void Progress(int Percent, string Msg)
         {
             if (OnProgress != null)
@@ -65,8 +65,8 @@ public sealed class LibraryImageClass
         }
         else
         {
-            Rects = new Aow.Game.Draw.RectangleList();
-            Rects.Add(new Aow.Game.Draw.Rectangle(0, 0, SD.Width, SD.Height));
+            Rects = new RectangleList();
+            Rects.Add(new Rectangle(0, 0, SD.Width, SD.Height));
         }
 
         if (Rects != null && ImageClass != null)
@@ -99,16 +99,16 @@ public sealed class LibraryImageClass
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_ERROR;
+            Result = PixelFormats.GFXE_ERROR;
         }
 
         Rects?.Dispose();
         return Result;
     }
 
-    internal static global::Aow.Game.Draw.RectangleList GetSurfaceRectangles(global::Aow.Game.Draw.SurfaceDesc SD, int TransparentColor, global::Aow.Game.Draw.ProgressEvent OnProgress)
+    internal static RectangleList GetSurfaceRectangles(SurfaceDesc SD, int TransparentColor, ProgressEvent OnProgress)
     {
-        global::Aow.Game.Draw.RectangleList tRectangleList = new global::Aow.Game.Draw.RectangleList();
+        RectangleList tRectangleList = new RectangleList();
         int i = 0;
         for (int num = SD.Height - 1; i <= num; i++)
         {
@@ -119,7 +119,7 @@ public sealed class LibraryImageClass
                 ushort x = (ushort)j;
                 if (GetPixel(x, num2) == TransparentColor)
                 {
-                    global::Aow.Game.Draw.Rectangle tRectangle = FindRectangle(x, num2);
+                    Rectangle tRectangle = FindRectangle(x, num2);
                     if (tRectangle != null)
                     {
                         ((DelphiList)tRectangleList).Add((object)tRectangle);
@@ -140,9 +140,9 @@ public sealed class LibraryImageClass
             return null;
         }
         return tRectangleList;
-        global::Aow.Game.Draw.Rectangle FindRectangle(int X, int Y)
+        Rectangle FindRectangle(int X, int Y)
         {
-            global::Aow.Game.Draw.Rectangle result = null;
+            Rectangle result = null;
             int k = 1;
             int l = 1;
             for (; GetPixel(X + k, Y) == TransparentColor && GetPixel(X + k, Y + 1) != TransparentColor && X + k < SD.Width - 1; k++)
@@ -164,7 +164,7 @@ public sealed class LibraryImageClass
                     }
                     if (flag)
                     {
-                        result = new global::Aow.Game.Draw.Rectangle(X + 1, Y + 1, X + k, Y + l);
+                        result = new Rectangle(X + 1, Y + 1, X + k, Y + l);
                     }
                 }
             }

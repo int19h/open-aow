@@ -60,7 +60,7 @@ public sealed class EngineStartupTests
                     };
                 }
                 catch (System.Exception error) { caught = error; }
-                var engine = value ?? Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+                var engine = value ?? Game.Magic.Abilities.GameTables.AoWEngine;
                 Assert.NotNull(engine);
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
                 var result = new JsonObject
@@ -75,7 +75,7 @@ public sealed class EngineStartupTests
                 if (route == "AoW")
                 {
                     Assert.True(Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine());
-                    Assert.Same(value, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Assert.Same(value, Game.Magic.Abilities.GameTables.AoWEngine);
                     result["ValidateAgain"] = true;
                     result["FinalSnapshot"] = Snapshot((AoWEngine)value!, fixture);
                     result["MovePointTables"] = MovePoints();
@@ -83,7 +83,7 @@ public sealed class EngineStartupTests
                 else if (caught is not null)
                 {
                     Assert.Null(value);
-                    Assert.Same(engine, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Assert.Same(engine, Game.Magic.Abilities.GameTables.AoWEngine);
                     Assert.True(Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine());
                     result["ValidateAfterFailure"] = true;
                 }
@@ -132,10 +132,10 @@ public sealed class EngineStartupTests
                 object buckets = value.GetType().GetField("FLists", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(value)!;
                 object Bucket(int i) => buckets switch
                 {
-                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
-                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
-                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 a => a[i],
-                    Aow.Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
+                    Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TIntegerHashList_256 a => a[i],
+                    Game.Engine.Buffers.FixedArray_Aow_Units_Engine_TStringHashList_256 a => a[i],
+                    Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TIntegerHashList_256 a => a[i],
+                    Game.Engine.Buffers.FixedArray_Aow_Units_HashTabU_TStringHashList_256 a => a[i],
                     _ => throw new InvalidOperationException("Unknown hash bucket layout")
                 };
                 var lists = new HashSet<object>(ReferenceEqualityComparer.Instance);
@@ -187,7 +187,7 @@ public sealed class EngineStartupTests
             for (int t = 0; t < 16; t++)
             {
                 var overlay = new JsonObject();
-                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)Aow.Game.Magic.Abilities.MovementTables.MovePointTables[mask][t][o + 1];
+                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)Game.Magic.Abilities.MovementTables.MovePointTables[mask][t][o + 1];
                 terrain[$"Terrain[{t}]"] = overlay;
             }
             result[$"Mask[{mask}]"] = terrain;

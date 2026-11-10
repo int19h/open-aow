@@ -51,7 +51,7 @@ public partial class AIGroupRazeControl : AIGroupControlPlugin
         BattleFieldInfo Info = default;
         if (FState == 0)
         {
-            Structure = (global::Aow.Game.World.Structures.Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<XYL, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.Structure));
+            Structure = (Structure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<XYL, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(Structure));
             if (Structure != null && Structure.GetRazeable())
             {
                 Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnoreIndependents), FDamageTypes);
@@ -84,7 +84,7 @@ public partial class AIGroupRazeControl : AIGroupControlPlugin
     // AGCPlugins.pas:90
     public void Reset()
     {
-        FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        FDamageTypes = Magic.Abilities.AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         FMode = Set<AIGroupRazeControlModeElement>.Of(AIGroupRazeControlModeElement.CannotDefend);
         FCityStrengthFactor = 2;
         FStructureStrengthFactor = 2;
@@ -195,7 +195,7 @@ public partial class AIGroupDefendTargetSelector : AIGroupControlPlugin
         switch (FState)
         {
             case 0:
-                if (FSelector.FStatus == Aow.Game.Ai.Groups.AIMoveTargetSelector.Status.Searching)
+                if (FSelector.FStatus == AIMoveTargetSelector.Status.Searching)
                 {
                     Result = FSelector.Process();
                 }
@@ -262,10 +262,10 @@ public partial class AIGroupDefendTargetSelector : AIGroupControlPlugin
         this.FSelector.FOnTargetFound = TargetFoundEvent;
         this.FSelector.FMovePointsMax = 150;
         this.FSelector.FMovePointsMin = 0;
-        this.FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.Defend;
+        this.FSelector.FTargetInfo.Mode = AITargetMode.Defend;
 
         FPathStep = 7;
-        FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
+        FDamageTypes = Magic.Abilities.AbilityRules.AllDamageTypes - Set<DamageType>.Of(DamageType.Wall);
         FBattleFieldRadius = 10;
         FMovePointsFactor = -1;
         FMode = Set<ModeElement>.Of();
@@ -555,7 +555,7 @@ public partial class AIGroupWanderControl : AIGroupControlPlugin
         return true;
     }
 
-    private static int CompareWanderFields(in global::Aow.Game.Engine.Collections.DoubleItem<global::Aow.Game.World.Map.AoWMapField> Item1, in global::Aow.Game.Engine.Collections.DoubleItem<global::Aow.Game.World.Map.AoWMapField> Item2)
+    private static int CompareWanderFields(in DoubleItem<AoWMapField> Item1, in DoubleItem<AoWMapField> Item2)
     {
         return Item2.B - Item1.B;
     }

@@ -36,8 +36,8 @@ namespace Aow.Game.Magic.Spells.City
     public enum CityEnchantmentCastSpellSituationElement : byte
     {
         LeaderInCity = 0,
-        ccs4HexCity = 1,
-        ccs3HexCity = 2
+        Hex4City = 1,
+        Hex3City = 2
     }
 }
 
@@ -106,7 +106,7 @@ namespace Aow.Game.Magic.Spells.City
 {
 
     // source unit ID. city target modes
-    public partial class CityTargetSpell : Aow.Game.Magic.Spells.Spell
+    public partial class CityTargetSpell : Spell
     {
         public int FSourceID;
         public Set<CityTargetModeElement> FCityTargetMode;
@@ -114,7 +114,7 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:209
         public CityTargetSpell(ECustomNode owner) : base(owner)
         {
-            FSpellType = Aow.Game.Magic.Spells.SpellType.Global;
+            FSpellType = SpellType.Global;
         }
 
         // CitySpells.pas:377
@@ -125,7 +125,7 @@ namespace Aow.Game.Magic.Spells.City
             if (CanActivate(Source, ref Reason))
             {
                 FSourceID = Source.FUnitID;
-                SetupTargetSelection(Source, Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection);
+                SetupTargetSelection(Source, AoWHSMap.Current.FTargetSelection);
                 Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Activate();
                 Result = true;
             }
@@ -173,7 +173,7 @@ namespace Aow.Game.Magic.Spells.City
         }
 
         // CitySpells.pas:215
-        public virtual void PlayDefaultCityEffects(AbstractUnit Source, global::Aow.Game.World.Structures.City TargetCity)
+        public virtual void PlayDefaultCityEffects(AbstractUnit Source, World.Structures.City TargetCity)
         {
             MapLevel Level;
             ImageSequenceAnimation A;
@@ -189,7 +189,7 @@ namespace Aow.Game.Magic.Spells.City
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height && TargetCity.Resource.TerrainList.Used[Walk.HN])
                 {
-                    bool condition = Source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+                    bool condition = Source.FPlayer == AoWHSMap.Current.FSeatedPlayer;
                     if (!condition)
                     {
                         var targetCityLhx = TargetCity.GetLhx();
@@ -205,7 +205,7 @@ namespace Aow.Game.Magic.Spells.City
                         A.FAnimationLevel = 27;
                         var targetCityLhx = TargetCity.GetLhx();
                         Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(A, Walk.X, Walk.Y, targetCityLhx);
-                        bool test = Source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+                        bool test = Source.FPlayer == AoWHSMap.Current.FSeatedPlayer;
                         if (!test)
                         {
                             var lhx2 = TargetCity.GetLhx();
@@ -236,10 +236,10 @@ namespace Aow.Game.Magic.Spells.City
             sbyte L = default;
             TargetSelection.Initialize(Source);
             TargetSelection.FTargetMode = TargetSelection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
-            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.CityTargetSpell.SelectTargetCityForXOnMapRStr), [FSpellName]);
+            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SelectTargetCityForXOnMapRStr), [FSpellName]);
             TargetSelection.FText.Text = format;
             TargetSelection.FTitle = FSpellName;
-            TargetSelection.FCancelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
+            TargetSelection.FCancelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CancelRStr);
             TargetSelection.FSourceImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[20].GetPreviewImage();
             TargetSelection.FValidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[21].GetPreviewImage();
             TargetSelection.FInvalidTargetImage = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[22].GetPreviewImage();
@@ -287,18 +287,18 @@ namespace Aow.Game.Magic.Spells.City
         }
 
         // CitySpells.pas:248
-        public virtual bool ValidTargetCity(AbstractUnit Source, global::Aow.Game.World.Structures.City TargetCity)
+        public virtual bool ValidTargetCity(AbstractUnit Source, World.Structures.City TargetCity)
         {
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            global::Aow.Game.World.Structures.City Found;
+            World.Structures.City Found;
             bool Result = (FCityTargetMode.Contains(CityTargetModeElement.Own) && TargetCity.FPlayer == Source.FPlayer) || (FCityTargetMode.Contains(CityTargetModeElement.Enemy) && TargetCity.FPlayer != Source.FPlayer);
             Result = Result && (!TargetCity.GetRazed() || FCityTargetMode.Contains(CityTargetModeElement.Razed));
             if (Result && FCityTargetMode.Contains(CityTargetModeElement.SkipSource))
             {
                 Source.GetLocation(ref X, ref Y, ref L);
-                Found = (global::Aow.Game.World.Structures.City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.City));
+                Found = (World.Structures.City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(World.Structures.City));
                 Result = TargetCity != Found;
             }
 
@@ -323,16 +323,16 @@ namespace Aow.Game.Magic.Spells.City
             AbstractUnit Source;
             MapLevel Level;
             AoWMapField Field;
-            global::Aow.Game.World.Structures.City TargetCity;
+            World.Structures.City TargetCity;
             Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(L);
             Source = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FSourceID);
             if (Source != null && X >= 0 && Y >= 0 && X < Level.Width && Y < Level.Height)
             {
                 Field = (AoWMapField)Level.GetField(X, Y);
-                Valid = !Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled || Field.GetExplored(Source.FPlayer);
+                Valid = !AoWHSMap.Current.FExplorationEnabled || Field.GetExplored(Source.FPlayer);
                 if (Valid)
                 {
-                    TargetCity = (global::Aow.Game.World.Structures.City)Field.FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.City));
+                    TargetCity = (World.Structures.City)Field.FindNoneTransparentHS(typeof(World.Structures.City));
                     if (TargetCity != null)
                     {
                         Valid = ValidTargetCity(Source, TargetCity);
@@ -411,12 +411,12 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:421
         public TownGate(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.TownGate.TownGateRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TownGateRStr);
             FSpellID = 38;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own, CityTargetModeElement.SkipSource);
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
+            FMagicSphere = MagicSphere.Cosmos;
         }
 
         // CitySpells.pas:486
@@ -460,8 +460,8 @@ namespace Aow.Game.Magic.Spells.City
                 }
             }
 
-            ShowSource = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.Visible(X, Y, L, 0);
-            ShowTarget = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.Visible(Field.Xhx, Field.Yhx, Field.Lhx, 0);
+            ShowSource = AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.Visible(X, Y, L, 0);
+            ShowTarget = AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.Visible(Field.Xhx, Field.Yhx, Field.Lhx, 0);
             if (ShowSource)
             {
                 if (Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastImages.ImageSequences[0] != null)
@@ -482,7 +482,7 @@ namespace Aow.Game.Magic.Spells.City
                 }
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
+            if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer)
             {
                 Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(Field.Xhx, Field.Yhx, Field.Lhx);
             }
@@ -494,7 +494,7 @@ namespace Aow.Game.Magic.Spells.City
                 }
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, L, 0) || Aow.Game.World.Map.AoWHSMap.Current.Watching(Field.Xhx, Field.Yhx, Field.Lhx, 0))
+            if (AoWHSMap.Current.FSeatedPlayer == Source.FPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, L, 0) || Aow.Game.World.Map.AoWHSMap.Current.Watching(Field.Xhx, Field.Yhx, Field.Lhx, 0))
             {
                 Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(0);
             }
@@ -527,8 +527,8 @@ namespace Aow.Game.Magic.Spells.City
             bool Result = base.SetupTE(Event, Source, X, Y, L);
             if (Result)
             {
-                Army = ((global::Aow.Game.Units.Army)Source.Owner).GetArmyHS();
-                if (Army.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS() == Army)
+                Army = ((Army)Source.Owner).GetArmyHS();
+                if (Army.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer && Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetArmyHS() == Army)
                 {
                     Selection = Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.GetSelection();
                 }
@@ -636,7 +636,7 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:576
         public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
-            global::Aow.Game.World.Structures.City TargetCity;
+            World.Structures.City TargetCity;
             CityEnchantment Enchantment;
             TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
             Enchantment = new CityEnchantment(null);
@@ -661,11 +661,11 @@ namespace Aow.Game.Magic.Spells.City
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            global::Aow.Game.World.Structures.City TargetCity;
+            World.Structures.City TargetCity;
             if (FAIPriority != -1)
             {
                 Source.GetLocation(ref X, ref Y, ref L);
-                TargetCity = (global::Aow.Game.World.Structures.City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.City));
+                TargetCity = (World.Structures.City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(World.Structures.City));
                 bool condition = TargetCity != null;
                 if (condition)
                 {
@@ -679,7 +679,7 @@ namespace Aow.Game.Magic.Spells.City
                 Valid = Valid && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
                 if (Valid)
                 {
-                    if (FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && Source is Leader || FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.ccs4HexCity) && TargetCity.GetSize() == 4 || FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.ccs3HexCity) && TargetCity.GetSize() == 3)
+                    if (FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.LeaderInCity) && Source is Leader || FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex4City) && TargetCity.GetSize() == 4 || FAICastSituation.Contains(CityEnchantmentCastSpellSituationElement.Hex3City) && TargetCity.GetSize() == 3)
                     {
                         Action = CreateCastSpellAction();
                         SetupCastSpellAction(Source, Action);
@@ -698,9 +698,9 @@ namespace Aow.Game.Magic.Spells.City
             sbyte X = default;
             sbyte Y = default;
             sbyte L = default;
-            global::Aow.Game.World.Structures.City TargetCity;
+            World.Structures.City TargetCity;
             Source.GetLocation(ref X, ref Y, ref L);
-            TargetCity = (global::Aow.Game.World.Structures.City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(global::Aow.Game.World.Structures.City));
+            TargetCity = (World.Structures.City)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(X, Y, L).FindNoneTransparentHS(typeof(World.Structures.City));
             if (TargetCity != null && ValidTargetCity(Source, TargetCity) && ((Hero)Source).CanCastSpell(FSpellID, ref Reason))
             {
                 AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, FAIBudget);
@@ -731,7 +731,7 @@ namespace Aow.Game.Magic.Spells.City
         }
 
         // CitySpells.pas:570
-        public override bool ValidTargetCity(AbstractUnit Source, global::Aow.Game.World.Structures.City TargetCity) => base.ValidTargetCity(Source, TargetCity) && !TargetCity.FEnchantments.Contains(FEnchantmentID);
+        public override bool ValidTargetCity(AbstractUnit Source, World.Structures.City TargetCity) => base.ValidTargetCity(Source, TargetCity) && !TargetCity.FEnchantments.Contains(FEnchantmentID);
 
         // CitySpells.pas:560
         public override CityTargetSpellTE CreateTE() => new CityEnchantmentSpellTE(null);
@@ -745,12 +745,12 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:649
         public FountainOfLife(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FountainOfLifeRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FountainOfLifeRStr);
             FSpellID = 52;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
             FBaseManaCost = 1;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
+            FMagicSphere = MagicSphere.Water;
             FEnchantmentID = CityEnchantmentID.FountainOfLife;
             FCastDuration = 20;
             FAIPriority = 500;
@@ -763,7 +763,7 @@ namespace Aow.Game.Magic.Spells.City
         public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             bool Result = default;
-            global::Aow.Game.World.Structures.City TargetCity = default;
+            World.Structures.City TargetCity = default;
             Animation A = default;
             Result = base.ExecuteTE(Event, Source, ExecuteCount);
             if (ExecuteCount == 0)
@@ -772,7 +772,7 @@ namespace Aow.Game.Magic.Spells.City
                 A = new Animation(null);
                 A.FAnimationLevel = 27;
                 A.FOnShow = ShowFountain;
-                A.FAnimationMap = Aow.Game.World.Map.AoWHSMap.Current;
+                A.FAnimationMap = AoWHSMap.Current;
                 A.FTag = (int)(((uint)(int)TargetCity.GetXhx()) | ((uint)(TargetCity.GetYhx() << 8)));
                 A.Activate();
             }
@@ -826,16 +826,16 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:710
         public GoldRush(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GoldRushRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GoldRushRStr);
             FSpellID = 53;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
             FBaseManaCost = 1;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
+            FMagicSphere = MagicSphere.Water;
             FEnchantmentID = CityEnchantmentID.GoldRush;
             FCastDuration = 20;
             FAIPriority = 500;
-            FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.ccs4HexCity);
+            FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City);
             FAIBudget = 600;
             FEnchantmentSpellID = 25;
         }
@@ -846,12 +846,12 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:727
         public AntiMagicShell(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AntiMagicShellRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AntiMagicShellRStr);
             FSpellID = 54;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
             FBaseManaCost = 1;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
+            FMagicSphere = MagicSphere.Cosmos;
             FEnchantmentID = CityEnchantmentID.AntiMagicShell;
             FCastDuration = 40;
             FAIPriority = 500;
@@ -860,10 +860,10 @@ namespace Aow.Game.Magic.Spells.City
         }
 
         // CitySpells.pas:743
-        public override void PlayDefaultCityEffects(AbstractUnit Source, global::Aow.Game.World.Structures.City TargetCity)
+        public override void PlayDefaultCityEffects(AbstractUnit Source, World.Structures.City TargetCity)
         {
             base.PlayDefaultCityEffects(Source, TargetCity);
-            bool condition = Source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+            bool condition = Source.FPlayer == AoWHSMap.Current.FSeatedPlayer;
             if (!condition)
             {
                 var lhx = TargetCity.GetLhx();
@@ -884,13 +884,13 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:751
         public Warmonger(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WarmongerRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WarmongerRStr);
             FSpellID = 58;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Own);
             FEnchantmentID = CityEnchantmentID.Warmonger;
             FCastDuration = 30;
             FAIPriority = 600;
-            FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.ccs4HexCity, CityEnchantmentCastSpellSituationElement.ccs3HexCity);
+            FAICastSituation = Set<CityEnchantmentCastSpellSituationElement>.Of(CityEnchantmentCastSpellSituationElement.Hex4City, CityEnchantmentCastSpellSituationElement.Hex3City);
             FEnchantmentSpellID = 50;
         }
     }
@@ -900,7 +900,7 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:764
         public TownQuake(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.TownQuake.TownQuakeRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TownQuakeRStr);
             FSpellID = 71;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
         }
@@ -909,7 +909,7 @@ namespace Aow.Game.Magic.Spells.City
         public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             bool Result;
-            global::Aow.Game.World.Structures.City TargetCity;
+            World.Structures.City TargetCity;
             ArmyHSList Armies;
             if (ExecuteCount == 0)
             {
@@ -951,7 +951,7 @@ namespace Aow.Game.Magic.Spells.City
         }
 
         // CitySpells.pas:812
-        public override bool ValidTargetCity(AbstractUnit Source, global::Aow.Game.World.Structures.City TargetCity)
+        public override bool ValidTargetCity(AbstractUnit Source, World.Structures.City TargetCity)
         {
             bool Result = base.ValidTargetCity(Source, TargetCity);
             if (!Result || TargetCity.FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
@@ -974,9 +974,9 @@ namespace Aow.Game.Magic.Spells.City
             int Damage;
             AbstractUnit AUnit;
             Log = new ArmyEventLog(null);
-            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.TownQuake.TownQuakeDamageRStr);
+            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TownQuakeDamageRStr);
             Log.FPlayer = Source.FPlayer;
-            var townQuake = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.TownQuake.TownQuakeRStr);
+            var townQuake = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TownQuakeRStr);
             Log.FArmyMessages.Add(townQuake);
             Log.FArmyIcon = 2;
             Log.FArmyView.Setup(Army.FArmy, 255);
@@ -1024,7 +1024,7 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:849
         public Anarchy(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.Anarchy.AnarchyRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AnarchyRStr);
             FSpellID = 72;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy);
         }
@@ -1033,7 +1033,7 @@ namespace Aow.Game.Magic.Spells.City
         public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             bool Result = default;
-            global::Aow.Game.World.Structures.City TargetCity = default;
+            World.Structures.City TargetCity = default;
             LocationTextEventLog Log = default;
             ImageSequenceAnimation A = default;
             if (ExecuteCount == 0)
@@ -1041,7 +1041,7 @@ namespace Aow.Game.Magic.Spells.City
                 TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
                 Log = new LocationTextEventLog(null);
                 Log.FPlayer = Source.FPlayer;
-                Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XCastRStr), [FSpellName]);
+                Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XCastRStr), [FSpellName]);
                 var lhx = TargetCity.GetLhx();
                 var yhx = TargetCity.GetYhx();
                 Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
@@ -1085,7 +1085,7 @@ namespace Aow.Game.Magic.Spells.City
         }
 
         // CitySpells.pas:858
-        public override bool ValidTargetCity(AbstractUnit Source, global::Aow.Game.World.Structures.City TargetCity)
+        public override bool ValidTargetCity(AbstractUnit Source, World.Structures.City TargetCity)
         {
             bool Result = base.ValidTargetCity(Source, TargetCity);
             if (!Result || TargetCity.FPlayer == 0 || TargetCity.FEnchantments.Contains(CityEnchantmentID.AntiMagicShell))
@@ -1104,10 +1104,10 @@ namespace Aow.Game.Magic.Spells.City
         public void ShowAnimation(Animation Animation, int X, int Y, in SurfaceDesc SD)
         {
             var imageSequenceAnimation = (ImageSequenceAnimation)Animation;
-            if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0)
+            if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != 0)
             {
                 var random = Random(2);
-                Aow.Game.Audio.AudioPlayback.PlaySample(Aow.Game.Magic.Abilities.AbilityRules.ExplosionSFX[random]);
+                Aow.Game.Audio.AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
             }
         }
 
@@ -1119,7 +1119,7 @@ namespace Aow.Game.Magic.Spells.City
         // CitySpells.pas:915
         public AnimateRuins(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.AnimateRuins.AnimateRuinsRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AnimateRuinsRStr);
             FSpellID = 76;
             FCityTargetMode = Set<CityTargetModeElement>.Of(CityTargetModeElement.Enemy, CityTargetModeElement.Razed);
         }
@@ -1128,18 +1128,18 @@ namespace Aow.Game.Magic.Spells.City
         public override bool ExecuteTE(SpellTE Event, AbstractUnit Source, int ExecuteCount)
         {
             bool Result = default;
-            global::Aow.Game.World.Structures.City TargetCity = default;
+            World.Structures.City TargetCity = default;
             LocationTextEventLog Log = default;
             ImageSequenceAnimation A = default;
             int Count = default;
-            global::Aow.Game.Magic.Abilities.Unit AUnit = default;
+            Abilities.Unit AUnit = default;
             if (ExecuteCount == 0)
             {
                 TargetCity = ((CityTargetSpellTE)Event).GetSelectedCity();
                 Log = new LocationTextEventLog(null);
                 Log.FPlayer = Source.FPlayer;
-                var animateRuins = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.City.AnimateRuins.AnimateRuinsRStr);
-                Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XCastRStr), [animateRuins]);
+                var animateRuins = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AnimateRuinsRStr);
+                Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XCastRStr), [animateRuins]);
                 var lhx = TargetCity.GetLhx();
                 var yhx = TargetCity.GetYhx();
                 Log.SetLocation(TargetCity.GetXhx(), yhx, lhx);
@@ -1176,9 +1176,9 @@ namespace Aow.Game.Magic.Spells.City
                     Count = Aow.Game.World.Map.AoWHSMap.Current.Random(size * 2) + 1;
                     for (int I = 0; I <= Count; I++)
                     {
-                        AUnit = new global::Aow.Game.Magic.Abilities.Unit(null);
+                        AUnit = new Abilities.Unit(null);
                         var random = Aow.Game.World.Map.AoWHSMap.Current.Random(2);
-                        AUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Aow.Game.Magic.Spells.City.AnimateRuins.TAnimateRuins_ExecuteTE__UndeadUnits[random]));
+                        AUnit.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(TAnimateRuins_ExecuteTE__UndeadUnits[random]));
                         var lhx = TargetCity.GetLhx();
                         var yhx = TargetCity.GetYhx();
                         AUnit.Place(TargetCity.GetXhx(), yhx, lhx, Source.FPlayer, Set<UnitPlaceModeElement>.Of(UnitPlaceModeElement.ScanArea));
@@ -1198,7 +1198,7 @@ namespace Aow.Game.Magic.Spells.City
         }
 
         // CitySpells.pas:924
-        public override bool ValidTargetCity(AbstractUnit Source, global::Aow.Game.World.Structures.City TargetCity)
+        public override bool ValidTargetCity(AbstractUnit Source, World.Structures.City TargetCity)
         {
             bool Result = base.ValidTargetCity(Source, TargetCity);
             return Result && TargetCity.GetRazed();
@@ -1208,14 +1208,14 @@ namespace Aow.Game.Magic.Spells.City
         public void ShowAnimation(Animation Animation, int X, int Y, in SurfaceDesc SD)
         {
             var imageSequenceAnimation = (ImageSequenceAnimation)Animation;
-            if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0)
+            if (imageSequenceAnimation.FImageSequence.GetUnloopedFrameIndex(imageSequenceAnimation.FFrameCounter) == 0 && GameTables.AoWEngine.FAnimationDetail != 0)
             {
                 var random = Random(2);
-                Aow.Game.Audio.AudioPlayback.PlaySample(Aow.Game.Magic.Abilities.AbilityRules.ExplosionSFX[random]);
+                Aow.Game.Audio.AudioPlayback.PlaySample(AbilityRules.ExplosionSFX[random]);
             }
         }
 
         private static readonly string AnimateRuinsRStr = "Animate Ruins";
-        private static global::Aow.Game.Engine.Buffers.FixedArray_int_2 TAnimateRuins_ExecuteTE__UndeadUnits = global::Aow.Game.Engine.Buffers.FixedArray_int_2.From([198, 201]);
+        private static FixedArray_int_2 TAnimateRuins_ExecuteTE__UndeadUnits = global::Aow.Game.Engine.Buffers.FixedArray_int_2.From([198, 201]);
     }
 }

@@ -65,7 +65,7 @@ public partial class Farm : PlayerCropStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.ProducingXIncomeRStr), [IntToStr(income)]);
     }
 
     // Farm.pas:111
@@ -122,7 +122,7 @@ public partial class Farm : PlayerCropStructure
     public override void UpdateCrops()
     {
         int Count;
-        if (!GetEditMode() && FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
+        if (!GetEditMode() && FStatus.Contains(MapObjectStatusElement.Activated))
         {
             if (GetRazed() || FTerrainType == 5)
             {
@@ -177,7 +177,7 @@ public partial class Farm : PlayerCropStructure
         // Farm.pas:36
 
         // Farm.pas:146
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Farm.Resource.FarmRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FarmRStr);
 
         private static readonly string FarmRStr = "Farm";
 

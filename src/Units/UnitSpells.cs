@@ -40,15 +40,15 @@ namespace Aow.Game.Combat.Actions
         }
 
         // UnitSpells.pas:987
-        public override void Execute(global::Aow.Game.Combat.Combat Combat)
+        public override void Execute(Combat Combat)
         {
-            Aow.Game.Combat.CombatUnit Source;
+            CombatUnit Source;
             base.Execute(Combat);
-            if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.CombatStatusElement.Executing))
+            if (FManaCost != 0 && Combat.FStatus.Contains(CombatStatusElement.Executing))
             {
                 if (Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID) != null)
                 {
-                    Source = (Aow.Game.Combat.CombatUnit)Combat.FCombatData.FindID(FSourceID);
+                    Source = (CombatUnit)Combat.FCombatData.FindID(FSourceID);
                     Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).CastingDone(Source.FUnit, FManaCost);
                 }
             }
@@ -66,14 +66,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:1000
         public DispelMagic(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicRStr);
             FSpellID = 8;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
+            FMagicSphere = MagicSphere.Cosmos;
             FTargetRange = 4;
             FAllowMultipleTargets = true;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:1023
@@ -94,7 +94,7 @@ namespace Aow.Game.Magic.Spells.Unit
         }
 
         // UnitSpells.pas:1074
-        public override void GetCombatInfo(AbstractUnit Source, ref Aow.Game.Magic.Spells.SpellCombatInfo Info)
+        public override void GetCombatInfo(AbstractUnit Source, ref SpellCombatInfo Info)
         {
             base.GetCombatInfo(Source, ref Info);
             Info.TargetTypes = Set<CombatTargetTypeElement>.Of(CombatTargetTypeElement.Friend, CombatTargetTypeElement.Enemy);
@@ -115,12 +115,12 @@ namespace Aow.Game.Magic.Spells.Unit
         {
             bool Result;
             int Count;
-            Aow.Game.Magic.EnchantmentList Enchantments;
+            EnchantmentList Enchantments;
             int Chance;
             if (ValidTargetUnit(Source, Target))
             {
                 Count = 0;
-                Enchantments = new Aow.Game.Magic.EnchantmentList(null);
+                Enchantments = new EnchantmentList(null);
                 Target.ListEnchantments(Enchantments);
                 for (int I = Enchantments.GetCount() - 1; I >= 0; I--)
                 {
@@ -133,16 +133,16 @@ namespace Aow.Game.Magic.Spells.Unit
                     }
                 }
 
-                if (Source.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (Source.FPlayer == World.Map.AoWHSMap.Current.FSeatedPlayer)
                 {
                     if (Count > 0)
                     {
-                        var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
+                        var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(format);
                     }
                     else
                     {
-                        var dispelMagicFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicFailedRStr);
+                        var dispelMagicFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DispelMagicFailedRStr);
                         Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(dispelMagicFailed);
                     }
                 }
@@ -167,13 +167,13 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:215
         public Haste(ECustomNode owner) : base(owner)
         {
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HasteRStr);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.HasteRStr);
             FSpellID = 15;
             FBaseManaCost = 5;
             FManaUpkeep = 2;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Air;
+            FMagicSphere = MagicSphere.Air;
             FTargetRange = 12;
             FUnitDispelResistance = 3;
         }
@@ -219,13 +219,13 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:256
         public StoneSkin(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StoneSkinRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.StoneSkinRStr);
             FSpellID = 17;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
+            FMagicSphere = MagicSphere.Earth;
             FTargetRange = 12;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
             FUnitDispelResistance = 3;
             FAIValue = 200;
             FCastDuration = 5;
@@ -270,13 +270,13 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:296
         public EnchantWeapon(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.EnchantWeapon.EnchantWeaponRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(EnchantWeaponRStr);
             FSpellID = 16;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
+            FMagicSphere = MagicSphere.Cosmos;
             FTargetRange = 12;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
             FUnitDispelResistance = 3;
             FAIValue = 225;
             FCastDuration = 5;
@@ -323,13 +323,13 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:386
         public FreeMovement(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FreeMovementRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FreeMovementRStr);
             FSpellID = 32;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
+            FMagicSphere = MagicSphere.Earth;
             FTargetRange = 12;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
             FUnitDispelResistance = 4;
         }
 
@@ -372,14 +372,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:336
         public Fury(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FuryRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FuryRStr);
             FSpellID = 33;
             FAIValue = 175;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
+            FMagicSphere = MagicSphere.Fire;
             FTargetRange = 12;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
             FUnitDispelResistance = 3;
         }
 
@@ -387,7 +387,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            if (Player == World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
             {
                 Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
@@ -441,13 +441,13 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:424
         public Remedy(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.Remedy.RemedyRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RemedyRStr);
             FSpellID = 35;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
+            FMagicSphere = MagicSphere.Cosmos;
             FTargetRange = 12;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:458
@@ -495,13 +495,13 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:467
         public HealingWater(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.HealingWater.HealingWaterRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HealingWaterRStr);
             FSpellID = 55;
             FBaseManaCost = 5;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Cosmos;
+            FMagicSphere = MagicSphere.Cosmos;
             FTargetRange = 12;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:491
@@ -537,14 +537,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:497
         public HolyChampion(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HolyChampionRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.HolyChampionRStr);
             FSpellID = 36;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Life;
+            FMagicSphere = MagicSphere.Life;
             FTargetRange = 12;
             FUnitDispelResistance = 4;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:529
@@ -586,14 +586,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:537
         public UnholyChampion(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UnholyChampionRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UnholyChampionRStr);
             FSpellID = 37;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
+            FMagicSphere = MagicSphere.Death;
             FTargetRange = 12;
             FUnitDispelResistance = 4;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:569
@@ -635,14 +635,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:577
         public Concealment(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ConcealmentRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ConcealmentRStr);
             FSpellID = 39;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
+            FMagicSphere = MagicSphere.Earth;
             FTargetRange = 12;
             FUnitDispelResistance = 5;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
         }
 
         // UnitSpells.pas:609
@@ -684,21 +684,21 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:616
         public FireAura(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FireAuraRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FireAuraRStr);
             FSpellID = 40;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Fire;
+            FMagicSphere = MagicSphere.Fire;
             FTargetRange = 12;
             FUnitDispelResistance = 4;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:629
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            if (Player == World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
             {
                 Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
@@ -743,14 +743,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:662
         public WaterWalking(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WaterWalkingRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WaterWalkingRStr);
             FSpellID = 42;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
+            FMagicSphere = MagicSphere.Water;
             FTargetRange = 12;
             FUnitDispelResistance = 6;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:694
@@ -792,14 +792,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:702
         public WindWalking(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WindWalkingRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.WindWalkingRStr);
             FSpellID = 43;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Air;
+            FMagicSphere = MagicSphere.Air;
             FTargetRange = 12;
             FUnitDispelResistance = 6;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:734
@@ -841,22 +841,22 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:741
         public LiquidForm(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LiquidFormRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LiquidFormRStr);
             FSpellID = 49;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
+            FMagicSphere = MagicSphere.Water;
             FAIValue = 300;
             FTargetRange = 12;
             FUnitDispelResistance = 5;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
         }
 
         // UnitSpells.pas:783
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
+            if (Player == World.Map.AoWHSMap.Current.FSeatedPlayer || Aow.Game.World.Map.AoWHSMap.Current.Watching(X, Y, Layer, 0))
             {
                 Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
@@ -902,14 +902,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:790
         public Bless(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.Bless.BlessRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BlessRStr);
             FSpellID = 56;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Water;
+            FMagicSphere = MagicSphere.Water;
             FTargetRange = 12;
             FUnitDispelResistance = 3;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
             FAIValue = 225;
             FCastDuration = 5;
         }
@@ -955,14 +955,14 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:830
         public DarkGift(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DarkGiftRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.DarkGiftRStr);
             FSpellID = 77;
             FBaseManaCost = 5;
             FSpellLevel = 3;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Death;
+            FMagicSphere = MagicSphere.Death;
             FTargetRange = 12;
             FUnitDispelResistance = 3;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global, Aow.Game.Magic.Spells.SpellControlTypeElement.Combat);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global, SpellControlTypeElement.Combat);
             FAIValue = 225;
             FCastDuration = 5;
         }
@@ -1002,7 +1002,7 @@ namespace Aow.Game.Magic.Spells.Unit
     }
 
     // replacement face index, target unit ID
-    public partial class CosmeticSurgerySpellCaster : Aow.Game.Magic.Spells.SpellCaster
+    public partial class CosmeticSurgerySpellCaster : SpellCaster
     {
         public CosmeticSurgerySpellCaster(ECustomNode owner) : base(owner)
         { }
@@ -1051,19 +1051,19 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:901
         public CosmeticSurgery(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.CosmeticSurgery.DeformFaceRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DeformFaceRStr);
             FSpellID = 59;
-            FSpellType = Aow.Game.Magic.Spells.SpellType.Unit;
+            FSpellType = SpellType.Unit;
             FSpellLevel = 1;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Secret;
+            FMagicSphere = MagicSphere.Secret;
             FAllowMultipleTargets = false;
             FUnitDispelResistance = 10;
             FTargetRange = -1;
-            FSpellControlTypes = Set<Aow.Game.Magic.Spells.SpellControlTypeElement>.Of(Aow.Game.Magic.Spells.SpellControlTypeElement.Global);
+            FSpellControlTypes = Set<SpellControlTypeElement>.Of(SpellControlTypeElement.Global);
         }
 
         // UnitSpells.pas:968
-        public override void GetCombatInfo(AbstractUnit Source, ref Aow.Game.Magic.Spells.SpellCombatInfo Info)
+        public override void GetCombatInfo(AbstractUnit Source, ref SpellCombatInfo Info)
         {
             // { The original saves Self and Source as well as Info; this compiler saves only Info. }
             base.GetCombatInfo(Source, ref Info);
@@ -1113,7 +1113,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override bool ExecuteSpell(AbstractUnit Source, AbstractUnit Target, int Mana, ref FixedArray_int_2 Data)
         {
             bool Result;
-            Aow.Game.Magic.CosmeticSurgeryEnchantment Enchantment;
+            CosmeticSurgeryEnchantment Enchantment;
             bool Expanded;
             if (ValidTargetUnit(Source, Target))
             {
@@ -1128,7 +1128,7 @@ namespace Aow.Game.Magic.Spells.Unit
 
                 if (Expanded)
                 {
-                    Enchantment = (Aow.Game.Magic.CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)Target.GetAbilityData(126)).FEnchantment;
+                    Enchantment = (CosmeticSurgeryEnchantment)((UnitEnchantmentAbilityData)Target.GetAbilityData(126)).FEnchantment;
                     Enchantment.SetUpkeep(FManaUpkeep);
                     Enchantment.FFaceIndex = Data[0];
                     Enchantment.SetSource(Source.FPlayer);

@@ -27,24 +27,24 @@ namespace Aow.Game.Combat;
 
 public static class CombatClasses
 {
-    public static void Register(global::Aow.Game.Engine.Engine AEngine)
+    public static void Register(Engine.Engine AEngine)
     {
         Aow.Game.Magic.Abilities.GameTables.AoWEngine.RegisterEClasses([EClass.Of<AoWCombatMap>(), EClass.Of<AoWCombatMapLevel>(), EClass.Of<UnitPositionHS>(), EClass.Of<TacticalCombat>()]);
-        (AEngine).RegisterEClasses([EClass.Of<CombatILTerrain>(), EClass.Of<CombatILTerrainResource>(), EClass.Of<CombatFixedILTerrain>(), EClass.Of<Aow.Game.World.Terrain.CombatFixedILTerrain.Resource>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.Hexes.CombatHexagon.Resource>(), EClass.Of<CombatHexagon>(), EClass.Of<WaterCombatHexagon>(), EClass.Of<Aow.Game.World.Hexes.WaterCombatHexagon.Resource>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.Hexes.CombatRoad.Resource>(), EClass.Of<CombatRoad>()]);
-        (AEngine).RegisterEClasses([EClass.Of<CombatTerrain>(), EClass.Of<Aow.Game.World.Hexes.CombatTerrain.Resource>()]);
-        (AEngine).RegisterEClasses([EClass.Of<CityWall>(), EClass.Of<Aow.Game.World.Terrain.CityWall.Resource>(), EClass.Of<CityWallDoor>(), EClass.Of<Aow.Game.World.Terrain.CityWallDoor.Resource>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.Terrain.Workshop.Resource>(), EClass.Of<Workshop>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.Terrain.Townhall.Resource>(), EClass.Of<Townhall>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.Terrain.House.Resource>(), EClass.Of<House>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.FleeLocation.Resource>(), EClass.Of<FleeLocation>(), EClass.Of<MovementHS>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.Hexes.SingleCombatHexagon.Resource>(), EClass.Of<SingleCombatHexagon>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.CombatObstacle.Resource>(), EClass.Of<CombatObstacle>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CombatILTerrain>(), EClass.Of<CombatILTerrainResource>(), EClass.Of<CombatFixedILTerrain>(), EClass.Of<CombatFixedILTerrain.Resource>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CombatHexagon.Resource>(), EClass.Of<CombatHexagon>(), EClass.Of<WaterCombatHexagon>(), EClass.Of<WaterCombatHexagon.Resource>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CombatRoad.Resource>(), EClass.Of<CombatRoad>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CombatTerrain>(), EClass.Of<CombatTerrain.Resource>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CityWall>(), EClass.Of<CityWall.Resource>(), EClass.Of<CityWallDoor>(), EClass.Of<CityWallDoor.Resource>()]);
+        (AEngine).RegisterEClasses([EClass.Of<Workshop.Resource>(), EClass.Of<Workshop>()]);
+        (AEngine).RegisterEClasses([EClass.Of<Townhall.Resource>(), EClass.Of<Townhall>()]);
+        (AEngine).RegisterEClasses([EClass.Of<House.Resource>(), EClass.Of<House>()]);
+        (AEngine).RegisterEClasses([EClass.Of<FleeLocation.Resource>(), EClass.Of<FleeLocation>(), EClass.Of<MovementHS>()]);
+        (AEngine).RegisterEClasses([EClass.Of<SingleCombatHexagon.Resource>(), EClass.Of<SingleCombatHexagon>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CombatObstacle.Resource>(), EClass.Of<CombatObstacle>()]);
         (AEngine).RegisterEClasses([EClass.Of<CombatMoveTE>(), EClass.Of<CMeleeMoveTE>(), EClass.Of<CAbTouchMoveTE>(), EClass.Of<CAbRangedTE>(), EClass.Of<CEndTurnTE>(), EClass.Of<CEndCombatTE>(), EClass.Of<TerminateCombatTE>()]);
-        (AEngine).RegisterEClasses([EClass.Of<IsometricCombatHexagon>(), EClass.Of<Aow.Game.World.Hexes.IsometricCombatHexagon.Resource>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.Terrain.MainStructure.Resource>(), EClass.Of<MainStructure>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.World.CenterViewLocation.Resource>(), EClass.Of<CenterViewLocation>()]);
-        (AEngine).RegisterEClasses([EClass.Of<Aow.Game.Draw.CombatFire.Resource>(), EClass.Of<CombatFire>()]);
+        (AEngine).RegisterEClasses([EClass.Of<IsometricCombatHexagon>(), EClass.Of<IsometricCombatHexagon.Resource>()]);
+        (AEngine).RegisterEClasses([EClass.Of<MainStructure.Resource>(), EClass.Of<MainStructure>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CenterViewLocation.Resource>(), EClass.Of<CenterViewLocation>()]);
+        (AEngine).RegisterEClasses([EClass.Of<CombatFire.Resource>(), EClass.Of<CombatFire>()]);
     }
 }

@@ -9,7 +9,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class POP3Dlg : DataModule
 {
-    public POP3Dlg(global::Aow.Rtl.Component owner) : base(owner)
+    public POP3Dlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -77,7 +77,7 @@ public partial class POP3Dlg : DataModule
         var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
         var attachmentDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAttachmentDirectory();
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.POP3Dlg.AttachmentDirectoryXRStr), [attachmentDirectory]);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AttachmentDirectoryXRStr), [attachmentDirectory]);
         AttachmentDirectoryLbl.Text = "(" + format + ")";
         Dlg.Visible = true;
     }
@@ -130,8 +130,8 @@ public partial class POP3Dlg : DataModule
         if (FoundEmailGames.Selected != -1)
         {
             var item = FoundEmailGames.Items[FoundEmailGames.Selected];
-            Aow.Game.Ui.Dialogs.General.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
-            Aow.Game.Ui.Dialogs.General.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
+            Aow.Game.Ui.Dialogs.General.LoadGame(DialogHosts.General, Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "EmailIn\\" + item);
+            Aow.Game.Ui.Dialogs.General.StartGame(DialogHosts.General);
         }
     }
 

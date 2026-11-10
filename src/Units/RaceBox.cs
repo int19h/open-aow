@@ -25,7 +25,7 @@ public partial class RaceBox : ComboBox
 
     // RaceBox.pas:52
 
-    public RaceBox(global::Aow.Rtl.Component owner) : base(owner)
+    public RaceBox(Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -56,7 +56,7 @@ public partial class RaceBox : ComboBox
     public void SetRaces(RaceList Value)
     {
         FRaces = Value;
-        if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Loading))
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && !ComponentState.Contains(Rtl.ComponentState.Loading))
         {
             GenerateItems();
         }

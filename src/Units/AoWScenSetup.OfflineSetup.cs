@@ -10,7 +10,7 @@ public partial class ScenSetup
     public void RacePnlDrawBack(AOWPanel sender, SurfaceDesc surface, int Slot)
     {
         var panel = sender;
-        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields[Slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
+        DialogHosts.IntGfxMod.Shields[Slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
     }
 
     public void ScenSetupPnlUpdate() { }

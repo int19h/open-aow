@@ -148,12 +148,12 @@ public sealed class StringBufferTests
         memo.FItems.Add("<INT><COLOR=80FF00><SPACING=3><ALIGN=RIGHT>\0<COLOR=FFFFFF>");
         memo.SetSize();
         Assert.Equal(4, memo.FChanges.Count);
-        var color = Assert.IsType<Aow.Game.Ui.Windows.TaowHTMLMemo.ChangeInfo>(memo.FChanges[1]);
-        var spacing = Assert.IsType<Aow.Game.Ui.Windows.TaowHTMLMemo.ChangeInfo>(memo.FChanges[2]);
-        var alignment = Assert.IsType<Aow.Game.Ui.Windows.TaowHTMLMemo.ChangeInfo>(memo.FChanges[3]);
+        var color = Assert.IsType<TaowHTMLMemo.ChangeInfo>(memo.FChanges[1]);
+        var spacing = Assert.IsType<TaowHTMLMemo.ChangeInfo>(memo.FChanges[2]);
+        var alignment = Assert.IsType<TaowHTMLMemo.ChangeInfo>(memo.FChanges[3]);
         Assert.Equal(0x80FF00, color.FColor);
         Assert.Equal(3, spacing.FSpacing);
-        Assert.Equal(Aow.Game.Ui.Controls.TaowTextAlign.Right, alignment.FAlign);
+        Assert.Equal(TaowTextAlign.Right, alignment.FAlign);
         Assert.Equal(0x80FF00, alignment.FColor);
     }
 

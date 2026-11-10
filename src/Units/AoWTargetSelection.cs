@@ -9,7 +9,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class TargetSelectionDlg : DataModule
 {
-    public TargetSelectionDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public TargetSelectionDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;

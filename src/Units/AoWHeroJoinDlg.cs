@@ -27,7 +27,7 @@ namespace Aow.Game.Ui.Dialogs;
 // done callback, join event, details flag, selection mask, unit list, face unit
 public partial class HeroJoinDlg : DataModule
 {
-    public HeroJoinDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public HeroJoinDlg(Component owner) : base(owner)
     { }
 
     public AOWPanel UnitPnl;
@@ -78,8 +78,8 @@ public partial class HeroJoinDlg : DataModule
         if (FDetailsOpen)
         {
             FDetailsOpen = false;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Priority;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = false;
+            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWin.ControlWindow.Priority;
+            DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
         Done = FDone;
@@ -98,12 +98,12 @@ public partial class HeroJoinDlg : DataModule
     }
 
     // AoWHeroJoinDlg.pas:94
-    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc Surface)
+    public void DrawUnit(int Index, in Rect R, ref SurfaceDesc Surface)
     {
         Alignment Alignment;
         int X;
         int Y;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         P2UnitShowInfo Info;
         if (Index < FUnits.GetCount())
         {
@@ -112,9 +112,9 @@ public partial class HeroJoinDlg : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             Alignment = FUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                var image = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -124,7 +124,7 @@ public partial class HeroJoinDlg : DataModule
             FUnits.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
             if ((((int)(((uint)FSelection) >> Index)) & 1) == 0)
             {
-                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
+                var image = DialogHosts.IntGfxMod.UnitBGs[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -193,7 +193,7 @@ public partial class HeroJoinDlg : DataModule
     // AoWHeroJoinDlg.pas:165
     public void FaceFramePreDraw(SurfaceDesc Surface)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (ValidateJoin())
         {
             R.Left = FaceFrame.WinLeft + Dlg.WinLeft;
@@ -210,7 +210,7 @@ public partial class HeroJoinDlg : DataModule
     // AoWHeroJoinDlg.pas:179
     public void U1PreDraw(AoWFrame Sender, SurfaceDesc Surface, int Slot)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (ValidateJoin())
         {
             R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
@@ -231,12 +231,12 @@ public partial class HeroJoinDlg : DataModule
             if (Slot < count)
             {
                 var unit = FUnits.GetUnit(Slot);
-                Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
+                DialogHosts.General.FSelectedUnit = unit;
                 if (Button == MouseButton.Left)
                 {
                     FDetailsOpen = true;
                     Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
-                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                    DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
                 }
             }
         }
@@ -265,7 +265,7 @@ public partial class HeroJoinDlg : DataModule
             Dialog.FFaceUnit = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
             Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
             var level = ((Hero)Dialog.FFaceUnit).GetLevel();
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelXRStr), [IntToStr(level)]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LevelXRStr), [IntToStr(level)]);
             Dialog.HeroLevel.Text = format;
             Dialog.HeroName.Text = ((Hero)Dialog.FFaceUnit).FHeroName;
             var text = Dialog.FJoinEvent.FJoinMessage.Text;
@@ -279,10 +279,10 @@ public partial class HeroJoinDlg : DataModule
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
-        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AcceptRStr);
+        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AcceptRStr);
         Dialog.LeftBtn.Text = accept;
         Dialog.MiddleBtn.Visible = false;
-        var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
+        var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CancelRStr);
         Dialog.RightBtn.Text = cancel;
         Aow.Game.Ui.Dialogs.HeroJoinDlg.UpdateHeroJoin(Dialog);
         Dialog.Dlg.Visible = true;
@@ -294,11 +294,11 @@ public partial class HeroJoinDlg : DataModule
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
-        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AcceptRStr);
+        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AcceptRStr);
         Dialog.LeftBtn.Text = accept;
-        var attack = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AttackRStr);
+        var attack = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AttackRStr);
         Dialog.MiddleBtn.Text = attack;
-        var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
+        var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CancelRStr);
         Dialog.RightBtn.Text = cancel;
         Aow.Game.Ui.Dialogs.HeroJoinDlg.UpdateHeroJoin(Dialog);
         Dialog.Dlg.Visible = true;
@@ -317,10 +317,10 @@ public partial class HeroJoinDlg : DataModule
         Dialog.FJoinEvent = Event;
         Dialog.FJoinEvent.AddRef();
         Dialog.FDone = Done;
-        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AcceptRStr);
+        var accept = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.AcceptRStr);
         Dialog.LeftBtn.Text = accept;
         Dialog.MiddleBtn.Visible = false;
-        var reject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RejectRStr);
+        var reject = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.RejectRStr);
         Dialog.RightBtn.Text = reject;
         Aow.Game.Ui.Dialogs.HeroJoinDlg.UpdateHeroJoin(Dialog);
         Dialog.Dlg.Visible = true;

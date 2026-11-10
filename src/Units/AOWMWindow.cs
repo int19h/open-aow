@@ -15,7 +15,7 @@ namespace Aow.Game.Ui.Dialogs;
 // saved map rectangle, saved alignment
 public partial class MWindow : DataModule
 {
-    public MWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public MWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow MapWindow;
@@ -33,8 +33,8 @@ public partial class MWindow : DataModule
     // AOWMWindow.pas:53
     public void MWindowCreate()
     {
-        MapWindow.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        MapWindow.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        MapWindow.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        MapWindow.WinManager = DialogHosts.General.Manager;
         FMapAlignWidth = AOWAlignWidth.Both;
         FMapAlignHeight = AOWAlignHeight.Both;
     }
@@ -100,23 +100,23 @@ public partial class MWindow : DataModule
     // AOWMWindow.pas:93
     public void MapViewerSceneChanged()
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+        if (AoWHSMap.Current.FSeatedPlayer != -1)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTWidth(MapViewer.SceneWidth / 32);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTHeight(MapViewer.SceneHeight / 32);
             Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
             Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
-            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTLeft(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
-            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTTop(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
+            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTWidth(MapViewer.SceneWidth / 32);
+            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTHeight(MapViewer.SceneHeight / 32);
+            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTLeft(MapViewer.SceneX / 32 - 6);
+            Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.Scanner.SetTTop(MapViewer.SceneY / 32 - 6);
         }
 
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap == null)
+        if (AoWHSMap.Current.FCombatMap == null)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FLevel)
+            if (Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL) != DialogHosts.SWindow.Scanner.FLevel)
             {
-                var scanner = Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner;
+                var scanner = DialogHosts.SWindow.Scanner;
                 scanner.FUpdateStep = -1;
                 scanner.SetLevel(Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(MapViewer.SceneL));
 
@@ -124,14 +124,14 @@ public partial class MWindow : DataModule
             }
         }
 
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
-            var hsMapMouse = Aow.Game.World.Map.AoWHSMap.Current.FCombatMap.Mouse;
+            var hsMapMouse = AoWHSMap.Current.FCombatMap.Mouse;
             hsMapMouse.Move(Set<ShiftState>.Of(), hsMapMouse.X, hsMapMouse.Y);
         }
         else
         {
-            var hsMapMouse = Aow.Game.World.Map.AoWHSMap.Current.Mouse;
+            var hsMapMouse = AoWHSMap.Current.Mouse;
             hsMapMouse.Move(Set<ShiftState>.Of(), hsMapMouse.X, hsMapMouse.Y);
         }
     }
@@ -151,7 +151,7 @@ public partial class MWindow : DataModule
     // AOWMWindow.pas:136
     public void MapWindowExit()
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (AoWHSMap.Current != null)
         {
             Aow.Game.World.Map.AoWHSMap.Current.Mouse.Move(Set<ShiftState>.Of(), -1, -1);
         }
@@ -160,7 +160,7 @@ public partial class MWindow : DataModule
     // AOWMWindow.pas:150
     public void MapWindowPreDrawSurface(Surface Surface, int X, int Y)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (AoWHSMap.Current != null)
         {
             MapViewer.SceneWidth = MapWindow.WinWidth - 24;
             MapViewer.SceneHeight = MapWindow.WinHeight - 24;
@@ -179,14 +179,14 @@ public partial class MWindow : DataModule
     public void MapWindowKeyDown(AoWComponent Sender, ref ushort Key, Set<ShiftState> Shift)
     {
         ushort K;
-        if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.Combat.AoWCombatMap.Current == null)
+        if (AoWHSMap.Current != null && Combat.AoWCombatMap.Current == null)
         {
             Aow.Game.World.Map.AoWHSMap.Current.FKeyboard.KeyDown(ref Key, Shift);
             PressEndTurnShortcut(Key, Shift);
         }
 
         K = Key;
-        switch (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FLanguage)
+        switch (Magic.Abilities.GameTables.AoWEngine.FLanguage)
         {
             case 4:
                 switch (Key)
@@ -210,34 +210,34 @@ public partial class MWindow : DataModule
                 break;
         }
 
-        if (MapViewer != null && Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (MapViewer != null && AoWHSMap.Current != null)
         {
             switch (K)
             {
                 case 37:
-                    Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX - 32;
+                    MapViewer.SceneX = MapViewer.SceneX - 32;
                     Sender.FHandled = true;
                     break;
                 case 39:
-                    Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX + 32;
+                    MapViewer.SceneX = MapViewer.SceneX + 32;
                     Sender.FHandled = true;
                     break;
                 case 38:
-                    Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY - 32;
+                    MapViewer.SceneY = MapViewer.SceneY - 32;
                     Sender.FHandled = true;
                     break;
                 case 40:
-                    Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY + 32;
+                    MapViewer.SceneY = MapViewer.SceneY + 32;
                     Sender.FHandled = true;
                     break;
                 case 33:
-                    Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneL = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneL - 1;
+                    MapViewer.SceneL = MapViewer.SceneL - 1;
                     break;
                 case 34:
-                    Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneL = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneL + 1;
+                    MapViewer.SceneL = MapViewer.SceneL + 1;
                     break;
                 case 77:
-                    if (Aow.Game.Combat.AoWCombatMap.Current != null)
+                    if (Combat.AoWCombatMap.Current != null)
                     {
                         Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.MoveUnits();
                     }
@@ -245,7 +245,7 @@ public partial class MWindow : DataModule
                     Sender.FHandled = true;
                     break;
                 case 78:
-                    if (Aow.Game.Combat.AoWCombatMap.Current != null)
+                    if (Combat.AoWCombatMap.Current != null)
                     {
                         Aow.Game.Combat.AoWCombatMap.Current.SelectNextUnit(true);
                     }
@@ -253,7 +253,7 @@ public partial class MWindow : DataModule
                     Sender.FHandled = true;
                     break;
                 case 80:
-                    if (Aow.Game.Combat.AoWCombatMap.Current != null)
+                    if (Combat.AoWCombatMap.Current != null)
                     {
                         Aow.Game.Combat.AoWCombatMap.Current.SelectNextUnit(false);
                     }
@@ -262,7 +262,7 @@ public partial class MWindow : DataModule
                     break;
                 case 69:
                 case 13:
-                    if (Shift.Contains(ShiftState.Ctrl) && Aow.Game.Combat.AoWCombatMap.Current != null)
+                    if (Shift.Contains(ShiftState.Ctrl) && Combat.AoWCombatMap.Current != null)
                     {
                         Aow.Game.Combat.AoWCombatMap.Current.EndTurn(false);
                         Sender.FHandled = true;
@@ -271,40 +271,40 @@ public partial class MWindow : DataModule
                     break;
                 case 79:
                 case 114:
-                    if (Aow.Game.Combat.AoWCombatMap.Current == null && (K == 114 || Shift.Contains(ShiftState.Ctrl)))
+                    if (Combat.AoWCombatMap.Current == null && (K == 114 || Shift.Contains(ShiftState.Ctrl)))
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FMode = 0;
-                        Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                        DialogHosts.FileDlgWindow.FMode = 0;
+                        DialogHosts.FileDlgWindow.FileDialog.Visible = true;
                     }
 
                     break;
                 case 83:
                 case 115:
-                    if (Aow.Game.Combat.AoWCombatMap.Current == null && (K == 115 || Shift.Contains(ShiftState.Ctrl)))
+                    if (Combat.AoWCombatMap.Current == null && (K == 115 || Shift.Contains(ShiftState.Ctrl)))
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FMode = 1;
-                        Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                        DialogHosts.FileDlgWindow.FMode = 1;
+                        DialogHosts.FileDlgWindow.FileDialog.Visible = true;
                     }
 
                     break;
                 case 116:
-                    if (Aow.Game.Combat.AoWCombatMap.Current != null)
+                    if (Combat.AoWCombatMap.Current != null)
                     {
-                        Aow.Game.Combat.AoWCombatMap.Current.FShowGrid = !Aow.Game.Combat.AoWCombatMap.Current.FShowGrid;
+                        Combat.AoWCombatMap.Current.FShowGrid = !Combat.AoWCombatMap.Current.FShowGrid;
                     }
                     else
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.FShowGrid = !Aow.Game.World.Map.AoWHSMap.Current.FShowGrid;
+                        AoWHSMap.Current.FShowGrid = !AoWHSMap.Current.FShowGrid;
                     }
 
                     break;
                 case 117:
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+                    if (Magic.Abilities.GameTables.AoWEngine.FDebug && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
                     {
-                        if (Aow.Game.Combat.AoWCombatMap.Current != null)
+                        if (Combat.AoWCombatMap.Current != null)
                         {
-                            Aow.Game.Combat.AoWCombatMap.Current.SetFogEnabled(!Aow.Game.Combat.AoWCombatMap.Current.FFogEnabled);
-                            if (Aow.Game.Combat.AoWCombatMap.Current.FFogEnabled)
+                            Aow.Game.Combat.AoWCombatMap.Current.SetFogEnabled(!Combat.AoWCombatMap.Current.FFogEnabled);
+                            if (Combat.AoWCombatMap.Current.FFogEnabled)
                             {
                                 Aow.Game.Combat.AoWCombatMap.Current.ShowMessage("Fog Enabled");
                             }
@@ -315,10 +315,10 @@ public partial class MWindow : DataModule
                         }
                         else
                         {
-                            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+                            if (AoWHSMap.Current != null)
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.SetFogEnabled(!Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled);
-                                if (Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled)
+                                Aow.Game.World.Map.AoWHSMap.Current.SetFogEnabled(!AoWHSMap.Current.FFogEnabled);
+                                if (AoWHSMap.Current.FFogEnabled)
                                 {
                                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage("Fog Enabled");
                                 }
@@ -332,12 +332,12 @@ public partial class MWindow : DataModule
 
                     break;
                 case 118:
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug && Aow.Game.World.Map.AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
+                    if (Magic.Abilities.GameTables.AoWEngine.FDebug && AoWHSMap.Current.FConnectionType != PlayerConnectionType.Network)
                     {
-                        if (Aow.Game.Combat.AoWCombatMap.Current != null)
+                        if (Combat.AoWCombatMap.Current != null)
                         {
-                            Aow.Game.Combat.AoWCombatMap.Current.SetExplorationEnabled(!Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled);
-                            if (Aow.Game.Combat.AoWCombatMap.Current.FExplorationEnabled)
+                            Aow.Game.Combat.AoWCombatMap.Current.SetExplorationEnabled(!Combat.AoWCombatMap.Current.FExplorationEnabled);
+                            if (Combat.AoWCombatMap.Current.FExplorationEnabled)
                             {
                                 Aow.Game.Combat.AoWCombatMap.Current.ShowMessage("Exploration Enabled");
                             }
@@ -349,10 +349,10 @@ public partial class MWindow : DataModule
                         }
                         else
                         {
-                            if (Aow.Game.World.Map.AoWHSMap.Current != null)
+                            if (AoWHSMap.Current != null)
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.SetExplorationEnabled(!Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled);
-                                if (Aow.Game.World.Map.AoWHSMap.Current.FExplorationEnabled)
+                                Aow.Game.World.Map.AoWHSMap.Current.SetExplorationEnabled(!AoWHSMap.Current.FExplorationEnabled);
+                                if (AoWHSMap.Current.FExplorationEnabled)
                                 {
                                     Aow.Game.World.Map.AoWHSMap.Current.ShowMessage("Exploration Enabled");
                                 }
@@ -366,9 +366,9 @@ public partial class MWindow : DataModule
 
                     break;
                 case 119:
-                    if (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDeveloper())
+                    if (!Magic.Abilities.GameTables.AoWEngine.FDemo && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetDeveloper())
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+                        if (AoWHSMap.Current.FCombatMap != null)
                         {
                             Aow.Game.Combat.AoWCombatMap.Current.EndCombat();
                         }
@@ -382,7 +382,7 @@ public partial class MWindow : DataModule
     // AOWMWindow.pas:141. Frame invalidation and measured FPS use the active host.
     public void MapWindowUpdate()
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current is null) return;
+        if (AoWHSMap.Current is null) return;
         Aow.Game.World.Map.AoWHSMap.Current.UpdateFPS(FrameFixtureInputs.MeasuredFrameRate ?? GameHost.MainForm.Display.CurrentFrameRate);
         MapWindow.FDrawn &= MapWindow.FDoubleBuffered;
     }

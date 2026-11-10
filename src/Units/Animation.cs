@@ -36,7 +36,7 @@ namespace Aow.Game.Draw.Animation
 
     // { ot=1 }
     // hex position, display level, state, frame, dimensions, callbacks, tag, map
-    public partial class Animation : Aow.Game.Draw.HexagonSprite
+    public partial class Animation : HexagonSprite
     {
         public Animation(ECustomNode owner) : base(owner)
         {
@@ -52,7 +52,7 @@ namespace Aow.Game.Draw.Animation
         public byte FAnimationLevel;
         public Set<StateElement> FState;
         public int FFrameCounter;
-        public global::Aow.Rtl.Rect FDimensions;
+        public Rect FDimensions;
         public ShowAnimationEvent FOnShow;
         public NewFrameAnimationEvent FOnNewFrame;
         public int FTag;
@@ -196,7 +196,7 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:383
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             if (FOnShow != null)
             {
@@ -379,7 +379,7 @@ namespace Aow.Game.Draw.Animation
         }
 
         // Animation.pas:255
-        public void SetDimensions(global::Aow.Rtl.Rect R)
+        public void SetDimensions(Rect R)
         {
             if (!FState.Contains(StateElement.Placed))
             {
@@ -401,7 +401,7 @@ namespace Aow.Game.Draw.Animation
             Visible = 0, EditMode = 1, Selected = 2, LinkedToTE = 3, Activated = 4, Placed = 5
         }
 
-        public delegate void NewFrameAnimationEvent(global::Aow.Game.Draw.Animation.Animation Animation, int FrameCounter);
+        public delegate void NewFrameAnimationEvent(Animation Animation, int FrameCounter);
 
     }
 }
@@ -491,7 +491,7 @@ namespace Aow.Game.Draw.Animation
 {
 
     // sequence, pixel offsets, last frame, loop flag
-    public partial class ImageSequenceAnimation : global::Aow.Game.Draw.Animation.Animation
+    public partial class ImageSequenceAnimation : Animation
     {
         public ImageSequenceAnimation(ECustomNode owner) : base(owner)
         {
@@ -509,7 +509,7 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:424
 
         // Animation.pas:493
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             ImageSequence Sequence;
             int X = default;
@@ -569,7 +569,7 @@ namespace Aow.Game.Draw.Animation
         public void UpdateDimensions()
         {
             ImageSequence Sequence;
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             FDimensions.Left = 0;
             FDimensions.Right = 0;
             FDimensions.Top = 0;
@@ -636,7 +636,7 @@ namespace Aow.Game.Draw.Animation
     }
 
     // sequence, particle count, radius, lifetime, random start delay, mode
-    public partial class TwinkleAnimation : global::Aow.Game.Draw.Animation.Animation
+    public partial class TwinkleAnimation : Animation
     {
         public TwinkleAnimation(ECustomNode owner) : base(owner)
         {
@@ -653,7 +653,7 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:532
 
         // Animation.pas:538
-        public override void Show(int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc)
+        public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
             ImageSequence Sequence;
             int OldSeed;
@@ -671,7 +671,7 @@ namespace Aow.Game.Draw.Animation
             YhpSurf = Y - YhpSurf + 16;
             var xhx = GetXhx();
             var yhx = GetYhx();
-            RandSeed = xhx + Aow.Game.World.Map.AoWHSMap.Current.FInitialRandomSeed + yhx * 3;
+            RandSeed = xhx + AoWHSMap.Current.FInitialRandomSeed + yhx * 3;
             for (int I = 0, last = FCount - 1; I <= last; I++)
             {
                 Radius = Random(FRadius);
@@ -736,5 +736,5 @@ namespace Aow.Game.Draw.Animation
 
     }
 
-    public delegate void ShowAnimationEvent(global::Aow.Game.Draw.Animation.Animation Animation, int XhpSurf, int YhpSurf, in Aow.Game.Draw.SurfaceDesc SurfaceDesc);
+    public delegate void ShowAnimationEvent(Animation Animation, int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc);
 }

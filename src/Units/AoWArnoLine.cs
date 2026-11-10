@@ -10,9 +10,9 @@ namespace Aow.Game.Ui.Controls;
 // top, middle, bottom, copied line image library
 public partial class AoWArnoLine : AOWControl
 {
-    public Aow.Game.Draw.Images.LibraryImage FImageTop;
-    public Aow.Game.Draw.Images.LibraryImage FImageMiddle;
-    public Aow.Game.Draw.Images.LibraryImage FImageBottom;
+    public LibraryImage FImageTop;
+    public LibraryImage FImageMiddle;
+    public LibraryImage FImageBottom;
     public InterfaceIL FLineLibrary;
 
     // AoWArnoLine.pas:47
@@ -23,7 +23,7 @@ public partial class AoWArnoLine : AOWControl
     }
 
     // AoWArnoLine.pas:41
-    public AoWArnoLine(global::Aow.Rtl.Component owner) : base(owner)
+    public AoWArnoLine(Component owner) : base(owner)
     {
         FLineLibrary = new InterfaceIL(this);
     }
@@ -56,7 +56,7 @@ public partial class AoWArnoLine : AOWControl
     // AoWArnoLine.pas:99
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -72,7 +72,7 @@ public partial class AoWArnoLine : AOWControl
                     SurfDesc.ClipRect.Top = FWinTop;
                 }
 
-                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FLineLibrary.DrawILLv(0, rect, ref SurfDesc);
                 if (FOnDraw != null)
                 {
@@ -89,7 +89,7 @@ public partial class AoWArnoLine : AOWControl
     }
 
     // AoWArnoLine.pas:66
-    public void SetITop(Aow.Game.Draw.Images.LibraryImage Value)
+    public void SetITop(LibraryImage Value)
     {
         if (Value != FImageTop)
         {
@@ -99,7 +99,7 @@ public partial class AoWArnoLine : AOWControl
     }
 
     // AoWArnoLine.pas:75
-    public void SetIMiddle(Aow.Game.Draw.Images.LibraryImage Value)
+    public void SetIMiddle(LibraryImage Value)
     {
         if (Value != FImageMiddle)
         {
@@ -109,7 +109,7 @@ public partial class AoWArnoLine : AOWControl
     }
 
     // AoWArnoLine.pas:84
-    public void SetIBottom(Aow.Game.Draw.Images.LibraryImage Value)
+    public void SetIBottom(LibraryImage Value)
     {
         if (Value != FImageBottom)
         {
@@ -119,13 +119,13 @@ public partial class AoWArnoLine : AOWControl
     }
 
     [Published]
-    public Aow.Game.Draw.Images.LibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
+    public LibraryImage ImageTop { get => FImageTop; set => SetITop(value); }
 
     [Published]
-    public Aow.Game.Draw.Images.LibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
+    public LibraryImage ImageMiddle { get => FImageMiddle; set => SetIMiddle(value); }
 
     [Published]
-    public Aow.Game.Draw.Images.LibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
+    public LibraryImage ImageBottom { get => FImageBottom; set => SetIBottom(value); }
 
     public new NotifyEvent<AoWArnoLine> OnChange
     {

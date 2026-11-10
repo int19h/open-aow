@@ -26,7 +26,7 @@ namespace Aow.Game.Ui.Dialogs;
 // done callback, retained event
 public partial class MsgReceiveDlg : DataModule
 {
-    public MsgReceiveDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public MsgReceiveDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow MsgReceiveWin;

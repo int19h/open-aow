@@ -46,7 +46,7 @@ namespace Aow.Game.Ui.Dialogs
     // full screen, change flag, display size
     public partial class VideoDialog : DataModule
     {
-        public VideoDialog(global::Aow.Rtl.Component owner) : base(owner)
+        public VideoDialog(Component owner) : base(owner)
         { }
 
         public AOWWindow Dlg;
@@ -99,14 +99,14 @@ namespace Aow.Game.Ui.Dialogs
             DisplayModeItem Mode;
             string S;
             DisplayModesLB.Items.Clear();
-            var desktopWindow = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.VideoDialog.DesktopWindowRStr);
+            var desktopWindow = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DesktopWindowRStr);
             DisplayModesLB.Items.AddObject(desktopWindow, IntToObject(-1));
             for (int I = 0, last = FDisplayModes.Count - 1; I <= last; I++)
             {
                 Mode = FDisplayModes.Items[I];
                 if (Mode.Width >= 640 && Mode.Height >= 480)
                 {
-                    var fullScreen = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.VideoDialog.FullScreenRStr);
+                    var fullScreen = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FullScreenRStr);
                     DisplayModesLB.Items.AddObject(fullScreen + ":" + IntToStr(Mode.Width) + "x" + IntToStr(Mode.Height), IntToObject(I));
                 }
             }
@@ -116,7 +116,7 @@ namespace Aow.Game.Ui.Dialogs
             if (DisplayModesLB.Selected != -1)
             {
                 S = DisplayModesLB.Items[DisplayModesLB.Selected];
-                S = S + " (" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.VideoDialog.CurrentRStr)) + ")";
+                S = S + " (" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CurrentRStr)) + ")";
                 DisplayModesLB.Items[DisplayModesLB.Selected] = S;
             }
         }
@@ -182,7 +182,7 @@ namespace Aow.Game.Ui.Dialogs
         // AoWVideoDlg.pas:239
         public void DlgKeyDown(ref ushort Key, Set<ShiftState> Shift)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.FAligned = false;
+            DialogHosts.General.Manager.FAligned = false;
             if (Key == 27)
             {
                 Dlg.Visible = false;
@@ -193,7 +193,7 @@ namespace Aow.Game.Ui.Dialogs
         public void DlgShow()
         {
             var allowResolutionSwitches = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches();
-            Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ResCB.Checked = allowResolutionSwitches;
+            ResCB.Checked = allowResolutionSwitches;
         }
 
         private static readonly string CurrentRStr = "Current";
@@ -214,8 +214,8 @@ namespace Aow.Game.Ui.Dialogs
             var sizes = FullscreenSizes() ?? [.. FixedSizes.Where(size => size.Width <= desktop.Width && size.Height <= desktop.Height)];
             foreach (var size in sizes)
                 if ((width == 0 || width == size.Width) && (height == 0 || height == size.Height) &&
-                    (pixelFormatID == 0 || pixelFormatID == 16 || pixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555))
-                    list.Add(size.Width, size.Height, Aow.Game.Draw.PixelFormats.pfRGB555);
+                    (pixelFormatID == 0 || pixelFormatID == 16 || pixelFormatID == PixelFormats.pfRGB555))
+                    list.Add(size.Width, size.Height, PixelFormats.pfRGB555);
         }
 
         internal static void SetSceneSize(VideoDialog Dialog, int Width, int Height)
@@ -414,15 +414,15 @@ namespace Aow.Game.Session
             string Result;
             if (Auto == CampaignAutoSaveType.ScenarioFinished)
             {
-                Result = Aow.Game.World.Map.AoWHSMap.Current.FMapName;
+                Result = AoWHSMap.Current.FMapName;
                 if (FFaction == 0)
                 {
-                    Result = Result + "_" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.WMCampaign.WonRStr);
+                    Result = Result + "_" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WonRStr);
                 }
                 else
                 {
                     // { Original uses Won for both factions. }
-                    Result = Result + "-" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Session.WMCampaign.WonRStr);
+                    Result = Result + "-" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WonRStr);
                 }
 
                 // The campaign autosave takes the extension the host writes (own-formats.md 4.2).

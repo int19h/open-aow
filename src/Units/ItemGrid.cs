@@ -31,14 +31,14 @@ public partial class ItemGrid : CustomImageDrawGrid
 
     // ItemGrid.pas:108
     // Retained: The Controls.ControlStyle implementation is absent. Preserve the throw before semantic base initialization.
-    public ItemGrid(global::Aow.Rtl.Component owner) : base(owner)
+    public ItemGrid(Component owner) : base(owner)
     {
         /* TODO: Implement Controls.ControlStyle in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // ItemGrid.pas:190
-    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Controls.Canvas in the platform or editor service. */
         throw new NotImplementedException();
@@ -130,9 +130,9 @@ public partial class ItemGrid : CustomImageDrawGrid
     {
         Item Item = default;
         FStream.Clear();
-        Item = new global::Aow.Game.Magic.Abilities.Item(FItems);
+        Item = new Item(FItems);
         Aow.Game.Magic.Abilities.GameTables.AoWEngine.ActivateEObject(Item);
-        Item.Editor().Edit(Item, Aow.Game.Magic.Abilities.GameTables.AoWEngine, EditItemDone);
+        Item.Editor().Edit(Item, GameTables.AoWEngine, EditItemDone);
     }
 
     // ItemGrid.pas:265

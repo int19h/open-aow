@@ -91,7 +91,7 @@ public partial class CombatFire : SingleHS
         base.Activate();
         FXShift = Random(10) + 11;
         FYShift = Random(10) + 11;
-        FPlayer = Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer;
+        FPlayer = AoWCombatMap.Current.FCurrentCombatPlayer;
         FFirstTurn = true;
     }
 
@@ -119,7 +119,7 @@ public partial class CombatFire : SingleHS
         }
         else
         {
-            if (Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer == FPlayer)
+            if (AoWCombatMap.Current.FCurrentCombatPlayer == FPlayer)
             {
                 Msg.MsgID = 200711;
                 Msg.Param[0] = this;
@@ -157,7 +157,7 @@ public partial class CombatFire : SingleHS
         {
             do
             {
-                ImageIndex = Sequence.GetFrameIndex(Aow.Game.World.Map.AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                ImageIndex = Sequence.GetFrameIndex(AoWHSMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (ImageIndex != -1)
                 {
                     Sequence.ImageLibrary.Get(ImageIndex).Show(XhpSurf + Sequence.dXshift + FXShift, YhpSurf + Sequence.dYshift + FYShift, SurfaceDesc);

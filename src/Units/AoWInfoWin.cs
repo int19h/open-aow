@@ -19,7 +19,7 @@ namespace Aow.Game.Ui.Dialogs;
 // item bag
 public partial class IWindow : DataModule
 {
-    public IWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public IWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow InfoWin;
@@ -138,7 +138,7 @@ public partial class IWindow : DataModule
     {
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         InfoWin.Visible = false;
-        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.StructButton.Visible = false;
+        DialogHosts.TBWindow.StructButton.Visible = false;
     }
 
     // AoWInfoWin.pas:159
@@ -168,12 +168,12 @@ public partial class IWindow : DataModule
         }
         else
         {
-            var yhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Yhx;
-            var xhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Xhx;
-            Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Lhx);
-            var fStructureYhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Yhx;
-            var fStructureXhx = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Xhx;
-            Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(fStructureXhx, fStructureYhx, Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Lhx);
+            var yhx = DialogHosts.General.FStructure.Yhx;
+            var xhx = DialogHosts.General.FStructure.Xhx;
+            Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(xhx, yhx, DialogHosts.General.FStructure.Lhx);
+            var fStructureYhx = DialogHosts.General.FStructure.Yhx;
+            var fStructureXhx = DialogHosts.General.FStructure.Xhx;
+            Aow.Game.World.Map.AoWHSMap.Current.PlayCenterAnimation(fStructureXhx, fStructureYhx, DialogHosts.General.FStructure.Lhx);
         }
     }
 
@@ -182,11 +182,11 @@ public partial class IWindow : DataModule
     {
         string Reason = "";
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure != null)
+        if (DialogHosts.General.FStructure != null)
         {
-            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.CanRaze(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason))
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Raze(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.Raze(AoWHSMap.Current.FSeatedPlayer);
             }
             else
             {
@@ -200,10 +200,10 @@ public partial class IWindow : DataModule
     {
         ArmyHS Army;
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure != null)
+        if (DialogHosts.General.FStructure != null)
         {
-            var structure = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure;
-            if (StructureButtons.TryGet(structure.InfoButton(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer), out var open))
+            var structure = DialogHosts.General.FStructure;
+            if (StructureButtons.TryGet(structure.InfoButton(AoWHSMap.Current.FSeatedPlayer), out var open))
             {
                 open(this, structure);
             }
@@ -213,14 +213,14 @@ public partial class IWindow : DataModule
             if (FItemBag != null)
             {
                 Army = ((AoWMapField)FItemBag.Owner).GetArmyHS();
-                if (Army != null && Army.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+                if (Army != null && Army.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
                 {
-                    if (Army.FArmy.Hero(255, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) != null)
+                    if (Army.FArmy.Hero(255, RosterTables.AllHeroTypes) != null)
                     {
-                        var hero = Army.FArmy.Hero(255, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
-                        Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = hero;
+                        var hero = Army.FArmy.Hero(255, RosterTables.AllHeroTypes);
+                        DialogHosts.General.FSelectedUnit = hero;
                         Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
-                        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Selected = 2;
+                        DialogHosts.UnitWindow.UnitTab.Selected = 2;
                     }
                 }
             }
@@ -228,7 +228,7 @@ public partial class IWindow : DataModule
     }
 
     // AoWInfoWin.pas:226
-    public void ItembagLBDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, in SurfaceDesc Surface)
+    public void ItembagLBDrawItem(in Rect DrawRect, int DrawItem, in SurfaceDesc Surface)
     {
         if (FItemBag != null)
         {
@@ -317,7 +317,7 @@ public partial class IWindow : DataModule
         var description = Structure.GetDescription();
         Dialog.SBmemo.Items.Assign(description);
         Dialog.SBmemo.Items.Add("");
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.IncomeXRStr), [IntToStr(Structure.FIncome)]);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.IncomeXRStr), [IntToStr(Structure.FIncome)]);
         Dialog.SBmemo.Items.Add(format);
         Dialog.RazePnl.Visible = true;
     }
@@ -326,7 +326,7 @@ public partial class IWindow : DataModule
     {
         Aow.Game.Ui.Dialogs.MapEvents.ResetStructureInfo(Dialog);
         Aow.Game.Ui.Dialogs.IWindow.SetStructureHeader(Dialog, Structure);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.FSign = Structure;
+        DialogHosts.General.FSign = Structure;
         Dialog.SignPnl.Visible = true;
         Dialog.SignText.Items.Assign(Structure.FText);
     }
@@ -339,9 +339,9 @@ public partial class IWindow : DataModule
         var description = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.GetDescription();
         Dialog.SBmemo.Items.Assign(description);
         Dialog.SBmemo.FSized = false;
-        var canTeleport = Structure.CanTeleport(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var canTeleport = Structure.CanTeleport(AoWHSMap.Current.FSeatedPlayer);
         Dialog.MainBtn.Visible = canTeleport;
-        var teleport = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Teleport.Resource.TeleportRStr);
+        var teleport = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Teleport.Resource.TeleportRStr);
         Dialog.MainBtn.Text = teleport;
         Dialog.RazePnl.Visible = Dialog.MainBtn.Visible;
     }
@@ -353,9 +353,9 @@ public partial class IWindow : DataModule
         Dialog.SingleButPnl.Visible = true;
         var description = Structure.GetDescription();
         Dialog.SBmemo.Items.Assign(description);
-        var canEnter = Structure.CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var canEnter = Structure.CanEnter(AoWHSMap.Current.FSeatedPlayer);
         Dialog.MainBtn.Visible = canEnter;
-        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EnterRStr);
+        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.EnterRStr);
         Dialog.MainBtn.Text = enter;
     }
 
@@ -366,9 +366,9 @@ public partial class IWindow : DataModule
         Dialog.SingleButPnl.Visible = true;
         var description = Structure.GetDescription();
         Dialog.SBmemo.Items.Assign(description);
-        var canEnter = Structure.CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var canEnter = Structure.CanEnter(AoWHSMap.Current.FSeatedPlayer);
         Dialog.MainBtn.Visible = canEnter;
-        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EnterRStr);
+        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.EnterRStr);
         Dialog.MainBtn.Text = enter;
     }
 
@@ -379,16 +379,16 @@ public partial class IWindow : DataModule
         Dialog.SingleButPnl.Visible = true;
         var description = Structure.GetDescription();
         Dialog.SBmemo.Items.Assign(description);
-        var canEnter = Structure.CanEnter(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var canEnter = Structure.CanEnter(AoWHSMap.Current.FSeatedPlayer);
         Dialog.MainBtn.Visible = canEnter;
         switch (Structure.FEntrance)
         {
-            case Aow.Game.World.Structures.Cave.Entrance.Up:
-                var goUp = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GoUpRStr);
+            case Cave.Entrance.Up:
+                var goUp = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GoUpRStr);
                 Dialog.MainBtn.Text = goUp;
                 break;
-            case Aow.Game.World.Structures.Cave.Entrance.Down:
-                var goDown = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GoDownRStr);
+            case Cave.Entrance.Down:
+                var goDown = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GoDownRStr);
                 Dialog.MainBtn.Text = goDown;
                 break;
         }
@@ -411,22 +411,22 @@ public partial class IWindow : DataModule
         Dialog.ExplorationSitePnl.Visible = true;
         var description = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure.GetDescription();
         Dialog.ESMemo.Items.Assign(description);
-        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.CityScreen.StatusRStr);
+        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CityScreen.StatusRStr);
         Dialog.ESLbl.Text = status + ":";
         if (Structure.GetExplored())
         {
-            var explored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ExploredRStr);
+            var explored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ExploredRStr);
             Dialog.ESStatusLbl.Text = explored;
         }
         else
         {
-            var unexplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UnexploredRStr);
+            var unexplored = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UnexploredRStr);
             Dialog.ESStatusLbl.Text = unexplored;
         }
 
-        var canSearch = ((ExplorationSite)Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure).CanSearch(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+        var canSearch = ((ExplorationSite)DialogHosts.General.FStructure).CanSearch(AoWHSMap.Current.FSeatedPlayer);
         Dialog.MainBtn.Visible = canSearch;
-        var search = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SearchRStr);
+        var search = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SearchRStr);
         Dialog.MainBtn.Text = search;
     }
 
@@ -437,12 +437,12 @@ public partial class IWindow : DataModule
         Dialog.AltarPnl.Visible = true;
         if (Structure.GetTargeting())
         {
-            var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
+            var cancel = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CancelRStr);
             Dialog.MainBtn.Text = cancel;
         }
         else
         {
-            var target = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TargetRStr);
+            var target = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TargetRStr);
             Dialog.MainBtn.Text = target;
         }
 
@@ -470,7 +470,7 @@ public partial class IWindow : DataModule
         Dialog.SBmemo.Items.Add("");
         Dialog.SBmemo.Items.Add("");
         Dialog.SBmemo.Items.Add("");
-        var statusWarmode = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StatusWarmodeRStr);
+        var statusWarmode = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.StatusWarmodeRStr);
         Dialog.SBmemo.Items.Add(statusWarmode);
     }
 
@@ -479,29 +479,29 @@ public partial class IWindow : DataModule
         string Reason = "";
         Aow.Game.Ui.Dialogs.MapEvents.ResetStructureInfo(Dialog);
         Aow.Game.Ui.Dialogs.IWindow.SetStructureHeader(Dialog, Structure);
-        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EnterRStr);
+        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.EnterRStr);
         Dialog.MainBtn.Text = enter;
         Dialog.MainBtn.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.FCity = Structure;
+        DialogHosts.General.FCity = Structure;
         Dialog.CityPanel.Visible = true;
         Dialog.ProductionWarningLbl.Visible = false;
         Dialog.ActiveCityActionMemo.Items.Clear();
         var name = Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.GetName();
         Dialog.StructNameLbl.Text = name;
-        var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[Aow.Game.Ui.Dialogs.DialogHosts.General.FCity.FRace]);
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RaceXRStr), [raceNames]);
+        var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesRStr[DialogHosts.General.FCity.FRace]);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.RaceXRStr), [raceNames]);
         Dialog.CityRaceLbl.Text = format;
         Dialog.CityLevelLbl.Text = IntToStr(Structure.FUpgradeLevel);
         Dialog.CityIncomeLbl.Text = IntToStr(Structure.FIncome);
         var civilStatus = Structure.GetCivilStatus();
-        var civilStatusText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.CityScreen.TCivilStatusRStr[(int)civilStatus]);
-        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StatusXRStr), [civilStatusText]);
+        var civilStatusText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CityScreen.TCivilStatusRStr[(int)civilStatus]);
+        var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.StatusXRStr), [civilStatusText]);
         Dialog.CivilStatusLbl.Text = aoWEFormat;
         if (Structure.FProduction.FQueue.GetCount() != 0)
         {
             Structure.FProduction.FQueue.GetItem(0).Order.ActivityLines(Structure.FProduction, Dialog.ActiveCityActionMemo.Items);
 
-            if (Structure.FProduction.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Producing)
+            if (Structure.FProduction.FStatus == ProductionControl.Status.Producing)
             {
                 if (Structure.FProduction.FSettings.FTurnsLeft != -1)
                 {
@@ -510,13 +510,13 @@ public partial class IWindow : DataModule
                 }
                 else
                 {
-                    var unlimited = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.MapEvents.UnlimitedRStr);
+                    var unlimited = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MapEvents.UnlimitedRStr);
                     Dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
             else
             {
-                if (Structure.FProduction.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Waiting)
+                if (Structure.FProduction.FStatus == ProductionControl.Status.Waiting)
                 {
                     var queue = Structure.FProduction.FQueue.GetItem(0);
                     Structure.FProduction.CanExecuteProduction(queue, ref Reason);
@@ -528,7 +528,7 @@ public partial class IWindow : DataModule
         else
         {
             Dialog.ActiveCityActionMemo.Items.Add("");
-            var producingMerchandise = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingMerchandiseRStr);
+            var producingMerchandise = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr);
             Dialog.ActiveCityActionMemo.Items.Add(producingMerchandise);
         }
 
@@ -542,12 +542,12 @@ public partial class IWindow : DataModule
         string Reason = "";
         Aow.Game.Ui.Dialogs.MapEvents.ResetStructureInfo(Dialog);
         Aow.Game.Ui.Dialogs.IWindow.SetStructureHeader(Dialog, Structure);
-        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EnterRStr);
+        var enter = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.EnterRStr);
         Dialog.MainBtn.Text = enter;
         Dialog.MainBtn.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.FProductionPlace = (ProductionPlace)Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure;
+        DialogHosts.General.FProductionPlace = (ProductionPlace)DialogHosts.General.FStructure;
         Dialog.ProductionPlacePnl.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.FProductionControl = Aow.Game.Ui.Dialogs.DialogHosts.General.FProductionPlace.FProductionControl;
+        DialogHosts.General.FProductionControl = DialogHosts.General.FProductionPlace.FProductionControl;
         Dialog.CurrentActivityWarningLbl.Visible = false;
         Dialog.ActiveActionMemo.Items.Clear();
         Dialog.IncomeLbl.Visible = true;
@@ -582,7 +582,7 @@ public partial class IWindow : DataModule
         {
             Structure.FProductionControl.FQueue.GetItem(0).Order.ActivityLines(Structure.FProductionControl, Dialog.ActiveActionMemo.Items);
 
-            if (Structure.FProductionControl.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Producing)
+            if (Structure.FProductionControl.FStatus == ProductionControl.Status.Producing)
             {
                 if (Structure.FProductionControl.FSettings.FTurnsLeft != -1)
                 {
@@ -592,13 +592,13 @@ public partial class IWindow : DataModule
                 else
                 {
                     // { Original writes the city memo in this branch. }
-                    var unlimited = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.MapEvents.UnlimitedRStr);
+                    var unlimited = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MapEvents.UnlimitedRStr);
                     Dialog.ActiveCityActionMemo.Items.Add(LowerCase(unlimited));
                 }
             }
             else
             {
-                if (Structure.FProductionControl.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Waiting)
+                if (Structure.FProductionControl.FStatus == ProductionControl.Status.Waiting)
                 {
                     var queue = Structure.FProductionControl.FQueue.GetItem(0);
                     Structure.FProductionControl.CanExecuteProduction(queue, ref Reason);
@@ -614,18 +614,18 @@ public partial class IWindow : DataModule
                 Dialog.ActiveActionMemo.Items.Add("");
                 if (Structure.GetBaseIncome() != 0)
                 {
-                    var producingMerchandise = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingMerchandiseRStr);
+                    var producingMerchandise = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr);
                     Dialog.ActiveActionMemo.Items.Add(producingMerchandise);
                 }
                 else
                 {
-                    var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
+                    var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.NoneRStr);
                     Dialog.ActiveActionMemo.Items.Add(none);
                 }
             }
             else
             {
-                var generatingExtraPower = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GeneratingExtraPowerRStr);
+                var generatingExtraPower = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GeneratingExtraPowerRStr);
                 Dialog.ActiveActionMemo.Items.Add(generatingExtraPower);
             }
         }
@@ -653,14 +653,14 @@ public partial class IWindow : DataModule
         if (Structure is City)
         {
             var name = Structure.GetName();
-            Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CityOfXRStr), [name]);
+            Text = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.CityOfXRStr), [name]);
         }
         else
         {
             Text = Structure.GetName();
         }
 
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TheXliesInRuinsRStr), [Text]);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.TheXliesInRuinsRStr), [Text]);
         Dialog.SBmemo.Items.Text = format;
         Dialog.SBmemo.Items.Insert(0, "");
         Dialog.SBmemo.Items.Insert(0, "");
@@ -675,7 +675,7 @@ public partial class IWindow : DataModule
         if (Structure is City && Structure.FPlayer == 0)
         {
             Dialog.PopulationRaceLbl.Visible = true;
-            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[((City)Structure).FRace]);
+            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[((City)Structure).FRace]);
             Dialog.PopulationRaceLbl.Text = raceNamesPlural;
             Dialog.PopulationLbl.Visible = true;
             Dialog.NotYoursMemo.Items.Clear();
@@ -694,7 +694,7 @@ public partial class IWindow : DataModule
                 RaceIndex = 12;
             }
 
-            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[RaceIndex]);
+            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[RaceIndex]);
             Dialog.OwnerRaceLbl.Text = raceNamesPlural;
             Dialog.OwnerRaceLbl.Visible = true;
             Dialog.LShield.CurrentImage = RaceIndex + 26;

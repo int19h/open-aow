@@ -12,13 +12,13 @@ public partial class MWindow
 {
     private void PressEndTurnShortcut(ushort key, Set<ShiftState> shift)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.Combat.AoWCombatMap.Current != null)
+        if (AoWHSMap.Current == null || Combat.AoWCombatMap.Current != null)
         {
             return;
         }
 
-        var keyboard = Aow.Game.World.Map.AoWHSMap.Current.FKeyboard;
-        if (keyboard.FLockCount != 0 || keyboard.FMode != Aow.Game.World.Map.AoWHSMapKeyboard.Mode.Default)
+        var keyboard = AoWHSMap.Current.FKeyboard;
+        if (keyboard.FLockCount != 0 || keyboard.FMode != AoWHSMapKeyboard.Mode.Default)
         {
             return;
         }
@@ -28,6 +28,6 @@ public partial class MWindow
             return;
         }
 
-        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow?.TurnButton?.Press();
+        DialogHosts.TBWindow?.TurnButton?.Press();
     }
 }

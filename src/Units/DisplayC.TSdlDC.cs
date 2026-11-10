@@ -7,7 +7,7 @@ using static Aow.Game.Draw.DisplayCtrlStatusElement;
 namespace Aow.Game.Draw;
 
 // The primary constructor captures host before the base inserts this component.
-public sealed class SdlDC(IDisplayHost host, global::Aow.Rtl.Component owner = null) : DisplayCtrl(owner)
+public sealed class SdlDC(IDisplayHost host, Component owner = null) : DisplayCtrl(owner)
 {
     private readonly Surface[] surfaces = new Surface[3];
 
@@ -25,7 +25,7 @@ public sealed class SdlDC(IDisplayHost host, global::Aow.Rtl.Component owner = n
         {
             for (int i = 1; i <= (int)display.FBufferingScheme; i++)
             {
-                surfaces[i] = new DIB16Surface(display.FBackSurfaceWidth, display.FBackSurfaceHeight, Aow.Game.Draw.PixelFormats.pfRGB555);
+                surfaces[i] = new DIB16Surface(display.FBackSurfaceWidth, display.FBackSurfaceHeight, PixelFormats.pfRGB555);
                 surfaces[i].Cls(display.Color);
             }
             return 0;
@@ -42,7 +42,7 @@ public sealed class SdlDC(IDisplayHost host, global::Aow.Rtl.Component owner = n
     public override int BltSurface(int index)
     {
         var surface = GetSurface(index);
-        if (surface is null) return Aow.Game.Draw.DisplayCodes.DCERR_FAILED;
+        if (surface is null) return DisplayCodes.DCERR_FAILED;
         SurfaceDesc descriptor = default;
         int result = surface.Lock(ref descriptor);
         if (result < 0) return result;
@@ -54,7 +54,7 @@ public sealed class SdlDC(IDisplayHost host, global::Aow.Rtl.Component owner = n
     public override int FlipSurface(int index)
     {
         int result = BltSurface(index);
-        return result < 0 ? result : Aow.Game.Draw.DisplayCodes.DCERR_NOFLIP;
+        return result < 0 ? result : DisplayCodes.DCERR_NOFLIP;
     }
 
     public override int ResizeBackSurfaces(int width, int height)
@@ -85,7 +85,7 @@ public sealed class SdlDC(IDisplayHost host, global::Aow.Rtl.Component owner = n
     {
         public override int GetWidth() => host.ClientSize.Width;
         public override int GetHeight() => host.ClientSize.Height;
-        public override int GetPixelFormatID() => Aow.Game.Draw.PixelFormats.pfRGB555;
-        public override int Lock(ref SurfaceDesc descriptor) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+        public override int GetPixelFormatID() => PixelFormats.pfRGB555;
+        public override int Lock(ref SurfaceDesc descriptor) => PixelFormats.GFXE_NOTSUPPORTED;
     }
 }

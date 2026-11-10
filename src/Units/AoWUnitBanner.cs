@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Dialogs;
 // published labels, popup and ability-list controls
 public partial class UnitBanner : DataModule
 {
-    public UnitBanner(global::Aow.Rtl.Component owner) : base(owner)
+    public UnitBanner(Component owner) : base(owner)
     { }
 
     public AOWLabel UnitNameLbl;
@@ -33,8 +33,8 @@ public partial class UnitBanner : DataModule
     // AoWUnitBanner.pas:53
     public void BannerPopupShow()
     {
-        TCAbility A;
-        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
+        CombatAbilityRef A;
+        if (DialogHosts.General.FSelectedUnit != null)
         {
             var name = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetName();
             UnitNameLbl.Text = name;
@@ -58,10 +58,10 @@ public partial class UnitBanner : DataModule
             MovesIcon.CurrentImage = mTtoInt;
             AbLB.Items.Clear();
             Aow.Game.Ui.Dialogs.DialogHosts.General.BuildAbilities();
-            for (int I = 0, last = Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities.Count - 1; I <= last; I++)
+            for (int I = 0, last = DialogHosts.General.FAbilities.Count - 1; I <= last; I++)
             {
-                A = (TCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities[I];
-                var name2 = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(A.Ability).GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
+                A = (CombatAbilityRef)DialogHosts.General.FAbilities[I];
+                var name2 = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(A.Ability).GetName(DialogHosts.General.FSelectedUnit);
                 AbLB.Items.Add(name2);
             }
 
@@ -83,7 +83,7 @@ public partial class UnitBanner : DataModule
     // AoWUnitBanner.pas:85
     public void AbLBMouseMove(Set<ShiftState> Shift, int X, int Y)
     {
-        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && AbLB.F188 >= Aow.Game.Ui.Dialogs.DialogHosts.General.FActiveAbilityCount)
+        if (DialogHosts.General.FSelectedUnit != null && AbLB.F188 >= DialogHosts.General.FActiveAbilityCount)
         {
             AbLB.F188 = -1;
         }
@@ -94,7 +94,7 @@ public partial class UnitBanner : DataModule
     {
         if (Button == 1)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner.BannerPopup.Visible = false;
+            BannerPopup.Visible = false;
         }
     }
 
@@ -102,12 +102,12 @@ public partial class UnitBanner : DataModule
     public void AbLBMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
         string Reason = "";
-        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
+        if (DialogHosts.General.FSelectedUnit != null)
         {
-            if (AbLB.Selected > -1 && AbLB.Selected < Aow.Game.Ui.Dialogs.DialogHosts.General.FActiveAbilityCount)
+            if (AbLB.Selected > -1 && AbLB.Selected < DialogHosts.General.FActiveAbilityCount)
             {
-                var ability = Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities[AbLB.Selected];
-                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((TCAbility)ability).Ability).Activate(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit, ref Reason);
+                var ability = DialogHosts.General.FAbilities[AbLB.Selected];
+                Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(((CombatAbilityRef)ability).Ability).Activate(DialogHosts.General.FSelectedUnit, ref Reason);
                 BannerPopup.Visible = false;
             }
             else

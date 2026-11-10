@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Windows;
 public partial class AOWWindow : AOWGenericWindow
 {
     // AoWWindow.pas:54
-    public AOWWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWWindow(Component owner) : base(owner)
     {
         FUseManagerBorders = true;
     }
@@ -30,9 +30,9 @@ public partial class AOWWindow : AOWGenericWindow
     {
         switch (FWindowType)
         {
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
-                if (FILFrame != null && (FILTexture != null || FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow))
+            case WindowType.Normal:
+            case WindowType.Hollow:
+                if (FILFrame != null && (FILTexture != null || FWindowType == WindowType.Hollow))
                 {
                     var ilFrameWidth = FILFrame[FILIndexFrame];
                     var ilFrame = FILFrame[FILIndexFrame + 2];
@@ -138,7 +138,7 @@ public partial class AOWWindow : AOWGenericWindow
 
                     if (FMasked)
                     {
-                        if (FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow)
+                        if (FWindowType == WindowType.Hollow)
                         {
                             FFrameLeft = FWinWidth;
                             FFrameRight = 0;
@@ -158,9 +158,9 @@ public partial class AOWWindow : AOWGenericWindow
                 }
 
                 break;
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank:
-                if (FILTexture != null || FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
+            case WindowType.Borderless:
+            case WindowType.Blank:
+                if (FILTexture != null || FWindowType == WindowType.Blank)
                 {
                     if (FMinWidth > 0 && FMinWidth > FWinWidth)
                     {
@@ -304,8 +304,8 @@ public partial class AOWWindow : AOWGenericWindow
             {
                 switch (FWindowType)
                 {
-                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case WindowType.Normal:
+                        var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -313,15 +313,15 @@ public partial class AOWWindow : AOWGenericWindow
                         var ilFrame2 = FILFrame[FILIndexFrame + 4];
                         var ilFrame3 = FILFrame[FILIndexFrame + 1];
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = new Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                         break;
-                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
-                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case WindowType.Hollow:
+                        var rect3 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                         break;
-                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
-                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case WindowType.Borderless:
+                        var rect4 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILTexture.DrawILT(FILIndexTexture, rect4, ref SurfDesc);
                         break;
                 }

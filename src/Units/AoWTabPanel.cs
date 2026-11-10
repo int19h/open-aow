@@ -23,7 +23,7 @@ public partial class AOWTabPanel : AOWControl
     public DelphiList FPanels;
 
     // AoWTabPanel.pas:62
-    public AOWTabPanel(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWTabPanel(Component owner) : base(owner)
     {
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
@@ -94,7 +94,7 @@ public partial class AOWTabPanel : AOWControl
     //   with the down image and its text BorderHeightSelected pixels down }
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -111,7 +111,7 @@ public partial class AOWTabPanel : AOWControl
                     {
                         var count = FItems.Count;
                         var fItemsCount = FItems.Count;
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
                         FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
                         if (FAOWFont != null)
                         {
@@ -127,7 +127,7 @@ public partial class AOWTabPanel : AOWControl
                     {
                         var count = FItems.Count;
                         var fItemsCount = FItems.Count;
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
                         FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
                         if (FAOWFont != null)
                         {

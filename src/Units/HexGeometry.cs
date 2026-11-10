@@ -28,7 +28,7 @@ public static class HexGeometry
         int Result;
         if (Rad <= 10)
         {
-            Result = Aow.Game.World.Map.HexGeometry.RadToHNTable[Rad];
+            Result = RadToHNTable[Rad];
         }
         else
         {
@@ -45,7 +45,7 @@ public static class HexGeometry
         int N;
         if (HN < 37)
         {
-            Result = Aow.Game.World.Map.HexGeometry.InvHNTable[HN];
+            Result = InvHNTable[HN];
         }
         else
         {
@@ -224,7 +224,7 @@ public static class HexGeometry
         int Result;
         if (HN < 37)
         {
-            Result = Aow.Game.World.Map.HexGeometry.HNtoRadTable[HN];
+            Result = HNtoRadTable[HN];
         }
         else
         {
@@ -242,8 +242,8 @@ public static class HexGeometry
         int Pos;
         if (HN < 37)
         {
-            Xhx = Aow.Game.World.Map.HexGeometry.HNtoHXTable[HN][0];
-            Yhx = Aow.Game.World.Map.HexGeometry.HNtoHXTable[HN][1];
+            Xhx = HNtoHXTable[HN][0];
+            Yhx = HNtoHXTable[HN][1];
         }
         else
         {

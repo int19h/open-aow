@@ -272,7 +272,7 @@ public partial class MsgReceiveDlg : ILayoutModule
         HeaderMemo.ColorChangeChar = 0;
         HeaderMemo.TextAlign = TaowTextAlign.Center;
         session.EndRead(HeaderMemo);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -300,23 +300,23 @@ public partial class MsgReceiveDlg : ILayoutModule
         HeaderMemo.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        MsgReceiveWin.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        MsgReceiveWin.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        MsgReceiveWin.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        MessageMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15BlackBrown;
-        MessageMemo.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        Close.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10b;
-        Close.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CampaignTrans;
-        MessageSB.ILIInc = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        MessageSB.ILIDec = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        MessageSB.ILTBack = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        MessageSB.ILLTab = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        LShield.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
-        LShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
-        RShield.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
-        RShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
-        HeaderMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15BlackBrown;
-        HeaderMemo.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        MsgReceiveWin.WinManager = DialogHosts.General.Manager;
+        MsgReceiveWin.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        MsgReceiveWin.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        MessageMemo.AOWFont = DialogHosts.FontModule.AoW15BlackBrown;
+        MessageMemo.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        Close.AOWFont = DialogHosts.FontModule.Age10b;
+        Close.ILButton = DialogHosts.IntGfxMod.CampaignTrans;
+        MessageSB.ILIInc = DialogHosts.IntGfxMod.GenericS;
+        MessageSB.ILIDec = DialogHosts.IntGfxMod.GenericS;
+        MessageSB.ILTBack = DialogHosts.IntGfxMod.GenericS;
+        MessageSB.ILLTab = DialogHosts.IntGfxMod.GenericS;
+        LShield.ToolTip = DialogHosts.General.ToolTip;
+        LShield.ImageLib = DialogHosts.IntGfxMod.Shields;
+        RShield.ToolTip = DialogHosts.General.ToolTip;
+        RShield.ImageLib = DialogHosts.IntGfxMod.Shields;
+        HeaderMemo.AOWFont = DialogHosts.FontModule.AoW15BlackBrown;
+        HeaderMemo.ILFrame = DialogHosts.IntGfxMod.GenericF;
     }
 
     private void Layout_MsgReceiveWinHide_0()

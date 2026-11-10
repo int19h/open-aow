@@ -48,7 +48,7 @@ public partial class Shipyard : ProductionPlace
         // Shipyard.pas:29
 
         // Shipyard.pas:69
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ShipyardRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ShipyardRStr);
 
     }
 
@@ -62,8 +62,8 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     // Shipyard.pas:93
     public override void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
     {
-        var shipyard = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ShipyardRStr);
-        Text = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.BuildXRStr), [shipyard]);
+        var shipyard = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ShipyardRStr);
+        Text = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.BuildXRStr), [shipyard]);
         Gold = 50;
         Days = 2;
     }
@@ -96,7 +96,7 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
 
             if (!Result)
             {
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ShipyardConstructionControl.CanOnlyBuildNextToWaterRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CanOnlyBuildNextToWaterRStr);
             }
         }
 
@@ -104,20 +104,20 @@ public partial class ShipyardConstructionControl : StructureConstructionControl
     }
 
     // Shipyard.pas:81
-    public override global::Aow.Game.World.Structures.StructureResource StructureResource(AbstractUnit AUnit)
+    public override StructureResource StructureResource(AbstractUnit AUnit)
     {
-        global::Aow.Game.World.Structures.StructureResource Result;
+        StructureResource Result;
         sbyte X = default;
         sbyte Y = default;
         sbyte L = default;
         AUnit.GetLocation(ref X, ref Y, ref L);
         if (L == 0)
         {
-            Result = (global::Aow.Game.World.Structures.StructureResource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindResource(60);
+            Result = (StructureResource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindResource(60);
         }
         else
         {
-            Result = (global::Aow.Game.World.Structures.StructureResource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindResource(107);
+            Result = (StructureResource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindResource(107);
         }
 
         return Result;

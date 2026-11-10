@@ -34,7 +34,7 @@ public partial class AltarOfLightning : Altar
         // AltLight.pas:26
 
         // AltLight.pas:49
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.AltarOfLightning.Resource.AltarOfLightningRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AltarOfLightningRStr);
 
         private static readonly string AltarOfLightningRStr = "Altar of Lightning";
 

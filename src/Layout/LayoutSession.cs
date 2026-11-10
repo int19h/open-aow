@@ -17,17 +17,17 @@ public interface ILayoutModule
 // references to modules that have not finished construction yet.
 public sealed class LayoutSession
 {
-    private sealed record Fixup(string Module, Action<global::Aow.Rtl.Component> Apply);
+    private sealed record Fixup(string Module, Action<Component> Apply);
 
-    private readonly Dictionary<string, global::Aow.Rtl.Component> modules = new(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, Component> modules = new(StringComparer.OrdinalIgnoreCase);
     private readonly List<Fixup> pending = [];
 
     public static LayoutSession Default { get; } = new();
     public bool FireCreateEvents { get; init; } = true;
-    public IReadOnlyDictionary<string, global::Aow.Rtl.Component> Modules => modules;
+    public IReadOnlyDictionary<string, Component> Modules => modules;
     public int PendingFixups => pending.Count;
 
-    public void Begin(global::Aow.Rtl.Component root)
+    public void Begin(Component root)
     {
         if (modules.Values.Contains(root)) throw new InvalidOperationException("Layout already initialized");
         // FileName setters read image headers during loading. The registry must exist before
@@ -39,10 +39,10 @@ public sealed class LayoutSession
     // VCL sets csLoading and csReading before the reader creates a component. The port sets
     // them right after construction. No constructor body reads ComponentState, so the order is
     // not observable. Loaded clears csLoading.
-    public void BeginRead(global::Aow.Rtl.Component component) =>
+    public void BeginRead(Component component) =>
         component.ComponentState = component.ComponentState.With(ComponentState.Loading).With(ComponentState.Reading);
 
-    public void EndRead(global::Aow.Rtl.Component component) =>
+    public void EndRead(Component component) =>
         component.ComponentState = component.ComponentState.Without(ComponentState.Reading);
 
     // The module failure boundary. Application.CreateForm publishes the global before the
@@ -51,7 +51,7 @@ public sealed class LayoutSession
     // inside InitializeComponent, so its failures reach this boundary as well. Delphi 3 differs
     // here: TDataModule.Create hands an OnCreate exception to Application.HandleException and
     // keeps the module.
-    public void Load<T>(T module, Action<T?> publish) where T : global::Aow.Rtl.Component, ILayoutModule
+    public void Load<T>(T module, Action<T?> publish) where T : Component, ILayoutModule
     {
         publish(module);
         try
@@ -67,13 +67,13 @@ public sealed class LayoutSession
         }
     }
 
-    public void Defer<T>(string module, Action<T> apply) where T : global::Aow.Rtl.Component
+    public void Defer<T>(string module, Action<T> apply) where T : Component
     {
         if (modules.TryGetValue(module, out var ready)) apply((T)ready);
         else pending.Add(new(module, component => apply((T)component)));
     }
 
-    public void Resolve(global::Aow.Rtl.Component root)
+    public void Resolve(Component root)
     {
         if (!modules.TryAdd(root.Name, root)) throw new InvalidOperationException("Duplicate module " + root.Name);
         for (int i = 0; i < pending.Count;)

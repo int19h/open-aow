@@ -45,7 +45,7 @@ namespace Aow.Game.Ui.Dialogs;
 // directory, last filename, save event, done callback, dialog mode
 public partial class FileDlgWindow : DataModule
 {
-    public FileDlgWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public FileDlgWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow FileDialog;
@@ -154,14 +154,14 @@ public partial class FileDlgWindow : DataModule
         AoWHSMap Map = default;
         if (Aow.Formats.DocumentKind.CampaignSave.HasExtension(ExtractFileExt(Name)))
         {
-            if (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo)
+            if (!GameTables.AoWEngine.FDemo)
             {
                 // A refused campaign keeps the current map, which is not started again.
-                var Previous = Aow.Game.World.Map.AoWHSMap.Current;
-                Aow.Game.Ui.Dialogs.FileDlgWindow.LoadCampaign(Aow.Game.Ui.Dialogs.DialogHosts.General, Name);
-                if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current != Previous)
+                var Previous = AoWHSMap.Current;
+                Aow.Game.Ui.Dialogs.FileDlgWindow.LoadCampaign(DialogHosts.General, Name);
+                if (AoWHSMap.Current != null && AoWHSMap.Current != Previous)
                 {
-                    Aow.Game.Ui.Dialogs.General.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
+                    Aow.Game.Ui.Dialogs.General.StartGame(DialogHosts.General);
                 }
             }
         }
@@ -176,18 +176,18 @@ public partial class FileDlgWindow : DataModule
                 {
                     if (Map.FConnectionType != PlayerConnectionType.Network)
                     {
-                        Aow.Game.Ui.Dialogs.General.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, Name);
-                        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+                        Aow.Game.Ui.Dialogs.General.LoadGame(DialogHosts.General, Name);
+                        if (AoWHSMap.Current != null)
                         {
-                            Aow.Game.Ui.Dialogs.General.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
+                            Aow.Game.Ui.Dialogs.General.StartGame(DialogHosts.General);
                         }
                     }
                     else
                     {
                         Aow.Game.Ui.Dialogs.DialogHosts.TitleScene.HideScene();
                         Aow.Game.Ui.Dialogs.DialogHosts.General.HideWindows();
-                        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.Visible = false;
-                        var relativePath = ExtractRelativePath(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory, Name);
+                        DialogHosts.TBWindow.TaskWindow.Visible = false;
+                        var relativePath = ExtractRelativePath(GameTables.AoWEngine.StartupDirectory, Name);
                         Aow.Game.Ui.Dialogs.DialogHosts.MultiWindow.Execute(relativePath);
                     }
                 }
@@ -275,7 +275,7 @@ public partial class FileDlgWindow : DataModule
                     else
                     {
                         Extension = LowerCase(ExtractFileExt(Search.Name));
-                        IncludeFile = ListsFile(FMode, Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null, Extension);
+                        IncludeFile = ListsFile(FMode, GameTables.AoWEngine.FCampaign != null, Extension);
                         if (IncludeFile)
                         {
                             Stamp = new FileTime();
@@ -300,19 +300,19 @@ public partial class FileDlgWindow : DataModule
         DateLB.Items.Clear();
         Aow.Game.Ui.Dialogs.FileDlgWindow.Directories.Sort();
         Aow.Game.Ui.Dialogs.FileDlgWindow.Files.Sort();
-        FileLB.Items.AddStrings(Aow.Game.Ui.Dialogs.FileDlgWindow.Directories);
-        FileLB.Items.AddStrings(Aow.Game.Ui.Dialogs.FileDlgWindow.Files);
+        FileLB.Items.AddStrings(Directories);
+        FileLB.Items.AddStrings(Files);
         SaveLB.Items.AddStrings(FileLB.Items);
         PathEdit.Text = Directory + "\\";
-        for (int I = 0, last = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories.Count - 1; I <= last; I++)
+        for (int I = 0, last = Directories.Count - 1; I <= last; I++)
         {
             DateLB.Items.Add("");
         }
 
-        for (int I = 0, last = Aow.Game.Ui.Dialogs.FileDlgWindow.Files.Count - 1; I <= last; I++)
+        for (int I = 0, last = Files.Count - 1; I <= last; I++)
         {
-            var dateTimeToStr = DateTimeToStr(((FileTime)Aow.Game.Ui.Dialogs.FileDlgWindow.Files.Objects[I]).FTime);
-            var objectValue = Aow.Game.Ui.Dialogs.FileDlgWindow.Files.Objects[I];
+            var dateTimeToStr = DateTimeToStr(((FileTime)Files.Objects[I]).FTime);
+            var objectValue = Files.Objects[I];
             DateLB.Items.AddObject(dateTimeToStr, objectValue);
         }
 
@@ -322,10 +322,10 @@ public partial class FileDlgWindow : DataModule
     // AoWFileDialog.pas:296
     public void FileDlgWindowCreate()
     {
-        Aow.Game.Ui.Dialogs.FileDlgWindow.Drives = new StringList();
-        Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = new StringList();
-        Aow.Game.Ui.Dialogs.FileDlgWindow.Files = new StringList();
-        FDirectory = Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\";
+        Drives = new StringList();
+        Directories = new StringList();
+        Files = new StringList();
+        FDirectory = GameTables.AoWEngine.StartupDirectory + "Save\\";
         FLastFileName = "";
     }
 
@@ -340,9 +340,9 @@ public partial class FileDlgWindow : DataModule
             }
         }
 
-        Aow.Game.Ui.Dialogs.FileDlgWindow.Drives?.Dispose();
-        Aow.Game.Ui.Dialogs.FileDlgWindow.Directories?.Dispose();
-        Aow.Game.Ui.Dialogs.FileDlgWindow.Files?.Dispose();
+        Drives?.Dispose();
+        Directories?.Dispose();
+        Files?.Dispose();
     }
 
     // AoWFileDialog.pas:316
@@ -351,7 +351,7 @@ public partial class FileDlgWindow : DataModule
         string Path = "";
         string Directory = "";
         Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        var count = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories.Count;
+        var count = Directories.Count;
         if (FileLB.Selected < count && FileLB.Selected > -1)
         {
             Directory = GetCurrentDir();
@@ -381,17 +381,17 @@ public partial class FileDlgWindow : DataModule
                 case 0:
                     if (!IsEmpty(SFileName.Text) && FileExists(SFileName.Text))
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+                        if (AoWHSMap.Current != null)
                         {
-                            if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+                            if (AoWHSMap.Current.FCombatMap != null)
                             {
                                 Aow.Game.Ui.Dialogs.DialogHosts.General.ReturnToTitle();
                             }
                             else
                             {
-                                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                                if (GameTables.AoWEngine.FCampaign != null)
                                 {
-                                    if (CompareText(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FFileName, FDirectory + SFileName.Text) == 0)
+                                    if (CompareText(GameTables.AoWEngine.FCampaign.FFileName, FDirectory + SFileName.Text) == 0)
                                     {
                                         Aow.Game.World.Map.AoWHSMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
                                     }
@@ -402,7 +402,7 @@ public partial class FileDlgWindow : DataModule
                                 }
                                 else
                                 {
-                                    if (CompareText(Aow.Game.World.Map.AoWHSMap.Current.FileName, FDirectory + SFileName.Text) == 0)
+                                    if (CompareText(AoWHSMap.Current.FileName, FDirectory + SFileName.Text) == 0)
                                     {
                                         Aow.Game.World.Map.AoWHSMap.Current.ExitGame(ExitGameMode.Reload, ExitForLoad);
                                     }
@@ -414,7 +414,7 @@ public partial class FileDlgWindow : DataModule
                             }
                         }
 
-                        if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FExitPending)
+                        if (AoWHSMap.Current == null || AoWHSMap.Current.FExitPending)
                         {
                             FileDialog.Visible = false;
                             LoadSelectedGame(Path + SFileName.Text);
@@ -434,13 +434,13 @@ public partial class FileDlgWindow : DataModule
                             SFileName.Text = Copy(SFileName.Text, 1, Pos(".", SFileName.Text) - 1);
                         }
 
-                        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                        if (GameTables.AoWEngine.FCampaign != null)
                         {
                             FileDialog.Visible = false;
                             // The save takes the extension the host writes, beside an original of the same name
                             // (own-formats.md 4.2).
                             SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.CampaignSave.OriginalExtension);
-                            Aow.Game.Ui.Dialogs.FileDlgWindow.SaveCampaign(Aow.Game.Ui.Dialogs.DialogHosts.General, SFileName.Text);
+                            Aow.Game.Ui.Dialogs.FileDlgWindow.SaveCampaign(DialogHosts.General, SFileName.Text);
                         }
                         else
                         {
@@ -453,7 +453,7 @@ public partial class FileDlgWindow : DataModule
                             {
                                 FileDialog.Visible = false;
                                 SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.Save.OriginalExtension);
-                                Aow.Game.Ui.Dialogs.FileDlgWindow.SaveGame(Aow.Game.Ui.Dialogs.DialogHosts.General, SFileName.Text);
+                                Aow.Game.Ui.Dialogs.FileDlgWindow.SaveGame(DialogHosts.General, SFileName.Text);
                             }
                         }
 
@@ -465,7 +465,7 @@ public partial class FileDlgWindow : DataModule
                 case 2:
                     if (!IsEmpty(FileName.Text) && FileExists(FileName.Text))
                     {
-                        Aow.Game.Ui.Dialogs.FileDlgWindow.PickScenarioMap(Aow.Game.Ui.Dialogs.DialogHosts.ScenSetup, FileName.Text);
+                        Aow.Game.Ui.Dialogs.FileDlgWindow.PickScenarioMap(DialogHosts.ScenSetup, FileName.Text);
                         FLastFileName = FileName.Text;
                     }
 
@@ -507,7 +507,7 @@ public partial class FileDlgWindow : DataModule
         FileLB.Selected = List.Selected;
         SaveLB.Selected = List.Selected;
         DateLB.Selected = List.Selected;
-        if (Aow.Game.Ui.Dialogs.FileDlgWindow.Directories.Count - 1 < this.FileLB.Selected)
+        if (Directories.Count - 1 < this.FileLB.Selected)
         {
             var item = FileLB.Items[FileLB.Selected];
             SFileName.Text = item;
@@ -534,7 +534,7 @@ public partial class FileDlgWindow : DataModule
                             break;
                         case 127:
                         case 128:
-                            var extraLargeMapAbr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.FileDlgWindow.ExtraLargeMapAbrRStr);
+                            var extraLargeMapAbr = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ExtraLargeMapAbrRStr);
                             LSize.Text = extraLargeMapAbr;
                             break;
                         default:
@@ -577,11 +577,11 @@ public partial class FileDlgWindow : DataModule
     }
 
     // AoWFileDialog.pas:586
-    public void FileLBDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SurfDesc)
+    public void FileLBDrawItem(in Rect DrawRect, int DrawItem, ref SurfaceDesc SurfDesc)
     {
-        if (Aow.Game.Ui.Dialogs.FileDlgWindow.Directories.Count > DrawItem)
+        if (Directories.Count > DrawItem)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.LBIcons[0].ShowClipped(DrawRect.Left + 2, DrawRect.Top + 1, SurfDesc);
+            DialogHosts.IntGfxMod.LBIcons[0].ShowClipped(DrawRect.Left + 2, DrawRect.Top + 1, SurfDesc);
         }
     }
 
@@ -595,11 +595,11 @@ public partial class FileDlgWindow : DataModule
                 var fileName = ExtractFileName(FLastFileName);
                 SFileName.Text = fileName;
                 FileName.Text = SFileName.Text;
-                var selectAFileToLoad = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.FileDlgWindow.SelectAFileToLoadRStr);
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.Title.Text = selectAFileToLoad;
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.SFileName.Editable = false;
-                var open = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.FileDlgWindow.OpenRStr);
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.Openbut.Text = open;
+                var selectAFileToLoad = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SelectAFileToLoadRStr);
+                Title.Text = selectAFileToLoad;
+                SFileName.Editable = false;
+                var open = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(OpenRStr);
+                Openbut.Text = open;
                 SavePnl.Visible = true;
                 NewPnl.Visible = false;
                 break;
@@ -615,7 +615,7 @@ public partial class FileDlgWindow : DataModule
                 if (!IsEmpty(SFileName.Text))
                 {
                     // The default name shows the file the save writes (own-formats.md 4.2).
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                    if (GameTables.AoWEngine.FCampaign != null)
                     {
                         SFileName.Text = FileBoundary.WriteName(SFileName.Text + Aow.Formats.DocumentKind.CampaignSave.OriginalExtension);
                     }
@@ -626,11 +626,11 @@ public partial class FileDlgWindow : DataModule
                 }
 
                 FileName.Text = SFileName.Text;
-                var saveGameAs = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.FileDlgWindow.SaveGameAsRStr);
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.Title.Text = saveGameAs;
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.SFileName.Editable = true;
-                var save = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SaveRStr);
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.Openbut.Text = save;
+                var saveGameAs = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SaveGameAsRStr);
+                Title.Text = saveGameAs;
+                SFileName.Editable = true;
+                var save = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.SaveRStr);
+                Openbut.Text = save;
                 SavePnl.Visible = true;
                 NewPnl.Visible = false;
                 break;
@@ -646,11 +646,11 @@ public partial class FileDlgWindow : DataModule
                     FileName.Text = "";
                 }
 
-                SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\");
-                var selectAMap = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.FileDlgWindow.SelectAMapRStr);
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.Title.Text = selectAMap;
-                var select = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.FileDlgWindow.SelectRStr);
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.Openbut.Text = select;
+                SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "Scenario\\Custom\\");
+                var selectAMap = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SelectAMapRStr);
+                Title.Text = selectAMap;
+                var select = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SelectRStr);
+                Openbut.Text = select;
                 SavePnl.Visible = false;
                 NewPnl.Visible = true;
                 break;
@@ -698,7 +698,7 @@ public partial class FileDlgWindow : DataModule
             Selected = FileLB.Items[FileLB.Selected];
         }
 
-        for (int I = 0, last = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories.Count - 1; I <= last; I++)
+        for (int I = 0, last = Directories.Count - 1; I <= last; I++)
         {
             SaveLB.Items.Delete(0);
             DateLB.Items.Delete(0);
@@ -717,9 +717,9 @@ public partial class FileDlgWindow : DataModule
             }
         }
 
-        for (int I = 0, last = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories.Count - 1; I <= last; I++)
+        for (int I = 0, last = Directories.Count - 1; I <= last; I++)
         {
-            var directory = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories[I];
+            var directory = Directories[I];
             SaveLB.Items.Insert(I, directory);
             DateLB.Items.Insert(I, "");
         }
@@ -810,7 +810,7 @@ public partial class FileDlgWindow : DataModule
         string label = OperatingSystem.IsWindows() ? new DriveInfo(drive).VolumeLabel + " " : "";
         Aow.Game.Ui.Dialogs.FileDlgWindow.Drives.Add($"{label}({drive})");
         DriveCmb.Items.Clear();
-        DriveCmb.Items.AddStrings(Aow.Game.Ui.Dialogs.FileDlgWindow.Drives);
+        DriveCmb.Items.AddStrings(Drives);
         DriveCmb.Selected = 0;
         FindFiles();
     }
@@ -884,39 +884,39 @@ public partial class FileDlgWindow : DataModule
             return;
         }
 
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (AoWHSMap.Current != null)
         {
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.CloseHSM(null);
         }
 
         Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadCampaign(Name, Image);
-        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+        if (GameTables.AoWEngine.FCampaign != null)
         {
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign.FScenarioStarted)
+            if (GameTables.AoWEngine.FCampaign.FScenarioStarted)
             {
-                var e1Loading = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LayerText.E1LoadingRStr);
+                var e1Loading = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LayerText.E1LoadingRStr);
                 var fileName = ExtractFileName(Name);
-                Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Title.Text = e1Loading + " " + fileName + "...";
-                Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.StatusLbl.Text = "";
-                Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Position = 0;
-                Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.Bar.Max = 100;
-                Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible = true;
-                if (!Aow.Game.Ui.Dialogs.DialogHosts.TitleScene.Window.Visible)
+                DialogHosts.ProgressDialog.Title.Text = e1Loading + " " + fileName + "...";
+                DialogHosts.ProgressDialog.StatusLbl.Text = "";
+                DialogHosts.ProgressDialog.Bar.Position = 0;
+                DialogHosts.ProgressDialog.Bar.Max = 100;
+                DialogHosts.ProgressDialog.ProgDlg.Visible = true;
+                if (!DialogHosts.TitleScene.Window.Visible)
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 5000;
+                    DialogHosts.General.Manager.OverlayPriority = 5000;
                 }
 
                 Aow.Game.Audio.AudioHost.SongPlayer.Stop(false);
                 Aow.Game.Audio.AudioHost.SongPlayer.Songs.Clear();
                 Aow.Game.Audio.AudioPlayback.FadeMusicVolume(0, 1);
                 Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadCampaignMap((_, Message, Progression) => Controller.MapProgress(Message, Progression));
-                Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
-                Aow.Game.Ui.Dialogs.DialogHosts.ProgressDialog.ProgDlg.Visible = false;
+                DialogHosts.General.Manager.OverlayPriority = 0;
+                DialogHosts.ProgressDialog.ProgDlg.Visible = false;
             }
             else
             {
                 Aow.Game.Ui.Dialogs.DialogHosts.TitleScene.HideScene();
-                Aow.Game.Ui.Dialogs.WorldMap.ShowCampaignMap(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap);
+                Aow.Game.Ui.Dialogs.WorldMap.ShowCampaignMap(DialogHosts.WorldMap);
             }
         }
     }
@@ -935,8 +935,8 @@ public partial class FileDlgWindow : DataModule
     private static void PickScenarioMap(ScenSetup Dialog, string Name)
     {
         var currentDir = GetCurrentDir();
-        Name = ExtractRelativePath(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory, currentDir + "\\" + Name);
-        Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = false;
+        Name = ExtractRelativePath(GameTables.AoWEngine.StartupDirectory, currentDir + "\\" + Name);
+        DialogHosts.FileDlgWindow.FileDialog.Visible = false;
         Dialog.FSetupControl.hPickMap(Name);
     }
 

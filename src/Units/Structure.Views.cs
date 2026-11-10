@@ -115,7 +115,7 @@ namespace Aow.Game.World.Structures
         // The panel the owner sees, and every player in debug mode.
         protected virtual StructureView OwnerPanel() => StructureView.Generic;
 
-        protected bool ShownToOwner(sbyte Viewer) => FPlayer == Viewer || Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug;
+        protected bool ShownToOwner(sbyte Viewer) => FPlayer == Viewer || Magic.Abilities.GameTables.AoWEngine.FDebug;
     }
 }
 

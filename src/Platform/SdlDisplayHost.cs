@@ -242,7 +242,7 @@ public sealed unsafe class SdlDisplayHost : IDisplayHost, IDisposable
     public void Present(in SurfaceDesc backSurface)
     {
         OnThread();
-        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatID != Aow.Game.Draw.PixelFormats.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
+        if (backSurface.Width <= 0 || backSurface.Height <= 0 || backSurface.BitCount != 16 || backSurface.PixelFormatID != PixelFormats.pfRGB555 || Math.Abs((long)backSurface.Pitch) < (long)backSurface.Width * 2)
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(backSurface));
         if (backSurface.Width != width || backSurface.Height != height)
         {

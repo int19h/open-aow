@@ -28,13 +28,13 @@ public partial class AoWHSMap
         if (FTokenEventLogging || global::Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting)) return;
         try
         {
-            try { tokenLog = RtlUnit.Files.Open(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + RtlUnit.IntToStr(Aow.Game.Draw.PixelFormats.GetElapsedMilliSeconds()) + ".TXT", RtlUnit.fmCreate); }
+            try { tokenLog = RtlUnit.Files.Open(GameTables.AoWEngine.StartupDirectory + "Debug\\SYNC_LOG" + RtlUnit.IntToStr(Aow.Game.Draw.PixelFormats.GetElapsedMilliSeconds()) + ".TXT", RtlUnit.fmCreate); }
             catch (IOException) { }
             catch (UnauthorizedAccessException) { }
             WriteTokenLog("Map Session: " + FMapName);
-            int player = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.FLocalHumanPlayers[0];
+            int player = FPlayers.FLocalHumanPlayers[0];
             WriteTokenLog("Local Player: " + RtlUnit.IntToStr(player));
-            WriteTokenLog("Local Race: " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)player).FPlayerRace]));
+            WriteTokenLog("Local Race: " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)player).FPlayerRace]));
             FTokenEventLogging = true;
         }
         catch { }
@@ -55,7 +55,7 @@ public partial class AoWHSMap
         if (FTokenEventLogging && FTokenManager.TokenExecuter.ExecuteCount == 0)
             WriteTokenLog(token.GetType().Name + " (P:" + RtlUnit.IntToStr(FTokenManager.TokenExecuter.ActiveTCIndex) +
                 "/T:" + RtlUnit.IntToStr(token.TokenCounter) + "/S:" + RtlUnit.IntToStr(FDefendersSeed) +
-                "/D:" + RtlUnit.IntToStr(global::Aow.Game.World.Map.AoWHSMap.Current.FDay) + "/AIPC:" + RtlUnit.IntToStr(global::Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.FProcessCycles), true);
+                "/D:" + RtlUnit.IntToStr(FDay) + "/AIPC:" + RtlUnit.IntToStr(FAIExecuter.FProcessCycles), true);
     }
 
     public void OnTokenManagerMessage(object Sender, string message)

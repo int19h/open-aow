@@ -26,7 +26,7 @@ namespace Aow.Game.Ui.Dialogs;
 // race, completion event, retained negotiation event
 public partial class CityJoinDlg : DataModule
 {
-    public CityJoinDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public CityJoinDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -108,7 +108,7 @@ public partial class CityJoinDlg : DataModule
     // AoWCityJoinDlg.pas:93
     public void DlgDrawBack(SurfaceDesc Surface)
     {
-        Aow.Game.Draw.Images.LibraryImage Face;
+        LibraryImage Face;
         Face = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(FRace).GetFace();
         if (Face != null)
         {

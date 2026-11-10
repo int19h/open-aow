@@ -374,7 +374,7 @@ public partial class PoisonCloud : MultiHexMO
         public override int ResourceUserClassID() => 135743;
 
         // PoisonC.pas:289
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.PoisonCloud.Resource.PoisonCloudRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonCloudRStr);
 
         private static readonly string PoisonCloudRStr = "Poison Cloud";
 

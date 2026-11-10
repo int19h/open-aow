@@ -12,7 +12,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw.Animation
 {
 
-    public partial class SpringOfLifeAnimation : global::Aow.Game.Draw.Animation.Animation
+    public partial class SpringOfLifeAnimation : Animation
     {
         public SpringOfLifeAnimation(ECustomNode owner) : base(owner)
         { }
@@ -30,9 +30,9 @@ namespace Aow.Game.Draw.Animation
         // Animation.pas:43
 
         // Spring.pas:59
-        public override Set<AnimationControlModeElement> AnimationControlMode() => Aow.Game.Draw.Animation.SpringOfLifeAnimation.SpringMode;
+        public override Set<AnimationControlModeElement> AnimationControlMode() => SpringMode;
 
-        private static Set<global::Aow.Game.Draw.Animation.AnimationControlModeElement> SpringMode = Set<global::Aow.Game.Draw.Animation.AnimationControlModeElement>.FromMask(17uL);
+        private static Set<AnimationControlModeElement> SpringMode = Set<AnimationControlModeElement>.FromMask(17uL);
 
     }
 }
@@ -76,14 +76,14 @@ namespace Aow.Game.World.Structures
         public void ExecuteNaturesBlessing(ArmyHS ArmyHS)
         {
             SpringOfLifeAnimation Anim = default;
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             // { Keep the parameter in its original stack slot. }
             for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
                 ArmyHS.FArmy.GetUnit(I).ExpandAbility(99);
             }
 
-            bool condition = ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+            bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
@@ -103,7 +103,7 @@ namespace Aow.Game.World.Structures
             if (Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new SpringOfLifeAnimation(null);
-                R = global::Aow.Rtl.RtlUnit.Rect(-16, -8, 32, 40);
+                R = new Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowBlessingAnimation;
@@ -132,7 +132,7 @@ namespace Aow.Game.World.Structures
             // Spring.pas:37
 
             // Spring.pas:126
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.SpringOfLife.Resource.SpringOfLifeRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SpringOfLifeRStr);
 
             private static readonly string SpringOfLifeRStr = "Spring of Life";
 

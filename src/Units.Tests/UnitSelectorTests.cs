@@ -31,7 +31,7 @@ public sealed class UnitSelectorTests
     [Fact]
     public void HealingSetupAcceptsHeroesAndSelectsOnlyTheWounded()
     {
-        Aow.Game.Engine.AoWHSSet.Current = null!;
+        Game.Engine.AoWHSSet.Current = null!;
         var units = new UnitUserList(null!);
         var selector = new HealingUnitSelector();
         try

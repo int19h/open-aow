@@ -5,7 +5,7 @@ State: draft, 2026-10-24. Sections 1.2, 2.3 and 3 revised on 2026-11-05 for `str
 expects from the shim. This document defines the shim: the C# library `src/Rtl/Aow.Rtl.csproj`
 that stands in for the Delphi 3 runtime library (System, SysUtils), the parts of the VCL the
 transpiled code uses (Classes, Windows, Graphics, Controls, Forms, Dialogs, Registry), the core
-types the transpiler emits (`TSet<E>`, `Ptr<T>`, `TObject` with its metaclass) and the code page
+types the transpiler emits (`Set<E>`, `Ptr<T>`, `TObject` with its metaclass) and the code page
 1252 table behind the port's `string` text (`Cp1252`). The
 reference for every behavior is the Delphi 3.02 source under `C:\Tools\Delphi3\SOURCE` and, where
 that source is assembly, the probe compiled with the oracle compiler.
@@ -22,12 +22,12 @@ The library is three groups, each in its own folder. Groups 1 and 2 stay in the 
 The `RtlUnit` members of group 3 (the console output, `Files`, `Clock`, `InstallHost`) are
 therefore in `Aow.Rtl` too. The localization runtime is under `src/Rtl/Host/Localize/`. Its
 dictionary and runtime types are in `Aow.Rtl.Localize`, and the components that forms name
-(`TIvTranslator`, `TIvDictionary`, `TIvBinaryDictionary`, `TIvCustomTranslator`,
+(`IvTranslator` (Delphi `TIvTranslator`), `IvDictionary` (Delphi `TIvDictionary`), `IvBinaryDictionary` (Delphi `TIvBinaryDictionary`), `IvCustomTranslator` (Delphi `TIvCustomTranslator`),
 `TranslatorProperties`, `TranslationTarget`) stay in `Aow.Rtl`.
 
 `src/Rtl/Delphi/` (group 1) is Delphi behavior the game's results depend on. It holds `Random` and
 the seed, banker's rounding and the other arithmetic, the code page 1252 table and the string
-routines, `CompareText` and `AnsiCompareText`, `Format` and the conversions, `TSet<E>`, the
+routines, `CompareText` and `AnsiCompareText`, `Format` and the conversions, `Set<E>`, the
 streams, file dates and the `FindFirst` order, and the exceptions the game catches by class.
 `Catalog` and `ConstructionContext` sit here too. Both are port machinery the product keeps, outside
 the retirement backlog.
@@ -36,8 +36,8 @@ the retirement backlog.
 The RT-2 inventory counts 88 types and 22 `RtlUnit` members in this group, after the four no-op
 registrations and their call sites went. 90 of those 110 symbols occur in product code outside
 `src/Rtl` and the test projects. The other 20 have no such occurrence and stay, because a test pins them, Rtl still calls them, or the product names them
-under another spelling. The per-symbol counts are the retirement backlog. `TStringList`
-sorting is in this group with `TStrings`. The order it sorts in is Delphi behavior, and the
+under another spelling. The per-symbol counts are the retirement backlog. `StringList` (Delphi `TStringList`)
+sorting is in this group with `StringCollection` (Delphi `TStrings`). The order it sorts in is Delphi behavior, and the
 comparers that define it stay in group 1.
 
 `src/Rtl/Host/` (group 3) is host services that are not Delphi. It holds the file system, the
@@ -81,7 +81,7 @@ public static class MetaRegistry
     public static void Register(Type t, TObject.Meta meta, Func<TObject> factory, int instanceSize) { ... }
     public static TObject.Meta Of(Type t) { ... }    // one instance per type; throws outside the closure
 }
-// EAbstractError (section 1.7) is raised by the body of every abstract method
+// AbstractErrorException (section 1.7) is raised by the body of every abstract method
 public static class TObjectExtensions
 {
     public static void Free(this TObject o) { if (o != null) o.Destroy(); }
@@ -92,8 +92,8 @@ public static class TObjectExtensions
 addresses where the original used them as values (`transpiler.md` rule N7). A `Meta` exists only
 for the classes in the metaclass closure of `transpiler.md` 4.4, registered by the generated
 `MetaRegistry.cs`. `ClassType` on a class outside the closure throws, and the transpiler never emits
-it there. `TComponent` (section 4.4 of this document) carries the one VCL virtual constructor the
-set calls through a class reference, so its `Meta` has the `Create(TComponent owner)` factory.
+it there. `Component` (Delphi `TComponent`) (section 4.4 of this document) carries the one VCL virtual constructor the
+set calls through a class reference, so its `Meta` has the `Create(Component owner)` factory.
 
 ### 1.2 Text: `string` and `Cp1252`
 
@@ -151,12 +151,12 @@ contract (`strings.md` 2.1 and 2.7).
   encodes and truncates to the image size. A font draws the glyph `Cp1252.Byte(c)` of each char.
 - Generated literals are C# string literals. The sources of `src/Units` are pure ASCII.
 
-### 1.3 TSet<E>
+### 1.3 `Set` (Delphi `TSet`)<E>
 
-`readonly struct TSet<E> where E : unmanaged, Enum` with a `ulong Mask`. Members: `Of(params E[])`,
-`Range(E lo, E hi)`, `Contains(E)`, `With(E)`, `Without(E)`, `IsSubsetOf(TSet<E>)`, `IsEmpty`,
+`readonly struct Set<E> where E : unmanaged, Enum` with a `ulong Mask`. Members: `Of(params E[])`,
+`Range(E lo, E hi)`, `Contains(E)`, `With(E)`, `Without(E)`, `IsSubsetOf(Set<E>)`, `IsEmpty`,
 `Count`, operators `+` (union), `-` (difference), `&` (intersection), `==`, `!=`, and
-`FromMask(ulong)`. The ordinal of `E` is the bit number. `TSet<byte>` is the same struct for a set
+`FromMask(ulong)`. The ordinal of `E` is the bit number. `Set<byte>` is the same struct for a set
 over an integer subrange. A constructor argument above 63 throws.
 
 ### 1.4 Ptr<T>
@@ -178,9 +178,9 @@ struct for the untyped buffer routines (`GetCRC32`, `Move`, `FillChar`, `Compare
 What uses `Ptr<T>` is the boundary of the RTL alone: the `PChar` routines of section 2.3, the
 typed `Move`, `FillChar`, `GetMem`, `ReallocMem`, `FreeMem`, `New` and `Dispose` of section 2.4,
 `TStream.Read`, `Write`, `ReadBuffer` and `WriteBuffer` on a `Ptr<byte>`, `ReadLegacyRecord` (a
-record address passed as `TObject`), and the box cases of `BufferBytes` and `TList.IndexOf`. The
+record address passed as `TObject`), and the box cases of `BufferBytes` and `DelphiList.IndexOf` (Delphi `TList`). The
 units hold no `Ptr<T>` since the graphics slices GP-1 to GP-4 (`graphics.md` 3.5): blocks of
-records are arrays, pixels are a `byte[]` with a byte index, optional rectangles are `TRect?`.
+records are arrays, pixels are a `byte[]` with a byte index, optional rectangles are `Rect?`.
 They do not convert a pointer to a span and they do not read a boxed pointer as bytes.
 `ReadLegacyRecord` recovers a record through `Unbox(object)`. Records grown and shifted as arrays
 use `RtlUnit.ReallocArray`, `MoveElements` and `ClearElements` (section 2.4).
@@ -192,10 +192,10 @@ from `TObject` (a `PtrBox<T>` among them) and from `string`, and `T As<T>()`, wh
 a string slot that holds no string. `Value` of a reference is its `InstanceId`, or for a string an
 id from the same counter. `Ref` of an integer is `null`. The first stage used it wherever the
 source overlays a reference and an integer (`transpiler.md` 4.3). Since milestone 9.6 it remains
-only in `THashItem.Key` (`Engine.cs` and `HashTabU.cs`), where `THashList` keeps an integer key
-and `TStringHashItem` a string in the same slot, until the collections pass gives each hash list
+only in `HashItem.Key` (Delphi `THashItem`) (`Engine.cs` and `HashTabU.cs`), where `HashList` (Delphi `THashList`) keeps an integer key
+and `StringHashItem` (Delphi `TStringHashItem`) a string in the same slot, until the collections pass gives each hash list
 a typed key. The message slots took `MsgArg` and the blend
-slot of `TShowInfo` took the union `BlendValue` of the units (`unions-and-kinds.md` 3.3).
+slot of `ShowInfo` (Delphi `TShowInfo`) took the union `BlendValue` of the units (`unions-and-kinds.md` 3.3).
 
 `MsgArg` (`src/Rtl/Legacy/MsgArg.cs`, brief 9.6-4) is the slot of an engine message, a 32-bit word of the
 original that holds an integer or an object reference. It is a custom union, a `[Union] readonly
@@ -214,13 +214,13 @@ integer, the empty slot or another type. `Value` boxes and serves reflection onl
 the cases through `TryGetValue`. Equality (`==`, `Equals`) is the equality of the original word:
 an integer equals the same integer, a reference the same object, the empty slot, the nil
 reference and the integer 0 are all the word 0, and a nonzero integer never equals a reference.
-`TMapField.SendMapFieldMsg` compares the answer slot that way to tell whether a handler answered.
+`MapField.SendMapFieldMsg` (Delphi `TMapField`) compares the answer slot that way to tell whether a handler answered.
 
 The parameter arrays are inline arrays of `MsgArg` named by their role, with the arity of the
-message protocol as a named constant: `TEMsgParams` (`Engine.cs`, `Arity = 3`) for `TEMsg.Param`
-and `TMapFieldMsgParams` (`HSEngine.cs`, `Arity = 4`) for `TMapFieldMsg.Param`. `TEMsg.Payload`
-and `TMapFieldMsg.Result` are single `MsgArg` fields. The `Engine`, `Obj` and `Value` accessors of
-the first stage's `TEMsg` are gone. No message record reaches a stream or a packet.
+message protocol as a named constant: `EMsgParams` (Delphi `TEMsgParams`) (`Engine.cs`, `Arity = 3`) for `EMsg.Param` (Delphi `TEMsg`)
+and `MapFieldMsgParams` (Delphi `TMapFieldMsgParams`) (`HSEngine.cs`, `Arity = 4`) for `MapFieldMsg.Param` (Delphi `TMapFieldMsg`). `EMsg.Payload`
+and `MapFieldMsg.Result` are single `MsgArg` fields. The `Engine`, `Obj` and `Value` accessors of
+the first stage's `EMsg` are gone. No message record reaches a stream or a packet.
 
 ### 1.6 FormatArg
 
@@ -256,11 +256,11 @@ with one switch expression over the cases with no discard arm, so a new case fai
 ```
 System.Exception
   Aow.Rtl.Exception            Message, HelpContext, Create(msg), CreateFmt(fmt, args)
-    EAbort                     Abort() raises it, hosts swallow it silently
+    AbortException                     Abort() raises it, hosts swallow it silently
     EConvertError, EListError, EStreamError, EReadError, EWriteError, EFOpenError, EFCreateError,
     EInvalidCast, EAccessViolation, EDivByZero, ERangeError, EIntOverflow, EInvalidOp,
-    EAssertionFailed, EComponentError, EInvalidOperation, EOutOfMemory, EInOutError,
-    EAbstractError             raised by the generated body of an abstract method (transpiler.md 4.4)
+    AssertionFailedException, EComponentError, EInvalidOperation, EOutOfMemory, EInOutError,
+    AbstractErrorException             raised by the generated body of an abstract method (transpiler.md 4.4)
 ```
 
 `Rtl.Wrap(System.Exception)` maps .NET runtime exceptions as `transpiler.md` section 5.5 lists and
@@ -338,9 +338,9 @@ array, `ReallocArray(A, N)` is `ReallocMem` (a new array that keeps the elements
 share, `null` for 0), `MoveElements(Src, I, Dst, J, N)` is `Move` of `N` records between array
 indexes, overlapping or not, and `ClearElements(A, I, N)` is `FillChar` of `N` records with zero.
 A count of 0 or less does nothing. `Assert(bool, string, string file,
-int line)` throws `EAssertionFailed` with the Delphi message format `"<msg> (<file>, line <n>)"`, and
+int line)` throws `AssertionFailedException` (Delphi `EAssertionFailed`) with the Delphi message format `"<msg> (<file>, line <n>)"`, and
 `Assertion failed` stands for an empty message.
-`Halt` throws a host-handled `EHalt`. `ParamStr`, `ParamCount` come from the host.
+`Halt` throws a host-handled `HaltException` (Delphi `EHalt`). `ParamStr`, `ParamCount` come from the host.
 
 ## 3. SysUtils
 
@@ -371,7 +371,7 @@ passes through unchanged.
 ### 3.2 Locale comparison
 
 Delphi's `AnsiCompareText` and `AnsiCompareStr` call the Windows `CompareString` with the user
-locale. `TStrings.IndexOf` and the sorted `TStringList` use `AnsiCompareText`. In the transpile set
+locale. `StringCollection.IndexOf` and the sorted `StringList` use `AnsiCompareText`. In the transpile set
 `IndexOf` is called 173 times, for lookups by name, and the sorted string list sorts only the file
 dialog's lists. Equality is what the game logic needs, and Windows equality under
 `NORM_IGNORECASE` means equal after case folding. The shim implements:
@@ -417,7 +417,7 @@ outside the table. The implementation is the shim's own `FormatBuf` port in
 | `ExtractFileName`, `ExtractFilePath`, `ExtractFileExt`, `ChangeFileExt`, `ExtractFileDir` | split at the last `\` or `:`, as Delphi 3 does, never at `/` (probe `files`). The host's file service accepts both separators (section 7) |
 | `ExpandFileName` | absolute path with `.` and `..` removed, relative to the host's working directory |
 | `FileExists`, `DirectoryExists`, `DeleteFile`, `RenameFile`, `CreateDir`, `GetCurrentDir` | through the host file system |
-| `FindFirst`, `FindNext`, `FindClose` with `TSearchRec` (`Name`, `Size`, `Attr`, `Time`) | section 3.5 |
+| `FindFirst`, `FindNext`, `FindClose` with `SearchRec` (Delphi `TSearchRec`) (`Name`, `Size`, `Attr`, `Time`) | section 3.5 |
 | `FileAge`, `FileDateToDateTime` | the file's modification time as `TDateTime` |
 
 Attributes: `faDirectory`, `faAnyFile`, `faReadOnly`, `faHidden`, `faArchive`. Delphi 3 filters
@@ -430,8 +430,8 @@ The end of an enumeration is code 18, and a pattern with no match returns code 2
 Paths are `string` with the host's chars (`strings.md` 2.5). `ParamStr`, `GetCurrentDir`,
 `ExpandFileName` and the `FindFirst` names keep a char outside the table, and so does a settings value
 under a path key (`strings.md` 2.5). A path meets the table only at the font (`Cp1252.Byte`, glyph 63)
-and at a stream writer (`Cp1252.Encode`, byte 63). `TSearchRec.Name` is a property that reads a
-null as `""`, because `TSearchRec search = default` skips every initializer.
+and at a stream writer (`Cp1252.Encode`, byte 63). `SearchRec.Name` is a property that reads a
+null as `""`, because `SearchRec search = default` skips every initializer.
 
 ### 3.5 Directory enumeration order
 
@@ -455,11 +455,11 @@ replaces the clock with a fixed one (`testing.md`).
 The shim ports the Delphi 3 `CLASSES.PAS` classes the set uses, method by method, keeping the
 algorithms. The reasons are in the notes per class.
 
-### 4.1 TList
+### 4.1 DelphiList
 
 Fields `List` (a `object[]`, exposed because the generated code reads `FList^[I]` 224 times),
 `Count`, `Capacity`. Methods `Add`, `Insert`, `Delete`, `Remove`, `IndexOf`, `Exchange`, `Move`,
-`First`, `Last`, `Clear`, `Pack`, `Expand`, `Sort(TListSortCompare)`, `Error`. `Grow` adds a quarter of
+`First`, `Last`, `Clear`, `Pack`, `Expand`, `Sort(ListSortCompare)`, `Error`. `Grow` adds a quarter of
 `Capacity` when `Capacity > 64`, 16 when `Capacity > 8`, and 4 otherwise, so 8 grows to 12 and 64
 to 80 (probe `lists`). `Sort` is the `QuickSort` of `CLASSES.PAS`: pivot at
 `(L + R) shr 1`, scan from both ends with the comparator, swap while `I <= J`, recurse on the left
@@ -468,18 +468,18 @@ part and loop on the right. The AI sorts candidate lists with its own comparator
 equal elements after this exact algorithm decides which candidate wins, so the algorithm is ported
 as written and probe `lists` checks it on arrays with many equal keys.
 
-`TList` of the shim is also the base of the engine's `TEObjectList` and `TEObjectClassList`
+`DelphiList` of the shim is also the base of the engine's `EObjectList` (Delphi `TEObjectList`) and `EObjectClassList` (Delphi `TEObjectClassList`)
 (generated code).
 
-### 4.2 TStrings and TStringList
+### 4.2 StringCollection and StringList
 
-`TStrings`: `Count`, `Strings[i]`, `Objects[i]`, `Add`, `AddObject`, `Insert`, `Delete`, `Clear`,
+`StringCollection`: `Count`, `Strings[i]`, `Objects[i]`, `Add`, `AddObject`, `Insert`, `Delete`, `Clear`,
 `IndexOf` (linear, `AnsiCompareText`), `IndexOfObject`, `IndexOfName`, `Names`, `Values`,
 `Text` (`CR LF` after every line, including the last, and a reader that accepts `CR`, `LF` or
 both), `CommaText`, `LoadFromFile`, `LoadFromStream`, `SaveToFile`, `SaveToStream`, `Assign`,
 `AddStrings`, `BeginUpdate`, `EndUpdate`, `Exchange`, `Move`.
 
-`TStringList`: the above plus `Sorted`, `Duplicates` (`dupIgnore`, `dupAccept`, `dupError`),
+`StringList`: the above plus `Sorted`, `Duplicates` (`dupIgnore`, `dupAccept`, `dupError`),
 `Sort`, `Find` (binary search with `AnsiCompareText`, moving to the first equal entry unless
 `dupAccept`), `OnChange`, `OnChanging`. `Add` on a sorted list uses `Find` and the `Duplicates`
 rule. `Sort` is the `QuickSort` of `CLASSES.PAS` with `AnsiCompareText`. `IndexOf` on a sorted list
@@ -502,14 +502,14 @@ to the next multiple of 8,192, as `Realloc` does. `Write` past the end grows the
 share flags ignored except `fmShareDenyWrite`, which the host maps to a read share. A failed open
 raises `EFOpenError` or `EFCreateError` with the Delphi message.
 
-`THandleStream` is not needed. The engine's `TFastMemoryStream` is generated code over `TStream`.
+`THandleStream` is not needed. The engine's `FastMemoryStream` (Delphi `TFastMemoryStream`) is generated code over `TStream`.
 
-### 4.4 TPersistent and TComponent
+### 4.4 `Persistent` (Delphi `TPersistent`) and Component
 
-`TPersistent`: `Assign(source)` calls `source.AssignTo(this)`, whose default raises `EConvertError`
+`Persistent`: `Assign(source)` calls `source.AssignTo(this)`, whose default raises `EConvertError`
 with `Cannot assign a %s to a %s`. `GetNamePath`, `GetOwner`.
 
-`TComponent`: `Owner`, `Name` (setter validates the identifier, checks duplicates in the owner
+`Component`: `Owner`, `Name` (setter validates the identifier, checks duplicates in the owner
 with `CompareText`, raises `EComponentError`), `Tag`, `ComponentCount`, `Components[i]`,
 `ComponentIndex`, `ComponentState` (`csLoading`, `csDestroying` set recursively by `Destroying` as in `CLASSES.PAS`, `csDesigning` never set),
 `InsertComponent`, `RemoveComponent`, `FindComponent` (`CompareText`), `DestroyComponents`
@@ -531,14 +531,14 @@ with the property name, type, default value and setter, cached per type.
 
 ### 5.1 Types and helpers
 
-`TRect` (`Left, Top, Right, Bottom`, plus `Rect()`, `Bounds()`, `OffsetRect`, `InflateRect`,
+`Rect` (Delphi `TRect`) (`Left, Top, Right, Bottom`, plus `Rect()`, `Bounds()`, `OffsetRect`, `InflateRect`,
 `UnionRect`, `IntersectRect`, `PtInRect`, `IsRectEmpty`, `EqualRect`), `TPoint` (`Point()`),
 `HWND`, `HDC`, `DWORD`, `BOOL`, `HResult`. `TColor` is `int` with the `cl*` constants the code uses
 (`clBtnFace`, `clRed`, `clBlack`, `clWhite`, `clNone`, `clDefault`, `clBtnShadow`,
 `clBtnHighlight`, `clAppWorkSpace`) and `ColorToRGB` mapping the system colors to the Windows
-default theme values. `TShiftState` (a `TSet` of `ssShift`, `ssAlt`, `ssCtrl`, `ssLeft`,
-`ssRight`, `ssMiddle`, `ssDouble`), `TMouseButton`, `TCursor`, `TNotifyEvent`, `TKeyEvent`,
-`TMouseEvent`, `TMouseMoveEvent`, `TKeyPressEvent`, the `VK_*` and `WM_*` constants the code
+default theme values. `ShiftState` (Delphi `TShiftState`) (a `Set` of `ssShift`, `ssAlt`, `ssCtrl`, `ssLeft`,
+`ssRight`, `ssMiddle`, `ssDouble`), `MouseButton` (Delphi `TMouseButton`), `TCursor`, `NotifyEvent` (Delphi `TNotifyEvent`), `KeyEvent` (Delphi `TKeyEvent`),
+`MouseEvent` (Delphi `TMouseEvent`), `MouseMoveEvent` (Delphi `TMouseMoveEvent`), `KeyPressEvent` (Delphi `TKeyPressEvent`), the `VK_*` and `WM_*` constants the code
 names, `MulDiv`, `HiWord`, `LoWord`, `MakeLong`, `GetSystemMetrics` (screen size from the host).
 
 ### 5.2 Dialogs
@@ -562,12 +562,12 @@ configured game directory. `Application.Handle`, `MainForm`, `Title`, `Active`, 
 
 ### 5.4 Registry and ini files
 
-`TRegistry` (`OpenKey`, `CreateKey`, `ReadString`, `WriteString`, `ReadInteger`, `WriteInteger`,
+`Registry` (Delphi `TRegistry`) (`OpenKey`, `CreateKey`, `ReadString`, `WriteString`, `ReadInteger`, `WriteInteger`,
 `ReadBool`, `WriteBool`, `ValueExists`, `KeyExists`, `DeleteValue`, `RootKey`, `CloseKey`) is
 backed by the host's settings store, a JSON file in the user data directory, with the key path as
-the section. The game's `TAoWRegistry` (generated) derives from it. `TIniFile` (`ReadString`,
+the section. The game's `AoWRegistry` (Delphi `TAoWRegistry`) (generated) derives from it. `IniFile` (Delphi `TIniFile`) (`ReadString`,
 `WriteString`, `ReadInteger`, `WriteInteger`, `ReadBool`, `ReadSection`, `ReadSections`,
-`EraseSection`) reads and writes a real ini file, because `TImageSequence` stores frame tables in
+`EraseSection`) reads and writes a real ini file, because `ImageSequence` (Delphi `TImageSequence`) stores frame tables in
 ini files next to the image libraries.
 
 ## 6. Shim behaviors that affect the oracle
@@ -575,12 +575,12 @@ ini files next to the image libraries.
 These are the places where a careless shim makes the headless comparison fail. Each has a probe.
 
 1. `Random` and `RandSeed` (2.1). Probe `random`.
-2. `TList.Sort` (4.1). Probe `lists`.
-3. `TStringList` sorted insertion and `Find` (4.2). Probe `lists`.
+2. `DelphiList.Sort` (4.1). Probe `lists`.
+3. `StringList` sorted insertion and `Find` (4.2). Probe `lists`.
 4. `AnsiCompareText` equality (3.2). Probe `strings`.
 5. `FindFirst` order (3.5). Probe `files`.
 6. `Round` (2.2). Probe `floats`.
-7. `TStrings.Text` line endings and the reader (4.2). Probe `strings`.
+7. `StringCollection.Text` line endings and the reader (4.2). Probe `strings`.
 8. `Copy`, `Delete`, `Insert`, `Pos` edge cases (2.3). Probe `strings`.
 9. `StrToInt` acceptance (3.1). Probe `strings`.
 10. `TMemoryStream` growth and `Position` after writes (4.3). Probe `streams`.
@@ -596,7 +596,7 @@ public interface IRtlHost
     IFileSystem Files { get; }        // open, exists, enumerate (sorted as 3.5), delete, rename, directories
     IDialogService Dialogs { get; }   // MessageDlg, MessageBox, ShowMessage, modal
     IClock Clock { get; }             // Now, GetTickCount, timeGetTime
-    ISettingsStore Settings { get; }  // TRegistry backing store
+    ISettingsStore Settings { get; }  // Registry backing store
     string ExeName { get; }
     string GameRoot { get; }
 }

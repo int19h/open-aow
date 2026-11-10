@@ -12,15 +12,15 @@ namespace Aow.Game.Ui.Dialogs;
 // published menu components
 public partial class PopupWindows : DataModule
 {
-    public PopupWindows(global::Aow.Rtl.Component owner) : base(owner)
+    public PopupWindows(Component owner) : base(owner)
     { }
 
-    public global::Aow.Game.Ui.Windows.StartMenu StartMenu;
+    public StartMenu StartMenu;
     public AOWMenu OverViewsMenu;
     public AOWMenu SettingsMenu;
     public AOWMenu EndMenu;
     public AOWMenu DiskMenu;
-    public global::Aow.Game.Ui.Windows.StartMenu TCStartMenu;
+    public StartMenu TCStartMenu;
     public IvTranslator Translator;
     public AOWMenu HelpMenu;
     public AOWMenu TCOVMenu;
@@ -38,19 +38,19 @@ public partial class PopupWindows : DataModule
                 Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ShowModes();
                 break;
             case 1:
-                Aow.Game.Ui.Dialogs.PopupWindows.ShowSoundSettings(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg);
+                Aow.Game.Ui.Dialogs.PopupWindows.ShowSoundSettings(DialogHosts.SoundDlg);
                 break;
             case 2:
-                Aow.Game.Ui.Dialogs.DialogHosts.GamePlayDialog.Root.Visible = true;
+                DialogHosts.GamePlayDialog.Root.Visible = true;
                 break;
             case 3:
                 Aow.Game.Ui.Dialogs.DialogHosts.General.ResetLayout();
                 break;
             case 4:
-                Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
+                Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
                 break;
             case 5:
-                Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.DebugWin.Visible = true;
+                DialogHosts.DialogWin.DebugWin.Visible = true;
                 break;
         }
     }
@@ -61,12 +61,12 @@ public partial class PopupWindows : DataModule
         switch (Sender.FSelectedItem)
         {
             case 0:
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FMode = 0;
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                DialogHosts.FileDlgWindow.FMode = 0;
+                DialogHosts.FileDlgWindow.FileDialog.Visible = true;
                 break;
             case 1:
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FMode = 1;
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FileDialog.Visible = true;
+                DialogHosts.FileDlgWindow.FMode = 1;
+                DialogHosts.FileDlgWindow.FileDialog.Visible = true;
                 break;
         }
     }
@@ -78,10 +78,10 @@ public partial class PopupWindows : DataModule
         {
             case 0:
                 // { Original opens the information book. }
-                Aow.Game.Ui.Dialogs.PopupWindows.ShowInformationBook(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap, null, null);
+                Aow.Game.Ui.Dialogs.PopupWindows.ShowInformationBook(DialogHosts.WorldMap, null, null);
                 break;
             case 1:
-                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
+                if (Magic.Abilities.GameTables.AoWEngine.FCampaign != null)
                 {
                     Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.ShowCampaignHistory();
                 }
@@ -96,8 +96,8 @@ public partial class PopupWindows : DataModule
         switch (Sender.FSelectedItem)
         {
             case 0:
-                var quitCombat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.PopupWindows.QuitCombatRStr);
-                var confirm = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ConfirmRStr);
+                var quitCombat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(QuitCombatRStr);
+                var confirm = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ConfirmRStr);
                 Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.Confirm(confirm, quitCombat, 6);
                 break;
         }
@@ -132,21 +132,21 @@ public partial class PopupWindows : DataModule
         {
             case 0:
                 Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.Confirm(
-                    Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ConfirmRStr),
-                    Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.PopupWindows.SurrenderYourEmpireRStr), 4);
+                    Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ConfirmRStr),
+                    Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SurrenderYourEmpireRStr), 4);
                 break;
             case 1:
                 Aow.Game.World.Map.AoWHSMap.Current.ExitGame(ExitGameMode.Terminate, null);
                 break;
             case 2:
-                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo) Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.ShowExitSplash();
+                if (Magic.Abilities.GameTables.AoWEngine.FDemo) Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.ShowExitSplash();
                 else GameHost.MainForm.CloseRequested();
                 break;
         }
     }
 
-    private static global::Aow.Game.Engine.Buffers.FixedArray_string_4 TVictoryConditionRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_4.From(default(global::System.ReadOnlySpan<string>));
-    private static global::Aow.Game.Engine.Buffers.FixedArray_string_3 TPlayerConnectionTypeRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_3.From(default(global::System.ReadOnlySpan<string>));
+    private static Engine.Buffers.FixedArray_string_4 TVictoryConditionRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_4.From(default(ReadOnlySpan<string>));
+    private static Engine.Buffers.FixedArray_string_3 TPlayerConnectionTypeRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_3.From(default(ReadOnlySpan<string>));
     private static readonly string AlliedVictoryXRStr = "Allied victory: %s";
     private static readonly string ConquerTheMapRStr = "Conquer the map";
     private static readonly string DisabledRStr = "Disabled";
@@ -163,7 +163,7 @@ public partial class PopupWindows : DataModule
     private static readonly string MapSettingsRStr = "Scenario Info:";
     private static readonly string DayLimitXRStr = "Turn Limit: %s";
 
-    private static void ShowSoundSettings(global::Aow.Game.Ui.Dialogs.SoundDlg Dialog)
+    private static void ShowSoundSettings(SoundDlg Dialog)
     {
         Dialog.AddBtn.Visible = false;
         Dialog.FindFiles();
@@ -171,49 +171,49 @@ public partial class PopupWindows : DataModule
         Dialog.Dlg.Visible = true;
     }
 
-    internal static void ShowInformationBook(global::Aow.Game.Ui.Dialogs.WorldMap Dialog, global::Aow.Game.Events.ShowBookEventLog Event, global::Aow.Game.Events.ExecuteDoneEvent Done)
+    internal static void ShowInformationBook(WorldMap Dialog, Events.ShowBookEventLog Event, Events.ExecuteDoneEvent Done)
     {
-        Dialog.FOnBookClosed = RtlUnit.RebindDelegate<NotifyEvent<object>>((global::System.Delegate)Done);
+        Dialog.FOnBookClosed = RtlUnit.RebindDelegate<NotifyEvent<object>>((Delegate)Done);
         Dialog.FBookContext = Event;
         if (Dialog.FBookContext != null)
         {
             Dialog.FBookContext.AddRef();
         }
-        Dialog.LabelL.Text = global::Aow.Game.World.Map.AoWHSMap.Current.FMapName;
+        Dialog.LabelL.Text = World.Map.AoWHSMap.Current.FMapName;
         ((StringCollection)Dialog.MemoL.Items).Clear();
-        ((StringCollection)Dialog.MemoL.Items).AddStrings((StringCollection)(object)global::Aow.Game.World.Map.AoWHSMap.Current.FDescription);
+        ((StringCollection)Dialog.MemoL.Items).AddStrings((StringCollection)(object)World.Map.AoWHSMap.Current.FDescription);
         string text = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MapSettingsRStr);
         Dialog.LabelR.Text = text;
         ((StringCollection)Dialog.MemoR.Items).Clear();
-        if (global::Aow.Game.World.Map.AoWHSMap.Current.FVictoryCondition == Aow.Game.World.Map.AoWHSMap.VictoryCondition.None)
+        if (World.Map.AoWHSMap.Current.FVictoryCondition == World.Map.AoWHSMap.VictoryCondition.None)
         {
             string text2 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ConquerTheMapRStr);
             string s = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ObjectiveXRStr);
             FormatArg val = (FormatArg)(text2);
-            string text3 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s, new global::System.ReadOnlySpan<FormatArg>(ref val));
+            string text3 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s, new ReadOnlySpan<FormatArg>(ref val));
             ((StringCollection)Dialog.MemoR.Items).Add(text3);
         }
         else
         {
-            string text4 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TVictoryConditionRStr[(int)global::Aow.Game.World.Map.AoWHSMap.Current.FVictoryCondition]);
+            string text4 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TVictoryConditionRStr[(int)World.Map.AoWHSMap.Current.FVictoryCondition]);
             string s2 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ObjectiveXRStr);
             FormatArg val2 = (FormatArg)(text4);
-            string text5 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s2, new global::System.ReadOnlySpan<FormatArg>(ref val2));
+            string text5 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s2, new ReadOnlySpan<FormatArg>(ref val2));
             ((StringCollection)Dialog.MemoR.Items).Add(text5);
         }
-        if (global::Aow.Game.World.Map.AoWHSMap.Current.FDayLimit > 0)
+        if (World.Map.AoWHSMap.Current.FDayLimit > 0)
         {
             string s3 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DayLimitXRStr);
-            FormatArg val3 = (FormatArg)(RtlUnit.IntToStr(global::Aow.Game.World.Map.AoWHSMap.Current.FDayLimit));
-            string text6 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s3, new global::System.ReadOnlySpan<FormatArg>(ref val3));
+            FormatArg val3 = (FormatArg)(RtlUnit.IntToStr(World.Map.AoWHSMap.Current.FDayLimit));
+            string text6 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s3, new ReadOnlySpan<FormatArg>(ref val3));
             ((StringCollection)Dialog.MemoR.Items).Add(text6);
         }
-        if (global::Aow.Game.World.Map.AoWHSMap.Current.FAlliedVictory)
+        if (World.Map.AoWHSMap.Current.FAlliedVictory)
         {
             string text7 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(EnabledRStr);
             string s4 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AlliedVictoryXRStr);
             FormatArg val4 = (FormatArg)(text7);
-            string text8 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s4, new global::System.ReadOnlySpan<FormatArg>(ref val4));
+            string text8 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s4, new ReadOnlySpan<FormatArg>(ref val4));
             ((StringCollection)Dialog.MemoR.Items).Add(text8);
         }
         else
@@ -221,43 +221,43 @@ public partial class PopupWindows : DataModule
             string text9 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DisabledRStr);
             string s5 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AlliedVictoryXRStr);
             FormatArg val5 = (FormatArg)(text9);
-            string text10 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s5, new global::System.ReadOnlySpan<FormatArg>(ref val5));
+            string text10 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s5, new ReadOnlySpan<FormatArg>(ref val5));
             ((StringCollection)Dialog.MemoR.Items).Add(text10);
         }
         int count = global::Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount();
         string s6 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PlayersOnMapXRStr);
         FormatArg val6 = (FormatArg)(RtlUnit.IntToStr(count - 1));
-        string text11 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s6, new global::System.ReadOnlySpan<FormatArg>(ref val6));
+        string text11 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s6, new ReadOnlySpan<FormatArg>(ref val6));
         ((StringCollection)Dialog.MemoR.Items).Add(text11);
         string s7 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MaximumSphereLevelXRStr);
-        FormatArg val7 = (FormatArg)(RtlUnit.IntToStr(global::Aow.Game.World.Map.AoWHSMap.Current.FSphereCount));
-        string text12 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s7, new global::System.ReadOnlySpan<FormatArg>(ref val7));
+        FormatArg val7 = (FormatArg)(RtlUnit.IntToStr(World.Map.AoWHSMap.Current.FSphereCount));
+        string text12 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s7, new ReadOnlySpan<FormatArg>(ref val7));
         ((StringCollection)Dialog.MemoR.Items).Add(text12);
         string s8 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MaximumPlayerHeroesXRStr);
-        FormatArg val8 = (FormatArg)(RtlUnit.IntToStr((int)global::Aow.Game.World.Map.AoWHSMap.Current.FHeroCountMax));
-        string text13 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s8, new global::System.ReadOnlySpan<FormatArg>(ref val8));
+        FormatArg val8 = (FormatArg)(RtlUnit.IntToStr((int)World.Map.AoWHSMap.Current.FHeroCountMax));
+        string text13 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s8, new ReadOnlySpan<FormatArg>(ref val8));
         ((StringCollection)Dialog.MemoR.Items).Add(text13);
-        if (global::Aow.Game.World.Map.AoWHSMap.Current.FConnectionType == global::Aow.Game.Session.PlayerConnectionType.Local && global::Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)
+        if (World.Map.AoWHSMap.Current.FConnectionType == PlayerConnectionType.Local && World.Map.AoWHSMap.Current.FRequestCombatType)
         {
-            string text14 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)global::Aow.Game.World.Map.AoWHSMap.Current.FConnectionType]);
+            string text14 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)World.Map.AoWHSMap.Current.FConnectionType]);
             string text15 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HotSeatRStr);
             string s9 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GametypeXRStr);
             FormatArg val9 = (FormatArg)(text14 + "/" + text15);
-            string text16 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s9, new global::System.ReadOnlySpan<FormatArg>(ref val9));
+            string text16 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s9, new ReadOnlySpan<FormatArg>(ref val9));
             ((StringCollection)Dialog.MemoR.Items).Add(text16);
         }
         else
         {
-            string text17 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)global::Aow.Game.World.Map.AoWHSMap.Current.FConnectionType]);
+            string text17 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TPlayerConnectionTypeRStr[(int)World.Map.AoWHSMap.Current.FConnectionType]);
             string s10 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GametypeXRStr);
             FormatArg val10 = (FormatArg)(text17);
-            string text18 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s10, new global::System.ReadOnlySpan<FormatArg>(ref val10));
+            string text18 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s10, new ReadOnlySpan<FormatArg>(ref val10));
             ((StringCollection)Dialog.MemoR.Items).Add(text18);
         }
-        string text19 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.TPlayModeRStr[(int)global::Aow.Game.World.Map.AoWHSMap.Current.FPlayMode]);
+        string text19 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.TPlayModeRStr[(int)World.Map.AoWHSMap.Current.FPlayMode]);
         string s11 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(TurnModeXRStr);
         FormatArg val11 = (FormatArg)(text19);
-        string text20 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s11, new global::System.ReadOnlySpan<FormatArg>(ref val11));
+        string text20 = global::Aow.Game.Magic.Abilities.AbilityRules.Format(s11, new ReadOnlySpan<FormatArg>(ref val11));
         ((StringCollection)Dialog.MemoR.Items).Add(text20);
         Dialog.PicL.Visible = false;
         Dialog.PicR.Visible = false;
@@ -271,6 +271,6 @@ public partial class PopupWindows : DataModule
         {
             Dialog.BookWin.FBackSurface.Cls(Dialog.BookWin.FMaskColor);
         }
-        global::Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+        DialogHosts.General.Manager.OverlayPriority = 49;
     }
 }

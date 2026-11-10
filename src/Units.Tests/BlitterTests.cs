@@ -498,15 +498,15 @@ public sealed class BlitterTests
     private static (Rect Clip, int X, int Y) Placement(int clip, int width)
     {
         int x = 4, y = 3;
-        var rect = RtlUnit.Rect(0, 0, 96, 12);
+        var rect = new Rect(0, 0, 96, 12);
         switch (clip)
         {
             case 1: rect.Left = 6; break;
             case 2: rect.Right = x + width - 2; break;
             case 3: rect.Top = 5; break;
             case 4: rect.Bottom = 5; break;
-            case 5: rect = RtlUnit.Rect(90, 10, 96, 12); break;
-            case 6: rect = RtlUnit.Rect(6, 4, x + width - 1, 6); break;
+            case 5: rect = new Rect(90, 10, 96, 12); break;
+            case 6: rect = new Rect(6, 4, x + width - 1, 6); break;
             case 7: x = -2; y = -1; break;
             case 8: rect.Left = 37; break;
             case 9: rect.Right = x + width - 32; break;
@@ -569,7 +569,7 @@ public sealed class BlitterTests
                         {
                             var dest = Pixels16(Size(40, 16), seed++);
                             var d = Make(dest, 2, 40, 16, sign);
-                            var rect = clip == 0 ? RtlUnit.Rect(0, 0, 16, 16) : clip == 1 ? RtlUnit.Rect(3, 3, 12, 12) : RtlUnit.Rect(5, 5, 5, 5);
+                            var rect = clip == 0 ? new Rect(0, 0, 16, 16) : clip == 1 ? new Rect(3, 3, 12, 12) : new Rect(5, 5, 5, 5);
                             recorder.Run(dest, () => DrawLine(px[i], py[i], px[j], py[j], skip, d, rect));
                         }
         Check([recorder.Result]);

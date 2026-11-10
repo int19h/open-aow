@@ -45,7 +45,7 @@ namespace Aow.Game.Ui.Dialogs
     // action
     public partial class WorldMap : DataModule
     {
-        public WorldMap(global::Aow.Rtl.Component owner) : base(owner)
+        public WorldMap(Component owner) : base(owner)
         { }
 
         public AOWMemo MemoL;
@@ -123,7 +123,7 @@ namespace Aow.Game.Ui.Dialogs
         public byte FBookAction;
 
         // AoWWorldMap.pas:152
-        public WMCampaign GetCampaign() => (WMCampaign)Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign;
+        public WMCampaign GetCampaign() => (WMCampaign)GameTables.AoWEngine.FCampaign;
 
         // AoWWorldMap.pas:157
         public void UpdateCampaignState()
@@ -145,7 +145,7 @@ namespace Aow.Game.Ui.Dialogs
 
                         if (condition)
                         {
-                            SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "\\Int\\Scenes");
+                            SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "\\Int\\Scenes");
                             var campaign2 = GetCampaign();
                             var campaignScenario = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), campaign2.FCurrentScenarioID);
                             var campaign3 = GetCampaign();
@@ -199,7 +199,7 @@ namespace Aow.Game.Ui.Dialogs
                                 var campaign14 = GetCampaign();
                                 var campaignPage4 = Aow.Game.Ui.Dialogs.WorldMap.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage);
                                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
-                                PicL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPL;
+                                PicL.ImageLib = DialogHosts.IntGfxMod.BookPL;
                                 var campaign15 = GetCampaign();
                                 var campaignScenario7 = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
                                 var campaign16 = GetCampaign();
@@ -224,7 +224,7 @@ namespace Aow.Game.Ui.Dialogs
                                 var campaign14 = GetCampaign();
                                 var campaignPage4 = Aow.Game.Ui.Dialogs.WorldMap.GetCampaignPage(campaignScenario6.FOutroPages, campaign14.FPage + 1);
                                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
-                                PicR.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPR;
+                                PicR.ImageLib = DialogHosts.IntGfxMod.BookPR;
                                 var campaign15 = GetCampaign();
                                 var campaignScenario7 = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), campaign15.FCurrentScenarioID);
                                 var campaign16 = GetCampaign();
@@ -272,9 +272,9 @@ namespace Aow.Game.Ui.Dialogs
                                 BookWin.FBackSurface.Cls(BookWin.FMaskColor);
                             }
 
-                            if (Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible)
+                            if (DialogHosts.TitleWindow.TitleWin.Visible)
                             {
-                                Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 249;
+                                DialogHosts.General.Manager.OverlayPriority = 249;
                             }
                         }
                         else
@@ -381,15 +381,15 @@ namespace Aow.Game.Ui.Dialogs
 
                         if (!Path1.Visible && !Path2.Visible && !Path3.Visible)
                         {
-                            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitlePnl.Visible = false;
-                            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitlePnl.FRedraw = false;
-                            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = false;
-                            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.Visible = false;
+                            DialogHosts.TitleWindow.TitlePnl.Visible = false;
+                            DialogHosts.TitleWindow.TitlePnl.FRedraw = false;
+                            DialogHosts.TitleWindow.TitleWin.Visible = false;
+                            DialogHosts.TBWindow.TaskWindow.Visible = false;
                             WorldPnl.Visible = false;
                             BookWin.Visible = false;
                             Aow.Game.Magic.Abilities.GameTables.AoWEngine.CloseCampaign();
                             Aow.Game.Ui.Dialogs.DialogHosts.TitleScene.ResetScene();
-                            Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, true);
+                            Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
                         }
 
                         break;
@@ -431,7 +431,7 @@ namespace Aow.Game.Ui.Dialogs
                     case 4:
                         var campaign27 = GetCampaign();
                         var campaignScenario11 = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), campaign27.FNextScenarioID);
-                        Preview = (AoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName), Aow.Formats.GameProfile.WorldMap);
+                        Preview = (AoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(FileBoundary.ReadName(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario11.FFileName), Aow.Formats.GameProfile.WorldMap);
                         if (Preview != null)
                         {
                             Index = Preview.FPlayers.IndexOfPlayerType(PlayerType.Human);
@@ -464,19 +464,19 @@ namespace Aow.Game.Ui.Dialogs
                             campaign2.FState += 1;
                             var campaign3 = GetCampaign();
                             GetCampaign().StartScenario(campaign3.FNextScenarioID, null);
-                            SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\");
+                            SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\");
                             var campaign4 = GetCampaign();
                             var campaignScenario = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), campaign4.FCurrentScenarioID);
-                            Aow.Game.Ui.Dialogs.General.LoadGame(Aow.Game.Ui.Dialogs.DialogHosts.General, FileBoundary.ReadName(campaignScenario.FFileName));
-                            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitlePnl.Visible = true;
+                            Aow.Game.Ui.Dialogs.General.LoadGame(DialogHosts.General, FileBoundary.ReadName(campaignScenario.FFileName));
+                            DialogHosts.TitleWindow.TitlePnl.Visible = true;
                             WorldPnl.Visible = false;
                             GetCampaign().SetupScenario();
-                            Aow.Game.Ui.Dialogs.General.StartGame(Aow.Game.Ui.Dialogs.DialogHosts.General);
-                            Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.DescLbl.Text = "";
+                            Aow.Game.Ui.Dialogs.General.StartGame(DialogHosts.General);
+                            DescLbl.Text = "";
                         }
                         else
                         {
-                            Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.DescLbl.Text = "";
+                            DescLbl.Text = "";
                             GetCampaign().FState = 0;
                             UpdateCampaignState();
                         }
@@ -492,7 +492,7 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:347
         public void ShowIntroPages(int Index)
         {
-            SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Int\\Scenes");
+            SetCurrentDir(GameTables.AoWEngine.StartupDirectory + "Int\\Scenes");
             var campaignScenario = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), Index);
             var campaign = GetCampaign();
             var campaignPage = Aow.Game.Ui.Dialogs.WorldMap.GetCampaignPage(campaignScenario.FIntroPages, campaign.FPage);
@@ -523,7 +523,7 @@ namespace Aow.Game.Ui.Dialogs
                 var campaign6 = GetCampaign();
                 var campaignPage4 = Aow.Game.Ui.Dialogs.WorldMap.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage);
                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPL.LoadFromFile(campaignPage4.FImageLibrary);
-                PicL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPL;
+                PicL.ImageLib = DialogHosts.IntGfxMod.BookPL;
                 var campaignScenario7 = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), Index);
                 var campaign7 = GetCampaign();
                 var campaignPage5 = Aow.Game.Ui.Dialogs.WorldMap.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage);
@@ -545,7 +545,7 @@ namespace Aow.Game.Ui.Dialogs
                 var campaign6 = GetCampaign();
                 var campaignPage4 = Aow.Game.Ui.Dialogs.WorldMap.GetCampaignPage(campaignScenario6.FIntroPages, campaign6.FPage + 1);
                 Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPR.LoadFromFile(campaignPage4.FImageLibrary);
-                PicR.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.BookPR;
+                PicR.ImageLib = DialogHosts.IntGfxMod.BookPR;
                 var campaignScenario7 = Aow.Game.Session.WMCampaign.GetCampaignScenario(GetCampaign(), Index);
                 var campaign7 = GetCampaign();
                 var campaignPage5 = Aow.Game.Ui.Dialogs.WorldMap.GetCampaignPage(campaignScenario7.FIntroPages, campaign7.FPage + 1);
@@ -588,9 +588,9 @@ namespace Aow.Game.Ui.Dialogs
                 BookWin.FBackSurface.Cls(BookWin.FMaskColor);
             }
 
-            if (Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible)
+            if (DialogHosts.TitleWindow.TitleWin.Visible)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 249;
+                DialogHosts.General.Manager.OverlayPriority = 249;
             }
         }
 
@@ -603,21 +603,21 @@ namespace Aow.Game.Ui.Dialogs
             Picks = GetCampaign().FTransferSettings.FLeader.FSpherePicksMax;
             Control = new LeaderSetupControl(null);
             var campaign = GetCampaign();
-            Control.FLeader.Assign(campaign.FTransferSettings.FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            Control.FLeader.Assign(campaign.FTransferSettings.FLeader, GameTables.AoWEngine);
             Control.FLeader.SetSpherePicksMax((byte)(Picks + 2));
-            Control.FOriginalLeader.Assign(Control.FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            Control.FOriginalLeader.Assign(Control.FLeader, GameTables.AoWEngine);
             Control.FMode = Set<LeaderSetupModeElement>.Of(LeaderSetupModeElement.Spheres);
             Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.Execute(Control);
-            Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.ClearBtn.Visible = false;
-            Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.DefaultBtn.Visible = false;
-            Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.PrevBtn.Visible = false;
+            DialogHosts.LeaderSetupWin.ClearBtn.Visible = false;
+            DialogHosts.LeaderSetupWin.DefaultBtn.Visible = false;
+            DialogHosts.LeaderSetupWin.PrevBtn.Visible = false;
             Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.SetFixedSpheres(Picks);
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.WorldMap.AssignXNewSpheresRStr), [IntToStr(2)]);
-            Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.Phase3Header.Text = format;
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(AssignXNewSpheresRStr), [IntToStr(2)]);
+            DialogHosts.LeaderSetupWin.Phase3Header.Text = format;
             Control.FOnDone = SpheresDone;
             Control.Release();
-            Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.LeaderPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.WorldMap;
-            Aow.Game.Ui.Dialogs.DialogHosts.LeaderSetupWin.LeaderPnl.ILIndexTexture = 0;
+            DialogHosts.LeaderSetupWin.LeaderPnl.ILTexture = DialogHosts.IntGfxMod.WorldMap;
+            DialogHosts.LeaderSetupWin.LeaderPnl.ILIndexTexture = 0;
         }
 
         // AoWWorldMap.pas:386
@@ -625,9 +625,9 @@ namespace Aow.Game.Ui.Dialogs
         {
             Leader Leader;
             var leaderSetupControl = Sender;
-            if (leaderSetupControl.FStatus == Aow.Game.Units.LeaderSetupControl.LeaderSetupStatus.Done)
+            if (leaderSetupControl.FStatus == LeaderSetupControl.LeaderSetupStatus.Done)
             {
-                Leader = (global::Aow.Game.Magic.Abilities.Leader)leaderSetupControl.FOriginalLeader.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                Leader = (Leader)leaderSetupControl.FOriginalLeader.Copy(GameTables.AoWEngine);
                 for (int I = GetCampaign().FTransferSettings.FLeader.GetSphereCount(), last = Leader.GetSphereCount() - 1; I <= last; I++)
                 {
                     var sphere = Leader.GetSpheres(I);
@@ -660,7 +660,7 @@ namespace Aow.Game.Ui.Dialogs
                 Context.Release();
             }
 
-            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+            DialogHosts.General.Manager.OverlayPriority = 0;
         }
 
         // AoWWorldMap.pas:146
@@ -669,7 +669,7 @@ namespace Aow.Game.Ui.Dialogs
             GetCampaign().FState = 0;
             GetCampaign().FPage = 0;
             InfoPnl.Visible = false;
-            var showInfo = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.WorldMap.ShowInfoRStr);
+            var showInfo = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ShowInfoRStr);
             ShowBtn.Text = showInfo;
         }
 
@@ -728,7 +728,7 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:863
         public void WorldMapCreate()
         {
-            Aow.Game.Ui.Dialogs.WorldMap.RegisterWorldMapCampaign(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            Aow.Game.Ui.Dialogs.WorldMap.RegisterWorldMapCampaign(GameTables.AoWEngine);
         }
 
         // AoWWorldMap.pas:461
@@ -954,7 +954,7 @@ namespace Aow.Game.Ui.Dialogs
             {
                 if (GetCampaign().FState == 1)
                 {
-                    Description = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.WorldMap.ViewSummaryRStr);
+                    Description = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ViewSummaryRStr);
                 }
             }
 
@@ -972,11 +972,11 @@ namespace Aow.Game.Ui.Dialogs
                 {
                     if (GetCampaign().FFaction == 0)
                     {
-                        Description = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.CultOfStormsRStr);
+                        Description = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.CultOfStormsRStr);
                     }
                     else
                     {
-                        Description = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.KeepersRStr);
+                        Description = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.KeepersRStr);
                     }
                 }
             }
@@ -1084,7 +1084,7 @@ namespace Aow.Game.Ui.Dialogs
             Aow.Game.Audio.AudioPlayback.PlaySample("Sfx\\Int\\BookClse.wav");
             if (!WorldPnl.Visible)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+                DialogHosts.General.Manager.OverlayPriority = 0;
             }
 
             if (WorldPnl.Visible)
@@ -1114,11 +1114,11 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:733
         public void BookWinUpdate()
         {
-            global::Aow.Rtl.Rect R;
+            Rect R;
             switch (FBookAction)
             {
                 case 3:
-                    BookWin.StartAnim((Aow.Game.Ui.Grids.PageTurnMode)1);
+                    BookWin.StartAnim((Grids.PageTurnMode)1);
                     var campaign = GetCampaign();
                     campaign.FPage -= 2;
                     UpdateCampaignState();
@@ -1139,11 +1139,11 @@ namespace Aow.Game.Ui.Dialogs
                     break;
             }
 
-            if (BookStart.Visible != Aow.Game.Ui.Dialogs.WorldMap.BookStartVisible)
+            if (BookStart.Visible != BookStartVisible)
             {
-                R = global::Aow.Rtl.RtlUnit.Rect(BookWin.WinLeft + BookStart.WinLeft, BookWin.WinTop + BookStart.WinTop, BookWin.WinLeft + BookStart.WinLeft + BookStart.WinWidth, BookWin.WinTop + BookStart.WinTop + BookStart.WinHeight);
+                R = new Rect(BookWin.WinLeft + BookStart.WinLeft, BookWin.WinTop + BookStart.WinTop, BookWin.WinLeft + BookStart.WinLeft + BookStart.WinWidth, BookWin.WinTop + BookStart.WinTop + BookStart.WinHeight);
                 Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.AddDrawRect(ref R, BookWin);
-                Aow.Game.Ui.Dialogs.WorldMap.BookStartVisible = BookStart.Visible;
+                BookStartVisible = BookStart.Visible;
             }
         }
 
@@ -1155,7 +1155,7 @@ namespace Aow.Game.Ui.Dialogs
                 UpdateCampaignState();
                 SelectLbl.Visible = true;
                 InfoPnl.Visible = false;
-                var showInfo = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.WorldMap.ShowInfoRStr);
+                var showInfo = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ShowInfoRStr);
                 ShowBtn.Text = showInfo;
             }
             else
@@ -1167,7 +1167,7 @@ namespace Aow.Game.Ui.Dialogs
                 Path2.Visible = false;
                 Path3.Visible = false;
                 InfoPnl.Visible = true;
-                var hideInfo = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.WorldMap.HideInfoRStr);
+                var hideInfo = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(HideInfoRStr);
                 ShowBtn.Text = hideInfo;
             }
         }
@@ -1175,8 +1175,8 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:786
         public void QuitBtnClick()
         {
-            var quitCampaign = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.WorldMap.QuitCampaignRStr);
-            var confirm = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ConfirmRStr);
+            var quitCampaign = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(QuitCampaignRStr);
+            var confirm = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ConfirmRStr);
             Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.Confirm(confirm, quitCampaign, 5);
         }
 
@@ -1200,14 +1200,14 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:800
         public void StarImgDraw(SurfaceDesc Surface)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.WorldMap[FStarImage].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, Surface, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FStarIntensity]);
+            DialogHosts.IntGfxMod.WorldMap[FStarImage].ShowBlended(WorldPnl.WinLeft + StarImg.WinLeft, WorldPnl.WinTop + StarImg.WinTop, Surface, GfxState.IntensityBlendTable.LookupTables[FStarIntensity]);
         }
 
         // AoWWorldMap.pas:806
         public void Ally1PnlPreDraw(SurfaceDesc Surface)
         {
-            global::Aow.Rtl.Rect R;
-            R = global::Aow.Rtl.RtlUnit.Rect(InfoPnl.WinLeft + Ally1Pnl.WinLeft, InfoPnl.WinTop + Ally1Pnl.WinTop, InfoPnl.WinLeft + Ally1Pnl.WinLeft + Ally1Pnl.WinWidth, InfoPnl.WinTop + Ally1Pnl.WinTop + Ally1Pnl.WinHeight);
+            Rect R;
+            R = new Rect(InfoPnl.WinLeft + Ally1Pnl.WinLeft, InfoPnl.WinTop + Ally1Pnl.WinTop, InfoPnl.WinLeft + Ally1Pnl.WinLeft + Ally1Pnl.WinWidth, InfoPnl.WinTop + Ally1Pnl.WinTop + Ally1Pnl.WinHeight);
             if (GetCampaign().FRaceHistory.Count > 0)
             {
                 var raceHistory = GetCampaign().FRaceHistory[0];
@@ -1218,8 +1218,8 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:818
         public void Ally2PnlPreDraw(SurfaceDesc Surface)
         {
-            global::Aow.Rtl.Rect R;
-            R = global::Aow.Rtl.RtlUnit.Rect(InfoPnl.WinLeft + Ally2Pnl.WinLeft, InfoPnl.WinTop + Ally2Pnl.WinTop, InfoPnl.WinLeft + Ally2Pnl.WinLeft + Ally2Pnl.WinWidth, InfoPnl.WinTop + Ally2Pnl.WinTop + Ally2Pnl.WinHeight);
+            Rect R;
+            R = new Rect(InfoPnl.WinLeft + Ally2Pnl.WinLeft, InfoPnl.WinTop + Ally2Pnl.WinTop, InfoPnl.WinLeft + Ally2Pnl.WinLeft + Ally2Pnl.WinWidth, InfoPnl.WinTop + Ally2Pnl.WinTop + Ally2Pnl.WinHeight);
             if (GetCampaign().FRaceHistory.Count > 1)
             {
                 var raceHistory = GetCampaign().FRaceHistory[1];
@@ -1230,8 +1230,8 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:830
         public void Ally3PnlPreDraw(SurfaceDesc Surface)
         {
-            global::Aow.Rtl.Rect R;
-            R = global::Aow.Rtl.RtlUnit.Rect(InfoPnl.WinLeft + Ally3Pnl.WinLeft, InfoPnl.WinTop + Ally3Pnl.WinTop, InfoPnl.WinLeft + Ally3Pnl.WinLeft + Ally3Pnl.WinWidth, InfoPnl.WinTop + Ally3Pnl.WinTop + Ally3Pnl.WinHeight);
+            Rect R;
+            R = new Rect(InfoPnl.WinLeft + Ally3Pnl.WinLeft, InfoPnl.WinTop + Ally3Pnl.WinTop, InfoPnl.WinLeft + Ally3Pnl.WinLeft + Ally3Pnl.WinWidth, InfoPnl.WinTop + Ally3Pnl.WinTop + Ally3Pnl.WinHeight);
             if (GetCampaign().FRaceHistory.Count > 2)
             {
                 var raceHistory = GetCampaign().FRaceHistory[2];
@@ -1242,8 +1242,8 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:842
         public void HeroPnlPreDraw(SurfaceDesc Surface)
         {
-            global::Aow.Rtl.Rect R;
-            R = global::Aow.Rtl.RtlUnit.Rect(InfoPnl.WinLeft + HeroPnl.WinLeft, InfoPnl.WinTop + HeroPnl.WinTop, InfoPnl.WinLeft + HeroPnl.WinLeft + HeroPnl.WinWidth, InfoPnl.WinTop + HeroPnl.WinTop + HeroPnl.WinHeight);
+            Rect R;
+            R = new Rect(InfoPnl.WinLeft + HeroPnl.WinLeft, InfoPnl.WinTop + HeroPnl.WinTop, InfoPnl.WinLeft + HeroPnl.WinLeft + HeroPnl.WinWidth, InfoPnl.WinTop + HeroPnl.WinTop + HeroPnl.WinHeight);
             if (GetCampaign().FTransferSettings.FLeader != null)
             {
                 GetCampaign().FTransferSettings.FLeader.ShowFace(R, Surface);
@@ -1253,7 +1253,7 @@ namespace Aow.Game.Ui.Dialogs
         // AoWWorldMap.pas:854
         public void SetBtnClick()
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.CampaignSettingsDlg.Dlg.Visible = true;
+            DialogHosts.CampaignSettingsDlg.Dlg.Visible = true;
         }
 
         // AoWWorldMap.pas:859
@@ -1264,7 +1264,7 @@ namespace Aow.Game.Ui.Dialogs
 
         private static readonly string AssignXNewSpheresRStr = "Assign %s new spheres!";
 
-        private static void RegisterWorldMapCampaign(global::Aow.Game.Engine.Engine AEngine)
+        private static void RegisterWorldMapCampaign(Engine.Engine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<WMCampaignScenarioPage>(), EClass.Of<WMCampaignScenario>(), EClass.Of<WMCampaign>()]);
         }
@@ -1302,15 +1302,15 @@ namespace Aow.Game.Ui.Dialogs
             string Song = "";
             Dialog.ResetCampaign();
             Aow.Game.Magic.Abilities.GameTables.AoWEngine.CloseHSM(null);
-            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = true;
-            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitlePnl.Visible = false;
+            DialogHosts.TitleWindow.TitleWin.Visible = true;
+            DialogHosts.TitleWindow.TitlePnl.Visible = false;
             Dialog.WorldPnl.Visible = true;
             Dialog.FPathFrame = 0;
             Dialog.FPathDelay = 5;
             Dialog.DescLbl.Text = "";
-            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 249;
+            DialogHosts.General.Manager.OverlayPriority = 249;
             Aow.Game.Audio.AudioHost.SongPlayer.Stop(false);
-            SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory);
+            SetCurrentDir(GameTables.AoWEngine.StartupDirectory);
             var campaign = Dialog.GetCampaign();
             if (IsEmpty(Aow.Game.Session.WMCampaign.GetCampaignScenario(Dialog.GetCampaign(), campaign.FCurrentScenarioID).FImageLibrary))
             {

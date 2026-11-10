@@ -36,7 +36,7 @@ namespace Aow.Game.World
             if (FAlpha > 0)
             {
                 Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
-                FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[FAlpha]);
+                FResource.ImageLibrary.Get(0).ShowBlended(X - XhpSurf - 8, Y - YhpSurf, SurfaceDesc, GfxState.AlphaBlendTable.LookupTables[FAlpha]);
             }
         }
 
@@ -62,7 +62,7 @@ namespace Aow.Game.World
         public override void Activate()
         {
             base.Activate();
-            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents += NewFrame;
+            AoWCombatMap.Current.NewFrameEvents += NewFrame;
             FHighlighted = Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting);
             if (FHighlighted)
             {
@@ -79,7 +79,7 @@ namespace Aow.Game.World
         // FleeLoc.pas:65
         public override void Deactivate()
         {
-            Aow.Game.Combat.AoWCombatMap.Current.NewFrameEvents -= NewFrame;
+            AoWCombatMap.Current.NewFrameEvents -= NewFrame;
             base.Deactivate();
         }
 
@@ -87,7 +87,7 @@ namespace Aow.Game.World
         public override bool CanSelect(int Xhp, int Yhp) => true;
 
         // FleeLoc.pas:79
-        public override MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // FleeLoc.pas:87
         public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -104,7 +104,7 @@ namespace Aow.Game.World
                 if (OldHexagon != null)
                 {
                     OldHexagon?.Dispose();
-                    Aow.Game.Engine.AoWHSSet.Current.FCombatHexagons.Place(Aow.Game.Combat.AoWCombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
+                    Aow.Game.Engine.AoWHSSet.Current.FCombatHexagons.Place(AoWCombatMap.Current.MapContainer, Xhx, Yhx, 0, 1);
                 }
             }
 
@@ -122,7 +122,7 @@ namespace Aow.Game.World
             }
             else
             {
-                if (Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() != null && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
+                if (Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS() != null && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer == AoWCombatMap.Current.FSeatedCombatPlayer && Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.GetTCUnitHS().FUnit.FCombatPlayer != AoWCombatMap.Current.FCombat.FCombatData.FDefenderPlayer)
                 {
                     Highlight = true;
                 }

@@ -8,11 +8,11 @@ namespace Aow.Game.Ui.Dialogs;
 // sound buffer, buffer size, DirectSound, stream position
 public partial class IntroScene : DataModule
 {
-    public IntroScene(global::Aow.Rtl.Component owner) : base(owner)
+    public IntroScene(Component owner) : base(owner)
     { }
 
     public AoWUserWindow Window;
-    public global::Aow.Rtl.VideoPlayer VideoPlayer;
+    public VideoPlayer VideoPlayer;
     public IDirectSoundBuffer FSoundBuffer;
     public int FBufferSize;
     public IDirectSound FDirectSound;
@@ -23,7 +23,7 @@ public partial class IntroScene : DataModule
     {
         ReleaseSound();
         Window.Visible = false;
-        Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, true);
+        Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
     }
 
     // AoWIntroScene.pas:192

@@ -11,7 +11,7 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Draw.Animation
 {
 
-    public partial class BloodShrineAnimation : global::Aow.Game.Draw.Animation.Animation
+    public partial class BloodShrineAnimation : Animation
     {
         public BloodShrineAnimation(ECustomNode owner) : base(owner)
         { }
@@ -70,7 +70,7 @@ namespace Aow.Game.World.Structures
         public void ExecuteBloodlust(ArmyHS ArmyHS)
         {
             AbstractUnit AUnit = default;
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             BloodShrineAnimation Anim = default;
             for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
@@ -78,7 +78,7 @@ namespace Aow.Game.World.Structures
                 Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(168).Expand(AUnit);
             }
 
-            bool condition = ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+            bool condition = ArmyHS.FArmy.FPlayer == Map.AoWHSMap.Current.FSeatedPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
@@ -98,7 +98,7 @@ namespace Aow.Game.World.Structures
             if (Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new BloodShrineAnimation(null);
-                R = global::Aow.Rtl.RtlUnit.Rect(-16, -8, 32, 40);
+                R = new Rect(-16, -8, 32, 40);
                 Anim.SetDimensions(R);
                 Anim.FAnimationLevel = 27;
                 Anim.FOnShow = ShowBlessingAnimation;
@@ -128,7 +128,7 @@ namespace Aow.Game.World.Structures
             // BloodShrine.pas:36
 
             // BloodShrine.pas:119
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.BloodShrine.Resource.BloodShrineRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(BloodShrineRStr);
 
             private static readonly string BloodShrineRStr = "Blood Shrine";
 

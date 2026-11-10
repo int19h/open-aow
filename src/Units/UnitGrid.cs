@@ -26,7 +26,7 @@ public partial class UnitGrid : CustomImageDrawGrid
 
     // UnitGrid.pas:50
     // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-    public UnitGrid(global::Aow.Rtl.Component owner) : base(owner)
+    public UnitGrid(Component owner) : base(owner)
     {
 
         FMemoryStream = new MemoryStream();
@@ -37,7 +37,7 @@ public partial class UnitGrid : CustomImageDrawGrid
     }
 
     // UnitGrid.pas:98
-    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Graphics.Handle in the platform or editor service. */
         throw new NotImplementedException();

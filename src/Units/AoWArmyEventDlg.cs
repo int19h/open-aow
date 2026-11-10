@@ -18,7 +18,7 @@ namespace Aow.Game.Ui.Dialogs;
 // completion callback. army event. frame. visible unit indices
 public partial class ArmyEventDlg : DataModule
 {
-    public ArmyEventDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public ArmyEventDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow ArmyEventWin;
@@ -127,7 +127,7 @@ public partial class ArmyEventDlg : DataModule
         ArmyEventLog Event;
         ExecuteDoneEvent Notify;
         int Resource = default;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         for (int I = 0, last = FUnits.Count - 1; I <= last; I++)
         {
             var unit = FUnits[I];
@@ -222,7 +222,7 @@ public partial class ArmyEventDlg : DataModule
         Dialog.FUnits.Clear();
         for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
         {
-            if (!Army.GetUnitConcealedForPlayer(I, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer) || Log.FDamageValues[I] != 0)
+            if (!Army.GetUnitConcealedForPlayer(I, World.Map.AoWHSMap.Current.FSeatedPlayer) || Log.FDamageValues[I] != 0)
             {
                 Dialog.FUnits.Add((byte)I);
                 Image = Log.FArmyView.GetUnit(I).GetUnitGFXResourceIndex();

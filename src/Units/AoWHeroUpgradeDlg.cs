@@ -27,7 +27,7 @@ namespace Aow.Game.Ui.Dialogs;
 // close callback, referenced hero, list sort orders, live hero, editable copy
 public partial class HeroUpgradeDlg : DataModule
 {
-    public HeroUpgradeDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public HeroUpgradeDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -283,7 +283,7 @@ public partial class HeroUpgradeDlg : DataModule
                 Name = Ability.GetName(FEditedHero);
                 if (FHero.GetAbEnabled(I) && FHero.GetInherentAbilityLevel(I) == FEditedHero.GetInherentAbilityLevel(I))
                 {
-                    Name = Name + " (" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FixedRStr) + ")";
+                    Name = Name + " (" + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FixedRStr) + ")";
                     Cost = "-";
                 }
                 else
@@ -344,11 +344,11 @@ public partial class HeroUpgradeDlg : DataModule
     // AoWHeroUpgradeDlg.pas:308
     public void FaceFramePreDraw(AoWComponent Sender, SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect R;
+        Rect R;
         if (ValidateHero())
         {
             var image = Sender;
-            R = global::Aow.Rtl.RtlUnit.Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
+            R = new Rect(TopPnl.WinLeft + image.WinLeft + 2, TopPnl.WinTop + image.WinTop, TopPnl.WinLeft + image.WinLeft + image.WinWidth - 2, TopPnl.WinTop + image.WinTop + image.WinHeight - 2);
 
             FHero.GetFace().ShowStretched(R, SurfDesc);
         }
@@ -664,7 +664,7 @@ public partial class HeroUpgradeDlg : DataModule
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
@@ -680,7 +680,7 @@ public partial class HeroUpgradeDlg : DataModule
             if (Ability != null)
             {
                 var name = Ability.GetName(null);
-                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, Ability.FDescription);
+                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, Ability.FDescription);
             }
         }
     }
@@ -701,21 +701,21 @@ public partial class HeroUpgradeDlg : DataModule
         Dialog.FOnClose = Completed;
         if (Dialog.ValidateHero())
         {
-            Dialog.FEditedHero = (Hero)Dialog.FHero.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            Dialog.FEditedHero = (Hero)Dialog.FHero.Copy(GameTables.AoWEngine);
             Dialog.UpdateStatistics();
             Dialog.RefreshAbilities();
             Dialog.UnitName.Text = Dialog.FHero.FHeroName;
             var level = Dialog.FHero.GetLevel();
-            var levelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelRStr);
+            var levelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LevelRStr);
             Dialog.LevelLbl.Text = levelText + " " + IntToStr(level);
             if (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel > 1)
             {
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenarioText.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
                 Dialog.HeaderLbl.Text = format + "!";
             }
             else
             {
-                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenarioText.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
                 Dialog.HeaderLbl.Text = format + "!";
             }
 

@@ -110,24 +110,24 @@ internal sealed class FrameFixture
         int lastCombatWorldFrame = 0;
         void ObserveDay()
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current is not null) titleOrigin = display.Frame;
-            if (Aow.Game.World.Map.AoWHSMap.Current?.FCombatMap is not null)
+            if (AoWHSMap.Current is not null) titleOrigin = display.Frame;
+            if (AoWHSMap.Current?.FCombatMap is not null)
             {
                 sawCombat = true;
-                lastCombatWorldFrame = Aow.Game.World.Map.AoWHSMap.Current.Frame;
+                lastCombatWorldFrame = AoWHSMap.Current.Frame;
             }
-            if (Aow.Game.World.Map.AoWHSMap.Current is { } map && observedDay != map.FDay)
+            if (AoWHSMap.Current is { } map && observedDay != map.FDay)
             {
                 observedDay = map.FDay;
                 dayOrigin = map.Frame;
             }
         }
-        int DayFrame() => Aow.Game.World.Map.AoWHSMap.Current is { } map ? map.Frame - dayOrigin + 1 : -1;
-        int AfterCombatFrame() => sawCombat && Aow.Game.World.Map.AoWHSMap.Current is { FCombatMap: null } map ? map.Frame - lastCombatWorldFrame : -1;
+        int DayFrame() => AoWHSMap.Current is { } map ? map.Frame - dayOrigin + 1 : -1;
+        int AfterCombatFrame() => sawCombat && AoWHSMap.Current is { FCombatMap: null } map ? map.Frame - lastCombatWorldFrame : -1;
         long ScriptFrame(Click click)
         {
             string clock = click.Clock ?? fixture.defaults.GetValueOrDefault("frame_clock", "world");
-            var map = Aow.Game.World.Map.AoWHSMap.Current;
+            var map = AoWHSMap.Current;
             return clock switch
             {
                 "presentation" => display.Frame,
@@ -141,12 +141,12 @@ internal sealed class FrameFixture
         using var script = new StreamWriter(Path.Combine(output, "script.jsonl")) { NewLine = "\n", AutoFlush = true };
         try
         {
-            using var form = Aow.Platform.TMainForm.Create(display, argument);
+            using MainForm form = Aow.Platform.MainForm.Create(display, argument);
             if (saveDirectory is not null)
-                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
+                DialogHosts.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current?.FCombatMap is not Aow.Game.Combat.AoWCombatMap combat) return;
+                if (AoWHSMap.Current?.FCombatMap is not AoWCombatMap combat) return;
                 combat.FPlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
                 Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.MinClick();
@@ -157,17 +157,17 @@ internal sealed class FrameFixture
                 ObserveDay();
                 if (applied != clicks.Count) return false;
                 return afterCombatCapture ? AfterCombatFrame() == frame :
-                combatCapture ? Aow.Game.World.Map.AoWHSMap.Current?.FCombatMap?.Frame == frame :
-                titleCapture ? Aow.Game.World.Map.AoWHSMap.Current is null && display.Frame - titleOrigin == frame :
-                dayCapture ? Aow.Game.World.Map.AoWHSMap.Current?.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && DayFrame() == frame :
+                combatCapture ? AoWHSMap.Current?.FCombatMap?.Frame == frame :
+                titleCapture ? AoWHSMap.Current is null && display.Frame - titleOrigin == frame :
+                dayCapture ? AoWHSMap.Current?.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && DayFrame() == frame :
                 !worldCapture && (scene == "title" || presentationClock) ? display.Frame == frame :
-                tactical ? tacticalReady && Aow.Game.World.Map.AoWHSMap.Current.FCombatMap.Frame == frame :
-                Aow.Game.World.Map.AoWHSMap.Current is { } map && map.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
+                tactical ? tacticalReady && AoWHSMap.Current.FCombatMap.Frame == frame :
+                AoWHSMap.Current is { } map && map.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
             }
             display.CaptureWhen = () =>
             {
                 ObserveDay();
-                pendingSnapshot = snapshots.FirstOrDefault(s => Aow.Game.World.Map.AoWHSMap.Current?.FDay == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
+                pendingSnapshot = snapshots.FirstOrDefault(s => AoWHSMap.Current?.FDay == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
                 display.CaptureName = pendingSnapshot is null ? null : "snapshot-" + pendingSnapshot.Name;
                 if (pendingSnapshot is not null)
                 {
@@ -203,10 +203,10 @@ internal sealed class FrameFixture
                     {
                         presentation = display.Frame,
                         applied,
-                        day = Aow.Game.World.Map.AoWHSMap.Current?.FDay,
-                        map_frame = Aow.Game.World.Map.AoWHSMap.Current?.Frame,
-                        seat = Aow.Game.World.Map.AoWHSMap.Current?.FSeatedPlayer,
-                        combat_frame = Aow.Game.World.Map.AoWHSMap.Current?.FCombatMap?.Frame
+                        day = AoWHSMap.Current?.FDay,
+                        map_frame = AoWHSMap.Current?.Frame,
+                        seat = AoWHSMap.Current?.FSeatedPlayer,
+                        combat_frame = AoWHSMap.Current?.FCombatMap?.Frame
                     }) + "\n");
                 if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
                 if (applied < clicks.Count)
@@ -220,11 +220,11 @@ internal sealed class FrameFixture
                             foreach (string saved in Directory.EnumerateFiles(Path.Combine(output, "user", saveDirectory)))
                                 if (fileStampUtc is DateTime stamp) File.SetLastWriteTimeUtc(saved, stamp);
                                 else File.SetLastWriteTime(saved, now);
-                        var manager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+                        var manager = DialogHosts.General.Manager;
                         int inputX = click.X, inputY = click.Y;
                         if (click.Hx is int hx && click.Hy is int hy)
                         {
-                            var mapWindow = Aow.Game.Ui.Dialogs.DialogHosts.MWindow;
+                            var mapWindow = DialogHosts.MWindow;
                             Aow.Game.World.Map.HexGeometry.HXtoHP(hx, hy, ref inputX, ref inputY);
                             inputX += 28 + mapWindow.MapWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MapWindow.WinTop - mapWindow.MapViewer.SceneY;
@@ -259,7 +259,7 @@ internal sealed class FrameFixture
                             click.Repeat,
                             click.Clock,
                             click.Day,
-                            selected_combat_unit = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit?.FUnit.FID
+                            selected_combat_unit = DialogHosts.General.FCombatUnit?.FUnit.FID
                         }));
                         applied++;
                     }
@@ -272,11 +272,11 @@ internal sealed class FrameFixture
             if (!capturedCheckpoints.SetEquals(checkpoints)) throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
             if (!capturedSnapshots.SetEquals(snapshots.Select(s => s.Name))) throw new InvalidOperationException("Fixture missed a state snapshot");
             if (fixture.values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts);
-            var taskbar = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
-            var controls = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin;
+            TaskBar taskbar = DialogHosts.TBWindow;
+            var controls = DialogHosts.ControlWin;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text, controls.Unit2Chk.Text, controls.MovesLbl.Text }) + "\n");
-            var selected = Aow.Game.World.Map.AoWHSMap.Current?.FSelectedArmy?.GetArmyHS();
-            if (Aow.Game.World.Map.AoWHSMap.Current is { } world)
+            var selected = AoWHSMap.Current?.FSelectedArmy?.GetArmyHS();
+            if (AoWHSMap.Current is { } world)
             {
                 var heroes = new List<object>();
                 for (int i = 0; i < world.FHeroControl.GetCount(); i++)
@@ -313,7 +313,7 @@ internal sealed class FrameFixture
                         var player = world.FPlayers.GetPlayers(playerIndex);
                         players.Add(new { index = playerIndex, units = player.GetUnitCount(), gold = player.FGems });
                         for (int index = 0; index < player.FStructures.GetCount(); index++)
-                            if (player.FStructures.GetStructure(index) is Aow.Game.World.Structures.City city)
+                            if (player.FStructures.GetStructure(index) is Game.World.Structures.City city)
                                 cities.Add(new { name = city.FName, player = playerIndex, wall = city.FWallType, upgrade = city.FUpgradeLevel });
                     }
                     File.WriteAllText(Path.Combine(output, "world.json"), JsonSerializer.Serialize(new
@@ -326,13 +326,13 @@ internal sealed class FrameFixture
                     }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 }
             }
-            if (Aow.Game.World.Map.AoWHSMap.Current?.FCombatMap is Aow.Game.Combat.AoWCombatMap combatMap)
+            if (AoWHSMap.Current?.FCombatMap is AoWCombatMap combatMap)
             {
-                var viewer = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer;
+                var viewer = DialogHosts.MWindow.MapViewer;
                 var units = new List<object>();
                 var data = combatMap.FCombat.FCombatData;
                 for (int i = 0; i < data.GetCount(); i++)
-                    if (data.GetObjects(i) is Aow.Game.Combat.TacticalCombatUnit unit && unit.FUnitHS is { } sprite)
+                    if (data.GetObjects(i) is TacticalCombatUnit unit && unit.FUnitHS is { } sprite)
                     {
                         int x = 0, y = 0;
                         Aow.Game.World.Map.HexGeometry.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
@@ -360,7 +360,7 @@ internal sealed class FrameFixture
             }
             File.WriteAllText(Path.Combine(output, "selection.json"), JsonSerializer.Serialize(new
             {
-                count = Aow.Game.World.Map.AoWHSMap.Current?.FSelectedArmy?.FMoveSettingsList?.Count,
+                count = AoWHSMap.Current?.FSelectedArmy?.FMoveSettingsList?.Count,
                 x = selected?.GetXhx(),
                 y = selected?.GetYhx(),
                 level = selected?.GetLhx(),
@@ -368,12 +368,12 @@ internal sealed class FrameFixture
             }) + "\n");
             if (fixture.values.GetValueOrDefault("save_state") == "true")
             {
-                var map = Aow.Game.World.Map.AoWHSMap.Current ?? throw new InvalidOperationException("State capture requires a map");
+                var map = AoWHSMap.Current ?? throw new InvalidOperationException("State capture requires a map");
                 string saveName = "autosave.asg";
                 if (fixture.values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, Aow.Formats.GameProfile.WorldMap);
+                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(GameTables.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, Aow.Formats.GameProfile.WorldMap);
                 }
                 else map.FPlayerControl.AutoSave();
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);
@@ -401,9 +401,9 @@ internal sealed class FrameFixture
                 fixture = name,
                 complete,
                 display_presentations = display.Frame,
-                map_frame = Aow.Game.World.Map.AoWHSMap.Current?.Frame,
-                day = Aow.Game.World.Map.AoWHSMap.Current?.FDay,
-                combat_frame = Aow.Game.World.Map.AoWHSMap.Current?.FCombatMap?.Frame,
+                map_frame = AoWHSMap.Current?.Frame,
+                day = AoWHSMap.Current?.FDay,
+                combat_frame = AoWHSMap.Current?.FCombatMap?.Frame,
                 clicks_applied = applied,
                 input_sha256 = input is null ? null : Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))),
                 local_time = now,
@@ -418,7 +418,7 @@ internal sealed class FrameFixture
                 checkpoint_frames = checkpoints,
                 snapshots = capturedSnapshots
             }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
-            Console.WriteLine($"fixture {name}: map frame {Aow.Game.World.Map.AoWHSMap.Current?.Frame}, combat frame {Aow.Game.World.Map.AoWHSMap.Current?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
+            Console.WriteLine($"fixture {name}: map frame {AoWHSMap.Current?.Frame}, combat frame {AoWHSMap.Current?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
         }
         finally
         {

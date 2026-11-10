@@ -84,11 +84,11 @@ public partial class General : ILayoutModule
         Manager.Loaded();
         ToolTip.Loaded();
         session.Resolve(this);
-        Manager.BackgroundTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        Manager.ForegroundTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        ToolTip.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        ToolTip.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        ToolTip.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
+        Manager.BackgroundTexture = DialogHosts.IntGfxMod.GenericT;
+        Manager.ForegroundTexture = DialogHosts.IntGfxMod.GenericT;
+        ToolTip.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        ToolTip.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        ToolTip.AOWFont = DialogHosts.FontModule.Age8;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
     }

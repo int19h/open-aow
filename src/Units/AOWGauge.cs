@@ -23,7 +23,7 @@ public partial class AoWGauge : AOWControl
     public int FILIndexTSelected;
 
     // AOWGauge.pas:69
-    public AoWGauge(global::Aow.Rtl.Component owner) : base(owner)
+    public AoWGauge(Component owner) : base(owner)
     {
         FMax = 1;
     }
@@ -113,7 +113,7 @@ public partial class AoWGauge : AOWControl
     //   the gauge is only right for Min = 0) }
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         int P = default;
         try
         {
@@ -131,7 +131,7 @@ public partial class AoWGauge : AOWControl
                         var ilFrameWidth = FILFrame[FILIndexFrame + 3];
                         var ilFrame = FILFrame[FILIndexFrame + 4];
                         P = (FWinWidth - ilFrameWidth.Width - ilFrame.Width) * FPosition / (FMax - FMin);
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrame2 = FILFrame[FILIndexFrame + 3];
                         if (FAOWWindow.FWinLeft + P + FWinLeft + ilFrame2.Width > SurfDesc.ClipRect.Left)
@@ -146,14 +146,14 @@ public partial class AoWGauge : AOWControl
                         var ilFrame6 = FILFrame[FILIndexFrame + 4];
                         var ilFrame7 = FILFrame[FILIndexFrame + 1];
                         var ilFrame8 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilFrame7.Height, FWinWidth - ilFrame5.Width - ilFrame6.Width, FWinHeight - ilFrameHeight.Height - ilFrame4.Height);
+                        var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilFrame7.Height, FWinWidth - ilFrame5.Width - ilFrame6.Width, FWinHeight - ilFrameHeight.Height - ilFrame4.Height);
                         FILTextureNormal.DrawILT(FILIndexTNormal, rect2, ref SurfDesc);
                         SurfDesc.ClipRect = OldClip;
                         var ilFrame9 = FILFrame[FILIndexFrame + 1];
                         var libraryImage = FILFrame[FILIndexFrame + 6];
                         var filFrameItem = FILFrame[FILIndexFrame + 1];
                         var ilFrameWidth2 = FILFrame[FILIndexFrame + 3];
-                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrameWidth2.Width, FAOWWindow.FWinTop + FWinTop + filFrameItem.Height, P, FWinHeight - ilFrame9.Height - libraryImage.Height);
+                        var rect3 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrameWidth2.Width, FAOWWindow.FWinTop + FWinTop + filFrameItem.Height, P, FWinHeight - ilFrame9.Height - libraryImage.Height);
                         FILTextureSelected.DrawILT(FILIndexTSelected, rect3, ref SurfDesc);
                         break;
                     case AOWGaugeType.Borderless:
@@ -163,10 +163,10 @@ public partial class AoWGauge : AOWControl
                             SurfDesc.ClipRect.Left = FAOWWindow.FWinLeft + P + FWinLeft;
                         }
 
-                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
+                        var rect4 = new Rect(FAOWWindow.FWinLeft + P + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth - P, FWinHeight);
                         FILTextureNormal.DrawILT(FILIndexTNormal, rect4, ref SurfDesc);
                         SurfDesc.ClipRect = OldClip;
-                        var rect5 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
+                        var rect5 = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, P, FWinHeight);
                         FILTextureSelected.DrawILT(FILIndexTSelected, rect5, ref SurfDesc);
                         break;
                 }

@@ -30,16 +30,16 @@ public sealed class GlyphIndexTests
         string[] files = Directory.EnumerateFiles(InstalledFontsFactAttribute.Fonts, "*.ILB")
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
         Assert.Equal(13, files.Length);
-        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
-        var previousBase = Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath;
+        var previousClasses = ImageLibraries.LibraryImageClasses;
+        var previousBase = ImageLibraries.BaseImageLibraryPath;
         // Shadowed fonts draw through the blend tables that GFXE.Initialize builds at game start.
-        var previousTables = (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable);
-        (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) =
+        var previousTables = (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable);
+        (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new DelphiList();
         // The game keeps library names relative to the install, as FontModule does with Int\Fonts.
-        Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
+        ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
         try
         {
             Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
@@ -54,14 +54,14 @@ public sealed class GlyphIndexTests
         finally
         {
             Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
-            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = previousBase;
-            Aow.Game.Draw.GfxState.AlphaBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.IntensityBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.BrightenBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.ShadowBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.LinearAlphaBlendTable?.Dispose();
-            (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) = previousTables;
+            ImageLibraries.LibraryImageClasses = previousClasses;
+            ImageLibraries.BaseImageLibraryPath = previousBase;
+            GfxState.AlphaBlendTable?.Dispose();
+            GfxState.IntensityBlendTable?.Dispose();
+            GfxState.BrightenBlendTable?.Dispose();
+            GfxState.ShadowBlendTable?.Dispose();
+            GfxState.LinearAlphaBlendTable?.Dispose();
+            (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) = previousTables;
         }
     }
 
@@ -104,7 +104,7 @@ public sealed class GlyphIndexTests
 
     private static byte[] Draw(int width, int height, Action<SurfaceDesc> draw)
     {
-        using var surface = new DIB16Surface(width, height, Aow.Game.Draw.PixelFormats.pfRGB555);
+        using var surface = new DIB16Surface(width, height, PixelFormats.pfRGB555);
         surface.Cls(0);
         SurfaceDesc sd = default;
         surface.Lock(ref sd);

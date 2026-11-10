@@ -18,7 +18,7 @@ public partial class AOWControl : AoWComponent
     public AOWToolTip FToolTip;
 
     // AoWControl.pas:46
-    public AOWControl(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWControl(Component owner) : base(owner)
     {
         FToolTipText = new StringList();
         FCaptureInput = true;
@@ -39,7 +39,7 @@ public partial class AOWControl : AoWComponent
     //   manager's direct child... of a window placed in the manager) }
     public override void Update()
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         AOWBaseWindow W;
         if (FValid)
         {
@@ -91,12 +91,12 @@ public partial class AOWControl : AoWComponent
 
                                 if (FAOWWindow != W)
                                 {
-                                    var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + W.FWinLeft + FWinLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop, FAOWWindow.FWinLeft + W.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop + FWinHeight);
+                                    var rect = new Rect(FAOWWindow.FWinLeft + W.FWinLeft + FWinLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop, FAOWWindow.FWinLeft + W.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + W.FWinTop + FWinTop + FWinHeight);
                                     FToolTip.FControlRect = rect;
                                 }
                                 else
                                 {
-                                    var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight);
+                                    var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FToolTipLeft, FAOWWindow.FWinTop + FWinTop + FWinHeight);
                                     FToolTip.FControlRect = rect;
                                 }
 
@@ -123,11 +123,11 @@ public partial class AOWControl : AoWComponent
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        R = global::Aow.Rtl.RtlUnit.Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
+                        R = new Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
                     }
                     else
                     {
-                        R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
+                        R = new Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
                     }
 
                     FAOWOwner.AddDrawRect(ref R, this);
@@ -139,11 +139,11 @@ public partial class AOWControl : AoWComponent
                     {
                         if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                         {
-                            R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                            R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                         }
                         else
                         {
-                            R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                            R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                         }
 
                         FAOWOwner.AddDrawRect(ref R, this);
@@ -154,11 +154,11 @@ public partial class AOWControl : AoWComponent
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                        R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                     }
                     else
                     {
-                        R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                        R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                     }
 
                     var indexOf = FAOWOwner.FChildren.IndexOf(this);
@@ -176,11 +176,11 @@ public partial class AOWControl : AoWComponent
                 {
                     if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                     {
-                        R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                        R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                     }
                     else
                     {
-                        R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                        R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                     }
 
                     FAOWOwner.AddDrawRect(ref R, this);

@@ -1,6 +1,5 @@
 using Aow.Game.Draw;
 using Aow.Game.World.Map;
-using RtlApi = Aow.Rtl.RtlUnit;
 
 namespace Aow.Units.Tests;
 
@@ -29,9 +28,9 @@ public sealed class MapViewerCenteringTests
 
         public override void DrawStaticScene(ref SurfaceDesc SD)
         {
-            Aow.Game.Draw.PixelFormats.ColorFillSD(RtlApi.Rect(0, 0, SD.Width, SD.Height), 0xFFFFFF, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(RtlApi.Rect(16 - FViewXhp, 0, 17 - FViewXhp, SD.Height), 0x0000FF, SD);
-            Aow.Game.Draw.PixelFormats.ColorFillSD(RtlApi.Rect(0, 16 - FViewYhp, SD.Width, 17 - FViewYhp), 0x0000FF, SD);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, 0, SD.Width, SD.Height), 0xFFFFFF, SD);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(16 - FViewXhp, 0, 17 - FViewXhp, SD.Height), 0x0000FF, SD);
+            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, 16 - FViewYhp, SD.Width, 17 - FViewYhp), 0x0000FF, SD);
         }
     }
 
@@ -39,7 +38,7 @@ public sealed class MapViewerCenteringTests
     {
         public readonly PaintedMap Map = new();
         public readonly HSMapViewer Viewer = new(null!);
-        public readonly DataSurface Target = new(420, 320, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        public readonly DataSurface Target = new(420, 320, PixelFormats.pfRGB555, null!);
 
         public Fixture(int sceneWidth, int sceneHeight)
         {
@@ -49,8 +48,8 @@ public sealed class MapViewerCenteringTests
             Viewer.SceneHeight = sceneHeight;
             Viewer.ChangeScene(100, 30, 0);
             SurfaceDesc sd = default;
-            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, Target.Lock(ref sd));
-            Aow.Game.Draw.PixelFormats.ColorFillSD(RtlApi.Rect(0, 0, sd.Width, sd.Height), 0x00FF00, sd);
+            Assert.Equal(PixelFormats.GFXE_OK, Target.Lock(ref sd));
+            Aow.Game.Draw.PixelFormats.ColorFillSD(new Rect(0, 0, sd.Width, sd.Height), 0x00FF00, sd);
             Target.Unlock();
             Viewer.ShowScene(SceneLeft, SceneTop, Target);
         }
@@ -107,9 +106,9 @@ public sealed class MapViewerCenteringTests
         Assert.Equal(336 - 400 - 16, viewer.SceneX);
         Assert.Equal(30, viewer.SceneY);
         Assert.Equal(-80, fixture.Map.ViewXhp);
-        Assert.Equal(RtlApi.Rect(96, 0, 400, 200), viewer.GetMapSceneRect());
-        Assert.Equal(RtlApi.Rect(48, 0, 352, 200), viewer.GetMapDisplayRect());
-        fixture.AssertPicture(RtlApi.Rect(48, 0, 352, 200), 48, -1);
+        Assert.Equal(new Rect(96, 0, 400, 200), viewer.GetMapSceneRect());
+        Assert.Equal(new Rect(48, 0, 352, 200), viewer.GetMapDisplayRect());
+        fixture.AssertPicture(new Rect(48, 0, 352, 200), 48, -1);
 
         int x = 48, y = 5;
         Assert.True(viewer.SceneToMapMouse(ref x, ref y));
@@ -139,9 +138,9 @@ public sealed class MapViewerCenteringTests
         Assert.True(viewer.GetSceneExceedsMap());
         Assert.Equal(-80, viewer.SceneX);
         Assert.Equal(272 - 300 - 16, viewer.SceneY);
-        Assert.Equal(RtlApi.Rect(96, 60, 400, 300), viewer.GetMapSceneRect());
-        Assert.Equal(RtlApi.Rect(48, 30, 352, 270), viewer.GetMapDisplayRect());
-        fixture.AssertPicture(RtlApi.Rect(48, 30, 352, 270), 48, 30);
+        Assert.Equal(new Rect(96, 60, 400, 300), viewer.GetMapSceneRect());
+        Assert.Equal(new Rect(48, 30, 352, 270), viewer.GetMapDisplayRect());
+        fixture.AssertPicture(new Rect(48, 30, 352, 270), 48, 30);
 
         int x = 48, y = 29;
         Assert.False(viewer.SceneToMapMouse(ref x, ref y));
@@ -161,10 +160,10 @@ public sealed class MapViewerCenteringTests
         viewer.SceneX = 0;
         Assert.Equal(16, viewer.SceneX);
         viewer.SceneX = 20;
-        Assert.Equal(RtlApi.Rect(0, 0, 300, 200), viewer.GetMapSceneRect());
-        Assert.Equal(RtlApi.Rect(0, 0, 300, 200), viewer.GetMapDisplayRect());
+        Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapSceneRect());
+        Assert.Equal(new Rect(0, 0, 300, 200), viewer.GetMapDisplayRect());
         Assert.Null(viewer.FCenteredSurface);
-        fixture.AssertPicture(RtlApi.Rect(0, 0, 300, 200), -4, -1);
+        fixture.AssertPicture(new Rect(0, 0, 300, 200), -4, -1);
 
         int x = 299, y = 199;
         Assert.True(viewer.SceneToMapMouse(ref x, ref y));

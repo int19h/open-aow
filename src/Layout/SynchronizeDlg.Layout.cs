@@ -399,7 +399,7 @@ public partial class SynchronizeDlg : ILayoutModule
         FaceFrame.Animate = false;
         FaceFrame.AnimFrameDelay = 0;
         session.EndRead(FaceFrame);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -439,22 +439,22 @@ public partial class SynchronizeDlg : ILayoutModule
         FaceFrame.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        TCeltB.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        BottomMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        LShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
-        PlayerName.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        InfoMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        PlayerRace.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        Turn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        RShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
-        BlueFr.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        BlueFr.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        TCeltLineR.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        NewTPnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        NewTPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        FaceFrame.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        Dlg.WinManager = DialogHosts.General.Manager;
+        TCeltB.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        BottomMsg.AOWFont = DialogHosts.FontModule.Age10s;
+        LShield.ImageLib = DialogHosts.IntGfxMod.Shields;
+        PlayerName.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        InfoMsg.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        PlayerRace.AOWFont = DialogHosts.FontModule.Age10s;
+        Turn.AOWFont = DialogHosts.FontModule.Age10s;
+        RShield.ImageLib = DialogHosts.IntGfxMod.Shields;
+        BlueFr.ILFrame = DialogHosts.IntGfxMod.CeltDeco;
+        BlueFr.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        TCeltLineL.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        TCeltLineR.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        NewTPnl.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        NewTPnl.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        FaceFrame.ImageLib = DialogHosts.IntGfxMod.GenericF;
     }
 
     private void Layout_DlgShow_0()

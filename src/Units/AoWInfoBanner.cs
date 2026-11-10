@@ -7,7 +7,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class InfoBanner : DataModule
 {
-    public InfoBanner(global::Aow.Rtl.Component owner) : base(owner)
+    public InfoBanner(Component owner) : base(owner)
     { }
 
     public AOWLabel HeaderLbl;

@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class SWindow : DataModule
 {
-    public SWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public SWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow ScannerWindow;
@@ -19,7 +19,7 @@ public partial class SWindow : DataModule
     public AOWCheckBox BuildingCheck;
     public AOWCheckBox ArmyCheck;
     public AOWCheckBox NaturalCheck;
-    public global::Aow.Game.Ui.Grids.Scanner Scanner;
+    public Scanner Scanner;
     public AOWImage STitleIcon;
     public AOWLabel STitleLabel;
     public AOWButton SMinIcon;
@@ -29,7 +29,7 @@ public partial class SWindow : DataModule
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (World.Map.AoWHSMap.Current != null)
         {
             switch (ScannerTab.Selected)
             {
@@ -108,14 +108,14 @@ public partial class SWindow : DataModule
     // AoWSWindow.pas:94
     public void ScannerChangeTileBox()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = (Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FTLeft + 6) * 33;
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = (Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FTTop + 6) * 33;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+        DialogHosts.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
+        DialogHosts.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
+        if (World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTLeft(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTTop(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTWidth(DialogHosts.MWindow.MapViewer.SceneWidth / 32);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTHeight(DialogHosts.MWindow.MapViewer.SceneHeight / 32);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 

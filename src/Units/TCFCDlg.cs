@@ -15,9 +15,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // combat request, completion event
-public partial class TCFCDialog : DataModule
+public partial class CombatChoice : DataModule
 {
-    public TCFCDialog(global::Aow.Rtl.Component owner) : base(owner)
+    public CombatChoice(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -46,7 +46,7 @@ public partial class TCFCDialog : DataModule
     {
         NotifyEvent<object> Done;
         CombatTypeRequestEventLog Request;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         Done = FOnDone;
         Request = FRequest;
         FOnDone = null;
@@ -121,10 +121,10 @@ public partial class TCFCDialog : DataModule
         int X = default;
         int Y = default;
         SurfaceDesc ViewSD = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         int W;
         int H;
-        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         Aow.Game.World.Map.HexGeometry.HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);
@@ -151,7 +151,7 @@ public partial class TCFCDialog : DataModule
     // TCFCDlg.pas:113
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (World.Map.AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // TCFCDlg.pas:116
@@ -182,9 +182,9 @@ public partial class TCFCDialog : DataModule
         Dlg.Visible = false;
     }
 
-    internal static void ShowCombatType(TCFCDialog Dialog, CombatTypeRequestEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowCombatType(CombatChoice Dialog, CombatTypeRequestEventLog Event, ExecuteDoneEvent Done)
     {
-        if (Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.FSkipCombatChoice)
+        if (DialogHosts.DialogWin.FSkipCombatChoice)
         {
             if (Dialog.TCchk.Checked)
             {
@@ -202,7 +202,7 @@ public partial class TCFCDialog : DataModule
             Dialog.FRequest = Event;
             Dialog.FRequest.AddRef();
             Dialog.FOnDone = RebindDelegate<NotifyEvent<object>>(Done);
-            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+            DialogHosts.General.Manager.OverlayPriority = 49;
             if (Dialog.TCchk.Checked)
             {
                 Event.Select((CombatType)2);

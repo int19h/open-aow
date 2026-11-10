@@ -42,9 +42,9 @@ namespace Aow.Game.Draw
             if (Sequence != null)
             {
                 Blend = 50;
-                if (FFadeEndFrame != -1 && FFadeEndFrame > Aow.Game.World.Map.AoWHSMap.Current.Frame)
+                if (FFadeEndFrame != -1 && FFadeEndFrame > AoWHSMap.Current.Frame)
                 {
-                    FramesLeft = FFadeEndFrame - Aow.Game.World.Map.AoWHSMap.Current.Frame;
+                    FramesLeft = FFadeEndFrame - AoWHSMap.Current.Frame;
                     if (FramesLeft <= 20)
                     {
                         Blend += (10 - Math.Abs(FramesLeft - 10)) * 3;
@@ -60,14 +60,14 @@ namespace Aow.Game.Draw
                 }
 
                 FrameIndex = Sequence.GetFrameIndex(0, 0);
-                Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Blend]);
+                Sequence.ImageLibrary[FrameIndex].ShowBlended(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc, GfxState.IntensityBlendTable.LookupTables[Blend]);
             }
         }
 
         // MagicSanctuary.pas:105
         public void FadeUp()
         {
-            FFadeEndFrame = Aow.Game.World.Map.AoWHSMap.Current.Frame + 20;
+            FFadeEndFrame = AoWHSMap.Current.Frame + 20;
         }
 
         // MagicSanctuary.pas:22
@@ -118,7 +118,7 @@ namespace Aow.Game.World.Structures
         // MagicSanctuary.pas:127
         public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Visible))
+            if (!FStatus.Contains(MapObjectStatusElement.Visible))
             {
                 base.MakeVisible(VisibilityList);
                 FOverlayHS.MakeVisible(VisibilityList);
@@ -152,7 +152,7 @@ namespace Aow.Game.World.Structures
             // MagicSanctuary.pas:43
 
             // MagicSanctuary.pas:157
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.MagicSanctuary.Resource.MagicSanctuaryRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MagicSanctuaryRStr);
 
             private static readonly string MagicSanctuaryRStr = "Magic Sanctuary";
 

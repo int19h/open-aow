@@ -46,7 +46,7 @@ public sealed class TacticalCombatWallCastTests
     [Fact]
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
-        var previous = Aow.Game.Combat.AoWCombatMap.Current;
+        var previous = AoWCombatMap.Current;
         var map = new AoWCombatMap(null!);
         try
         {
@@ -73,7 +73,7 @@ public sealed class TacticalCombatWallCastTests
         {
             map.SetOwner(null!);
             map.Dispose();
-            Aow.Game.Combat.AoWCombatMap.Current = previous;
+            AoWCombatMap.Current = previous;
         }
     }
 }

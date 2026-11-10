@@ -27,7 +27,7 @@ public partial class House : CombatStructure
         base.Activate();
         if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
-            Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Aow.Game.Combat.CombatPlacement.CombatLLoc).GetField(Aow.Game.Combat.CombatPlacement.CombatXLoc, Aow.Game.Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
+            Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Combat.CombatPlacement.CombatLLoc).GetField(Combat.CombatPlacement.CombatXLoc, Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(PlayerStructure));
             if (Structure != null)
             {
                 if (Structure is City)
@@ -128,21 +128,21 @@ public partial class House : CombatStructure
                     switch (Sequence.Layer)
                     {
                         case 7:
-                            ImageIndex = Sequence.GetFrameIndex(Aow.Game.Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            ImageIndex = Sequence.GetFrameIndex(Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                             if (ImageIndex != -1)
                             {
                                 if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
                                 {
                                     var xhx2 = GetXhx();
                                     var yhx2 = GetYhx();
-                                    Aow.Game.Engine.AoWHSSet.Current.FFlagControl.ShowStructureFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + Aow.Game.World.Map.AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
+                                    Aow.Game.Engine.AoWHSSet.Current.FFlagControl.ShowStructureFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
                                 }
                             }
 
                             break;
                         default:
                             {
-                                ImageIndex = Sequence.GetFrameIndex(Aow.Game.Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                                ImageIndex = Sequence.GetFrameIndex(Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                                 if (ImageIndex != -1)
                                 {
                                     Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
@@ -175,7 +175,7 @@ public partial class House : CombatStructure
             {
                 do
                 {
-                    ImageIndex = Sequence.GetFrameIndex(Aow.Game.Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    ImageIndex = Sequence.GetFrameIndex(Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                     if (ImageIndex != -1)
                     {
                         Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);

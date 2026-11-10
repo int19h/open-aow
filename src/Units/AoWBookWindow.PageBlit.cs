@@ -15,7 +15,7 @@ public partial class AoWBookWindow
             FPageSurface?.Dispose();
             FPageSurface = null;
         }
-        var area = RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
+        var area = new Rect(0, 0, FWinWidth, FWinHeight);
         if (FPageSurface is null)
         {
             if (FBackSurface is DDrawSurface direct)
@@ -37,7 +37,7 @@ public partial class AoWBookWindow
         }
         if (FFirstAnimationFrame || !FPreviousSurfaceValid)
         {
-            area = RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
+            area = new Rect(0, 0, FWinWidth, FWinHeight);
             Surface initial = FPageTurnMode == PageTurnMode.Left ? FBackSurface : FPageSurface;
             if (FPageTurnMode is PageTurnMode.Left or PageTurnMode.Right)
             {

@@ -175,7 +175,7 @@ public static class GameTables
 
     internal static readonly string WaryRStr = "Wary";
 
-    public static global::Aow.Game.Engine.AoWEngine AoWEngine;
+    public static AoWEngine AoWEngine;
 
     internal static FixedArray_string_5 TAbilityTypeRStr = FixedArray_string_5.From([]);
 
@@ -201,7 +201,7 @@ public static class GameTables
 
     internal static readonly string EarthRStr = "Earth";
 
-    internal static FixedArray_string_7 TStormTypeRStr = FixedArray_string_7.From([Aow.Game.Magic.Abilities.GameTables.NoneRStr, Aow.Game.Magic.Abilities.GameTables.FireStormRStr, Aow.Game.Magic.Abilities.GameTables.DeathStormRStr, Aow.Game.Magic.Abilities.GameTables.DivineStormRStr, Aow.Game.Magic.Abilities.GameTables.IceStormRStr, Aow.Game.Magic.Abilities.GameTables.LightningStormRStr, Aow.Game.Magic.Abilities.GameTables.PestilenceStormRStr]);
+    internal static FixedArray_string_7 TStormTypeRStr = FixedArray_string_7.From([NoneRStr, FireStormRStr, DeathStormRStr, DivineStormRStr, IceStormRStr, LightningStormRStr, PestilenceStormRStr]);
 
     internal static FixedArray_float_20 P3HitProbabilities;
 
@@ -284,26 +284,26 @@ public static class GameTables
 
     static GameTables()
     {
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Cosmos] = CosmosRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Life] = LifeRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Death] = DeathRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Earth] = EarthRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Air] = AirRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Fire] = FireRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Water] = WaterRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.Secret] = SecretRStr;
-        TMagicSphereRStr[(int)Aow.Game.Magic.MagicSphere.None] = NoneRStr;
+        TMagicSphereRStr[(int)MagicSphere.Cosmos] = CosmosRStr;
+        TMagicSphereRStr[(int)MagicSphere.Life] = LifeRStr;
+        TMagicSphereRStr[(int)MagicSphere.Death] = DeathRStr;
+        TMagicSphereRStr[(int)MagicSphere.Earth] = EarthRStr;
+        TMagicSphereRStr[(int)MagicSphere.Air] = AirRStr;
+        TMagicSphereRStr[(int)MagicSphere.Fire] = FireRStr;
+        TMagicSphereRStr[(int)MagicSphere.Water] = WaterRStr;
+        TMagicSphereRStr[(int)MagicSphere.Secret] = SecretRStr;
+        TMagicSphereRStr[(int)MagicSphere.None] = NoneRStr;
         TStatusRStr[(int)Status.Hostile] = HostileRStr;
         TStatusRStr[(int)Status.Wary] = WaryRStr;
         TStatusRStr[(int)Status.Neutral] = NeutralRStr;
         TStatusRStr[(int)Status.Polite] = PoliteRStr;
         TStatusRStr[(int)Status.Friendly] = FriendlyRStr;
-        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Normal] = NormalRStr;
-        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Aggressor] = AggressorRStr;
-        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Defender] = DefenderRStr;
-        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Expander] = ExpanderRStr;
-        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Scorcher] = ScorcherRStr;
-        TPlayerBehaviorRStr[(int)Aow.Game.Session.Player.Behavior.Random] = RandomRStr;
+        TPlayerBehaviorRStr[(int)Player.Behavior.Normal] = NormalRStr;
+        TPlayerBehaviorRStr[(int)Player.Behavior.Aggressor] = AggressorRStr;
+        TPlayerBehaviorRStr[(int)Player.Behavior.Defender] = DefenderRStr;
+        TPlayerBehaviorRStr[(int)Player.Behavior.Expander] = ExpanderRStr;
+        TPlayerBehaviorRStr[(int)Player.Behavior.Scorcher] = ScorcherRStr;
+        TPlayerBehaviorRStr[(int)Player.Behavior.Random] = RandomRStr;
         TSpellTypeRStr[(int)SpellType.Combat] = CombatRStr;
         TSpellTypeRStr[(int)SpellType.Unit] = UnitRStr;
         TSpellTypeRStr[(int)SpellType.Global] = GlobalRStr;

@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class ItemBanner : DataModule
 {
-    public ItemBanner(global::Aow.Rtl.Component owner) : base(owner)
+    public ItemBanner(Component owner) : base(owner)
     { }
 
     public AOWLabel ItemNameLbl;
@@ -33,7 +33,7 @@ public partial class ItemBanner : DataModule
         Item Item;
         int X;
         int Y;
-        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(Aow.Game.Ui.Dialogs.ItemBanner.ItemID);
+        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
         if (Item != null)
         {
             ItemNameLbl.Text = Item.FOwnerName;
@@ -146,7 +146,7 @@ public partial class ItemBanner : DataModule
     {
         if (Button == 1)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.ItemBanner.IBannerPopup.Visible = false;
+            IBannerPopup.Visible = false;
         }
     }
 
@@ -154,7 +154,7 @@ public partial class ItemBanner : DataModule
     public void DrawBoxPreDraw(SurfaceDesc SurfDesc)
     {
         Item Item;
-        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(Aow.Game.Ui.Dialogs.ItemBanner.ItemID);
+        Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(ItemID);
         if (Item != null)
         {
             Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);

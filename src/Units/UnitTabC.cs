@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Grids;
 public partial class UnitTabControl : TabControl
 {
     public UnitSelectionControl FSelectionControl;
-    public global::Aow.Game.Ui.Grids.UnitIndexGrid FUnitIndexGrid;
+    public UnitIndexGrid FUnitIndexGrid;
     public OnSelectUnitEvent FOnSelectUnit;
 
     // UnitTabC.pas:42
@@ -22,7 +22,7 @@ public partial class UnitTabControl : TabControl
 
     // UnitTabC.pas:35
 
-    public UnitTabControl(global::Aow.Rtl.Component owner) : base(owner)
+    public UnitTabControl(Component owner) : base(owner)
     {
         /* TODO: Implement ComCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -36,7 +36,7 @@ public partial class UnitTabControl : TabControl
     }
 
     // UnitTabC.pas:54
-    public void SetUnitIndexGrid(global::Aow.Game.Ui.Grids.UnitIndexGrid Value)
+    public void SetUnitIndexGrid(UnitIndexGrid Value)
     {
         FUnitIndexGrid = Value;
         if (Value != null)
@@ -81,7 +81,7 @@ public partial class UnitTabControl : TabControl
     }
 
     [Published]
-    public global::Aow.Game.Ui.Grids.UnitIndexGrid UnitIndexGrid { get => FUnitIndexGrid; set => SetUnitIndexGrid(value); }
+    public UnitIndexGrid UnitIndexGrid { get => FUnitIndexGrid; set => SetUnitIndexGrid(value); }
 
     [Published]
     public OnSelectUnitEvent OnSelectUnit { get => FOnSelectUnit; set => FOnSelectUnit = value; }

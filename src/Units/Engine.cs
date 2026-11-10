@@ -128,7 +128,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:3417
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -143,7 +143,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:3428
         internal void SetCount(int NewCount)
         {
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -806,7 +806,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:3752
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -821,7 +821,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:3763
         internal void SetCount(int NewCount)
         {
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -1240,7 +1240,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortByte(global::System.Span<byte> SortList, int L, int R, ByteSortCompare SCompare)
+        private static void QuickSortByte(Span<byte> SortList, int L, int R, ByteSortCompare SCompare)
         {
             byte b = 0;
             int num;
@@ -1328,7 +1328,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:4099
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -1343,7 +1343,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:4110
         internal void SetCount(int NewCount)
         {
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -1704,7 +1704,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortShortInt(global::System.Span<sbyte> SortList, int L, int R, ShortIntSortCompare SCompare)
+        private static void QuickSortShortInt(Span<sbyte> SortList, int L, int R, ShortIntSortCompare SCompare)
         {
             sbyte b = 0;
             int num;
@@ -1792,7 +1792,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:4410
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -1807,7 +1807,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:4421
         internal void SetCount(int NewCount)
         {
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -2169,7 +2169,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortWord(global::System.Span<ushort> SortList, int L, int R, WordSortCompare SCompare)
+        private static void QuickSortWord(Span<ushort> SortList, int L, int R, WordSortCompare SCompare)
         {
             ushort num = 0;
             int num2;
@@ -2211,7 +2211,7 @@ namespace Aow.Game.Engine.Collections
             while (num2 < R);
         }
 
-        internal static void FillWord(global::System.Span<ushort> buffer, int count, ushort value)
+        internal static void FillWord(Span<ushort> buffer, int count, ushort value)
         {
             global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
         }
@@ -2230,7 +2230,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:4743
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -2257,7 +2257,7 @@ namespace Aow.Game.Engine.Collections
         internal void SetCount(int NewCount)
         {
             int OldCount;
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -2635,7 +2635,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5011
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -2651,7 +2651,7 @@ namespace Aow.Game.Engine.Collections
         internal void SetCount(int NewCount)
         {
             int OldCount;
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -2953,7 +2953,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5233
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -2968,7 +2968,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5244
         internal void SetCount(int NewCount)
         {
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -3439,7 +3439,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortDoubleItem(global::System.Span<DoubleItem> SortList, int L, int R, DoubleItemSortCompare SCompare)
+        private static void QuickSortDoubleItem(Span<DoubleItem> SortList, int L, int R, DoubleItemSortCompare SCompare)
         {
             DoubleItem tDoubleItem = default(DoubleItem);
             int num;
@@ -3501,7 +3501,7 @@ namespace Aow.Game.Engine.Collections
             return Item2.B - Item1.B;
         }
 
-        private static void FillLargeInteger(global::System.Span<DoubleItem> buffer, int count, DoubleItem value)
+        private static void FillLargeInteger(Span<DoubleItem> buffer, int count, DoubleItem value)
         {
             global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
         }
@@ -3515,7 +3515,7 @@ namespace Aow.Game.Engine.Collections
             public int B;
         }
 
-        public delegate int DoubleItemSortCompare(in Aow.Game.Engine.Collections.DoubleItemList.DoubleItem Item1, in Aow.Game.Engine.Collections.DoubleItemList.DoubleItem Item2);
+        public delegate int DoubleItemSortCompare(in DoubleItem Item1, in DoubleItem Item2);
 
     }
 
@@ -3561,7 +3561,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5643
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -3576,7 +3576,7 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5654
         internal void SetCount(int NewCount)
         {
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -4015,7 +4015,7 @@ namespace Aow.Game.Engine.Collections
             throw new ArgumentOutOfRangeException(paramName: null, RtlUnit.Format(Msg, [Data]));
         }
 
-        private static void QuickSortQuadItem(global::System.Span<QuadInteger> SortList, int L, int R, QuadItemSortCompare SCompare)
+        private static void QuickSortQuadItem(Span<QuadInteger> SortList, int L, int R, QuadItemSortCompare SCompare)
         {
             QuadInteger tQuadInteger = default(QuadInteger);
             int num;
@@ -4097,7 +4097,7 @@ namespace Aow.Game.Engine.Collections
             return Item2.D - Item1.D;
         }
 
-        internal static void FillQuadInteger(global::System.Span<QuadInteger> buffer, int count, in QuadInteger value)
+        internal static void FillQuadInteger(Span<QuadInteger> buffer, int count, in QuadInteger value)
         {
             QuadInteger value2 = value;
             global::Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value2);
@@ -4116,7 +4116,7 @@ namespace Aow.Game.Engine.Collections
             public int D;
         }
 
-        public delegate int QuadItemSortCompare(in Aow.Game.Engine.Collections.QuadItemList.QuadInteger Item1, in Aow.Game.Engine.Collections.QuadItemList.QuadInteger Item2);
+        public delegate int QuadItemSortCompare(in QuadInteger Item1, in QuadInteger Item2);
 
     }
 
@@ -4145,7 +4145,7 @@ namespace Aow.Game.Engine.Collections
 
         internal void SetCapacity(int NewCapacity)
         {
-            if (NewCapacity < FCount || NewCapacity > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCapacity < FCount || NewCapacity > EngineServices.MaxListSize)
             {
                 Error("List capacity out of bounds (%d)", NewCapacity);
             }
@@ -4159,7 +4159,7 @@ namespace Aow.Game.Engine.Collections
 
         internal void SetCount(int NewCount)
         {
-            if (NewCount < 0 || NewCount > Aow.Game.Engine.Nodes.EngineServices.MaxListSize)
+            if (NewCount < 0 || NewCount > EngineServices.MaxListSize)
             {
                 Error("List count out of bounds (%d)", NewCount);
             }
@@ -4801,10 +4801,10 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:2461
         public const int ClassID = 80;
 
-        private Aow.Game.Engine.EClass eclass;
+        private EClass eclass;
 
         // The engine class descriptor of the instance's exact type, read once and cached.
-        public Aow.Game.Engine.EClass EClass => eclass ??= Aow.Game.Engine.EClass.Of(GetType());
+        public EClass EClass => eclass ??= Aow.Game.Engine.EClass.Of(GetType());
 
         // The Delphi pre-inherited statements run after capture and before any inherited body.
         private protected virtual void InitializeBeforeInherited() { }
@@ -4841,7 +4841,7 @@ namespace Aow.Game.Engine.Nodes
         public virtual int ClassVersion() => 0;
 
         // Engine.pas:2563
-        public virtual Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored);
+        public virtual Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EngineServices.csStored);
 
         // Engine.pas:2568
         public virtual void SetOwner(ECustomNode AOwner)
@@ -4862,7 +4862,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2558
-        public virtual global::Aow.Game.Engine.Engine GetEngine() => FOwner.GetEngine();
+        public virtual Engine GetEngine() => FOwner.GetEngine();
 
         // Engine.pas:2502
         public virtual int GetLastMsg() => 2147483647;
@@ -4925,7 +4925,7 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:2594
         public virtual void MainReadWrite(EStorageStream Stream)
         {
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 Clear();
             }
@@ -4951,7 +4951,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2511
-        public virtual bool Compare(EObject Obj, global::Aow.Game.Engine.Engine AEngine)
+        public virtual bool Compare(EObject Obj, Engine AEngine)
         {
             MemoryStream S1;
             MemoryStream S2;
@@ -4988,7 +4988,7 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:2466
         public virtual EditorClass Editor()
         {
-            global::Aow.Game.Engine.Engine E;
+            Engine E;
             EditorClass Result = null;
             E = GetEngine();
             if (E != null)
@@ -5008,7 +5008,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2529
-        public virtual void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
+        public virtual void Assign(EObject Source, Engine AEngine)
         {
             MemoryStream S;
             S = new MemoryStream();
@@ -5060,7 +5060,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2543
-        public EObject Copy(global::Aow.Game.Engine.Engine AEngine)
+        public EObject Copy(Engine AEngine)
         {
             EObject Result = default;
             MemoryStream S;
@@ -5102,7 +5102,7 @@ namespace Aow.Game.Engine.Nodes
         {
             if (Stream.StorageMode().Contains(StorageModeElement.Read))
             {
-                if ((Stream.StorageMode() & Set<StorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
+                if ((Stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of())
                 {
                     Clear();
                 }
@@ -5134,7 +5134,7 @@ namespace Aow.Game.Engine.Nodes
                     C = Children[I];
                     if (C != null && C.Owner == this)
                     {
-                        if (!C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared))
+                        if (!C.GetControlStyle().Contains(EngineServices.csShared))
                         {
                             C.Dispose();
                         }
@@ -5150,7 +5150,7 @@ namespace Aow.Game.Engine.Nodes
                     C = Children[I];
                     if (C != null)
                     {
-                        if (!(C.Owner == this && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared)))
+                        if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.csShared)))
                         {
                             RemoveChild(C);
                         }
@@ -5160,7 +5160,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:2648
-        public override void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
+        public override void Assign(EObject Source, Engine AEngine)
         {
             Clear();
             base.Assign(Source, AEngine);
@@ -5481,22 +5481,22 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:8814
-        public override global::Aow.Game.Engine.Engine GetEngine() => this;
+        public override Engine GetEngine() => this;
 
         public Engine(ECustomNode owner) : this(null, owner) { }
 
         private protected Engine(ConstructionContext context, ECustomNode owner) : base(context, owner)
         {
             UpdateStartupDirectory();
-            FOptions = Set<EngineModeElement>.Of(global::Aow.Game.Engine.Engine.eoVerifyClasses);
+            FOptions = Set<EngineModeElement>.Of(eoVerifyClasses);
             FDebugEventsStore = new();
             FEClasses = new EObjectClassList();
             FClassTable = new IntegerHashTable256();
             FEditors = new EObjectEditorList();
             FControlNode = new EControlStyleNode(this);
-            FControlNode.SetControlStyle(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared));
+            FControlNode.SetControlStyle(Set<EControlStyleElement>.Of(EngineServices.csShared));
             FDebugIDs = new StringList();
-            FDebugIDs.AddObject(global::Aow.Game.Engine.Engine.UserStr, IntToObject(-1));
+            FDebugIDs.AddObject(UserStr, IntToObject(-1));
             RegisterEClasses([EClass.Of<EControlStyleObject>(), EClass.Of<EControlStyleNode>(), EClass.Of<ECustomOwner>(), EClass.Of<EResourceEditSettings>()]);
             Aow.Game.Engine.Nodes.EngineHost.Engines.Add(this);
         }
@@ -5521,7 +5521,7 @@ namespace Aow.Game.Engine
         // Engine.pas:8766
         public virtual void UpdateStartupDirectory()
         {
-            FStartupDirectory = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName);
+            FStartupDirectory = ExtractFilePath(RtlUnit.Application.ExeName);
         }
 
         // Engine.pas:8887
@@ -5572,7 +5572,7 @@ namespace Aow.Game.Engine
         public void OutputDebugStr(string S)
         {
             var notification = new EngineDebugNotification();
-            ref Aow.Game.Engine.EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
+            ref EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
             Info.ID = -1;
             Info.Text = S;
             FDebugEventsStore.Raise(notification);
@@ -5582,7 +5582,7 @@ namespace Aow.Game.Engine
         public void OutputDebugMessage(int ID, string S)
         {
             var notification = new EngineDebugNotification();
-            ref Aow.Game.Engine.EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
+            ref EngineDebugNotification.EngineDebugInfo Info = ref notification.Info;
             Info.ID = ID;
             Info.Text = S;
             FDebugEventsStore.Raise(notification);
@@ -5614,7 +5614,7 @@ namespace Aow.Game.Engine
         {
             for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
             {
-                if (FOptions.Contains(global::Aow.Game.Engine.Engine.eoVerifyClasses))
+                if (FOptions.Contains(eoVerifyClasses))
                 {
                     VerifyEObjectClass(AClasses[I]);
                 }
@@ -6054,7 +6054,7 @@ namespace Aow.Game.Engine
             return true;
         }
 
-        internal const Aow.Game.Engine.EngineModeElement eoVerifyClasses = 0;
+        internal const EngineModeElement eoVerifyClasses = 0;
 
         private static void InitMsgEx(ref EMsg Msg, int MsgID, EObject Sender, int Seq)
         {
@@ -6067,12 +6067,12 @@ namespace Aow.Game.Engine
 
         private static readonly string UserStr = "User";
 
-        internal static void UnregisterSoundEngineClasses(global::Aow.Game.Engine.Engine AEngine)
+        internal static void UnregisterSoundEngineClasses(Engine AEngine)
         {
             AEngine.UnregisterEClasses([EClass.Of<SFXSequence>(), EClass.Of<SFXLibrary>(), EClass.Of<SFX>()]);
         }
 
-        internal static void UnRegisterStorms(global::Aow.Game.Engine.Engine AEngine)
+        internal static void UnRegisterStorms(Engine AEngine)
         {
             SpellControl Spells;
             Spells = ((AoWEngine)AEngine).FGameSet.FSpellControl;
@@ -6084,80 +6084,80 @@ namespace Aow.Game.Engine
             Spells.UnregisterSpellID(9);
         }
 
-        internal static void InitializePlugIns(global::Aow.Game.Engine.Engine AEngine)
+        internal static void InitializePlugIns(Engine AEngine)
         {
-            for (int I = 0, last = Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count - 1; I <= last; I++)
+            for (int I = 0, last = EngineHost.PlugIns.Count - 1; I <= last; I++)
             {
-                ((Aow.Game.Engine.PlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[I]).Initialize(AEngine);
+                ((PlugIn)EngineHost.PlugIns[I]).Initialize(AEngine);
             }
         }
 
-        internal static void FinalizePlugIns(global::Aow.Game.Engine.Engine AEngine)
+        internal static void FinalizePlugIns(Engine AEngine)
         {
-            for (int I = 0, last = Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count - 1; I <= last; I++)
+            for (int I = 0, last = EngineHost.PlugIns.Count - 1; I <= last; I++)
             {
-                ((Aow.Game.Engine.PlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[I]).Finalize(AEngine);
+                ((PlugIn)EngineHost.PlugIns[I]).Finalize(AEngine);
             }
         }
 
-        internal static global::Aow.Game.Engine.Engine CopyEngine;
+        internal static Engine CopyEngine;
 
-        internal static void UnRegisterMountain(global::Aow.Game.Engine.Engine AEngine)
+        internal static void UnRegisterMountain(Engine AEngine)
         {
-            AEngine.UnregisterEClasses([EClass.Of<MountainMO>(), EClass.Of<MountainMOR>(), EClass.Of<RaiseTerrainTE>(), EClass.Of<RaisedMountain>(), EClass.Of<Aow.Game.World.Terrain.RaisedMountain.Resource>()]);
+            AEngine.UnregisterEClasses([EClass.Of<MountainMO>(), EClass.Of<MountainMOR>(), EClass.Of<RaiseTerrainTE>(), EClass.Of<RaisedMountain>(), EClass.Of<RaisedMountain.Resource>()]);
             // { Original unregisters spell 12, although Raise Terrain registers as spell 19. }
             ((AoWEngine)AEngine).FGameSet.FSpellControl.UnregisterSpellID(12);
         }
 
-        internal static void RegisterBorderHexagon(global::Aow.Game.Engine.Engine Engine)
+        internal static void RegisterBorderHexagon(Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<BorderHexagon>(), EClass.Of<Aow.Game.World.Hexes.BorderHexagon.Resource>()]);
+            Engine.RegisterEClasses([EClass.Of<BorderHexagon>(), EClass.Of<BorderHexagon.Resource>()]);
         }
 
-        internal static void RegisterHexagon(global::Aow.Game.Engine.Engine Engine)
+        internal static void RegisterHexagon(Engine Engine)
         {
             Engine.RegisterEClasses([EClass.Of<Hexagon>(), EClass.Of<HexagonResource>()]);
         }
 
-        internal static void RegisterIsometricHexagon(global::Aow.Game.Engine.Engine Engine)
+        internal static void RegisterIsometricHexagon(Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<IsometricHexagon>(), EClass.Of<IsometricHexagonResource>(), EClass.Of<UpperIsometricHexagon>(), EClass.Of<Aow.Game.World.Hexes.UpperIsometricHexagon.Resource>(), EClass.Of<LowerIsometricHexagon>(), EClass.Of<Aow.Game.World.Hexes.LowerIsometricHexagon.Resource>()]);
+            Engine.RegisterEClasses([EClass.Of<IsometricHexagon>(), EClass.Of<IsometricHexagonResource>(), EClass.Of<UpperIsometricHexagon>(), EClass.Of<UpperIsometricHexagon.Resource>(), EClass.Of<LowerIsometricHexagon>(), EClass.Of<LowerIsometricHexagon.Resource>()]);
         }
 
-        internal static void RegisterRoad(global::Aow.Game.Engine.Engine Engine)
+        internal static void RegisterRoad(Engine Engine)
         {
-            Engine.RegisterEClasses([EClass.Of<Road>(), EClass.Of<Aow.Game.World.Hexes.Road.Resource>()]);
+            Engine.RegisterEClasses([EClass.Of<Road>(), EClass.Of<Road.Resource>()]);
         }
 
-        internal static void RegisterTerrain(global::Aow.Game.Engine.Engine Engine)
+        internal static void RegisterTerrain(Engine Engine)
         {
             Engine.RegisterEClasses([EClass.Of<TerrainMO>(), EClass.Of<TerrainMOR>()]);
         }
 
-        internal static void RegisterHill(global::Aow.Game.Engine.Engine AEngine)
+        internal static void RegisterHill(Engine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<HillMO>()]);
         }
 
-        internal static void RegisterAltar(global::Aow.Game.Engine.Engine AEngine)
+        internal static void RegisterAltar(Engine AEngine)
         {
             AEngine.RegisterEClasses([EClass.Of<Altar>(), EClass.Of<AltarResource>()]);
         }
 
-        internal static void RegisterRandomNode(global::Aow.Game.Engine.Engine AEngine)
+        internal static void RegisterRandomNode(Engine AEngine)
         {
-            AEngine.RegisterEClasses([EClass.Of<RandomNode>(), EClass.Of<Aow.Game.World.Structures.RandomNode.Resource>()]);
+            AEngine.RegisterEClasses([EClass.Of<RandomNode>(), EClass.Of<RandomNode.Resource>()]);
         }
 
-        internal static void UnRegisterHolyGround(global::Aow.Game.Engine.Engine Engine)
+        internal static void UnRegisterHolyGround(Engine Engine)
         {
-            Engine.UnregisterEClasses([EClass.Of<HolyGround>(), EClass.Of<Aow.Game.World.Terrain.HolyGround.Resource>(), EClass.Of<HolyGroundSpellTE>()]);
+            Engine.UnregisterEClasses([EClass.Of<HolyGround>(), EClass.Of<HolyGround.Resource>(), EClass.Of<HolyGroundSpellTE>()]);
             ((AoWEngine)Engine).FGameSet.FSpellControl.UnregisterSpellID(13);
         }
 
-        internal static void UnRegisterOverlayObject(global::Aow.Game.Engine.Engine AEngine)
+        internal static void UnRegisterOverlayObject(Engine AEngine)
         {
-            AEngine.UnregisterEClasses([EClass.Of<OverlayObject>(), EClass.Of<Aow.Game.World.Terrain.OverlayObject.Resource>()]);
+            AEngine.UnregisterEClasses([EClass.Of<OverlayObject>(), EClass.Of<OverlayObject.Resource>()]);
         }
 
     }
@@ -6172,12 +6172,12 @@ namespace Aow.Game.Engine.Storage
     public partial class EStorageStream : IDisposable
     {
 
-        internal global::Aow.Game.Engine.Engine FEngine;
+        internal Engine FEngine;
         internal Stream FStream;
         internal bool FErrorHandled;
-        internal global::Aow.Game.Engine.PropertyTable FPropertyTable;
+        internal PropertyTable FPropertyTable;
         internal StorageStreamError FOnError;
-        internal Aow.Game.Engine.ProgressEvent FOnProgress;
+        internal ProgressEvent FOnProgress;
 
         // Engine.pas:1184
         public virtual Set<StorageModeElement> StorageMode()
@@ -6283,7 +6283,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:9489
-        public EStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine)
+        public EStorageStream(Stream AStream, Engine AEngine)
         {
             CaptureAddress.Assign(this);
             FEngine = AEngine;
@@ -6300,11 +6300,11 @@ namespace Aow.Game.Engine.Storage
             }
         }
 
-        public global::Aow.Game.Engine.Engine Engine { get => FEngine; }
+        public Engine Engine { get => FEngine; }
         public Stream Stream { get => FStream; }
-        public global::Aow.Game.Engine.PropertyTable PropertyTable { get => FPropertyTable; }
+        public PropertyTable PropertyTable { get => FPropertyTable; }
         public StorageStreamError OnError { get => FOnError; set => FOnError = value; }
-        public Aow.Game.Engine.ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
+        public ProgressEvent OnProgress { get => FOnProgress; set => FOnProgress = value; }
 
         // Delphi var parameters alias a descendant reference through a base-class cast.
         public void rwCreateEObject<T>(ref T value, ECustomNode owner, int id) where T : class
@@ -6423,10 +6423,10 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8533
-        public virtual Aow.Game.Draw.Images.LibraryImage GetCellImage() => null;
+        public virtual LibraryImage GetCellImage() => null;
 
         // Engine.pas:8538
-        public virtual void SetCellImage(Aow.Game.Draw.Images.LibraryImage Value)
+        public virtual void SetCellImage(LibraryImage Value)
         {
         }
 
@@ -6452,9 +6452,9 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:8525
-        public virtual void Draw(Canvas Canvas, global::Aow.Rtl.Rect Rect, Aow.Game.Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
+        public virtual void Draw(Canvas Canvas, Rect Rect, Draw.Images.BltMode Mode, int ScaleX, int ScaleY, int BkColor, int Color)
         {
-            global::Aow.Rtl.Rect R = default;
+            Rect R = default;
             Aow.Game.Draw.Images.LibraryDrawing.BltLibraryImage(Canvas, GetCellImage(), Rect, Mode, ScaleX, ScaleY, BkColor, Color, false, ref R);
         }
 
@@ -6462,7 +6462,7 @@ namespace Aow.Game.Engine.Nodes
         public int EditID { get => FEditID; set => FEditID = value; }
         public int EditIndex { get => FEditIndex; set => FEditIndex = value; }
         public int ResourceID { get => FResourceID; set => FResourceID = value; }
-        public Aow.Game.Draw.Images.LibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
+        public LibraryImage CellImage { get => GetCellImage(); set => SetCellImage(value); }
 
         // Engine.pas:8508
         public virtual string ResourceEditName() => GetType().Name;
@@ -6543,7 +6543,7 @@ namespace Aow.Game.Engine.Storage
             int Count;
             Stream.ReadBytes(((Span<byte>)Magic).Slice(0, 4));
             Stream.ReadBytes(Bytes.Of(ref Compressed, 1));
-            if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, Aow.Game.Engine.Storage.CompressStream.CompressMagic))
+            if (!ArrayEquals<FixedArray_byte_4, byte>(Magic, CompressMagic))
             {
                 Compressed = false;
                 Stream.Seek(0, SeekOrigin.Begin);
@@ -6588,7 +6588,7 @@ namespace Aow.Game.Engine.Storage
             Position = 0;
             int Result = 100;
             StartSize = (int)Stream.Length;
-            Stream.Write(((ReadOnlySpan<byte>)Aow.Game.Engine.Storage.CompressStream.CompressMagic).Slice(0, 4));
+            Stream.Write(((ReadOnlySpan<byte>)CompressMagic).Slice(0, 4));
             Stream.Write(Bytes.Of(ref Level, 1));
             if (Level != CompressLevel.None)
             {
@@ -6672,7 +6672,7 @@ namespace Aow.Game.Engine.Storage
             }
         }
 
-        private static global::Aow.Game.Engine.Buffers.FixedArray_byte_4 CompressMagic = global::Aow.Game.Engine.Buffers.FixedArray_byte_4.From("CFS\0"u8);
+        private static FixedArray_byte_4 CompressMagic = global::Aow.Game.Engine.Buffers.FixedArray_byte_4.From("CFS\0"u8);
 
         public enum CompressLevel : byte
         {
@@ -6708,7 +6708,7 @@ namespace Aow.Game.Engine
         {
             while (FEngines.Count != 0)
             {
-                Finalize((global::Aow.Game.Engine.Engine)FEngines[FEngines.Count - 1]);
+                Finalize((Engine)FEngines[FEngines.Count - 1]);
             }
 
             FEngines?.Dispose();
@@ -6736,7 +6736,7 @@ namespace Aow.Game.Engine
         public virtual string Name() => "Abstract PlugIn";
 
         // Engine.pas:9178
-        public virtual bool Initialize(global::Aow.Game.Engine.Engine AEngine)
+        public virtual bool Initialize(Engine AEngine)
         {
             bool Result;
             int I;
@@ -6759,7 +6759,7 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9197
-        public virtual bool Finalize(global::Aow.Game.Engine.Engine AEngine)
+        public virtual bool Finalize(Engine AEngine)
         {
             bool Result;
             int I;
@@ -6795,13 +6795,13 @@ namespace Aow.Game.Engine
 
         public int RefCount { get => FRefCount; }
 
-        private static void RegisterPlugIn(global::Aow.Game.Engine.PlugIn PlugIn)
+        private static void RegisterPlugIn(PlugIn PlugIn)
         {
             bool flag = false;
             int num = 0;
-            while (!flag && num != global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count)
+            while (!flag && num != EngineHost.PlugIns.Count)
             {
-                flag = ((global::Aow.Game.Engine.PlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[num]).Name() == PlugIn.Name();
+                flag = ((PlugIn)EngineHost.PlugIns[num]).Name() == PlugIn.Name();
                 num++;
             }
             if (!flag)
@@ -6812,7 +6812,7 @@ namespace Aow.Game.Engine
             throw new InvalidOperationException("PlugIn " + PlugIn.Name() + " already registered");
         }
 
-        private static void UnregisterPlugIn(global::Aow.Game.Engine.PlugIn PlugIn)
+        private static void UnregisterPlugIn(PlugIn PlugIn)
         {
             if (global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.IndexOf((object)PlugIn) != -1)
             {
@@ -6840,7 +6840,7 @@ namespace Aow.Game.Engine
     // the list changes
     public partial class PlugInControl : EObject
     {
-        internal global::Aow.Game.Engine.Engine FEngine;
+        internal Engine FEngine;
         internal StringList FUsedPlugIns;
 
         // Engine.pas:9279
@@ -6919,10 +6919,10 @@ namespace Aow.Game.Engine
         }
 
         // Engine.pas:9269
-        public override global::Aow.Game.Engine.Engine GetEngine() => FEngine;
+        public override Engine GetEngine() => FEngine;
 
         // Engine.pas:9274
-        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared);
+        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared);
 
         // Engine.pas:9331
         public override void ReadWrite(EStorageStream Stream)
@@ -6934,23 +6934,23 @@ namespace Aow.Game.Engine
             }
         }
 
-        public global::Aow.Game.Engine.Engine Engine { get => FEngine; set => FEngine = value; }
+        public Engine Engine { get => FEngine; set => FEngine = value; }
         public StringCollection UsedPlugIns { get => GetUsedPlugIns(); set => SetUsedPlugIns(value); }
 
-        private static global::Aow.Game.Engine.PlugIn FindPlugIn(string Name)
+        private static PlugIn FindPlugIn(string Name)
         {
-            global::Aow.Game.Engine.PlugIn tPlugIn = null;
-            if (global::Aow.Game.Engine.Nodes.EngineHost.PlugIns != null)
+            PlugIn tPlugIn = null;
+            if (EngineHost.PlugIns != null)
             {
-                for (int i = 0; i != global::Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count; i++)
+                for (int i = 0; i != EngineHost.PlugIns.Count; i++)
                 {
                     if (tPlugIn != null)
                     {
                         break;
                     }
-                    if (((global::Aow.Game.Engine.PlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[i]).Name() == Name)
+                    if (((PlugIn)EngineHost.PlugIns[i]).Name() == Name)
                     {
-                        tPlugIn = (global::Aow.Game.Engine.PlugIn)global::Aow.Game.Engine.Nodes.EngineHost.PlugIns[i];
+                        tPlugIn = (PlugIn)EngineHost.PlugIns[i];
                     }
                 }
             }
@@ -7092,7 +7092,7 @@ namespace Aow.Game.Engine.Nodes
                 C = (EObject)FChildren.List[I];
                 if (C != null && C.Owner == this)
                 {
-                    if (!C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared))
+                    if (!C.GetControlStyle().Contains(EngineServices.csShared))
                     {
                         C.Dispose();
                     }
@@ -7111,7 +7111,7 @@ namespace Aow.Game.Engine.Nodes
                     C = (EObject)FChildren.List[I];
                     if (C != null)
                     {
-                        if (!(C.Owner == this && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared)))
+                        if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.csShared)))
                         {
                             RemoveChild(C);
                         }
@@ -7171,7 +7171,7 @@ namespace Aow.Game.Engine.Nodes
         public override void SendMsg(ref EMsg Msg, EObject Sender)
         {
             var children = FChildren;
-            if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
+            if (GetControlStyle().Contains(EngineServices.csKeepIndex))
             {
                 if ((Msg.MsgID & 268435456) != 0)
                 {
@@ -7293,7 +7293,7 @@ namespace Aow.Game.Engine.Nodes
         public override int RemoveChild(EObject Child)
         {
             int Result;
-            if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
+            if (GetControlStyle().Contains(EngineServices.csKeepIndex))
             {
                 Result = FChildren.IndexOf(Child);
                 if (Result != -1)
@@ -7439,7 +7439,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:1841
-        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared, Aow.Game.Engine.Nodes.EngineServices.csReserved2);
+        public override Set<EControlStyleElement> GetControlStyle() => Set<EControlStyleElement>.Of(EngineServices.csStored, EngineServices.csShared, EngineServices.csReserved2);
 
         // Engine.pas:1846
         public override int GetCount() => FCount;
@@ -7628,7 +7628,7 @@ namespace Aow.Game.Engine.Nodes
                 C = (EObject)FChildren.List[I];
                 if (C != null && C.Owner == this)
                 {
-                    if (!C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared))
+                    if (!C.GetControlStyle().Contains(EngineServices.csShared))
                     {
                         C.Dispose();
                     }
@@ -7645,7 +7645,7 @@ namespace Aow.Game.Engine.Nodes
                 C = (EObject)FChildren.List[I];
                 if (C != null)
                 {
-                    if (!(C.Owner == this && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared)))
+                    if (!(C.Owner == this && C.GetControlStyle().Contains(EngineServices.csShared)))
                     {
                         RemoveChild(C);
                     }
@@ -7684,7 +7684,7 @@ namespace Aow.Game.Engine.Nodes
         }
 
         // Engine.pas:7263
-        public override void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
+        public override void Assign(EObject Source, Engine AEngine)
         {
             BeginUpdate();
             base.Assign(Source, AEngine);
@@ -8412,13 +8412,13 @@ namespace Aow.Game.Engine.Nodes
         // Engine.pas:7971
         public override void MainReadWrite(EStorageStream Stream)
         {
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 BeginUpdate();
             }
 
             base.MainReadWrite(Stream);
-            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+            if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
             {
                 EndUpdate();
             }
@@ -8445,7 +8445,7 @@ namespace Aow.Game.Engine.Nodes
         public override void SendMsg(ref EMsg Msg, EObject Sender)
         {
             var children = FChildren;
-            if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
+            if (GetControlStyle().Contains(EngineServices.csKeepIndex))
             {
                 if ((Msg.MsgID & 268435456) != 0)
                 {
@@ -8567,7 +8567,7 @@ namespace Aow.Game.Engine.Nodes
         public override int RemoveChild(EObject Child)
         {
             int Result;
-            if (GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
+            if (GetControlStyle().Contains(EngineServices.csKeepIndex))
             {
                 Result = FChildren.IndexOf(Child);
                 if (Result != -1)
@@ -8656,7 +8656,7 @@ namespace Aow.Game.Engine.Nodes
             FEventsStore = new();
         }
 
-        internal Aow.Game.Engine.EventStore<EChangeNotifyEventList> FEventsStore;
+        internal EventStore<EChangeNotifyEventList> FEventsStore;
 
         internal event NotifyEvent<EChangeNotifyEventList> FEvents
         {
@@ -8705,7 +8705,7 @@ namespace Aow.Game.Engine.Nodes
         public static int EditorClassID => 0;
 
         // Engine.pas:3041
-        public static void Edit(EObject Obj, global::Aow.Game.Engine.Engine AEngine, EditDoneEvent Done)
+        public static void Edit(EObject Obj, Engine AEngine, EditDoneEvent Done)
         {
             Done(EditResult.Cancel, Obj);
         }
@@ -8801,7 +8801,7 @@ namespace Aow.Game.Engine.Collections
         // HashTab.PAS:43
         public void Add(object Item, int Key)
         {
-            Aow.Game.Engine.Collections.HashList.HashItem H = default;
+            HashItem H = default;
             if (Find(Key) != null)
             {
                 throw new InvalidOperationException("ID already in HashTable");
@@ -9007,7 +9007,7 @@ namespace Aow.Game.Engine.Collections
         // HashTab.PAS:170
         public void Add(object Item, string Key)
         {
-            Aow.Game.Engine.Collections.HashList.HashItem H = default;
+            HashItem H = default;
             if (Find(Key) != null)
             {
                 throw new InvalidOperationException("ID already in HashTable");
@@ -9264,14 +9264,14 @@ namespace Aow.Game.Engine.Nodes
             FControlStyle = base.GetControlStyle();
         }
 
-        internal global::Aow.Game.Engine.Engine FEngine;
+        internal Engine FEngine;
         internal Set<EControlStyleElement> FControlStyle;
 
         // Engine.pas:8262
-        public override global::Aow.Game.Engine.Engine GetEngine() => FEngine;
+        public override Engine GetEngine() => FEngine;
 
         // Engine.pas:8267
-        public void SetEngine(global::Aow.Game.Engine.Engine AEngine)
+        public void SetEngine(Engine AEngine)
         {
             FEngine = AEngine;
         }
@@ -9297,7 +9297,7 @@ namespace Aow.Game.Engine.Nodes
         {
             if (Msg.MsgID == 536870920)
             {
-                FEngine = Msg.Payload.As<global::Aow.Game.Engine.Engine>();
+                FEngine = Msg.Payload.As<Engine>();
             }
 
             base.MsgProc(ref Msg, Sender);
@@ -9510,7 +9510,7 @@ namespace Aow.Game.Engine.Nodes
         public override void ReadWrite(EStorageStream Stream)
         {
             base.ReadWrite(Stream);
-            if (!Stream.StorageMode().Contains(Aow.Game.Engine.Nodes.EngineServices.smText))
+            if (!Stream.StorageMode().Contains(EngineServices.smText))
             {
                 Stream.rwStringsEx(FEditors, 3);
             }
@@ -9679,7 +9679,7 @@ namespace Aow.Game.Engine.Nodes
         public SortValueAccessor SortValue => new SortValueAccessor(this);
         public bool Sorted { get => FSorted; }
 
-        private static void SortItems(global::System.Span<SortItem> SortList, int L, int R)
+        private static void SortItems(Span<SortItem> SortList, int L, int R)
         {
             int num;
             do
@@ -9789,7 +9789,7 @@ namespace Aow.Game.Engine.Nodes
             FSorted = true;
         }
 
-        private static void InverseSortItems(global::System.Span<Aow.Game.Engine.Nodes.ESortNode.SortItem> SortList, int L, int R)
+        private static void InverseSortItems(Span<SortItem> SortList, int L, int R)
         {
             int num;
             do
@@ -9810,7 +9810,7 @@ namespace Aow.Game.Engine.Nodes
                     }
                     if (num <= num2)
                     {
-                        Aow.Game.Engine.Nodes.ESortNode.SortItem tSortItem = SortList[num];
+                        SortItem tSortItem = SortList[num];
                         SortList[num] = SortList[num2];
                         SortList[num2] = tSortItem;
                         num++;
@@ -9927,7 +9927,7 @@ namespace Aow.Game.Engine.Nodes
             else
             {
                 base.ReadWriteChildren(Stream);
-                if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
+                if ((Stream.StorageMode() & Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Compare)) == Set<StorageModeElement>.Of(StorageModeElement.Read))
                 {
                     for (int I = 0, last = FChildren.Count - 1; I <= last; I++)
                     {
@@ -11327,11 +11327,11 @@ namespace Aow.Game.Engine.Nodes
     // FOnRegisterClasses (called from Loaded), FOnUnRegisterClasses (called from Destroy), FEngine,
     // the engine the component owns and frees. Descendants such as HSEngine's THexagonSpriteEngine
     // publish the two events
-    public partial class EComponent : global::Aow.Rtl.Component
+    public partial class EComponent : Component
     {
         internal NotifyEvent<object> FOnRegisterClasses;
         internal NotifyEvent<object> FOnUnRegisterClasses;
-        internal global::Aow.Game.Engine.Engine FEngine;
+        internal Engine FEngine;
 
         // Engine.pas:8642
         public override void Loaded()
@@ -11358,9 +11358,9 @@ namespace Aow.Game.Engine.Nodes
             base.Dispose();
         }
 
-        public global::Aow.Game.Engine.Engine Engine { get => FEngine; set => FEngine = value; }
+        public Engine Engine { get => FEngine; set => FEngine = value; }
 
-        public EComponent(global::Aow.Rtl.Component owner) : base(owner)
+        public EComponent(Component owner) : base(owner)
         { }
     }
 }
@@ -11576,7 +11576,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10611
-        public EReadTextStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, int ASize) : base(AStream, AEngine)
+        public EReadTextStorageStream(Stream AStream, Engine AEngine, int ASize) : base(AStream, AEngine)
         {
             FPath = "";
             if (ASize <= 0)
@@ -11589,7 +11589,7 @@ namespace Aow.Game.Engine.Storage
             }
 
             FValues = new StringList();
-            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
+            FPropertyTable = new PropertyTable();
             FText = new StringList();
             FSections = new StringList();
             ReadStreamText();
@@ -11606,7 +11606,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10669
-        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText);
 
         // Engine.pas:10741
         public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
@@ -11726,7 +11726,7 @@ namespace Aow.Game.Engine.Storage
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
                 C = Node.Children[I];
-                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared) && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csStored))
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
                 {
                     rwEObject(C, I);
                 }
@@ -11785,11 +11785,11 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10335
-        public EWriteTextStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine) : base(AStream, AEngine)
+        public EWriteTextStorageStream(Stream AStream, Engine AEngine) : base(AStream, AEngine)
         {
             FPath = "";
             FBuffer = new EBufferStream();
-            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
+            FPropertyTable = new PropertyTable();
         }
 
         // Engine.pas:10343
@@ -11801,7 +11801,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10350
-        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Write, Aow.Game.Engine.Nodes.EngineServices.smText);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Write, EngineServices.smText);
 
         // Engine.pas:10368
         public override void rwCreateEObject(ref EObject Obj, ECustomNode AOwner, int ID)
@@ -11866,7 +11866,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
+                throw new DoublePrioriyIDException("Double priorityID found");
             }
         }
 
@@ -11891,7 +11891,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
+                throw new DoublePrioriyIDException("Double priorityID found");
             }
         }
 
@@ -11916,7 +11916,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
+                throw new DoublePrioriyIDException("Double priorityID found");
             }
         }
 
@@ -11946,7 +11946,7 @@ namespace Aow.Game.Engine.Storage
                 for (int I = 0, last = Node.Count - 1; I <= last; I++)
                 {
                     C = Node.Children[I];
-                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared) && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csStored))
+                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
                     {
                         rwEObject(C, I);
                     }
@@ -11957,7 +11957,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found");
+                throw new DoublePrioriyIDException("Double priorityID found");
             }
         }
 
@@ -11971,9 +11971,9 @@ namespace Aow.Game.Engine.Storage
         internal int FDataBase;
 
         // Engine.pas:9968
-        public EReadStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, bool APartial) : base(AStream, AEngine)
+        public EReadStorageStream(Stream AStream, Engine AEngine, bool APartial) : base(AStream, AEngine)
         {
-            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
+            FPropertyTable = new PropertyTable();
             FPropertyTable.LoadFromStream(AStream);
             FDataBase = (int)(FStream.Position);
             FPartial = APartial;
@@ -11992,7 +11992,7 @@ namespace Aow.Game.Engine.Storage
             Set<StorageModeElement> Result;
             if (FPartial)
             {
-                Result = Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smPartial);
+                Result = Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smPartial);
             }
             else
             {
@@ -12302,7 +12302,7 @@ namespace Aow.Game.Engine.Storage
                 {
                     if (IsEmpty(E.Message))
                     {
-                        FOnError(this, Aow.Game.Engine.Storage.EReadStorageStream.EStreamReadErrorStr, ref Continue);
+                        FOnError(this, EStreamReadErrorStr, ref Continue);
                     }
                     else
                     {
@@ -12385,7 +12385,7 @@ namespace Aow.Game.Engine.Storage
 
                 FPropertyTable.LoadFromStream(FStream);
                 FDataBase = (int)(FStream.Position);
-                if (Node.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
+                if (Node.GetControlStyle().Contains(EngineServices.csKeepIndex))
                 {
                     for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                     {
@@ -12497,8 +12497,8 @@ namespace Aow.Game.Engine.Storage
                     throw new ArgumentOutOfRangeException((string)null, "Negative string length");
                 }
                 byte[] array = new byte[num];
-                StreamExtensions.ReadBytes(Stream, (global::System.Span<byte>)(array));
-                Strings.Text = Cp1252.Decode((global::System.ReadOnlySpan<byte>)(array));
+                StreamExtensions.ReadBytes(Stream, (Span<byte>)(array));
+                Strings.Text = Cp1252.Decode((ReadOnlySpan<byte>)(array));
             }
             finally
             {
@@ -12526,9 +12526,9 @@ namespace Aow.Game.Engine.Storage
             }
             byte[] array = new byte[num];
             Cp1252.Encode(S)[..Math.Min(S.Length, num)].CopyTo(array);
-            S = Cp1252.Decode((global::System.ReadOnlySpan<byte>)(array));
-            StreamExtensions.ReadBytes(Stream, (global::System.Span<byte>)(array));
-            S = Cp1252.Decode((global::System.ReadOnlySpan<byte>)(array));
+            S = Cp1252.Decode((ReadOnlySpan<byte>)(array));
+            StreamExtensions.ReadBytes(Stream, (Span<byte>)(array));
+            S = Cp1252.Decode((ReadOnlySpan<byte>)(array));
         }
 
         internal static void StringsFromStreamEx(StringCollection Strings, Stream Stream)
@@ -12544,8 +12544,8 @@ namespace Aow.Game.Engine.Storage
                     throw new ArgumentOutOfRangeException((string)null, "Negative string length");
                 }
                 byte[] array = new byte[num];
-                StreamExtensions.ReadBytes(Stream, (global::System.Span<byte>)(array));
-                Strings.Text = Cp1252.Decode((global::System.ReadOnlySpan<byte>)(array));
+                StreamExtensions.ReadBytes(Stream, (Span<byte>)(array));
+                Strings.Text = Cp1252.Decode((ReadOnlySpan<byte>)(array));
                 int i = 0;
                 for (int num3 = Strings.Count - 1; i <= num3; i++)
                 {
@@ -12573,24 +12573,24 @@ namespace Aow.Game.Engine.Storage
         // Engine.pas:9592
         internal void PropertyExistError(int ID)
         {
-            throw new Aow.Game.Engine.DoublePrioriyIDException("PropertyID already in use (" + IntToStr(ID) + " / " + this.GetType().Name + ")");
+            throw new DoublePrioriyIDException("PropertyID already in use (" + IntToStr(ID) + " / " + this.GetType().Name + ")");
         }
 
         // Engine.pas:9565
         // Engine.pas:10489 TDebugWriteStream borrows the supplied stream as its buffer.
-        private protected EWriteStorageStream(Stream stream, global::Aow.Game.Engine.Engine engine, EBufferStream buffer) : base(stream, engine)
+        private protected EWriteStorageStream(Stream stream, Engine engine, EBufferStream buffer) : base(stream, engine)
         {
             FBuffer = buffer;
-            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
+            FPropertyTable = new PropertyTable();
             FPartial = false;
         }
 
-        public EWriteStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, bool APartial) : base(AStream, AEngine)
+        public EWriteStorageStream(Stream AStream, Engine AEngine, bool APartial) : base(AStream, AEngine)
         {
             FEngine = AEngine;
             FStream = AStream;
             FBuffer = new EBufferStream();
-            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
+            FPropertyTable = new PropertyTable();
             FPartial = APartial;
         }
 
@@ -12610,7 +12610,7 @@ namespace Aow.Game.Engine.Storage
             Set<StorageModeElement> Result;
             if (FPartial)
             {
-                Result = Set<StorageModeElement>.Of(StorageModeElement.Write, Aow.Game.Engine.Nodes.EngineServices.smPartial);
+                Result = Set<StorageModeElement>.Of(StorageModeElement.Write, EngineServices.smPartial);
             }
             else
             {
@@ -12684,7 +12684,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("PropertyID already in use");
+                throw new DoublePrioriyIDException("PropertyID already in use");
             }
         }
 
@@ -12752,7 +12752,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("PropertyID already in use");
+                throw new DoublePrioriyIDException("PropertyID already in use");
             }
         }
 
@@ -12889,7 +12889,7 @@ namespace Aow.Game.Engine.Storage
                 {
                     if (IsEmpty(E.Message))
                     {
-                        FOnError(this, Aow.Game.Engine.Storage.EWriteStorageStream.EStreamWriteErrorStr, ref Continue);
+                        FOnError(this, EStreamWriteErrorStr, ref Continue);
                     }
                     else
                     {
@@ -12962,7 +12962,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -12981,7 +12981,7 @@ namespace Aow.Game.Engine.Storage
                 for (int I = 0, last = Node.Count - 1; I <= last; I++)
                 {
                     C = Node.Children[I];
-                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared) && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csStored))
+                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
                     {
                         rwCreateEObject(ref C, Node, I);
                     }
@@ -12996,7 +12996,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -13035,7 +13035,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
+                throw new DoublePrioriyIDException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
             }
         }
 
@@ -13082,9 +13082,9 @@ namespace Aow.Game.Engine.Storage
 
         internal static void StringsToStream(StringCollection Strings, Stream Stream)
         {
-            global::System.ReadOnlySpan<byte> text = (global::System.ReadOnlySpan<byte>)(Cp1252.Encode(Strings.Text));
+            ReadOnlySpan<byte> text = (ReadOnlySpan<byte>)(Cp1252.Encode(Strings.Text));
             int num = CStringLength(text);
-            Stream.Write((global::System.Span<byte>)(Bytes.Of<int>(ref num, 4)));
+            Stream.Write((Span<byte>)(Bytes.Of<int>(ref num, 4)));
             StreamExtensions.WriteBuffer(Stream, text.Slice(0, num));
         }
 
@@ -13095,33 +13095,33 @@ namespace Aow.Game.Engine.Storage
             if (length < 255)
             {
                 b = (byte)length;
-                Stream.Write((global::System.Span<byte>)(Bytes.Of<byte>(ref b, 1)));
+                Stream.Write((Span<byte>)(Bytes.Of<byte>(ref b, 1)));
             }
             else
             {
                 b = 255;
-                Stream.Write((global::System.Span<byte>)(Bytes.Of<byte>(ref b, 1)));
-                Stream.Write((global::System.Span<byte>)(Bytes.Of<int>(ref length, 4)));
+                Stream.Write((Span<byte>)(Bytes.Of<byte>(ref b, 1)));
+                Stream.Write((Span<byte>)(Bytes.Of<int>(ref length, 4)));
             }
-            Stream.Write((global::System.Span<byte>)(MemoryExtensions.AsSpan<byte>(Cp1252.Encode(S)).Slice(0, length)));
+            Stream.Write((Span<byte>)(MemoryExtensions.AsSpan<byte>(Cp1252.Encode(S)).Slice(0, length)));
         }
 
         internal static void StringsToStreamEx(StringCollection Strings, Stream Stream)
         {
             int num = 0;
-            global::System.ReadOnlySpan<byte> text = (global::System.ReadOnlySpan<byte>)(Cp1252.Encode(Strings.Text));
+            ReadOnlySpan<byte> text = (ReadOnlySpan<byte>)(Cp1252.Encode(Strings.Text));
             int num2 = CStringLength(text);
-            Stream.Write((global::System.Span<byte>)(Bytes.Of<int>(ref num2, 4)));
+            Stream.Write((Span<byte>)(Bytes.Of<int>(ref num2, 4)));
             StreamExtensions.WriteBuffer(Stream, text.Slice(0, num2));
             int i = 0;
             for (int num3 = Strings.Count - 1; i <= num3; i++)
             {
                 num = RtlUnit.ObjectToInt(Strings.Objects[i]);
-                Stream.Write((global::System.Span<byte>)(Bytes.Of<int>(ref num, 4)));
+                Stream.Write((Span<byte>)(Bytes.Of<int>(ref num, 4)));
             }
         }
 
-        private static int CStringLength(global::System.ReadOnlySpan<byte> text)
+        private static int CStringLength(ReadOnlySpan<byte> text)
         {
             int num = MemoryExtensions.IndexOf<byte>(text, (byte)0);
             return (num < 0) ? text.Length : num;
@@ -13135,7 +13135,7 @@ namespace Aow.Game.Engine.Storage
     {
         // Engine.pas:10489
         // Retained: The debug writer uses the supplied stream as FBuffer and skips the normal writer buffer allocation. Retire with a replacement-base storage protocol.
-        public DebugWriteStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine) : base(AStream, AEngine, (EBufferStream)AStream)
+        public DebugWriteStream(Stream AStream, Engine AEngine) : base(AStream, AEngine, (EBufferStream)AStream)
         { }
 
         // Engine.pas:10499
@@ -13191,7 +13191,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -13205,7 +13205,7 @@ namespace Aow.Game.Engine.Storage
                 for (int I = 0, last = Node.Count - 1; I <= last; I++)
                 {
                     C = Node.Children[I];
-                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared) && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csStored))
+                    if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
                     {
                         rwCreateEObject(ref C, Node, I);
                     }
@@ -13217,7 +13217,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
+                throw new DoublePrioriyIDException("Double priorityID found (" + IntToStr(ID) + ")");
             }
         }
 
@@ -13245,7 +13245,7 @@ namespace Aow.Game.Engine.Storage
             }
             else
             {
-                throw new Aow.Game.Engine.DoublePrioriyIDException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
+                throw new DoublePrioriyIDException("Double priorityID found (" + Obj.GetType().Name + ":" + IntToStr(ID) + ")");
             }
         }
 
@@ -13280,9 +13280,9 @@ namespace Aow.Game.Engine.Storage
     public partial class TranslateStorageStream : EStorageStream
     {
         // Engine.pas:10825
-        public TranslateStorageStream(global::Aow.Game.Engine.Engine AEngine) : base(null, AEngine)
+        public TranslateStorageStream(Engine AEngine) : base(null, AEngine)
         {
-            FPropertyTable = new global::Aow.Game.Engine.PropertyTable();
+            FPropertyTable = new PropertyTable();
         }
 
         // Engine.pas:10831
@@ -13293,7 +13293,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10837
-        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Translate);
+        public override Set<StorageModeElement> StorageMode() => Set<StorageModeElement>.Of(StorageModeElement.Read, EngineServices.smText, StorageModeElement.Translate);
 
         // Engine.pas:10842
         public override void rwString(ref string S, int ID)
@@ -13364,7 +13364,7 @@ namespace Aow.Game.Engine.Storage
             for (int I = 0, last = Node.Count - 1; I <= last; I++)
             {
                 C = Node.Children[I];
-                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared) && C.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csStored))
+                if (C != null && C.Owner == Node && !C.GetControlStyle().Contains(EngineServices.csShared) && C.GetControlStyle().Contains(EngineServices.csStored))
                 {
                     rwEObject(C, I);
                 }
@@ -13386,7 +13386,7 @@ namespace Aow.Game.Engine.Storage
     // a read stream that announces a comparison to come (smSetupCompare)
     public partial class SetupCompareStorageStream : EReadStorageStream
     {
-        public SetupCompareStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine, bool APartial) : base(AStream, AEngine, APartial)
+        public SetupCompareStorageStream(Stream AStream, Engine AEngine, bool APartial) : base(AStream, AEngine, APartial)
         { }
 
         // Engine.pas:10911
@@ -13410,7 +13410,7 @@ namespace Aow.Game.Engine.Storage
         }
 
         // Engine.pas:10918
-        public CompareStorageStream(Stream AStream, global::Aow.Game.Engine.Engine AEngine) : base(AStream, AEngine, false)
+        public CompareStorageStream(Stream AStream, Engine AEngine) : base(AStream, AEngine, false)
         { }
 
         // Engine.pas:10928
@@ -13479,7 +13479,7 @@ namespace Aow.Game.Engine.Storage
 
                 FPropertyTable.LoadFromStream(FStream);
                 FDataBase = (int)(FStream.Position);
-                if (Node.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex))
+                if (Node.GetControlStyle().Contains(EngineServices.csKeepIndex))
                 {
                     for (int I = FPropertyTable.First, last = FPropertyTable.Count - 1; I <= last; I++)
                     {
@@ -13494,7 +13494,7 @@ namespace Aow.Game.Engine.Storage
                 else
                 {
                     Start = 0;
-                    while (Start < Node.Count && Node.Children[Start] != null && (Node.Children[Start].GetControlStyle() & Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csShared)) != Set<EControlStyleElement>.Of())
+                    while (Start < Node.Count && Node.Children[Start] != null && (Node.Children[Start].GetControlStyle() & Set<EControlStyleElement>.Of(EngineServices.csShared)) != Set<EControlStyleElement>.Of())
                     {
                         Start += 1;
                     }
@@ -13686,7 +13686,7 @@ namespace Aow.Game.Engine.Collections
     {
         public StringCollection Strings;
         public StringsSortCompare Compare;
-        public global::Aow.Game.Engine.Collections.ExchangeProc ExchangeProc;
+        public ExchangeProc ExchangeProc;
         public DelphiList ExchangeData;
 
         internal static void QuickSortStrings(ref SortStringsContext Ctx, int L, int R)

@@ -38,7 +38,7 @@ public partial class WaterNode : ProductionPlace
         // WaterNode.pas:27
 
         // WaterNode.pas:52
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.WaterNode.Resource.WaterNodeRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WaterNodeRStr);
 
         private static readonly string WaterNodeRStr = "Water Node";
 

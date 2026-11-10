@@ -40,7 +40,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                     count++;
                     Pin(image, hash);
                 });
-                Decode(file, onDemand: true, image => hash.Add(Draw(image, Aow.Game.Draw.PixelFormats.pfRGB555, 3, 2, d => image.Show(3, 2, d))));
+                Decode(file, onDemand: true, image => hash.Add(Draw(image, PixelFormats.pfRGB555, 3, 2, d => image.Show(3, 2, d))));
                 entries.Add(new Entry(Path.GetRelativePath(root, file).Replace('\\', '/'), count, hash.Value.ToString("X16")));
             }
         });
@@ -112,12 +112,12 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         int w = Math.Min(source.Width, 120), h = Math.Min(source.Height, 90);
         var palette = new GFXEPalette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new Aow.Game.Draw.GFXEPalette.PaletteEntry { R = (byte)(i * 5), G = (byte)(i * 7 + 3), B = (byte)(i * 13 + 1) };
-        palette.PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24;
-        var s555 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
-        var s565 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB565, null!);
-        var s8 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
-        var s24 = new DataSurface(w, h, Aow.Game.Draw.PixelFormats.pfRGB24, null!);
+        for (int i = 0; i < 256; i++) palette.Entries[i] = new GFXEPalette.PaletteEntry { R = (byte)(i * 5), G = (byte)(i * 7 + 3), B = (byte)(i * 13 + 1) };
+        palette.PixelFormatID = PixelFormats.pfBGR24;
+        var s555 = new DataSurface(w, h, PixelFormats.pfRGB555, null!);
+        var s565 = new DataSurface(w, h, PixelFormats.pfRGB565, null!);
+        var s8 = new DataSurface(w, h, PixelFormats.pfPAL8, palette);
+        var s24 = new DataSurface(w, h, PixelFormats.pfRGB24, null!);
         var hash = new Fnv();
         int grabs = 0;
         try
@@ -147,7 +147,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
 
             int key565 = 0xF81F, key24 = 0xF800F8;
             var sources = new (string Name, SurfaceDesc SD, int Key)[] { ("555", d555, Magenta555), ("565", d565, key565), ("8", d8, 0), ("24", d24, key24) };
-            var rects = new[] { RtlUnit.Rect(0, 0, w, h), RtlUnit.Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1)) };
+            var rects = new[] { new Rect(0, 0, w, h), new Rect(Math.Min(1, w - 1), Math.Min(1, h - 1), Math.Max(1, w - 1), Math.Max(1, h - 1)) };
             var grabbers = new Func<LibraryImage>[]
             {
                 () => new Picture08(null!), () => new RLESprite08(null!), () => new Picture16(null!),
@@ -169,7 +169,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             var grab = image.CreateGrabInfo();
                             grab.TransparentPixel = key;
                             grab.FileName = "grab.bmp";
-                            if (grab is Aow.Game.Draw.Images.BitMask.GrabInfo mask) mask.Inverse = inverse;
+                            if (grab is BitMask.GrabInfo mask) mask.Inverse = inverse;
                             try
                             {
                                 bool grabbed;
@@ -230,14 +230,14 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     {
         var entries = new List<Entry>();
         var palette = new GFXEPalette();
-        for (int i = 0; i < 256; i++) palette.Entries[i] = new Aow.Game.Draw.GFXEPalette.PaletteEntry { R = (byte)i, G = (byte)(i * 3), B = (byte)(i * 11) };
-        palette.PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24;
+        for (int i = 0; i < 256; i++) palette.Entries[i] = new GFXEPalette.PaletteEntry { R = (byte)i, G = (byte)(i * 3), B = (byte)(i * 11) };
+        palette.PixelFormatID = PixelFormats.pfBGR24;
         {
-            foreach (int format in new[] { Aow.Game.Draw.PixelFormats.pfPAL8, Aow.Game.Draw.PixelFormats.pfRGB555, Aow.Game.Draw.PixelFormats.pfRGB565, Aow.Game.Draw.PixelFormats.pfRGB24, Aow.Game.Draw.PixelFormats.pfRGB32 })
+            foreach (int format in new[] { PixelFormats.pfPAL8, PixelFormats.pfRGB555, PixelFormats.pfRGB565, PixelFormats.pfRGB24, PixelFormats.pfRGB32 })
                 for (int w = 1; w <= 17; w++)
                 {
                     int h = 3 + w % 3;
-                    var surface = new DataSurface(w, h, format, format == Aow.Game.Draw.PixelFormats.pfPAL8 ? palette : null!);
+                    var surface = new DataSurface(w, h, format, format == PixelFormats.pfPAL8 ? palette : null!);
                     var hash = new Fnv();
                     try
                     {
@@ -255,8 +255,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
                             }
                         foreach (int key in new[] { Read(() => Aow.Game.Draw.Images.BitMask.GetPixelInfo(sd, 0, 0)), Read(() => surface.GetPixelInfo(w - 1, h - 1)), 0xC3, 0xC3C3 })
                         {
-                            var whole = RtlUnit.Rect(0, 0, w, h);
-                            var inset = RtlUnit.Rect(0, 1, Math.Max(0, w - 1), h);
+                            var whole = new Rect(0, 0, w, h);
+                            var inset = new Rect(0, 1, Math.Max(0, w - 1), h);
                             foreach (var rect in new[] { whole, inset })
                             {
                                 Rect found = default;
@@ -293,8 +293,8 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         var entries = new List<Entry>();
         WithImageClasses(() =>
         {
-            foreach (var (name, collection) in new[] { ("alpha", Aow.Game.Draw.GfxState.AlphaBlendTable), ("intensity", Aow.Game.Draw.GfxState.IntensityBlendTable),
-                         ("brighten", Aow.Game.Draw.GfxState.BrightenBlendTable), ("shadow", Aow.Game.Draw.GfxState.ShadowBlendTable), ("linear", Aow.Game.Draw.GfxState.LinearAlphaBlendTable) })
+            foreach (var (name, collection) in new[] { ("alpha", GfxState.AlphaBlendTable), ("intensity", GfxState.IntensityBlendTable),
+                         ("brighten", GfxState.BrightenBlendTable), ("shadow", GfxState.ShadowBlendTable), ("linear", GfxState.LinearAlphaBlendTable) })
             {
                 var hash = new Fnv();
                 for (int k = 0; k < collection.Tables.Count; k++)
@@ -372,25 +372,25 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             hash.Add(value);
         AddBuffer(image, hash);
         int w = image.Width, h = image.Height;
-        var stretched = RtlUnit.Rect(1, 1, 1 + Math.Max(1, w * 3 / 2), 1 + Math.Max(1, h * 2 / 3));
-        var shrunk = RtlUnit.Rect(-w / 4, 2, -w / 4 + Math.Max(1, w / 2), 2 + Math.Max(1, h * 5 / 4));
+        var stretched = new Rect(1, 1, 1 + Math.Max(1, w * 3 / 2), 1 + Math.Max(1, h * 2 / 3));
+        var shrunk = new Rect(-w / 4, 2, -w / 4 + Math.Max(1, w / 2), 2 + Math.Max(1, h * 5 / 4));
         if (image is Image08)
         {
-            hash.Add(Draw(image, Aow.Game.Draw.PixelFormats.pfPAL8, 3, 2, d => image.ShowOpaque(3, 2, d)));
-            hash.Add(Draw(image, Aow.Game.Draw.PixelFormats.pfPAL8, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
+            hash.Add(Draw(image, PixelFormats.pfPAL8, 3, 2, d => image.ShowOpaque(3, 2, d)));
+            hash.Add(Draw(image, PixelFormats.pfPAL8, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
         }
 
-        foreach (int format in new[] { Aow.Game.Draw.PixelFormats.pfRGB555, Aow.Game.Draw.PixelFormats.pfRGB565 })
+        foreach (int format in new[] { PixelFormats.pfRGB555, PixelFormats.pfRGB565 })
         {
             hash.Add(Draw(image, format, 3, 2, d => image.ShowOpaque(3, 2, d)));
             hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowOpaque(-w / 3, -h / 3, d)));
             hash.Add(Draw(image, format, 3, 2, d => image.ShowTransparent(3, 2, d)));
-            hash.Add(Draw(image, format, 3, 2, d => image.ShowBlended(3, 2, d, Aow.Game.Draw.GfxState.AlphaBlendTable.Lookup[50])));
-            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowBlended(-w / 3, -h / 3, d, Aow.Game.Draw.GfxState.IntensityBlendTable.Lookup[30])));
+            hash.Add(Draw(image, format, 3, 2, d => image.ShowBlended(3, 2, d, GfxState.AlphaBlendTable.Lookup[50])));
+            hash.Add(Draw(image, format, -w / 3, -h / 3, d => image.ShowBlended(-w / 3, -h / 3, d, GfxState.IntensityBlendTable.Lookup[30])));
             hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(stretched, d)));
             hash.Add(Draw(image, format, 0, 0, d => image.ShowOpaqueStretched(shrunk, d)));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(stretched, d, Aow.Game.Draw.GfxState.AlphaBlendTable.Lookup[50])));
-            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(shrunk, d, Aow.Game.Draw.GfxState.ShadowBlendTable.Lookup[70])));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(stretched, d, GfxState.AlphaBlendTable.Lookup[50])));
+            hash.Add(Draw(image, format, 0, 0, d => image.ShowBlendedStretched(shrunk, d, GfxState.ShadowBlendTable.Lookup[70])));
         }
         AddBuffer(image, hash);
     }
@@ -428,7 +428,7 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
             Assert.Equal(0, surface.Lock(ref sd));
             var pixels = sd.Data.AsSpan(sd.DataIndex, sd.Pitch * h);
             for (int i = 0; i < pixels.Length; i++) pixels[i] = (byte)(i * 37 + x * 5 + y);
-            sd.ClipRect = RtlUnit.Rect(1, 1, w - 1, h - 1);
+            sd.ClipRect = new Rect(1, 1, w - 1, h - 1);
             try { draw(sd); }
             catch (System.Exception error) { hash.Add(error.GetType().Name); }
             hash.Add(pixels);
@@ -444,15 +444,15 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
     // The classes registered and the blend tables built, as at game start.
     private static void WithImageClasses(Action body)
     {
-        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
+        var previousClasses = ImageLibraries.LibraryImageClasses;
         // Engine startup sets the base to the startup directory, so a library stores its name
         // relative to it and loads its on-demand images from there.
-        var previousBase = Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath;
-        Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
-        var previousTables = (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable);
-        (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) =
+        var previousBase = ImageLibraries.BaseImageLibraryPath;
+        ImageLibraries.BaseImageLibraryPath = InstalledFontsFactAttribute.Root + Path.DirectorySeparatorChar;
+        var previousTables = (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable);
+        (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
-        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new DelphiList();
+        ImageLibraries.LibraryImageClasses = new DelphiList();
         try
         {
             Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
@@ -467,14 +467,14 @@ public sealed class ImageDecodeTests(ITestOutputHelper output)
         finally
         {
             Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
-            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
-            Aow.Game.Draw.Images.ImageLibraries.BaseImageLibraryPath = previousBase;
-            Aow.Game.Draw.GfxState.AlphaBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.IntensityBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.BrightenBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.ShadowBlendTable?.Dispose();
-            Aow.Game.Draw.GfxState.LinearAlphaBlendTable?.Dispose();
-            (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) = previousTables;
+            ImageLibraries.LibraryImageClasses = previousClasses;
+            ImageLibraries.BaseImageLibraryPath = previousBase;
+            GfxState.AlphaBlendTable?.Dispose();
+            GfxState.IntensityBlendTable?.Dispose();
+            GfxState.BrightenBlendTable?.Dispose();
+            GfxState.ShadowBlendTable?.Dispose();
+            GfxState.LinearAlphaBlendTable?.Dispose();
+            (GfxState.AlphaBlendTable, GfxState.IntensityBlendTable, GfxState.BrightenBlendTable, GfxState.ShadowBlendTable, GfxState.LinearAlphaBlendTable) = previousTables;
         }
     }
 

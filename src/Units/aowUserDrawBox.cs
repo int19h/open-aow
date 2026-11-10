@@ -11,7 +11,7 @@ namespace Aow.Game.Ui.Controls;
 // no fields of its own
 public partial class TaowUserDrawBox : AOWControl
 {
-    public TaowUserDrawBox(global::Aow.Rtl.Component owner) : base(owner)
+    public TaowUserDrawBox(Component owner) : base(owner)
     { }
 
     // aowUserDrawBox.pas:34

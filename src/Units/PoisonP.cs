@@ -200,9 +200,9 @@ namespace Aow.Game.World.Terrain
             Count = 0;
             RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
             Log = new ArmyEventLog(null);
-            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.PoisonPlant.PoisonPlantDamageRStr);
+            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonPlantDamageRStr);
             Log.FPlayer = ArmyHS.FArmy.FPlayer;
-            var poisonPlantDamage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.PoisonPlant.PoisonPlantDamageRStr);
+            var poisonPlantDamage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonPlantDamageRStr);
             Log.FArmyMessages.Add(poisonPlantDamage);
             Log.FArmyIcon = 1;
             Log.FArmyView.Setup(ArmyHS.FArmy, 255);
@@ -284,7 +284,7 @@ namespace Aow.Game.World.Terrain
             ArmyHS ArmyHS;
             if (PoisonPlantActive())
             {
-                ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+                ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
                 if (ArmyHS != null && Player == ArmyHS.FArmy.FPlayer)
                 {
                     TriggerArmyDamage(ArmyHS);
@@ -309,9 +309,9 @@ namespace Aow.Game.World.Terrain
             var yhx = Animation.GetYhx();
             var xhx = Animation.GetXhx();
             MapF = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
-            if (this == MapF.FindOwnedChild(131998) && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
+            if (this == MapF.FindOwnedChild(131998) && GameTables.AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
             {
-                bool condition = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Animation.FTag;
+                bool condition = AoWHSMap.Current.FSeatedPlayer == Animation.FTag;
                 if (!condition)
                 {
                     var lhx2 = GetLhx();
@@ -354,7 +354,7 @@ namespace Aow.Game.World.Terrain
             public override int ResourceUserClassID() => 131998;
 
             // PoisonP.pas:288
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.PoisonPlant.Resource.PoisonPlantRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonPlantRStr);
 
             private static readonly string PoisonPlantRStr = "Poison Plant";
 
@@ -393,15 +393,15 @@ namespace Aow.Game.Commands
         {
             MapLevel Level = default;
             HNWalkData Walk = default;
-            Aow.Game.World.Terrain.PoisonPlant.Resource Resource = default;
+            PoisonPlant.Resource Resource = default;
             AoWMapField MapF = default;
             PoisonPlant Plant = default;
             ImageSequenceAnimation Animation = default;
             TwinkleAnimation Twinkle = default;
             ref var walk = ref Walk;
-            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
+            Level = AoWHSMap.Current.MapContainer.MapLevels[FLocation.L];
             Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-            Resource = (Aow.Game.World.Terrain.PoisonPlant.Resource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindChild(131999);
+            Resource = (PoisonPlant.Resource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindChild(131999);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
@@ -452,11 +452,11 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     {
         public PoisonPlantSpell(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell.PoisonPlantsRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PoisonPlantsRStr);
             FSpellID = 12;
             FBaseManaCost = 5;
             FSpellLevel = 2;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
+            FMagicSphere = MagicSphere.Earth;
             FAboveGroundOnly = false;
         }
 

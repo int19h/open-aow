@@ -1,5 +1,4 @@
 // Translated from AoWComp.pas.
-using System.ComponentModel;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Aow.Rtl;
@@ -49,7 +48,7 @@ public enum AOWDrawMethod : byte
 // FAOWOwner, FChildren (sorted by FPriority), FAlignment, FMasked, FBltList, FDrawList
 // (TaowRect), FBltCount, FDrawCount, FToolTipLeft, FOldRect, FHidden, FDoubleBuffered,
 // FSurfaceValid
-public partial class AoWComponent : global::Aow.Rtl.Component
+public partial class AoWComponent : Component
 {
     public int FColor;
     public int FSelColor;
@@ -97,13 +96,13 @@ public partial class AoWComponent : global::Aow.Rtl.Component
     public int FBltCount;
     public int FDrawCount;
     public int FToolTipLeft;
-    public global::Aow.Rtl.Rect FOldRect;
+    public Rect FOldRect;
     public bool FHidden;
     public bool FDoubleBuffered;
     public bool FSurfaceValid;
 
     // AoWComp.pas:222
-    public AoWComponent(global::Aow.Rtl.Component owner) : base(owner)
+    public AoWComponent(Component owner) : base(owner)
     {
         FVisible = true;
         FFirstDraw = true;
@@ -366,7 +365,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
     }
 
     // AoWComp.pas:576
-    public virtual void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public virtual void InvalidateRect(int Index, ref Rect ARect, AoWComponent Sender)
     {
     }
 
@@ -375,7 +374,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
     //   list so that no two overlap: the parts of ARect that another rectangle covers are cut off (a
     //   cut that leaves two pieces adds one of them as a new rectangle), and an old rectangle that ARect
     //   covers on one side is trimmed or emptied. }
-    public virtual void AddBltRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public virtual void AddBltRect(ref Rect ARect, AoWComponent Sender)
     {
         TaowRect N;
         int I;
@@ -438,7 +437,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = new Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Top = R.R.Bottom + 1;
                                     }
@@ -461,7 +460,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
+                                        N.R = new Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -477,7 +476,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
+                                        N.R = new Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -507,7 +506,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
+                                        N.R = new Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -523,7 +522,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = new Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FBltCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -546,7 +545,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FBltList[FBltCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
+                                        N.R = new Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
                                         FBltCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -563,7 +562,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                     }
                                     else
                                     {
-                                        R.R = global::Aow.Rtl.RtlUnit.Rect(0, 0, 0, 0);
+                                        R.R = new Rect(0, 0, 0, 0);
                                     }
                                 }
                             }
@@ -591,7 +590,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
 
     // AoWComp.pas:445
     // { AddDrawRect: the same for the rectangles to redraw; the rectangle added last records Sender }
-    public virtual void AddDrawRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public virtual void AddDrawRect(ref Rect ARect, AoWComponent Sender)
     {
         TaowRect N;
         int I;
@@ -654,7 +653,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = new Rect(ARect.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Top = R.R.Bottom + 1;
                                     }
@@ -677,7 +676,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
+                                        N.R = new Rect(ARect.Left, R.R.Bottom + 1, R.R.Right, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -693,7 +692,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
+                                        N.R = new Rect(ARect.Left, ARect.Top, R.R.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -723,7 +722,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
+                                        N.R = new Rect(R.R.Left, R.R.Bottom + 1, ARect.Right, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -739,7 +738,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
+                                        N.R = new Rect(R.R.Left, ARect.Top, ARect.Right, R.R.Top - 1);
                                         FDrawCount += 1;
                                         ARect.Right = R.R.Left - 1;
                                     }
@@ -762,7 +761,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                         }
 
                                         N = (TaowRect)FDrawList[FDrawCount];
-                                        N.R = global::Aow.Rtl.RtlUnit.Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
+                                        N.R = new Rect(ARect.Left, ARect.Top, R.R.Left - 1, ARect.Bottom);
                                         FDrawCount += 1;
                                         ARect.Left = R.R.Right + 1;
                                     }
@@ -779,7 +778,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
                                     }
                                     else
                                     {
-                                        R.R = global::Aow.Rtl.RtlUnit.Rect(0, 0, 0, 0);
+                                        R.R = new Rect(0, 0, 0, 0);
                                     }
                                 }
                             }
@@ -1031,7 +1030,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
     public NotifyEvent<AoWComponent> OnUpdate { get => FOnUpdate; set => FOnUpdate = value; }
 
     [Published]
-    [DefaultValue(true)]
+    [System.ComponentModel.DefaultValue(true)]
     public bool Visible { get => FVisible; set => SetVisible(value); }
 
     [Published]
@@ -1047,7 +1046,7 @@ public partial class AoWComponent : global::Aow.Rtl.Component
 
 public delegate void AoWOnDrawEvent<in TSender>(TSender Sender, SurfaceDesc SurfDesc);
 public delegate void AoWOnDrawBackEvent<in TSender>(TSender Sender, SurfaceDesc SurfDesc);
-public delegate void AoWOnDrawItemEvent<in TSender>(TSender Sender, in global::Aow.Rtl.Rect DrawRect, int DrawItem, ref SurfaceDesc SurfDesc);
+public delegate void AoWOnDrawItemEvent<in TSender>(TSender Sender, in Rect DrawRect, int DrawItem, ref SurfaceDesc SurfDesc);
 
 // how a component sizes and places itself inside its owner (ReAlign). FWidthPercent,
 // FHeightPercent, FLeftOffPercent, FRightOffPercent, FTopOffPercent, FBottomOffPercent,
@@ -1111,7 +1110,7 @@ public partial class AOWAlignment : Persistent
 // AddDrawRect only)
 public partial class TaowRect
 {
-    public global::Aow.Rtl.Rect R;
+    public Rect R;
     public AoWComponent Owner;
 
     public TaowRect()

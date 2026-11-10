@@ -14,13 +14,13 @@ namespace Aow.Game.Draw.Images;
 // no fields or virtual methods of its own
 public partial class InterfaceIL : ImageLibrary
 {
-    public InterfaceIL(global::Aow.Rtl.Component owner) : base(owner)
+    public InterfaceIL(Component owner) : base(owner)
     { }
 
     // AOWInterfaceImgLib.pas:34
     // { CheckIL returns Self when the library holds the Count images from Index on, else nil after a
     //   message box that names the library and the component (Sender) that needs them }
-    public InterfaceIL CheckIL(int Index, int Count, global::Aow.Rtl.Component Sender)
+    public InterfaceIL CheckIL(int Index, int Count, Component Sender)
     {
         InterfaceIL Result = this;
         if (Index + Count > this.Count)
@@ -47,11 +47,11 @@ public partial class InterfaceIL : ImageLibrary
     // { DrawILF draws a frame of 8 images: Index the top left corner, +1 the top edge, +2 the top right
     //   corner, +3 the left edge, +4 the right edge, +5 the bottom left corner, +6 the bottom edge, +7
     //   the bottom right corner }
-    public void DrawILF(int Index, in global::Aow.Rtl.Rect R, ref Aow.Game.Draw.SurfaceDesc SurfDesc)
+    public void DrawILF(int Index, in Rect R, ref SurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         OldClip = SurfDesc.ClipRect;
         if (R.Left + R.Right > SurfDesc.ClipRect.Right)
         {
@@ -71,7 +71,7 @@ public partial class InterfaceIL : ImageLibrary
             ClipBottom = R.Top + R.Bottom;
         }
 
-        var rect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect;
         this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
         var libraryImage = this[Index + 5];
@@ -94,7 +94,7 @@ public partial class InterfaceIL : ImageLibrary
             this[Index + 6].ShowClipped(R.Left + item5.Width + item6.Width * I, R.Top + R.Bottom - item7.Height, SurfDesc);
         }
 
-        var rect2 = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect2 = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect2;
         var item8 = this[Index + 6];
         if (R.Top + R.Bottom - item8.Height < OldClip.Bottom)
@@ -114,7 +114,7 @@ public partial class InterfaceIL : ImageLibrary
             this[Index + 4].ShowClipped(R.Left + R.Right - item7.Width, R.Top + item5.Height + item6.Height * I, SurfDesc);
         }
 
-        var rect3 = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect3 = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect3;
         var item9 = this[Index + 2];
         this[Index + 2].ShowClipped(R.Left + R.Right - item9.Width, R.Top, SurfDesc);
@@ -126,11 +126,11 @@ public partial class InterfaceIL : ImageLibrary
 
     // AOWInterfaceImgLib.pas:105
     // { DrawILT tiles image Index over R }
-    public void DrawILT(int Index, in global::Aow.Rtl.Rect R, ref Aow.Game.Draw.SurfaceDesc SurfDesc)
+    public void DrawILT(int Index, in Rect R, ref SurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         OldClip = SurfDesc.ClipRect;
         if (R.Left + R.Right > SurfDesc.ClipRect.Right)
         {
@@ -150,7 +150,7 @@ public partial class InterfaceIL : ImageLibrary
             ClipBottom = R.Top + R.Bottom;
         }
 
-        var rect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect;
         if (R.Left + R.Right < OldClip.Right)
         {
@@ -177,11 +177,11 @@ public partial class InterfaceIL : ImageLibrary
 
     // AOWInterfaceImgLib.pas:133
     // { DrawILI draws image Index at the top left corner of R, clipped to R }
-    public void DrawILI(int Index, in global::Aow.Rtl.Rect R, ref Aow.Game.Draw.SurfaceDesc SurfDesc)
+    public void DrawILI(int Index, in Rect R, ref SurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         OldClip = SurfDesc.ClipRect;
         if (R.Left + R.Right > SurfDesc.ClipRect.Right)
         {
@@ -201,7 +201,7 @@ public partial class InterfaceIL : ImageLibrary
             ClipBottom = R.Top + R.Bottom;
         }
 
-        var rect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect;
         this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
         SurfDesc.ClipRect = OldClip;
@@ -210,11 +210,11 @@ public partial class InterfaceIL : ImageLibrary
     // AOWInterfaceImgLib.pas:154
     // { DrawILLh draws a horizontal line of 3 images: Index the left end, +1 the middle (repeated),
     //   +2 the right end }
-    public void DrawILLh(int Index, in global::Aow.Rtl.Rect R, ref Aow.Game.Draw.SurfaceDesc SurfDesc)
+    public void DrawILLh(int Index, in Rect R, ref SurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         OldClip = SurfDesc.ClipRect;
         if (R.Left + R.Right > SurfDesc.ClipRect.Right)
         {
@@ -234,7 +234,7 @@ public partial class InterfaceIL : ImageLibrary
             ClipBottom = R.Top + R.Bottom;
         }
 
-        var rect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect;
         this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
         var libraryImage = this[Index + 2];
@@ -251,7 +251,7 @@ public partial class InterfaceIL : ImageLibrary
             this[Index + 1].ShowClipped(R.Left + item2.Width + item3.Width * I, R.Top, SurfDesc);
         }
 
-        var rect2 = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect2 = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect2;
         var item4 = this[Index + 2];
         this[Index + 2].ShowClipped(R.Left + R.Right - item4.Width, R.Top, SurfDesc);
@@ -261,11 +261,11 @@ public partial class InterfaceIL : ImageLibrary
     // AOWInterfaceImgLib.pas:184
     // { DrawILLv draws a vertical line of 3 images: Index the top end, +1 the middle (repeated), +2
     //   the bottom end }
-    public void DrawILLv(int Index, in global::Aow.Rtl.Rect R, ref Aow.Game.Draw.SurfaceDesc SurfDesc)
+    public void DrawILLv(int Index, in Rect R, ref SurfaceDesc SurfDesc)
     {
         int ClipRight;
         int ClipBottom;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         OldClip = SurfDesc.ClipRect;
         if (R.Left + R.Right > SurfDesc.ClipRect.Right)
         {
@@ -285,7 +285,7 @@ public partial class InterfaceIL : ImageLibrary
             ClipBottom = R.Top + R.Bottom;
         }
 
-        var rect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect;
         this[Index].ShowClipped(R.Left, R.Top, SurfDesc);
         var libraryImage = this[Index + 2];
@@ -302,7 +302,7 @@ public partial class InterfaceIL : ImageLibrary
             this[Index + 1].ShowClipped(R.Left, R.Top + item2.Height + item3.Height * I, SurfDesc);
         }
 
-        var rect2 = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
+        var rect2 = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, ClipRight, ClipBottom);
         SurfDesc.ClipRect = rect2;
         var item4 = this[Index + 2];
         this[Index + 2].ShowClipped(R.Left, R.Top + R.Bottom - item4.Height, SurfDesc);

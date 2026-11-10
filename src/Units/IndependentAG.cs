@@ -84,13 +84,13 @@ namespace Aow.Game.Ai.Groups
             switch (FState)
             {
                 case 1:
-                    if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints)
+                    if (FMoveExecuter.FStatus == AIMoveExecuter.Status.OutOfMovePoints)
                     {
                         Done();
                     }
                     else
                     {
-                        if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Invalidated)
+                        if (FMoveExecuter.FStatus == AIMoveExecuter.Status.Invalidated)
                         {
                             Done();
                         }
@@ -98,7 +98,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 2:
-                    if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed)
+                    if (FMoveExecuter.FStatus == AIMoveExecuter.Status.Failed)
                     {
                         ((GuardAreaAG)FGroup).FGuardLocation.Packed = 16777215;
                         Done();
@@ -147,7 +147,7 @@ namespace Aow.Game.Ai.Groups
                     Finder.Setup(this);
                     {
                         Finder.FSelector.FSourceLocation = ((GuardAreaAG)FGroup).FGuardLocation;
-                        Finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.GuardArea;
+                        Finder.FSelector.FTargetInfo.Mode = AITargetMode.GuardArea;
                     }
 
                     var moves = FArmy.Moves(FSelection);
@@ -285,10 +285,10 @@ namespace Aow.Game.Ai.Groups
         {
             switch (FMoveExecuter.FStatus)
             {
-                case Aow.Game.Ai.Groups.AIMoveExecuter.Status.Done:
+                case AIMoveExecuter.Status.Done:
                     Done();
                     break;
-                case Aow.Game.Ai.Groups.AIMoveExecuter.Status.Failed:
+                case AIMoveExecuter.Status.Failed:
                     if (FState == 7)
                     {
                         ((PatrolAG)FGroup).FPatrolTo.Packed = 16777215;
@@ -330,7 +330,7 @@ namespace Aow.Game.Ai.Groups
         public override void ProcessStates()
         {
             AIGroupDefenseControl Defense;
-            Aow.Game.Ai.AIRecruitmentGroupFinder Recruitment;
+            AIRecruitmentGroupFinder Recruitment;
             AIGroupRecruitControl Recruit;
             AIGroupTargetFinder Finder;
             MoveControlSettings Settings;
@@ -343,7 +343,7 @@ namespace Aow.Game.Ai.Groups
                     }
 
                     Defense = new AIGroupDefenseControl(null);
-                    Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Wait;
+                    Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Wait;
                     ActivatePlugin(Defense);
                     Defense.Release();
                     FState = 1;
@@ -360,7 +360,7 @@ namespace Aow.Game.Ai.Groups
                     if (FStrengthMax < ((PatrolAG)FGroup).FPatrolStrength)
                     {
                         FState += 1;
-                        Recruitment = new Aow.Game.Ai.AIRecruitmentGroupFinder(null);
+                        Recruitment = new AIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -377,7 +377,7 @@ namespace Aow.Game.Ai.Groups
                         Recruit = new AIGroupRecruitControl(null);
                         Recruit.Reset();
                         Recruit.FRecruitStrength = ((PatrolAG)FGroup).FPatrolStrength - FStrengthMax;
-                        Recruit.FMode = Aow.Game.Ai.Groups.AIGroupRecruitControl.Mode.AutoRecruit;
+                        Recruit.FMode = AIGroupRecruitControl.Mode.AutoRecruit;
                         ActivatePlugin(Recruit);
                         Recruit.Release();
                     }
@@ -598,7 +598,7 @@ namespace Aow.Game.Ai.Groups
             return Result;
         }
 
-        private static int ComparePatrolFields(in global::Aow.Game.Engine.Collections.DoubleItem<global::Aow.Game.World.Map.AoWMapField> A, in global::Aow.Game.Engine.Collections.DoubleItem<global::Aow.Game.World.Map.AoWMapField> B)
+        private static int ComparePatrolFields(in DoubleItem<AoWMapField> A, in DoubleItem<AoWMapField> B)
         {
             return B.B - A.B;
         }
@@ -672,13 +672,13 @@ namespace Aow.Game.Ai.Groups
             switch (FState)
             {
                 case 1:
-                    if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints)
+                    if (FMoveExecuter.FStatus == AIMoveExecuter.Status.OutOfMovePoints)
                     {
                         Done();
                     }
                     else
                     {
-                        if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Invalidated)
+                        if (FMoveExecuter.FStatus == AIMoveExecuter.Status.Invalidated)
                         {
                             Done();
                         }
@@ -713,7 +713,7 @@ namespace Aow.Game.Ai.Groups
                     var finder = new AIGroupTargetFinder(null!);
                     finder.Setup(this);
                     finder.FSelector.FMovePointsMax = 100;
-                    finder.FSelector.FTargetInfo.Mode = Aow.Game.Ai.AITargetMode.Raid;
+                    finder.FSelector.FTargetInfo.Mode = AITargetMode.Raid;
                     ActivatePlugin(finder);
                     finder.Release();
                     FState++;
@@ -775,13 +775,13 @@ namespace Aow.Game.Ai.Groups
             switch (FState)
             {
                 case 1:
-                    if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.OutOfMovePoints)
+                    if (FMoveExecuter.FStatus == AIMoveExecuter.Status.OutOfMovePoints)
                     {
                         Done();
                     }
                     else
                     {
-                        if (FMoveExecuter.FStatus == Aow.Game.Ai.Groups.AIMoveExecuter.Status.Invalidated)
+                        if (FMoveExecuter.FStatus == AIMoveExecuter.Status.Invalidated)
                         {
                             Done();
                         }
@@ -880,9 +880,9 @@ namespace Aow.Game.Ai.Groups
         // IndependentAG.pas:136
         public static void MapLoaded(HSMap Sender)
         {
-            if (Sender == Aow.Game.World.Map.AoWHSMap.Current)
+            if (Sender == AoWHSMap.Current)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.GuardAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.GuardAreaAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.PatrolAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.RefugeAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.RaidAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.ScoutAG>()]);
+                Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([Aow.Game.Ai.Groups.AIGroupClass.Of<GuardAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<GuardAreaAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<PatrolAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<RefugeAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<RaidAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<ScoutAG>()]);
             }
         }
 
@@ -894,13 +894,13 @@ namespace Aow.Game.Ai.Groups
         internal static void SubscribeMapLoaded()
         {
             if (Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine())
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
+                Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
         }
 
         internal static void UnsubscribeMapLoaded()
         {
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine != null)
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
+            if (Magic.Abilities.GameTables.AoWEngine != null)
+                Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
         }
     }
 }

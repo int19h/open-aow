@@ -9,7 +9,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TCScanner : ILayoutModule
+public partial class CombatScanner : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -92,7 +92,7 @@ public partial class TCScanner : ILayoutModule
         ScannerFr.ILIndexLine = 0;
         ScannerFr.ILIndexTexture = 0;
         session.EndRead(ScannerFr);
-        Scanner = new global::Aow.Game.Ui.Grids.Scanner(this);
+        Scanner = new Scanner(this);
         session.BeginRead(Scanner);
         Scanner.Name = "Scanner";
         Scanner.Priority = 5;
@@ -211,7 +211,7 @@ public partial class TCScanner : ILayoutModule
         SMinIcon.WinWidth = 15;
         SMinIcon.OnClick = _ => Layout_SMinIconClick_2();
         session.EndRead(SMinIcon);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -235,19 +235,19 @@ public partial class TCScanner : ILayoutModule
         SMinIcon.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        TCScannerWin.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        TCScannerWin.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        TCScannerWin.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        ScannerFr.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        Scanner.TilesImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanTiles;
-        Scanner.HiLightsImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanHiLites;
-        Scanner.FogImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanFog;
-        Scanner.ILObjects = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanObj;
-        Scanner.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.ScanWin;
-        STitleIcon.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleIcons;
-        STitleLabel.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        SMinIcon.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
-        SMinIcon.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
+        TCScannerWin.WinManager = DialogHosts.General.Manager;
+        TCScannerWin.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        TCScannerWin.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        ScannerFr.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        Scanner.TilesImageLib = DialogHosts.IntGfxMod.ScanTiles;
+        Scanner.HiLightsImageLib = DialogHosts.IntGfxMod.ScanHiLites;
+        Scanner.FogImageLib = DialogHosts.IntGfxMod.ScanFog;
+        Scanner.ILObjects = DialogHosts.IntGfxMod.ScanObj;
+        Scanner.ILFrame = DialogHosts.IntGfxMod.ScanWin;
+        STitleIcon.ImageLib = DialogHosts.IntGfxMod.TitleIcons;
+        STitleLabel.AOWFont = DialogHosts.FontModule.Age10;
+        SMinIcon.ToolTip = DialogHosts.General.ToolTip;
+        SMinIcon.ILIcon = DialogHosts.IntGfxMod.GenericI;
     }
 
     private void Layout_TCScannerWinDrag_0()

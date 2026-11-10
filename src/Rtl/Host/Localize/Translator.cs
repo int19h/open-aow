@@ -7,16 +7,16 @@ public sealed record TranslationTarget(string ClassName, string PropertyName, in
 
 public static class TranslatorProperties
 {
-    internal sealed record Binding(Type Type, string Name, Func<global::Aow.Rtl.Component, string[]> Read,
-        Action<global::Aow.Rtl.Component, string[]> Write, bool IsList);
+    internal sealed record Binding(Type Type, string Name, Func<Component, string[]> Read,
+        Action<Component, string[]> Write, bool IsList);
 
     private static readonly Dictionary<(Type, string), Binding> bindings = [];
 
-    public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : global::Aow.Rtl.Component
+    public static void Register<T>(string name, Func<T, string> read, Action<T, string> write) where T : Component
         => bindings[(typeof(T), name)] = new(typeof(T), name, component => [read((T)component)],
             (component, values) => write((T)component, values[0]), false);
 
-    public static void RegisterStrings<T>(string name, Func<T, StringCollection?> read) where T : global::Aow.Rtl.Component
+    public static void RegisterStrings<T>(string name, Func<T, StringCollection?> read) where T : Component
     {
         bindings[(typeof(T), name)] = new(typeof(T), name, component =>
         {
@@ -44,11 +44,11 @@ public static class TranslatorProperties
     }
 }
 
-public class IvCustomTranslator : global::Aow.Rtl.Component
+public class IvCustomTranslator : Component
 {
-    public IvCustomTranslator(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public IvCustomTranslator(Component? owner = null) : base(owner) { }
 
-    private ConditionalWeakTable<global::Aow.Rtl.Component, Dictionary<string, string[]>> nativeValues = new();
+    private ConditionalWeakTable<Component, Dictionary<string, string[]>> nativeValues = new();
 
     public string DictionaryName { get; set; } = "AoW";
     public IList<TranslationTarget> TargetsData { get; } = new List<TranslationTarget>();
@@ -62,14 +62,14 @@ public class IvCustomTranslator : global::Aow.Rtl.Component
 
     public void ClearNativeValues() => nativeValues = new();
 
-    public void Translate(global::Aow.Rtl.Component module)
+    public void Translate(Component module)
     {
         var dictionary = Dictionary ?? LocalizationRuntime.Dictionary(DictionaryName, Language);
         if (Language is int language && dictionary.Language != language) dictionary.SetLanguage(language);
         string form = NameTable.Delphi(module.GetType());
         Visit(module);
 
-        void Visit(global::Aow.Rtl.Component component)
+        void Visit(Component component)
         {
             foreach (var target in TargetsData)
             {

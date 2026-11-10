@@ -18,7 +18,7 @@ namespace Aow.Game.Magic.Spells
 {
 
     // FCloud
-    public partial class SmokeCloudEnchantment : Aow.Game.Magic.GlobalEnchantment
+    public partial class SmokeCloudEnchantment : Magic.GlobalEnchantment
     {
         // SmokeCloud.pas:99
         public new const int ClassID = 135748;
@@ -28,7 +28,7 @@ namespace Aow.Game.Magic.Spells
         // SmokeCloud.pas:91
         public SmokeCloudEnchantment(ECustomNode owner) : base(owner)
         {
-            FEnchantmentMode = Set<Aow.Game.Magic.GlobalEnchantmentModeElement>.FromMask((Set<CloudEnchantmentOptionsElement>.FromMask(FEnchantmentMode.Mask) - Set<CloudEnchantmentOptionsElement>.Of(CloudEnchantmentOptionsElement.ce0, CloudEnchantmentOptionsElement.ce1)).Mask);
+            FEnchantmentMode = Set<GlobalEnchantmentModeElement>.FromMask((Set<CloudEnchantmentOptionsElement>.FromMask(FEnchantmentMode.Mask) - Set<CloudEnchantmentOptionsElement>.Of(CloudEnchantmentOptionsElement.Bit0, CloudEnchantmentOptionsElement.Bit1)).Mask);
             FDispelMana = 25;
         }
 
@@ -66,7 +66,7 @@ namespace Aow.Game.Magic.Spells
 
         public enum CloudEnchantmentOptionsElement : byte
         {
-            ce0 = 0, ce1 = 1, ce2 = 2, ce3 = 3, ce4 = 4, ce5 = 5, ce6 = 6, ce7 = 7
+            Bit0 = 0, Bit1 = 1, Bit2 = 2, Bit3 = 3, Bit4 = 4, Bit5 = 5, Bit6 = 6, Bit7 = 7
         }
     }
 }
@@ -268,7 +268,7 @@ namespace Aow.Game.World
             MapLevel Level;
             AoWMapField MapField;
             ArmyHS ArmyHS;
-            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Lhx];
+            Level = AoWHSMap.Current.MapContainer.MapLevels[Lhx];
             Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
             while (FResource.TerrainList.Count > Walk.HN)
             {
@@ -293,7 +293,7 @@ namespace Aow.Game.World
             var lhx = GetLhx();
             var yhx = GetYhx();
             var xhx = GetXhx();
-            Visible = Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx, yhx, lhx, 3) || FEnchantment.FPlayerIndex == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer;
+            Visible = Aow.Game.World.Map.AoWHSMap.Current.Visible(xhx, yhx, lhx, 3) || FEnchantment.FPlayerIndex == AoWHSMap.Current.FSeatedPlayer;
             if (FVisibleForSeatedPlayer ^ Visible)
             {
                 FVisibleForSeatedPlayer = Visible;
@@ -413,7 +413,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 135746;
 
             // SmokeCloud.pas:388
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SmokeCloudRStr);
+            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.SmokeCloudRStr);
 
         }
 

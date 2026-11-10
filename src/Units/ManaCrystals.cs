@@ -44,7 +44,7 @@ public partial class ManaCrystals : ILTerrainMO
     public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+        if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
         {
             GenerateManaCrystalsAmount();
         }
@@ -139,7 +139,7 @@ public partial class ManaCrystals : ILTerrainMO
             return;
         }
 
-        bool condition = (byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
+        bool condition = (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
         if (!condition)
         {
             var lhx = GetLhx();
@@ -158,7 +158,7 @@ public partial class ManaCrystals : ILTerrainMO
 
         Log = new LocationTextEventLog(null);
         Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-        Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.ManaCrystals.ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
+        Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
         var lhx2 = GetLhx();
         var yhx2 = GetYhx();
         Log.SetLocation(GetXhx(), yhx2, lhx2);
@@ -194,7 +194,7 @@ public partial class ManaCrystals : ILTerrainMO
         public override int ResourceUserClassID() => 132030;
 
         // ManaCrystals.pas:165
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.ManaCrystals.Resource.ManaCrystalsRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ManaCrystalsRStr);
 
         private static readonly string ManaCrystalsRStr = "Mana Crystals";
 

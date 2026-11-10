@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Dialogs;
 // arena event. completion callback
 public partial class ArenaDlg : DataModule
 {
-    public ArenaDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public ArenaDlg(Component owner) : base(owner)
     { }
 
     public AOWButton SelectBtn;
@@ -51,21 +51,21 @@ public partial class ArenaDlg : DataModule
     // AoWArenaDlg.pas:104
     public void DrawUnit(int Index, int X, int Y, ref SurfaceDesc SD)
     {
-        global::Aow.Rtl.Rect SaveRect;
+        Rect SaveRect;
         P2UnitShowInfo Info;
-        Aow.Game.Draw.Images.LibraryImage Img;
+        Draw.Images.LibraryImage Img;
         AbstractUnit U;
         Alignment Alignment;
         if (Index < FEvent.GetCount())
         {
             U = FEvent.GetUnit(Index);
             SaveRect = SD.ClipRect;
-            var rect = global::Aow.Rtl.RtlUnit.Rect(X + 5, Y + 4, X + 46, Y + 56);
+            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = U.GetAlignment();
-            if ((byte)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
+            if ((byte)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -75,14 +75,14 @@ public partial class ArenaDlg : DataModule
             U.ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
             {
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
+                Img = DialogHosts.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
             SD.ClipRect = SaveRect;
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.Color = 0;
+                DialogHosts.FontModule.Age8.Color = 0;
                 var unitTrainCost = FEvent.FArena.UnitTrainCost(U);
                 Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
             }
@@ -94,7 +94,7 @@ public partial class ArenaDlg : DataModule
     {
         EnterArenaEventLog Event;
         ExecuteDoneEvent Notify;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         Notify = FOnClose;
         Event = FEvent;
         FOnClose = null;
@@ -203,10 +203,10 @@ public partial class ArenaDlg : DataModule
         int X = default;
         int Y = default;
         SurfaceDesc MapSD = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         int W;
         int H;
-        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var yhx = FEvent.FArena.GetYhx();
@@ -235,7 +235,7 @@ public partial class ArenaDlg : DataModule
     // AoWArenaDlg.pas:224
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (World.Map.AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWArenaDlg.pas:229
@@ -259,7 +259,7 @@ public partial class ArenaDlg : DataModule
         Dialog.FOnClose = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+        DialogHosts.General.Manager.OverlayPriority = 49;
         Dialog.Dlg.Visible = true;
     }
 

@@ -57,7 +57,7 @@ The probe set and what each one covers:
 | `integers` | wrap on `+ - *`, `div` and `mod` with negative operands, `shl`, `shr` on negative values, `Byte`/`Word` promotion, `Ord(True)`, `Boolean(n)` |
 | `floats` | `Round` at halves, `Trunc`, `Int`, `Frac`, `/` on integers |
 | `random` | 1,000 values of `Random(n)` for several `n` and of `Random` after `RandSeed := 123456789`, and `RandSeed` after each |
-| `strings` | `Copy`, `Delete`, `Insert`, `Pos` at the edges, comparison operators on prefixes and bytes above 127, `S[i] := c` aliasing, `UpperCase`, `CompareText`, `Trim`, `StrToInt` on accepted and rejected inputs, `IntToStr`, `IntToHex`, `TStrings.Text` round trips, `AnsiCompareText` equality over all byte pairs (65,536 lines) |
+| `strings` | `Copy`, `Delete`, `Insert`, `Pos` at the edges, comparison operators on prefixes and bytes above 127, `S[i] := c` aliasing, `UpperCase`, `CompareText`, `Trim`, `StrToInt` on accepted and rejected inputs, `IntToStr`, `IntToHex`, `StringCollection.Text` (Delphi `TStrings`) round trips, `AnsiCompareText` equality over all byte pairs (65,536 lines) |
 | `format` | `%s`, `%d`, `%x`, width, precision, `-`, `*`, index, `%%`, errors |
 | `sets` | construction, `in`, union, difference, intersection, subset, `Byte(S)` masks, `Include`, `Exclude` |
 | `enums` | `Ord`, casts, `Succ`, `Pred`, `Inc`, `Low`, `High`, `for` over a range, `SizeOf` |
@@ -71,12 +71,12 @@ The probe set and what each one covers:
 | `classes` | virtual constructors through class references, class methods from instances, `inherited` chains, `inherited;` with no parent method, destructors through `Free`, `is`, `as`, `ClassName`, `ClassType`, `InheritsFrom`, method pointer equality, `Assigned` |
 | `properties` | indexed, default array, `index` specifier, read-only, event properties |
 | `evalorder` | a tracing function in argument positions (1 to 5 arguments), as operands of `+`, `*`, `and`, `or`, as array indices, on both sides of `:=`, in `with`, in `for` bounds, in `case` selectors |
-| `lists` | `TList.Sort` on arrays with many equal keys, `Grow`, `Insert`, `Delete`, `IndexOf`, `TStringList` sorted insertion with each `Duplicates` value, `Find`, `IndexOf` on sorted and unsorted lists |
+| `lists` | `DelphiList.Sort` (Delphi `TList`) on arrays with many equal keys, `Grow`, `Insert`, `Delete`, `IndexOf`, `StringList` (Delphi `TStringList`) sorted insertion with each `Duplicates` value, `Find`, `IndexOf` on sorted and unsorted lists |
 | `streams` | `TMemoryStream` writes past the end, `Position` and `Size` after each operation, `CopyFrom`, `Seek` with each origin |
 | `typed-constants` | mutation of typed constants, record and array constants |
 | `init-order` | a program with three units whose `initialization` sections print, in two `uses` orders |
 | `files` | `FindFirst` order over a prepared directory, attribute filtering, `ExtractFileName` and the other path functions |
-| `asm-stubs` | engine and GFXE fills, `TBitList` get, put, load and save, explored flags, ability bits, razed state, hex coordinates and the hex walk |
+| `asm-stubs` | engine and GFXE fills, `BitList` (Delphi `TBitList`) get, put, load and save, explored flags, ability bits, razed state, hex coordinates and the hex walk |
 
 The `records-layout` probe is special: its expected output is also the test data of the
 transpiler's layout model (the layout tests in `tools/transpile/Transpiler.Tests/`), and the
@@ -93,7 +93,7 @@ written during initialization, before the map view has a size).
 Run settings of the native harness and the host (2026-10-26). Native runs play with the game's
 sound and music volume at 0 and the enable flags unchanged, so that no sound code path changes.
 Both sides take `--movement-speed normal|fast|turbo` (`General\Movement Speed`, read by
-`TAoWRegistry.GetMovementSpeed`). Comparisons with the reference runs use normal, as those runs
+`AoWRegistry.GetMovementSpeed` (Delphi `TAoWRegistry`)). Comparisons with the reference runs use normal, as those runs
 did. Turbo is safe for new traces: a native and a port run at turbo equal each other for 20 turns,
 and the port at turbo equals the normal-speed reference on all days, so the speed changes the
 animation steps and nothing that is saved. The host's frame rate (`FFPS`, which shortens moves
@@ -104,14 +104,14 @@ steps whatever the frame rate.
 
 `tools/playtest.py` in the `aow` repository runs the original and the rebuilt game under a debugger
 on a hidden desktop. It prepares a scenario as a save with every player set to computer and the
-map's two seed properties (`TAoWHSMap` ids `$1C FDefendersSeed` and `$24 FInitialRandomSeed`) set to
+map's two seed properties (`AoWHSMap` (Delphi `TAoWHSMap`) ids `$1C FDefendersSeed` and `$24 FInitialRandomSeed`) set to
 the seed, forces `System.RandSeed` to the seed through a breakpoint that returns from
 `System.Randomize` without running it, starts `AoW.exe <save>` with the registry's root and startup
 directory pointed at a copy of the game, lets the game play, and collects one save per day. The
 game's own `AutoSave` runs only for human players (`PlayerC.PAS:643-644`), so the harness breaks on
-`TTurnPlayerControl.NewDay`, steps out of it and calls `AutoSave` itself. Day 01 is the initialized
+`TurnPlayerControl.NewDay` (Delphi `TTurnPlayerControl`), steps out of it and calls `AutoSave` itself. Day 01 is the initialized
 state and day 21 follows twenty completed turns. `compare_runs` inflates each pair of saves,
-normalizes them (it ignores `TAoWHSMap.FTurnTimeElapsed`, id `$37`, and `FTurnTimeBeep`, id `$3A`,
+normalizes them (it ignores `AoWHSMap.FTurnTimeElapsed`, id `$37`, and `FTurnTimeBeep`, id `$3A`,
 the two fields fed by the turn timer's `timeGetTime` reads), compares the bytes, dumps both with
 `asg_dump.py` and writes the first difference as a unified diff and as a list of changed fields.
 The rebuilt game equals the original on all seven scenarios for 20 turns, and on Mountain Clash
@@ -164,25 +164,25 @@ The port is driven by calls, not by a debugger. `tools/oracle/run.py` does, for 
    display left out. The original's path, verified by the recovery in the source on 2026-10-25:
    - `AoW.exe` reads only `ParamStr(1)`. A `.asg` or `.acg` path shows the title scene and is
      loaded on the first frame (`AoWUnit.pas:403-417`) from `TMainForm.DisplayUpdateFrame` through
-     `OpenSelectedGame`, `TFileDlgWindow.LoadSelectedGame`, `LoadGame`, `StartGame` and
-     `TAoWHSMap.Activate`. The frame loop is synchronous: the main form sets `UpdateFrameMode =
-     umSynchrone` and `FrameRate` 30, so `TCustomDisplay.StartUpdateFrameLoop` calls `UpdateFrame`
+     `OpenSelectedGame`, `FileDlgWindow.LoadSelectedGame` (Delphi `TFileDlgWindow`), `LoadGame`, `StartGame` and
+     `AoWHSMap.Activate`. The frame loop is synchronous: the main form sets `UpdateFrameMode =
+     umSynchrone` and `FrameRate` 30, so `CustomDisplay.StartUpdateFrameLoop` (Delphi `TCustomDisplay`) calls `UpdateFrame`
      and `Application.ProcessMessages` in the main thread. No thread or timer is involved;
-     `TUpdateFrameThread` serves only the editor's asynchronous mode.
-   - `TAoWHSMap.Activate` with `FDay = 0` runs `StartNewMap`, `TTurnPlayerControl.StartNewMap`,
+     `UpdateFrameThread` (Delphi `TUpdateFrameThread`) serves only the editor's asynchronous mode.
+   - `AoWHSMap.Activate` with `FDay = 0` runs `StartNewMap`, `TurnPlayerControl.StartNewMap`,
      `NewDay` (day 1, which calls `Randomize` and stores `RandSeed` in `FInitialRandomSeed` for
      local games), `NewTurn` of the first player and `FAIExecuter.ActivatePlayer` for a CPU player.
-   - Every frame, `TAoWHSMap.NewFrame` calls `FPlayerControl.NewFrame`,
+   - Every frame, `AoWHSMap.NewFrame` calls `FPlayerControl.NewFrame`,
      `FPlayerCommunicator.Process`, `FAIExecuter.Process` and `FTokenManager.Process`, in that
-     order. `TAIExecuter.Process` runs `TAIPlayerControl.Process` until the counter budget is used,
-     and `TEndTurnAIPA.Process` queues a `TEndTurnTE`. `TTokenManager.Process` executes it:
-     `TTurnPlayerControl.EndTurn`, and after the last player `NewDay`, then `NewTurn` of the next
+     order. `AIExecuter.Process` (Delphi `TAIExecuter`) runs `AIPlayerControl.Process` (Delphi `TAIPlayerControl`) until the counter budget is used,
+     and `EndTurnAIPA.Process` (Delphi `TEndTurnAIPA`) queues a `EndTurnTE` (Delphi `TEndTurnTE`). `TokenManager.Process` (Delphi `TTokenManager`) executes it:
+     `TurnPlayerControl.EndTurn`, and after the last player `NewDay`, then `NewTurn` of the next
      player and `ActivatePlayer`.
    The harness loads the save through the game's load path, sets `RandSeed` to the seed and makes
    `Randomize` a no-op (the same two interventions as the debugger), calls `Activate`, then calls
-   `TAoWHSMap.NewFrame` in a loop. It hooks `TTurnPlayerControl.NewDay`: when the day changes it
+   `AoWHSMap.NewFrame` in a loop. It hooks `TurnPlayerControl.NewDay`: when the day changes it
    calls `AutoSave` into `<out>/day-<n>.asg`, and it repeats until the requested turns or until
-   `TAoWHSMap.TriggerGameTerminatedEvent` fires. Dialog and display calls reached from this path
+   `AoWHSMap.TriggerGameTerminatedEvent` fires. Dialog and display calls reached from this path
    go to the null services.
 4. Compare with `tools/oracle/compare.py`, the port's own comparator, started as a copy of
    `compare_runs` and `normalized_save`. It never compares compressed bytes. Its normalizations,
@@ -217,7 +217,7 @@ comparison keeps the two sides apart (`own-formats.md` 5.1):
 - Two measures stay separate. The persistence layer checks the corpus exactly: `aowconv check`
   requires unmasked G1 for every in-scope original (the five CFS bytes and the inflated payload,
   or the whole file) and G2 for every imported document, with no mask. The behavior comparison
-  above keeps its normalization of the root `TAoWHSMap` ids `$37` and `$3A`, the turn timer
+  above keeps its normalization of the root `AoWHSMap` ids `$37` and `$3A`, the turn timer
   fields, and lists it in its output. No mask hides converter loss or port state.
 - Own resumptions, with their own count: `tools/oracle/own_resumption.py` converts each of the
   seven prepared inputs with `aowconv to-own`, loads the own document through the Headless host,
@@ -239,7 +239,7 @@ The headless run must be deterministic by itself before it is compared: two runs
 the same input give identical saves. What the recovery verified about the original (reply of
 2026-10-25) and what the port does with it:
 
-- Random numbers. The game logic draws from `TAoWHSMap.Random`, which loads `RandSeed` from
+- Random numbers. The game logic draws from `AoWHSMap.Random`, which loads `RandSeed` from
   `FDefendersSeed` before every call and stores it back after (`AoWHSMap.PAS:2703-2711`), and
   `ReadWrite` ends with `RandSeed := FDefendersSeed`. Drawing code sets `RandSeed` from frame
   counters and positions (`GlobalEnchantmentSpells.pas:707, 1597`, `Animation.pas:547`, restored at
@@ -251,14 +251,14 @@ the same input give identical saves. What the recovery verified about the origin
   turn timer (`AoWHSMap.PAS:3093-3120`) feeds it into the two ignored fields, and `DisableTurnTimer`
   subtracts the start time even when it is -1, so those fields are garbage by design. `IClock` in
   the harness returns a fixed value, and the comparison still masks `$37` and `$3A`.
-- The AI budget is a counter, not wall clock. `TAIExecuter.Create` sets `ptmStatic` and
+- The AI budget is a counter, not wall clock. `AIExecuter.Create` sets `ptmStatic` and
   `FProcessTime` 5000 (`AI.pas:564-565`), nothing else assigns the mode, and `RequestProcessTime`
   and `GetProcessTimeLeft` compare against `FProcessTimeUsed`, which only `UseProcessTime` raises by
   fixed costs. The wall-clock branch (`AI.pas:598, 962`) is dead code and stays so in the port.
 - Combat. With no human in a battle, `SetupCombat` falls back to `ctFast` (`MoveT.PAS:2692,
   2710-2711`), so all-CPU runs exercise fast combat only. The recovery's `--tactical` runs forced
-  `TArmyCombatMoveTE.FCombatType` to `ctTactical` when `ExecuteCombat` starts and set
-  `TTacticalCombat.FHostPlayer` to 0 in `Execute`, because without a human it stays -1
+  `ArmyCombatMoveTE.FCombatType` (Delphi `TArmyCombatMoveTE`) to `ctTactical` when `ExecuteCombat` starts and set
+  `TacticalCombat.FHostPlayer` (Delphi `TTacticalCombat`) to 0 in `Execute`, because without a human it stays -1
   (`AoWTC.pas:5103-5107`). The harness has the same option (`--tactical`), applied at the same two
   points, so the tactical resolver is covered by the `heroes` tactical runs.
 - Object addresses: `InstanceId` replaces them (`transpiler.md` N7). Saves hold no paths or
@@ -275,9 +275,9 @@ the same input give identical saves. What the recovery verified about the origin
   in `Math.Sin` and `Math.Pow` are possible and accepted.
 
 Functions the oracle cannot vouch for. The recovery's equivalence review of the functions that do
-not byte-match leaves six `UNSURE`: `TChatWindow.ChatEditReturn` in `AoW.exe`, and in AoWEPACK
-`TAIGroupTargetSelector.Process`, `TAoWEngine.Create`, `TDiplomacyAIPA.ExecuteDiplomacy`,
-`ShowMovePaths` and `TTransportMEC.CalculateMoves`. The seven scenarios ran equal through them, so
+not byte-match leaves six `UNSURE`: `ChatWindow.ChatEditReturn` (Delphi `TChatWindow`) in `AoW.exe`, and in AoWEPACK
+`AIGroupTargetSelector.Process` (Delphi `TAIGroupTargetSelector`), `AoWEngine.Create` (Delphi `TAoWEngine`), `DiplomacyAIPA.ExecuteDiplomacy` (Delphi `TDiplomacyAIPA`),
+`ShowMovePaths` and `TransportMEC.CalculateMoves` (Delphi `TTransportMEC`). The seven scenarios ran equal through them, so
 they are right on those paths, but a divergence of the port that traces into one of them is settled
 against the original binary, not the rebuilt one. Everything else either byte-matches (97 percent
 of functions) or was reviewed equivalent, and the 22 functions once marked different carry their
@@ -295,7 +295,7 @@ fixes in the current source.
 
 For the graphics layer. `graphics.md` section 9 specifies it: the reference frames come from the
 rebuilt game in windowed mode, which renders in `pfRGB555`, captured by a debugger breakpoint on
-`TWindowsDC.BltSurface` for a list of scripted fixtures (`tests/frames/fixtures.toml`: a save or
+`WindowsDC.BltSurface` (Delphi `TWindowsDC`) for a list of scripted fixtures (`tests/frames/fixtures.toml`: a save or
 scene, a frame number, the registry settings, the mouse position, the fixed `RandSeed`); the port
 renders the same fixtures through its controller with a presenter that writes the frame to a file;
 `tools/oracle/frames.py` captures and `tools/oracle/compare_frames.py` compares pixel for pixel,
@@ -322,7 +322,7 @@ after the pass. `python tools/check.py` in the private repository runs them.
 | strings check | no `AnsiString` (the shim type 9.5-1 retired) in the tree, no explicit conversion from `char` to `byte` or to `char` from a non-constant integer or a constant of 128 and above, no `==` or relational operator between a `char` and a `byte`, no sort, search or sorted collection over strings without a comparer, no `Cp1252` call in a `ReadWrite` override, and in `src/Units`, `src/Layout` and the text routines of `src/Rtl` no .NET comparison, case, character class, trim, split, search or encoding call that differs from Delphi (`strings.md` 3.4) | `StringsRewrite --check <product>/src --allow tools/rewrite/strings/allow.txt`, a step of the `product` layer after the build. It prints `Strings check: N findings`, and the layer fails unless N is 0. The allowlist names 31 members by documentation comment id, each group with its reason |
 | strict strings | a null game string throws `NullStringException` in every routine that reads the switch, instead of reading as empty (`rtl-shim.md` 1.2) | `check.py` sets `AOW_STRICT_STRINGS=1` for every command it starts. Game, Headless, HostChecks and Localization.Tests read it at entry through `GateSwitches.Enter`. `Rtl.Tests` and `Units.Tests` turn the switch on in a module initializer |
 | exception census | a null or range error swallowed by a broad catch, `Rtl.Wrap` or `AoWE.Format` still moves a number | `ExceptionCensus` in `src/Rtl`. When `AOW_EXCEPTION_CENSUS` names a file, a host counts first-chance exceptions of six kinds, `NullReferenceException`, `IndexOutOfRangeException`, `ERangeError`, `EAccessViolation`, `EConvertError` and `NullStringException`, each under the first kind among its type and its bases, and appends one JSON line per run with the host, its arguments and the counts. Game, Headless, HostChecks, Localization.Tests and RoundTrip.Tests start it. `check.py` points the variable at one file per layer and copies the files to `census/` in the log folder |
-| sort dump | the order of the Units comparisons and of a sorted `TStringList` over the English and German names of units, items, abilities, spells and texts (`CompareItemNames`, `CompareAbilityNames`, `P4CompareSpellNames`, `P4CompareSpellLevels`, `CompareTextControlItems`) | HostChecks `--sort-dump <file>`, one child process per language, in the `product` layer. The gate copies the dump to `sorts.txt` in the log folder, and two dumps compare with a plain file comparison |
+| sort dump | the order of the Units comparisons and of a sorted `StringList` over the English and German names of units, items, abilities, spells and texts (`CompareItemNames`, `CompareAbilityNames`, `P4CompareSpellNames`, `P4CompareSpellLevels`, `CompareTextControlItems`) | HostChecks `--sort-dump <file>`, one child process per language, in the `product` layer. The gate copies the dump to `sorts.txt` in the log folder, and two dumps compare with a plain file comparison |
 | glyph index | for every byte `b` of every installed font, `TextWidth` and the glyph `ShowText` draws for the one-char string of `b` equal glyph `b`, so bytes 128 to 159 reach the font as their letters | `GlyphIndexTests` in `Units.Tests`, skipped with the path when the installed fonts are absent |
 | typed-name round trip | a leader name typed through `InputMapper.Text` with €, „, ä and ß keeps the bytes 0x80, 0x84, 0xE4 and 0xDF through save and load | byte mode: `TypedNameRoundTripTests` in `Units.Tests`. Model mode: `tools/oracle/typed_name.py` in the private repository, where the Headless host saves a game with that leader name and the oracle's independent model reader finds the bytes |
 | dictionary order | the sorted entries of each of the eight dictionaries are in `Cp1252.Compare` order | `tests/localization` in the `localization` layer |

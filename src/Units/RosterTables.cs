@@ -71,13 +71,13 @@ internal static class RosterTables
                 {
                     var players = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
                     var alignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(players.FPlayerRace).GetAlignment();
-                    Value = Aow.Game.Magic.Abilities.AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)alignment];
+                    Value = AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)alignment];
                 }
             }
             else
             {
                 var iRtoAlignment = Aow.Game.Magic.Abilities.AbilityRules.IRtoAlignment(Relation);
-                Value = Aow.Game.Magic.Abilities.AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)iRtoAlignment];
+                Value = AlignmentTables.dAlignmentToStatusValue[(int)Resource.FAlignment][(int)iRtoAlignment];
             }
 
             if (Value >= 50)
@@ -88,28 +88,28 @@ internal static class RosterTables
                 DefaultUnit.MakeDefaultLevelUnit(1);
                 if (Unit_.GetCombatValue(DefaultUnit, 0) > 0)
                 {
-                    Result = Unit_.GetStrengthMax(Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) / 100 + (Resource.FLevel * 100 + Resource.FMoves * 10 + Value / 2);
-                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(57) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(58))
+                    Result = Unit_.GetStrengthMax(AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall)) / 100 + (Resource.FLevel * 100 + Resource.FMoves * 10 + Value / 2);
+                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(57) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(58))
                     {
                         Result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(13))
+                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(13))
                     {
                         Result += 150;
                     }
 
-                    if (Aow.Game.World.Map.AoWHSMap.Current != null && Aow.Game.World.Map.AoWHSMap.Current.FDay > 20 && (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(20) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(19) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(18) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(121) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(88) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(89)))
+                    if (AoWHSMap.Current != null && AoWHSMap.Current.FDay > 20 && (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(20) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(19) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(18) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(121) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(88) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(89)))
                     {
                         Result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(1) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(36) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(66) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(24) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(44) || Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(117) && Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(21))
+                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(1) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(36) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(66) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(24) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(44) || Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(117) && Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(21))
                     {
                         Result += 100;
                     }
 
-                    if (Resource.FAbilities[(int)Aow.Game.Magic.Abilities.Unit.Rank.None].GetAbSet(65))
+                    if (Resource.FAbilities[(int)Unit.Rank.None].GetAbSet(65))
                     {
                         Result = Result / 2;
                     }

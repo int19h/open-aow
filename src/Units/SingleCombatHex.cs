@@ -30,7 +30,7 @@ public partial class SingleCombatHexagon : AbstractHexagon
     }
 
     // SingleCombatHex.pas:44
-    public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
     public new partial class Resource : AbstractHexagonResource
     {

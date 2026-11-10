@@ -202,14 +202,14 @@ the source sets nothing else). `Ord(e)` becomes `(int)e`, `TEnum(i)` becomes `(T
 `Pred`, `Inc` and `Dec` become casts around integer arithmetic, and `Low` and `High` become the
 first and last member.
 
-A set type becomes `TSet<E>` where `E` is the element enumeration, or `TSet<byte>` for a set over an
-integer subrange. `TSet<E>` is a `readonly struct` of the shim with a `ulong` mask. The survey
+A set type becomes `Set<E>` where `E` is the element enumeration, or `Set<byte>` for a set over an
+integer subrange. `Set<E>` is a `readonly struct` of the shim with a `ulong` mask. The survey
 found no set over a base type with more than 64 values (the largest is `set of 0..31`), so one
 `ulong` is enough and a larger base is an error. Set operations map to the struct's operators:
 
 | Delphi | C# |
 |---|---|
-| `[a, b, c..d]` | `TSet<E>.Of(a, b).Range(c, d)` |
+| `[a, b, c..d]` | `Set<E>.Of(a, b).Range(c, d)` |
 | `x in S` | `S.Contains(x)` |
 | `A + B`, `A - B`, `A * B` | `A + B`, `A - B`, `A & B` (operators of the struct) |
 | `A = B`, `A <> B` | `A == B`, `A != B` |
@@ -221,7 +221,7 @@ Storage size. Delphi 3 stores a set in the bytes `Low div 8` to `High div 8` of 
 field, and a result of 3 bytes becomes 4, so sets of 1, 2, 4, 5, 6, 7, 8 and more bytes occur and
 never 3: `set of 7..8` is 2 bytes, `set of 20..40` is 4, `set of Char` is 32. Enumerations take 1
 byte up to 256 values and 2 bytes at 257 (`{$Z1}`, the default, and the source sets nothing else).
-The recovery verified both with DCC32 probes on 2026-10-25. `TSet<E>` keeps bit `i` for the element
+The recovery verified both with DCC32 probes on 2026-10-25. `Set<E>` keeps bit `i` for the element
 of ordinal `i`; its stored image, used by `Byte(S)`, `rwData`, `Move` and record layout, is
 `Mask >> ((Low div 8) * 8)` in the set's storage size, and the layout model uses that size. An
 enumeration of more than 256 values would become `: ushort`; the transpile set has none.
@@ -252,13 +252,13 @@ below does not name.
 Layout. Every struct whose C# fields are all unmanaged gets `[StructLayout(LayoutKind.Explicit)]`
 with a `[FieldOffset]` per field, at the offsets Delphi 3 gives the record. Unmanaged is judged on
 the emitted fields, not the Delphi ones: a record with an `IntOrRef` slot or an `object` field
-(`THashItem`, `TBltTest`) is managed and gets no explicit layout. Two Delphi field kinds have a C#
+(`HashItem` (Delphi `THashItem`), `TBltTest`) is managed and gets no explicit layout. Two Delphi field kinds have a C#
 representation wider than their storage, and inside an explicit-layout record they get physical
 backing fields with accessor properties, so that `rwData`, `Move`, `Stream.Read` and `CompareMem`
 see the Delphi bytes: a set field is stored as the `byte`, `ushort` or `uint` of its Delphi size
-(`TStormDamageInfo` has two 1-byte sets before its integers, `TAbilityDamageValues` a 2-byte set at
-offset 16) and exposed as a `TSet<E>` property, and a `string[N]` field is stored as an inline array of
-`N + 1` bytes with the Pascal length byte (`TSecurityData.ID` is `string[50]` in a 106-byte packed
+(`StormDamageInfo` (Delphi `TStormDamageInfo`) has two 1-byte sets before its integers, `AbilityDamageValues` (Delphi `TAbilityDamageValues`) a 2-byte set at
+offset 16) and exposed as a `Set<E>` property, and a `string[N]` field is stored as an inline array of
+`N + 1` bytes with the Pascal length byte (`SecurityData.ID` (Delphi `TSecurityData`) is `string[50]` in a 106-byte packed
 record) and exposed as a `string` property through `Rtl.ReadShortString` and
 `Rtl.WriteShortString`. The accessors are scaffolding inside the type, not in the methods that use
 it. The layout model implements
@@ -291,19 +291,19 @@ specification, the probe is their regression test. With the layout fixed, `rwDat
 SizeOf(Rec), id)` and `Move` on records can use the struct's bytes directly. `SizeOf(T)` is a
 compile-time constant from the same model.
 
-Variant records. The set has eight (`records.md` lists them): `TXYL`, `TPaletteEntry`,
+Variant records. The set has eight (`records.md` lists them): `XYL` (Delphi `TXYL`), `PaletteEntry` (Delphi `TPaletteEntry`),
 `TDefenseRequirements` and the three anonymous `TAbilityCombatInfo` buffers of `AoWTC.pas` are
 unmanaged and become explicit-layout structs whose arms are overlapping `[FieldOffset]` fields,
-which the toolchain probe `tests/toolchain/cs15probe` compiles. `TEMsg` (Engine) and `TShowInfo`
+which the toolchain probe `tests/toolchain/cs15probe` compiles. `EMsg` (Delphi `TEMsg`) (Engine) and `ShowInfo` (Delphi `TShowInfo`)
 (ImageLib) overlay a reference with an integer at one offset, which the runtime forbids, and the
-survey shows `TEMsg` is a real pun, not a tagged union: `TPlayerControl.NewTurn` writes `Value` and
-`TAIGroup.MsgProc` reads `Integer(Msg.Engine)` for the same message, and `ValidateMap` stores a
-`TStrings` reference in `Value`. The rule for such an overlay is the shim's `IntOrRef`
+survey shows `EMsg` is a real pun, not a tagged union: `PlayerControl.NewTurn` (Delphi `TPlayerControl`) writes `Value` and
+`AIGroup.MsgProc` (Delphi `TAIGroup`) reads `Integer(Msg.Engine)` for the same message, and `ValidateMap` stores a
+`StringCollection` (Delphi `TStrings`) reference in `Value`. The rule for such an overlay is the shim's `IntOrRef`
 (`rtl-shim.md` 1.5): the overlapping arms become one `IntOrRef` field, and each arm name is an
-accessor on it. `Msg.Engine` reads `Payload.As<TEngine>()`, `Integer(Msg.Engine)` reads
-`Payload.Value`, `Msg.Value := Integer(Messages)` writes `Payload = Messages`, `TStrings(Msg.Value)`
-reads `Payload.As<TStrings>()`. `Data` and `Result` do not overlap the slot and stay separate
-fields. `TShowInfo.BlendPercentage` and `BlendTable` are the same slot the same way. The same rule
+accessor on it. `Msg.Engine` reads `Payload.As<Engine>()`, `Integer(Msg.Engine)` reads
+`Payload.Value`, `Msg.Value := Integer(Messages)` writes `Payload = Messages`, `StringCollection(Msg.Value)`
+reads `Payload.As<StringCollection>()`. `Data` and `Result` do not overlap the slot and stay separate
+fields. `ShowInfo.BlendPercentage` and `BlendTable` are the same slot the same way. The same rule
 covers the one non-variant overlay, `TStringHashItem` over `THashItem` in `inc/HashTab.PAS` and
 `HashTabU.pas`, where a string lives in the integer `Key` slot: `Key` is an `IntOrRef`, and a
 reference's `Value` is its `InstanceId` as in rule N7. Any other variant record that mixes
@@ -313,26 +313,26 @@ shapes, and milestone 9.6 replaced them in the product (the end of this section)
 Addresses of records. The 51 `@` sites on census records and the 437 record casts fall into four
 forms, and the transpiler maps each mechanically:
 
-1. A same-type identity view, `TMapFieldMsg(Pointer(@Msg)^)` or `THNWalkData(Pointer(@Walk)^)`:
+1. A same-type identity view, `MapFieldMsg(Pointer(@Msg)^)` or `HNWalkData(Pointer(@Walk)^)`:
    folded to the variable (rule N9).
 2. A record view over a record, `PP1DamageValues(@A4)^.Field`, `PSurfaceDesc(@SD.Width)^`,
-   `PCrystalAIInfo(Msg.Param[0])^`, `TItemDropMsg(Msg)`, `TSpellLocation(Loc)` (108 casts),
-   `TLocation(X)` (9): resolved by offset and width with the layout model to the field of the real
+   `PCrystalAIInfo(Msg.Param[0])^`, `DropMsg(Msg)`, `SpellLocation(Loc)` (108 casts),
+   `Location(X)` (9): resolved by offset and width with the layout model to the field of the real
    record at that offset, as rule N3 does for views over class instances. The view type is
-   replaced by the real type at every declaration that uses it (a `var Info: TCrystalAIInfo`
-   parameter, the `var Msg: TItemDropMsg` parameter of `EditDropMsg`, the local
+   replaced by the real type at every declaration that uses it (a `var Info: CrystalAIInfo`
+   parameter, the `var Msg: DropMsg` parameter of `EditDropMsg`, the local
    `Values: TP1DamageValues` and the virtual method signature it feeds in `Ability.PAS:1326`), and
    its members by the real fields at every use, so that nothing of the view survives. A view field
    that straddles two real fields or padding is an error when accessed. The survey found one such
-   field (`TP1DamageValues.Reserved`, over the 2-byte `DamageTypes` and 2 bytes of padding) and no
-   access to it. `TXYLRec` is a view over an `Integer`, not a record, and its three uses in
+   field (`P1DamageValues.Reserved` (Delphi `TP1DamageValues`), over the 2-byte `DamageTypes` and 2 bytes of padding) and no
+   access to it. `XYLRec` (Delphi `TXYLRec`) is a view over an `Integer`, not a record, and its three uses in
    `HSEngine.pas:3231-3232` become `Unsafe.BitCast<int, TXYL>(XYL).X` and so on.
 3. An address that escapes the expression (17 sites, 10 types): passed as `TObject(@Info)` to a
-   synchronous notification (`TExecuteEventLogInfo`, `TMapChangedInfo`, `TShowMessageInfo`,
-   `TEngineDebugInfo`, `TTerrainChangedInfo`), or stored as `Integer(@Info)` in a message
+   synchronous notification (`ExecuteEventLogInfo` (Delphi `TExecuteEventLogInfo`), `MapChangedInfo` (Delphi `TMapChangedInfo`), `ShowMessageInfo` (Delphi `TShowMessageInfo`),
+   `EngineDebugInfo` (Delphi `TEngineDebugInfo`), `TerrainChangedInfo` (Delphi `TTerrainChangedInfo`)), or stored as `Integer(@Info)` in a message
    parameter and read back and written through by the receivers during one `SendMapFieldMsg`
-   loop (`TStormDamageInfo`, `TAITargetInfo`, `TBattleFieldInfo`, `TDefenseRequirements`,
-   `TAITargetData`). The variable becomes a cell: a local or value parameter whose address escapes
+   loop (`StormDamageInfo`, `AITargetInfo` (Delphi `TAITargetInfo`), `BattleFieldInfo` (Delphi `TBattleFieldInfo`), `DefenseRequirements` (Delphi `TDefenseRequirements`),
+   `AITargetData` (Delphi `TAITargetData`)). The variable becomes a cell: a local or value parameter whose address escapes
    is declared as `var Info__cell = new T[1]; ref var Info = ref Info__cell[0];`, a `var` parameter
    is copied into a cell on entry and copied back on every exit (`try/finally`), a `const`
    parameter is copied in only. `@Info` is `Ptr<T>.To(Info__cell, 0)`. `TObject(@Info)` is
@@ -350,7 +350,7 @@ forms, and the transpiler maps each mechanically:
    the record as a `var` parameter where the event passes it as `Sender` (`aowMapEvents.pas:36-40`)
    are bound through the handler adapter of `ui-layout.md` 5.3, which unboxes and passes by `ref`.
 4. A record passed to an untyped buffer routine with a size, `GetCRC32(@Data, Footer.Size)` (3
-   sites) and `GetCRC32(@Data, SizeOf(TSecurityData))` (1): the `Span<byte>` overload over the
+   sites) and `GetCRC32(@Data, SizeOf(SecurityData))` (1): the `Span<byte>` overload over the
    struct's physical bytes (`rtl-shim.md` 1.4, `Bytes.Of`), sliced to the size, exact because the
    struct has the Delphi layout. A size above `SizeOf` raises `ERangeError`.
 5. A pointer to an allocated record kept in an untyped list, `New(P); P^ := Info; FList.Add(P)`
@@ -363,26 +363,26 @@ pointer to a record whose provenance the resolver cannot see is an error that an
 The survey found none in the set, so the rule is there for upstream changes.
 
 Pointers to records in arrays and allocated blocks (the 15 types: the engine's item lists with
-`ReallocMem`, `TMeleeRound.FStrikes`, palette entries, hash items, `TCallBackEvent` through
+`ReallocMem`, `MeleeRound.FStrikes` (Delphi `TMeleeRound`), palette entries, hash items, `CallBackEvent` (Delphi `TCallBackEvent`) through
 `New`) are `Ptr<T>` over the backing array (section 5.8). `@FItems^[I]` is `Ptr<T>.To(FItems.Array,
-I)`, and `GetEntry` returning `@Entries[Index]` returns a `Ptr<TPaletteEntry>` into the `T[]` that
+I)`, and `GetEntry` returning `@Entries[Index]` returns a `Ptr<PaletteEntry>` into the `T[]` that
 the addressable static array became. A pointer into one of these outlives a call by design and
 needs no cell.
 
-Scalar reinterpretations of a record (93 `Integer(XYL)`, 19 `TXYL(i)`, 8 `Comp(Item)` on
-`TDoubleItem`, `Integer(FTargetXYL) := X`): when the record has an arm or a field of that size at
+Scalar reinterpretations of a record (93 `Integer(XYL)`, 19 `XYL(i)`, 8 `Comp(Item)` on
+`DoubleItem` (Delphi `TDoubleItem`), `Integer(FTargetXYL) := X`): when the record has an arm or a field of that size at
 offset 0 the expression becomes that field (`XYL.XYL`), otherwise `Unsafe.BitCast<TRec, long>(x)`
 for an unmanaged struct of the same size, in both directions. These are numeric reinterpretations
 and rule N5 keeps its method-pointer guard. `CompareMem(A, B, n * SizeOf(T))` on two `Ptr<T>` is
 `Ptr<T>.CompareMem(a, b, n)`, a byte comparison of the explicit layouts.
 
-`TShowInfo` has two consequences of its own. `Stream.Read(FShowInfo, 8)` and `Write` at
+`ShowInfo` has two consequences of its own. `Stream.Read(FShowInfo, 8)` and `Write` at
 `ImageLib.pas:1724, 1744` persist the record, so a record with an `IntOrRef` slot that meets a
 stream gets a generated codec that writes the Delphi image (mode bytes at 0 and 1, padding, the
 slot's `Value` at 4) and reads it back into `Value`. And `TLibraryImage.ShowEx` (`ImageLib.pas:2026`)
 switches on the image's own `FShowInfo.BlendMode` while reading the caller's `ShowInfo`, so an
 image in `bmUser` mode shown with a percentage tests that integer as a table pointer in the
-original. The emitted `As<TBlendTable>()` returns null for an integer and skips the call, an
+original. The emitted `As<BlendTable>()` returns null for an integer and skips the call, an
 accepted divergence that the report names, since the original's behavior there is undefined. The
 product's `BlendValue` keeps both consequences: the codec writes the percentage case at 4 and 0
 for a table, and the `bmUser` arm draws only for the table case (`unions-and-kinds.md` 3.3).
@@ -392,7 +392,7 @@ attribute `[InlineArray(n)]` (C# 12), a one-field struct that the runtime lays o
 of `T`. Element access `A[i]` becomes `A[i - L]`. Multi-dimensional arrays become nested inline
 arrays. Array constants become static fields initialized by a collection expression. `Low(A)`,
 `High(A)` and `Length(A)` are constants. A static array whose elements or whole are address-taken
-(`TGFXEPalette.Entries`, whose `GetEntry` returns `@Entries[Index]` and whose `CompareMem` takes
+(`GFXEPalette.Entries` (Delphi `TGFXEPalette`), whose `GetEntry` returns `@Entries[Index]` and whose `CompareMem` takes
 `@Entries`) is instead a `T[]` field allocated with its owner, because `Ptr<T>` needs array backing
 and an inline array has none. An assignment of such an array copies with `Array.Copy`, so value
 semantics hold. The report lists these arrays. The one address-taken global array,
@@ -412,14 +412,14 @@ records and kinds of milestone 9.6:
 | the emitter writes | the product holds |
 |---|---|
 | `array of const` as `params TVarRec[]` | `params ReadOnlySpan<FormatArg>`, the union of `rtl-shim.md` 1.6. `TVarRec` is deleted from the shim |
-| `TEMsg.Param` and `TMapFieldMsg.Param` as `FixedArray_IntOrRef_3` and `FixedArray_IntOrRef_4`, `TMapFieldMsg.Result` as `IntOrRef` | `TEMsgParams` and `TMapFieldMsgParams`, inline arrays of the union `MsgArg` with the protocol arity as a named constant, and `Result` as `MsgArg` (`rtl-shim.md` 1.5) |
-| `TEMsg` and `TShowInfo` with one `IntOrRef Payload` and an accessor property per arm (`Engine`, `Obj`, `Value`, `BlendPercentage`, `BlendTable`) | `TEMsg.Payload` as `MsgArg` with no arm accessors, `TShowInfo.Blend` as the union `BlendValue` (`unions-and-kinds.md` 3.3) |
+| `EMsg.Param` and `MapFieldMsg.Param` (Delphi `TMapFieldMsg`) as `FixedArray_IntOrRef_3` and `FixedArray_IntOrRef_4`, `MapFieldMsg.Result` as `IntOrRef` | `EMsgParams` (Delphi `TEMsgParams`) and `MapFieldMsgParams` (Delphi `TMapFieldMsgParams`), inline arrays of the union `MsgArg` with the protocol arity as a named constant, and `Result` as `MsgArg` (`rtl-shim.md` 1.5) |
+| `EMsg` and `ShowInfo` with one `IntOrRef Payload` and an accessor property per arm (`Engine`, `Obj`, `Value`, `BlendPercentage`, `BlendTable`) | `EMsg.Payload` as `MsgArg` with no arm accessors, `ShowInfo.Blend` as the union `BlendValue` (`unions-and-kinds.md` 3.3) |
 | the three combat-info buffers of `AoWTC.pas` as explicit-layout structs | plain `TAbilityCombatInfo` locals |
 | the type cascades over structures and event logs and the class id `case` of the tactical map generator | the virtual methods of `Structure.Views.cs` and `EventLog.Views.cs` (`unions-and-kinds.md` 3.4 and 3.5) |
-| `TProductionItem` with `FProductionID`, `FParameter` and `FGroupID`, and the `case` statements over the production id | `TProductionItem.Order`, a `ProductionOrder` record (`unions-and-kinds.md` 3.6) |
-| `TDiplomaticAction` with `FActionType` of the enumeration `TDiplomaticActionType`, `FGold`, `FMana` and `FMessage`, and the `case` statements over the action type | `TDiplomaticAction.Proposal`, a `DiplomaticProposal` record (`unions-and-kinds.md` 3.7). The enumeration is deleted |
+| `ProductionItem` (Delphi `TProductionItem`) with `FProductionID`, `FParameter` and `FGroupID`, and the `case` statements over the production id | `ProductionItem.Order`, a `ProductionOrder` record (`unions-and-kinds.md` 3.6) |
+| `DiplomaticAction` (Delphi `TDiplomaticAction`) with `FActionType` of the enumeration `TDiplomaticActionType`, `FGold`, `FMana` and `FMessage`, and the `case` statements over the action type | `DiplomaticAction.Proposal`, a `DiplomaticProposal` record (`unions-and-kinds.md` 3.7). The enumeration is deleted |
 
-`THashItem.Key` is an `IntOrRef` in both. A reference diff of an upstream change to one of these
+`HashItem.Key` is an `IntOrRef` in both. A reference diff of an upstream change to one of these
 records or kinds is ported by hand into the product's form.
 
 ### 4.4 Classes and metaclasses
@@ -443,8 +443,8 @@ sizes both: 15 `class of` types, 702 class method declarations of which 39 intro
 class method, 10 virtual constructors, 31 constructor calls through a class reference, 222 calls of
 a virtual class method on an instance's run-time class, 384 `is` tests, 23 `ClassName` uses, no
 `as` and no TypInfo use. The closure of classes that need a `Meta` under the rule below is 1,014 of
-1,307 (973 of them through `TEObject.ClassID` alone, then `THexagonSprite.ControlMode` 150,
-`TEResource.ResourceEditName` 110, `TAbility.AbilityDataClass` 84). 293 classes need none.
+1,307 (973 of them through `EObject.ClassID` (Delphi `TEObject`) alone, then `HexagonSprite.ControlMode` (Delphi `THexagonSprite`) 150,
+`EResource.ResourceEditName` (Delphi `TEResource`) 110, `Ability.AbilityDataClass` (Delphi `TAbility`) 84). 293 classes need none.
 
 The rule. A class is in the metaclass closure when it, or an ancestor, introduces a virtual class
 method, is the target of a project `class of` type that is used as a value, or has a virtual
@@ -459,8 +459,8 @@ design check appended to `metaclass.md`, which read the rule against every site)
   nested class `Meta` deriving from the nearest ancestor's `Meta`, holding its class methods as
   instance methods of `Meta`. `Self` in a class method is the `Meta` instance, and an unqualified
   `ClassName` inside one is `this.ClassName`, the represented class's name. 537 classes get a
-  `Meta` type (531 by class methods, 6 class-of targets that declare none: `TAIGroupControl`,
-  `TAIMoveExecuterControl`, `TListObject`, `TGrabInfo`, `TSample`, `TSampleData`), and the other
+  `Meta` type (531 by class methods, 6 class-of targets that declare none: `AIGroupControl` (Delphi `TAIGroupControl`),
+  `AIMoveExecuterControl` (Delphi `TAIMoveExecuterControl`), `ListObject` (Delphi `TListObject`), `GrabInfo` (Delphi `TGrabInfo`), `Sample` (Delphi `TSample`), `SampleData` (Delphi `TSampleData`)), and the other
   477 classes of the closure reuse an ancestor's. For the common case, a persisted class
   overriding `ClassID`, this is three lines:
 
@@ -473,7 +473,7 @@ design check appended to `metaclass.md`, which read the rule against every site)
   ```
 
 - An abstract class method (11 declarations in 6 classes) becomes a `virtual` method of `Meta`
-  whose body raises `EAbstractError`, as a Delphi abstract call does, so that every `Meta` type is
+  whose body raises `AbstractErrorException` (Delphi `EAbstractError`), as a Delphi abstract call does, so that every `Meta` type is
   concrete and registrable. Abstract instance methods follow the same rule (below, Methods).
 - A class that introduces a virtual class method also gets a typed accessor,
   `public new Meta ClassType => (Meta)base.ClassType;`, so that calls on descendants resolve
@@ -482,10 +482,10 @@ design check appended to `metaclass.md`, which read the rule against every site)
   with the constructor's signature: `public TFoo Create(args) { var o = (TFoo)NewInstance(); try
   { o.Create__init(args); } catch { o.Destroy(); throw; } return o; }`. The factory is not
   virtual: `Create__init` is, and `NewInstance` makes the right class. 7 of the 10 virtual
-  constructors are in the closure. The 3 outside it (`TGroupDefenseSelector`,
-  `TTokenPackageDistributer`, `TTokenControl`) are never called through a class reference and get
+  constructors are in the closure. The 3 outside it (`GroupDefenseSelector` (Delphi `TGroupDefenseSelector`),
+  `TokenPackageDistributer` (Delphi `TTokenPackageDistributer`), `TokenControl` (Delphi `TTokenControl`)) are never called through a class reference and get
   no factory. A `class of` target below the introducing class gets a forwarding factory with its
-  own type, `public new TAIPlayerAction Create(TEObject owner) => (TAIPlayerAction)base.Create(owner);`,
+  own type, `public new AIPlayerAction Create(EObject owner) => (AIPlayerAction)base.Create(owner);`,
   so that the 7 assignments of a factory result to the target type need no cast at the call site.
 - The `Meta` of a `class of` target gets `public static new Meta Of<T>() where T : TFoo =>
   (Meta)MetaRegistry.Of(typeof(T))`, the spelling of a class used as a value of that type. 15 of
@@ -494,19 +494,19 @@ design check appended to `metaclass.md`, which read the rule against every site)
 - One generated file, `src/Units/MetaRegistry.cs`, registers every class of the closure in
   inheritance order: `MetaRegistry.Register(typeof(TFoo), new TFoo.Meta(), () => new TFoo(),
   instanceSize)`, with the nearest ancestor's `Meta` type when `TFoo` has none of its own, and the
-  instance size from the layout model (`FieldClass.InstanceSize` in `THSEngine` reads it through a
+  instance size from the layout model (`FieldClass.InstanceSize` in `HSEngine` (Delphi `THSEngine`) reads it through a
   `TEObjectClass`, so it is a base `Meta` property). The registry is filled by a module initializer
   before any generated static field runs, because the 11 `TEObjectClass` typed constants of
   `inc/Combat.pas` evaluate `Of<T>()` during type initialization, and it keeps one instance per
   type, so that list identity and event removal hold.
-- A class outside the closure that declares class methods (4, the `TRegistrator` classes of
+- A class outside the closure that declares class methods (4, the `BehaviorRegistrator` (Delphi `TRegistrator`) classes of
   `BehaviorAG`, `City`, `IndependentAG` and `MainAG`, whose `MapLoaded` is only used as an event
   handler) gets plain C# static methods, and a reference to one is a static method group.
 
 Nothing else is emitted per class: no per-class `Class` static, no per-class `ClassType`
 override. The shim's `TObject.ClassType` is one implementation, `MetaRegistry.Of(GetType())`
 (`rtl-shim.md` 1.1), and `Meta` carries `Type`, `ClassName`, `ClassParent`, `InheritsFrom`,
-`NewInstance` (virtual, for the `TMapField` pool of rule A3) and the factory.
+`NewInstance` (virtual, for the `MapField` (Delphi `TMapField`) pool of rule A3) and the factory.
 
 The mappings:
 
@@ -525,22 +525,22 @@ The mappings:
 | `C.Create(args)` with a static constructor (1 site) | `((TFoo)C.NewInstance())` followed by the static body method |
 | `TFooClass(X)` between class references | a cast between `Meta` types |
 | `obj is TFoo` (380) | `obj is TFoo`, except where the static class of `obj` is `TFoo` or a descendant: Delphi 3 compiles that test to the constant True without testing `obj`, so `nil is TBase` is True for a `TBase` variable (probe `classes`, 2026-10-26), and the emitter writes `true` after evaluating `obj` if it has a side effect. The report lists the folded sites |
-| `obj.ClassType = TFoo`, `C = TFoo`, `C <> TEObject` | `obj.GetType() == typeof(TFoo)`, `C.Type == typeof(TFoo)` |
+| `obj.ClassType = TFoo`, `C = TFoo`, `C <> EObject` | `obj.GetType() == typeof(TFoo)`, `C.Type == typeof(TFoo)` |
 | `C.InheritsFrom(AClass)` (1, `GetDescendantClasses`, `AClass: TClass`) | `C.InheritsFrom(AClass)` with `AClass` a `Type` |
 | `ClassName` (23), `C.ClassName` | `TObject.ClassNameOf(GetType())`, `C.ClassName`: the Delphi spelling, which the shim recovers from the C# name (section 3, spelling) |
-| `C.ClassParent` (1, the editor walk in `TEObject.Editor`) | `C.ClassParent`, a `Meta` |
-| `InstanceSize` (1, `FieldClass.InstanceSize` in `THSEngine`, through a `TEObjectClass`) | `C.InstanceSize`, the base `Meta` property filled from the layout model at registration |
+| `C.ClassParent` (1, the editor walk in `EObject.Editor`) | `C.ClassParent`, a `Meta` |
+| `InstanceSize` (1, `FieldClass.InstanceSize` in `HSEngine`, through a `TEObjectClass`) | `C.InstanceSize`, the base `Meta` property filled from the layout model at registration |
 | `is` against a class held in a variable (4) | `type.IsInstanceOfType(obj)` |
 
 Two dependencies on rule N3. Three calls `TP2AbilityCalls(Group).GroupBehavior` (`Unit.PAS:1840,
-1854, 1881`) go through a synthetic view class over a `Group` declared `TUnitUserList` and assigned
-from `FGroup: TAIGroup`, and the slot resolves to `TAIGroup.Behavior`, a class method introduced
+1854, 1881`) go through a synthetic view class over a `Group` declared `UnitUserList` (Delphi `TUnitUserList`) and assigned
+from `FGroup: AIGroup`, and the slot resolves to `AIGroup.Behavior`, a class method introduced
 below the local's static type: N3 narrows the receiver by its assignment provenance and the call
-becomes `((TAIGroup)Group).ClassType.Behavior()`. One call `TP2LegacyBehaviorCalls(Legacy).Behavior`
+becomes `((AIGroup)Group).ClassType.Behavior()`. One call `P2LegacyBehaviorCalls(Legacy).Behavior`
 (`Unit.PAS:1776`) resolves by slot to `TGroupControl.Behavior`, an instance method, and becomes an
 instance call. N3 runs before the metaclass closure is computed, so the two synthetic view classes
 are not in it. `ClassParent` on `Meta` is defined for the registered classes and their parents
-down to the closure root (the one use, the editor walk, stops at `TEObject`), not for `TObject`.
+down to the closure root (the one use, the editor walk, stops at `EObject`), not for `TObject`.
 
 The separation matters for the second stage: `Type` uses need no rewrite, and the `Meta` objects
 are retired in one pass (`../milestones.md` 9.4) by moving the few class-side behaviors to generics
@@ -559,7 +559,7 @@ body, and a factory:
   o.Create__init(args); } catch { o.Destroy(); throw; } return o;`. It is emitted on every class
   that a constructor call names, not only on the classes that declare a constructor: a call
   `TNewCombatRoundCA.Create` (`Combat.pas:6172`) on a class that inherits its constructor must
-  allocate `TNewCombatRoundCA`, where an inherited C# static allocates the ancestor. The report
+  allocate `NewCombatRoundCA` (Delphi `TNewCombatRoundCA`), where an inherited C# static allocates the ancestor. The report
   lists the classes that get a factory this way.
 - A virtual constructor of a class in the metaclass closure also gets the `Meta` factory of the
   emission list above, and `TEObjectClass(ClassType).Create(nil)` becomes
@@ -580,7 +580,7 @@ alive, where Delphi gives undefined behavior. The report lists every class whose
 anything other than free owned objects and call `inherited`, for review.
 
 Methods. `virtual` and `override` map one to one. `abstract` (450 declarations) becomes a
-`virtual` method whose body raises the shim's `EAbstractError`, because Delphi instantiates a class
+`virtual` method whose body raises the shim's `AbstractErrorException`, because Delphi instantiates a class
 with abstract methods and raises only when one is called, and the engine's class registry
 constructs through class references, which a C# `abstract` class refuses.
 `dynamic` (9 uses, in units outside the set except zlib) maps to `virtual`. A `message` method (none outside the rewritten units and
@@ -589,7 +589,7 @@ same name with the same arguments, and emits nothing when no parent implements i
 A method body that is only inline assembly is an error that an override must resolve. The 25 such
 methods in the set are listed in `../design.md` section 3.
 
-Accessor classes. `TENodeAccess = class(TENode);` and `TDrawPanelAccess` exist to reach protected
+Accessor classes. `ENodeAccess = class(ENode);` and `TDrawPanelAccess` exist to reach protected
 members through a cast. Rule N4 removes them.
 
 ### 4.5 Properties
@@ -605,15 +605,14 @@ members through a cast. Rule N4 removes them.
 | `default 0`, `nodefault` | `[DefaultValue(0)]` on the property, for the layout loader |
 | `published` | `[Published]` |
 
-Event properties (`property OnX: TNotifyEvent read FOnX write FOnX`) are plain properties of a
+Event properties (`property OnX: NotifyEvent read FOnX write FOnX`) are plain properties of a
 delegate type, not C# events, because the source assigns and compares them.
 
 The field and the property both exist in C#, because the source uses both.
 
 ### 4.6 Procedural types and events
 
-`TNotifyEvent = procedure(Sender: TObject) of object` becomes `public delegate void
-TNotifyEvent(TObject Sender)`. A plain procedural type without `of object` becomes the same kind of
+`NotifyEvent = procedure(Sender: TObject) of object` becomes `public delegate void NotifyEvent(TObject Sender)` (Delphi `TNotifyEvent`). A plain procedural type without `of object` becomes the same kind of
 delegate. `@Routine` and `Method` as a value become method groups. `Assigned(F)` becomes `F !=
 null`. A call `F(args)` stays a call. `TMethod(F).Code` and `.Data` become `F.Method` and `F.Target`.
 A `nil` assignment becomes `null`.
@@ -728,7 +727,7 @@ local for `E` and qualifies those names:
 | `and or xor not` on Booleans | `&& \|\| ^ !` | Delphi 3 defaults to `{$B-}`, short circuit, as C# |
 | `= <>` | `== !=` | |
 | `< > <= >=` | the same | |
-| `in` | `TSet.Contains` | section 4.2 |
+| `in` | `Set.Contains` (Delphi `TSet`) | section 4.2 |
 | `is` | `is` | |
 | `as` | `Rtl.As<T>(x)` | returns `null` for `null` and raises `EInvalidCast` otherwise, as Delphi |
 | `TFoo(x)` on a class | `(TFoo)x` | section 5.7 |
@@ -823,7 +822,7 @@ derives from it. Generated files alias `Exception` to the shim class.
 | `on E: Exception do H` | `catch (System.Exception e__) { var E = Rtl.Wrap(e__); H }` |
 | `raise EFoo.Create(msg)` | `throw EFoo.Create(msg);` |
 | `raise;` inside a handler | `throw;` |
-| `Abort` | `throw EAbort.Create()` |
+| `Abort` | `throw AbortException.Create()` |
 
 `Rtl.Wrap` returns a shim exception as it is, and wraps a .NET runtime exception in the matching
 Delphi class: `NullReferenceException` as `EAccessViolation`, `DivideByZeroException` as
@@ -831,7 +830,7 @@ Delphi class: `NullReferenceException` as `EAccessViolation`, `DivideByZeroExcep
 `EInvalidCast`, anything else as `Exception`. The catch-all forms catch .NET exceptions too,
 because the original code relies on `except` to swallow access violations in a few places.
 
-`Assert(cond, msg)` becomes `Rtl.Assert(cond, msg, file, line)` and raises `EAssertionFailed`.
+`Assert(cond, msg)` becomes `Rtl.Assert(cond, msg, file, line)` and raises `AssertionFailedException` (Delphi `EAssertionFailed`).
 The shipped game kept assertions on (the recovery matched their line numbers), so the port keeps
 them on.
 
@@ -916,12 +915,12 @@ set uses and reports everything else:
   item moves of `HashTab.PAS:33` and `HashTabU.pas:133`). `Move` on two records of the same type
   with `SizeOf` becomes an assignment. `FillChar(X, SizeOf(X), 0)` becomes `X = default` for a
   record or `Array.Fill` for an array. A literal size equal to the type's `SizeOf` counts as
-  `SizeOf` (`FillChar(Values, 20, 0)` on `TAbilityDamageValues`, 3 sites), and the range forms
+  `SizeOf` (`FillChar(Values, 20, 0)` on `AbilityDamageValues`, 3 sites), and the range forms
   `FillChar(P^[i], (n - i) * SizeOf(T), 0)` and `Move(P^[i], P^[j], k * SizeOf(T))` become
-  `Ptr<T>.Fill(P + i, n - i, default)` and `Ptr<T>.Copy(P + i, P + j, k)` (the `TMeleeStrike`
-  suffix reset and the `TSortItem` shifts). Other `Move` and `FillChar` forms are errors, and no
+  `Ptr<T>.Fill(P + i, n - i, default)` and `Ptr<T>.Copy(P + i, P + j, k)` (the `MeleeStrike` (Delphi `TMeleeStrike`)
+  suffix reset and the `SortItem` (Delphi `TSortItem`) shifts). Other `Move` and `FillChar` forms are errors, and no
   form ever copies a managed record as bytes.
-- `TList.List^[I]` (224 uses) becomes `List.List[I]`, the shim's raw array of the list.
+- `DelphiList.List^[I]` (224 uses) becomes `List.List[I]`, the shim's raw array of the list.
 - `PChar` becomes `Ptr<byte>` as above.
 - `Pointer` (untyped) becomes `object`. A `Ptr<T>` stored where the source stored a pointer as
   `Pointer`, `TObject` or `Integer` is boxed (`P.Box()`), and the cast back, `PRec(X)` or
@@ -947,15 +946,15 @@ cleanup of the recovery source, if the user asks the recovery session for one.
 | N1 | A pointer-view constant, `Name: PType = @Target` (143 [139]: 53 object cells such as `WorldMap: PAoWHSMap = @AoWE.AoWHSMap`, 18 value cells, 7 data tables, 65 resource strings; 727 dereferences) | every `Name^` becomes `Target`. For a resource string, `Name^` is the resource string. A use of `Name` as a pointer value is an error |
 | N2 | A pointer variable assigned the address of one global in one place and dereferenced elsewhere, `RandomSeed: ^Integer` pointing at `RandSeed` | the same fold. The assignment is removed |
 | N3 | A layout view (378 uses: 357 AoWEPACK, 14 SoundP, 6 Network, 1 Engine), in three forms. `TRawObject(Pointer(Obj)^).Fields[n div 4]` (162). A view record cast, `TRec(Pointer(Obj)^).Field` or `PRec(Pointer(Obj))^.Field`, where `TRec` is a record of padding and named fields (87). A view class, a class declaration that copies part of a real class's layout, such as `TP2*Fields` or `TENodeView`, cast over a real object (129, of which 47 are method calls through the view's virtual method table). 97 view types are declared, 30 unused | compute the byte offset of the member in the view with the layout model, take the run-time class of `Obj`, find the field at that offset in `data/class-layouts.json`, and emit `Obj.<FieldName>`, with the field made `internal` when it is private or in another unit. A method call through a view class resolves by virtual slot: the slot index of the view's method maps to the same slot of the run-time class in `classes.json`, and the call becomes a plain virtual call. Resolution is by offset, never by the view's member name: 84 views name a member differently from the source field, and one is a real swap (`TLeaderSetupView`, `AoWSetup.pas:214`: its `OriginalLeader` is `FLeader` at `$C` and its `Leader` is `FOriginalLeader` at `$14`). The run-time class is the static type of `Obj`, except where the catalogue marks the use `unresolved` and gives a `recommended` class, which is then used, and except for a method view whose slot the static type does not have, where the resolver narrows the receiver by the assignment that fed it (the three `TP2AbilityCalls(Group)` calls of `Unit.PAS`, section 4.4) and a slot that resolves to an instance method makes the call an instance call (`TP2LegacyBehaviorCalls(Legacy).Behavior`): 13 untyped bases (10 `GetPlayersABI(..)` results and 2 reads nested in them are `TPlayer`, one `Control: TObject` is `TPlayerMagicControl`), 3 `TArmyHS(X).FArmy` reads (`MapCtrl.pas:315, 329, 342`), and 18 record views, 10 of them `Info.MapField` at `$18`, past the end of `TMapField`, which are `TAoWMapField.FFieldFlags`. The weakest recommendation is `TUnitSpell` for spells 17 and 56. A view member can start inside
-a field rather than at its start, and the original then reads the field shifted: `TCaveMoveData`
+a field rather than at its start, and the original then reads the field shifted: `CaveMoveData` (Delphi `TCaveMoveData`)
 (`Cave.pas:269`) places `Costs` at `$31`, one byte into `TMoveControl.FMovePointTable` at `$30`, so
 `Costs[t, o]` is byte `1 + 16 t + o` of that table. The resolution keeps the field, the byte offset
 within it and the flattened element index, and the emitter reads that element, so the shift
 survives. The transpiler computes every resolution itself and compares it with the catalogue entry at the same file and line; a disagreement is an error |
 | N4 | An accessor class `TXAccess = class(TX);` used only in casts | the casts become plain references to the `TX` object, and the members reached become `internal`. An empty class used anywhere else than a cast stays a class |
-| N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y`, where the source compares the whole method pointer. Where it compares the two halves under separate conditions (`TEventList.Pack` tests code and data with `and`), the halves become the shim's `MethodCode` and `MethodTarget` and the condition stays as written, because whole-delegate inequality deletes other items |
+| N5 | `Comp(FList^[I]) <> Comp(Item)` and `TMethod(X).Code = TMethod(Y).Code` on method pointers | delegate equality, `X == Y`, where the source compares the whole method pointer. Where it compares the two halves under separate conditions (`EventList.Pack` (Delphi `TEventList`) tests code and data with `and`), the halves become the shim's `MethodCode` and `MethodTarget` and the condition stays as written, because whole-delegate inequality deletes other items |
 | N6 | `Integer(Pointer(@FX)^)` and other reinterpretations of a field group as one integer (11 uses) | error, override required. The report lists them |
-| N7 | `Integer(Self)`, `Integer(Owner)`, `Integer(obj)` as a value | `obj.InstanceId`, a 32-bit id the shim assigns to every object at construction from a counter. In `Msg.Param[i] := Integer(obj)` and `TFoo(Msg.Param[i])` the emitted parameter type is the shim's `IntOrRef` and the conversions use its `Ref` and `Value` members. The product's slot is the union `MsgArg` since milestone 9.6 (4.3), which gives a reference no integer view. Address arithmetic such as `(Integer(Self) shr 8) and 3` (shore and animation variants) uses `InstanceId` and is deterministic in the port where the original depended on the heap. An integer stored in an object slot (`TStrings.Objects[i] := TObject(n)`, editor ids and section offsets in Engine) is not an object: the shim keeps it as a canonical integer box (`IntToObject`, `ObjectToInt`), and `ObjectToInt` returns the stored integer for a box and `InstanceId` for a real object. Since brief C12 of milestone 9.8 no product code calls `ObjectToInt` with a real object or calls `ReferenceFromId`: an object stored in a record list column (`Integer(obj)` in a `TDoubleItemList` or `TQuadItemList`) is held by `TDoubleItemList<T>` or `TQuadItemList<T>`. `ObjectToInt` returns `InstanceId` for a real object and does not retain it. `ReferenceFromId` is deleted, because no product code calls it |
+| N7 | `Integer(Self)`, `Integer(Owner)`, `Integer(obj)` as a value | `obj.InstanceId`, a 32-bit id the shim assigns to every object at construction from a counter. In `Msg.Param[i] := Integer(obj)` and `TFoo(Msg.Param[i])` the emitted parameter type is the shim's `IntOrRef` and the conversions use its `Ref` and `Value` members. The product's slot is the union `MsgArg` since milestone 9.6 (4.3), which gives a reference no integer view. Address arithmetic such as `(Integer(Self) shr 8) and 3` (shore and animation variants) uses `InstanceId` and is deterministic in the port where the original depended on the heap. An integer stored in an object slot (`StringCollection.Objects[i] := TObject(n)`, editor ids and section offsets in Engine) is not an object: the shim keeps it as a canonical integer box (`IntToObject`, `ObjectToInt`), and `ObjectToInt` returns the stored integer for a box and `InstanceId` for a real object. Since brief C12 of milestone 9.8 no product code calls `ObjectToInt` with a real object or calls `ReferenceFromId`: an object stored in a record list column (`Integer(obj)` in a `DoubleItemList` (Delphi `TDoubleItemList`) or `QuadItemList` (Delphi `TQuadItemList`)) is held by `DoubleItemList<T>` or `QuadItemList<T>`. `ObjectToInt` returns `InstanceId` for a real object and does not retain it. `ReferenceFromId` is deleted, because no product code calls it |
 | N8 | `with PRec(P)^ do` and `with TRec(Pointer(P)^) do` | the `with` is resolved after N3 |
 | N9 | A shape cast through `Pointer`: `TFoo(Pointer(x))` on a class reference (9 [1]), and the cell view `T(Pointer(@G)^)` of a global (16), parameter (3), local (2) or field of `Self` (1) (22 [6]) | the class cast is the reference conversion of section 5.7. The cell view becomes `G` when `T` is the declared type of `G`, `(T)G` when `T` is a class related to it, and an error otherwise |
 | N10 | A unit-qualified name `Unit.Name` | kept |
@@ -1009,7 +1008,7 @@ Each entry names the rule and the probe (section 11) that proves it.
    Boolean type in the transpile set, and two of them carry a byte the `bool` loses. `Boolean(6)`
    passed to `CreateDamageCA` (`AoWAb.PAS:2089`) is the damage byte 6 under a mislabeled recovered
    parameter. The port declares that parameter `int Damage`, and the
-   `TWallCrushingAbility.fcExecuteCombatCommand` override passes 6 directly to `CreateDamageCA`.
+   `WallCrushingAbility.fcExecuteCombatCommand` (Delphi `TWallCrushingAbility`) override passes 6 directly to `CreateDamageCA`.
    `Boolean(PChar(Self)[$158]) = True` (`AoWMemo.pas:546`) gets an override that keeps Delphi's
    comparison (`== 1` on the byte). The report lists every cast to a Boolean type with the uses of
    its value.
@@ -1022,13 +1021,13 @@ Each entry names the rule and the probe (section 11) that proves it.
     Accepted in `../design.md`.
 15. `Assert` is active. Section 5.5.
 16. Unit initialization order, section 4.8. Probe `init-order` with three units.
-17. `TList` growth, `TStringList` sorting and duplicate handling, and `IndexOf` semantics follow
+17. `DelphiList` (Delphi `TList`) growth, `StringList` (Delphi `TStringList`) sorting and duplicate handling, and `IndexOf` semantics follow
     the Delphi 3 `CLASSES.PAS` source. `rtl-shim.md`. Probe `lists`.
 18. Exceptions raised in a constructor destroy the instance. Probe `classes`.
 19. `inherited;` with no parent implementation is a no-op. Probe `classes`.
 20. Virtual class methods called from an instance method dispatch on the dynamic class. Probe
     `classes`.
-21. A class with abstract methods can be instantiated, and calling one raises `EAbstractError`.
+21. A class with abstract methods can be instantiated, and calling one raises `AbstractErrorException`.
     Probe `classes`.
 
 ## 8. Overrides
@@ -1050,7 +1049,7 @@ reason = "inline assembly"
 file = "src/Units/Engine.TBitList.cs"
 ```
 
-The generated class is `partial`, so the override file declares `partial class TBitList` in the
+The generated class is `partial`, so the override file declares `partial class BitList` in the
 same namespace and supplies the member. For a whole class the generated file omits the class and
 the override supplies it with the same public shape. For a whole unit the entry is `Unit.*`. A
 skipped member that the generated code calls must exist in the override, or the build fails, which
@@ -1072,13 +1071,13 @@ five hero and item grid units 10 each, HSEngine 8, and smaller groups; by kind:
 |---|---:|---|---|
 | thunk | 165 | a `JMP` to another routine of the same package. 162 have no counterpart in the original binary: the recovery added them so that callers type-check against draft declarations, and the originals call the targets directly. The ten with a broken frame that the catalogue of 2026-10-25 found are fixed upstream (nine removed, `CaveArmyMovePoints` given its `POP EBP`) | rule A2: the call goes to the target directly, with the catalogue's `args_passthrough` and parameter order checked |
 | constant | 35 | `XOR EAX,EAX`, `MOV EAX,n`, `MOV AL,n` bodies | rule A1 |
-| allocator | 1 | `TMapField.NewInstance` from the pool `MapFieldMemory` | rule A3 |
+| allocator | 1 | `MapField.NewInstance` from the pool `MapFieldMemory` | rule A3 |
 | blitter | 32 | GFXE and ImageLib pixel routines | `graphics.md` section 5 |
-| bitop | 9 | `TBitList.Get` and `Put`, `TAoWMapField.GetExplored` and `SetExplored`, `TCustomAbilityList.GetAbSet` and `SetAbSet`, `TAbstractUnit.GetAbilitySet`, `TMine.GetRazed`, `TTeleport.GetRazed`: `BT`, `RCR`, `SBB` style bit tests, the original authors' assembler | overrides from the catalogue's Pascal equivalents, with their edge cases (`GetExplored` masks the rotate count to 5 bits, so player 0 and player 32 read as explored and player 33 tests bit 0; `SetExplored(0, ...)` touches bit 31 and tests all of `ECX`; `TBitList.Put` with a negative index corrupts memory before the array) |
+| bitop | 9 | `BitList.Get` (Delphi `TBitList`) and `Put`, `AoWMapField.GetExplored` (Delphi `TAoWMapField`) and `SetExplored`, `CustomAbilityList.GetAbSet` (Delphi `TCustomAbilityList`) and `SetAbSet`, `AbstractUnit.GetAbilitySet` (Delphi `TAbstractUnit`), `Mine.GetRazed` (Delphi `TMine`), `Teleport.GetRazed` (Delphi `TTeleport`): `BT`, `RCR`, `SBB` style bit tests, the original authors' assembler | overrides from the catalogue's Pascal equivalents, with their edge cases (`GetExplored` masks the rotate count to 5 bits, so player 0 and player 32 read as explored and player 33 tests bit 0; `SetExplored(0, ...)` touches bit 31 and tests all of `ECX`; `BitList.Put` with a negative index corrupts memory before the array) |
 | fill | 7 | the Engine `Fill*` routines and GFXE's `FillInt`, `FillWord`, `FillTrippleByte` (no zero-count guard) | overrides |
 | hex-coords | 6 | `HXtoV`, `HXtoH` (a floor division by 2 except at one overflow value), `HVtoHX`, `HPtoHX`, `HPtoHXs` (writes 4 bytes into each `Shortint` target), `WalkToNextHN` | overrides |
 | list-error | 10 | the nested `ReturnAddr` helpers of the typed lists' `Error` methods | the shim's exception raise |
-| other | 52 | AoWEPACK routines that reproduce compiled Delphi code in assembler (prologues, short jumps, a hand-built `try..finally` in `TSpellTE.Validate`), written because drafts of shared virtual methods had wrong signatures; all that exist in the original are `MATCH` | overrides transcribed from the catalogue's Pascal equivalents. The original behaviors they carry are kept: `TMultiLevelAbility.GetSkillPoints` charges the current level's cost once per level, `TMultiLevelAbility.Expand` tests `FLevel = FMaxLevel`, `TRaceList.ReadWrite` skips its immediate ancestor's `ReadWrite`, `TSpell.CreateCastSpellAction` runs only `TEObject.Create` on its new object |
+| other | 52 | AoWEPACK routines that reproduce compiled Delphi code in assembler (prologues, short jumps, a hand-built `try..finally` in `SpellTE.Validate` (Delphi `TSpellTE`)), written because drafts of shared virtual methods had wrong signatures; all that exist in the original are `MATCH` | overrides transcribed from the catalogue's Pascal equivalents. The original behaviors they carry are kept: `MultiLevelAbility.GetSkillPoints` (Delphi `TMultiLevelAbility`) charges the current level's cost once per level, `MultiLevelAbility.Expand` tests `FLevel = FMaxLevel`, `RaceList.ReadWrite` (Delphi `TRaceList`) skips its immediate ancestor's `ReadWrite`, `Spell.CreateCastSpellAction` (Delphi `TSpell`) runs only `EObject.Create` on its new object |
 
 The transpiler recognizes the three generated shapes and reports each:
 
@@ -1167,7 +1166,7 @@ that contain the construct, so they are approximate.
 | `Inc`, `Dec` | 1,543, 730 | 5.3 |
 | `GetMem`, `FreeMem`, `ReallocMem` | 123 | 5.8 |
 | `Move`, `FillChar` | 132, 103 | 5.8 |
-| `TList.List^` | 224 | 5.8 |
+| `DelphiList.List^` | 224 | 5.8 |
 | `rwData` | 146 | 5.8 |
 | inline assembly | 25 routines in the set | 4.4, override |
 | byte-match idioms | about 1,000 | 6 |
@@ -1177,9 +1176,9 @@ RTL and VCL units the set imports most: Classes, SysUtils, Windows, Messages, Gr
 Forms, Dialogs, StdCtrls, ExtCtrls, Menus, Grids, ComCtrls, Registry. The shim demand list
 replaces this guess with the exact symbol list on the first run. The most used routines are
 `IntToStr` (586), `Format` (311), `Delete` (289), `Copy` (194), `Pos` (147), `Insert` (70),
-`CompareText` (47), `UpperCase` (46), and the classes `TList` (329), `TStream` (262),
-`TStringList` (224), `TComponent` (200), `TStrings` (175), `TMemoryStream` (101),
-`TFileStream` (44). The `TComponent` members used are `Owner` (820), `Name` (459), `Tag` (226),
+`CompareText` (47), `UpperCase` (46), and the classes `DelphiList` (329), `TStream` (262),
+`StringList` (224), `Component` (Delphi `TComponent`) (200), `StringCollection` (175), `TMemoryStream` (101),
+`TFileStream` (44). The `Component` members used are `Owner` (820), `Name` (459), `Tag` (226),
 `Assign` (136), `Loaded` (64), `ComponentState` (33), `Notification` (3), `GetChildren` (2),
 `Components` (1).
 

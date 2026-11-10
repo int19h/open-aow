@@ -87,7 +87,7 @@ public partial class PowerNode : PlayerStructure
     public override string GetCurrentActivityText()
     {
         var power = GetPower();
-        return RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.PowerNode.GeneratingXPowerRStr), [IntToStr(power)]);
+        return RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
     }
 
     // PowerNode.pas:96
@@ -136,7 +136,7 @@ public partial class PowerNode : PlayerStructure
     {
         if (Player != FPlayer)
         {
-            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Activated))
+            if (FStatus.Contains(MapObjectStatusElement.Activated))
             {
                 if (FPlayer != -1)
                 {
@@ -173,12 +173,12 @@ public partial class PowerNode : PlayerStructure
     }
 
     // PowerNode.pas:145
-    public override string GetCombatEventText(global::Aow.Game.Combat.Combat Combat)
+    public override string GetCombatEventText(Combat.Combat Combat)
     {
         string Result;
         if (Combat.FCombatResult == CombatResult.Victory || Combat.FCombatResult == CombatResult.NoDefenders)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.PowerNode.PowerNodeBattleWonRStr);
+            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PowerNodeBattleWonRStr);
         }
         else
         {
@@ -219,7 +219,7 @@ public partial class PowerNode : PlayerStructure
         // PowerNode.pas:41
 
         // PowerNode.pas:163
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.PowerNode.Resource.PowerNodeRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PowerNodeRStr);
 
         private static readonly string PowerNodeRStr = "Power Node";
 

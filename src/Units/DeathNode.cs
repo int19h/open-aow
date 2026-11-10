@@ -38,7 +38,7 @@ public partial class DeathNode : ProductionPlace
         // DeathNode.pas:27
 
         // DeathNode.pas:52
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.DeathNode.Resource.DeathNodeRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(DeathNodeRStr);
 
         private static readonly string DeathNodeRStr = "Death Node";
 

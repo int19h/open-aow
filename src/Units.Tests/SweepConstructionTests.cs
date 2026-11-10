@@ -33,9 +33,9 @@ public sealed class SweepConstructionTests
     private sealed class Fixture : IDisposable
     {
         private readonly int previousSeed = Runtime.RandSeed;
-        private readonly AoWHSSet previousSet = Aow.Game.Engine.AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly AoWHSSet previousSet = AoWHSSet.Current;
+        private readonly AoWEngine previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSMap previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
 
@@ -43,10 +43,10 @@ public sealed class SweepConstructionTests
         {
             Runtime.RandSeed = 123456789;
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
-            Aow.Game.Engine.AoWHSSet.Current = set;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
-            Aow.Game.World.Map.AoWHSMap.Current = null!;
-            Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources = null!;
+            AoWHSSet.Current = set;
+            Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+            AoWHSMap.Current = null!;
+            AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
@@ -54,9 +54,9 @@ public sealed class SweepConstructionTests
         {
             Runtime.RandSeed = previousSeed;
 
-            Aow.Game.Engine.AoWHSSet.Current = previousSet;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = previousSet;
+            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            AoWHSMap.Current = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -425,10 +425,10 @@ public sealed class SweepConstructionTests
 
     private static EObject Saved(Type type, ECustomNode owner)
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         using var engine = new Engine(null!);
         var descriptor = EClass.Of(type);
-        engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
+        engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
         try { engine.UnregisterEClasses([engine.GetEClass(descriptor.ClassID)]); }
         catch (System.Exception error) when (PortedExceptions.Is(error)) { }
         engine.RegisterEClasses([descriptor]);
@@ -445,7 +445,7 @@ public sealed class SweepConstructionTests
         using var fixture = new Fixture();
         Type type = typeof(Spell).Assembly.GetType(name)!;
         if (name.EndsWith(".AoWNewCombatMapSettings", StringComparison.Ordinal))
-            typeof(HSEngine).GetField("FHSSFileName", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(Aow.Game.Magic.Abilities.GameTables.AoWEngine, "");
+            typeof(HSEngine).GetField("FHSSFileName", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(Game.Magic.Abilities.GameTables.AoWEngine, "");
         Type[] signature = name.EndsWith(".CombatMoveControl", StringComparison.Ordinal) ? [typeof(HSMap)] : [];
         var value = (object)Invoke(() => type.GetConstructor(signature)!.Invoke(signature.Length == 0 ? [] : [null]))!;
         try

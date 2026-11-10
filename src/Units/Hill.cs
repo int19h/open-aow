@@ -36,6 +36,6 @@ public partial class HillMOR : TerrainMOR
     }
 
     // Hill.pas:45
-    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HillRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.HillRStr);
 
 }

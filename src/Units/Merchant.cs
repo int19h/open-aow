@@ -32,7 +32,7 @@ public partial class Merchant : Structure
         // Merchant.pas:25
 
         // Merchant.pas:50
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Merchant.Resource.MerchantRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MerchantRStr);
 
         private static readonly string MerchantRStr = "Merchant";
 

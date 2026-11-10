@@ -26,7 +26,7 @@ namespace Aow.Game.Ui.Dialogs;
 // completion callback. city-rebellion event
 public partial class CityRebelDlg : DataModule
 {
-    public CityRebelDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public CityRebelDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow RebelWin;

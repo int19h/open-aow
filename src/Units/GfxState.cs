@@ -37,7 +37,7 @@ public static class GfxState
 
     internal static int ForcedPixelFormatID;
 
-    internal static global::Aow.Game.Draw.ImageFileClassList ImageFileClassList;
+    internal static ImageFileClassList ImageFileClassList;
 
     internal static void InitBlendTables(int Bits, int Count)
     {
@@ -57,7 +57,7 @@ public static class GfxState
         LinearAlphaBlendTable = new LookupBlendTableCollection100();
         InitBlendTables(5, 31);
         ForcedPixelFormatID = 0;
-        ImageFileClassList = new global::Aow.Game.Draw.ImageFileClassList();
+        ImageFileClassList = new ImageFileClassList();
         RegisterImageFileClasses([ImageFileClass.Of<BMPImageFile>()]);
     }
 

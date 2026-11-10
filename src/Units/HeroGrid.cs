@@ -31,12 +31,12 @@ public partial class HeroGrid : CustomImageDrawGrid
 
     // HeroGrid.pas:114
     // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-    public HeroGrid(global::Aow.Rtl.Component owner) : base(owner)
+    public HeroGrid(Component owner) : base(owner)
     {
 
         DefaultColWidth = 155;
         DefaultRowHeight = 46;
-        GrowDirection = Aow.Game.Draw.Images.CustomImageDrawGrid.ILGrowDirection.Vertical;
+        GrowDirection = ILGrowDirection.Vertical;
         ScrollBars = Aow.Rtl.CustomGrid.ScrollStyle.Vertical;
         FIndices = new IntegerList();
         FStream = new MemoryStream();
@@ -44,7 +44,7 @@ public partial class HeroGrid : CustomImageDrawGrid
     }
 
     // HeroGrid.pas:226
-    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Controls.Canvas in the platform or editor service. */
         throw new NotImplementedException();
@@ -112,7 +112,7 @@ public partial class HeroGrid : CustomImageDrawGrid
     public void SortHeroes(byte Mode)
     {
         FSort = Mode;
-        global::Aow.Game.Ui.Grids.HeroGrid.SortHeroList = FHeroes;
+        SortHeroList = FHeroes;
         switch (FSort)
         {
             case 0:
@@ -193,11 +193,11 @@ public partial class HeroGrid : CustomImageDrawGrid
     [Published]
     public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
 
-    internal static global::Aow.Game.Units.HeroList SortHeroList;
+    internal static HeroList SortHeroList;
 
     internal static int HeroGridCompareName(int A, int B)
     {
-        global::Aow.Game.Magic.Abilities.Hero hero = SortHeroList.GetHero(B);
+        Hero hero = SortHeroList.GetHero(B);
         return RtlUnit.CompareText(SortHeroList.GetHero(A).FHeroName, hero.FHeroName);
     }
 

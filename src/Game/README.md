@@ -1,7 +1,7 @@
 # Aow.Game
 
-The game starts the 77 layout modules in AoW.dpr order, creates TMainForm, loads
-RELEASE.HSS and draws the title scene through General.Manager and TSdlDC. The title
+The game starts the 77 layout modules in AoW.dpr order, creates MainForm (Delphi TMainForm), loads
+RELEASE.HSS and draws the title scene through General.Manager and SdlDC (Delphi TSdlDC). The title
 playlist plays Songs/TITLE.IT through libopenmpt and SDL audio. The SDL window presents a streaming RGB555 texture with
 integer scaling. Alt+Enter toggles desktop fullscreen.
 

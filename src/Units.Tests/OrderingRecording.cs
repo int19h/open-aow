@@ -50,25 +50,25 @@ internal static class OrderingRecording
         internal AoWDictionary Dictionary => dictionary;
 
         private readonly AoWDictionary dictionary = EngineFixture.Engine.FDictionary;
-        private readonly AoWHSSet set = Aow.Game.Engine.AoWHSSet.Current;
-        private readonly AoWEngine engine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly AoWHSMap map = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly AoWHSSet set = AoWHSSet.Current;
+        private readonly AoWEngine engine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSMap map = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
-        internal readonly global::Aow.Game.Engine.Engine Engine;
+        internal readonly Engine Engine;
 
         internal Fixture(Type? type = null)
         {
             Runtime.RandSeed = 123456789;
             var value = EngineFixture.CreateGameSet(Manager);
             if (type == typeof(ArmyHS)) value.FUnitGFXResources = new UnitGFXResourceList(null!);
-            Aow.Game.Engine.AoWHSSet.Current = value;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
-            Aow.Game.World.Map.AoWHSMap.Current = null!;
-            if (type != typeof(ArmyHS)) Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources = null!;
+            AoWHSSet.Current = value;
+            Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+            AoWHSMap.Current = null!;
+            if (type != typeof(ArmyHS)) AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
-            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-            Engine = new global::Aow.Game.Engine.Engine(null!);
-            Engine.Options -= Set<EngineModeElement>.Of(global::Aow.Game.Engine.Engine.eoVerifyClasses);
+            if (EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            Engine = new Engine(null!);
+            Engine.Options -= Set<EngineModeElement>.Of(Game.Engine.Engine.eoVerifyClasses);
             foreach (var descriptor in EClass.All.Where(x => x.Type == type))
             {
                 try { Engine.UnregisterEClasses([Engine.GetEClass(descriptor.ClassID)]); }
@@ -81,10 +81,10 @@ internal static class OrderingRecording
         {
             Engine.Dispose();
             EngineFixture.Engine.FDictionary = dictionary;
-            Aow.Game.Engine.AoWHSSet.Current?.FUnitGFXResources?.Dispose();
-            Aow.Game.Engine.AoWHSSet.Current = set;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = engine;
-            Aow.Game.World.Map.AoWHSMap.Current = map;
+            AoWHSSet.Current?.FUnitGFXResources?.Dispose();
+            AoWHSSet.Current = set;
+            Game.Magic.Abilities.GameTables.AoWEngine = engine;
+            AoWHSMap.Current = map;
             Runtime.RandSeed = seed;
             Manager.Dispose();
         }

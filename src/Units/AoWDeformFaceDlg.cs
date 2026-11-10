@@ -15,7 +15,7 @@ namespace Aow.Game.Ui.Dialogs;
 // cosmetic-surgery caster
 public partial class DeformFaceDlg : DataModule
 {
-    public DeformFaceDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public DeformFaceDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -90,7 +90,7 @@ public partial class DeformFaceDlg : DataModule
     // AoWDeformFaceDlg.pas:73
     public void DrawFace(AoWFrame Sender, SurfaceDesc SD, int Offset)
     {
-        global::Aow.Rtl.Rect R;
+        Rect R;
         int Face;
         FaceResource Resource;
         Face = FCaster.FFaceIndex;
@@ -106,7 +106,7 @@ public partial class DeformFaceDlg : DataModule
             Face = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.NextFace(Face);
         }
 
-        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
+        R = new Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
         if (Face != -1)
         {
             Resource = Aow.Game.Engine.AoWHSSet.Current.FFaceResources.GetFaceResource(Face);

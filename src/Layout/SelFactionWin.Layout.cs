@@ -458,7 +458,7 @@ public partial class SelFactionWin : ILayoutModule
         DSphere.Animate = false;
         DSphere.AnimFrameDelay = 0;
         session.EndRead(DSphere);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -498,23 +498,23 @@ public partial class SelFactionWin : ILayoutModule
         DSphere.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        FactionPnl.AOWWindow = Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin;
-        FactionPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin;
-        TopLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        LText.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        LStart.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        LStart.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        LBack.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        LBack.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        LSphere.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin;
-        DStart.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        DStart.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        DBack.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        DBack.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        LName.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        DText.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        DName.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        DSphere.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin;
+        FactionPnl.AOWWindow = DialogHosts.TitleWindow.TitleWin;
+        FactionPnl.ILTexture = DialogHosts.IntGfxMod.FactionWin;
+        TopLbl.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        LText.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        LStart.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        LStart.ILButton = DialogHosts.IntGfxMod.GenericB;
+        LBack.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        LBack.ILButton = DialogHosts.IntGfxMod.GenericB;
+        LSphere.ImageLib = DialogHosts.IntGfxMod.FactionWin;
+        DStart.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        DStart.ILButton = DialogHosts.IntGfxMod.GenericB;
+        DBack.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        DBack.ILButton = DialogHosts.IntGfxMod.GenericB;
+        LName.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        DText.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        DName.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        DSphere.ImageLib = DialogHosts.IntGfxMod.FactionWin;
     }
 
     private void Layout_FactionPnlUpdate_0()

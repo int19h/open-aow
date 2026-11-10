@@ -43,17 +43,17 @@ namespace Aow.Game.Net
 
     // declarations of AoWSMTPDlg, from AoW.exe
     // Declaration-only field type from ims.dpl
-    public partial class TmsMessage : global::Aow.Rtl.Component
+    public partial class MailMessage : Component
     {
-        public TmsMessage(global::Aow.Rtl.Component owner) : base(owner)
+        public MailMessage(Component owner) : base(owner)
         { }
 
-        public TmsMessageHeader FHeader;
+        public MailHeader FHeader;
         public string FSubject = "";
         public bool FIncludeHeader;
         public bool FEncode;
-        public TmsAttList FAttachments;
-        public TmsAddressList FRecipients;
+        public MailAttachmentList FAttachments;
+        public MailAddressList FRecipients;
 
         // AoWSMTPDlg.pas:20
         public void SetBody(StringCollection Value)
@@ -64,13 +64,13 @@ namespace Aow.Game.Net
     }
 
     // Declaration-only field type from ims.dpl
-    public partial class TmsSMTP : global::Aow.Rtl.Component
+    public partial class SmtpSender : Component
     {
-        public TmsSMTP(global::Aow.Rtl.Component owner) : base(owner)
+        public SmtpSender(Component owner) : base(owner)
         { }
 
         public string FHost = "";
-        public TmsMessage FMessage;
+        public MailMessage FMessage;
 
         // AoWSMTPDlg.pas:29
         public void SetWinsockLoaded(bool Value)
@@ -121,7 +121,7 @@ namespace Aow.Game.Ui.Dialogs
 
     public partial class SMTPDlg : DataModule
     {
-        public SMTPDlg(global::Aow.Rtl.Component owner) : base(owner)
+        public SMTPDlg(Component owner) : base(owner)
         { }
 
         public AOWWindow Dlg;
@@ -143,8 +143,8 @@ namespace Aow.Game.Ui.Dialogs
         public AOWLabel TitleLbl;
         public AOWButton Close;
         public AOWImage TitleIcon;
-        public TmsMessage IMSMessage;
-        public TmsSMTP IMSSMTP;
+        public MailMessage IMSMessage;
+        public SmtpSender IMSSMTP;
         public IvTranslator Translator;
         public IMSSendThread FThread;
         public ExecuteDoneEvent FDone;
@@ -164,7 +164,7 @@ namespace Aow.Game.Ui.Dialogs
         {
             FFinished = false;
             ProgressBar.Position = 0;
-            var sendingEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SMTPDlg.SendingEmailGameRStr);
+            var sendingEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(SendingEmailGameRStr);
             SendingGameLbl.Text = sendingEmailGame;
             FailedPnl.Visible = false;
             SendPnl.Visible = true;
@@ -237,7 +237,7 @@ namespace Aow.Game.Ui.Dialogs
             {
                 if (FEvent.FSuccess)
                 {
-                    var gameSuccessfullySent = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SMTPDlg.GameSuccessfullySentRStr);
+                    var gameSuccessfullySent = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameSuccessfullySentRStr);
                     SendingGameLbl.Text = gameSuccessfullySent;
                     ExitBtn.Visible = true;
                 }
@@ -262,7 +262,7 @@ namespace Aow.Game.Ui.Dialogs
         // AoWSMTPDlg.pas:212
         public void SettingsBtnClick()
         {
-            Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
+            Aow.Game.Ui.Dialogs.EmailSettingsDlg.ShowEmailSettings(DialogHosts.EmailSettingsDlg);
         }
 
         private static readonly string GameSuccessfullySentRStr = "Game successfully sent";
@@ -277,7 +277,7 @@ namespace Aow.Game.Ui.Dialogs
             var smtpEventLog = Dialog.FEvent;
             smtpEventLog.AddRef();
 
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RecipientXRStr), [Event.FToAddress]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.RecipientXRStr), [Event.FToAddress]);
             Dialog.RecipientLbl.Text = format;
             try
             {
@@ -285,7 +285,7 @@ namespace Aow.Game.Ui.Dialogs
                 var smtpServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
                 Dialog.IMSSMTP.FHost = smtpServer;
                 Dialog.IMSSMTP.WinsockLoaded = true;
-                var tmsMessage = Dialog.IMSMessage;
+                MailMessage tmsMessage = Dialog.IMSMessage;
                 tmsMessage.FEncode = false;
                 tmsMessage.FIncludeHeader = false;
                 tmsMessage.FHeader.FFrom = Event.FFromAddress;

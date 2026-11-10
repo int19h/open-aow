@@ -14,7 +14,7 @@ namespace Aow.Game.Ui.Dialogs;
 // callback, send event
 public partial class SendEmailGameDlg : DataModule
 {
-    public SendEmailGameDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public SendEmailGameDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -75,7 +75,7 @@ public partial class SendEmailGameDlg : DataModule
         EmailAddressEdit.Text = player.FPBEMSettings.FEmailGame.FEmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
         var nameEx = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SendEmailGameDlg.NextPlayerXRStr), [nameEx]);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(NextPlayerXRStr), [nameEx]);
         RecipientNameLbl.Text = format;
         if (sendEmailGameEventLog.FMode == 2)
         {

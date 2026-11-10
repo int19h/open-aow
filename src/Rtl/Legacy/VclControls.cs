@@ -37,9 +37,9 @@ public class Text
 }
 
 // These VCL controls retain component identity. Native drawing awaits the platform layer.
-public class Control : global::Aow.Rtl.Component
+public class Control : Component
 {
-    public Control(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public Control(Component? owner = null) : base(owner) { }
 
     public int Width, Height, Left, Top, Color;
 
@@ -66,14 +66,14 @@ public class Control : global::Aow.Rtl.Component
 
 public class CustomPanel : WinControl
 {
-    public CustomPanel(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public CustomPanel(Component? owner = null) : base(owner) { }
 }
 
 public class WinControl : Control
 {
-    public WinControl(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public WinControl(Component? owner = null) : base(owner) { }
 
-    protected internal virtual void CreateParams(ref global::Aow.Rtl.CreateParams parameters) => throw new NotImplementedException("VCL.CreateParams");
+    protected internal virtual void CreateParams(ref CreateParams parameters) => throw new NotImplementedException("VCL.CreateParams");
     protected internal virtual void CreateWnd() => throw new NotImplementedException("VCL.CreateWnd");
     protected internal virtual void DestroyWnd() => throw new NotImplementedException("VCL.DestroyWnd");
 
@@ -104,24 +104,24 @@ public class Bevel : Control { }
 
 public class TabControl : WinControl
 {
-    public TabControl(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public TabControl(Component? owner = null) : base(owner) { }
 
     protected internal virtual void Change() { }
 }
 
-public class DataModule : global::Aow.Rtl.Component
+public class DataModule : Component
 {
-    public DataModule(global::Aow.Rtl.Component? owner) : base(owner) { }
+    public DataModule(Component? owner) : base(owner) { }
 }
 
-public class VideoPlayer : global::Aow.Rtl.Component
+public class VideoPlayer : Component
 {
-    public VideoPlayer(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public VideoPlayer(Component? owner = null) : base(owner) { }
 }
 
 public class CustomGrid : WinControl
 {
-    public CustomGrid(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public CustomGrid(Component? owner = null) : base(owner) { }
 
     public int ColCount, RowCount;
     public int Col, Row, DefaultColWidth, DefaultRowHeight;
@@ -137,7 +137,7 @@ public class CustomGrid : WinControl
 
 public class ComboBox : WinControl
 {
-    public ComboBox(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public ComboBox(Component? owner = null) : base(owner) { }
 
     protected internal virtual void Change() { }
 
@@ -146,13 +146,13 @@ public class ComboBox : WinControl
 
 public class ListBox : WinControl
 {
-    public ListBox(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public ListBox(Component? owner = null) : base(owner) { }
 
 }
 
-public class OpenDialog : global::Aow.Rtl.Component
+public class OpenDialog : Component
 {
-    public OpenDialog(global::Aow.Rtl.Component owner) : base(owner) { }
+    public OpenDialog(Component owner) : base(owner) { }
 
     public string Filter = "", FileName = "", DefaultExt = "";
 

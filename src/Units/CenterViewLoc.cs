@@ -30,12 +30,12 @@ public partial class CenterViewLocation : MapObject
         base.Activate();
         if (!GetEditMode())
         {
-            if (Aow.Game.Combat.AoWCombatMap.Current.FCenterViewLocation != null)
+            if (Combat.AoWCombatMap.Current.FCenterViewLocation != null)
             {
-                Aow.Game.Combat.AoWCombatMap.Current.FCenterViewLocation?.Dispose();
+                Combat.AoWCombatMap.Current.FCenterViewLocation?.Dispose();
             }
 
-            Aow.Game.Combat.AoWCombatMap.Current.FCenterViewLocation = this;
+            Combat.AoWCombatMap.Current.FCenterViewLocation = this;
         }
     }
 
@@ -45,9 +45,9 @@ public partial class CenterViewLocation : MapObject
         base.Deactivate();
         if (!GetEditMode())
         {
-            if (Aow.Game.Combat.AoWCombatMap.Current.FCenterViewLocation == this)
+            if (Combat.AoWCombatMap.Current.FCenterViewLocation == this)
             {
-                Aow.Game.Combat.AoWCombatMap.Current.FCenterViewLocation = null;
+                Combat.AoWCombatMap.Current.FCenterViewLocation = null;
             }
         }
     }
@@ -56,7 +56,7 @@ public partial class CenterViewLocation : MapObject
     public override bool CanSelect(int Xhp, int Yhp) => true;
 
     // CenterViewLoc.pas:49
-    public override MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // CenterViewLoc.pas:52
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;

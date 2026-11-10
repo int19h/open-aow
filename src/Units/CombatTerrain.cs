@@ -79,7 +79,7 @@ namespace Aow.Game.World.Hexes
         public override void RemoveFromMap()
         {
             MapLevel MapLevel;
-            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
+            MapLevel = (MapLevel)Owner.Owner;
             base.RemoveFromMap();
             UpdateMapFields(MapLevel, FXhx, FYhx);
         }
@@ -180,7 +180,7 @@ namespace Aow.Game.World.Hexes
                             break;
                         case 200711:
                             RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
-                            var executeDamageRole12 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(Aow.Game.Combat.TacticalTables.TCDamage[1], Aow.Game.Combat.TacticalTables.TCAttack[1] - FDefense);
+                            var executeDamageRole12 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[1], TacticalTables.TCAttack[1] - FDefense);
                             SetHitPoints(FHitPoints - executeDamageRole12);
                             break;
                     }
@@ -249,7 +249,7 @@ namespace Aow.Game.World.Hexes
         // CombatTerrain.pas:124
         public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Visible))
+            if (!FStatus.Contains(MapObjectStatusElement.Visible))
             {
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
@@ -261,7 +261,7 @@ namespace Aow.Game.World.Hexes
         }
 
         // CombatTerrain.pas:91
-        public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // CombatTerrain.pas:106
         public override bool CanPlaceOnHS(HexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;
@@ -291,7 +291,7 @@ namespace Aow.Game.World.Hexes
                     DestroyShadow();
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
+                if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
                 {
                     FShadow = new CombatTerrainShadow(null);
                     FShadow.FTerrain = this;

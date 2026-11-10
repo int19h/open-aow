@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Dialogs;
 // retained unit spell caster
 public partial class CastUnitSpellDlg : DataModule
 {
-    public CastUnitSpellDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public CastUnitSpellDlg(Component owner) : base(owner)
     { }
 
     public AoWGauge Unit1Gge;
@@ -73,16 +73,16 @@ public partial class CastUnitSpellDlg : DataModule
     {
         Alignment Alignment;
         P2UnitShowInfo Info;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         if (Index < FCaster.FTargetUnits.GetCount())
         {
             OldClip = Surface.ClipRect;
-            var rect = global::Aow.Rtl.RtlUnit.Rect(X + 5, Y + 4, X + 46, Y + 56);
+            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             Surface.ClipRect = rect;
             Alignment = FCaster.FTargetUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                var image = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, Surface);
             }
 
@@ -92,7 +92,7 @@ public partial class CastUnitSpellDlg : DataModule
             FCaster.FTargetUnits.GetUnit(Index).ShowEx(X - 8, Y - 4, Surface, Info);
             if ((((int)(((uint)FCaster.FValidSelection) >> Index)) & 1) == 0)
             {
-                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
+                var image = DialogHosts.IntGfxMod.UnitBGs[7];
                 image.ShowClipped(X + 25 - image.Width / 2, Y + 30 - image.Height / 2, Surface);
             }
 
@@ -127,7 +127,7 @@ public partial class CastUnitSpellDlg : DataModule
     public void FaceFramePreDraw(SurfaceDesc Surface)
     {
         AbstractUnit U;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FCaster.FCasterSourceID);
         if (U != null)
         {
@@ -152,7 +152,7 @@ public partial class CastUnitSpellDlg : DataModule
     public void SpellFrPreDraw(SurfaceDesc Surface)
     {
         Spell Spell;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (FCaster != null)
         {
             Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FCaster.FCasterSpellID);
@@ -208,7 +208,7 @@ public partial class CastUnitSpellDlg : DataModule
         string reason = "";
         SelectionInfoLbl.TextColor = FCaster.CanCast(ref reason) ? 0 : 149;
         // AoW.exe loads the two-byte separator
-        SelectionInfoLbl.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.CastUnitSpellDlg.RequiredManaRStr) +
+        SelectionInfoLbl.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(RequiredManaRStr) +
             ": " + IntToStr(FCaster.GetRequiredMana());
     }
 

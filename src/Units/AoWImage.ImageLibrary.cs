@@ -36,7 +36,7 @@ public partial class AOWImage
         {
             if (!FValid || !FVisible) return;
             FOnPreDraw?.Invoke(this, surface);
-            var rectangle = RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft,
+            var rectangle = new Rect(FAOWWindow.FWinLeft + FWinLeft,
                 FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
             FImageLib.DrawILT(FCurrentImage, rectangle, ref surface);
             FOnDraw?.Invoke(this, surface);

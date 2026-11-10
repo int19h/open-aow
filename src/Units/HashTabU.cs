@@ -82,7 +82,7 @@ public partial class IntegerHashList : HashList
     // HashTabU.pas:145
     public void Add(object Item, int Key)
     {
-        Aow.Game.Engine.Hash.HashList.HashItem H = default;
+        HashItem H = default;
         if (Find(Key) != null)
         {
             throw new InvalidOperationException("ID already in HashTable");
@@ -261,7 +261,7 @@ public partial class StringHashList : HashList
     // HashTabU.pas:251
     public void Add(object Item, string Key)
     {
-        Aow.Game.Engine.Hash.HashList.HashItem H = default;
+        HashItem H = default;
         if (Find(Key) != null)
         {
             throw new InvalidOperationException("ID already in HashTable");

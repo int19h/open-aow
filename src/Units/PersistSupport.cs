@@ -10,14 +10,14 @@ namespace Aow.Game.Engine.Nodes
     // The engine side of the persistence tree. Formats does not name these types.
     public sealed class EnginePersistableFactory : IPersistableFactory
     {
-        private readonly Aow.Game.Engine.AoWEngine engine;
-        private readonly Dictionary<string, Aow.Game.Engine.EClass> byName;
+        private readonly AoWEngine engine;
+        private readonly Dictionary<string, EClass> byName;
 
-        public EnginePersistableFactory(Aow.Game.Engine.AoWEngine engine)
+        public EnginePersistableFactory(AoWEngine engine)
         {
             this.engine = engine ?? throw new InvalidOperationException("The engine is not running.");
-            byName = new Dictionary<string, Aow.Game.Engine.EClass>();
-            foreach (var eclass in Aow.Game.Engine.EClass.All)
+            byName = new Dictionary<string, EClass>();
+            foreach (var eclass in EClass.All)
                 if (!byName.TryAdd(eclass.ClassName, eclass))
                     throw new InvalidOperationException("Two engine classes are named " + eclass.ClassName + ".");
         }
@@ -34,7 +34,7 @@ namespace Aow.Game.Engine.Nodes
                 if (resolved is null || !byName.TryGetValue(resolved, out eclass))
                     throw new InvalidOperationException("The engine has no class " + className + ".");
             }
-            if (engine.ClassTable.Find(eclass.ClassID) is not Aow.Game.Engine.EClass registered || registered.ClassName != eclass.ClassName)
+            if (engine.ClassTable.Find(eclass.ClassID) is not EClass registered || registered.ClassName != eclass.ClassName)
                 throw new KeyNotFoundException("Unregistered E-ClassID found (" + eclass.ClassID.ToString(CultureInfo.InvariantCulture) + ")");
             return registered.Create(null);
         }
@@ -50,13 +50,13 @@ namespace Aow.Game.Engine.Nodes
         {
             var child = node.GetChild(index);
             return child != null && child.Owner == node
-                && !child.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared)
-                && child.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csStored);
+                && !child.GetControlStyle().Contains(EngineServices.csShared)
+                && child.GetControlStyle().Contains(EngineServices.csStored);
         }
 
         public int Slot(int index) => index;
 
-        public bool KeepIndex => node.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex);
+        public bool KeepIndex => node.GetControlStyle().Contains(EngineServices.csKeepIndex);
 
         public void Attach(IPersistable child) => ((EObject)child).FOwner = node;
 

@@ -35,16 +35,16 @@ namespace Aow.Game.World.Structures
         internal static bool IsRegistered(int Id) => Kinds.TryGet(Id, out _);
 
         // The city action the city screen and the city queries name this order by (City.pas:3220).
-        public virtual global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.None;
+        public virtual CityAction CityAction => Structures.CityAction.None;
 
         // The unit production the screens draw for this order, or null.
         public virtual int? UnitProductionIndex => null;
 
         // The queue line (Structur.PAS:840).
-        public virtual string Name(ProductionControl Control) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+        public virtual string Name(ProductionControl Control) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
 
         // The line of the running order (Structur.PAS:865).
-        public virtual string NameProgressive(ProductionControl Control) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+        public virtual string NameProgressive(ProductionControl Control) => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
 
         // Whether Control can start the order now, with the reason when it cannot (Structur.PAS:361).
         public virtual bool CanExecute(ProductionControl Control, ref string Reason)
@@ -107,9 +107,9 @@ namespace Aow.Game.World.Structures
         // original continues checking costs after assigning the waiting text.
         protected static void Waiting(ProductionControl Control, ref string Reason)
         {
-            if (Control.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Waiting)
+            if (Control.FStatus == ProductionControl.Status.Waiting)
             {
-                Reason = "(" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ProductionOrder.WaitingRStr)) + ")";
+                Reason = "(" + LowerCase(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(WaitingRStr)) + ")";
             }
         }
 
@@ -157,7 +157,7 @@ namespace Aow.Game.World.Structures
 
         public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, Index, GroupId);
 
-        public override global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.Produce;
+        public override CityAction CityAction => Structures.CityAction.Produce;
 
         public override int? UnitProductionIndex => Index;
 
@@ -166,10 +166,10 @@ namespace Aow.Game.World.Structures
             var production = Control.FUnitProductions.GetItem(Index);
             if (production == null)
             {
-                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
-            var format = Control.UnitProductionGold(Index) != 0 ? Aow.Game.Magic.Abilities.GameText.ProduceXRStr : Aow.Game.Magic.Abilities.GameText.SummonXRStr;
+            var format = Control.UnitProductionGold(Index) != 0 ? GameText.ProduceXRStr : GameText.SummonXRStr;
             var unitName = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
             return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(format), [unitName]);
         }
@@ -179,10 +179,10 @@ namespace Aow.Game.World.Structures
             var production = Control.FUnitProductions.GetItem(Index);
             if (production == null)
             {
-                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
-            var format = Control.UnitProductionGold(Index) != 0 ? Aow.Game.Magic.Abilities.GameText.ProducingXRStr : Aow.Game.Magic.Abilities.GameText.SummoningXRStr;
+            var format = Control.UnitProductionGold(Index) != 0 ? GameText.ProducingXRStr : GameText.SummoningXRStr;
             var unitName = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
             return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(format), [unitName]);
         }
@@ -202,13 +202,13 @@ namespace Aow.Game.World.Structures
                 else
                 {
                     Result = false;
-                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughManaRStr);
+                    Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughManaRStr);
                 }
             }
             else
             {
                 Result = false;
-                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
             }
 
             return Result;
@@ -229,7 +229,7 @@ namespace Aow.Game.World.Structures
             settings.FPlayer = Control.GetPlayer();
             settings.FTurnsLeft = settings.FTurnsTotal;
             Pay(Control);
-            Control.FStatus = Aow.Game.World.Structures.ProductionControl.Status.Producing;
+            Control.FStatus = ProductionControl.Status.Producing;
             if (settings.FGroupID != 0)
             {
                 Control.RegisterGroupProduction();
@@ -258,7 +258,7 @@ namespace Aow.Game.World.Structures
         {
             var unit = Control.CreateUnitProduction(Index);
             Lines.Clear();
-            Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingRStr));
+            Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ProducingRStr));
             Lines.Add(unit.GetName());
             unit.Release();
         }
@@ -271,7 +271,7 @@ namespace Aow.Game.World.Structures
 
         public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, Index, 0);
 
-        public override global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.Research;
+        public override CityAction CityAction => Structures.CityAction.Research;
 
         public override int? UnitProductionIndex => Index;
 
@@ -280,11 +280,11 @@ namespace Aow.Game.World.Structures
             var production = Control.FUnitProductions.GetItem(Index);
             if (production == null)
             {
-                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
             var unitName = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
-            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InstallXRStr), [unitName]);
+            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.InstallXRStr), [unitName]);
         }
 
         public override string NameProgressive(ProductionControl Control)
@@ -292,11 +292,11 @@ namespace Aow.Game.World.Structures
             var production = Control.FUnitProductions.GetItem(Index);
             if (production == null)
             {
-                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+                return Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.UnknownRStr);
             }
 
             var unitName = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex).GetUnitName();
-            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ResearchSpell.InstallingXRStr), [unitName]);
+            return Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(InstallingXRStr), [unitName]);
         }
 
         public override bool CanExecute(ProductionControl Control, ref string Reason)
@@ -308,7 +308,7 @@ namespace Aow.Game.World.Structures
                 return true;
             }
 
-            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
             return false;
         }
 
@@ -323,7 +323,7 @@ namespace Aow.Game.World.Structures
             settings.FPlayer = Control.GetPlayer();
             settings.FTurnsLeft = settings.FTurnsTotal;
             Pay(Control);
-            Control.FStatus = Aow.Game.World.Structures.ProductionControl.Status.Producing;
+            Control.FStatus = ProductionControl.Status.Producing;
         }
 
         public override void Complete(ProductionControl Control, sbyte Player)
@@ -344,7 +344,7 @@ namespace Aow.Game.World.Structures
         public override void ActivityLines(ProductionControl Control, StringCollection Lines)
         {
             var unit = Control.CreateUnitProduction(Index);
-            Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.ResearchSpell.InstallingRStr));
+            Lines.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(InstallingRStr));
             Lines.Add(unit.GetName());
             unit.Release();
         }
@@ -362,15 +362,15 @@ namespace Aow.Game.World.Structures
 
         public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, TurnsTotal, 0);
 
-        public override global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.Trade;
+        public override CityAction CityAction => Structures.CityAction.Trade;
 
         public override string Name(ProductionControl Control) => Control.MagicSphere() != MagicSphere.None
-            ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Trade.GenerateExtraPowerRStr)
-            : Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
+            ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GenerateExtraPowerRStr)
+            : Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ProduceMerchandiseRStr);
 
         public override string NameProgressive(ProductionControl Control) => Control.MagicSphere() != MagicSphere.None
-            ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.GeneratingExtraPowerRStr)
-            : Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingMerchandiseRStr);
+            ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.GeneratingExtraPowerRStr)
+            : Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.ProducingMerchandiseRStr);
 
         public override bool CanExecute(ProductionControl Control, ref string Reason) => true;
 
@@ -379,7 +379,7 @@ namespace Aow.Game.World.Structures
             Control.FSettings.FTurnsTotal = (sbyte)TurnsTotal;
             Control.FSettings.FTurnsLeft = 1;
             Control.FSettings.FPlayer = Control.GetPlayer();
-            Control.FStatus = Aow.Game.World.Structures.ProductionControl.Status.Producing;
+            Control.FStatus = ProductionControl.Status.Producing;
         }
 
         public override void Completed(ProductionControl Control)
@@ -399,13 +399,13 @@ namespace Aow.Game.World.Structures
 
         public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, 0, 0);
 
-        public override global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.Upgrade;
+        public override CityAction CityAction => Structures.CityAction.Upgrade;
 
         public override string Name(ProductionControl Control) =>
-            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UpgradeRStr) : base.Name(Control);
+            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.UpgradeRStr) : base.Name(Control);
 
         public override string NameProgressive(ProductionControl Control) =>
-            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Upgrade.UpgradingRStr) : base.NameProgressive(Control);
+            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UpgradingRStr) : base.NameProgressive(Control);
 
         public override bool CanExecute(ProductionControl Control, ref string Reason)
         {
@@ -420,7 +420,7 @@ namespace Aow.Game.World.Structures
                 return true;
             }
 
-            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
             return false;
         }
 
@@ -438,7 +438,7 @@ namespace Aow.Game.World.Structures
             Control.FSettings.FGold = city.UpgradeCost();
             var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(player.FGems - Control.FSettings.FGold);
-            Control.FStatus = Aow.Game.World.Structures.ProductionControl.Status.Producing;
+            Control.FStatus = ProductionControl.Status.Producing;
         }
 
         public override void Completed(ProductionControl Control)
@@ -453,7 +453,7 @@ namespace Aow.Game.World.Structures
             city.SetUpgradeLevel((byte)(city.FUpgradeLevel + 1));
             ChangeRelation(Control, city, 5);
             Control.ProductionDone();
-            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Upgrade.XUpgradedRStr), [city.GetName()]));
+            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XUpgradedRStr), [city.GetName()]));
             Control.EndUpdate();
         }
 
@@ -476,13 +476,13 @@ namespace Aow.Game.World.Structures
 
         public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, 0, 0);
 
-        public override global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.Fortify;
+        public override CityAction CityAction => Structures.CityAction.Fortify;
 
         public override string Name(ProductionControl Control) =>
-            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FortifyRStr) : base.Name(Control);
+            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.FortifyRStr) : base.Name(Control);
 
         public override string NameProgressive(ProductionControl Control) =>
-            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Fortify.FortifyingRStr) : base.NameProgressive(Control);
+            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(FortifyingRStr) : base.NameProgressive(Control);
 
         public override bool CanExecute(ProductionControl Control, ref string Reason)
         {
@@ -497,7 +497,7 @@ namespace Aow.Game.World.Structures
                 return true;
             }
 
-            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughGoldRStr);
+            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.NotEnoughGoldRStr);
             return false;
         }
 
@@ -515,7 +515,7 @@ namespace Aow.Game.World.Structures
             Control.FSettings.FGold = city.FortifyCost();
             var playerGems = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems - Control.FSettings.FGold);
-            Control.FStatus = Aow.Game.World.Structures.ProductionControl.Status.Producing;
+            Control.FStatus = ProductionControl.Status.Producing;
         }
 
         public override void Completed(ProductionControl Control)
@@ -537,7 +537,7 @@ namespace Aow.Game.World.Structures
                     break;
             }
 
-            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Fortify.CityFortifiedRStr), [city.GetName()]));
+            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CityFortifiedRStr), [city.GetName()]));
             city.UpdateImages();
             ChangeRelation(Control, city, 5);
             Control.ProductionDone();
@@ -568,14 +568,14 @@ namespace Aow.Game.World.Structures
 
         public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, Race, 0);
 
-        public override global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.Migrate;
+        public override CityAction CityAction => Structures.CityAction.Migrate;
 
         public override string Name(ProductionControl Control) => Control.ProductionCity() != null
-            ? RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Migrate.MigrateToXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Race])])
+            ? RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MigrateToXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race])])
             : base.Name(Control);
 
         public override string NameProgressive(ProductionControl Control) => Control.ProductionCity() != null
-            ? RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Migrate.MigratingToXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Race])])
+            ? RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(MigratingToXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race])])
             : base.NameProgressive(Control);
 
         public override bool CanExecute(ProductionControl Control, ref string Reason)
@@ -595,7 +595,7 @@ namespace Aow.Game.World.Structures
             Control.FSettings.FTurnsTotal = (sbyte)city.MigrationTime((sbyte)Race);
             Control.FSettings.FTurnsLeft = Control.FSettings.FTurnsTotal;
             Control.FSettings.FPlayer = Control.GetPlayer();
-            Control.FStatus = Aow.Game.World.Structures.ProductionControl.Status.Producing;
+            Control.FStatus = ProductionControl.Status.Producing;
             ChangeRelation(Control, city, -15);
         }
 
@@ -608,8 +608,8 @@ namespace Aow.Game.World.Structures
             }
 
             Control.BeginUpdate();
-            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Race]);
-            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Migrate.CityMigratedToRStr), [city.GetName(), raceNamesPlural]));
+            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameTables.RaceNamesPluralRStr[Race]);
+            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CityMigratedToRStr), [city.GetName(), raceNamesPlural]));
             city.SetRace((sbyte)Race);
             ChangeRelation(Control, city, 10);
             Control.FUnitProductions.Clear();
@@ -649,13 +649,13 @@ namespace Aow.Game.World.Structures
 
         public override (int Id, int Parameter, int GroupId) ToFields() => (Kind, 0, 0);
 
-        public override global::Aow.Game.World.Structures.CityAction CityAction => global::Aow.Game.World.Structures.CityAction.Loot;
+        public override CityAction CityAction => Structures.CityAction.Loot;
 
         public override string Name(ProductionControl Control) =>
-            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LootRStr) : base.Name(Control);
+            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(GameText.LootRStr) : base.Name(Control);
 
         public override string NameProgressive(ProductionControl Control) =>
-            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Loot.LootingRStr) : base.NameProgressive(Control);
+            Control.ProductionCity() != null ? Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(LootingRStr) : base.NameProgressive(Control);
 
         public override bool CanExecute(ProductionControl Control, ref string Reason)
         {
@@ -678,7 +678,7 @@ namespace Aow.Game.World.Structures
             ChangeRelation(Control, city, -30);
             var Log = new LocationTextEventLog(null);
             Log.FPlayer = Control.GetPlayer();
-            Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Loot.CityLootingRStr), [city.GetName()]);
+            Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CityLootingRStr), [city.GetName()]);
             var lhx = city.GetLhx();
             var yhx = city.GetYhx();
             Log.SetLocation(city.GetXhx(), yhx, lhx);
@@ -687,8 +687,8 @@ namespace Aow.Game.World.Structures
             var xhx = city.GetXhx();
             Aow.Game.Events.EventLog.DistributeLocationEventLog(Log, Control.GetPlayer(), xhx, cityYhx, cityLhx, false);
             Log.Release();
-            city.FOverlay.SetMode(Aow.Game.Draw.CityOverlayHS.CityOverlayMode.Looting);
-            Control.FStatus = Aow.Game.World.Structures.ProductionControl.Status.Producing;
+            city.FOverlay.SetMode(CityOverlayHS.CityOverlayMode.Looting);
+            Control.FStatus = ProductionControl.Status.Producing;
         }
 
         public override void Completed(ProductionControl Control)
@@ -700,10 +700,10 @@ namespace Aow.Game.World.Structures
             }
 
             Control.BeginUpdate();
-            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Loot.CityLootedRStr), [city.GetName(), IntToStr(city.FIncome * 3)]));
+            Log(Control, city, RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(CityLootedRStr), [city.GetName(), IntToStr(city.FIncome * 3)]));
             var playerGems = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer());
             Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Control.GetPlayer()).SetGems(playerGems.FGems + city.FIncome * 3);
-            city.FOverlay.SetMode(Aow.Game.Draw.CityOverlayHS.CityOverlayMode.Idle);
+            city.FOverlay.SetMode(CityOverlayHS.CityOverlayMode.Idle);
             city.SetRazed(true);
             Control.EndUpdate();
         }
@@ -738,7 +738,7 @@ namespace Aow.Game.World.Structures
         public virtual City ProductionCity() => null;
 
         // The magic sphere of the production place, msNone for a city.
-        public virtual global::Aow.Game.Magic.MagicSphere MagicSphere() => global::Aow.Game.Magic.MagicSphere.None;
+        public virtual MagicSphere MagicSphere() => Magic.MagicSphere.None;
     }
 }
 
@@ -754,6 +754,6 @@ namespace Aow.Game.World.Structures
 {
     public partial class ProductionPlaceControl
     {
-        public override global::Aow.Game.Magic.MagicSphere MagicSphere() => FProductionPlace.GetMagicSphere();
+        public override MagicSphere MagicSphere() => FProductionPlace.GetMagicSphere();
     }
 }

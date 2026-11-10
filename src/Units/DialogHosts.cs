@@ -34,120 +34,120 @@ namespace Aow.Game.Ui.Dialogs;
 
 public static class DialogHosts
 {
-    public static global::Aow.Game.Ui.Dialogs.SoundDlg SoundDlg;
+    public static SoundDlg SoundDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.MultiWindow MultiWindow;
+    public static MultiWindow MultiWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.MagicWin MagicWin;
+    public static MagicWin MagicWin;
 
-    public static global::Aow.Game.Ui.Dialogs.TBWindow TBWindow;
+    public static TaskBar TBWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.ChatWindow ChatWindow;
+    public static ChatWindow ChatWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.ConstructDlg ConstructDlg;
+    public static ConstructDlg ConstructDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.DisjunctionDlg DisjunctionDlg;
+    public static DisjunctionDlg DisjunctionDlg;
 
     public static GamePlayDlg GamePlayDialog;
 
-    public static global::Aow.Game.Ui.Dialogs.TitleScene TitleScene;
+    public static TitleScene TitleScene;
 
-    public static global::Aow.Game.Ui.Dialogs.CampaignJoinDlg CampaignJoinDlg;
+    public static CampaignJoinDlg CampaignJoinDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.TitleWindow TitleWindow;
+    public static TitleWindow TitleWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.CampaignTransferDlg CampaignTransferDlg;
+    public static CampaignTransferDlg CampaignTransferDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.PowerDlg PowerDlg;
+    public static PowerDlg PowerDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.SynchronizeDlg SynchronizeDlg;
+    public static SynchronizeDlg SynchronizeDlg;
 
     public static DWin DialogWin;
 
-    public static global::Aow.Game.Ui.Dialogs.CampaignSettingsDlg CampaignSettingsDlg;
+    public static CampaignSettingsDlg CampaignSettingsDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.ProgressDialog ProgressDialog;
+    public static ProgressDialog ProgressDialog;
 
-    public static global::Aow.Game.Ui.Dialogs.UnitSelectionDlg UnitSelectionDlg;
+    public static UnitSelectionDlg UnitSelectionDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.EmailSettingsDlg EmailSettingsDlg;
+    public static EmailSettingsDlg EmailSettingsDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.EmailGameSettingsDlg EmailGameSettingsDlg;
+    public static EmailGameSettingsDlg EmailGameSettingsDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.POP3Dlg POP3Dlg;
+    public static POP3Dlg POP3Dlg;
 
-    public static global::Aow.Game.Ui.Dialogs.CastUnitSpellDlg CastUnitSpellDlg;
+    public static CastUnitSpellDlg CastUnitSpellDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.DeformFaceDlg DeformFaceDlg;
+    public static DeformFaceDlg DeformFaceDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.SMTPDlg SMTPDlg;
+    public static SMTPDlg SMTPDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.TargetSelectionDlg TargetSelectionDlg;
+    public static TargetSelectionDlg TargetSelectionDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.WorldMap WorldMap;
+    public static WorldMap WorldMap;
 
-    public static global::Aow.Game.Ui.Dialogs.ControlWin ControlWin;
+    public static ControlWin ControlWin;
 
-    public static global::Aow.Game.Ui.Dialogs.MWindow MWindow;
+    public static MWindow MWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.PyreScreen PyreScreen;
+    public static PyreScreen PyreScreen;
 
-    public static global::Aow.Game.Ui.Dialogs.CityScreen CityScreen;
+    public static CityScreen CityScreen;
 
-    public static global::Aow.Game.Ui.Dialogs.ScenSetup ScenSetup;
+    public static ScenSetup ScenSetup;
 
-    public static global::Aow.Game.Ui.Dialogs.SpellBook SpellBook;
+    public static SpellBook SpellBook;
 
-    public static global::Aow.Game.Ui.Dialogs.FontModule FontModule;
+    public static FontModule FontModule;
 
-    public static global::Aow.Game.Ui.Dialogs.TCScanner TCScanner;
+    public static CombatScanner TCScanner;
 
-    public static global::Aow.Game.Ui.Dialogs.FileDlgWindow FileDlgWindow;
+    public static FileDlgWindow FileDlgWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.InfoBanner InfoBanner;
+    public static InfoBanner InfoBanner;
 
-    public static global::Aow.Game.Ui.Dialogs.IWindow IWindow;
+    public static IWindow IWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.ItemBanner ItemBanner;
+    public static ItemBanner ItemBanner;
 
-    public static global::Aow.Game.Ui.Dialogs.LeaderSetupWin LeaderSetupWin;
+    public static LeaderSetupWin LeaderSetupWin;
 
-    public static global::Aow.Game.Ui.Dialogs.MessageDlg MessageDlg;
+    public static MessageDlg MessageDlg;
 
-    public static global::Aow.Game.Ui.Dialogs.PInfoW PInfoW;
+    public static PInfoW PInfoW;
 
-    public static global::Aow.Game.Ui.Dialogs.ProductionScreen ProductionScreen;
+    public static ProductionScreen ProductionScreen;
 
-    public static global::Aow.Game.Ui.Dialogs.RealmWin RealmWin;
+    public static RealmWin RealmWin;
 
-    public static global::Aow.Game.Ui.Dialogs.ResultsWin ResultsWin;
+    public static ResultsWin ResultsWin;
 
-    public static global::Aow.Game.Ui.Dialogs.SWindow SWindow;
+    public static SWindow SWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.SelFactionWin SelFactionWin;
+    public static SelFactionWin SelFactionWin;
 
-    public static global::Aow.Game.Ui.Dialogs.TCUnit TCUnit;
+    public static CombatUnitInfo TCUnit;
 
-    public static global::Aow.Game.Ui.Dialogs.UnitBanner UnitBanner;
+    public static UnitBanner UnitBanner;
 
-    public static global::Aow.Game.Ui.Dialogs.UnitWindow UnitWindow;
+    public static UnitWindow UnitWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.VideoDialog VideoDialog;
+    public static VideoDialog VideoDialog;
 
-    public static global::Aow.Game.Ui.Dialogs.General General;
+    public static General General;
 
-    public static global::Aow.Game.Ui.Dialogs.RelWindow RelWindow;
+    public static RelWindow RelWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.PopupWindows PopupWindows;
+    public static PopupWindows PopupWindows;
 
-    public static global::Aow.Game.Ui.Dialogs.IntroScene IntroScene;
+    public static IntroScene IntroScene;
 
-    public static global::Aow.Game.Ui.Dialogs.HelpWindow HelpWindow;
+    public static HelpWindow HelpWindow;
 
-    public static global::Aow.Game.Ui.Dialogs.IntGfxMod IntGfxMod;
+    public static IntGfxMod IntGfxMod;
 
-    public static global::Aow.Game.Ui.Dialogs.MapEvents MapEvents;
+    public static MapEvents MapEvents;
 
-    public static global::Aow.Game.Ui.Dialogs.SetupEvents SetupEvents;
+    public static SetupEvents SetupEvents;
 
 }

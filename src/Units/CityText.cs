@@ -31,9 +31,9 @@ internal static class CityText
     internal static int PlayerCities(sbyte Player)
     {
         int Result;
-        global::Aow.Game.Session.Player P;
+        Player P;
         PlayerStructure Structure;
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (AoWHSMap.Current != null)
         {
             P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
             Result = 0;

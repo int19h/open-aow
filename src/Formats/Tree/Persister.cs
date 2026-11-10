@@ -119,7 +119,7 @@ public interface IPersister
 
     void Enum<TEnum>(string name, ref TEnum value, TEnum fallback = default) where TEnum : struct, Enum;
 
-    void Set<E>(string name, ref global::Aow.Rtl.Set<E> value) where E : unmanaged, Enum;
+    void Set<E>(string name, ref Set<E> value) where E : unmanaged, Enum;
 
     void Bool(string name, ref bool value);
 

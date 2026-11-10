@@ -21,7 +21,7 @@ internal static class PassiveAbilities
         Ability.FMoveTypes = MoveTypes;
         if (MoveTypes.Contains(MoveType.Mountaineering) || MoveTypes.Contains(MoveType.Forestry) || MoveTypes.Contains(MoveType.CaveCrawling))
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Editor);
+            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.Editor);
         }
 
         return Ability;
@@ -36,29 +36,29 @@ internal static class PassiveAbilities
         Ability.FImmunityTypes = DamageTypes;
         if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Death, DamageType.Holy, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
         {
-            Ability.FSelectionTypes = Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Unit, Aow.Game.Magic.Abilities.AbilitySelectionType.RingItem);
+            Ability.FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
         }
         else
         {
             if ((Set<DamageType>.Of(DamageType.Death, DamageType.Holy, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
             {
-                Ability.FSelectionTypes = Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Unit, Aow.Game.Magic.Abilities.AbilitySelectionType.RingItem);
+                Ability.FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit, AbilitySelectionType.RingItem);
             }
             else
             {
-                Ability.FSelectionTypes = Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.Unit);
+                Ability.FSelectionTypes = Set<AbilitySelectionType>.Of(AbilitySelectionType.Unit);
             }
         }
 
         if ((Set<DamageType>.Of(DamageType.Physical, DamageType.Magic) & DamageTypes) == Set<DamageType>.Of())
         {
-            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<Aow.Game.Magic.Abilities.AbilitySelectionType>.Of(Aow.Game.Magic.Abilities.AbilitySelectionType.TorsoItem);
+            Ability.FSelectionTypes = Ability.FSelectionTypes + Set<AbilitySelectionType>.Of(AbilitySelectionType.TorsoItem);
         }
 
         return Ability;
     }
 
-    internal static ProtectionAbility CreateProtectionAbility(int ID, string Name, Set<DamageType> DamageTypes, Set<Aow.Game.Magic.Abilities.AbilitySelectionType> SelectionTypes)
+    internal static ProtectionAbility CreateProtectionAbility(int ID, string Name, Set<DamageType> DamageTypes, Set<AbilitySelectionType> SelectionTypes)
     {
         ProtectionAbility Ability;
         Ability = new ProtectionAbility(null);

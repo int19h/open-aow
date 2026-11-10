@@ -18,7 +18,7 @@ public partial class HSLibrary : ImageLibrary
     // HSLib.pas:292
     internal void SetEngine(HexagonSpriteEngine Value)
     {
-        if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && Value != FEngine)
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && Value != FEngine)
         {
             FEngine = Value;
             FHSEngine = FEngine.HSEngine;
@@ -30,7 +30,7 @@ public partial class HSLibrary : ImageLibrary
     }
 
     // HSLib.pas:279
-    public HSLibrary(global::Aow.Rtl.Component owner) : base(owner)
+    public HSLibrary(Component owner) : base(owner)
     {
         FList = new DelphiList();
     }
@@ -85,9 +85,9 @@ public partial class LibraryHS : HPBasedHS
         FLevel = 30;
     }
 
-    internal global::Aow.Game.World.Map.MapContainer FMapContainer;
+    internal MapContainer FMapContainer;
     internal byte FLevel;
-    internal Aow.Game.Draw.Images.LibraryImage FImage;
+    internal LibraryImage FImage;
     internal bool FDestroyOnShow;
     internal HSLibrary FLibrary;
 
@@ -255,7 +255,7 @@ public partial class LibraryHS : HPBasedHS
     }
 
     // HSLib.pas:186
-    public void SetImage(Aow.Game.Draw.Images.LibraryImage Value)
+    public void SetImage(LibraryImage Value)
     {
         int Xhp;
         if (FXhp != -2147483648)
@@ -277,7 +277,7 @@ public partial class LibraryHS : HPBasedHS
     }
 
     // HSLib.pas:203
-    public override bool Place(global::Aow.Game.World.Map.MapContainer MapContainer, int Xhp, int Yhp, int Lhx)
+    public override bool Place(MapContainer MapContainer, int Xhp, int Yhp, int Lhx)
     {
         int I = default;
         int J = default;
@@ -381,14 +381,14 @@ public partial class LibraryHS : HPBasedHS
     }
 
     // HSLib.pas:251
-    public bool PlaceEx(global::Aow.Game.World.Map.MapContainer MapContainer, int Xhp, int Yhp, int Lhx, byte Level)
+    public bool PlaceEx(MapContainer MapContainer, int Xhp, int Yhp, int Lhx, byte Level)
     {
         FLevel = Level;
         return Place(MapContainer, Xhp, Yhp, Lhx);
     }
 
     // HSLib.pas:257
-    public bool PlaceHX(global::Aow.Game.World.Map.MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         int Xhp = default;
         int Yhp = default;
@@ -397,7 +397,7 @@ public partial class LibraryHS : HPBasedHS
     }
 
     // HSLib.pas:265
-    public bool PlaceHXEx(global::Aow.Game.World.Map.MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx, sbyte Level, bool Center)
+    public bool PlaceHXEx(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx, sbyte Level, bool Center)
     {
         int Xhp = default;
         int Yhp = default;
@@ -412,9 +412,9 @@ public partial class LibraryHS : HPBasedHS
         return Place(MapContainer, Xhp, Yhp, Lhx);
     }
 
-    public global::Aow.Game.World.Map.MapContainer MapContainer { get => FMapContainer; }
+    public MapContainer MapContainer { get => FMapContainer; }
     public new byte Level { get => FLevel; set => FLevel = value; }
-    public Aow.Game.Draw.Images.LibraryImage Image { get => FImage; set => SetImage(value); }
+    public LibraryImage Image { get => FImage; set => SetImage(value); }
     public bool DestroyOnShow { get => FDestroyOnShow; set => FDestroyOnShow = value; }
 
     // HSLib.pas:28
