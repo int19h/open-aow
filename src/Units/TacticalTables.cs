@@ -313,7 +313,7 @@ internal static class TacticalTables
                         Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
                         if (Wall == null && Side == CombatSideIndex.Attacker)
                         {
-                            Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
+                            Wall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510) as CityWall;
                         }
 
                         if (A == 1)
@@ -362,7 +362,7 @@ internal static class TacticalTables
                                                 Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
                                                 if (Wall == null)
                                                 {
-                                                    Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
+                                                    Wall = AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510) as CityWall;
                                                 }
 
                                                 B += 1;

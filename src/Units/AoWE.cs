@@ -7106,9 +7106,9 @@ namespace Aow.Game.Session
         // Player.PAS:1134
         public void GetLeaderLocation(ref sbyte X, ref sbyte Y, ref sbyte L)
         {
-            if (FLeader != null && FLeader.Owner != null)
+            if (FLeader != null && FLeader.UnitListOwner != null)
             {
-                ((UnitList)FLeader.Owner).GetLocation(ref X, ref Y, ref L);
+                FLeader.UnitListOwner.GetLocation(ref X, ref Y, ref L);
             }
             else
             {
@@ -13327,7 +13327,7 @@ namespace Aow.Game.Units
             Army = AUnit.Owner;
             if (Army is Army)
             {
-                ArmyHS = ((Army)Army).GetArmyHS();
+                ArmyHS = AUnit.ArmyOwner.GetArmyHS();
                 ArmyHS.FArmy.ResetDestinationPos();
                 if (ArmyHS != GetArmyHS())
                 {
@@ -23141,7 +23141,7 @@ namespace Aow.Game.Magic.Abilities
 
             if (Owner != null && Owner is UnitList)
             {
-                ((EChangeNotifyNode)Owner).Changed();
+                UnitListOwner.Changed();
             }
         }
 
@@ -23650,7 +23650,7 @@ namespace Aow.Game.Magic.Abilities
             bool Result = AoWHSMap.Current.FSeatedPlayer == FPlayer;
             if (Result && GetTransporter() && Owner is Army)
             {
-                Result = ((Army)Owner).UnitsInTransporter() == 0;
+                Result = ArmyOwner.UnitsInTransporter() == 0;
             }
 
             return Result;
@@ -23894,12 +23894,17 @@ namespace Aow.Game.Magic.Abilities
             }
         }
 
+        // A hero list is not an army or a unit list. Callers treat that owner as absent.
+        internal Army ArmyOwner => Owner is HeroList ? null : (Army)Owner;
+
+        internal UnitList UnitListOwner => Owner is HeroList ? null : (UnitList)Owner;
+
         // Unit.PAS:189
         public void GetLocation(ref sbyte Xhx, ref sbyte Yhx, ref sbyte Lhx)
         {
             if (Owner is UnitList)
             {
-                ((UnitList)Owner).GetLocation(ref Xhx, ref Yhx, ref Lhx);
+                UnitListOwner.GetLocation(ref Xhx, ref Yhx, ref Lhx);
             }
             else
             {
@@ -28225,12 +28230,9 @@ namespace Aow.Game.Events
         {
             bool Result = default;
             Hero Hero;
-            AbstractUnit UnitItem;
             bool ExecuteNow;
             var unitControl = AoWHSMap.Current.FUnitControl;
-            UnitItem = unitControl.FindUnit(FUnitID);
-
-            Hero = (Hero)UnitItem;
+            Hero = unitControl.FindUnit<Hero>(FUnitID);
             if (Hero != null && AoWHSMap.Current.FSeatedPlayer == Hero.FPlayer)
             {
                 if (Hero.FUpgradePending)
@@ -28445,12 +28447,9 @@ namespace Aow.Game.Events
         {
             bool Result = default;
             Hero Hero;
-            AbstractUnit UnitItem;
             bool ExecuteNow;
             var unitControl = AoWHSMap.Current.FUnitControl;
-            UnitItem = unitControl.FindUnit(FFirstUnitID);
-
-            Hero = (Hero)UnitItem;
+            Hero = unitControl.FindUnit<Hero>(FFirstUnitID);
             if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
             {
                 ExecuteNow = Trigger == ExecuteTrigger.User;
@@ -28637,20 +28636,20 @@ namespace Aow.Game.Events
             HeroJoinEventLog Result;
             Hero Hero;
             Hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
-            if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer))
+            if (Hero != null && Hero.FPlayer == 0 && Hero.OfferToJoin(FPlayer) && Hero.Owner is not HeroList)
             {
                 Result = new HeroJoinEventLog(null);
                 Result.FJoinIndex = FID;
                 switch (FMode)
                 {
                     case HeroJoinMode.Emerged:
-                        Result.SetupJoinArmy((Army)Hero.Owner, FPlayer, Result.FJoinMode);
+                        Result.SetupJoinArmy(Hero.ArmyOwner, FPlayer, Result.FJoinMode);
                         Result.FFirstUnitID = Hero.FUnitID;
                         var format = AbilityRules.Format(AbilityRules.TranslateRStr(XEmergedAtYAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, FLocationName, Result.FGold]);
                         Result.FJoinMessage.Text = format;
                         break;
                     case HeroJoinMode.Resurrected:
-                        Result.SetupJoinArmy((Army)Hero.Owner, FPlayer, Result.FJoinMode);
+                        Result.SetupJoinArmy(Hero.ArmyOwner, FPlayer, Result.FJoinMode);
                         Result.FFirstUnitID = Hero.FUnitID;
                         var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(XwasResurrectedAndOffersToJoinYouForZgpRStr), [Hero.FHeroName, Result.FGold]);
                         Result.FJoinMessage.Text = aoWEFormat;
@@ -50592,7 +50591,7 @@ namespace Aow.Game.Ai.Groups
             else
             {
                 FMode = Mode.TransporterCanMove;
-                var armyHS = ((Army)FSettings.FTransporter.FOwner).GetArmyHS();
+                var armyHS = FSettings.FTransporter.Owner is HeroList ? null : FSettings.FTransporter.ArmyOwner.GetArmyHS();
                 FPathSettings.FTransporterArmy = armyHS;
                 if (FSettings.FSourceL == FSettings.FDestinationL)
                 {
@@ -64612,8 +64611,8 @@ namespace Aow.Game.Commands
                     }
                     else
                     {
-                        ((Army)AUnit.Owner).SetPlayer(0);
-                        ArmyHS = ((Army)AUnit.Owner).GetArmyHS();
+                        AUnit.ArmyOwner.SetPlayer(0);
+                        ArmyHS = AUnit.ArmyOwner.GetArmyHS();
                     }
 
                     if (ArmyHS != null)
@@ -70893,7 +70892,16 @@ namespace Aow.Game.Magic.Abilities
                 Selector.FCaption = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.SelectUnitForXRStr), [healing]);
                 if (unit != null)
                 {
-                    Selector.Setup(unit, (UnitList)unit.Owner);
+                    if (unit.Owner is HeroList)
+                    {
+                        var empty = new UnitUserList(null);
+                        Selector.Setup(unit, empty);
+                        empty.Dispose();
+                    }
+                    else
+                    {
+                        Selector.Setup(unit, unit.UnitListOwner);
+                    }
                 }
 
                 Info.SetUnitSelector(Selector);
@@ -71615,7 +71623,16 @@ namespace Aow.Game.Magic.Abilities
                 Selector.FCaption = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.SelectUnitForXRStr), [dispelMagic]);
                 if (unit != null)
                 {
-                    Selector.Setup(unit, (UnitList)unit.Owner);
+                    if (unit.Owner is HeroList)
+                    {
+                        var empty = new UnitUserList(null);
+                        Selector.Setup(unit, empty);
+                        empty.Dispose();
+                    }
+                    else
+                    {
+                        Selector.Setup(unit, unit.UnitListOwner);
+                    }
                 }
 
                 Info.SetUnitSelector(Selector);
@@ -73769,8 +73786,18 @@ namespace Aow.Game.Commands
         public override ExecuteResult Execute(TokenExecuter executer)
         {
             base.Execute(executer);
+            // ExecuteCount binds tighter than the null test. A non-hero with a later count still reaches Process.
             var source = AoWHSMap.Current.FUnitControl.FindUnit(FEventSourceID);
-            if (source == null || executer.ExecuteCount == 0 && !Validate((Hero)source)) return ExecuteResult.DoneHalt;
+            if (source == null)
+            {
+                return ExecuteResult.DoneHalt;
+            }
+
+            if (executer.ExecuteCount == 0 && (source is not Hero hero || !Validate(hero)))
+            {
+                return ExecuteResult.DoneHalt;
+            }
+
             return Process(source, executer.ExecuteCount) ? ExecuteResult.Retry : ExecuteResult.Done;
         }
     }
@@ -73902,17 +73929,16 @@ namespace Aow.Game.Events
         public override bool Execute(bool Mode, ExecuteTrigger Trigger, ExecuteDoneEvent Done)
         {
             bool Show;
-            AbstractUnit Hero;
             string Reason = "";
             Show = Trigger == ExecuteTrigger.User;
             Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Turn && GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
             Show = Show || AoWHSMap.Current.FPlayMode == PlayMode.Simultaneous && GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents().Contains(WindowPopupEvent.SpellReady);
             if (Show)
             {
-                Hero = AoWHSMap.Current.FUnitControl.FindUnit(FUnitID);
-                if (Hero is Hero && ((Hero)Hero).FCastingSpellID == FSpellID && ((Hero)Hero).CastingReady())
+                var hero = AoWHSMap.Current.FUnitControl.FindUnit<Hero>(FUnitID);
+                if (hero != null && hero.FCastingSpellID == FSpellID && hero.CastingReady())
                 {
-                    AoWHSSet.Current.FAbilityControl.GetAbility(52).Activate(Hero, ref Reason);
+                    AoWHSSet.Current.FAbilityControl.GetAbility(52).Activate(hero, ref Reason);
                 }
             }
 
@@ -74329,7 +74355,7 @@ namespace Aow.Game.Magic.Spells.Unit
                 Valid = AIRequestCastSpellExpense(Source, FBaseManaCost, FManaUpkeep, 0);
                 Valid = Valid && Source.Owner is Army;
                 Valid = Valid && ((Hero)Source).CanCastSpell(FSpellID, ref Reason);
-                if (Valid && AIRetrieveOptimalTargetUnit(Source, (UnitList)Source.Owner, ref Target, ref Priority))
+                if (Valid && AIRetrieveOptimalTargetUnit(Source, Source.UnitListOwner, ref Target, ref Priority))
                 {
                     Action = CreateCastSpellAction();
                     SetupCastSpellAction(Source, Action);
@@ -74346,15 +74372,17 @@ namespace Aow.Game.Magic.Spells.Unit
             string Reason = "";
             int Priority = default;
             AbstractUnit Target = default;
-            UnitList Targets;
             UnitSpellTE Event;
             if (((Hero)Source).CanCastSpell(FSpellID, ref Reason))
             {
                 AICastSpellExpenseMade(Source, FBaseManaCost, FManaUpkeep, 0);
                 if (((Hero)Source).CanCastSpellInstantly(FSpellID, FBaseManaCost, ref Reason))
                 {
-                    Targets = (UnitList)Source.Owner;
-                    if (AIRetrieveOptimalTargetUnit(Source, Targets, ref Target, ref Priority))
+                    if (Source.Owner is HeroList)
+                    {
+                        Result = false;
+                    }
+                    else if (AIRetrieveOptimalTargetUnit(Source, Source.UnitListOwner, ref Target, ref Priority))
                     {
                         Event = new UnitSpellTE(null);
                         Event.Initialize(FSpellID, Source, null, FBaseManaCost);
@@ -74402,7 +74430,17 @@ namespace Aow.Game.Magic.Spells.Unit
                 if (FTargetRange == 0)
                 {
                     Caster = new UnitSpellCaster(null);
-                    SetupUSC(Caster, Source, (UnitList)Source.Owner);
+                    if (Source.Owner is HeroList)
+                    {
+                        var empty = new UnitUserList(null);
+                        SetupUSC(Caster, Source, empty);
+                        empty.Dispose();
+                    }
+                    else
+                    {
+                        SetupUSC(Caster, Source, Source.UnitListOwner);
+                    }
+
                     AoWHSMap.Current.FCosmeticSurgeryEventsStore.Raise(Caster);
                     Caster.Release();
                 }
@@ -78598,8 +78636,13 @@ namespace Aow.Game.Commands
                         HNWalkData.WalkToNextHN(ref Walk);
                     }
 
-                    Owner = (EChangeNotifyNode)AUnit.Owner;
-                    Owner.BeginUpdate();
+                    bool locked = AUnit.Owner is not HeroList;
+                    Owner = locked ? (EChangeNotifyNode)AUnit.Owner : null;
+                    if (locked)
+                    {
+                        Owner.BeginUpdate();
+                    }
+
                     Structure = (Structure)Resource.PlaceResourceUser(AoWHSMap.Current, X, Y, L);
                     if (Structure != null)
                     {
@@ -78611,7 +78654,10 @@ namespace Aow.Game.Commands
                         Result = ExecuteResult.Done;
                     }
 
-                    Owner.EndUpdate();
+                    if (locked)
+                    {
+                        Owner.EndUpdate();
+                    }
                 }
             }
 

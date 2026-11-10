@@ -620,10 +620,15 @@ namespace Aow.Game.Magic.Spells.Global
             base.Activate(Source);
             if (CanActivate(Source, ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
+                if (Source.Owner is HeroList)
+                {
+                    return false;
+                }
+
                 Event = new WarpPartyTE(null);
                 Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
-                Event.FArmyID = ((Army)Source.Owner).CreateID(255);
-                var warpLocation = CalculateWarpLocation(((Army)Source.Owner).GetArmyHS());
+                Event.FArmyID = Source.ArmyOwner.CreateID(255);
+                var warpLocation = CalculateWarpLocation(Source.ArmyOwner.GetArmyHS());
                 Event.FWarpLocation.Packed = warpLocation;
                 AoWHSMap.Current.FSelectedArmy.Unselect();
                 if (Event.FWarpLocation.Packed != 16777215)
@@ -1179,7 +1184,7 @@ namespace Aow.Game.Magic.Spells.Global
             for (int I = AoWHSMap.Current.FHeroControl.GetCount() - 1; I >= 0; I--)
             {
                 Hero = AoWHSMap.Current.FHeroControl.GetHero(I);
-                if (Hero.FPlayer == 0 && Hero.Owner is Army && ((Army)Hero.Owner).FX != -1)
+                if (Hero.FPlayer == 0 && Hero.Owner is Army && Hero.ArmyOwner.FX != -1)
                 {
                     if (Hero.OfferToJoin(Source.FPlayer))
                     {
