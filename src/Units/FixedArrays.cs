@@ -388,9 +388,9 @@ public struct FixedArray_Aow_Units_AoWE_TRaceTerrainInfo_12
 [InlineArray(12)]
 public struct FixedArray_Aow_Units_AoWE_TStatus_12
 {
-    private Aow.Game.Engine.Status element0;
+    private Status element0;
 
-    public static FixedArray_Aow_Units_AoWE_TStatus_12 From(ReadOnlySpan<Aow.Game.Engine.Status> values)
+    public static FixedArray_Aow_Units_AoWE_TStatus_12 From(ReadOnlySpan<Status> values)
     {
         FixedArray_Aow_Units_AoWE_TStatus_12 result = default;
         for (int i = 0; i < values.Length; i++)
@@ -662,13 +662,13 @@ public struct FixedArray_Aow_Units_HSEngine_XYTableEntry_8
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_HashTabU_TIntegerHashList_256
 {
-    private Aow.Game.Engine.Hash.IntegerHashList element0;
+    private Hash.IntegerHashList element0;
 }
 
 [InlineArray(256)]
 public struct FixedArray_Aow_Units_HashTabU_TStringHashList_256
 {
-    private Aow.Game.Engine.Hash.StringHashList element0;
+    private Hash.StringHashList element0;
 }
 
 [InlineArray(5)]

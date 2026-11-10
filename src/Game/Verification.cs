@@ -89,11 +89,11 @@ internal static class Verification
         Equal((-1, -1, false), viewport.Map(1400, 500), "right of the output is outside");
         Equal((-1, -1, false), viewport.Map(-1, 500), "left of the output is outside");
         Equal((-1, -1, false), viewport.Map(500, 1000), "below the output is outside");
-        var sizes = Aow.Game.Draw.PixelFormats.IntegerScaleSizes(3840, 2160);
+        var sizes = PixelFormats.IntegerScaleSizes(3840, 2160);
         Check(sizes.SequenceEqual(new[] { (960, 540), (1280, 720), (1920, 1080), (3840, 2160) }), "integer scale sizes of 3840x2160");
-        Check(Aow.Game.Draw.PixelFormats.IntegerScaleSizes(1920, 1200).SequenceEqual(new[] { (960, 600), (1920, 1200) }), "integer scale sizes of 1920x1200");
-        Check(Aow.Game.Draw.PixelFormats.IntegerScaleSizes(2560, 1440).SequenceEqual(new[] { (853, 480), (1280, 720), (2560, 1440) }), "uneven division rounds down");
-        Check(Aow.Game.Draw.PixelFormats.IntegerScaleSizes(640, 480).SequenceEqual(new[] { (640, 480) }), "smallest desktop");
+        Check(PixelFormats.IntegerScaleSizes(1920, 1200).SequenceEqual(new[] { (960, 600), (1920, 1200) }), "integer scale sizes of 1920x1200");
+        Check(PixelFormats.IntegerScaleSizes(2560, 1440).SequenceEqual(new[] { (853, 480), (1280, 720), (2560, 1440) }), "uneven division rounds down");
+        Check(PixelFormats.IntegerScaleSizes(640, 480).SequenceEqual(new[] { (640, 480) }), "smallest desktop");
         var fullscreen = DisplayViewport.Fit(1280, 720, 2560, 1440);
         Equal((2, 0, 0), (fullscreen.Scale, fullscreen.Left, fullscreen.Top), "a listed size fills the desktop at its scale");
         mapper.Motion(60, 20, 1, viewport, sink);
@@ -177,11 +177,11 @@ internal static class Verification
                 {
                     switch (kind)
                     {
-                        case "integer": int number = 37; registry.rwInteger(section, name, ref number, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
-                        case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
-                        case "string": string text = "default"; registry.rwString(section, name, ref text, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
-                        case "rectangle": Rect rect = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rect, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal(7, rect.Left, "missing rectangle keeps getter default"); break;
-                        case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, Aow.Game.Engine.AoWRegistry.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
+                        case "integer": int number = 37; registry.rwInteger(section, name, ref number, AoWRegistry.ReadWriteMode.Read); Equal(37, number, "missing integer keeps getter default"); break;
+                        case "boolean": bool flag = true; registry.rwBool(section, name, ref flag, AoWRegistry.ReadWriteMode.Read); Equal(true, flag, "missing bool keeps getter default"); break;
+                        case "string": string text = "default"; registry.rwString(section, name, ref text, AoWRegistry.ReadWriteMode.Read); Equal("default", text, "missing string keeps getter default"); break;
+                        case "rectangle": Rect rect = new() { Left = 7, Top = 8, Right = 9, Bottom = 10 }; registry.rwRect(section, name, ref rect, AoWRegistry.ReadWriteMode.Read); Equal(7, rect.Left, "missing rectangle keeps getter default"); break;
+                        case "bytes": byte[] bytes = [0x5A]; registry.rwBinaryData(section, name, bytes, 1, AoWRegistry.ReadWriteMode.Read); Equal((byte)0x5A, bytes[0], "missing bytes keep getter default"); break;
                     }
                 }
             foreach (var (section, kind, names) in schemas)

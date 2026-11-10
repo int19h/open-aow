@@ -141,9 +141,9 @@ public partial class PyreScreen : ILayoutModule
         LeaderFaceFr.Loaded();
         PyreAnimation.Loaded();
         session.Resolve(this);
-        DeadPnl.AOWWindow = Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin;
-        PyreTop.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.PyreFrames;
-        LeaderFaceFr.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.PyreFrames;
+        DeadPnl.AOWWindow = DialogHosts.TitleWindow.TitleWin;
+        PyreTop.ImageLib = DialogHosts.IntGfxMod.PyreFrames;
+        LeaderFaceFr.ImageLib = DialogHosts.IntGfxMod.PyreFrames;
     }
 
     private void Layout_DeadPnlUpdate_0()

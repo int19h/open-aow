@@ -25,7 +25,7 @@ public partial class AOWMenuBar : AOWControl
     public bool F130;
 
     // AOWMenuBar.pas:65
-    public AOWMenuBar(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWMenuBar(Component owner) : base(owner)
     {
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
@@ -109,7 +109,7 @@ public partial class AOWMenuBar : AOWControl
     //   image and the text one pixel lower }
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -126,7 +126,7 @@ public partial class AOWMenuBar : AOWControl
                     {
                         var count = FItems.Count;
                         var fItemsCount = FItems.Count;
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
                         FILButton.DrawILLh(FILIndexDown, rect, ref SurfDesc);
                         if (FAOWFont != null)
                         {
@@ -140,7 +140,7 @@ public partial class AOWMenuBar : AOWControl
                     {
                         var count = FItems.Count;
                         var fItemsCount = FItems.Count;
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft + FWinWidth * I / fItemsCount, FAOWWindow.FWinTop + FWinTop, FWinWidth / count, FWinHeight);
                         FILButton.DrawILLh(FILIndexUp, rect, ref SurfDesc);
                         if (FAOWFont != null)
                         {

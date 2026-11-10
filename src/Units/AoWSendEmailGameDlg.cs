@@ -14,7 +14,7 @@ namespace Aow.Game.Ui.Dialogs;
 // callback, send event
 public partial class SendEmailGameDlg : DataModule
 {
-    public SendEmailGameDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public SendEmailGameDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -71,17 +71,17 @@ public partial class SendEmailGameDlg : DataModule
         FSendEvent = Event;
         FSendEvent.AddRef();
         var sendEmailGameEventLog = FSendEvent;
-        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
+        var player = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
         EmailAddressEdit.Text = player.FPBEMSettings.FEmailGame.FEmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
-        var nameEx = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
-        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.SendEmailGameDlg.NextPlayerXRStr), [nameEx]);
+        var nameEx = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
+        var format = AbilityRules.Format(AbilityRules.TranslateRStr(NextPlayerXRStr), [nameEx]);
         RecipientNameLbl.Text = format;
         if (sendEmailGameEventLog.FMode == 2)
         {
-            var smtpServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
+            var smtpServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
             AutomatedChk.Checked = !IsEmpty(smtpServer);
-            var fRegistrySMTPServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
+            var fRegistrySMTPServer = GameTables.AoWEngine.FRegistry.GetSMTPServer();
             ManualChk.Checked = IsEmpty(fRegistrySMTPServer);
         }
         else
@@ -125,7 +125,7 @@ public partial class SendEmailGameDlg : DataModule
     // AoWSendEmailGameDlg.pas:120
     public void EmailAddressEditChange()
     {
-        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
+        World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
     }
 
     // AoWSendEmailGameDlg.pas:125

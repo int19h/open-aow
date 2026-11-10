@@ -72,7 +72,7 @@ namespace Aow.Game.World
             {
                 if (List.Terrain[I] >= 0 || List.Overlay[I] >= 0)
                 {
-                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
+                    HexGeometry.CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
                     if (X >= 0 && Y >= 0 && X < MapContainer.Width && Y < MapContainer.Height)
                     {
                         MapField = MapContainer.GetField(X, Y, Lhx);
@@ -121,7 +121,7 @@ namespace Aow.Game.World
 
     }
 
-    public partial class MountainMOR : Aow.Game.World.Hexes.AoWTerrain.Resource
+    public partial class MountainMOR : AoWTerrain.Resource
     {
         public MountainMOR(ECustomNode owner) : base(owner)
         { }
@@ -133,7 +133,7 @@ namespace Aow.Game.World
         public override int ResourceUserClassID() => 131432;
 
         // Mountain.pas:172
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MountainRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.MountainRStr);
 
     }
 }
@@ -206,7 +206,7 @@ namespace Aow.Game.World.Terrain
             this.Dispose();
             if (Overlay > 0)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
+                AoWHSMap.Current.PlaceTerrain(Field.Xhx, Field.Yhx, Field.Lhx, Field.TerrainType, Overlay);
             }
         }
 
@@ -230,22 +230,22 @@ namespace Aow.Game.World.Terrain
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            Field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
+            Field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             // { Original tests the base mountain ID, although this object is raised terrain. }
             if (this == Field.FindOwnedChild(131432) && Anim.FFrameCounter == 0)
             {
-                bool condition = Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
+                bool condition = AoWHSMap.Current.FSeatedPlayer == Anim.FTag;
                 if (!condition)
                 {
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    condition = Aow.Game.World.Map.AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                    condition = AoWHSMap.Current.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
                 if (condition)
                 {
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(19).FCastSounds.Play(0);
+                    AoWHSSet.Current.FSpellControl.GetSpell(19).FCastSounds.Play(0);
                 }
             }
         }
@@ -256,7 +256,7 @@ namespace Aow.Game.World.Terrain
             var lhx = Anim.GetLhx();
             var yhx = Anim.GetYhx();
             var xhx = Anim.GetXhx();
-            var field = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
+            var field = AoWHSMap.Current.MapContainer.GetField(xhx, yhx, lhx);
             if (field.FindOwnedChild(131434) == this && FrameCounter == 9)
             {
                 FMode = FMode - Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
@@ -275,7 +275,7 @@ namespace Aow.Game.World.Terrain
             public override int ResourceUserClassID() => 131434;
 
             // Mountain.pas:252
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.RaisedMountain.Resource.RaisedMountainRStr);
+            public override string ResourceEditName() => AbilityRules.TranslateRStr(RaisedMountainRStr);
 
             private static readonly string RaisedMountainRStr = "Raised Mountain";
 
@@ -300,8 +300,8 @@ namespace Aow.Game.Commands
         {
             base.Process(source, value);
             RaiseTerrain(source);
-            Aow.Game.World.Map.AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 1);
-            Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            AoWHSMap.Current.ValidateTerrainObservation(source.FPlayer, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 1);
+            AoWHSSet.Current.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             return false;
         }
 
@@ -317,16 +317,16 @@ namespace Aow.Game.Commands
             int I = default;
             bool Found = default;
             ImageSequenceAnimation Anim = default;
-            Resources = Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FChildren;
-            Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, Location>(ref FLocation).Layer];
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, 0);
+            Resources = AoWHSSet.Current.MapObjectResourceList.FChildren;
+            Level = AoWHSMap.Current.MapContainer.MapLevels[Unsafe.As<XYL, Location>(ref FLocation).Layer];
+            HNWalkData.InitHNWalk(ref Walk, Unsafe.As<XYL, Location>(ref FLocation).X, Unsafe.As<XYL, Location>(ref FLocation).Y, 0);
             while (Walk.Radius <= 1)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
                 {
                     Field = (AoWMapField)Level.Field[Walk.X, Walk.Y];
                     Resource = null;
-                    if (((GlobalTargetSpell)Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
+                    if (((GlobalTargetSpell)AoWHSSet.Current.FSpellControl.GetSpell(19)).ValidTargetMapF(Field))
                     {
                         Found = false;
                         I = Resources.Count;
@@ -341,25 +341,25 @@ namespace Aow.Game.Commands
                         {
                             Field.RestoreTerrain();
                             Mountain = (RaisedMountain)Resource.CreateResourceUser();
-                            Mountain.FDuration = (sbyte)((Aow.Game.World.Map.AoWHSMap.Current.Random(11) - 5) / 5 + 3);
+                            Mountain.FDuration = (sbyte)((AoWHSMap.Current.Random(11) - 5) / 5 + 3);
                             Mountain.FPlayer = Caster.FPlayer;
                             Mountain.FOriginalOverlay = Field.OverlayType;
-                            Aow.Game.World.Map.AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 0, -1);
-                            if (Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Mountain, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer))
+                            AoWHSMap.Current.ClearTerrain(Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer, 0, -1);
+                            if (AoWHSMap.Current.PlaceHX(Mountain, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer))
                             {
                                 Mountain.FMode = Mountain.FMode + Set<AnonymousEnum_rmRaising>.Of(AnonymousEnum_rmRaising.Raising);
                                 Anim = new ImageSequenceAnimation(null);
-                                Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(19).FCastImages.ImageSequences[0]);
+                                Anim.SetImageSequence(AoWHSSet.Current.FSpellControl.GetSpell(19).FCastImages.ImageSequences[0]);
                                 Anim.FOnShow = Mountain.ShowRaiseTerrainAnimation;
                                 Anim.FOnNewFrame = Mountain.NewFrameRaiseTerrainAnimation;
-                                Anim.FFrameCounter = -Aow.Game.World.Map.AoWHSMap.Current.Random(15);
-                                Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer);
+                                Anim.FFrameCounter = -AoWHSMap.Current.Random(15);
+                                AoWHSMap.Current.PlaceHX(Anim, Walk.X, Walk.Y, Unsafe.As<XYL, Location>(ref FLocation).Layer);
                             }
                         }
                     }
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -375,11 +375,11 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     {
         public RaiseTerrain(ECustomNode owner) : base(owner)
         {
-            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain.RaiseTerrainRStr);
+            FSpellName = AbilityRules.TranslateRStr(RaiseTerrainRStr);
             FSpellID = 19;
             FBaseManaCost = 5;
             FSpellLevel = 4;
-            FMagicSphere = Aow.Game.Magic.MagicSphere.Earth;
+            FMagicSphere = MagicSphere.Earth;
             FAboveGroundOnly = true;
         }
 
@@ -390,7 +390,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         {
             base.SetupTargetSelection(Source, TargetSelection);
             TargetSelection.FHNs.Clear();
-            for (int I = 0, last = Aow.Game.World.Map.HexGeometry.RadToHN(2) - 1; I <= last; I++)
+            for (int I = 0, last = HexGeometry.RadToHN(2) - 1; I <= last; I++)
             {
                 TargetSelection.FHNs.Add(0);
             }
@@ -403,7 +403,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             Event = new RaiseTerrainTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            AoWHSMap.Current.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }

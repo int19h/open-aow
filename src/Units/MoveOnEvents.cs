@@ -12,7 +12,7 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Movement;
 
-public partial class MoveOnEvent : Aow.Game.World.MapObject
+public partial class MoveOnEvent : MapObject
 {
     public MoveOnEvent(ECustomNode owner) : base(owner)
     { }
@@ -34,12 +34,12 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
         HNWalkData Walk = default;
         MapLevel MapLevel;
         MapField MapField;
-        if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
+        if (!FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            FStatus = FStatus + Set<Aow.Game.World.MapObjectStatusElement>.Of(Aow.Game.World.MapObjectStatusElement.PlacedOnMap);
-            var mapField = (global::Aow.Game.World.Map.MapField)Owner;
-            MapLevel = (global::Aow.Game.World.Map.MapLevel)mapField.Owner;
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
+            FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+            var mapField = (MapField)Owner;
+            MapLevel = (MapLevel)mapField.Owner;
+            HNWalkData.InitHNWalk(ref Walk, mapField.Xhx, mapField.Yhx, 0);
 
             ref var walk = ref Walk;
             while (walk.Radius <= FRadius)
@@ -55,7 +55,7 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
                     MapField.AddHS(this, walk.HN);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
         }
     }
@@ -65,11 +65,11 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
     {
         HNWalkData Walk = default;
         MapLevel MapLevel;
-        if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
+        if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
         {
-            MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
-            FStatus = FStatus - Set<Aow.Game.World.MapObjectStatusElement>.Of(Aow.Game.World.MapObjectStatusElement.PlacedOnMap);
-            Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 0);
+            MapLevel = (MapLevel)Owner.Owner;
+            FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
+            HNWalkData.InitHNWalk(ref Walk, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, 0);
             while (Walk.Radius <= FRadius)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -77,10 +77,10 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
                     MapLevel.GetField(Walk.X, Walk.Y).RemoveHS(this);
                 }
 
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                HNWalkData.WalkToNextHN(ref Walk);
             }
 
-            FStatus = FStatus - Set<Aow.Game.World.MapObjectStatusElement>.Of(Aow.Game.World.MapObjectStatusElement.PlacedOnMap);
+            FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
             SetOwner(null);
         }
     }
@@ -88,7 +88,7 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
     // MoveOnEvents.pas:168
     public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -117,7 +117,7 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
     }
 
     // MoveOnEvents.pas:134
-    public override bool CanSelect(int Xhp, int Yhp) => Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
+    public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
 
     // MoveOnEvents.pas:129
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -157,7 +157,7 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
 
         if (Value != FRadius)
         {
-            if (FStatus.Contains(Aow.Game.World.MapObjectStatusElement.PlacedOnMap))
+            if (FStatus.Contains(MapObjectStatusElement.PlacedOnMap))
             {
                 MapField = Owner;
                 Disconnect();
@@ -177,11 +177,11 @@ public partial class MoveOnEvent : Aow.Game.World.MapObject
         sbyte player = army.FArmy.FPlayer;
         if (!GetTriggerPlayer(player)) return;
         MovedOnTrigger(player);
-        if (FTriggerPlayers == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting)) Dispose();
+        if (FTriggerPlayers == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting)) Dispose();
     }
 }
 
-public partial class MoveOnEventResource : Aow.Game.World.MapObjectResource
+public partial class MoveOnEventResource : MapObjectResource
 {
     public MoveOnEventResource(ECustomNode owner) : base(owner)
     {
@@ -227,11 +227,11 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
     public override void MovedOnTrigger(sbyte Player)
     {
         // Use the map's seated player.
-        if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+        if (Player == AoWHSMap.Current.FSeatedPlayer)
         {
-            if (CompareText(Aow.Game.World.Movement.ChangeSongMoveOnEvent.PlayingSongFileName(), FSongFileName) != 0)
+            if (CompareText(PlayingSongFileName(), FSongFileName) != 0)
             {
-                Aow.Game.Audio.AudioPlayback.PlaySongEx(FSongFileName, 2, 0, false);
+                Audio.AudioPlayback.PlaySongEx(FSongFileName, 2, 0, false);
             }
         }
 
@@ -240,9 +240,9 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
 
     private static string PlayingSongFileName()
     {
-        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        if (Audio.AudioHost.SoundSystem != null)
         {
-            return global::Aow.Game.Audio.AudioHost.SoundSystem.GetPlayingSongFileName();
+            return Audio.AudioHost.SoundSystem.GetPlayingSongFileName();
         }
         return "";
     }
@@ -259,7 +259,7 @@ public partial class ChangeSongMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132427;
 
         // MoveOnEvents.pas:295
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Movement.ChangeSongMoveOnEvent.Resource.ChangeSongEventRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ChangeSongEventRStr);
 
         private static readonly string ChangeSongEventRStr = "Change Song Event";
 
@@ -290,9 +290,9 @@ public partial class PlaySampleMoveOnEvent : MoveOnEvent
     // MoveOnEvents.pas:316
     public override void MovedOnTrigger(sbyte Player)
     {
-        if (Player == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+        if (Player == AoWHSMap.Current.FSeatedPlayer)
         {
-            Aow.Game.Audio.AudioPlayback.PlaySample(FSampleFileName);
+            Audio.AudioPlayback.PlaySample(FSampleFileName);
         }
 
         SetTriggerPlayer(Player, false);
@@ -310,7 +310,7 @@ public partial class PlaySampleMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132445;
 
         // MoveOnEvents.pas:322
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Movement.PlaySampleMoveOnEvent.Resource.PlaySampleEventRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(PlaySampleEventRStr);
 
         private static readonly string PlaySampleEventRStr = "Play Sample";
 
@@ -350,12 +350,12 @@ public partial class ShowMessageMoveOnEvent : MoveOnEvent
     public override void MovedOnTrigger(sbyte Player)
     {
         ShowMessageEventLog Log;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
+        if (AoWHSMap.Current.FSeatedPlayer == Player)
         {
             Log = new ShowMessageEventLog(null);
             var text = FMessage.Text;
             Log.FMessage.Text = text;
-            Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
+            AoWHSMap.Current.TriggerExecuteEventLog(Log, false, null);
             Log.Release();
         }
 
@@ -374,7 +374,7 @@ public partial class ShowMessageMoveOnEvent : MoveOnEvent
         public override int ResourceUserClassID() => 132429;
 
         // MoveOnEvents.pas:369
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Movement.ShowMessageMoveOnEvent.Resource.ShowMessageEventRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ShowMessageEventRStr);
 
         private static readonly string ShowMessageEventRStr = "Show Message Event";
 

@@ -37,7 +37,7 @@ public partial class FireNode : ProductionPlace
         // FireNode.pas:26
 
         // FireNode.pas:50
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.FireNode.Resource.FireNodeRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(FireNodeRStr);
 
         private static readonly string FireNodeRStr = "Fire Node";
 

@@ -26,7 +26,7 @@ namespace Aow.Game.Ui.Dialogs;
 // completion callback. city-rebellion event
 public partial class CityRebelDlg : DataModule
 {
-    public CityRebelDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public CityRebelDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow RebelWin;
@@ -68,16 +68,16 @@ public partial class CityRebelDlg : DataModule
     // AoWCityRebelDlg.pas:60
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         RebelWin.Visible = false;
     }
 
     // AoWCityRebelDlg.pas:66
     public void CenterButClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         var cityRebellionEventLog = FEvent;
-        Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
+        AoWHSMap.Current.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
     }
 
     // AoWCityRebelDlg.pas:72

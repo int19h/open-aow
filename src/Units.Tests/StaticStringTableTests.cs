@@ -33,7 +33,7 @@ public sealed class StaticStringTableTests
         }
         using var host = new EngineFixture.RecordingHost("fixture");
         Runtime.InstallHost(host);
-        Aow.Game.Audio.NullSoundSystem.Install();
+        Game.Audio.NullSoundSystem.Install();
         Startup.InitializeAll();
         var nulls = new List<string>();
         int tables = 0;

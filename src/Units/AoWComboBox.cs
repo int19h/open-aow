@@ -48,10 +48,10 @@ public partial class AOWComboBox : AOWControl
     public int FILTnIndex;
     public int FILTsIndex;
     public int FDrawItem;
-    public global::Aow.Rtl.Rect FDrawItemRect;
+    public Rect FDrawItemRect;
 
     // AoWComboBox.pas:114
-    public AOWComboBox(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWComboBox(Component owner) : base(owner)
     {
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
@@ -197,7 +197,7 @@ public partial class AOWComboBox : AOWControl
     //   the scroll bar; OnDrawItem is called for every item with FDrawItem and FDrawItemRect set }
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -209,7 +209,7 @@ public partial class AOWComboBox : AOWControl
 
                 FAOWFont.Color = FColor;
                 OldClip = SurfDesc.ClipRect;
-                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FILEdit.DrawILLh(FILEIndex, rect, ref SurfDesc);
                 if (FSelected > -1 && FItems.Count > FSelected)
                 {
@@ -223,14 +223,14 @@ public partial class AOWComboBox : AOWControl
                     var ilFrameHeight = FILFrame[FILFIndex + 1];
                     var ilFrame = FILFrame[FILFIndex + 6];
                     var ilEditHeight = FILEdit[FILEIndex];
-                    var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + ilEditHeight.Height, FWinWidth, ilFrameHeight.Height + ilFrame.Height + FItemHeight * F124 + FListBorderHeight);
+                    var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop + ilEditHeight.Height, FWinWidth, ilFrameHeight.Height + ilFrame.Height + FItemHeight * F124 + FListBorderHeight);
                     FILFrame.DrawILF(FILFIndex, rect2, ref SurfDesc);
                     var ilFrameWidth = FILFrame[FILFIndex + 3];
                     var ilFrame2 = FILFrame[FILFIndex + 4];
                     var ilEdit = FILEdit[FILEIndex];
                     var ilFrame3 = FILFrame[FILFIndex + 1];
                     var ilFrame4 = FILFrame[FILFIndex + 3];
-                    var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilEdit.Height + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FItemHeight * F124 + FListBorderHeight);
+                    var rect3 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilEdit.Height + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FItemHeight * F124 + FListBorderHeight);
                     FILTextureNormal.DrawILT(FILTnIndex, rect3, ref SurfDesc);
                     if (F13C >= F12C && F13C < F124 + F12C)
                     {
@@ -239,7 +239,7 @@ public partial class AOWComboBox : AOWControl
                         var ilEdit2 = FILEdit[FILEIndex];
                         var ilFrame7 = FILFrame[FILFIndex + 1];
                         var ilFrame8 = FILFrame[FILFIndex + 3];
-                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame7.Height + (F13C - F12C) * FItemHeight, FWinWidth - ilFrame5.Width - ilFrame6.Width, FItemHeight);
+                        var rect4 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width, FAOWWindow.FWinTop + FWinTop + ilEdit2.Height + ilFrame7.Height + (F13C - F12C) * FItemHeight, FWinWidth - ilFrame5.Width - ilFrame6.Width, FItemHeight);
                         FILTextureSelected.DrawILT(FILTsIndex, rect4, ref SurfDesc);
                     }
 
@@ -273,7 +273,7 @@ public partial class AOWComboBox : AOWControl
                             var ilFrame7 = FILFrame[FILFIndex + 1];
                             var ilFrame8 = FILFrame[FILFIndex + 3];
                             var ilFrame9 = FILFrame[FILFIndex + 3];
-                            FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame9.Width, FAOWWindow.FWinTop + FWinTop + ilEdit4.Height + ilFrame7.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + ilEdit3.Height + ilFrame6.Height + (I + 1) * FItemHeight);
+                            FDrawItemRect = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame9.Width, FAOWWindow.FWinTop + FWinTop + ilEdit4.Height + ilFrame7.Height + FItemHeight * I, FAOWWindow.FWinLeft + FWinLeft + ilFrame8.Width + FWinWidth, FAOWWindow.FWinTop + FWinTop + ilEdit3.Height + ilFrame6.Height + (I + 1) * FItemHeight);
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);

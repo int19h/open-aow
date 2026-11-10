@@ -13,9 +13,9 @@ public static class SaveSecurity
     {
         bool Result;
         SecurityData Data = default;
-        if (Aow.Game.Saves.SaveSecurity.ReadSecurityData(FileName, ref Data))
+        if (ReadSecurityData(FileName, ref Data))
         {
-            ID = Aow.Game.Saves.SaveSecurity.EncodeSecurityID(Data.ID, Data.Key);
+            ID = EncodeSecurityID(Data.ID, Data.Key);
             Result = true;
         }
         else
@@ -34,12 +34,12 @@ public static class SaveSecurity
         Data = default;
         Key = (byte)Random(256);
         Data.Key = Key;
-        var encodeSecurityID = Aow.Game.Saves.SaveSecurity.EncodeSecurityID(ID, Key);
+        var encodeSecurityID = EncodeSecurityID(ID, Key);
         Data.ID = encodeSecurityID;
-        return Aow.Game.Saves.SaveSecurity.WriteSecurityData(FileName, Data);
+        return WriteSecurityData(FileName, Data);
     }
 
-    internal static bool RemoveFileSecurityID(string FileName) => Aow.Game.Saves.SaveSecurity.RemoveSecurityData(FileName);
+    internal static bool RemoveFileSecurityID(string FileName) => RemoveSecurityData(FileName);
 
     public static string EncodeSecurityID(string Value, byte Key)
     {
@@ -82,7 +82,7 @@ public static class SaveSecurity
             byte[] bytes = new byte[size];
             stream.ReadExactly(bytes);
             bytes.CopyTo(MemoryMarshal.AsBytes(MemoryMarshal.CreateSpan(ref data, 1)));
-            return Aow.Game.Engine.Nodes.EngineServices.GetCRC32(bytes, size) == BinaryPrimitives.ReadInt32LittleEndian(footer);
+            return EngineServices.GetCRC32(bytes, size) == BinaryPrimitives.ReadInt32LittleEndian(footer);
         }
         catch (IOException) { return false; }
         catch (UnauthorizedAccessException) { return false; }

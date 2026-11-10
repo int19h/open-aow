@@ -11,7 +11,7 @@ public partial class HexagonSpriteSelection
         int Yhx = default;
         MapField MapF;
         int I;
-        Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+        HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
         if (Xhx >= 0 && ((HSMap)Owner).FMapContainer.FWidth > Xhx && ((HSMap)Owner).FMapContainer.FHeight > Yhx && Yhx >= 0)
         {
             MapF = ((HSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
@@ -39,7 +39,7 @@ public partial class HexagonSpriteSelection
         MapField MapF;
         HexagonSprite HS;
         int I;
-        Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+        HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
         MapF = ((HSMap)Owner).FMapContainer.GetField(Xhx, Yhx, Lhp);
         I = FindLocationHSIndex(MapF) - 1;
         HS = null;
@@ -85,7 +85,7 @@ public partial class HexagonSpriteSelection
         if (FLocationHS.Count != 0)
         {
             I = 0;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(MapF.FXhx, MapF.FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(MapF.FXhx, MapF.FYhx, ref Xhp, ref Yhp);
             while (Result == -1 && I != MapF.Count)
             {
                 HS = MapF.FHSList[I];

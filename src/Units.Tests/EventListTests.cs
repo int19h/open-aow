@@ -127,9 +127,9 @@ public sealed class EventListTests
     [Fact]
     public void PlayerGemsChangeReachesATypedSubscriber()
     {
-        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        Aow.Game.World.Map.AoWHSMap.Current = map;
+        AoWHSMap.Current = map;
         var player = new Player(null!);
         try
         {
@@ -145,7 +145,7 @@ public sealed class EventListTests
         finally
         {
             player.Dispose();
-            Aow.Game.World.Map.AoWHSMap.Current = previous;
+            AoWHSMap.Current = previous;
             map.Dispose();
         }
     }

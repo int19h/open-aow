@@ -3,10 +3,10 @@ using Aow.Rtl;
 
 namespace Aow.Platform;
 
-public class TSdlSoundSystem : SoundSystem
+public class SdlSoundSystem : SoundSystem
 {
     private static bool muted = true, useOutput;
-    private static TSdlSoundSystem? active;
+    private static SdlSoundSystem? active;
     private SoundSettings settings;
     private SdlAudioOutput? output;
 
@@ -24,13 +24,13 @@ public class TSdlSoundSystem : SoundSystem
     {
         muted = mute || Environment.GetEnvironmentVariable("AOW_MUTE") == "1";
         useOutput = audioOutput;
-        if (Aow.Game.Audio.AudioHost.SoundSystems.Find("SDL") is null) Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Descriptor);
-        if (Aow.Game.Audio.AudioHost.SoundSystems.Find("Galaxy") is null) Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Galaxy);
+        if (AudioHost.SoundSystems.Find("SDL") is null) NullSoundSystem.RegisterSoundSystem(Descriptor);
+        if (AudioHost.SoundSystems.Find("Galaxy") is null) NullSoundSystem.RegisterSoundSystem(Galaxy);
     }
 
     public static string Name => "SDL";
-    public static SoundSystemClass Descriptor { get; } = new("SDL", static () => new TSdlSoundSystem());
-    public static SoundSystemClass Galaxy { get; } = new("Galaxy", static () => new TSdlSoundSystem());
+    public static SoundSystemClass Descriptor { get; } = new("SDL", static () => new SdlSoundSystem());
+    public static SoundSystemClass Galaxy { get; } = new("Galaxy", static () => new SdlSoundSystem());
     public static SampleClass Samples { get; } = new("SdlSample", static data => SdlSample.Create(active!.Mixer, data));
     public static SampleDataClass SampleData { get; } = new("SdlSampleData", SdlSampleData.Create, SdlSampleData.CreateEx);
 
@@ -133,7 +133,7 @@ public class TSdlSoundSystem : SoundSystem
             State = SongState.Idle;
             try
             {
-                using var stream = RtlUnit.Files.Open(Aow.Game.Audio.AudioHost.BaseSoundEnginePath + name, 0);
+                using var stream = RtlUnit.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
                 using var data = new MemoryStream(); stream.CopyTo(data);
                 var song = OpenMptModule.Load(data.GetBuffer().AsSpan(0, (int)data.Length), repeat);
                 if (song is null) return false;
@@ -208,7 +208,7 @@ internal class SdlSampleData : SampleData
 
     private protected SdlSampleData(ConstructionContext context, string name) : base(context, name)
     {
-        using var stream = RtlUnit.Files.Open(Aow.Game.Audio.AudioHost.BaseSoundEnginePath + name, 0);
+        using var stream = RtlUnit.Files.Open(AudioHost.BaseSoundEnginePath + name, 0);
         Wave = WaveData.Read(stream);
     }
 
@@ -222,12 +222,12 @@ internal class SdlSample : Sample
 {
     private readonly AudioMixer mixer;
 
-    private protected SdlSample(ConstructionContext context, AudioMixer mixer, global::Aow.Game.Audio.SampleData data) : base(context, data)
+    private protected SdlSample(ConstructionContext context, AudioMixer mixer, SampleData data) : base(context, data)
     {
         this.mixer = mixer;
     }
 
-    public static SdlSample Create(AudioMixer mixer, global::Aow.Game.Audio.SampleData data) =>
+    public static SdlSample Create(AudioMixer mixer, SampleData data) =>
         ConstructionContext.Create((mixer, data), static (context, value) => new SdlSample(context, value.mixer, value.data));
 
     private AudioMixer.Voice? voice;

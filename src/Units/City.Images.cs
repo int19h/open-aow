@@ -13,7 +13,7 @@ public partial class City
         base.Activate();
         UpdateVisibleForSeatedPlayer();
         FProduction.Activate();
-        var map = Aow.Game.World.Map.AoWHSMap.Current;
+        var map = AoWHSMap.Current;
         if (FPlayer != -1) map.FPlayers.GetPlayers(FPlayer).FProductionControls.Add(FProduction);
         if (map.Status.Contains(HSMapStatusElement.Editting) && map.FDay == 0) SetUpgradeLevel(FUpgradeLevel);
         UpdateImages();
@@ -30,8 +30,8 @@ public partial class City
         {
             if (FRace >= 0)
             {
-                var race = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
-                int size = ((global::Aow.Game.World.Structures.Resource)FResource).FSize;
+                var race = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(FRace);
+                int size = ((Resource)FResource).FSize;
                 if (race != null) FCityImage = race.GetCityImage(size, terrain, field.Lhx);
                 if (FCityImage == null) FCityImage = images[images.ImageExist(offset) ? offset : 0];
             }

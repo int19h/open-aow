@@ -44,7 +44,7 @@ public partial class ManaCrystals : ILTerrainMO
     public override void MsgProc(ref EMsg Msg, EObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.AoWHSMap.Current.FDay == 1)
+        if (Msg.MsgID == 537001985 && AoWHSMap.Current.FDay == 1)
         {
             GenerateManaCrystalsAmount();
         }
@@ -93,19 +93,19 @@ public partial class ManaCrystals : ILTerrainMO
     {
         if (FSize == 4)
         {
-            FSize = (byte)(Aow.Game.World.Map.AoWHSMap.Current.Random(3) + 1);
+            FSize = (byte)(AoWHSMap.Current.Random(3) + 1);
         }
 
         switch (FSize)
         {
             case 1:
-                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 25;
+                FAmount = AoWHSMap.Current.Random(25) + 25;
                 break;
             case 2:
-                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(25) + 50;
+                FAmount = AoWHSMap.Current.Random(25) + 50;
                 break;
             case 3:
-                FAmount = Aow.Game.World.Map.AoWHSMap.Current.Random(50) + 100;
+                FAmount = AoWHSMap.Current.Random(50) + 100;
                 break;
         }
     }
@@ -139,30 +139,30 @@ public partial class ManaCrystals : ILTerrainMO
             return;
         }
 
-        bool condition = (byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
+        bool condition = (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
         if (!condition)
         {
             var lhx = GetLhx();
             var yhx = GetYhx();
             var xhx = GetXhx();
-            condition = Aow.Game.World.Map.AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
+            condition = AoWHSMap.Current.Watching(xhx, yhx, lhx, 0);
         }
 
         if (condition)
         {
-            Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
+            Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
-        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+        var player = AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
         player.FMagicControl.SetMana(player.FMagicControl.FMana + FAmount);
 
         Log = new LocationTextEventLog(null);
         Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-        Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.ManaCrystals.ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
+        Log.FText = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
         var lhx2 = GetLhx();
         var yhx2 = GetYhx();
         Log.SetLocation(GetXhx(), yhx2, lhx2);
-        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
+        AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
         Log.Release();
         Dispose();
     }
@@ -194,7 +194,7 @@ public partial class ManaCrystals : ILTerrainMO
         public override int ResourceUserClassID() => 132030;
 
         // ManaCrystals.pas:165
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.ManaCrystals.Resource.ManaCrystalsRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(ManaCrystalsRStr);
 
         private static readonly string ManaCrystalsRStr = "Mana Crystals";
 

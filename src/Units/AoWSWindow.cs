@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class SWindow : DataModule
 {
-    public SWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public SWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow ScannerWindow;
@@ -19,7 +19,7 @@ public partial class SWindow : DataModule
     public AOWCheckBox BuildingCheck;
     public AOWCheckBox ArmyCheck;
     public AOWCheckBox NaturalCheck;
-    public global::Aow.Game.Ui.Grids.Scanner Scanner;
+    public Scanner Scanner;
     public AOWImage STitleIcon;
     public AOWLabel STitleLabel;
     public AOWButton SMinIcon;
@@ -29,21 +29,21 @@ public partial class SWindow : DataModule
     // AoWSWindow.pas:51
     public void ScannerTabChange()
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (World.Map.AoWHSMap.Current != null)
         {
             switch (ScannerTab.Selected)
             {
                 case 0:
                     Scanner.FUpdateStep = -1;
-                    Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(0);
+                    World.Map.AoWHSMap.Current.ViewLevel(0);
                     break;
                 case 1:
                     Scanner.FUpdateStep = -1;
-                    Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(1);
+                    World.Map.AoWHSMap.Current.ViewLevel(1);
                     break;
                 case 2:
                     Scanner.FUpdateStep = -1;
-                    Aow.Game.World.Map.AoWHSMap.Current.ViewLevel(2);
+                    World.Map.AoWHSMap.Current.ViewLevel(2);
                     break;
             }
         }
@@ -55,11 +55,11 @@ public partial class SWindow : DataModule
         Scanner.SetArmies(ArmyCheck.Checked);
         if (Sender.Checked)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+            DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+            DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -69,11 +69,11 @@ public partial class SWindow : DataModule
         Scanner.SetBuildings(BuildingCheck.Checked);
         if (Sender.Checked)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+            DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+            DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -83,11 +83,11 @@ public partial class SWindow : DataModule
         Scanner.SetNaturals(NaturalCheck.Checked);
         if (Sender.Checked)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+            DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+            DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -101,33 +101,33 @@ public partial class SWindow : DataModule
     // AoWSWindow.pas:88
     public void SMinIconClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         ScannerWindow.Visible = false;
     }
 
     // AoWSWindow.pas:94
     public void ScannerChangeTileBox()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = (Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FTLeft + 6) * 33;
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = (Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FTTop + 6) * 33;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+        DialogHosts.MWindow.MapViewer.SceneX = (DialogHosts.SWindow.Scanner.FTLeft + 6) * 33;
+        DialogHosts.MWindow.MapViewer.SceneY = (DialogHosts.SWindow.Scanner.FTTop + 6) * 33;
+        if (World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTLeft(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
-            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetTTop(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
+            DialogHosts.SWindow.Scanner.SetTWidth(DialogHosts.MWindow.MapViewer.SceneWidth / 32);
+            DialogHosts.SWindow.Scanner.SetTHeight(DialogHosts.MWindow.MapViewer.SceneHeight / 32);
+            DialogHosts.SWindow.Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
+            DialogHosts.SWindow.Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
     // AoWSWindow.pas:107
     public void ScannerTabMouseDown(MouseButton Button, Set<ShiftState> Shift, int X, int Y)
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWSWindow.pas:110
     public void HelpClick()
     {
-        Aow.Game.Ui.Dialogs.HelpWindow.ShowHelp(501);
+        HelpWindow.ShowHelp(501);
     }
 }

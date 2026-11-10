@@ -48,12 +48,12 @@ public static class EngineServices
         return Result + S;
     }
 
-    internal static Aow.Game.Engine.PlugIn GetPlugIn(int Index)
+    internal static PlugIn GetPlugIn(int Index)
     {
-        Aow.Game.Engine.PlugIn Result;
-        if (Aow.Game.Engine.Nodes.EngineHost.PlugIns != null && Index >= 0 && Index < Aow.Game.Engine.Nodes.EngineHost.PlugIns.Count)
+        PlugIn Result;
+        if (EngineHost.PlugIns != null && Index >= 0 && Index < EngineHost.PlugIns.Count)
         {
-            Result = (Aow.Game.Engine.PlugIn)Aow.Game.Engine.Nodes.EngineHost.PlugIns[Index];
+            Result = (PlugIn)EngineHost.PlugIns[Index];
         }
         else
         {
@@ -65,21 +65,21 @@ public static class EngineServices
 
     public static int GetCRC32(ReadOnlySpan<byte> buffer, int size)
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.CRC32Table.Length == 0) Aow.Game.Engine.Nodes.EngineServices.BuildCRC32Table();
+        if (EngineHost.CRC32Table.Length == 0) BuildCRC32Table();
         int crc = -1;
         foreach (byte value in buffer[..size])
-            crc = Aow.Game.Engine.Nodes.EngineHost.CRC32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
+            crc = EngineHost.CRC32Table[(value ^ crc) & 255] ^ (int)((uint)crc >> 8);
         return crc ^ -1;
     }
 
-    internal static global::Aow.Game.Engine.Engine GetEngine(int Index)
+    internal static Engine GetEngine(int Index)
     {
-        global::Aow.Game.Engine.Engine Result;
+        Engine Result;
         object P;
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines != null && Index >= 0 && Index < Aow.Game.Engine.Nodes.EngineHost.Engines.Count)
+        if (EngineHost.Engines != null && Index >= 0 && Index < EngineHost.Engines.Count)
         {
-            P = Aow.Game.Engine.Nodes.EngineHost.Engines[Index];
-            Result = (global::Aow.Game.Engine.Engine)P;
+            P = EngineHost.Engines[Index];
+            Result = (Engine)P;
         }
         else
         {
@@ -89,25 +89,25 @@ public static class EngineServices
         return Result;
     }
 
-    internal static global::Aow.Game.Engine.Engine FindEngine(int AClassID)
+    internal static Engine FindEngine(int AClassID)
     {
         int I;
         bool Found;
         Found = false;
-        global::Aow.Game.Engine.Engine Result = null;
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines != null)
+        Engine Result = null;
+        if (EngineHost.Engines != null)
         {
             I = 0;
             Found = false;
-            while (!Found && I < Aow.Game.Engine.Nodes.EngineHost.Engines.Count)
+            while (!Found && I < EngineHost.Engines.Count)
             {
-                Found = AClassID == ((EObject)Aow.Game.Engine.Nodes.EngineHost.Engines[I]).EClass.ClassID;
+                Found = AClassID == ((EObject)EngineHost.Engines[I]).EClass.ClassID;
                 I += 1;
             }
 
             if (Found)
             {
-                Result = (global::Aow.Game.Engine.Engine)Aow.Game.Engine.Nodes.EngineHost.Engines[I - 1];
+                Result = (Engine)EngineHost.Engines[I - 1];
             }
         }
 
@@ -139,9 +139,9 @@ public static class EngineServices
     {
         int C;
         int Polynomial;
-        if (Aow.Game.Engine.Nodes.EngineHost.CRC32Table.Length == 0)
+        if (EngineHost.CRC32Table.Length == 0)
         {
-            Aow.Game.Engine.Nodes.EngineHost.CRC32Table = new int[256];
+            EngineHost.CRC32Table = new int[256];
             Polynomial = -306674912;
             for (int I = 0; I <= 255; I++)
             {
@@ -157,13 +157,13 @@ public static class EngineServices
                         C = (int)(((uint)C) >> 1);
                     }
 
-                    Aow.Game.Engine.Nodes.EngineHost.CRC32Table[I] = C;
+                    EngineHost.CRC32Table[I] = C;
                 }
             }
         }
     }
 
-    internal static void FillLargeInteger(Span<LargeInteger> buffer, int count, LargeInteger value) => Aow.Game.Engine.Nodes.EngineServices.Fill(buffer, count, value);
+    internal static void FillLargeInteger(Span<LargeInteger> buffer, int count, LargeInteger value) => Fill(buffer, count, value);
 
     internal static void Fill<T>(Span<T> buffer, int count, T value)
     {

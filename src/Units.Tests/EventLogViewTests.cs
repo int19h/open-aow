@@ -56,16 +56,16 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.FObject == NegotiateObject.City) return "CityNegotiation";
             if (negotiateRequestEventLog.FObject == NegotiateObject.Army)
             {
-                var ArmyHS = (global::Aow.Game.Draw.ArmyHS)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
+                var ArmyHS = (ArmyHS)AoWHSMap.Current.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
-                    return ArmyHS.FArmy.Hero(joinSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
+                    return ArmyHS.FArmy.Hero(joinSelection, RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
                 }
             }
             return "None";
         }
-        if (Event is GameOverEventLog) return Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Event.FPlayer ? "GameOver" : "ReceivedMessage";
+        if (Event is GameOverEventLog) return AoWHSMap.Current.FSeatedPlayer == Event.FPlayer ? "GameOver" : "ReceivedMessage";
         if (Event is NewTurnEventLog) return "NewTurn";
         if (Event is CombatTypeRequestEventLog) return "CombatType";
         if (Event is ShowBookEventLog) return "InformationBook";
@@ -73,9 +73,9 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         {
             switch (((PlayerMagicEventLog)Event).FMode)
             {
-                case Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched: return "SpellResearched";
-                case Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana: return "OutOfMana";
-                case Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.StartResearch: return "StartResearch";
+                case PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched: return "SpellResearched";
+                case PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana: return "OutOfMana";
+                case PlayerMagicEventLog.PlayerMagicEventMode.StartResearch: return "StartResearch";
             }
             return "None";
         }
@@ -84,11 +84,11 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         if (Event is ArmyInfoEventLog)
         {
             var armyInfoEventLog = (ArmyInfoEventLog)Event;
-            return armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
+            return armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
         }
         if (Event is PrisonersJoinEventLog)
         {
-            var UnitObject = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(((PrisonersJoinEventLog)Event).FFirstUnitID);
+            var UnitObject = AoWHSMap.Current.FUnitControl.FindUnit(((PrisonersJoinEventLog)Event).FFirstUnitID);
             return UnitObject != null && UnitObject is Hero ? "PrisonerHero" : "PrisonersJoin";
         }
         if (Event is EnterWizardsTowerEventLog) return "WizardsTower";
@@ -225,7 +225,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         }
         else if (typeof(PlayerMagicEventLog).IsAssignableFrom(type))
         {
-            foreach (var mode in new[] { Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched, Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana, Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode.StartResearch, (Aow.Game.Events.PlayerMagicEventLog.PlayerMagicEventMode)3 })
+            foreach (var mode in new[] { PlayerMagicEventLog.PlayerMagicEventMode.SpellResearched, PlayerMagicEventLog.PlayerMagicEventMode.OutOfMana, PlayerMagicEventLog.PlayerMagicEventMode.StartResearch, (PlayerMagicEventLog.PlayerMagicEventMode)3 })
                 yield return new State(mode.ToString(), (e, _) => ((PlayerMagicEventLog)e).FMode = mode);
         }
         else if (typeof(ArmyInfoEventLog).IsAssignableFrom(type))
@@ -249,7 +249,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly AoWHSMap previousMap = AoWHSMap.Current;
         private readonly List<EObject> created = [];
         internal readonly AoWHSMap Map;
         internal readonly MapField Field;
@@ -266,7 +266,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             level.CreateMapFieldList(1, 1);
             Map.FMapContainer = container;
             Field = container.GetField(0, 0, 0);
-            Aow.Game.World.Map.AoWHSMap.Current = Map;
+            AoWHSMap.Current = Map;
         }
 
         internal EventLog Create(Type type)
@@ -318,7 +318,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
+            AoWHSMap.Current = previousMap;
             foreach (var log in created) _ = Record.Exception(log.Dispose);
         }
     }

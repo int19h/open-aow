@@ -129,7 +129,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 5:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -146,8 +146,8 @@ namespace Aow.Game.Ai.Groups
                         FGroup.DeleteUnit(FGroup.FTransporter);
                     }
 
-                    var randomGroupBehavior = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
-                    Group = Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, 0, randomGroupBehavior);
+                    var randomGroupBehavior = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer).FAIControl.GetRandomGroupBehavior();
+                    Group = AoWHSMap.Current.FAIGroupManager.CreateGroup(FGroup.FPlayer, 0, randomGroupBehavior);
                     Group.AddUnits(FGroup);
                     Group.Release();
                     Done();
@@ -186,15 +186,15 @@ namespace Aow.Game.Ai.Groups
         {
             AIGroupDefenseControl Defense;
             AIGroupTargetFinder Finder;
-            Aow.Game.Ai.AIRecruitmentGroupFinder Recruitment;
-            Aow.Game.Ai.AIProductionLocationFinder Production;
+            AIRecruitmentGroupFinder Recruitment;
+            AIProductionLocationFinder Production;
             AIGroupRazeControl Raze;
             AIGroupDefendTargetSelector Defend;
             switch (FState)
             {
                 case 0:
                     Defense = new AIGroupDefenseControl(null);
-                    Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Split;
+                    Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
                     ActivatePlugin(Defense);
                     Defense.Release();
                     FState += 1;
@@ -228,7 +228,7 @@ namespace Aow.Game.Ai.Groups
                 case 2:
                     if (FTargets.Count != 0)
                     {
-                        Recruitment = new Aow.Game.Ai.AIRecruitmentGroupFinder(null);
+                        Recruitment = new AIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -244,7 +244,7 @@ namespace Aow.Game.Ai.Groups
                     if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = new Aow.Game.Ai.AIProductionLocationFinder(null);
+                        Production = new AIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -297,7 +297,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -358,15 +358,15 @@ namespace Aow.Game.Ai.Groups
         {
             AIGroupDefenseControl Defense;
             AIGroupTargetFinder Finder;
-            Aow.Game.Ai.AIRecruitmentGroupFinder Recruitment;
-            Aow.Game.Ai.AIProductionLocationFinder Production;
+            AIRecruitmentGroupFinder Recruitment;
+            AIProductionLocationFinder Production;
             AIGroupRazeControl Raze;
             AIGroupDefendTargetSelector Defend;
             switch (FState)
             {
                 case 0:
                     Defense = new AIGroupDefenseControl(null);
-                    Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Split;
+                    Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
                     ActivatePlugin(Defense);
                     Defense.Release();
                     FState += 1;
@@ -392,7 +392,7 @@ namespace Aow.Game.Ai.Groups
                 case 2:
                     if (FTargets.Count != 0)
                     {
-                        Recruitment = new Aow.Game.Ai.AIRecruitmentGroupFinder(null);
+                        Recruitment = new AIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -408,7 +408,7 @@ namespace Aow.Game.Ai.Groups
                     if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = new Aow.Game.Ai.AIProductionLocationFinder(null);
+                        Production = new AIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -462,7 +462,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -523,15 +523,15 @@ namespace Aow.Game.Ai.Groups
         {
             AIGroupDefenseControl Defense;
             AIGroupTargetFinder Finder;
-            Aow.Game.Ai.AIRecruitmentGroupFinder Recruitment;
-            Aow.Game.Ai.AIProductionLocationFinder Production;
+            AIRecruitmentGroupFinder Recruitment;
+            AIProductionLocationFinder Production;
             AIGroupRazeControl Raze;
             AIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
                     Defense = new AIGroupDefenseControl(null);
-                    Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Split;
+                    Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
                     ActivatePlugin(Defense);
                     Defense.Release();
                     FState += 1;
@@ -557,7 +557,7 @@ namespace Aow.Game.Ai.Groups
                 case 2:
                     if (FTargets.Count != 0)
                     {
-                        Recruitment = new Aow.Game.Ai.AIRecruitmentGroupFinder(null);
+                        Recruitment = new AIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -573,7 +573,7 @@ namespace Aow.Game.Ai.Groups
                     if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = new Aow.Game.Ai.AIProductionLocationFinder(null);
+                        Production = new AIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -625,7 +625,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -687,15 +687,15 @@ namespace Aow.Game.Ai.Groups
         {
             AIGroupDefenseControl Defense;
             AIGroupTargetFinder Finder;
-            Aow.Game.Ai.AIRecruitmentGroupFinder Recruitment;
-            Aow.Game.Ai.AIProductionLocationFinder Production;
+            AIRecruitmentGroupFinder Recruitment;
+            AIProductionLocationFinder Production;
             AIGroupRazeControl Raze;
             AIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
                     Defense = new AIGroupDefenseControl(null);
-                    Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Split;
+                    Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
                     ActivatePlugin(Defense);
                     Defense.Release();
                     FState += 1;
@@ -721,7 +721,7 @@ namespace Aow.Game.Ai.Groups
                 case 2:
                     if (FTargets.Count != 0)
                     {
-                        Recruitment = new Aow.Game.Ai.AIRecruitmentGroupFinder(null);
+                        Recruitment = new AIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -737,7 +737,7 @@ namespace Aow.Game.Ai.Groups
                     if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = new Aow.Game.Ai.AIProductionLocationFinder(null);
+                        Production = new AIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -791,7 +791,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -853,15 +853,15 @@ namespace Aow.Game.Ai.Groups
         {
             AIGroupDefenseControl Defense;
             AIGroupTargetFinder Finder;
-            Aow.Game.Ai.AIRecruitmentGroupFinder Recruitment;
-            Aow.Game.Ai.AIProductionLocationFinder Production;
+            AIRecruitmentGroupFinder Recruitment;
+            AIProductionLocationFinder Production;
             AIGroupRazeControl Raze;
             AIGroupWanderControl Wander;
             switch (FState)
             {
                 case 0:
                     Defense = new AIGroupDefenseControl(null);
-                    Defense.FDefendMode = Aow.Game.Ai.Groups.AIGroupDefenseControl.GroupDefendMode.Split;
+                    Defense.FDefendMode = AIGroupDefenseControl.GroupDefendMode.Split;
                     ActivatePlugin(Defense);
                     Defense.Release();
                     FState += 1;
@@ -887,7 +887,7 @@ namespace Aow.Game.Ai.Groups
                 case 2:
                     if (FTargets.Count != 0)
                     {
-                        Recruitment = new Aow.Game.Ai.AIRecruitmentGroupFinder(null);
+                        Recruitment = new AIRecruitmentGroupFinder(null);
                         Recruitment.Setup(this);
                         ActivatePlugin(Recruitment);
                         Recruitment.Release();
@@ -903,7 +903,7 @@ namespace Aow.Game.Ai.Groups
                     if (FTargets.Count != 0)
                     {
                         FProductionLocations.Clear();
-                        Production = new Aow.Game.Ai.AIProductionLocationFinder(null);
+                        Production = new AIProductionLocationFinder(null);
                         Production.Setup(this);
                         ActivatePlugin(Production);
                         Production.Release();
@@ -956,7 +956,7 @@ namespace Aow.Game.Ai.Groups
 
                     break;
                 case 6:
-                    var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
+                    var player = AoWHSMap.Current.FPlayers.GetPlayers(FGroup.FPlayer);
                     if (Set<PlayerType>.Of(PlayerType.CPU3, PlayerType.CPU4, PlayerType.CPU5).Contains(player.FPlayerType))
                     {
                         FState = 0;
@@ -998,9 +998,9 @@ namespace Aow.Game.Ai.Groups
         // BehaviorAG.pas:136
         public static void MapLoaded(HSMap Sender)
         {
-            if (Sender == Aow.Game.World.Map.AoWHSMap.Current)
+            if (Sender == AoWHSMap.Current)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.DefenderAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.AggressorAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.ExpanderAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.ScorcherAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.NormalAG>(), Aow.Game.Ai.Groups.AIGroupClass.Of<Aow.Game.Ai.Groups.SkirmishAG>()]);
+                AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<DefenderAG>(), AIGroupClass.Of<AggressorAG>(), AIGroupClass.Of<ExpanderAG>(), AIGroupClass.Of<ScorcherAG>(), AIGroupClass.Of<NormalAG>(), AIGroupClass.Of<SkirmishAG>()]);
             }
         }
 
@@ -1011,14 +1011,14 @@ namespace Aow.Game.Ai.Groups
 
         internal static void SubscribeMapLoaded()
         {
-            if (Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine())
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
+            if (GameTables.ValidateAoWEngine())
+                GameTables.AoWEngine.OnHSMLoaded += MapLoaded;
         }
 
         internal static void UnsubscribeMapLoaded()
         {
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine != null)
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
+            if (GameTables.AoWEngine != null)
+                GameTables.AoWEngine.OnHSMLoaded -= MapLoaded;
         }
     }
 }

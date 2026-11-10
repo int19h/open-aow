@@ -17,7 +17,7 @@ public partial class SetupEvents : ILayoutModule
         session.Begin(this);
         Name = "SetupEvents";
         LayoutOnCreate = _ => Layout_SetupEventsCreate_0();
-        var created__DPlay = new LayoutTGDPlay(this);
+        LayoutGDPlay created__DPlay = new LayoutGDPlay(this);
         DPlay = created__DPlay;
         session.BeginRead(created__DPlay);
         created__DPlay.Name = "DPlay";
@@ -39,7 +39,7 @@ public partial class SetupEvents : ILayoutModule
         created__DPlay.UseSetupDialogs = false;
         created__DPlay.FilePacketSize = 1000;
         session.EndRead(created__DPlay);
-        SetupControl = new global::Aow.Game.Session.SetupControl(this);
+        SetupControl = new SetupControl(this);
         session.BeginRead(SetupControl);
         SetupControl.Name = "SetupControl";
         SetupControl.OnSendMap = SetupControlSendMap;

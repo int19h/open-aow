@@ -20,10 +20,10 @@ public enum FrameType : byte
 // FILIndexTexture, FPopupMenu
 public partial class AoWFrame : AOWControl
 {
-    public AoWFrame(global::Aow.Rtl.Component owner) : base(owner)
+    public AoWFrame(Component owner) : base(owner)
     { }
 
-    public global::Aow.Game.Ui.Controls.FrameType FFrameType;
+    public FrameType FFrameType;
     public InterfaceIL FILFrame;
     public InterfaceIL FILTexture;
     public InterfaceIL FILLine;
@@ -57,20 +57,20 @@ public partial class AoWFrame : AOWControl
             {
                 if (FILTexture != null)
                 {
-                    FFrameType = global::Aow.Game.Ui.Controls.FrameType.FilledBox;
+                    FFrameType = FrameType.FilledBox;
                 }
                 else
                 {
-                    FFrameType = global::Aow.Game.Ui.Controls.FrameType.HollowBox;
+                    FFrameType = FrameType.HollowBox;
                 }
             }
             else
             {
                 if (FILLine != null)
                 {
-                    if (FFrameType != global::Aow.Game.Ui.Controls.FrameType.HorizLine)
+                    if (FFrameType != FrameType.HorizLine)
                     {
-                        FFrameType = global::Aow.Game.Ui.Controls.FrameType.VertLine;
+                        FFrameType = FrameType.VertLine;
                     }
                 }
             }
@@ -84,8 +84,8 @@ public partial class AoWFrame : AOWControl
     {
         switch (FFrameType)
         {
-            case global::Aow.Game.Ui.Controls.FrameType.FilledBox:
-            case global::Aow.Game.Ui.Controls.FrameType.HollowBox:
+            case FrameType.FilledBox:
+            case FrameType.HollowBox:
                 var ilFrameHeight = FILFrame[FILIndexFrame];
                 var ilFrame = FILFrame[FILIndexFrame + 5];
                 if (ilFrameHeight.Height + ilFrame.Height > FWinHeight)
@@ -105,7 +105,7 @@ public partial class AoWFrame : AOWControl
                 }
 
                 break;
-            case global::Aow.Game.Ui.Controls.FrameType.HorizLine:
+            case FrameType.HorizLine:
                 FWinHeight = FILLine[FILIndexLine].Height;
                 var ilLineWidth = FILLine[FILIndexLine];
                 var ilLine = FILLine[FILIndexLine + 2];
@@ -117,7 +117,7 @@ public partial class AoWFrame : AOWControl
                 }
 
                 break;
-            case global::Aow.Game.Ui.Controls.FrameType.VertLine:
+            case FrameType.VertLine:
                 var ilLineHeight = FILLine[FILIndexLine];
                 var ilLine4 = FILLine[FILIndexLine + 2];
                 if (ilLineHeight.Height + ilLine4.Height > FWinHeight)
@@ -148,20 +148,20 @@ public partial class AoWFrame : AOWControl
 
                 switch (FFrameType)
                 {
-                    case global::Aow.Game.Ui.Controls.FrameType.VertLine:
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case FrameType.VertLine:
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILLine.DrawILLv(FILIndexLine, rect, ref SurfDesc);
                         break;
-                    case global::Aow.Game.Ui.Controls.FrameType.HorizLine:
-                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case FrameType.HorizLine:
+                        var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILLine.DrawILLh(FILIndexLine, rect2, ref SurfDesc);
                         break;
-                    case global::Aow.Game.Ui.Controls.FrameType.HollowBox:
-                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case FrameType.HollowBox:
+                        var rect3 = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                         break;
-                    case global::Aow.Game.Ui.Controls.FrameType.FilledBox:
-                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                    case FrameType.FilledBox:
+                        var rect4 = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect4, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -169,7 +169,7 @@ public partial class AoWFrame : AOWControl
                         var ilFrame2 = FILFrame[FILIndexFrame + 4];
                         var ilFrame3 = FILFrame[FILIndexFrame + 1];
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        var rect5 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect5 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width, FAOWWindow.FWinTop + FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect5, ref SurfDesc);
                         break;
                 }
@@ -330,7 +330,7 @@ public partial class AoWFrame : AOWControl
     }
 
     [Published]
-    public global::Aow.Game.Ui.Controls.FrameType FrameType { get => FFrameType; set => FFrameType = value; }
+    public FrameType FrameType { get => FFrameType; set => FFrameType = value; }
 
     [Published]
     public InterfaceIL ILFrame { get => FILFrame; set => SetILFrame(value); }

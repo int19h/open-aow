@@ -30,7 +30,7 @@ public partial class RandomNode : ProductionPlace
         // RandomNode.pas:25
 
         // RandomNode.pas:43
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.RandomNode.Resource.RandomNodeRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(RandomNodeRStr);
 
         private static readonly string RandomNodeRStr = "Random Node";
 

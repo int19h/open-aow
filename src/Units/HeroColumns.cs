@@ -17,16 +17,16 @@ internal static class HeroColumns
 
     internal static int HeroControlCompareName(int A, int B)
     {
-        var hero = Aow.Game.World.Map.AoWHSMap.Current.FHeroControl.GetHero(B);
-        return CompareText(Aow.Game.World.Map.AoWHSMap.Current.FHeroControl.GetHero(A).FHeroName, hero.FHeroName);
+        var hero = AoWHSMap.Current.FHeroControl.GetHero(B);
+        return CompareText(AoWHSMap.Current.FHeroControl.GetHero(A).FHeroName, hero.FHeroName);
     }
 
     internal static int HeroControlCompareLevel(int A, int B)
     {
-        int Result = Aow.Game.World.Map.AoWHSMap.Current.FHeroControl.GetHero(A).GetLevel() - Aow.Game.World.Map.AoWHSMap.Current.FHeroControl.GetHero(B).GetLevel();
+        int Result = AoWHSMap.Current.FHeroControl.GetHero(A).GetLevel() - AoWHSMap.Current.FHeroControl.GetHero(B).GetLevel();
         if (Result == 0)
         {
-            Result = Aow.Game.Ui.Grids.HeroColumns.HeroControlCompareName(A, B);
+            Result = HeroControlCompareName(A, B);
         }
 
         return Result;

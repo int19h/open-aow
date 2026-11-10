@@ -15,7 +15,7 @@ internal static class UnitMappings
     [System.Runtime.CompilerServices.ModuleInitializer]
     internal static void Load()
     {
-        System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Aow.Game.Saves.FormatMapping).Module.ModuleHandle);
+        System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Game.Saves.FormatMapping).Module.ModuleHandle);
         EnumCatalog.Register(new DictionaryEnumCatalog(typeof(TSampleRank), typeof(TOtherRank)));
         RecordCatalog.Register(new DictionaryRecordCatalog(typeof(TSampleBehavior), typeof(TSamplePacked), typeof(TEveryWidth)));
     }

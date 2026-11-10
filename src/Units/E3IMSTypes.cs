@@ -6,18 +6,18 @@ namespace Aow.Game.Net;
 [LegacyObject]
 // Imported IMS objects used by E3. List instances are opaque and their methods are imported
 // from ims.dpl.
-public partial class TmsMessageHeader
+public partial class MailHeader
 {
     public string FFrom = "";
 
-    public TmsMessageHeader()
+    public MailHeader()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public partial class TmsAddressList
+public partial class MailAddressList
 {
     // E3IMSTypes.pas:19
     public void Clear()
@@ -33,14 +33,14 @@ public partial class TmsAddressList
         throw new NotImplementedException();
     }
 
-    public TmsAddressList()
+    public MailAddressList()
     {
         CaptureAddress.Assign(this);
     }
 }
 
 [LegacyObject]
-public partial class TmsAttList
+public partial class MailAttachmentList
 {
     // E3IMSTypes.pas:24
     public void Clear()
@@ -56,7 +56,7 @@ public partial class TmsAttList
         throw new NotImplementedException();
     }
 
-    public TmsAttList()
+    public MailAttachmentList()
     {
         CaptureAddress.Assign(this);
     }

@@ -33,27 +33,27 @@ public sealed class RemainingConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet previousSet = Aow.Game.Engine.AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly AoWHSSet previousSet = AoWHSSet.Current;
+        private readonly AoWEngine previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSMap previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly MapObjectResourceList CombatResources = new MapObjectResourceList(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.Configure(EngineFixture.CreateGameSet(Manager), value => { value.FCombatResources = CombatResources; });
-            Aow.Game.Engine.AoWHSSet.Current = set;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
-            Aow.Game.World.Map.AoWHSMap.Current = null!;
-            Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources = null!;
+            AoWHSSet.Current = set;
+            Game.Magic.Abilities.GameTables.AoWEngine = null!;
+            AoWHSMap.Current = null!;
+            AoWHSSet.Current.FUnitGFXResources = null!;
             Runtime.RandSeed = 123456789;
         }
 
         public void Dispose()
         {
-            Aow.Game.Engine.AoWHSSet.Current = previousSet;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = previousSet;
+            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            AoWHSMap.Current = previousMap;
             CombatResources.Dispose();
             Manager.Dispose();
         }
@@ -113,7 +113,7 @@ public sealed class RemainingConstructionTests
         "Aow.Game.Session.PlayerSetupSettings",
         "Aow.Game.Session.SetupSettings",
         "Aow.Game.Session.CustomizeLeaderControl",
-        "Aow.Game.Combat.TCAbility",
+        "Aow.Game.Combat.CombatAbilityRef",
         "Aow.Game.Combat.ROb",
         "Aow.Game.Combat.TaiMove",
         "Aow.Game.Combat.CAI",
@@ -216,10 +216,10 @@ public sealed class RemainingConstructionTests
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
-            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             using var engine = new Engine(null!);
             var meta = EClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
@@ -227,7 +227,7 @@ public sealed class RemainingConstructionTests
         }
         if (route == 3)
         {
-            var meta = Aow.Game.Engine.EClass.Of(type);
+            var meta = EClass.Of(type);
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
@@ -281,9 +281,9 @@ public sealed class RemainingConstructionTests
     [Fact]
     public void ListObjectMetaclassCreatesTheExactType()
     {
-        var value = new Aow.Game.Engine.Collections.ListObject();
-        Assert.IsType<Aow.Game.Engine.Collections.ListObject>(value);
-        Assert.Equal(Snapshot(new Aow.Game.Engine.Collections.ListObject()), Snapshot(value));
+        var value = new ListObject();
+        Assert.IsType<ListObject>(value);
+        Assert.Equal(Snapshot(new ListObject()), Snapshot(value));
         value.Dispose();
     }
 

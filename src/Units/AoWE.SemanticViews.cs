@@ -60,7 +60,7 @@ namespace Aow.Game.Magic.Abilities
             var target = command.FTarget;
             if (target.GetEnabled())
             {
-                var action = Aow.Game.Magic.Abilities.WallCrushingAbility.CreateDamageCA(source, target, 6, 6, Set<DamageType>.Of(DamageType.Wall));
+                var action = CreateDamageCA(source, target, 6, 6, Set<DamageType>.Of(DamageType.Wall));
                 source.FCombat.ExecuteCombatAction(action);
                 action.Release();
             }

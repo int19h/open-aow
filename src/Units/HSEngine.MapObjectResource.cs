@@ -18,7 +18,7 @@ public partial class MapObject
         FResource = null;
     }
 
-    public virtual bool LinkToResource(global::Aow.Game.Engine.Engine engine)
+    public virtual bool LinkToResource(Engine.Engine engine)
     {
         if (!GetResourceLinked())
         {
@@ -34,7 +34,7 @@ public partial class MapObject
 
     public override void ReadWrite(EStorageStream stream)
     {
-        if ((stream.StorageMode() & Set<StorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText, StorageModeElement.Compare)) != default) return;
+        if ((stream.StorageMode() & Set<StorageModeElement>.Of(EngineServices.smText, StorageModeElement.Compare)) != default) return;
         if (stream.StorageMode().Contains(StorageModeElement.Read))
         {
             SetResourceLinked(false);

@@ -7,9 +7,9 @@ namespace Aow.Units.Tests;
 // Brief 9.3b-12: the layout session owns the loading flags and the module failure boundary.
 public sealed class LayoutSessionTests
 {
-    private sealed class Tracked : global::Aow.Rtl.Component
+    private sealed class Tracked : Component
     {
-        public Tracked(global::Aow.Rtl.Component owner) : base(owner) { }
+        public Tracked(Component owner) : base(owner) { }
 
         public bool Destroyed { get; private set; }
 

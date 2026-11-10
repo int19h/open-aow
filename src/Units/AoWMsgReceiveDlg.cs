@@ -26,7 +26,7 @@ namespace Aow.Game.Ui.Dialogs;
 // done callback, retained event
 public partial class MsgReceiveDlg : DataModule
 {
-    public MsgReceiveDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public MsgReceiveDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow MsgReceiveWin;
@@ -63,7 +63,7 @@ public partial class MsgReceiveDlg : DataModule
     // AoWMsgReceiveDlg.pas:40
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         MsgReceiveWin.Visible = false;
     }
 
@@ -82,7 +82,7 @@ public partial class MsgReceiveDlg : DataModule
         Dialog.HeaderMemo.Items.Text = text;
         var fMessageText = ((GameOverEventLog)Event).FMessage.Text;
         Dialog.MessageMemo.Items.Text = fMessageText;
-        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Event.FPlayer);
+        var player = AoWHSMap.Current.FPlayers.GetPlayers(Event.FPlayer);
         Dialog.LShield.CurrentImage = player.FPlayerRace + 13;
         Dialog.RShield.CurrentImage = Dialog.LShield.CurrentImage;
         Dialog.MsgReceiveWin.Visible = true;

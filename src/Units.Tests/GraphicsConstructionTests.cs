@@ -66,27 +66,27 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Components()
     {
-        yield return new object[] { typeof(SdlDC), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new SdlDC(new NullDisplayHost(), owner)) };
-        yield return new object[] { typeof(Display), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new Display(owner)) };
-        yield return new object[] { typeof(Windows24DC), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new Windows24DC(owner)) };
-        yield return new object[] { typeof(Windows32DC), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new Windows32DC(owner)) };
-        yield return new object[] { typeof(CustomDisplay), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new CustomDisplay(owner)) };
-        yield return new object[] { typeof(DisplayCtrl), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new DisplayCtrl(owner)) };
-        yield return new object[] { typeof(WindowsDC), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new WindowsDC(owner)) };
-        yield return new object[] { typeof(Windows08DC), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new Windows08DC(owner)) };
-        yield return new object[] { typeof(Windows16DC), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new Windows16DC(owner)) };
-        yield return new object[] { typeof(CustomImageLibrary), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new CustomImageLibrary(owner)) };
-        yield return new object[] { typeof(ImageLibrary), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new ImageLibrary(owner)) };
-        yield return new object[] { typeof(ImageLibraryFont), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new ImageLibraryFont(owner)) };
-        yield return new object[] { typeof(ImageLibraryManager), (Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component>)(owner => new ImageLibraryManager(owner)) };
+        yield return new object[] { typeof(SdlDC), (Func<Component, Component>)(owner => new SdlDC(new NullDisplayHost(), owner)) };
+        yield return new object[] { typeof(Display), (Func<Component, Component>)(owner => new Display(owner)) };
+        yield return new object[] { typeof(Windows24DC), (Func<Component, Component>)(owner => new Windows24DC(owner)) };
+        yield return new object[] { typeof(Windows32DC), (Func<Component, Component>)(owner => new Windows32DC(owner)) };
+        yield return new object[] { typeof(CustomDisplay), (Func<Component, Component>)(owner => new CustomDisplay(owner)) };
+        yield return new object[] { typeof(DisplayCtrl), (Func<Component, Component>)(owner => new DisplayCtrl(owner)) };
+        yield return new object[] { typeof(WindowsDC), (Func<Component, Component>)(owner => new WindowsDC(owner)) };
+        yield return new object[] { typeof(Windows08DC), (Func<Component, Component>)(owner => new Windows08DC(owner)) };
+        yield return new object[] { typeof(Windows16DC), (Func<Component, Component>)(owner => new Windows16DC(owner)) };
+        yield return new object[] { typeof(CustomImageLibrary), (Func<Component, Component>)(owner => new CustomImageLibrary(owner)) };
+        yield return new object[] { typeof(ImageLibrary), (Func<Component, Component>)(owner => new ImageLibrary(owner)) };
+        yield return new object[] { typeof(ImageLibraryFont), (Func<Component, Component>)(owner => new ImageLibraryFont(owner)) };
+        yield return new object[] { typeof(ImageLibraryManager), (Func<Component, Component>)(owner => new ImageLibraryManager(owner)) };
 
     }
 
     [Theory]
     [MemberData(nameof(Components))]
-    public void ComponentsKeepDefaultsAndOwnership(Type type, Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component> create)
+    public void ComponentsKeepDefaultsAndOwnership(Type type, Func<Component, Component> create)
     {
-        var owner = new global::Aow.Rtl.Component(null!);
+        var owner = new Component(null!);
         var value = create(owner);
         Assert.Equal(type, value.GetType());
         Assert.Same(owner, value.Owner);
@@ -129,9 +129,9 @@ public sealed class GraphicsConstructionTests
 
     [Theory]
     [MemberData(nameof(Components))]
-    public void PlainComponentsStayPublishedUntilTeardown(Type type, Func<global::Aow.Rtl.Component, global::Aow.Rtl.Component> create)
+    public void PlainComponentsStayPublishedUntilTeardown(Type type, Func<Component, Component> create)
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
+        using var owner = new Component(null!);
         var value = create(owner);
         Assert.IsType(type, value);
         Assert.Same(owner, value.Owner);
@@ -174,11 +174,11 @@ public sealed class GraphicsConstructionTests
 
     public static IEnumerable<object[]> Surfaces()
     {
-        yield return new object[] { (Func<GFXEPalette, Surface>)(palette => new DataSurface(7, 4, Aow.Game.Draw.PixelFormats.pfPAL8, palette)), Aow.Game.Draw.PixelFormats.pfPAL8, 8 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(palette => new DIB08Surface(7, 4, palette)), Aow.Game.Draw.PixelFormats.pfPAL8, 8 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB16Surface(7, 4, Aow.Game.Draw.PixelFormats.pfRGB555)), Aow.Game.Draw.PixelFormats.pfRGB555, 16 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB24Surface(7, 4)), Aow.Game.Draw.PixelFormats.pfRGB24, 24 };
-        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB32Surface(7, 4)), Aow.Game.Draw.PixelFormats.pfRGB32, 28 };
+        yield return new object[] { (Func<GFXEPalette, Surface>)(palette => new DataSurface(7, 4, PixelFormats.pfPAL8, palette)), PixelFormats.pfPAL8, 8 };
+        yield return new object[] { (Func<GFXEPalette, Surface>)(palette => new DIB08Surface(7, 4, palette)), PixelFormats.pfPAL8, 8 };
+        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB16Surface(7, 4, PixelFormats.pfRGB555)), PixelFormats.pfRGB555, 16 };
+        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB24Surface(7, 4)), PixelFormats.pfRGB24, 24 };
+        yield return new object[] { (Func<GFXEPalette, Surface>)(_ => new DIB32Surface(7, 4)), PixelFormats.pfRGB32, 28 };
     }
 
     [Theory]
@@ -189,7 +189,7 @@ public sealed class GraphicsConstructionTests
         palette.Entries[0].R = 29;
         var surface = create(palette);
         SurfaceDesc sd = default;
-        Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
+        Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref sd));
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
         Assert.Equal(format, sd.PixelFormatID);
@@ -211,7 +211,7 @@ public sealed class GraphicsConstructionTests
     {
         var palette = new GFXEPalette();
         palette.Entries[0].R = 29;
-        var surface = new DataSurface(7, 4, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
+        var surface = new DataSurface(7, 4, PixelFormats.pfPAL8, palette);
         Assert.NotSame(palette, surface.Palette);
         Assert.Equal((byte)29, surface.Palette.Entries[0].R);
         Assert.Equal(7, surface.Width);
@@ -227,7 +227,7 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void PlainDisplayInitializesFrameRateAndOwner()
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
+        using var owner = new Component(null!);
         var display = new CustomDisplay(owner);
         Assert.Same(owner, display.Owner);
         Assert.Equal(1, owner.ComponentCount);
@@ -243,16 +243,16 @@ public sealed class GraphicsConstructionTests
         var palette = new GFXEPalette();
         palette.Entries[0].R = 29;
         Assert.Throws<ArgumentOutOfRangeException>(() => new DIB08Surface(-1, 4, palette));
-        Assert.Throws<ArgumentOutOfRangeException>(() => new DIB16Surface(-1, 4, Aow.Game.Draw.PixelFormats.pfRGB555));
-        Assert.Throws<NotSupportedException>(() => new DIB16Surface(7, 4, Aow.Game.Draw.PixelFormats.pfPAL8));
+        Assert.Throws<ArgumentOutOfRangeException>(() => new DIB16Surface(-1, 4, PixelFormats.pfRGB555));
+        Assert.Throws<NotSupportedException>(() => new DIB16Surface(7, 4, PixelFormats.pfPAL8));
         Assert.Equal((byte)29, palette.Entries[0].R);
     }
 
     [Fact]
     public void LibraryLegacyBridgeAndLayoutFlagsRunOnce()
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
-        var session = new Aow.Game.Layout.LayoutSession();
+        using var owner = new Component(null!);
+        var session = new LayoutSession();
         var library = new ImageLibrary(owner);
         session.BeginRead(library);
         var font = new ImageLibraryFont(owner);
@@ -264,7 +264,7 @@ public sealed class GraphicsConstructionTests
         Assert.False(library.ComponentState.Contains(ComponentState.Reading));
         Assert.True(library.ComponentState.Contains(ComponentState.Loading));
         Assert.Equal(2, Field(font, "FCharacterDistance"));
-        var legacy = new Aow.Game.Draw.HSLibrary(owner);
+        var legacy = new HSLibrary(owner);
         Assert.NotNull(Field(legacy, "FList"));
         Assert.NotNull(Field(legacy, "FPaletteManager"));
         Assert.Equal(3, owner.ComponentCount);
@@ -280,7 +280,7 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
         Assert.Equal(-8, sd.Pitch);
-        Assert.Equal(Aow.Game.Draw.PixelFormats.pfPAL8, sd.PixelFormatID);
+        Assert.Equal(PixelFormats.pfPAL8, sd.PixelFormatID);
         Assert.Same(Field(owner, "FPalette"), sd.Palette);
         Assert.Same(owner, Field(surface, "FOwner"));
         surface.Unlock();
@@ -304,14 +304,14 @@ public sealed class GraphicsConstructionTests
     [Fact]
     public void SurfaceCaptureKeepsCopiedPixelsAndPalette()
     {
-        using var source = new DIB16Surface(7, 4, Aow.Game.Draw.PixelFormats.pfRGB555);
+        using var source = new DIB16Surface(7, 4, PixelFormats.pfRGB555);
         source.Cls(255);
         using var copy = new DataSurface(source, default);
         SurfaceDesc sd = default;
         copy.Lock(ref sd);
         Assert.Equal(7, sd.Width);
         Assert.Equal(4, sd.Height);
-        Assert.Equal(Aow.Game.Draw.PixelFormats.pfRGB555, sd.PixelFormatID);
+        Assert.Equal(PixelFormats.pfRGB555, sd.PixelFormatID);
         Assert.Equal((ushort)0x7C00, sd.View().Word(0));
         copy.Unlock();
     }
@@ -356,11 +356,11 @@ public sealed class GraphicsConstructionTests
         Assert.Equal(0, owner.ComponentCount);
     }
 
-    private sealed class DisplayObservingOwner : global::Aow.Rtl.Component
+    private sealed class DisplayObservingOwner : Component
     {
         public int X, Y;
 
-        public override void Notification(global::Aow.Rtl.Component component, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component component, Aow.Rtl.Component.Operation operation)
         {
             if (operation == Aow.Rtl.Component.Operation.Insert && component is SdlDC controller)
                 controller.GetMousePos(ref X, ref Y);
@@ -368,7 +368,7 @@ public sealed class GraphicsConstructionTests
         }
     }
 
-    private sealed class NullDisplayHost : Aow.Game.Host.IDisplayHost
+    private sealed class NullDisplayHost : Game.Host.IDisplayHost
     {
         public (int Width, int Height) ClientSize => (640, 480);
         public bool Fullscreen { get; set; }
@@ -378,7 +378,7 @@ public sealed class GraphicsConstructionTests
 
         public (int X, int Y, bool Inside) PointerPosition() => (7, 9, true);
 
-        public void PumpEvents(Aow.Game.Host.IDisplayEvents sink) { }
+        public void PumpEvents(Game.Host.IDisplayEvents sink) { }
 
         public void ShowSystemCursor(bool show) { }
     }

@@ -126,9 +126,9 @@ public partial class CustomDisplay : WinControl
     internal UpdateFrameThread FUpdateFrameThread;
     public Set<DisplayStatusElement> FStatus;
     internal Set<DisplayOptionsElement> FOptions;
-    internal global::Aow.Game.Draw.UpdateFrameMode FUpdateFrameMode;
-    internal global::Aow.Game.Draw.BackSurfaceControlMode FBackSurfaceControlMode;
-    internal global::Aow.Game.Draw.BufferingScheme FBufferingScheme;
+    internal UpdateFrameMode FUpdateFrameMode;
+    internal BackSurfaceControlMode FBackSurfaceControlMode;
+    internal BufferingScheme FBufferingScheme;
     internal int FBackSurfaceWidth;
     internal int FBackSurfaceHeight;
     public int FSurfaceIndex;
@@ -140,7 +140,7 @@ public partial class CustomDisplay : WinControl
     internal AbstractDC FActiveDC;
 
     // DisplayC.pas:1397
-    internal void SetBufferingScheme(global::Aow.Game.Draw.BufferingScheme Value)
+    internal void SetBufferingScheme(BufferingScheme Value)
     {
         if (FActiveDC == null)
         {
@@ -153,25 +153,25 @@ public partial class CustomDisplay : WinControl
 
         switch (FBufferingScheme)
         {
-            case global::Aow.Game.Draw.BufferingScheme.Single:
+            case BufferingScheme.Single:
                 FSurfaceIndex = 0;
                 break;
-            case global::Aow.Game.Draw.BufferingScheme.Double:
+            case BufferingScheme.Double:
                 FSurfaceIndex = 1;
                 break;
-            case global::Aow.Game.Draw.BufferingScheme.Tripple:
+            case BufferingScheme.Tripple:
                 FSurfaceIndex = 2;
                 break;
         }
     }
 
     // DisplayC.pas:1410
-    internal void SetUpdateFrameMode(global::Aow.Game.Draw.UpdateFrameMode Value)
+    internal void SetUpdateFrameMode(UpdateFrameMode Value)
     {
         if (!FStatus.Contains(DisplayStatusElement.FrameLoopActive))
         {
             FUpdateFrameMode = Value;
-            if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && FOptions.Contains(DisplayOptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Loading))
+            if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FOptions.Contains(DisplayOptionsElement.AutoStartUpdateFrameLoop) && !ComponentState.Contains(Rtl.ComponentState.Loading))
             {
                 StartUpdateFrameLoop();
             }
@@ -341,7 +341,7 @@ public partial class CustomDisplay : WinControl
     }
 
     // DisplayC.pas:1341
-    protected internal override void CreateParams(ref global::Aow.Rtl.CreateParams Params)
+    protected internal override void CreateParams(ref CreateParams Params)
     {
         /* TODO: Implement Controls.CreateParams in the platform or editor service. */
         throw new NotImplementedException();
@@ -403,7 +403,7 @@ public partial class CustomDisplay : WinControl
     {
         FBackSurfaceWidth = AWidth;
         FBackSurfaceHeight = AHeight;
-        if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && FActiveDC != null && FBufferingScheme != global::Aow.Game.Draw.BufferingScheme.Single)
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && FActiveDC != null && FBufferingScheme != BufferingScheme.Single)
         {
             if (FActiveDC.GetSurface(1).Width != AWidth || FActiveDC.GetSurface(1).Height != AHeight)
             {
@@ -453,17 +453,17 @@ public partial class CustomDisplay : WinControl
                     FOnBltSurface(this);
                 }
 
-                if (FBufferingScheme != global::Aow.Game.Draw.BufferingScheme.Single)
+                if (FBufferingScheme != BufferingScheme.Single)
                 {
                     switch (FBackSurfaceControlMode)
                     {
-                        case global::Aow.Game.Draw.BackSurfaceControlMode.PageFlipping:
+                        case BackSurfaceControlMode.PageFlipping:
                             Result = FActiveDC.FlipSurface(FSurfaceIndex);
                             break;
-                        case global::Aow.Game.Draw.BackSurfaceControlMode.BltSurface:
+                        case BackSurfaceControlMode.BltSurface:
                             Result = FActiveDC.BltSurface(FSurfaceIndex);
                             break;
-                        case global::Aow.Game.Draw.BackSurfaceControlMode.BltInvalidatedSurface:
+                        case BackSurfaceControlMode.BltInvalidatedSurface:
                             Result = FActiveDC.BltInvalidatedSurface(FSurfaceIndex);
                             break;
                     }
@@ -499,7 +499,7 @@ public partial class CustomDisplay : WinControl
             FOnHide(this);
         }
 
-        if (FActiveDC != null && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing))
+        if (FActiveDC != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
             FActiveDC.Hide();
         }
@@ -508,7 +508,7 @@ public partial class CustomDisplay : WinControl
     // DisplayC.pas:1661
     public new void Show()
     {
-        if (FActiveDC != null && !ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing))
+        if (FActiveDC != null && !ComponentState.Contains(Rtl.ComponentState.Designing))
         {
             FActiveDC.Show();
         }
@@ -529,7 +529,7 @@ public partial class CustomDisplay : WinControl
         }
         else
         {
-            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
+            Result = DisplayCodes.DCERR_NOTSUPPORTED;
         }
 
         return Result;
@@ -556,14 +556,14 @@ public partial class CustomDisplay : WinControl
     public AbstractDC ActiveDC { get => FActiveDC; }
     public DDrawFSWinControl FSWinControl { get => FFSWinControl; }
     protected internal Set<DisplayOptionsElement> Options { get => FOptions; set => FOptions = value; }
-    protected internal global::Aow.Game.Draw.BufferingScheme BufferingScheme { get => FBufferingScheme; set => SetBufferingScheme(value); }
-    protected internal global::Aow.Game.Draw.BackSurfaceControlMode BackSurfaceControlMode { get => FBackSurfaceControlMode; set => FBackSurfaceControlMode = value; }
+    protected internal BufferingScheme BufferingScheme { get => FBufferingScheme; set => SetBufferingScheme(value); }
+    protected internal BackSurfaceControlMode BackSurfaceControlMode { get => FBackSurfaceControlMode; set => FBackSurfaceControlMode = value; }
     protected internal int BackSurfaceWidth { get => FBackSurfaceWidth; set => SetBackSurfaceWidth(value); }
     protected internal int BackSurfaceHeight { get => FBackSurfaceHeight; set => SetBackSurfaceHeight(value); }
     protected internal int FrameRate { get => FFrameRate; set => SetFrameRate(value); }
     protected internal AbstractDC PrimaryDC { get => FPrimaryDC; set => FPrimaryDC = value; }
     protected internal AbstractDC SecondaryDC { get => FSecondaryDC; set => FSecondaryDC = value; }
-    protected internal global::Aow.Game.Draw.UpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
+    protected internal UpdateFrameMode UpdateFrameMode { get => FUpdateFrameMode; set => SetUpdateFrameMode(value); }
     protected internal NotifyEvent<object> OnResize { get => FOnResize; set => FOnResize = value; }
     protected internal NotifyEvent<object> OnBltSurface { get => FOnBltSurface; set => FOnBltSurface = value; }
     protected internal DCNotifyEvent OnDeactivateDC { get => FOnDeactivateDC; set => FOnDeactivateDC = value; }
@@ -578,13 +578,13 @@ public partial class CustomDisplay : WinControl
 
     private const int DCERR_ACTIVATEFAILED = -2147414014;
 
-    private static int RemapSurface(global::Aow.Game.Draw.Surface Src, global::Aow.Game.Draw.Surface Dest)
+    private static int RemapSurface(Surface Src, Surface Dest)
     {
-        global::Aow.Game.Draw.SurfaceDesc SD = default(global::Aow.Game.Draw.SurfaceDesc);
-        global::Aow.Game.Draw.SurfaceDesc SD2 = default(global::Aow.Game.Draw.SurfaceDesc);
+        SurfaceDesc SD = default(SurfaceDesc);
+        SurfaceDesc SD2 = default(SurfaceDesc);
         Src.Lock(ref SD);
         Dest.Lock(ref SD2);
-        int result = global::Aow.Game.Draw.SurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
+        int result = SurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
         Src.Unlock();
         Dest.Unlock();
         return result;
@@ -608,9 +608,9 @@ public partial class CustomDisplay : WinControl
 
 // the interface of a display controller. 35 new virtual methods, all abstract but GetSurface
 // and BltInvalidatedSurface
-public partial class AbstractDC : global::Aow.Rtl.Component
+public partial class AbstractDC : Component
 {
-    public AbstractDC(global::Aow.Rtl.Component owner) : base(owner)
+    public AbstractDC(Component owner) : base(owner)
     { }
 
     // DisplayC.pas:74
@@ -620,13 +620,13 @@ public partial class AbstractDC : global::Aow.Rtl.Component
     }
 
     // DisplayC.pas:75
-    public virtual void SetPrimarySurfaceRgn(in global::Aow.Rtl.Rect R)
+    public virtual void SetPrimarySurfaceRgn(in Rect R)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:76
-    public virtual global::Aow.Rtl.Rect? GetPrimarySurfaceRgn()
+    public virtual Rect? GetPrimarySurfaceRgn()
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -701,13 +701,13 @@ public partial class AbstractDC : global::Aow.Rtl.Component
     }
 
     // DisplayC.pas:89
-    public virtual void GetPixPosofBlock(int BX, int BY, global::Aow.Rtl.Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
+    public virtual void GetPixPosofBlock(int BX, int BY, Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
 
     // DisplayC.pas:90
-    public virtual void GetBlockPosofPix(int PX, int PY, global::Aow.Rtl.Rect R, ref int BX, ref int BY)
+    public virtual void GetBlockPosofPix(int PX, int PY, Rect R, ref int BX, ref int BY)
     {
         throw AbstractErrorException.Create("Abstract Error");
     }
@@ -769,9 +769,9 @@ public partial class AbstractDC : global::Aow.Rtl.Component
         int BlkW = default;
         int BlkH = default;
         int V;
-        global::Aow.Rtl.Rect ClipR = default;
-        global::Aow.Rtl.Rect SrcR = default;
-        global::Aow.Rtl.Rect DstR = default;
+        Rect ClipR = default;
+        Rect SrcR = default;
+        Rect DstR = default;
         if (GetInvMatrix() != null)
         {
             Result = 0;
@@ -859,7 +859,7 @@ public partial class AbstractDC : global::Aow.Rtl.Component
         }
         else
         {
-            Result = Aow.Game.Draw.DisplayCodes.DCERR_FAILED;
+            Result = DisplayCodes.DCERR_FAILED;
         }
 
         return Result;
@@ -935,12 +935,12 @@ public partial class DisplayCtrl : AbstractDC
     internal ushort FFrameCount;
     internal Set<DisplayCtrlStatusElement> FStatus;
     internal CustomDisplay FDisplay;
-    internal global::Aow.Rtl.Rect FPrimarySurfaceRgn;
+    internal Rect FPrimarySurfaceRgn;
     internal Matrix FInvMatrix;
     internal bool FRealizePalet;
     internal int FLastVBTime;
 
-    public DisplayCtrl(global::Aow.Rtl.Component owner) : base(owner)
+    public DisplayCtrl(Component owner) : base(owner)
     {
         FInvMatrix = new Matrix(4, 4);
     }
@@ -997,7 +997,7 @@ public partial class DisplayCtrl : AbstractDC
         int Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
         if (Succeeded(Result))
         {
-            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOFLIP;
+            Result = DisplayCodes.DCERR_NOFLIP;
         }
 
         return Result;
@@ -1012,14 +1012,14 @@ public partial class DisplayCtrl : AbstractDC
     }
 
     // DisplayC.pas:675
-    public override void SetPrimarySurfaceRgn(in global::Aow.Rtl.Rect R)
+    public override void SetPrimarySurfaceRgn(in Rect R)
     {
         FPrimarySurfaceRgn = R;
     }
 
     // DisplayC.pas:680
     // The original returns @FPrimarySurfaceRgn, which is never nil.
-    public override global::Aow.Rtl.Rect? GetPrimarySurfaceRgn() => FPrimarySurfaceRgn;
+    public override Rect? GetPrimarySurfaceRgn() => FPrimarySurfaceRgn;
 
     // DisplayC.pas:685
     public override Set<DisplayCtrlStatusElement> GetStatus() => FStatus;
@@ -1068,7 +1068,7 @@ public partial class DisplayCtrl : AbstractDC
         }
         else
         {
-            Result = Aow.Game.Draw.DisplayCtrl.DCERR_ACTIVATED;
+            Result = DCERR_ACTIVATED;
         }
 
         return Result;
@@ -1091,17 +1091,17 @@ public partial class DisplayCtrl : AbstractDC
         }
         else
         {
-            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOTACTIVATED;
+            Result = DisplayCodes.DCERR_NOTACTIVATED;
         }
 
         return Result;
     }
 
     // DisplayC.pas:762
-    public override int SupportDisplayMode(CustomDisplay ADisplay) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int SupportDisplayMode(CustomDisplay ADisplay) => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:767
-    public override int SetPalet(GFXEPalette Palette) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int SetPalet(GFXEPalette Palette) => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:772
     public void RealizePalet()
@@ -1117,7 +1117,7 @@ public partial class DisplayCtrl : AbstractDC
     }
 
     // DisplayC.pas:780
-    public override int RealizePaletNow() => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
+    public override int RealizePaletNow() => DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
@@ -1266,7 +1266,7 @@ public partial class DisplayCtrl : AbstractDC
     }
 
     // DisplayC.pas:964
-    public override void GetPixPosofBlock(int BX, int BY, global::Aow.Rtl.Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
+    public override void GetPixPosofBlock(int BX, int BY, Rect R, ref int PX, ref int PY, ref int BW, ref int BH)
     {
         int W;
         int H;
@@ -1279,7 +1279,7 @@ public partial class DisplayCtrl : AbstractDC
     }
 
     // DisplayC.pas:976
-    public override void GetBlockPosofPix(int PX, int PY, global::Aow.Rtl.Rect R, ref int BX, ref int BY)
+    public override void GetBlockPosofPix(int PX, int PY, Rect R, ref int BX, ref int BY)
     {
         int W;
         int H;
@@ -1299,7 +1299,7 @@ public partial class DisplayCtrl : AbstractDC
         int BY1 = default;
         int BY2 = default;
         Matrix M;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (FInvMatrix != null)
         {
             M = FInvMatrix;
@@ -1362,7 +1362,7 @@ public partial class DisplayCtrl : AbstractDC
         int T;
         if (FFrameCount >= 5)
         {
-            T = Aow.Game.Draw.PixelFormats.GetElapsedMilliSeconds();
+            T = PixelFormats.GetElapsedMilliSeconds();
             FDisplay.FCurrentFrameRate = Round((double)5000 / (T - FLastFrameTime + 1));
             FFrameCount = 0;
             FLastFrameTime = T;
@@ -1441,7 +1441,7 @@ public partial class DDrawFSWinControl : WinControl
     }
 
     // DisplayC.pas:1169
-    protected internal override void CreateParams(ref global::Aow.Rtl.CreateParams Params)
+    protected internal override void CreateParams(ref CreateParams Params)
     {
         /* TODO: Implement Controls.CreateParams in the platform or editor service. */
         throw new NotImplementedException();
@@ -1456,7 +1456,7 @@ public partial class DDrawFSWinControl : WinControl
 
     // DisplayC.pas:1114
 
-    public DDrawFSWinControl(global::Aow.Rtl.Component owner) : base(owner)
+    public DDrawFSWinControl(Component owner) : base(owner)
     {
         /* TODO: Implement Controls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -1537,7 +1537,7 @@ public partial class UpdateFrameThread
 public partial class Display : CustomDisplay
 {
 
-    public Display(global::Aow.Rtl.Component owner) : base(owner)
+    public Display(Component owner) : base(owner)
     { }
 
 }
@@ -1574,7 +1574,7 @@ public partial class WindowsDC : DisplayCtrl
     internal DisplayGDISurface FGDISurface;
 
     // DisplayC.pas:1894
-    public WindowsDC(global::Aow.Rtl.Component owner) : base(owner)
+    public WindowsDC(Component owner) : base(owner)
     {
         InitInvMatrix(4, 4);
         FStatus = FStatus + Set<DisplayCtrlStatusElement>.Of(DisplayCtrlStatusElement.Windowed);
@@ -1621,7 +1621,7 @@ public partial class WindowsDC : DisplayCtrl
         throw new NotImplementedException();
         if (Result >= 0)
         {
-            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOFLIP;
+            Result = DisplayCodes.DCERR_NOFLIP;
         }
 
         return Result;
@@ -1669,10 +1669,10 @@ public partial class Windows08DC : WindowsDC
     internal int FOldPalette;
 
     // DisplayC.pas:2165
-    public Windows08DC(global::Aow.Rtl.Component owner) : base(owner)
+    public Windows08DC(Component owner) : base(owner)
     {
         FPalette = new GFXEPalette();
-        FPalette.PixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB24;
+        FPalette.PixelFormatID = PixelFormats.pfRGB24;
     }
 
     // DisplayC.pas:2172
@@ -1784,7 +1784,7 @@ public partial class Windows16DC : WindowsDC
     }
 
     // DisplayC.pas:2314
-    public Windows16DC(global::Aow.Rtl.Component owner) : base(owner)
+    public Windows16DC(Component owner) : base(owner)
     {
         FPixelFormat = Win16DCPixelFormat.Auto;
     }
@@ -1838,7 +1838,7 @@ public partial class Windows16DC : WindowsDC
 
     public enum Win16DCPixelFormat : byte
     {
-        Auto = 0, pf555 = 1, pf565 = 2
+        Auto = 0, Rgb555 = 1, Rgb565 = 2
     }
 
 }
@@ -1847,7 +1847,7 @@ public partial class Windows16DC : WindowsDC
 public partial class Windows24DC : WindowsDC
 {
 
-    public Windows24DC(global::Aow.Rtl.Component owner) : base(owner)
+    public Windows24DC(Component owner) : base(owner)
     { }
 
     internal DIB24Surface FBack1;
@@ -1902,7 +1902,7 @@ public partial class Windows24DC : WindowsDC
 public partial class Windows32DC : WindowsDC
 {
 
-    public Windows32DC(global::Aow.Rtl.Component owner) : base(owner)
+    public Windows32DC(Component owner) : base(owner)
     { }
 
     internal DIB32Surface FBack1;
@@ -1987,14 +1987,14 @@ public partial class Windows08DIBSurface : Surface
     // DisplayC.pas:2036
     // { Copies SrcRect to the top left of DestRect (no stretching); a GDI surface that cannot be
     //   locked is drawn on with BltDC. }
-    public override int BltStretch(Surface Dest, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
+    public override int BltStretch(Surface Dest, Rect? SrcRect, Rect? DestRect)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // DisplayC.pas:2078
-    public override int BltDC(int DC, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
+    public override int BltDC(int DC, Rect? SrcRect, Rect? DestRect)
     {
         /* TODO: Implement Windows.GetClientRect in the platform or editor service. */
         throw new NotImplementedException();
@@ -2007,7 +2007,7 @@ public partial class Windows08DIBSurface : Surface
         SD.Width = FWidth;
         SD.Height = FHeight;
         SD.BitCount = 8;
-        SD.PixelFormatID = Aow.Game.Draw.PixelFormats.pfPAL8;
+        SD.PixelFormatID = PixelFormats.pfPAL8;
         SD.ClipRect.Left = 0;
         SD.ClipRect.Right = FWidth;
         SD.ClipRect.Top = 0;

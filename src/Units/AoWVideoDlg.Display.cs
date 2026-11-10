@@ -10,7 +10,7 @@ public partial class VideoDialog
         if (!FModeChanged || GameHost.MainForm is not { } form) return;
         bool full = form.Display.Host.Fullscreen;
         if (FFullScreen == ScreenMode.Windowed || !full) ChangeResolution(0, 0);
-        else if (FFullScreen == ScreenMode.Title && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches()) ChangeResolution(FSceneWidth, FSceneHeight);
+        else if (FFullScreen == ScreenMode.Title && Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches()) ChangeResolution(FSceneWidth, FSceneHeight);
         else ChangeResolution(FDisplayWidth, FDisplayHeight);
         FModeChanged = false;
     }

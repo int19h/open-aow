@@ -19,18 +19,6 @@ using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
 
-public enum TeleportMoveFlagsElement : byte
-{
-    tm0 = 0,
-    tm1 = 1,
-    tm2 = 2,
-    tm3 = 3,
-    tm4 = 4,
-    tm5 = 5,
-    tm6 = 6,
-    tm7 = 7
-}
-
 // FDestinationX, FDestinationY, FDestinationL, FState (bit 0 razed)
 public partial class Teleport : Structure
 {
@@ -67,18 +55,18 @@ public partial class Teleport : Structure
         base.MapFieldMsgProc(ref Msg);
         if (Msg.HN == 0 && Msg.MsgID == 4416 && Msg.Param[1].As<MapField>().Xhx == FDestinationX && Msg.Param[1].As<MapField>().Yhx == FDestinationY && Msg.Param[1].As<MapField>().Lhx == FDestinationL)
         {
-            bool notFogEnabled = !Aow.Game.World.Map.AoWHSMap.Current.FFogEnabled;
+            bool notFogEnabled = !AoWHSMap.Current.FFogEnabled;
             if (!notFogEnabled)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                notFogEnabled = Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(xhx, yhx, lhx, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                notFogEnabled = AoWHSMap.Current.VisibleForPlayer(xhx, yhx, lhx, AoWHSMap.Current.FSeatedPlayer);
             }
 
-            if (notFogEnabled || Aow.Game.World.Map.AoWHSMap.Current.VisibleForPlayer(FDestinationX, FDestinationY, FDestinationL, Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+            if (notFogEnabled || AoWHSMap.Current.VisibleForPlayer(FDestinationX, FDestinationY, FDestinationL, AoWHSMap.Current.FSeatedPlayer))
             {
-                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
+                Audio.AudioPlayback.PlaySample("SFX\\PLACES\\TELEPORT.WAV");
             }
 
             ShowTeleportAnimations();
@@ -90,7 +78,7 @@ public partial class Teleport : Structure
     {
         if (Info.HN == 0 && !FState.Contains(StateElement.Razed))
         {
-            var fieldValue = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
+            var fieldValue = AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
             ((MoveControl)Info.Sender).ExecuteExternalMove((AoWMapField)Info.MapField, (AoWMapField)fieldValue, 0);
         }
     }
@@ -106,7 +94,7 @@ public partial class Teleport : Structure
     public override void Deactivate()
     {
         base.Deactivate();
-        FStatus = FStatus - Set<Aow.Game.World.MapObjectStatusElement>.Of(Aow.Game.World.MapObjectStatusElement.Activated);
+        FStatus = FStatus - Set<MapObjectStatusElement>.Of(MapObjectStatusElement.Activated);
         ((MapField)Owner).UpdateMapField();
     }
 
@@ -140,7 +128,7 @@ public partial class Teleport : Structure
         bool Result;
         if (FDestinationX == 0 || FDestinationY == 0)
         {
-            Messages.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WarningRStr) + ": " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.World.Structures.Teleport.InvalidLocationSpecifiedRStr));
+            Messages.Add(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.WarningRStr) + ": " + Magic.Abilities.AbilityRules.TranslateRStr(InvalidLocationSpecifiedRStr));
             Result = false;
         }
         else
@@ -156,25 +144,25 @@ public partial class Teleport : Structure
     {
         ImageSequenceAnimation Anim;
         Anim = new ImageSequenceAnimation(null);
-        Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[13]);
+        Anim.SetImageSequence(AoWHSSet.Current.FImageSequences.ImageSequences[13]);
         var lhx = GetLhx();
         var yhx = GetYhx();
         var xhx = GetXhx();
-        Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
+        AoWHSMap.Current.PlaceHX(Anim, xhx, yhx, lhx);
         Anim = new ImageSequenceAnimation(null);
-        Anim.SetImageSequence(Aow.Game.Engine.AoWHSSet.Current.FImageSequences.ImageSequences[12]);
-        Aow.Game.World.Map.AoWHSMap.Current.PlaceHX(Anim, FDestinationX, FDestinationY, FDestinationL);
+        Anim.SetImageSequence(AoWHSSet.Current.FImageSequences.ImageSequences[12]);
+        AoWHSMap.Current.PlaceHX(Anim, FDestinationX, FDestinationY, FDestinationL);
     }
 
     // Teleport.pas:185
     public bool CanTeleportArmy(ArmyHS ArmyHS)
     {
         AoWMapField Field;
-        global::Aow.Game.Draw.ArmyHS OtherArmy;
+        ArmyHS OtherArmy;
         bool Result = false;
-        if (FDestinationL >= 0 && FDestinationL < Aow.Game.World.Map.AoWHSMap.Current.MapContainer.LevelCount && FDestinationX >= 0 && FDestinationX < Aow.Game.World.Map.AoWHSMap.Current.MapContainer.Width && FDestinationY >= 0 && FDestinationY < Aow.Game.World.Map.AoWHSMap.Current.MapContainer.Height)
+        if (FDestinationL >= 0 && FDestinationL < AoWHSMap.Current.MapContainer.LevelCount && FDestinationX >= 0 && FDestinationX < AoWHSMap.Current.MapContainer.Width && FDestinationY >= 0 && FDestinationY < AoWHSMap.Current.MapContainer.Height)
         {
-            Field = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
+            Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
             if (ArmyHS.FArmy.ValidTerrain(Field.TerrainType, Field.OverlayType))
             {
                 OtherArmy = Field.GetArmyHS();
@@ -195,7 +183,7 @@ public partial class Teleport : Structure
     public bool CanTeleport(sbyte Player)
     {
         ArmyHS ArmyHS;
-        ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
         // { Original only checks destination X here; X=0 is rejected. }
         return ArmyHS != null && Player == ArmyHS.FArmy.FPlayer && !FState.Contains(StateElement.Razed) && FDestinationX > 0;
     }
@@ -211,7 +199,7 @@ public partial class Teleport : Structure
         string MessageText;
         if (CanTeleport(Player))
         {
-            ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
             if (CanTeleportArmy(ArmyHS))
             {
                 ArmyHS.FArmy.ResetDestinationPos();
@@ -220,12 +208,12 @@ public partial class Teleport : Structure
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 Path.AddXYL(GetXhx(), yhx, lhx);
-                Field = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
+                Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetField(FDestinationX, FDestinationY, FDestinationL);
                 bool condition = Field.GetMoveAction(ArmyHS.FArmy.FPlayer) != MoveAction.Attack || Field.GetPlayer() <= 0;
                 if (!condition)
                 {
                     var player = Field.GetPlayer();
-                    var diplomaticRelation = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, player);
+                    var diplomaticRelation = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(ArmyHS.FArmy.FPlayer, player);
                     condition = Set<DiplomaticRelation>.Of(DiplomaticRelation.War, DiplomaticRelation.Unknown).Contains(diplomaticRelation);
                 }
 
@@ -233,13 +221,13 @@ public partial class Teleport : Structure
                 {
                     if (Field.GetPlayer() > -1 && Field.GetPlayer() != ArmyHS.FArmy.FPlayer)
                     {
-                        if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
+                        if (!AoWHSMap.Current.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).GetBusy())
                         {
                             // { Original passes action before mode. }
-                            Event = global::Aow.Game.Draw.ArmyHS.CreateArmyMoveTE(ArmyHS, 255, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
+                            Event = Draw.ArmyHS.CreateArmyMoveTE(ArmyHS, 255, Path, MoveAction.Attack, Set<ArmyMoveModeElement>.Of());
                             if (Event != null)
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
+                                AoWHSMap.Current.FTokenManager.GetTokenControl(ArmyHS.FArmy.FPlayer).AddEvent(Event);
                                 Event.Release();
                                 Result = true;
                             }
@@ -255,22 +243,22 @@ public partial class Teleport : Structure
                     }
                     else
                     {
-                        Result = global::Aow.Game.Draw.ArmyHS.MoveArmyEx(ArmyHS, 255, Path, Set<ArmyMoveModeElement>.Of(), false);
+                        Result = Draw.ArmyHS.MoveArmyEx(ArmyHS, 255, Path, Set<ArmyMoveModeElement>.Of(), false);
                     }
 
-                    if (Result && (byte)Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
+                    if (Result && (byte)AoWHSMap.Current.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer)
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.CenterViewTo(FDestinationX, FDestinationY, FDestinationL);
-                        Aow.Game.World.Map.AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
+                        AoWHSMap.Current.CenterViewTo(FDestinationX, FDestinationY, FDestinationL);
+                        AoWHSMap.Current.FSelectedArmy.Select(ArmyHS);
                     }
                 }
                 else
                 {
                     var player = Field.GetPlayer();
-                    var playerPlayerRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player);
-                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
-                    MessageText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
-                    Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(MessageText);
+                    var playerPlayerRace = AoWHSMap.Current.FPlayers.GetPlayers(player);
+                    var raceNamesPlural = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameTables.RaceNamesPluralRStr[playerPlayerRace.FPlayerRace]);
+                    MessageText = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NoWarDeclaredtoXRStr), [raceNamesPlural]);
+                    AoWHSMap.Current.ShowMessage(MessageText);
                     Result = false;
                 }
 
@@ -297,7 +285,7 @@ public partial class Teleport : Structure
 
     public enum StateElement : byte
     {
-        Razed = 0, ts1 = 1, ts2 = 2, ts3 = 3, ts4 = 4, ts5 = 5, ts6 = 6, ts7 = 7
+        Razed = 0, Bit1 = 1, Bit2 = 2, Bit3 = 3, Bit4 = 4, Bit5 = 5, Bit6 = 6, Bit7 = 7
     }
 
     public new partial class Resource : StructureResource
@@ -321,7 +309,7 @@ public partial class Teleport : Structure
         // Teleport.pas:45
 
         // Teleport.pas:302
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Teleport.Resource.TeleportRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(TeleportRStr);
 
         internal static readonly string TeleportRStr = "Teleport";
 

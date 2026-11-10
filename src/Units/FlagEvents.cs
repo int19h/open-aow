@@ -42,7 +42,7 @@ namespace Aow.Game.World
         // FlagEvents.pas:164
         public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
         {
-            if (Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+            if (AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
@@ -59,7 +59,7 @@ namespace Aow.Game.World
         }
 
         // FlagEvents.pas:110
-        public override bool CanSelect(int Xhp, int Yhp) => Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
+        public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting);
 
         // FlagEvents.pas:105
         public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -181,13 +181,13 @@ namespace Aow.Game.World
         public override bool Trigger(sbyte Player)
         {
             FlagMessageEventLog Log;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
+            if (AoWHSMap.Current.FSeatedPlayer == Player)
             {
                 Log = new FlagMessageEventLog(null);
                 Log.FHelpFileName = FHelpFileName;
                 var text = FMessage.Text;
                 Log.FMessage.Text = text;
-                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == Aow.Game.World.FlagEvent.TriggerMode.Instant, null);
+                AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == TriggerMode.Instant, null);
                 Log.Release();
             }
 
@@ -206,7 +206,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 132461;
 
             // FlagEvents.pas:223
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.FlagMessageEvent.Resource.FlagMessageEventRStr);
+            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(FlagMessageEventRStr);
 
             private static readonly string FlagMessageEventRStr = "Flag Message Event";
 
@@ -249,12 +249,12 @@ namespace Aow.Game.World
         public override bool Trigger(sbyte Player)
         {
             TutorialMessageEventLog Log;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player)
+            if (AoWHSMap.Current.FSeatedPlayer == Player)
             {
                 Log = new TutorialMessageEventLog(null);
                 var text = FMessage.Text;
                 Log.FMessage.Text = text;
-                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == Aow.Game.World.FlagEvent.TriggerMode.Instant, null);
+                AoWHSMap.Current.TriggerExecuteEventLog(Log, FTriggerMode == TriggerMode.Instant, null);
                 Log.Release();
             }
 
@@ -273,7 +273,7 @@ namespace Aow.Game.World
             public override int ResourceUserClassID() => 132459;
 
             // FlagEvents.pas:274
-            public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.TutorialMessageEvent.Resource.TutorialMessageEventRStr);
+            public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(TutorialMessageEventRStr);
 
             private static readonly string TutorialMessageEventRStr = "Tutorial Message Event";
 

@@ -166,16 +166,16 @@ public partial class InfoBanner : ILayoutModule
         BannerPopup.Loaded();
         InfoMemoSB.Loaded();
         session.Resolve(this);
-        HeaderLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        InfoMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
-        BannerPopup.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        BannerPopup.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;
-        BannerPopup.ILTextureNormal = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;
-        BannerPopup.ILTextureSelected = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Menus;
-        BannerPopup.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
-        InfoMemoSB.ILIInc = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        InfoMemoSB.ILIDec = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        InfoMemoSB.ILTBack = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        InfoMemoSB.ILLTab = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
+        HeaderLbl.AOWFont = DialogHosts.FontModule.Age10;
+        InfoMemo.AOWFont = DialogHosts.FontModule.Age8;
+        BannerPopup.WinManager = DialogHosts.General.Manager;
+        BannerPopup.ILFrame = DialogHosts.IntGfxMod.Menus;
+        BannerPopup.ILTextureNormal = DialogHosts.IntGfxMod.Menus;
+        BannerPopup.ILTextureSelected = DialogHosts.IntGfxMod.Menus;
+        BannerPopup.AOWFont = DialogHosts.FontModule.Age8;
+        InfoMemoSB.ILIInc = DialogHosts.IntGfxMod.GenericS;
+        InfoMemoSB.ILIDec = DialogHosts.IntGfxMod.GenericS;
+        InfoMemoSB.ILTBack = DialogHosts.IntGfxMod.GenericS;
+        InfoMemoSB.ILLTab = DialogHosts.IntGfxMod.GenericS;
     }
 }

@@ -30,18 +30,18 @@ public partial class LeaderGrid : CustomImageDrawGrid
 
     // LeadrGrd.pas:101
     // Retained: TCustomImageDrawGrid throws at the missing Grids.Create boundary before this derived body. Retire with the grid platform implementation.
-    public LeaderGrid(global::Aow.Rtl.Component owner) : base(owner)
+    public LeaderGrid(Component owner) : base(owner)
     {
 
         DefaultColWidth = 155;
         DefaultRowHeight = 56;
-        GrowDirection = Aow.Game.Draw.Images.CustomImageDrawGrid.ILGrowDirection.Vertical;
+        GrowDirection = ILGrowDirection.Vertical;
         ScrollBars = Aow.Rtl.CustomGrid.ScrollStyle.Vertical;
         FStream = new MemoryStream();
     }
 
     // LeadrGrd.pas:166
-    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Controls.Canvas in the platform or editor service. */
         throw new NotImplementedException();
@@ -123,8 +123,8 @@ public partial class LeaderGrid : CustomImageDrawGrid
     [LegacyObject]
     public partial class GridMapView
     {
-        public global::Aow.Game.Units.ItemControl ItemControl;
-        public global::Aow.Game.Units.HeroControl HeroControl;
+        public ItemControl ItemControl;
+        public HeroControl HeroControl;
         public PlayerList Players;
         public EventList LeaderEvent;
 

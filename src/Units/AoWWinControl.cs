@@ -50,7 +50,7 @@ public partial class AOWWindowControl : AoWComponent
     public bool FUseVMem;
     public Surface FBackSurface;
     public int F190;
-    public global::Aow.Rtl.Rect FBackRect;
+    public Rect FBackRect;
     public int F1A4;
     public AoWOnDrawBackEvent<AOWWindowControl> FOnDrawBack;
     public NotifyEvent<AOWWindowControl> FOnEnter;
@@ -61,7 +61,7 @@ public partial class AOWWindowControl : AoWComponent
     public bool FDockable;
 
     // AoWWinControl.pas:103
-    public AOWWindowControl(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWWindowControl(Component owner) : base(owner)
     {
         FOldCursor = -2;
         FWindowCursor = -2;
@@ -184,13 +184,13 @@ public partial class AOWWindowControl : AoWComponent
     // AoWWinControl.pas:208
     public virtual void Blt(Surface Surface)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (FOnPreDrawSurface != null)
         {
             FOnPreDrawSurface(this, Surface, FWinLeft, FWinTop);
         }
 
-        R = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
+        R = new Rect(0, 0, FWinWidth, FWinHeight);
         if (!FMasked)
         {
             FBackSurface.BltAreaClipped(Surface, R, FWinLeft, FWinTop);
@@ -198,7 +198,7 @@ public partial class AOWWindowControl : AoWComponent
         else
         {
             var pixelFormatID = FBackSurface.GetPixelFormatID();
-            var color2PixelInfo = Aow.Game.Draw.PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
+            var color2PixelInfo = PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
             FBackSurface.BltAreaColorKeyClipped(Surface, R, FWinLeft, FWinTop, color2PixelInfo);
         }
 
@@ -290,7 +290,7 @@ public partial class AOWWindowControl : AoWComponent
             {
                 if (FBackSurface is DDrawSurface && ((DDrawSurface)FBackSurface).Lost())
                 {
-                    Result = ((DDrawSurface)FBackSurface).Restore() == Aow.Game.Draw.PixelFormats.DD_OK;
+                    Result = ((DDrawSurface)FBackSurface).Restore() == PixelFormats.DD_OK;
                 }
             }
         }

@@ -24,7 +24,7 @@ internal static class StringSorting
             Ctx.Compare = Compare;
             Ctx.ExchangeProc = null;
             var count = Strings.Count;
-            Aow.Game.Engine.Collections.SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
+            SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
         }
     }
 
@@ -47,7 +47,7 @@ internal static class StringSorting
                     Lists.Add(LinkedStrings[I]);
                 }
 
-                Ctx.ExchangeProc = Aow.Game.Engine.Nodes.EngineServices.ExchangeLinkedStrings;
+                Ctx.ExchangeProc = EngineServices.ExchangeLinkedStrings;
                 Ctx.ExchangeData = Lists;
             }
             else
@@ -56,7 +56,7 @@ internal static class StringSorting
             }
 
             var count = Strings.Count;
-            Aow.Game.Engine.Collections.SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
+            SortStringsContext.QuickSortStrings(ref Ctx, 0, count - 1);
             if (Lists != null)
             {
                 for (int I = 0, last = LinkedStrings.Length - 1; I <= last; I++)
@@ -73,22 +73,22 @@ internal static class StringSorting
 
     internal static void SortStringsAscending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
-        Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareAscending, LinkedStrings);
+        SortStringsEx(Strings, CompareAscending, LinkedStrings);
     }
 
     internal static void SortStringsDescending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
-        Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareDescending, LinkedStrings);
+        SortStringsEx(Strings, CompareDescending, LinkedStrings);
     }
 
     internal static void SortStringsNumericalAscending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
-        Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareNumericalAscending, LinkedStrings);
+        SortStringsEx(Strings, CompareNumericalAscending, LinkedStrings);
     }
 
     internal static void SortStringsNumericalDescending(StringCollection Strings, ReadOnlySpan<StringCollection> LinkedStrings)
     {
-        Aow.Game.Engine.Nodes.StringSorting.SortStringsEx(Strings, Aow.Game.Engine.Nodes.StringSorting.CompareNumericalDescending, LinkedStrings);
+        SortStringsEx(Strings, CompareNumericalDescending, LinkedStrings);
     }
 
     internal static int CompareAscending(string S1, string S2, object O1, object O2)

@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Windows;
 // extended drawing event
 public partial class AoWUserWindow : AOWWindow
 {
-    public AoWUserWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public AoWUserWindow(Component owner) : base(owner)
     { }
 
     public DrawSurfaceExEvent FOnDrawSurfaceEx;

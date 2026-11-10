@@ -50,15 +50,15 @@ public partial class GFXEPalette
     // GFXE.pas:11073
     public int Remap(int NewPixelFormatID)
     {
-        int Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+        int Result = PixelFormats.GFXE_OK;
         if (NewPixelFormatID != PixelFormatID)
         {
             switch (PixelFormatID)
             {
-                case Aow.Game.Draw.PixelFormats.pfBGR24:
+                case PixelFormats.pfBGR24:
                     switch (NewPixelFormatID)
                     {
-                        case Aow.Game.Draw.PixelFormats.pfRGB565:
+                        case PixelFormats.pfRGB565:
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
@@ -68,7 +68,7 @@ public partial class GFXEPalette
                             }
 
                             break;
-                        case Aow.Game.Draw.PixelFormats.pfRGB555:
+                        case PixelFormats.pfRGB555:
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
@@ -78,19 +78,19 @@ public partial class GFXEPalette
                             }
 
                             break;
-                        case Aow.Game.Draw.PixelFormats.pfXRGB32:
-                            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+                        case PixelFormats.pfXRGB32:
+                            Result = PixelFormats.GFXE_OK;
                             break;
                         default:
-                            Result = Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+                            Result = PixelFormats.GFXE_NOTSUPPORTED;
                             break;
                     }
 
                     break;
-                case Aow.Game.Draw.PixelFormats.pfRGB24:
+                case PixelFormats.pfRGB24:
                     switch (NewPixelFormatID)
                     {
-                        case Aow.Game.Draw.PixelFormats.pfRGB565:
+                        case PixelFormats.pfRGB565:
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
@@ -100,7 +100,7 @@ public partial class GFXEPalette
                             }
 
                             break;
-                        case Aow.Game.Draw.PixelFormats.pfRGB555:
+                        case PixelFormats.pfRGB555:
                             {
                                 for (int I = 0; I <= 255; I++)
                                 {
@@ -110,17 +110,17 @@ public partial class GFXEPalette
                             }
 
                             break;
-                        case Aow.Game.Draw.PixelFormats.pfXRGB32:
-                            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+                        case PixelFormats.pfXRGB32:
+                            Result = PixelFormats.GFXE_OK;
                             break;
                         default:
-                            Result = Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+                            Result = PixelFormats.GFXE_NOTSUPPORTED;
                             break;
                     }
 
                     break;
                 default:
-                    Result = Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+                    Result = PixelFormats.GFXE_NOTSUPPORTED;
                     break;
             }
 
@@ -131,7 +131,7 @@ public partial class GFXEPalette
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+            Result = PixelFormats.GFXE_OK;
         }
 
         return Result;
@@ -235,25 +235,25 @@ public partial class Surface : IDisposable
                 // { 8 bit pixels need the palette; 1555 and the TColor ordered 24 bit layout are not handled }
                 switch (SD.PixelFormatID)
                 {
-                    case Aow.Game.Draw.PixelFormats.pfRGB555:
+                    case PixelFormats.pfRGB555:
                         W = SD.View().Word(X + X + Y * SD.Pitch);
                         Result = (int)(((uint)(W & 31744)) >> 7) + ((W & 992) << 6) + ((W & 31) << 19);
                         break;
-                    case Aow.Game.Draw.PixelFormats.pfRGB565:
+                    case PixelFormats.pfRGB565:
                         W = SD.View().Word(X + X + Y * SD.Pitch);
                         Result = (int)(((uint)(W & 63488)) >> 8) + ((W & 2016) << 5) + ((W & 31) << 19);
                         break;
-                    case Aow.Game.Draw.PixelFormats.pfPAL8:
+                    case PixelFormats.pfPAL8:
                         Assert(SD.Palette != null, "Palette not found, cannot retrieve color (GetColor)", "GFXE.pas", 11986);
                         Index = SD.View().Byte(X + Y * SD.Pitch);
-                        ref readonly Aow.Game.Draw.GFXEPalette.PaletteEntry E = ref SD.Palette.Entries[Index];
+                        ref readonly GFXEPalette.PaletteEntry E = ref SD.Palette.Entries[Index];
                         Result = E.R + (E.G << 8) + (E.B << 16);
                         break;
-                    case Aow.Game.Draw.PixelFormats.pfRGB24:
+                    case PixelFormats.pfRGB24:
                         var P = SD.View(X + X + X + Y * SD.Pitch);
                         Result = P[2] + (P[1] << 8) + (P[0] << 16);
                         break;
-                    case Aow.Game.Draw.PixelFormats.pfRGB32:
+                    case PixelFormats.pfRGB32:
                         V = (int)SD.View().Dword((X << 2) + Y * SD.Pitch);
                         Result = (int)(((uint)(V & 16711680)) >> 16) + (V & 65280) + ((V & 255) << 16);
                         break;
@@ -363,12 +363,12 @@ public partial class Surface : IDisposable
     }
 
     // GFXE.pas:12007
-    public virtual int Blt(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y)
+    public virtual int Blt(Surface Dest, Rect? SrcRect, int X, int Y)
     {
         int Result;
         SurfaceDesc DSD = default;
         SurfaceDesc SSD = default;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         SurfaceView S;
         SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID)
@@ -388,37 +388,37 @@ public partial class Surface : IDisposable
 
                     S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
                     D = DSD.View(X * DSD.BitCount / 8 + Y * DSD.Pitch);
-                    Aow.Game.Draw.BlitRects.BltRect(S, D, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
+                    BlitRects.BltRect(S, D, (SrcRect.Value.Right - SrcRect.Value.Left) * DSD.BitCount / 8, SrcRect.Value.Bottom - SrcRect.Value.Top);
                     Unlock();
-                    Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+                    Result = PixelFormats.GFXE_OK;
                 }
                 else
                 {
-                    Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
+                    Result = GFXE_CANNOTLOCK;
                 }
 
                 Dest.Unlock();
             }
             else
             {
-                Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
+                Result = GFXE_CANNOTLOCK;
             }
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED;
+            Result = PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED;
         }
 
         return Result;
     }
 
     // GFXE.pas:12045
-    public virtual int BltClipped(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y)
+    public virtual int BltClipped(Surface Dest, Rect? SrcRect, int X, int Y)
     {
         int Result;
         int W;
         int H;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (SrcRect is null)
         {
             R.Left = 0;
@@ -490,19 +490,19 @@ public partial class Surface : IDisposable
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+            Result = PixelFormats.GFXE_OK;
         }
 
         return Result;
     }
 
     // GFXE.pas:12130
-    public virtual int BltColorKey(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y, int ColorKey)
+    public virtual int BltColorKey(Surface Dest, Rect? SrcRect, int X, int Y, int ColorKey)
     {
         int Result;
         SurfaceDesc DSD = default;
         SurfaceDesc SSD = default;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         SurfaceView S;
         SurfaceView D;
         if (Dest.PixelFormatID == PixelFormatID && (PixelFormatID & 255) == 16)
@@ -522,37 +522,37 @@ public partial class Surface : IDisposable
 
                     S = SSD.View(SrcRect.Value.Left * SSD.BitCount / 8 + SrcRect.Value.Top * SSD.Pitch);
                     D = DSD.View(X * DSD.BitCount / 8 + Y * DSD.Pitch);
-                    Aow.Game.Draw.BlitRects.BltColorKey16(S, D, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
-                    Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+                    BlitRects.BltColorKey16(S, D, SrcRect.Value.Right - SrcRect.Value.Left, SrcRect.Value.Bottom - SrcRect.Value.Top, ColorKey);
+                    Result = PixelFormats.GFXE_OK;
                     Unlock();
                 }
                 else
                 {
-                    Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
+                    Result = GFXE_CANNOTLOCK;
                 }
 
                 Dest.Unlock();
             }
             else
             {
-                Result = Aow.Game.Draw.Surface.GFXE_CANNOTLOCK;
+                Result = GFXE_CANNOTLOCK;
             }
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED;
+            Result = PixelFormats.GFXE_PIXELFORMATNOTSUPPORTED;
         }
 
         return Result;
     }
 
     // GFXE.pas:12168
-    public virtual int BltColorKeyClipped(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y, int ColorKey)
+    public virtual int BltColorKeyClipped(Surface Dest, Rect? SrcRect, int X, int Y, int ColorKey)
     {
         int Result;
         int W;
         int H;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (SrcRect is null)
         {
             R.Left = 0;
@@ -624,18 +624,18 @@ public partial class Surface : IDisposable
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+            Result = PixelFormats.GFXE_OK;
         }
 
         return Result;
     }
 
     // GFXE.pas:12102
-    public virtual int BltStretch(Surface Dest, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
+    public virtual int BltStretch(Surface Dest, Rect? SrcRect, Rect? DestRect)
     {
         int Result;
-        global::Aow.Rtl.Rect R = default;
-        global::Aow.Rtl.Rect DR = default;
+        Rect R = default;
+        Rect DR = default;
         if (SrcRect is null)
         {
             R.Left = 0;
@@ -664,20 +664,20 @@ public partial class Surface : IDisposable
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+            Result = PixelFormats.GFXE_NOTSUPPORTED;
         }
 
         return Result;
     }
 
     // GFXE.pas:12225
-    public virtual int Lock(ref SurfaceDesc SD) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+    public virtual int Lock(ref SurfaceDesc SD) => PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12248
-    public virtual int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+    public virtual int Unlock() => PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12230
-    public virtual int LockEx(ref SurfaceDesc SD, in global::Aow.Rtl.Rect R)
+    public virtual int LockEx(ref SurfaceDesc SD, in Rect R)
     {
         int Result;
         bool condition = R.Left >= 0 && R.Top >= 0;
@@ -708,7 +708,7 @@ public partial class Surface : IDisposable
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_ERROR;
+            Result = PixelFormats.GFXE_ERROR;
         }
 
         return Result;
@@ -718,10 +718,10 @@ public partial class Surface : IDisposable
     public virtual int UnlockEx(in SurfaceDesc SD) => Unlock();
 
     // GFXE.pas:12220
-    public virtual int UpdatePalette() => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+    public virtual int UpdatePalette() => PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12258
-    public virtual int Resize(int AWidth, int AHeight) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+    public virtual int Resize(int AWidth, int AHeight) => PixelFormats.GFXE_NOTSUPPORTED;
 
     public int Width { get => GetWidth(); }
     public int Height { get => GetHeight(); }
@@ -766,7 +766,7 @@ public partial class DataSurface : Surface
     }
 
     // GFXE.pas:12396
-    public DataSurface(Surface Surface, global::Aow.Rtl.Rect? R)
+    public DataSurface(Surface Surface, Rect? R)
     {
         CaptureSurface(Surface, R);
     }
@@ -789,13 +789,13 @@ public partial class DataSurface : Surface
     public override int GetHeight() => FHeight;
 
     // GFXE.pas:12441
-    public override int Unlock() => Aow.Game.Draw.PixelFormats.GFXE_OK;
+    public override int Unlock() => PixelFormats.GFXE_OK;
 
     // GFXE.pas:12446
-    public int CaptureSurface(Surface Surface, global::Aow.Rtl.Rect? R)
+    public int CaptureSurface(Surface Surface, Rect? R)
     {
         SurfaceDesc SD = default;
-        global::Aow.Rtl.Rect RR = default;
+        Rect RR = default;
         int W;
         int H;
         int Result = Surface.Lock(ref SD);
@@ -822,7 +822,7 @@ public partial class DataSurface : Surface
                     SetPalette(SD.Palette);
                     FX = R.Value.Left;
                     FY = R.Value.Top;
-                    Aow.Game.Draw.BlitRects.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), new SurfaceView(FMem, 0, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
+                    BlitRects.BltRect(SD.View(FY * SD.Pitch + (int)(((uint)(FX * FBitCount)) >> 3)), new SurfaceView(FMem, 0, FPitch), (int)(((uint)(FWidth * FBitCount)) >> 3), FHeight);
                 }
             }
             catch
@@ -831,7 +831,7 @@ public partial class DataSurface : Surface
             }
 
             Surface.Unlock();
-            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+            Result = PixelFormats.GFXE_OK;
         }
 
         return Result;
@@ -871,11 +871,11 @@ public partial class DataSurface : Surface
             // pixel, which the original's slack absorbs.
             Size = FPitch * FHeight + 7;
             FMem = MemorySurfaces.Reallocate(FMem, Size);
-            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+            Result = PixelFormats.GFXE_OK;
         }
         else
         {
-            Result = Aow.Game.Draw.PixelFormats.GFXE_OK;
+            Result = PixelFormats.GFXE_OK;
         }
 
         return Result;
@@ -913,7 +913,7 @@ public partial class DIBSurface : Surface
     {
         SurfaceDesc SD = default;
         Lock(ref SD);
-        Aow.Game.Draw.DIBSurface.SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
+        SaveSurfaceDescToBMP24(SD, SD.ClipRect, FileName);
         Unlock();
     }
 
@@ -921,7 +921,7 @@ public partial class DIBSurface : Surface
     public int Pitch { get => FPitch; }
     public GFXEPalette Palette { get => FPalette; }
 
-    private static int SaveSurfaceDescToBMP24(in global::Aow.Game.Draw.SurfaceDesc SD, global::Aow.Rtl.Rect R, string FileName)
+    private static int SaveSurfaceDescToBMP24(in SurfaceDesc SD, Rect R, string FileName)
     {
         throw new NotImplementedException();
     }
@@ -941,7 +941,7 @@ public partial class DIB08Surface : Surface
     internal GFXEPalette FPalette;
 
     // GFXE.pas:6805
-    public override int GetPixelFormatID() => Aow.Game.Draw.PixelFormats.pfPAL8;
+    public override int GetPixelFormatID() => PixelFormats.pfPAL8;
 
     // GFXE.pas:6810
     public override int GetWidth() => FWidth;
@@ -1051,10 +1051,10 @@ public partial class GDISurface : Surface
     }
 
     // GFXE.pas:12329
-    public override int Blt(Surface Dest, global::Aow.Rtl.Rect? SrcRect, int X, int Y) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
+    public override int Blt(Surface Dest, Rect? SrcRect, int X, int Y) => PixelFormats.GFXE_NOTSUPPORTED;
 
     // GFXE.pas:12334
-    public override int BltDC(int DC, global::Aow.Rtl.Rect? SrcRect, global::Aow.Rtl.Rect? DestRect)
+    public override int BltDC(int DC, Rect? SrcRect, Rect? DestRect)
     {
         /* TODO: Implement Windows.GetDC in the platform or editor service. */
         throw new NotImplementedException();
@@ -1105,14 +1105,14 @@ public partial class DDrawSurface : Surface
     public Set<DDSCreationFlagsElement> CreationFlags { get => FCreationFlags; }
     public NotifyEvent<object> OnSurfaceLost { get => FOnSurfaceLost; set => FOnSurfaceLost = value; }
 
-    public const global::Aow.Game.Draw.DDrawSurfaceStatusElement ssSystemMemory = global::Aow.Game.Draw.DDrawSurfaceStatusElement.Created;
+    public const DDrawSurfaceStatusElement ssSystemMemory = DDrawSurfaceStatusElement.Created;
 }
 
 [LegacyObject]
 // Rect
 public partial class Rectangle
 {
-    public global::Aow.Rtl.Rect Rect;
+    public Rect Rect;
 
     // GFXE.pas:2432
     public Rectangle(int ALeft, int ATop, int ARight, int ABottom)
@@ -1125,7 +1125,7 @@ public partial class Rectangle
     }
 
     // GFXE.pas:2440
-    public Rectangle(in global::Aow.Rtl.Rect R)
+    public Rectangle(in Rect R)
     {
         CaptureAddress.Assign(this);
         Rect = R;
@@ -1178,7 +1178,7 @@ public partial class DrawPanel : CustomPanel
 
     // GFXE.pas:8721
 
-    public DrawPanel(global::Aow.Rtl.Component owner) : base(owner)
+    public DrawPanel(Component owner) : base(owner)
     {
         /* TODO: Implement ExtCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -1190,7 +1190,7 @@ public partial class DrawPanel : CustomPanel
     [Published]
     public bool EraseBkgndEnabled { get => FEraseBkgndEnabled; set => FEraseBkgndEnabled = value; }
 
-    public delegate void OnDrawRectEvent(object Sender, in global::Aow.Rtl.Rect R);
+    public delegate void OnDrawRectEvent(object Sender, in Rect R);
 }
 
 [LegacyObject]
@@ -1243,7 +1243,7 @@ public partial class OpenImageFileDialog : OpenDialog
 
     // GFXE.pas:966
 
-    public OpenImageFileDialog(global::Aow.Rtl.Component owner) : base(owner)
+    public OpenImageFileDialog(Component owner) : base(owner)
     {
         /* TODO: Implement Dialogs.Create in the platform or editor service. */
         throw new NotImplementedException();
@@ -1743,20 +1743,20 @@ public partial class BMPImageFile : ImageFile, IImageFileClass
     public static new string Description => "Bitmap files (*.bmp)";
 
     // GFXE.pas:9053
-    public static new int GetPixelFormatID(string FileName) => Aow.Game.Draw.BMPImageFile.GetBMPPixelFormat(FileName);
+    public static new int GetPixelFormatID(string FileName) => GetBMPPixelFormat(FileName);
 
     // GFXE.pas:9058
-    public static new Surface CreateSurface(string FileName) => Aow.Game.Draw.BMPImageFile.CreateSurfaceFromBMP(FileName);
+    public static new Surface CreateSurface(string FileName) => CreateSurfaceFromBMP(FileName);
 
     // GFXE.pas:9063
-    public static new int LoadToSurfaceDesc(string FileName, ref SurfaceDesc SD, int X, int Y) => Aow.Game.Draw.BMPImageFile.LoadBMP(FileName, ref SD, X, Y);
+    public static new int LoadToSurfaceDesc(string FileName, ref SurfaceDesc SD, int X, int Y) => LoadBMP(FileName, ref SD, X, Y);
 
-    private static int LoadBMP(string FileName, ref global::Aow.Game.Draw.SurfaceDesc SD, int X, int Y)
+    private static int LoadBMP(string FileName, ref SurfaceDesc SD, int X, int Y)
     {
         throw new NotImplementedException();
     }
 
-    private static global::Aow.Game.Draw.Surface CreateSurfaceFromBMP(string FileName)
+    private static Surface CreateSurfaceFromBMP(string FileName)
     {
         throw new NotImplementedException();
     }

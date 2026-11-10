@@ -402,22 +402,22 @@ public partial class NewTurnDlg : ILayoutModule
         TCeltLineR.Loaded();
         FaceFrame.Loaded();
         session.Resolve(this);
-        NewTDlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        NewTDlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        NewTDlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        TCeltB.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        ClickMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        LShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
-        PlayerName.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        TurnMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        PlayerRace.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        Turn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        RShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
-        BlueFr.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        BlueFr.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        TCeltLineR.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        FaceFrame.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        NewTDlg.WinManager = DialogHosts.General.Manager;
+        NewTDlg.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        NewTDlg.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        TCeltB.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        ClickMsg.AOWFont = DialogHosts.FontModule.Age10s;
+        LShield.ImageLib = DialogHosts.IntGfxMod.Shields;
+        PlayerName.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        TurnMsg.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        PlayerRace.AOWFont = DialogHosts.FontModule.Age10s;
+        Turn.AOWFont = DialogHosts.FontModule.Age10s;
+        RShield.ImageLib = DialogHosts.IntGfxMod.Shields;
+        BlueFr.ILFrame = DialogHosts.IntGfxMod.CeltDeco;
+        BlueFr.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        TCeltLineL.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        TCeltLineR.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        FaceFrame.ImageLib = DialogHosts.IntGfxMod.GenericF;
     }
 
     private void Layout_NewTDlgHide_0()

@@ -15,7 +15,7 @@ namespace Aow.Game.Ui.Windows;
 // FOnShow, FOnHide
 public partial class AOWBaseWindow : AOWWindowControl
 {
-    public AOWBaseWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWBaseWindow(Component owner) : base(owner)
     { }
 
     public object FBuffer;
@@ -25,7 +25,7 @@ public partial class AOWBaseWindow : AOWWindowControl
     public NotifyEvent<AOWBaseWindow> FOnHide;
 
     // AoWBaseWin.pas:56
-    public override void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public override void InvalidateRect(int Index, ref Rect ARect, AoWComponent Sender)
     {
         AoWComponent C;
         if (Index > -1 && FValid && FVisible)
@@ -55,7 +55,7 @@ public partial class AOWBaseWindow : AOWWindowControl
     }
 
     // AoWBaseWin.pas:50
-    public override void AddBltRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public override void AddBltRect(ref Rect ARect, AoWComponent Sender)
     {
         if (FDoubleBuffered && FSurfaceValid)
         {
@@ -139,7 +139,7 @@ public partial class AOWBaseWindow : AOWWindowControl
         int OldTop;
         bool Locked;
         SurfaceDesc SD = default;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         try
         {
             if (FValid && FVisible)
@@ -193,7 +193,7 @@ public partial class AOWBaseWindow : AOWWindowControl
                                 {
                                     D = (TaowRect)FDrawList[J];
                                     R = SD.ClipRect;
-                                    var rect = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                    var rect = new Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                     SD.ClipRect = rect;
                                     Draw(SD);
                                     SD.ClipRect = R;
@@ -236,12 +236,12 @@ public partial class AOWBaseWindow : AOWWindowControl
                                     {
                                         if (FSurfaceValid)
                                         {
-                                            R = global::Aow.Rtl.RtlUnit.Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
+                                            R = new Rect(C.FWinLeft, C.FWinTop, C.FWinLeft + C.FWinWidth, C.FWinTop + C.FWinHeight);
                                             AddBltRect(ref R, C);
                                         }
 
                                         C.FFirstDraw = C.FDrawn;
-                                        R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth - 1, FWinTop + C.FWinTop + C.FWinHeight - 1);
+                                        R = new Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth - 1, FWinTop + C.FWinTop + C.FWinHeight - 1);
                                         InvalidateRect(I + 1, ref R, C);
                                     }
 
@@ -276,7 +276,7 @@ public partial class AOWBaseWindow : AOWWindowControl
                                     for (int J = 0, last = FBltCount - 1; J <= last; J++)
                                     {
                                         D = (TaowRect)FBltList[J];
-                                        R = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                                        R = new Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                                         if (!FMasked)
                                         {
                                             FBackSurface.BltAreaClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop);
@@ -284,11 +284,11 @@ public partial class AOWBaseWindow : AOWWindowControl
                                         else
                                         {
                                             var pixelFormatID = FBackSurface.GetPixelFormatID();
-                                            var color2PixelInfo = Aow.Game.Draw.PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
+                                            var color2PixelInfo = PixelFormats.Color2PixelInfo(FMaskColor, pixelFormatID, null);
                                             FBackSurface.BltAreaColorKeyClipped(Surface, R, D.R.Left + OldLeft, D.R.Top + OldTop, color2PixelInfo);
                                         }
 
-                                        R = global::Aow.Rtl.RtlUnit.Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);
+                                        R = new Rect(D.R.Left + OldLeft, D.R.Top + OldTop, D.R.Right + OldLeft, D.R.Bottom + OldTop);
                                         FWinManager.AddBltRect(ref R, this);
                                     }
 
@@ -369,8 +369,8 @@ public partial class AOWBaseWindow : AOWWindowControl
         int OldTop;
         bool Ok;
         SurfaceDesc DestSD = default;
-        global::Aow.Rtl.Rect SrcRect = default;
-        global::Aow.Rtl.Rect DestRect = default;
+        Rect SrcRect = default;
+        Rect DestRect = default;
         try
         {
             OldLeft = FWinLeft;
@@ -438,18 +438,18 @@ public partial class AOWBaseWindow : AOWWindowControl
                 {
                     FWinLeft = OldLeft;
                     FWinTop = OldTop;
-                    SrcRect = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
+                    SrcRect = new Rect(0, 0, FWinWidth, FWinHeight);
                     // { not used }
-                    DestRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth, FWinTop + FWinHeight);
+                    DestRect = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth, FWinTop + FWinHeight);
                     try
                     {
                         if (FMasked == true)
                         {
-                            Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
+                            SurfaceDesc.BltSpriteClipped16(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop, FMaskColor);
                         }
                         else
                         {
-                            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
+                            SurfaceDesc.BltSDRectClipped(SurfDesc, SrcRect, DestSD, FWinLeft, FWinTop);
                         }
                     }
                     catch

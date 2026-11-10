@@ -63,40 +63,40 @@ public partial class CityWall : CombatILTerrain
             switch (Msg.MsgID)
             {
                 case 200704:
-                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(65).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    AoWHSSet.Current.FAbilityControl.GetAbility(65).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense = GetDefense();
-                    var executeDamageRole = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense);
+                    var executeDamageRole = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense);
                     SetHitPoints(FHitPoints - executeDamageRole);
                     break;
                 case 200705:
-                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(24).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    AoWHSSet.Current.FAbilityControl.GetAbility(24).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense2 = GetDefense();
-                    var executeDamageRole2 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense2);
+                    var executeDamageRole2 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense2);
                     SetHitPoints(FHitPoints - executeDamageRole2);
                     break;
                 case 200706:
-                    Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(44).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    AoWHSSet.Current.FAbilityControl.GetAbility(44).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense3 = GetDefense();
-                    var executeDamageRole3 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense3);
+                    var executeDamageRole3 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense3);
                     SetHitPoints(FHitPoints - executeDamageRole3);
                     break;
                 case 200707:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(117).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    AoWHSSet.Current.FSpellControl.GetSpell(117).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense4 = GetDefense();
-                    var executeDamageRole4 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense4);
+                    var executeDamageRole4 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense4);
                     SetHitPoints(FHitPoints - executeDamageRole4);
                     break;
                 case 200714:
                     if (FWallType == 1)
                     {
-                        Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(31).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                        AoWHSSet.Current.FAbilityControl.GetAbility(31).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref AbilityInfo);
+                        RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(AbilityInfo.Damage, AbilityInfo.Attack - defense5);
                         SetHitPoints(FHitPoints - executeDamageRole5);
                     }
 
@@ -104,54 +104,54 @@ public partial class CityWall : CombatILTerrain
                 case 200715:
                     if (FWallType == 1)
                     {
-                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(113).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                        AoWHSSet.Current.FSpellControl.GetSpell(113).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense5);
                         SetHitPoints(FHitPoints - executeDamageRole5);
                     }
 
                     break;
                 case 200710:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(116).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    AoWHSSet.Current.FSpellControl.GetSpell(116).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense6 = GetDefense();
-                    var executeDamageRole6 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense6);
+                    var executeDamageRole6 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense6);
                     SetHitPoints(FHitPoints - executeDamageRole6);
                     break;
                 case 200717:
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(127).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    AoWHSSet.Current.FSpellControl.GetSpell(127).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense7 = GetDefense();
-                    var executeDamageRole7 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense7);
+                    var executeDamageRole7 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense7);
                     SetHitPoints(FHitPoints - executeDamageRole7);
                     break;
                 case 200718:
                     if (FWallType == 1)
                     {
-                        Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(128).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                        AoWHSSet.Current.FSpellControl.GetSpell(128).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                        RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense5);
                         SetHitPoints(FHitPoints - executeDamageRole5);
                     }
 
                     break;
                 case 200708:
                     FPlaySound = Msg.Param[1].Int == 0;
-                    Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
-                    RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                    AoWHSSet.Current.FSpellControl.GetSpell(112).GetCombatInfo(Msg.Param[0].As<CombatUnit>().FUnit, ref SpellInfo);
+                    RandSeed = AoWHSMap.Current.Random(16777215);
                     var defense8 = GetDefense();
-                    var executeDamageRole8 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense8);
+                    var executeDamageRole8 = AbilityRules.ExecuteDamageRole(SpellInfo.Damage, SpellInfo.Attack - defense8);
                     SetHitPoints(FHitPoints - executeDamageRole8);
                     Msg.Param[1] = 1;
                     break;
                 case 200711:
                     if (FWallType == 1)
                     {
-                        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.Random(16777215);
+                        RandSeed = AoWHSMap.Current.Random(16777215);
                         var defense5 = GetDefense();
-                        var executeDamageRole5 = Aow.Game.Magic.Abilities.AbilityRules.ExecuteDamageRole(Aow.Game.Combat.TacticalTables.TCDamage[1], Aow.Game.Combat.TacticalTables.TCAttack[1] - defense5);
+                        var executeDamageRole5 = AbilityRules.ExecuteDamageRole(TacticalTables.TCDamage[1], TacticalTables.TCAttack[1] - defense5);
                         SetHitPoints(FHitPoints - executeDamageRole5);
                     }
 
@@ -250,11 +250,11 @@ public partial class CityWall : CombatILTerrain
         PlayerStructure Structure;
         bool Razed;
         base.Activate();
-        if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
             Razed = false;
             FPlaySound = true;
-            Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Aow.Game.Combat.CombatPlacement.CombatLLoc).GetField(Aow.Game.Combat.CombatPlacement.CombatXLoc, Aow.Game.Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(City));
+            Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(City));
             if (Structure != null)
             {
                 FWallType = ((City)Structure).FWallType;
@@ -265,12 +265,12 @@ public partial class CityWall : CombatILTerrain
                 }
                 else
                 {
-                    FFlagID = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
+                    FFlagID = AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
                 }
             }
             else
             {
-                Structure = (PlayerStructure)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(Aow.Game.Combat.CombatPlacement.CombatLLoc).GetField(Aow.Game.Combat.CombatPlacement.CombatXLoc, Aow.Game.Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(Tower));
+                Structure = (PlayerStructure)AoWHSMap.Current.MapContainer.GetMapLevel(CombatPlacement.CombatLLoc).GetField(CombatPlacement.CombatXLoc, CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(Tower));
                 if (Structure != null)
                 {
                     FWallType = 1;
@@ -281,7 +281,7 @@ public partial class CityWall : CombatILTerrain
                     }
                     else
                     {
-                        FFlagID = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
+                        FFlagID = AoWHSMap.Current.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
                     }
                 }
                 else
@@ -295,7 +295,7 @@ public partial class CityWall : CombatILTerrain
                 RemoveFromMap();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                UpdateMapFields(Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0), xhx, yhx);
+                UpdateMapFields(AoWCombatMap.Current.MapContainer.GetMapLevel(0), xhx, yhx);
                 this.Dispose();
             }
             else
@@ -306,7 +306,7 @@ public partial class CityWall : CombatILTerrain
                 }
                 else
                 {
-                    SetHitPoints(Aow.Game.Combat.TacticalTables.WallMaxHP[FWallType - 1]);
+                    SetHitPoints(TacticalTables.WallMaxHP[FWallType - 1]);
                 }
 
                 if (FFlagID == -1)
@@ -314,7 +314,7 @@ public partial class CityWall : CombatILTerrain
                     FFlagID = 32;
                 }
 
-                Aow.Game.Combat.AoWCombatMap.Current.FWalls.Add(this);
+                AoWCombatMap.Current.FWalls.Add(this);
             }
         }
         else
@@ -364,36 +364,36 @@ public partial class CityWall : CombatILTerrain
         {
             if (Value == 0)
             {
-                Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FWallBreached = true;
-                if (FPlaySound && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
+                AoWCombatMap.Current.FCombat.FCombatData.FWallBreached = true;
+                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
-                    Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
+                    Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODLG.WAV");
                 }
 
-                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(TfxType.WallSmoke);
+                Effect = AoWCombatMap.Current.AddEffect(TfxType.WallSmoke);
                 Point = new XYZ();
                 Effect.FPath.Add(Point);
-                Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Point.X, ref Point.Y);
+                HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Point.X, ref Point.Y);
                 Point.X = Random(20) + Point.X + 6;
                 Point.Y = Random(20) + Point.Y - 20;
             }
             else
             {
-                if (FPlaySound && Aow.Game.Combat.AoWCombatMap.Current.FPlaySounds)
+                if (FPlaySound && AoWCombatMap.Current.FPlaySounds)
                 {
-                    Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
+                    Audio.AudioPlayback.PlaySample("SFX\\HIT_DEATH\\D_WOODMD.WAV");
                 }
             }
         }
 
         FHitPoints = Value;
-        if (Aow.Game.Combat.TacticalTables.WallMaxHP[FWallType - 1] == FHitPoints)
+        if (TacticalTables.WallMaxHP[FWallType - 1] == FHitPoints)
         {
             FDamageImage = 0;
         }
         else
         {
-            if (Aow.Game.Combat.TacticalTables.WallMaxHP[FWallType - 1] / 2 < FHitPoints)
+            if (TacticalTables.WallMaxHP[FWallType - 1] / 2 < FHitPoints)
             {
                 FDamageImage = 1;
             }
@@ -420,12 +420,12 @@ public partial class CityWall : CombatILTerrain
         int Xhp = default;
         int Yhp = default;
         int TerrainOffset;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         XhpSurf = Xhp - XhpSurf;
         YhpSurf = Yhp - YhpSurf;
         var yhx = GetYhx();
         var xhx = GetXhx();
-        switch (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+        switch (AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
         {
             case 3:
                 TerrainOffset = 10;
@@ -440,7 +440,7 @@ public partial class CityWall : CombatILTerrain
                 break;
         }
 
-        Sequence = FResource.ImageSequenceList.GetImageSequence(Aow.Game.World.Terrain.CityWall.WallISIndex[FWallType - 1] + (TerrainOffset + FDamageImage));
+        Sequence = FResource.ImageSequenceList.GetImageSequence(WallISIndex[FWallType - 1] + (TerrainOffset + FDamageImage));
         if (Sequence != null)
         {
             do
@@ -448,14 +448,14 @@ public partial class CityWall : CombatILTerrain
                 switch (Sequence.Layer)
                 {
                     case 7:
-                        ImageIndex = Sequence.GetFrameIndex(Aow.Game.Combat.AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Current.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (ImageIndex != -1)
                         {
-                            if (!Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                            if (!AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting))
                             {
                                 var xhx2 = GetXhx();
                                 var yhx2 = GetYhx();
-                                Aow.Game.Engine.AoWHSSet.Current.FFlagControl.ShowFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + Aow.Game.World.Map.AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
+                                AoWHSSet.Current.FFlagControl.ShowFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Current.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
                             }
                         }
 
@@ -478,7 +478,7 @@ public partial class CityWall : CombatILTerrain
         }
     }
 
-    private static global::Aow.Game.Engine.Buffers.FixedArray_int_2 WallISIndex = global::Aow.Game.Engine.Buffers.FixedArray_int_2.From([30, 0]);
+    private static Engine.Buffers.FixedArray_int_2 WallISIndex = Engine.Buffers.FixedArray_int_2.From([30, 0]);
 
     public new partial class Resource : CombatILTerrainResource
     {
@@ -521,7 +521,7 @@ public partial class CityWallDoor : CityWall
     public override void Show(int XhpSurf, int YhpSurf, in SurfaceDesc SurfaceDesc)
     {
         TacticalCombatUnitHS CombatUnit;
-        if (Aow.Game.Combat.AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting) || Aow.Game.Combat.AoWCombatMap.Current.FCombat == null)
+        if (AoWCombatMap.Current.Status.Contains(HSMapStatusElement.Editting) || AoWCombatMap.Current.FCombat == null)
         {
             base.Show(XhpSurf, YhpSurf, SurfaceDesc);
         }
@@ -529,7 +529,7 @@ public partial class CityWallDoor : CityWall
         {
             var yhx = GetYhx();
             var xhx = GetXhx();
-            CombatUnit = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).FindOwnedChild(2228484);
+            CombatUnit = (TacticalCombatUnitHS)AoWCombatMap.Current.MapContainer.GetMapLevel(0).GetField(xhx, yhx).FindOwnedChild(2228484);
             if (CombatUnit != null)
             {
                 if (CombatUnit.FUnit.GetSide() != CombatSideIndex.Defender)
@@ -541,8 +541,8 @@ public partial class CityWallDoor : CityWall
             bool condition = FHitPoints == 0;
             if (!condition)
             {
-                var indexOfPlayer = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FPlayers.IndexOfPlayer((byte)Aow.Game.Combat.AoWCombatMap.Current.FCurrentPlayer);
-                condition = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)indexOfPlayer).FSideIndex != 1 && CombatUnit == null;
+                var indexOfPlayer = AoWCombatMap.Current.FCombat.FCombatData.FPlayers.IndexOfPlayer((byte)AoWCombatMap.Current.FCurrentPlayer);
+                condition = AoWCombatMap.Current.FCombat.FCombatData.FPlayers.GetPlayers((sbyte)indexOfPlayer).FSideIndex != 1 && CombatUnit == null;
             }
 
             if (condition)
@@ -636,7 +636,7 @@ public partial class CityWallDoor : CityWall
         return Result;
     }
 
-    public new partial class Resource : Aow.Game.World.Terrain.CityWall.Resource
+    public new partial class Resource : CityWall.Resource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

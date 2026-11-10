@@ -14,9 +14,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // indicator frame/step, world/combat clock delays, chat flash countdown
-public partial class TBWindow : DataModule
+public partial class TaskBar : DataModule
 {
-    public TBWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public TaskBar(Component owner) : base(owner)
     { }
 
     public AOWWindow TaskWindow;
@@ -89,102 +89,102 @@ public partial class TBWindow : DataModule
     public void TurnButtonAnimDone()
     {
         TurnButton.Checked = false;
-        if (Aow.Game.Combat.AoWCombatMap.Current != null)
+        if (AoWCombatMap.Current != null)
         {
-            Aow.Game.Combat.AoWCombatMap.Current.FEndTurnPending = true;
+            AoWCombatMap.Current.FEndTurnPending = true;
         }
     }
 
     // AoWTBWindow.pas:128
     public void WMButtonClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow.Visible = !Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow.Visible;
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.SWindow.ScannerWindow.Visible = !DialogHosts.SWindow.ScannerWindow.Visible;
     }
 
     // AoWTBWindow.pas:134
     public void OVButtonClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible = !Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible;
-        if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible)
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.RealmWin.Dlg.Visible = !DialogHosts.RealmWin.Dlg.Visible;
+        if (DialogHosts.RealmWin.Dlg.Visible)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
+            DialogHosts.RealmWin.UpdateOverview();
         }
     }
 
     // AoWTBWindow.pas:141
     public void ConButtonClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Visible = !Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Visible;
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.ControlWin.ControlWindow.Visible = !DialogHosts.ControlWin.ControlWindow.Visible;
     }
 
     // AoWTBWindow.pas:147
     public void StructButtonClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.IWindow.InfoWin.Visible = !Aow.Game.Ui.Dialogs.DialogHosts.IWindow.InfoWin.Visible;
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.IWindow.InfoWin.Visible = !DialogHosts.IWindow.InfoWin.Visible;
     }
 
     // AoWTBWindow.pas:153
     public void TBNextButtonClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.World.Map.AoWHSMap.Current.SelectNextArmy();
+        DialogHosts.General.PlayButtonSound(0);
+        World.Map.AoWHSMap.Current.SelectNextArmy();
     }
 
     // AoWTBWindow.pas:159
     public void UnitBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = true;
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.UnitWindow.UnitWin.Visible = true;
     }
 
     // AoWTBWindow.pas:165
     public void InfoBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.PInfoWin.Visible)
+        DialogHosts.General.PlayButtonSound(0);
+        if (DialogHosts.PInfoW.PInfoWin.Visible)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.PInfoWin.Visible = false;
+            DialogHosts.PInfoW.PInfoWin.Visible = false;
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.UpdatePlayer();
+            DialogHosts.PInfoW.UpdatePlayer();
         }
     }
 
     // AoWTBWindow.pas:172
     public void ProdBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWTBWindow.pas:177
     public void COBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWTBWindow.pas:182
     public void ChatBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin.Visible = !Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin.Visible;
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.ChatWindow.ChatWin.Visible = !DialogHosts.ChatWindow.ChatWin.Visible;
     }
 
     // AoWTBWindow.pas:188
     public void TurnButtonChange()
     {
-        if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FSingleProcessCycle)
+        if (!World.Map.AoWHSMap.Current.FPlayers.GetPlayers(World.Map.AoWHSMap.Current.FSeatedPlayer).FSingleProcessCycle)
         {
-            var endTurn = Aow.Game.World.Map.AoWHSMap.Current.EndTurn();
+            var endTurn = World.Map.AoWHSMap.Current.EndTurn();
             TurnButton.Checked = endTurn;
         }
         else
         {
-            var cancelEndTurn = Aow.Game.World.Map.AoWHSMap.Current.CancelEndTurn();
+            var cancelEndTurn = World.Map.AoWHSMap.Current.CancelEndTurn();
             TurnButton.Checked = !cancelEndTurn;
         }
     }
@@ -195,22 +195,22 @@ public partial class TBWindow : DataModule
         int Position;
         int Race;
         Position = 0;
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (World.Map.AoWHSMap.Current != null)
         {
-            for (int I = 0, last = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
+            for (int I = 0, last = World.Map.AoWHSMap.Current.FPlayers.GetCount() - 1; I <= last; I++)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Aow.Game.Session.Player.Status.Playing)
+                if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FStatus == Player.Status.Playing)
                 {
-                    Race = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerRace;
+                    Race = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FPlayerRace;
                     if (Race == -1)
                     {
                         Race = 12;
                     }
 
-                    Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TBWin[Race + 32].ShowClipped(PInd.WinLeft + 3 + Position * 5, PInd.WinTop + 2, Surface);
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn)
+                    DialogHosts.IntGfxMod.TBWin[Race + 32].ShowClipped(PInd.WinLeft + 3 + Position * 5, PInd.WinTop + 2, Surface);
+                    if (World.Map.AoWHSMap.Current.FPlayMode == PlayMode.Turn)
                     {
-                        if (I == Aow.Game.World.Map.AoWHSMap.Current.FCurrentPlayer)
+                        if (I == World.Map.AoWHSMap.Current.FCurrentPlayer)
                         {
                             CurP.WinLeft = PInd.WinLeft + 2 + Position * 5;
                             CurP.WinTop = PInd.WinTop + 11;
@@ -218,9 +218,9 @@ public partial class TBWindow : DataModule
                     }
                     else
                     {
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FSingleProcessCycle)
+                        if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(I).FSingleProcessCycle)
                         {
-                            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TBWin[50].ShowClipped(PInd.WinLeft + 2 + Position * 5, PInd.WinTop + 11, Surface);
+                            DialogHosts.IntGfxMod.TBWin[50].ShowClipped(PInd.WinLeft + 2 + Position * 5, PInd.WinTop + 11, Surface);
                         }
                     }
 
@@ -253,21 +253,21 @@ public partial class TBWindow : DataModule
     {
         if (TCTurnButton.Checked)
         {
-            var endTurn = Aow.Game.Combat.AoWCombatMap.Current.EndTurn(false);
+            var endTurn = AoWCombatMap.Current.EndTurn(false);
             TCTurnButton.Checked = endTurn;
         }
         else
         {
-            Aow.Game.Combat.AoWCombatMap.Current.CancelEndTurn();
+            AoWCombatMap.Current.CancelEndTurn();
         }
     }
 
     // AoWTBWindow.pas:237
     public void TCTurnButtonAnimDone()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         TCTurnButton.Checked = false;
-        Aow.Game.Combat.AoWCombatMap.Current.FEndTurnPending = true;
+        AoWCombatMap.Current.FEndTurnPending = true;
     }
 
     // AoWTBWindow.pas:244
@@ -276,18 +276,18 @@ public partial class TBWindow : DataModule
         int Position;
         int Race;
         Position = 0;
-        for (int I = 0, last = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FTurnOrder.Count - 1; I <= last; I++)
+        for (int I = 0, last = AoWCombatMap.Current.FCombat.FCombatData.FTurnOrder.Count - 1; I <= last; I++)
         {
-            var turnOrder = Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FTurnOrder[I];
-            var player = Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers((sbyte)turnOrder);
-            Race = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            var turnOrder = AoWCombatMap.Current.FCombat.FCombatData.FTurnOrder[I];
+            var player = AoWCombatMap.Current.FPlayers.GetPlayers((sbyte)turnOrder);
+            Race = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
             if (Race == -1)
             {
                 Race = 12;
             }
 
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TBWin[Race + 32].ShowClipped(TCPInd.WinLeft + 3 + Position * 5, TCPInd.WinTop + 2, Surface);
-            if (Aow.Game.Combat.AoWCombatMap.Current.FCombat.FCombatData.FTurnOrder[I] == Aow.Game.Combat.AoWCombatMap.Current.FCurrentCombatPlayer)
+            DialogHosts.IntGfxMod.TBWin[Race + 32].ShowClipped(TCPInd.WinLeft + 3 + Position * 5, TCPInd.WinTop + 2, Surface);
+            if (AoWCombatMap.Current.FCombat.FCombatData.FTurnOrder[I] == AoWCombatMap.Current.FCurrentCombatPlayer)
             {
                 TCCurP.WinLeft = TCPInd.WinLeft + 2 + Position * 5;
                 TCCurP.WinTop = TCPInd.WinTop + 11;
@@ -318,15 +318,15 @@ public partial class TBWindow : DataModule
     // AoWTBWindow.pas:273
     public void TCScannerBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.TCScannerWin.Visible = !Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.TCScannerWin.Visible;
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.TCScanner.TCScannerWin.Visible = !DialogHosts.TCScanner.TCScannerWin.Visible;
     }
 
     // AoWTBWindow.pas:279
     public void TCNextBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Combat.AoWCombatMap.Current.SelectNextUnit(true);
+        DialogHosts.General.PlayButtonSound(0);
+        AoWCombatMap.Current.SelectNextUnit(true);
     }
 
     // AoWTBWindow.pas:285
@@ -336,16 +336,16 @@ public partial class TBWindow : DataModule
         ushort Minute = default;
         ushort Second = default;
         ushort Millisecond = default;
-        if (TBWorld.Visible && Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (TBWorld.Visible && World.Map.AoWHSMap.Current != null)
         {
             FWorldClockDelay = (short)(FWorldClockDelay - 1);
             if (FWorldClockDelay < 0)
             {
-                if (Aow.Game.World.Map.AoWHSMap.Current.FTurnTime != 0)
+                if (World.Map.AoWHSMap.Current.FTurnTime != 0)
                 {
                     FWorldClockDelay = 10;
-                    Minute = (ushort)(Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimeLeft() / 60000);
-                    Second = (ushort)(Aow.Game.World.Map.AoWHSMap.Current.GetTurnTimeLeft() % 60000 / 1000);
+                    Minute = (ushort)(World.Map.AoWHSMap.Current.GetTurnTimeLeft() / 60000);
+                    Second = (ushort)(World.Map.AoWHSMap.Current.GetTurnTimeLeft() % 60000 / 1000);
                     if (Minute == 0 && Second > 0 && Second <= 10)
                     {
                         TimeLbl.TextColor = 255;
@@ -396,7 +396,7 @@ public partial class TBWindow : DataModule
         ushort Minute = default;
         ushort Second = default;
         ushort Millisecond = default;
-        if (TBCombat.Visible && Aow.Game.Combat.AoWCombatMap.Current != null)
+        if (TBCombat.Visible && AoWCombatMap.Current != null)
         {
             FCombatClockDelay = (short)(FCombatClockDelay - 1);
             if (FCombatClockDelay < 0)
@@ -427,42 +427,42 @@ public partial class TBWindow : DataModule
     // AoWTBWindow.pas:337
     public void OV2BtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        if (Aow.Game.Ui.Dialogs.DialogHosts.MagicWin.Dlg.Visible)
+        DialogHosts.General.PlayButtonSound(0);
+        if (DialogHosts.MagicWin.Dlg.Visible)
         {
-            Aow.Game.Ui.Dialogs.MagicWin.HideMagic(Aow.Game.Ui.Dialogs.DialogHosts.MagicWin);
+            MagicWin.HideMagic(DialogHosts.MagicWin);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.TBWindow.ShowMagicWindow(Aow.Game.Ui.Dialogs.DialogHosts.MagicWin);
+            ShowMagicWindow(DialogHosts.MagicWin);
         }
     }
 
     // AoWTBWindow.pas:344
     public void TCUnitBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.TCUnit.TCUnitWin.Visible = !Aow.Game.Ui.Dialogs.DialogHosts.TCUnit.TCUnitWin.Visible;
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.TCUnit.TCUnitWin.Visible = !DialogHosts.TCUnit.TCUnitWin.Visible;
     }
 
     // AoWTBWindow.pas:350
     public void StartMenuBarChange()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(3);
+        DialogHosts.General.PlayButtonSound(3);
     }
 
     // AoWTBWindow.pas:355
     public void RelationsBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        var relWindow = Aow.Game.Ui.Dialogs.DialogHosts.RelWindow;
+        DialogHosts.General.PlayButtonSound(0);
+        var relWindow = DialogHosts.RelWindow;
         if (relWindow.RelWin.Visible)
         {
             relWindow.RelWin.Visible = false;
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.RelWindow.ShowRelations(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+            DialogHosts.RelWindow.ShowRelations(World.Map.AoWHSMap.Current.FSeatedPlayer);
         }
     }
 
@@ -498,18 +498,18 @@ public partial class TBWindow : DataModule
     // AoWTBWindow.pas:377
     public void AutoBtn2Click()
     {
-        if (Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer > -1)
+        if (AoWCombatMap.Current.FSeatedCombatPlayer > -1)
         {
-            Aow.Game.Combat.AoWCombatMap.Current.FPlayers.GetPlayers(Aow.Game.Combat.AoWCombatMap.Current.FSeatedCombatPlayer).SetAuto(AutoBtn.Checked);
+            AoWCombatMap.Current.FPlayers.GetPlayers(AoWCombatMap.Current.FSeatedCombatPlayer).SetAuto(AutoBtn.Checked);
         }
     }
 
-    internal static void ShowMagicWindow(global::Aow.Game.Ui.Dialogs.MagicWin Window)
+    internal static void ShowMagicWindow(MagicWin Window)
     {
         if (!Window.Dlg.Visible)
         {
-            global::Aow.Game.Ui.Dialogs.MagicWin.RefreshMagicWindow(Window);
-            global::Aow.Game.Ui.Dialogs.MagicWin.RefreshGlobalMagic(Window);
+            MagicWin.RefreshMagicWindow(Window);
+            MagicWin.RefreshGlobalMagic(Window);
         }
         Window.Dlg.Visible = true;
     }

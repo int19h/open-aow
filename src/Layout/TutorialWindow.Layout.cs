@@ -203,7 +203,7 @@ public partial class TutorialWindow : ILayoutModule
         AbVSB.ILIndexBack = 47;
         AbVSB.ILIndexTab = 44;
         session.EndRead(AbVSB);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -226,18 +226,18 @@ public partial class TutorialWindow : ILayoutModule
         AbVSB.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.MiscArt;
-        MessageMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        Close.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
-        Close.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10b;
-        Close.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CampaignTrans;
-        HeaderMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15BlackBrown;
-        HeaderMemo.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        AbVSB.ILIInc = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        AbVSB.ILIDec = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        AbVSB.ILTBack = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
-        AbVSB.ILLTab = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
+        Dlg.WinManager = DialogHosts.General.Manager;
+        Dlg.ILTexture = DialogHosts.IntGfxMod.MiscArt;
+        MessageMemo.AOWFont = DialogHosts.FontModule.Age10;
+        Close.ToolTip = DialogHosts.General.ToolTip;
+        Close.AOWFont = DialogHosts.FontModule.Age10b;
+        Close.ILButton = DialogHosts.IntGfxMod.CampaignTrans;
+        HeaderMemo.AOWFont = DialogHosts.FontModule.AoW15BlackBrown;
+        HeaderMemo.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        AbVSB.ILIInc = DialogHosts.IntGfxMod.GenericS;
+        AbVSB.ILIDec = DialogHosts.IntGfxMod.GenericS;
+        AbVSB.ILTBack = DialogHosts.IntGfxMod.GenericS;
+        AbVSB.ILLTab = DialogHosts.IntGfxMod.GenericS;
     }
 
     private void Layout_DlgHide_0()

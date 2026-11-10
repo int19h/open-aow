@@ -13,7 +13,7 @@ namespace Aow.Game.Ui.Controls;
 // FAnimStart, FCurrentImage, FAnimEnd, FImageLib
 public partial class AOWImage : AOWControl
 {
-    public AOWImage(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWImage(Component owner) : base(owner)
     { }
 
     public bool FAnimate;

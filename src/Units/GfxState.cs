@@ -37,15 +37,15 @@ public static class GfxState
 
     internal static int ForcedPixelFormatID;
 
-    internal static global::Aow.Game.Draw.ImageFileClassList ImageFileClassList;
+    internal static ImageFileClassList ImageFileClassList;
 
     internal static void InitBlendTables(int Bits, int Count)
     {
-        AlphaBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateAlphaBlendTable, Count);
-        IntensityBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateIntensityBlendTable, Count);
-        BrightenBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateBrightenBlendTable, Count);
-        ShadowBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateShadowBlendTable, Count);
-        LinearAlphaBlendTable.GenerateLookupTables(Bits, Aow.Game.Draw.BlendTable.GenerateLinearAlphaBlendTable, Count);
+        AlphaBlendTable.GenerateLookupTables(Bits, BlendTable.GenerateAlphaBlendTable, Count);
+        IntensityBlendTable.GenerateLookupTables(Bits, BlendTable.GenerateIntensityBlendTable, Count);
+        BrightenBlendTable.GenerateLookupTables(Bits, BlendTable.GenerateBrightenBlendTable, Count);
+        ShadowBlendTable.GenerateLookupTables(Bits, BlendTable.GenerateShadowBlendTable, Count);
+        LinearAlphaBlendTable.GenerateLookupTables(Bits, BlendTable.GenerateLinearAlphaBlendTable, Count);
     }
 
     public static void Initialize()
@@ -57,7 +57,7 @@ public static class GfxState
         LinearAlphaBlendTable = new LookupBlendTableCollection100();
         InitBlendTables(5, 31);
         ForcedPixelFormatID = 0;
-        ImageFileClassList = new global::Aow.Game.Draw.ImageFileClassList();
+        ImageFileClassList = new ImageFileClassList();
         RegisterImageFileClasses([ImageFileClass.Of<BMPImageFile>()]);
     }
 

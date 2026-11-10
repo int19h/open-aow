@@ -6,7 +6,7 @@ namespace Aow.Game.Engine;
 
 // FPlugIns (file names, Objects the package handles), FPlugInsLoaded, FPlugInDirectory,
 // FPlugInExtension ('dpl'), FOnLoadPlugIn
-public partial class PlugInManager : global::Aow.Rtl.Component
+public partial class PlugInManager : Component
 {
     internal StringList FPlugIns;
     internal bool FPlugInsLoaded;
@@ -57,7 +57,7 @@ public partial class PlugInManager : global::Aow.Rtl.Component
     }
 
     // PlugInM.pas:46
-    public PlugInManager(global::Aow.Rtl.Component owner) : base(owner)
+    public PlugInManager(Component owner) : base(owner)
     {
         FPlugIns = new StringList();
         FPlugInExtension = "dpl";

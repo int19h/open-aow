@@ -28,7 +28,7 @@ internal static class PixelRemap
         for (int Y = 0; Y <= Height - 1; Y++)
         {
             var S = Src.Row(Y, Width * 3);
-            var D = Aow.Game.Draw.PixelFormats.Words(Dst.Row(Y, Width * 2));
+            var D = PixelFormats.Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
                 int I = X * 3;
@@ -42,7 +42,7 @@ internal static class PixelRemap
         for (int Y = 0; Y <= Height - 1; Y++)
         {
             var S = Src.Row(Y, Width * 3);
-            var D = Aow.Game.Draw.PixelFormats.Words(Dst.Row(Y, Width * 2));
+            var D = PixelFormats.Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
                 int I = X * 3;
@@ -55,7 +55,7 @@ internal static class PixelRemap
     {
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            var S = Aow.Game.Draw.PixelFormats.Words(Src.Row(Y, Width * 2));
+            var S = PixelFormats.Words(Src.Row(Y, Width * 2));
             var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
@@ -71,7 +71,7 @@ internal static class PixelRemap
     {
         for (int Y = 0; Y <= Height - 1; Y++)
         {
-            var S = Aow.Game.Draw.PixelFormats.Words(Src.Row(Y, Width * 2));
+            var S = PixelFormats.Words(Src.Row(Y, Width * 2));
             var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
@@ -83,14 +83,14 @@ internal static class PixelRemap
         }
     }
 
-    internal static void RemapSurface32to565(SurfaceView Src, SurfaceView Dst, int Width, int Height) => Aow.Game.Draw.PixelRemap.RemapSurface32to555(Src, Dst, Width, Height);
+    internal static void RemapSurface32to565(SurfaceView Src, SurfaceView Dst, int Width, int Height) => RemapSurface32to555(Src, Dst, Width, Height);
 
     internal static void RemapSurface32to555(SurfaceView Src, SurfaceView Dst, int Width, int Height)
     {
         for (int Y = 0; Y <= Height - 1; Y++)
         {
             var S = Src.Row(Y, Width * 4);
-            var D = Aow.Game.Draw.PixelFormats.Words(Dst.Row(Y, Width * 2));
+            var D = PixelFormats.Words(Dst.Row(Y, Width * 2));
             for (int X = 0; X <= Width - 1; X++)
             {
                 int I = X * 4;
@@ -107,7 +107,7 @@ internal static class PixelRemap
             var D = Dst.Row(Y, Width * 3);
             for (int X = 0; X <= Width - 1; X++)
             {
-                ref Aow.Game.Draw.GFXEPalette.PaletteEntry E = ref Palette.Entries[S[X]];
+                ref GFXEPalette.PaletteEntry E = ref Palette.Entries[S[X]];
                 int I = X * 3;
                 D[I + 2] = E.R;
                 D[I + 1] = E.G;
@@ -125,7 +125,7 @@ internal static class PixelRemap
         byte A;
         switch (SrcPixelFormatID)
         {
-            case Aow.Game.Draw.PixelFormats.pfPAL8:
+            case PixelFormats.pfPAL8:
                 if (SrcPalette != null)
                 {
                     R = SrcPalette.Entries[PixelInfo].R;
@@ -139,37 +139,37 @@ internal static class PixelRemap
                 }
 
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB565:
+            case PixelFormats.pfRGB565:
                 R = (byte)(((int)(((uint)PixelInfo) >> 8)) & 248);
                 G = (byte)(((int)(((uint)PixelInfo) >> 3)) & 252);
                 B = (byte)((PixelInfo << 3) & 248);
                 A = 0;
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB555:
+            case PixelFormats.pfRGB555:
                 R = (byte)(((int)(((uint)PixelInfo) >> 7)) & 248);
                 G = (byte)(((int)(((uint)PixelInfo) >> 2)) & 248);
                 B = (byte)((PixelInfo << 3) & 248);
                 A = 0;
                 break;
-            case Aow.Game.Draw.PixelFormats.pfARGB1555:
+            case PixelFormats.pfARGB1555:
                 R = (byte)(((int)(((uint)PixelInfo) >> 7)) & 248);
                 G = (byte)(((int)(((uint)PixelInfo) >> 2)) & 248);
                 B = (byte)((PixelInfo << 3) & 248);
                 A = (byte)(((int)(((uint)PixelInfo) >> 8)) & 1);
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB24:
+            case PixelFormats.pfRGB24:
                 R = (byte)(((int)(((uint)PixelInfo) >> 16)) & 255);
                 G = (byte)(((int)(((uint)PixelInfo) >> 8)) & 255);
                 B = (byte)(PixelInfo & 255);
                 A = 0;
                 break;
-            case Aow.Game.Draw.PixelFormats.pfBGR24:
+            case PixelFormats.pfBGR24:
                 R = (byte)(PixelInfo & 255);
                 G = (byte)(((int)(((uint)PixelInfo) >> 8)) & 255);
                 B = (byte)(((int)(((uint)PixelInfo) >> 16)) & 255);
                 A = 0;
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB32:
+            case PixelFormats.pfRGB32:
                 A = (byte)(((int)(((uint)PixelInfo) >> 24)) & 255);
                 R = (byte)(((int)(((uint)PixelInfo) >> 16)) & 255);
                 G = (byte)(((int)(((uint)PixelInfo) >> 8)) & 255);
@@ -181,7 +181,7 @@ internal static class PixelRemap
 
         switch (DestPixelFormatID)
         {
-            case Aow.Game.Draw.PixelFormats.pfPAL8:
+            case PixelFormats.pfPAL8:
                 if (DestPalette != null)
                 {
                     Result = DestPalette.GetNearestColor(R + (G << 8) + (B << 16));
@@ -192,22 +192,22 @@ internal static class PixelRemap
                 }
 
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB565:
+            case PixelFormats.pfRGB565:
                 Result = ((R & 248) << 8) + ((G & 252) << 3) + (int)(((uint)(B & 248)) >> 3);
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB555:
+            case PixelFormats.pfRGB555:
                 Result = ((R & 248) << 7) + ((G & 248) << 2) + (int)(((uint)(B & 248)) >> 3);
                 break;
-            case Aow.Game.Draw.PixelFormats.pfARGB1555:
+            case PixelFormats.pfARGB1555:
                 Result = ((A & 128) << 8) + ((R & 248) << 7) + ((G & 248) << 2) + (int)(((uint)(B & 248)) >> 3);
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB24:
+            case PixelFormats.pfRGB24:
                 Result = (R << 16) + (G << 8) + B;
                 break;
-            case Aow.Game.Draw.PixelFormats.pfBGR24:
+            case PixelFormats.pfBGR24:
                 Result = R + (G << 8) + (B << 16);
                 break;
-            case Aow.Game.Draw.PixelFormats.pfRGB32:
+            case PixelFormats.pfRGB32:
                 Result = (A << 24) + (R << 16) + (G << 8) + B;
                 break;
             default:
@@ -218,10 +218,10 @@ internal static class PixelRemap
     }
 
     internal static void RemapSurface08to555(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette) =>
-            Aow.Game.Draw.PixelRemap.RemapIndexedSurface(source, destination, width, height, palette, false);
+            RemapIndexedSurface(source, destination, width, height, palette, false);
 
     internal static void RemapSurface08to565(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette) =>
-            Aow.Game.Draw.PixelRemap.RemapIndexedSurface(source, destination, width, height, palette, true);
+            RemapIndexedSurface(source, destination, width, height, palette, true);
 
     internal static void RemapIndexedSurface(SurfaceView source, SurfaceView destination, int width, int height, GFXEPalette palette, bool rgb565)
     {
@@ -231,7 +231,7 @@ internal static class PixelRemap
             var dst = MemoryMarshal.Cast<byte, ushort>(destination.Row(y, width * 2));
             for (int x = 0; x < width; x++)
             {
-                ref Aow.Game.Draw.GFXEPalette.PaletteEntry entry = ref palette.Entries[src[x]];
+                ref GFXEPalette.PaletteEntry entry = ref palette.Entries[src[x]];
                 dst[x] = (ushort)(rgb565
                     ? ((entry.R & 248) << 8) + ((entry.G & 252) << 3) + (entry.B >> 3)
                     : ((entry.R & 248) << 7) + ((entry.G & 248) << 2) + (entry.B >> 3));

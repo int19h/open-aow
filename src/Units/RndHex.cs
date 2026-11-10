@@ -33,7 +33,7 @@ public partial class RndHexagonResource : HexagonResource
         {
             Lhx = Msg.Data[1];
             Radius = Msg.Param[1].Int;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
+            Map.HexGeometry.HPtoHX(Msg.Payload.Int, Msg.Data[0], ref Xhx, ref Yhx);
             var terrain = FTerrainList.GetTerrain(0);
             FEngine.HSMap.ChangeTerrain(null, Xhx, Yhx, Lhx, Radius, terrain);
             Msg.MsgID = 0;

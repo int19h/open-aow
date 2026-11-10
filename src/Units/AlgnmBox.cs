@@ -20,7 +20,7 @@ public partial class AlignmentBox : ComboBox
 
     // AlgnmBox.pas:54
 
-    public AlignmentBox(global::Aow.Rtl.Component owner) : base(owner)
+    public AlignmentBox(Component owner) : base(owner)
     {
         /* TODO: Implement StdCtrls.Create in the platform or editor service. */
         throw new NotImplementedException();

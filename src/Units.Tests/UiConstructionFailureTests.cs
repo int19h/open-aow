@@ -24,13 +24,13 @@ public sealed class UiConstructionFailureTests
         var previousClose = engine.FOnHSMCloseStore;
         engine.FOnHSMLoadedStore = new EventStore<HSMap>();
         engine.FOnHSMCloseStore = new EventStore<HSMap>();
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine = engine;
-        Aow.Game.World.Map.AoWHSMap.Current = null!;
-        Aow.Game.Combat.AoWCombatMap.Current = null!;
-        var owner = new global::Aow.Rtl.Component(null!);
+        Game.Magic.Abilities.GameTables.AoWEngine = engine;
+        AoWHSMap.Current = null!;
+        Game.Combat.AoWCombatMap.Current = null!;
+        var owner = new Component(null!);
         try
         {
-            global::Aow.Rtl.Component value = family switch
+            Component value = family switch
             {
                 0 => new AoWMapControl(owner),
                 1 => new AoWCombatMapControl(owner),

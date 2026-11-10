@@ -22,7 +22,7 @@ namespace Aow.Game.Ui.Dialogs;
 // view, place, production, queue, mode, preview, images
 public partial class ProductionScreen : DataModule
 {
-    public ProductionScreen(global::Aow.Rtl.Component owner) : base(owner)
+    public ProductionScreen(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -153,7 +153,7 @@ public partial class ProductionScreen : DataModule
         for (int I = FImages.Count - 1; I >= 0; I--)
         {
             var image = FImages[I];
-            Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(image).Release();
+            AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(image).Release();
         }
 
         FImages.Clear();
@@ -163,8 +163,8 @@ public partial class ProductionScreen : DataModule
     public void LoadUnitImages(int Index)
     {
         int Gfx;
-        Gfx = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitGFXResourceIndex;
-        Aow.Game.Engine.AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Gfx).AddRef();
+        Gfx = AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitGFXResourceIndex;
+        AoWHSSet.Current.FUnitGFXResources.GetUnitGFXResource(Gfx).AddRef();
         FImages.Add(Gfx);
     }
 
@@ -191,19 +191,19 @@ public partial class ProductionScreen : DataModule
         UnitPnl.Visible = false;
         UpgradePnl.Visible = false;
         MainBtn1.Visible = true;
-        var options = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.OptionsRStr);
+        var options = AbilityRules.TranslateRStr(GameText.OptionsRStr);
         MainBtn1.Text = options;
         MainBtn2.Visible = false;
         PPrev.Visible = !MainBtn2.Visible;
         PNext.Visible = !MainBtn2.Visible;
-        ShadowL.Visible = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0;
-        ShadowR.Visible = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0;
-        Oval.Visible = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0;
+        ShadowL.Visible = GameTables.AoWEngine.FAnimationDetail != 0;
+        ShadowR.Visible = GameTables.AoWEngine.FAnimationDetail != 0;
+        Oval.Visible = GameTables.AoWEngine.FAnimationDetail != 0;
         FQueueIndex = -1;
         QueueLB.Selected = -1;
-        var queue = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
+        var queue = AbilityRules.TranslateRStr(GameText.QueueRStr);
         QueueLbl.Text = queue;
-        var repeat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RepeatRStr);
+        var repeat = AbilityRules.TranslateRStr(GameText.RepeatRStr);
         RepeatLbl.Text = repeat;
         FreePreview();
     }
@@ -213,7 +213,7 @@ public partial class ProductionScreen : DataModule
     {
         Reset();
         FPlace = null;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
     }
 
     // AoWProdScreen.pas:659
@@ -227,12 +227,12 @@ public partial class ProductionScreen : DataModule
                 InfoPnl2.Visible = true;
                 ActivityPnl.Visible = false;
                 ActivityPnl2.Visible = false;
-                var change = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ChangeRStr);
+                var change = AbilityRules.TranslateRStr(GameText.ChangeRStr);
                 MainBtn1.Text = change;
                 MainBtn2.Visible = false;
                 PPrev.Visible = !MainBtn2.Visible;
                 PNext.Visible = !MainBtn2.Visible;
-                var exit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ExitRStr);
+                var exit = AbilityRules.TranslateRStr(GameText.ExitRStr);
                 MainBtn3.Text = exit;
                 QueueLB.Selected = -1;
                 break;
@@ -243,9 +243,9 @@ public partial class ProductionScreen : DataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var info = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InfoRStr);
+                var info = AbilityRules.TranslateRStr(GameText.InfoRStr);
                 MainBtn1.Text = info;
-                var done = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DoneRStr);
+                var done = AbilityRules.TranslateRStr(GameText.DoneRStr);
                 MainBtn3.Text = done;
                 break;
             case 2:
@@ -255,9 +255,9 @@ public partial class ProductionScreen : DataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var infoText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InfoRStr);
+                var infoText = AbilityRules.TranslateRStr(GameText.InfoRStr);
                 MainBtn1.Text = infoText;
-                var doneText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DoneRStr);
+                var doneText = AbilityRules.TranslateRStr(GameText.DoneRStr);
                 MainBtn3.Text = doneText;
                 break;
         }
@@ -284,7 +284,7 @@ public partial class ProductionScreen : DataModule
     {
         if (Dlg.Visible && Sender == FPlace)
         {
-            if (FPlace.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (FPlace.FPlayer == AoWHSMap.Current.FSeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -334,30 +334,30 @@ public partial class ProductionScreen : DataModule
                     var moves = U.GetMoves();
                     UMoves.Text = IntToStr(moves);
                     var moveTypes = U.GetMoveTypes();
-                    var mTtoInt = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(moveTypes);
+                    var mTtoInt = DialogHosts.General.MTtoInt(moveTypes);
                     UMovesIcon.CurrentImage = mTtoInt;
                     var alignment = U.GetAlignment();
-                    var alignmentText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TAlignmentRStr[(int)alignment]);
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [alignmentText]);
+                    var alignmentText = AbilityRules.TranslateRStr(GameText.TAlignmentRStr[(int)alignment]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.AlignmentXRStr), [alignmentText]);
                     UAlignment.Text = format;
                     var unitLevel = U.GetUnitLevel();
-                    var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelXRStr), [IntToStr(unitLevel)]);
+                    var aoWEFormat = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.LevelXRStr), [IntToStr(unitLevel)]);
                     var upkeep = U.GetUpkeep();
-                    var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UpkeepXRStr), [(int)upkeep]);
+                    var format2 = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.UpkeepXRStr), [(int)upkeep]);
                     ULevel.Text = aoWEFormat + " / " + format2;
                     UAbilitiesLB.Items.Clear();
                     U.ListAbilities(UAbilitiesLB.Items);
                     if (FPlace.FProductionControl.FUnitProductions.GetItem(FProductionIndex).FResearched)
                     {
                         MainBtn1.Visible = true;
-                        var produce = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceRStr);
+                        var produce = AbilityRules.TranslateRStr(GameText.ProduceRStr);
                         MainBtn1.Text = produce;
                         var queueLocked = FPlace.FProductionControl.GetQueueLocked();
                         MainBtn2.Visible = !queueLocked;
-                        var queue = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
+                        var queue = AbilityRules.TranslateRStr(GameText.QueueRStr);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceXRStr), [name]);
+                        var format3 = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.ProduceXRStr), [name]);
                         UnitLbl.Text = format3;
                         var unitProductionGold = FPlace.FProductionControl.UnitProductionGold(FProductionIndex);
                         UCost.Text = IntToStr(unitProductionGold);
@@ -367,14 +367,14 @@ public partial class ProductionScreen : DataModule
                     else
                     {
                         MainBtn1.Visible = true;
-                        var install = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InstallRStr);
+                        var install = AbilityRules.TranslateRStr(GameText.InstallRStr);
                         MainBtn1.Text = install;
                         var queueLocked = FPlace.FProductionControl.GetQueueLocked();
                         MainBtn2.Visible = !queueLocked;
-                        var queue = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
+                        var queue = AbilityRules.TranslateRStr(GameText.QueueRStr);
                         MainBtn2.Text = queue;
                         var name = U.GetName();
-                        var format3 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InstallXRStr), [name]);
+                        var format3 = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.InstallXRStr), [name]);
                         UnitLbl.Text = format3;
                         var unitResearchGold = FPlace.FProductionControl.UnitResearchGold(FProductionIndex);
                         UCost.Text = IntToStr(unitResearchGold);
@@ -398,18 +398,18 @@ public partial class ProductionScreen : DataModule
                 MainBtn1.Text = productionName;
                 var fProductionControlQueueLocked = FPlace.FProductionControl.GetQueueLocked();
                 MainBtn2.Visible = !fProductionControlQueueLocked;
-                var queueText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
+                var queueText = AbilityRules.TranslateRStr(GameText.QueueRStr);
                 MainBtn2.Text = queueText;
                 PPrev.Visible = !MainBtn2.Visible;
                 PNext.Visible = !MainBtn2.Visible;
                 if (FPlace.GetMagicSphere() == MagicSphere.None)
                 {
-                    var produceMerchandiseText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ProductionScreen.ProduceMerchandiseTextRStr);
+                    var produceMerchandiseText = AbilityRules.TranslateRStr(ProduceMerchandiseTextRStr);
                     UpgradeMemo.Items.Text = produceMerchandiseText;
                 }
                 else
                 {
-                    var generateExtraPowerText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ProductionScreen.GenerateExtraPowerTextRStr);
+                    var generateExtraPowerText = AbilityRules.TranslateRStr(GenerateExtraPowerTextRStr);
                     UpgradeMemo.Items.Text = generateExtraPowerText;
                 }
 
@@ -427,16 +427,16 @@ public partial class ProductionScreen : DataModule
                 break;
             case 5:
                 MainBtn1.Visible = true;
-                var raze = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RazeRStr);
+                var raze = AbilityRules.TranslateRStr(GameText.RazeRStr);
                 MainBtn1.Text = raze + "...";
                 PPrev.Visible = false;
                 PNext.Visible = false;
                 var fPlaceName = FPlace.GetName();
-                var format4 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ProductionScreen.ProductionPlaceXRazeRStr), [fPlaceName]);
+                var format4 = AbilityRules.Format(AbilityRules.TranslateRStr(ProductionPlaceXRazeRStr), [fPlaceName]);
                 UpgradeMemo.Items.Text = format4;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 26;
-                var razeText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RazeRStr);
+                var razeText = AbilityRules.TranslateRStr(GameText.RazeRStr);
                 UpgradeLbl.Text = razeText;
                 break;
         }
@@ -449,21 +449,21 @@ public partial class ProductionScreen : DataModule
         IncomeHdr.Items.Clear();
         var name = FPlace.GetName();
         StructName.Text = name;
-        var income = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.IncomeRStr);
+        var income = AbilityRules.TranslateRStr(GameText.IncomeRStr);
         IncomeHdr.Items.Add(income);
         if (FPlace.GetMagicSphere() != MagicSphere.None)
         {
             var power = FPlace.GetPower();
-            var xPower = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ProductionScreen.XPowerRStr);
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(" " + xPower, [IntToStr(power)]);
+            var xPower = AbilityRules.TranslateRStr(XPowerRStr);
+            var format = AbilityRules.Format(" " + xPower, [IntToStr(power)]);
             IncomeHdr.Items.Add(format);
         }
 
         if (FPlace.GetIncome() != 0)
         {
             var fPlaceIncome = FPlace.GetIncome();
-            var xGold = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XGoldRStr);
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
+            var xGold = AbilityRules.TranslateRStr(GameText.XGoldRStr);
+            var format = AbilityRules.Format(" " + xGold, [IntToStr(fPlaceIncome)]);
             IncomeHdr.Items.Add(format);
         }
 
@@ -471,7 +471,7 @@ public partial class ProductionScreen : DataModule
         {
             IncomePicture.ILIndexTexture = 64;
             IPPicFr.ILTexture = null;
-            var sphereImage = Aow.Game.Ui.Dialogs.ProductionScreen.SphereImage(FPlace.GetMagicSphere());
+            var sphereImage = SphereImage(FPlace.GetMagicSphere());
             Sphere.SetILUIndex(sphereImage);
             Sphere.Visible = true;
         }
@@ -487,7 +487,7 @@ public partial class ProductionScreen : DataModule
                 IncomePicture.ILIndexTexture = 65;
             }
 
-            IPPicFr.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin;
+            IPPicFr.ILTexture = DialogHosts.IntGfxMod.CityWin;
             if (FPlace is Shipyard)
             {
                 IPPicFr.ILIndexTexture = 67;
@@ -512,7 +512,7 @@ public partial class ProductionScreen : DataModule
 
         for (int I = FPlace.FProductionControl.FQueue.GetCount(); I <= 4; I++)
         {
-            var emptyQueue = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EmptyQueueRStr);
+            var emptyQueue = AbilityRules.TranslateRStr(GameText.EmptyQueueRStr);
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
@@ -525,13 +525,13 @@ public partial class ProductionScreen : DataModule
         }
 
         LoopQueueBox.Checked = FPlace.FProductionControl.FLoopQueue;
-        if (FPlace.FProductionControl.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Producing)
+        if (FPlace.FProductionControl.FStatus == ProductionControl.Status.Producing)
         {
             var nameProgressive = FPlace.FProductionControl.FQueue.GetItem(0).GetNameProgressive();
             ActiveAction.Text = nameProgressive;
             if (FPlace.FProductionControl.FSettings.FTurnsLeft != -1)
             {
-                var fmtTurnsLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtTurnsLeftStr(FPlace.FProductionControl.FSettings.FTurnsLeft);
+                var fmtTurnsLeftStr = DurationText.FmtTurnsLeftStr(FPlace.FProductionControl.FSettings.FTurnsLeft);
                 ActiveActionTurns.Text = fmtTurnsLeftStr;
                 ActiveActionTurns.Visible = true;
                 ActiveActionTurns.TextColor = 6783862;
@@ -552,14 +552,14 @@ public partial class ProductionScreen : DataModule
         }
         else
         {
-            if (FPlace.FProductionControl.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Idle)
+            if (FPlace.FProductionControl.FStatus == ProductionControl.Status.Idle)
             {
                 var currentActivityText = FPlace.GetCurrentActivityText();
                 ActiveAction.Text = currentActivityText;
-                var defaultText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DefaultRStr);
+                var defaultText = AbilityRules.TranslateRStr(GameText.DefaultRStr);
                 ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurns.TextColor = 6783862;
-                var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
+                var none = AbilityRules.TranslateRStr(GameTables.NoneRStr);
                 if (CompareText(ActiveAction.Text, none) != 0)
                 {
                     ActiveActionTurns.Visible = true;
@@ -576,7 +576,7 @@ public partial class ProductionScreen : DataModule
             }
             else
             {
-                if (FPlace.FProductionControl.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Waiting)
+                if (FPlace.FProductionControl.FStatus == ProductionControl.Status.Waiting)
                 {
                     Reason = "";
                     var nameProgressive = FPlace.FProductionControl.FQueue.GetItem(0).GetNameProgressive();
@@ -639,7 +639,7 @@ public partial class ProductionScreen : DataModule
             for (int I = 0, last = Army.FArmy.GetCount() - 1; I <= last; I++)
             {
                 var unit = Army.FArmy.GetUnit(I);
-                Aow.Game.Combat.AoWCombatMap.PlaceOverviewUnit(FPreview, unit, 0, I);
+                AoWCombatMap.PlaceOverviewUnit(FPreview, unit, 0, I);
             }
         }
 
@@ -649,7 +649,7 @@ public partial class ProductionScreen : DataModule
         if (Center != null)
         {
             var fCenterViewLocationYhx = FPreview.FCenterViewLocation.GetYhx();
-            Aow.Game.World.Map.HexGeometry.HXtoHP(Center.GetXhx(), fCenterViewLocationYhx, ref FViewX, ref FViewY);
+            HexGeometry.HXtoHP(Center.GetXhx(), fCenterViewLocationYhx, ref FViewX, ref FViewY);
             FViewX = FViewX + 16 - MapView.WinWidth / 2;
             FViewY = FViewY + 16 - MapView.WinHeight / 2;
         }
@@ -659,7 +659,7 @@ public partial class ProductionScreen : DataModule
             FViewY = 800;
         }
 
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+        DialogHosts.General.Manager.OverlayPriority = 49;
         Dlg.Visible = true;
     }
 
@@ -678,7 +678,7 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:231
     public void ActivityChange(AOWCheckBox Sender, int Slot)
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+        DialogHosts.General.PlayButtonSound(1);
         if (Sender.Checked)
         {
             ResetChecks();
@@ -700,9 +700,9 @@ public partial class ProductionScreen : DataModule
     public void ActivityPreDraw(AOWCheckBox Sender, SurfaceDesc SD, int Slot)
     {
         P2UnitShowInfo Info = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         Unit U;
-        R = global::Aow.Rtl.RtlUnit.Rect(ActivityPnl2.WinLeft + Sender.WinLeft, ActivityPnl2.WinTop + Sender.WinTop, ActivityPnl2.WinLeft + Sender.WinLeft + Sender.WinWidth, ActivityPnl2.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = new Rect(ActivityPnl2.WinLeft + Sender.WinLeft, ActivityPnl2.WinTop + Sender.WinTop, ActivityPnl2.WinLeft + Sender.WinLeft + Sender.WinWidth, ActivityPnl2.WinTop + Sender.WinTop + Sender.WinHeight);
         switch (Slot)
         {
             case >= 0 and <= 3:
@@ -716,19 +716,19 @@ public partial class ProductionScreen : DataModule
                     Info.Looped = false;
                     if (!FPlace.FProductionControl.FUnitProductions.GetItem(Slot).FResearched)
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
+                        DialogHosts.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
                         Info.Direction = 5;
                         if (U != null)
                         {
                             U.ShowEx(R.Left - 4, R.Top, SD, Info);
                         }
 
-                        var lookupTable = Aow.Game.Draw.GfxState.AlphaBlendTable.GetLookupTables(45);
-                        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
+                        var lookupTable = GfxState.AlphaBlendTable.GetLookupTables(45);
+                        DialogHosts.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
                     }
                     else
                     {
-                        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
+                        DialogHosts.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
                         if (U != null)
                         {
                             U.ShowEx(R.Left - 4, R.Top, SD, Info);
@@ -739,7 +739,7 @@ public partial class ProductionScreen : DataModule
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+                    DialogHosts.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
                 }
 
                 break;
@@ -747,16 +747,16 @@ public partial class ProductionScreen : DataModule
                 if (FPlace.GetBaseIncome() != 0)
                 {
                     var activityImage = new Trade(0).ActivityImage(FPlace);
-                    Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, SD);
+                    DialogHosts.IntGfxMod.CityWin[activityImage].Show(R.Left + 2, R.Top + 2, SD);
                 }
                 else
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+                    DialogHosts.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
                 }
 
                 break;
             case 5:
-                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[46].Show(R.Left + 2, R.Top + 2, SD);
+                DialogHosts.IntGfxMod.CityWin[46].Show(R.Left + 2, R.Top + 2, SD);
                 break;
         }
     }
@@ -784,7 +784,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(Reason);
                             }
                         }
                         else
@@ -796,7 +796,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(Reason);
                             }
                         }
 
@@ -809,19 +809,19 @@ public partial class ProductionScreen : DataModule
                         }
                         else
                         {
-                            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
                     case 5:
-                        if (FPlace.CanRaze(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason))
+                        if (FPlace.CanRaze(AoWHSMap.Current.FSeatedPlayer, ref Reason))
                         {
-                            FPlace.Raze(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer);
+                            FPlace.Raze(AoWHSMap.Current.FSeatedPlayer);
                             Dlg.Visible = false;
                         }
                         else
                         {
-                            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -856,7 +856,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(Reason);
                             }
                         }
                         else
@@ -867,7 +867,7 @@ public partial class ProductionScreen : DataModule
                             }
                             else
                             {
-                                Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                                AoWHSMap.Current.ShowWarning(Reason);
                             }
                         }
 
@@ -879,7 +879,7 @@ public partial class ProductionScreen : DataModule
                         }
                         else
                         {
-                            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                            AoWHSMap.Current.ShowWarning(Reason);
                         }
 
                         break;
@@ -895,7 +895,7 @@ public partial class ProductionScreen : DataModule
                     }
                     else
                     {
-                        Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+                        AoWHSMap.Current.ShowWarning(Reason);
                     }
                 }
 
@@ -906,7 +906,7 @@ public partial class ProductionScreen : DataModule
     // AoWProdScreen.pas:383
     public void MainBtn3Click()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FMode == 0)
         {
             Dlg.Visible = false;
@@ -921,11 +921,11 @@ public partial class ProductionScreen : DataModule
     public void UFaceDraw(TaowUserDrawBox Sender, SurfaceDesc SD)
     {
         Unit U;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         U = FPlace.FProductionControl.CreateUnitProduction(FProductionIndex);
         if (U != null)
         {
-            R = global::Aow.Rtl.RtlUnit.Rect(UPictureFramePnl.WinLeft + Sender.WinLeft + 2, UPictureFramePnl.WinTop + Sender.WinTop + 2, UPictureFramePnl.WinLeft + Sender.WinLeft + Sender.WinWidth - 4, UPictureFramePnl.WinTop + Sender.WinTop + Sender.WinHeight - 2);
+            R = new Rect(UPictureFramePnl.WinLeft + Sender.WinLeft + 2, UPictureFramePnl.WinTop + Sender.WinTop + 2, UPictureFramePnl.WinLeft + Sender.WinLeft + Sender.WinWidth - 4, UPictureFramePnl.WinTop + Sender.WinTop + Sender.WinHeight - 2);
             U.ShowFace(R, SD);
             U.Release();
         }
@@ -952,12 +952,12 @@ public partial class ProductionScreen : DataModule
                 SetMode(2);
                 QueueLB.Selected = FQueueIndex;
                 MainBtn1.Visible = true;
-                var delete = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DeleteRStr);
+                var delete = AbilityRules.TranslateRStr(GameText.DeleteRStr);
                 MainBtn1.Text = delete;
-                if (FQueueIndex == 0 && FPlace.FProductionControl.FStatus == Aow.Game.World.Structures.ProductionControl.Status.Waiting)
+                if (FQueueIndex == 0 && FPlace.FProductionControl.FStatus == ProductionControl.Status.Waiting)
                 {
                     MainBtn2.Visible = true;
-                    var execute = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ExecuteRStr);
+                    var execute = AbilityRules.TranslateRStr(GameText.ExecuteRStr);
                     MainBtn2.Text = execute;
                 }
                 else
@@ -1007,13 +1007,13 @@ public partial class ProductionScreen : DataModule
     public void CurrentActionImageDraw(AOWImage Sender, SurfaceDesc SD)
     {
         P2UnitShowInfo Info = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         Unit U;
         if (FPlace.FProductionControl.FQueue.GetCount() != 0)
         {
             if (FPlace.FProductionControl.FQueue.GetItem(0).Order.UnitProductionIndex != null)
             {
-                R = global::Aow.Rtl.RtlUnit.Rect(ActiveActionPnl.WinLeft + Sender.WinLeft, ActiveActionPnl.WinTop + Sender.WinTop, ActiveActionPnl.WinLeft + Sender.WinLeft + Sender.WinWidth, ActiveActionPnl.WinTop + Sender.WinTop + Sender.WinHeight);
+                R = new Rect(ActiveActionPnl.WinLeft + Sender.WinLeft, ActiveActionPnl.WinTop + Sender.WinTop, ActiveActionPnl.WinLeft + Sender.WinLeft + Sender.WinWidth, ActiveActionPnl.WinTop + Sender.WinTop + Sender.WinHeight);
                 var productionPlaceControl = FPlace.FProductionControl;
                 if (productionPlaceControl.FUnitProductions.GetItem(productionPlaceControl.FSettings.FUnitProductionIndex) != null)
                 {
@@ -1037,13 +1037,13 @@ public partial class ProductionScreen : DataModule
     public void MapViewDraw(TaowUserDrawBox Sender, SurfaceDesc SD)
     {
         SurfaceDesc ViewSD = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         int W;
         int H;
         int Width;
         if (FPreview != null)
         {
-            R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+            R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
             Width = R.Right - R.Left;
             W = Width;
             H = R.Bottom - R.Top;
@@ -1069,7 +1069,7 @@ public partial class ProductionScreen : DataModule
                 FViewY = 16;
             }
 
-            Aow.Game.Draw.SurfaceDesc.CreateSDfromSD(SD, R, ref ViewSD);
+            SurfaceDesc.CreateSDfromSD(SD, R, ref ViewSD);
             FPreview.SetExplorationEnabled(false);
             FPreview.SetFogEnabled(false);
             FPreview.SetViewPort(FViewX, FViewY, 0, Width, R.Bottom - R.Top);
@@ -1117,7 +1117,7 @@ public partial class ProductionScreen : DataModule
             Preview.NewFrame();
         }
 
-        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWProdScreen.pas:530
@@ -1133,11 +1133,11 @@ public partial class ProductionScreen : DataModule
         if (Button == MouseButton.Right && UAbilitiesLB.Selected > -1)
         {
             var objectValue = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
-            A = Aow.Game.Engine.AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = AoWHSSet.Current.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
-                Aow.Game.Ui.Dialogs.InfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, A.FDescription);
+                InfoBanner.SetInfoBanner(DialogHosts.InfoBanner, name, A.FDescription);
             }
         }
     }
@@ -1148,17 +1148,17 @@ public partial class ProductionScreen : DataModule
         int Start;
         int Index;
         PlayerStructure S;
-        Start = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FPlace);
+        Start = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FPlace);
         Index = Start;
         Index -= 1;
         if (Index < 0)
         {
-            Index = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
+            Index = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
         }
 
         while (Index != Start)
         {
-            S = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
             if (S is ProductionPlace && ((ProductionPlace)S).GetMagicSphere() == MagicSphere.None)
             {
                 Index = Start + 1;
@@ -1168,7 +1168,7 @@ public partial class ProductionScreen : DataModule
             Index += -1;
             if (Index < 0)
             {
-                Index = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
+                Index = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount() - 1;
             }
         }
     }
@@ -1179,16 +1179,16 @@ public partial class ProductionScreen : DataModule
         int Start;
         int Index;
         PlayerStructure S;
-        Start = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FPlace);
+        Start = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.FindChildIndex(FPlace);
         Index = Start + 1;
-        if (Index >= Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
+        if (Index >= AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
         {
             Index = 0;
         }
 
         while (Index != Start)
         {
-            S = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetStructure(Index);
             if (S is ProductionPlace && ((ProductionPlace)S).GetMagicSphere() == MagicSphere.None)
             {
                 Index = Start - 1;
@@ -1196,7 +1196,7 @@ public partial class ProductionScreen : DataModule
             }
 
             Index += 1;
-            if (Index >= Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
+            if (Index >= AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FStructures.GetCount())
             {
                 Index = 0;
             }
@@ -1208,16 +1208,16 @@ public partial class ProductionScreen : DataModule
     private static readonly string ProductionPlaceXRazeRStr = "Destroys the %s instantly by burning it to the ground.";
     private static readonly string XPowerRStr = "%s power";
 
-    private static int SphereImage(global::Aow.Game.Magic.MagicSphere Sphere)
+    private static int SphereImage(MagicSphere Sphere)
     {
         return Sphere switch
         {
-            global::Aow.Game.Magic.MagicSphere.Life => 27,
-            global::Aow.Game.Magic.MagicSphere.Fire => 42,
-            global::Aow.Game.Magic.MagicSphere.Earth => 33,
-            global::Aow.Game.Magic.MagicSphere.Air => 36,
-            global::Aow.Game.Magic.MagicSphere.Water => 39,
-            global::Aow.Game.Magic.MagicSphere.Death => 30,
+            MagicSphere.Life => 27,
+            MagicSphere.Fire => 42,
+            MagicSphere.Earth => 33,
+            MagicSphere.Air => 36,
+            MagicSphere.Water => 39,
+            MagicSphere.Death => 30,
             _ => -1,
         };
     }

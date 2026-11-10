@@ -25,7 +25,7 @@ public sealed unsafe class SdlAudioOutput : IDisposable
     {
         this.mixer = mixer;
         channels = settings.OutputMode.Contains(SoundOutputModeElement.Mono) ? 1 : 2;
-        bytesPerSample = settings.OutputMode.Contains(SoundOutputModeElement.om8bit) ? 1 : 2;
+        bytesPerSample = settings.OutputMode.Contains(SoundOutputModeElement.Bits8) ? 1 : 2;
         pcm = new float[Math.Max(1, settings.SampleRate / 20) * 2];
         encoded = new byte[pcm.Length / 2 * channels * bytesPerSample];
         try

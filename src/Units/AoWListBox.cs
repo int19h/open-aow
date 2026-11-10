@@ -46,11 +46,11 @@ public partial class AOWListBox : AOWControl
     public int FILIndexTSelected;
     public AOWMenu FPopupMenu;
     public int FDrawItem;
-    public global::Aow.Rtl.Rect FDrawItemRect;
+    public Rect FDrawItemRect;
     public int F188;
 
     // AoWListBox.pas:107
-    public AOWListBox(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWListBox(Component owner) : base(owner)
     {
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
@@ -251,7 +251,7 @@ public partial class AOWListBox : AOWControl
         int W = default;
         int T = default;
         int H = default;
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -266,14 +266,14 @@ public partial class AOWListBox : AOWControl
                 switch (F160)
                 {
                     case 0:
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                        var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
                         var ilFrameWidth = FILFrame[FILIndexFrame + 3];
                         var ilFrame2 = FILFrame[FILIndexFrame + 1];
                         var ilFrame3 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - F138, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft + ilFrame3.Width, FAOWWindow.FWinTop + FWinTop + ilFrame2.Height, FWinWidth - ilFrameWidth.Width - F138, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTextureNormal.DrawILT(FILIndexTNormal, rect2, ref SurfDesc);
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
                         L = FAOWWindow.FWinLeft + FWinLeft + ilFrame4.Width;
@@ -309,7 +309,7 @@ public partial class AOWListBox : AOWControl
                     if (F15C + I < count)
                     {
                         FDrawItem = F15C + I;
-                        FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(L, FItemHeight * I + T, L + W, (I + 1) * FItemHeight + T);
+                        FDrawItemRect = new Rect(L, FItemHeight * I + T, L + W, (I + 1) * FItemHeight + T);
                         if (FDrawItemRect.Bottom > SurfDesc.ClipRect.Bottom)
                         {
                             FDrawItemRect.Bottom = SurfDesc.ClipRect.Bottom;
@@ -325,7 +325,7 @@ public partial class AOWListBox : AOWControl
                             FAOWFont.Color = FSelColor;
                             if (F160 == 0)
                             {
-                                var rect = global::Aow.Rtl.RtlUnit.Rect(L, FItemHeight * I + T, W, FItemHeight);
+                                var rect = new Rect(L, FItemHeight * I + T, W, FItemHeight);
                                 FILTextureSelected.DrawILT(FILIndexTSelected, rect, ref SurfDesc);
                             }
                         }

@@ -85,7 +85,7 @@ namespace Aow.Game.World.Terrain
         // CombatILTer.pas:141
         public override void MakeVisible(VisibilityList VisibilityList)
         {
-            if (!FStatus.Contains(Aow.Game.World.MapObjectStatusElement.Visible))
+            if (!FStatus.Contains(MapObjectStatusElement.Visible))
             {
                 base.MakeVisible(VisibilityList);
                 if (FShadow != null)
@@ -97,7 +97,7 @@ namespace Aow.Game.World.Terrain
         }
 
         // CombatILTer.pas:163
-        public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+        public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
         // CombatILTer.pas:93
         public override bool CanPlaceOnHS(HexagonSprite HS) => base.CanPlaceOnHS(HS) || HS is AbstractRoad;
@@ -107,7 +107,7 @@ namespace Aow.Game.World.Terrain
         {
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((MapField)Owner).Xhx + (((MapField)Owner).Yhx << 4)));
@@ -144,7 +144,7 @@ namespace Aow.Game.World.Terrain
                     DestroyShadow();
                 }
 
-                if (Aow.Game.World.Map.AoWHSMap.Current == null || Aow.Game.World.Map.AoWHSMap.Current.FShowUnitShadows)
+                if (AoWHSMap.Current == null || AoWHSMap.Current.FShowUnitShadows)
                 {
                     FShadow = new CombatILTerrainShadow(null);
                     FShadow.FTerrain = this;

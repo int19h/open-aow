@@ -65,9 +65,9 @@ public partial class Altar : PlayerStructure
             if (Executer.ExecuteCount == 0 && CanTarget(ref Reason))
             {
                 FStorm = CreateStorm();
-                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
+                var player = AoWHSMap.Current.FPlayers.GetPlayers(FPlayer);
                 var targetMana = TargetMana();
-                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.SetMana(player.FMagicControl.FMana - targetMana);
+                AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.SetMana(player.FMagicControl.FMana - targetMana);
                 FRechargeDays = 0;
                 FStorm.InitializeStorm(FPlayer, (sbyte)(TE.FParam & 255), (sbyte)(((int)(((uint)TE.FParam) >> 8)) & 255), (sbyte)(((int)(((uint)TE.FParam) >> 16)) & 255));
             }
@@ -112,12 +112,12 @@ public partial class Altar : PlayerStructure
         string Result;
         if (GetRechargeDays() != FRechargeDays)
         {
-            var fmtDaysLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtDaysLeftStr(GetRechargeDays() - FRechargeDays);
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Altar.ChargingRStr) + " (" + fmtDaysLeftStr + ")";
+            var fmtDaysLeftStr = Magic.Abilities.DurationText.FmtDaysLeftStr(GetRechargeDays() - FRechargeDays);
+            Result = Magic.Abilities.AbilityRules.TranslateRStr(ChargingRStr) + " (" + fmtDaysLeftStr + ")";
         }
         else
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Altar.ReadyRStr);
+            Result = Magic.Abilities.AbilityRules.TranslateRStr(ReadyRStr);
         }
 
         return Result;
@@ -127,7 +127,7 @@ public partial class Altar : PlayerStructure
     public override bool ExecuteAI(sbyte Player, int Phase)
     {
         Storm Storm;
-        global::Aow.Game.World.Map.XYL Target = default;
+        XYL Target = default;
         BattleFieldInfo Friendly = default;
         BattleFieldInfo Enemy = default;
         StormDamageInfo Damage = default;
@@ -142,28 +142,28 @@ public partial class Altar : PlayerStructure
                 Value = Damage.EnemyDamage - Damage.FriendlyDamage;
                 if ((double)Value > (double)TargetMana() * 0.75)
                 {
-                    var playerAIBudget = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                    var playerAIBudget = AoWHSMap.Current.FPlayers.GetPlayers(Player);
                     var targetMana = TargetMana();
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.FAIBudget.FDefaultBudget, true))
+                    if (AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.RequestBudgetExpense(0, targetMana, playerAIBudget.FAIBudget.FDefaultBudget, true))
                     {
-                        Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Friendly, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                        BattleFieldInfo.SetupBattleFieldInfo(ref Friendly, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         Friendly.EnemyRelations = Set<byte>.WithBounds(0, 7);
                         var lhx2 = GetLhx();
                         var yhx2 = GetYhx();
                         var xhx = GetXhx();
-                        Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(xhx, yhx2, lhx2, 1, ref Friendly);
-                        Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Enemy, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+                        AoWHSMap.Current.RetrieveBattleFieldInfo(xhx, yhx2, lhx2, 1, ref Friendly);
+                        BattleFieldInfo.SetupBattleFieldInfo(ref Enemy, Player, 0, Set<BattleFieldInfoRequestsElement>.Of(), Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
                         var lhx3 = GetLhx();
                         var yhx3 = GetYhx();
                         var xhx2 = GetXhx();
-                        Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(xhx2, yhx3, lhx3, 8, ref Enemy);
+                        AoWHSMap.Current.RetrieveBattleFieldInfo(xhx2, yhx3, lhx3, 8, ref Enemy);
                         if (Friendly.FriendlyStrength < Enemy.Strength || Value > 100)
                         {
                             if (StormTargetSelected(Target.X, Target.Y, Target.L))
                             {
-                                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                                var player = AoWHSMap.Current.FPlayers.GetPlayers(Player);
                                 var targetMana2 = TargetMana();
-                                Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.BudgetExpenseMade(0, targetMana2, player.FAIBudget.FDefaultBudget, Aow.Game.Ai.AIBudgetManager.BudgetExpenseMode.PoolThenBudget);
+                                AoWHSMap.Current.FPlayers.GetPlayers(Player).FAIBudget.BudgetExpenseMade(0, targetMana2, player.FAIBudget.FDefaultBudget, AIBudgetManager.BudgetExpenseMode.PoolThenBudget);
                             }
                         }
                     }
@@ -182,9 +182,9 @@ public partial class Altar : PlayerStructure
         if (Player != FPlayer)
         {
             base.SetPlayer(Player);
-            if (Player == FPlayer && this == Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.FSource)
+            if (Player == FPlayer && this == AoWHSMap.Current.FTargetSelection.FSource)
             {
-                Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Deactivate();
+                AoWHSMap.Current.FTargetSelection.Deactivate();
             }
         }
     }
@@ -201,13 +201,13 @@ public partial class Altar : PlayerStructure
         bool Result;
         string Reason = "";
         StructureTE Event;
-        if (CanTarget(ref Reason) && !Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
+        if (CanTarget(ref Reason) && !AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).GetBusy())
         {
             Event = CreateTE();
             SetupTE(Event);
             Event.FParam = X + (Y << 8) + (L << 16);
             Event.FAction = 0;
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(Event);
+            AoWHSMap.Current.FTokenManager.GetTokenControl(FPlayer).AddEvent(Event);
             Event.Release();
             Result = true;
         }
@@ -226,14 +226,14 @@ public partial class Altar : PlayerStructure
     public virtual bool CanTarget(ref string Reason)
     {
         bool Result;
-        if (TargetMana() <= Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana)
+        if (TargetMana() <= AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana)
         {
             Result = true;
         }
         else
         {
             Result = false;
-            Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.NotEnoughManaRStr);
+            Reason = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.NotEnoughManaRStr);
         }
 
         return Result;
@@ -245,8 +245,8 @@ public partial class Altar : PlayerStructure
         bool Result = default;
         TargetSelectionControl Selection = default;
         string Reason = "";
-        Selection = Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection;
-        if (!GetRazed() && FPlayer >= 0 && TargetMana() <= Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana && CanTarget(ref Reason) && FStorm == null)
+        Selection = AoWHSMap.Current.FTargetSelection;
+        if (!GetRazed() && FPlayer >= 0 && TargetMana() <= AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FMana && CanTarget(ref Reason) && FStorm == null)
         {
             Selection.Initialize(this);
             Selection.FTargetMode = Selection.FTargetMode + Set<TargetSelectionModeElement>.Of(TargetSelectionModeElement.ValidateDistance, TargetSelectionModeElement.ExternalFloater);
@@ -256,12 +256,12 @@ public partial class Altar : PlayerStructure
             Selection.FRange = 12;
             Selection.FOnChange += OnTargetSelectionChange;
             FStorm = CreateStorm();
-            FStorm.UpdateTargetSelection(Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection);
+            FStorm.UpdateTargetSelection(AoWHSMap.Current.FTargetSelection);
             var name = FStorm.Name();
-            var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.SelectTargetLocationForXOnMapRStr), [name]);
+            var format = RtlUnit.Format(Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.SelectTargetLocationForXOnMapRStr), [name]);
             Selection.FText.Text = format;
             Selection.FTitle = EditName();
-            Selection.FCancelText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CancelRStr);
+            Selection.FCancelText = Magic.Abilities.AbilityRules.TranslateRStr(Magic.Abilities.GameText.CancelRStr);
             Selection.FSourceImage = GetTopBorderImage();
             Selection.FValidTargetImage = GetMiddleBorderImage();
             Selection.FInvalidTargetImage = GetBottomBorderImage();
@@ -284,7 +284,7 @@ public partial class Altar : PlayerStructure
         bool Result;
         if (GetTargeting())
         {
-            Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.Deactivate();
+            AoWHSMap.Current.FTargetSelection.Deactivate();
             Result = true;
         }
         else
@@ -324,7 +324,7 @@ public partial class Altar : PlayerStructure
     }
 
     // Altar.pas:196
-    public bool GetTargeting() => Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.FStatus.Contains(TargetSelectionStatusElement.Activated) && this == Aow.Game.World.Map.AoWHSMap.Current.FTargetSelection.FSource;
+    public bool GetTargeting() => AoWHSMap.Current.FTargetSelection.FStatus.Contains(TargetSelectionStatusElement.Activated) && this == AoWHSMap.Current.FTargetSelection.FSource;
 
     private static readonly string ChargingRStr = "Charging";
     private static readonly string ReadyRStr = "Ready";

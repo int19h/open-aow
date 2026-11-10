@@ -34,7 +34,7 @@ public partial class AltarOfDeath : Altar
         // AltDeath.pas:26
 
         // AltDeath.pas:49
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.AltarOfDeath.Resource.AltarOfDeathRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfDeathRStr);
 
         private static readonly string AltarOfDeathRStr = "Altar of Death";
 

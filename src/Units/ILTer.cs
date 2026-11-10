@@ -14,7 +14,7 @@ namespace Aow.Game.World.Terrain;
 //   variant that keeps its terrain type and updates the map terrain instead
 //   (TFixedILTerrainMO, $20188; TFixedILTerrainMOR, $20189). }
 // FImageIndex, FTerrainType
-public partial class ILTerrainMO : Aow.Game.World.MultiHexMO
+public partial class ILTerrainMO : MultiHexMO
 {
 
     public ILTerrainMO(ECustomNode owner) : base(owner)
@@ -95,10 +95,10 @@ public partial class ILTerrainMO : Aow.Game.World.MultiHexMO
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         if (this.FResource.ImageSequenceList == null)
         {
-            this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((Aow.Game.World.MultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((Aow.Game.World.MultiHexMOR)this.FResource).dYImage, SurfaceDesc);
+            this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((MultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((MultiHexMOR)this.FResource).dYImage, SurfaceDesc);
         }
         else
         {
@@ -142,7 +142,7 @@ public partial class ILTerrainMO : Aow.Game.World.MultiHexMO
         CanPlaceHere = true;
         Count = FResource.TerrainList.Count;
         FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
-        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        HNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (CanPlaceHere && Walk.HN < Count)
         {
             TerrainType = GetTerrain(Walk.HN);
@@ -153,12 +153,12 @@ public partial class ILTerrainMO : Aow.Game.World.MultiHexMO
                 CanPlaceHere = HS == null || CanPlaceOnHS(HS);
             }
 
-            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+            HNWalkData.WalkToNextHN(ref Walk);
         }
 
         if (CanPlaceHere)
         {
-            TerrainList = new global::Aow.Game.World.Map.TerrainList();
+            TerrainList = new TerrainList();
             TerrainList.Assign(FResource.TerrainList);
             for (int I = 0, last = TerrainList.Count - 1; I <= last; I++)
             {
@@ -271,7 +271,7 @@ public partial class ILTerrainMO : Aow.Game.World.MultiHexMO
 
 }
 
-public partial class ILTerrainMOR : Aow.Game.World.MultiHexMOR
+public partial class ILTerrainMOR : MultiHexMOR
 {
     public ILTerrainMOR(ECustomNode owner) : base(owner)
     { }
@@ -280,7 +280,7 @@ public partial class ILTerrainMOR : Aow.Game.World.MultiHexMOR
     public new const int ClassID = 131463;
 
     // ILTer.pas:279
-    public override void SetCellImage(Aow.Game.Draw.Images.LibraryImage Value)
+    public override void SetCellImage(LibraryImage Value)
     {
     }
 

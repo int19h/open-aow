@@ -93,9 +93,9 @@ public partial class ExplorationSite : Structure
         bool Result;
         int Xhx = default;
         int Yhx = default;
-        if (!Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+        if (!AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
         {
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
+            HexGeometry.HPtoHX(Xhp, Yhp, ref Xhx, ref Yhx);
             if (((MapField)Owner).Xhx == Xhx && ((MapField)Owner).Yhx == Yhx)
             {
                 Result = base.CanSelect(Xhp, Yhp);
@@ -118,7 +118,7 @@ public partial class ExplorationSite : Structure
     {
         int Result;
         int Image;
-        if (!GetExplored() || Aow.Game.World.Map.AoWHSMap.Current.FDay == 0)
+        if (!GetExplored() || AoWHSMap.Current.FDay == 0)
         {
             Result = TerrainType;
         }
@@ -161,7 +161,7 @@ public partial class ExplorationSite : Structure
     public override void NewDay()
     {
         base.NewDay();
-        if (Aow.Game.World.Map.AoWHSMap.Current.FDay == 1 && FDefendersMode != DefendersMode.UserDefined)
+        if (AoWHSMap.Current.FDay == 1 && FDefendersMode != DefendersMode.UserDefined)
         {
             GenerateDefenders();
         }
@@ -178,7 +178,7 @@ public partial class ExplorationSite : Structure
     public virtual bool GetExplored() => true;
 
     // ExploreS.pas:138
-    public virtual void SetupCombat(global::Aow.Game.Combat.Combat Combat, ArmyHS Army)
+    public virtual void SetupCombat(Combat.Combat Combat, ArmyHS Army)
     {
         Combat.FOnExecuted = CombatExecuted;
         var yhx = Army.GetYhx();
@@ -206,23 +206,23 @@ public partial class ExplorationSite : Structure
     {
         bool Result = default;
         ArmyHS ArmyHS;
-        global::Aow.Game.Combat.Combat Combat;
+        Combat.Combat Combat;
         sbyte Player;
         CombatEventLog Event;
-        ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
         if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
         {
             Player = ArmyHS.FArmy.FPlayer;
             if (FDefenders.GetCount() == 0)
             {
-                ExecuteSearchDone(global::Aow.Game.Combat.CombatType.Fast, CombatResult.Victory);
+                ExecuteSearchDone(CombatType.Fast, CombatResult.Victory);
             }
             else
             {
-                if (CombatType == global::Aow.Game.Combat.CombatType.Fast)
+                if (CombatType == CombatType.Fast)
                 {
-                    Aow.Game.World.Map.AoWHSMap.Current.LockGameOverEvent();
-                    Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(131760);
+                    AoWHSMap.Current.LockGameOverEvent();
+                    Combat = AoWHSMap.Current.CreateCombat(131760);
                     SetupCombat(Combat, ArmyHS);
                     Combat.LockExecuted();
                     Combat.Initialize();
@@ -234,20 +234,20 @@ public partial class ExplorationSite : Structure
                     Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                     Event = new CombatEventLog(null);
                     Event.SetCombatLogbook(Combat.FLogbook);
-                    Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+                    AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                    if (AoWHSMap.Current.FSeatedPlayer == Player && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
                     {
                         Event.Execute(false, ExecuteTrigger.Event, null);
                     }
 
                     Event.Release();
                     Combat.UnlockExecuted();
-                    Aow.Game.World.Map.AoWHSMap.Current.DestroyCombat();
-                    Aow.Game.World.Map.AoWHSMap.Current.UnlockGameOverEvent();
+                    AoWHSMap.Current.DestroyCombat();
+                    AoWHSMap.Current.UnlockGameOverEvent();
                 }
                 else
                 {
-                    Combat = Aow.Game.World.Map.AoWHSMap.Current.CreateCombat(2228496);
+                    Combat = AoWHSMap.Current.CreateCombat(2228496);
                     SetupCombat(Combat, ArmyHS);
                     Combat.Initialize();
                     Combat.Activate();
@@ -259,14 +259,14 @@ public partial class ExplorationSite : Structure
                         Combat.FLogbook.FFinalData.FHeader = name + " " + Combat.FLogbook.FFinalData.FHeader;
                         Event = new CombatEventLog(null);
                         Event.SetCombatLogbook(Combat.FLogbook);
-                        Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
-                        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer == Player && Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
+                        AoWHSMap.Current.FPlayers.GetPlayers(Player).FEventLogbook.AddEvent(Event);
+                        if (AoWHSMap.Current.FSeatedPlayer == Player && AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerType == PlayerType.Human)
                         {
                             Event.Execute(false, ExecuteTrigger.Event, null);
                         }
 
                         Event.Release();
-                        Aow.Game.World.Map.AoWHSMap.Current.DestroyCombat();
+                        AoWHSMap.Current.DestroyCombat();
                     }
                 }
             }
@@ -288,11 +288,11 @@ public partial class ExplorationSite : Structure
         ArmyHS ArmyHS = default;
         CombatTypeRequestEventLog Request = default;
         StructureTE TE = default;
-        ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+        ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
         if (ArmyHS != null && CanSearch(ArmyHS.FArmy.FPlayer))
         {
-            var playerList = Aow.Game.World.Map.AoWHSMap.Current.FPlayers;
-            if (playerList.FLocalPlayers.Count == 1 || Aow.Game.World.Map.AoWHSMap.Current.FRequestCombatType)
+            var playerList = AoWHSMap.Current.FPlayers;
+            if (playerList.FLocalPlayers.Count == 1 || AoWHSMap.Current.FRequestCombatType)
             {
                 Request = new CombatTypeRequestEventLog(null);
                 var lhx = GetLhx();
@@ -300,7 +300,7 @@ public partial class ExplorationSite : Structure
                 Request.SetCenterLocation((byte)GetXhx(), (byte)yhx, lhx);
                 Request.FPlayer = ArmyHS.FArmy.FPlayer;
                 Request.FDefenderPlayer = 0;
-                Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
+                AoWHSMap.Current.TriggerExecuteEventLog(Request, true, RequestCombatTypeCallBack);
                 Request.Release();
                 Result = true;
             }
@@ -312,7 +312,7 @@ public partial class ExplorationSite : Structure
                     SetupTE(TE);
                     TE.FAction = 0;
                     TE.FParam = 1;
-                    Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
+                    AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
                     TE.Release();
                     Result = true;
                 }
@@ -331,7 +331,7 @@ public partial class ExplorationSite : Structure
     }
 
     // ExploreS.pas:113
-    public void CombatExecuted(global::Aow.Game.Combat.Combat Combat)
+    public void CombatExecuted(Combat.Combat Combat)
     {
         CombatData Data;
         CombatObject Obj;
@@ -371,7 +371,7 @@ public partial class ExplorationSite : Structure
             SetupTE(TE);
             TE.FAction = 0;
             TE.FParam = (int)combatTypeRequestEventLog.FCombatType;
-            Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
+            AoWHSMap.Current.FTokenManager.GetTokenControl(TE.FPlayer).AddEvent(TE);
             TE.Release();
         }
     }
@@ -383,7 +383,7 @@ public partial class ExplorationSite : Structure
         ArmyHS ArmyHS;
         if (!GetExplored())
         {
-            ArmyHS = (global::Aow.Game.Draw.ArmyHS)Owner.FindOwnedChild(131607);
+            ArmyHS = (ArmyHS)Owner.FindOwnedChild(131607);
             if (ArmyHS == null || ArmyHS.FArmy.FPlayer != Player)
             {
                 Result = false;
@@ -407,7 +407,7 @@ public partial class ExplorationSite : Structure
         int Collection;
         UnitIndexList List;
         UnitIndexListCollection Collections;
-        RandSeed = Aow.Game.World.Map.AoWHSMap.Current.FDefendersSeed;
+        RandSeed = AoWHSMap.Current.FDefendersSeed;
         if (FDefendersMode == DefendersMode.Random)
         {
             FDefendersMode = (DefendersMode)(Random(3) + 1);
@@ -425,7 +425,7 @@ public partial class ExplorationSite : Structure
 
             try
             {
-                Aow.Game.Engine.Collections.IntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
+                Engine.Collections.IntegerList.FillWithRandomUnits(List, FDefenders, 4, (int)FDefendersMode * 50, Set<UnitType>.Of(UnitType.Humanoid, UnitType.Creature, UnitType.Machine));
             }
             catch
             {

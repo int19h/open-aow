@@ -15,20 +15,20 @@ public sealed class WallCrushingFastCombatTests
     // TAbility's constructor reads the game set's image library manager.
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet previousSet = Aow.Game.Engine.AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSSet previousSet = AoWHSSet.Current;
+        private readonly AoWEngine previousEngine = GameTables.AoWEngine;
         private readonly ImageLibraryManager manager = new ImageLibraryManager(null!);
 
         internal Fixture()
         {
-            Aow.Game.Engine.AoWHSSet.Current = EngineFixture.CreateGameSet(manager);
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
+            AoWHSSet.Current = EngineFixture.CreateGameSet(manager);
+            GameTables.AoWEngine = null!;
         }
 
         public void Dispose()
         {
-            Aow.Game.Engine.AoWHSSet.Current = previousSet;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            AoWHSSet.Current = previousSet;
+            GameTables.AoWEngine = previousEngine;
             manager.Dispose();
         }
     }

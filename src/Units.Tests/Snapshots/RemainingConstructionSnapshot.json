@@ -2826,15 +2826,15 @@
       "owner:0"
     ]
   },
-  "Aow.Game.Combat.TCAbility.owner0route0": {
+  "Aow.Game.Combat.CombatAbilityRef.owner0route0": {
     "$lines": [
       {
         "$prefix": "success:",
         "$value": {
           "$jsonText": {
-            "$type": "Aow.Game.Combat.TCAbility",
-            "TCAbility.Ability": 0,
-            "TCAbility.Spell": 0
+            "$type": "Aow.Game.Combat.CombatAbilityRef",
+            "CombatAbilityRef.Ability": 0,
+            "CombatAbilityRef.Spell": 0
           }
         }
       },

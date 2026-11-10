@@ -65,7 +65,7 @@ namespace Aow.Game.World.Hexes
             CustomImageLibrary IL;
             int Xhp = default;
             int Yhp = default;
-            Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+            HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -157,11 +157,11 @@ namespace Aow.Game.World.Hexes
         }
 
         // IsoHex.pas:273
-        public override Aow.Game.World.MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+        public override MapObject PlaceResourceUser(HSMap Map, sbyte Xhx, sbyte Yhx, sbyte Lhx)
         {
             MapField MapField;
             MapField = Map.MapContainer.GetField(Xhx, Yhx, Lhx);
-            Aow.Game.World.MapObject Result = (Aow.Game.World.MapObject)MapField.FindOwnedHS(typeof(IsometricHexagon));
+            MapObject Result = (MapObject)MapField.FindOwnedHS(typeof(IsometricHexagon));
             if (Result != null)
             {
                 if (Result.GetTerrain(0) != FTerrainList.GetTerrain(0))
@@ -179,7 +179,7 @@ namespace Aow.Game.World.Hexes
             }
             else
             {
-                Result = (Aow.Game.World.MapObject)CreateResourceUser();
+                Result = (MapObject)CreateResourceUser();
                 if (!Map.PlaceHX(Result, Xhx, Yhx, Lhx))
                 {
                     Result?.Dispose();
@@ -209,7 +209,7 @@ namespace Aow.Game.World.Hexes
             int Yhp = default;
             if (FDynamic == null)
             {
-                Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+                HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf;
                 IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -244,7 +244,7 @@ namespace Aow.Game.World.Hexes
             public override int ResourceUserClassID() => 131440;
 
             // IsoHex.pas:448
-            public override string ResourceEditName() => Aow.Game.World.Hexes.UpperIsometricHexagon.Resource.UpperIsometricHexagonStr;
+            public override string ResourceEditName() => UpperIsometricHexagonStr;
 
             private static readonly string UpperIsometricHexagonStr = "Upper Isometric Hexagon";
 
@@ -270,7 +270,7 @@ namespace Aow.Game.World.Hexes
             public override int ResourceUserClassID() => 131442;
 
             // IsoHex.pas:576
-            public override string ResourceEditName() => Aow.Game.World.Hexes.LowerIsometricHexagon.Resource.LowerIsometricHexagonStr;
+            public override string ResourceEditName() => LowerIsometricHexagonStr;
 
             private static readonly string LowerIsometricHexagonStr = "Lower Isometric Hexagon";
 

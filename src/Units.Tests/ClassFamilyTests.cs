@@ -149,7 +149,7 @@ public sealed class ClassFamilyTests
     [Fact]
     public void EditorListFindsTheRegisteredDescriptorAndTheWalkFallsBackToTheBase()
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         using var engine = new Engine(null!);
         var mapObjectEditor = EditorClass.Of<AoWMapObjectEditor>();
         Assert.Same(mapObjectEditor, EditorClass.Of(typeof(AoWMapObjectEditor)));
@@ -195,7 +195,7 @@ public sealed class ClassFamilyTests
         using var level = new MapLevel(map);
         level.CreateMapFieldList(3, 3);
         var field = level.GetField(1, 1);
-        using var resource = new Aow.Game.World.Hexes.LowerIsometricHexagon.Resource(null!);
+        using var resource = new LowerIsometricHexagon.Resource(null!);
         var hexagon = new LowerIsometricHexagon(field) { FResource = resource };
         try
         {
@@ -230,7 +230,7 @@ public sealed class ClassFamilyTests
             for (int x = 0; x < 3; x++)
                 level.GetField(x, y).TerrainType = 3;
         var field = level.GetField(1, 1);
-        using var resource = new Aow.Game.World.Hexes.AoWWaterHexagon.Resource(null!);
+        using var resource = new AoWWaterHexagon.Resource(null!);
         using var water = new AoWWaterHexagon(field) { FResource = resource };
         water.UpdateTransitions();
         Assert.NotNull(water.FDynamic);

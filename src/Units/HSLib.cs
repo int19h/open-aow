@@ -18,7 +18,7 @@ public partial class HSLibrary : ImageLibrary
     // HSLib.pas:292
     internal void SetEngine(HexagonSpriteEngine Value)
     {
-        if (!ComponentState.Contains(global::Aow.Rtl.ComponentState.Designing) && Value != FEngine)
+        if (!ComponentState.Contains(Rtl.ComponentState.Designing) && Value != FEngine)
         {
             FEngine = Value;
             FHSEngine = FEngine.HSEngine;
@@ -30,7 +30,7 @@ public partial class HSLibrary : ImageLibrary
     }
 
     // HSLib.pas:279
-    public HSLibrary(global::Aow.Rtl.Component owner) : base(owner)
+    public HSLibrary(Component owner) : base(owner)
     {
         FList = new DelphiList();
     }
@@ -85,9 +85,9 @@ public partial class LibraryHS : HPBasedHS
         FLevel = 30;
     }
 
-    internal global::Aow.Game.World.Map.MapContainer FMapContainer;
+    internal MapContainer FMapContainer;
     internal byte FLevel;
-    internal Aow.Game.Draw.Images.LibraryImage FImage;
+    internal LibraryImage FImage;
     internal bool FDestroyOnShow;
     internal HSLibrary FLibrary;
 
@@ -157,8 +157,8 @@ public partial class LibraryHS : HPBasedHS
         int EvenYMax;
         if (FXhp != -2147483648)
         {
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
+            HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
+            HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
             if (!((XMin & 1) != 0))
             {
                 EvenYMin = OddYMin;
@@ -170,8 +170,8 @@ public partial class LibraryHS : HPBasedHS
             }
 
             J = FImage.Height + FYhp - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp - 1 + 32, J, ref I, ref J);
+            HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
+            HexGeometry.HPtoHX(FImage.Width + FXhp - 1 + 32, J, ref I, ref J);
             if (!((XMax & 1) != 0))
             {
                 EvenYMax = OddYMax;
@@ -255,7 +255,7 @@ public partial class LibraryHS : HPBasedHS
     }
 
     // HSLib.pas:186
-    public void SetImage(Aow.Game.Draw.Images.LibraryImage Value)
+    public void SetImage(LibraryImage Value)
     {
         int Xhp;
         if (FXhp != -2147483648)
@@ -277,7 +277,7 @@ public partial class LibraryHS : HPBasedHS
     }
 
     // HSLib.pas:203
-    public override bool Place(global::Aow.Game.World.Map.MapContainer MapContainer, int Xhp, int Yhp, int Lhx)
+    public override bool Place(MapContainer MapContainer, int Xhp, int Yhp, int Lhx)
     {
         int I = default;
         int J = default;
@@ -298,8 +298,8 @@ public partial class LibraryHS : HPBasedHS
         FMapContainer = MapContainer;
         if (Xhp != -2147483648)
         {
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
+            HexGeometry.HPtoHX(FXhp - 8, FYhp, ref XMin, ref OddYMin);
+            HexGeometry.HPtoHX(FXhp - 8 + 32, FYhp, ref I, ref J);
             if (!((XMin & 1) != 0))
             {
                 EvenYMin = OddYMin;
@@ -311,8 +311,8 @@ public partial class LibraryHS : HPBasedHS
             }
 
             J = FImage.Height + FYhp - 1;
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
-            Aow.Game.World.Map.HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1 + 32, J, ref I, ref J);
+            HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1, J, ref XMax, ref OddYMax);
+            HexGeometry.HPtoHX(FImage.Width + FXhp + 8 - 1 + 32, J, ref I, ref J);
             if (!((XMax & 1) != 0))
             {
                 EvenYMax = OddYMax;
@@ -381,23 +381,23 @@ public partial class LibraryHS : HPBasedHS
     }
 
     // HSLib.pas:251
-    public bool PlaceEx(global::Aow.Game.World.Map.MapContainer MapContainer, int Xhp, int Yhp, int Lhx, byte Level)
+    public bool PlaceEx(MapContainer MapContainer, int Xhp, int Yhp, int Lhx, byte Level)
     {
         FLevel = Level;
         return Place(MapContainer, Xhp, Yhp, Lhx);
     }
 
     // HSLib.pas:257
-    public bool PlaceHX(global::Aow.Game.World.Map.MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
+    public bool PlaceHX(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         return Place(MapContainer, Xhp - 8, Yhp, Lhx);
     }
 
     // HSLib.pas:265
-    public bool PlaceHXEx(global::Aow.Game.World.Map.MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx, sbyte Level, bool Center)
+    public bool PlaceHXEx(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx, sbyte Level, bool Center)
     {
         int Xhp = default;
         int Yhp = default;
@@ -406,15 +406,15 @@ public partial class LibraryHS : HPBasedHS
             FLevel = (byte)Level;
         }
 
-        Aow.Game.World.Map.HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(Xhx, Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp + 16 - (int)(((uint)FImage.Width) >> 1);
         Yhp = Yhp + 16 - (int)(((uint)FImage.Height) >> 1);
         return Place(MapContainer, Xhp, Yhp, Lhx);
     }
 
-    public global::Aow.Game.World.Map.MapContainer MapContainer { get => FMapContainer; }
+    public MapContainer MapContainer { get => FMapContainer; }
     public new byte Level { get => FLevel; set => FLevel = value; }
-    public Aow.Game.Draw.Images.LibraryImage Image { get => FImage; set => SetImage(value); }
+    public LibraryImage Image { get => FImage; set => SetImage(value); }
     public bool DestroyOnShow { get => FDestroyOnShow; set => FDestroyOnShow = value; }
 
     // HSLib.pas:28

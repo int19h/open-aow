@@ -27,7 +27,7 @@ namespace Aow.Game.Ui.Dialogs;
 // item offset, completion event, item event
 public partial class ItemsFoundDlg : DataModule
 {
-    public ItemsFoundDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public ItemsFoundDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -64,10 +64,10 @@ public partial class ItemsFoundDlg : DataModule
         Hero Result = null;
         if (FEvent != null)
         {
-            Army = ((AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<XYL, int>(ref FEvent.FLocation))).GetArmyHS();
-            if (Army != null && Army.FArmy.FPlayer == Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            Army = ((AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(Unsafe.As<XYL, int>(ref FEvent.FLocation))).GetArmyHS();
+            if (Army != null && Army.FArmy.FPlayer == AoWHSMap.Current.FSeatedPlayer)
             {
-                Result = Army.FArmy.Hero(255, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
+                Result = Army.FArmy.Hero(255, RosterTables.AllHeroTypes);
             }
         }
 
@@ -126,7 +126,7 @@ public partial class ItemsFoundDlg : DataModule
             if (Slot + FItemOffset < Event.FItemIDs.Count)
             {
                 var itemID = FEvent.FItemIDs[Slot + FItemOffset];
-                Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(itemID);
+                Item = AoWHSMap.Current.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
                     Item.Show(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, SD);
@@ -143,18 +143,18 @@ public partial class ItemsFoundDlg : DataModule
         Hero = GetHero();
         if (Hero != null)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = Hero;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitTab.Selected = 2;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FGameType == GameType.Tutorial)
+            DialogHosts.General.FSelectedUnit = Hero;
+            DialogHosts.UnitWindow.ShowUnit();
+            DialogHosts.UnitWindow.UnitTab.Selected = 2;
+            if (AoWHSMap.Current.FGameType == GameType.Tutorial)
             {
                 Event = new TutorialMessageEventLog(null);
-                Event.FHelpFileName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TutorialRStr);
-                if (Aow.Game.World.Map.AoWHSMap.Current.FTextControl.FindID(55) != null)
+                Event.FHelpFileName = AbilityRules.TranslateRStr(GameText.TutorialRStr);
+                if (AoWHSMap.Current.FTextControl.FindID(55) != null)
                 {
-                    var id = Aow.Game.World.Map.AoWHSMap.Current.FTextControl.FindID(55);
+                    var id = AoWHSMap.Current.FTextControl.FindID(55);
                     Event.FMessage.Assign(id.FText);
-                    Aow.Game.World.Map.AoWHSMap.Current.TriggerExecuteEventLog(Event, true, null);
+                    AoWHSMap.Current.TriggerExecuteEventLog(Event, true, null);
                 }
 
                 Event.Release();
@@ -176,11 +176,11 @@ public partial class ItemsFoundDlg : DataModule
             if (FItemOffset + Slot < FEvent.FItemIDs.Count)
             {
                 var itemID = FEvent.FItemIDs[FItemOffset + Slot];
-                Item = Aow.Game.World.Map.AoWHSMap.Current.FItemControl.FindItem(itemID);
+                Item = AoWHSMap.Current.FItemControl.FindItem(itemID);
                 if (Item != null)
                 {
-                    Box.PopupMenu = Aow.Game.Ui.Dialogs.DialogHosts.ItemBanner.IBannerPopup;
-                    Aow.Game.Ui.Dialogs.ItemBanner.ItemID = Item.FItemID;
+                    Box.PopupMenu = DialogHosts.ItemBanner.IBannerPopup;
+                    ItemBanner.ItemID = Item.FItemID;
                 }
             }
         }
@@ -237,7 +237,7 @@ public partial class ItemsFoundDlg : DataModule
             Dialog.PickupPnl.Visible = true;
         }
 
-        Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(54, true, true);
+        AoWHSMap.Current.FTutorialControl.ShowMessage(54, true, true);
         Dialog.Dlg.FDrawn = false;
         Dialog.Dlg.Visible = true;
     }

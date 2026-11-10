@@ -113,9 +113,9 @@ public partial class MapField
     public void Loaded()
     {
         int count = FCount;
-        for (int i = 0; i < count; i++) Aow.Game.World.Map.MapField.LoadedList[i] = FHSList[i];
+        for (int i = 0; i < count; i++) LoadedList[i] = FHSList[i];
         for (int i = count - 1; i >= 0; i--)
-            if (Aow.Game.World.Map.MapField.LoadedList[i].Owner == this && !Aow.Game.World.Map.MapField.LoadedList[i].MainLoaded()) Aow.Game.World.Map.MapField.LoadedList[i]?.Dispose();
+            if (LoadedList[i].Owner == this && !LoadedList[i].MainLoaded()) LoadedList[i]?.Dispose();
     }
 
     public virtual void UpdateMapField()

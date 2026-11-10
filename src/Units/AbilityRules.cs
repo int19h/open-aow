@@ -72,9 +72,9 @@ public static class AbilityRules
 
     internal static string TranslateRStr(string S)
     {
-        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine != null)
+        if (GameTables.AoWEngine != null)
         {
-            return Aow.Game.Magic.Abilities.GameTables.AoWEngine.TranslateRStr(S);
+            return GameTables.AoWEngine.TranslateRStr(S);
         }
 
         return S;
@@ -85,7 +85,7 @@ public static class AbilityRules
         int Result;
         if (Damage > 0)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.DMDCtoDV(Damage, AttackDefense);
+            Result = DMDCtoDV(Damage, AttackDefense);
             // { Original updates only the unused Maximum parameter, leaving Result uncapped. }
             if (Damage > Maximum)
             {
@@ -241,7 +241,7 @@ public static class AbilityRules
                 Damage = (int)(((uint)(Damage + 1)) >> 1);
             }
 
-            Result = Aow.Game.Magic.Abilities.AbilityRules.DMmaxDCtoDV(Damage, Attack, Limit);
+            Result = DMmaxDCtoDV(Damage, Attack, Limit);
             Limit100 = Limit * 100;
             if (Result > Limit100)
             {
@@ -289,8 +289,8 @@ public static class AbilityRules
             if (Points <= MovePoints)
             {
                 var item = Path[I];
-                Field = (AoWMapField)Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetFieldXYL(item.Packed);
-                if (Aow.Game.Magic.Abilities.AbilityRules.CanConstructRoad(Player, Field))
+                Field = (AoWMapField)AoWHSMap.Current.MapContainer.GetFieldXYL(item.Packed);
+                if (CanConstructRoad(Player, Field))
                 {
                     Result += 10;
                 }
@@ -317,19 +317,19 @@ public static class AbilityRules
 
     internal static void ShowDamageIcon(int X, int Y, in SurfaceDesc Surface, int Damage, DamageType DamageType)
     {
-        if (DamageType != global::Aow.Game.Combat.DamageType.None)
+        if (DamageType != DamageType.None)
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[(int)DamageType + 10].Show(X + 15, Y + 10, Surface);
-            if (Set<global::Aow.Game.Combat.DamageType>.Of(global::Aow.Game.Combat.DamageType.Cold, global::Aow.Game.Combat.DamageType.Lightning, global::Aow.Game.Combat.DamageType.Magic, global::Aow.Game.Combat.DamageType.Holy).Contains(DamageType))
+            AoWHSSet.Current.FCombatImages[(int)DamageType + 10].Show(X + 15, Y + 10, Surface);
+            if (Set<DamageType>.Of(DamageType.Cold, DamageType.Lightning, DamageType.Magic, DamageType.Holy).Contains(DamageType))
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.Color = 0;
+                GameTables.AoWEngine.FCombatFont.Color = 0;
             }
             else
             {
-                Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.Color = 16777215;
+                GameTables.AoWEngine.FCombatFont.Color = 16777215;
             }
 
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(Damage), Surface);
+            GameTables.AoWEngine.FCombatFont.SetTextCentered(X + 34, Y + 36, IntToStr(Damage), Surface);
         }
     }
 
@@ -363,34 +363,34 @@ public static class AbilityRules
         return Result;
     }
 
-    internal static Aow.Game.Magic.Abilities.AbstractUnit.Morale MoraleValueToMorale(int Value)
+    internal static AbstractUnit.Morale MoraleValueToMorale(int Value)
     {
-        Aow.Game.Magic.Abilities.AbstractUnit.Morale Result;
+        AbstractUnit.Morale Result;
         if (Value <= 20)
         {
-            Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.Terrible;
+            Result = AbstractUnit.Morale.Terrible;
         }
         else
         {
             if (Value > 80)
             {
-                Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.High;
+                Result = AbstractUnit.Morale.High;
             }
             else
             {
                 switch (Value)
                 {
                     case >= 21 and <= 40:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.Poor;
+                        Result = AbstractUnit.Morale.Poor;
                         break;
                     case >= 41 and <= 60:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.OK;
+                        Result = AbstractUnit.Morale.OK;
                         break;
                     case >= 61 and <= 80:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.Good;
+                        Result = AbstractUnit.Morale.Good;
                         break;
                     default:
-                        Result = Aow.Game.Magic.Abilities.AbstractUnit.Morale.OK;
+                        Result = AbstractUnit.Morale.OK;
                         // { Original leaks the exception without raising it. }
                         new ArgumentException("Invalid MoralValue");
                         break;
@@ -456,17 +456,17 @@ public static class AbilityRules
             {
                 Tries -= 1;
                 Index = Units[Random(Units.Count)];
-                if (Index != -1 && Types.Contains(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType) && Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() + Result > Value && Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel <= Level)
+                if (Index != -1 && Types.Contains(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType) && AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() + Result > Value && AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel <= Level)
                 {
                     BestIndex = Index;
                     I = 20;
-                    Difference = Math.Abs(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() - (Value - Result));
+                    Difference = Math.Abs(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() - (Value - Result));
                     do
                     {
                         Index = Units[Random(Units.Count)];
-                        if (Index != -1 && Types.Contains(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType))
+                        if (Index != -1 && Types.Contains(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType))
                         {
-                            Delta = Math.Abs(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() - (Value - Result));
+                            Delta = Math.Abs(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).GetObtainValue() - (Value - Result));
                             if (Delta < Difference)
                             {
                                 Difference = Delta;
@@ -480,10 +480,10 @@ public static class AbilityRules
                     Index = BestIndex;
                 }
 
-                if (Index != -1 && Types.Contains(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType) && Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel <= Level)
+                if (Index != -1 && Types.Contains(AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FUnitType) && AoWHSSet.Current.FUnitResources.GetUnitResource(Index).FLevel <= Level)
                 {
                     Unit_ = new Unit(null);
-                    Unit_.SetUnitResource(Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
+                    Unit_.SetUnitResource(AoWHSSet.Current.FUnitResources.GetUnitResource(Index));
                     if (Unit_.Place(X, Y, L, Player, Set<UnitPlaceModeElement>.Of()) != null)
                     {
                         Result += Unit_.GetObtainValue();
@@ -521,24 +521,24 @@ public static class AbilityRules
         }
         else
         {
-            Result = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(Relation).GetAlignment();
+            Result = AoWHSSet.Current.FRaceResources.GetRaceResource(Relation).GetAlignment();
         }
 
         return Result;
     }
 
-    internal static global::Aow.Game.Session.DiplomaticRelation DiplomaticRelation(sbyte Player, sbyte IndependentRelation, sbyte OtherPlayer, sbyte OtherIndependentRelation)
+    internal static DiplomaticRelation DiplomaticRelation(sbyte Player, sbyte IndependentRelation, sbyte OtherPlayer, sbyte OtherIndependentRelation)
     {
-        global::Aow.Game.Session.DiplomaticRelation Result;
+        DiplomaticRelation Result;
         sbyte Race;
         sbyte OtherRace;
         Alignment Alignment;
-        global::Aow.Game.Engine.Alignment OtherAlignment;
+        Alignment OtherAlignment;
         if (Player == 0 || OtherPlayer == 0)
         {
             if (Player != 0)
             {
-                Race = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerRace;
+                Race = AoWHSMap.Current.FPlayers.GetPlayers(Player).FPlayerRace;
             }
             else
             {
@@ -554,7 +554,7 @@ public static class AbilityRules
 
             if (OtherPlayer != 0)
             {
-                OtherRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(OtherPlayer).FPlayerRace;
+                OtherRace = AoWHSMap.Current.FPlayers.GetPlayers(OtherPlayer).FPlayerRace;
             }
             else
             {
@@ -572,38 +572,38 @@ public static class AbilityRules
             {
                 if (Race != -1)
                 {
-                    Alignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(Race).GetAlignment();
+                    Alignment = AoWHSSet.Current.FRaceResources.GetRaceResource(Race).GetAlignment();
                 }
                 else
                 {
-                    Alignment = Aow.Game.Magic.Abilities.AbilityRules.IRtoAlignment(IndependentRelation);
+                    Alignment = IRtoAlignment(IndependentRelation);
                 }
 
                 if (OtherRace != -1)
                 {
-                    OtherAlignment = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(OtherRace).GetAlignment();
+                    OtherAlignment = AoWHSSet.Current.FRaceResources.GetRaceResource(OtherRace).GetAlignment();
                 }
                 else
                 {
-                    OtherAlignment = Aow.Game.Magic.Abilities.AbilityRules.IRtoAlignment(OtherIndependentRelation);
+                    OtherAlignment = IRtoAlignment(OtherIndependentRelation);
                 }
 
-                Result = Aow.Game.Magic.Abilities.AlignmentTables.dAlignmentToDiplomaticRelation(Alignment, OtherAlignment);
+                Result = AlignmentTables.dAlignmentToDiplomaticRelation(Alignment, OtherAlignment);
             }
             else
             {
-                Result = Aow.Game.Magic.Abilities.AlignmentTables.StatusToDiplomaticRelation(Aow.Game.World.Map.AoWHSMap.Current.FRaces.GetRace(Race).GetRelation(OtherRace));
+                Result = AlignmentTables.StatusToDiplomaticRelation(AoWHSMap.Current.FRaces.GetRace(Race).GetRelation(OtherRace));
             }
         }
         else
         {
             if (Player != OtherPlayer)
             {
-                Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, OtherPlayer);
+                Result = AoWHSMap.Current.FPlayers.GetDiplomaticRelation(Player, OtherPlayer);
             }
             else
             {
-                Result = global::Aow.Game.Session.DiplomaticRelation.Alliance;
+                Result = Session.DiplomaticRelation.Alliance;
             }
         }
 
@@ -613,13 +613,13 @@ public static class AbilityRules
     internal static bool ValidAttackRelation(sbyte Player, sbyte IndependentRelation, sbyte TargetPlayer, sbyte TargetRace)
     {
         bool Result;
-        global::Aow.Game.Session.DiplomaticRelation Relation;
+        DiplomaticRelation Relation;
         if (Player == 0)
         {
             if (TargetPlayer != 0)
             {
-                Relation = Aow.Game.Magic.Abilities.AbilityRules.DiplomaticRelation(Player, IndependentRelation, TargetPlayer, TargetRace);
-                Result = Set<global::Aow.Game.Session.DiplomaticRelation>.Of(global::Aow.Game.Session.DiplomaticRelation.War, global::Aow.Game.Session.DiplomaticRelation.Unknown).Contains(Relation);
+                Relation = DiplomaticRelation(Player, IndependentRelation, TargetPlayer, TargetRace);
+                Result = Set<DiplomaticRelation>.Of(Session.DiplomaticRelation.War, Session.DiplomaticRelation.Unknown).Contains(Relation);
             }
             else
             {
@@ -628,7 +628,7 @@ public static class AbilityRules
         }
         else
         {
-            Result = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).ValidAttackRelation(TargetPlayer, TargetRace);
+            Result = AoWHSMap.Current.FPlayers.GetPlayers(Player).ValidAttackRelation(TargetPlayer, TargetRace);
         }
 
         return Result;
@@ -656,13 +656,13 @@ public static class AbilityRules
     internal static Set<DamageType> InvertDamageTypes(Set<DamageType> Types)
     {
         DamageType DamageType;
-        Set<global::Aow.Game.Combat.DamageType> Result = Set<global::Aow.Game.Combat.DamageType>.Of();
-        for (int damageTypeOrdinal = (int)(global::Aow.Game.Combat.DamageType)0; damageTypeOrdinal <= (int)(global::Aow.Game.Combat.DamageType)9; damageTypeOrdinal++)
+        Set<DamageType> Result = Set<DamageType>.Of();
+        for (int damageTypeOrdinal = (int)(DamageType)0; damageTypeOrdinal <= (int)(DamageType)9; damageTypeOrdinal++)
         {
-            DamageType = (global::Aow.Game.Combat.DamageType)damageTypeOrdinal;
+            DamageType = (DamageType)damageTypeOrdinal;
             if (!Types.Contains(DamageType))
             {
-                Result = Result + Set<global::Aow.Game.Combat.DamageType>.Of(DamageType);
+                Result = Result + Set<DamageType>.Of(DamageType);
             }
         }
 
@@ -692,17 +692,17 @@ public static class AbilityRules
                 I = Movepath.Count - TargetRange;
             }
 
-            Aow.Game.Combat.BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), Aow.Game.Magic.Abilities.AbilityRules.dtAll - Set<DamageType>.Of(DamageType.Wall));
+            BattleFieldInfo.SetupBattleFieldInfo(ref Info, Player, IndependentRelation, Set<BattleFieldInfoRequestsElement>.Of(), dtAll - Set<DamageType>.Of(DamageType.Wall));
             Info.FriendlyRelations = Set<byte>.WithBounds(0, 7);
             Info.Requests = Info.Requests + Set<BattleFieldInfoRequestsElement>.Of(BattleFieldInfoRequestsElement.IgnorePassiveIndependents, BattleFieldInfoRequestsElement.EffectiveStrength);
             if (Step > 0)
             {
                 Units = new UnitUserList(null);
                 var item = Movepath[Movepath.Count - 1];
-                Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[item.L];
+                Level = AoWHSMap.Current.MapContainer.MapLevels[item.L];
                 var movepathItem = Movepath[Movepath.Count - 1];
                 var item2 = Movepath[Movepath.Count - 1];
-                Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, item2.X, movepathItem.Y, 0);
+                HNWalkData.InitHNWalk(ref Walk, item2.X, movepathItem.Y, 0);
                 while (Walk.Radius <= Step)
                 {
                     if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -718,7 +718,7 @@ public static class AbilityRules
                         }
                     }
 
-                    Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+                    HNWalkData.WalkToNextHN(ref Walk);
                 }
 
                 Info.Units = Units;
@@ -730,7 +730,7 @@ public static class AbilityRules
                 var item = Movepath[I];
                 var movepathItem = Movepath[I];
                 var item2 = Movepath[I];
-                Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(item2.X, movepathItem.Y, item.L, Range, ref Info);
+                AoWHSMap.Current.RetrieveBattleFieldInfo(item2.X, movepathItem.Y, item.L, Range, ref Info);
                 if (Info.Strength > Result)
                 {
                     Result = Info.Strength;
@@ -768,7 +768,7 @@ public static class AbilityRules
                         var item3 = Movepath[J + 1];
                         var item4 = Movepath[J + 1];
                         var item5 = Movepath[J + 1];
-                        Aow.Game.World.Map.AoWHSMap.Current.RetrieveBattleFieldInfo(item5.X, item4.Y, item3.L, Range, ref Info);
+                        AoWHSMap.Current.RetrieveBattleFieldInfo(item5.X, item4.Y, item3.L, Range, ref Info);
                         if (Info.Strength > Result)
                         {
                             Result = Info.Strength;
@@ -784,7 +784,7 @@ public static class AbilityRules
                 Units?.Dispose();
             }
 
-            Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.UseProcessTime(50);
+            AoWHSMap.Current.FAIExecuter.UseProcessTime(50);
         }
         else
         {
@@ -814,11 +814,11 @@ public static class AbilityRules
 
     internal static Set<AbilitySelectionType> astAll = Set<AbilitySelectionType>.Of().WithRange(AbilitySelectionType.Unit, AbilitySelectionType.Editor);
 
-    internal static Set<Aow.Game.Magic.MagicSphere> msAll = Set<Aow.Game.Magic.MagicSphere>.Of().WithRange(Aow.Game.Magic.MagicSphere.Cosmos, Aow.Game.Magic.MagicSphere.None);
+    internal static Set<MagicSphere> msAll = Set<MagicSphere>.Of().WithRange(MagicSphere.Cosmos, MagicSphere.None);
 
     internal static int AIDID;
 
-    internal static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 P2RaceTerrain = FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12.From([new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Desert), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Water), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert, AoWTerrainType.Wasteland) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new global::Aow.Game.World.Map.P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Grass) }]);
+    internal static FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12 P2RaceTerrain = FixedArray_Aow_Units_AoWE_TP2RaceTerrain_12.From([new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Desert), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Water), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert, AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Snow, AoWTerrainType.Ice, AoWTerrainType.UndergroundIce), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Desert) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Grass), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland) }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Dirt), Disliked = Set<AoWTerrainType>.Of() }, new P2RaceTerrain { Preferred = Set<AoWTerrainType>.Of(AoWTerrainType.Wasteland), Disliked = Set<AoWTerrainType>.Of(AoWTerrainType.Grass) }]);
 
     internal static FixedArray_string_5 P2AbilityTypeNames = FixedArray_string_5.From(["Enhancement", "Handicap", "Movement", "Combat", "Enchantment"]);
 
@@ -849,9 +849,9 @@ public static class AbilityRules
         EndTurnTE Event;
         Event = new EndTurnTE(null);
         Event.FPlayer = Player;
-        Event.FDay = Aow.Game.World.Map.AoWHSMap.Current.FDay;
-        Event.FMode = Aow.Game.Commands.EndTurnTE.EndTurnMode.EndTurn;
-        Aow.Game.World.Map.AoWHSMap.Current.FTokenManager.TokenControls[Player].AddEvent(Event);
+        Event.FDay = AoWHSMap.Current.FDay;
+        Event.FMode = EndTurnTE.EndTurnMode.EndTurn;
+        AoWHSMap.Current.FTokenManager.TokenControls[Player].AddEvent(Event);
         Event.Release();
         return true;
     }
@@ -887,12 +887,12 @@ public static class AbilityRules
                 EnemyRelations = Set<byte>.WithBounds(0, 7).With(1).With(3)
             }
         };
-        var mapLevel = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.GetMapLevel(level);
+        var mapLevel = AoWHSMap.Current.MapContainer.GetMapLevel(level);
         var message = new MapFieldMsg { MsgID = 0x1151 };
         message.Param[0] = (int)storm;
         message.Param[2] = query;
         HNWalkData walk = default;
-        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref walk, x, y, innerRadius);
+        HNWalkData.InitHNWalk(ref walk, x, y, innerRadius);
         try
         {
             while (walk.Radius <= outerRadius)
@@ -902,7 +902,7 @@ public static class AbilityRules
                     message.Param[1] = walk.Radius;
                     mapLevel.GetField(walk.X, walk.Y).SendMapFieldMsg(ref message);
                 }
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
+                HNWalkData.WalkToNextHN(ref walk);
             }
         }
         finally { info = query.Info; }
@@ -917,11 +917,11 @@ public static class AbilityRules
         MapFieldMsg Msg = default;
         HNWalkData Walk = default;
         MapLevel Level;
-        Level = Aow.Game.World.Map.AoWHSMap.Current.MapContainer.MapLevels[L];
+        Level = AoWHSMap.Current.MapContainer.MapLevels[L];
         Msg.MsgID = 4432;
         Msg.Param[0] = (int)Storm;
         Msg.Param[2] = Player;
-        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref Walk, X, Y, InnerRadius);
+        HNWalkData.InitHNWalk(ref Walk, X, Y, InnerRadius);
         while (Walk.Radius <= OuterRadius)
         {
             if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -930,7 +930,7 @@ public static class AbilityRules
                 Level.Field[Walk.X, Walk.Y].SendMapFieldMsg(ref Msg);
             }
 
-            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref Walk);
+            HNWalkData.WalkToNextHN(ref Walk);
         }
     }
 

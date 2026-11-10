@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Dialogs;
 // caster, sort order, map location
 public partial class DisjunctionDlg : DataModule
 {
-    public DisjunctionDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public DisjunctionDlg(Component owner) : base(owner)
     { }
 
     public AOWImage TitleIcon;
@@ -53,7 +53,7 @@ public partial class DisjunctionDlg : DataModule
     // AoWDisjunctionDlg.pas:179
     public void ClearCaster()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         if (FCaster != null)
         {
             FCaster.Release();
@@ -66,23 +66,23 @@ public partial class DisjunctionDlg : DataModule
     {
         GlobalMagicControl Magic;
         string Reason = "";
-        Magic = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl;
+        Magic = AoWHSMap.Current.FGlobalMagicControl;
         EnchantmentList.Items.Clear();
         OwnerList.Items.Clear();
         for (int I = 0, last = Magic.FEnchantments.Count - 1; I <= last; I++)
         {
-            if (Magic.FEnchantments.GetEnchantments(I).FPlayerIndex != Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer)
+            if (Magic.FEnchantments.GetEnchantments(I).FPlayerIndex != AoWHSMap.Current.FSeatedPlayer)
             {
-                if (Magic.FEnchantments.GetEnchantments(I).VisibleForPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+                if (Magic.FEnchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.Current.FSeatedPlayer))
                 {
-                    if (Magic.FEnchantments.GetEnchantments(I).CanDispel(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason))
+                    if (Magic.FEnchantments.GetEnchantments(I).CanDispel(AoWHSMap.Current.FSeatedPlayer, ref Reason))
                     {
                         Reason = Magic.FEnchantments.GetEnchantments(I).GetName();
                         var name = Magic.FEnchantments.GetEnchantments(I).GetName();
                         var enchantmentEnchantmentID = Magic.FEnchantments.GetEnchantments(I);
                         EnchantmentList.Items.AddObject(name, IntToObject(enchantmentEnchantmentID.FEnchantmentID));
                         var enchantmentPlayerIndex = Magic.FEnchantments.GetEnchantments(I);
-                        var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
+                        var player = AoWHSMap.Current.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
                         OwnerList.Items.Add(player.FLeader.FHeroName);
                     }
                 }
@@ -99,16 +99,16 @@ public partial class DisjunctionDlg : DataModule
         switch (FSortOrder)
         {
             case 0:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(EnchantmentList.Items, [OwnerList.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(EnchantmentList.Items, [OwnerList.Items]);
                 break;
             case 1:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(EnchantmentList.Items, [OwnerList.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(EnchantmentList.Items, [OwnerList.Items]);
                 break;
             case 2:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(OwnerList.Items, [EnchantmentList.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(OwnerList.Items, [EnchantmentList.Items]);
                 break;
             case 3:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(OwnerList.Items, [EnchantmentList.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(OwnerList.Items, [EnchantmentList.Items]);
                 break;
         }
     }
@@ -125,9 +125,9 @@ public partial class DisjunctionDlg : DataModule
             DisjunctionMana.TextColor = 255;
         }
 
-        var spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(51);
+        var spell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(51);
         var mana = FCaster.GetMana();
-        var fSpellControlSpell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(51);
+        var fSpellControlSpell = Engine.AoWHSSet.Current.FSpellControl.GetSpell(51);
         var fCasterMana = FCaster.GetMana();
         DisjunctionMana.Text = IntToStr(spell.FBaseManaCost) + "+" + IntToStr(mana) + "=" + IntToStr(fSpellControlSpell.FBaseManaCost + fCasterMana);
         DisjunctionChance.Text = IntToStr(FCaster.FDispelChance) + "%";
@@ -186,7 +186,7 @@ public partial class DisjunctionDlg : DataModule
         FCaster.AddRef();
         UpdateEnchantments();
         SelectEnchantment(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+        DialogHosts.General.Manager.OverlayPriority = 49;
         Dlg.Visible = true;
     }
 
@@ -209,7 +209,7 @@ public partial class DisjunctionDlg : DataModule
         }
         else
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowMessage(Reason);
+            AoWHSMap.Current.ShowMessage(Reason);
         }
     }
 
@@ -242,7 +242,7 @@ public partial class DisjunctionDlg : DataModule
     // AoWDisjunctionDlg.pas:120
     public void SortEnchantmentClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FSortOrder == 0)
         {
             FSortOrder = 1;
@@ -258,7 +258,7 @@ public partial class DisjunctionDlg : DataModule
     // AoWDisjunctionDlg.pas:128
     public void SortClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FSortOrder == 2)
         {
             FSortOrder = 3;
@@ -292,13 +292,13 @@ public partial class DisjunctionDlg : DataModule
         int X = default;
         int Y = default;
         SurfaceDesc MapSD = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         int W;
         int H;
-        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft + 1, Dlg.WinTop + Sender.WinTop + 1, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
+        R = new Rect(Dlg.WinLeft + Sender.WinLeft + 1, Dlg.WinTop + Sender.WinTop + 1, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(FMapX, FMapY, ref X, ref Y);
+        HexGeometry.HXtoHP(FMapX, FMapY, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -311,18 +311,18 @@ public partial class DisjunctionDlg : DataModule
             Y = 16;
         }
 
-        Aow.Game.Draw.SurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
-        Aow.Game.World.Map.AoWHSMap.Current.SetViewPort(X, Y, FMapL, R.Right - R.Left, R.Bottom - R.Top);
-        Aow.Game.World.Map.AoWHSMap.Current.UpdateStaticScene();
-        Aow.Game.World.Map.AoWHSMap.Current.UpdateDynamicScene();
-        Aow.Game.World.Map.AoWHSMap.Current.DrawStaticScene(ref MapSD);
-        Aow.Game.World.Map.AoWHSMap.Current.DrawDynamicScene(ref MapSD);
+        SurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
+        AoWHSMap.Current.SetViewPort(X, Y, FMapL, R.Right - R.Left, R.Bottom - R.Top);
+        AoWHSMap.Current.UpdateStaticScene();
+        AoWHSMap.Current.UpdateDynamicScene();
+        AoWHSMap.Current.DrawStaticScene(ref MapSD);
+        AoWHSMap.Current.DrawDynamicScene(ref MapSD);
     }
 
     // AoWDisjunctionDlg.pas:170
     public void MapViewUpdate()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
-        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        DialogHosts.General.Manager.OverlayPriority = 49;
+        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Current.Frame & 1) != 0;
     }
 }

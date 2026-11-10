@@ -16,7 +16,7 @@ namespace Aow.Game.Ui.Dialogs;
 // unit selector. retained event log
 public partial class UnitSelectionDlg : DataModule
 {
-    public UnitSelectionDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public UnitSelectionDlg(Component owner) : base(owner)
     { }
 
     public AOWButton SelectBtn;
@@ -50,20 +50,20 @@ public partial class UnitSelectionDlg : DataModule
     // AoWUnitSelDlg.pas:66
     public void DrawUnit(int Index, int X, int Y, ref SurfaceDesc SD)
     {
-        global::Aow.Rtl.Rect SaveRect;
+        Rect SaveRect;
         P2UnitShowInfo Info;
-        Aow.Game.Draw.Images.LibraryImage Img;
+        Draw.Images.LibraryImage Img;
         Alignment Alignment;
         if (Index < FEvent.FUnits.GetCount())
         {
             SaveRect = SD.ClipRect;
-            var rect = global::Aow.Rtl.RtlUnit.Rect(X + 5, Y + 4, X + 46, Y + 56);
+            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = FEvent.FUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -73,7 +73,7 @@ public partial class UnitSelectionDlg : DataModule
             FEvent.FUnits.GetUnit(Index).ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FSelectable) >> Index)) & 1) == 0)
             {
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
+                Img = DialogHosts.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -116,7 +116,7 @@ public partial class UnitSelectionDlg : DataModule
         FEventLog.AddRef();
         FEvent = Request.FUnitSelector;
         FEvent.AddRef();
-        U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+        U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
         if (U != null)
         {
             SourcePnl.Visible = true;
@@ -151,7 +151,7 @@ public partial class UnitSelectionDlg : DataModule
     // AoWUnitSelDlg.pas:101
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -159,7 +159,7 @@ public partial class UnitSelectionDlg : DataModule
     public void SelectBtnClick()
     {
         string Reason = "";
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEvent.CanSelect(ref Reason))
         {
             FEvent.Select();
@@ -167,7 +167,7 @@ public partial class UnitSelectionDlg : DataModule
         }
         else
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            World.Map.AoWHSMap.Current.ShowWarning(Reason);
         }
     }
 
@@ -203,11 +203,11 @@ public partial class UnitSelectionDlg : DataModule
         {
             if (Sender.Checked)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+                DialogHosts.General.PlayButtonSound(1);
             }
             else
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+                DialogHosts.General.PlayButtonSound(2);
             }
         }
 
@@ -237,11 +237,11 @@ public partial class UnitSelectionDlg : DataModule
     // AoWUnitSelDlg.pas:151
     public void SourceFacePreDraw(SurfaceDesc SD)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         AbstractUnit U;
         if (FEvent != null)
         {
-            U = Aow.Game.World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+            U = World.Map.AoWHSMap.Current.FUnitControl.FindUnit(FEvent.FSourceUnitID);
             if (U != null)
             {
                 R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;

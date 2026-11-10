@@ -24,7 +24,7 @@ public partial class AOWTurnButton : AOWControl
     public int FAnimationFrame;
 
     // TurnButton.pas:54
-    public AOWTurnButton(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWTurnButton(Component owner) : base(owner)
     {
         FFrameOffset = 11;
     }

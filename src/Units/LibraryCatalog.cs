@@ -11,9 +11,9 @@ namespace Aow.Game.Draw.Images;
 
 internal static class LibraryCatalog
 {
-    internal static LibraryImageClass GetLibraryImageClass(int Index) => (LibraryImageClass)Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses[Index];
+    internal static LibraryImageClass GetLibraryImageClass(int Index) => (LibraryImageClass)ImageLibraries.LibraryImageClasses[Index];
 
-    internal static int LibraryImageClassCount() => Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Count;
+    internal static int LibraryImageClassCount() => ImageLibraries.LibraryImageClasses.Count;
 
     internal static LibraryImageClass FindLibraryImageClass(int ClassID)
     {
@@ -22,15 +22,15 @@ internal static class LibraryCatalog
         bool Found;
         Found = false;
         I = 0;
-        while (I < Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Count && !Found)
+        while (I < ImageLibraries.LibraryImageClasses.Count && !Found)
         {
-            Found = ClassID == ((LibraryImageClass)Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses[I]).ClassID;
+            Found = ClassID == ((LibraryImageClass)ImageLibraries.LibraryImageClasses[I]).ClassID;
             I += 1;
         }
 
         if (Found)
         {
-            Result = (LibraryImageClass)Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses[I - 1];
+            Result = (LibraryImageClass)ImageLibraries.LibraryImageClasses[I - 1];
         }
         else
         {

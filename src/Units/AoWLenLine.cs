@@ -10,7 +10,7 @@ namespace Aow.Game.Ui.Controls;
 // vertical line image library
 public partial class AoWLenLine : AOWControl
 {
-    public AoWLenLine(global::Aow.Rtl.Component owner) : base(owner)
+    public AoWLenLine(Component owner) : base(owner)
     { }
 
     public InterfaceIL FILLine;
@@ -41,7 +41,7 @@ public partial class AoWLenLine : AOWControl
         {
             if (FValid == true && FVisible == true)
             {
-                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
+                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FWinWidth, FWinHeight);
                 FILLine.DrawILLv(0, rect, ref SurfDesc);
                 if (FOnDraw != null)
                 {

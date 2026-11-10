@@ -7,10 +7,10 @@ namespace Aow.Game.Host;
 /// <summary>The screen callbacks implemented by the rewritten platform host.</summary>
 public interface IGameHost
 {
-    global::Aow.Game.Draw.Display Display { get; }
+    Display Display { get; }
     SdlDC DXDC { get; }
     short FCursor { get; set; }
-    Aow.Game.Draw.Images.LibraryImage FCursorImage { get; set; }
+    Draw.Images.LibraryImage FCursorImage { get; set; }
     Rect FLastCursorRect { get; }
     bool FCursorChanged { get; }
 

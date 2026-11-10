@@ -134,7 +134,7 @@ public partial class PageTurnControl
 
                 var Destination = Dest.Data;
                 int DestP = Dest.DataIndex + DestX * 2 + Dest.Pitch * Y;
-                Aow.Game.Ui.Grids.PageTurnControl.BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
+                BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
             }
         }
     }
@@ -263,7 +263,7 @@ public partial class PageTurnControl
         int ArcLength;
         int SourceBase;
         int Limit;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         int SourceOffset;
         int I;
         if ((double)FRadius >= 1)
@@ -274,12 +274,12 @@ public partial class PageTurnControl
             R.Top = FSourceY1;
             R.Right = FSourceX1 + FWidth + FPosition;
             R.Bottom = FSourceY1 + FHeight;
-            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource1, R, Dest, X, Y);
+            SurfaceDesc.BltSDRectClipped(FSource1, R, Dest, X, Y);
             R.Left = FSourceX2 + FWidth + FPosition;
             R.Top = FSourceY2;
             R.Right = FWidth * 2 + FSourceX2;
             R.Bottom = FSourceY2 + FHeight;
-            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
+            SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
             var pi = Math.PI;
             OriginalLength = Round((double)((double)pi * FRadius) * 0.25);
             var mathPI = Math.PI;
@@ -395,7 +395,7 @@ public partial class PageTurnControl
             R.Bottom = FSourceY2 + FHeight;
             if (R.Right > R.Left)
             {
-                Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, BaseX - (R.Right - R.Left), Y);
+                SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, BaseX - (R.Right - R.Left), Y);
             }
         }
     }
@@ -409,13 +409,13 @@ public partial class PageTurnControl
         float Step;
         float SourceX;
         int Offset;
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         int PageWidth;
         R.Left = FSourceX2 + FWidth;
         R.Top = FSourceY2;
         R.Right = FSourceX2 + FWidth * 2;
         R.Bottom = FSourceY2 + FHeight;
-        Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
+        SurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
         var pi = Math.PI;
         Height = Round((double)Math.Sin((double)((double)FPosition * pi) / 180) * FWidth);
         var mathPI = Math.PI;
@@ -452,7 +452,7 @@ public partial class PageTurnControl
     }
 
     // PageTurnCtrl.pas:361
-    public void RenderScene(int X, int Y, in SurfaceDesc Dest, int X1, int Y1, in SurfaceDesc Source1, int X2, int Y2, in SurfaceDesc Source2, ref global::Aow.Rtl.Rect R)
+    public void RenderScene(int X, int Y, in SurfaceDesc Dest, int X1, int Y1, in SurfaceDesc Source1, int X2, int Y2, in SurfaceDesc Source2, ref Rect R)
     {
         switch (FMode)
         {
@@ -515,7 +515,7 @@ public partial class PageTurnControl
         }
     }
 
-    private static void BltColumn(global::System.ReadOnlySpan<byte> SourceMemory, int Source, int SourcePitch, global::System.Span<byte> DestMemory, int Dest, int DestPitch, int Height)
+    private static void BltColumn(ReadOnlySpan<byte> SourceMemory, int Source, int SourcePitch, Span<byte> DestMemory, int Dest, int DestPitch, int Height)
     {
         while (Height > 0)
         {

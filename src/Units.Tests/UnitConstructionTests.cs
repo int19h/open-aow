@@ -38,9 +38,9 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 1) return (AbstractUnit)meta.Create(owner);
         if (route == 2)
         {
-            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             using var engine = new Engine(null!);
-            engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
@@ -57,8 +57,8 @@ public sealed partial class AoWERuleConstructionTests
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
         Type type = TypeNamed(name);
-        var previous = Aow.Game.World.Map.AoWHSMap.Current;
-        Aow.Game.World.Map.AoWHSMap.Current = null!;
+        var previous = AoWHSMap.Current;
+        AoWHSMap.Current = null!;
         try
         {
             var states = new List<string>();
@@ -84,21 +84,21 @@ public sealed partial class AoWERuleConstructionTests
             }
             ConstructionSnapshot.Check("UnitConstruction", name, string.Join("\n", states));
         }
-        finally { Aow.Game.World.Map.AoWHSMap.Current = previous; }
+        finally { AoWHSMap.Current = previous; }
     }
 
     [Theory]
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        var previousMap = Aow.Game.World.Map.AoWHSMap.Current;
-        var previousSet = Aow.Game.Engine.AoWHSSet.Current;
-        Aow.Game.World.Map.AoWHSMap.Current = null!;
+        var previousMap = AoWHSMap.Current;
+        var previousSet = AoWHSSet.Current;
+        AoWHSMap.Current = null!;
         var set = EngineFixture.Configure(AoWHSSet.Create(null!), value => { value.FUnitResources = new UnitResourceList(null!); value.FHeroResources = new HeroResourceList(null!); value.FAbilityControl = new AbilityControl(null!); });
-        Aow.Game.Engine.AoWHSSet.Current = set;
+        AoWHSSet.Current = set;
         Type type = TypeNamed(name);
         var meta = EClass.Of(type);
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         EObject source = CreateUnit(type, null!, 0);
         EObject result = null!;
@@ -106,7 +106,7 @@ public sealed partial class AoWERuleConstructionTests
         using var memory = new MemoryStream();
         try
         {
-            engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
@@ -137,8 +137,8 @@ public sealed partial class AoWERuleConstructionTests
             set.FUnitResources.Dispose();
             set.FHeroResources.Dispose();
             set.FAbilityControl.Dispose();
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
-            Aow.Game.Engine.AoWHSSet.Current = previousSet;
+            AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = previousSet;
         }
         Assert.Empty(owner.Members);
     }
@@ -166,8 +166,8 @@ public sealed partial class AoWERuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        var previous = Aow.Game.World.Map.AoWHSMap.Current;
-        Aow.Game.World.Map.AoWHSMap.Current = null!;
+        var previous = AoWHSMap.Current;
+        AoWHSMap.Current = null!;
         var owner = new UnitOwner(reject);
         RefcountOwner = owner;
         try
@@ -180,6 +180,6 @@ public sealed partial class AoWERuleConstructionTests
             value.Dispose();
             Assert.Empty(owner.Members);
         }
-        finally { RefcountOwner = null; Aow.Game.World.Map.AoWHSMap.Current = previous; }
+        finally { RefcountOwner = null; AoWHSMap.Current = previous; }
     }
 }

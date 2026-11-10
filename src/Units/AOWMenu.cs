@@ -42,10 +42,10 @@ public partial class AOWMenu : AOWGenericWindow
     public DelphiList FSubMenus;
     public int FShowDelay;
     public int FDrawItem;
-    public global::Aow.Rtl.Rect FDrawItemRect;
+    public Rect FDrawItemRect;
 
     // AOWMenu.pas:102
-    public AOWMenu(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWMenu(Component owner) : base(owner)
     {
         FItems = new StringList();
         FItems.OnChange = OnChangeText;
@@ -423,12 +423,12 @@ public partial class AOWMenu : AOWGenericWindow
     // { Draw: the frame, the texture, and the items; the highlighted item on the selected texture }
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         try
         {
             if (FValid && FVisible)
             {
-                var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                 FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                 var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                 var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -436,7 +436,7 @@ public partial class AOWMenu : AOWGenericWindow
                 var ilFrame2 = FILFrame[FILIndexFrame + 4];
                 var ilFrame3 = FILFrame[FILIndexFrame + 1];
                 var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                var rect2 = new Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                 FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                 FAOWFont.Color = FColor;
                 OldClip = SurfDesc.ClipRect;
@@ -460,7 +460,7 @@ public partial class AOWMenu : AOWGenericWindow
                                 var ilFrame7 = FILFrame[FILIndexFrame + 4];
                                 var ilFrame8 = FILFrame[FILIndexFrame];
                                 var ilFrame9 = FILFrame[FILIndexFrame + 3];
-                                var rect3 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame9.Width, FWinTop + ilFrame8.Height + FItemHeight * I, FWinWidth - ilFrame6.Width - ilFrame7.Width, FItemHeight);
+                                var rect3 = new Rect(FWinLeft + ilFrame9.Width, FWinTop + ilFrame8.Height + FItemHeight * I, FWinWidth - ilFrame6.Width - ilFrame7.Width, FItemHeight);
                                 FILTextureSelected.DrawILT(FILIndexTSelected, rect3, ref SurfDesc);
                             }
                             else
@@ -478,7 +478,7 @@ public partial class AOWMenu : AOWGenericWindow
                             var ilFrameHeight4 = FILFrame[FILIndexFrame + 1];
                             var ilFrameHeight5 = FILFrame[FILIndexFrame + 3];
                             var ilFrameWidth3 = FILFrame[FILIndexFrame + 3];
-                            FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrameWidth3.Width, FWinTop + ilFrameHeight4.Height + ilFrameHeight5.Height * I, FWinLeft + FWinWidth, FWinTop + ilFrameHeight2.Height + ilFrameHeight3.Height * (I + 1));
+                            FDrawItemRect = new Rect(FWinLeft + ilFrameWidth3.Width, FWinTop + ilFrameHeight4.Height + ilFrameHeight5.Height * I, FWinLeft + FWinWidth, FWinTop + ilFrameHeight2.Height + ilFrameHeight3.Height * (I + 1));
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);

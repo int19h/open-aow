@@ -6,7 +6,7 @@ namespace Aow.Game.Draw.Images;
 
 public partial class Picture16
 {
-    public override void ShowOpaqueStretched(in Rect R, in Aow.Game.Draw.SurfaceDesc SD)
+    public override void ShowOpaqueStretched(in Rect R, in SurfaceDesc SD)
     {
         Span<int> RowTable;
         Span<int> ColTable;
@@ -127,7 +127,7 @@ public partial class Picture16
 
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        Aow.Game.Draw.Images.Picture16.BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
                     }
                     else
                     {
@@ -136,10 +136,10 @@ public partial class Picture16
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        Aow.Game.Draw.Images.Picture16.BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
                     }
 
-                    if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
+                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -160,7 +160,7 @@ public partial class Picture16
 
                     if (SD.PixelFormatID == FPixelFormatID)
                     {
-                        Aow.Game.Draw.Images.Picture16.BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
                     }
                     else
                     {
@@ -169,14 +169,14 @@ public partial class Picture16
                             throw new NotSupportedException("Surface pixel format not supported!");
                         }
 
-                        Aow.Game.Draw.Images.Picture16.BltStretched16(View, RowTable, ColTable, Dst, W, H);
+                        BltStretched16(View, RowTable, ColTable, Dst, W, H);
                     }
                 }
             }
         }
     }
 
-    public override void ShowBlendedStretched(in Rect R, in Aow.Game.Draw.SurfaceDesc SD, Aow.Game.Draw.BlendTable Table)
+    public override void ShowBlendedStretched(in Rect R, in SurfaceDesc SD, BlendTable Table)
     {
         Span<int> RowTable;
         Span<int> ColTable;
@@ -299,11 +299,11 @@ public partial class Picture16
                     {
                         switch (SD.PixelFormatID)
                         {
-                            case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB555:
+                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
-                            case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB565:
+                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -316,16 +316,16 @@ public partial class Picture16
 
                         switch (SD.PixelFormatID)
                         {
-                            case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB555:
+                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
-                            case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB565:
+                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
 
-                    if (FLoadMode == global::Aow.Game.Draw.Images.LoadMode.LoadFreeOnDemand)
+                    if (FLoadMode == LoadMode.LoadFreeOnDemand)
                     {
                         ReleaseDiscardableImageData();
                     }
@@ -348,11 +348,11 @@ public partial class Picture16
                     {
                         switch (SD.PixelFormatID)
                         {
-                            case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB555:
+                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
-                            case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB565:
+                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }
@@ -365,11 +365,11 @@ public partial class Picture16
 
                         switch (SD.PixelFormatID)
                         {
-                            case Aow.Game.Draw.PixelFormats.pfRGB555:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB555:
+                                BlendStretched555(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
-                            case Aow.Game.Draw.PixelFormats.pfRGB565:
-                                Aow.Game.Draw.Images.Picture16.BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((Aow.Game.Draw.BlendTable5Bit)Table).Bytes);
+                            case PixelFormats.pfRGB565:
+                                BlendStretched565(View, RowTable, ColTable, Dst, W, H, ((BlendTable5Bit)Table).Bytes);
                                 break;
                         }
                     }

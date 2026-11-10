@@ -61,9 +61,9 @@ public sealed class ProductionOrderTests
 
     private static Engine CreateEngine()
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
-        engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
+        engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
         engine.RegisterEClasses([EClass.Of<ProductionItem>(), EClass.Of<ProductionTE>()]);
         return engine;
     }
@@ -237,21 +237,21 @@ public sealed class ProductionOrderTests
     // reads no unit production.
     private static string OldName(int ID, int Parameter, bool City, MagicSphere Sphere)
     {
-        string Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.UnknownRStr);
+        string Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.UnknownRStr);
         if (City)
         {
             switch (OldCityAction(ID))
             {
-                case CityAction.Trade: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceMerchandiseRStr); break;
-                case CityAction.Upgrade: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UpgradeRStr); break;
-                case CityAction.Migrate: Result = Runtime.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.Migrate.MigrateToXRStr), [Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Parameter])]); break;
-                case CityAction.Loot: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LootRStr); break;
-                case CityAction.Fortify: Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FortifyRStr); break;
+                case CityAction.Trade: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.ProduceMerchandiseRStr); break;
+                case CityAction.Upgrade: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.UpgradeRStr); break;
+                case CityAction.Migrate: Result = Runtime.Format(Game.Magic.Abilities.AbilityRules.TranslateRStr(Migrate.MigrateToXRStr), [Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Parameter])]); break;
+                case CityAction.Loot: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.LootRStr); break;
+                case CityAction.Fortify: Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Game.Magic.Abilities.GameText.FortifyRStr); break;
             }
         }
         else if (ID == 10)
         {
-            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Sphere != MagicSphere.None ? Aow.Game.World.Structures.Trade.GenerateExtraPowerRStr : Aow.Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
+            Result = Game.Magic.Abilities.AbilityRules.TranslateRStr(Sphere != MagicSphere.None ? Trade.GenerateExtraPowerRStr : Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
         }
         return Result;
     }
@@ -264,9 +264,9 @@ public sealed class ProductionOrderTests
     [Fact]
     public void OrdersAnswerAsTheOldSwitches()
     {
-        var previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        var previousMap = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
-        Aow.Game.World.Map.AoWHSMap.Current = map;
+        AoWHSMap.Current = map;
         var owner = new EngineFixture.Owner();
         var city = (City)EClass.Of<City>().Create(owner);
         var guild = (BuildersGuild)EClass.Of<BuildersGuild>().Create(owner);
@@ -306,7 +306,7 @@ public sealed class ProductionOrderTests
         finally
         {
             foreach (Structure structure in new Structure[] { city, guild, node }) _ = Record.Exception(structure.Dispose);
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
+            AoWHSMap.Current = previousMap;
             map.Dispose();
         }
     }

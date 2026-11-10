@@ -29,16 +29,16 @@ public sealed class MapNetSoundFailureTests
         }
     }
 
-    private sealed class FailingSample : Aow.Game.Audio.Sample
+    private sealed class FailingSample : Sample
     {
-        private FailingSample(ConstructionContext context, global::Aow.Game.Audio.SampleData data) : base(context, data)
+        private FailingSample(ConstructionContext context, SampleData data) : base(context, data)
         {
             Assert.Equal(2, data.RefCount);
-            Assert.Equal(1, Aow.Game.Audio.AudioHost.SampleList.Count);
+            Assert.Equal(1, AudioHost.SampleList.Count);
             throw new InvalidDataException("sample");
         }
 
-        internal static new FailingSample Create(global::Aow.Game.Audio.SampleData data) =>
+        internal static new FailingSample Create(SampleData data) =>
             ConstructionContext.Create(data, static (context, value) => new FailingSample(context, value));
     }
 
@@ -71,7 +71,7 @@ public sealed class MapNetSoundFailureTests
 
         public Stream Open(string path, int mode)
         {
-            Published = Aow.Game.Audio.AudioHost.SampleDataList.Find(name);
+            Published = AudioHost.SampleDataList.Find(name);
             Assert.NotNull(Published);
             Assert.Equal(1, Published.RefCount);
             return inner.Open(path, mode);
@@ -106,7 +106,7 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void PlainWorldAndCombatLevelsKeepTheRegisteredTypeAndOwner()
     {
-        foreach (var descriptor in new[] { EClass.Of<Aow.Game.World.Map.AoWMapLevel>(), EClass.Of<Aow.Game.Combat.AoWCombatMapLevel>() })
+        foreach (var descriptor in new[] { EClass.Of<AoWMapLevel>(), EClass.Of<Game.Combat.AoWCombatMapLevel>() })
         {
             var owner = new SoundOwner();
             var level = Assert.IsAssignableFrom<MapLevel>(descriptor.Create(owner));
@@ -123,22 +123,22 @@ public sealed class MapNetSoundFailureTests
     [Fact]
     public void FailedSampleRestoresMembershipAndDataReference()
     {
-        var oldSamples = Aow.Game.Audio.AudioHost.SampleList;
-        var oldData = Aow.Game.Audio.AudioHost.SampleDataList;
-        Aow.Game.Audio.AudioHost.SampleList = new SampleList();
-        Aow.Game.Audio.AudioHost.SampleDataList = new SampleDataList();
+        var oldSamples = AudioHost.SampleList;
+        var oldData = AudioHost.SampleDataList;
+        AudioHost.SampleList = new SampleList();
+        AudioHost.SampleDataList = new SampleDataList();
         try
         {
             var data = SampleData.Create("reference");
             Assert.Equal(1, data.RefCount);
             Assert.Throws<InvalidDataException>(() => new SampleClass("FailingSample", FailingSample.Create).Create(data));
-            Assert.Empty(Aow.Game.Audio.AudioHost.SampleList.List.Take(Aow.Game.Audio.AudioHost.SampleList.Count));
+            Assert.Empty(AudioHost.SampleList.List.Take(AudioHost.SampleList.Count));
             Assert.Equal(1, data.RefCount);
-            Assert.Same(data, Aow.Game.Audio.AudioHost.SampleDataList.Find("reference"));
+            Assert.Same(data, AudioHost.SampleDataList.Find("reference"));
             data.Release();
-            Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleDataList.Count);
+            Assert.Equal(0, AudioHost.SampleDataList.Count);
         }
-        finally { Aow.Game.Audio.AudioHost.SampleList = oldSamples; Aow.Game.Audio.AudioHost.SampleDataList = oldData; }
+        finally { AudioHost.SampleList = oldSamples; AudioHost.SampleDataList = oldData; }
     }
 
     [Theory]
@@ -146,24 +146,24 @@ public sealed class MapNetSoundFailureTests
     [InlineData(true)]
     public void MissingAndCorruptSdlWavesLeaveNoCacheEntryOnRetry(bool corrupt)
     {
-        var oldSamples = Aow.Game.Audio.AudioHost.SampleList;
-        var oldData = Aow.Game.Audio.AudioHost.SampleDataList;
-        var oldSystems = Aow.Game.Audio.AudioHost.SoundSystems;
-        var oldPath = Aow.Game.Audio.AudioHost.BaseSoundEnginePath;
+        var oldSamples = AudioHost.SampleList;
+        var oldData = AudioHost.SampleDataList;
+        var oldSystems = AudioHost.SoundSystems;
+        var oldPath = AudioHost.BaseSoundEnginePath;
         var oldFiles = Runtime.Files;
-        Aow.Game.Audio.AudioHost.SampleList = new SampleList();
-        Aow.Game.Audio.AudioHost.SampleDataList = new SampleDataList();
-        Aow.Game.Audio.AudioHost.SoundSystems = new SoundSystemList();
+        AudioHost.SampleList = new SampleList();
+        AudioHost.SampleDataList = new SampleDataList();
+        AudioHost.SoundSystems = new SoundSystemList();
         string path = Path.Combine(AppContext.BaseDirectory, "9.3b-8-corrupt.wav");
         if (corrupt) File.WriteAllBytes(path, [1, 2, 3]);
         else path += ".missing";
-        Aow.Game.Audio.AudioHost.BaseSoundEnginePath = "";
+        AudioHost.BaseSoundEnginePath = "";
         var files = new ObservingFiles(oldFiles, path);
         Runtime.Files = files;
         try
         {
-            TSdlSoundSystem.Install(mute: true, audioOutput: false);
-            var meta = TSdlSoundSystem.SampleData;
+            SdlSoundSystem.Install(mute: true, audioOutput: false);
+            var meta = SdlSoundSystem.SampleData;
             SampleData? previous = null;
             for (int i = 0; i < 2; i++)
             {
@@ -174,9 +174,9 @@ public sealed class MapNetSoundFailureTests
                     Assert.Equal("Expected RIFF WAVE data.", error.Message);
                 }
                 else Assert.IsType<FileNotFoundException>(error);
-                Assert.Null(Aow.Game.Audio.AudioHost.SampleDataList.Find(path));
-                Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleDataList.Count);
-                Assert.Equal(0, Aow.Game.Audio.AudioHost.SampleList.Count);
+                Assert.Null(AudioHost.SampleDataList.Find(path));
+                Assert.Equal(0, AudioHost.SampleDataList.Count);
+                Assert.Equal(0, AudioHost.SampleList.Count);
                 Assert.NotNull(files.Published);
                 Assert.Equal(1, files.Published.RefCount);
                 Assert.NotSame(previous, files.Published);
@@ -186,10 +186,10 @@ public sealed class MapNetSoundFailureTests
         finally
         {
             if (corrupt) File.Delete(path);
-            Aow.Game.Audio.AudioHost.SampleList = oldSamples;
-            Aow.Game.Audio.AudioHost.SampleDataList = oldData;
-            Aow.Game.Audio.AudioHost.SoundSystems = oldSystems;
-            Aow.Game.Audio.AudioHost.BaseSoundEnginePath = oldPath;
+            AudioHost.SampleList = oldSamples;
+            AudioHost.SampleDataList = oldData;
+            AudioHost.SoundSystems = oldSystems;
+            AudioHost.BaseSoundEnginePath = oldPath;
             Runtime.Files = oldFiles;
         }
     }

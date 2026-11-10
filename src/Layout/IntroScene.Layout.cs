@@ -67,12 +67,12 @@ public partial class IntroScene : ILayoutModule
         Window.Dockable = false;
         Window.OnDrawSurfaceEx = WindowDrawSurfaceEx;
         session.EndRead(Window);
-        var created__VideoPlayer = new LayoutTVideoPlayer(this);
+        LayoutVideoPlayer created__VideoPlayer = new LayoutVideoPlayer(this);
         VideoPlayer = created__VideoPlayer;
         session.BeginRead(created__VideoPlayer);
         created__VideoPlayer.Name = "VideoPlayer";
         created__VideoPlayer.OnStreamSound = VideoPlayerStreamSound;
-        created__VideoPlayer.Loopmode = Aow.Game.Layout.LayoutTVideoPlayer.VideoPlayerLoopMode.None;
+        created__VideoPlayer.Loopmode = LayoutVideoPlayer.VideoPlayerLoopMode.None;
         created__VideoPlayer.Options = Set<VideoPlayerOptions_Element>.Of(VideoPlayerOptions_Element.SoundEnabled, VideoPlayerOptions_Element.VideoEnabled);
         session.EndRead(created__VideoPlayer);
         session.EndRead(this);
@@ -80,7 +80,7 @@ public partial class IntroScene : ILayoutModule
         Window.Loaded();
         VideoPlayer.Loaded();
         session.Resolve(this);
-        Window.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        Window.WinManager = DialogHosts.General.Manager;
     }
 
     private void Layout_WindowUpdate_0()

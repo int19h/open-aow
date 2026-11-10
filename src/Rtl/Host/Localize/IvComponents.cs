@@ -2,10 +2,10 @@ namespace Aow.Rtl.Localize;
 
 public class IvTranslator : IvCustomTranslator
 {
-    public IvTranslator(global::Aow.Rtl.Component? owner = null) : base(owner) { }
+    public IvTranslator(Component? owner = null) : base(owner) { }
 }
 
-public partial class IvDictionary : global::Aow.Rtl.Component
+public partial class IvDictionary : Component
 {
     public string FFileName = "";
     public int FLanguage;

@@ -59,12 +59,12 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     private static void Apply(Structure structure, State state)
     {
         if (structure is PlayerStructure player) player.FPlayer = state.Owned ? Viewer : OtherPlayer;
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug = state.Debug;
+        Game.Magic.Abilities.GameTables.AoWEngine.FDebug = state.Debug;
         structure.FBuildingPlayer = state.Building ? (sbyte)3 : (sbyte)-1;
         if (state.Razed) Raze(structure);
         if (structure is City city)
         {
-            var war = Set<Aow.Game.World.Structures.City.ModeElement>.Of(Aow.Game.World.Structures.City.ModeElement.Warmode);
+            var war = Set<City.ModeElement>.Of(City.ModeElement.Warmode);
             city.FMode = state.War ? city.FMode + war : city.FMode - war;
         }
         Assert.Equal(state.Razed, structure.GetRazed());
@@ -76,14 +76,14 @@ public sealed class StructureViewTests(ITestOutputHelper output)
     {
         switch (structure)
         {
-            case City city: city.FMode = city.FMode + Set<Aow.Game.World.Structures.City.ModeElement>.Of(Aow.Game.World.Structures.City.ModeElement.Razed); break;
-            case Farm farm: farm.FMode = farm.FMode + Set<Aow.Game.World.Structures.Farm.ModeElement>.Of(Aow.Game.World.Structures.Farm.ModeElement.Razed); break;
+            case City city: city.FMode = city.FMode + Set<City.ModeElement>.Of(City.ModeElement.Razed); break;
+            case Farm farm: farm.FMode = farm.FMode + Set<Farm.ModeElement>.Of(Farm.ModeElement.Razed); break;
             case Mine mine: mine.FState |= 1; break;
-            case PowerNode node: node.FState = node.FState + Set<Aow.Game.World.Structures.PowerNode.StateElement>.Of(Aow.Game.World.Structures.PowerNode.StateElement.Razed); break;
+            case PowerNode node: node.FState = node.FState + Set<PowerNode.StateElement>.Of(PowerNode.StateElement.Razed); break;
             case ProductionPlace place: place.FRazedState = 1; break;
-            case Teleport teleport: teleport.FState = teleport.FState + Set<Aow.Game.World.Structures.Teleport.StateElement>.Of(Aow.Game.World.Structures.Teleport.StateElement.Razed); break;
-            case Tower tower: tower.FState = tower.FState + Set<Aow.Game.World.Structures.Tower.StateElement>.Of(Aow.Game.World.Structures.Tower.StateElement.Razed); break;
-            case Altar altar: altar.FMode = Aow.Game.World.Structures.Altar.Mode.Razed; break;
+            case Teleport teleport: teleport.FState = teleport.FState + Set<Teleport.StateElement>.Of(Teleport.StateElement.Razed); break;
+            case Tower tower: tower.FState = tower.FState + Set<Tower.StateElement>.Of(Tower.StateElement.Razed); break;
+            case Altar altar: altar.FMode = Altar.Mode.Razed; break;
             default: throw new InvalidOperationException("no razed state for " + structure.GetType().Name);
         }
     }
@@ -95,9 +95,9 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         if (Structure.GetRazed()) return "Razed";
         if (Structure is PlayerStructure)
         {
-            if (((PlayerStructure)Structure).FPlayer == Seated || Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
+            if (((PlayerStructure)Structure).FPlayer == Seated || Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
             {
-                if (Structure is City) return ((City)Structure).FMode.Contains(Aow.Game.World.Structures.City.ModeElement.Warmode) ? "WarCity" : "City";
+                if (Structure is City) return ((City)Structure).FMode.Contains(City.ModeElement.Warmode) ? "WarCity" : "City";
                 if (Structure is ProductionPlace) return ((ProductionPlace)Structure).GetMagicSphere() == MagicSphere.None ? "Production" : "ProductionIncome";
                 if (Structure is Mine) return "Mine";
                 if (Structure is PowerNode) return "PowerNode";
@@ -106,7 +106,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
                 if (Structure is Altar) return "Altar";
                 return "Generic";
             }
-            if (Structure is City && ((City)Structure).FMode.Contains(Aow.Game.World.Structures.City.ModeElement.Warmode)) return "WarCity";
+            if (Structure is City && ((City)Structure).FMode.Contains(City.ModeElement.Warmode)) return "WarCity";
             return "OtherPlayer";
         }
         if (Structure is Sign) return "Sign";
@@ -206,8 +206,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
-        private readonly bool previousDebug = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug;
+        private readonly AoWHSMap previousMap = AoWHSMap.Current;
+        private readonly bool previousDebug = Game.Magic.Abilities.GameTables.AoWEngine.FDebug;
         private readonly List<Structure> created = [];
         internal readonly AoWHSMap Map;
 
@@ -215,7 +215,7 @@ public sealed class StructureViewTests(ITestOutputHelper output)
         {
             Map = new AoWHSMap(null!);
             Map.FSeatedPlayer = Viewer;
-            Aow.Game.World.Map.AoWHSMap.Current = Map;
+            AoWHSMap.Current = Map;
         }
 
         internal (Structure Structure, ArmyOwner Owner) Create(Type type)
@@ -229,8 +229,8 @@ public sealed class StructureViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug = previousDebug;
+            AoWHSMap.Current = previousMap;
+            Game.Magic.Abilities.GameTables.AoWEngine.FDebug = previousDebug;
             // Some kinds need a world to tear down (ClassRegistryTests lists them).
             foreach (var structure in created) _ = Record.Exception(structure.Dispose);
         }

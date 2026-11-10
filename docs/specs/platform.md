@@ -22,15 +22,15 @@ as read on 2026-10-25. Section 7 gained the replacement primitive and the file l
    either separator, because the source spells the same directories three ways.
 3. Audio is rewritten behind the original's own abstraction. `Sound.pas` already defines an
    abstract `TSoundSystem` with one backend, `GalSndS.pas` over `Galaxy.dll`; the port supplies a
-   second backend, `TSdlSoundSystem`, that mixes WAV samples in C# and plays the Impulse Tracker
+   second backend, `SdlSoundSystem` (Delphi `TSdlSoundSystem`), that mixes WAV samples in C# and plays the Impulse Tracker
    songs through libopenmpt, with the Galaxy backend's volume, panning, fade and loop semantics
    (section 5).
 4. The intro video is optional. `INTRO.AVI` is Indeo Video 3.2 (`IV32`), a codec no managed library
    decodes. The host plays it when an FFmpeg library with the `indeo3` decoder is available at run
    time and otherwise behaves as if `Skip Intro` were set. Nothing else in the game is video.
-5. Settings replace the registry one to one: the 40 values `TAoWRegistry` reads and writes under
+5. Settings replace the registry one to one: the 40 values `AoWRegistry` (Delphi `TAoWRegistry`) reads and writes under
    `\Software\Triumph Studios\Age of Wonders\<Section>` become entries of a settings file in the
-   user data directory, keyed `Section/Name`, read and written through the shim's `TRegistry`
+   user data directory, keyed `Section/Name`, read and written through the shim's `Registry` (Delphi `TRegistry`)
    (`rtl-shim.md`). File associations and the DirectPlay lobby registration are no-ops.
 6. The CD check and the single-instance mapping go. `CanStartGame` returns `True`; the memory check
    with it is meaningless today. The `dplobby` command line start is ignored until networking
@@ -39,16 +39,16 @@ as read on 2026-10-25. Section 7 gained the replacement primitive and the file l
 ## 2. Startup and the main form
 
 `AoW.dpr` (`ui-layout.md` 4.1) is transcribed as `Program.Main`: set the title, create the 77 data
-modules in order, create the main form, run. `TMainForm` is the host object. Its handlers are
+modules in order, create the main form, run. `MainForm` (Delphi `TMainForm`) is the host object. Its handlers are
 transcribed, with the Windows parts replaced:
 
 | handler | what it does | host replacement |
 |---|---|---|
-| `FormCreate` | `RegisterTacticalCombat`; client size 640 by 480; registers the lobby server; loads `RELEASE\RELEASE.HSS` (the scenario set); debug window when debug mode; `DXDC.UseVideoMemory` from detail level; window state and position from settings; sound settings from the registry (section 5.1); `DD.SetCooperativeLevel`; `InitializeSoundSystem('Galaxy', ...)` when sound quality is not 0, then music and SFX volume; video size and mode from settings, full screen when the mode says so; `General.Manager` size from the back surface; multiplayer names from settings; `RestoreWindowLayout`; `SetCurrentDir(StartupDirectory)`; combat font | the lobby registration, `DXDC`, `WinDC` and `DD` lines fall away or address `TSdlDC` and the fullscreen flag; `InitializeSoundSystem('SDL', ...)`; the debug window becomes a log |
+| `FormCreate` | `RegisterTacticalCombat`; client size 640 by 480; registers the lobby server; loads `RELEASE\RELEASE.HSS` (the scenario set); debug window when debug mode; `DXDC.UseVideoMemory` from detail level; window state and position from settings; sound settings from the registry (section 5.1); `DD.SetCooperativeLevel`; `InitializeSoundSystem('Galaxy', ...)` when sound quality is not 0, then music and SFX volume; video size and mode from settings, full screen when the mode says so; `General.Manager` size from the back surface; multiplayer names from settings; `RestoreWindowLayout`; `SetCurrentDir(StartupDirectory)`; combat font | the lobby registration, `DXDC`, `WinDC` and `DD` lines fall away or address `SdlDC` (Delphi `TSdlDC`) and the fullscreen flag; `InitializeSoundSystem('SDL', ...)`; the debug window becomes a log |
 | `FormShow` | `ParamStr(1)`: `dplobby` starts the lobby, an existing `.asg` or `.acg` queues `DeferredSetupAction := 2` behind the title scene, else splash (demo), intro (`IntroScene.Execute`) unless debug or `Skip Intro`, else the title scene | the same, with the first argument of the port's command line as `ParamStr(1)` |
 | `DisplayUpdateFrame` | the frame procedure (`graphics.md` 7.2) | transcribed |
 | `DisplayMouseDown`, `DisplayMouseMove`, `DisplayMouseUp`, `DisplayDblClick`, `DisplayKeyDown`, `DisplayKeyPress` | forward to `General.Manager` (`CheckMouseDown` and the others) with modal checks | called by the event pump (section 3) |
-| `DisplayResizeBackSurface`, `DisplaySurfaceDataLost`, `DisplayActivateDC`, `DisplaySwapDC` | manager size and layout reset, video mode bookkeeping | transcribed against `TSdlDC` |
+| `DisplayResizeBackSurface`, `DisplaySurfaceDataLost`, `DisplayActivateDC`, `DisplaySwapDC` | manager size and layout reset, video mode bookkeeping | transcribed against `SdlDC` |
 | `FormCloseQuery` | asks the map to exit (`ExitGame(egmTerminate)`), refuses while in combat with a confirm dialog | the window close event asks the same question |
 | `FormDestroy` | releases sound, saves the layout and every setting | the same on exit |
 
@@ -84,7 +84,7 @@ The headless host (section 10) has no renderer and is unaffected.
 | mouse wheel | `MouseWheel(steps, shift, x, y)` on `IDisplayEvents` at the pointer mapped through the viewport. Positive steps is a roll away from the user. A flipped wheel is corrected before the steps are counted. Fractional y accumulates until it reaches a whole step. A roll whose sign differs from the remainder clears the remainder first. A point outside the output is ignored and does not add to the remainder. This is a port addition the original does not have. `HeadlessDisplayHost.Wheel` uses the same mapper. Section 7 of `ui-layout.md` says where the wheel goes |
 | key down | `DisplayKeyDown(Sender, Key, Shift)` with a Windows virtual key code. The game tests `VK_ESCAPE` (23 sites), the arrows, `VK_SPACE`, `VK_RETURN`, `VK_DELETE`, `VK_PRIOR`, `VK_NEXT` and `VK_F1`, `F3` to `F8`, `F11`, `F12`, and compares letter keys against `Ord('A')` style constants, so the mapping covers the full virtual key set: letters and digits from the SDL keycode (upper-cased ASCII), the rest from a table of SDL scancodes to `VK_*` values. Key repeat is delivered as the original received `WM_KEYDOWN` repeats |
 | text input | `DisplayKeyPress(Sender, Key)` with the character converted from UTF-8 to code page 1252; a character outside the code page is dropped. The control characters the VCL delivered through `WM_CHAR` are synthesized from key down: `#13` for Return, `#8` for Backspace, `#27` for Escape, `#9` for Tab |
-| window resize, focus gained or lost, close requested | `TCustomDisplay.Resize`, `Application.Active`, `FormCloseQuery` |
+| window resize, focus gained or lost, close requested | `CustomDisplay.Resize` (Delphi `TCustomDisplay`), `Application.Active`, `FormCloseQuery` |
 
 `ScrollMap` scrolls when the pointer is at the window edge and `Application.Active`; the host's
 focus flag is that value. Text input is enabled while the window has focus.
@@ -104,7 +104,7 @@ the editor's profiling and the DirectPlay ping (`testing.md` 3.3). The headless 
 ### 5.1 The contract
 
 `Sound.pas` is transpiled: `TSampleData`, `TSample`, `TSoundSystem` (abstract), `TSongPlayer`,
-`TSonglist`, the sample cache (`LockSampleData`, `CreateSampleData`, `PlaySample`, `PlaySampleEx`)
+`Songlist` (Delphi `TSonglist`), the sample cache (`LockSampleData`, `CreateSampleData`, `PlaySample`, `PlaySampleEx`)
 and the unit routines (`InitializeSoundSystem(Name, Settings)`, `ProcessSound`, `SetMusicVolume`,
 `FadeMusicVolume`, `PlaySong`, `PlaySongEx`, `StopSong`, `BackupSongStatus`, `RestoreSongStatus`
 and the rest). `GalSndS.pas` and `Galaxy.pas` are dropped and `TSdlSoundSystem` registers itself
@@ -123,7 +123,7 @@ behavior it must reproduce is the Galaxy backend's, read from `GalSndS.pas`:
 | sample `Play` | panning left 0, center `$4000`, right `$7FFF`, surround `$8000`; volume `Round(V * $7FFF / 100)` or the sample's own; looped samples set the loop over the whole sample; `glxStartSample` on a free voice | a voice with the same gain and pan, surround treated as center |
 | `SetVolume`, `SetPanning` on a playing sample | `glxControlSample(Voice, -1, Volume, Pan)` | adjust the voice |
 | `Stop`, `GetPlaying` | voice stop and status | the same |
-| `TSampleData.Create(Name)` | `glxfOpen(BaseSoundEnginePath + Name)` and `glxLoadSample`: a RIFF WAV file | the WAV reader of section 5.2 |
+| `SampleData.Create(Name)` | `glxfOpen(BaseSoundEnginePath + Name)` and `glxLoadSample`: a RIFF WAV file | the WAV reader of section 5.2 |
 | `CreateEx(Format, Data, Size)` | a raw PCM buffer with a `WAVEFORMATEX` (the video player's audio) | the same buffer path |
 
 ### 5.2 The assets
@@ -154,7 +154,7 @@ finishing when `vpsPlaying` leaves the status. The file is 94 MB: 640 by 480, 15
 2,033 frames, video `IV32` (Indeo 3.2) at 24 bits, audio PCM stereo 16-bit 22050. The decoder
 implementation binds FFmpeg's `libavcodec` (`indeo3`) and `libavformat` when their shared libraries
 are present next to the port or on the system path; the frames are converted to the back surface's
-555 format with `RemapSurfacePart`'s path, and the audio goes through `TSampleData.CreateEx`. Without
+555 format with `RemapSurfacePart`'s path, and the audio goes through `SampleData.CreateEx` (Delphi `TSampleData`). Without
 the libraries `Open` returns `False` and `IntroScene` finishes at once, which is what the original did
 when the codec was missing.
 
@@ -196,7 +196,7 @@ when the codec was missing.
 6. Mobile later: the root layer is a zip the user supplies (`../design.md`), read through the same
    interface; the listing and the case-insensitive lookup come from the archive's central directory.
 
-`TFastLoadFileStream` and `TFileStream` open through the service. `DeleteFile` (4 sites: user lists,
+`FastLoadFileStream` (Delphi `TFastLoadFileStream`) and `TFileStream` open through the service. `DeleteFile` (4 sites: user lists,
 e-mail attachments) acts on the user layer only.
 
 Saves, maps, campaigns, the scenario set and the user lists pass through the game's file boundary
@@ -223,7 +223,7 @@ Saves, maps, campaigns, the scenario set and the user lists pass through the gam
 
 ## 8. Settings
 
-`TAoWRegistry` (transpiled) reads and writes these values through `rwInteger`, `rwBool`,
+`AoWRegistry` (transpiled) reads and writes these values through `rwInteger`, `rwBool`,
 `rwString`, `rwRect` and `rwBinaryData` under `\Software\Triumph Studios\Age of Wonders\<Section>`:
 
 | section | values |
@@ -234,7 +234,7 @@ Saves, maps, campaigns, the scenario set and the user lists pass through the gam
 | `Workspace` | `Detail Level`, `Main Window State`, `Main Window Position`, `Map Window Position` |
 | `Email` | `SMTP Server`, `POP3 Server`, `POP3 UserName`, `POP3 Password`, `Local Email Address`, `Attachment Directory`, `Check Email Frequency` |
 
-The shim's `TRegistry` stores them in `settings.json` in the user layer as `Section/Name` with the
+The shim's `Registry` stores them in `settings.json` in the user layer as `Section/Name` with the
 value's kind (integer, boolean, string, rectangle, bytes); a missing value reads as the original's
 default, which the transpiled getters supply. `AssociateAoWMap` (file association under
 `\Software\Classes`), `RegisterDPlayLobbyServer` and `GetDeveloper`'s GUID key are no-ops.
@@ -254,13 +254,13 @@ Plug-ins. `LoadExternalPlugIns(StartupDirectory + 'PLUGINS')` scans for `.DPL` p
 them with `LoadPackage`. The shipped game has no `PLUGINS` directory, and `AbilityP.dpl` in the game
 root is loaded by neither executable (`data/initialization-order.json` lists 21 statically loaded
 packages, AbilityP not among them). The port's `LoadExternalPlugIns` scans and finds nothing; the
-`TPlugIn` registry stays as transpiled engine code with the one built-in plug-in
-(`TAbilityPlugIn` created by `TAoWEngine`), and `AbilityP` and `Adcpack` are outside the transpile
+`PlugIn` (Delphi `TPlugIn`) registry stays as transpiled engine code with the one built-in plug-in
+(`AbilityPlugIn` (Delphi `TAbilityPlugIn`) created by `AoWEngine` (Delphi `TAoWEngine`)), and `AbilityP` and `Adcpack` are outside the transpile
 set. Code mods (`../design.md` section 6) get their own entry point later.
 
-Networking. The engine's transport hook is small: `TRemotePCC.OnSendData(Data, Size, SystemID)` sends
-a package and `ReceiveDataPackage` takes one in; `aowSetupEvents` wires both to `TGDPlay`
-(`aowDPlayComp`, 68 call sites in `AoW`, none in the rules). The host supplies a `TGDPlay` stand-in
+Networking. The engine's transport hook is small: `RemotePCC.OnSendData(Data, Size, SystemID)` sends
+a package and `ReceiveDataPackage` takes one in; `aowSetupEvents` wires both to `GDPlay` (Delphi `TGDPlay`)
+(`aowDPlayComp`, 68 call sites in `AoW`, none in the rules). The host supplies a `GDPlay` stand-in
 whose `GetConnections` lists the TCP/IP provider alone, as DirectPlay does on any current Windows.
 The New Game window then shows "TCP Internet" and hides "IPX LAN" by the original's own logic, as
 the native frames show. `Connect` and `CreateSession` return `E_FAIL`, and `ConnectProvider` tells
@@ -280,7 +280,7 @@ from the form files and fail every operation, pending `../design.md` open questi
 ## 10. The headless host
 
 `src/Headless` (`testing.md` 3.2) implements `IRtlHost` with a fixed clock, a null display (no
-`TSdlDC`, `TCustomDisplay` not created, `DisplayUpdateFrame` runs with `DC = nil`), a null sound
+`SdlDC`, `CustomDisplay` not created, `DisplayUpdateFrame` runs with `DC = nil`), a null sound
 system registered under `'Galaxy'` that accepts every call, the scripted dialog service, the same
 file service with both layers on the run directory, and settings from a JSON given on the command
 line. It shares every line of the game and the shim with the desktop host; only the service
@@ -292,7 +292,7 @@ implementations differ.
   title scene, and the frame fixture of the title scene (`graphics.md` section 9) compares equal.
 - P2: the input mapping table is covered by a unit test for every virtual key the game tests and
   for the double-click synthesis.
-- P3: every setting of section 8 round-trips through the shim's `TRegistry` with the type the
+- P3: every setting of section 8 round-trips through the shim's `Registry` with the type the
   transpiled getter expects, and a missing setting yields the default.
 - P4: the file service resolves every path literal of the game code (the 45 most frequent are
   listed by `tools/survey/literals.py`) against the GOG tree, case-insensitively, and the current

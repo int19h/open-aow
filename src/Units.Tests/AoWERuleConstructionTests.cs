@@ -41,31 +41,31 @@ public sealed partial class AoWERuleConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet previousSet = Aow.Game.Engine.AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        private readonly AoWHSMap previousMap = Aow.Game.World.Map.AoWHSMap.Current;
+        private readonly AoWHSSet previousSet = AoWHSSet.Current;
+        private readonly AoWEngine previousEngine = GameTables.AoWEngine;
+        private readonly AoWHSMap previousMap = AoWHSMap.Current;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
         internal readonly AoWHSMap Map;
 
         internal Fixture()
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+            GameTables.AoWEngine = EngineFixture.Engine;
             Map = new AoWHSMap(null!);
             var set = EngineFixture.CreateGameSet(Manager);
-            Aow.Game.Engine.AoWHSSet.Current = set;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
+            AoWHSSet.Current = set;
+            GameTables.AoWEngine = null!;
             Map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
             Map.FRaces = new RaceList(null!);
             Map.FUnitControl = new UnitControl(null!);
             Map.FHeroControl = new HeroControl(null!);
-            Aow.Game.World.Map.AoWHSMap.Current = Map;
+            AoWHSMap.Current = Map;
         }
 
         public void Dispose()
         {
-            Aow.Game.Engine.AoWHSSet.Current = previousSet;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
-            Aow.Game.World.Map.AoWHSMap.Current = previousMap;
+            AoWHSSet.Current = previousSet;
+            GameTables.AoWEngine = previousEngine;
+            AoWHSMap.Current = previousMap;
             Manager.Dispose();
             Map.FRaces.Dispose();
             Map.FUnitControl.Dispose();
@@ -143,10 +143,10 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 1) return EClass.Of(type).Create(owner);
         if (route == 2)
         {
-            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+            if (EngineHost.Engines is null) EngineHost.Initialize();
             using var engine = new Engine(null!);
             var meta = EClass.Of(type);
-            engine.Options -= Set<EngineModeElement>.Of(Aow.Game.Engine.Engine.eoVerifyClasses);
+            engine.Options -= Set<EngineModeElement>.Of(Engine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
@@ -154,7 +154,7 @@ public sealed partial class AoWERuleConstructionTests
         }
         if (route == 3)
         {
-            var meta = Aow.Game.Engine.EClass.Of(type);
+            var meta = EClass.Of(type);
             return (object)Invoke(() => meta.GetType().GetMethod("Create", [typeof(ECustomNode)])!.Invoke(meta, [owner]))!;
         }
         var factory = type.GetMethods(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly).SingleOrDefault(x => x.Name == "Create");
@@ -239,7 +239,7 @@ public sealed partial class AoWERuleConstructionTests
             var value = (EObject)Create(type, null!, route, fixture);
             Assert.IsType(type, value);
             Assert.Null(value.Owner);
-            Assert.Same(Aow.Game.Engine.EClass.Of(type), value.EClass);
+            Assert.Same(EClass.Of(type), value.EClass);
             string state = Snapshot(value);
             try { value.Dispose(); }
             catch (System.Exception error) { state += "\n" + error.GetType().FullName + ":" + error.Message; }
@@ -289,7 +289,7 @@ public sealed partial class AoWERuleConstructionTests
     [Fact]
     public void DictionaryContinuesToIgnoreItsComponentOwner()
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
+        using var owner = new Component(null!);
         using var dictionary = new AoWDictionary(owner);
         Assert.Equal(0, owner.ComponentCount);
     }
@@ -298,10 +298,10 @@ public sealed partial class AoWERuleConstructionTests
     public void TacticalSelectorConstructorKeepsVirtualSettingsOrder()
     {
         using var fixture = new Fixture();
-        var value = new Aow.Game.Combat.CombatUnitSelectionControl();
+        var value = new CombatUnitSelectionControl();
         try
         {
-            Assert.IsType<Aow.Game.Combat.CombatMoveControlSettings>(value.FMoveControlSettings);
+            Assert.IsType<CombatMoveControlSettings>(value.FMoveControlSettings);
             Assert.NotNull(value.FMoveControlSettings.FPath);
             Assert.NotNull(value.FMoveControlSettings.FSubMoves);
             Assert.NotNull(value.FMoveControlSettings.FUnits);

@@ -19,9 +19,9 @@ public static class WindowActions
 {
     internal static void RestoreWindowLayout(object Controller)
     {
-        global::Aow.Rtl.Rect R;
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(6);
-        var scanner = Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow;
+        Rect R;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(6);
+        var scanner = DialogHosts.SWindow.ScannerWindow;
         if (R.Right != 0)
         {
             scanner.Alignment.TopOffset = R.Top;
@@ -37,8 +37,8 @@ public static class WindowActions
             scanner.WinHeight = scanner.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(0);
-        var playerInfo = Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.PInfoWin;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(0);
+        var playerInfo = DialogHosts.PInfoW.PInfoWin;
         if (R.Right != 0)
         {
             playerInfo.Alignment.BottomOffset = R.Top;
@@ -54,8 +54,8 @@ public static class WindowActions
             playerInfo.WinHeight = playerInfo.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(2);
-        var unitWindow = Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(2);
+        var unitWindow = DialogHosts.UnitWindow.UnitWin;
         if (R.Right != 0)
         {
             var alignment = unitWindow.Alignment;
@@ -77,10 +77,10 @@ public static class WindowActions
             unitWindow.WinHeight = unitWindow.MinHeight;
         }
 
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(3);
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(4);
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(5);
-        var realm = Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg;
+        GameTables.AoWEngine.FRegistry.GetRectangle(3);
+        GameTables.AoWEngine.FRegistry.GetRectangle(4);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(5);
+        var realm = DialogHosts.RealmWin.Dlg;
         if (R.Right != 0)
         {
             var alignment = realm.Alignment;
@@ -95,7 +95,7 @@ public static class WindowActions
         else
         {
             var alignment = realm.Alignment;
-            alignment.BottomOffset = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight;
+            alignment.BottomOffset = DialogHosts.TBWindow.TaskWindow.WinHeight;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.WinWidth;
             alignment.AlignWidth = AOWAlignWidth.Both;
@@ -105,8 +105,8 @@ public static class WindowActions
             realm.WinHeight = realm.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(13);
-        var magic = Aow.Game.Ui.Dialogs.DialogHosts.MagicWin.Dlg;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(13);
+        var magic = DialogHosts.MagicWin.Dlg;
         if (R.Right != 0)
         {
             var alignment = magic.Alignment;
@@ -121,7 +121,7 @@ public static class WindowActions
         else
         {
             var alignment = magic.Alignment;
-            alignment.BottomOffset = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight;
+            alignment.BottomOffset = DialogHosts.TBWindow.TaskWindow.WinHeight;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.WinWidth;
             alignment.AlignWidth = AOWAlignWidth.Both;
@@ -131,8 +131,8 @@ public static class WindowActions
             magic.WinHeight = magic.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(1);
-        var controls = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(1);
+        var controls = DialogHosts.ControlWin.ControlWindow;
         if (R.Right != 0)
         {
             controls.Alignment.TopOffset = R.Top;
@@ -148,8 +148,8 @@ public static class WindowActions
             controls.WinHeight = controls.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(7);
-        var info = Aow.Game.Ui.Dialogs.DialogHosts.IWindow.InfoWin;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(7);
+        var info = DialogHosts.IWindow.InfoWin;
         if (R.Right != 0)
         {
             info.Alignment.TopOffset = R.Top;
@@ -165,8 +165,8 @@ public static class WindowActions
             info.WinHeight = info.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(8);
-        var chat = Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.ChatWin;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(8);
+        var chat = DialogHosts.ChatWindow.ChatWin;
         if (R.Right != 0)
         {
             var alignment = chat.Alignment;
@@ -183,14 +183,14 @@ public static class WindowActions
             alignment.AlignWidth = AOWAlignWidth.Both;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.MinWidth;
-            alignment.BottomOffset = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight;
+            alignment.BottomOffset = DialogHosts.TBWindow.TaskWindow.WinHeight;
 
             chat.WinWidth = chat.MinWidth;
             chat.WinHeight = chat.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(12);
-        var tcScanner = Aow.Game.Ui.Dialogs.DialogHosts.TCScanner.TCScannerWin;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(12);
+        var tcScanner = DialogHosts.TCScanner.TCScannerWin;
         if (R.Right != 0)
         {
             tcScanner.Alignment.TopOffset = R.Top;
@@ -206,8 +206,8 @@ public static class WindowActions
             tcScanner.WinHeight = tcScanner.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(10);
-        var tcUnit = Aow.Game.Ui.Dialogs.DialogHosts.TCUnit.TCUnitWin;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(10);
+        var tcUnit = DialogHosts.TCUnit.TCUnitWin;
         if (R.Right != 0)
         {
             tcUnit.Alignment.BottomOffset = R.Top;
@@ -223,23 +223,23 @@ public static class WindowActions
             tcUnit.WinHeight = tcUnit.MinHeight;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(11);
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(11);
         if (R.Right != 0)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapRect = R;
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignHeight = AOWAlignHeight.Top;
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignWidth = AOWAlignWidth.Left;
+            DialogHosts.MWindow.FMapRect = R;
+            DialogHosts.MWindow.FMapAlignHeight = AOWAlignHeight.Top;
+            DialogHosts.MWindow.FMapAlignWidth = AOWAlignWidth.Left;
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignHeight = AOWAlignHeight.Both;
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapAlignWidth = AOWAlignWidth.Both;
-            var rect = global::Aow.Rtl.RtlUnit.Rect(0, 0, tcScanner.MinWidth, Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight);
-            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.FMapRect = rect;
+            DialogHosts.MWindow.FMapAlignHeight = AOWAlignHeight.Both;
+            DialogHosts.MWindow.FMapAlignWidth = AOWAlignWidth.Both;
+            var rect = new Rect(0, 0, tcScanner.MinWidth, DialogHosts.TBWindow.TaskWindow.WinHeight);
+            DialogHosts.MWindow.FMapRect = rect;
         }
 
-        R = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetRectangle(9);
-        var map = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow;
+        R = GameTables.AoWEngine.FRegistry.GetRectangle(9);
+        var map = DialogHosts.MWindow.MapWindow;
         if (R.Right != 0)
         {
             var alignment = map.Alignment;
@@ -259,7 +259,7 @@ public static class WindowActions
             alignment.TopOffset = 0;
             alignment.LeftOffset = 0;
             alignment.RightOffset = scanner.MinWidth;
-            alignment.BottomOffset = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TaskWindow.WinHeight;
+            alignment.BottomOffset = DialogHosts.TBWindow.TaskWindow.WinHeight;
         }
     }
 

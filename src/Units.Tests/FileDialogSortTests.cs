@@ -18,7 +18,7 @@ public sealed class FileDialogSortTests
     {
         WithDialog((dialog, settingsDir) =>
         {
-            Assert.False(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetFileDialogSortByDate());
+            Assert.False(Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetFileDialogSortByDate());
             Assert.True(Runtime.SetCurrentDir("one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "aaa.asg", "zzz.asg"], Names(dialog.FileLB));
@@ -26,7 +26,7 @@ public sealed class FileDialogSortTests
             Assert.DoesNotContain("note.txt", Names(dialog.FileLB));
             Assert.Equal(-1, dialog.FileLB.Selected);
 
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
+            Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
             dialog.FileLB.Selected = 0;
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileLB));
@@ -40,8 +40,8 @@ public sealed class FileDialogSortTests
             Assert.Equal(["gamma", "yyy.asg", "bbb.asg"], Names(dialog.FileLB));
 
             Runtime.Settings = new JsonSettingsStore(settingsDir);
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
-            Assert.True(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetFileDialogSortByDate());
+            Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
+            Assert.True(Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetFileDialogSortByDate());
             Assert.True(Runtime.SetCurrentDir("..\\one"));
             dialog.FindFiles();
             Assert.Equal(["alpha", "beta", "zzz.asg", "aaa.asg"], Names(dialog.FileLB));
@@ -53,10 +53,10 @@ public sealed class FileDialogSortTests
     {
         var older = new FileTime { FTime = 1 };
         var newer = new FileTime { FTime = 2 };
-        Assert.Equal(-1, Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("beta", "aaa.asg", null, older));
-        Assert.Equal(1, Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("aaa.asg", "beta", older, null));
-        Assert.True(Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("beta", "alpha", null, null) > 0);
-        Assert.Equal(1, Aow.Game.Ui.Dialogs.FileDlgWindow.CompareFileDates("aaa.asg", "zzz.asg", older, newer));
+        Assert.Equal(-1, FileDlgWindow.CompareFileDates("beta", "aaa.asg", null, older));
+        Assert.Equal(1, FileDlgWindow.CompareFileDates("aaa.asg", "beta", older, null));
+        Assert.True(FileDlgWindow.CompareFileDates("beta", "alpha", null, null) > 0);
+        Assert.Equal(1, FileDlgWindow.CompareFileDates("aaa.asg", "zzz.asg", older, newer));
 
         WithDialog((dialog, _) =>
         {
@@ -88,7 +88,7 @@ public sealed class FileDialogSortTests
     {
         WithDialog((dialog, _) =>
         {
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
+            Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetFileDialogSortByDate(true);
             dialog.FMode = 2;
             dialog.FileName.Text = "valley.map";
             dialog.SFileName.Text = "stale.asg";
@@ -112,10 +112,10 @@ public sealed class FileDialogSortTests
         string root = Path.Combine(directory, "root");
         string user = Path.Combine(directory, "user");
         string settingsDir = Path.Combine(directory, "settings");
-        var previousDirectories = Aow.Game.Ui.Dialogs.FileDlgWindow.Directories;
-        var previousFiles = Aow.Game.Ui.Dialogs.FileDlgWindow.Files;
-        var previousDrives = Aow.Game.Ui.Dialogs.FileDlgWindow.Drives;
-        var previousWindow = Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow;
+        var previousDirectories = FileDlgWindow.Directories;
+        var previousFiles = FileDlgWindow.Files;
+        var previousDrives = FileDlgWindow.Drives;
+        var previousWindow = DialogHosts.FileDlgWindow;
         FileDlgWindow? dialog = null;
         try
         {
@@ -124,10 +124,10 @@ public sealed class FileDialogSortTests
             WriteTree(user);
             Runtime.Files = new LayeredFileSystem(root, user);
             Runtime.Settings = new JsonSettingsStore(settingsDir);
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
-            Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = new StringList();
-            Aow.Game.Ui.Dialogs.FileDlgWindow.Files = new StringList();
-            Aow.Game.Ui.Dialogs.FileDlgWindow.Drives = new StringList();
+            Game.Magic.Abilities.GameTables.AoWEngine.FRegistry = new AoWRegistry();
+            FileDlgWindow.Directories = new StringList();
+            FileDlgWindow.Files = new StringList();
+            FileDlgWindow.Drives = new StringList();
             dialog = Dialog();
             body(dialog, settingsDir);
         }
@@ -152,10 +152,10 @@ public sealed class FileDialogSortTests
                 dialog.Dispose();
             }
 
-            Aow.Game.Ui.Dialogs.FileDlgWindow.Directories = previousDirectories;
-            Aow.Game.Ui.Dialogs.FileDlgWindow.Files = previousFiles;
-            Aow.Game.Ui.Dialogs.FileDlgWindow.Drives = previousDrives;
-            Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow = previousWindow;
+            FileDlgWindow.Directories = previousDirectories;
+            FileDlgWindow.Files = previousFiles;
+            FileDlgWindow.Drives = previousDrives;
+            DialogHosts.FileDlgWindow = previousWindow;
             if (Directory.Exists(directory)) Directory.Delete(directory, true);
         }
     }

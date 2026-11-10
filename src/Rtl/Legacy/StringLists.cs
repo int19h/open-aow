@@ -212,7 +212,7 @@ public class StringList : StringCollection
     public override int Count => count;
     // CLASSES.PAS TStringList.SetCapacity.
     public override int Capacity { get => items.Length; set { if (value < count) Error("List capacity out of bounds (%d)", value); Array.Resize(ref items, value); } }
-    public global::Aow.Rtl.Duplicates Duplicates { get; set; }
+    public Duplicates Duplicates { get; set; }
     public NotifyEvent<StringList>? OnChange { get; set; }
     public NotifyEvent<StringList>? OnChanging { get; set; }
 
@@ -255,8 +255,8 @@ public class StringList : StringCollection
         int i = count;
         if (Sorted && Find(value, ref i))
         {
-            if (Duplicates == global::Aow.Rtl.Duplicates.Ignore) return i;
-            if (Duplicates == global::Aow.Rtl.Duplicates.Error) Error("String list does not allow duplicates", 0);
+            if (Duplicates == Duplicates.Ignore) return i;
+            if (Duplicates == Duplicates.Error) Error("String list does not allow duplicates", 0);
         }
         InsertItem(i, value); return i;
     }
@@ -284,7 +284,7 @@ public class StringList : StringCollection
         {
             int i = (low + high) >> 1, c = AnsiCompareText(items[i].Text, value);
             if (c < 0) low = i + 1;
-            else { high = i - 1; if (c == 0) { result = true; if (Duplicates != global::Aow.Rtl.Duplicates.Accept) low = i; } }
+            else { high = i - 1; if (c == 0) { result = true; if (Duplicates != Duplicates.Accept) low = i; } }
         }
         index = low; return result;
     }

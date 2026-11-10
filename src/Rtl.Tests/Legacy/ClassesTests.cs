@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using static Aow.Rtl.RtlUnit;
 using Assert = Xunit.Assert;
 
@@ -57,34 +56,34 @@ public sealed class ClassesTests
         Assert.Equal("Cannot assign a Persistent to a Persistent", Assert.Throws<FormatException>(() => target.Assign(new Persistent())).Message);
         Assert.Null(target.GetOwner()); Assert.Equal("Persistent", target.GetNamePath());
         Assert.Equal("Persistent.Owned", new Owned(target).GetNamePath());
-        Assert.Equal("Owned", new Owned(new global::Aow.Rtl.Component(null!)).GetNamePath());
+        Assert.Equal("Owned", new Owned(new Component(null!)).GetNamePath());
         target.DefineProperties(null);
     }
 
-    private sealed class Watched(List<string> log) : global::Aow.Rtl.Component
+    private sealed class Watched(List<string> log) : Component
     {
-        public override void Notification(global::Aow.Rtl.Component component, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component component, Aow.Rtl.Component.Operation operation)
         {
-            log.Add($"notify {Name} {component.Name} {operation} destroying={component.ComponentState.Contains(global::Aow.Rtl.ComponentState.Destroying)}");
+            log.Add($"notify {Name} {component.Name} {operation} destroying={component.ComponentState.Contains(Rtl.ComponentState.Destroying)}");
             base.Notification(component, operation);
         }
 
         public override void Dispose()
         {
-            log.Add($"destroy {Name} owner={Owner?.Name} state={ComponentState.Contains(global::Aow.Rtl.ComponentState.Destroying)}");
+            log.Add($"destroy {Name} owner={Owner?.Name} state={ComponentState.Contains(Rtl.ComponentState.Destroying)}");
             base.Dispose();
         }
 
-        internal void Loading() => ComponentState = ComponentState.With(global::Aow.Rtl.ComponentState.Loading);
+        internal void Loading() => ComponentState = ComponentState.With(Rtl.ComponentState.Loading);
     }
 
     [Fact]
     public void ComponentsValidateNamesAndExposeSourceParentHooks()
     {
         // CLASSES.PAS:6170..6329. Parent and child hooks are empty in TComponent itself.
-        var owner = new global::Aow.Rtl.Component(null!) { Name = "Root", Tag = 42 };
-        var first = new global::Aow.Rtl.Component(owner) { Name = "A_1" };
-        var second = new global::Aow.Rtl.Component(owner) { Name = "B" };
+        var owner = new Component(null!) { Name = "Root", Tag = 42 };
+        var first = new Component(owner) { Name = "A_1" };
+        var second = new Component(owner) { Name = "B" };
         Assert.Same(owner, first.Owner); Assert.Same(owner, first.GetOwner());
         Assert.Equal(2, owner.ComponentCount); Assert.Same(first, owner.Components[0]);
         Assert.Equal(42, owner.Tag); Assert.Equal("A_1", first.GetNamePath());
@@ -94,14 +93,14 @@ public sealed class ClassesTests
         first.Name = "a_1"; first.Name = "a_1";
         first.ComponentIndex = 99; Assert.Same(first, owner.Components[1]);
         first.ComponentIndex = -1; Assert.Same(first, owner.Components[0]); first.ComponentIndex = 0;
-        Assert.Throws<ArgumentOutOfRangeException>(() => owner.Components[2]); Assert.Throws<ArgumentOutOfRangeException>(() => new global::Aow.Rtl.Component(null!).Components[0]);
+        Assert.Throws<ArgumentOutOfRangeException>(() => owner.Components[2]); Assert.Throws<ArgumentOutOfRangeException>(() => new Component(null!).Components[0]);
         Assert.False(first.HasParent()); Assert.Null(first.GetParentComponent());
         int calls = 0; owner.GetChildren(_ => calls++, owner); Assert.Equal(0, calls);
         owner.SetChildOrder(first, 1); Assert.Equal(0, first.ComponentIndex);
         owner.DefineProperties(null); owner.Loaded();
         owner.RemoveComponent(first); Assert.Null(first.Owner); Assert.Equal(-1, first.ComponentIndex); first.ComponentIndex = 0;
         owner.InsertComponent(first); Assert.Equal(1, first.ComponentIndex);
-        using var duplicate = new global::Aow.Rtl.Component(null!) { Name = "B" }; Assert.Throws<ArgumentException>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
+        using var duplicate = new Component(null!) { Name = "B" }; Assert.Throws<ArgumentException>(() => owner.InsertComponent(duplicate)); Assert.Null(duplicate.Owner);
         owner.DestroyComponents(); Assert.Equal(0, owner.ComponentCount); Assert.Null(first.Owner); Assert.Null(second.Owner);
         owner.Dispose();
     }
@@ -119,17 +118,17 @@ public sealed class ClassesTests
         Assert.False(root.ComponentState.Contains(ComponentState.Designing));
         log.Clear(); observer.Dispose(); Assert.Single(log);
         var loading = new Watched(log); loading.Loading(); Assert.True(loading.ComponentState.Contains(ComponentState.Loading)); loading.Loaded(); Assert.False(loading.ComponentState.Contains(ComponentState.Loading));
-        var owner = new global::Aow.Rtl.Component(null!); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
+        var owner = new Component(null!); a = new Watched(log) { Name = "a" }; b = new Watched(log) { Name = "b" }; owner.InsertComponent(a); owner.InsertComponent(b); a.FreeNotification(b); log.Clear();
         a.Dispose(); Assert.Equal(1, owner.ComponentCount); Assert.Contains(log, line => line.StartsWith("notify b a Remove", StringComparison.Ordinal)); owner.Dispose();
-        using var tree = new global::Aow.Rtl.Component(null!); var sub = new global::Aow.Rtl.Component(tree); var leaf = new global::Aow.Rtl.Component(sub); tree.Destroying(); tree.Destroying();
+        using var tree = new Component(null!); var sub = new Component(tree); var leaf = new Component(sub); tree.Destroying(); tree.Destroying();
         Assert.True(leaf.ComponentState.Contains(ComponentState.Destroying));
     }
 
     [Fact]
     public void ComponentConstructorInsertsAndDestroyRemovesOwnerMembership()
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
-        var instance = new global::Aow.Rtl.Component(owner);
+        using var owner = new Component(null!);
+        var instance = new Component(owner);
         Assert.Same(owner, instance.Owner);
         Assert.Equal(1, owner.ComponentCount);
         Assert.Same(instance, owner.Components[0]);
@@ -138,9 +137,9 @@ public sealed class ClassesTests
         Assert.Equal(0, owner.ComponentCount);
     }
 
-    private class PublishedBase : global::Aow.Rtl.Component
+    private class PublishedBase : Component
     {
-        [Published, DefaultValue(7)] public int Amount { get; set; }
+        [Published, System.ComponentModel.DefaultValue(7)] public int Amount { get; set; }
         [Published] public int ReadOnly => 1;
         public int Hidden { get; set; }
     }

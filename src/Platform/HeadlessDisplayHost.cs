@@ -40,7 +40,7 @@ public sealed class HeadlessDisplayHost(string directory, int width = 640, int h
 
     public void Present(in SurfaceDesc surface)
     {
-        if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatID != Aow.Game.Draw.PixelFormats.pfRGB555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
+        if (surface.Width < 1 || surface.Height < 1 || surface.BitCount != 16 || surface.PixelFormatID != PixelFormats.pfRGB555 || Math.Abs((long)surface.Pitch) < surface.Width * 2L)
             throw new ArgumentException("The presenter requires 555 rows with a valid pitch.", nameof(surface));
         ClientSize = (surface.Width, surface.Height);
         Frame++;

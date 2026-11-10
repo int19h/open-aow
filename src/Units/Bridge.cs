@@ -31,7 +31,7 @@ public partial class Bridge : AbstractRoad
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         ((Resource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
     }
 
@@ -42,7 +42,7 @@ public partial class Bridge : AbstractRoad
     {
         MapField MapField;
         HexagonSprite OldRoad;
-        global::Aow.Game.World.Map.MapField OldOwner;
+        MapField OldOwner;
         MapField = MapContainer.GetField(Xhx, Yhx, Lhx);
         OldRoad = MapField.FindHS(typeof(AbstractRoad));
         if (OldRoad != null)
@@ -50,11 +50,11 @@ public partial class Bridge : AbstractRoad
             OldRoad.Dispose();
         }
 
-        OldOwner = (global::Aow.Game.World.Map.MapField)Owner;
+        OldOwner = (MapField)Owner;
         Owner = MapField;
         FStatus = FStatus + Set<MapObjectStatusElement>.Of(MapObjectStatusElement.PlacedOnMap);
         // { The original refreshes the overlay of the previous field's owner, a map level read as a map field, which is undefined, so skipped. }
-        if (OldOwner?.Owner is global::Aow.Game.World.Map.MapField OldOwnerField)
+        if (OldOwner?.Owner is MapField OldOwnerField)
         {
             OldOwnerField.UpdateOverlayType();
         }
@@ -89,8 +89,8 @@ public partial class Bridge : AbstractRoad
         InShore = false;
         for (int HN = 1; HN <= 6; HN++)
         {
-            Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
-            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((global::Aow.Game.World.Map.MapField)Owner).Xhx, ((global::Aow.Game.World.Map.MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
+            HexGeometry.TranslateHX(0, 0, ((MapField)Owner).Xhx, ((MapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
@@ -364,7 +364,7 @@ public partial class Bridge : AbstractRoad
         // Bridge.pas:28
 
         // Bridge.pas:200
-        public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
+        public override string ResourceEditName() => HexText.BridgeStr;
 
     }
 

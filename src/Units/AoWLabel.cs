@@ -12,7 +12,7 @@ namespace Aow.Game.Ui.Controls;
 // no fields of its own
 public partial class AOWLabel : AOWControl
 {
-    public AOWLabel(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWLabel(Component owner) : base(owner)
     { }
 
     // AoWLabel.pas:38

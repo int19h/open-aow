@@ -450,7 +450,7 @@ public partial class TargetSelectionDlg : ILayoutModule
         TargetLbl.Text = "######";
         TargetLbl.TextColor = 16777215;
         session.EndRead(TargetLbl);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -492,20 +492,20 @@ public partial class TargetSelectionDlg : ILayoutModule
         TargetLbl.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        Dlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        CeltFrame.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        Close.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
-        Title.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        SIcon.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.TitleIcons;
-        MainBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        MainBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        DefaultMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        HeaderLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        SpellMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        TargetRangeLabel.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
-        TargetLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        Dlg.WinManager = DialogHosts.General.Manager;
+        Dlg.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        Dlg.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        CeltFrame.ILFrame = DialogHosts.IntGfxMod.CeltDeco;
+        Close.ILIcon = DialogHosts.IntGfxMod.GenericI;
+        Title.AOWFont = DialogHosts.FontModule.Age10;
+        SIcon.ImageLib = DialogHosts.IntGfxMod.TitleIcons;
+        MainBtn.AOWFont = DialogHosts.FontModule.Age10;
+        MainBtn.ILButton = DialogHosts.IntGfxMod.GenericB;
+        DefaultMemo.AOWFont = DialogHosts.FontModule.Age10s;
+        HeaderLbl.AOWFont = DialogHosts.FontModule.Age10s;
+        SpellMemo.AOWFont = DialogHosts.FontModule.Age10s;
+        TargetRangeLabel.AOWFont = DialogHosts.FontModule.Age10s;
+        TargetLbl.AOWFont = DialogHosts.FontModule.Age10s;
     }
 
     private void Layout_CloseClick_0()

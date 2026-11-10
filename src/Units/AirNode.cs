@@ -38,7 +38,7 @@ public partial class AirNode : ProductionPlace
         // AirNode.pas:27
 
         // AirNode.pas:52
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.AirNode.Resource.AirNodeRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AirNodeRStr);
 
         private static readonly string AirNodeRStr = "Air Node";
 

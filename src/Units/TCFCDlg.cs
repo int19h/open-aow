@@ -15,9 +15,9 @@ using static Aow.Rtl.RtlUnit;
 namespace Aow.Game.Ui.Dialogs;
 
 // combat request, completion event
-public partial class TCFCDialog : DataModule
+public partial class CombatChoice : DataModule
 {
-    public TCFCDialog(global::Aow.Rtl.Component owner) : base(owner)
+    public CombatChoice(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -46,7 +46,7 @@ public partial class TCFCDialog : DataModule
     {
         NotifyEvent<object> Done;
         CombatTypeRequestEventLog Request;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         Done = FOnDone;
         Request = FRequest;
         FOnDone = null;
@@ -65,7 +65,7 @@ public partial class TCFCDialog : DataModule
     // TCFCDlg.pas:57
     public void CancelBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FRequest.Select(0);
         Dlg.Visible = false;
     }
@@ -73,7 +73,7 @@ public partial class TCFCDialog : DataModule
     // TCFCDlg.pas:64
     public void FightBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -88,11 +88,11 @@ public partial class TCFCDialog : DataModule
 
         if (checkBox.Checked)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+            DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+            DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -107,11 +107,11 @@ public partial class TCFCDialog : DataModule
 
         if (checkBox.Checked)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+            DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+            DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -121,13 +121,13 @@ public partial class TCFCDialog : DataModule
         int X = default;
         int Y = default;
         SurfaceDesc ViewSD = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         int W;
         int H;
-        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);
+        World.Map.HexGeometry.HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -140,18 +140,18 @@ public partial class TCFCDialog : DataModule
             Y = 16;
         }
 
-        Aow.Game.Draw.SurfaceDesc.CreateSDfromSD(SD, R, ref ViewSD);
-        Aow.Game.World.Map.AoWHSMap.Current.SetViewPort(X, Y, FRequest.FL, R.Right - R.Left, R.Bottom - R.Top);
-        Aow.Game.World.Map.AoWHSMap.Current.UpdateStaticScene();
-        Aow.Game.World.Map.AoWHSMap.Current.UpdateDynamicScene();
-        Aow.Game.World.Map.AoWHSMap.Current.DrawStaticScene(ref ViewSD);
-        Aow.Game.World.Map.AoWHSMap.Current.DrawDynamicScene(ref ViewSD);
+        SurfaceDesc.CreateSDfromSD(SD, R, ref ViewSD);
+        World.Map.AoWHSMap.Current.SetViewPort(X, Y, FRequest.FL, R.Right - R.Left, R.Bottom - R.Top);
+        World.Map.AoWHSMap.Current.UpdateStaticScene();
+        World.Map.AoWHSMap.Current.UpdateDynamicScene();
+        World.Map.AoWHSMap.Current.DrawStaticScene(ref ViewSD);
+        World.Map.AoWHSMap.Current.DrawDynamicScene(ref ViewSD);
     }
 
     // TCFCDlg.pas:113
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (World.Map.AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // TCFCDlg.pas:116
@@ -182,9 +182,9 @@ public partial class TCFCDialog : DataModule
         Dlg.Visible = false;
     }
 
-    internal static void ShowCombatType(TCFCDialog Dialog, CombatTypeRequestEventLog Event, ExecuteDoneEvent Done)
+    internal static void ShowCombatType(CombatChoice Dialog, CombatTypeRequestEventLog Event, ExecuteDoneEvent Done)
     {
-        if (Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.FSkipCombatChoice)
+        if (DialogHosts.DialogWin.FSkipCombatChoice)
         {
             if (Dialog.TCchk.Checked)
             {
@@ -202,7 +202,7 @@ public partial class TCFCDialog : DataModule
             Dialog.FRequest = Event;
             Dialog.FRequest.AddRef();
             Dialog.FOnDone = RebindDelegate<NotifyEvent<object>>(Done);
-            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+            DialogHosts.General.Manager.OverlayPriority = 49;
             if (Dialog.TCchk.Checked)
             {
                 Event.Select((CombatType)2);
@@ -212,7 +212,7 @@ public partial class TCFCDialog : DataModule
                 Event.Select((CombatType)1);
             }
 
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Dialog.FRequest.FPlayer).FPlayerType == PlayerType.Human)
+            if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Dialog.FRequest.FPlayer).FPlayerType == PlayerType.Human)
             {
                 Dialog.CancelBtn.Visible = true;
                 Dialog.FightBtn.Alignment.AlignWidth = AOWAlignWidth.Left;
@@ -225,7 +225,7 @@ public partial class TCFCDialog : DataModule
 
             Dialog.Dlg.ReAlign();
             Dialog.Dlg.Visible = true;
-            Aow.Game.World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(61, true, true);
+            World.Map.AoWHSMap.Current.FTutorialControl.ShowMessage(61, true, true);
         }
     }
 

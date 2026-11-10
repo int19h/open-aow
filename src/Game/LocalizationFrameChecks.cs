@@ -27,22 +27,22 @@ internal static class LocalizationFrameChecks
             dictionary.Close();
         }
         var coverage = new List<object>();
-        var fonts = new[] { Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age16s,
-            Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8s, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Sessis14G, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey,
-            Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15BlackBrown, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10LB, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10b, Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10bs };
+        var fonts = new[] { DialogHosts.FontModule.Age8, DialogHosts.FontModule.Age10, DialogHosts.FontModule.Age16s,
+            DialogHosts.FontModule.Age10s, DialogHosts.FontModule.Age8s, DialogHosts.FontModule.Sessis14G, DialogHosts.FontModule.AoW15WhiteGrey,
+            DialogHosts.FontModule.AoW15BlackBrown, DialogHosts.FontModule.Age10LB, DialogHosts.FontModule.Age10b, DialogHosts.FontModule.Age10bs };
         foreach (var font in fonts)
         {
             byte[] missing = germanBytes.Where(code => !font.ImageExist(code) || font[code].Width <= 0 || font[code].Height <= 0).ToArray();
             coverage.Add(new { font = font.Name, missing = missing.Select(b => (int)b).ToArray() });
         }
-        string undead = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr("Undead(plural)");
+        string undead = Game.Magic.Abilities.AbilityRules.TranslateRStr("Undead(plural)");
         bool undeadEqual = language != 1 || undead == "Undead";
-        string mapCaption = Aow.Game.Ui.Dialogs.DialogHosts.SWindow.STitleLabel.Text;
+        string mapCaption = DialogHosts.SWindow.STitleLabel.Text;
         string expectedMapCaption = language == 2 ? "Weltkarte" : "World Map";
         if (mapCaption != expectedMapCaption) throw new InvalidOperationException("The startup form translation was not applied");
         // The file dialog title holds the one German text with a byte from 128 to 159 (ResStr.mld,
         // "Spiel speichern unter" and the ellipsis 0x85), shown by the languages-de-save fixture.
-        var dialogTitle = Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow?.Title?.Text ?? "";
+        var dialogTitle = DialogHosts.FileDlgWindow?.Title?.Text ?? "";
         var required = new SortedSet<string>(StringComparer.Ordinal);
         // A byte that no installed font draws, such as the ellipsis 0x85, leaves the original's
         // 5 pixel gap. The frame comparison checks that gap, so it is recorded, not a missing glyph.
@@ -52,7 +52,7 @@ internal static class LocalizationFrameChecks
         foreach (var module in layouts.Modules.Values)
             for (int index = 0; index < module.ComponentCount; index++)
             {
-                if (module.Components[index] is not Aow.Game.Ui.Controls.AOWControl control ||
+                if (module.Components[index] is not Game.Ui.Controls.AOWControl control ||
                     !control.Visible || control.FAOWWindow is not { Visible: true } || control.FAOWFont is not { } font) continue;
                 var texts = new List<string> { control.FText };
                 if (control.GetType().GetProperty("Items")?.GetValue(control) is StringCollection items)
@@ -98,19 +98,19 @@ internal static class LocalizationFrameChecks
         if (!undeadEqual) throw new InvalidOperationException("English Undead(plural) did not translate to Undead");
         if (language == 1)
         {
-            var left = new DIB16Surface(120, 40, Aow.Game.Draw.PixelFormats.pfRGB555);
-            var right = new DIB16Surface(120, 40, Aow.Game.Draw.PixelFormats.pfRGB555);
+            var left = new DIB16Surface(120, 40, PixelFormats.pfRGB555);
+            var right = new DIB16Surface(120, 40, PixelFormats.pfRGB555);
             try
             {
                 left.Cls(0);
                 right.Cls(0);
-                Aow.Game.Draw.SurfaceDesc l = default, r = default;
+                SurfaceDesc l = default, r = default;
                 left.Lock(ref l);
                 right.Lock(ref r);
                 try
                 {
-                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetText(0, 0, undead, l);
-                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetText(0, 0, "Undead", r);
+                    DialogHosts.FontModule.Age8.SetText(0, 0, undead, l);
+                    DialogHosts.FontModule.Age8.SetText(0, 0, "Undead", r);
                     var pixels = l.Data.AsSpan(l.DataIndex, l.Pitch * 40);
                     if (!pixels.SequenceEqual(r.Data.AsSpan(r.DataIndex, r.Pitch * 40)) || !pixels.ToArray().Any(b => b != 0))
                         throw new InvalidOperationException("English Undead rendering differs");

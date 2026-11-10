@@ -36,7 +36,7 @@ public partial class CombatRoad : AbstractRoad
         CustomImageLibrary Images;
         int X = default;
         int Y = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
         X = X - XhpSurf - 8;
         Y = Y - YhpSurf;
         Images = FResource.ImageSequenceList.GetImageSequence(0).ImageLibrary;
@@ -59,7 +59,7 @@ public partial class CombatRoad : AbstractRoad
     }
 
     // CombatRoad.pas:54
-    public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
     // CombatRoad.pas:57
     public override bool CanPlace(MapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx)
@@ -108,8 +108,8 @@ public partial class CombatRoad : AbstractRoad
         sbyte Overlay;
         int X = default;
         int Y = default;
-        MapLevel = (global::Aow.Game.World.Map.MapLevel)Owner.Owner;
-        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, HN, ref X, ref Y);
+        MapLevel = (MapLevel)Owner.Owner;
+        HexGeometry.CenterHNtoHX(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, HN, ref X, ref Y);
         if (X >= 0 && Y >= 0 && X < MapLevel.Width && Y < MapLevel.Height)
         {
             Overlay = MapLevel.GetField(X, Y).OverlayType;
@@ -166,9 +166,9 @@ public partial class CombatRoad : AbstractRoad
         }
 
         // CombatRoad.pas:153
-        public override Aow.Game.Draw.Images.LibraryImage GetCellImage()
+        public override LibraryImage GetCellImage()
         {
-            Aow.Game.Draw.Images.LibraryImage Result = null;
+            LibraryImage Result = null;
             if (ImageSequenceList != null && ImageSequenceList.Count > 0 && ImageSequenceList.GetImageSequence(0) != null)
             {
                 Result = ImageSequenceList.GetImageSequence(0).ImageLibrary.Get(10);

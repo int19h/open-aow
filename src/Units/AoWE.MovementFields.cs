@@ -72,12 +72,12 @@ public partial class MoveControl
         }
         if (failed) path.Clear();
         else if (field != null && points == 0) path.AddXYL(field.Xhx, field.Yhx, field.Lhx);
-        if (Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecuterStatusElement.Executing)) Aow.Game.World.Map.AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
+        if (AoWHSMap.Current.FAIExecuter.FStatus.Contains(AIExecuterStatusElement.Executing)) AoWHSMap.Current.FAIExecuter.UseProcessTime(path.Count);
     }
 
     private AoWMapField NeighborField(AoWMapField field, int direction)
     {
-        var delta = Aow.Game.World.Map.HexGeometry.HNtoXYTable[field.Xhx & 1][direction];
+        var delta = HexGeometry.HNtoXYTable[field.Xhx & 1][direction];
         return (AoWMapField)((MapLevel)field.Owner).GetField(field.Xhx + delta.X, field.Yhx + delta.Y);
     }
 
@@ -111,7 +111,7 @@ public partial class MoveControl
     {
         FProcessedCount++;
         int over = (field.FFieldFlags & 0x2000) == 0 ? 1 : field.CanMoveOver(this);
-        int left = Aow.Game.World.Movement.MoveControl.P5SideDirections[direction][0], right = Aow.Game.World.Movement.MoveControl.P5SideDirections[direction][1];
+        int left = P5SideDirections[direction][0], right = P5SideDirections[direction][1];
         int leftCount = CalculateMovePointLine(field, left, over);
         int rightCount = CalculateMovePointLine(field, right, over);
         if ((count & 0xff) != 0) ProcessHexagon(NeighborField(field, direction), direction, over == 2 ? count + 0xff : count - 1);
@@ -119,9 +119,9 @@ public partial class MoveControl
         if (rightCount != 0) ProcessHexagon(NeighborField(field, right), right, over == 2 ? rightCount + 0xff : rightCount - 1);
         if ((count & 0x100) != 0)
         {
-            int opposite = Aow.Game.World.Movement.MoveControl.P5OppositeDirections[direction];
-            left = Aow.Game.World.Movement.MoveControl.P5SideDirections[opposite][0];
-            right = Aow.Game.World.Movement.MoveControl.P5SideDirections[opposite][1];
+            int opposite = P5OppositeDirections[direction];
+            left = P5SideDirections[opposite][0];
+            right = P5SideDirections[opposite][1];
             leftCount = CalculateMovePointLine(field, left, over);
             rightCount = CalculateMovePointLine(field, right, over);
             if (leftCount != 0) ProcessHexagon(NeighborField(field, left), left, leftCount - 1);

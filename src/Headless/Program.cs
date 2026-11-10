@@ -115,11 +115,11 @@ internal static class Program
                 if (traceMovement) HeadlessHooks.MoveLine = randomTrace.Line;
             }
             Startup.InitializeAll();
-            Aow.Game.Audio.NullSoundSystem.Install();
-            Aow.Game.Combat.CombatClasses.Register(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+            Game.Audio.NullSoundSystem.Install();
+            CombatClasses.Register(Game.Magic.Abilities.GameTables.AoWEngine);
             gameplay = true;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
-            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.HSMap is not AoWHSMap map)
+            Game.Magic.Abilities.GameTables.AoWEngine.LoadHSM(input, false, null!, Aow.Formats.GameProfile.WorldMap);
+            if (Game.Magic.Abilities.GameTables.AoWEngine.HSMap is not AoWHSMap map)
                 throw new InvalidDataException("engine load failed" + (FileBoundary.LastFailure is { } refused ? ": " + refused : ""));
             map.SetViewPort(map.ViewXhp, map.ViewYhp, map.ViewL, 0, 0);
             Shim.RandSeed = seed;
@@ -132,9 +132,9 @@ internal static class Program
             map.FExecuteEventLogEvents += notification =>
             {
                 var info = notification.Info;
-                if (info.Log is Aow.Game.Events.MessageEventLog message)
+                if (info.Log is MessageEventLog message)
                 {
-                    bool yes = message.FButtons is Aow.Game.Events.MessageEventLog.Buttons.YesNo or Aow.Game.Events.MessageEventLog.Buttons.YesNoCancel;
+                    bool yes = message.FButtons is MessageEventLog.Buttons.YesNo or MessageEventLog.Buttons.YesNoCancel;
                     host.Show(new(message.FMessage.Text, message.FTitle, (int)message.FButtons, yes ? 6 : 1));
                     if (yes) message.Yes(); else message.OK();
                 }
@@ -170,7 +170,7 @@ internal static class Program
             CheckTodos();
             if (saves.Count == 0) Save(map.FPlayerControl);
             map.UpdateFPS(animationFps);
-            var viewer = new Aow.Game.World.Map.HSMapViewer(null!);
+            var viewer = new HSMapViewer(null!);
             viewer.HSMap = map;
             viewer.SceneWidth = viewportWidth;
             viewer.SceneHeight = viewportHeight;
@@ -186,7 +186,7 @@ internal static class Program
                     var player = map.FPlayers.GetPlayers(map.FCurrentPlayer);
                     Console.WriteLine($"frame {frames}, map {map.Status.Image:X}, player {map.FCurrentPlayer}, busy {player.GetBusy()}, ready {map.FTokenManager.PlayerReady(map.FCurrentPlayer)}, AI locks {map.FAILockCount}/{map.FAIExecuter.FLockCount}, AI {map.FAIExecuter.FStatus.Image:X}, phase {player.FAIControl.FPhase}, actions {player.FAIControl.FActions.Count}");
                 }
-                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is Aow.Game.Combat.AoWCombatMap tacticalMap)
+                if (randomTrace is not null && frames % 100000 == 0 && map.FCombatMap is AoWCombatMap tacticalMap)
                     Console.WriteLine($"combat frame {tacticalMap.Frame}, status {tacticalMap.Status.Image:X}, player {tacticalMap.FCurrentCombatPlayer}, end pending {tacticalMap.FEndTurnPending}, AI {tacticalMap.FAI.Status}, effects {tacticalMap.FEffects.Count}, result {tacticalMap.FCombat.FCombatResult}");
                 map.NewFrame();
                 CheckTodos();

@@ -260,7 +260,7 @@ public partial class CampaignJoinDlg : ILayoutModule
         ScrollTextDB.WinWidth = 340;
         ScrollTextDB.WinHeight = 100;
         session.EndRead(ScrollTextDB);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -288,19 +288,19 @@ public partial class CampaignJoinDlg : ILayoutModule
         ScrollTextDB.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        CharGenPnl.AOWWindow = Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin;
-        CharGenPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin;
-        LeaderTypePnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        LeaderTypePnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        CustomBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        CustomBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        DefaultBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        DefaultBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        LeaderTypeMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        DefaultFacePnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        DefaultFacePnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        CustomFacePnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        CustomFacePnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin;
+        CharGenPnl.AOWWindow = DialogHosts.TitleWindow.TitleWin;
+        CharGenPnl.ILTexture = DialogHosts.IntGfxMod.FactionWin;
+        LeaderTypePnl.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        LeaderTypePnl.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        CustomBtn.AOWFont = DialogHosts.FontModule.Age10;
+        CustomBtn.ILButton = DialogHosts.IntGfxMod.GenericB;
+        DefaultBtn.AOWFont = DialogHosts.FontModule.Age10;
+        DefaultBtn.ILButton = DialogHosts.IntGfxMod.GenericB;
+        LeaderTypeMsg.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        DefaultFacePnl.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        DefaultFacePnl.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        CustomFacePnl.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        CustomFacePnl.ILTexture = DialogHosts.IntGfxMod.FactionWin;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
     }

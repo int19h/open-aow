@@ -108,7 +108,7 @@ public partial class AoWRegistry : Registry
     }
 
     // AoWReg.pas:227
-    public void rwRect(string Key, string Name, ref global::Aow.Rtl.Rect Value, ReadWriteMode Mode)
+    public void rwRect(string Key, string Name, ref Rect Value, ReadWriteMode Mode)
     {
         string S;
         if (OpenKey("\\Software\\Triumph Studios\\Age of Wonders\\" + Key, true))
@@ -119,12 +119,12 @@ public partial class AoWRegistry : Registry
                     if (ValueExists(Name))
                     {
                         S = ReadString(Name);
-                        Value = Aow.Game.Engine.AoWRegistry.StringToRect(S);
+                        Value = StringToRect(S);
                     }
 
                     break;
                 case ReadWriteMode.Write:
-                    S = Aow.Game.Engine.AoWRegistry.RectToString(Value);
+                    S = RectToString(Value);
                     WriteString(Name, S);
                     break;
             }
@@ -134,9 +134,9 @@ public partial class AoWRegistry : Registry
     }
 
     // AoWReg.pas:250
-    public global::Aow.Rtl.Rect GetRectangle(int Index)
+    public Rect GetRectangle(int Index)
     {
-        global::Aow.Rtl.Rect Result = default;
+        Rect Result = default;
         if (Index >= 0)
         {
             Result = default;
@@ -151,7 +151,7 @@ public partial class AoWRegistry : Registry
     }
 
     // AoWReg.pas:260
-    public void SetRectangle(int Index, global::Aow.Rtl.Rect Value)
+    public void SetRectangle(int Index, Rect Value)
     {
         if (Index >= 0)
         {
@@ -420,16 +420,16 @@ public partial class AoWRegistry : Registry
     }
 
     // AoWReg.pas:469
-    public global::Aow.Rtl.Rect GetMainWindowPosition()
+    public Rect GetMainWindowPosition()
     {
-        global::Aow.Rtl.Rect Result;
+        Rect Result;
         Result = default;
         rwRect("Workspace", "Main Window Position", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:475
-    public void SetMainWindowPosition(global::Aow.Rtl.Rect Value)
+    public void SetMainWindowPosition(Rect Value)
     {
         rwRect("Workspace", "Main Window Position", ref Value, ReadWriteMode.Write);
     }
@@ -452,16 +452,16 @@ public partial class AoWRegistry : Registry
     }
 
     // AoWReg.pas:497
-    public global::Aow.Rtl.Rect GetMapWindowPosition()
+    public Rect GetMapWindowPosition()
     {
-        global::Aow.Rtl.Rect Result;
+        Rect Result;
         Result = default;
         rwRect("Workspace", "Map Window Position", ref Result, ReadWriteMode.Read);
         return Result;
     }
 
     // AoWReg.pas:503
-    public void SetMapWindowPosition(global::Aow.Rtl.Rect Value)
+    public void SetMapWindowPosition(Rect Value)
     {
         rwRect("Workspace", "Map Window Position", ref Value, ReadWriteMode.Write);
     }
@@ -714,14 +714,14 @@ public partial class AoWRegistry : Registry
         string Result;
         Result = "";
         rwString("Email", "POP3 Password", ref Result, ReadWriteMode.Read);
-        Result = Aow.Game.Engine.AoWRegistry.TransformPassword(Result, true);
+        Result = TransformPassword(Result, true);
         return Result;
     }
 
     // AoWReg.pas:728
     public void SetPOP3Password(string Value)
     {
-        Value = Aow.Game.Engine.AoWRegistry.TransformPassword(Value, true);
+        Value = TransformPassword(Value, true);
         rwString("Email", "POP3 Password", ref Value, ReadWriteMode.Write);
     }
 
@@ -780,7 +780,7 @@ public partial class AoWRegistry : Registry
                     S = Copy(S, 1, P - 1);
                     if (!IsEmpty(S))
                     {
-                        Result = Aow.Game.Engine.AoWRegistry.HexToInt(S);
+                        Result = HexToInt(S);
                     }
                 }
             }
@@ -816,9 +816,9 @@ public partial class AoWRegistry : Registry
         return value is >= 2 and <= 5 ? (AoWLanguage)value : AoWLanguage.English;
     }
 
-    private static global::Aow.Rtl.Rect StringToRect(string S)
+    private static Rect StringToRect(string S)
     {
-        global::Aow.Rtl.Rect result = default(global::Aow.Rtl.Rect);
+        Rect result = default(Rect);
         int num = RtlUnit.Pos(",", S);
         int num2 = 0;
         while (!RtlUnit.IsEmpty(S) && num2 != 4)
@@ -856,7 +856,7 @@ public partial class AoWRegistry : Registry
         return result;
     }
 
-    private static string RectToString(global::Aow.Rtl.Rect R)
+    private static string RectToString(Rect R)
     {
         return string.Concat(new string[7]
         {

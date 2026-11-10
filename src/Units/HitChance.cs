@@ -90,14 +90,14 @@ internal static class HitChance
     {
         SurfaceDesc SD;
         SD = Surface;
-        Aow.Game.Engine.AoWHSSet.Current.FCombatImages[0].Show(X + 20, Y + 54, SD);
+        AoWHSSet.Current.FCombatImages[0].Show(X + 20, Y + 54, SD);
         SD.ClipRect.Right = X + 20 + (Percent + 3) / 4;
         if (SD.ClipRect.Right > Surface.ClipRect.Right)
         {
             SD.ClipRect.Right = Surface.ClipRect.Right;
         }
 
-        Aow.Game.Engine.AoWHSSet.Current.FCombatImages[1].Show(X + 20, Y + 54, SD);
+        AoWHSSet.Current.FCombatImages[1].Show(X + 20, Y + 54, SD);
     }
 
 }

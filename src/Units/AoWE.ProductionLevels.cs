@@ -14,7 +14,7 @@ public partial class ProductionControl
         {
             var production = FUnitProductions.GetItem(i);
             if (production.FResearched != researched || production.FUnitIndex < 0) continue;
-            var resource = Aow.Game.Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex);
+            var resource = Engine.AoWHSSet.Current.FUnitResources.GetUnitResource(production.FUnitIndex);
             if (resource != null && result < resource.FLevel) result = resource.FLevel;
         }
         return result;

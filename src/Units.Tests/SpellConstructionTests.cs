@@ -40,21 +40,21 @@ public sealed partial class SpellConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly AoWHSSet previousSet = Aow.Game.Engine.AoWHSSet.Current;
-        private readonly AoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
+        private readonly AoWHSSet previousSet = AoWHSSet.Current;
+        private readonly AoWEngine previousEngine = GameTables.AoWEngine;
         internal readonly ImageLibraryManager Manager = new ImageLibraryManager(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.CreateGameSet(Manager);
-            Aow.Game.Engine.AoWHSSet.Current = set;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
+            AoWHSSet.Current = set;
+            GameTables.AoWEngine = null!;
         }
 
         public void Dispose()
         {
-            Aow.Game.Engine.AoWHSSet.Current = previousSet;
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            AoWHSSet.Current = previousSet;
+            GameTables.AoWEngine = previousEngine;
             Manager.Dispose();
         }
     }
@@ -94,7 +94,7 @@ public sealed partial class SpellConstructionTests
 
     private static Engine RegisteredEngine(Type type)
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         try { engine.RegisterEClasses([EClass.Of(type)]); }
         catch { engine.Dispose(); throw; }
@@ -160,7 +160,7 @@ public sealed partial class SpellConstructionTests
                     allocated.Add(value);
                     Assert.IsType(type, value);
                     Assert.Same(argument, value.Owner);
-                    Assert.Same(Aow.Game.Engine.EClass.Of(type), value.EClass);
+                    Assert.Same(EClass.Of(type), value.EClass);
                     ConstructionSnapshot.Check("SpellConstruction", name, SuccessSnapshot(value), "State");
                     if (owned) ConstructionSnapshot.Check("SpellConstruction", name, owner.Observations[^1], "Observation");
                     if (value is Spell spell)
@@ -208,7 +208,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void InheritOnlyExclusiveActionHasItsOwnExactCreationRoutes()
     {
-        Type type = typeof(Aow.Game.Combat.Actions.ExclusiveCombatSpellCA);
+        Type type = typeof(ExclusiveCombatSpellCA);
         var owner = new SpellOwner();
         for (int route = 0; route < 4; route++)
         {
@@ -236,7 +236,7 @@ public sealed partial class SpellConstructionTests
     [Fact]
     public void SummonConstructionInitializesItsSpellState()
     {
-        var raw = new Aow.Game.Magic.Spells.Summon.SummonSpell(null!);
+        var raw = new SummonSpell(null!);
         Assert.NotNull(raw.FSpellText);
         Assert.NotNull(raw.FUnitIndices);
         Assert.Equal(0, raw.GetDispelResistance(null!));

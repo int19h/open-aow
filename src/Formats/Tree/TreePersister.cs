@@ -135,9 +135,9 @@ sealed class MemberPersister : IPersister
         Store(name, new EnumNode(typeName, width, signed, Convert.ToInt64(value)));
     }
 
-    public void Set<E>(string name, ref global::Aow.Rtl.Set<E> value) where E : unmanaged, Enum
+    public void Set<E>(string name, ref Set<E> value) where E : unmanaged, Enum
     {
-        int width = default(global::Aow.Rtl.Set<E>).StorageSize;
+        int width = default(Set<E>).StorageSize;
         string typeName = NameTable.Stored(typeof(E));
         if (width is < 1 or > 8)
             throw new InvalidOperationException("A set image is 1 to 8 bytes.");
@@ -147,7 +147,7 @@ sealed class MemberPersister : IPersister
             if (found is null) return;
             if (found is not SetNode node || !NameTable.Names(typeof(E), node.TypeName) || node.Width != width)
                 throw Type(name, "a set of " + typeName);
-            value = global::Aow.Rtl.Set<E>.FromMask(node.Mask);
+            value = Rtl.Set<E>.FromMask(node.Mask);
             return;
         }
         Span<byte> image = stackalloc byte[width];

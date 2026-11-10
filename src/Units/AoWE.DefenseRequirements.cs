@@ -41,7 +41,7 @@ public partial class AoWHSMap
         message.Param[0] = query;
         var mapLevel = MapContainer.GetMapLevel(level);
         HNWalkData walk = default;
-        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref walk, x, y, 0);
+        HNWalkData.InitHNWalk(ref walk, x, y, 0);
         try
         {
             while (walk.Radius <= radius)
@@ -57,7 +57,7 @@ public partial class AoWHSMap
                         query.Info.Strength = Math.Max(enemy, query.Info.Strength);
                     }
                 }
-                Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
+                HNWalkData.WalkToNextHN(ref walk);
             }
         }
         finally { info = query.Info; }

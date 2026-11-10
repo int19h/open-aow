@@ -84,7 +84,7 @@ public partial class Tower : PlayerStructure
         if (!GetBuilding())
         {
             Result = 12;
-            if (GetLhx() != 0 || FPlayer > 0 && (((byte)Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
+            if (GetLhx() != 0 || FPlayer > 0 && (((byte)AoWHSMap.Current.FPlayers.GetPlayers(FPlayer).FMagicControl.FEnemyEnchantments.Image) & 8) != 0)
             {
                 Result = (int)(((uint)(Result + 1)) >> 1);
             }
@@ -128,7 +128,7 @@ public partial class Tower : PlayerStructure
         // Tower.pas:35
 
         // Tower.pas:121
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TowerRStr);
+        public override string ResourceEditName() => AbilityRules.TranslateRStr(GameText.TowerRStr);
 
     }
 
@@ -142,8 +142,8 @@ public partial class TowerConstructionControl : StructureConstructionControl
     // Tower.pas:139
     public override void GetInfo(AbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
     {
-        var tower = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TowerRStr);
-        Text = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.BuildXRStr), [tower]);
+        var tower = AbilityRules.TranslateRStr(GameText.TowerRStr);
+        Text = RtlUnit.Format(AbilityRules.TranslateRStr(GameText.BuildXRStr), [tower]);
         Gold = 50;
         Days = 2;
     }
@@ -163,15 +163,15 @@ public partial class TowerConstructionControl : StructureConstructionControl
         else
         {
             Result = false;
-            var tower = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TowerRStr);
-            Reason = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TowerConstructionControl.CannotBuildXInUndergroundRStr), [tower]);
+            var tower = AbilityRules.TranslateRStr(GameText.TowerRStr);
+            Reason = RtlUnit.Format(AbilityRules.TranslateRStr(CannotBuildXInUndergroundRStr), [tower]);
         }
 
         return Result;
     }
 
     // Tower.pas:133
-    public override global::Aow.Game.World.Structures.StructureResource StructureResource(AbstractUnit AUnit) => (global::Aow.Game.World.Structures.StructureResource)Aow.Game.Engine.AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
+    public override StructureResource StructureResource(AbstractUnit AUnit) => (StructureResource)AoWHSSet.Current.MapObjectResourceList.FindChild(132159);
 
     // Tower.pas:130
     public override int ID() => 3;

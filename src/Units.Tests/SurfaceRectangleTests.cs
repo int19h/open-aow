@@ -14,9 +14,9 @@ public sealed class SurfaceRectangleTests
 
     private static DataSurface MakeSource()
     {
-        var surface = new DataSurface(SourceWidth, SourceHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        var surface = new DataSurface(SourceWidth, SourceHeight, PixelFormats.pfRGB555, null!);
         SurfaceDesc sd = default;
-        Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
+        Assert.Equal(PixelFormats.GFXE_OK, surface.Lock(ref sd));
         for (int y = 0; y < SourceHeight; y++)
             for (int x = 0; x < SourceWidth; x++) sd.View().Word(y * sd.Pitch + x * 2, Source(x, y));
         surface.Unlock();
@@ -41,10 +41,10 @@ public sealed class SurfaceRectangleTests
                 Assert.True(expected[x, y] == dest.GetPixelInfo(x, y), $"pixel {x}, {y}: expected {expected[x, y]:X}, actual {dest.GetPixelInfo(x, y):X}");
     }
 
-    private static void Run(Func<Surface, Surface, int> copy, int[,] expected, int result = Aow.Game.Draw.PixelFormats.GFXE_OK)
+    private static void Run(Func<Surface, Surface, int> copy, int[,] expected, int result = PixelFormats.GFXE_OK)
     {
         var source = MakeSource();
-        var dest = new DataSurface(DestWidth, DestHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        var dest = new DataSurface(DestWidth, DestHeight, PixelFormats.pfRGB555, null!);
         try
         {
             Assert.Equal(result, copy(source, dest));
@@ -63,7 +63,7 @@ public sealed class SurfaceRectangleTests
 
     [Fact]
     public void BltCopiesTheGivenRectangle()
-        => Run((s, d) => s.Blt(d, RtlUnit.Rect(1, 1, 3, 3), 0, 0), Expected(1, 1, 3, 3, 0, 0));
+        => Run((s, d) => s.Blt(d, new Rect(1, 1, 3, 3), 0, 0), Expected(1, 1, 3, 3, 0, 0));
 
     [Fact]
     public void BltClippedMovesTheWholeSourceInsideTheDestination()
@@ -74,7 +74,7 @@ public sealed class SurfaceRectangleTests
     public void BltClippedCutsARectangleToTheSource()
         // (-2, -1, 8, 5) at (0, 0): the right and bottom are cut to the source, the negative left
         // and top move X and Y by 2 and 1.
-        => Run((s, d) => s.BltClipped(d, RtlUnit.Rect(-2, -1, 8, 5), 0, 0), Expected(0, 0, 4, 3, 2, 1));
+        => Run((s, d) => s.BltClipped(d, new Rect(-2, -1, 8, 5), 0, 0), Expected(0, 0, 4, 3, 2, 1));
 
     [Fact]
     public void BltClippedCutsAtTheDestinationEdge()
@@ -91,7 +91,7 @@ public sealed class SurfaceRectangleTests
 
     [Fact]
     public void BltColorKeySkipsTheKeyInTheGivenRectangle()
-        => Run((s, d) => s.BltColorKey(d, RtlUnit.Rect(0, 1, 3, 3), 2, 2, Source(2, 2)), Expected(0, 1, 3, 3, 2, 2, Source(2, 2)));
+        => Run((s, d) => s.BltColorKey(d, new Rect(0, 1, 3, 3), 2, 2, Source(2, 2)), Expected(0, 1, 3, 3, 2, 2, Source(2, 2)));
 
     [Fact]
     public void BltColorKeyClippedClipsLikeBltClipped()
@@ -99,35 +99,35 @@ public sealed class SurfaceRectangleTests
 
     [Fact]
     public void BltColorKeyClippedCutsARectangleToTheSource()
-        => Run((s, d) => s.BltColorKeyClipped(d, RtlUnit.Rect(-2, -1, 8, 5), 0, 0, Source(0, 0)), Expected(0, 0, 4, 3, 2, 1, Source(0, 0)));
+        => Run((s, d) => s.BltColorKeyClipped(d, new Rect(-2, -1, 8, 5), 0, 0, Source(0, 0)), Expected(0, 0, 4, 3, 2, 1, Source(0, 0)));
 
     [Fact]
     public void BltStretchOfUnequalSizesIsNotSupported()
         // Null rectangles are the whole source (4 by 3) and the whole destination (6 by 5).
-        => Run((s, d) => s.BltStretch(d, null, null), new int[DestWidth, DestHeight], Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED);
+        => Run((s, d) => s.BltStretch(d, null, null), new int[DestWidth, DestHeight], PixelFormats.GFXE_NOTSUPPORTED);
 
     [Fact]
     public void BltStretchOfEqualSizesCopiesToTheDestinationRectangle()
-        => Run((s, d) => s.BltStretch(d, RtlUnit.Rect(1, 0, 3, 2), RtlUnit.Rect(3, 2, 5, 4)), Expected(1, 0, 3, 2, 3, 2));
+        => Run((s, d) => s.BltStretch(d, new Rect(1, 0, 3, 2), new Rect(3, 2, 5, 4)), Expected(1, 0, 3, 2, 3, 2));
 
     [Fact]
     public void BltStretchOfANullSourceRectangleTakesTheWholeSource()
-        => Run((s, d) => s.BltStretch(d, null, RtlUnit.Rect(2, 1, 6, 4)), Expected(0, 0, 4, 3, 2, 1));
+        => Run((s, d) => s.BltStretch(d, null, new Rect(2, 1, 6, 4)), Expected(0, 0, 4, 3, 2, 1));
 
     [Fact]
     public void BltAreaClippedPassesItsArea()
-        => Run((s, d) => s.BltAreaClipped(d, RtlUnit.Rect(1, 0, 4, 2), 3, 3), Expected(1, 0, 4, 2, 3, 3));
+        => Run((s, d) => s.BltAreaClipped(d, new Rect(1, 0, 4, 2), 3, 3), Expected(1, 0, 4, 2, 3, 3));
 
     [Fact]
     public void BltAreaColorKeyClippedPassesItsArea()
-        => Run((s, d) => s.BltAreaColorKeyClipped(d, RtlUnit.Rect(1, 0, 4, 2), 3, 3, Source(2, 1)), Expected(1, 0, 4, 2, 3, 3, Source(2, 1)));
+        => Run((s, d) => s.BltAreaColorKeyClipped(d, new Rect(1, 0, 4, 2), 3, 3, Source(2, 1)), Expected(1, 0, 4, 2, 3, 3, Source(2, 1)));
 
     [Fact]
     public void CapturedSurfaceTakesTheWholeSourceOrTheRectangle()
     {
         var source = MakeSource();
         var whole = new DataSurface(source, null);
-        var part = new DataSurface(source, RtlUnit.Rect(1, 1, 3, 3));
+        var part = new DataSurface(source, new Rect(1, 1, 3, 3));
         try
         {
             Assert.Equal((SourceWidth, SourceHeight), (whole.Width, whole.Height));
@@ -154,22 +154,22 @@ public sealed class SurfaceRectangleTests
         try
         {
             SurfaceDesc full = default, part = default, sub = default;
-            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, source.Lock(ref full));
+            Assert.Equal(PixelFormats.GFXE_OK, source.Lock(ref full));
             source.Unlock();
             Assert.Equal(0, full.DataIndex);
-            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, source.LockEx(ref part, RtlUnit.Rect(1, 1, 4, 3)));
+            Assert.Equal(PixelFormats.GFXE_OK, source.LockEx(ref part, new Rect(1, 1, 4, 3)));
             source.UnlockEx(part);
             Assert.Same(full.Data, part.Data);
             Assert.Equal(full.Pitch + 2, part.DataIndex);
             Assert.Equal((3, 2), (part.Width, part.Height));
             Assert.Equal(Source(1, 1), part.View().Word(0));
             Assert.Equal(Source(3, 2), part.View().Word(part.Pitch + 4));
-            Aow.Game.Draw.SurfaceDesc.CreateSDfromSD(full, RtlUnit.Rect(2, 1, 4, 3), ref sub);
+            SurfaceDesc.CreateSDfromSD(full, new Rect(2, 1, 4, 3), ref sub);
             Assert.Same(full.Data, sub.Data);
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
-            Assert.Equal(RtlUnit.Rect(0, 0, 2, 2), sub.ClipRect);
+            Assert.Equal(new Rect(0, 0, 2, 2), sub.ClipRect);
             Assert.Equal(Source(2, 1), sub.View().Word(0));
-            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_ERROR, source.LockEx(ref part, RtlUnit.Rect(1, 1, 5, 3)));
+            Assert.Equal(PixelFormats.GFXE_ERROR, source.LockEx(ref part, new Rect(1, 1, 5, 3)));
         }
         finally { source.Dispose(); }
     }
@@ -179,10 +179,10 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void ControllersReturnThePrimaryRegion()
     {
-        using var owner = new global::Aow.Rtl.Component(null!);
+        using var owner = new Component(null!);
         var dc = new DisplayCtrl(owner);
         var sdl = new SdlDC(new NullDisplayHost(), owner);
-        var region = RtlUnit.Rect(3, 4, 643, 484);
+        var region = new Rect(3, 4, 643, 484);
         dc.SetPrimarySurfaceRgn(region);
         sdl.SetPrimarySurfaceRgn(region);
         Assert.Equal(region, dc.GetPrimarySurfaceRgn());
@@ -190,7 +190,7 @@ public sealed class SurfaceRectangleTests
         Assert.Equal(region, dc.FPrimarySurfaceRgn);
     }
 
-    private sealed class NullDisplayHost : Aow.Game.Host.IDisplayHost
+    private sealed class NullDisplayHost : Game.Host.IDisplayHost
     {
         public (int Width, int Height) ClientSize => (640, 480);
         public bool Fullscreen { get; set; }
@@ -200,7 +200,7 @@ public sealed class SurfaceRectangleTests
 
         public (int X, int Y, bool Inside) PointerPosition() => (0, 0, true);
 
-        public void PumpEvents(Aow.Game.Host.IDisplayEvents sink) { }
+        public void PumpEvents(Game.Host.IDisplayEvents sink) { }
 
         public void ShowSystemCursor(bool show) { }
     }

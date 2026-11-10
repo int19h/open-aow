@@ -9,12 +9,12 @@ public partial class AoWMapLevel
     private IEnumerable<AoWMapField> Area(int x, int y, int radius)
     {
         HNWalkData walk = default;
-        Aow.Game.World.Movement.HNWalkData.InitHNWalk(ref walk, x, y, 0);
+        HNWalkData.InitHNWalk(ref walk, x, y, 0);
         while (walk.Radius <= radius)
         {
             if (walk.X >= 0 && walk.Y >= 0 && walk.X < FWidth && walk.Y < FHeight)
                 yield return (AoWMapField)GetField(walk.X, walk.Y);
-            Aow.Game.World.Movement.HNWalkData.WalkToNextHN(ref walk);
+            HNWalkData.WalkToNextHN(ref walk);
         }
     }
 

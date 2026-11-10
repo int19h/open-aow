@@ -64,7 +64,7 @@ public sealed class PersistCorpusTests
     [CorpusFact]
     public void CorpusInstancesMatchTheConverter()
     {
-        var previous = Aow.Game.World.Map.AoWHSMap.Current;
+        var previous = AoWHSMap.Current;
         var map = new AoWHSMap(null!);
         map.FStatus = Set<HSMapStatusElement>.Of(HSMapStatusElement.Destroying);
         reaper = map;
@@ -126,7 +126,7 @@ public sealed class PersistCorpusTests
         finally
         {
             reaper = null;
-            Aow.Game.World.Map.AoWHSMap.Current = previous;
+            AoWHSMap.Current = previous;
             map.Dispose();
         }
     }
@@ -325,15 +325,15 @@ public sealed class PersistCorpusTests
 
     private static void Release(EObject obj)
     {
-        var previous = Aow.Game.World.Map.AoWHSMap.Current;
-        Aow.Game.World.Map.AoWHSMap.Current = reaper;
+        var previous = AoWHSMap.Current;
+        AoWHSMap.Current = reaper;
         try
         {
             obj.Dispose();
         }
         finally
         {
-            Aow.Game.World.Map.AoWHSMap.Current = previous;
+            AoWHSMap.Current = previous;
         }
     }
 

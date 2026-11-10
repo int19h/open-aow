@@ -9,14 +9,14 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TCScanner : DataModule
+public partial class CombatScanner : DataModule
 {
-    public TCScanner(global::Aow.Rtl.Component owner) : base(owner)
+    public CombatScanner(Component owner) : base(owner)
     { }
 
     public AOWWindow TCScannerWin;
     public AoWFrame ScannerFr;
-    public global::Aow.Game.Ui.Grids.Scanner Scanner;
+    public Scanner Scanner;
     public AOWImage STitleIcon;
     public AOWLabel STitleLabel;
     public AOWButton SMinIcon;
@@ -25,14 +25,14 @@ public partial class TCScanner : DataModule
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
-        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+        DialogHosts.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
+        DialogHosts.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
+        if (World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
         {
-            Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
-            Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);
-            Scanner.SetTLeft(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
-            Scanner.SetTTop(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
+            Scanner.SetTWidth(DialogHosts.MWindow.MapViewer.SceneWidth / 32);
+            Scanner.SetTHeight(DialogHosts.MWindow.MapViewer.SceneHeight / 32);
+            Scanner.SetTLeft(DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
+            Scanner.SetTTop(DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
@@ -46,7 +46,7 @@ public partial class TCScanner : DataModule
     // AoWTCScanner.pas:60
     public void SMinIconClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         TCScannerWin.Visible = false;
     }
 }

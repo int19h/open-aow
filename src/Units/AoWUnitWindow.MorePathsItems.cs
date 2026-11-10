@@ -12,15 +12,15 @@ public partial class UnitWindow
     // AoWUnitWindow.pas:773. The cursor belongs to the rewritten main form.
     public void Gnd1Change(AOWCheckBox check)
     {
-        var hero = (Hero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit;
-        if (hero is null || Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
+        var hero = (Hero)DialogHosts.General.FSelectedUnit;
+        if (hero is null || World.Map.AoWHSMap.Current.FPlayers.GetPlayers(hero.FPlayer).GetBusy() || !check.Checked) return;
         FCursorImage = null;
-        var selected = Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem;
+        var selected = SelectedItem;
         if (check != selected)
         {
             if (selected is not null)
             {
-                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\Events\\NewEvent.Wav");
+                AudioPlayback.PlaySample("SFX\\Events\\NewEvent.Wav");
                 if (check.Tag != -1) hero.SwapItem(selected.Tag, check.Tag);
                 else
                 {
@@ -46,7 +46,7 @@ public partial class UnitWindow
             }
             else if (check.Tag != -1)
             {
-                Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem = check;
+                SelectedItem = check;
                 FHighlight = 50;
                 FHighlightStep = 10;
                 var item = hero.FInventory.FindItem(check.Tag) ?? hero.FHeroItems.FindItem(check.Tag) ?? hero.GetItemsOnGround()?.FindItem(check.Tag);
@@ -76,7 +76,7 @@ public partial class UnitWindow
 
     private void ClearItemSelection()
     {
-        Aow.Game.Ui.Dialogs.UnitWindow.SelectedItem = null;
+        SelectedItem = null;
         UnitWin.Cursor = 0;
         FItemType = ItemType.Use;
         ItemUseBtn.Visible = false;

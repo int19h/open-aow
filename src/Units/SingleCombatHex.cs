@@ -22,7 +22,7 @@ public partial class SingleCombatHexagon : AbstractHexagon
         int X = default;
         int Y = default;
         ImageSequence Sequence;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref X, ref Y);
         X = X - XhpSurf - 8;
         Y = Y - YhpSurf;
         Sequence = FResource.ImageSequenceList.GetImageSequence(0);
@@ -30,7 +30,7 @@ public partial class SingleCombatHexagon : AbstractHexagon
     }
 
     // SingleCombatHex.pas:44
-    public override Aow.Game.World.MapObjectResourceList GetResourceList(global::Aow.Game.Engine.Engine AEngine) => Aow.Game.Engine.AoWHSSet.Current.FCombatResources;
+    public override MapObjectResourceList GetResourceList(Engine.Engine AEngine) => AoWHSSet.Current.FCombatResources;
 
     public new partial class Resource : AbstractHexagonResource
     {

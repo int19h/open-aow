@@ -8,7 +8,7 @@ using Aow.Rtl.Localize;
 
 namespace Aow.Game.Ui.Dialogs;
 
-public partial class TCFCDialog : ILayoutModule
+public partial class CombatChoice : ILayoutModule
 {
     public void InitializeComponent()
     {
@@ -518,7 +518,7 @@ public partial class TCFCDialog : ILayoutModule
         InfoSep.Animate = false;
         InfoSep.AnimFrameDelay = 0;
         session.EndRead(InfoSep);
-        var created__Translator = new LayoutTIvTranslator(this);
+        LayoutIvTranslator created__Translator = new LayoutIvTranslator(this);
         Translator = created__Translator;
         session.BeginRead(created__Translator);
         created__Translator.Name = "Translator";
@@ -564,30 +564,30 @@ public partial class TCFCDialog : ILayoutModule
         InfoSep.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
-        Dlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
-        DTitle.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        DMessage.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        FightBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        FightBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        CancelBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
-        CancelBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
-        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        TCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        AOWImage1.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        AOWImage2.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
-        Tactical.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        Automatic.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        TCchk.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
-        TCchk.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        TCchk.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
-        FCchk.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
-        FCchk.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
-        FCchk.ILIcon = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericI;
-        MapViewPnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
-        InfoSep.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin;
+        Dlg.WinManager = DialogHosts.General.Manager;
+        Dlg.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        Dlg.ILTexture = DialogHosts.IntGfxMod.GenericT;
+        DTitle.AOWFont = DialogHosts.FontModule.Age10;
+        DMessage.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        FightBtn.AOWFont = DialogHosts.FontModule.Age10;
+        FightBtn.ILButton = DialogHosts.IntGfxMod.GenericB;
+        CancelBtn.AOWFont = DialogHosts.FontModule.Age10;
+        CancelBtn.ILButton = DialogHosts.IntGfxMod.GenericB;
+        BCeltL.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        TCeltL.ILLine = DialogHosts.IntGfxMod.CeltDeco;
+        TCeltLineL.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        AOWImage1.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        AOWImage2.ImageLib = DialogHosts.IntGfxMod.CeltDeco;
+        Tactical.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        Automatic.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        TCchk.ToolTip = DialogHosts.General.ToolTip;
+        TCchk.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        TCchk.ILIcon = DialogHosts.IntGfxMod.GenericI;
+        FCchk.ToolTip = DialogHosts.General.ToolTip;
+        FCchk.AOWFont = DialogHosts.FontModule.AoW15WhiteGrey;
+        FCchk.ILIcon = DialogHosts.IntGfxMod.GenericI;
+        MapViewPnl.ILFrame = DialogHosts.IntGfxMod.GenericF;
+        InfoSep.ImageLib = DialogHosts.IntGfxMod.CityWin;
     }
 
     private void Layout_DlgHide_0()

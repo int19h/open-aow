@@ -25,18 +25,18 @@ public sealed partial class EngineFixture : IDisposable
     internal static void RestoreEngine()
     {
         foreach (var pair in state) pair.Key.SetValue(Engine, pair.Value);
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine = Engine;
-        Aow.Game.Engine.AoWHSSet.Current = GameSet;
-        Aow.Game.World.Map.AoWHSMap.Current = null!;
+        Game.Magic.Abilities.GameTables.AoWEngine = Engine;
+        AoWHSSet.Current = GameSet;
+        AoWHSMap.Current = null!;
     }
 
     public EngineFixture()
     {
         Runtime.InstallHost(host);
         services = host;
-        Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine();
-        Engine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        GameSet = Aow.Game.Engine.AoWHSSet.Current;
+        Game.Magic.Abilities.GameTables.ValidateAoWEngine();
+        Engine = Game.Magic.Abilities.GameTables.AoWEngine;
+        GameSet = AoWHSSet.Current;
         for (Type? type = Engine.GetType(); type is not null && type != typeof(object); type = type.BaseType)
             foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly))
             {

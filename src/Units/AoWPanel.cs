@@ -23,7 +23,7 @@ public partial class AOWPanel : AOWBaseWindow
     public AOWBaseWindow FAOWWindow;
 
     // AoWPanel.pas:63
-    public AOWPanel(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWPanel(Component owner) : base(owner)
     {
         FCaptureInput = true;
     }
@@ -52,8 +52,8 @@ public partial class AOWPanel : AOWBaseWindow
 
         switch (FWindowType)
         {
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
+            case WindowType.Normal:
+            case WindowType.Hollow:
                 var ilFrameWidth = FILFrame[FILIndexFrame];
                 var ilFrame = FILFrame[FILIndexFrame + 2];
                 if (ilFrameWidth.Width + ilFrame.Width > FWinWidth)
@@ -101,8 +101,8 @@ public partial class AOWPanel : AOWBaseWindow
                 }
 
                 break;
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
-            case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank:
+            case WindowType.Borderless:
+            case WindowType.Blank:
                 if (FAOWWindow.FWinWidth < FWinLeft + FWinWidth)
                 {
                     FWinLeft = FAOWWindow.FWinWidth - FWinWidth;
@@ -150,7 +150,7 @@ public partial class AOWPanel : AOWBaseWindow
         }
 
         FSurfaceValid = false;
-        if (FWindowType == Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
+        if (FWindowType == WindowType.Blank)
         {
             FMasked = true;
         }
@@ -217,7 +217,7 @@ public partial class AOWPanel : AOWBaseWindow
     //   panel moved or changed size, its old rectangle is redrawn in the owner }
     public override void Update()
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         if (FVisible)
         {
             FOrgLeft = FWinLeft;
@@ -244,11 +244,11 @@ public partial class AOWPanel : AOWBaseWindow
             {
                 if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                 {
-                    R = global::Aow.Rtl.RtlUnit.Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
+                    R = new Rect(FOldRect.Left, FOldRect.Top, FOldRect.Left + FOldRect.Right - 1, FOldRect.Top + FOldRect.Bottom - 1);
                 }
                 else
                 {
-                    R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
+                    R = new Rect(FAOWOwner.FWinLeft + FOldRect.Left, FAOWOwner.FWinTop + FOldRect.Top, FAOWOwner.FWinLeft + FOldRect.Left + FOldRect.Right - 1, FAOWOwner.FWinTop + FOldRect.Top + FOldRect.Bottom - 1);
                 }
 
                 if (FMasked)
@@ -272,11 +272,11 @@ public partial class AOWPanel : AOWBaseWindow
             {
                 if (FAOWOwner.FAOWOwner.FAOWOwner == null)
                 {
-                    R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
+                    R = new Rect(FWinLeft, FWinTop, FWinLeft + FWinWidth - 1, FWinTop + FWinHeight - 1);
                 }
                 else
                 {
-                    R = global::Aow.Rtl.RtlUnit.Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
+                    R = new Rect(FAOWOwner.FWinLeft + FWinLeft, FAOWOwner.FWinTop + FWinTop, FAOWOwner.FWinLeft + FWinLeft + FWinWidth - 1, FAOWOwner.FWinTop + FWinTop + FWinHeight - 1);
                 }
 
                 FAOWOwner.AddDrawRect(ref R, this);
@@ -292,13 +292,13 @@ public partial class AOWPanel : AOWBaseWindow
     // AoWPanel.pas:97
     // { InvalidateRect: the controls from Index on that ARect touches are redrawn (windows are asked to
     //   invalidate the rectangle themselves), then the windows above the panel in its owner }
-    public override void InvalidateRect(int Index, ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public override void InvalidateRect(int Index, ref Rect ARect, AoWComponent Sender)
     {
         int OldLeft;
         int OldTop;
         AoWComponent C;
-        global::Aow.Rtl.Rect R = default;
-        if (FValid && FVisible && FWindowType != Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
+        Rect R = default;
+        if (FValid && FVisible && FWindowType != WindowType.Blank)
         {
             AddDrawRect(ref ARect, Sender);
         }
@@ -325,7 +325,7 @@ public partial class AOWPanel : AOWBaseWindow
                             C.FDrawn = false;
                             if (C.FMasked)
                             {
-                                R = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
+                                R = new Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
                                 AddDrawRect(ref R, this);
                             }
                         }
@@ -345,20 +345,20 @@ public partial class AOWPanel : AOWBaseWindow
     }
 
     // AoWPanel.pas:82
-    public override void AddBltRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public override void AddBltRect(ref Rect ARect, AoWComponent Sender)
     {
         FAOWOwner.AddBltRect(ref ARect, this);
     }
 
     // AoWPanel.pas:87
-    public override void AddDrawRect(ref global::Aow.Rtl.Rect ARect, AoWComponent Sender)
+    public override void AddDrawRect(ref Rect ARect, AoWComponent Sender)
     {
         if (FMasked)
         {
             FAOWOwner.AddDrawRect(ref ARect, this);
         }
 
-        if (FWindowType != Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
+        if (FWindowType != WindowType.Blank)
         {
             base.AddDrawRect(ref ARect, Sender);
         }
@@ -426,18 +426,18 @@ public partial class AOWPanel : AOWBaseWindow
     //   above them and blitted }
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect BltRect = default;
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect BltRect = default;
+        Rect OldClip = default;
         AoWComponent C = default;
         TaowRect D = default;
         void DrawBack()
         {
-            if (FWindowType != Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Blank)
+            if (FWindowType != WindowType.Blank)
             {
                 switch (FWindowType)
                 {
-                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Normal:
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case WindowType.Normal:
+                        var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                         var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                         var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -445,20 +445,20 @@ public partial class AOWPanel : AOWBaseWindow
                         var ilFrame2 = FILFrame[FILIndexFrame + 4];
                         var ilFrame3 = FILFrame[FILIndexFrame + 1];
                         var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                        var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                        var rect2 = new Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                         FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                         break;
-                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Hollow:
-                        var rect3 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case WindowType.Hollow:
+                        var rect3 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILFrame.DrawILF(FILIndexFrame, rect3, ref SurfDesc);
                         break;
-                    case Aow.Game.Ui.Controls.AOWWindowControl.WindowType.Borderless:
-                        var rect4 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                    case WindowType.Borderless:
+                        var rect4 = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                         FILTexture.DrawILT(FILIndexTexture, rect4, ref SurfDesc);
                         break;
                 }
 
-                BltRect = global::Aow.Rtl.RtlUnit.Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, SurfDesc.ClipRect.Right, SurfDesc.ClipRect.Bottom);
+                BltRect = new Rect(SurfDesc.ClipRect.Left, SurfDesc.ClipRect.Top, SurfDesc.ClipRect.Right, SurfDesc.ClipRect.Bottom);
                 FAOWOwner.AddBltRect(ref BltRect, this);
             }
         }
@@ -497,7 +497,7 @@ public partial class AOWPanel : AOWBaseWindow
                     {
                         D = (TaowRect)FDrawList[J];
                         OldClip = SurfDesc.ClipRect;
-                        var rect = global::Aow.Rtl.RtlUnit.Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
+                        var rect = new Rect(D.R.Left, D.R.Top, D.R.Right + 1, D.R.Bottom + 1);
                         SurfDesc.ClipRect = rect;
                         DrawBack();
                         SurfDesc.ClipRect = OldClip;
@@ -542,11 +542,11 @@ public partial class AOWPanel : AOWBaseWindow
                         FDrawCount = 0;
                         if (!FDrawn || !C.FFirstDraw)
                         {
-                            BltRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
+                            BltRect = new Rect(FWinLeft + C.FWinLeft, FWinTop + C.FWinTop, FWinLeft + C.FWinLeft + C.FWinWidth, FWinTop + C.FWinTop + C.FWinHeight);
                             FAOWOwner.AddBltRect(ref BltRect, this);
                             FWinLeft = FOrgLeft;
                             FWinTop = FOrgTop;
-                            BltRect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft, FAOWWindow.FWinTop + FWinTop + C.FWinTop, FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft + C.FWinWidth - 1, FAOWWindow.FWinTop + FWinTop + C.FWinTop + C.FWinHeight - 1);
+                            BltRect = new Rect(FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft, FAOWWindow.FWinTop + FWinTop + C.FWinTop, FAOWWindow.FWinLeft + FWinLeft + C.FWinLeft + C.FWinWidth - 1, FAOWWindow.FWinTop + FWinTop + C.FWinTop + C.FWinHeight - 1);
                             InvalidateRect(I + 1, ref BltRect, C);
                             FWinLeft += FAOWWindow.FWinLeft;
                             FWinTop += FAOWWindow.FWinTop;

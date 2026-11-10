@@ -6,7 +6,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class FontModule : DataModule
 {
-    public FontModule(global::Aow.Rtl.Component owner) : base(owner)
+    public FontModule(Component owner) : base(owner)
     { }
 
     public ImageLibraryFont Age8;

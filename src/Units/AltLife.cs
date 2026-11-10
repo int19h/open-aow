@@ -34,7 +34,7 @@ public partial class AltarOfLife : Altar
         // AltLife.pas:26
 
         // AltLife.pas:49
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.AltarOfLife.Resource.AltarOfLifeRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(AltarOfLifeRStr);
 
         private static readonly string AltarOfLifeRStr = "Altar of Life";
 

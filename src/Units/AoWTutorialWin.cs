@@ -28,7 +28,7 @@ namespace Aow.Game.Ui.Dialogs;
 // done callback, retained event
 public partial class TutorialWindow : DataModule
 {
-    public TutorialWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public TutorialWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;

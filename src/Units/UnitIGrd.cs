@@ -17,14 +17,14 @@ public partial class UnitIndexGrid : CustomImageDrawGrid
 
     // UnitIGrd.pas:51
     // Retained: The Graphics.Color implementation is absent. Preserve the throw before semantic base initialization.
-    public UnitIndexGrid(global::Aow.Rtl.Component owner) : base(owner)
+    public UnitIndexGrid(Component owner) : base(owner)
     {
         /* TODO: Implement Graphics.Color in the platform or editor service. */
         throw new NotImplementedException();
     }
 
     // UnitIGrd.pas:89
-    protected internal override void DrawCell(int ACol, int ARow, global::Aow.Rtl.Rect ARect, Set<GridDrawState> AState)
+    protected internal override void DrawCell(int ACol, int ARow, Rect ARect, Set<GridDrawState> AState)
     {
         /* TODO: Implement Graphics.Handle in the platform or editor service. */
         throw new NotImplementedException();

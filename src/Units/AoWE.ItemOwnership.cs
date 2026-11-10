@@ -24,7 +24,7 @@ namespace Aow.Game.Units
     {
         internal ItemHS Sprite;
 
-        public override global::Aow.Game.Engine.Engine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
+        public override Engine.Engine GetEngine() => Sprite != null ? Sprite.GetEngine() : base.GetEngine();
 
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level)
         {

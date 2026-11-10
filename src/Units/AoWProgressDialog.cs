@@ -9,7 +9,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class ProgressDialog : DataModule
 {
-    public ProgressDialog(global::Aow.Rtl.Component owner) : base(owner)
+    public ProgressDialog(Component owner) : base(owner)
     { }
 
     public AOWLabel Title;

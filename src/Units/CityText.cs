@@ -31,11 +31,11 @@ internal static class CityText
     internal static int PlayerCities(sbyte Player)
     {
         int Result;
-        global::Aow.Game.Session.Player P;
+        Player P;
         PlayerStructure Structure;
-        if (Aow.Game.World.Map.AoWHSMap.Current != null)
+        if (AoWHSMap.Current != null)
         {
-            P = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+            P = AoWHSMap.Current.FPlayers.GetPlayers(Player);
             Result = 0;
             for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
             {

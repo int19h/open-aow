@@ -18,7 +18,7 @@ public static class ImageStreams
         int ID = default;
         LibraryImageClass ImageClass;
         Stream.ReadBytes(Bytes.Of(ref ID, 4));
-        ImageClass = Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(ID);
+        ImageClass = LibraryCatalog.FindLibraryImageClass(ID);
         if (ImageClass != null)
         {
             Result = ImageClass.Create(AOwner);
@@ -38,7 +38,7 @@ public static class ImageStreams
         int ID = default;
         LibraryImageClass ImageClass;
         Stream.ReadBytes(Bytes.Of(ref ID, 4));
-        ImageClass = Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(ID);
+        ImageClass = LibraryCatalog.FindLibraryImageClass(ID);
         if (ImageClass != null)
         {
             Result = ImageClass.Create(AOwner);

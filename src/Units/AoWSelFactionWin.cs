@@ -12,7 +12,7 @@ namespace Aow.Game.Ui.Dialogs;
 
 public partial class SelFactionWin : DataModule
 {
-    public SelFactionWin(global::Aow.Rtl.Component owner) : base(owner)
+    public SelFactionWin(Component owner) : base(owner)
     { }
 
     public AOWPanel FactionPnl;
@@ -38,9 +38,9 @@ public partial class SelFactionWin : DataModule
     // AoWSelFactionWin.pas:63
     public void CloseSelection()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
-        Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = false;
-        Aow.Game.Ui.Dialogs.WindowActions.ShowTitleScene(Aow.Game.Ui.Dialogs.DialogHosts.TitleScene, true);
+        DialogHosts.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
+        DialogHosts.TitleWindow.TitleWin.Visible = false;
+        WindowActions.ShowTitleScene(DialogHosts.TitleScene, true);
         FactionPnl.Visible = false;
         FFade = 0;
     }
@@ -48,11 +48,11 @@ public partial class SelFactionWin : DataModule
     // AoWSelFactionWin.pas:72
     public void LStartClick(int Side)
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.IntGfxMod.FactionWin.ReleaseDiscardableImageData();
         FactionPnl.Visible = false;
         FFade = 0;
-        Aow.Game.Ui.Dialogs.SelFactionWin.StartCampaignJoin(Aow.Game.Ui.Dialogs.DialogHosts.CampaignJoinDlg, Side);
+        StartCampaignJoin(DialogHosts.CampaignJoinDlg, Side);
     }
 
     // AoWSelFactionWin.pas:82
@@ -96,7 +96,7 @@ public partial class SelFactionWin : DataModule
     // AoWSelFactionWin.pas:118
     public void LBackClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         LBack.CaptureInput = false;
         LStart.CaptureInput = false;
         FFade = 100;
@@ -107,7 +107,7 @@ public partial class SelFactionWin : DataModule
     // AoWSelFactionWin.pas:128
     public void DBackClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         DBack.CaptureInput = false;
         DStart.CaptureInput = false;
         FFade = 100;
@@ -122,7 +122,7 @@ public partial class SelFactionWin : DataModule
         {
             DSphere.Visible = false;
             LSphere.Visible = false;
-            var chooseFaction = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ChooseFactionRStr);
+            var chooseFaction = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
             TopLbl.Text = chooseFaction;
         }
     }
@@ -134,7 +134,7 @@ public partial class SelFactionWin : DataModule
         {
             DSphere.Visible = true;
             LSphere.Visible = false;
-            var cultOfStorms = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.CultOfStormsRStr);
+            var cultOfStorms = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.CultOfStormsRStr);
             TopLbl.Text = cultOfStorms;
         }
     }
@@ -146,7 +146,7 @@ public partial class SelFactionWin : DataModule
         {
             DSphere.Visible = false;
             LSphere.Visible = true;
-            var keepers = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.KeepersRStr);
+            var keepers = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.KeepersRStr);
             TopLbl.Text = keepers;
         }
     }
@@ -154,17 +154,17 @@ public partial class SelFactionWin : DataModule
     // AoWSelFactionWin.pas:168
     public void AbortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         CloseSelection();
     }
 
     // AoWSelFactionWin.pas:174
     public void FactionPnlUpdate()
     {
-        global::Aow.Rtl.Rect R;
-        if (Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade >= 0)
+        Rect R;
+        if (DialogHosts.SelFactionWin.FFade >= 0)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.SelFactionWin.FFade -= 6;
+            DialogHosts.SelFactionWin.FFade -= 6;
             if (FFade < 6)
             {
                 if (LStart.Visible && !LStart.CaptureInput)
@@ -175,7 +175,7 @@ public partial class SelFactionWin : DataModule
                     LStart.Visible = false;
                     LSphere.Visible = false;
                     TopLbl.Visible = true;
-                    var chooseFaction = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ChooseFactionRStr);
+                    var chooseFaction = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
                     TopLbl.Text = chooseFaction;
                     FactionPnl.ILIndexTexture = 0;
                 }
@@ -189,16 +189,16 @@ public partial class SelFactionWin : DataModule
                         DStart.Visible = false;
                         DSphere.Visible = false;
                         TopLbl.Visible = true;
-                        var chooseFaction = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ChooseFactionRStr);
+                        var chooseFaction = Magic.Abilities.AbilityRules.TranslateRStr(LobbyText.ChooseFactionRStr);
                         TopLbl.Text = chooseFaction;
                         FactionPnl.ILIndexTexture = 0;
                     }
                 }
             }
 
-            R = global::Aow.Rtl.RtlUnit.Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
+            R = new Rect(this.FactionPnl.WinLeft, this.FactionPnl.WinTop, this.FactionPnl.WinLeft + this.FactionPnl.WinWidth, FactionPnl.WinTop + this.FactionPnl.WinHeight);
 
-            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.AddBltRect(ref R, null);
+            DialogHosts.TitleWindow.TitleWin.AddBltRect(ref R, null);
         }
     }
 
@@ -213,7 +213,7 @@ public partial class SelFactionWin : DataModule
         }
     }
 
-    private static void StartCampaignJoin(global::Aow.Game.Ui.Dialogs.CampaignJoinDlg Dialog, int Faction)
+    private static void StartCampaignJoin(CampaignJoinDlg Dialog, int Faction)
     {
         Dialog.ResetCampaignJoin();
         Dialog.FFaction = Faction;
@@ -222,28 +222,28 @@ public partial class SelFactionWin : DataModule
         switch (Dialog.FFaction)
         {
             case 0:
-                LoadWorldCampaign(global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap, "Keepers.cam");
+                LoadWorldCampaign(DialogHosts.WorldMap, "Keepers.cam");
                 Dialog.CharGenPnl.ILIndexTexture = 10;
-                global::Aow.Game.Engine.AoWHSSet.Current.FTextControl.RetrieveText(10, (StringCollection)(object)val);
+                Engine.AoWHSSet.Current.FTextControl.RetrieveText(10, (StringCollection)(object)val);
                 break;
             case 1:
-                LoadWorldCampaign(global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap, "Storm.cam");
+                LoadWorldCampaign(DialogHosts.WorldMap, "Storm.cam");
                 Dialog.CharGenPnl.ILIndexTexture = 11;
-                global::Aow.Game.Engine.AoWHSSet.Current.FTextControl.RetrieveText(11, (StringCollection)(object)val);
+                Engine.AoWHSSet.Current.FTextControl.RetrieveText(11, (StringCollection)(object)val);
                 break;
         }
-        ParseFontText(((StringCollection)val).Text, (StringCollection)(object)Dialog.FScrollText, global::Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey, 300);
-        global::Aow.Game.Session.WMCampaign campaign = global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign();
-        int iD = global::Aow.Game.Session.WMCampaign.GetCampaignScenario(campaign, 0).FPaths[0];
+        ParseFontText(((StringCollection)val).Text, (StringCollection)(object)Dialog.FScrollText, DialogHosts.FontModule.AoW15WhiteGrey, 300);
+        Session.WMCampaign campaign = DialogHosts.WorldMap.GetCampaign();
+        int iD = Session.WMCampaign.GetCampaignScenario(campaign, 0).FPaths[0];
         int index = campaign.FScenarios.IndexOfID(iD);
-        global::Aow.Game.Session.WMCampaignScenario campaignScenario = global::Aow.Game.Session.WMCampaign.GetCampaignScenario(global::Aow.Game.Ui.Dialogs.DialogHosts.WorldMap.GetCampaign(), index);
-        global::Aow.Game.World.Map.AoWHSMap tAoWHSMap = (global::Aow.Game.World.Map.AoWHSMap)global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(global::Aow.Game.Saves.FileBoundary.ReadName(global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), Aow.Formats.GameProfile.WorldMap);
+        Session.WMCampaignScenario campaignScenario = Session.WMCampaign.GetCampaignScenario(DialogHosts.WorldMap.GetCampaign(), index);
+        World.Map.AoWHSMap tAoWHSMap = (World.Map.AoWHSMap)Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(Saves.FileBoundary.ReadName(Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + campaignScenario.FFileName), Aow.Formats.GameProfile.WorldMap);
         int i;
-        for (i = 0; i < tAoWHSMap.Count && tAoWHSMap.FPlayers.GetPlayers(i).FPlayerType != global::Aow.Game.Session.PlayerType.Human; i++)
+        for (i = 0; i < tAoWHSMap.Count && tAoWHSMap.FPlayers.GetPlayers(i).FPlayerType != Session.PlayerType.Human; i++)
         {
         }
-        global::Aow.Game.Session.Player players = tAoWHSMap.FPlayers.GetPlayers(i);
-        Dialog.FLeader.Assign(players.FLeaderSetup, global::Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+        Session.Player players = tAoWHSMap.FPlayers.GetPlayers(i);
+        Dialog.FLeader.Assign(players.FLeaderSetup, Magic.Abilities.GameTables.AoWEngine);
         tAoWHSMap?.Dispose();
         if (val != null)
         {
@@ -251,12 +251,12 @@ public partial class SelFactionWin : DataModule
         }
     }
 
-    private static void LoadWorldCampaign(global::Aow.Game.Ui.Dialogs.WorldMap Dialog, string Name)
+    private static void LoadWorldCampaign(WorldMap Dialog, string Name)
     {
-        global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.LoadCampaign(global::Aow.Game.Saves.FileBoundary.ReadName(global::Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name));
+        Magic.Abilities.GameTables.AoWEngine.LoadCampaign(Saves.FileBoundary.ReadName(Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Scenario\\Campaign\\" + Name));
     }
 
-    private static void ParseFontText(string Text, StringCollection Strings, global::Aow.Game.Draw.Images.ImageLibraryFont Font, int MaxWidth)
+    private static void ParseFontText(string Text, StringCollection Strings, Draw.Images.ImageLibraryFont Font, int MaxWidth)
     {
         int i = 1;
         int num = 0;

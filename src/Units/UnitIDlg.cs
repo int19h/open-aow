@@ -51,7 +51,7 @@ namespace Aow.Game.Ui.Controls
         }
 
         // Forms.pas:407
-        public UnitInfoDlg(global::Aow.Rtl.Component owner) : base()
+        public UnitInfoDlg(Component owner) : base()
         { }
     }
 }
@@ -230,6 +230,6 @@ namespace Aow.Game.Ui.Dialogs
         public sbyte Moves;
         public sbyte Resistance;
         public FixedArray_byte_9 Reserved2F;
-        public global::Aow.Game.Magic.Abilities.AbilityOwner AbilityOwner;
+        public AbilityOwner AbilityOwner;
     }
 }

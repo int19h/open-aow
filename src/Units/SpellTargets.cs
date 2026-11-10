@@ -39,13 +39,13 @@ internal static class SpellTargets
 
     internal static readonly string SpellXCastRStr = "%s cast";
 
-    internal static void NotifySpellSphere(sbyte Player, Aow.Game.Magic.MagicSphere Sphere)
+    internal static void NotifySpellSphere(sbyte Player, MagicSphere Sphere)
     {
         EMsg Msg = default;
-        Aow.Game.Engine.Nodes.EMsg.InitMsg(ref Msg, 537002242, null);
+        EMsg.InitMsg(ref Msg, 537002242, null);
         Msg.Param[0] = Player;
         Msg.Param[1] = (int)Sphere;
-        Aow.Game.World.Map.AoWHSMap.Current.SendMsg(ref Msg, null);
+        AoWHSMap.Current.SendMsg(ref Msg, null);
     }
 
 }

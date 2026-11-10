@@ -22,11 +22,11 @@ public partial class AoWWaterHexagon
         ImageSequence Sequence;
         int Image;
         bool Showing;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         // { Original uses the shared engine settings and the Flood enchantment. }
-        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0 && (((((AoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((AbstractAoWHSMap)((MapLevel)Owner.Owner).Map).FFogEnabled))
+        if (Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0 && (((((AoWMapField)Owner).FFieldFlags >> 16) & 255) != 0 || !((AbstractAoWHSMap)((MapLevel)Owner.Owner).Map).FFogEnabled))
         {
             FAnimationFrame = (sbyte)(FAnimationFrame + 1);
             if (FAnimationFrame >= 0)
@@ -35,9 +35,9 @@ public partial class AoWWaterHexagon
                 if (FAnimationFrame == 0)
                 {
                     // { Original tests the Flood enchantment. }
-                    if (Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
+                    if (AoWHSMap.Current.FGlobalMagicControl.FActiveEnchantments.Contains(GlobalEnchantmentType.Flood))
                     {
-                        if (FOpenSides == 0 && Random(300) == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                        if (FOpenSides == 0 && Random(300) == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                         {
                             FAnimationIndex = (byte)(Random(10) + 30);
                         }
@@ -55,7 +55,7 @@ public partial class AoWWaterHexagon
                     }
                     else
                     {
-                        if (FOpenSides == 0 && Random(700) == 0 && !Aow.Game.World.Map.AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
+                        if (FOpenSides == 0 && Random(700) == 0 && !AoWHSMap.Current.Status.Contains(HSMapStatusElement.Editting))
                         {
                             FAnimationIndex = (byte)(Random(10) + 30);
                         }
@@ -87,7 +87,7 @@ public partial class AoWWaterHexagon
 
                 if (!Showing)
                 {
-                    if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail == 1)
+                    if (Magic.Abilities.GameTables.AoWEngine.FAnimationDetail == 1)
                     {
                         FAnimationFrame = (sbyte)(-20 - Random(25));
                     }

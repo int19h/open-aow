@@ -33,7 +33,7 @@ internal static class CombatEvents
             Count = Random(5) + 8;
             for (int I = 1; I <= Count - 1; I++)
             {
-                Effect = Aow.Game.Combat.AoWCombatMap.Current.AddEffect(EffectType);
+                Effect = AoWCombatMap.Current.AddEffect(EffectType);
                 Speed = (float)((double)(Random(10) + 10) * 0.1);
                 Gravity = (float)0.5;
                 if (Resisted || EffectType == TfxType.DamMagic)
@@ -46,7 +46,7 @@ internal static class CombatEvents
                 }
 
                 Z = 0;
-                Aow.Game.Draw.EffectPaths.MakeArcPath(X, Y, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
+                EffectPaths.MakeArcPath(X, Y, I * 360 / Count, ref Z, ref Speed, ref VZ, ref Gravity, ref Effect.FPath);
             }
         }
 
@@ -90,7 +90,7 @@ internal static class CombatEvents
     internal static CEndTurnTE CreateTCCancelEndTurnTE(sbyte Player)
     {
         CEndTurnTE Result;
-        if (!Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
+        if (!AoWHSMap.Current.FPlayers.GetPlayers(Player).GetBusy())
         {
             Result = new CEndTurnTE(null);
         }

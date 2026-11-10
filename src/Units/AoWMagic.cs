@@ -29,7 +29,7 @@ namespace Aow.Game.Ui.Dialogs;
 // enchantment sort, global sort, power sort
 public partial class MagicWin : DataModule
 {
-    public MagicWin(global::Aow.Rtl.Component owner) : base(owner)
+    public MagicWin(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -129,7 +129,7 @@ public partial class MagicWin : DataModule
         if (Index != -1)
         {
             Enchantment = (GlobalEnchantment)GlobalEnchantmentList.Items.Objects[Index];
-            var canRemove = Enchantment.CanRemove(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, ref Reason);
+            var canRemove = Enchantment.CanRemove(AoWHSMap.Current.FSeatedPlayer, ref Reason);
             GlobalDispelBtn.Visible = canRemove;
         }
         else
@@ -156,22 +156,22 @@ public partial class MagicWin : DataModule
         switch (FEnchantmentSort)
         {
             case 0:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
                 break;
             case 1:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(EnchantmentList.Items, [BindingList.Items, UpkeepList.Items]);
                 break;
             case 2:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 3:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(BindingList.Items, [EnchantmentList.Items, UpkeepList.Items]);
                 break;
             case 4:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalAscending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
                 break;
             case 5:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalDescending(UpkeepList.Items, [EnchantmentList.Items, BindingList.Items]);
                 break;
         }
     }
@@ -182,22 +182,22 @@ public partial class MagicWin : DataModule
         switch (FGlobalEnchantmentSort)
         {
             case 0:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 1:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(GlobalEnchantmentList.Items, [GlobalNameList.Items, GlobalUpkeepList.Items]);
                 break;
             case 2:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 3:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(GlobalNameList.Items, [GlobalEnchantmentList.Items, GlobalUpkeepList.Items]);
                 break;
             case 4:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalAscending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
             case 5:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalDescending(GlobalUpkeepList.Items, [GlobalEnchantmentList.Items, GlobalNameList.Items]);
                 break;
         }
     }
@@ -208,16 +208,16 @@ public partial class MagicWin : DataModule
         switch (FPowerSort)
         {
             case 0:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
+                Engine.Nodes.StringSorting.SortStringsAscending(PowerSourceList.Items, [PowerValueList.Items]);
                 break;
             case 1:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(PowerSourceList.Items, [PowerValueList.Items]);
+                Engine.Nodes.StringSorting.SortStringsDescending(PowerSourceList.Items, [PowerValueList.Items]);
                 break;
             case 2:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(PowerValueList.Items, [PowerSourceList.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalAscending(PowerValueList.Items, [PowerSourceList.Items]);
                 break;
             case 3:
-                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
+                Engine.Nodes.StringSorting.SortStringsNumericalDescending(PowerValueList.Items, [PowerSourceList.Items]);
                 break;
         }
     }
@@ -260,7 +260,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:218
     public void DispelBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         bool condition = EnchantmentList.Selected >= 0;
         if (condition)
         {
@@ -271,7 +271,7 @@ public partial class MagicWin : DataModule
         if (condition)
         {
             var enchantment = EnchantmentList.Items.Objects[EnchantmentList.Selected];
-            Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.DispelEnchantment((Enchantment)enchantment);
+            AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.DispelEnchantment((Enchantment)enchantment);
         }
     }
 
@@ -296,7 +296,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:245
     public void GlobalDispelBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         bool condition = GlobalEnchantmentList.Selected >= 0;
         if (condition)
         {
@@ -307,7 +307,7 @@ public partial class MagicWin : DataModule
         if (condition)
         {
             var globalEnchantment = GlobalEnchantmentList.Items.Objects[GlobalEnchantmentList.Selected];
-            Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl.RemoveEnchantment(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer, (GlobalEnchantment)globalEnchantment);
+            AoWHSMap.Current.FGlobalMagicControl.RemoveEnchantment(AoWHSMap.Current.FSeatedPlayer, (GlobalEnchantment)globalEnchantment);
         }
     }
 
@@ -344,15 +344,15 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:284
     public void ResearchBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.SpellBook.ShowResearch();
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.SpellBook.ShowResearch();
     }
 
     // AoWMagic.pas:290
     public void ChangePowerButClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.DialogHosts.PowerDlg.Execute();
+        DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.PowerDlg.Execute();
     }
 
     // AoWMagic.pas:296
@@ -362,10 +362,10 @@ public partial class MagicWin : DataModule
         Spell Spell;
         int X;
         int Y;
-        Magic = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
+        Magic = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
         if (Magic.FResearchSpellID != 0)
         {
-            Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Magic.FResearchSpellID);
+            Spell = AoWHSSet.Current.FSpellControl.GetSpell(Magic.FResearchSpellID);
             if (Spell != null)
             {
                 if (Spell.FCastImages.GetImageSequence(10) != null)
@@ -436,7 +436,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:354
     public void EnchantmentSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEnchantmentSort == 0)
         {
             FEnchantmentSort = 1;
@@ -452,7 +452,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:363
     public void BindingSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEnchantmentSort == 2)
         {
             FEnchantmentSort = 3;
@@ -468,7 +468,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:372
     public void UpkeepSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEnchantmentSort == 4)
         {
             FEnchantmentSort = 5;
@@ -484,7 +484,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:381
     public void GlobalEnchantmentSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FGlobalEnchantmentSort == 0)
         {
             FGlobalEnchantmentSort = 1;
@@ -500,7 +500,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:390
     public void GlobalNameSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
         if (FGlobalEnchantmentSort == 0)
         {
@@ -517,7 +517,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:400
     public void GlobalUpkeepSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         // { Original name/upkeep buttons also toggle the enchantment-name order. }
         if (FGlobalEnchantmentSort == 0)
         {
@@ -534,7 +534,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:410
     public void PowerSourceSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FPowerSort == 0)
         {
             FPowerSort = 1;
@@ -550,7 +550,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:419
     public void PowerValueSortBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FPowerSort == 2)
         {
             FPowerSort = 3;
@@ -566,7 +566,7 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:428
     public void HeaderTabChange()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWMagic.pas:434
@@ -581,26 +581,26 @@ public partial class MagicWin : DataModule
     // AoWMagic.pas:447
     public void DlgShow()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.RegisterDialog(Dlg);
+        DialogHosts.General.RegisterDialog(Dlg);
     }
 
     // AoWMagic.pas:453
     public void DlgHide()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.UnregisterDialog(Dlg);
+        DialogHosts.General.UnregisterDialog(Dlg);
     }
 
     // AoWMagic.pas:459
     public void HelpClick()
     {
-        Aow.Game.Ui.Dialogs.HelpWindow.ShowHelp(506);
+        HelpWindow.ShowHelp(506);
     }
 
     // AoWMagic.pas:470
     public void MinimizeClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
-        Aow.Game.Ui.Dialogs.MagicWin.HideMagic(this);
+        DialogHosts.General.PlayButtonSound(0);
+        HideMagic(this);
     }
 
     // AoWMagic.pas:462
@@ -626,8 +626,8 @@ public partial class MagicWin : DataModule
     {
         if (!Window.Dlg.Visible)
         {
-            Aow.Game.Ui.Dialogs.MagicWin.RefreshMagicWindow(Window);
-            Aow.Game.Ui.Dialogs.MagicWin.RefreshGlobalMagic(Window);
+            RefreshMagicWindow(Window);
+            RefreshGlobalMagic(Window);
         }
 
         Window.Dlg.Visible = true;
@@ -646,9 +646,9 @@ public partial class MagicWin : DataModule
         PlayerMagicControl Control;
         int Turns;
         Spell Spell;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer != -1)
+        if (AoWHSMap.Current.FSeatedPlayer != -1)
         {
-            Control = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl;
+            Control = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl;
             Window.EnchantmentList.Items.Clear();
             Window.BindingList.Items.Clear();
             Window.UpkeepList.Items.Clear();
@@ -688,23 +688,23 @@ public partial class MagicWin : DataModule
             Window.ResearchPoints.Text = IntToStr(netPowerToResearch);
             if (Control.FResearchSpellID != 0)
             {
-                Spell = Aow.Game.Engine.AoWHSSet.Current.FSpellControl.GetSpell(Control.FResearchSpellID);
+                Spell = AoWHSSet.Current.FSpellControl.GetSpell(Control.FResearchSpellID);
                 Window.SpellName.Text = Spell.FSpellName;
-                var magicSphere = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
-                var level = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelRStr);
+                var magicSphere = AbilityRules.TranslateRStr(GameTables.TMagicSphereRStr[(int)Spell.FMagicSphere]);
+                var level = AbilityRules.TranslateRStr(GameText.LevelRStr);
                 Window.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
-                var castingCost = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.CastingCostRStr);
-                var mana = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ManaRStr);
+                var castingCost = AbilityRules.TranslateRStr(GameText.CastingCostRStr);
+                var mana = AbilityRules.TranslateRStr(GameText.ManaRStr);
                 Window.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
-                Turns = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
+                Turns = AoWHSMap.Current.FPlayers.GetPlayers(AoWHSMap.Current.FSeatedPlayer).FMagicControl.GetResearchTurnsLeft();
                 if (Turns < 999)
                 {
-                    var fmtTurnsLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtTurnsLeftStr(Turns);
+                    var fmtTurnsLeftStr = DurationText.FmtTurnsLeftStr(Turns);
                     Window.ResearchTurnsLeft.Text = fmtTurnsLeftStr;
                 }
                 else
                 {
-                    var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XTurnsRStr), [(byte)63]);
+                    var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.XTurnsRStr), [(byte)63]);
                     Window.ResearchTurnsLeft.Text = format;
                 }
 
@@ -725,19 +725,19 @@ public partial class MagicWin : DataModule
     internal static void RefreshGlobalMagic(MagicWin Window)
     {
         GlobalMagicControl Control;
-        Control = Aow.Game.World.Map.AoWHSMap.Current.FGlobalMagicControl;
+        Control = AoWHSMap.Current.FGlobalMagicControl;
         Window.GlobalEnchantmentList.Items.Clear();
         Window.GlobalNameList.Items.Clear();
         Window.GlobalUpkeepList.Items.Clear();
         for (int I = 0, last = Control.FEnchantments.Count - 1; I <= last; I++)
         {
-            if (Control.FEnchantments.GetEnchantments(I).VisibleForPlayer(Aow.Game.World.Map.AoWHSMap.Current.FSeatedPlayer))
+            if (Control.FEnchantments.GetEnchantments(I).VisibleForPlayer(AoWHSMap.Current.FSeatedPlayer))
             {
                 var name = Control.FEnchantments.GetEnchantments(I).GetName();
                 var enchantment = Control.FEnchantments.GetEnchantments(I);
                 Window.GlobalEnchantmentList.Items.AddObject(name, enchantment);
                 var enchantmentPlayerIndex = Control.FEnchantments.GetEnchantments(I);
-                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
+                var player = AoWHSMap.Current.FPlayers.GetPlayers(enchantmentPlayerIndex.FPlayerIndex);
                 Window.GlobalNameList.Items.Add(player.FLeader.FHeroName);
                 var upkeep = Control.FEnchantments.GetEnchantments(I).GetUpkeep();
                 Window.GlobalUpkeepList.Items.Add(IntToStr(upkeep));
@@ -751,7 +751,7 @@ public partial class MagicWin : DataModule
 
     internal static void ShowMagicEvent(MagicWin Window, PlayerMagicEventLog Event, ExecuteDoneEvent Done)
     {
-        Aow.Game.Ui.Dialogs.TBWindow.ShowMagicWindow(Window);
+        TaskBar.ShowMagicWindow(Window);
         if (Done != null)
         {
             Done(Event);

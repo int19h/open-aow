@@ -47,7 +47,7 @@ public partial class BorderHexagon : AbstractBorderHexagon
     {
         int Xhp = default;
         int Yhp = default;
-        Aow.Game.World.Map.HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
+        HexGeometry.HXtoHP(((MapField)Owner).Xhx, ((MapField)Owner).Yhx, ref Xhp, ref Yhp);
         FResource.ImageLibrary[0].Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc);
     }
 
@@ -70,7 +70,7 @@ public partial class BorderHexagon : AbstractBorderHexagon
     // BorderHx.pas:95
     public override bool CanChangeTerrain(in HSSenderInfo Info) => Info.HN != 0;
 
-    public new partial class Resource : Aow.Game.World.Map.AbstractBorderHexagon.Resource
+    public new partial class Resource : AbstractBorderHexagon.Resource
     {
         public Resource(ECustomNode owner) : base(owner)
         { }

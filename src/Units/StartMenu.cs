@@ -11,7 +11,7 @@ namespace Aow.Game.Ui.Windows;
 // whole-menu image library
 public partial class StartMenu : AOWMenu
 {
-    public StartMenu(global::Aow.Rtl.Component owner) : base(owner)
+    public StartMenu(Component owner) : base(owner)
     { }
 
     public ImageLibrary FILWholeMenu;
@@ -98,7 +98,7 @@ public partial class StartMenu : AOWMenu
     // StartMenu.pas:87
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip = default;
+        Rect OldClip = default;
         try
         {
             if (FValid && FVisible)
@@ -137,7 +137,7 @@ public partial class StartMenu : AOWMenu
                             var ilFrame3 = FILFrame[FILIndexFrame + 1];
                             var ilFrame4 = FILFrame[FILIndexFrame + 1];
                             var ilFrame5 = FILFrame[FILIndexFrame + 3];
-                            FDrawItemRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame5.Width, FWinTop + ilFrame4.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame3.Height + (I + 1) * FItemHeight);
+                            FDrawItemRect = new Rect(FWinLeft + ilFrame5.Width, FWinTop + ilFrame4.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame3.Height + (I + 1) * FItemHeight);
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);

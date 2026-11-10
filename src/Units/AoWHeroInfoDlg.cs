@@ -18,7 +18,7 @@ namespace Aow.Game.Ui.Dialogs;
 // done callback, army event, unit-details flag
 public partial class HeroInfoDlg : DataModule
 {
-    public HeroInfoDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public HeroInfoDlg(Component owner) : base(owner)
     { }
 
     public AOWPanel UnitPnl;
@@ -51,8 +51,8 @@ public partial class HeroInfoDlg : DataModule
         if (FDetailsOpen)
         {
             FDetailsOpen = false;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Priority;
-            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = false;
+            DialogHosts.UnitWindow.UnitWin.Priority = DialogHosts.ControlWin.ControlWindow.Priority;
+            DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
 
         Done = FDone;
@@ -71,12 +71,12 @@ public partial class HeroInfoDlg : DataModule
     }
 
     // AoWHeroInfoDlg.pas:118
-    public void DrawUnit(int Index, in global::Aow.Rtl.Rect R, ref SurfaceDesc Surface)
+    public void DrawUnit(int Index, in Rect R, ref SurfaceDesc Surface)
     {
         Alignment Alignment;
         int X;
         int Y;
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         P2UnitShowInfo Info;
         if (Index < FArmyInfo.FArmyView.GetCount())
         {
@@ -85,9 +85,9 @@ public partial class HeroInfoDlg : DataModule
             X = (R.Right + R.Left) / 2;
             Y = (R.Top + R.Bottom) / 2;
             Alignment = FArmyInfo.FArmyView.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                var image = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -97,7 +97,7 @@ public partial class HeroInfoDlg : DataModule
             FArmyInfo.FArmyView.GetUnit(Index).ShowEx(X - 33, Y - 35, Surface, Info);
             if ((((int)(((uint)FArmyInfo.FSelection) >> Index)) & 1) == 0)
             {
-                var image = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
+                var image = DialogHosts.IntGfxMod.UnitBGs[7];
                 image.ShowClipped(X - image.Width / 2, Y - image.Height / 2, Surface);
             }
 
@@ -108,14 +108,14 @@ public partial class HeroInfoDlg : DataModule
     // AoWHeroInfoDlg.pas:146
     public void CloseBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
     // AoWHeroInfoDlg.pas:152
     public void FaceFramePreDraw(SurfaceDesc Surface)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         Hero Hero;
         int I;
         R.Left = this.FaceFrame.WinLeft + Dlg.WinLeft;
@@ -123,7 +123,7 @@ public partial class HeroInfoDlg : DataModule
         R.Top = this.FaceFrame.WinTop + Dlg.WinTop;
         R.Bottom = this.FaceFrame.WinHeight + R.Top;
 
-        Hero = FArmyInfo.FArmyView.Hero(FArmyInfo.FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
+        Hero = FArmyInfo.FArmyView.Hero(FArmyInfo.FSelection, RosterTables.AllHeroTypes);
         if (Hero.GetFace() != null)
         {
             Hero.ShowFace(R, Surface);
@@ -146,7 +146,7 @@ public partial class HeroInfoDlg : DataModule
     // AoWHeroInfoDlg.pas:175
     public void U1PreDraw(AoWFrame Sender, SurfaceDesc Surface, int Slot)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         R.Left = Sender.WinLeft + UnitPnl.WinLeft + 1;
         R.Right = Sender.WinWidth + R.Left;
         R.Top = Sender.WinTop + UnitPnl.WinTop;
@@ -162,12 +162,12 @@ public partial class HeroInfoDlg : DataModule
         if (Slot < count)
         {
             var unit = FArmyInfo.FArmyView.GetUnit(Slot);
-            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
+            DialogHosts.General.FSelectedUnit = unit;
             if (Button == MouseButton.Left)
             {
                 FDetailsOpen = true;
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
-                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
+                DialogHosts.UnitWindow.ShowUnit();
+                DialogHosts.UnitWindow.UnitWin.Priority = Dlg.Priority + 1;
             }
         }
     }
@@ -196,12 +196,12 @@ public partial class HeroInfoDlg : DataModule
         Dialog.FArmyInfo.AddRef();
         var text = Event.FMessages.Text;
         Dialog.Message.Items.Text = text;
-        Hero = Dialog.FArmyInfo.FArmyView.Hero(Dialog.FArmyInfo.FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
+        Hero = Dialog.FArmyInfo.FArmyView.Hero(Dialog.FArmyInfo.FSelection, RosterTables.AllHeroTypes);
         if (Hero != null)
         {
             Dialog.HeroName.Text = Hero.FHeroName;
             var level = Hero.GetLevel();
-            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelXRStr), [IntToStr(level)]);
+            var format = AbilityRules.Format(AbilityRules.TranslateRStr(GameText.LevelXRStr), [IntToStr(level)]);
             Dialog.HeroLevel.Text = format;
         }
         else

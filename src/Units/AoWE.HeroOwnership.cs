@@ -33,17 +33,17 @@ namespace Aow.Game.Units
 
     public partial class HeroItems
     {
-        internal global::Aow.Game.Magic.Abilities.Hero Hero;
+        internal Hero Hero;
 
-        public override global::Aow.Game.Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
+        public override Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
     }
 
     public partial class HeroInventory
     {
-        internal global::Aow.Game.Magic.Abilities.Hero Hero;
+        internal Hero Hero;
 
-        public override global::Aow.Game.Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
+        public override Engine.Engine GetEngine() => Hero != null ? Hero.GetEngine() : base.GetEngine();
         public override void GetLocation(ref sbyte x, ref sbyte y, ref sbyte level) => Hero.GetLocation(ref x, ref y, ref level);
     }
 }

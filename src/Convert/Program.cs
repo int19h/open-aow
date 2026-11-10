@@ -26,7 +26,7 @@ public static class Program
     // Every conversion runs it first, so a mapped class never converts without its mapping.
     static Program()
     {
-        System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Aow.Game.Saves.FormatMapping).Module.ModuleHandle);
+        System.Runtime.CompilerServices.RuntimeHelpers.RunModuleConstructor(typeof(Game.Saves.FormatMapping).Module.ModuleHandle);
     }
 
     public static int Run(string[] args, TextWriter output, TextWriter errors)

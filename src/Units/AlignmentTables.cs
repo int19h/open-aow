@@ -38,23 +38,23 @@ namespace Aow.Game.Magic.Abilities;
 
 internal static class AlignmentTables
 {
-    internal static Status dAlignmentToStatus(Alignment A, Alignment B) => Aow.Game.Session.Race.StatusValueToStatus(dAlignmentToStatusValue[(int)A][(int)B]);
+    internal static Status dAlignmentToStatus(Alignment A, Alignment B) => Race.StatusValueToStatus(dAlignmentToStatusValue[(int)A][(int)B]);
 
     internal static sbyte AlignmentToIR(Alignment Alignment)
     {
         sbyte Result;
         switch (Alignment)
         {
-            case global::Aow.Game.Engine.Alignment.PureGood:
-            case global::Aow.Game.Engine.Alignment.Good:
+            case Alignment.PureGood:
+            case Alignment.Good:
                 Result = -2;
                 break;
-            case global::Aow.Game.Engine.Alignment.Evil:
-            case global::Aow.Game.Engine.Alignment.PureEvil:
+            case Alignment.Evil:
+            case Alignment.PureEvil:
                 Result = -4;
                 break;
-            case global::Aow.Game.Engine.Alignment.PureNeutral:
-            case global::Aow.Game.Engine.Alignment.Neutral:
+            case Alignment.PureNeutral:
+            case Alignment.Neutral:
                 Result = -3;
                 break;
             default:
@@ -131,15 +131,15 @@ internal static class AlignmentTables
         DiplomaticRelation Result;
         switch (Status)
         {
-            case global::Aow.Game.Engine.Status.Polite:
-            case global::Aow.Game.Engine.Status.Friendly:
+            case Status.Polite:
+            case Status.Friendly:
                 Result = DiplomaticRelation.Peace;
                 break;
-            case global::Aow.Game.Engine.Status.Neutral:
+            case Status.Neutral:
                 Result = DiplomaticRelation.Unknown;
                 break;
-            case global::Aow.Game.Engine.Status.Hostile:
-            case global::Aow.Game.Engine.Status.Wary:
+            case Status.Hostile:
+            case Status.Wary:
                 Result = DiplomaticRelation.War;
                 break;
             default:

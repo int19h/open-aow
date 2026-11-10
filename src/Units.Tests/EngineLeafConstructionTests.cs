@@ -24,7 +24,7 @@ public sealed class EngineLeafConstructionTests
             if (child is EControlStyleSortNode style) Assert.Equal(default, style.GetControlStyle());
             if (child is ETimerNode timer)
             {
-                var lists = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
+                var lists = Field<FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
                 for (int i = 0; i < 10; i++) Assert.Null(lists[i]);
             }
             ObservedBeforeLeafBody.Add(child);
@@ -35,7 +35,7 @@ public sealed class EngineLeafConstructionTests
 
     private static Engine CreateEngine()
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         return engine;
     }
@@ -85,7 +85,7 @@ public sealed class EngineLeafConstructionTests
             }
             if (direct is EControlStyleSortNode style)
                 style.SetControlStyle(Set<EControlStyleElement>.Of(
-                    Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
+                    EngineServices.csStored, EngineServices.csShared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
@@ -95,8 +95,8 @@ public sealed class EngineLeafConstructionTests
                 Assert.NotSame(((PlugInControl)direct).UsedPlugIns, copiedPlugIn.UsedPlugIns);
             if (copy is ETimerNode copiedTimer)
             {
-                var original = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(direct, "FTimerLists");
-                var copied = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(copiedTimer, "FTimerLists");
+                var original = Field<FixedArray_Aow_Rtl_TList_10>(direct, "FTimerLists");
+                var copied = Field<FixedArray_Aow_Rtl_TList_10>(copiedTimer, "FTimerLists");
                 for (int i = 0; i < 10; i++) Assert.NotSame(original[i], copied[i]);
             }
             Assert.Equal(owned ? 3 : 0, owner.Members.Count);
@@ -116,13 +116,13 @@ public sealed class EngineLeafConstructionTests
         switch (value)
         {
             case EControlStyleSortNode sort:
-                Assert.Equal(0, sort.Count); Assert.Equal(0, Field<int>(sort, "FCapacity")); Assert.Empty(Field<Aow.Game.Engine.Nodes.ESortNode.SortItem[]>(sort, "FItems"));
+                Assert.Equal(0, sort.Count); Assert.Equal(0, Field<int>(sort, "FCapacity")); Assert.Empty(Field<ESortNode.SortItem[]>(sort, "FItems"));
                 Assert.False(Field<bool>(sort, "FSorted"));
-                Assert.Equal(Set<EControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored), sort.GetControlStyle());
+                Assert.Equal(Set<EControlStyleElement>.Of(EngineServices.csStored), sort.GetControlStyle());
                 break;
             case ETimerNode timer:
                 Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);
-                var lists = Field<Aow.Game.Engine.Buffers.FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
+                var lists = Field<FixedArray_Aow_Rtl_TList_10>(timer, "FTimerLists");
                 for (int i = 0; i < 10; i++) { Assert.NotNull(lists[i]); Assert.Equal(0, lists[i].Count); Assert.Equal(0, lists[i].Capacity); }
                 Assert.Equal(10, Enumerable.Range(0, 10).Select(i => lists[i]).Distinct().Count());
                 break;
@@ -158,7 +158,7 @@ public sealed class EngineLeafConstructionTests
         {
             OwnerCalls++;
             base.SetOwner(owner);
-            FItems = new Aow.Game.Engine.Nodes.ESortNode.SortItem[1];
+            FItems = new SortItem[1];
         }
     }
 
@@ -209,7 +209,7 @@ public sealed class EngineLeafConstructionTests
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.True(Field<Memory<byte>>(list, "FList").IsEmpty);
                     break;
                 case CallBackEventList list:
-                    Assert.Equal(0, list.Count); Assert.Empty(Field<List<Aow.Game.Engine.Collections.CallBackEventList.CallBackEvent>>(list, "FList"));
+                    Assert.Equal(0, list.Count); Assert.Empty(Field<List<CallBackEventList.CallBackEvent>>(list, "FList"));
                     break;
                 case DoubleItemList list:
                     Assert.Equal(0, list.Count); Assert.Equal(0, list.Capacity); Assert.Empty(list.List);

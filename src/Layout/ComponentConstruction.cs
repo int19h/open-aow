@@ -462,7 +462,7 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Net
 {
-    public partial class TmsMessage
+    public partial class MailMessage
     {
         public string ContentType { get; set; } = "";
         public bool ReturnReceipt { get; set; }
@@ -471,11 +471,11 @@ namespace Aow.Game.Net
 
 namespace Aow.Game.Net
 {
-    public partial class TmsSMTP
+    public partial class SmtpSender
     {
         public int DefaultPort { get; set; }
-        public SmtpError<TmsSMTP> OnError { get; set; }
-        public SmtpProgress<TmsSMTP> OnProgress { get; set; }
+        public SmtpError<SmtpSender> OnError { get; set; }
+        public SmtpProgress<SmtpSender> OnProgress { get; set; }
     }
 }
 
@@ -651,9 +651,9 @@ namespace Aow.Game.Ui.Dialogs
 
 namespace Aow.Game.Layout
 {
-    public class LayoutTIvTranslator : IvTranslator
+    public class LayoutIvTranslator : IvTranslator
     {
-        public LayoutTIvTranslator(global::Aow.Rtl.Component owner) : base(owner)
+        public LayoutIvTranslator(Component owner) : base(owner)
         {
         }
     }
@@ -675,9 +675,9 @@ namespace Aow.Game.Ui.Grids
 
 namespace Aow.Game.Layout
 {
-    public class LayoutTVideoPlayer : VideoPlayer
+    public class LayoutVideoPlayer : VideoPlayer
     {
-        public LayoutTVideoPlayer(global::Aow.Rtl.Component owner) : base(owner)
+        public LayoutVideoPlayer(Component owner) : base(owner)
         {
         }
 
@@ -696,9 +696,9 @@ namespace Aow.Game.Layout
 
 namespace Aow.Game.Layout
 {
-    public class LayoutTGDPlay : GDPlay
+    public class LayoutGDPlay : GDPlay
     {
-        public LayoutTGDPlay(global::Aow.Rtl.Component owner) : base(owner)
+        public LayoutGDPlay(Component owner) : base(owner)
         {
         }
 
@@ -707,7 +707,7 @@ namespace Aow.Game.Layout
         public int MaxPlayers { get; set; }
         public GDChatMessageEvent OnChatMessage { get; set; }
         public GDDestroyPlayerEvent OnDestroyPlayer { get; set; }
-        public NotifyEvent<LayoutTGDPlay> OnEjected { get; set; }
+        public NotifyEvent<LayoutGDPlay> OnEjected { get; set; }
         public GDFileDoneMessageEvent OnFileDoneMessage { get; set; }
         public GDFileProgressMessageEvent OnFileProgressMessage { get; set; }
         public GDFileStartMessageEvent OnFileStartMessage { get; set; }

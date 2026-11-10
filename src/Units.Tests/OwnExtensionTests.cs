@@ -183,7 +183,7 @@ public sealed class OwnExtensionWriteTests
         var previousMap = engine.FHSMap;
         var previousLog = FileBoundary.Log;
         engine.FHSMap = map;
-        Aow.Game.World.Map.AoWHSMap.Current = map;
+        AoWHSMap.Current = map;
         FileBoundary.Log = log.Add;
         try
         {
@@ -193,7 +193,7 @@ public sealed class OwnExtensionWriteTests
         {
             FileBoundary.Log = previousLog;
             engine.FHSMap = previousMap;
-            Aow.Game.World.Map.AoWHSMap.Current = null!;
+            AoWHSMap.Current = null!;
             foreach (var file in Directory.GetFiles(Path.Combine(EngineFixture.Root, "Save"))) File.Delete(file);
         }
     }

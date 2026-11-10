@@ -15,7 +15,7 @@ public static class ImageLibraries
     {
         for (int I = 0, last = AClasses.Length - 1; I <= last; I++)
         {
-            if (AClasses[I].ClassID != 0 && Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(AClasses[I].ClassID) == null)
+            if (AClasses[I].ClassID != 0 && LibraryCatalog.FindLibraryImageClass(AClasses[I].ClassID) == null)
             {
                 LibraryImageClasses.Add(AClasses[I]);
             }
@@ -32,7 +32,7 @@ public static class ImageLibraries
 
     public static void Initialize()
     {
-        BaseImageLibraryPath = ExtractFilePath(global::Aow.Rtl.RtlUnit.Application.ExeName);
+        BaseImageLibraryPath = ExtractFilePath(RtlUnit.Application.ExeName);
         LibraryImageClasses = new DelphiList();
         RegisterLibraryImageClasses([LibraryImageClass.Of<Picture08>(), LibraryImageClass.Of<RLESprite08>()]);
         RegisterLibraryImageClasses([LibraryImageClass.Of<Picture16>(), LibraryImageClass.Of<TransparentPicture16>(), LibraryImageClass.Of<RLESprite16>(), LibraryImageClass.Of<TransparentRLESprite16>(), LibraryImageClass.Of<Shadow>(), LibraryImageClass.Of<ImageNode>(), LibraryImageClass.Of<Sprite16>()]);

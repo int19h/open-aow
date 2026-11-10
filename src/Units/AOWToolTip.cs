@@ -23,13 +23,13 @@ public partial class AOWToolTip : AOWGenericWindow
     public int FShowDuration;
     public int FItemHeight;
     public bool FShowing;
-    public global::Aow.Rtl.Rect FControlRect;
+    public Rect FControlRect;
     public int FItemIndex;
-    public global::Aow.Rtl.Rect FItemRect;
+    public Rect FItemRect;
     public StringList FLines;
 
     // AOWToolTip.pas:62
-    public AOWToolTip(global::Aow.Rtl.Component owner) : base(owner)
+    public AOWToolTip(Component owner) : base(owner)
     {
         FLines = new StringList();
         FItems = new StringList();
@@ -283,12 +283,12 @@ public partial class AOWToolTip : AOWGenericWindow
     // AOWToolTip.pas:223
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect OldClip;
+        Rect OldClip;
         try
         {
             if (FValid && FVisible)
             {
-                var rect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
+                var rect = new Rect(FWinLeft, FWinTop, FWinWidth, FWinHeight);
                 FILFrame.DrawILF(FILIndexFrame, rect, ref SurfDesc);
                 var ilFrameHeight = FILFrame[FILIndexFrame + 1];
                 var ilFrame = FILFrame[FILIndexFrame + 6];
@@ -296,7 +296,7 @@ public partial class AOWToolTip : AOWGenericWindow
                 var ilFrame2 = FILFrame[FILIndexFrame + 4];
                 var ilFrame3 = FILFrame[FILIndexFrame + 1];
                 var ilFrame4 = FILFrame[FILIndexFrame + 3];
-                var rect2 = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
+                var rect2 = new Rect(FWinLeft + ilFrame4.Width, FWinTop + ilFrame3.Height, FWinWidth - ilFrameWidth.Width - ilFrame2.Width, FWinHeight - ilFrameHeight.Height - ilFrame.Height);
                 FILTexture.DrawILT(FILIndexTexture, rect2, ref SurfDesc);
                 FAOWFont.Color = FColor;
                 OldClip = SurfDesc.ClipRect;
@@ -321,7 +321,7 @@ public partial class AOWToolTip : AOWGenericWindow
                             var ilFrame8 = FILFrame[FILIndexFrame + 1];
                             var ilFrame9 = FILFrame[FILIndexFrame + 1];
                             var libraryImage = FILFrame[FILIndexFrame + 3];
-                            FItemRect = global::Aow.Rtl.RtlUnit.Rect(FWinLeft + libraryImage.Width, FWinTop + ilFrame9.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame8.Height + (I + 1) * FItemHeight);
+                            FItemRect = new Rect(FWinLeft + libraryImage.Width, FWinTop + ilFrame9.Height + FItemHeight * I, FWinLeft + FWinWidth, FWinTop + ilFrame8.Height + (I + 1) * FItemHeight);
                             if (FOnDrawItem != null)
                             {
                                 FOnDrawItem(this);

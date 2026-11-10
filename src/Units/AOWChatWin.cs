@@ -13,7 +13,7 @@ namespace Aow.Game.Ui.Dialogs;
 // pending scroll to the newest message
 public partial class ChatWindow : DataModule
 {
-    public ChatWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public ChatWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow ChatWin;
@@ -32,7 +32,7 @@ public partial class ChatWindow : DataModule
     // AOWChatWin.pas:47
     public void MinClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         ChatWin.Visible = false;
     }
 
@@ -57,14 +57,14 @@ public partial class ChatWindow : DataModule
     // AOWChatWin.pas:79
     public void ChatWinShow()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.RegisterDialog(ChatWin);
+        DialogHosts.General.RegisterDialog(ChatWin);
         FScrollPending = true;
     }
 
     // AOWChatWin.pas:85
     public void ChatWinHide()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.UnregisterDialog(ChatWin);
+        DialogHosts.General.UnregisterDialog(ChatWin);
     }
 
     // AOWChatWin.pas:88
@@ -79,18 +79,18 @@ public partial class ChatWindow : DataModule
     }
 
     // AOWChatWin.pas:97
-    public void PlayerListPreDrawItem(in global::Aow.Rtl.Rect DrawRect, int DrawItem, in SurfaceDesc SD)
+    public void PlayerListPreDrawItem(in Rect DrawRect, int DrawItem, in SurfaceDesc SD)
     {
         sbyte Player;
         if (DrawItem != 0)
         {
             var objectValue = PlayerList.Items.Objects[DrawItem];
-            Player = (sbyte)Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
+            Player = (sbyte)World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
-            if (Player > 0 && Player < Aow.Game.World.Map.AoWHSMap.Current.FPlayers.Count)
+            if (Player > 0 && Player < World.Map.AoWHSMap.Current.FPlayers.Count)
             {
-                var player = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
-                PlayerList.TextColor = Aow.Game.Magic.Abilities.AbilityRules.RaceColors[player.FPlayerRace];
+                var player = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(Player);
+                PlayerList.TextColor = Magic.Abilities.AbilityRules.RaceColors[player.FPlayerRace];
             }
         }
         else

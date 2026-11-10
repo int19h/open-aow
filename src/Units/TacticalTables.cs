@@ -117,26 +117,26 @@ internal static class TacticalTables
         switch (Ability)
         {
             case 55:
-                Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                 break;
             case 22:
             case 24:
             case 25:
-                Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 100, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(Side, 50, 100, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                 break;
             case 44:
             case 45:
             case 57:
             case 58:
             case 123:
-                Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 20, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(Side, 50, 20, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                 break;
             case 30:
             case 31:
             case >= 86 and <= 90:
                 var xyz = new XYZ();
                 Path.Add(xyz);
-                Aow.Game.World.Map.HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
+                HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
                 Path[0].X = X + 12;
                 Path[0].Y = Y + 12;
                 Obstacles.Clear();
@@ -145,23 +145,23 @@ internal static class TacticalTables
                 switch (Spell)
                 {
                     case 103:
-                        Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                         break;
                     case 107:
-                        Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(Side, 25, 0, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                         Obstacles.Clear();
                         break;
                     case 117:
-                        Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                         break;
                     case 100:
-                        Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 35, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(Side, 50, 35, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                         break;
                     case 119:
-                        Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 20, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                        MakeRangedPath(Side, 50, 20, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                         break;
                     default:
-                        switch (Aow.Game.Combat.TacticalTables.SpellTypes[Spell])
+                        switch (SpellTypes[Spell])
                         {
                             case TfxType.Breath:
                             case TfxType.Effect:
@@ -178,13 +178,13 @@ internal static class TacticalTables
                             case TfxType.Winds:
                                 var xyz2 = new XYZ();
                                 Path.Add(xyz2);
-                                Aow.Game.World.Map.HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
+                                HexGeometry.HXtoHP(X2, Y2, ref X, ref Y);
                                 Path[0].X = X + 12;
                                 Path[0].Y = Y + 12;
                                 Obstacles.Clear();
                                 break;
                             default:
-                                Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                                MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                                 break;
                         }
 
@@ -193,7 +193,7 @@ internal static class TacticalTables
 
                 break;
             default:
-                Aow.Game.Combat.TacticalTables.MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
+                MakeRangedPath(Side, 50, 50, 50, X1, Y1, X2, Y2, 0, 0, true, ref Path, ref Obstacles);
                 break;
         }
     }
@@ -221,8 +221,8 @@ internal static class TacticalTables
         CityWall Wall;
         Path.Clear();
         Obstacles.Clear();
-        Aow.Game.World.Map.HexGeometry.HXtoHP(X1, Y1, ref X, ref Y);
-        Aow.Game.World.Map.HexGeometry.HXtoHP(X2, Y2, ref LastX, ref LastY);
+        HexGeometry.HXtoHP(X1, Y1, ref X, ref Y);
+        HexGeometry.HXtoHP(X2, Y2, ref LastX, ref LastY);
         X += 13;
         Y += 13;
         LastX = LastX + 13 + OffsetX;
@@ -275,45 +275,45 @@ internal static class TacticalTables
         LastX = 0;
         LastY = 0;
         Point = Path[0];
-        Aow.Game.World.Map.HexGeometry.HPtoHX(Point.X, Point.Y, ref StartX, ref StartY);
+        HexGeometry.HPtoHX(Point.X, Point.Y, ref StartX, ref StartY);
         var count = Path.Count;
         Point = Path[count - 1];
-        Aow.Game.World.Map.HexGeometry.HPtoHX(Point.X, Point.Y, ref EndX, ref EndY);
+        HexGeometry.HPtoHX(Point.X, Point.Y, ref EndX, ref EndY);
         I = 0;
         int last = Path.Count - 1;
         for (; I <= last; I += 1)
         {
             Point = Path[I];
-            Aow.Game.World.Map.HexGeometry.HPtoHX(Point.X, Point.Y, ref X, ref Y);
+            HexGeometry.HPtoHX(Point.X, Point.Y, ref X, ref Y);
             if ((X != StartX || Y != StartY) && (X != EndX || Y != EndY))
             {
                 Steps = 0;
-                if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
+                if (AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 15)
                 {
                     Steps = 3;
                 }
                 else
                 {
-                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
+                    if (AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].TerrainType == 7)
                     {
                         Steps = 3;
                     }
                     else
                     {
-                        A = Aow.Game.World.Map.HexGeometry.dHXtoRad(X, Y, StartX, StartY);
+                        A = HexGeometry.dHXtoRad(X, Y, StartX, StartY);
                         if (!IncludeUnits)
                         {
                             UnitHS = null;
                         }
                         else
                         {
-                            UnitHS = (TacticalCombatUnitHS)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
+                            UnitHS = (TacticalCombatUnitHS)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2228484);
                         }
 
-                        Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
+                        Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229508);
                         if (Wall == null && Side == CombatSideIndex.Attacker)
                         {
-                            Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
+                            Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].FindOwnedChild(2229510);
                         }
 
                         if (A == 1)
@@ -339,7 +339,7 @@ internal static class TacticalTables
 
                                 if (Wall == null)
                                 {
-                                    if (Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
+                                    if (AoWCombatMap.Current.MapContainer.MapLevels[0].Field[X, Y].OverlayType == 8)
                                     {
                                         Steps = 1;
                                     }
@@ -358,11 +358,11 @@ internal static class TacticalTables
                                             B = 1;
                                             while (Wall == null && B < 7)
                                             {
-                                                Aow.Game.World.Map.HexGeometry.CenterHNtoHX(StartX, StartY, B, ref NX, ref NY);
-                                                Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
+                                                HexGeometry.CenterHNtoHX(StartX, StartY, B, ref NX, ref NY);
+                                                Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
                                                 if (Wall == null)
                                                 {
-                                                    Wall = (CityWall)Aow.Game.Combat.AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
+                                                    Wall = (CityWall)AoWCombatMap.Current.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
                                                 }
 
                                                 B += 1;
@@ -385,7 +385,7 @@ internal static class TacticalTables
                     switch (Steps)
                     {
                         case 1:
-                            Aow.Game.World.Map.HexGeometry.HXtoHP(X, Y, ref A, ref B);
+                            HexGeometry.HXtoHP(X, Y, ref A, ref B);
                             A = Point.X + 11 - A;
                             if (A > 23)
                             {

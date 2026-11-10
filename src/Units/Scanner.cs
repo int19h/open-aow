@@ -30,7 +30,7 @@ public partial class Scanner : AOWControl
     public bool FNaturals;
     public NotifyEvent<Scanner> FOnMapPositionChange;
     public int FSteps;
-    public Aow.Game.World.Map.AbstractAoWHSMap FMap;
+    public AbstractAoWHSMap FMap;
     public InterfaceIL FILFrame;
     public int FILIndexFrame;
     public int FMapWidth;
@@ -62,7 +62,7 @@ public partial class Scanner : AOWControl
     }
 
     // Scanner.pas:116
-    public Scanner(global::Aow.Rtl.Component owner) : base(owner)
+    public Scanner(Component owner) : base(owner)
     {
         FSteps = 1;
         FTLeft = -1;
@@ -158,7 +158,7 @@ public partial class Scanner : AOWControl
     // Scanner.pas:445
     public override void Draw(SurfaceDesc SurfDesc)
     {
-        global::Aow.Rtl.Rect R = default;
+        Rect R = default;
         SurfaceDesc SD = default;
         try
         {
@@ -209,19 +209,19 @@ public partial class Scanner : AOWControl
                     DrawObjects();
                 }
 
-                R = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
+                R = new Rect(0, 0, FWinWidth, FWinHeight);
                 SD = SurfDesc;
-                var rect = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
+                var rect = new Rect(FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FAOWWindow.FWinLeft + FWinLeft + FWinWidth, FAOWWindow.FWinTop + FWinTop + FWinHeight);
                 SD.ClipRect = rect;
                 FMapSurface.Lock(ref SurfDesc);
-                Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                SurfaceDesc.BltSDRectClipped(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                 FMapSurface.Unlock();
                 FObjectSurface.Lock(ref SurfDesc);
-                Aow.Game.Draw.SurfaceDesc.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
+                SurfaceDesc.BltSpriteClipped16(SurfDesc, R, SD, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, 65280);
                 FObjectSurface.Unlock();
                 if (FMapWidth > 0 && FMapHeight > 0)
                 {
-                    var rect2 = global::Aow.Rtl.RtlUnit.Rect(FAOWWindow.FWinLeft + FWinLeft + FTLeft * FWinWidth / FMapWidth, FAOWWindow.FWinTop + FWinTop + FTTop * FWinHeight / FMapHeight, FTWidth * FWinWidth / FMapWidth, (FTHeight + 2) * FWinHeight / FMapHeight);
+                    var rect2 = new Rect(FAOWWindow.FWinLeft + FWinLeft + FTLeft * FWinWidth / FMapWidth, FAOWWindow.FWinTop + FWinTop + FTTop * FWinHeight / FMapHeight, FTWidth * FWinWidth / FMapWidth, (FTHeight + 2) * FWinHeight / FMapHeight);
                     FILFrame.DrawILF(FILIndexFrame, rect2, ref SD);
                 }
 
@@ -383,7 +383,7 @@ public partial class Scanner : AOWControl
     public void SetLevel(MapLevel Value)
     {
         FLevel = Value;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
             FMapWidth = FLevel.Width - 16;
             FMapHeight = FLevel.Height - 12;
@@ -398,7 +398,7 @@ public partial class Scanner : AOWControl
     // Scanner.pas:205
     public void SetMapWidth(int Value)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
             FMapWidth = Value - 16;
         }
@@ -411,7 +411,7 @@ public partial class Scanner : AOWControl
     // Scanner.pas:211
     public void SetMapHeight(int Value)
     {
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
             FMapHeight = Value - 12;
         }
@@ -426,7 +426,7 @@ public partial class Scanner : AOWControl
     public byte GetTerrain(int X, int Y)
     {
         byte Result;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
             Result = (byte)FLevel.GetField(X + 8, Y + 6).TerrainType;
         }
@@ -447,7 +447,7 @@ public partial class Scanner : AOWControl
     public int GetOverlay(int X, int Y)
     {
         int Result;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
             switch (FLevel.GetField(X + 8, Y + 6).GetDecorationType())
             {
@@ -500,7 +500,7 @@ public partial class Scanner : AOWControl
     {
         byte Result;
         AoWMapField Field;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
             Field = (AoWMapField)FLevel.GetField(X + 8, Y + 6);
         }
@@ -565,7 +565,7 @@ public partial class Scanner : AOWControl
     public int GetObject(int X, int Y)
     {
         int Result;
-        if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+        if (AoWHSMap.Current.FCombatMap != null)
         {
             Result = ((AoWMapField)FLevel.GetField(X + 8, Y + 6)).GetScannerIcon();
         }
@@ -667,13 +667,13 @@ public partial class Scanner : AOWControl
     }
 
     // Scanner.pas:377
-    public void SetMap(Aow.Game.World.Map.AbstractAoWHSMap Value)
+    public void SetMap(AbstractAoWHSMap Value)
     {
         FMap = Value;
         if (FMap != null)
         {
             FLevel = FMap.MapContainer.GetMapLevel(0);
-            if (Aow.Game.World.Map.AoWHSMap.Current.FCombatMap != null)
+            if (AoWHSMap.Current.FCombatMap != null)
             {
                 FMapWidth = FLevel.Width - 16;
                 FMapHeight = FLevel.Height - 12;
@@ -740,7 +740,7 @@ public partial class Scanner : AOWControl
                     {
                         for (int MapY = Y; MapY <= Y + Height - 1; MapY++)
                         {
-                            var rect = global::Aow.Rtl.RtlUnit.Rect(FWinWidth * MapX / FMapWidth, FDrawableHeight * MapY / FMapHeight + YOffset, (MapX + 1) * FWinWidth / FMapWidth, (MapY + 1) * FDrawableHeight / FMapHeight + YOffset);
+                            var rect = new Rect(FWinWidth * MapX / FMapWidth, FDrawableHeight * MapY / FMapHeight + YOffset, (MapX + 1) * FWinWidth / FMapWidth, (MapY + 1) * FDrawableHeight / FMapHeight + YOffset);
                             SD.ClipRect = rect;
                             Explored = GetExplored(MapX, MapY);
                             if (Explored == 0)

@@ -18,7 +18,7 @@ namespace Aow.Game.Ui.Dialogs;
 // event, retained event
 public partial class FastCombatWindow : DataModule
 {
-    public FastCombatWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public FastCombatWindow(Component owner) : base(owner)
     { }
 
     public AOWWindow FCWin;
@@ -132,7 +132,7 @@ public partial class FastCombatWindow : DataModule
         int PX = default;
         int PY = default;
         int Position;
-        global::Aow.Game.Combat.Combat Combat;
+        Combat.Combat Combat;
         CombatObject Obj;
         if (FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -194,62 +194,62 @@ public partial class FastCombatWindow : DataModule
 
         if (HasWall(1, 6))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image].Show(X + 180, Y + 218 - 50, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image].Show(X + 180, Y + 218 - 50, Surface);
         }
 
         if (HasWall(1, 2))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image].Show(X + 372, Y + 218 - 50, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image].Show(X + 372, Y + 218 - 50, Surface);
         }
 
         if (HasWall(0, 1))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 218, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 218, Surface);
         }
 
         if (HasWall(0, 6))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 218, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 218, Surface);
         }
 
         if (HasWall(0, 2))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 218, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 218, Surface);
         }
 
         if (HasWall(5, 6))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 3].Show(X + 0, Y + 275, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 3].Show(X + 0, Y + 275, Surface);
         }
 
         if (HasWall(2, 3))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 2].Show(X + 374, Y + 275, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 2].Show(X + 374, Y + 275, Surface);
         }
 
         if (HasWall(0, 5))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 275, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 180, Y + 275, Surface);
         }
 
         if (HasWall(0, 3))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 275, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 5].Show(X + 372, Y + 275, Surface);
         }
 
         if (HasWall(0, 4))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 332, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 4].Show(X + 180, Y + 332, Surface);
         }
 
         if (HasWall(4, 5))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 180, Y + 342, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 180, Y + 342, Surface);
         }
 
         if (HasWall(4, 3))
         {
-            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 372, Y + 342, Surface);
+            Engine.AoWHSSet.Current.FCombatImages[Image + 1].Show(X + 372, Y + 342, Surface);
         }
 
         var combatData = FViewer.FCombat.FCombatData;
@@ -261,14 +261,14 @@ public partial class FastCombatWindow : DataModule
                 if (HasWall(0, 4))
                 {
                     var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = Aow.Game.Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    Aow.Game.Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 332 - 45, Surface, hitPointsToHitPcnt);
+                    var hitPointsToHitPcnt = Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
+                    Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 332 - 45, Surface, hitPointsToHitPcnt);
                 }
                 else
                 {
                     var hits = Wall.GetHits();
-                    var hitPointsToHitPcnt = Aow.Game.Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
-                    Aow.Game.Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 218 - 45, Surface, hitPointsToHitPcnt);
+                    var hitPointsToHitPcnt = Magic.Abilities.HitChance.HitPointsToHitPcnt(Wall.GetHitPoints(), hits);
+                    Magic.Abilities.HitChance.ShowHitPcnt(X + 250, Y + 218 - 45, Surface, hitPointsToHitPcnt);
                 }
             }
         }
@@ -277,7 +277,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:316
     public void DrawCombat(int X, int Y, ref SurfaceDesc Surface)
     {
-        global::Aow.Game.Combat.Combat Combat;
+        Combat.Combat Combat;
         int PX = default;
         int PY = default;
         int Glow;
@@ -308,7 +308,7 @@ public partial class FastCombatWindow : DataModule
                             Glow = FPhaseFrame / 2;
                             Glow = Math.Abs((Glow + 7) % 15 - 7);
                             GetPartyPosition(I, ref PX, ref PY);
-                            Aow.Game.Engine.AoWHSSet.Current.FCombatImages[Glow + 100].ShowClipped(PX + X - 10, PY + Y - 9, Surface);
+                            Engine.AoWHSSet.Current.FCombatImages[Glow + 100].ShowClipped(PX + X - 10, PY + Y - 9, Surface);
                         }
                     }
                 }
@@ -332,7 +332,7 @@ public partial class FastCombatWindow : DataModule
         else
         {
             var player = Data.FPlayers.GetPlayers(Data.FAttackerPlayer);
-            Left = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            Left = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
         }
 
         if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 0)
@@ -356,7 +356,7 @@ public partial class FastCombatWindow : DataModule
         else
         {
             var player = Data.FPlayers.GetPlayers(Data.FDefenderPlayer);
-            Right = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+            Right = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
         }
 
         if (Data.FCurrentPlayer == 255 || Data.FPlayers.GetPlayers((sbyte)Data.FCurrentPlayer).FSideIndex != 1)
@@ -394,7 +394,7 @@ public partial class FastCombatWindow : DataModule
         ExecuteDoneEvent Done;
         EventLog Log;
         FViewer.Finalize();
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         Done = FDone;
         Log = FEvent;
         FDone = null;
@@ -432,7 +432,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:399
     public void CloseButClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         FCWin.Visible = false;
     }
 
@@ -572,7 +572,7 @@ public partial class FastCombatWindow : DataModule
     public void InitialViewClick()
     {
         CombatViewer Viewer;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Viewer = FViewer;
         if (Viewer != null && Viewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -585,7 +585,7 @@ public partial class FastCombatWindow : DataModule
     public void FinalViewClick()
     {
         CombatViewer Viewer;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Viewer = FViewer;
         if (Viewer != null && Viewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
@@ -597,7 +597,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:492
     public void PauseBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FViewer != null && FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
             FViewer.Pause();
@@ -607,7 +607,7 @@ public partial class FastCombatWindow : DataModule
     // FastCombatWin.pas:498
     public void PlayBtnClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FViewer != null && FViewer.FStatus.Contains(CombatViewerStatusElement.Initialized))
         {
             FViewer.Play();
@@ -640,11 +640,11 @@ public partial class FastCombatWindow : DataModule
     {
         if (FLeftOpacity == 100)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields[FLeftShield].Show(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface);
+            DialogHosts.IntGfxMod.Shields[FLeftShield].Show(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields[FLeftShield].ShowBlended(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[FLeftOpacity]);
+            DialogHosts.IntGfxMod.Shields[FLeftShield].ShowBlended(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface, GfxState.AlphaBlendTable.LookupTables[FLeftOpacity]);
         }
     }
 
@@ -653,11 +653,11 @@ public partial class FastCombatWindow : DataModule
     {
         if (FRightOpacity == 100)
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields[FRightShield].Show(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface);
+            DialogHosts.IntGfxMod.Shields[FRightShield].Show(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface);
         }
         else
         {
-            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields[FRightShield].ShowBlended(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface, Aow.Game.Draw.GfxState.AlphaBlendTable.LookupTables[FRightOpacity]);
+            DialogHosts.IntGfxMod.Shields[FRightShield].ShowBlended(FCWin.WinLeft + Sender.WinLeft, FCWin.WinTop + Sender.WinTop, Surface, GfxState.AlphaBlendTable.LookupTables[FRightOpacity]);
         }
     }
 
@@ -679,12 +679,12 @@ public partial class FastCombatWindow : DataModule
     internal static void ShowCombatEvent(FastCombatWindow Dialog, CombatEventLog Event, ExecuteDoneEvent Done)
     {
         Assert(Dialog.FEvent == null, "", "FastCombatWin.pas", 159);
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+        DialogHosts.General.Manager.OverlayPriority = 49;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
         Dialog.FDone = Done;
         Dialog.FLogbook = Event.FLogbook;
-        Aow.Game.Ui.Dialogs.FastCombatWindow.InitializeCombatDialog(Dialog, Dialog.FLogbook);
+        InitializeCombatDialog(Dialog, Dialog.FLogbook);
         Dialog.FCWin.Visible = true;
     }
 
@@ -693,7 +693,7 @@ public partial class FastCombatWindow : DataModule
         int RaceIndex;
         int PartyRace;
         sbyte PlayerIndex;
-        global::Aow.Game.Combat.Combat Combat;
+        Combat.Combat Combat;
         CombatParty Party;
         AOWImage Image;
         Dialog.FViewer.Initialize(Logbook);
@@ -739,7 +739,7 @@ public partial class FastCombatWindow : DataModule
                 PlayerIndex = Combat.FCombatData.FPlayers.GetPlayers((sbyte)Party.FPlayerIndex).FPlayer;
                 if (PlayerIndex != 0)
                 {
-                    PartyRace = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(PlayerIndex).FPlayerRace;
+                    PartyRace = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(PlayerIndex).FPlayerRace;
                 }
                 else
                 {
@@ -760,27 +760,27 @@ public partial class FastCombatWindow : DataModule
             // { Original refreshes both side labels inside the party loop. }
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer).FPlayer == 0)
             {
-                var independents = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenarioText.IndependentsRStr);
+                var independents = Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
                 Dialog.LSideLbl.Text = independents;
             }
             else
             {
                 var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FAttackerPlayer);
-                RaceIndex = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
+                RaceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+                var raceResource = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
                 Dialog.LSideLbl.Text = raceResource.FRaceName;
             }
 
             if (Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer).FPlayer == 0)
             {
-                var independents = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.ScenarioText.IndependentsRStr);
+                var independents = Magic.Abilities.AbilityRules.TranslateRStr(ScenarioText.IndependentsRStr);
                 Dialog.RSideLbl.Text = independents;
             }
             else
             {
                 var player = Combat.FCombatData.FPlayers.GetPlayers(Combat.FCombatData.FDefenderPlayer);
-                RaceIndex = Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
-                var raceResource = Aow.Game.Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
+                RaceIndex = World.Map.AoWHSMap.Current.FPlayers.GetPlayers(player.FPlayer).FPlayerRace;
+                var raceResource = Engine.AoWHSSet.Current.FRaceResources.GetRaceResource(RaceIndex);
                 Dialog.RSideLbl.Text = raceResource.FRaceName;
             }
         }

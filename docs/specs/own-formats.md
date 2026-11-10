@@ -40,7 +40,7 @@ and document kind. An extension alone does not establish a profile.
 Six original profiles exist (`FileProfile.All` in `src/Formats/Original/FileProfile.cs`), six instances of four
 virtual profile classes, so a new profile joins without a switch. The kinds are the eight of the
 table. A `.hsm` file names its profile through the root class id of its HSM header
-(`GameFiles.ProfileFor`): a `TAoWHSMap` root is `world-hsm`, a `TAoWCombatMap` root is
+(`GameFiles.ProfileFor`): a `AoWHSMap` (Delphi `TAoWHSMap`) root is `world-hsm`, a `AoWCombatMap` (Delphi `TAoWCombatMap`) root is
 `tactical-hsm`.
 
 Each kind owns two extensions (`DocumentKind` in `src/Formats/DocumentKind.cs`): the original
@@ -50,15 +50,15 @@ order of `DocumentKind.All`, and `GameFiles.KindForExtension` asks the kinds for
 
 | family | extension and kind | own extension | profile | engine table and root | 9.7 status |
 | --- | --- | --- | --- | --- | --- |
-| World saves | `.asg`, `save` | `.oasg` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game writes JSON |
-| Custom maps | `.hsm`, `map` | `.ohsm` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
-| Tactical maps | `.hsm` in `TCMaps`, `map` | `.ohsm` | `tactical-hsm` | tactical, `TAoWCombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
-| Campaign maps | `.csm`, `campaign-map` | `.ocsm` | `world-hsm` | game, `TAoWHSMap`, HSM header, CFS or raw | Convert |
-| Campaign definitions | `.cam`, `campaign` | `.ocam` | `campaign` | campaign, `TAoWCampaign`, stored object with class identity | Convert |
-| Campaign saves | `.acg`, `campaign-save` | `.oacg` | `campaign` | campaign, `TAoWCampaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
-| Scenario sets | `.hss`, `scenario-set` | `.ohss` | `scenario-set` | game, `TAoWHSSet`, 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHSS` takes the profile and has no caller in the product |
-| Hero lists | `.ahl`, `hero-list` | `.oahl` | `hero-list` | game, `THeroLibrary`, written object without class id | Convert. The game writes JSON |
-| Item lists | `.ail`, `item-list` | `.oail` | `item-list` | game, `TItemLibrary`, written object without class id | Convert. The game writes JSON |
+| World saves | `.asg`, `save` | `.oasg` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert. The game writes JSON |
+| Custom maps | `.hsm`, `map` | `.ohsm` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert. The game has no map writer, since the editor is out of scope |
+| Tactical maps | `.hsm` in `TCMaps`, `map` | `.ohsm` | `tactical-hsm` | tactical, `AoWCombatMap`, HSM header, CFS or raw | Convert with tactical registration context |
+| Campaign maps | `.csm`, `campaign-map` | `.ocsm` | `world-hsm` | game, `AoWHSMap`, HSM header, CFS or raw | Convert |
+| Campaign definitions | `.cam`, `campaign` | `.ocam` | `campaign` | campaign, `AoWCampaign` (Delphi `TAoWCampaign`), stored object with class identity | Convert |
+| Campaign saves | `.acg`, `campaign-save` | `.oacg` | `campaign` | campaign, `AoWCampaign`, with an optional embedded compressed HSM image | Convert. The game writes JSON |
+| Scenario sets | `.hss`, `scenario-set` | `.ohss` | `scenario-set` | game, `AoWHSSet` (Delphi `TAoWHSSet`), 52-byte HSS header, object body and trailing CRC-32 | Convert this file, not its external resources. `SaveHSS` takes the profile and has no caller in the product |
+| Hero lists | `.ahl`, `hero-list` | `.oahl` | `hero-list` | game, `HeroLibrary` (Delphi `THeroLibrary`), written object without class id | Convert. The game writes JSON |
+| Item lists | `.ail`, `item-list` | `.oail` | `item-list` | game, `ItemLibrary` (Delphi `TItemLibrary`), written object without class id | Convert. The game writes JSON |
 | Game-set resources | 12 shipped `.pfs` files | none | none | written objects, CRC-wrapped objects and separate `GENERAL.PFS` flag/string layout | Inventory only, original paths retained until milestone 10 |
 | E-mail game index | `EmailIn/egames.pfs` | none | none | written object and external CRC bookkeeping | Inventory only, original path retained |
 
@@ -203,8 +203,8 @@ What version 1 holds, and versions 2 and 3 keep: 970 classes, generated once by 
 `src/Units.Tests/EClassBaseline.json`, registration reachability and corpus order evidence, then
 hand-owned. `python -B tools/formats/schema-build/regenerate.py` reproduces it. A class records
 its name, class id, parent, the engine tables that enlist it (game, tactical, campaign) and,
-for three classes whose corpus order differs from inherited `ReadWrite` order (`TAoWHSMap`,
-`THero`, `TLeader`), an explicit order. A property records its name, id, codec and, where they
+for three classes whose corpus order differs from inherited `ReadWrite` order (`AoWHSMap`,
+`Hero` (Delphi `THero`), `Leader` (Delphi `TLeader`)), an explicit order. A property records its name, id, codec and, where they
 apply, its size, its object class or family, its callback payload, its dynamic id range and its
 slot base. Absence needs no schema default: an absent member is an absent property in the engine
 image, and the engine's reader applies its own default, constructor-backed `rwData` defaults
@@ -220,7 +220,7 @@ adds the codec contracts `enum-1`, `set-1` and `int-array-1` to the version 1 co
 `written-object-1`, `cp1252-frozen-1`). Version 3 adds `record-1`, `bit-array-1` and `raw-1`.
 The mapping contracts stay `DiplomaticProposal-1` and
 `ProductionOrder-1`. `unitMappings` names the persisted classes whose game load needs a unit
-mapping (`TAoWHSMap`, `TDiplomaticAction`, `TMapContainer`, `TProductionItem`). `flatMappings`,
+mapping (`AoWHSMap`, `DiplomaticAction` (Delphi `TDiplomaticAction`), `MapContainer` (Delphi `TMapContainer`), `ProductionItem` (Delphi `TProductionItem`)). `flatMappings`,
 the kind classes that keep a flat mapping, is empty. Version 1 and version 2 keep their historical
 hashes. `SchemaTests` fails when the current schema's hash differs from the pinned one. Version 2
 reannotates the enum, set and fixed integer array properties of 2.3. Version 3 reannotates the
@@ -244,8 +244,8 @@ retain numbers where lossless conversion requires them.
 | `rwString` | String through frozen `Cp1252`. `IsMapped` checks every character. Strict input refuses unmapped characters with locations |
 | `rwStrings` | Array of lines only when the block rule below reproduces exact bytes, otherwise `{ "$text": "..." }` |
 | `rwStringsEx` | `lines` and signed 32-bit `objects` arrays of equal length. Noncanonical text uses `$text` plus `objects`, with decoded line count checked |
-| `rwData` | Named fields with explicit layout, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Version 3 stores a padded record as a JSON object of its C# field names (a one-field set wrapper as that set's name array), nonzero record residue as `$reserved` on the record, the ability bit array as ascending indices (residue bits as `$reserved` on the value), and a primitive `rwData` integer or bool as that integer or boolean, zero and false included. `TFloodControl.OriginalTerrain` and `TDiplomaticAction.ActionType` stay exact hex. Envelope `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
-| Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads. Version 1 has one, `TAIPlayerControl.DefenseStrengthMultiplier` |
+| `rwData` | Named fields with explicit layout, otherwise a classified exact lowercase hex payload. Version 1 stores every value as exact hex. Version 2 stores an enum as the C# member name, or as its integer when the enum declares no such member, a set as member names in ascending ordinal order with unnamed bits as integers, and a fixed integer array as a JSON array of the original length. Version 3 stores a padded record as a JSON object of its C# field names (a one-field set wrapper as that set's name array), nonzero record residue as `$reserved` on the record, the ability bit array as ascending indices (residue bits as `$reserved` on the value), and a primitive `rwData` integer or bool as that integer or boolean, zero and false included. `FloodControl.OriginalTerrain` (Delphi `TFloodControl`) and `DiplomaticAction.ActionType` stay exact hex. Envelope `$padding` does not occur. A longer list is kept and refused on export with the path. A shorter list fills the rest with zero on export |
+| Floating-point field | `{ "$bits": "..." }` with exact original little-endian bytes at declared width, retaining negative zero, infinities and NaN payloads. Version 1 has one, `AIPlayerControl.DefenseStrengthMultiplier` (Delphi `TAIPlayerControl`) |
 | Overlapping record | One authoritative schema field set. Other views derive from it. Uninterpreted bits stay exact, never independently editable aliases |
 | `rwStreamProc` | Typed arrays or codec-specific objects. Bit lists retain `default`, stored `count` and exact `bits`, without capacity rounding. Other identified payloads stay hex until a decoder exists |
 | `rwEObject` | Object with fixed class from schema context, no editable `$class` |
@@ -253,7 +253,7 @@ retain numbers where lossless conversion requires them.
 | `rwChildren` | `Children` in semantic traversal order. Every identity-bearing child slot has explicit `$slot` |
 | Map property 6 | `Fields[y][x]`, fixed field class from the level profile |
 | Dynamic sprites | `Sprites` in original table order with `$class` and explicit identity metadata where a dynamic id carries identity |
-| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `TAoWCampaign` ids 5 (size) and 6 (bytes) form the one member |
+| Campaign map stream | `Map`, a nested document with `$container` and compressed-stream residue when nonempty. Empty and absent states remain distinct under the profile. `AoWCampaign` ids 5 (size) and 6 (bytes) form the one member |
 | Production item and diplomatic action | `$case`, the case name of the registered kind, then that case's fields. Values the case does not keep go to `$residue`. An unregistered key reads as the case `Unknown`, which keeps the discriminator as `Kind` and every value |
 | Absent property | Absent member, with documented reader default at game load. A present default value stays present through conversion |
 
@@ -280,7 +280,7 @@ requires mapping review. Converter residue cannot preserve a value through game
 load if the model discards it.
 
 The 9.6 census found such a value only in the other player of a diplomatic action, which the
-model keeps in the common part of `TDiplomaticAction` (`unions-and-kinds.md` 3.7), so no case
+model keeps in the common part of `DiplomaticAction` (`unions-and-kinds.md` 3.7), so no case
 field carries it. A registered kind drops any other stray value on read (roadmap X20), so a
 document whose `$residue` reaches the game loses it at the next save. The case tables live in
 `schema.json` (`ProductionOrder`: keys 1, 2 and 10 to 14, `DiplomaticProposal`: kinds 0 to 9).
@@ -369,12 +369,12 @@ header extensions, an edit that invalidates the layout and an export that rebuil
 `--exact-layout` refusing a stale layout, a part that does not fit, and a campaign save whose
 nested map keeps its compressed bytes until an edit recompresses it and rebuilds its size.
 Nonzero padding has no corpus fixture, since version 1 maps no record (2.3). Version 3 proves a
-nonzero `$reserved` on `TSetupPlayerBehavior` in `RecordShapeTests`. A class change is
+nonzero `$reserved` on `SetupPlayerBehavior` (Delphi `TSetupPlayerBehavior`) in `RecordShapeTests`. A class change is
 `GameSwitchTests.AllowedClassChangeValidatesTheNewClassFields`. Over the pinned corpus the
 residue is 3142 parts in 61 files: `table-form-order` 3136, `gaps` 5, `header-extensions` 1.
 `tactical-hsm` holds 2999 parts in 52 files, because 52 of the 59 tactical maps store field
 sprites with nonsequential dynamic ids that 1.36 ignores on read. `world-hsm` holds 142 parts in
-8 files (the 7 prepared oracle inputs and one install map that writes `TAoWHSMap` id 31 after
+8 files (the 7 prepared oracle inputs and one install map that writes `AoWHSMap` id 31 after
 id 30), and `scenario-set` 1 part in its one file. The check expectation file pins these counts.
 
 ### 2.6 Versioning and code page
@@ -414,7 +414,7 @@ values, and leaves every other value in place. A nested campaign map's fingerpri
 profile. A version 1 document and a version 2 document still load. The converter writes version 3.
 `MigrationTests` run a test chain from version 1 to 3 over the golden hero lists of
 `src/Formats.Tests/Golden`, check that every step runs and names the values it synthesizes, and
-that a newer version fails with both numbers. `THeroLibrary` is a schema class. Those hero lists
+that a newer version fails with both numbers. `HeroLibrary` is a schema class. Those hero lists
 hold no reannotated member, so both steps leave their bodies unchanged apart from the version.
 Each frozen step switches on the codec type. That switch stays inside the step. Document value
 rules have no switch on a kind (`persistence-tree.md`).
@@ -459,9 +459,9 @@ What runs in version 1. Structural validation is the strict image encoding of
 `GameFiles.ExportImage`: unknown members, classes and properties, incompatible families,
 duplicate slots, dimensions and row lengths, storage ranges and mistyped reserved members fail
 there. The game validators are `FormatMapping.Validators`, one `unit-content` validator over the
-rules that `ClassRegistry` registers in its third block: `TAoWHSMap.CurrentPlayer` and
-`TAoWHSMap.TurnOrder` name stored slots of the `player-slot` domain (`root.Players.Children`), a
-`TAoWHSMap` needs its `TMapContainer` child, and a `TMapContainer` holds as many `TMapLevel`
+rules that `ClassRegistry` registers in its third block: `AoWHSMap.CurrentPlayer` and
+`AoWHSMap.TurnOrder` name stored slots of the `player-slot` domain (`root.Players.Children`), a
+`AoWHSMap` needs its `MapContainer` child, and a `MapContainer` holds as many `MapLevel` (Delphi `TMapLevel`)
 children as its `LevelCount`. A nested document, a campaign's `Map`, validates in its own scope.
 No other reference, ownership or content rule exists yet. `GameSwitchTests` load a shipped save
 edited eleven ways (removed referenced child, unknown and incompatible class, duplicate slot,
@@ -482,7 +482,7 @@ file intact. Preflight finishes before existing routines clear the map or set.
 Later rule-execution errors are distinct and never fall back to the original bytes.
 This contract does not claim rollback of arbitrary game execution.
 
-`LoadHSM`, `LoadHSMEx`, the previews, `LoadHSS`, `TAoWEngine.LoadCampaign` and
+`LoadHSM`, `LoadHSMEx`, the previews, `LoadHSS`, `AoWEngine.LoadCampaign` (Delphi `TAoWEngine`) and
 `AoWWinMan.LoadCampaign` keep the current state on a refusal. The file dialog's
 `LoadSelectedGame` closes the current campaign and map only after the preview of the chosen
 save passed its preflight, and for a campaign save it leaves closing to the campaign loaders
@@ -514,7 +514,7 @@ The type is `FormatDiagnostic` (`src/Formats/Diagnostics.cs`), with 35 stable co
 of an inflated or gunzipped input, then the message and the rejected value, the constraint
 and the migration where they exist. A dangling reference reads, for example,
 `The player-slot 1 is absent from root.Players.Children. Use an existing one.` The game logs
-the same text in its file log (4.2), and a refused load raises `EGameFileError` with it.
+the same text in its file log (4.2), and a refused load raises `GameFileErrorException` (Delphi `EGameFileError`) with it.
 
 ### 2.9 Content detection
 
@@ -579,14 +579,14 @@ diff after game load/save. Canonical ordering makes real changes visible.
   the third block of `ClassRegistry`'s one module initializer. Descriptors come
   first, kinds second, format mappings third, one registration call per mapped
   class in one form. Units references Formats with no reverse reference.
-- `TProductionItem` maps to `Order` with stable `$case`, through
-  `ProductionOrder.ToFields` and `FromFields`. `TDiplomaticAction` uses its proposal
+- `ProductionItem` maps to `Order` with stable `$case`, through
+  `ProductionOrder.ToFields` and `FromFields`. `DiplomaticAction` uses its proposal
   twins. They arrive with 9.6-6 and 9.6-7. Registration invokes no creation delegate
   and draws no random number or instance id. `ClassRegistryTests` checks every
   schema class requiring a unit mapping. In the code the item object itself carries
   `$case` and the case fields (2.3), and `FormatMapping.Register` in `ClassRegistry`'s third
-  block registers four classes: `TAoWHSMap` and `TMapContainer` with content rules,
-  `TProductionItem` and `TDiplomaticAction` with their case units. The test checks that the
+  block registers four classes: `AoWHSMap` and `MapContainer` with content rules,
+  `ProductionItem` and `DiplomaticAction` with their case units. The test checks that the
   registered classes are exactly `unitMappings` of `versions.json`, that every rule names
   members of its schema class, that no `flatMappings` class has a line, and that every class
   with a case table has its case unit, which `CaseMappings` then holds for the converter.
@@ -736,14 +736,14 @@ bytes. `FileBoundary` in `src/Units/FileBoundary.cs` reads and writes through
 `item-list`. `LoadHSM`, `LoadHSMEx`, `CreatePreviewHSM`, `LoadPreviewHSM`, `SaveHSM`, `LoadHSS`,
 `SaveHSS`, `RetrieveFromFile`, `StoreInFile`, `ReadFromFile` and `WriteToFile` take a
 `GameProfile` parameter, and every product caller passes one. `FileBoundary.Load` returns null
-on a refusal and `LoadOrRaise` raises `EGameFileError` for the routines whose original raised on
+on a refusal and `LoadOrRaise` raises `GameFileErrorException` for the routines whose original raised on
 a failed open. `GetHSSetFiles` reads its 52 header bytes through `FileBoundary.ListingHeader`.
 
 The CRC forms run over the engine image, so an original and its own document give one CRC.
 `FileBoundary.ImageCrc32` serves the map CRCs of the multiplayer setup (`AoWSetup.cs`
 `ValidateMap` and `hPickMap`), and the host sends the engine image of its map, so the client's
 CRC of the received stream agrees. `FileBoundary.ImageTailInt32` reads the stored CRC of
-`RELEASE.HSS` for `TAoWHSSet.RetrieveHSSCRC`. The PFS CRCs keep their original routines.
+`RELEASE.HSS` for `AoWHSSet.RetrieveHSSCRC`. The PFS CRCs keep their original routines.
 
 ### 4.2 User data and atomic replacement
 
@@ -781,7 +781,7 @@ a network host names) opens the own sibling first and falls back to the original
 derived name with an own extension whose file is missing opens its original sibling
 (`FileBoundary.ReadName`). A name the user picks in a dialog opens as picked. The load and save
 dialogs list each family under both extensions and show the full name with its extension, so the
-two forms of a name stand side by side (`TFileDlgWindow.ListsFile`). The user hero and item lists
+two forms of a name stand side by side (`FileDlgWindow.ListsFile` (Delphi `TFileDlgWindow`)). The user hero and item lists
 load each name once, its own document when both forms exist (`FileBoundary.FindDocuments`), and
 deleting a list deletes both forms.
 
@@ -1263,14 +1263,14 @@ in use, so the difference is not attributed.
 ### 9.4 The Valley01 rule
 
 Sprite 51 of the map field at x 74, y 91 on level 0 of `Scenario/Campaign/Valley01.CSM`
-(inflated offset 0x41565) stores class id 132462, `TFlagMessageEventResource` in the 1.36 engine
+(inflated offset 0x41565) stores class id 132462, `Resource` (Delphi `TFlagMessageEventResource`) in the 1.36 engine
 table, with five short entries: id 1 (4 bytes), ids 3 and 4 (one byte each, 74 and 91, the field's
 own coordinates) and ids 10 and 12 (one byte each, 0). It is the only resource-class sprite in the
 install and oracle files. The shape is a map object image of an earlier build. 1.36 reads it
-through `TMapObjectResource.ReadWrite` and never reads ids 10 and 12. Rejecting it makes the first
+through `MapObjectResource.ReadWrite` (Delphi `TMapObjectResource`) and never reads ids 10 and 12. Rejecting it makes the first
 map of the shipped Valley campaign unloadable through the converter, so 9.7-1 accepted it under one
 named rule, `LEGACY_VALLEY01_SPRITE` in `schema.json` `legacyShapes`: only for a
-`TFlagMessageEventResource` stored as a `TMapField` sprite, the class decodes with the fixed legacy
+`Resource` stored as a `MapField` (Delphi `TMapField`) sprite, the class decodes with the fixed legacy
 shape `ResourceID` (id 1, i32), `LegacyXhx` (id 3, u8), `LegacyYhx` (id 4, u8), `LegacyProperty10`
 (id 10, u8) and `LegacyProperty12` (id 12, u8). Any other id in that context is an unknown
 property, and the class keeps its 1.36 shape elsewhere. Export writes the legacy shape back byte

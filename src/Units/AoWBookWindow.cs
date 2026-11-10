@@ -14,10 +14,10 @@ public partial class AoWBookWindow : AOWWindow
     public NotifyEvent<AoWBookWindow> FOnAnimationComplete;
     public bool FFirstAnimationFrame;
     public bool FPreviousSurfaceValid;
-    public Aow.Game.Ui.Grids.PageTurnControl FPageTurn;
+    public Grids.PageTurnControl FPageTurn;
     public bool FAnimating;
     public Surface FPageSurface;
-    public Aow.Game.Ui.Grids.PageTurnMode FPageTurnMode;
+    public Grids.PageTurnMode FPageTurnMode;
 
     // AoWBookWindow.pas:50
     public override void Dispose()
@@ -33,9 +33,9 @@ public partial class AoWBookWindow : AOWWindow
     }
 
     // AoWBookWindow.pas:44
-    public AoWBookWindow(global::Aow.Rtl.Component owner) : base(owner)
+    public AoWBookWindow(Component owner) : base(owner)
     {
-        FPageTurn = new Aow.Game.Ui.Grids.PageTurnControl();
+        FPageTurn = new Grids.PageTurnControl();
     }
 
     // AoWBookWindow.pas:78
@@ -132,17 +132,17 @@ public partial class AoWBookWindow : AOWWindow
     }
 
     // AoWBookWindow.pas:92
-    public void StartAnim(Aow.Game.Ui.Grids.PageTurnMode Mode)
+    public void StartAnim(Grids.PageTurnMode Mode)
     {
         SurfaceDesc Source = default;
         SurfaceDesc Dest = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         if (FBackSurface != null && FPageSurface != null)
         {
-            R = global::Aow.Rtl.RtlUnit.Rect(0, 0, FWinWidth, FWinHeight);
+            R = new Rect(0, 0, FWinWidth, FWinHeight);
             FBackSurface.Lock(ref Source);
             FPageSurface.Lock(ref Dest);
-            Aow.Game.Draw.SurfaceDesc.BltSDRectClipped(Source, R, Dest, 0, 0);
+            SurfaceDesc.BltSDRectClipped(Source, R, Dest, 0, 0);
             FPageSurface.Unlock();
             FBackSurface.Unlock();
             FPageTurn.SetPageDimensions(271, 368);

@@ -17,7 +17,7 @@ namespace Aow.Game.Ui.Dialogs;
 // arena event. completion callback
 public partial class ArenaDlg : DataModule
 {
-    public ArenaDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public ArenaDlg(Component owner) : base(owner)
     { }
 
     public AOWButton SelectBtn;
@@ -51,21 +51,21 @@ public partial class ArenaDlg : DataModule
     // AoWArenaDlg.pas:104
     public void DrawUnit(int Index, int X, int Y, ref SurfaceDesc SD)
     {
-        global::Aow.Rtl.Rect SaveRect;
+        Rect SaveRect;
         P2UnitShowInfo Info;
-        Aow.Game.Draw.Images.LibraryImage Img;
+        Draw.Images.LibraryImage Img;
         AbstractUnit U;
         Alignment Alignment;
         if (Index < FEvent.GetCount())
         {
             U = FEvent.GetUnit(Index);
             SaveRect = SD.ClipRect;
-            var rect = global::Aow.Rtl.RtlUnit.Rect(X + 5, Y + 4, X + 46, Y + 56);
+            var rect = new Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = U.GetAlignment();
-            if ((byte)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
+            if ((byte)Alignment < DialogHosts.IntGfxMod.UnitBGs.Count)
             {
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -75,16 +75,16 @@ public partial class ArenaDlg : DataModule
             U.ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) == 0)
             {
-                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
+                Img = DialogHosts.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
             SD.ClipRect = SaveRect;
             if ((((int)(((uint)FEvent.FTrainable) >> Index)) & 1) != 0)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.Color = 0;
+                DialogHosts.FontModule.Age8.Color = 0;
                 var unitTrainCost = FEvent.FArena.UnitTrainCost(U);
-                Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
+                DialogHosts.FontModule.Age8.SetTextCentered(X + 25, Y + 62, IntToStr(unitTrainCost), SD);
             }
         }
     }
@@ -94,7 +94,7 @@ public partial class ArenaDlg : DataModule
     {
         EnterArenaEventLog Event;
         ExecuteDoneEvent Notify;
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        DialogHosts.General.Manager.OverlayPriority = 0;
         Notify = FOnClose;
         Event = FEvent;
         FOnClose = null;
@@ -113,7 +113,7 @@ public partial class ArenaDlg : DataModule
     // AoWArenaDlg.pas:152
     public void CloseClick()
     {
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -121,14 +121,14 @@ public partial class ArenaDlg : DataModule
     public void SelectBtnClick()
     {
         string Reason = "";
-        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        DialogHosts.General.PlayButtonSound(0);
         if (FEvent.Train(ref Reason))
         {
             Dlg.Visible = false;
         }
         else
         {
-            Aow.Game.World.Map.AoWHSMap.Current.ShowWarning(Reason);
+            World.Map.AoWHSMap.Current.ShowWarning(Reason);
         }
     }
 
@@ -157,11 +157,11 @@ public partial class ArenaDlg : DataModule
         {
             if (Sender.Checked)
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
+                DialogHosts.General.PlayButtonSound(1);
             }
             else
             {
-                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
+                DialogHosts.General.PlayButtonSound(2);
             }
         }
 
@@ -203,14 +203,14 @@ public partial class ArenaDlg : DataModule
         int X = default;
         int Y = default;
         SurfaceDesc MapSD = default;
-        global::Aow.Rtl.Rect R;
+        Rect R;
         int W;
         int H;
-        R = global::Aow.Rtl.RtlUnit.Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
+        R = new Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
         var yhx = FEvent.FArena.GetYhx();
-        Aow.Game.World.Map.HexGeometry.HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
+        World.Map.HexGeometry.HXtoHP(FEvent.FArena.GetXhx(), yhx, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -223,19 +223,19 @@ public partial class ArenaDlg : DataModule
             Y = 16;
         }
 
-        Aow.Game.Draw.SurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
+        SurfaceDesc.CreateSDfromSD(SD, R, ref MapSD);
         var lhx = FEvent.FArena.GetLhx();
-        Aow.Game.World.Map.AoWHSMap.Current.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
-        Aow.Game.World.Map.AoWHSMap.Current.UpdateStaticScene();
-        Aow.Game.World.Map.AoWHSMap.Current.UpdateDynamicScene();
-        Aow.Game.World.Map.AoWHSMap.Current.DrawStaticScene(ref MapSD);
-        Aow.Game.World.Map.AoWHSMap.Current.DrawDynamicScene(ref MapSD);
+        World.Map.AoWHSMap.Current.SetViewPort(X, Y, lhx, R.Right - R.Left, R.Bottom - R.Top);
+        World.Map.AoWHSMap.Current.UpdateStaticScene();
+        World.Map.AoWHSMap.Current.UpdateDynamicScene();
+        World.Map.AoWHSMap.Current.DrawStaticScene(ref MapSD);
+        World.Map.AoWHSMap.Current.DrawDynamicScene(ref MapSD);
     }
 
     // AoWArenaDlg.pas:224
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.AoWHSMap.Current.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (World.Map.AoWHSMap.Current.Frame & 1) != 0;
     }
 
     // AoWArenaDlg.pas:229
@@ -255,11 +255,11 @@ public partial class ArenaDlg : DataModule
     internal static void ShowArena(ArenaDlg Dialog, EnterArenaEventLog Event, ExecuteDoneEvent Done)
     {
         Assert(Dialog.FEvent == null, "", "AoWArenaDlg.pas", 94);
-        Aow.Game.Ui.Dialogs.ArenaDlg.ResetArena(Dialog);
+        ResetArena(Dialog);
         Dialog.FOnClose = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
-        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+        DialogHosts.General.Manager.OverlayPriority = 49;
         Dialog.Dlg.Visible = true;
     }
 

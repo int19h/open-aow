@@ -14,7 +14,7 @@ namespace Aow.Game.Net
     // FEngine, FOnReceive, FReceivedPackage, FSendStream, FReceiveStream, FPCC, FOnProcess
     public partial class PlayerCommunicator : EObject
     {
-        internal global::Aow.Game.Engine.Engine FEngine;
+        internal Engine.Engine FEngine;
 
         internal EventStore<PlayerCommunicator> FOnReceiveStore;
 
@@ -151,7 +151,7 @@ namespace Aow.Game.Net
             return FPCC.SendPackageData(AReceiver, FSendStream);
         }
 
-        public global::Aow.Game.Engine.Engine Engine { get => FEngine; set => FEngine = value; }
+        public Engine.Engine Engine { get => FEngine; set => FEngine = value; }
 
         public event NotifyEvent<PlayerCommunicator> OnReceive
         {
@@ -179,7 +179,7 @@ namespace Aow.Game.Commands
     public partial class TokenEvent : EObject
     {
         // NetworkE.pas:950
-        public new const int ClassID = Aow.Game.Commands.TokenEvent.CID_TokenEvent;
+        public new const int ClassID = CID_TokenEvent;
 
         public TokenEvent(ECustomNode owner) : base(owner)
         {
@@ -242,7 +242,7 @@ namespace Aow.Game.Net
     public partial class TokenEventList : EObject
     {
         // NetworkE.pas:995
-        public new const int ClassID = Aow.Game.Net.TokenEventList.CID_TokenEventList;
+        public new const int ClassID = CID_TokenEventList;
 
         internal EReferenceNode FList;
 
@@ -266,7 +266,7 @@ namespace Aow.Game.Net
         }
 
         // NetworkE.pas:1006
-        public override void Assign(EObject Source, global::Aow.Game.Engine.Engine AEngine)
+        public override void Assign(EObject Source, Engine.Engine AEngine)
         {
             FList.Clear();
             AddEvents((TokenEventList)Source);
@@ -324,7 +324,7 @@ namespace Aow.Game.Net
         // NetworkE.pas:1056
         public void SortOnTokenCounter()
         {
-            FList.FChildren.Sort(Aow.Game.Net.TokenEventList.CompareTokenCounter);
+            FList.FChildren.Sort(CompareTokenCounter);
         }
 
         // NetworkE.pas:1061
@@ -366,7 +366,7 @@ namespace Aow.Game.Net
 
         private static int CompareTokenCounter(object Item1, object Item2)
         {
-            return ((global::Aow.Game.Commands.TokenEvent)Item1).FTokenCounter - ((global::Aow.Game.Commands.TokenEvent)Item2).FTokenCounter;
+            return ((TokenEvent)Item1).FTokenCounter - ((TokenEvent)Item2).FTokenCounter;
         }
 
     }
@@ -493,7 +493,7 @@ namespace Aow.Game.Net
         {
             if (Local() && !Global() && Events.Count != 0)
             {
-                FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, Aow.Game.Net.NetworkSession.AllPlayers, Events);
+                FTokenManager.FTokenPackageDistributer.SendTokenEvents(FPlayer, NetworkSession.AllPlayers, Events);
             }
         }
 
@@ -598,7 +598,7 @@ namespace Aow.Game.Net
                 while (InOrder && !PassToken && I < FEvents.Count)
                 {
                     InOrder = FEvents[I].FTokenCounter == Executer.FTokenCounter + I;
-                    PassToken = FEvents[I].EClass.ClassID == Aow.Game.Net.NetworkSession.CID_PassTokenTE;
+                    PassToken = FEvents[I].EClass.ClassID == NetworkSession.CID_PassTokenTE;
                     I += 1;
                 }
 
@@ -1029,17 +1029,17 @@ namespace Aow.Game.Net
             FTokenPackageDistributer = CreateTokenPackageDistributer();
         }
 
-        internal global::Aow.Game.Net.TokenExecuter FTokenExecuter;
-        internal global::Aow.Game.Net.TokenPackageDistributer FTokenPackageDistributer;
+        internal TokenExecuter FTokenExecuter;
+        internal TokenPackageDistributer FTokenPackageDistributer;
         internal object FOwner;
         internal DelphiList FTokenControls;
         internal NetworkMessageEvent FOnMessage;
 
         // NetworkE.pas:1642
-        public virtual global::Aow.Game.Net.TokenExecuter CreateTokenExecuter() => new global::Aow.Game.Net.TokenExecuter(this);
+        public virtual TokenExecuter CreateTokenExecuter() => new TokenExecuter(this);
 
         // NetworkE.pas:1647
-        public virtual global::Aow.Game.Net.TokenPackageDistributer CreateTokenPackageDistributer() => new global::Aow.Game.Net.TokenPackageDistributer(this);
+        public virtual TokenPackageDistributer CreateTokenPackageDistributer() => new TokenPackageDistributer(this);
 
         // NetworkE.pas:1652
         public virtual TokenControl CreateTokenControl(int APlayer) => new TokenControl(this, APlayer);
@@ -1179,8 +1179,8 @@ namespace Aow.Game.Net
             }
         }
 
-        public global::Aow.Game.Net.TokenExecuter TokenExecuter { get => FTokenExecuter; }
-        public global::Aow.Game.Net.TokenPackageDistributer TokenPackageDistributer { get => FTokenPackageDistributer; }
+        public TokenExecuter TokenExecuter { get => FTokenExecuter; }
+        public TokenPackageDistributer TokenPackageDistributer { get => FTokenPackageDistributer; }
         public object Owner { get => FOwner; }
         public int Count { get => GetCount(); }
 
@@ -1289,7 +1289,7 @@ namespace Aow.Game.Net
     // FConnectionMode (stored with id 5), FSystemID (id 6). One per player
     public partial class PlayerCommunicationSettings : EObject
     {
-        internal global::Aow.Game.Net.ConnectionMode FConnectionMode;
+        internal ConnectionMode FConnectionMode;
         internal int FSystemID;
 
         // NetworkE.pas:452
@@ -1303,10 +1303,10 @@ namespace Aow.Game.Net
         // NetworkE.pas:446
         public PlayerCommunicationSettings(ECustomNode owner) : base(owner)
         {
-            FConnectionMode = global::Aow.Game.Net.ConnectionMode.Local;
+            FConnectionMode = ConnectionMode.Local;
         }
 
-        public global::Aow.Game.Net.ConnectionMode ConnectionMode { get => FConnectionMode; set => FConnectionMode = value; }
+        public ConnectionMode ConnectionMode { get => FConnectionMode; set => FConnectionMode = value; }
         public int SystemID { get => FSystemID; set => FSystemID = value; }
 
     }
@@ -1335,7 +1335,7 @@ namespace Aow.Game.Net
     public partial class PlayerCommunicationControl : IDisposable
     {
         internal int FRefCount;
-        internal global::Aow.Game.Net.PlayerCommunicator FPlayerCommunicator;
+        internal PlayerCommunicator FPlayerCommunicator;
         internal PlayerCommunicationSettingsList FPCSList;
 
         // NetworkE.pas:549
@@ -1345,7 +1345,7 @@ namespace Aow.Game.Net
         public virtual int GetSystemCount() => 1;
 
         // NetworkE.pas:516
-        public virtual bool Activate(global::Aow.Game.Net.PlayerCommunicator PC)
+        public virtual bool Activate(PlayerCommunicator PC)
         {
             FPlayerCommunicator = PC;
             return true;
@@ -1448,7 +1448,7 @@ namespace Aow.Game.Net
         }
 
         public PlayersAccessor Players => new PlayersAccessor(this);
-        public global::Aow.Game.Net.PlayerCommunicator PlayerCommunicator { get => FPlayerCommunicator; }
+        public PlayerCommunicator PlayerCommunicator { get => FPlayerCommunicator; }
         public PlayerCommunicationSettingsList PCSList { get => FPCSList; }
 
     }
@@ -1610,7 +1610,7 @@ namespace Aow.Game.Net
         {
             bool Result;
             int SystemID;
-            if (APlayer == Aow.Game.Net.NetworkSession.AllPlayers)
+            if (APlayer == NetworkSession.AllPlayers)
             {
                 SystemID = 0;
             }
@@ -1629,7 +1629,7 @@ namespace Aow.Game.Net
                 Result = true;
             }
 
-            if (APlayer == Aow.Game.Net.NetworkSession.AllPlayers || SystemID == FLocalSystemID)
+            if (APlayer == NetworkSession.AllPlayers || SystemID == FLocalSystemID)
             {
                 FPackageDataList.Add(Stream);
             }
@@ -1781,7 +1781,7 @@ namespace Aow.Game.Net
     public partial class TokenPackage : DataPackage
     {
         // NetworkE.pas:1100
-        public new const int ClassID = Aow.Game.Net.TokenPackage.CID_TokenPackage;
+        public new const int ClassID = CID_TokenPackage;
 
         internal TokenEventList FTokenEvents;
 
@@ -1905,7 +1905,7 @@ namespace Aow.Game.Commands
     // ends the turn of the token control that prefetched it
     public partial class PassTokenTE : TokenEvent
     {
-        public new const int ClassID = Aow.Game.Net.NetworkSession.CID_PassTokenTE;
+        public new const int ClassID = NetworkSession.CID_PassTokenTE;
 
         public PassTokenTE(ECustomNode owner) : base(owner)
         { }
@@ -1916,7 +1916,7 @@ namespace Aow.Game.Commands
     // execution triggers OnSyncError
     public partial class SyncTE : TokenEvent
     {
-        public new const int ClassID = Aow.Game.Commands.SyncTE.CID_SyncTE;
+        public new const int ClassID = CID_SyncTE;
 
         public SyncTE(ECustomNode owner) : base(owner)
         { }

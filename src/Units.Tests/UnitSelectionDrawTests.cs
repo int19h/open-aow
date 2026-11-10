@@ -18,9 +18,9 @@ public sealed class UnitSelectionDrawTests
     [Fact]
     public void UnitSlotsDrawThroughTheirOwnComponentType()
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
-        var previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
-        Aow.Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
+        if (EngineHost.Engines is null) EngineHost.Initialize();
+        var previousEngine = Game.Magic.Abilities.GameTables.AoWEngine;
+        Game.Magic.Abilities.GameTables.AoWEngine = EngineFixture.Engine;
         var dialog = new UnitSelectionDlg(null!);
         try
         {
@@ -35,7 +35,7 @@ public sealed class UnitSelectionDrawTests
         {
             dialog.FEvent = null!;
             dialog.Dispose();
-            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
+            Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
         }
     }
 }

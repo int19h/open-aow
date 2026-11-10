@@ -26,7 +26,7 @@ internal static unsafe class SdlVerification
             if (count != 1) throw new InvalidOperationException("Expected one SDL window.");
             var id = SDL_GetWindowID(windows[0]);
             SDL_free(windows);
-            var surface = new SurfaceDesc { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB555, Data = new byte[68 * 24] };
+            var surface = new SurfaceDesc { Width = 32, Height = 24, Pitch = 68, BitCount = 16, PixelFormatID = PixelFormats.pfRGB555, Data = new byte[68 * 24] };
             display.Present(surface);
             surface.Pitch = -68;
             surface.Data = new byte[68 * 24];

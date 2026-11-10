@@ -19,14 +19,14 @@ public partial class TacticalCombat
         for (int i = 0; i < FCombatData.FPlayers.GetCount(); i++)
         {
             int player = FCombatData.FPlayers.GetPlayers((sbyte)i).FPlayer;
-            if (Aow.Game.World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)player).FPlayerType != PlayerType.Human)
-                RestorePlayerConnection(Aow.Game.World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC, player);
+            if (World.Map.AoWHSMap.Current.FPlayers.GetPlayers((sbyte)player).FPlayerType != PlayerType.Human)
+                RestorePlayerConnection(World.Map.AoWHSMap.Current.FPlayerCommunicator.PCC, player);
         }
-        if (Aow.Game.Combat.AoWCombatMap.Current != null)
+        if (AoWCombatMap.Current != null)
         {
-            Aow.Game.Combat.AoWCombatMap.Current.FUnitSelection.Clear();
-            Aow.Game.Combat.AoWCombatMap.Current.FSelectEventsStore.Raise(this);
-            Aow.Game.World.Map.AoWHSMap.Current.ReleaseCombatMap();
+            AoWCombatMap.Current.FUnitSelection.Clear();
+            AoWCombatMap.Current.FSelectEventsStore.Raise(this);
+            World.Map.AoWHSMap.Current.ReleaseCombatMap();
         }
         base.Finalize();
     }

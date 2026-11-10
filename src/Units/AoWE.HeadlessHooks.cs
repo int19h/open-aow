@@ -42,7 +42,7 @@ namespace Aow.Game.Session
     {
         public override void NewDay()
         {
-            var map = Aow.Game.World.Map.AoWHSMap.Current;
+            var map = AoWHSMap.Current;
             int player = map.FSeatedPlayer;
             if (map.FRequestCombatType) map.FSeatedPlayer = -1;
             base.NewDay();

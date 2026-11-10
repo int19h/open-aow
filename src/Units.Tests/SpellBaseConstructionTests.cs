@@ -139,10 +139,10 @@ public sealed partial class SpellConstructionTests
     }
 
     [Theory]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.HolyGroundSpell))]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.UnholyGroundSpell))]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.RaiseTerrain))]
-    [InlineData(typeof(Aow.Game.Magic.Spells.GlobalTarget.PoisonPlantSpell))]
+    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.HolyGroundSpell))]
+    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.UnholyGroundSpell))]
+    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.RaiseTerrain))]
+    [InlineData(typeof(Game.Magic.Spells.GlobalTarget.PoisonPlantSpell))]
     public void ConvertedGlobalTargetDescendantsUseCompletedConstruction(Type type)
     {
         using var fixture = new Fixture();

@@ -284,13 +284,13 @@ public sealed class GameSwitchTests
         Assert.Null(((JsonObject)reread.Items[index])["IndependentRelation"]);
 
         // The id table is weak since C12, so the unlinked group needs no teardown.
-        var group = new Aow.Game.Ai.Groups.PassiveAG(null!);
+        var group = new PassiveAG(null!);
         Assert.Equal(-1, group.FIndependentRelation);
         sbyte relation = group.FIndependentRelation;
         using var memory = new MemoryStream();
         memory.Write(new byte[] { 0 });
         memory.Position = 0;
-        var reader = new Aow.Game.Engine.Storage.EReadStorageStream(memory, EngineFixture.Engine, false);
+        var reader = new EReadStorageStream(memory, EngineFixture.Engine, false);
         try { reader.rwData(Bytes.Of(ref relation, 1), 1, 26); }
         finally { reader.Dispose(); }
         Assert.Equal(-1, relation);

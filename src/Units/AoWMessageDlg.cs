@@ -26,7 +26,7 @@ namespace Aow.Game.Ui.Dialogs;
 // completion event, retained message event
 public partial class MessageDlg : DataModule
 {
-    public MessageDlg(global::Aow.Rtl.Component owner) : base(owner)
+    public MessageDlg(Component owner) : base(owner)
     { }
 
     public AOWWindow Dlg;
@@ -138,12 +138,12 @@ public partial class MessageDlg : DataModule
 
     internal static void ShowDemoMessage()
     {
-        Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
-        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
-        var demoVersionMessage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DemoVersionMessageRStr);
-        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
-        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
-        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
+        ResetMessageDialog(DialogHosts.MessageDlg);
+        DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+        var demoVersionMessage = AbilityRules.TranslateRStr(GameText.DemoVersionMessageRStr);
+        DialogHosts.MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
+        DialogHosts.MessageDlg.OKPnl.Visible = true;
+        DialogHosts.MessageDlg.Dlg.Visible = true;
     }
 
     internal static void ResetMessageDialog(MessageDlg Dialog)
@@ -155,14 +155,14 @@ public partial class MessageDlg : DataModule
         Dialog.MessageMemo.Items.Clear();
         Dialog.MemoPnl.Visible = true;
         Dialog.HeaderMemoPnl.Visible = false;
-        var message = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MessageRStr);
+        var message = AbilityRules.TranslateRStr(GameText.MessageRStr);
         Dialog.TitleLbl.Text = message;
     }
 
     internal static void ShowMessageEvent(MessageDlg Dialog, MessageEventLog Event, ExecuteDoneEvent Done)
     {
         MessageEventLog Log;
-        Aow.Game.Ui.Dialogs.MessageDlg.ResetMessageDialog(Dialog);
+        ResetMessageDialog(Dialog);
         Dialog.FDone = Done;
         Dialog.FEvent = Event;
         Dialog.FEvent.AddRef();
@@ -170,7 +170,7 @@ public partial class MessageDlg : DataModule
         Dialog.TitleLbl.Text = Log.FTitle;
         switch (Log.FLayout)
         {
-            case Aow.Game.Events.MessageEventLog.Layout.Normal:
+            case MessageEventLog.Layout.Normal:
                 var text = Log.FMessage.Text;
                 Dialog.MessageMemo.Items.Text = text;
                 if (Dialog.MessageMemo.Items.Text.Length < 80)
@@ -179,7 +179,7 @@ public partial class MessageDlg : DataModule
                 }
 
                 break;
-            case Aow.Game.Events.MessageEventLog.Layout.Header:
+            case MessageEventLog.Layout.Header:
                 Dialog.MemoPnl.Visible = false;
                 Dialog.HeaderMemoPnl.Visible = true;
                 Dialog.HeaderLbl.Text = Log.FHeader;
@@ -190,16 +190,16 @@ public partial class MessageDlg : DataModule
 
         switch (Log.FButtons)
         {
-            case Aow.Game.Events.MessageEventLog.Buttons.Ok:
+            case MessageEventLog.Buttons.Ok:
                 Dialog.OKPnl.Visible = true;
                 break;
-            case Aow.Game.Events.MessageEventLog.Buttons.OkCancel:
+            case MessageEventLog.Buttons.OkCancel:
                 Dialog.OKCancelPnl.Visible = true;
                 break;
-            case Aow.Game.Events.MessageEventLog.Buttons.YesNo:
+            case MessageEventLog.Buttons.YesNo:
                 Dialog.YesNoPnl.Visible = true;
                 break;
-            case Aow.Game.Events.MessageEventLog.Buttons.YesNoCancel:
+            case MessageEventLog.Buttons.YesNoCancel:
                 Dialog.YesNoCancelPnl.Visible = true;
                 break;
         }

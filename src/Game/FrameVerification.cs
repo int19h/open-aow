@@ -33,9 +33,9 @@ internal static class FrameVerification
             Check(screen.Width == 640 && screen.Height == 480 && back.Width == 640 && back.Height == 480, "screen and back sizes");
             Check(controller.GetSurfaceCount() == 1 && controller.GetSurface(2) is null, "double buffering");
             SurfaceDesc sd = default;
-            Check(back.Lock(ref sd) == 0 && sd.PixelFormatID == Aow.Game.Draw.PixelFormats.pfRGB555, "555 back surface");
+            Check(back.Lock(ref sd) == 0 && sd.PixelFormatID == PixelFormats.pfRGB555, "555 back surface");
             back.Unlock();
-            Check(controller.FlipSurface(1) == Aow.Game.Draw.DisplayCodes.DCERR_NOFLIP && host.Presents == 1, "flip presents and reports fallback");
+            Check(controller.FlipSurface(1) == DisplayCodes.DCERR_NOFLIP && host.Presents == 1, "flip presents and reports fallback");
             display.PresentInitialFrame();
             display.PresentInitialFrame();
             Check(display.PresentedFrames == 1 && host.Presents == 2, "initial paint counts once");
@@ -65,7 +65,7 @@ internal static class FrameVerification
 
             var recorder = new HeadlessDisplayHost(directory);
             byte[] pixels = [1, 0, 2, 0, 99, 99, 3, 0, 4, 0, 99, 99];
-            sd = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB555, Data = pixels, DataIndex = 6 };
+            sd = new() { Width = 2, Height = 2, Pitch = -6, BitCount = 16, PixelFormatID = PixelFormats.pfRGB555, Data = pixels, DataIndex = 6 };
             recorder.Present(sd);
             Check(File.ReadAllBytes(Path.Combine(directory, "frame-1.raw")).SequenceEqual(new byte[] { 3, 0, 4, 0, 1, 0, 2, 0 }), "top-down recording excludes padding and handles negative pitch");
             using var metadata = JsonDocument.Parse(File.ReadAllText(Path.Combine(directory, "frame-1.json")));
@@ -84,7 +84,7 @@ internal static class FrameVerification
     {
         public TestDisplay() : base(null!) { }
 
-        public void SetUpdate(Aow.Game.Draw.CustomDisplay.UpdateFrameEvent action) => OnUpdateFrame = action;
+        public void SetUpdate(UpdateFrameEvent action) => OnUpdateFrame = action;
     }
 
     private sealed class TestHost : IDisplayHost, IDisplayEvents

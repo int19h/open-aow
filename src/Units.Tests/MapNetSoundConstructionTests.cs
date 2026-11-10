@@ -43,7 +43,7 @@ public sealed class MapNetSoundConstructionTests
     [MemberData(nameof(EngineCases))]
     public void DirectMetaAndSavedIdKeepExactTypeOwnerAndState(Type type, bool owned)
     {
-        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
+        if (EngineHost.Engines is null) EngineHost.Initialize();
         var engine = new Engine(null!);
         var owner = new MapOwner();
         ECustomNode argument = owned ? type == typeof(MapContainer) ? new HSMap(null!) : owner : null!;
@@ -142,7 +142,7 @@ public sealed class MapNetSoundConstructionTests
                 break;
             case LibraryImageHS image:
                 Assert.Equal(26, image.Level);
-                Assert.Equal(Set<Aow.Game.Draw.LibraryImageHS.StatusElement>.Of(Aow.Game.Draw.LibraryImageHS.StatusElement.MapIsOwner), image.FStatus);
+                Assert.Equal(Set<LibraryImageHS.StatusElement>.Of(LibraryImageHS.StatusElement.MapIsOwner), image.FStatus);
                 break;
             case HPBasedHS hp:
                 Assert.Equal(int.MinValue, hp.FXhp);
@@ -325,11 +325,11 @@ public sealed class MapNetSoundConstructionTests
         Assert.Equal(0, owner.ComponentCount);
     }
 
-    private sealed class ObservingComponent : global::Aow.Rtl.Component
+    private sealed class ObservingComponent : Component
     {
         internal bool Observed;
 
-        public override void Notification(global::Aow.Rtl.Component child, Aow.Rtl.Component.Operation operation)
+        public override void Notification(Component child, Aow.Rtl.Component.Operation operation)
         {
             if (operation == Aow.Rtl.Component.Operation.Insert && child is UnitSfxManager manager)
             {

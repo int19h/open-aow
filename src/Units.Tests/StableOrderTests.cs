@@ -28,9 +28,9 @@ public sealed class StableOrderTests
     public void ItemNameKeepsEqualNamesInInsertionOrder()
     {
         using var list = new ItemList(null!);
-        var high = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "m" };
-        var low = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "a" };
-        var tied = new global::Aow.Game.Magic.Abilities.Item(list) { FOwnerName = "a" };
+        var high = new Item(list) { FOwnerName = "m" };
+        var low = new Item(list) { FOwnerName = "a" };
+        var tied = new Item(list) { FOwnerName = "a" };
         list.SortOnName();
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
@@ -41,9 +41,9 @@ public sealed class StableOrderTests
     public void ItemTypeKeepsEqualTypesInInsertionOrder()
     {
         using var list = new ItemList(null!);
-        var high = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Scroll };
-        var low = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Head };
-        var tied = new global::Aow.Game.Magic.Abilities.Item(list) { FItemType = ItemType.Head };
+        var high = new Item(list) { FItemType = ItemType.Scroll };
+        var low = new Item(list) { FItemType = ItemType.Head };
+        var tied = new Item(list) { FItemType = ItemType.Head };
         list.SortOnType();
         Assert.Same(low, list.FChildren[0]);
         Assert.Same(tied, list.FChildren[1]);
@@ -57,12 +57,12 @@ public sealed class StableOrderTests
         _ = new Hero(heroes) { FHeroName = "m" };
         _ = new Hero(heroes) { FHeroName = "a" };
         _ = new Hero(heroes) { FHeroName = "a" };
-        Aow.Game.Ui.Grids.HeroGrid.SortHeroList = heroes;
+        HeroGrid.SortHeroList = heroes;
         var indices = new IntegerList();
         indices.Add(0);
         indices.Add(1);
         indices.Add(2);
-        indices.SortStable(Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareName);
+        indices.SortStable(HeroGrid.HeroGridCompareName);
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
@@ -78,12 +78,12 @@ public sealed class StableOrderTests
         var tied = new Hero(heroes);
         Assert.True(high.GetLevel() > low.GetLevel());
         Assert.Equal(low.GetLevel(), tied.GetLevel());
-        Aow.Game.Ui.Grids.HeroGrid.SortHeroList = heroes;
+        HeroGrid.SortHeroList = heroes;
         var indices = new IntegerList();
         indices.Add(0);
         indices.Add(1);
         indices.Add(2);
-        indices.SortStable(Aow.Game.Ui.Grids.HeroGrid.HeroGridCompareLevel);
+        indices.SortStable(HeroGrid.HeroGridCompareLevel);
         Assert.Equal(1, indices[0]);
         Assert.Equal(2, indices[1]);
         Assert.Equal(0, indices[2]);
@@ -97,8 +97,8 @@ public sealed class StableOrderTests
         var first = new EObject(pools);
         var second = new EObject(pools);
         var third = new EObject(pools);
-        Assert.Equal(0, Aow.Game.World.Structures.ReflectingPool.ComparePools(first, third));
-        pools.SortStable(Aow.Game.World.Structures.ReflectingPool.ComparePools);
+        Assert.Equal(0, ReflectingPool.ComparePools(first, third));
+        pools.SortStable(ReflectingPool.ComparePools);
         Assert.Same(first, pools.FChildren[0]);
         Assert.Same(second, pools.FChildren[1]);
         Assert.Same(third, pools.FChildren[2]);

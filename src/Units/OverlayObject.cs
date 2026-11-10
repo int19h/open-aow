@@ -36,7 +36,7 @@ public partial class OverlayObject : FixedILTerrainMO
         public override int ResourceUserClassID() => 131228;
 
         // OverlayObject.pas:39
-        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.OverlayObject.Resource.OverlayObjectRStr);
+        public override string ResourceEditName() => Magic.Abilities.AbilityRules.TranslateRStr(OverlayObjectRStr);
 
         private static readonly string OverlayObjectRStr = "Overlay Object";
 
