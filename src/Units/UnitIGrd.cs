@@ -122,14 +122,3 @@ public partial class TUnitIndexGrid : TCustomImageDrawGrid
     [Published]
     public bool Sorted { get => FSorted; set => FSorted = value; }
 }
-
-public static partial class UnitIGrdUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

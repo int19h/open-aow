@@ -300,23 +300,23 @@ public partial class TMsgReceiveDlg : ILayoutModule
         HeaderMemo.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        MsgReceiveWin.WinManager = AoWWinManUnit.General.Manager;
-        MsgReceiveWin.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        MsgReceiveWin.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        MessageMemo.AOWFont = AoWExeFormsUnit.FontModule.AoW15BlackBrown;
-        MessageMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        Close.AOWFont = AoWExeFormsUnit.FontModule.Age10b;
-        Close.ILButton = aowIntGfxModUnit.IntGfxMod.CampaignTrans;
-        MessageSB.ILIInc = aowIntGfxModUnit.IntGfxMod.GenericS;
-        MessageSB.ILIDec = aowIntGfxModUnit.IntGfxMod.GenericS;
-        MessageSB.ILTBack = aowIntGfxModUnit.IntGfxMod.GenericS;
-        MessageSB.ILLTab = aowIntGfxModUnit.IntGfxMod.GenericS;
-        LShield.ToolTip = AoWWinManUnit.General.ToolTip;
-        LShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
-        RShield.ToolTip = AoWWinManUnit.General.ToolTip;
-        RShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
-        HeaderMemo.AOWFont = AoWExeFormsUnit.FontModule.AoW15BlackBrown;
-        HeaderMemo.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
+        MsgReceiveWin.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        MsgReceiveWin.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        MsgReceiveWin.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        MessageMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15BlackBrown;
+        MessageMemo.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        Close.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10b;
+        Close.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CampaignTrans;
+        MessageSB.ILIInc = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
+        MessageSB.ILIDec = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
+        MessageSB.ILTBack = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
+        MessageSB.ILLTab = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericS;
+        LShield.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
+        LShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
+        RShield.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
+        RShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
+        HeaderMemo.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15BlackBrown;
+        HeaderMemo.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
     }
 
     private void Layout_MsgReceiveWinHide_0()

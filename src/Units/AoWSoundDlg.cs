@@ -6,11 +6,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWSoundDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Audio.SoundUnit;
-using static Aow.Game.Engine.Nodes.EngineUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -78,40 +73,40 @@ public partial class TSoundDlg : TDataModule
     // AoWSoundDlg.pas:108
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
     // AoWSoundDlg.pas:114
     public void MusicVolumeChange()
     {
-        SetMusicVolume(MusicVolume.Position);
+        Aow.Game.Audio.AudioPlayback.SetMusicVolume(MusicVolume.Position);
     }
 
     // AoWSoundDlg.pas:119
     public void SFXVolumeChange()
     {
-        SetSFXVolume(SFXVolume.Position);
+        Aow.Game.Audio.AudioPlayback.SetSFXVolume(SFXVolume.Position);
     }
 
     // AoWSoundDlg.pas:124
     public void RemoveBtnClick()
     {
-        General.PlayButtonSound(0);
-        SongPlayer.Songs.Delete(PlayLB.Selected);
-        if (SongPlayer.CurrentIndex == -1)
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Delete(PlayLB.Selected);
+        if (Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex == -1)
         {
-            var count = SongPlayer.Songs.Count;
+            var count = Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count;
             if (PlayLB.Selected < count)
             {
-                SongPlayer.Play(PlayLB.Selected);
+                Aow.Game.Audio.AudioHost.SongPlayer.Play(PlayLB.Selected);
             }
             else
             {
-                if (SongPlayer.Songs.Count != 0)
+                if (Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count != 0)
                 {
-                    var songsCount = SongPlayer.Songs.Count;
-                    SongPlayer.Play(songsCount - 1);
+                    var songsCount = Aow.Game.Audio.AudioHost.SongPlayer.Songs.Count;
+                    Aow.Game.Audio.AudioHost.SongPlayer.Play(songsCount - 1);
                 }
             }
         }
@@ -123,13 +118,13 @@ public partial class TSoundDlg : TDataModule
     public void SoundSetup()
     {
         PlayLB.Items.Clear();
-        for (int I = 0, last = SongPlayer.SongNames.Count - 1; I <= last; I++)
+        for (int I = 0, last = Aow.Game.Audio.AudioHost.SongPlayer.SongNames.Count - 1; I <= last; I++)
         {
-            var songName = SongPlayer.SongNames[I];
+            var songName = Aow.Game.Audio.AudioHost.SongPlayer.SongNames[I];
             PlayLB.Items.Add(songName);
         }
 
-        PlayLB.Selected = SongPlayer.CurrentIndex;
+        PlayLB.Selected = Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex;
         PlayLB.FSized = false;
         if (PlayLB.Selected == -1)
         {
@@ -141,7 +136,7 @@ public partial class TSoundDlg : TDataModule
         {
             RemoveBtn.Visible = true;
             PlayBtn.Visible = true;
-            var songName = SongPlayer.SongNames[PlayLB.Selected];
+            var songName = Aow.Game.Audio.AudioHost.SongPlayer.SongNames[PlayLB.Selected];
             CurrentSongLbl.Text = songName;
         }
 
@@ -159,15 +154,15 @@ public partial class TSoundDlg : TDataModule
     // AoWSoundDlg.pas:165
     public void PlayBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         PlayLB.FDrawn = false;
-        SongPlayer.Play(PlayLB.Selected);
+        Aow.Game.Audio.AudioHost.SongPlayer.Play(PlayLB.Selected);
     }
 
     // AoWSoundDlg.pas:172
     public void SongChange()
     {
-        var songName = SongPlayer.SongNames[SongPlayer.CurrentIndex];
+        var songName = Aow.Game.Audio.AudioHost.SongPlayer.SongNames[Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex];
         CurrentSongLbl.Text = songName;
         MainPnl.FDrawn = false;
         PlayLB.FDrawn = false;
@@ -179,8 +174,8 @@ public partial class TSoundDlg : TDataModule
         string Directory;
         TSearchRec Search = default;
         SongLB.Items.Clear();
-        AoWSoundDlgUnit.SongFiles.Clear();
-        SetCurrentDir(AoWEngine.StartupDirectory + "\\Songs");
+        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles.Clear();
+        SetCurrentDir(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "\\Songs");
         Directory = GetCurrentDir();
         if (Copy(Directory, Directory.Length, 1) == "\\")
         {
@@ -195,8 +190,8 @@ public partial class TSoundDlg : TDataModule
                 {
                     if (UpperCase(Copy(Search.Name, Search.Name.Length - 3, 4)) == ".S3M" || UpperCase(Copy(Search.Name, Search.Name.Length - 2, 3)) == ".IT")
                     {
-                        AoWSoundDlgUnit.SongFiles.Add("Songs\\" + Search.Name);
-                        var songName = GetSongName("Songs\\" + Search.Name);
+                        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles.Add("Songs\\" + Search.Name);
+                        var songName = Aow.Game.Audio.AudioPlayback.GetSongName("Songs\\" + Search.Name);
                         SongLB.Items.Add(songName);
                     }
                 }
@@ -205,7 +200,7 @@ public partial class TSoundDlg : TDataModule
         }
 
         FindClose(ref Search);
-        SortStringsAscending(SongLB.Items, [AoWSoundDlgUnit.SongFiles]);
+        Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(SongLB.Items, [Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles]);
         SongLB.Selected = -1;
         SongLB.ListOffset = 0;
         SongSB.Position = 0;
@@ -223,22 +218,22 @@ public partial class TSoundDlg : TDataModule
     // AoWSoundDlg.pas:211
     public void AddBtnClick()
     {
-        General.PlayButtonSound(0);
-        var songFile = AoWSoundDlgUnit.SongFiles[SongLB.Selected];
-        SongPlayer.Songs.Add(songFile);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        var songFile = Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles[SongLB.Selected];
+        Aow.Game.Audio.AudioHost.SongPlayer.Songs.Add(songFile);
         SoundSetup();
     }
 
     // AoWSoundDlg.pas:218
     public void SoundDlgWindowCreate()
     {
-        AoWSoundDlgUnit.SongFiles = new TStringList();
+        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles = new TStringList();
     }
 
     // AoWSoundDlg.pas:223
     public void SoundDlgWindowDestroy()
     {
-        AoWSoundDlgUnit.SongFiles?.Dispose();
+        Aow.Game.Ui.Dialogs.TSoundDlg.SongFiles?.Dispose();
     }
 
     // AoWSoundDlg.pas:228
@@ -256,7 +251,7 @@ public partial class TSoundDlg : TDataModule
     {
         if (SQCB1.Checked)
         {
-            ReleaseSoundSystem();
+            Aow.Game.Audio.AudioPlayback.ReleaseSoundSystem();
             FSoundQuality = 0;
             CurrentSongLbl.Text = "";
             PlayLB.FDrawn = false;
@@ -265,11 +260,11 @@ public partial class TSoundDlg : TDataModule
 
         if (Sender.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -279,27 +274,27 @@ public partial class TSoundDlg : TDataModule
         if (SQCB2.Checked)
         {
             FSoundQuality = 1;
-            if (SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+            if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
             {
                 FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omMono, TSoundOutputModeElement.om8bit);
                 FSettings.SampleRate = 22050;
-                SetSoundSettings(FSettings);
+                Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
                 FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omMono, TSoundOutputModeElement.om8bit);
                 FSettings.SampleRate = 22050;
-                InitializeSoundSystem("Galaxy", FSettings);
+                Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
         }
 
         if (Sender.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -309,27 +304,27 @@ public partial class TSoundDlg : TDataModule
         if (SQCB3.Checked)
         {
             FSoundQuality = 2;
-            if (SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+            if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
             {
                 FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit);
                 FSettings.SampleRate = 44100;
-                SetSoundSettings(FSettings);
+                Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
                 FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit);
                 FSettings.SampleRate = 44100;
-                InitializeSoundSystem("Galaxy", FSettings);
+                Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
         }
 
         if (Sender.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -339,36 +334,36 @@ public partial class TSoundDlg : TDataModule
         if (SQCB4.Checked)
         {
             FSoundQuality = 3;
-            if (SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+            if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
             {
                 FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit, TSoundOutputModeElement.omHighQuality);
                 FSettings.SampleRate = 44100;
-                SetSoundSettings(FSettings);
+                Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
             }
             else
             {
                 FSettings.OutputMode = TSet<TSoundOutputModeElement>.Of(TSoundOutputModeElement.omStereo, TSoundOutputModeElement.om16bit, TSoundOutputModeElement.omHighQuality);
                 FSettings.SampleRate = 44100;
-                InitializeSoundSystem("Galaxy", FSettings);
+                Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", FSettings);
             }
         }
 
         if (Sender.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
     // AoWSoundDlg.pas:317
     public void PlayLBDrawItem(in TRect R, int Index, ref TSurfaceDesc SurfDesc)
     {
-        if (SongPlayer.CurrentIndex == Index)
+        if (Aow.Game.Audio.AudioHost.SongPlayer.CurrentIndex == Index)
         {
-            IntGfxMod.SoundWin[2].ShowClipped(R.Left, R.Top, SurfDesc);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.SoundWin[2].ShowClipped(R.Left, R.Top, SurfDesc);
         }
     }
 
@@ -376,19 +371,19 @@ public partial class TSoundDlg : TDataModule
     public void MusicEnabledChkChange(TAOWCheckBox Sender)
     {
         FSettings.MusicEnabled = MusicEnabledChk.Checked;
-        SetMusicEnabled(FSettings.MusicEnabled);
+        Aow.Game.Ui.Dialogs.TSoundDlg.SetMusicEnabled(FSettings.MusicEnabled);
         if (FSettings.MusicEnabled && FSoundQuality != 0)
         {
-            SongPlayer.Play(0);
+            Aow.Game.Audio.AudioHost.SongPlayer.Play(0);
         }
 
         if (Sender.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -396,14 +391,14 @@ public partial class TSoundDlg : TDataModule
     public void SFXEnabledChkChange(TAOWCheckBox Sender)
     {
         FSettings.SFXEnabled = SFXEnabledChk.Checked;
-        SetSFXEnabled(FSettings.SFXEnabled);
+        Aow.Game.Ui.Dialogs.TSoundDlg.SetSFXEnabled(FSettings.SFXEnabled);
         if (Sender.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -411,25 +406,25 @@ public partial class TSoundDlg : TDataModule
     public void DirectSoundEnabledChkChange(TAOWCheckBox Sender)
     {
         FSettings.UseDirectSound = DirectSoundEnabledChk.Checked;
-        if (SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
+        if (Aow.Game.Ui.Dialogs.TSoundDlg.SoundSystemStatus().Contains(TSoundSystemStatusElement.ssActivated))
         {
-            SetSoundSettings(FSettings);
+            Aow.Game.Ui.Dialogs.TSoundDlg.SetSoundSettings(FSettings);
         }
 
         if (Sender.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
     // AoWSoundDlg.pas:347
     public void SoundTabChange()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWSoundDlg.pas:352
@@ -440,9 +435,42 @@ public partial class TSoundDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWSoundDlgUnit
-{
-    public static TStringList SongFiles;
+    private static TStringList SongFiles;
+
+    private static TSet<global::Aow.Game.Audio.TSoundSystemStatusElement> SoundSystemStatus()
+    {
+        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        {
+            return global::Aow.Game.Audio.AudioHost.SoundSystem.FStatus;
+        }
+        return TSet<global::Aow.Game.Audio.TSoundSystemStatusElement>.Of(global::System.Array.Empty<global::Aow.Game.Audio.TSoundSystemStatusElement>());
+    }
+
+    private static bool SetMusicEnabled(bool Value)
+    {
+        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        {
+            return global::Aow.Game.Audio.AudioHost.SoundSystem.SetMusicEnabled(Value);
+        }
+        return false;
+    }
+
+    private static bool SetSFXEnabled(bool Value)
+    {
+        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        {
+            return global::Aow.Game.Audio.AudioHost.SoundSystem.SetSFXEnabled(Value);
+        }
+        return false;
+    }
+
+    private static bool SetSoundSettings(in global::Aow.Game.Audio.TSoundSettings Settings)
+    {
+        if (global::Aow.Game.Audio.AudioHost.SoundSystem != null)
+        {
+            return global::Aow.Game.Audio.AudioHost.SoundSystem.SetSoundSettings(in Settings);
+        }
+        return false;
+    }
 }

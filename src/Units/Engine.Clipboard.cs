@@ -4,12 +4,6 @@ using Aow.Rtl;
 
 namespace Aow.Game.Engine.Nodes;
 
-public static partial class EngineUnit
-{
-    public static int CopyStreamToClipboard(Stream stream, string format) => 0;
-    public static int PasteStreamFromClipboard(Stream stream, string format) => 0;
-}
-
 // The editor clipboard has no host in the Engine set.
 public partial class TECopyComponent : TComponent
 {

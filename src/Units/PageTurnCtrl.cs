@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Aow.Game.Draw;
 using Aow.Game.Engine.Buffers;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Grids;
@@ -135,7 +134,7 @@ public partial class TPageTurnControl
 
                 var Destination = Dest.Data;
                 int DestP = Dest.DataIndex + DestX * 2 + Dest.Pitch * Y;
-                PageTurnCtrlUnit.BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
+                Aow.Game.Ui.Grids.TPageTurnControl.BltColumn(Source, SourceP, SourcePitch, Destination, DestP, Dest.Pitch, Height);
             }
         }
     }
@@ -275,12 +274,12 @@ public partial class TPageTurnControl
             R.Top = FSourceY1;
             R.Right = FSourceX1 + FWidth + FPosition;
             R.Bottom = FSourceY1 + FHeight;
-            BltSDRectClipped(FSource1, R, Dest, X, Y);
+            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource1, R, Dest, X, Y);
             R.Left = FSourceX2 + FWidth + FPosition;
             R.Top = FSourceY2;
             R.Right = FWidth * 2 + FSourceX2;
             R.Bottom = FSourceY2 + FHeight;
-            BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
+            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth + FPosition, Y);
             var pi = Math.PI;
             OriginalLength = Round((double)((double)pi * FRadius) * 0.25);
             var mathPI = Math.PI;
@@ -396,7 +395,7 @@ public partial class TPageTurnControl
             R.Bottom = FSourceY2 + FHeight;
             if (R.Right > R.Left)
             {
-                BltSDRectClipped(FSource2, R, Dest, BaseX - (R.Right - R.Left), Y);
+                Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource2, R, Dest, BaseX - (R.Right - R.Left), Y);
             }
         }
     }
@@ -416,7 +415,7 @@ public partial class TPageTurnControl
         R.Top = FSourceY2;
         R.Right = FSourceX2 + FWidth * 2;
         R.Bottom = FSourceY2 + FHeight;
-        BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
+        Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(FSource2, R, Dest, X + FWidth, Y);
         var pi = Math.PI;
         Height = Round((double)Math.Sin((double)((double)FPosition * pi) / 180) * FWidth);
         var mathPI = Math.PI;
@@ -516,6 +515,18 @@ public partial class TPageTurnControl
         }
     }
 
+    private static void BltColumn(global::System.ReadOnlySpan<byte> SourceMemory, int Source, int SourcePitch, global::System.Span<byte> DestMemory, int Dest, int DestPitch, int Height)
+    {
+        while (Height > 0)
+        {
+            ushort num = MemoryMarshal.Read<ushort>(SourceMemory.Slice(Source, 2));
+            MemoryMarshal.Write<ushort>(DestMemory.Slice(Dest, 2), in num);
+            Source += SourcePitch;
+            Dest += DestPitch;
+            Height--;
+        }
+    }
+
 }
 
 public enum TPageTurnMode : byte
@@ -524,30 +535,4 @@ public enum TPageTurnMode : byte
     ptRight = 1,
     ptOpen = 2,
     ptClose = 3
-}
-
-public static partial class PageTurnCtrlUnit
-{
-    // PageTurnCtrl.pas:108
-    // Source and Dest are byte indexes into the two memories. Each step copies one 16-bit pixel.
-    public static void BltColumn(ReadOnlySpan<byte> SourceMemory, int Source, int SourcePitch, Span<byte> DestMemory, int Dest, int DestPitch, int Height)
-    {
-        while (Height > 0)
-        {
-            ushort value__22 = MemoryMarshal.Read<ushort>(SourceMemory.Slice(Source, 2));
-            MemoryMarshal.Write(DestMemory.Slice(Dest, 2), in value__22);
-
-            Source += SourcePitch;
-            Dest += DestPitch;
-            Height -= 1;
-        }
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

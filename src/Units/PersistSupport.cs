@@ -50,13 +50,13 @@ namespace Aow.Game.Engine.Nodes
         {
             var child = node.GetChild(index);
             return child != null && child.Owner == node
-                && !child.GetControlStyle().Contains(EngineUnit.csShared)
-                && child.GetControlStyle().Contains(EngineUnit.csStored);
+                && !child.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csShared)
+                && child.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csStored);
         }
 
         public int Slot(int index) => index;
 
-        public bool KeepIndex => node.GetControlStyle().Contains(EngineUnit.csKeepIndex);
+        public bool KeepIndex => node.GetControlStyle().Contains(Aow.Game.Engine.Nodes.EngineServices.csKeepIndex);
 
         public void Attach(IPersistable child) => ((TEObject)child).FOwner = node;
 

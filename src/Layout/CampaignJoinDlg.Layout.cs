@@ -288,19 +288,19 @@ public partial class TCampaignJoinDlg : ILayoutModule
         ScrollTextDB.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        CharGenPnl.AOWWindow = E2GlobalsUnit.TitleWindow.TitleWin;
-        CharGenPnl.ILTexture = aowIntGfxModUnit.IntGfxMod.FactionWin;
-        LeaderTypePnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        LeaderTypePnl.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        CustomBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        CustomBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        DefaultBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        DefaultBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        LeaderTypeMsg.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
-        DefaultFacePnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        DefaultFacePnl.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        CustomFacePnl.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        CustomFacePnl.ILTexture = aowIntGfxModUnit.IntGfxMod.FactionWin;
+        CharGenPnl.AOWWindow = Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin;
+        CharGenPnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin;
+        LeaderTypePnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        LeaderTypePnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        CustomBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        CustomBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        DefaultBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        DefaultBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        LeaderTypeMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        DefaultFacePnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        DefaultFacePnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        CustomFacePnl.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        CustomFacePnl.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.FactionWin;
         if (session.FireCreateEvents)
             LayoutOnCreate?.Invoke(this);
     }

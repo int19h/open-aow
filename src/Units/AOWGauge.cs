@@ -399,7 +399,3 @@ public partial class TAoWGauge : TAOWControl
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AOWGaugeUnit
-{
-}

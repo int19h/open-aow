@@ -1,7 +1,6 @@
 using Aow.Game.Combat;
 using Aow.Game.Magic;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 // What each structure kind shows in the info window, opens from the info window button or a double
@@ -116,7 +115,7 @@ namespace Aow.Game.World.Structures
         // The panel the owner sees, and every player in debug mode.
         protected virtual StructureView OwnerPanel() => StructureView.Generic;
 
-        protected bool ShownToOwner(sbyte Viewer) => FPlayer == Viewer || AoWEngine.FDebug;
+        protected bool ShownToOwner(sbyte Viewer) => FPlayer == Viewer || Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug;
     }
 }
 
@@ -238,7 +237,7 @@ namespace Aow.Game.World.Structures
                 }
                 else
                 {
-                    AoWHSMap.ShowWarning(Reason);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                 }
             }
             else

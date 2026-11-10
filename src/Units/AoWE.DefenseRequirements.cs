@@ -41,7 +41,7 @@ public partial class TAoWHSMap
         message.Param[0] = query;
         var mapLevel = MapContainer.GetMapLevel(level);
         THNWalkData walk = default;
-        HSEngineUnit.InitHNWalk(ref walk, x, y, 0);
+        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref walk, x, y, 0);
         try
         {
             while (walk.Radius <= radius)
@@ -57,7 +57,7 @@ public partial class TAoWHSMap
                         query.Info.Strength = Math.Max(enemy, query.Info.Strength);
                     }
                 }
-                HSEngineUnit.WalkToNextHN(ref walk);
+                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref walk);
             }
         }
         finally { info = query.Info; }

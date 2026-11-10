@@ -14,7 +14,6 @@ using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Combat.Actions
@@ -47,10 +46,10 @@ namespace Aow.Game.Combat.Actions
             base.Execute(Combat);
             if (FManaCost != 0 && Combat.FStatus.Contains(Aow.Game.Combat.TCombatStatusElement.cExecuting))
             {
-                if (AoWHSSet.FSpellControl.GetSpell(FSpellID) != null)
+                if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID) != null)
                 {
                     Source = (Aow.Game.Combat.TCombatUnit)Combat.FCombatData.FindID(FSourceID);
-                    AoWHSSet.FSpellControl.GetSpell(FSpellID).CastingDone(Source.FUnit, FManaCost);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).CastingDone(Source.FUnit, FManaCost);
                 }
             }
         }
@@ -67,7 +66,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:1000
         public TDispelMagic(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(DispelMagicRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicRStr);
             FSpellID = 8;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -127,24 +126,24 @@ namespace Aow.Game.Magic.Spells.Unit
                 {
                     var dispelMana = GetDispelMana(Source);
                     Chance = Enchantments.GetEnchantments(I).DispelChance(dispelMana);
-                    if (Chance > AoWHSMap.Random(100))
+                    if (Chance > Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(100))
                     {
                         Count += 1;
                         Enchantments.GetEnchantments(I).Dispel();
                     }
                 }
 
-                if (Source.FPlayer == AoWHSMap.FSeatedPlayer)
+                if (Source.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
                 {
                     if (Count > 0)
                     {
-                        var format = RtlUnit.Format(TranslateRStr(XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
-                        AoWHSMap.ShowMessage(format);
+                        var format = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XSpellsSuccessfullyDispelledRStr), [IntToStr(Count)]);
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(format);
                     }
                     else
                     {
-                        var dispelMagicFailed = TranslateRStr(DispelMagicFailedRStr);
-                        AoWHSMap.ShowMessage(dispelMagicFailed);
+                        var dispelMagicFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DispelMagicFailedRStr);
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(dispelMagicFailed);
                     }
                 }
 
@@ -169,7 +168,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public THaste(TECustomNode owner) : base(owner)
         {
             FSpellControlTypes = TSet<Aow.Game.Magic.Spells.TSpellControlTypeElement>.Of(Aow.Game.Magic.Spells.TSpellControlTypeElement.sctGlobal, Aow.Game.Magic.Spells.TSpellControlTypeElement.sctCombat);
-            FSpellName = TranslateRStr(HasteRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HasteRStr);
             FSpellID = 15;
             FBaseManaCost = 5;
             FManaUpkeep = 2;
@@ -220,7 +219,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:256
         public TStoneSkin(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(StoneSkinRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.StoneSkinRStr);
             FSpellID = 17;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -271,7 +270,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:296
         public TEnchantWeapon(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(EnchantWeaponRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.TEnchantWeapon.EnchantWeaponRStr);
             FSpellID = 16;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -315,6 +314,8 @@ namespace Aow.Game.Magic.Spells.Unit
 
             return Result;
         }
+
+        private static readonly string EnchantWeaponRStr = "Enchant Weapon";
     }
 
     public partial class TFreeMovement : TUnitSpell
@@ -322,7 +323,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:386
         public TFreeMovement(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(FreeMovementRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FreeMovementRStr);
             FSpellID = 32;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -371,7 +372,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:336
         public TFury(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(FuryRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FuryRStr);
             FSpellID = 33;
             FAIValue = 175;
             FBaseManaCost = 5;
@@ -386,9 +387,9 @@ namespace Aow.Game.Magic.Spells.Unit
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(X, Y, Layer, 0))
+            if (Player == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(X, Y, Layer, 0))
             {
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
         }
 
@@ -399,7 +400,7 @@ namespace Aow.Game.Magic.Spells.Unit
             Result = Result && !Target.GetAbilityEnabled(156);
             if (Result)
             {
-                if (AoWHSMap.FPlayers.GetPlayers(Target.FPlayer).FPlayerType != TPlayerType.ptHuman && Target is TLeader)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Target.FPlayer).FPlayerType != TPlayerType.ptHuman && Target is TLeader)
                 {
                     Result = false;
                 }
@@ -440,7 +441,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:424
         public TRemedy(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(RemedyRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.TRemedy.RemedyRStr);
             FSpellID = 35;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -485,6 +486,8 @@ namespace Aow.Game.Magic.Spells.Unit
 
             return Result;
         }
+
+        private static readonly string RemedyRStr = "Remedy";
     }
 
     public partial class THealingWater : TUnitSpell
@@ -492,7 +495,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:467
         public THealingWater(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(HealingWaterRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.THealingWater.HealingWaterRStr);
             FSpellID = 55;
             FBaseManaCost = 5;
             FSpellLevel = 1;
@@ -525,6 +528,8 @@ namespace Aow.Game.Magic.Spells.Unit
 
             return Result;
         }
+
+        private static readonly string HealingWaterRStr = "Healing Water";
     }
 
     public partial class THolyChampion : TUnitSpell
@@ -532,7 +537,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:497
         public THolyChampion(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(HolyChampionRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HolyChampionRStr);
             FSpellID = 36;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -546,7 +551,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = base.ValidTargetUnit(Source, Target);
-            return Result && !Target.GetAbilityEnabled(146) && !Target.GetAbilityEnabled(160) && AoWHSSet.FAbilityControl.GetAbility(146).CanExpand(Target);
+            return Result && !Target.GetAbilityEnabled(146) && !Target.GetAbilityEnabled(160) && Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(146).CanExpand(Target);
         }
 
         // UnitSpells.pas:510
@@ -581,7 +586,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:537
         public TUnholyChampion(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(UnholyChampionRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UnholyChampionRStr);
             FSpellID = 37;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -595,7 +600,7 @@ namespace Aow.Game.Magic.Spells.Unit
         public override bool ValidTargetUnit(TAbstractUnit Source, TAbstractUnit Target)
         {
             bool Result = base.ValidTargetUnit(Source, Target);
-            return Result && !Target.GetAbilityEnabled(147) && !Target.GetAbilityEnabled(161) && AoWHSSet.FAbilityControl.GetAbility(147).CanExpand(Target);
+            return Result && !Target.GetAbilityEnabled(147) && !Target.GetAbilityEnabled(161) && Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(147).CanExpand(Target);
         }
 
         // UnitSpells.pas:550
@@ -630,7 +635,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:577
         public TConcealment(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(ConcealmentRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ConcealmentRStr);
             FSpellID = 39;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -679,7 +684,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:616
         public TFireAura(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(FireAuraRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FireAuraRStr);
             FSpellID = 40;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -693,9 +698,9 @@ namespace Aow.Game.Magic.Spells.Unit
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(X, Y, Layer, 0))
+            if (Player == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(X, Y, Layer, 0))
             {
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
         }
 
@@ -738,7 +743,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:662
         public TWaterWalking(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(WaterWalkingRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WaterWalkingRStr);
             FSpellID = 42;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -787,7 +792,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:702
         public TWindWalking(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(WindWalkingRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.WindWalkingRStr);
             FSpellID = 43;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -836,7 +841,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:741
         public TLiquidForm(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(LiquidFormRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LiquidFormRStr);
             FSpellID = 49;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -851,9 +856,9 @@ namespace Aow.Game.Magic.Spells.Unit
         public override void PlayDefaultCastEffects(sbyte Player, sbyte X, sbyte Y, sbyte Layer)
         {
             base.PlayDefaultCastEffects(Player, X, Y, Layer);
-            if (Player == AoWHSMap.FSeatedPlayer || AoWHSMap.Watching(X, Y, Layer, 0))
+            if (Player == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(X, Y, Layer, 0))
             {
-                AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellID).FCastSounds.Play(1);
             }
         }
 
@@ -897,7 +902,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:790
         public TBless(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(BlessRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.TBless.BlessRStr);
             FSpellID = 56;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -941,6 +946,8 @@ namespace Aow.Game.Magic.Spells.Unit
 
             return Result;
         }
+
+        private static readonly string BlessRStr = "Bless";
     }
 
     public partial class TDarkGift : TUnitSpell
@@ -948,7 +955,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:830
         public TDarkGift(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(DarkGiftRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DarkGiftRStr);
             FSpellID = 77;
             FBaseManaCost = 5;
             FSpellLevel = 3;
@@ -1014,18 +1021,18 @@ namespace Aow.Game.Magic.Spells.Unit
             TAbstractUnit Target;
             TUnitSpellTE Event;
             string Reason = "";
-            ((TUnitSpell)AoWHSSet.FSpellControl.GetSpell(59)).ResetTargetSelection();
-            Source = AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
-            Target = AoWHSMap.FUnitControl.FindUnit(FTargetUnitID);
-            if (Source != null && Target != null && CanCast(ref Reason) && !AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
+            ((TUnitSpell)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(59)).ResetTargetSelection();
+            Source = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FCasterSourceID);
+            Target = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FTargetUnitID);
+            if (Source != null && Target != null && CanCast(ref Reason) && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Source.FPlayer).GetBusy())
             {
                 Event = new TUnitSpellTE(null);
-                var spell = AoWHSSet.FSpellControl.GetSpell(59);
+                var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(59);
                 Event.Initialize(FCasterSpellID, Source, null, spell.FBaseManaCost);
                 Event.FTargetUnitIDs.Add(FTargetUnitID);
                 Event.FSpellData[0] = FFaceIndex;
                 Event.FTargetPlayer = (byte)Target.FPlayer;
-                AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -1044,7 +1051,7 @@ namespace Aow.Game.Magic.Spells.Unit
         // UnitSpells.pas:901
         public TCosmeticSurgery(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(DeformFaceRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.Unit.TCosmeticSurgery.DeformFaceRStr);
             FSpellID = 59;
             FSpellType = Aow.Game.Magic.Spells.TSpellType.stUnit;
             FSpellLevel = 1;
@@ -1090,7 +1097,7 @@ namespace Aow.Game.Magic.Spells.Unit
                     Caster.FFaceIndex = 0;
                 }
 
-                AoWHSMap.FCosmeticSurgeryEventsStore.Raise(Caster);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCosmeticSurgeryEventsStore.Raise(Caster);
                 Caster.Release();
                 Result = true;
             }
@@ -1137,68 +1144,7 @@ namespace Aow.Game.Magic.Spells.Unit
 
             return Result;
         }
-    }
 
-    public static partial class UnitSpellsUnit
-    {
-        // UnitSpells.pas:1081
-        public static void RegisterUnitSpells(TAoWEngine Engine)
-        {
-            Aow.Game.Magic.Spells.TSpellControl Control;
-            Control = Engine.FGameSet.FSpellControl;
-            Engine.RegisterEClasses([EClass.Of<TDispelMagicSpellCA>()]);
-            Control.RegisterSpell(new TDispelMagic(null));
-            Control.RegisterSpell(new THaste(null));
-            Control.RegisterSpell(new TStoneSkin(null));
-            Control.RegisterSpell(new TEnchantWeapon(null));
-            Control.RegisterSpell(new TFury(null));
-            Control.RegisterSpell(new TFreeMovement(null));
-            Control.RegisterSpell(new TRemedy(null));
-            Control.RegisterSpell(new THolyChampion(null));
-            Control.RegisterSpell(new TUnholyChampion(null));
-            Control.RegisterSpell(new TConcealment(null));
-            Control.RegisterSpell(new TFireAura(null));
-            Control.RegisterSpell(new TWaterWalking(null));
-            Control.RegisterSpell(new TWindWalking(null));
-            Control.RegisterSpell(new TLiquidForm(null));
-            Control.RegisterSpell(new THealingWater(null));
-            Control.RegisterSpell(new TBless(null));
-            Control.RegisterSpell(new TCosmeticSurgery(null));
-            Control.RegisterSpell(new TDarkGift(null));
-        }
-
-        // UnitSpells.pas:1107
-        public static void UnregisterUnitSpells(TAoWEngine Engine)
-        {
-            Aow.Game.Magic.Spells.TSpellControl Control;
-            Control = Engine.FGameSet.FSpellControl;
-            Control.UnregisterSpellID(8);
-            Control.UnregisterSpellID(15);
-            Control.UnregisterSpellID(17);
-            Control.UnregisterSpellID(16);
-            Control.UnregisterSpellID(33);
-            Control.UnregisterSpellID(32);
-            Control.UnregisterSpellID(35);
-            Control.UnregisterSpellID(37);
-            Control.UnregisterSpellID(36);
-            Control.UnregisterSpellID(39);
-            Control.UnregisterSpellID(40);
-            Control.UnregisterSpellID(42);
-            Control.UnregisterSpellID(43);
-            Control.UnregisterSpellID(49);
-            Control.UnregisterSpellID(55);
-            Control.UnregisterSpellID(56);
-            Control.UnregisterSpellID(59);
-            Control.UnregisterSpellID(77);
-            Engine.UnregisterEClasses([EClass.Of<TDispelMagicSpellCA>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
+        private static readonly string DeformFaceRStr = "Cosmagic Surgery";
     }
 }

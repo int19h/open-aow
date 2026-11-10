@@ -4,7 +4,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using Combat = Aow.Game.Combat.AoWTCUnit;
 
 namespace Aow.Units.Tests;
 
@@ -47,7 +46,7 @@ public sealed class TacticalCombatWallCastTests
     [Fact]
     public void UnitLocationSkipsTheCombatWallAndFindsTheUnit()
     {
-        var previous = Combat.AoWCombatMap;
+        var previous = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap;
         var map = new TAoWCombatMap(null!);
         try
         {
@@ -74,7 +73,7 @@ public sealed class TacticalCombatWallCastTests
         {
             map.SetOwner(null!);
             map.Dispose();
-            Combat.AoWCombatMap = previous;
+            Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = previous;
         }
     }
 }

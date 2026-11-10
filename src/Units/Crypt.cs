@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -28,23 +27,8 @@ public partial class TCryptResource : TItemExplorationSiteResource
     public override int ResourceUserClassID() => 131850;
 
     // Crypt.pas:37
-    public override string ResourceEditName() => TranslateRStr(CryptRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TCryptResource.CryptRStr);
 
-}
+    private static readonly string CryptRStr = "Crypt";
 
-public static partial class CryptUnit
-{
-    // Crypt.pas:46
-    public static void RegisterCrypt(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TCrypt>(), EClass.Of<TCryptResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

@@ -31,9 +31,12 @@ public partial class TInfoBanner : TDataModule
             BannerPopup.Visible = false;
         }
     }
-}
 
-public static partial class AoWInfoBannerUnit
-{
-    public static TInfoBanner InfoBanner;
+    internal static void SetInfoBanner(TInfoBanner Banner, string Caption, TStrings Description)
+    {
+        Banner.HeaderLbl.Text = Caption;
+        var text = Description.Text;
+        Banner.InfoMemo.Items.Text = text;
+    }
+
 }

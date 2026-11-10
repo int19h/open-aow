@@ -7,7 +7,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWSendEmailGameDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -72,17 +71,17 @@ public partial class TSendEmailGameDlg : TDataModule
         FSendEvent = Event;
         FSendEvent.AddRef();
         var sendEmailGameEventLog = FSendEvent;
-        var player = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer);
         EmailAddressEdit.Text = player.FPBEMSettings.FEmailGame.FEmailAddress;
         // { Original reuses the resource-string temporary for the formatted text. }
-        var nameEx = AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
-        var format = AoWEUnit.Format(TranslateRStr(NextPlayerXRStr), [nameEx]);
+        var nameEx = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).GetNameEx();
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSendEmailGameDlg.NextPlayerXRStr), [nameEx]);
         RecipientNameLbl.Text = format;
         if (sendEmailGameEventLog.FMode == 2)
         {
-            var smtpServer = AoWEngine.FRegistry.GetSMTPServer();
+            var smtpServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
             AutomatedChk.Checked = !IsEmpty(smtpServer);
-            var fRegistrySMTPServer = AoWEngine.FRegistry.GetSMTPServer();
+            var fRegistrySMTPServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
             ManualChk.Checked = IsEmpty(fRegistrySMTPServer);
         }
         else
@@ -126,7 +125,7 @@ public partial class TSendEmailGameDlg : TDataModule
     // AoWSendEmailGameDlg.pas:120
     public void EmailAddressEditChange()
     {
-        AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSendEvent.FSendPlayer).FPBEMSettings.FEmailGame.FEmailAddress = EmailAddressEdit.Text;
     }
 
     // AoWSendEmailGameDlg.pas:125
@@ -137,8 +136,6 @@ public partial class TSendEmailGameDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWSendEmailGameDlgUnit
-{
+    private static readonly string NextPlayerXRStr = "Next Player: %s";
 }

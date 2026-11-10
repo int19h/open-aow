@@ -102,18 +102,3 @@ namespace Aow.Game.Ui.Grids.RaceBox
         public bool Selectable;
     }
 }
-
-namespace Aow.Game.Ui.Grids
-{
-
-    public static partial class RaceBoxUnit
-    {
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
-    }
-}

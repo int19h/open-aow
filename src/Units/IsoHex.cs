@@ -6,7 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes
@@ -66,7 +65,7 @@ namespace Aow.Game.World.Hexes
             TCustomImageLibrary IL;
             int Xhp = default;
             int Yhp = default;
-            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             Xhp = Xhp - XhpSurf - 8;
             Yhp = Yhp - YhpSurf;
             IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -210,7 +209,7 @@ namespace Aow.Game.World.Hexes
             int Yhp = default;
             if (FDynamic == null)
             {
-                HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+                Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
                 Xhp = Xhp - XhpSurf - 8;
                 Yhp = Yhp - YhpSurf;
                 IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -247,7 +246,9 @@ namespace Aow.Game.World.Hexes
         public override int ResourceUserClassID() => 131440;
 
         // IsoHex.pas:448
-        public override string ResourceEditName() => UpperIsometricHexagonStr;
+        public override string ResourceEditName() => Aow.Game.World.Hexes.TUpperIsometricHexagonResource.UpperIsometricHexagonStr;
+
+        private static readonly string UpperIsometricHexagonStr = "Upper Isometric Hexagon";
 
     }
 
@@ -271,16 +272,9 @@ namespace Aow.Game.World.Hexes
         public override int ResourceUserClassID() => 131442;
 
         // IsoHex.pas:576
-        public override string ResourceEditName() => LowerIsometricHexagonStr;
+        public override string ResourceEditName() => Aow.Game.World.Hexes.TLowerIsometricHexagonResource.LowerIsometricHexagonStr;
 
-    }
+        private static readonly string LowerIsometricHexagonStr = "Lower Isometric Hexagon";
 
-    public static partial class IsoHexUnit
-    {
-        // IsoHex.pas:586
-        public static void RegisterIsometricHexagon(TEngine Engine)
-        {
-            Engine.RegisterEClasses([EClass.Of<TIsometricHexagon>(), EClass.Of<TIsometricHexagonResource>(), EClass.Of<TUpperIsometricHexagon>(), EClass.Of<TUpperIsometricHexagonResource>(), EClass.Of<TLowerIsometricHexagon>(), EClass.Of<TLowerIsometricHexagonResource>()]);
-        }
     }
 }

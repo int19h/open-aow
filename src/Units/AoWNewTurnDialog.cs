@@ -6,9 +6,6 @@ using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -40,13 +37,13 @@ public partial class TNewTurnDlg : TDataModule
     {
         TExecuteDoneEvent Done;
         TNewTurnEventLog Event;
-        General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         if (FNewTurn == null)
         {
-            AoWHSMap.SetSeatedPlayer(AoWHSMap.FCurrentPlayer);
-            if (AoWHSMap.FSeatedPlayer > -1)
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetSeatedPlayer(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer);
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer > -1)
             {
-                AoWPInfoWinUnit.PInfoW.UpdateEvents();
+                Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.UpdateEvents();
             }
         }
 
@@ -83,12 +80,12 @@ public partial class TNewTurnDlg : TDataModule
                 FNewTurn = Event;
                 FNewTurn.AddRef();
                 TurnMsg.Text = Event.FText;
-                var name = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer).GetName();
+                var name = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer).GetName();
                 PlayerName.Text = name;
                 if (Event.FTurnPlayer != 0)
                 {
-                    var player = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer);
-                    var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[player.FPlayerRace]);
+                    var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer);
+                    var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
                     PlayerRace.Text = raceNamesPlural;
                 }
                 else
@@ -96,18 +93,18 @@ public partial class TNewTurnDlg : TDataModule
                     PlayerRace.Text = "";
                 }
 
-                if (AoWHSMap.FDay > 0)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay > 0)
                 {
-                    Day = AoWHSMap.FDay;
+                    Day = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay;
                 }
                 else
                 {
                     Day = 1;
                 }
 
-                var day = TranslateRStr(DayRStr);
+                var day = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DayRStr);
                 Turn.Text = day + " " + IntToStr(Day);
-                Race = AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer).FPlayerRace;
+                Race = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Event.FTurnPlayer).FPlayerRace;
                 if (Race == -1)
                 {
                     Race = 12;
@@ -119,12 +116,12 @@ public partial class TNewTurnDlg : TDataModule
                 NewTDlg.Visible = true;
                 if (FNewTurn.FDialogStyle.Contains(TNewTurnEventLogDialogStyleElement.nsCloseable))
                 {
-                    var clickToBegin = TranslateRStr(ClickToBeginRStr);
+                    var clickToBegin = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TNewTurnDlg.ClickToBeginRStr);
                     ClickMsg.Text = clickToBegin;
                 }
                 else
                 {
-                    var hiddenmovementPleaseWait = TranslateRStr(HiddenmovementPleaseWaitRStr);
+                    var hiddenmovementPleaseWait = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TNewTurnDlg.HiddenmovementPleaseWaitRStr);
                     ClickMsg.Text = hiddenmovementPleaseWait;
                 }
 
@@ -138,7 +135,7 @@ public partial class TNewTurnDlg : TDataModule
     // AoWNewTurnDialog.pas:106
     public void NewTDlgMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
-        if (AoWCombatMap == null && FNewTurn.FDialogStyle.Contains(TNewTurnEventLogDialogStyleElement.nsCloseable))
+        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap == null && FNewTurn.FDialogStyle.Contains(TNewTurnEventLogDialogStyleElement.nsCloseable))
         {
             NewTDlg.Visible = false;
         }
@@ -157,20 +154,20 @@ public partial class TNewTurnDlg : TDataModule
     public void FaceFramePreDraw(TSurfaceDesc Surface)
     {
         TRect R;
-        if (AoWCombatMap != null)
+        if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap != null)
         {
-            if (AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer).FLeader != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer).FLeader != null)
             {
                 R = Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                AoWHSMap.FPlayers.GetPlayers(AoWCombatMap.FSeatedPlayer).FLeader.ShowFace(R, Surface);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer).FLeader.ShowFace(R, Surface);
             }
         }
         else
         {
-            if (AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader != null)
             {
                 R = Rect(NewTDlg.WinLeft + 188, NewTDlg.WinTop + 40, NewTDlg.WinLeft + 188 + 103, NewTDlg.WinTop + 40 + 128);
-                AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader.ShowFace(R, Surface);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FNewTurn.FTurnPlayer).FLeader.ShowFace(R, Surface);
             }
         }
     }
@@ -180,8 +177,7 @@ public partial class TNewTurnDlg : TDataModule
     {
         FinishDialog();
     }
-}
 
-public static partial class AoWNewTurnDialogUnit
-{
+    private static readonly string ClickToBeginRStr = "Click to begin";
+    private static readonly string HiddenmovementPleaseWaitRStr = "Hidden movement, please wait";
 }

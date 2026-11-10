@@ -57,16 +57,3 @@ public partial class TAlignmentBox : TComboBox
     [Published]
     public bool UseSets { get => FSetMode; set => FSetMode = value; }
 }
-
-public static partial class AlgnmBoxUnit
-{
-    public static string NoneRStr = "None";
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

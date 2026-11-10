@@ -7,8 +7,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Ui.Dialogs.AOWMWindowUnit;
-using GameState = Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow;
 
@@ -34,7 +32,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Random(RandomTraceEvent entry)
     {
-        if (entry.Kind == "random" && (GameState.AoWHSMap is null || GameState.AoWHSMap is { FDay: 1, Frame: <= 1 }))
+        if (entry.Kind == "random" && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { FDay: 1, Frame: <= 1 }))
             writer.WriteLine(JsonSerializer.Serialize(new
             {
                 kind = "startup-random",
@@ -46,7 +44,7 @@ internal sealed class FrameDiagnostics : IDisposable
                     .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units")
                     .Select(method => $"{method!.DeclaringType!.Name}.{method.Name}")
             }));
-        if (GameState.AoWHSMap is not { FDay: 2 } map || entry.Kind != "random") return;
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not { FDay: 2 } map || entry.Kind != "random") return;
         var stack = new StackTrace(1, false).GetFrames().Select(frame => frame.GetMethod())
             .Where(method => method?.DeclaringType?.Assembly.GetName().Name == "Aow.Units").ToArray();
         if (!stack.Any(method => method is { Name: "Random", DeclaringType.Name: "TAoWHSMap" })) return;
@@ -67,7 +65,7 @@ internal sealed class FrameDiagnostics : IDisposable
 
     private void Cost(int cost, int used)
     {
-        if (GameState.AoWHSMap is not { FDay: 2 } map) return;
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not { FDay: 2 } map) return;
         writer.WriteLine(JsonSerializer.Serialize(new
         {
             kind = "cost",
@@ -84,9 +82,9 @@ internal sealed class FrameDiagnostics : IDisposable
 
     public void Snapshot(string name)
     {
-        if (GameState.AoWHSMap is not { } map) return;
-        var viewer = MWindow.MapViewer;
-        var window = MWindow.MapWindow;
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not { } map) return;
+        var viewer = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer;
+        var window = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow;
         var level = map.MapContainer.GetMapLevel(viewer.SceneL);
         var objects = new List<object>();
         for (int y = 0; y < level.Height; y++)

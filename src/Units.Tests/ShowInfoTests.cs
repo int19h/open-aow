@@ -2,8 +2,6 @@ using System.Buffers.Binary;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
 using Xunit.Abstractions;
-using G = Aow.Game.Draw.GFXEUnit;
-using Images = Aow.Game.Draw.Images.ImageLibUnit;
 using LibraryImage = Aow.Game.Draw.Images.TLibraryImage;
 
 namespace Aow.Units.Tests;
@@ -181,9 +179,9 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         {
             var collections = new (TBlendMode Mode, TLookupBlendTableCollection100 Tables)[]
             {
-                (TBlendMode.bmAlpha, G.AlphaBlendTable), (TBlendMode.bmBrighten, G.BrightenBlendTable),
-                (TBlendMode.bmIntensity, G.IntensityBlendTable), (TBlendMode.bmShadow, G.ShadowBlendTable),
-                (TBlendMode.bmLinearAlpha, G.LinearAlphaBlendTable),
+                (TBlendMode.bmAlpha, Aow.Game.Draw.GfxState.AlphaBlendTable), (TBlendMode.bmBrighten, Aow.Game.Draw.GfxState.BrightenBlendTable),
+                (TBlendMode.bmIntensity, Aow.Game.Draw.GfxState.IntensityBlendTable), (TBlendMode.bmShadow, Aow.Game.Draw.GfxState.ShadowBlendTable),
+                (TBlendMode.bmLinearAlpha, Aow.Game.Draw.GfxState.LinearAlphaBlendTable),
             };
             TSurfaceDesc sd = default;
             foreach (var (mode, tables) in collections)
@@ -234,22 +232,22 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
     // Shown images draw through the blend tables that GFXE.Initialize builds at game start.
     private static void WithBlendTables(Action body)
     {
-        var previous = (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable);
-        (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) =
+        var previous = (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable);
+        (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) =
             (new(), new(), new(), new(), new());
         try
         {
-            G.InitBlendTables(5, 31);
+            Aow.Game.Draw.GfxState.InitBlendTables(5, 31);
             body();
         }
         finally
         {
-            G.AlphaBlendTable?.Dispose();
-            G.IntensityBlendTable?.Dispose();
-            G.BrightenBlendTable?.Dispose();
-            G.ShadowBlendTable?.Dispose();
-            G.LinearAlphaBlendTable?.Dispose();
-            (G.AlphaBlendTable, G.IntensityBlendTable, G.BrightenBlendTable, G.ShadowBlendTable, G.LinearAlphaBlendTable) = previous;
+            Aow.Game.Draw.GfxState.AlphaBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.IntensityBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.BrightenBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.ShadowBlendTable?.Dispose();
+            Aow.Game.Draw.GfxState.LinearAlphaBlendTable?.Dispose();
+            (Aow.Game.Draw.GfxState.AlphaBlendTable, Aow.Game.Draw.GfxState.IntensityBlendTable, Aow.Game.Draw.GfxState.BrightenBlendTable, Aow.Game.Draw.GfxState.ShadowBlendTable, Aow.Game.Draw.GfxState.LinearAlphaBlendTable) = previous;
         }
     }
 
@@ -268,13 +266,13 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         string[] files = InstalledLibrariesFactAttribute.Folders
             .SelectMany(folder => Directory.EnumerateFiles(folder, "*.ILB", SearchOption.AllDirectories))
             .Order(StringComparer.OrdinalIgnoreCase).ToArray();
-        var previousClasses = Images.LibraryImageClasses;
-        Images.LibraryImageClasses = new TList();
+        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
         var tally = new Tally();
         try
         {
-            Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>()]);
-            Images.RegisterLibraryImageClasses([
+            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>()]);
+            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(),
                 LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(),
                 LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>()]);
@@ -282,8 +280,8 @@ public sealed class ShowInfoTests(ITestOutputHelper output)
         }
         finally
         {
-            Images.LibraryImageClasses.Dispose();
-            Images.LibraryImageClasses = previousClasses;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
         }
 
         output.WriteLine($"{tally.Libraries} libraries, {tally.Images} images, {tally.WithoutShowInfo} without a show info record, " +

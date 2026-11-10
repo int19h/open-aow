@@ -7,9 +7,6 @@ using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -114,12 +111,12 @@ public partial class TEmailGameSettingsDlg : TDataModule
         }
         else
         {
-            ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
-            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
-            var pleaseFillInAllSettings = TranslateRStr(PleaseFillInAllSettingsRStr);
-            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
-            AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
-            AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
+            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+            var pleaseFillInAllSettings = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TEmailGameSettingsDlg.PleaseFillInAllSettingsRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(pleaseFillInAllSettings);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
         }
     }
 
@@ -132,15 +129,15 @@ public partial class TEmailGameSettingsDlg : TDataModule
     // AoWEmailGameSettingsDlg.pas:141
     public void SettingsBtnClick()
     {
-        ShowEmailSettings(EmailSettingsDlg);
+        Aow.Game.Ui.Dialogs.TEmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
     }
 
     // AoWEmailGameSettingsDlg.pas:146
     public void LocalEmailAddressEditUpdate()
     {
-        if (AoWEngine.FRegistry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
+        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress() != LocalEmailAddressEdit.Text)
         {
-            var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+            var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
             LocalEmailAddressEdit.Text = localEmailAddress;
         }
     }
@@ -155,7 +152,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
         if (I < FEmailAddresses.Count)
         {
             var objectValue = FEmailAddresses.Objects[I];
-            R = AoWHSSet.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
+            R = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(ObjectToInt(objectValue));
             R.AddRef();
             R.FImageLibrary[38].Show(panel.WinLeft, panel.WinTop, SD);
             R.Release();
@@ -179,7 +176,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
             EmailEdit.CaptureInput = true;
             EmailEdit.Text = FEmailAddresses[Index];
             var objectValue = FEmailAddresses.Objects[Index];
-            NameLabel.Text = TranslateRStr(RaceNamesPluralRStr[ObjectToInt(objectValue)]);
+            NameLabel.Text = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[ObjectToInt(objectValue)]);
         }
         else
         {
@@ -227,7 +224,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
         FEmailAddresses.Clear();
         PlayerSB.Visible = true;
         PlayerSB.Position = 0;
-        var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+        var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
         LocalEmailAddressEdit.Text = localEmailAddress;
     }
 
@@ -243,7 +240,7 @@ public partial class TEmailGameSettingsDlg : TDataModule
             if (C.FSettings.GetSettings(I).FBehavior.PlayerType == 0)
             {
                 var setting = C.FSettings.GetSettings(I);
-                var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+                var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
                 FEmailAddresses.AddObject(localEmailAddress, IntToObject(setting.FRace));
             }
         }
@@ -255,16 +252,15 @@ public partial class TEmailGameSettingsDlg : TDataModule
         }
         else
         {
-            ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
-            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
-            var youNeed2HumanPlayersToPlayAnEmailGame = TranslateRStr(YouNeed2HumanPlayersToPlayAnEmailGameRStr);
-            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
-            AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
-            AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
+            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+            var youNeed2HumanPlayersToPlayAnEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TEmailGameSettingsDlg.YouNeed2HumanPlayersToPlayAnEmailGameRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(youNeed2HumanPlayersToPlayAnEmailGame);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
         }
     }
-}
 
-public static partial class AoWEmailGameSettingsDlgUnit
-{
+    private static readonly string PleaseFillInAllSettingsRStr = "Please fill in all settings.";
+    private static readonly string YouNeed2HumanPlayersToPlayAnEmailGameRStr = "You need 2 human players to play an email game.";
 }

@@ -402,22 +402,22 @@ public partial class TNewTurnDlg : ILayoutModule
         TCeltLineR.Loaded();
         FaceFrame.Loaded();
         session.Resolve(this);
-        NewTDlg.WinManager = AoWWinManUnit.General.Manager;
-        NewTDlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        NewTDlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        TCeltB.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        ClickMsg.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        LShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
-        PlayerName.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
-        TurnMsg.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
-        PlayerRace.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        Turn.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        RShield.ImageLib = aowIntGfxModUnit.IntGfxMod.Shields;
-        BlueFr.ILFrame = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        BlueFr.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        TCeltLineR.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        FaceFrame.ImageLib = aowIntGfxModUnit.IntGfxMod.GenericF;
+        NewTDlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        NewTDlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        NewTDlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        TCeltB.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        ClickMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        LShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
+        PlayerName.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        TurnMsg.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        PlayerRace.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        Turn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        RShield.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields;
+        BlueFr.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        BlueFr.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        TCeltLineR.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        FaceFrame.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
     }
 
     private void Layout_NewTDlgHide_0()

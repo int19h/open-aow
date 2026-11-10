@@ -24,9 +24,9 @@ public sealed class UiConstructionFailureTests
         var previousClose = engine.FOnHSMCloseStore;
         engine.FOnHSMLoadedStore = new EventStore<THSMap>();
         engine.FOnHSMCloseStore = new EventStore<THSMap>();
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = engine;
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
-        Aow.Game.Combat.AoWTCUnit.AoWCombatMap = null!;
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine = engine;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
+        Aow.Game.Combat.TAoWCombatMap.AoWCombatMap = null!;
         var owner = new TComponent(null!);
         try
         {

@@ -17,9 +17,6 @@ using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Game.Events.EventLogUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Magic.Spells
@@ -201,11 +198,11 @@ namespace Aow.Game.World.Terrain
             TAbstractUnit U;
             int Damage;
             Count = 0;
-            RandSeed = AoWHSMap.Random(16777215);
+            RandSeed = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(16777215);
             Log = new TArmyEventLog(null);
-            Log.FArmyText = TranslateRStr(PoisonPlantDamageRStr);
+            Log.FArmyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TPoisonPlant.PoisonPlantDamageRStr);
             Log.FPlayer = ArmyHS.FArmy.FPlayer;
-            var poisonPlantDamage = TranslateRStr(PoisonPlantDamageRStr);
+            var poisonPlantDamage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TPoisonPlant.PoisonPlantDamageRStr);
             Log.FArmyMessages.Add(poisonPlantDamage);
             Log.FArmyIcon = 1;
             Log.FArmyView.Setup(ArmyHS.FArmy, 255);
@@ -251,7 +248,7 @@ namespace Aow.Game.World.Terrain
                 var yhx = GetYhx();
                 var lhx = GetLhx();
                 var xhx = GetXhx();
-                DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
+                Aow.Game.Events.TEventLog.DistributeLocationEventLog(Log, Log.FPlayer, xhx, yhx, lhx, true);
             }
 
             ArmyHS.FArmy.Validate();
@@ -261,7 +258,7 @@ namespace Aow.Game.World.Terrain
         // PoisonP.pas:168
         public void ArmyPlaced(TArmyHS ArmyHS)
         {
-            if (PoisonPlantActive() && !AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (PoisonPlantActive() && !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 TriggerArmyDamage(ArmyHS);
             }
@@ -277,7 +274,7 @@ namespace Aow.Game.World.Terrain
             Dispose();
             if (OriginalOverlay > 0)
             {
-                AoWHSMap.PlaceTerrain(MapF.Xhx, MapF.Yhx, MapF.Lhx, MapF.TerrainType, OriginalOverlay);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceTerrain(MapF.Xhx, MapF.Yhx, MapF.Lhx, MapF.TerrainType, OriginalOverlay);
             }
         }
 
@@ -311,21 +308,21 @@ namespace Aow.Game.World.Terrain
             var lhx = Animation.GetLhx();
             var yhx = Animation.GetYhx();
             var xhx = Animation.GetXhx();
-            MapF = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
-            if (this == MapF.FindOwnedChild(131998) && AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
+            MapF = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            if (this == MapF.FindOwnedChild(131998) && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0 && Animation.FFrameCounter == 0)
             {
-                bool condition = AoWHSMap.FSeatedPlayer == Animation.FTag;
+                bool condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Animation.FTag;
                 if (!condition)
                 {
                     var lhx2 = GetLhx();
                     var yhx2 = GetYhx();
                     var xhx2 = GetXhx();
-                    condition = AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
+                    condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.WatchingTerrain(xhx2, yhx2, lhx2, 0);
                 }
 
                 if (condition)
                 {
-                    AoWHSSet.FSpellControl.GetSpell(12).FCastSounds.Play(0);
+                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(12).FCastSounds.Play(0);
                 }
             }
         }
@@ -336,12 +333,16 @@ namespace Aow.Game.World.Terrain
             var lhx = Animation.GetLhx();
             var yhx = Animation.GetYhx();
             var xhx = Animation.GetXhx();
-            var field = AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
+            var field = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(xhx, yhx, lhx);
             if (this == field.FindOwnedChild(131998) && FrameCounter == 9)
             {
                 FPlantStatus = FPlantStatus - TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
             }
         }
+
+        private static readonly string PoisonPlantDamageRStr = "Poison Plant Damage";
+
+        // PoisonP.pas:28
 
         // PoisonP.pas:28
 
@@ -359,7 +360,9 @@ namespace Aow.Game.World.Terrain
         public override int ResourceUserClassID() => 131998;
 
         // PoisonP.pas:288
-        public override string ResourceEditName() => TranslateRStr(PoisonPlantRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TPoisonPlantResource.PoisonPlantRStr);
+
+        private static readonly string PoisonPlantRStr = "Poison Plant";
 
     }
 }
@@ -380,8 +383,8 @@ namespace Aow.Game.Commands
         {
             base.Process(source, value);
             CreatePoisonPlant(source);
-            AoWHSMap.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
-            AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ValidateTerrainObservation(source.FPlayer, FLocation.X, FLocation.Y, FLocation.L, 1);
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FEventSpellID).CastingDone(source, FEventMana);
             return false;
         }
 
@@ -396,35 +399,35 @@ namespace Aow.Game.Commands
             TImageSequenceAnimation Animation = default;
             TTwinkleAnimation Twinkle = default;
             ref var walk = ref Walk;
-            Level = AoWHSMap.MapContainer.MapLevels[FLocation.L];
-            InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
-            Resource = (TPoisonPlantResource)AoWHSSet.MapObjectResourceList.FindChild(131999);
+            Level = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.MapLevels[FLocation.L];
+            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FLocation.X, FLocation.Y, 0);
+            Resource = (TPoisonPlantResource)Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList.FindChild(131999);
             while (walk.Radius <= 1)
             {
                 if (walk.X >= 0 && walk.Y >= 0 && walk.X < Level.Width && walk.Y < Level.Height)
                 {
                     MapF = (TAoWMapField)Level.GetField(walk.X, walk.Y);
-                    if (((TGlobalTargetSpell)AoWHSSet.FSpellControl.GetSpell(12)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
+                    if (((TGlobalTargetSpell)Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(12)).ValidTargetMapF(MapF) && MapF.GetArmyHS() == null)
                     {
                         MapF.RestoreTerrain();
                         Plant = (TPoisonPlant)Resource.CreateResourceUser();
-                        Plant.FDaysRemaining = (sbyte)(3 + (AoWHSMap.Random(11) - 5) / 5);
+                        Plant.FDaysRemaining = (sbyte)(3 + (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(11) - 5) / 5);
                         Plant.FCasterPlayer = Source.FPlayer;
                         Plant.FOriginalOverlay = MapF.OverlayType;
-                        AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
-                        if (AoWHSMap.PlaceHX(Plant, walk.X, walk.Y, FLocation.L))
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ClearTerrain(walk.X, walk.Y, FLocation.L, 0, -1);
+                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Plant, walk.X, walk.Y, FLocation.L))
                         {
                             Plant.FPlantStatus = TSet<TPoisonPlantStatusElement>.Of(TPoisonPlantStatusElement.ppsSummoning);
                             Animation = new TImageSequenceAnimation(null);
-                            Animation.SetImageSequence(AoWHSSet.FSpellControl.GetSpell(12).FCastImages.ImageSequences[0]);
+                            Animation.SetImageSequence(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(12).FCastImages.ImageSequences[0]);
                             Animation.FOnShow = Plant.ShowSummonAnimation;
                             Animation.FOnNewFrame = Plant.NewFrameSummonAnimation;
-                            Animation.FFrameCounter = -AoWHSMap.Random(15);
+                            Animation.FFrameCounter = -Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(15);
                             Animation.FAnimationLevel = 27;
-                            AoWHSMap.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Animation, walk.X, walk.Y, FLocation.L);
                             Twinkle = new TTwinkleAnimation(null);
-                            Twinkle.Setup(AoWHSSet.FSpellControl.GetSpell(2).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(), 2, 6, Math.Abs(Animation.FFrameCounter + 5), Math.Abs(Animation.FFrameCounter + 5) / 2);
-                            AoWHSMap.PlaceHX(Twinkle, walk.X, walk.Y, FLocation.L);
+                            Twinkle.Setup(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(2).FCastImages.ImageSequences[0], TSet<TTwinkleModeElement>.Of(), 2, 6, Math.Abs(Animation.FFrameCounter + 5), Math.Abs(Animation.FFrameCounter + 5) / 2);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Twinkle, walk.X, walk.Y, FLocation.L);
                         }
                         else
                         {
@@ -433,7 +436,7 @@ namespace Aow.Game.Commands
                     }
                 }
 
-                WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
             }
         }
 
@@ -449,7 +452,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
     {
         public TPoisonPlantSpell(TECustomNode owner) : base(owner)
         {
-            FSpellName = TranslateRStr(PoisonPlantsRStr);
+            FSpellName = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Spells.GlobalTarget.TPoisonPlantSpell.PoisonPlantsRStr);
             FSpellID = 12;
             FBaseManaCost = 5;
             FSpellLevel = 2;
@@ -464,7 +467,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         {
             base.SetupTargetSelection(Source, TargetSelection);
             TargetSelection.FHNs.Clear();
-            for (int I = 0, last = RadToHN(2) - 1; I <= last; I++)
+            for (int I = 0, last = Aow.Game.World.Map.HexGeometry.RadToHN(2) - 1; I <= last; I++)
             {
                 TargetSelection.FHNs.Add(0);
             }
@@ -477,7 +480,7 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             Event = new TPoisonPlantSpellTE(null);
             Event.Initialize(FSpellID, (byte)Source.FPlayer, Source.FUnitID, FBaseManaCost);
             Event.SetLocation((sbyte)X, (sbyte)Y, (sbyte)L);
-            AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Source.FPlayer).AddEvent(Event);
             Event.Release();
             return true;
         }
@@ -511,37 +514,11 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
             return Result && Field.FindNoneTransparentHS(typeof(TStructure)) == null && ((TAoWMapField)Field).GetArmyHS() == null;
         }
 
+        private static readonly string PoisonPlantsRStr = "Poison Plants";
+
         // PoisonP.pas:66
 
-    }
-}
+        // PoisonP.pas:66
 
-namespace Aow.Game.World.Terrain
-{
-
-    public static partial class PoisonPUnit
-    {
-        // PoisonP.pas:426
-        public static void RegisterPoisonPlant(TAoWEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TPoisonPlant>(), EClass.Of<TPoisonPlantResource>(), EClass.Of<TPoisonPlantSpellTE>()]);
-            var poisonPlantSpell = new TPoisonPlantSpell(null);
-            AEngine.FGameSet.FSpellControl.RegisterSpell(poisonPlantSpell);
-        }
-
-        // PoisonP.pas:432
-        public static void UnRegisterPoisonPlant(TAoWEngine AEngine)
-        {
-            AEngine.UnregisterEClasses([EClass.Of<TPoisonPlant>(), EClass.Of<TPoisonPlantResource>(), EClass.Of<TPoisonPlantSpellTE>()]);
-            AEngine.FGameSet.FSpellControl.UnregisterSpellID(12);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

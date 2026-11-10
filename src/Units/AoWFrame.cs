@@ -407,7 +407,3 @@ public partial class TAoWFrame : TAOWControl
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWFrameUnit
-{
-}

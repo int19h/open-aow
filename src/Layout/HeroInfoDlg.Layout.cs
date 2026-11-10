@@ -570,26 +570,26 @@ public partial class THeroInfoDlg : ILayoutModule
         Message.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        U1.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        U2.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        U4.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        U5.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        U3.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        U6.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        U7.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        U8.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        CloseBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        CloseBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        Dlg.WinManager = AoWWinManUnit.General.Manager;
-        Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        HeroName.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        HeroLevel.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        FaceFrame.ImageLib = aowIntGfxModUnit.IntGfxMod.GenericF;
-        DetailsLbl.ToolTip = AoWWinManUnit.General.ToolTip;
-        DetailsLbl.AOWFont = AoWExeFormsUnit.FontModule.Age8;
-        Message.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
+        U1.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        U2.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        U4.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        U5.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        U3.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        U6.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        U7.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        U8.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        CloseBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        CloseBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        Dlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        HeroName.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        HeroLevel.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        FaceFrame.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        DetailsLbl.ToolTip = Aow.Game.Ui.Dialogs.DialogHosts.General.ToolTip;
+        DetailsLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age8;
+        Message.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
     }
 
     private void Layout_CloseBtnClick_0()

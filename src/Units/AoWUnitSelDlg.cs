@@ -9,8 +9,6 @@ using Aow.Game.Units;
 using Aow.Rtl;
 // Translated from AoWUnitSelDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -62,10 +60,10 @@ public partial class TUnitSelectionDlg : TDataModule
             var rect = Rect(X + 5, Y + 4, X + 46, Y + 56);
             SD.ClipRect = rect;
             Alignment = FEvent.FUnits.GetUnit(Index).GetAlignment();
-            if ((int)Alignment < aowIntGfxModUnit.IntGfxMod.UnitBGs.Count)
+            if ((int)Alignment < Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs.Count)
             {
                 // { D3 masks the enum index after the original full-byte guard. }
-                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[(int)Alignment];
+                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[(int)Alignment];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -75,7 +73,7 @@ public partial class TUnitSelectionDlg : TDataModule
             FEvent.FUnits.GetUnit(Index).ShowEx(X - 8, Y - 5, SD, Info);
             if ((((int)(((uint)FEvent.FSelectable) >> Index)) & 1) == 0)
             {
-                Img = aowIntGfxModUnit.IntGfxMod.UnitBGs[7];
+                Img = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitBGs[7];
                 Img.ShowClipped(X + 25 - Img.Width / 2, Y + 30 - Img.Height / 2, SD);
             }
 
@@ -118,7 +116,7 @@ public partial class TUnitSelectionDlg : TDataModule
         FEventLog.AddRef();
         FEvent = Request.FUnitSelector;
         FEvent.AddRef();
-        U = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+        U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
         if (U != null)
         {
             SourcePnl.Visible = true;
@@ -153,7 +151,7 @@ public partial class TUnitSelectionDlg : TDataModule
     // AoWUnitSelDlg.pas:101
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -161,7 +159,7 @@ public partial class TUnitSelectionDlg : TDataModule
     public void SelectBtnClick()
     {
         string Reason = "";
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FEvent.CanSelect(ref Reason))
         {
             FEvent.Select();
@@ -169,7 +167,7 @@ public partial class TUnitSelectionDlg : TDataModule
         }
         else
         {
-            AoWHSMap.ShowWarning(Reason);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
         }
     }
 
@@ -205,11 +203,11 @@ public partial class TUnitSelectionDlg : TDataModule
         {
             if (Sender.Checked)
             {
-                General.PlayButtonSound(1);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
             }
             else
             {
-                General.PlayButtonSound(2);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
             }
         }
 
@@ -243,7 +241,7 @@ public partial class TUnitSelectionDlg : TDataModule
         TAbstractUnit U;
         if (FEvent != null)
         {
-            U = AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
+            U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FEvent.FSourceUnitID);
             if (U != null)
             {
                 R.Left = this.SourceFace.WinLeft + SourcePnl.WinLeft;
@@ -264,8 +262,4 @@ public partial class TUnitSelectionDlg : TDataModule
     {
         ClearEvent();
     }
-}
-
-public static partial class AoWUnitSelDlgUnit
-{
 }

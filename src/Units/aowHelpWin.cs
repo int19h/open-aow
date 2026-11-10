@@ -5,7 +5,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from aowHelpWin.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -112,44 +111,39 @@ public partial class THelpWindow : TDataModule
         this.HelpWin.Alignment.AlignHeight = TAOWAlignHeight.ahTop;
         this.HelpWin.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
     }
-}
 
-public static partial class aowHelpWinUnit
-{
-    public static THelpWindow HelpWindow;
-
-    // aowHelpWin.pas:82
-    public static void ShowHelp(int HelpID)
+    internal static void ShowHelp(int HelpID)
     {
         TStringList Lines;
-        if (HelpWindow.HelpWin.Visible)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpWin.Visible)
         {
-            HelpWindow.FinishDialog();
+            Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.FinishDialog();
         }
 
         Lines = new TStringList();
-        AoWHSSet.FTextControl.RetrieveText(HelpID, Lines);
-        HelpWindow.HelpSB.Position = 0;
-        HelpWindow.HeaderMemo.Items.Clear();
+        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FTextControl.RetrieveText(HelpID, Lines);
+        Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpSB.Position = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HeaderMemo.Items.Clear();
         if (Lines.Count > 0)
         {
             var line = Lines[0];
-            HelpWindow.HeaderMemo.Items.Add(line);
+            Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HeaderMemo.Items.Add(line);
         }
 
-        HelpWindow.HelpMemo.Items.Clear();
-        HelpWindow.HelpMemo.Items.AddStrings(Lines);
-        if (HelpWindow.HelpMemo.Items.Count > 0)
+        Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpMemo.Items.Clear();
+        Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpMemo.Items.AddStrings(Lines);
+        if (Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpMemo.Items.Count > 0)
         {
-            HelpWindow.HelpMemo.Items.Delete(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpMemo.Items.Delete(0);
         }
 
-        if (HelpWindow.HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(HelpWindow.HelpMemo.Items[0]))
+        if (Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpMemo.Items.Count > 0 && RtlUnit.IsEmpty(Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpMemo.Items[0]))
         {
-            HelpWindow.HelpMemo.Items.Delete(0);
+            Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpMemo.Items.Delete(0);
         }
 
-        HelpWindow.HelpWin.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.HelpWindow.HelpWin.Visible = true;
         Lines?.Dispose();
     }
+
 }

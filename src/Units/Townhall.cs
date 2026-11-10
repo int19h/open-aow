@@ -30,20 +30,3 @@ public partial class TTownhallResource : TCombatStructureResource
     public override string ResourceEditName() => "Combat Townhall";
 
 }
-
-public static partial class TownhallUnit
-{
-    // Townhall.pas:48
-    public static void RegisterTownhall(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TTownhallResource>(), EClass.Of<TTownhall>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

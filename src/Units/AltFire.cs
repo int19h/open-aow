@@ -3,7 +3,6 @@ using Aow.Game.Draw.Animation;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -42,23 +41,8 @@ public partial class TAltarOfFireResource : TAltarResource
     // AltFire.pas:27
 
     // AltFire.pas:55
-    public override string ResourceEditName() => TranslateRStr(AltarOfFireRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfFireResource.AltarOfFireRStr);
 
-}
+    private static readonly string AltarOfFireRStr = "Altar of Fire";
 
-public static partial class AltFireUnit
-{
-    // AltFire.pas:64
-    public static void RegisterAltarOfFire(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAltarOfFire>(), EClass.Of<TAltarOfFireResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

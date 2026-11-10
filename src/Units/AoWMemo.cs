@@ -1109,7 +1109,3 @@ public partial class TAOWMemo : TAOWControl
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWMemoUnit
-{
-}

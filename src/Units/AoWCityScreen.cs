@@ -14,14 +14,6 @@ using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWCityScreen.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Draw.OverviewUnitUnit;
-using static Aow.Game.Engine.Nodes.EngineUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
-using static Aow.Game.World.Structures.CityUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -215,7 +207,7 @@ public partial class TCityScreen : TDataModule
         for (int I = FImages.Count - 1; I >= 0; I--)
         {
             var image = FImages[I];
-            AoWHSSet.FUnitGFXResources.GetUnitGFXResource(image).Release();
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(image).Release();
         }
 
         FImages.Clear();
@@ -225,8 +217,8 @@ public partial class TCityScreen : TDataModule
     public void LoadUnitImages(int Index)
     {
         int Gfx;
-        Gfx = AoWHSSet.FUnitResources.GetUnitResource(Index).FUnitGFXResourceIndex;
-        AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Gfx).AddRef();
+        Gfx = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitResources.GetUnitResource(Index).FUnitGFXResourceIndex;
+        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FUnitGFXResources.GetUnitGFXResource(Gfx).AddRef();
         FImages.Add(Gfx);
     }
 
@@ -266,21 +258,21 @@ public partial class TCityScreen : TDataModule
         UpgradePnl.Visible = false;
         MigratePnl.Visible = false;
         CityBtn1.Visible = true;
-        var options = TranslateRStr(OptionsRStr);
+        var options = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.OptionsRStr);
         CityBtn1.Text = options;
         CityBtn2.Visible = false;
         PPrev.Visible = !CityBtn2.Visible;
         PNext.Visible = !CityBtn2.Visible;
-        ShadowL.Visible = AoWEngine.FAnimationDetail != 0;
-        ShadowR.Visible = AoWEngine.FAnimationDetail != 0;
-        Oval.Visible = AoWEngine.FAnimationDetail != 0;
+        ShadowL.Visible = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0;
+        ShadowR.Visible = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0;
+        Oval.Visible = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FAnimationDetail != 0;
         FMigrationSort = 0;
         FProductionIndex = 0;
         QueueLB.Selected = -1;
         FreePreview();
-        var queue = TranslateRStr(QueueRStr);
+        var queue = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
         QueueLbl.Text = queue;
-        var repeat = TranslateRStr(RepeatRStr);
+        var repeat = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RepeatRStr);
         RepeatLbl.Text = repeat;
         if (FMigrations != null)
         {
@@ -294,7 +286,7 @@ public partial class TCityScreen : TDataModule
     {
         Reset();
         FCity = null;
-        General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
     }
 
     // AoWCityScreen.pas:836
@@ -308,13 +300,13 @@ public partial class TCityScreen : TDataModule
                 InfoPnl2.Visible = true;
                 ActivityPnl.Visible = false;
                 ActivityPnl2.Visible = false;
-                var change = TranslateRStr(ChangeRStr);
+                var change = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ChangeRStr);
                 CityBtn1.Text = change;
                 CityBtn1.Visible = true;
                 CityBtn2.Visible = false;
                 PPrev.Visible = !CityBtn2.Visible;
                 PNext.Visible = !CityBtn2.Visible;
-                var exit = TranslateRStr(ExitRStr);
+                var exit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ExitRStr);
                 CityBtn3.Text = exit;
                 QueueLB.Selected = -1;
                 LPillar.Visible = true;
@@ -327,9 +319,9 @@ public partial class TCityScreen : TDataModule
                 InfoPnl2.Visible = false;
                 ActivityPnl.Visible = true;
                 ActivityPnl2.Visible = true;
-                var info = TranslateRStr(InfoRStr);
+                var info = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InfoRStr);
                 CityBtn1.Text = info;
-                var done = TranslateRStr(DoneRStr);
+                var done = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DoneRStr);
                 CityBtn3.Text = done;
                 LPillar.Visible = false;
                 RPillar.Visible = false;
@@ -347,9 +339,9 @@ public partial class TCityScreen : TDataModule
                 ActivityPnl2.Visible = true;
                 LPillar.Visible = false;
                 RPillar.Visible = false;
-                var infoText = TranslateRStr(InfoRStr);
+                var infoText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InfoRStr);
                 CityBtn1.Text = infoText;
-                var doneText = TranslateRStr(DoneRStr);
+                var doneText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DoneRStr);
                 CityBtn3.Text = doneText;
                 MigrationRaceLB.CaptureInput = false;
                 MigrationTurnsLB.CaptureInput = false;
@@ -367,22 +359,22 @@ public partial class TCityScreen : TDataModule
         switch (FMigrationSort)
         {
             case 0:
-                SortStringsNumericalAscending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalAscending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
                 break;
             case 1:
-                SortStringsNumericalDescending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsNumericalDescending(MigrationTurnsLB.Items, [MigrationRaceLB.Items, MigrationRelationLB.Items]);
                 break;
             case 2:
-                SortStringsAscending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
                 break;
             case 3:
-                SortStringsDescending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(MigrationRaceLB.Items, [MigrationTurnsLB.Items, MigrationRelationLB.Items]);
                 break;
             case 4:
-                SortStringsAscending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsAscending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
                 break;
             case 5:
-                SortStringsDescending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
+                Aow.Game.Engine.Nodes.StringSorting.SortStringsDescending(MigrationRelationLB.Items, [MigrationTurnsLB.Items, MigrationRaceLB.Items]);
                 break;
         }
     }
@@ -452,7 +444,7 @@ public partial class TCityScreen : TDataModule
             if (P.FResearched)
             {
                 SelectAction(TCityAction.caProduce);
-                AoWHSMap.FTutorialControl.ShowMessage(58, true, true);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(58, true, true);
             }
             else
             {
@@ -472,15 +464,15 @@ public partial class TCityScreen : TDataModule
             MigrationTurnsLB.Selected = Index;
             MigrationRelationLB.Selected = Index;
             MigrateTurns.Text = IntToStr(Item.FTime);
-            var raceNames = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-            var format = AoWEUnit.Format(TranslateRStr(XRelationMinusYRStr), [raceNames, -15]);
+            var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[FCity.FRace]);
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.XRelationMinusYRStr), [raceNames, -15]);
             MigrateInfo.Text = format;
             MigrateInfo.Text = MigrateInfo.Text + "   ";
-            var raceNamesText = TranslateRStr(RaceNamesRStr[Item.FRace]);
-            var aoWEFormat = AoWEUnit.Format(TranslateRStr(XRelationPlusYRStr), [raceNamesText, 10]);
+            var raceNamesText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[Item.FRace]);
+            var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.XRelationPlusYRStr), [raceNamesText, 10]);
             MigrateInfo.Text = MigrateInfo.Text + aoWEFormat;
             CityBtn1.Visible = true;
-            var migrate = TranslateRStr(MigrateRStr);
+            var migrate = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.MigrateRStr);
             CityBtn1.Text = migrate;
         }
         else
@@ -518,28 +510,28 @@ public partial class TCityScreen : TDataModule
         {
             case TCityAction.caTrade:
                 CityBtn1.Visible = true;
-                var produceMerchandise = TranslateRStr(ProduceMerchandiseRStr);
+                var produceMerchandise = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
                 CityBtn1.Text = produceMerchandise;
                 var queueLocked = FCity.FProduction.GetQueueLocked();
                 CityBtn2.Visible = !queueLocked;
-                var queue = TranslateRStr(QueueRStr);
+                var queue = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
                 CityBtn2.Text = queue;
-                var cityTrade = TranslateRStr(CityTradeRStr);
+                var cityTrade = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.CityTradeRStr);
                 UpgradeMemo.Items.Text = cityTrade;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 20;
-                var produceMerchandiseText = TranslateRStr(ProduceMerchandiseRStr);
+                var produceMerchandiseText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceMerchandiseRStr);
                 UpgradeLbl.Text = produceMerchandiseText;
                 break;
             case TCityAction.caUpgrade:
                 CityBtn1.Visible = true;
-                var upgrade = TranslateRStr(UpgradeRStr);
+                var upgrade = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UpgradeRStr);
                 CityBtn1.Text = upgrade;
                 var fProductionQueueLocked = FCity.FProduction.GetQueueLocked();
                 CityBtn2.Visible = !fProductionQueueLocked;
-                var queueText = TranslateRStr(QueueRStr);
+                var queueText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
                 CityBtn2.Text = queueText;
-                var cityUpgrade = TranslateRStr(CityUpgradeRStr);
+                var cityUpgrade = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.CityUpgradeRStr);
                 UpgradeMemo.Items.Text = cityUpgrade;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 23;
@@ -547,21 +539,21 @@ public partial class TCityScreen : TDataModule
                 UpgradeCost.Text = IntToStr(upgradeCost);
                 var upgradeTime = FCity.UpgradeTime();
                 UpgradeTurns.Text = IntToStr(upgradeTime);
-                var upgradeText = TranslateRStr(UpgradeRStr);
+                var upgradeText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UpgradeRStr);
                 UpgradeLbl.Text = upgradeText;
-                var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
-                var format = AoWEUnit.Format(TranslateRStr(XRelationPlusYRStr), [raceNamesPlural, 5]);
+                var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FCity.FRace]);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.XRelationPlusYRStr), [raceNamesPlural, 5]);
                 UpgradeInfo.Text = format;
                 break;
             case TCityAction.caFortify:
                 CityBtn1.Visible = true;
-                var fortify = TranslateRStr(FortifyRStr);
+                var fortify = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FortifyRStr);
                 CityBtn1.Text = fortify;
                 var queueLocked2 = FCity.FProduction.GetQueueLocked();
                 CityBtn2.Visible = !queueLocked2;
-                var queue3 = TranslateRStr(QueueRStr);
+                var queue3 = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
                 CityBtn2.Text = queue3;
-                var cityFortify = TranslateRStr(CityFortifyRStr);
+                var cityFortify = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.CityFortifyRStr);
                 UpgradeMemo.Items.Text = cityFortify;
                 UpgradePnl.Visible = true;
                 if (FCity.FWallType == 0)
@@ -586,10 +578,10 @@ public partial class TCityScreen : TDataModule
                     UpgradeTurns.Text = "-";
                 }
 
-                var fortifyText = TranslateRStr(FortifyRStr);
+                var fortifyText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.FortifyRStr);
                 UpgradeLbl.Text = fortifyText;
-                var raceNames = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                var aoWEFormat = AoWEUnit.Format(TranslateRStr(XRelationPlusYRStr), [raceNames, 5]);
+                var raceNames = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[FCity.FRace]);
+                var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.XRelationPlusYRStr), [raceNames, 5]);
                 UpgradeInfo.Text = aoWEFormat;
                 break;
             case TCityAction.caMigrate:
@@ -598,30 +590,30 @@ public partial class TCityScreen : TDataModule
                 break;
             case TCityAction.caLoot:
                 CityBtn1.Visible = true;
-                var loot = TranslateRStr(LootRStr);
+                var loot = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LootRStr);
                 CityBtn1.Text = loot;
-                var cityLoot = TranslateRStr(CityLootRStr);
+                var cityLoot = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.CityLootRStr);
                 UpgradeMemo.Items.Text = cityLoot;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 25;
-                var lootText = TranslateRStr(LootRStr);
+                var lootText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LootRStr);
                 UpgradeLbl.Text = lootText;
-                var raceNamesText = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                var format2 = AoWEUnit.Format(TranslateRStr(XRelationMinusYRStr), [raceNamesText, -30]);
+                var raceNamesText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[FCity.FRace]);
+                var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.XRelationMinusYRStr), [raceNamesText, -30]);
                 UpgradeInfo.Text = format2;
                 break;
             case TCityAction.caRaze:
                 CityBtn1.Visible = true;
-                var raze = TranslateRStr(RazeRStr);
+                var raze = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RazeRStr);
                 CityBtn1.Text = raze + "...";
-                var cityRaze = TranslateRStr(CityRazeRStr);
+                var cityRaze = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.CityRazeRStr);
                 UpgradeMemo.Items.Text = cityRaze;
                 UpgradePnl.Visible = true;
                 UpgradePic.CurrentImage = 26;
-                var razeText = TranslateRStr(RazeRStr);
+                var razeText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RazeRStr);
                 UpgradeLbl.Text = razeText;
-                var raceNames3 = TranslateRStr(RaceNamesRStr[FCity.FRace]);
-                var format3 = AoWEUnit.Format(TranslateRStr(XRelationMinusYRStr), [raceNames3, -30]);
+                var raceNames3 = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesRStr[FCity.FRace]);
+                var format3 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.XRelationMinusYRStr), [raceNames3, -30]);
                 UpgradeInfo.Text = format3;
                 break;
             case TCityAction.caResearch:
@@ -641,21 +633,21 @@ public partial class TCityScreen : TDataModule
                 var moves = U.GetMoves();
                 UMoves.Text = IntToStr(moves);
                 var moveTypes = U.GetMoveTypes();
-                var mTtoInt = General.MTtoInt(moveTypes);
+                var mTtoInt = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(moveTypes);
                 UMovesIcon.CurrentImage = mTtoInt;
                 var alignment = U.GetAlignment();
-                var alignmentText = TranslateRStr(TAlignmentRStr[(int)alignment]);
-                var format4 = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [alignmentText]);
+                var alignmentText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.TAlignmentRStr[(int)alignment]);
+                var format4 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [alignmentText]);
                 UAlignment.Text = format4;
                 var unitLevel = U.GetUnitLevel();
-                var format5 = AoWEUnit.Format(TranslateRStr(LevelXRStr), [IntToStr(unitLevel)]);
+                var format5 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.LevelXRStr), [IntToStr(unitLevel)]);
                 var upkeep = U.GetUpkeep();
-                var format6 = AoWEUnit.Format(TranslateRStr(UpkeepXRStr), [(int)upkeep]);
+                var format6 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.UpkeepXRStr), [(int)upkeep]);
                 ULevel.Text = format5 + " / " + format6;
-                if (AoWEngine.FDebug)
+                if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDebug)
                 {
-                    var unitIndexAIPriority = GetUnitIndexAIPriority(U.FUnitResource.UnitResourceIndex(), FCity.FPlayer, 0);
-                    AoWHSMap.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
+                    var unitIndexAIPriority = Aow.Game.Magic.Abilities.RosterTables.GetUnitIndexAIPriority(U.FUnitResource.UnitResourceIndex(), FCity.FPlayer, 0);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage("AI Prio:" + IntToStr(unitIndexAIPriority));
                 }
 
                 UAbilitiesLB.Items.Clear();
@@ -663,14 +655,14 @@ public partial class TCityScreen : TDataModule
                 if (FAction == TCityAction.caProduce)
                 {
                     CityBtn1.Visible = true;
-                    var produce = TranslateRStr(ProduceRStr);
+                    var produce = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceRStr);
                     CityBtn1.Text = produce;
                     var queueLocked3 = FCity.FProduction.GetQueueLocked();
                     CityBtn2.Visible = !queueLocked3;
-                    var queue4 = TranslateRStr(QueueRStr);
+                    var queue4 = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
                     CityBtn2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AoWEUnit.Format(TranslateRStr(ProduceXRStr), [name]);
+                    var format7 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProduceXRStr), [name]);
                     UnitLbl.Text = format7;
                     var unitProductionGold = FCity.FProduction.UnitProductionGold(FProductionIndex);
                     UCost.Text = IntToStr(unitProductionGold);
@@ -680,14 +672,14 @@ public partial class TCityScreen : TDataModule
                 else
                 {
                     CityBtn1.Visible = true;
-                    var install = TranslateRStr(InstallRStr);
+                    var install = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InstallRStr);
                     CityBtn1.Text = install;
                     var queueLocked3 = FCity.FProduction.GetQueueLocked();
                     CityBtn2.Visible = !queueLocked3;
-                    var queue4 = TranslateRStr(QueueRStr);
+                    var queue4 = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.QueueRStr);
                     CityBtn2.Text = queue4;
                     var name = U.GetName();
-                    var format7 = AoWEUnit.Format(TranslateRStr(InstallXRStr), [name]);
+                    var format7 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.InstallXRStr), [name]);
                     UnitLbl.Text = format7;
                     var unitResearchGold = FCity.FProduction.UnitResearchGold(FProductionIndex);
                     UCost.Text = IntToStr(unitResearchGold);
@@ -710,28 +702,28 @@ public partial class TCityScreen : TDataModule
         var name = FCity.GetName();
         StructName.Text = name;
         PopulationHdr.Items.Clear();
-        var population = TranslateRStr(PopulationRStr);
+        var population = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.PopulationRStr);
         PopulationHdr.Items.Add(population + ":");
-        var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FCity.FRace]);
         PopulationHdr.Items.Add(" " + raceNamesPlural);
-        var status = TranslateRStr(StatusRStr);
+        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.StatusRStr);
         PopulationHdr.Items.Add(status + ":");
         var civilStatus = FCity.GetCivilStatus();
-        var civilStatusText = TranslateRStr(TCivilStatusRStr[(int)civilStatus]);
+        var civilStatusText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.TCivilStatusRStr[(int)civilStatus]);
         PopulationHdr.Items.Add(" " + civilStatusText);
         PopulationMemo.Items.Clear();
         FCity.ListCivilStatusInfo(PopulationMemo.Items);
         IncomeHdr.Items.Clear();
-        var income = TranslateRStr(IncomeRStr);
+        var income = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.IncomeRStr);
         IncomeHdr.Items.Add(income);
-        var xGold = TranslateRStr(XGoldRStr);
-        var format = AoWEUnit.Format(" " + xGold, [IntToStr(FCity.FIncome)]);
+        var xGold = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.XGoldRStr);
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(" " + xGold, [IntToStr(FCity.FIncome)]);
         IncomeHdr.Items.Add(format);
         IncomeMemo.Items.Clear();
         IncomeGoldMemo.Items.Clear();
         FCity.ListIncomeInfo(IncomeMemo.Items, IncomeGoldMemo.Items);
         EnhancementsHdr.Items.Clear();
-        var enhancements = TranslateRStr(EnhancementsRStr);
+        var enhancements = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TCityScreen.EnhancementsRStr);
         EnhancementsHdr.Items.Add(enhancements);
         EnhancementsMemo.Items.Clear();
         FCity.ListEnhancementsInfo(EnhancementsMemo.Items);
@@ -742,10 +734,10 @@ public partial class TCityScreen : TDataModule
         }
 
         FMigrations = FCity.CreateMigrationSelection();
-        var raceNamesPluralText = TranslateRStr(RaceNamesPluralRStr[FCity.FRace]);
+        var raceNamesPluralText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[FCity.FRace]);
         CurrentRace.Text = raceNamesPluralText;
-        var playerRelation = AoWHSMap.FRaces.GetRace(FCity.FRace).GetPlayerRelation(FCity.FPlayer);
-        var statusText = TranslateRStr(TStatusRStr[(int)playerRelation]);
+        var playerRelation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(FCity.FRace).GetPlayerRelation(FCity.FPlayer);
+        var statusText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation]);
         CurrentRelation.Text = statusText;
         MigrationRaceLB.Items.Clear();
         MigrationTurnsLB.Items.Clear();
@@ -755,13 +747,13 @@ public partial class TCityScreen : TDataModule
             for (int I = 0, last = FMigrations.GetCount() - 1; I <= last; I++)
             {
                 var itemRace = FMigrations.GetItems(I);
-                var raceNamesPlural3 = TranslateRStr(RaceNamesPluralRStr[itemRace.FRace]);
+                var raceNamesPlural3 = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[itemRace.FRace]);
                 var migrationItem = FMigrations.GetItems(I);
                 MigrationRaceLB.Items.AddObject(raceNamesPlural3, migrationItem);
                 var itemTime = FMigrations.GetItems(I);
                 MigrationTurnsLB.Items.Add(IntToStr(itemTime.FTime));
                 var itemRelation = FMigrations.GetItems(I);
-                var status3 = TranslateRStr(TStatusRStr[(int)itemRelation.FRelation]);
+                var status3 = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)itemRelation.FRelation]);
                 MigrationRelationLB.Items.Add(status3);
             }
         }
@@ -776,7 +768,7 @@ public partial class TCityScreen : TDataModule
 
         for (int I = FCity.FProduction.FQueue.GetCount(); I <= 4; I++)
         {
-            var emptyQueue = TranslateRStr(EmptyQueueRStr);
+            var emptyQueue = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.EmptyQueueRStr);
             QueueLB.Items.Add(IntToStr(I + 1) + ". " + emptyQueue);
         }
 
@@ -795,7 +787,7 @@ public partial class TCityScreen : TDataModule
             ActiveAction.Text = nameProgressive;
             if (FCity.FProduction.FSettings.FTurnsLeft != -1)
             {
-                var fmtTurnsLeftStr = FmtTurnsLeftStr(FCity.FProduction.FSettings.FTurnsLeft);
+                var fmtTurnsLeftStr = Aow.Game.Magic.Abilities.DurationText.FmtTurnsLeftStr(FCity.FProduction.FSettings.FTurnsLeft);
                 ActiveActionTurns.Text = fmtTurnsLeftStr;
                 ActiveActionTurns.Visible = true;
                 ActiveActionTurns.TextColor = 6783862;
@@ -818,9 +810,9 @@ public partial class TCityScreen : TDataModule
         {
             if (FCity.FProduction.FQueue.GetCount() == 0)
             {
-                var producingMerchandise = TranslateRStr(ProducingMerchandiseRStr);
+                var producingMerchandise = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingMerchandiseRStr);
                 ActiveAction.Text = producingMerchandise;
-                var defaultText = TranslateRStr(DefaultRStr);
+                var defaultText = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DefaultRStr);
                 ActiveActionTurns.Text = "(" + LowerCase(defaultText) + ")";
                 ActiveActionTurns.TextColor = 6783862;
                 ActiveActionTurnsBar.Visible = false;
@@ -863,7 +855,7 @@ public partial class TCityScreen : TDataModule
     {
         if (Dlg.Visible && Sender == FCity)
         {
-            if (FCity.FPlayer == AoWHSMap.FSeatedPlayer)
+            if (FCity.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
             {
                 UpdateInfo();
             }
@@ -904,11 +896,11 @@ public partial class TCityScreen : TDataModule
             var armyYhx = Army.GetYhx();
             var xhx = Army.GetXhx();
             var fCityYhx = FCity.GetYhx();
-            Direction = dHXtoHN(FCity.GetXhx(), fCityYhx, xhx, armyYhx);
+            Direction = Aow.Game.World.Map.HexGeometry.dHXtoHN(FCity.GetXhx(), fCityYhx, xhx, armyYhx);
             for (int J = 0, lastJ = Army.FArmy.GetCount() - 1; J <= lastJ; J++)
             {
                 var unit = Army.FArmy.GetUnit(J);
-                PlaceOverviewUnit(FPreview, unit, Direction, J);
+                Aow.Game.Combat.TAoWCombatMap.PlaceOverviewUnit(FPreview, unit, Direction, J);
             }
         }
 
@@ -917,7 +909,7 @@ public partial class TCityScreen : TDataModule
         if (FPreview.FCenterViewLocation != null)
         {
             var mapObjectYhx = mapObject.GetYhx();
-            HXtoHP(mapObject.GetXhx(), mapObjectYhx, ref FViewX, ref FViewY);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(mapObject.GetXhx(), mapObjectYhx, ref FViewX, ref FViewY);
             FViewX = FViewX + 16 - MapView.WinWidth / 2;
             FViewY = FViewY + 16 - MapView.WinHeight / 2;
         }
@@ -927,8 +919,8 @@ public partial class TCityScreen : TDataModule
             FViewY = 800;
         }
 
-        AoWHSMap.FTutorialControl.ShowMessage(56, true, true);
-        General.Manager.OverlayPriority = 49;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(56, true, true);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
         Dlg.Visible = true;
     }
 
@@ -947,7 +939,7 @@ public partial class TCityScreen : TDataModule
     // AoWCityScreen.pas:302
     public void ActivityChange(TAOWCheckBox Sender, int Slot)
     {
-        General.PlayButtonSound(1);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         if (Sender.Checked)
         {
             ResetChecks();
@@ -971,7 +963,7 @@ public partial class TCityScreen : TDataModule
     // AoWCityScreen.pas:324
     public void ProductionChange(TAOWCheckBox Sender, int Slot)
     {
-        General.PlayButtonSound(1);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         if (Sender.Checked)
         {
             ResetChecks();
@@ -1001,7 +993,7 @@ public partial class TCityScreen : TDataModule
     {
         int Image;
         Image = ActivityImage((TCityAction)((byte)Slot + 1));
-        aowIntGfxModUnit.IntGfxMod.CityWin[Image].Show(ActivityPnl2.WinLeft + Sender.WinLeft + 2, ActivityPnl2.WinTop + Sender.WinTop + 2, SD);
+        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[Image].Show(ActivityPnl2.WinLeft + Sender.WinLeft + 2, ActivityPnl2.WinTop + Sender.WinTop + 2, SD);
     }
 
     // AoWCityScreen.pas:354
@@ -1014,7 +1006,7 @@ public partial class TCityScreen : TDataModule
             case 0:
                 SetMode(1);
                 SelectDefaultAction();
-                AoWHSMap.FTutorialControl.ShowMessage(57, true, true);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(57, true, true);
                 break;
             case 1:
                 switch (FAction)
@@ -1027,7 +1019,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1039,19 +1031,19 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
                     case TCityAction.caRaze:
-                        if (FCity.CanRaze(AoWHSMap.FSeatedPlayer, ref Reason))
+                        if (FCity.CanRaze(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, ref Reason))
                         {
-                            FCity.Raze(AoWHSMap.FSeatedPlayer);
+                            FCity.Raze(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
                             Dlg.Visible = false;
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1063,7 +1055,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1075,20 +1067,20 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
                     case TCityAction.caProduce:
                         if (FCity.CanProduce(FProductionIndex, false, ref Reason))
                         {
-                            AoWHSMap.FTutorialControl.ShowMessage(59, true, true);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(59, true, true);
                             FCity.Produce(FProductionIndex, false);
                             SetMode(0);
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1100,7 +1092,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1108,7 +1100,7 @@ public partial class TCityScreen : TDataModule
                         Race = ((TMigrationItem)MigrationRaceLB.Items.Objects[MigrationRaceLB.Selected]).FRace;
                         if (FCity.CanMigrate(Race, ref Reason))
                         {
-                            AoWHSMap.FTutorialControl.ShowMessage(66, true, true);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(66, true, true);
                             FCity.Migrate(Race);
                             SetMode(0);
                         }
@@ -1143,7 +1135,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1154,7 +1146,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1165,7 +1157,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1176,7 +1168,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1187,7 +1179,7 @@ public partial class TCityScreen : TDataModule
                         }
                         else
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
 
                         break;
@@ -1203,7 +1195,7 @@ public partial class TCityScreen : TDataModule
                     }
                     else
                     {
-                        AoWHSMap.ShowWarning(Reason);
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                     }
                 }
 
@@ -1214,7 +1206,7 @@ public partial class TCityScreen : TDataModule
     // AoWCityScreen.pas:465
     public void CityBtn3Click()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FMode == 0)
         {
             Dlg.Visible = false;
@@ -1224,7 +1216,7 @@ public partial class TCityScreen : TDataModule
             SetMode(0);
         }
 
-        AoWHSMap.FTutorialControl.ShowMessage(60, true, true);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(60, true, true);
     }
 
     // AoWCityScreen.pas:472
@@ -1247,19 +1239,19 @@ public partial class TCityScreen : TDataModule
             Info.Looped = false;
             if (!P.FResearched)
             {
-                aowIntGfxModUnit.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[5].Show(R.Left + 2, R.Top + 2, SD);
                 Info.Direction = 5;
                 if (U != null)
                 {
                     U.ShowEx(R.Left - 4, R.Top, SD, Info);
                 }
 
-                var lookupTable = AlphaBlendTable.GetLookupTables(45);
-                aowIntGfxModUnit.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
+                var lookupTable = Aow.Game.Draw.GfxState.AlphaBlendTable.GetLookupTables(45);
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[5].ShowBlended(R.Left + 2, R.Top + 2, SD, lookupTable);
             }
             else
             {
-                aowIntGfxModUnit.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[4].Show(R.Left + 2, R.Top + 2, SD);
                 if (U != null)
                 {
                     U.ShowEx(R.Left - 4, R.Top, SD, Info);
@@ -1273,7 +1265,7 @@ public partial class TCityScreen : TDataModule
         }
         else
         {
-            aowIntGfxModUnit.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CityWin[62].Show(R.Left + 2, R.Top + 2, SD);
         }
     }
 
@@ -1385,12 +1377,12 @@ public partial class TCityScreen : TDataModule
                 SetMode(2);
                 QueueLB.Selected = FQueueIndex;
                 CityBtn1.Visible = true;
-                var delete = TranslateRStr(DeleteRStr);
+                var delete = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DeleteRStr);
                 CityBtn1.Text = delete;
                 if (FQueueIndex == 0 && FCity.FProduction.FStatus == TProductionControlStatus.pcsWaiting)
                 {
                     CityBtn2.Visible = true;
-                    var execute = TranslateRStr(ExecuteRStr);
+                    var execute = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ExecuteRStr);
                     CityBtn2.Text = execute;
                 }
                 else
@@ -1462,7 +1454,7 @@ public partial class TCityScreen : TDataModule
     {
         TRect R;
         R = Rect(IPPnl.WinLeft + Sender.WinLeft, IPPnl.WinTop + Sender.WinTop, IPPnl.WinLeft + Sender.WinLeft + Sender.WinWidth, IPPnl.WinTop + Sender.WinTop + Sender.WinHeight);
-        AoWHSSet.FRaceResources.GetRaceResource(FCity.FRace).GetFace().ShowStretched(R, SD);
+        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(FCity.FRace).GetFace().ShowStretched(R, SD);
     }
 
     // AoWCityScreen.pas:641
@@ -1501,7 +1493,7 @@ public partial class TCityScreen : TDataModule
                 FViewY = 16;
             }
 
-            CreateSDfromSD(SD, R, ref ViewSD);
+            Aow.Game.Draw.TSurfaceDesc.CreateSDfromSD(SD, R, ref ViewSD);
             FPreview.SetExplorationEnabled(false);
             FPreview.SetFogEnabled(false);
             FPreview.SetViewPort(FViewX, FViewY, 0, Width, R.Bottom - R.Top);
@@ -1549,7 +1541,7 @@ public partial class TCityScreen : TDataModule
             Preview.NewFrame();
         }
 
-        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame & 1) != 0;
     }
 
     // AoWCityScreen.pas:688
@@ -1565,11 +1557,11 @@ public partial class TCityScreen : TDataModule
         if (Button == TMouseButton.mbRight && UAbilitiesLB.Selected > -1)
         {
             var objectValue = UAbilitiesLB.Items.Objects[UAbilitiesLB.Selected];
-            A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
-                SetInfoBanner(AoWInfoBannerUnit.InfoBanner, name, A.FDescription);
+                Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, A.FDescription);
             }
         }
     }
@@ -1580,17 +1572,17 @@ public partial class TCityScreen : TDataModule
         int Start;
         int Index;
         TPlayerStructure S;
-        Start = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.FindChildIndex(FCity);
+        Start = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.FindChildIndex(FCity);
         Index = Start;
         Index -= 1;
         if (Index < 0)
         {
-            Index = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount() - 1;
+            Index = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.GetCount() - 1;
         }
 
         while (Index != Start)
         {
-            S = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.GetStructure(Index);
             if (S is TCity)
             {
                 Index = Start + 1;
@@ -1600,7 +1592,7 @@ public partial class TCityScreen : TDataModule
             Index += -1;
             if (Index < 0)
             {
-                Index = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount() - 1;
+                Index = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.GetCount() - 1;
             }
         }
     }
@@ -1611,16 +1603,16 @@ public partial class TCityScreen : TDataModule
         int Start;
         int Index;
         TPlayerStructure S;
-        Start = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.FindChildIndex(FCity);
+        Start = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.FindChildIndex(FCity);
         Index = Start + 1;
-        if (Index >= AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount())
+        if (Index >= Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.GetCount())
         {
             Index = 0;
         }
 
         while (Index != Start)
         {
-            S = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetStructure(Index);
+            S = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.GetStructure(Index);
             if (S is TCity)
             {
                 Index = Start - 1;
@@ -1628,15 +1620,23 @@ public partial class TCityScreen : TDataModule
             }
 
             Index += 1;
-            if (Index >= AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FStructures.GetCount())
+            if (Index >= Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStructures.GetCount())
             {
                 Index = 0;
             }
         }
     }
-}
 
-public static partial class AoWCityScreenUnit
-{
-    public static TCityScreen CityScreen;
+    private static readonly string CityFortifyRStr = "Improves town defenses. Ground based attackers must breach the wall to enter town. First level of fortification is a wooden pallisade, the second level is a stone wall.";
+    private static readonly string CityLootRStr = "Pillages the town, taking 1 turn per city hex, after which the town is turned to ruins. The amount of gold depends on the city size. Looting decreases your relation with the population's race!";
+    private static readonly string CityRazeRStr = "Destroys the town instantly by burning it to the ground. Razing is faster as the loot option, but doens't deliver any gold. Razing decreases your relation with the population's race!";
+    private static readonly string CityTradeRStr = "When producing merchandise, a city's income increases by 25%.";
+    private static readonly string CityUpgradeRStr = "Upgrades the infrastructure of the town with the technology to buy more powerful units.";
+    private static readonly string EnhancementsRStr = "Enhancements";
+    private static readonly string MigrateRStr = "Migrate";
+    private static readonly string PopulationRStr = "Population";
+    internal static readonly string StatusRStr = "Status";
+    private static readonly string XRelationMinusYRStr = "%s Relation %d";
+    private static readonly string XRelationPlusYRStr = "%s Relation +%d";
+    internal static global::Aow.Game.Engine.Buffers.FixedArray_string_7 TCivilStatusRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_7.From(["Unruly", "Unrest", "Stable", "Content", "Cheerful", "Oppressed", "Slavery"]);
 }

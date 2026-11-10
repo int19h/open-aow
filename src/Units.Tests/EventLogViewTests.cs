@@ -10,7 +10,6 @@ using Aow.Game.Ui.Dialogs;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Xunit.Abstractions;
-using static Aow.Game.Session.E2CampaignSupportUnit;
 
 namespace Aow.Units.Tests;
 
@@ -57,16 +56,16 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             if (negotiateRequestEventLog.FObject == TNegotiateObject.noCity) return "CityNegotiation";
             if (negotiateRequestEventLog.FObject == TNegotiateObject.noArmy)
             {
-                var ArmyHS = (TArmyHS)Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
+                var ArmyHS = (TArmyHS)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(negotiateRequestEventLog.FX, negotiateRequestEventLog.FY, negotiateRequestEventLog.FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(negotiateRequestEventLog.FPlayer);
-                    return ArmyHS.FArmy.Hero(joinSelection, AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
+                    return ArmyHS.FArmy.Hero(joinSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? "PartyJoin" : "HeroNegotiation";
                 }
             }
             return "None";
         }
-        if (Event is TGameOverEventLog) return Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap.FSeatedPlayer == Event.FPlayer ? "GameOver" : "ReceivedMessage";
+        if (Event is TGameOverEventLog) return Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Event.FPlayer ? "GameOver" : "ReceivedMessage";
         if (Event is TNewTurnEventLog) return "NewTurn";
         if (Event is TCombatTypeRequestEventLog) return "CombatType";
         if (Event is TShowBookEventLog) return "InformationBook";
@@ -85,11 +84,11 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
         if (Event is TArmyInfoEventLog)
         {
             var armyInfoEventLog = (TArmyInfoEventLog)Event;
-            return armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
+            return armyInfoEventLog.FArmyView.Hero(armyInfoEventLog.FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? "ArmyInfo" : "HeroInfo";
         }
         if (Event is TPrisonersJoinEventLog)
         {
-            var UnitObject = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap.FUnitControl.FindUnit(((TPrisonersJoinEventLog)Event).FFirstUnitID);
+            var UnitObject = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(((TPrisonersJoinEventLog)Event).FFirstUnitID);
             return UnitObject != null && UnitObject is THero ? "PrisonerHero" : "PrisonersJoin";
         }
         if (Event is TEnterWizardsTowerEventLog) return "WizardsTower";
@@ -250,7 +249,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
     private sealed class Scene : IDisposable
     {
-        private readonly TAoWHSMap previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly TAoWHSMap previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
         private readonly List<TEObject> created = [];
         internal readonly TAoWHSMap Map;
         internal readonly TMapField Field;
@@ -267,7 +266,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
             level.CreateMapFieldList(1, 1);
             Map.FMapContainer = container;
             Field = container.GetField(0, 0, 0);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
         }
 
         internal TEventLog Create(Type type)
@@ -319,7 +318,7 @@ public sealed class EventLogViewTests(ITestOutputHelper output)
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
             foreach (var log in created) _ = Record.Exception(log.Dispose);
         }
     }

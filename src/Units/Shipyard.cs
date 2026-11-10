@@ -7,8 +7,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -52,7 +50,7 @@ public partial class TShipyardResource : TProductionPlaceResource
     // Shipyard.pas:29
 
     // Shipyard.pas:69
-    public override string ResourceEditName() => TranslateRStr(ShipyardRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ShipyardRStr);
 
 }
 
@@ -64,8 +62,8 @@ public partial class TShipyardConstructionControl : TStructureConstructionContro
     // Shipyard.pas:93
     public override void GetInfo(TAbstractUnit AUnit, ref string Text, ref int Gold, ref int Days)
     {
-        var shipyard = TranslateRStr(ShipyardRStr);
-        Text = RtlUnit.Format(TranslateRStr(BuildXRStr), [shipyard]);
+        var shipyard = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ShipyardRStr);
+        Text = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.BuildXRStr), [shipyard]);
         Gold = 50;
         Days = 2;
     }
@@ -83,8 +81,8 @@ public partial class TShipyardConstructionControl : TStructureConstructionContro
         {
             Result = false;
             AUnit.GetLocation(ref X, ref Y, ref L);
-            MapLevel = AoWHSMap.MapContainer.GetMapLevel(L);
-            InitHNWalk(ref Walk, X, Y, 0);
+            MapLevel = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(L);
+            Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, X, Y, 0);
             while (Walk.HN < 7 && !Result)
             {
                 if (Walk.X >= 0 && Walk.Y >= 0 && Walk.X < MapLevel.Width && Walk.Y < MapLevel.Height)
@@ -93,12 +91,12 @@ public partial class TShipyardConstructionControl : TStructureConstructionContro
                     Result = TSet<byte>.WithBounds(0, 255).With(0).With(10).Contains((byte)fieldValue.TerrainType);
                 }
 
-                WalkToNextHN(ref Walk);
+                Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
             }
 
             if (!Result)
             {
-                Reason = TranslateRStr(CanOnlyBuildNextToWaterRStr);
+                Reason = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TShipyardConstructionControl.CanOnlyBuildNextToWaterRStr);
             }
         }
 
@@ -115,11 +113,11 @@ public partial class TShipyardConstructionControl : TStructureConstructionContro
         AUnit.GetLocation(ref X, ref Y, ref L);
         if (L == 0)
         {
-            Result = (TStructureResource)AoWHSSet.MapObjectResourceList.FindResource(60);
+            Result = (TStructureResource)Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList.FindResource(60);
         }
         else
         {
-            Result = (TStructureResource)AoWHSSet.MapObjectResourceList.FindResource(107);
+            Result = (TStructureResource)Aow.Game.Engine.TAoWHSSet.AoWHSSet.MapObjectResourceList.FindResource(107);
         }
 
         return Result;
@@ -128,23 +126,6 @@ public partial class TShipyardConstructionControl : TStructureConstructionContro
     // Shipyard.pas:78
     public override int ID() => 4;
 
-}
+    private static readonly string CanOnlyBuildNextToWaterRStr = "Can only be built next to water";
 
-public static partial class ShipyardUnit
-{
-    // Shipyard.pas:125
-    public static void RegisterShipyard(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TShipyard>(), EClass.Of<TShipyardResource>()]);
-        var shipyardConstructionControl = new TShipyardConstructionControl(null);
-        ((TConstructAbility)AoWHSSet.FAbilityControl.GetAbility(125)).RegisterConstructionControl(shipyardConstructionControl);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

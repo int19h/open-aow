@@ -7,10 +7,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Game.Draw.aowFXUnit;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
@@ -29,11 +25,11 @@ public partial class TfxHS
         {
             if (FAbilityIndex == 52)
             {
-                Sequence = AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[Number];
+                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSpellIndex).FCastImages.ImageSequences[Number];
             }
             else
             {
-                Sequence = AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[Number];
+                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FAbilityIndex).FImageSequences.ImageSequences[Number];
             }
         }
 
@@ -75,14 +71,14 @@ public partial class TfxHS
                     break;
             }
 
-            Sequence = AoWHSSet.FImageSequences.ImageSequences[N];
+            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[N];
         }
 
         void ShowMovingLoop()
         {
             while (Sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
                 {
                     var pathY = FPath[FFrame];
@@ -235,7 +231,7 @@ public partial class TfxHS
                         var pathY = FPath[N];
                         var pathZ = FPath[N];
                         var pathX = FPath[N];
-                        Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, IntensityBlendTable.LookupTables[Alpha]);
+                        Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Alpha]);
                     }
 
                     N += 1;
@@ -263,7 +259,7 @@ public partial class TfxHS
         {
             while (Sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
                 {
                     var pathY = FPath[0];
@@ -305,7 +301,7 @@ public partial class TfxHS
 
             while (Sequence != null)
             {
-                Index = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (Index != -1 && Sequence.ImageLibrary.ImageExist(Index))
                 {
                     var pathX = FPath[0];
@@ -315,7 +311,7 @@ public partial class TfxHS
                     var pathY = FPath[0];
                     var path3 = FPath[FFrame];
                     var path4 = FPath[FFrame];
-                    Sequence.ImageLibrary[Index].ShowBlended((XhpSurf + SurfaceDesc__value.Width - pathX.X + 100) * pathZ.Z / 100 + (path.X - XhpSurf) + path2.X, (pathY.Y - YhpSurf + 100) * (100 - path3.Z) / 100 + path4.Y - 100, SurfaceDesc__value, IntensityBlendTable.LookupTables[Alpha]);
+                    Sequence.ImageLibrary[Index].ShowBlended((XhpSurf + SurfaceDesc__value.Width - pathX.X + 100) * pathZ.Z / 100 + (path.X - XhpSurf) + path2.X, (pathY.Y - YhpSurf + 100) * (100 - path3.Z) / 100 + path4.Y - 100, SurfaceDesc__value, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Alpha]);
                 }
 
                 Sequence = Sequence.Next;
@@ -355,7 +351,7 @@ public partial class TfxHS
                             var pathY = FPath[FFrame];
                             var pathZ = FPath[FFrame];
                             var pathX = FPath[FFrame];
-                            Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, ShadowBlendTable.LookupTables[Alpha]);
+                            Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, Aow.Game.Draw.GfxState.ShadowBlendTable.LookupTables[Alpha]);
                         }
                     }
                     else
@@ -365,7 +361,7 @@ public partial class TfxHS
                             var pathY = FPath[FFrame];
                             var pathZ = FPath[FFrame];
                             var pathX = FPath[FFrame];
-                            Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, IntensityBlendTable.LookupTables[Alpha]);
+                            Sequence.ImageLibrary[Index].ShowBlended(pathX.X - XhpSurf + Sequence.dXshift, pathY.Y - pathZ.Z - YhpSurf + Sequence.dYshift, SurfaceDesc__value, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Alpha]);
                         }
                     }
                 }
@@ -471,7 +467,7 @@ public partial class TfxHS
                         SelectSequence(2);
                         if (Sequence != null)
                         {
-                            Index = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                             ShowAtStart();
                             FinishPath();
                         }
@@ -554,33 +550,33 @@ public partial class TfxHS
                         break;
                     case TfxType.fxSWComet:
                         var yhx = ((TTacticalCombatUnit)FTarget).FUnitHS.GetYhx();
-                        HXtoHP(((TTacticalCombatUnit)FTarget).FUnitHS.GetXhx(), yhx, ref I, ref J);
-                        MakeArcPathXY((short)(SurfaceDesc__value.Width / 2 + XhpSurf), (short)(SurfaceDesc__value.Height / 2 + YhpSurf), (short)I, (short)J, 25, 50, ref FPath);
+                        Aow.Game.World.Map.HexGeometry.HXtoHP(((TTacticalCombatUnit)FTarget).FUnitHS.GetXhx(), yhx, ref I, ref J);
+                        Aow.Game.Draw.EffectPaths.MakeArcPathXY((short)(SurfaceDesc__value.Width / 2 + XhpSurf), (short)(SurfaceDesc__value.Height / 2 + YhpSurf), (short)I, (short)J, 25, 50, ref FPath);
                         FEffectType = TfxType.fxComet;
                         SelectSequence(0);
                         ShowTrail();
                         break;
                     case TfxType.fxWallSmoke:
-                        Sequence = AoWHSSet.FImageSequences.ImageSequences[5];
+                        Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[5];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case TfxType.fxHitGround:
-                        Sequence = AoWHSSet.FImageSequences.ImageSequences[9];
+                        Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[9];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case TfxType.fxHitWater:
-                        Sequence = AoWHSSet.FImageSequences.ImageSequences[10];
+                        Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[10];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
                         break;
                     case TfxType.fxBlood:
                         var path = FPath[0];
-                        Sequence = AoWHSSet.FImageSequences.ImageSequences[path.Z];
+                        Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[path.Z];
                         SelectFrame();
                         ShowAtStart();
                         FinishSequence();
@@ -669,16 +665,16 @@ public partial class TTacticalCombatUnitHS
         {
             if (!(FDirection < FUnitGFXResource.FSequences.Count))
             {
-                AoWTCUnit.OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
+                Aow.Game.Draw.TTacticalCombatUnitHS.OriginalUnitAssert("Invalid Unit Index", "D:\\AoWDev\\AoWTC\\inc\\TCUnitHS.pas", 4262);
             }
 
-            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref X, ref Y);
             XhpSurf = X - XhpSurf + FOffsetX;
             YhpSurf = Y - YhpSurf - 8 + FOffsetY;
             if (FUnit.GetPlayer() > 0)
             {
                 var player = FUnit.GetPlayer();
-                Race = AoWHSMap.FPlayers.GetPlayers(player).FPlayerRace;
+                Race = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).FPlayerRace;
             }
             else
             {
@@ -712,11 +708,11 @@ public partial class TTacticalCombatUnitHS
                 else
                 {
                     var yhx = GetYhx();
-                    CenterHNtoHX(GetXhx(), yhx, FDirection, ref NX, ref NY);
-                    NextWall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx, FDirection, ref NX, ref NY);
+                    NextWall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229508);
                     if (NextWall == null)
                     {
-                        NextWall = (TCityWall)AoWTCUnit.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
+                        NextWall = (TCityWall)Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.MapLevels[0].Field[NX, NY].FindOwnedChild(2229510);
                     }
 
                     var moveSteps = GetMoveSteps();
@@ -761,7 +757,7 @@ public partial class TTacticalCombatUnitHS
                 case TTCAction.caFreeStruck:
                     if (FAction == TTCAction.caMove && FMoveStep != -1)
                     {
-                        HNtoHP(FDirection, ref DX, ref DY);
+                        Aow.Game.World.Map.HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
                         var moveSteps = GetMoveSteps();
                         Progress = (double)FMoveStep / moveSteps;
                         XhpSurf += Round((double)DX * Progress);
@@ -775,7 +771,7 @@ public partial class TTacticalCombatUnitHS
 
                     while (Sequence != null)
                     {
-                        Index = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (Index != -1)
                         {
                             Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FlyingOffset, SurfaceDesc);
@@ -829,7 +825,7 @@ public partial class TTacticalCombatUnitHS
                     {
                         while (Sequence != null)
                         {
-                            Index = Sequence.GetFrameIndex(AoWHSMap.Frame + FActionFrame, FrameFixtureInputs.AnimationOffset(this));
+                            Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame + FActionFrame, FrameFixtureInputs.AnimationOffset(this));
                             if (Index != -1)
                             {
                                 Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift + FlyingOffset, SurfaceDesc);
@@ -842,7 +838,7 @@ public partial class TTacticalCombatUnitHS
                     break;
                 case TTCAction.caRoundAttack:
                 case TTCAction.caRoundAttackHit:
-                    Sequence = AoWHSSet.FImageSequences.ImageSequences[FDirection + 15];
+                    Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[FDirection + 15];
                     if (Sequence != null)
                     {
                         while (Sequence != null)
@@ -874,18 +870,18 @@ public partial class TTacticalCombatUnitHS
 
             if (FUnit.FUnit.FUnitStatus.Contains(TUnitStatusElement.usEnchanted))
             {
-                AoWHSSet.FImageSequences.ShowLooped(70, XhpSurf + 16, YhpSurf + 18 + FlyingOffset, AoWHSMap.Frame, SurfaceDesc);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ShowLooped(70, XhpSurf + 16, YhpSurf + 18 + FlyingOffset, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, SurfaceDesc);
             }
 
             NX = 0;
             for (; NX <= 13; NX += 1)
             {
-                if (FUnit.GetAbilityEnabled(AoWTCUnit.StatusAbils[NX]))
+                if (FUnit.GetAbilityEnabled(Aow.Game.Draw.TTacticalCombatUnitHS.StatusAbils[NX]))
                 {
-                    Sequence = AoWHSSet.FAbilityControl.GetAbility(AoWTCUnit.StatusAbils[NX]).FImageSequences.ImageSequences[0];
+                    Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(Aow.Game.Draw.TTacticalCombatUnitHS.StatusAbils[NX]).FImageSequences.ImageSequences[0];
                     while (Sequence != null)
                     {
-                        Index = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                         if (Index != -1)
                         {
                             Sequence.ImageLibrary[Index].Show(XhpSurf + Sequence.dXshift + 15, YhpSurf + Sequence.dYshift + 10 + FlyingOffset, SurfaceDesc);
@@ -896,28 +892,28 @@ public partial class TTacticalCombatUnitHS
                 }
             }
 
-            if (!GetSelected() || (AoWTCUnit.AoWCombatMap.Frame & 6) != 6)
+            if (!GetSelected() || (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Frame & 6) != 6)
             {
                 if (Race == 32)
                 {
-                    if (FUnit.FMovePoints == 0 || FUnit.FCombatPlayer != AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer)
+                    if (FUnit.FMovePoints == 0 || FUnit.FCombatPlayer != Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
                     {
-                        AoWHSSet.FFlagControl.FFlags[70].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFlagControl.FFlags[70].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                     }
                     else
                     {
-                        AoWHSSet.FFlagControl.FFlags[FMoveIndicator + 69].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFlagControl.FFlags[FMoveIndicator + 69].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                     }
                 }
                 else
                 {
-                    if (FUnit.FMovePoints == 0 || FUnit.FCombatPlayer != AoWTCUnit.AoWCombatMap.FSeatedCombatPlayer)
+                    if (FUnit.FMovePoints == 0 || FUnit.FCombatPlayer != Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
                     {
-                        AoWHSSet.FRaceResources.GetRaceResource(Race).FImageLibrary[70].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(Race).FImageLibrary[70].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                     }
                     else
                     {
-                        AoWHSSet.FRaceResources.GetRaceResource(Race).FImageLibrary[FMoveIndicator + 69].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
+                        Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(Race).FImageLibrary[FMoveIndicator + 69].Show(XhpSurf - 5, YhpSurf - 12, SurfaceDesc);
                     }
                 }
 
@@ -933,7 +929,7 @@ public partial class TTacticalCombatUnitHS
                     SD.ClipRect.Right = XhpSurf - 4 + NX;
                 }
 
-                AoWHSSet.FCombatImages[1].ShowClipped(XhpSurf - 4, YhpSurf - 4, SD);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatImages[1].ShowClipped(XhpSurf - 4, YhpSurf - 4, SD);
             }
         }
         catch
@@ -951,7 +947,7 @@ public partial class TTacticalCombatUnitHS
         int Index;
         int DX = default;
         int DY = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref PX, ref PY);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref PX, ref PY);
         X = PX - X + FOffsetX;
         if (FBusy)
         {
@@ -964,7 +960,7 @@ public partial class TTacticalCombatUnitHS
 
         if (FMoveStep != -1)
         {
-            HNtoHP(FDirection, ref DX, ref DY);
+            Aow.Game.World.Map.HexGeometry.HNtoHP(FDirection, ref DX, ref DY);
             var moveSteps = GetMoveSteps();
             Progress = (float)((double)FMoveStep / moveSteps);
             X += Round((double)DX * Progress);
@@ -974,7 +970,7 @@ public partial class TTacticalCombatUnitHS
         Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 23];
         while (Sequence != null)
         {
-            Index = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+            Index = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
             if (Index != -1)
             {
                 Sequence.ImageLibrary[Index].Show(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
@@ -1019,7 +1015,7 @@ public partial class TTacticalCombatUnitHS
                 var moveSteps = GetMoveSteps();
                 if (FActionFrame <= moveSteps)
                 {
-                    HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
+                    Aow.Game.World.Map.HexGeometry.HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
                     var moveSteps2 = GetMoveSteps();
                     FOffsetX = FActionFrame * FOffsetX / (moveSteps2 * 2);
                     var moveSteps3 = GetMoveSteps();
@@ -1028,7 +1024,7 @@ public partial class TTacticalCombatUnitHS
                 }
                 else
                 {
-                    HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
+                    Aow.Game.World.Map.HexGeometry.HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
                     FOffsetX = FOffsetX / 2;
                     FOffsetY = FOffsetY / 2;
                     FActionDone = true;
@@ -1039,7 +1035,7 @@ public partial class TTacticalCombatUnitHS
                 var moveSteps4 = GetMoveSteps();
                 if (FActionFrame <= moveSteps4)
                 {
-                    HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
+                    Aow.Game.World.Map.HexGeometry.HNtoHP(FDirection, ref FOffsetX, ref FOffsetY);
                     var moveSteps2 = GetMoveSteps();
                     var moveSteps3 = GetMoveSteps();
                     FOffsetX = (moveSteps2 - FActionFrame) * FOffsetX / (moveSteps3 * 2);
@@ -1104,7 +1100,7 @@ public partial class TTacticalCombatUnitHS
                 break;
             case TTCAction.caRoundAttack:
             case TTCAction.caRoundAttackHit:
-                Sequence = AoWHSSet.FImageSequences.ImageSequences[FDirection + 16];
+                Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.ImageSequences[FDirection + 16];
                 if (Sequence != null)
                 {
                     FActionFrame = (short)(FActionFrame + 1);
@@ -1130,9 +1126,9 @@ public partial class TTacticalCombatUnitHS
                 if (FMoveStep != -1)
                 {
                     Sequence = FUnitGFXResource.FSequences.ImageSequences[FDirection + 5];
-                    if (Sequence != null && Sequence.SpeedCount == Sequence.SequenceSpeed && AoWTCUnit.AoWCombatMap.FPlaySounds)
+                    if (Sequence != null && Sequence.SpeedCount == Sequence.SequenceSpeed && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
                     {
-                        var frameIndex = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                        var frameIndex = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                         FUnitGFXResource.FSFXLibraries[1].Play(frameIndex % 100);
                     }
                 }
@@ -1142,7 +1138,7 @@ public partial class TTacticalCombatUnitHS
             case TTCAction.caMeleeMiss:
             case TTCAction.caAbility:
             case TTCAction.caBreathAttack:
-                if (FActionFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds)
+                if (FActionFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
                 {
                     if (FSelectedAbility > -1)
                     {
@@ -1150,12 +1146,12 @@ public partial class TTacticalCombatUnitHS
                         {
                             if (FSelectedSpell != 112 && FSelectedSpell != 122 && FSelectedSpell != 119)
                             {
-                                AoWHSSet.FSpellControl.GetSpell(FSelectedSpell).FCastSounds.Play(0);
+                                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(FSelectedSpell).FCastSounds.Play(0);
                             }
                         }
                         else
                         {
-                            AoWHSSet.FAbilityControl.GetAbility(FSelectedAbility).FSFXLibrary.Play(0);
+                            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(FSelectedAbility).FSFXLibrary.Play(0);
                         }
                     }
                     else
@@ -1174,7 +1170,7 @@ public partial class TTacticalCombatUnitHS
                 break;
             case TTCAction.caHit:
             case TTCAction.caKilled:
-                if (FActionFrame == 0 && AoWTCUnit.AoWCombatMap.FPlaySounds)
+                if (FActionFrame == 0 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds)
                 {
                     if (FAction == TTCAction.caHit)
                     {
@@ -1189,7 +1185,7 @@ public partial class TTacticalCombatUnitHS
                 break;
             case TTCAction.caRoundAttack:
             case TTCAction.caRoundAttackHit:
-                if (FActionFrame < 18 && AoWTCUnit.AoWCombatMap.FPlaySounds && AoWTCUnit.raDir[FActionFrame] > 0)
+                if (FActionFrame < 18 && Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FPlaySounds && Aow.Game.Combat.TacticalTables.raDir[FActionFrame] > 0)
                 {
                     if (FAction == TTCAction.caRoundAttack)
                     {

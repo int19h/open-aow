@@ -10,7 +10,6 @@ using Aow.Game.World.Map;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using GameState = Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow;
 
@@ -46,14 +45,14 @@ internal static class FrameFixtureChecks
         Check(FrameFixture.FileStampUtc(displayedFileTime, TimeSpan.FromHours(-8)) ==
             new DateTime(2000, 1, 1, 21, 0, 0, DateTimeKind.Utc), "standard file stamp preserves captured 1 PM text");
 
-        var oldWindow = AOWMWindowUnit.MWindow;
-        var oldMap = GameState.AoWHSMap;
-        var oldEngine = GameState.AoWEngine;
+        var oldWindow = Aow.Game.Ui.Dialogs.DialogHosts.MWindow;
+        var oldMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        var oldEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
         var oldSettings = RtlUnit.Settings;
         try
         {
             var mapWindow = new TAOWWindow(null) { FVisible = true, FModal = true };
-            AOWMWindowUnit.MWindow = new(null) { MapWindow = mapWindow };
+            Aow.Game.Ui.Dialogs.DialogHosts.MWindow = new(null) { MapWindow = mapWindow };
             var menu = new TStartMenu(null) { FVisible = true, FModal = false };
             var hidden = new TAOWWindow(null) { FVisible = false, FModal = true };
             var manager = new TAOWWinManager(null) { FChildren = new TList() };
@@ -61,9 +60,9 @@ internal static class FrameFixtureChecks
             manager.FChildren.Add(menu);
             manager.FChildren.Add(hidden);
             var controller = new TGeneral(null) { Manager = manager };
-            Check(!E2GameFlowUnit.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
+            Check(!Aow.Game.Ui.Dialogs.TGeneral.HasModalWindow(controller), "modeless menu and hidden window do not block the map");
             menu.FModal = true;
-            Check(E2GameFlowUnit.HasModalWindow(controller), "modal sibling menu blocks input");
+            Check(Aow.Game.Ui.Dialogs.TGeneral.HasModalWindow(controller), "modal sibling menu blocks input");
             controller.HideTransientWindows();
             Check(!menu.FVisible && mapWindow.FVisible, "hide modal sibling and retain map");
 
@@ -71,8 +70,8 @@ internal static class FrameFixtureChecks
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psTerminated });
             players.FChildren.Add(new TPlayer(null!) { FStatus = TPlayerStatus.psPlaying });
-            GameState.AoWHSMap = new TAoWHSMap(null!);
-            GameState.AoWHSMap.FPlayers = players;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = new TAoWHSMap(null!);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers = players;
             var bar = new Aow.Game.Ui.Dialogs.TTBWindow(null)
             {
                 PInd = new(null) { FAligned = true },
@@ -83,38 +82,38 @@ internal static class FrameFixtureChecks
             Check(bar.PInd.WinWidth == 14 && bar.TBMessEdit.Alignment.RightOffset == 292 &&
                 bar.TBMessEdit.Alignment.LeftOffset == 48, "indicator counts active players and reserves the right side");
             Check(!bar.PInd.FAligned && !bar.TBMessEdit.FAligned, "indicator invalidates alignment");
-            Check(GameState.TMagicSphereRStr[(int)TMagicSphere.msLife] == "Life" &&
-                GameState.TMagicSphereRStr[(int)TMagicSphere.msCosmos] == "Cosmos", "sphere names are initialized");
-            Check(GameState.TPlayerBehaviorRStr[(int)TPlayerBehavior.pbNormal] == "Normal" &&
-                GameState.TPlayerBehaviorRStr[(int)TPlayerBehavior.pbRandom] == "Random", "setup behavior names are initialized");
+            Check(Aow.Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)TMagicSphere.msLife] == "Life" &&
+                Aow.Game.Magic.Abilities.GameTables.TMagicSphereRStr[(int)TMagicSphere.msCosmos] == "Cosmos", "sphere names are initialized");
+            Check(Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)TPlayerBehavior.pbNormal] == "Normal" &&
+                Aow.Game.Magic.Abilities.GameTables.TPlayerBehaviorRStr[(int)TPlayerBehavior.pbRandom] == "Random", "setup behavior names are initialized");
 
             RtlUnit.Settings = new MemorySettingsStore();
-            GameState.AoWEngine = oldEngine;
-            GameState.AoWEngine.FRegistry.SetMovementSpeed(Aow.Game.Engine.TMovementSpeed.mmsNormal);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = oldEngine;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetMovementSpeed(Aow.Game.Engine.TMovementSpeed.mmsNormal);
             FrameFixtureInputs.MeasuredFrameRate = 9;
             var world = new Aow.Game.Ui.Dialogs.TMWindow(null) { MapWindow = mapWindow };
             world.MapWindowUpdate();
-            Check(GameState.AoWHSMap.FFPS == 9, "captured FPS reaches the strategic movement input");
+            Check(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FFPS == 9, "captured FPS reaches the strategic movement input");
             var army = new MovementArmy { FMoveStep = -1, FUnitGFXResource = new(null) { F_UnitGFXResource_30 = 2 } };
             army.MoveFirst(1, false);
             Check(army.FMoveSteps == 4, "native capture advances each eight-step move in four frames");
             foreach (int fps in new[] { 1, 6, 8, 9, 14 })
             {
-                GameState.AoWHSMap.UpdateFPS(fps);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateFPS(fps);
                 army.FMoveStep = -1;
                 army.MoveFirst(1, false);
                 Check(army.FMoveSteps == 4, "positive FPS below 15 preserves the captured movement tier: " + fps);
             }
-            GameState.AoWHSMap.UpdateFPS(30);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateFPS(30);
             army.FMoveStep = -1;
             army.MoveFirst(1, false);
             Check(army.FMoveSteps == 8, "normal measured FPS retains the eight-step animation");
         }
         finally
         {
-            AOWMWindowUnit.MWindow = oldWindow;
-            GameState.AoWHSMap = oldMap;
-            GameState.AoWEngine = oldEngine;
+            Aow.Game.Ui.Dialogs.DialogHosts.MWindow = oldWindow;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = oldMap;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = oldEngine;
             RtlUnit.Settings = oldSettings;
             FrameFixtureInputs.AddressAnimationPhase = null;
             FrameFixtureInputs.MeasuredFrameRate = null;
@@ -139,12 +138,12 @@ internal static class FrameFixtureChecks
             RtlUnit.InstallHost(new FrameFixture.FixtureHost(root, scratch, [], clock, null));
             Aow.Game.Engine.Startup.InitializeAll();
             Aow.Game.Audio.NullSoundSystem.Install();
-            GameState.ValidateAoWEngine();
+            Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine();
         }
 
         public void Dispose()
         {
-            GameState.AoWEngine.Dispose();
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.Dispose();
             RtlUnit.Files = files;
             RtlUnit.Settings = settings;
             RtlUnit.Dialogs = dialogs;

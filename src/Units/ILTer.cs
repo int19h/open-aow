@@ -6,7 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Terrain;
 
@@ -96,7 +95,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
     {
         int Xhp = default;
         int Yhp = default;
-        HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
         if (this.FResource.ImageSequenceList == null)
         {
             this.FResource.ImageLibrary[FImageIndex].Show(Xhp - XhpSurf + ((Aow.Game.World.TMultiHexMOR)this.FResource).dXImage, Yhp - YhpSurf + ((Aow.Game.World.TMultiHexMOR)this.FResource).dYImage, SurfaceDesc);
@@ -143,7 +142,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
         CanPlaceHere = true;
         Count = FResource.TerrainList.Count;
         FTerrainType = GetValidTerrainType(MapContainer.GetMapLevel(Lhx), Xhx, Yhx);
-        InitHNWalk(ref Walk, Xhx, Yhx, 0);
+        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, Xhx, Yhx, 0);
         while (CanPlaceHere && Walk.HN < Count)
         {
             TerrainType = GetTerrain(Walk.HN);
@@ -154,7 +153,7 @@ public partial class TILTerrainMO : Aow.Game.World.TMultiHexMO
                 CanPlaceHere = HS == null || CanPlaceOnHS(HS);
             }
 
-            WalkToNextHN(ref Walk);
+            Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
         }
 
         if (CanPlaceHere)
@@ -381,14 +380,4 @@ public partial class TFixedILTerrainMOR : TILTerrainMOR
     // ILTer.pas:334
     public override string ResourceEditName() => "Fixed ImageLibrary Terrain";
 
-}
-
-public static partial class ILTerUnit
-{
-    // ILTer.pas:349
-    public static void RegisterILTerrain(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<TILTerrainMO>(), EClass.Of<TILTerrainMOR>()]);
-        Engine.RegisterEClasses([EClass.Of<TFixedILTerrainMO>(), EClass.Of<TFixedILTerrainMOR>()]);
-    }
 }

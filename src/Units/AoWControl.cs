@@ -306,7 +306,3 @@ public partial class TAOWControl : TAoWComponent
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWControlUnit
-{
-}

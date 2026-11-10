@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Hexes;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World;
 
@@ -37,25 +36,6 @@ public partial class THillMOR : TTerrainMOR
     }
 
     // Hill.pas:45
-    public override string ResourceEditName() => TranslateRStr(HillRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.HillRStr);
 
-}
-
-public static partial class HillUnit
-{
-    // Hill.pas:58
-    public static void RegisterHill(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<THillMO>()]);
-    }
-
-    public static readonly string HillNameRStr = "Hill";
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

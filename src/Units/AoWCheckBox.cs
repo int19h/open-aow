@@ -219,7 +219,3 @@ public partial class TAOWCheckBox : TAOWBaseButton
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWCheckBoxUnit
-{
-}

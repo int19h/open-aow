@@ -10,7 +10,6 @@ using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
@@ -52,7 +51,7 @@ public partial class TMine : TPlayerStructure
         base.Activate();
         if (FPlayer != -1)
         {
-            AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
         }
     }
 
@@ -61,7 +60,7 @@ public partial class TMine : TPlayerStructure
     {
         if (FPlayer != -1)
         {
-            AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
         }
 
         base.Deactivate();
@@ -87,7 +86,7 @@ public partial class TMine : TPlayerStructure
     public override string GetCurrentActivityText()
     {
         var income = GetIncome();
-        return RtlUnit.Format(TranslateRStr(ProducingXIncomeRStr), [IntToStr(income)]);
+        return RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ProducingXIncomeRStr), [IntToStr(income)]);
     }
 
     // Mine.pas:99
@@ -108,9 +107,9 @@ public partial class TMine : TPlayerStructure
                         }
                         else
                         {
-                            if (ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0))
+                            if (Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, (sbyte)(byte)FPlayer, 0))
                             {
-                                CandidatePriority = 50 - AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                                CandidatePriority = 50 - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                                 if (CandidatePriority < 25)
                                 {
                                     CandidatePriority = 25;
@@ -151,13 +150,13 @@ public partial class TMine : TPlayerStructure
             {
                 if (FPlayer != -1)
                 {
-                    AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).UnregisterIncomeSource(FIncomeSource);
                 }
 
                 base.SetPlayer(Player);
                 if (FPlayer != -1)
                 {
-                    AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)(byte)FPlayer).RegisterIncomeSource(FIncomeSource);
                 }
             }
             else
@@ -189,7 +188,7 @@ public partial class TMine : TPlayerStructure
         string Result;
         if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
         {
-            Result = TranslateRStr(MineBattleWonRStr);
+            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMine.MineBattleWonRStr);
         }
         else
         {
@@ -201,6 +200,8 @@ public partial class TMine : TPlayerStructure
 
     // Mine.pas:25
     public override bool GetRazed() => (FState & 1) != 0;
+
+    private static readonly string MineBattleWonRStr = "Mine captured";
 }
 
 public partial class TMineResource : TPlayerStructureResource
@@ -226,7 +227,9 @@ public partial class TMineResource : TPlayerStructureResource
     // Mine.pas:41
 
     // Mine.pas:197
-    public override string ResourceEditName() => TranslateRStr(MineRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMineResource.MineRStr);
+
+    private static readonly string MineRStr = "Mine";
 
 }
 
@@ -246,48 +249,4 @@ public struct TMineImageData
     public FixedArray_byte_20 Reserved;
     [FieldOffset(20)]
     public int ImageIndex;
-}
-
-public static partial class MineUnit
-{
-    // Mine.pas:206
-    public static int MineIncome(sbyte Player)
-    {
-        int Result;
-        TPlayer P;
-        TPlayerStructure S;
-        if (AoWHSMap != null)
-        {
-            P = AoWHSMap.FPlayers.GetPlayers(Player);
-            Result = 0;
-            for (int I = 0, last = P.FStructures.Count - 1; I <= last; I++)
-            {
-                S = P.FStructures.GetStructure(I);
-                if (S.EClass.ClassID == 131962 && (sbyte)(byte)S.FPlayer == Player)
-                {
-                    Result += S.GetIncome();
-                }
-            }
-        }
-        else
-        {
-            Result = -1;
-        }
-
-        return Result;
-    }
-
-    // Mine.pas:226
-    public static void RegisterMine(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TMine>(), EClass.Of<TMineResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

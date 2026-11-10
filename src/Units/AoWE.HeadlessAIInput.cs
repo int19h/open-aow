@@ -10,14 +10,14 @@ public partial class TAIPlayerControl
     public bool Process(TAIExecuter executer, bool tokenControlDone)
     {
         HeadlessHooks.BeforeAIPlayerProcess?.Invoke();
-        if (FPlayer.GetBusy() || !AoWEUnit.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex)) return false;
+        if (FPlayer.GetBusy() || !Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex)) return false;
         bool done;
         switch (FPhase)
         {
             case TAIPlayerProcessPhase.appMain:
                 done = false;
                 while (!done && FActions.Count != 0 && !FPlayer.GetBusy() &&
-                    AoWEUnit.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
                 {
                     if (FMoveExecuter.FStatus != TAIMoveExecuterStatus.mesBusy)
                     {
@@ -38,12 +38,12 @@ public partial class TAIPlayerControl
                     if (!done && executer.GetProcessTimeLeft() <= 0) done = true;
                 }
                 if (FActions.Count == 0) SetupProcessPhase(TAIPlayerProcessPhase.appLoop);
-                return !FPlayer.GetBusy() && AoWEUnit.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
+                return !FPlayer.GetBusy() && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
             case TAIPlayerProcessPhase.appLoop:
                 done = false;
                 int index = 0;
                 while (!done && index < FActions.Count && !FPlayer.GetBusy() &&
-                    AoWEUnit.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex))
                 {
                     if (FMoveExecuter.FStatus != TAIMoveExecuterStatus.mesBusy)
                     {
@@ -64,7 +64,7 @@ public partial class TAIPlayerControl
                     if (!done && executer.GetProcessTimeLeft() <= 0) done = true;
                 }
                 return FActions.Count != 0 && !FPlayer.GetBusy() &&
-                    AoWEUnit.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.PlayerReady(FPlayer.FPlayerIndex);
             default: return false;
         }
     }

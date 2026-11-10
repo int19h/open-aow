@@ -25,7 +25,7 @@ public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDispla
         {
             for (int i = 1; i <= (int)display.FBufferingScheme; i++)
             {
-                surfaces[i] = new TDIB16Surface(display.FBackSurfaceWidth, display.FBackSurfaceHeight, GFXEUnit.pfRGB555);
+                surfaces[i] = new TDIB16Surface(display.FBackSurfaceWidth, display.FBackSurfaceHeight, Aow.Game.Draw.PixelFormats.pfRGB555);
                 surfaces[i].Cls(display.Color);
             }
             return 0;
@@ -42,7 +42,7 @@ public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDispla
     public override int BltSurface(int index)
     {
         var surface = GetSurface(index);
-        if (surface is null) return DisplayCUnit.DCERR_FAILED;
+        if (surface is null) return Aow.Game.Draw.DisplayCodes.DCERR_FAILED;
         TSurfaceDesc descriptor = default;
         int result = surface.Lock(ref descriptor);
         if (result < 0) return result;
@@ -54,7 +54,7 @@ public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDispla
     public override int FlipSurface(int index)
     {
         int result = BltSurface(index);
-        return result < 0 ? result : DisplayCUnit.DCERR_NOFLIP;
+        return result < 0 ? result : Aow.Game.Draw.DisplayCodes.DCERR_NOFLIP;
     }
 
     public override int ResizeBackSurfaces(int width, int height)
@@ -85,7 +85,7 @@ public sealed class TSdlDC(IDisplayHost host, TComponent owner = null) : TDispla
     {
         public override int GetWidth() => host.ClientSize.Width;
         public override int GetHeight() => host.ClientSize.Height;
-        public override int GetPixelFormatID() => GFXEUnit.pfRGB555;
-        public override int Lock(ref TSurfaceDesc descriptor) => GFXEUnit.GFXE_NOTSUPPORTED;
+        public override int GetPixelFormatID() => Aow.Game.Draw.PixelFormats.pfRGB555;
+        public override int Lock(ref TSurfaceDesc descriptor) => Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED;
     }
 }

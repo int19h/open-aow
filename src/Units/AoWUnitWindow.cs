@@ -9,14 +9,6 @@ using Aow.Game.Units;
 using Aow.Rtl;
 // Translated from AoWUnitWindow.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWInfoBannerUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.Ui.Dialogs.E2GlobalsUnit;
-using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -170,7 +162,7 @@ public partial class TUnitWindow : TDataModule
         Gnd3.Checked = false;
         Gnd4.Checked = false;
         Gnd5.Checked = false;
-        U = General.FSelectedUnit;
+        U = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit;
         if (U != null)
         {
             if (U is THero)
@@ -237,26 +229,26 @@ public partial class TUnitWindow : TDataModule
         bool Enabled;
         TAbility A;
         var objectValue = T1AbilityLB.Items.Objects[DrawItem];
-        A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-        if (AoWHSMap.FCombatMap == null)
+        A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
         {
-            Enabled = A != null && General.FSelectedUnit != null && General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer && A.GetControlType(General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction);
+            Enabled = A != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && A.GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction);
         }
         else
         {
-            bool condition = A != null && General.FCombatUnit != null;
+            bool condition = A != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null;
             if (condition)
             {
                 var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
-                condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
+                condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
             }
 
-            bool test = condition && General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints > 0;
+            bool test = condition && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
             if (test)
             {
                 var objectValue2 = T1AbilityLB.Items.Objects[DrawItem];
-                var combatMode = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(General.FCombatUnit.FUnit.FUnit);
-                test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[DrawItem]) == 52) || General.FCombatUnit.FUnit.FUnit.GetMoves() == General.FCombatUnit.FUnit.FMovePoints;
+                var combatMode = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[DrawItem]) == 52) || Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
             }
 
             Enabled = test;
@@ -275,7 +267,7 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:502
     public void HelpClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWUnitWindow.pas:507
@@ -285,27 +277,27 @@ public partial class TUnitWindow : TDataModule
         T1AbilityLB.Selected = Sender.Selected;
         T1TypeLB.Selected = Sender.Selected;
         T1SrcLB.Selected = Sender.Selected;
-        if (AoWHSMap.FCombatMap == null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
         {
-            if (General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer && T1AbilityLB.Selected > -1)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer && T1AbilityLB.Selected > -1)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-                if (A != null && A.GetEnabled(General.FSelectedUnit))
+                A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+                if (A != null && A.GetEnabled(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit))
                 {
-                    if (AoWHSMap.FCombatMap == null)
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
                     {
-                        var controlType = A.GetControlType(General.FSelectedUnit);
+                        var controlType = A.GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
                         T1UseBut.Visible = controlType.Contains(TAbilityControlTypeElement.acAction);
                     }
                     else
                     {
                         var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                        bool condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(General.FSelectedUnit) != TCombatMode.cmNone;
+                        bool condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue2)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) != TCombatMode.cmNone;
                         if (condition)
                         {
                             var objectValue3 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                            condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(General.FSelectedUnit) != TCombatMode.cmMelee;
+                            condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue3)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) != TCombatMode.cmMelee;
                         }
 
                         T1UseBut.Visible = condition;
@@ -313,8 +305,8 @@ public partial class TUnitWindow : TDataModule
 
                     if (T1UseBut.Visible)
                     {
-                        var name = A.GetName(General.FSelectedUnit);
-                        var format = AoWEUnit.Format(TranslateRStr(UseXRStr), [name]);
+                        var name = A.GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
+                        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TUnitWindow.UseXRStr), [name]);
                         T1UseBut.Text = format;
                     }
                 }
@@ -330,27 +322,27 @@ public partial class TUnitWindow : TDataModule
         }
         else
         {
-            bool condition = T1AbilityLB.Selected > -1 && General.FCombatUnit != null;
+            bool condition = T1AbilityLB.Selected > -1 && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null;
             if (condition)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                condition = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
+                condition = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetControlType(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit).Contains(TAbilityControlTypeElement.acCombatAction);
             }
 
-            bool test = condition && General.FCombatUnit.FUnit.GetPlayer() == AoWCombatMap.FSeatedPlayer && General.FCombatUnit.FUnit.FMovePoints > 0;
+            bool test = condition && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.GetPlayer() == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedPlayer && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints > 0;
             if (test)
             {
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var combatMode = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(General.FCombatUnit.FUnit.FUnit);
-                test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[T1AbilityLB.Selected]) == 52) || General.FCombatUnit.FUnit.FUnit.GetMoves() == General.FCombatUnit.FUnit.FMovePoints;
+                var combatMode = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetCombatMode(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                test = !(TSet<TCombatMode>.Of(TCombatMode.cmShortRange, TCombatMode.cmMediumRange, TCombatMode.cmLongRange).Contains(combatMode) || ObjectToInt(T1AbilityLB.Items.Objects[T1AbilityLB.Selected]) == 52) || Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit.GetMoves() == Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FMovePoints;
             }
 
             if (test)
             {
                 T1UseBut.Visible = true;
                 var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                var name = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(General.FCombatUnit.FUnit.FUnit);
-                var format = AoWEUnit.Format(TranslateRStr(UseXRStr), [name]);
+                var name = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue)).GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FUnit);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TUnitWindow.UseXRStr), [name]);
                 T1UseBut.Text = format;
             }
             else
@@ -372,7 +364,7 @@ public partial class TUnitWindow : TDataModule
     {
         TAOWCheckBox Check;
         Check = Sender;
-        AoWItemBannerUnit.ItemID = Check.Tag;
+        Aow.Game.Ui.Dialogs.TItemBanner.ItemID = Check.Tag;
     }
 
     // AoWUnitWindow.pas:575
@@ -422,7 +414,7 @@ public partial class TUnitWindow : TDataModule
                     break;
             }
 
-            if (AoWUnitWindowUnit.SelectedItem != null)
+            if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null)
             {
                 FBlinkDelay -= 1;
                 if (FBlinkDelay < 0)
@@ -438,12 +430,12 @@ public partial class TUnitWindow : TDataModule
     public void T1SortNameClick(int Button)
     {
         TList Lists;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Lists = new TList();
         Lists.Add(T1AbilityLB);
         Lists.Add(T1TypeLB);
         Lists.Add(T1SrcLB);
-        General.SortLists(ref Lists, 0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
         T1UseBut.Visible = false;
     }
 
@@ -451,12 +443,12 @@ public partial class TUnitWindow : TDataModule
     public void T1SortTypeClick(int Button)
     {
         TList Lists;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Lists = new TList();
         Lists.Add(T1TypeLB);
         Lists.Add(T1AbilityLB);
         Lists.Add(T1SrcLB);
-        General.SortLists(ref Lists, 0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
         T1UseBut.Visible = false;
     }
 
@@ -464,12 +456,12 @@ public partial class TUnitWindow : TDataModule
     public void T1SortSourceClick(int Button)
     {
         TList Lists;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Lists = new TList();
         Lists.Add(T1SrcLB);
         Lists.Add(T1AbilityLB);
         Lists.Add(T1TypeLB);
-        General.SortLists(ref Lists, 0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.SortLists(ref Lists, 0);
         T1UseBut.Visible = false;
     }
 
@@ -478,16 +470,16 @@ public partial class TUnitWindow : TDataModule
     {
         TAbility A;
         string Reason = "";
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-        A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
-        if (A != null && A.GetEnabled(General.FSelectedUnit))
+        A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+        if (A != null && A.GetEnabled(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit))
         {
-            if (AoWHSMap.FCombatMap == null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap == null)
             {
-                if (General.FSelectedUnit.FPlayer == AoWHSMap.FSeatedPlayer)
+                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
                 {
-                    if (A.Activate(General.FSelectedUnit, ref Reason))
+                    if (A.Activate(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit, ref Reason))
                     {
                         UnitWin.Visible = false;
                     }
@@ -495,17 +487,17 @@ public partial class TUnitWindow : TDataModule
                     {
                         if (!IsEmpty(Reason))
                         {
-                            AoWHSMap.ShowWarning(Reason);
+                            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
                         }
                     }
                 }
             }
             else
             {
-                if (General.FCombatUnit != null && General.FCombatUnit.FUnit.FCombatPlayer == AoWCombatMap.FSeatedCombatPlayer)
+                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.FUnit.FCombatPlayer == Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FSeatedCombatPlayer)
                 {
                     var objectValue2 = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-                    if (General.FCombatUnit.SelectAbility(ObjectToInt(objectValue2)) > -1)
+                    if (Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit.SelectAbility(ObjectToInt(objectValue2)) > -1)
                     {
                         UnitWin.Visible = false;
                     }
@@ -518,16 +510,16 @@ public partial class TUnitWindow : TDataModule
     public void UseItemClick()
     {
         string Reason = "";
-        General.PlayButtonSound(0);
-        if (AoWUnitWindowUnit.SelectedItem != null && General.FSelectedUnit is THero)
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit is THero)
         {
-            if (((THero)General.FSelectedUnit).CanUseItem(AoWUnitWindowUnit.SelectedItem.Tag, ref Reason))
+            if (((THero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).CanUseItem(Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem.Tag, ref Reason))
             {
-                ((THero)General.FSelectedUnit).UseItem(AoWUnitWindowUnit.SelectedItem.Tag);
+                ((THero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).UseItem(Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem.Tag);
             }
             else
             {
-                AoWHSMap.ShowWarning(Reason);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowWarning(Reason);
             }
         }
     }
@@ -535,15 +527,15 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:688
     public void UnitTabChange()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
     }
 
     // AoWUnitWindow.pas:693
     public void UnitWinMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
-        if (Button == TMouseButton.mbRight && AoWUnitWindowUnit.SelectedItem != null)
+        if (Button == TMouseButton.mbRight && Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null)
         {
-            Gnd1Change(AoWUnitWindowUnit.SelectedItem);
+            Gnd1Change(Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem);
         }
     }
 
@@ -562,7 +554,7 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:724
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         UnitWin.Visible = false;
     }
 
@@ -575,7 +567,7 @@ public partial class TUnitWindow : TDataModule
         Component = Sender;
         if (Component.Tag != -1)
         {
-            U = (THero)General.FSelectedUnit;
+            U = (THero)Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit;
             Item = U.FInventory.FindItem(Component.Tag);
             if (Item == null)
             {
@@ -605,14 +597,14 @@ public partial class TUnitWindow : TDataModule
     public void FrLShPreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         TRect R;
-        if (General.FSelectedUnit != null)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
-            if (General.FSelectedUnit.GetFace() != null)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetFace() != null)
             {
                 var image = Sender;
                 R = Rect(image.WinLeft + 29, image.WinTop + 28, image.WinLeft + 132, image.WinTop + 156);
 
-                General.FSelectedUnit.ShowFace(R, SurfDesc);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.ShowFace(R, SurfDesc);
             }
         }
     }
@@ -620,10 +612,10 @@ public partial class TUnitWindow : TDataModule
     // AoWUnitWindow.pas:763
     public void FrRShPreDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
-        if (General.FSelectedUnit != null)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
             FShowInfo.Direction = 3;
-            if (General.FSelectedUnit is THero)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit is THero)
             {
                 FShowInfo.Overlays = TSet<TUnitOverlayModesElement>.Of();
             }
@@ -633,16 +625,16 @@ public partial class TUnitWindow : TDataModule
             }
 
             var image = Sender;
-            General.FSelectedUnit.ShowEx(image.WinLeft + 49, image.WinTop + 78, SurfDesc, FShowInfo);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.ShowEx(image.WinLeft + 49, image.WinTop + 78, SurfDesc, FShowInfo);
         }
     }
 
     // AoWUnitWindow.pas:855
     public void Gnd3MouseDown(TAOWCheckBox Sender, TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
-        if (General.FSelectedUnit != null)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
-            if (!AoWHSMap.FPlayers.GetPlayers(General.FSelectedUnit.FPlayer).GetBusy())
+            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.FPlayer).GetBusy())
             {
                 if (Button == TMouseButton.mbRight)
                 {
@@ -652,16 +644,16 @@ public partial class TUnitWindow : TDataModule
                     }
                     else
                     {
-                        Sender.PopupMenu = AoWItemBannerUnit.ItemBanner.IBannerPopup;
+                        Sender.PopupMenu = Aow.Game.Ui.Dialogs.DialogHosts.ItemBanner.IBannerPopup;
                     }
 
-                    AoWItemBannerUnit.ItemID = Sender.Tag;
+                    Aow.Game.Ui.Dialogs.TItemBanner.ItemID = Sender.Tag;
                 }
                 else
                 {
-                    if (Sender == AoWUnitWindowUnit.SelectedItem)
+                    if (Sender == Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem)
                     {
-                        AoWUnitWindowUnit.SelectedItem.Checked = false;
+                        Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem.Checked = false;
                     }
                 }
             }
@@ -672,10 +664,10 @@ public partial class TUnitWindow : TDataModule
     public void HeadDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == 0)
+        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == 0)
         {
             var checkBox = Sender;
-            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -683,10 +675,10 @@ public partial class TUnitWindow : TDataModule
     public void TorsoDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)1)
+        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)1)
         {
             var checkBox = Sender;
-            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -694,10 +686,10 @@ public partial class TUnitWindow : TDataModule
     public void AttackDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)2)
+        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)2)
         {
             var checkBox = Sender;
-            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -705,10 +697,10 @@ public partial class TUnitWindow : TDataModule
     public void DefendDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)3)
+        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)3)
         {
             var checkBox = Sender;
-            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
@@ -716,33 +708,33 @@ public partial class TUnitWindow : TDataModule
     public void RingLDraw(TAoWComponent Sender, TSurfaceDesc SurfDesc)
     {
         Gnd1Draw(Sender, SurfDesc);
-        if (AoWUnitWindowUnit.SelectedItem != null && Sender != AoWUnitWindowUnit.SelectedItem && FItemType == (TItemType)4)
+        if (Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem != null && Sender != Aow.Game.Ui.Dialogs.TUnitWindow.SelectedItem && FItemType == (TItemType)4)
         {
             var checkBox = Sender;
-            aowIntGfxModUnit.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, IntensityBlendTable.LookupTables[FHighlight]);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.UnitWin[24].ShowBlended(T3Panel.WinLeft + checkBox.WinLeft, T3Panel.WinTop + checkBox.WinTop, SurfDesc, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FHighlight]);
         }
     }
 
     // AoWUnitWindow.pas:921
     public void DisbandBtnClick()
     {
-        var disbandUnit = TranslateRStr(DisbandUnitRStr);
-        var confirm = TranslateRStr(E2GlobalsUnit.ConfirmRStr);
-        DialogWin.Confirm(confirm, disbandUnit, 7);
+        var disbandUnit = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TUnitWindow.DisbandUnitRStr);
+        var confirm = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.LobbyText.ConfirmRStr);
+        Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.Confirm(confirm, disbandUnit, 7);
     }
 
     // AoWUnitWindow.pas:926
     public void T1AbilityLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         TAbility A;
-        if (Button == TMouseButton.mbRight && General.FSelectedUnit != null && T1AbilityLB.Selected != -1)
+        if (Button == TMouseButton.mbRight && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && T1AbilityLB.Selected != -1)
         {
             var objectValue = T1AbilityLB.Items.Objects[T1AbilityLB.Selected];
-            A = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
+            A = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(objectValue));
             if (A != null)
             {
                 var name = A.GetName(null);
-                SetInfoBanner(InfoBanner, name, A.FDescription);
+                Aow.Game.Ui.Dialogs.TInfoBanner.SetInfoBanner(Aow.Game.Ui.Dialogs.DialogHosts.InfoBanner, name, A.FDescription);
             }
         }
     }
@@ -762,24 +754,24 @@ public partial class TUnitWindow : TDataModule
     public void PPrevClick()
     {
         int I;
-        General.PlayButtonSound(0);
-        if (General.FUnitList != null)
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList != null)
         {
-            I = General.IndexOfUnit(General.FSelectedUnit);
-            if (I > -1 && General.FSelectedUnits[0] > -1)
+            I = Aow.Game.Ui.Dialogs.DialogHosts.General.IndexOfUnit(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
+            if (I > -1 && Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[0] > -1)
             {
                 I -= 1;
                 if (I < 0)
                 {
                     I = 7;
-                    while (General.FSelectedUnits[I] == -1)
+                    while (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[I] == -1)
                     {
                         I -= 1;
                     }
                 }
 
-                var unit = General.FUnitList.GetUnit(General.FSelectedUnits[I]);
-                General.FSelectedUnit = unit;
+                var unit = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.GetUnit(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[I]);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
                 ShowUnit();
             }
         }
@@ -789,10 +781,10 @@ public partial class TUnitWindow : TDataModule
     public void PNextClick()
     {
         int I;
-        General.PlayButtonSound(0);
-        if (General.FUnitList != null)
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList != null)
         {
-            I = General.IndexOfUnit(General.FSelectedUnit);
+            I = Aow.Game.Ui.Dialogs.DialogHosts.General.IndexOfUnit(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
             if (I > -1)
             {
                 I += 1;
@@ -801,70 +793,48 @@ public partial class TUnitWindow : TDataModule
                     I = 0;
                 }
 
-                if (General.FSelectedUnits[I] == -1)
+                if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[I] == -1)
                 {
                     I = 0;
                 }
 
-                var unit = General.FUnitList.GetUnit(General.FSelectedUnits[I]);
-                General.FSelectedUnit = unit;
+                var unit = Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList.GetUnit(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[I]);
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit = unit;
                 ShowUnit();
             }
         }
     }
-}
 
-public static partial class AoWUnitWindowUnit
-{
-    public static TUnitWindow UnitWindow;
-    public static TAOWCheckBox SelectedItem;
-    public static readonly string AbilitiesRStr = "Abilities";
-    public static readonly string InfoRStr = "Info";
-    public static readonly string NoneRStr = "None";
-    public static readonly string CreatureRStr = "Creature";
-    public static readonly string MachineRStr = "Machine";
-    public static readonly string UnitRStr = "Unit";
-    public static readonly string LeaderRStr = "Leader";
-    public static readonly string HeroRStr = "Hero";
-    public static readonly string NoLeaderRStr = "Hero has no Leader";
-    public static readonly string LeaderSpheresRStr = "Leaders magic spheres";
-    public static readonly string ItemsRStr = "Items";
-    public static readonly string LevelRStr = "Level";
-    public static readonly string ExpRStr = "Exp";
+    private static readonly string MoraleXRStr = "Morale: %s";
+    private static readonly string UseXRStr = "Use %s";
+    private static global::Aow.Game.Engine.Buffers.FixedArray_string_5 TMoraleRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_5.From(["Terrible", "Poor", "Okay", "Good", "High"]);
+    private static global::Aow.Game.Ui.Controls.TAOWCheckBox SelectedItem;
+    private static readonly string AbilitiesRStr = "Abilities";
+    private static readonly string InfoRStr = "Info";
+    private static readonly string NoneRStr = "None";
+    private static readonly string CreatureRStr = "Creature";
+    private static readonly string MachineRStr = "Machine";
+    private static readonly string UnitRStr = "Unit";
+    private static readonly string LeaderRStr = "Leader";
+    private static readonly string HeroRStr = "Hero";
+    private static readonly string NoLeaderRStr = "Hero has no Leader";
+    private static readonly string LeaderSpheresRStr = "Leaders magic spheres";
+    private static readonly string ItemsRStr = "Items";
+    private static readonly string LevelRStr = "Level";
+    private static readonly string ExpRStr = "Exp";
+    private static readonly string DisbandUnitRStr = "Disband this unit?";
 
-    // AoWUnitWindow.pas:220
-    public static int CompareUnitAbilities(string S1, string S2, object O1, object O2)
+    private static int CompareUnitAbilities(string S1, string S2, object O1, object O2)
     {
-        TAbility A1;
-        TAbility A2;
-        int V1;
-        int V2;
-        A1 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(O1));
-        A2 = AoWHSSet.FAbilityControl.GetAbility(ObjectToInt(O2));
-        if (A1.GetEnabled(General.FSelectedUnit) && A1.GetControlType(General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction))
+        global::Aow.Game.Magic.Abilities.TAbility ability = global::Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O1));
+        global::Aow.Game.Magic.Abilities.TAbility ability2 = global::Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(RtlUnit.ObjectToInt(O2));
+        int num = ((ability.GetEnabled(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) && ability.GetControlType(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(global::Aow.Game.Magic.Abilities.TAbilityControlTypeElement.acAction)) ? 10 : 0);
+        int num2 = ((ability2.GetEnabled(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit) && ability2.GetControlType(global::Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit).Contains(global::Aow.Game.Magic.Abilities.TAbilityControlTypeElement.acAction)) ? 10 : 0);
+        int num3 = num2 - num;
+        if (num3 == 0)
         {
-            V1 = 10;
+            num3 = RtlUnit.CompareStr(S1, S2);
         }
-        else
-        {
-            V1 = 0;
-        }
-
-        if (A2.GetEnabled(General.FSelectedUnit) && A2.GetControlType(General.FSelectedUnit).Contains(TAbilityControlTypeElement.acAction))
-        {
-            V2 = 10;
-        }
-        else
-        {
-            V2 = 0;
-        }
-
-        int Result = V2 - V1;
-        if (Result == 0)
-        {
-            Result = CompareStr(S1, S2);
-        }
-
-        return Result;
+        return num3;
     }
 }

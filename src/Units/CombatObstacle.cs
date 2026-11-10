@@ -6,9 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.Draw
 {
@@ -159,7 +156,7 @@ namespace Aow.Game.World
         }
 
         // CombatObstacle.pas:107
-        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+        public override TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
         // CombatObstacle.pas:104
         public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -177,7 +174,7 @@ namespace Aow.Game.World
                     DestroyShadow();
                 }
 
-                if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowUnitShadows)
                 {
                     FShadow = new TCombatObstacleShadow(null);
                     FShadow.FObstacle = this;
@@ -192,7 +189,7 @@ namespace Aow.Game.World
             {
                 if (GetVisible())
                 {
-                    AoWCombatMap.DynamicVisibleHS.RemoveChild(FShadow);
+                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicVisibleHS.RemoveChild(FShadow);
                 }
 
                 FShadow?.Dispose();
@@ -210,7 +207,7 @@ namespace Aow.Game.World
                     DestroyOverlay();
                 }
 
-                if (AoWHSMap == null || AoWHSMap.FShowUnitShadows)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowUnitShadows)
                 {
                     FOverlay = new TCombatObstacleOverlay(null);
                     FOverlay.FObstacle = this;
@@ -225,7 +222,7 @@ namespace Aow.Game.World
             {
                 if (GetVisible())
                 {
-                    AoWCombatMap.DynamicVisibleHS.RemoveChild(FOverlay);
+                    Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.DynamicVisibleHS.RemoveChild(FOverlay);
                 }
 
                 FOverlay?.Dispose();
@@ -238,7 +235,7 @@ namespace Aow.Game.World
         {
             int X = default;
             int Y = default;
-            HXtoHP(FXhx, FYhx, ref X, ref Y);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf;
             YhpSurf = Y - YhpSurf;
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 40, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
@@ -249,7 +246,7 @@ namespace Aow.Game.World
         {
             int X = default;
             int Y = default;
-            HXtoHP(FXhx, FYhx, ref X, ref Y);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref X, ref Y);
             XhpSurf = X - XhpSurf;
             YhpSurf = Y - YhpSurf;
             FResource.ShowComplexImage(XhpSurf, YhpSurf, SurfaceDesc, 41, (uint)(((TMapField)Owner).Xhx + (((TMapField)Owner).Yhx << 4)));
@@ -269,28 +266,7 @@ namespace Aow.Game.World
         public override int ResourceUserClassID() => 2229546;
 
         // CombatObstacle.pas:242
-        public override string ResourceEditName() => "Combat " + TranslateRStr(ObstacleRStr);
+        public override string ResourceEditName() => "Combat " + Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.ObstacleRStr);
 
-    }
-}
-
-namespace Aow.Game.Draw
-{
-
-    public static partial class CombatObstacleUnit
-    {
-        // CombatObstacle.pas:248
-        public static void RegisterCombatObstacle(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TCombatObstacleResource>(), EClass.Of<TCombatObstacle>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

@@ -1,12 +1,25 @@
 // Translated from AoWMessageDlg.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWMessageDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -122,20 +135,76 @@ public partial class TMessageDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWMessageDlgUnit
-{
-    // AoWMessageDlg.pas:116
-    public static void ShowDemoMessage()
+    internal static void ShowDemoMessage()
     {
-        ResetMessageDialog(MessageDlg);
-        MessageDlg.MessageMemo.Items.Add("");
-        var demoVersionMessage = TranslateRStr(DemoVersionMessageRStr);
-        MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
-        MessageDlg.OKPnl.Visible = true;
-        MessageDlg.Dlg.Visible = true;
+        Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+        var demoVersionMessage = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DemoVersionMessageRStr);
+        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(demoVersionMessage);
+        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
     }
 
-    public static TMessageDlg MessageDlg;
+    internal static void ResetMessageDialog(TMessageDlg Dialog)
+    {
+        Dialog.YesNoPnl.Visible = false;
+        Dialog.YesNoCancelPnl.Visible = false;
+        Dialog.OKPnl.Visible = false;
+        Dialog.OKCancelPnl.Visible = false;
+        Dialog.MessageMemo.Items.Clear();
+        Dialog.MemoPnl.Visible = true;
+        Dialog.HeaderMemoPnl.Visible = false;
+        var message = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MessageRStr);
+        Dialog.TitleLbl.Text = message;
+    }
+
+    internal static void ShowMessageEvent(TMessageDlg Dialog, TMessageEventLog Event, TExecuteDoneEvent Done)
+    {
+        TMessageEventLog Log;
+        Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Dialog);
+        Dialog.FDone = Done;
+        Dialog.FEvent = Event;
+        Dialog.FEvent.AddRef();
+        Log = Dialog.FEvent;
+        Dialog.TitleLbl.Text = Log.FTitle;
+        switch (Log.FLayout)
+        {
+            case TMessageEventLogLayout.melNormal:
+                var text = Log.FMessage.Text;
+                Dialog.MessageMemo.Items.Text = text;
+                if (Dialog.MessageMemo.Items.Text.Length < 80)
+                {
+                    Dialog.MessageMemo.Items.Insert(0, "");
+                }
+
+                break;
+            case TMessageEventLogLayout.melHeader:
+                Dialog.MemoPnl.Visible = false;
+                Dialog.HeaderMemoPnl.Visible = true;
+                Dialog.HeaderLbl.Text = Log.FHeader;
+                var fMessageText = Log.FMessage.Text;
+                Dialog.HeaderMemo.Items.Text = fMessageText;
+                break;
+        }
+
+        switch (Log.FButtons)
+        {
+            case TMessageEventLogButtons.mebOk:
+                Dialog.OKPnl.Visible = true;
+                break;
+            case TMessageEventLogButtons.mebOkCancel:
+                Dialog.OKCancelPnl.Visible = true;
+                break;
+            case TMessageEventLogButtons.mebYesNo:
+                Dialog.YesNoPnl.Visible = true;
+                break;
+            case TMessageEventLogButtons.mebYesNoCancel:
+                Dialog.YesNoCancelPnl.Visible = true;
+                break;
+        }
+
+        Dialog.Dlg.Visible = true;
+    }
+
 }

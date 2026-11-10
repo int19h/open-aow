@@ -4,7 +4,6 @@ using Aow.Game.Draw.Images;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Controls
@@ -908,11 +907,11 @@ namespace Aow.Game.Ui.Windows
                             SrcR = Rect(R.R.Left - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Top - FAOWOwner.FWinTop - FWinTop, R.R.Right - FAOWOwner.FWinLeft - FWinLeft, FTopItem + R.R.Bottom - FAOWOwner.FWinTop - FWinTop);
                             if (FMasked)
                             {
-                                BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
+                                Aow.Game.Draw.TSurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top, FMaskColor);
                             }
                             else
                             {
-                                BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
+                                Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(BackSD, SrcR, SurfDesc, R.R.Left, R.R.Top);
                             }
                         }
                     }
@@ -921,11 +920,11 @@ namespace Aow.Game.Ui.Windows
                         SrcR = Rect(0, FTopItem, FWinWidth, FTopItem + FWinHeight);
                         if (FMasked)
                         {
-                            BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
+                            Aow.Game.Draw.TSurfaceDesc.BltSpriteClipped16(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop, FMaskColor);
                         }
                         else
                         {
-                            BltSDRectClipped(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
+                            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(BackSD, SrcR, SurfDesc, FAOWWindow.FWinLeft + FWinLeft, FAOWWindow.FWinTop + FWinTop);
                         }
                     }
 
@@ -1135,13 +1134,5 @@ namespace Aow.Game.Ui.Windows
             get => EventSlot.Get(this, FOnShow);
             set => EventSlot.Set(this, ref FOnShow, value);
         }
-    }
-}
-
-namespace Aow.Game.Ui.Controls
-{
-
-    public static partial class AoWHTMLMemoUnit
-    {
     }
 }

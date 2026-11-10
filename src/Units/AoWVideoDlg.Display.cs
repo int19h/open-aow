@@ -1,6 +1,5 @@
 #nullable disable
 using Aow.Game.Host;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -11,7 +10,7 @@ public partial class TVideoDialog
         if (!FModeChanged || GameHost.MainForm is not { } form) return;
         bool full = form.Display.Host.Fullscreen;
         if (FFullScreen == TScreenMode.scmWindowed || !full) ChangeResolution(0, 0);
-        else if (FFullScreen == TScreenMode.scmTitle && AoWEngine.FRegistry.GetAllowResolutionSwitches()) ChangeResolution(FSceneWidth, FSceneHeight);
+        else if (FFullScreen == TScreenMode.scmTitle && Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAllowResolutionSwitches()) ChangeResolution(FSceneWidth, FSceneHeight);
         else ChangeResolution(FDisplayWidth, FDisplayHeight);
         FModeChanged = false;
     }

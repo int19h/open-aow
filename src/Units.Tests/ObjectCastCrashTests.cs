@@ -27,7 +27,7 @@ public sealed class ObjectCastCrashTests
 {
     private sealed class MapScope : IDisposable
     {
-        private readonly TAoWHSMap previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        private readonly TAoWHSMap previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
 
         public MapScope()
         {
@@ -38,14 +38,14 @@ public sealed class ObjectCastCrashTests
             container.FMap = Map;
             Map.FMapContainer = container;
             Field = container.GetField(0, 0, 0);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = Map;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = Map;
         }
 
         public TAoWHSMap Map { get; }
 
         public TMapField Field { get; }
 
-        public void Dispose() => Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous;
+        public void Dispose() => Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
     }
 
     private sealed class MasteryUnit : TAbstractUnit
@@ -156,7 +156,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MasterySettersWriteUpkeepSourceAndResistance()
     {
-        var control = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FSpellControl;
+        var control = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl;
         control.RegisterSpell(new TStoneSkin(null!));
         control.RegisterSpell(new TBless(null!));
         try
@@ -233,11 +233,11 @@ public sealed class ObjectCastCrashTests
     public void ShowRelationsSkipsAnImageAndChecksABox()
     {
         using var scope = new MapScope();
-        var previousGeneral = AoWWinManUnit.General;
-        var previousSound = SoundUnit.SoundSystem;
-        SoundUnit.SoundSystem = null;
-        AoWWinManUnit.General = new TGeneral(null!);
-        AoWWinManUnit.General.Manager = new TAOWWinManager(null!);
+        var previousGeneral = Aow.Game.Ui.Dialogs.DialogHosts.General;
+        var previousSound = Aow.Game.Audio.AudioHost.SoundSystem;
+        Aow.Game.Audio.AudioHost.SoundSystem = null;
+        Aow.Game.Ui.Dialogs.DialogHosts.General = new TGeneral(null!);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager = new TAOWWinManager(null!);
         try
         {
             var window = new RecordingRelWindow();
@@ -328,8 +328,8 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            AoWWinManUnit.General = previousGeneral;
-            SoundUnit.SoundSystem = previousSound;
+            Aow.Game.Ui.Dialogs.DialogHosts.General = previousGeneral;
+            Aow.Game.Audio.AudioHost.SoundSystem = previousSound;
         }
     }
 
@@ -373,7 +373,7 @@ public sealed class ObjectCastCrashTests
     public void MasteryGuardianDefaultsNeedNoSummonedSpell()
     {
         // MasterySpellCast and TSummonSpell read these through GetSpell(155), which has no spell.
-        Assert.Null(Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FSpellControl.GetSpell(155));
+        Assert.Null(Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(155));
         var unit = new TUnit(null!);
         unit.FUnitResource = new TUnitResource(null!) { FLevel = 2 };
         Assert.Equal(6, TSummonedAbility.GetDefaultManaUpkeep(unit));
@@ -385,7 +385,7 @@ public sealed class ObjectCastCrashTests
     [Fact]
     public void MovingAPlacedBridgeSkipsTheLevelOverlay()
     {
-        TAoWHSMap previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        TAoWHSMap previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
         try
         {
             var map = new TAoWHSMap(null!);
@@ -394,7 +394,7 @@ public sealed class ObjectCastCrashTests
             level.CreateMapFieldList(2, 1);
             container.FMap = map;
             map.FMapContainer = container;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
             var first = container.GetField(0, 0, 0);
             var second = container.GetField(1, 0, 0);
             var bridge = new TBridge(null!);
@@ -407,7 +407,7 @@ public sealed class ObjectCastCrashTests
         }
         finally
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous;
         }
     }
 }

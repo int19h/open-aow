@@ -2,15 +2,14 @@
 using Aow.Game.Combat;
 using Aow.Game.Draw;
 using Aow.Game.Events;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Net;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from TCFCDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -47,7 +46,7 @@ public partial class TTCFCDialog : TDataModule
     {
         TNotifyEvent<object> Done;
         TCombatTypeRequestEventLog Request;
-        General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         Done = FOnDone;
         Request = FRequest;
         FOnDone = null;
@@ -66,7 +65,7 @@ public partial class TTCFCDialog : TDataModule
     // TCFCDlg.pas:57
     public void CancelBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         FRequest.Select(0);
         Dlg.Visible = false;
     }
@@ -74,7 +73,7 @@ public partial class TTCFCDialog : TDataModule
     // TCFCDlg.pas:64
     public void FightBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -89,11 +88,11 @@ public partial class TTCFCDialog : TDataModule
 
         if (checkBox.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -108,11 +107,11 @@ public partial class TTCFCDialog : TDataModule
 
         if (checkBox.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
     }
 
@@ -128,7 +127,7 @@ public partial class TTCFCDialog : TDataModule
         R = Rect(Dlg.WinLeft + Sender.WinLeft, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth, Dlg.WinTop + Sender.WinTop + Sender.WinHeight);
         W = R.Right - R.Left;
         H = R.Bottom - R.Top;
-        HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(FRequest.FX, FRequest.FY, ref X, ref Y);
         X = X + 16 - (int)(((uint)W) >> 1);
         Y = Y + 16 - (int)(((uint)H) >> 1);
         if (X < 16)
@@ -141,18 +140,18 @@ public partial class TTCFCDialog : TDataModule
             Y = 16;
         }
 
-        CreateSDfromSD(SD, R, ref ViewSD);
-        AoWHSMap.SetViewPort(X, Y, FRequest.FL, R.Right - R.Left, R.Bottom - R.Top);
-        AoWHSMap.UpdateStaticScene();
-        AoWHSMap.UpdateDynamicScene();
-        AoWHSMap.DrawStaticScene(ref ViewSD);
-        AoWHSMap.DrawDynamicScene(ref ViewSD);
+        Aow.Game.Draw.TSurfaceDesc.CreateSDfromSD(SD, R, ref ViewSD);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetViewPort(X, Y, FRequest.FL, R.Right - R.Left, R.Bottom - R.Top);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateStaticScene();
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.UpdateDynamicScene();
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DrawStaticScene(ref ViewSD);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.DrawDynamicScene(ref ViewSD);
     }
 
     // TCFCDlg.pas:113
     public void MapViewUpdate()
     {
-        MapView.FDrawn = MapView.FDrawn && (AoWHSMap.Frame & 1) != 0;
+        MapView.FDrawn = MapView.FDrawn && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame & 1) != 0;
     }
 
     // TCFCDlg.pas:116
@@ -182,8 +181,52 @@ public partial class TTCFCDialog : TDataModule
 
         Dlg.Visible = false;
     }
-}
 
-public static partial class TCFCDlgUnit
-{
+    internal static void ShowCombatType(TTCFCDialog Dialog, TCombatTypeRequestEventLog Event, TExecuteDoneEvent Done)
+    {
+        if (Aow.Game.Ui.Dialogs.DialogHosts.DialogWin.FSkipCombatChoice)
+        {
+            if (Dialog.TCchk.Checked)
+            {
+                Event.Select((TCombatType)2);
+            }
+            else
+            {
+                Event.Select((TCombatType)1);
+            }
+
+            Done(Event);
+        }
+        else
+        {
+            Dialog.FRequest = Event;
+            Dialog.FRequest.AddRef();
+            Dialog.FOnDone = RebindDelegate<TNotifyEvent<object>>(Done);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+            if (Dialog.TCchk.Checked)
+            {
+                Event.Select((TCombatType)2);
+            }
+            else
+            {
+                Event.Select((TCombatType)1);
+            }
+
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Dialog.FRequest.FPlayer).FPlayerType == TPlayerType.ptHuman)
+            {
+                Dialog.CancelBtn.Visible = true;
+                Dialog.FightBtn.Alignment.AlignWidth = TAOWAlignWidth.awLeft;
+            }
+            else
+            {
+                Dialog.CancelBtn.Visible = false;
+                Dialog.FightBtn.Alignment.AlignWidth = TAOWAlignWidth.awCenter;
+            }
+
+            Dialog.Dlg.ReAlign();
+            Dialog.Dlg.Visible = true;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(61, true, true);
+        }
+    }
+
 }

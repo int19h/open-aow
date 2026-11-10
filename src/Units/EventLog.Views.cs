@@ -2,8 +2,6 @@ using Aow.Game.Draw;
 using Aow.Game.Events;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.Session;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Session.E2CampaignSupportUnit;
 
 // What the map events screen shows for each event log kind, and what an AI player does with it.
 // The keys name views, and the map events screen holds the renderer of each key, so this file
@@ -89,7 +87,7 @@ namespace Aow.Game.Events
     public partial class TGameOverEventLog
     {
         // The seated player sees the game over screen, every other player the message.
-        public override EventView View() => AoWHSMap.FSeatedPlayer == FPlayer ? EventView.GameOver : EventView.ReceivedMessage;
+        public override EventView View() => Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == FPlayer ? EventView.GameOver : EventView.ReceivedMessage;
     }
 
     public partial class TShowBookEventLog
@@ -146,11 +144,11 @@ namespace Aow.Game.Events
 
             if (FObject == TNegotiateObject.noArmy)
             {
-                var ArmyHS = (TArmyHS)AoWHSMap.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
+                var ArmyHS = (TArmyHS)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(FX, FY, FL).FindOwnedChild(131607);
                 if (ArmyHS != null)
                 {
                     var joinSelection = ArmyHS.FArmy.GetJoinSelection(FPlayer);
-                    return ArmyHS.FArmy.Hero(joinSelection, AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
+                    return ArmyHS.FArmy.Hero(joinSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? EventView.PartyJoin : EventView.HeroNegotiation;
                 }
             }
 
@@ -198,7 +196,7 @@ namespace Aow.Game.Events
     public partial class TArmyInfoEventLog
     {
         // A selection with a hero shows the hero, any other the army.
-        public override EventView View() => FArmyView.Hero(FSelection, AllHeroTypes) == null ? EventView.ArmyInfo : EventView.HeroInfo;
+        public override EventView View() => FArmyView.Hero(FSelection, Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes) == null ? EventView.ArmyInfo : EventView.HeroInfo;
     }
 
     public partial class TSendEmailGameEventLog
@@ -240,7 +238,7 @@ namespace Aow.Game.Events
         // Prisoners whose first unit is a hero show the hero, any others the party.
         public override EventView View()
         {
-            var UnitObject = AoWHSMap.FUnitControl.FindUnit(FFirstUnitID);
+            var UnitObject = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FFirstUnitID);
             return UnitObject != null && UnitObject is THero ? EventView.PrisonerHero : EventView.PrisonersJoin;
         }
     }

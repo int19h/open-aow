@@ -1,8 +1,5 @@
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -15,12 +12,12 @@ public partial class TMWindow
 {
     private void PressEndTurnShortcut(ushort key, TSet<TShiftState> shift)
     {
-        if (AoWHSMap == null || AoWCombatMap != null)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap == null || Aow.Game.Combat.TAoWCombatMap.AoWCombatMap != null)
         {
             return;
         }
 
-        var keyboard = AoWHSMap.FKeyboard;
+        var keyboard = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FKeyboard;
         if (keyboard.FLockCount != 0 || keyboard.FMode != TAoWHSMapKeyboardMode.kmDefault)
         {
             return;
@@ -31,6 +28,6 @@ public partial class TMWindow
             return;
         }
 
-        TBWindow?.TurnButton?.Press();
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow?.TurnButton?.Press();
     }
 }

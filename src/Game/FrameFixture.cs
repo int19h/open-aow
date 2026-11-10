@@ -14,7 +14,6 @@ using Aow.Game.World.Map;
 using Aow.Platform;
 using Aow.Rtl;
 using Aow.Rtl.Host;
-using GameState = Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow;
 
@@ -111,24 +110,24 @@ internal sealed class FrameFixture
         int lastCombatWorldFrame = 0;
         void ObserveDay()
         {
-            if (GameState.AoWHSMap is not null) titleOrigin = display.Frame;
-            if (GameState.AoWHSMap?.FCombatMap is not null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is not null) titleOrigin = display.Frame;
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FCombatMap is not null)
             {
                 sawCombat = true;
-                lastCombatWorldFrame = GameState.AoWHSMap.Frame;
+                lastCombatWorldFrame = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame;
             }
-            if (GameState.AoWHSMap is { } map && observedDay != map.FDay)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } map && observedDay != map.FDay)
             {
                 observedDay = map.FDay;
                 dayOrigin = map.Frame;
             }
         }
-        int DayFrame() => GameState.AoWHSMap is { } map ? map.Frame - dayOrigin + 1 : -1;
-        int AfterCombatFrame() => sawCombat && GameState.AoWHSMap is { FCombatMap: null } map ? map.Frame - lastCombatWorldFrame : -1;
+        int DayFrame() => Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } map ? map.Frame - dayOrigin + 1 : -1;
+        int AfterCombatFrame() => sawCombat && Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { FCombatMap: null } map ? map.Frame - lastCombatWorldFrame : -1;
         long ScriptFrame(Click click)
         {
             string clock = click.Clock ?? fixture.defaults.GetValueOrDefault("frame_clock", "world");
-            var map = GameState.AoWHSMap;
+            var map = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
             return clock switch
             {
                 "presentation" => display.Frame,
@@ -144,13 +143,13 @@ internal sealed class FrameFixture
         {
             using var form = Aow.Platform.TMainForm.Create(display, argument);
             if (saveDirectory is not null)
-                AoWFileDialogUnit.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
+                Aow.Game.Ui.Dialogs.DialogHosts.FileDlgWindow.FDirectory = Path.Combine(gameRoot, saveDirectory).Replace('/', '\\') + "\\";
             FrameFixtureInputs.TacticalInitialized = () =>
             {
-                if (GameState.AoWHSMap?.FCombatMap is not Aow.Game.Combat.TAoWCombatMap combat) return;
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FCombatMap is not Aow.Game.Combat.TAoWCombatMap combat) return;
                 combat.FPlaySounds = true;
                 combat.SetSeatedCombatPlayer(0);
-                AoWExeFormsUnit.ChatWindow.MinClick();
+                Aow.Game.Ui.Dialogs.DialogHosts.ChatWindow.MinClick();
                 tacticalReady = true;
             };
             bool AtTarget()
@@ -158,17 +157,17 @@ internal sealed class FrameFixture
                 ObserveDay();
                 if (applied != clicks.Count) return false;
                 return afterCombatCapture ? AfterCombatFrame() == frame :
-                combatCapture ? GameState.AoWHSMap?.FCombatMap?.Frame == frame :
-                titleCapture ? GameState.AoWHSMap is null && display.Frame - titleOrigin == frame :
-                dayCapture ? GameState.AoWHSMap?.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && DayFrame() == frame :
+                combatCapture ? Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FCombatMap?.Frame == frame :
+                titleCapture ? Aow.Game.World.Map.TAoWHSMap.AoWHSMap is null && display.Frame - titleOrigin == frame :
+                dayCapture ? Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && DayFrame() == frame :
                 !worldCapture && (scene == "title" || presentationClock) ? display.Frame == frame :
-                tactical ? tacticalReady && GameState.AoWHSMap.FCombatMap.Frame == frame :
-                GameState.AoWHSMap is { } map && map.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
+                tactical ? tacticalReady && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap.Frame == frame :
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } map && map.FDay == int.Parse(fixture.Get("day"), CultureInfo.InvariantCulture) && map.Frame == frame;
             }
             display.CaptureWhen = () =>
             {
                 ObserveDay();
-                pendingSnapshot = snapshots.FirstOrDefault(s => GameState.AoWHSMap?.FDay == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
+                pendingSnapshot = snapshots.FirstOrDefault(s => Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FDay == s.Day && DayFrame() == s.Frame && !capturedSnapshots.Contains(s.Name));
                 display.CaptureName = pendingSnapshot is null ? null : "snapshot-" + pendingSnapshot.Name;
                 if (pendingSnapshot is not null)
                 {
@@ -194,7 +193,7 @@ internal sealed class FrameFixture
                 if (pendingSnapshot is { } snapshot)
                 {
                     diagnostics?.Snapshot(snapshot.Name);
-                    GameState.AoWHSMap.FPlayerControl.AutoSave();
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerControl.AutoSave();
                     File.Copy(Path.Combine(output, "user", "Save", "autosave.asg"), Path.Combine(output, "snapshot-" + snapshot.Name + ".asg"), true);
                     capturedSnapshots.Add(snapshot.Name);
                     pendingSnapshot = null;
@@ -204,10 +203,10 @@ internal sealed class FrameFixture
                     {
                         presentation = display.Frame,
                         applied,
-                        day = GameState.AoWHSMap?.FDay,
-                        map_frame = GameState.AoWHSMap?.Frame,
-                        seat = GameState.AoWHSMap?.FSeatedPlayer,
-                        combat_frame = GameState.AoWHSMap?.FCombatMap?.Frame
+                        day = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FDay,
+                        map_frame = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.Frame,
+                        seat = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FSeatedPlayer,
+                        combat_frame = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FCombatMap?.Frame
                     }) + "\n");
                 if (AtTarget()) { complete = true; form.Display.StopUpdateFrameLoop(); return; }
                 if (applied < clicks.Count)
@@ -221,12 +220,12 @@ internal sealed class FrameFixture
                             foreach (string saved in Directory.EnumerateFiles(Path.Combine(output, "user", saveDirectory)))
                                 if (fileStampUtc is DateTime stamp) File.SetLastWriteTimeUtc(saved, stamp);
                                 else File.SetLastWriteTime(saved, now);
-                        var manager = AoWWinManUnit.General.Manager;
+                        var manager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
                         int inputX = click.X, inputY = click.Y;
                         if (click.Hx is int hx && click.Hy is int hy)
                         {
-                            var mapWindow = AOWMWindowUnit.MWindow;
-                            HSEngineUnit.HXtoHP(hx, hy, ref inputX, ref inputY);
+                            var mapWindow = Aow.Game.Ui.Dialogs.DialogHosts.MWindow;
+                            Aow.Game.World.Map.HexGeometry.HXtoHP(hx, hy, ref inputX, ref inputY);
                             inputX += 28 + mapWindow.MapWindow.WinLeft - mapWindow.MapViewer.SceneX;
                             inputY += 28 + mapWindow.MapWindow.WinTop - mapWindow.MapViewer.SceneY;
                             if (!mapWindow.InsideMap(inputX, inputY)) throw new InvalidOperationException($"Script hex {hx},{hy} is outside the map view at {inputX},{inputY}");
@@ -260,7 +259,7 @@ internal sealed class FrameFixture
                             click.Repeat,
                             click.Clock,
                             click.Day,
-                            selected_combat_unit = AoWWinManUnit.General.FCombatUnit?.FUnit.FID
+                            selected_combat_unit = Aow.Game.Ui.Dialogs.DialogHosts.General.FCombatUnit?.FUnit.FID
                         }));
                         applied++;
                     }
@@ -273,11 +272,11 @@ internal sealed class FrameFixture
             if (!capturedCheckpoints.SetEquals(checkpoints)) throw new InvalidOperationException("Fixture missed an intermediate checkpoint");
             if (!capturedSnapshots.SetEquals(snapshots.Select(s => s.Name))) throw new InvalidOperationException("Fixture missed a state snapshot");
             if (fixture.values.GetValueOrDefault("language_checks") == "true") LocalizationFrameChecks.Run(gameRoot, output, form.Layouts);
-            var taskbar = AoWExeFormsUnit.TBWindow;
-            var controls = AOWControlWinUnit.ControlWin;
+            var taskbar = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow;
+            var controls = Aow.Game.Ui.Dialogs.DialogHosts.ControlWin;
             File.WriteAllText(Path.Combine(output, "controls.json"), JsonSerializer.Serialize(new[] { controls.Unit1Chk.Text, controls.Unit2Chk.Text, controls.MovesLbl.Text }) + "\n");
-            var selected = GameState.AoWHSMap?.FSelectedArmy?.GetArmyHS();
-            if (GameState.AoWHSMap is { } world)
+            var selected = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FSelectedArmy?.GetArmyHS();
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap is { } world)
             {
                 var heroes = new List<object>();
                 for (int i = 0; i < world.FHeroControl.GetCount(); i++)
@@ -327,16 +326,16 @@ internal sealed class FrameFixture
                     }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
                 }
             }
-            if (GameState.AoWHSMap?.FCombatMap is Aow.Game.Combat.TAoWCombatMap combatMap)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FCombatMap is Aow.Game.Combat.TAoWCombatMap combatMap)
             {
-                var viewer = AOWMWindowUnit.MWindow.MapViewer;
+                var viewer = Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer;
                 var units = new List<object>();
                 var data = combatMap.FCombat.FCombatData;
                 for (int i = 0; i < data.GetCount(); i++)
                     if (data.GetObjects(i) is Aow.Game.Combat.TTacticalCombatUnit unit && unit.FUnitHS is { } sprite)
                     {
                         int x = 0, y = 0;
-                        HSEngineUnit.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
+                        Aow.Game.World.Map.HexGeometry.HXtoHP(sprite.GetXhx(), sprite.GetYhx(), ref x, ref y);
                         units.Add(new
                         {
                             unit.FID,
@@ -361,7 +360,7 @@ internal sealed class FrameFixture
             }
             File.WriteAllText(Path.Combine(output, "selection.json"), JsonSerializer.Serialize(new
             {
-                count = GameState.AoWHSMap?.FSelectedArmy?.FMoveSettingsList?.Count,
+                count = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FSelectedArmy?.FMoveSettingsList?.Count,
                 x = selected?.GetXhx(),
                 y = selected?.GetYhx(),
                 level = selected?.GetLhx(),
@@ -369,12 +368,12 @@ internal sealed class FrameFixture
             }) + "\n");
             if (fixture.values.GetValueOrDefault("save_state") == "true")
             {
-                var map = GameState.AoWHSMap ?? throw new InvalidOperationException("State capture requires a map");
+                var map = Aow.Game.World.Map.TAoWHSMap.AoWHSMap ?? throw new InvalidOperationException("State capture requires a map");
                 string saveName = "autosave.asg";
                 if (fixture.values.GetValueOrDefault("save_world") == "true")
                 {
                     saveName = "paths-world.asg";
-                    GameState.AoWEngine.SaveHSM(GameState.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, Aow.Formats.GameProfile.WorldMap);
+                    Aow.Game.Magic.Abilities.GameTables.AoWEngine.SaveHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + "Save\\" + saveName, null!, Aow.Formats.GameProfile.WorldMap);
                 }
                 else map.FPlayerControl.AutoSave();
                 File.Copy(Path.Combine(output, "user", "Save", saveName), Path.Combine(output, "state.asg"), true);
@@ -402,9 +401,9 @@ internal sealed class FrameFixture
                 fixture = name,
                 complete,
                 display_presentations = display.Frame,
-                map_frame = GameState.AoWHSMap?.Frame,
-                day = GameState.AoWHSMap?.FDay,
-                combat_frame = GameState.AoWHSMap?.FCombatMap?.Frame,
+                map_frame = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.Frame,
+                day = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FDay,
+                combat_frame = Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FCombatMap?.Frame,
                 clicks_applied = applied,
                 input_sha256 = input is null ? null : Convert.ToHexStringLower(SHA256.HashData(File.ReadAllBytes(input))),
                 local_time = now,
@@ -419,7 +418,7 @@ internal sealed class FrameFixture
                 checkpoint_frames = checkpoints,
                 snapshots = capturedSnapshots
             }, new JsonSerializerOptions { WriteIndented = true }) + "\n");
-            Console.WriteLine($"fixture {name}: map frame {GameState.AoWHSMap?.Frame}, combat frame {GameState.AoWHSMap?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
+            Console.WriteLine($"fixture {name}: map frame {Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.Frame}, combat frame {Aow.Game.World.Map.TAoWHSMap.AoWHSMap?.FCombatMap?.Frame}, {display.Frame} presentations, {applied} clicks, {size.X}x{size.Y} RGB555LE, no window, silent");
         }
         finally
         {

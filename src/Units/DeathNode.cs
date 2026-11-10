@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -41,23 +40,8 @@ public partial class TDeathNodeResource : TProductionPlaceResource
     // DeathNode.pas:27
 
     // DeathNode.pas:52
-    public override string ResourceEditName() => TranslateRStr(DeathNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TDeathNodeResource.DeathNodeRStr);
 
-}
+    private static readonly string DeathNodeRStr = "Death Node";
 
-public static partial class DeathNodeUnit
-{
-    // DeathNode.pas:61
-    public static void RegisterDeathNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TDeathNode>(), EClass.Of<TDeathNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

@@ -490,7 +490,3 @@ public partial class TAOWToolTip : TAOWGenericWindow
         set => EventSlot.Set(this, ref FOnShow, value);
     }
 }
-
-public static partial class AOWToolTipUnit
-{
-}

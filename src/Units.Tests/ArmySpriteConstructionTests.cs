@@ -53,7 +53,7 @@ public sealed class ArmySpriteConstructionTests
                 }
                 Assert.NotNull(value);
                 actual.Add($"owner{owned}.route{route}", JsonSerializer.Serialize(new { State = state, owner?.Events, Count = owner?.Members.Count, DestroyEntries = destroyEntries }));
-                Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
                 value?.SetOwner(null!);
                 value?.Dispose();
             }
@@ -79,7 +79,7 @@ public sealed class ArmySpriteConstructionTests
         }
         finally
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = EngineFixture.Configure(new TAoWHSMap(null!), value => { value.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying); });
             loaded?.Dispose();
             source.Dispose();
         }

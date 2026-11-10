@@ -6,8 +6,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AOWChatWin.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -34,7 +32,7 @@ public partial class TChatWindow : TDataModule
     // AOWChatWin.pas:47
     public void MinClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         ChatWin.Visible = false;
     }
 
@@ -59,14 +57,14 @@ public partial class TChatWindow : TDataModule
     // AOWChatWin.pas:79
     public void ChatWinShow()
     {
-        General.RegisterDialog(ChatWin);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.RegisterDialog(ChatWin);
         FScrollPending = true;
     }
 
     // AOWChatWin.pas:85
     public void ChatWinHide()
     {
-        General.UnregisterDialog(ChatWin);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.UnregisterDialog(ChatWin);
     }
 
     // AOWChatWin.pas:88
@@ -87,12 +85,12 @@ public partial class TChatWindow : TDataModule
         if (DrawItem != 0)
         {
             var objectValue = PlayerList.Items.Objects[DrawItem];
-            Player = (sbyte)AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
+            Player = (sbyte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.PCC.IndexOfSystemID(ObjectToInt(objectValue));
             // { Original leaves player zero without a race color. }
-            if (Player > 0 && Player < AoWHSMap.FPlayers.Count)
+            if (Player > 0 && Player < Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count)
             {
-                var player = AoWHSMap.FPlayers.GetPlayers(Player);
-                PlayerList.TextColor = RaceColors[player.FPlayerRace];
+                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+                PlayerList.TextColor = Aow.Game.Magic.Abilities.AbilityRules.RaceColors[player.FPlayerRace];
             }
         }
         else
@@ -100,8 +98,4 @@ public partial class TChatWindow : TDataModule
             PlayerList.TextColor = 9415072;
         }
     }
-}
-
-public static partial class AOWChatWinUnit
-{
 }

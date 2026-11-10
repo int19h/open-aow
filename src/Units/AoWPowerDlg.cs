@@ -8,9 +8,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWPowerDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -53,7 +50,7 @@ public partial class TPowerDlg : TDataModule
     {
         TPlayerMagicControl Control;
         Dlg.Visible = true;
-        Control = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl;
+        Control = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl;
         PowerSlider.Position = Control.FResearchPercentage;
         var netPower = Control.GetNetPower();
         Power.Text = IntToStr(netPower);
@@ -69,23 +66,23 @@ public partial class TPowerDlg : TDataModule
         int PointsLeft;
         int ManaPower;
         int ResearchPower;
-        ManaPower = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.GetNetPower();
-        PointsLeft = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
-        Upkeep = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.GetManaUpkeep();
-        SpellID = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID;
+        ManaPower = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.GetNetPower();
+        PointsLeft = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.FResearchPointsLeft;
+        Upkeep = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.GetManaUpkeep();
+        SpellID = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.FResearchSpellID;
         ResearchPower = Round((double)(PowerSlider.Position * ManaPower) / 100);
         ManaPower -= ResearchPower;
         if (SpellID != 0)
         {
-            Turns = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
-            var spell = AoWHSSet.FSpellControl.GetSpell(SpellID);
+            Turns = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.ResearchTurns(ResearchPower, PointsLeft);
+            var spell = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(SpellID);
             SpellName.Text = spell.FSpellName;
-            var fmtTurnsStr = FmtTurnsStr(Turns);
+            var fmtTurnsStr = Aow.Game.Ui.Dialogs.TPowerDlg.FmtTurnsStr(Turns);
             ResearchLeft.Text = fmtTurnsStr;
         }
         else
         {
-            var none = TranslateRStr(NoneRStr);
+            var none = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NoneRStr);
             SpellName.Text = none;
             ResearchLeft.Text = "-";
         }
@@ -99,7 +96,7 @@ public partial class TPowerDlg : TDataModule
     // AoWPowerDlg.pas:61
     public void CancelBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -112,8 +109,8 @@ public partial class TPowerDlg : TDataModule
     // AoWPowerDlg.pas:108
     public void SetBtnClick()
     {
-        General.PlayButtonSound(0);
-        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FMagicControl.ChangePowerSettings(PowerSlider.Position))
         {
             Dlg.Visible = false;
         }
@@ -128,7 +125,7 @@ public partial class TPowerDlg : TDataModule
         X = Sender.AOWWindow.WinLeft;
         Y = Sender.AOWWindow.WinTop;
         Intensity = Round((double)((100 - PowerSlider.Position) * 50) / 100);
-        aowIntGfxModUnit.IntGfxMod.MiscArt[7].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.MiscArt[7].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Intensity]);
     }
 
     // AoWPowerDlg.pas:128
@@ -140,7 +137,7 @@ public partial class TPowerDlg : TDataModule
         X = Sender.AOWWindow.WinLeft;
         Y = Sender.AOWWindow.WinTop;
         Intensity = Round((double)(PowerSlider.Position * 50) / 100);
-        aowIntGfxModUnit.IntGfxMod.MiscArt[8].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, IntensityBlendTable.LookupTables[Intensity]);
+        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.MiscArt[8].ShowBlended(Sender.WinLeft + X, Sender.WinTop + Y, SD, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[Intensity]);
     }
 
     // AoWPowerDlg.pas:141
@@ -151,8 +148,19 @@ public partial class TPowerDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
 
-public static partial class AoWPowerDlgUnit
-{
+    private static readonly string XTurnRStr = "%s turn";
+
+    private static string FmtTurnsStr(int Turns)
+    {
+        if (Turns == 1)
+        {
+            string s = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(XTurnRStr);
+            FormatArg val = (FormatArg)((byte)49);
+            return global::Aow.Game.Magic.Abilities.AbilityRules.Format(s, new global::System.ReadOnlySpan<FormatArg>(ref val));
+        }
+        string s2 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.XTurnsRStr);
+        FormatArg val2 = (FormatArg)(RtlUnit.IntToStr(Turns));
+        return global::Aow.Game.Magic.Abilities.AbilityRules.Format(s2, new global::System.ReadOnlySpan<FormatArg>(ref val2));
+    }
 }

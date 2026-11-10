@@ -1,8 +1,6 @@
 using Aow.Game.Draw.Images;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
-using EngineText = Aow.Game.Engine.Nodes.EngineUnit;
-using Images = Aow.Game.Draw.Images.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
@@ -10,9 +8,9 @@ public sealed class StringBufferTests
 {
     private static void Read(int shape, ref string text, Stream stream)
     {
-        if (shape == 0) EngineText.StringFromStream(ref text, stream);
-        else if (shape == 1) EngineText.LoadStringFromStream(ref text, stream);
-        else Images.ReadStringFromStream(ref text, stream);
+        if (shape == 0) Aow.Game.Engine.TAoWEngine.StringFromStream(ref text, stream);
+        else if (shape == 1) Aow.Game.Engine.Storage.TEReadStorageStream.LoadStringFromStream(ref text, stream);
+        else Aow.Game.Draw.Images.LibraryDrawing.ReadStringFromStream(ref text, stream);
     }
 
     private static MemoryStream Input(int shape, int length, ReadOnlySpan<byte> bytes)
@@ -101,13 +99,13 @@ public sealed class StringBufferTests
         source.AddObject("\u20AC\u00FF", Runtime.IntToObject(17));
         source.AddObject("tail\0ignored", Runtime.IntToObject(-23));
         using var stream = new MemoryStream();
-        if (extended) EngineText.StringsToStreamEx(source, stream);
-        else EngineText.StringsToStream(source, stream);
+        if (extended) Aow.Game.Engine.Storage.TEWriteStorageStream.StringsToStreamEx(source, stream);
+        else Aow.Game.Engine.Storage.TEWriteStorageStream.StringsToStream(source, stream);
         Assert.Equal(new byte[] { 8, 0, 0, 0, 0x80, 0xFF, 13, 10, 116, 97, 105, 108 }, stream.GetBuffer()[..12]);
         stream.Position = 0;
         var result = new TStringList();
-        if (extended) EngineText.StringsFromStreamEx(result, stream);
-        else EngineText.StringsFromStream(result, stream);
+        if (extended) Aow.Game.Engine.Storage.TEReadStorageStream.StringsFromStreamEx(result, stream);
+        else Aow.Game.Engine.Storage.TEReadStorageStream.StringsFromStream(result, stream);
         Assert.Equal(2, result.Count);
         Assert.Equal("\u20AC\u00FF", result[0]);
         Assert.Equal("tail", result[1]);

@@ -1,4 +1,5 @@
 using Aow.Game.Draw;
+using Aow.Graphics;
 using Aow.Rtl;
 
 namespace Aow.Game.Draw.Images;
@@ -57,10 +58,10 @@ public sealed class LibraryImageClass
         }
 
         Progress(10, "Analyzing Image..");
-        ImageClass = ImageLibUnit.FindLibraryImageClass(ClassID);
+        ImageClass = Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(ClassID);
         if (GrabInfo.FindRectangles)
         {
-            Rects = Aow.Game.Draw.GFXEUnit.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
+            Rects = Aow.Game.Draw.Images.LibraryImageClass.GetSurfaceRectangles(SD, GrabInfo.TransparentColor, null);
         }
         else
         {
@@ -98,11 +99,108 @@ public sealed class LibraryImageClass
         }
         else
         {
-            Result = Aow.Game.Draw.GFXEUnit.GFXE_ERROR;
+            Result = Aow.Game.Draw.PixelFormats.GFXE_ERROR;
         }
 
         Rects?.Dispose();
         return Result;
+    }
+
+    internal static global::Aow.Game.Draw.TRectangleList GetSurfaceRectangles(global::Aow.Game.Draw.TSurfaceDesc SD, int TransparentColor, global::Aow.Game.Draw.TProgressEvent OnProgress)
+    {
+        global::Aow.Game.Draw.TRectangleList tRectangleList = new global::Aow.Game.Draw.TRectangleList();
+        int i = 0;
+        for (int num = SD.Height - 1; i <= num; i++)
+        {
+            ushort num2 = (ushort)i;
+            int j = 0;
+            for (int num3 = SD.Width - 1; j <= num3; j++)
+            {
+                ushort x = (ushort)j;
+                if (GetPixel(x, num2) == TransparentColor)
+                {
+                    global::Aow.Game.Draw.TRectangle tRectangle = FindRectangle(x, num2);
+                    if (tRectangle != null)
+                    {
+                        ((TList)tRectangleList).Add((object)tRectangle);
+                    }
+                }
+            }
+            if (OnProgress != null && (num2 % 20 == 0 || num2 == SD.Height - 1))
+            {
+                OnProgress(null, RtlUnit.Round((double)(num2 * 100) / (double)(SD.Height - 1)), 0);
+            }
+        }
+        if (((TList)tRectangleList).Count == 0)
+        {
+            if (tRectangleList != null)
+            {
+                ((TList)tRectangleList).Dispose();
+            }
+            return null;
+        }
+        return tRectangleList;
+        global::Aow.Game.Draw.TRectangle FindRectangle(int X, int Y)
+        {
+            global::Aow.Game.Draw.TRectangle result = null;
+            int k = 1;
+            int l = 1;
+            for (; GetPixel(X + k, Y) == TransparentColor && GetPixel(X + k, Y + 1) != TransparentColor && X + k < SD.Width - 1; k++)
+            {
+            }
+            if (GetPixel(X + k, Y) == TransparentColor && GetPixel(X + k, Y + 1) == TransparentColor && X + k < SD.Width - 1 && k > 1)
+            {
+                for (; GetPixel(X, Y + l) == TransparentColor && GetPixel(X + k, Y + l) == TransparentColor && GetPixel(X + 1, Y + l) != TransparentColor && GetPixel(X + k - 1, Y + l) != TransparentColor && Y + l < SD.Height; l++)
+                {
+                }
+                if (GetPixel(X, Y + l) == TransparentColor && GetPixel(X + 1, Y + l) == TransparentColor && GetPixel(X + k, Y + l) == TransparentColor && GetPixel(X + k - 1, Y + l) == TransparentColor && Y + l < SD.Height && l > 1)
+                {
+                    bool flag = true;
+                    int num4 = 1;
+                    while (flag && num4 != k)
+                    {
+                        flag = GetPixel(X + num4, Y + l) == TransparentColor;
+                        num4++;
+                    }
+                    if (flag)
+                    {
+                        result = new global::Aow.Game.Draw.TRectangle(X + 1, Y + 1, X + k, Y + l);
+                    }
+                }
+            }
+            return result;
+        }
+        int GetPixel(int X, int Y)
+        {
+            SurfaceView val;
+            switch (SD.BitCount)
+            {
+                case 8:
+                    val = SD.View();
+                    return val.Byte(X + SD.Pitch * Y);
+                case 16:
+                    val = SD.View();
+                    return val.Word(X + X + SD.Pitch * Y);
+                case 24:
+                    {
+                        if (X + 1 < SD.Width)
+                        {
+                            val = SD.View();
+                            return (int)(val.Dword(X + X + X + SD.Pitch * Y) & 0xFFFFFF);
+                        }
+                        int num4 = X + X + X + SD.Pitch * Y;
+                        val = SD.View();
+                        ushort num5 = val.Word(num4);
+                        val = SD.View();
+                        return num5 + (val.Byte(num4 + 2) << 16);
+                    }
+                case 32:
+                    val = SD.View();
+                    return (int)val.Dword((X << 2) + SD.Pitch * Y);
+                default:
+                    throw new NotSupportedException("PixelFormat is not supported");
+            }
+        }
     }
 }
 

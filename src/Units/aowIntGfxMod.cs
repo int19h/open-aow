@@ -56,8 +56,3 @@ public partial class TIntGfxMod : TDataModule
     public TImageLibrary ScanObj;
     public TInterfaceIL PlyrIcns;
 }
-
-public static partial class aowIntGfxModUnit
-{
-    public static TIntGfxMod IntGfxMod;
-}

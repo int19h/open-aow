@@ -23,14 +23,3 @@ public partial class TLicenseForm : TForm
         throw new NotImplementedException();
     }
 }
-
-public static partial class LicenseFUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

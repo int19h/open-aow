@@ -9,7 +9,6 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Grids
@@ -261,37 +260,5 @@ namespace Aow.Game.Ui.Grids.ItemCtrl
         public byte Kind;
         public FixedArray_byte_15 Reserved35;
         public bool Hidden;
-    }
-}
-
-namespace Aow.Game.Ui.Grids
-{
-
-    public static partial class ItemCtrlUnit
-    {
-        public static readonly string GridUsedRStr = "Used";
-
-        // ItemCtrl.pas:112
-        public static int ItemControlCompareName(int A, int B)
-        {
-            var itemControl = AoWHSMap.FItemControl.GetItem(B);
-            return CompareText(AoWHSMap.FItemControl.GetItem(A).FOwnerName, itemControl.FOwnerName);
-        }
-
-        // ItemCtrl.pas:117
-        public static int ItemControlCompareType(int A, int B)
-        {
-            var itemControl = AoWHSMap.FItemControl.GetItem(A);
-            var itemControlItemType = AoWHSMap.FItemControl.GetItem(B);
-            return itemControl.FItemType - itemControlItemType.FItemType;
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

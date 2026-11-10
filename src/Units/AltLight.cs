@@ -3,7 +3,6 @@ using Aow.Game.Draw.Animation;
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -37,23 +36,8 @@ public partial class TAltarOfLightningResource : TAltarResource
     // AltLight.pas:26
 
     // AltLight.pas:49
-    public override string ResourceEditName() => TranslateRStr(AltarOfLightningRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TAltarOfLightningResource.AltarOfLightningRStr);
 
-}
+    private static readonly string AltarOfLightningRStr = "Altar of Lightning";
 
-public static partial class AltLightUnit
-{
-    // AltLight.pas:58
-    public static void RegisterAltarOfLightning(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAltarOfLightning>(), EClass.Of<TAltarOfLightningResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

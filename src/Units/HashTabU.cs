@@ -425,7 +425,3 @@ public partial class TStringHashTable256 : TStringHashTable
     }
 
 }
-
-public static partial class HashTabUUnit
-{
-}

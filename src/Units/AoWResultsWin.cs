@@ -10,15 +10,6 @@ using Aow.Game.World.Map;
 using Aow.Rtl;
 // Translated from AoWResultsWin.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Audio.SoundUnit;
-using static Aow.Game.Draw.Images.ImageLibUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Session.E1GameFlowUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
-using static Aow.Game.Ui.Dialogs.AOWPyreScrnUnit;
-using static Aow.Game.Ui.Dialogs.AoWVideoDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -94,7 +85,7 @@ public partial class TResultsWin : TDataModule
         for (int I = 0, last = FPlayers.Count - 1; I <= last; I++)
         {
             var player = FPlayers[I];
-            Stats = AoWHSMap.FPlayers.GetPlayers(player).FStatistics;
+            Stats = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).FStatistics;
             var count = Stats.FTurnInfo.GetCount();
             if (FMaxTurns < count)
             {
@@ -141,7 +132,7 @@ public partial class TResultsWin : TDataModule
             }
         }
 
-        var turn = TranslateRStr(TurnRStr);
+        var turn = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TResultsWin.TurnRStr);
         TurnLbl.Text = turn + " " + IntToStr(FMaxTurns);
     }
 
@@ -223,7 +214,7 @@ public partial class TResultsWin : TDataModule
                 // { Original advances from the rounded previous x coordinate. }
                 X2 = Round((double)X1 + XStep);
                 Y2 = Round((double)NextY * YStep);
-                DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                Aow.Game.Ui.Dialogs.TResultsWin.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
                 LastY = NextY;
             }
 
@@ -236,7 +227,7 @@ public partial class TResultsWin : TDataModule
                 // { Original repeats the rounding and discards its result. }
                 Round((double)LastY * YStep);
                 Y2 = NextY;
-                DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
+                Aow.Game.Ui.Dialogs.TResultsWin.DrawImageLine(Image, X1 + R.Left, R.Bottom - Y1, R.Left + X2, R.Bottom - Y2, 1, Surface);
             }
         }
     }
@@ -247,14 +238,14 @@ public partial class TResultsWin : TDataModule
         TIntegerList Values;
         TTurnInfo Info;
         Values = new TIntegerList();
-        Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FGold);
         }
 
-        var player = AoWHSMap.FPlayers.GetPlayers(Player);
-        DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxGold, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxGold);
     }
@@ -265,14 +256,14 @@ public partial class TResultsWin : TDataModule
         TIntegerList Values;
         TTurnInfo Info;
         Values = new TIntegerList();
-        Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FMana);
         }
 
-        var player = AoWHSMap.FPlayers.GetPlayers(Player);
-        DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxMana, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxMana);
     }
@@ -283,14 +274,14 @@ public partial class TResultsWin : TDataModule
         TIntegerList Values;
         TTurnInfo Info;
         Values = new TIntegerList();
-        Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FHeroes);
         }
 
-        var player = AoWHSMap.FPlayers.GetPlayers(Player);
-        DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxHeroes, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxHeroes);
     }
@@ -301,14 +292,14 @@ public partial class TResultsWin : TDataModule
         TIntegerList Values;
         TTurnInfo Info;
         Values = new TIntegerList();
-        Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FArmyStrength);
         }
 
-        var player = AoWHSMap.FPlayers.GetPlayers(Player);
-        DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxArmies, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxArmies);
     }
@@ -319,14 +310,14 @@ public partial class TResultsWin : TDataModule
         TIntegerList Values;
         TTurnInfo Info;
         Values = new TIntegerList();
-        Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).FStructures);
         }
 
-        var player = AoWHSMap.FPlayers.GetPlayers(Player);
-        DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStructures, R, Surface);
         Values?.Dispose();
         KeyMax.Text = IntToStr(FMaxStructures);
     }
@@ -337,14 +328,14 @@ public partial class TResultsWin : TDataModule
         TIntegerList Values;
         TTurnInfo Info;
         Values = new TIntegerList();
-        Info = AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
+        Info = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FStatistics.FTurnInfo;
         for (int I = 0, last = Info.GetCount() - 1; I <= last; I++)
         {
             Values.Add(Info.GetTurnInfo(I).GetSuperiority());
         }
 
-        var player = AoWHSMap.FPlayers.GetPlayers(Player);
-        DrawGraph(IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        DrawGraph(Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.EndScene[player.FPlayerRace + 13], Values, FMaxTurns, FMaxStrength, R, Surface);
         Values?.Dispose();
         // { Original strength graph labels the structures maximum. }
         KeyMax.Text = IntToStr(FMaxStructures);
@@ -379,26 +370,26 @@ public partial class TResultsWin : TDataModule
     // AoWResultsWin.pas:294
     public void ContinueBtnClick()
     {
-        FinishPyre(PyreScreen);
-        General.PlayButtonSound(0);
-        AoWResultsWinUnit.ResultsWin.ResultsPnl.Visible = false;
-        FadeMusicVolume(SoundDlg.MusicVolume.Position, 2);
-        if (AoWHSMap.FGameStatus == TGameStatus.gsTerminated)
+        Aow.Game.Ui.Dialogs.TResultsWin.FinishPyre(Aow.Game.Ui.Dialogs.DialogHosts.PyreScreen);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.ResultsWin.ResultsPnl.Visible = false;
+        Aow.Game.Audio.AudioPlayback.FadeMusicVolume(Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.MusicVolume.Position, 2);
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameStatus == TGameStatus.gsTerminated)
         {
-            if (AoWEngine.FCampaign == null)
+            if (Aow.Game.Magic.Abilities.GameTables.AoWEngine.FCampaign == null)
             {
-                General.ReturnToTitle();
+                Aow.Game.Ui.Dialogs.DialogHosts.General.ReturnToTitle();
             }
             else
             {
-                ShowCampaignMap(AoWWorldMapUnit.WorldMap);
+                Aow.Game.Ui.Dialogs.TWorldMap.ShowCampaignMap(Aow.Game.Ui.Dialogs.DialogHosts.WorldMap);
             }
         }
         else
         {
-            E2GlobalsUnit.TitleWindow.TitleWin.Visible = false;
-            SetVideoMode(VideoDialog, TScreenMode.scmGame);
-            VideoDialog.ApplyMode();
+            Aow.Game.Ui.Dialogs.DialogHosts.TitleWindow.TitleWin.Visible = false;
+            Aow.Game.Ui.Dialogs.TVideoDialog.SetVideoMode(Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog, TScreenMode.scmGame);
+            Aow.Game.Ui.Dialogs.DialogHosts.VideoDialog.ApplyMode();
         }
     }
 
@@ -406,13 +397,13 @@ public partial class TResultsWin : TDataModule
     public void ExitBtnClick()
     {
         ResultsPnl.Visible = false;
-        General.ReturnToTitle();
+        Aow.Game.Ui.Dialogs.DialogHosts.General.ReturnToTitle();
     }
 
     // AoWResultsWin.pas:319
     public void ResultsPnlUpdate()
     {
-        PyreScreen.DeadPnlUpdate();
+        Aow.Game.Ui.Dialogs.DialogHosts.PyreScreen.DeadPnlUpdate();
     }
 
     // AoWResultsWin.pas:324
@@ -442,15 +433,15 @@ public partial class TResultsWin : TDataModule
         {
             R = Rect(component.WinLeft + ResultsPnl.WinLeft + 1, component.WinTop + ResultsPnl.WinTop + 1, component.WinLeft + component.WinWidth + ResultsPnl.WinLeft - 1, component.WinTop + component.WinHeight + ResultsPnl.WinTop - 1);
             var player = FPlayers[Slot];
-            if (AoWHSMap.FPlayers.GetPlayers(player).GetFace() != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).GetFace() != null)
             {
                 var player2 = FPlayers[Slot];
-                AoWHSMap.FPlayers.GetPlayers(player2).FLeader.ShowFace(R, Surface);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player2).FLeader.ShowFace(R, Surface);
             }
 
             var player3 = FPlayers[Slot];
-            var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(player3);
-            IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
+            var playerPlayerRace = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player3);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[playerPlayerRace.FPlayerRace + 16].ShowClipped(component.WinLeft + ResultsPnl.WinLeft, component.WinTop + ResultsPnl.WinTop, Surface);
         }
     }
 
@@ -464,7 +455,7 @@ public partial class TResultsWin : TDataModule
             if (FPlayers.Count > Slot)
             {
                 var player = FPlayers[Slot];
-                var nameEx = AoWHSMap.FPlayers.GetPlayers(player).GetNameEx();
+                var nameEx = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).GetNameEx();
                 SideLbl.Text = nameEx;
             }
 
@@ -475,55 +466,180 @@ public partial class TResultsWin : TDataModule
             ResValues.Items.Add("0%");
         }
     }
-}
 
-public static partial class AoWResultsWinUnit
-{
-    public static TResultsWin ResultsWin;
+    private static readonly string TurnRStr = "Turn";
 
-    // AoWResultsWin.pas:368
-    public static void ShowResults(TResultsWin Window)
+    private static void FinishPyre(global::Aow.Game.Ui.Dialogs.TPyreScreen Dialog)
     {
-        if (AoWEngine.FDemo)
+        global::Aow.Game.Audio.AudioPlayback.SetSFXVolume(global::Aow.Game.Ui.Dialogs.DialogHosts.SoundDlg.SFXVolume.Position);
+        Dialog.ClearFire();
+        if (Dialog.FSavedSongStatus != null)
         {
-            PlaySongEx("Songs\\Special\\end2.s3m", 2, 2, true);
+            global::Aow.Game.Audio.TSongStatus.RestoreSongStatus(Dialog.FSavedSongStatus);
+            Dialog.FSavedSongStatus = null;
+        }
+        Dialog.FGameOverEvent.Handled();
+        global::Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+        global::Aow.Game.Events.TExecuteDoneEvent fDone = Dialog.FDone;
+        global::Aow.Game.Events.TGameOverEventLog fGameOverEvent = Dialog.FGameOverEvent;
+        Dialog.FDone = null;
+        Dialog.FGameOverEvent = null;
+        fDone?.Invoke(fGameOverEvent);
+        fGameOverEvent?.Release();
+    }
+
+    private static void DrawImageLine(global::Aow.Game.Draw.Images.TLibraryImage Image, int X1, int Y1, int X2, int Y2, int Spacing, in global::Aow.Game.Draw.TSurfaceDesc SD)
+    {
+        int num = 0;
+        int i;
+        int j;
+        if (X1 > X2)
+        {
+            i = X2;
+            X2 = X1;
+            X1 = i;
+            j = Y2;
+            Y2 = Y1;
+            Y1 = j;
         }
         else
         {
-            PlaySongEx("Songs\\Special\\Sunset.it", 2, 2, true);
+            i = X1;
+            j = Y1;
         }
-
-        SetMusicVolume(0);
-        FadeMusicVolume(SoundDlg.MusicVolume.Position, 1);
-        Window.FPlayers.Clear();
-        for (int I = 1, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+        int num2;
+        int num3;
+        int num4;
+        int num7;
+        int num6;
+        if (Y1 <= Y2)
         {
-            if (AoWHSMap.FPlayers.GetPlayers(I).FPlayerType != TPlayerType.ptIndependent)
+            num2 = X2 - X1;
+            num3 = Y2 - Y1;
+            if (num3 >= num2)
             {
-                Window.FPlayers.Add((byte)I);
+                num4 = (num2 - num3) * 2;
+                int num5 = num2 * 2;
+                num6 = num5 - num3;
+                for (; j != Y2; j++)
+                {
+                    if (num == 0)
+                    {
+                        Image.Show(i, j, in SD);
+                        num = Spacing;
+                    }
+                    else
+                    {
+                        num--;
+                    }
+                    if (num6 >= 0)
+                    {
+                        num6 += num4;
+                        i++;
+                    }
+                    else
+                    {
+                        num6 += num5;
+                    }
+                }
+                if (num == 0)
+                {
+                    Image.Show(i, j, in SD);
+                }
+                return;
+            }
+            num4 = (num3 - num2) * 2;
+            num7 = num3 * 2;
+            num6 = num7 - num2;
+            for (; i != X2; i++)
+            {
+                if (num == 0)
+                {
+                    Image.Show(i, j, in SD);
+                    num = Spacing;
+                }
+                else
+                {
+                    num--;
+                }
+                if (num6 >= 0)
+                {
+                    num6 += num4;
+                    j++;
+                }
+                else
+                {
+                    num6 += num7;
+                }
+            }
+            if (num == 0)
+            {
+                Image.Show(i, j, in SD);
+            }
+            return;
+        }
+        num2 = X2 - X1;
+        num3 = Y1 - Y2;
+        if (num3 >= num2)
+        {
+            num4 = (num2 - num3) * 2;
+            int num5 = num2 * 2;
+            num6 = num5 - num3;
+            while (j != Y2)
+            {
+                if (num == 0)
+                {
+                    Image.Show(i, j, in SD);
+                    num = Spacing;
+                }
+                else
+                {
+                    num--;
+                }
+                if (num6 >= 0)
+                {
+                    num6 += num4;
+                    i++;
+                }
+                else
+                {
+                    num6 += num5;
+                }
+                j--;
+            }
+            if (num == 0)
+            {
+                Image.Show(i, j, in SD);
+            }
+            return;
+        }
+        num4 = (num3 - num2) * 2;
+        num7 = num3 * 2;
+        num6 = num7 - num2;
+        for (; i != X2; i++)
+        {
+            if (num == 0)
+            {
+                Image.Show(i, j, in SD);
+                num = Spacing;
+            }
+            else
+            {
+                num--;
+            }
+            if (num6 >= 0)
+            {
+                num6 += num4;
+                j--;
+            }
+            else
+            {
+                num6 += num7;
             }
         }
-
-        for (int I = 0; I <= 11; I++)
+        if (num == 0)
         {
-            ((TAoWComponent)Window.FControls[I]).Visible = I < Window.FPlayers.Count;
-            bool condition = I < Window.FPlayers.Count && Window.FPlayers[I] == AoWHSMap.FSeatedPlayer;
-            ((TAOWCheckBox)Window.FControls[I]).Checked = condition;
+            Image.Show(i, j, in SD);
         }
-
-        if (AoWEngine.FCampaign != null && AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FGameOverStatus == TGameOverStatus.goLost)
-        {
-            var replay = TranslateRStr(ReplayRStr);
-            Window.ContinueBtn.Text = replay;
-            Window.ExitBtn.Visible = true;
-        }
-        else
-        {
-            var continueText = TranslateRStr(ContinueRStr);
-            Window.ContinueBtn.Text = continueText;
-            Window.ExitBtn.Visible = false;
-        }
-
-        ResultsWin.ResultsPnl.Visible = true;
     }
 }

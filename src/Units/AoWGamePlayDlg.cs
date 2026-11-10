@@ -8,9 +8,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWGamePlayDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -92,9 +89,9 @@ public partial class TGamePlayDlg : TDataModule
             {
                 FNewPassword = ((TPasswordEventLog)Log).FPassword;
                 Password = new TPasswordEventLog(null);
-                Password.FTitle = TranslateRStr(PasswordConfirmationRStr);
-                Password.FPrompt = TranslateRStr(ReenterNewPasswordRStr);
-                AoWHSMap.TriggerExecuteEventLog(Password, true, PasswordConfirmed);
+                Password.FTitle = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TGamePlayDlg.PasswordConfirmationRStr);
+                Password.FPrompt = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TGamePlayDlg.ReenterNewPasswordRStr);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Password, true, PasswordConfirmed);
                 Password.Release();
             }
             else
@@ -109,17 +106,17 @@ public partial class TGamePlayDlg : TDataModule
     {
         if (((TPasswordEventLog)Log).FPassword == FNewPassword)
         {
-            var encode = Encode(FNewPassword, 0);
+            var encode = Aow.Game.Magic.Abilities.AbilityRules.Encode(FNewPassword, 0);
             PasswordEdit.Text = encode;
         }
         else
         {
-            ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
-            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
-            var confirmationFailed = TranslateRStr(ConfirmationFailedRStr);
-            AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(confirmationFailed);
-            AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
-            AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
+            Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+            var confirmationFailed = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TGamePlayDlg.ConfirmationFailedRStr);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(confirmationFailed);
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
+            Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
         }
     }
 
@@ -139,24 +136,24 @@ public partial class TGamePlayDlg : TDataModule
     {
         TCombatResolveMode Mode;
         TSet<TWindowPopupEvent> Events;
-        var autoSave = AoWEngine.FRegistry.GetAutoSave();
+        var autoSave = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetAutoSave();
         AutoSaveCB.Checked = autoSave;
-        var skipIntro = AoWEngine.FRegistry.GetSkipIntro();
+        var skipIntro = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSkipIntro();
         SkipIntroCB.Checked = skipIntro;
-        var movementSpeed = AoWEngine.FRegistry.GetMovementSpeed();
+        var movementSpeed = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetMovementSpeed();
         MovementSpeedCB.Selected = (int)movementSpeed;
         CombatResolveModeCB.Items.Clear();
         for (int modeOrdinal = (int)(TCombatResolveMode)0; modeOrdinal <= (int)(TCombatResolveMode)2; modeOrdinal++)
         {
             Mode = (TCombatResolveMode)modeOrdinal;
-            var combatResolveMode = TranslateRStr(TCombatResolveModeRStr[(int)Mode]);
+            var combatResolveMode = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TGamePlayDlg.TCombatResolveModeRStr[(int)Mode]);
             CombatResolveModeCB.Items.AddObject(combatResolveMode, IntToObject((int)Mode));
         }
 
-        var fRegistryCombatResolveMode = AoWEngine.FRegistry.GetCombatResolveMode();
+        var fRegistryCombatResolveMode = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetCombatResolveMode();
         var indexOfObject = CombatResolveModeCB.Items.IndexOfObject(IntToObject((int)fRegistryCombatResolveMode));
         CombatResolveModeCB.Selected = indexOfObject;
-        Events = AoWEngine.FRegistry.GetClassicWindowPopupEvents();
+        Events = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetClassicWindowPopupEvents();
         Classic1CB.Checked = Events.Contains(TWindowPopupEvent.wpCombat);
         Classic2CB.Checked = Events.Contains(TWindowPopupEvent.wpDiplomacy);
         Classic3CB.Checked = Events.Contains(TWindowPopupEvent.wpSpellResearched);
@@ -165,7 +162,7 @@ public partial class TGamePlayDlg : TDataModule
         Classic6CB.Checked = Events.Contains(TWindowPopupEvent.wpPartyDamage);
         Classic7CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroUpgrade);
         Classic8CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroJoin);
-        Events = AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents();
+        Events = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSimultaneousWindowPopupEvents();
         Sim1CB.Checked = Events.Contains(TWindowPopupEvent.wpCombat);
         Sim2CB.Checked = Events.Contains(TWindowPopupEvent.wpDiplomacy);
         Sim3CB.Checked = Events.Contains(TWindowPopupEvent.wpSpellResearched);
@@ -174,7 +171,7 @@ public partial class TGamePlayDlg : TDataModule
         Sim6CB.Checked = Events.Contains(TWindowPopupEvent.wpPartyDamage);
         Sim7CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroUpgrade);
         Sim8CB.Checked = Events.Contains(TWindowPopupEvent.wpHeroJoin);
-        var player = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
         PasswordEdit.Text = player.FSettings;
     }
 
@@ -182,11 +179,11 @@ public partial class TGamePlayDlg : TDataModule
     public void ChangePasswordBtnClick()
     {
         TPasswordEventLog Log = default;
-        if (AoWHSMap.FPlayMode != TPlayMode.pmTurn || AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork || AoWHSMap.FCurrentPlayer == AoWHSMap.FSeatedPlayer)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode != TPlayMode.pmTurn || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork || Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
         {
             Log = new TPasswordEventLog(null);
-            Log.FPrompt = TranslateRStr(EnterNewPasswordRStr);
-            AoWHSMap.TriggerExecuteEventLog(Log, true, PasswordEntered);
+            Log.FPrompt = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TGamePlayDlg.EnterNewPasswordRStr);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Log, true, PasswordEntered);
             Log.Release();
         }
     }
@@ -196,32 +193,32 @@ public partial class TGamePlayDlg : TDataModule
     {
         string Error = "";
         TSet<TWindowPopupEvent> Events;
-        General.PlayButtonSound(0);
-        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FSettings != PasswordEdit.Text)
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FSettings != PasswordEdit.Text)
         {
-            if (AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FConnectionType != TPlayerConnectionType.pcNetwork)
             {
-                AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FSettings = PasswordEdit.Text;
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FSettings = PasswordEdit.Text;
             }
             else
             {
-                if (!AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref Error))
+                if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).ChangePlayerSettings(PasswordEdit.Text, ref Error))
                 {
-                    ResetMessageDialog(AoWMessageDlgUnit.MessageDlg);
-                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add("");
-                    var couldntChangePassword = TranslateRStr(CouldntChangePasswordRStr);
-                    AoWMessageDlgUnit.MessageDlg.MessageMemo.Items.Add(couldntChangePassword);
-                    AoWMessageDlgUnit.MessageDlg.OKPnl.Visible = true;
-                    AoWMessageDlgUnit.MessageDlg.Dlg.Visible = true;
+                    Aow.Game.Ui.Dialogs.TMessageDlg.ResetMessageDialog(Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg);
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add("");
+                    var couldntChangePassword = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TGamePlayDlg.CouldntChangePasswordRStr);
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.MessageMemo.Items.Add(couldntChangePassword);
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.OKPnl.Visible = true;
+                    Aow.Game.Ui.Dialogs.DialogHosts.MessageDlg.Dlg.Visible = true;
                 }
             }
         }
 
-        AoWEngine.FRegistry.SetAutoSave(AutoSaveCB.Checked);
-        AoWEngine.FRegistry.SetSkipIntro(SkipIntroCB.Checked);
-        AoWEngine.FRegistry.SetMovementSpeed((TMovementSpeed)MovementSpeedCB.Selected);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetAutoSave(AutoSaveCB.Checked);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetSkipIntro(SkipIntroCB.Checked);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetMovementSpeed((TMovementSpeed)MovementSpeedCB.Selected);
         var objectValue = CombatResolveModeCB.Items.Objects[CombatResolveModeCB.Selected];
-        AoWEngine.FRegistry.SetCombatResolveMode((TCombatResolveMode)ObjectToInt(objectValue));
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetCombatResolveMode((TCombatResolveMode)ObjectToInt(objectValue));
         Events = TSet<TWindowPopupEvent>.Of();
         if (Classic1CB.Checked)
         {
@@ -263,7 +260,7 @@ public partial class TGamePlayDlg : TDataModule
             Events = Events + TSet<TWindowPopupEvent>.Of(TWindowPopupEvent.wpHeroJoin);
         }
 
-        AoWEngine.FRegistry.SetClassicWindowPopupEvents(Events);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetClassicWindowPopupEvents(Events);
         Events = TSet<TWindowPopupEvent>.Of();
         if (Sim1CB.Checked)
         {
@@ -305,18 +302,21 @@ public partial class TGamePlayDlg : TDataModule
             Events = Events + TSet<TWindowPopupEvent>.Of(TWindowPopupEvent.wpHeroJoin);
         }
 
-        AoWEngine.FRegistry.SetSimultaneousWindowPopupEvents(Events);
+        Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.SetSimultaneousWindowPopupEvents(Events);
         GamePlayDlg.Visible = false;
     }
 
     // AoWGamePlayDlg.pas:194
     public void CancelClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         GamePlayDlg.Visible = false;
     }
-}
 
-public static partial class AoWGamePlayDlgUnit
-{
+    private static readonly string ConfirmationFailedRStr = "Confirmation failed";
+    private static readonly string CouldntChangePasswordRStr = "Couldn't change password!";
+    private static readonly string EnterNewPasswordRStr = "Enter new password:";
+    private static readonly string PasswordConfirmationRStr = "Password confirmation";
+    private static readonly string ReenterNewPasswordRStr = "Confirm new password:";
+    private static global::Aow.Game.Engine.Buffers.FixedArray_string_3 TCombatResolveModeRStr = global::Aow.Game.Engine.Buffers.FixedArray_string_3.From(default(global::System.ReadOnlySpan<string>));
 }

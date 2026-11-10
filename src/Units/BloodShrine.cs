@@ -6,9 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic.Abilities;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Audio.SoundUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw.Animation
@@ -63,7 +60,7 @@ namespace Aow.Game.World.Structures
         {
             int Xhp = default;
             int Yhp = default;
-            HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(FXhx, FYhx, ref Xhp, ref Yhp);
             Xhp -= XhpSurf;
             Yhp -= YhpSurf;
             FResource.ImageSequenceList.Show(20, Xhp, Yhp, Anim.FFrameCounter, SurfaceDesc);
@@ -78,27 +75,27 @@ namespace Aow.Game.World.Structures
             for (int I = 0, last = ArmyHS.FArmy.Count - 1; I <= last; I++)
             {
                 AUnit = ArmyHS.FArmy.GetUnit(I);
-                AoWHSSet.FAbilityControl.GetAbility(168).Expand(AUnit);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(168).Expand(AUnit);
             }
 
-            bool condition = ArmyHS.FArmy.FPlayer == AoWHSMap.FSeatedPlayer;
+            bool condition = ArmyHS.FArmy.FPlayer == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
             if (!condition)
             {
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
+                condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, lhx, 0);
             }
 
             if (condition)
             {
-                PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
+                Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\ATTACK\\ENCHP02.WAV");
             }
 
             var lhx2 = GetLhx();
             var yhx2 = GetYhx();
             var xhx2 = GetXhx();
-            if (AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Visible(xhx2, yhx2, lhx2, 0))
             {
                 Anim = new TBloodShrineAnimation(null);
                 R = Rect(-16, -8, 32, 40);
@@ -108,7 +105,7 @@ namespace Aow.Game.World.Structures
                 var lhx = GetLhx();
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.PlaceHX(Anim, xhx, yhx, lhx);
             }
         }
 
@@ -135,24 +132,9 @@ namespace Aow.Game.World.Structures
         // BloodShrine.pas:36
 
         // BloodShrine.pas:119
-        public override string ResourceEditName() => TranslateRStr(BloodShrineRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TBloodShrineResource.BloodShrineRStr);
 
-    }
+        private static readonly string BloodShrineRStr = "Blood Shrine";
 
-    public static partial class BloodShrineUnit
-    {
-        // BloodShrine.pas:125
-        public static void RegisterBloodShrine(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TBloodShrine>(), EClass.Of<TBloodShrineResource>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

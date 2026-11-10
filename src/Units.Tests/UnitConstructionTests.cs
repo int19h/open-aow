@@ -38,9 +38,9 @@ public sealed partial class AoWERuleConstructionTests
         if (route == 1) return (TAbstractUnit)meta.Create(owner);
         if (route == 2)
         {
-            if (EngineUnit.Engines is null) EngineUnit.Initialize();
+            if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
             using var engine = new TEngine(null!);
-            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
@@ -57,8 +57,8 @@ public sealed partial class AoWERuleConstructionTests
     public void UnitCreationMatchesTheBaseCommitThroughEveryFacade(string name)
     {
         Type type = TypeNamed(name);
-        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
         try
         {
             var states = new List<string>();
@@ -84,21 +84,21 @@ public sealed partial class AoWERuleConstructionTests
             }
             ConstructionSnapshot.Check("UnitConstruction", name, string.Join("\n", states));
         }
-        finally { Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous; }
+        finally { Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous; }
     }
 
     [Theory]
     [MemberData(nameof(UnitClasses))]
     public void BinarySavedClassIdLoadsTheExactUnitWithOneReference(string name)
     {
-        var previousMap = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
-        var previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+        var previousMap = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        var previousSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
         var set = EngineFixture.Configure(TAoWHSSet.Create(null!), value => { value.FUnitResources = new TUnitResourceList(null!); value.FHeroResources = new THeroResourceList(null!); value.FAbilityControl = new TAbilityControl(null!); });
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
+        Aow.Game.Engine.TAoWHSSet.AoWHSSet = set;
         Type type = TypeNamed(name);
         var meta = EClass.Of(type);
-        if (EngineUnit.Engines is null) EngineUnit.Initialize();
+        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         var engine = new TEngine(null!);
         TEObject source = CreateUnit(type, null!, 0);
         TEObject result = null!;
@@ -106,7 +106,7 @@ public sealed partial class AoWERuleConstructionTests
         using var memory = new MemoryStream();
         try
         {
-            engine.Options -= TSet<TEngineModeElement>.Of(EngineUnit.eoVerifyClasses);
+            engine.Options -= TSet<TEngineModeElement>.Of(Aow.Game.Engine.TEngine.eoVerifyClasses);
             try { engine.UnregisterEClasses([engine.GetEClass(meta.ClassID)]); }
             catch (System.Exception error) when (PortedExceptions.Is(error)) { }
             engine.RegisterEClasses([EClass.Of(type)]);
@@ -137,8 +137,8 @@ public sealed partial class AoWERuleConstructionTests
             set.FUnitResources.Dispose();
             set.FHeroResources.Dispose();
             set.FAbilityControl.Dispose();
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previousMap;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previousMap;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet = previousSet;
         }
         Assert.Empty(owner.Members);
     }
@@ -166,8 +166,8 @@ public sealed partial class AoWERuleConstructionTests
     [InlineData(true, true)]
     public void UnitReferenceCountsKeepThePreBaseSequence(bool hero, bool reject)
     {
-        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = null!;
+        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = null!;
         var owner = new UnitOwner(reject);
         RefcountOwner = owner;
         try
@@ -180,6 +180,6 @@ public sealed partial class AoWERuleConstructionTests
             value.Dispose();
             Assert.Empty(owner.Members);
         }
-        finally { RefcountOwner = null; Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous; }
+        finally { RefcountOwner = null; Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous; }
     }
 }

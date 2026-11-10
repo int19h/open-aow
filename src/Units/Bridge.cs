@@ -7,7 +7,6 @@ using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World;
 
@@ -32,7 +31,7 @@ public partial class TBridge : TAbstractRoad
     {
         int Xhp = default;
         int Yhp = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         ((TBridgeResource)FResource).Show(Xhp - XhpSurf - 8 - 6, Yhp - YhpSurf - 9, SurfaceDesc, this);
     }
 
@@ -90,8 +89,8 @@ public partial class TBridge : TAbstractRoad
         InShore = false;
         for (int HN = 1; HN <= 6; HN++)
         {
-            HNtoHX(HN, ref Xhx, ref Yhx);
-            TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
@@ -369,15 +368,6 @@ public partial class TBridgeResource : TAbstractRoadResource
     // Bridge.pas:28
 
     // Bridge.pas:200
-    public override string ResourceEditName() => BridgeStr;
+    public override string ResourceEditName() => Aow.Game.World.Map.HexText.BridgeStr;
 
-}
-
-public static partial class BridgeUnit
-{
-    // Bridge.pas:264
-    public static void RegisterBridge(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<TBridge>(), EClass.Of<TBridgeResource>()]);
-    }
 }

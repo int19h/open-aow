@@ -1,12 +1,25 @@
 // Translated from AoWCityRebelDlg.pas.
+using Aow.Game.Combat;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
 using Aow.Game.Events;
+using Aow.Game.Host;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Global;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
+using Aow.Game.Ui.Grids;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World.Map;
+using Aow.Game.World.Structures;
 using Aow.Rtl;
 // Translated from AoWCityRebelDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -55,16 +68,16 @@ public partial class TCityRebelDlg : TDataModule
     // AoWCityRebelDlg.pas:60
     public void CloseClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         RebelWin.Visible = false;
     }
 
     // AoWCityRebelDlg.pas:66
     public void CenterButClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         var cityRebellionEventLog = FEvent;
-        AoWHSMap.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.CenterViewTo(cityRebellionEventLog.FXhx, cityRebellionEventLog.FYhx, cityRebellionEventLog.FLhx);
     }
 
     // AoWCityRebelDlg.pas:72
@@ -81,8 +94,14 @@ public partial class TCityRebelDlg : TDataModule
             RebelWin.Visible = false;
         }
     }
-}
 
-public static partial class AoWCityRebelDlgUnit
-{
+    internal static void ShowRebellion(TCityRebelDlg Dialog, TCityRebellionEventLog Event, TExecuteDoneEvent Done)
+    {
+        Dialog.FOnClose = Done;
+        Dialog.FEvent = Event;
+        Dialog.FEvent.AddRef();
+        Dialog.CityNameLabel.Text = Dialog.FEvent.FCityName;
+        Dialog.RebelWin.Visible = true;
+    }
+
 }

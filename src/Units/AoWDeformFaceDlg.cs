@@ -8,8 +8,6 @@ using Aow.Game.Units;
 using Aow.Rtl;
 // Translated from AoWDeformFaceDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -46,7 +44,7 @@ public partial class TDeformFaceDlg : TDataModule
         TAbstractUnit U;
         FCaster = Caster;
         FCaster.AddRef();
-        U = AoWHSMap.FUnitControl.FindUnit(FCaster.FTargetUnitID);
+        U = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit(FCaster.FTargetUnitID);
         if (U != null)
         {
             var name = U.GetName();
@@ -69,7 +67,7 @@ public partial class TDeformFaceDlg : TDataModule
     // AoWDeformFaceDlg.pas:55
     public void CancelBtnClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Dlg.Visible = false;
     }
 
@@ -77,7 +75,7 @@ public partial class TDeformFaceDlg : TDataModule
     public void CastBtnClick()
     {
         string Reason = "";
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         if (FCaster.CanCast(ref Reason))
         {
             FCaster.Cast();
@@ -85,7 +83,7 @@ public partial class TDeformFaceDlg : TDataModule
         }
         else
         {
-            AoWHSMap.ShowMessage(Reason);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(Reason);
         }
     }
 
@@ -99,19 +97,19 @@ public partial class TDeformFaceDlg : TDataModule
         while (Offset < 0)
         {
             Offset += 1;
-            Face = AoWHSSet.FFaceResources.PrevFace(Face);
+            Face = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.PrevFace(Face);
         }
 
         while (Offset > 0)
         {
             Offset -= 1;
-            Face = AoWHSSet.FFaceResources.NextFace(Face);
+            Face = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.NextFace(Face);
         }
 
         R = Rect(Dlg.WinLeft + Sender.WinLeft + 2, Dlg.WinTop + Sender.WinTop, Dlg.WinLeft + Sender.WinLeft + Sender.WinWidth - 2, Dlg.WinTop + Sender.WinTop + Sender.WinHeight - 2);
         if (Face != -1)
         {
-            Resource = AoWHSSet.FFaceResources.GetFaceResource(Face);
+            Resource = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.GetFaceResource(Face);
             Resource.AddRef();
             Resource.GetFaceImage().ShowStretched(R, SD);
             Resource.Release();
@@ -121,8 +119,8 @@ public partial class TDeformFaceDlg : TDataModule
     // AoWDeformFaceDlg.pas:104
     public void PrevFaceBtnClick()
     {
-        General.PlayButtonSound(0);
-        var prevFace = AoWHSSet.FFaceResources.PrevFace(FCaster.FFaceIndex);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        var prevFace = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.PrevFace(FCaster.FFaceIndex);
         FCaster.FFaceIndex = prevFace;
         Dlg.FDrawn = false;
     }
@@ -130,8 +128,8 @@ public partial class TDeformFaceDlg : TDataModule
     // AoWDeformFaceDlg.pas:111
     public void NextFaceBtnClick()
     {
-        General.PlayButtonSound(0);
-        var nextFace = AoWHSSet.FFaceResources.NextFace(FCaster.FFaceIndex);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
+        var nextFace = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFaceResources.NextFace(FCaster.FFaceIndex);
         FCaster.FFaceIndex = nextFace;
         Dlg.FDrawn = false;
     }
@@ -150,8 +148,4 @@ public partial class TDeformFaceDlg : TDataModule
             Dlg.Visible = false;
         }
     }
-}
-
-public static partial class AoWDeformFaceDlgUnit
-{
 }

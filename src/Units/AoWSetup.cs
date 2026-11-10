@@ -14,9 +14,6 @@ using Aow.Game.Session;
 using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Engine.Nodes.EngineUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Net.NetworkEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Session;
@@ -194,10 +191,24 @@ public partial class TPlayerSetupSettings : TEObject
     public TPlayerSetupSettings(TECustomNode owner) : base(owner)
     {
         FStatus = TSet<TPlayerSetupStatusElement>.Of();
-        FBehavior = AoWSetupUnit.DefaultBehavior;
-        FOriginalBehavior = AoWSetupUnit.DefaultOriginalBehavior;
+        FBehavior = Aow.Game.Session.TPlayerSetupSettings.DefaultBehavior;
+        FOriginalBehavior = Aow.Game.Session.TPlayerSetupSettings.DefaultOriginalBehavior;
         FLeader = new TLeader(null);
     }
+
+    private static global::Aow.Game.Session.TSetupPlayerBehavior DefaultBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    {
+        PlayerType = 0,
+        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Flags = 0
+    };
+
+    private static global::Aow.Game.Session.TSetupPlayerBehavior DefaultOriginalBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    {
+        PlayerType = 5,
+        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Flags = 0
+    };
 
 }
 
@@ -456,11 +467,11 @@ public partial class TSetupControl : TComponent
         Stream = new MemoryStream();
         try
         {
-            AoWEngine.StoreEObject(Stream, Package, null);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.StoreEObject(Stream, Package, null);
             var size = (int)Stream.Length;
             SendData(Stream.GetBuffer(), size, Recipient);
             var streamSize = (int)Stream.Length;
-            AoWEngine.OutputDebugMessage(NetworkEngineDID, "SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(Recipient));
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Net.NetworkSession.NetworkEngineDID, "SetupPackage Send (ID:" + IntToStr(Package.FMessageID) + "/Size:" + IntToStr(streamSize) + ") to " + IntToStr(Recipient));
         }
         finally
         {
@@ -478,7 +489,7 @@ public partial class TSetupControl : TComponent
             Package.FMessageID = MessageID;
             if (Obj != null)
             {
-                Package.FData = Obj.Copy(AoWEngine);
+                Package.FData = Obj.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             }
 
             Package.FParam2 = Param2;
@@ -498,7 +509,7 @@ public partial class TSetupControl : TComponent
             Package.FMessageID = MessageID;
             if (Obj != null)
             {
-                Package.FData = Obj.Copy(AoWEngine);
+                Package.FData = Obj.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             }
 
             Package.FParam2 = Param2;
@@ -527,11 +538,11 @@ public partial class TSetupControl : TComponent
         Stream.Position = 0;
         try
         {
-            Obj = AoWEngine.RetrieveEObject(Stream, null);
+            Obj = Aow.Game.Magic.Abilities.GameTables.AoWEngine.RetrieveEObject(Stream, null);
             if (Obj is TSetupPackage)
             {
                 var size = (int)Stream.Length;
-                AoWEngine.OutputDebugMessage(NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((TSetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
+                Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Net.NetworkSession.NetworkEngineDID, "SetupPackage Received (ID:" + IntToStr(((TSetupPackage)Obj).FMessageID) + "/Size:" + IntToStr(size) + ") from " + IntToStr(SenderID));
                 PackageReceived((TSetupPackage)Obj, SenderID);
             }
 
@@ -550,7 +561,7 @@ public partial class TSetupControl : TComponent
     public bool ValidateCompatibleVersion(int Version)
     {
         int Major;
-        Major = (int)(((uint)(AoWEngine.FVersion & -65536)) >> 16);
+        Major = (int)(((uint)(Aow.Game.Magic.Abilities.GameTables.AoWEngine.FVersion & -65536)) >> 16);
         Version = (int)(((uint)(Version & -65536)) >> 16);
         return Major == Version;
     }
@@ -562,7 +573,7 @@ public partial class TSetupControl : TComponent
         {
             if (FSettings.FRemotePlayers.IndexOfRemoteID(Player.FRemoteID) == -1)
             {
-                Player = (TRemotePlayer)Player.Copy(AoWEngine);
+                Player = (TRemotePlayer)Player.Copy(Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                 Player.FName = ValidatePlayerName(Player.FName);
                 Player.FMapValidation = TMapValidationInfo.mviUnknown;
                 Player.SetOwner(FSettings.FRemotePlayers);
@@ -580,8 +591,8 @@ public partial class TSetupControl : TComponent
             }
             else
             {
-                var minorVersion = AoWEngine.GetMinorVersion();
-                SendMessage(9, null, AoWEngine.GetMajorVersion(), minorVersion, Player.FRemoteID);
+                var minorVersion = Aow.Game.Magic.Abilities.GameTables.AoWEngine.GetMinorVersion();
+                SendMessage(9, null, Aow.Game.Magic.Abilities.GameTables.AoWEngine.GetMajorVersion(), minorVersion, Player.FRemoteID);
             }
         }
     }
@@ -612,7 +623,7 @@ public partial class TSetupControl : TComponent
         I = FSettings.FRemotePlayers.IndexOfRemoteID(Player.FRemoteID);
         if (I != -1)
         {
-            FSettings.FRemotePlayers.GetPlayers(I).Assign(Player, AoWEngine);
+            FSettings.FRemotePlayers.GetPlayers(I).Assign(Player, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             FSettings.FRemotePlayers.GetPlayers(I).FName = "";
             var validatePlayerName = ValidatePlayerName(Player.FName);
             FSettings.FRemotePlayers.GetPlayers(I).FName = validatePlayerName;
@@ -671,10 +682,10 @@ public partial class TSetupControl : TComponent
         TMapValidationInfo Validation;
         if (!IsEmpty(FSettings.FMapName) && FRemotePlayer.FMapValidation != TMapValidationInfo.mviValid)
         {
-            if (AoWHSSet.FHSSCRC == FSettings.FSetCRC)
+            if (Aow.Game.Engine.TAoWHSSet.AoWHSSet.FHSSCRC == FSettings.FSetCRC)
             {
                 // The client looks up the host's map by name, its own document first (own-formats.md 2.9).
-                FileName = FileBoundary.ReadName(AoWEngine.StartupDirectory + FSettings.FMapName);
+                FileName = FileBoundary.ReadName(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FSettings.FMapName);
                 if (FileExists(FileName))
                 {
                     if (FileBoundary.ImageCrc32(FileName, Aow.Formats.GameProfile.WorldMap) == FSettings.FMapCRC)
@@ -700,7 +711,7 @@ public partial class TSetupControl : TComponent
             if (condition)
             {
                 var size = (int)FStream.Length;
-                condition = GetCRC32(FStream.GetBuffer(), size) == FSettings.FMapCRC;
+                condition = Aow.Game.Engine.Nodes.EngineServices.GetCRC32(FStream.GetBuffer(), size) == FSettings.FMapCRC;
             }
 
             if (condition)
@@ -742,7 +753,7 @@ public partial class TSetupControl : TComponent
             case 4:
                 if (!GetHost() && FPhase == TSetupPhase.spSetupPlayers)
                 {
-                    FSettings.Assign(Package.FData, AoWEngine);
+                    FSettings.Assign(Package.FData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     I = FSettings.FRemotePlayers.IndexOfRemoteID(FRemotePlayer.FRemoteID);
                     if (I != -1)
                     {
@@ -768,7 +779,7 @@ public partial class TSetupControl : TComponent
             case 5:
                 if (!GetHost())
                 {
-                    FSettings.Assign(Package.FData, AoWEngine);
+                    FSettings.Assign(Package.FData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     I = FSettings.FRemotePlayers.IndexOfRemoteID(FRemotePlayer.FRemoteID);
                     if (I != -1)
                     {
@@ -810,7 +821,7 @@ public partial class TSetupControl : TComponent
             case 6:
                 if (!GetHost())
                 {
-                    FSettings.Assign(Package.FData, AoWEngine);
+                    FSettings.Assign(Package.FData, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     SetupMap();
                 }
 
@@ -853,7 +864,7 @@ public partial class TSetupControl : TComponent
         FPhase = TSetupPhase.spLoadMap;
         if (FOnLoadMap != null)
         {
-            FOnLoadMap(this, AoWEngine.StartupDirectory + FSettings.FMapName);
+            FOnLoadMap(this, Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FSettings.FMapName);
         }
     }
 
@@ -885,7 +896,7 @@ public partial class TSetupControl : TComponent
         {
             // The host sends the map's engine image, the bytes FMapCRC covers and LoadHSMfromStream
             // reads, for an own document as for an original (own-formats.md 4.1).
-            Stream = Aow.Game.Engine.TEngine.ImageStream(FileBoundary.LoadOrRaise(AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
+            Stream = Aow.Game.Engine.TEngine.ImageStream(FileBoundary.LoadOrRaise(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FSettings.FMapName, Aow.Formats.GameProfile.WorldMap));
             if (FOnSendMap != null)
             {
                 var size = (int)Stream.Length;
@@ -1001,7 +1012,7 @@ public partial class TSetupControl : TComponent
     {
         if (GetHost())
         {
-            FSettings.GetSettings(Index).FLeader.Assign(Leader, AoWEngine);
+            FSettings.GetSettings(Index).FLeader.Assign(Leader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             var setting = FSettings.GetSettings(Index);
             FSettings.GetSettings(Index).FStatus = setting.FStatus + TSet<TPlayerSetupStatusElement>.Of(TPlayerSetupStatusElement.pssLeaderCustomized);
             if (!hValidateSetupMap())
@@ -1038,9 +1049,9 @@ public partial class TSetupControl : TComponent
             var settingRace = FSettings.GetSettings(I);
             CLC.FItems.Add(settingRace.FRace);
             var settingLeader = FSettings.GetSettings(I);
-            CLC.FLeader.Assign(settingLeader.FLeader, AoWEngine);
+            CLC.FLeader.Assign(settingLeader.FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             var setting = FSettings.GetSettings(I);
-            CLC.FOriginalLeader.Assign(setting.FLeader, AoWEngine);
+            CLC.FOriginalLeader.Assign(setting.FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
             if (GetRemote())
             {
                 CLC.FLeader.FHeroName = FRemotePlayer.FName;
@@ -1078,7 +1089,7 @@ public partial class TSetupControl : TComponent
         if (!GetHost())
         {
             SendHostMessage(8, Control.FOriginalLeader, Control.FPlayerIndex, 0);
-            FSettings.GetSettings(Control.FPlayerIndex).FLeader.Assign(Control.FOriginalLeader, AoWEngine);
+            FSettings.GetSettings(Control.FPlayerIndex).FLeader.Assign(Control.FOriginalLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
         }
         else
         {
@@ -1114,7 +1125,7 @@ public partial class TSetupControl : TComponent
                     break;
             }
 
-            AoWEngine.OutputDebugMessage(NetworkEngineDID, S);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.OutputDebugMessage(Aow.Game.Net.NetworkSession.NetworkEngineDID, S);
         }
     }
 
@@ -1122,9 +1133,9 @@ public partial class TSetupControl : TComponent
     public void RemoveIndependentPlayers()
     {
         TPlayer Player;
-        for (int I = AoWHSMap.FPlayers.GetCount() - 1; I >= 1; I--)
+        for (int I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount() - 1; I >= 1; I--)
         {
-            Player = AoWHSMap.FPlayers.GetPlayers(I);
+            Player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I);
             if (Player.FPlayerType == TPlayerType.ptIndependent)
             {
                 for (int J = Player.FStructures.GetCount() - 1; J >= 0; J--)
@@ -1154,12 +1165,12 @@ public partial class TSetupControl : TComponent
         for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
         {
             var settingPlayerID = FSettings.GetSettings(I);
-            Player = AoWHSMap.FPlayers.GetPlayers((sbyte)settingPlayerID.FPlayerID);
+            Player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers((sbyte)settingPlayerID.FPlayerID);
             Player.FPlayerType = (TPlayerType)FSettings.GetSettings(I).FBehavior.PlayerType;
             Player.FBehavior = (TPlayerBehavior)FSettings.GetSettings(I).FBehaviorMode;
             if (FSettings.FConnectionType == 2)
             {
-                var localEmailAddress = AoWEngine.FRegistry.GetLocalEmailAddress();
+                var localEmailAddress = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetLocalEmailAddress();
                 if (CompareText(FSettings.GetSettings(I).FEmailAddress, localEmailAddress) != 0)
                 {
                     var setting = FSettings.GetSettings(I);
@@ -1169,7 +1180,7 @@ public partial class TSetupControl : TComponent
                 else
                 {
                     var setting = FSettings.GetSettings(I);
-                    var emailGame = AoWEngine.FEmailGames.CreateEmailGame(FSettings.FEmailGameName, setting.FEmailAddress);
+                    var emailGame = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FEmailGames.CreateEmailGame(FSettings.FEmailGameName, setting.FEmailAddress);
                     Player.FPBEMSettings.SetGame(emailGame);
                 }
             }
@@ -1178,7 +1189,7 @@ public partial class TSetupControl : TComponent
             {
                 Player.FLeader.UpdateFromLibraryBegin();
                 var setting = FSettings.GetSettings(I);
-                Player.FLeader.Assign(setting.FLeader, AoWEngine);
+                Player.FLeader.Assign(setting.FLeader, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                 Player.FLeader.UpdateFromLibraryEnd();
             }
 
@@ -1197,11 +1208,11 @@ public partial class TSetupControl : TComponent
             }
         }
 
-        AoWHSMap.FConnectionType = (TPlayerConnectionType)FSettings.FConnectionType;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FConnectionType = (TPlayerConnectionType)FSettings.FConnectionType;
         if (GetRemote())
         {
             RemotePCC = new TRemotePCC();
-            RemotePCC.Setup(AoWHSMap.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
+            RemotePCC.Setup(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount(), FRemotePlayer.FRemoteID);
             RemotePCC.SetConnectionMode(0, TConnectionMode.cmGlobal);
             RemotePCC.SetSystemID(0, FRemotePlayer.FRemoteID);
             for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
@@ -1227,7 +1238,7 @@ public partial class TSetupControl : TComponent
                 }
             }
 
-            AoWHSMap.FPlayerCommunicator.ActivatePCC(RemotePCC);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.ActivatePCC(RemotePCC);
             RemotePCC.OnSendData = FOnSendData;
             ListPCCInfo(RemotePCC);
             RemotePCC.Release();
@@ -1235,7 +1246,7 @@ public partial class TSetupControl : TComponent
         else
         {
             LocalPCC = new TLocalPCC();
-            LocalPCC.Setup(AoWHSMap.FPlayers.GetCount());
+            LocalPCC.Setup(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount());
             LocalPCC.SetConnectionMode(0, TConnectionMode.cmGlobal);
             for (int I = 0, last = FSettings.GetCount() - 1; I <= last; I++)
             {
@@ -1249,27 +1260,27 @@ public partial class TSetupControl : TComponent
                 }
             }
 
-            AoWHSMap.FPlayerCommunicator.ActivatePCC(LocalPCC);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerCommunicator.ActivatePCC(LocalPCC);
             ListPCCInfo(LocalPCC);
             LocalPCC.Release();
         }
 
         if (FSettings.FMapDay == 0)
         {
-            AoWHSMap.FInitialRandomSeed = FSettings.FRandomSeed;
-            AoWHSMap.FFixedLeaders = FSettings.FLeadersOnMap;
-            AoWHSMap.FAlliedVictory = FSettings.FAlliedVictory;
-            AoWHSMap.SetExplorationEnabled(FSettings.FExplorationEnabled);
-            AoWHSMap.SetFogEnabled(true);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FInitialRandomSeed = FSettings.FRandomSeed;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FFixedLeaders = FSettings.FLeadersOnMap;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FAlliedVictory = FSettings.FAlliedVictory;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetExplorationEnabled(FSettings.FExplorationEnabled);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetFogEnabled(true);
         }
 
-        AoWHSMap.FDayLimit = FSettings.FDayLimit;
-        AoWHSMap.FTurnTime = FSettings.FTurnTime;
-        AoWHSMap.FVictoryMode = FSettings.FTacticalCombatAvailability;
-        AoWHSMap.FLeadersFixed = FSettings.FCustomizeLeaders;
-        AoWHSMap.FStartingGame = FSettings.FAlwaysViewTC;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDayLimit = FSettings.FDayLimit;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTurnTime = FSettings.FTurnTime;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FVictoryMode = FSettings.FTacticalCombatAvailability;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FLeadersFixed = FSettings.FCustomizeLeaders;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStartingGame = FSettings.FAlwaysViewTC;
         RemoveIndependentPlayers();
-        AoWHSMap.SetupPlayerControl((TPlayMode)FSettings.FPlayMode, (TPlayerConnectionType)FSettings.FConnectionType);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.SetupPlayerControl((TPlayMode)FSettings.FPlayMode, (TPlayerConnectionType)FSettings.FConnectionType);
         if (FOnSetupMap != null)
         {
             try
@@ -1425,12 +1436,12 @@ public partial class TSetupControl : TComponent
             }
             else
             {
-                FSettings.GetSettings(Index).FBehavior = AoWSetupUnit.CPUBehavior;
+                FSettings.GetSettings(Index).FBehavior = Aow.Game.Session.TSetupControl.CPUBehavior;
             }
         }
         else
         {
-            FSettings.GetSettings(Index).FBehavior = AoWSetupUnit.FreeBehavior;
+            FSettings.GetSettings(Index).FBehavior = Aow.Game.Session.TSetupControl.FreeBehavior;
         }
 
         var settingStatus = FSettings.GetSettings(Index);
@@ -1496,28 +1507,28 @@ public partial class TSetupControl : TComponent
     {
         if (GetRemote())
         {
-            List.Add(TranslateRStr(TPlayerTypeRStr[5]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[5]));
             for (int I = 0, last = FSettings.FRemotePlayers.Count - 1; I <= last; I++)
             {
                 List.Add(FSettings.FRemotePlayers.GetPlayers(I).FName);
             }
 
-            List.Add(TranslateRStr(TPlayerTypeRStr[1]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[2]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[3]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[6]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[7]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[4]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[1]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[2]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[3]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[6]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[7]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[4]));
         }
         else
         {
-            List.Add(TranslateRStr(TPlayerTypeRStr[0]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[1]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[2]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[3]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[6]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[7]));
-            List.Add(TranslateRStr(TPlayerTypeRStr[4]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[0]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[1]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[2]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[3]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[6]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[7]));
+            List.Add(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[4]));
         }
     }
 
@@ -1588,7 +1599,7 @@ public partial class TSetupControl : TComponent
             PlayerType = 0;
             while (!Result && PlayerType <= 7)
             {
-                if (CompareText(Name, TranslateRStr(TPlayerTypeRStr[PlayerType])) == 0)
+                if (CompareText(Name, Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[PlayerType])) == 0)
                 {
                     Result = true;
                     Behavior.PlayerType = PlayerType;
@@ -1917,19 +1928,19 @@ public partial class TSetupControl : TComponent
         bool FirstHuman = default;
         TPlayerSetupSettings Settings = default;
         TAoWHSMap Preview;
-        Preview = (TAoWHSMap)AoWEngine.CreatePreviewHSM(AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
-        if (GetHost() && Preview != null && (!AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != TPlayerConnectionType.pcEmail)
+        Preview = (TAoWHSMap)Aow.Game.Magic.Abilities.GameTables.AoWEngine.CreatePreviewHSM(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
+        if (GetHost() && Preview != null && (!Aow.Game.Magic.Abilities.GameTables.AoWEngine.FDemo || Preview.FShowAllPlayers) && Preview.FConnectionType != TPlayerConnectionType.pcEmail)
         {
-            AoWEngine.InitializeHSSet(AoWEngine.StartupDirectory + Preview.HSSFileName, null);
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.InitializeHSSet(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + Preview.HSSFileName, null);
             Randomize();
             FSettings.Clear();
             FSettings.FMapName = FileName;
             FSettings.FMapDay = Preview.FDay;
             FSettings.FFileName = Preview.FMapName;
             // The map CRC is taken over the engine image, so an own copy and its original agree (own-formats.md 4.1).
-            var fileCRC = FileBoundary.ImageCrc32(AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
+            var fileCRC = FileBoundary.ImageCrc32(Aow.Game.Magic.Abilities.GameTables.AoWEngine.StartupDirectory + FileName, Aow.Formats.GameProfile.WorldMap);
             FSettings.FMapCRC = fileCRC;
-            FSettings.FSetCRC = AoWHSSet.FHSSCRC;
+            FSettings.FSetCRC = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FHSSCRC;
             FSettings.FRandomSeed = RandSeed;
             FSettings.FVictoryCondition = (byte)(int)Preview.FVictoryCondition;
             if (Preview.FDay != 0)
@@ -1966,7 +1977,7 @@ public partial class TSetupControl : TComponent
                     Settings = new TPlayerSetupSettings(this.FSettings);
                     Settings.FPlayerID = (byte)I;
                     Settings.FRace = player.FPlayerRace;
-                    Settings.FLeader.Assign(player.FLeaderSetup, AoWEngine);
+                    Settings.FLeader.Assign(player.FLeaderSetup, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     Settings.FBehaviorMode = (byte)(int)player.FBehavior;
                     if (player.FParticipating)
                     {
@@ -2057,7 +2068,7 @@ public partial class TSetupControl : TComponent
         FRemotePlayer.FName = validatePlayerName;
         this.FRemotePlayer.FRemoteID = RemoteID;
         this.FRemotePlayer.FPreferredRace = 255;
-        this.FRemotePlayer.FVersion = AoWEngine.FVersion;
+        this.FRemotePlayer.FVersion = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FVersion;
 
         FStatus = FStatus + TSet<TSetupStatusElement>.Of(TSetupStatusElement.ssBusy);
         if (RemoteID != 0)
@@ -2076,7 +2087,7 @@ public partial class TSetupControl : TComponent
         FRemotePlayer.FName = Name;
         FRemotePlayer.FRemoteID = RemoteID;
         FRemotePlayer.FPreferredRace = 255;
-        FRemotePlayer.FVersion = AoWEngine.FVersion;
+        FRemotePlayer.FVersion = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FVersion;
         FStatus = FStatus + TSet<TSetupStatusElement>.Of(TSetupStatusElement.ssBusy, TSetupStatusElement.ssRemote);
         SendHostMessage(1, FRemotePlayer, 0, 0);
         FPhase = TSetupPhase.spSetupPlayers;
@@ -2121,6 +2132,20 @@ public partial class TSetupControl : TComponent
 
     [Published]
     public TSetupControlEvent OnSendingMaps { get => FOnSendingMaps; set => FOnSendingMaps = value; }
+
+    private static global::Aow.Game.Session.TSetupPlayerBehavior CPUBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    {
+        PlayerType = 1,
+        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Flags = 0
+    };
+
+    private static global::Aow.Game.Session.TSetupPlayerBehavior FreeBehavior = new global::Aow.Game.Session.TSetupPlayerBehavior
+    {
+        PlayerType = 5,
+        Reserved = global::Aow.Game.Engine.Buffers.FixedArray_byte_3.From((global::System.ReadOnlySpan<byte>)new byte[3] { 0, 0, 0 }),
+        Flags = 0
+    };
 }
 
 public enum TSetupPhase : byte
@@ -2171,50 +2196,5 @@ public partial class TSetupHeroView
     public TSetupHeroView()
     {
         CaptureAddress.Assign(this);
-    }
-}
-
-public static partial class AoWSetupUnit
-{
-    // AoWSetup.pas:1334
-    public static void RegisterSetupClasses(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TSetupSettings>(), EClass.Of<TPlayerSetupSettings>(), EClass.Of<TSetupPackage>(), EClass.Of<TRemotePlayer>()]);
-    }
-
-    public static TSetupPlayerBehavior CPUBehavior = new TSetupPlayerBehavior
-    {
-        PlayerType = 1,
-        Reserved = FixedArray_byte_3.From([0, 0, 0]),
-        Flags = 0
-    };
-
-    public static TSetupPlayerBehavior FreeBehavior = new TSetupPlayerBehavior
-    {
-        PlayerType = 5,
-        Reserved = FixedArray_byte_3.From([0, 0, 0]),
-        Flags = 0
-    };
-
-    public static TSetupPlayerBehavior DefaultBehavior = new TSetupPlayerBehavior
-    {
-        PlayerType = 0,
-        Reserved = FixedArray_byte_3.From([0, 0, 0]),
-        Flags = 0
-    };
-
-    public static TSetupPlayerBehavior DefaultOriginalBehavior = new TSetupPlayerBehavior
-    {
-        PlayerType = 5,
-        Reserved = FixedArray_byte_3.From([0, 0, 0]),
-        Flags = 0
-    };
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
     }
 }

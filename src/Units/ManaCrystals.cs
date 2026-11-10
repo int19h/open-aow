@@ -11,8 +11,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Terrain;
 using Aow.Rtl;
-using static Aow.Game.Audio.SoundUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
@@ -59,7 +57,7 @@ public partial class TManaCrystals : TILTerrainMO
     public override void MsgProc(ref TEMsg Msg, TEObject Sender)
     {
         base.MsgProc(ref Msg, Sender);
-        if (Msg.MsgID == 537001985 && AoWHSMap.FDay == 1)
+        if (Msg.MsgID == 537001985 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay == 1)
         {
             GenerateManaCrystalsAmount();
         }
@@ -108,19 +106,19 @@ public partial class TManaCrystals : TILTerrainMO
     {
         if (FSize == 4)
         {
-            FSize = (byte)(AoWHSMap.Random(3) + 1);
+            FSize = (byte)(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(3) + 1);
         }
 
         switch (FSize)
         {
             case 1:
-                FAmount = AoWHSMap.Random(25) + 25;
+                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 25;
                 break;
             case 2:
-                FAmount = AoWHSMap.Random(25) + 50;
+                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(25) + 50;
                 break;
             case 3:
-                FAmount = AoWHSMap.Random(50) + 100;
+                FAmount = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(50) + 100;
                 break;
         }
     }
@@ -154,33 +152,37 @@ public partial class TManaCrystals : TILTerrainMO
             return;
         }
 
-        bool condition = (byte)AoWHSMap.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
+        bool condition = (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == (byte)ArmyHS.FArmy.FPlayer;
         if (!condition)
         {
             var lhx = GetLhx();
             var yhx = GetYhx();
             var xhx = GetXhx();
-            condition = AoWHSMap.Watching(xhx, yhx, lhx, 0);
+            condition = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Watching(xhx, yhx, lhx, 0);
         }
 
         if (condition)
         {
-            PlaySample("SFX\\EVENTS\\MANA.WAV");
+            Aow.Game.Audio.AudioPlayback.PlaySample("SFX\\EVENTS\\MANA.WAV");
         }
 
-        var player = AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer);
         player.FMagicControl.SetMana(player.FMagicControl.FMana + FAmount);
 
         Log = new TLocationTextEventLog(null);
         Log.FPlayer = (sbyte)(byte)ArmyHS.FArmy.FPlayer;
-        Log.FText = RtlUnit.Format(TranslateRStr(ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
+        Log.FText = RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TManaCrystals.ManaCrystalsFoundRStr), [IntToStr(FAmount)]);
         var lhx2 = GetLhx();
         var yhx2 = GetYhx();
         Log.SetLocation(GetXhx(), yhx2, lhx2);
-        AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(ArmyHS.FArmy.FPlayer).FEventLogbook.AddEvent(Log);
         Log.Release();
         Dispose();
     }
+
+    private static readonly string ManaCrystalsFoundRStr = "%s mana crystals found";
+
+    // ManaCrystals.pas:28
 
     // ManaCrystals.pas:28
 
@@ -198,7 +200,9 @@ public partial class TManaCrystalsResource : TILTerrainMOR
     public override int ResourceUserClassID() => 132030;
 
     // ManaCrystals.pas:165
-    public override string ResourceEditName() => TranslateRStr(ManaCrystalsRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Terrain.TManaCrystalsResource.ManaCrystalsRStr);
+
+    private static readonly string ManaCrystalsRStr = "Mana Crystals";
 
 }
 
@@ -226,21 +230,4 @@ public struct TCrystalFieldFlags
     public FixedArray_byte_24 Reserved;
     [FieldOffset(24)]
     public int Flags;
-}
-
-public static partial class ManaCrystalsUnit
-{
-    // ManaCrystals.pas:174
-    public static void RegisterManaCrystals(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TManaCrystals>(), EClass.Of<TManaCrystalsResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

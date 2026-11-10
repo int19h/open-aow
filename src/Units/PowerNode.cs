@@ -8,7 +8,6 @@ using Aow.Game.Session;
 using Aow.Game.World;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Structures;
@@ -55,7 +54,7 @@ public partial class TPowerNode : TPlayerStructure
         base.Activate();
         if (FPlayer != -1)
         {
-            AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
         }
     }
 
@@ -64,7 +63,7 @@ public partial class TPowerNode : TPlayerStructure
     {
         if (FPlayer != -1)
         {
-            AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
         }
 
         base.Deactivate();
@@ -93,7 +92,7 @@ public partial class TPowerNode : TPlayerStructure
     public override string GetCurrentActivityText()
     {
         var power = GetPower();
-        return RtlUnit.Format(TranslateRStr(GeneratingXPowerRStr), [IntToStr(power)]);
+        return RtlUnit.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TPowerNode.GeneratingXPowerRStr), [IntToStr(power)]);
     }
 
     // PowerNode.pas:96
@@ -112,9 +111,9 @@ public partial class TPowerNode : TPlayerStructure
                     }
                     else
                     {
-                        if (ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
+                        if (Aow.Game.Magic.Abilities.AbilityRules.ValidAttackRelation(Info.Player, Info.IndependentRelation, FPlayer, 0))
                         {
-                            P = 50 - AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
+                            P = 50 - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Info.Player).FIncome / 2;
                             if (P < 25)
                             {
                                 P = 25;
@@ -146,13 +145,13 @@ public partial class TPowerNode : TPlayerStructure
             {
                 if (FPlayer != -1)
                 {
-                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.UnregisterPowerSource(FPowerSource);
                 }
 
                 base.SetPlayer(Player);
                 if (FPlayer != -1)
                 {
-                    AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FPlayer).FMagicControl.RegisterPowerSource(FPowerSource);
                 }
             }
             else
@@ -184,7 +183,7 @@ public partial class TPowerNode : TPlayerStructure
         string Result;
         if (Combat.FCombatResult == TCombatResult.crVictory || Combat.FCombatResult == TCombatResult.crNoDefenders)
         {
-            Result = TranslateRStr(PowerNodeBattleWonRStr);
+            Result = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TPowerNode.PowerNodeBattleWonRStr);
         }
         else
         {
@@ -193,6 +192,11 @@ public partial class TPowerNode : TPlayerStructure
 
         return Result;
     }
+
+    private static readonly string GeneratingXPowerRStr = "Generating %s power";
+    private static readonly string PowerNodeBattleWonRStr = "Power Node captured";
+
+    // PowerNode.pas:25
 
     // PowerNode.pas:25
 
@@ -221,23 +225,8 @@ public partial class TPowerNodeResource : TPlayerStructureResource
     // PowerNode.pas:41
 
     // PowerNode.pas:163
-    public override string ResourceEditName() => TranslateRStr(PowerNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TPowerNodeResource.PowerNodeRStr);
 
-}
+    private static readonly string PowerNodeRStr = "Power Node";
 
-public static partial class PowerNodeUnit
-{
-    // PowerNode.pas:172
-    public static void RegisterPowerNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TPowerNode>(), EClass.Of<TPowerNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

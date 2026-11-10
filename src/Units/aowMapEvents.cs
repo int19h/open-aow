@@ -18,28 +18,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Net.AoWSMTPDlgUnit;
-using static Aow.Game.Session.E2CampaignSupportUnit;
-using static Aow.Game.Ui.Dialogs.AoWArenaDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWArmyEventDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWCityScreenUnit;
-using static Aow.Game.Ui.Dialogs.AoWExeFormsUnit;
-using static Aow.Game.Ui.Dialogs.AoWFileDialogUnit;
-using static Aow.Game.Ui.Dialogs.aowHelpWinUnit;
-using static Aow.Game.Ui.Dialogs.AoWHeroInfoDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWInfoWinUnit;
-using static Aow.Game.Ui.Dialogs.AoWMessageDlgUnit;
-using static Aow.Game.Ui.Dialogs.AoWPInfoWinUnit;
-using static Aow.Game.Ui.Dialogs.AoWProdScreenUnit;
-using static Aow.Game.Ui.Dialogs.AoWRealmUnit;
-using static Aow.Game.Ui.Dialogs.AoWUnitBannerUnit;
-using static Aow.Game.Ui.Dialogs.AoWUnitWindowUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
-using static Aow.Game.Ui.Dialogs.E1GlobalsUnit;
-using static Aow.Game.Ui.Dialogs.E3EventDialogsUnit;
-using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
-using static Aow.Game.Ui.Dialogs.FastCombatWinUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -65,19 +43,19 @@ public partial class TMapEvents : TDataModule
     {
         if (Request.FAbilityID == 52)
         {
-            SpellBook.ShowCasting(Request);
+            Aow.Game.Ui.Dialogs.DialogHosts.SpellBook.ShowCasting(Request);
         }
         else
         {
             if (Request.FAbilityID == 125)
             {
-                ConstructDlg.Execute(Request);
+                Aow.Game.Ui.Dialogs.DialogHosts.ConstructDlg.Execute(Request);
             }
             else
             {
                 if (Request is TUnitSelectorAAI)
                 {
-                    UnitSelectionDlg.Execute((TUnitSelectorAAI)Request);
+                    Aow.Game.Ui.Dialogs.DialogHosts.UnitSelectionDlg.Execute((TUnitSelectorAAI)Request);
                 }
             }
         }
@@ -88,30 +66,30 @@ public partial class TMapEvents : TDataModule
     {
         if (Army != null)
         {
-            if (Army == General.FUnitList)
+            if (Army == Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList)
             {
                 TheMapArmySelected(Army);
-                if (UnitWindow.UnitWin.Visible)
+                if (Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible)
                 {
-                    UnitWindow.ShowUnit();
+                    Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
                 }
 
-                if (UnitBanner.BannerPopup.Visible)
+                if (Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner.BannerPopup.Visible)
                 {
-                    UnitBanner.BannerPopupShow();
+                    Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner.BannerPopupShow();
                 }
             }
 
-            if (AoWHSMap.FSeatedPlayer == Army.FPlayer && RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected == 3)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Army.FPlayer && Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible && Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected == 3)
             {
-                RealmWin.UpdateOverview();
+                Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
             }
         }
         else
         {
-            if (RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected == 3)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible && Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected == 3)
             {
-                RealmWin.UpdateOverview();
+                Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
             }
         }
     }
@@ -119,45 +97,45 @@ public partial class TMapEvents : TDataModule
     // aowMapEvents.pas:117
     public void TheMapArmyDeselected()
     {
-        General.FAbilities.Clear();
-        General.FUnitList = null;
-        AOWControlWinUnit.ControlWin.MovesLbl.Text = "";
-        AOWControlWinUnit.ControlWin.MoveIcon.Visible = false;
-        AOWControlWinUnit.ControlWin.Emp1Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp1Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp2Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp2Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp3Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp3Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp4Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp4Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp5Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp5Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp6Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp6Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp7Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp7Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp8Fr.Visible = true;
-        AOWControlWinUnit.ControlWin.Emp8Chk.Visible = true;
-        AOWControlWinUnit.ControlWin.ControlWindow.Visible = false;
-        TBWindow.ConButton.Visible = false;
-        if (UnitWindow.UnitWin.Visible)
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities.Clear();
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList = null;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.MovesLbl.Text = "";
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.MoveIcon.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp1Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp1Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp2Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp2Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp3Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp3Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp4Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp4Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp5Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp5Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp6Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp6Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp7Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp7Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp8Fr.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.Emp8Chk.Visible = true;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.ControlWindow.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.ConButton.Visible = false;
+        if (Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible)
         {
-            UnitWindow.UnitWin.Visible = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible = false;
         }
     }
 
     // aowMapEvents.pas:144
     public void TheMapArmyDestroyed(TArmy Army)
     {
-        if (Army != null && Army == General.FUnitList)
+        if (Army != null && Army == Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList)
         {
             TheMapArmyDeselected();
         }
 
-        if (RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected == 3)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible && Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected == 3)
         {
-            RealmWin.UpdateOverview();
+            Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
         }
     }
 
@@ -168,61 +146,61 @@ public partial class TMapEvents : TDataModule
         Count = 0;
         for (int I = 0; I <= 7; I++)
         {
-            General.FSelectedUnits[I] = -1;
+            Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[I] = -1;
         }
 
         for (int I = 0, last = Army.GetCount() - 1; I <= last; I++)
         {
-            if (!Army.GetUnitConcealedForPlayer(I, AoWHSMap.FSeatedPlayer))
+            if (!Army.GetUnitConcealedForPlayer(I, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer))
             {
-                General.FSelectedUnits[Count] = I;
+                Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnits[Count] = I;
                 Count += 1;
             }
         }
 
-        General.FUnitList = Army;
-        AOWControlWinUnit.ControlWin.UpdateArmy();
-        if (AoWHSMap.FSeatedPlayer == Army.FPlayer)
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FUnitList = Army;
+        Aow.Game.Ui.Dialogs.DialogHosts.ControlWin.UpdateArmy();
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Army.FPlayer)
         {
-            AoWHSMap.FTutorialControl.ShowMessage(63, true, true);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(63, true, true);
         }
     }
 
     // aowMapEvents.pas:167
     public void TheMapDayChanged(int Day)
     {
-        if (AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msActivated))
         {
-            TBWindow.TurnButton.FLastPlayer = -1;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FLastPlayer = -1;
         }
 
-        var format = AoWEUnit.Format(TranslateRStr(DayXRStr), [Day]);
-        PInfoW.Turn.Text = format;
-        aowMapEventsUnit.MapEvents.TheMapGemsChanged(AoWHSMap.FSeatedPlayer);
-        aowMapEventsUnit.MapEvents.TheMapIncomeChanged(AoWHSMap.FSeatedPlayer);
-        if (RealmWin.Dlg.Visible)
+        var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TMapEvents.DayXRStr), [Day]);
+        Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.Turn.Text = format;
+        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapGemsChanged(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+        Aow.Game.Ui.Dialogs.DialogHosts.MapEvents.TheMapIncomeChanged(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+        if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible)
         {
-            RealmWin.UpdateOverview();
+            Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
         }
     }
 
     // aowMapEvents.pas:187
     public void TheMapEndTurn(sbyte Player, bool Cancelled)
     {
-        if (AoWHSMap.FSeatedPlayer == Player && AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).FGameOverStatus == TGameOverStatus.goNone)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FGameOverStatus == TGameOverStatus.goNone)
         {
             if (Cancelled)
             {
-                TBWindow.TurnButton.FDrawn = false;
-                TBWindow.TurnButton.FButtonChecked = false;
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FDrawn = false;
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FButtonChecked = false;
             }
             else
             {
-                General.HideTransientWindows();
+                Aow.Game.Ui.Dialogs.DialogHosts.General.HideTransientWindows();
             }
         }
 
-        TBWindow.PInd.FDrawn = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.PInd.FDrawn = false;
     }
 
     // aowMapEvents.pas:198
@@ -230,7 +208,7 @@ public partial class TMapEvents : TDataModule
     {
         if (!Mode)
         {
-            General.HideTransientWindows();
+            Aow.Game.Ui.Dialogs.DialogHosts.General.HideTransientWindows();
         }
 
         // None has no renderer: nothing shows and the event is not reported done.
@@ -250,15 +228,15 @@ public partial class TMapEvents : TDataModule
     {
         bool Update;
         Update = false;
-        if (AoWHSMap.FSeatedPlayer == Player)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
         {
             Update = true;
         }
         else
         {
-            if (AoWHSMap.FCombatMap != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
             {
-                if (AoWHSMap.FCombatMap.FSeatedPlayer == Player)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap.FSeatedPlayer == Player)
                 {
                     Update = true;
                 }
@@ -273,7 +251,7 @@ public partial class TMapEvents : TDataModule
             }
             else
             {
-                if (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
                 {
                     Update = false;
                 }
@@ -282,30 +260,30 @@ public partial class TMapEvents : TDataModule
             if (!Update)
             {
                 // { The original clears both income signs when the gold display is cleared. }
-                TBWindow.WGTLbl.Text = "";
-                TBWindow.WGSign.Text = "";
-                TBWindow.WMTSign.Text = "";
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGTLbl.Text = "";
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.Text = "";
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.Text = "";
             }
             else
             {
-                var player = AoWHSMap.FPlayers.GetPlayers(Player);
-                TBWindow.WGTLbl.Text = IntToStr(player.FGems);
-                if (RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected == 0)
+                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGTLbl.Text = IntToStr(player.FGems);
+                if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible && Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected == 0)
                 {
-                    RealmWin.UpdateOverview();
+                    Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
                 }
             }
 
-            TBWindow.TGTLbl.Text = TBWindow.WGTLbl.Text;
-            TBWindow.TGSign.Text = TBWindow.WGSign.Text;
-            TBWindow.TMTSign.Text = TBWindow.WMTSign.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TGTLbl.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGTLbl.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TGSign.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TMTSign.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.Text;
         }
     }
 
     // aowMapEvents.pas:320
     public void TheMapGlobalMagicChanged()
     {
-        GlobalMagicChanged(MagicWin);
+        Aow.Game.Ui.Dialogs.TMapEvents.GlobalMagicChanged(Aow.Game.Ui.Dialogs.DialogHosts.MagicWin);
     }
 
     // aowMapEvents.pas:323
@@ -314,15 +292,15 @@ public partial class TMapEvents : TDataModule
         bool Update;
         int NetIncome;
         Update = false;
-        if (AoWHSMap.FSeatedPlayer == Player)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
         {
             Update = true;
         }
         else
         {
-            if (AoWHSMap.FCombatMap != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
             {
-                if (AoWHSMap.FCombatMap.FSeatedPlayer == Player)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap.FSeatedPlayer == Player)
                 {
                     Update = true;
                 }
@@ -337,7 +315,7 @@ public partial class TMapEvents : TDataModule
             }
             else
             {
-                if (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
                 {
                     Update = false;
                 }
@@ -345,54 +323,54 @@ public partial class TMapEvents : TDataModule
 
             if (!Update)
             {
-                TBWindow.WGILbl.Text = "";
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGILbl.Text = "";
             }
             else
             {
-                var upkeep = AoWHSMap.FPlayers.GetPlayers(Player).GetUpkeep();
-                NetIncome = AoWHSMap.FPlayers.GetPlayers(Player).FIncome - upkeep;
+                var upkeep = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetUpkeep();
+                NetIncome = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FIncome - upkeep;
                 if (NetIncome >= 0)
                 {
-                    TBWindow.WGSign.Text = "+";
-                    TBWindow.WGSign.TextColor = 7864183;
-                    TBWindow.WGILbl.TextColor = 7864183;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.Text = "+";
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.TextColor = 7864183;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGILbl.TextColor = 7864183;
                 }
                 else
                 {
-                    TBWindow.WGSign.Text = "-";
-                    TBWindow.WGSign.TextColor = 119;
-                    TBWindow.WGILbl.TextColor = 119;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.Text = "-";
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.TextColor = 119;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGILbl.TextColor = 119;
                 }
 
-                TBWindow.WGILbl.Text = IntToStr(Math.Abs(NetIncome));
-                if (RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected == 0)
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGILbl.Text = IntToStr(Math.Abs(NetIncome));
+                if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible && Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected == 0)
                 {
-                    RealmWin.UpdateOverview();
+                    Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
                 }
             }
 
-            TBWindow.TGILbl.Text = TBWindow.WGILbl.Text;
-            TBWindow.TGSign.Text = TBWindow.WGSign.Text;
-            TBWindow.TGSign.TextColor = TBWindow.WGSign.TextColor;
-            TBWindow.TGILbl.TextColor = TBWindow.WGILbl.TextColor;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TGILbl.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGILbl.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TGSign.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TGSign.TextColor = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGSign.TextColor;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TGILbl.TextColor = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WGILbl.TextColor;
         }
     }
 
     // aowMapEvents.pas:362
     public void TheMapMapChanged(ref TMapChangedInfo Info)
     {
-        if (Info.MapLevel == AoWSWindowUnit.SWindow.Scanner.FLevel)
+        if (Info.MapLevel == Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FLevel)
         {
-            AoWSWindowUnit.SWindow.Scanner.DrawMap(Info.Bounds.Left - 6, Info.Bounds.Top - 6, Info.Bounds.Right - Info.Bounds.Left, Info.Bounds.Bottom - Info.Bounds.Top);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.DrawMap(Info.Bounds.Left - 6, Info.Bounds.Top - 6, Info.Bounds.Right - Info.Bounds.Left, Info.Bounds.Bottom - Info.Bounds.Top);
         }
     }
 
     // aowMapEvents.pas:370
     public void TheMapScannerIconsChanged(ref TMapChangedInfo Info)
     {
-        if (Info.MapLevel == AoWSWindowUnit.SWindow.Scanner.FLevel)
+        if (Info.MapLevel == Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.FLevel)
         {
-            AoWSWindowUnit.SWindow.Scanner.SetObDrawn(false);
+            Aow.Game.Ui.Dialogs.DialogHosts.SWindow.Scanner.SetObDrawn(false);
         }
     }
 
@@ -401,18 +379,18 @@ public partial class TMapEvents : TDataModule
     {
         bool Update;
         int NetIncome;
-        MagicPlayerChanged(MagicWin, Player);
-        SpellBook.PlayerChanged(Player);
+        Aow.Game.Ui.Dialogs.TMapEvents.MagicPlayerChanged(Aow.Game.Ui.Dialogs.DialogHosts.MagicWin, Player);
+        Aow.Game.Ui.Dialogs.DialogHosts.SpellBook.PlayerChanged(Player);
         Update = false;
-        if (AoWHSMap.FSeatedPlayer == Player)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
         {
             Update = true;
         }
         else
         {
-            if (AoWHSMap.FCombatMap != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap != null)
             {
-                if (AoWHSMap.FCombatMap.FSeatedPlayer == Player)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMap.FSeatedPlayer == Player)
                 {
                     Update = true;
                 }
@@ -427,7 +405,7 @@ public partial class TMapEvents : TDataModule
             }
             else
             {
-                if (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType != TPlayerType.ptHuman)
                 {
                     Update = false;
                 }
@@ -435,54 +413,54 @@ public partial class TMapEvents : TDataModule
 
             if (!Update)
             {
-                TBWindow.WMTLbl.Text = "";
-                TBWindow.WMILbl.Text = "";
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTLbl.Text = "";
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMILbl.Text = "";
             }
             else
             {
-                var player = AoWHSMap.FPlayers.GetPlayers(Player);
-                TBWindow.WMTLbl.Text = IntToStr(player.FMagicControl.FMana);
-                NetIncome = AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaIncome() - AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaUpkeep();
+                var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTLbl.Text = IntToStr(player.FMagicControl.FMana);
+                NetIncome = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaIncome() - Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FMagicControl.GetManaUpkeep();
                 if (NetIncome >= 0)
                 {
-                    TBWindow.WMTSign.Text = "+";
-                    TBWindow.WMTSign.TextColor = 7864183;
-                    TBWindow.WMILbl.TextColor = 7864183;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.Text = "+";
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.TextColor = 7864183;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMILbl.TextColor = 7864183;
                 }
                 else
                 {
-                    TBWindow.WMTSign.Text = "-";
-                    TBWindow.WMTSign.TextColor = 119;
-                    TBWindow.WMILbl.TextColor = 119;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.Text = "-";
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.TextColor = 119;
+                    Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMILbl.TextColor = 119;
                 }
 
-                TBWindow.WMILbl.Text = IntToStr(Math.Abs(NetIncome));
+                Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMILbl.Text = IntToStr(Math.Abs(NetIncome));
             }
 
-            TBWindow.TMTLbl.Text = TBWindow.WMTLbl.Text;
-            TBWindow.TMILbl.Text = TBWindow.WMILbl.Text;
-            TBWindow.TMTSign.Text = TBWindow.WMTSign.Text;
-            TBWindow.TMTSign.TextColor = TBWindow.WMTSign.TextColor;
-            TBWindow.TMILbl.TextColor = TBWindow.WMILbl.TextColor;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TMTLbl.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTLbl.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TMILbl.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMILbl.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TMTSign.Text = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.Text;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TMTSign.TextColor = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMTSign.TextColor;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TMILbl.TextColor = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.WMILbl.TextColor;
         }
     }
 
     // aowMapEvents.pas:1021
     public void TheMapLogbookChanged(sbyte Player)
     {
-        if (Player == AoWHSMap.FSeatedPlayer)
+        if (Player == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
         {
-            PInfoW.UpdateEvents();
+            Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.UpdateEvents();
         }
     }
 
     // aowMapEvents.pas:1026
     public void TheMapPlayerTerminated(sbyte Player)
     {
-        TBWindow.UpdatePlayerIndicator();
-        if (AoWHSMap != null)
-            if (AoWHSMap.FConnectionType == TPlayerConnectionType.pcNetwork)
-                if (Player == AoWHSMap.FSeatedPlayer)
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.UpdatePlayerIndicator();
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FConnectionType == TPlayerConnectionType.pcNetwork)
+                if (Player == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
                 {
                     /* TODO: Implement aowDPlayComp.DisConnect in the platform or editor service. */
                     throw new NotImplementedException();
@@ -494,23 +472,23 @@ public partial class TMapEvents : TDataModule
     {
         if (Player == -1)
         {
-            General.HideWindows();
-            General.Manager.OverlayPriority = 0;
-            TBWindow.CurP.Visible = false;
-            TBWindow.FWorldClockDelay = 0;
-            TBWindow.TurnButton.FCurPlayer = 12;
-            TBWindow.TurnButton.FLastPlayer = TBWindow.TurnButton.FCurPlayer;
-            TBWindow.TurnButton.FAnimationFrame = TBWindow.TurnButton.FCurPlayer * 7;
+            Aow.Game.Ui.Dialogs.DialogHosts.General.HideWindows();
+            Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.CurP.Visible = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.FWorldClockDelay = 0;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FCurPlayer = 12;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FLastPlayer = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FCurPlayer;
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FAnimationFrame = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton.FCurPlayer * 7;
         }
         else
         {
-            General.ShowWindows();
-            var aowTurnButton = TBWindow.TurnButton;
-            if (AoWHSMap.Status.Contains(THSMapStatusElement.msActivated) && !aowTurnButton.FAnimating)
+            Aow.Game.Ui.Dialogs.DialogHosts.General.ShowWindows();
+            var aowTurnButton = Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TurnButton;
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msActivated) && !aowTurnButton.FAnimating)
             {
                 if (Player > -1)
                 {
-                    aowTurnButton.FCurPlayer = AoWHSMap.FPlayers.GetPlayers(Player).FPlayerRace;
+                    aowTurnButton.FCurPlayer = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerRace;
                 }
                 else
                 {
@@ -525,76 +503,76 @@ public partial class TMapEvents : TDataModule
                 aowTurnButton.FLastPlayer = -1;
             }
 
-            TBWindow.CurP.Visible = AoWHSMap.FPlayMode == TPlayMode.pmTurn;
-            PInfoW.UpdatePlayer();
-            if (RealmWin.Dlg.Visible)
+            Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.CurP.Visible = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayMode == TPlayMode.pmTurn;
+            Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.UpdatePlayer();
+            if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible)
             {
-                RealmWin.UpdateOverview();
+                Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
             }
         }
 
         TheMapGemsChanged(Player);
         TheMapIncomeChanged(Player);
         TheMapPlayerMagicChanged(Player);
-        TBWindow.PInd.FDrawn = false;
-        PInfoW.UpdateEvents();
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.PInd.FDrawn = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.UpdateEvents();
     }
 
     // aowMapEvents.pas:440
     public void TheMapShowMessage(ref TShowMessageInfo Info)
     {
-        TBWindow.TBMessEdit.TextColor = Info.Color;
-        TBWindow.TBMessEdit.Text = Info.Text;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TBMessEdit.TextColor = Info.Color;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.TBMessEdit.Text = Info.Text;
     }
 
     // aowMapEvents.pas:446
     public void TheMapStructureChanged(TStructure Structure)
     {
-        UpdateStructureInfo(IWindow, Structure);
+        Aow.Game.Ui.Dialogs.TMapEvents.UpdateStructureInfo(Aow.Game.Ui.Dialogs.DialogHosts.IWindow, Structure);
         if (Structure != null)
         {
-            CityScreen.CityChanged(Structure);
-            ProductionScreen.PlaceChanged(Structure);
+            Aow.Game.Ui.Dialogs.DialogHosts.CityScreen.CityChanged(Structure);
+            Aow.Game.Ui.Dialogs.DialogHosts.ProductionScreen.PlaceChanged(Structure);
         }
 
-        if (RealmWin.Dlg.Visible && RealmWin.HeaderTab.Selected < 3)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible && Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected < 3)
         {
-            RealmWin.UpdateOverview();
+            Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
         }
     }
 
     // aowMapEvents.pas:457
     public void TheMapStructureDeselected()
     {
-        if (General.FSign != null)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSign != null)
         {
-            General.FSign.ChangeText(AoWHSMap.FSeatedPlayer, IWindow.SignText.Items);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.FSign.ChangeText(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, Aow.Game.Ui.Dialogs.DialogHosts.IWindow.SignText.Items);
         }
 
-        General.FStructure = null;
-        General.FCity = null;
-        General.FProductionPlace = null;
-        General.FProductionControl = null;
-        General.FSign = null;
-        IWindow.StructNameLbl.Text = "";
-        IWindow.StructLine.Visible = false;
-        IWindow.InfoWin.Visible = false;
-        TBWindow.StructButton.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure = null;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FCity = null;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FProductionPlace = null;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FProductionControl = null;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FSign = null;
+        Aow.Game.Ui.Dialogs.DialogHosts.IWindow.StructNameLbl.Text = "";
+        Aow.Game.Ui.Dialogs.DialogHosts.IWindow.StructLine.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.IWindow.InfoWin.Visible = false;
+        Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.StructButton.Visible = false;
     }
 
     // aowMapEvents.pas:467
     public void TheMapStructureDestroyed(TStructure Structure)
     {
-        if (Structure != null && Structure == General.FStructure)
+        if (Structure != null && Structure == Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure)
         {
             TheMapStructureDeselected();
         }
 
-        if (RealmWin.Dlg.Visible)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.Dlg.Visible)
         {
-            if (RealmWin.HeaderTab.Selected == 2 || RealmWin.HeaderTab.Selected == 1)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected == 2 || Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.HeaderTab.Selected == 1)
             {
-                RealmWin.UpdateOverview();
+                Aow.Game.Ui.Dialogs.DialogHosts.RealmWin.UpdateOverview();
             }
         }
     }
@@ -602,47 +580,47 @@ public partial class TMapEvents : TDataModule
     // aowMapEvents.pas:473
     public void TheMapStructureSelected(TStructure Structure)
     {
-        General.FPreviousStructure = General.FStructure;
-        General.FStructure = Structure;
-        General.FProductionControl = null;
-        ShowStructureInfo(IWindow, Structure);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FPreviousStructure = Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure = Structure;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.FProductionControl = null;
+        Aow.Game.Ui.Dialogs.TMapEvents.ShowStructureInfo(Aow.Game.Ui.Dialogs.DialogHosts.IWindow, Structure);
     }
 
     // aowMapEvents.pas:481
     public void TheMapItemsDeselected()
     {
-        HideItemSelection(IWindow);
+        Aow.Game.Ui.Dialogs.TMapEvents.HideItemSelection(Aow.Game.Ui.Dialogs.DialogHosts.IWindow);
     }
 
     // aowMapEvents.pas:484
     public void TheMapItemsSelected(TItemHS Items)
     {
-        ShowItemSelection(IWindow, Items);
+        Aow.Game.Ui.Dialogs.TMapEvents.ShowItemSelection(Aow.Game.Ui.Dialogs.DialogHosts.IWindow, Items);
     }
 
     // aowMapEvents.pas:487
     public void TheMapTargetSelectionChange(TTargetSelectionControl Control, TTargetSelectionChange Change)
     {
-        aowMapEventsUnit.ShowTargetSelection(AoWWorldMapUnit.TargetSelectionDlg, Control, Change);
+        Aow.Game.Ui.Dialogs.TMapEvents.ShowTargetSelection(Aow.Game.Ui.Dialogs.DialogHosts.TargetSelectionDlg, Control, Change);
     }
 
     // aowMapEvents.pas:490
     public void TheMapUnitChanged(TAbstractUnit U)
     {
-        if (U == General.FSelectedUnit)
+        if (U == Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit)
         {
-            if (UnitWindow.UnitWin.Visible)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.UnitWin.Visible)
             {
-                UnitWindow.ShowUnit();
+                Aow.Game.Ui.Dialogs.DialogHosts.UnitWindow.ShowUnit();
             }
 
-            if (UnitBanner.BannerPopup.Visible)
+            if (Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner.BannerPopup.Visible)
             {
-                UnitBanner.BannerPopupShow();
+                Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner.BannerPopupShow();
             }
         }
 
-        SpellBook.UnitChanged(U);
+        Aow.Game.Ui.Dialogs.DialogHosts.SpellBook.UnitChanged(U);
     }
 
     // aowMapEvents.pas:500
@@ -650,19 +628,19 @@ public partial class TMapEvents : TDataModule
     {
         if (Caster is TUnitSpellCaster)
         {
-            aowMapEventsUnit.ShowUnitSpellCaster(CastUnitSpellDlg, (TUnitSpellCaster)Caster);
+            Aow.Game.Ui.Dialogs.TMapEvents.ShowUnitSpellCaster(Aow.Game.Ui.Dialogs.DialogHosts.CastUnitSpellDlg, (TUnitSpellCaster)Caster);
         }
         else
         {
             if (Caster is TDisjunctionSpellCaster)
             {
-                AoWExeFormsUnit.DisjunctionDlg.Execute((TDisjunctionSpellCaster)Caster);
+                Aow.Game.Ui.Dialogs.DialogHosts.DisjunctionDlg.Execute((TDisjunctionSpellCaster)Caster);
             }
             else
             {
                 if (Caster is TCosmeticSurgerySpellCaster)
                 {
-                    DeformFaceDlg.Execute((TCosmeticSurgerySpellCaster)Caster);
+                    Aow.Game.Ui.Dialogs.DialogHosts.DeformFaceDlg.Execute((TCosmeticSurgerySpellCaster)Caster);
                 }
             }
         }
@@ -673,28 +651,28 @@ public partial class TMapEvents : TDataModule
     {
         if (HS is TItemHS)
         {
-            UpdateItemSelection(IWindow, (TItemHS)HS);
+            Aow.Game.Ui.Dialogs.TMapEvents.UpdateItemSelection(Aow.Game.Ui.Dialogs.DialogHosts.IWindow, (TItemHS)HS);
         }
     }
 
     // aowMapEvents.pas:512
     public void TheMapRelationsChanged()
     {
-        aowMapEventsUnit.RefreshRelations(RelWindow);
+        Aow.Game.Ui.Dialogs.TMapEvents.RefreshRelations(Aow.Game.Ui.Dialogs.DialogHosts.RelWindow);
     }
 
     // aowMapEvents.pas:515
     public void TheMapDiplomaticChange()
     {
-        aowMapEventsUnit.RefreshRelations(RelWindow);
+        Aow.Game.Ui.Dialogs.TMapEvents.RefreshRelations(Aow.Game.Ui.Dialogs.DialogHosts.RelWindow);
     }
 
     // aowMapEvents.pas:518
     public void TheMapStructureDblClick(TStructure Structure)
     {
-        if (Structure == General.FStructure && Structure != null)
+        if (Structure == Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure && Structure != null)
         {
-            if (StructureScreens.TryGet(Structure.DoubleClick(AoWHSMap.FSeatedPlayer), out var open))
+            if (StructureScreens.TryGet(Structure.DoubleClick(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer), out var open))
             {
                 open(this, Structure);
             }
@@ -706,10 +684,10 @@ public partial class TMapEvents : TDataModule
     {
         try
         {
-            General.SaveLayout();
-            General.HideWindows();
-            AOWMWindowUnit.MWindow.MapViewer.HSMap = null;
-            if (aowSetupEventsUnit.SetupEvents.FLobbyGame)
+            Aow.Game.Ui.Dialogs.DialogHosts.General.SaveLayout();
+            Aow.Game.Ui.Dialogs.DialogHosts.General.HideWindows();
+            Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.HSMap = null;
+            if (Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.FLobbyGame)
                 GameHost.MainForm.CloseRequested();
         }
         catch
@@ -717,140 +695,214 @@ public partial class TMapEvents : TDataModule
             ShowMessage("Error during close");
         }
     }
-}
 
-public static partial class aowMapEventsUnit
-{
-    // aowMapEvents.pas:998
-    public static void ShowItemsFound(TItemsFoundDlg Dialog, TItemExplorationSiteEventLog Event, TExecuteDoneEvent Done)
+    private static readonly string DayXRStr = "Day %d";
+    private static readonly string PickupRStr = "Pickup";
+    internal static readonly string UnlimitedRStr = "Unlimited";
+    private static readonly string UpkeepRStr = "Upkeep";
+    private static readonly string ItemBagRStr = "Item Bag";
+
+    private static void ShowStructureInfo(global::Aow.Game.Ui.Dialogs.TIWindow Dialog, global::Aow.Game.World.Structures.TStructure Structure)
     {
-        TItemExplorationSiteEventLog Log;
-        Dialog.Reset();
-        Dialog.FOnDone = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Log = Dialog.FEvent;
-        Dialog.TitleLbl.Text = Log.FTitle;
-        var text = Log.FMessages.Text;
-        Dialog.MessageMemo.Items.Text = text;
-        Dialog.LeftBtn.Visible = Log.FItemIDs.Count > 5;
-        Dialog.RightBtn.Visible = Log.FItemIDs.Count > 5;
-        if (Dialog.GetHero() == null)
+        global::Aow.Game.Ui.Dialogs.TIWindow.StructurePanels[Structure.InfoPanel(global::Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)].Invoke(Dialog, Structure);
+        if (!global::Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.StructButton.Visible)
         {
-            Dialog.OKPnl.Visible = true;
+            global::Aow.Game.Ui.Dialogs.DialogHosts.IWindow.InfoWin.Visible = true;
+        }
+        global::Aow.Game.Ui.Dialogs.DialogHosts.TBWindow.StructButton.Visible = true;
+    }
+
+    private static void UpdateStructureInfo(global::Aow.Game.Ui.Dialogs.TIWindow Dialog, global::Aow.Game.World.Structures.TStructure Structure)
+    {
+        if (!Dialog.InfoWin.Visible)
+        {
+            return;
+        }
+        if (Structure == null)
+        {
+            Structure = global::Aow.Game.Ui.Dialogs.DialogHosts.General.FStructure;
+            if (Structure != null && !Structure.Selected)
+            {
+                Structure = null;
+            }
+        }
+        if (Structure != null && Structure.Selected)
+        {
+            ShowStructureInfo(Dialog, Structure);
+        }
+    }
+
+    private static void ShowItemSelection(global::Aow.Game.Ui.Dialogs.TIWindow Dialog, global::Aow.Game.Draw.TItemHS Items)
+    {
+        ResetStructureInfo(Dialog);
+        string text = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(ItemBagRStr);
+        Dialog.Title.Text = text;
+        Dialog.FItemBag = Items;
+        Dialog.ItemPnl.Visible = true;
+        Dialog.InfoWin.Visible = true;
+        Dialog.StructNameLbl.Text = "";
+        global::Aow.Game.Draw.Images.TLibraryImage imageTop = global::Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.MiscArt[35];
+        Dialog.StructLine.ImageTop = imageTop;
+        global::Aow.Game.Draw.Images.TLibraryImage imageMiddle = global::Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.MiscArt[36];
+        Dialog.StructLine.ImageMiddle = imageMiddle;
+        global::Aow.Game.Draw.Images.TLibraryImage imageBottom = global::Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.MiscArt[37];
+        Dialog.StructLine.ImageBottom = imageBottom;
+        global::Aow.Game.Draw.TArmyHS armyHS = ((global::Aow.Game.World.Map.TAoWMapField)Items.Owner).GetArmyHS();
+        if (armyHS != null && armyHS.FArmy.FPlayer == global::Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
+        {
+            Dialog.ItemBagMemo.Visible = false;
+            global::Aow.Game.Magic.Abilities.THero tHero = armyHS.FArmy.Hero(255, global::Aow.Game.Magic.Abilities.RosterTables.AllHeroTypes);
+            Dialog.MainBtn.Visible = tHero != null;
+            string text2 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(PickupRStr);
+            Dialog.MainBtn.Text = text2;
+            Dialog.ItembagLB.Visible = true;
+            ((TStrings)Dialog.ItembagLB.Items).Clear();
+            Dialog.ItembagSB.Visible = true;
+            int i = 0;
+            for (int num = Items.FItems.Count - 1; i <= num; i++)
+            {
+                ((TStrings)Dialog.ItembagLB.Items).Add("");
+            }
+            Dialog.ItemsInBagLbl.Visible = true;
         }
         else
         {
-            Dialog.PickupPnl.Visible = true;
+            Dialog.ItemBagMemo.Visible = true;
+            Dialog.ItembagLB.Visible = false;
+            Dialog.ItemsInBagLbl.Visible = false;
+            Dialog.ItembagSB.Visible = false;
+            Dialog.MainBtn.Visible = false;
         }
-
-        AoWHSMap.FTutorialControl.ShowMessage(54, true, true);
-        Dialog.Dlg.FDrawn = false;
-        Dialog.Dlg.Visible = true;
     }
 
-    // aowMapEvents.pas:975
-    public static void ShowCityNegotiation(TCityJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
+    private static void UpdateItemSelection(global::Aow.Game.Ui.Dialogs.TIWindow Dialog, global::Aow.Game.Draw.TItemHS Items)
     {
-        TNegotiateRequestEventLog Log;
-        TCity Town;
-        Dialog.FDone = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Log = Dialog.FEvent;
-        var text = Log.FJoinMessage.Text;
-        Dialog.Memo.Items.Text = text;
-        Dialog.ApproachLbl.Text = Log.FText;
-        Town = (TCity)AoWHSMap.MapContainer.GetField(Log.FX, Log.FY, Log.FL).FindNoneTransparentHS(typeof(TCity));
-        Dialog.FRace = Town.FRace;
-        var topCityActionImage = Town.GetTopCityActionImage(null);
-        Dialog.CityPicLine.ImageTop = topCityActionImage;
-        var middleCityActionImage = Town.GetMiddleCityActionImage(null);
-        Dialog.CityPicLine.ImageMiddle = middleCityActionImage;
-        var bottomCityActionImage = Town.GetBottomCityActionImage(null);
-        Dialog.CityPicLine.ImageBottom = bottomCityActionImage;
-        Dialog.Dlg.Visible = true;
-        AoWHSMap.FTutorialControl.ShowMessage(62, true, true);
+        if (Dialog.InfoWin.Visible && Items == Dialog.FItemBag)
+        {
+            ShowItemSelection(Dialog, Dialog.FItemBag);
+        }
     }
 
-    // aowMapEvents.pas:942
-    public static void ShowTargetSelection(TTargetSelectionDlg Dialog, TTargetSelectionControl Control, TTargetSelectionChange Change)
+    internal static void ResetStructureInfo(global::Aow.Game.Ui.Dialogs.TIWindow Dialog)
     {
-        if (Change == TTargetSelectionChange.tscActivated)
-        {
-            Dialog.HeaderLbl.Text = Control.FTitle;
-            Dialog.MainBtn.Text = Control.FCancelText;
-            Dialog.DefaultMemo.Items.Assign(Control.FText);
-            Dialog.Dlg.Visible = true;
-            if (!Control.FTargetMode.Contains(TTargetSelectionModeElement.tmValidateDistance))
-            {
-                var unlimited = TranslateRStr(UnlimitedRStr);
-                Dialog.TargetLbl.Text = LowerCase(unlimited);
-            }
-            else
-            {
-                Dialog.TargetLbl.Text = IntToStr(Control.FRange);
-            }
+        Dialog.StructLine.Visible = true;
+        Dialog.StructLine.FSized = false;
+        Dialog.InfoWin.FAligned = false;
+        Dialog.CityPanel.Visible = false;
+        Dialog.CityBorderPnl.Visible = false;
+        Dialog.ProductionPlacePnl.Visible = false;
+        Dialog.SignPnl.Visible = false;
+        Dialog.NotYoursPnl.Visible = false;
+        Dialog.SingleButPnl.Visible = false;
+        Dialog.MainBtn.Visible = true;
+        Dialog.RazeBtn.Visible = true;
+        Dialog.ExplorationSitePnl.Visible = false;
+        Dialog.AltarPnl.Visible = false;
+        Dialog.IncomePnl.Visible = false;
+        Dialog.ItemPnl.Visible = false;
+        Dialog.ConstructionPnl.Visible = false;
+        Dialog.ProdOrb.Visible = false;
+        Dialog.ProdOrbTime.Visible = false;
+        Dialog.ProdOrbTurnsLbl.Visible = false;
+        Dialog.RazePnl.Visible = false;
+        Dialog.MainBtn.Visible = false;
+        ((TStrings)Dialog.SBmemo.Items).Clear();
+        Dialog.PopulationRaceLbl.Visible = false;
+        Dialog.PopulationLbl.Visible = false;
+        string text = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.StructureRStr);
+        Dialog.Title.Text = text;
+    }
 
-            Dialog.BorderImage.ImageTop = Control.FSourceImage;
-            Dialog.BorderImage.ImageMiddle = Control.FValidTargetImage;
-            Dialog.BorderImage.ImageBottom = Control.FInvalidTargetImage;
-            General.Manager.OverlayPriority = 49;
-            var window = AOWMWindowUnit.MWindow.MapWindow;
-            window.FModal = true;
-            window.Priority = 500;
-
-            AoWSWindowUnit.SWindow.ScannerWindow.Priority = Dialog.Dlg.Priority;
-        }
-        else
+    private static void ShowTargetSelection(global::Aow.Game.Ui.Dialogs.TTargetSelectionDlg Dialog, global::Aow.Game.Combat.TTargetSelectionControl Control, global::Aow.Game.Combat.TTargetSelectionChange Change)
+    {
+        switch (Change)
         {
-            if (Change == TTargetSelectionChange.tscDeactivated)
-            {
+            case global::Aow.Game.Combat.TTargetSelectionChange.tscActivated:
+                {
+                    Dialog.HeaderLbl.Text = Control.FTitle;
+                    Dialog.MainBtn.Text = Control.FCancelText;
+                    ((TPersistent)Dialog.DefaultMemo.Items).Assign((TPersistent)(object)Control.FText);
+                    Dialog.Dlg.Visible = true;
+                    if (!Control.FTargetMode.Contains(global::Aow.Game.Combat.TTargetSelectionModeElement.tmValidateDistance))
+                    {
+                        string text = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UnlimitedRStr);
+                        Dialog.TargetLbl.Text = RtlUnit.LowerCase(text);
+                    }
+                    else
+                    {
+                        Dialog.TargetLbl.Text = RtlUnit.IntToStr(Control.FRange);
+                    }
+                    Dialog.BorderImage.ImageTop = Control.FSourceImage;
+                    Dialog.BorderImage.ImageMiddle = Control.FValidTargetImage;
+                    Dialog.BorderImage.ImageBottom = Control.FInvalidTargetImage;
+                    global::Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
+                    global::Aow.Game.Ui.Windows.TAOWWindow mapWindow = global::Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow;
+                    mapWindow.FModal = true;
+                    mapWindow.Priority = 500;
+                    global::Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow.Priority = Dialog.Dlg.Priority;
+                    break;
+                }
+            case global::Aow.Game.Combat.TTargetSelectionChange.tscDeactivated:
                 Dialog.Dlg.Visible = false;
-                AOWMWindowUnit.MWindow.MapWindow.Priority = 0;
-                AOWMWindowUnit.MWindow.MapWindow.FModal = false;
-                AoWSWindowUnit.SWindow.ScannerWindow.Priority = 10;
-                General.Manager.OverlayPriority = 0;
-            }
+                global::Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.Priority = 0;
+                global::Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapWindow.FModal = false;
+                global::Aow.Game.Ui.Dialogs.DialogHosts.SWindow.ScannerWindow.Priority = 10;
+                global::Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
+                break;
         }
     }
 
-    // aowMapEvents.pas:909
-    public static void ShowUnitSpellCaster(TCastUnitSpellDlg Dialog, TUnitSpellCaster Caster)
+    private static void ShowUnitSpellCaster(global::Aow.Game.Ui.Dialogs.TCastUnitSpellDlg Dialog, global::Aow.Game.Units.TUnitSpellCaster Caster)
     {
-        THero Hero;
-        TSpell Spell;
         if (Dialog.FCaster != null)
         {
             Dialog.FCaster.Release();
         }
-
         Dialog.FCaster = Caster;
         Dialog.FCaster.AddRef();
-        Hero = AoWHSMap.FUnitControl.FindUnit<THero>(Dialog.FCaster.FCasterSourceID);
-        if (Hero != null)
+        global::Aow.Game.Magic.Abilities.THero tHero = global::Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitControl.FindUnit<global::Aow.Game.Magic.Abilities.THero>(Dialog.FCaster.FCasterSourceID);
+        if (tHero != null)
         {
-            var name = Hero.GetName();
+            string name = tHero.GetName();
             Dialog.CasterNameLbl.Text = name;
-            var castingPoints = Hero.GetCastingPoints();
-            var castingPointsText = TranslateRStr(CastingPointsRStr);
-            var castingPointsMax = Hero.GetCastingPointsMax();
-            Dialog.CastingPointsLbl.Text = castingPointsText + ": " + IntToStr(castingPoints) + "/" + IntToStr(castingPointsMax);
+            sbyte castingPoints = tHero.GetCastingPoints();
+            string text = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.CastingPointsRStr);
+            sbyte castingPointsMax = tHero.GetCastingPointsMax();
+            Dialog.CastingPointsLbl.Text = string.Concat(new string[5]
+            {
+                text,
+                ": ",
+                RtlUnit.IntToStr((int)castingPoints),
+                "/",
+                RtlUnit.IntToStr((int)castingPointsMax)
+            });
         }
-
-        Spell = AoWHSSet.FSpellControl.GetSpell(Dialog.FCaster.FCasterSpellID);
-        Dialog.SpellNameLbl.Text = Spell.FSpellName;
-        // { Original still uses Hero below if the source-unit lookup failed. }
-        var castingMana = Hero.CastingMana(Spell);
-        var castingCost = TranslateRStr(CastingCostRStr);
-        var mana = TranslateRStr(ManaRStr);
-        Dialog.SpellManaLbl.Text = castingCost + ": " + IntToStr(castingMana) + " " + mana;
-        var upkeep = TranslateRStr(UpkeepRStr);
-        var manaText = TranslateRStr(ManaRStr);
-        Dialog.SpellUpkeepLbl.Text = upkeep + ": " + IntToStr(Spell.FManaUpkeep) + " " + manaText;
-        var player = AoWHSMap.FPlayers.GetPlayers(Hero.FPlayer);
-        var mana3 = TranslateRStr(ManaRStr);
-        Dialog.CastingManaLbl.Text = mana3 + ": " + IntToStr(player.FMagicControl.FMana);
+        global::Aow.Game.Magic.Spells.TSpell spell = global::Aow.Game.Engine.TAoWHSSet.AoWHSSet.FSpellControl.GetSpell(Dialog.FCaster.FCasterSpellID);
+        Dialog.SpellNameLbl.Text = spell.FSpellName;
+        int num = tHero.CastingMana(spell);
+        string text2 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.CastingCostRStr);
+        string text3 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.ManaRStr);
+        Dialog.SpellManaLbl.Text = string.Concat(new string[5]
+        {
+            text2,
+            ": ",
+            RtlUnit.IntToStr(num),
+            " ",
+            text3
+        });
+        string text4 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(UpkeepRStr);
+        string text5 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.ManaRStr);
+        Dialog.SpellUpkeepLbl.Text = string.Concat(new string[5]
+        {
+            text4,
+            ": ",
+            RtlUnit.IntToStr(spell.FManaUpkeep),
+            " ",
+            text5
+        });
+        global::Aow.Game.Session.TPlayer players = global::Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(tHero.FPlayer);
+        string text6 = global::Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(global::Aow.Game.Magic.Abilities.GameText.ManaRStr);
+        Dialog.CastingManaLbl.Text = text6 + ": " + RtlUnit.IntToStr(players.FMagicControl.FMana);
         Dialog.U1.Checked = false;
         Dialog.U2.Checked = false;
         Dialog.U3.Checked = false;
@@ -863,435 +915,59 @@ public static partial class aowMapEventsUnit
         Dialog.Dlg.Visible = true;
     }
 
-    // aowMapEvents.pas:891
-    public static void RefreshRelations(TRelWindow Dialog)
+    private static void RefreshRelations(global::Aow.Game.Ui.Dialogs.TRelWindow Dialog)
     {
-        if (Dialog.RelWin.Visible)
+        if (!Dialog.RelWin.Visible)
         {
-            Dialog.FillPlayers();
-            Dialog.RelPnl.FAligned = false;
-            Dialog.RelWin.FDrawn = false;
-            if (Dialog.FSelectedPlayer != -1)
+            return;
+        }
+        Dialog.FillPlayers();
+        Dialog.RelPnl.FAligned = false;
+        Dialog.RelWin.FDrawn = false;
+        if (Dialog.FSelectedPlayer != -1)
+        {
+            Dialog.HighlightPlayer(Dialog.FSelectedPlayer);
+        }
+        if (Dialog.FInfoPlayer != -1)
+        {
+            if (Dialog.RNewActionPnl.Visible)
             {
-                Dialog.HighlightPlayer(Dialog.FSelectedPlayer);
-            }
-
-            if (Dialog.FInfoPlayer != -1)
-            {
-                if (Dialog.RNewActionPnl.Visible)
-                {
-                    Dialog.ShowPlayerActions(Dialog.FInfoPlayer);
-                }
-                else
-                {
-                    Dialog.ShowPlayerInformation(Dialog.FInfoPlayer);
-                }
+                Dialog.ShowPlayerActions(Dialog.FInfoPlayer);
             }
             else
             {
-                if (Dialog.FSelectedRace != -1)
-                {
-                    Dialog.HighlightRace(Dialog.FSelectedRace);
-                }
-            }
-
-            if (Dialog.FInfoRace != -1)
-            {
-                Dialog.ShowRaceInformation((byte)Dialog.FInfoRace);
+                Dialog.ShowPlayerInformation(Dialog.FInfoPlayer);
             }
         }
-    }
-
-    // aowMapEvents.pas:531
-    public static void ShowRebellion(TCityRebelDlg Dialog, TCityRebellionEventLog Event, TExecuteDoneEvent Done)
-    {
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.CityNameLabel.Text = Dialog.FEvent.FCityName;
-        Dialog.RebelWin.Visible = true;
-    }
-
-    // aowMapEvents.pas:543
-    public static void ShowReceivedMessage(TMsgReceiveDlg Dialog, TEventLog Event, TExecuteDoneEvent Done)
-    {
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.FDone = Done;
-        var text = Event.GetText();
-        Dialog.HeaderMemo.Items.Text = text;
-        var fMessageText = ((TGameOverEventLog)Event).FMessage.Text;
-        Dialog.MessageMemo.Items.Text = fMessageText;
-        var player = AoWHSMap.FPlayers.GetPlayers(Event.FPlayer);
-        Dialog.LShield.CurrentImage = player.FPlayerRace + 13;
-        Dialog.RShield.CurrentImage = Dialog.LShield.CurrentImage;
-        Dialog.MsgReceiveWin.Visible = true;
-    }
-
-    // aowMapEvents.pas:558
-    public static void ShowTutorialEvent(TTutorialWindow Dialog, TTutorialMessageEventLog Event, bool Unused, TExecuteDoneEvent Done)
-    {
-        Dialog.AbVSB.Position = 0;
-        Dialog.FinishDialog();
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.FDone = Done;
-        Dialog.HeaderMemo.Items.Clear();
-        if (Event.FMessage.Count > 0)
+        else if (Dialog.FSelectedRace != -1)
         {
-            var message = Event.FMessage[0];
-            Dialog.HeaderMemo.Items.Add(message);
+            Dialog.HighlightRace(Dialog.FSelectedRace);
         }
-
-        Dialog.MessageMemo.Items.Clear();
-        Dialog.MessageMemo.Items.AddStrings(Event.FMessage);
-        if (Dialog.MessageMemo.Items.Count > 0)
+        if (Dialog.FInfoRace != -1)
         {
-            Dialog.MessageMemo.Items.Delete(0);
-        }
-
-        if (Dialog.MessageMemo.Items.Count > 0 && IsEmpty(Dialog.MessageMemo.Items[0]))
-        {
-            Dialog.MessageMemo.Items.Delete(0);
-        }
-
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:577
-    public static void ShowFlagMessage(TTutorialWindow Dialog, TFlagMessageEventLog Event, bool Unused, TExecuteDoneEvent Done)
-    {
-        Dialog.AbVSB.Position = 0;
-        Dialog.FinishDialog();
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Dialog.FDone = Done;
-        Dialog.HeaderMemo.Items.Clear();
-        Dialog.HeaderMemo.Items.Add(Event.FHelpFileName);
-        Dialog.MessageMemo.Items.Clear();
-        Dialog.MessageMemo.Items.AddStrings(Event.FMessage);
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:594
-    public static void ShowArmyInfo(TArmyInfoDlg Dialog, TArmyInfoEventLog Event, TExecuteDoneEvent Done)
-    {
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        var text = Event.FMessages.Text;
-        Dialog.Message.Items.Text = text;
-        Dialog.Title.Text = Event.FTitle;
-        Dialog.HeaderLbl.Text = Event.FDescription;
-        Dialog.Dlg.Visible = true;
-        Dialog.FUnitInfoShown = false;
-    }
-
-    // aowMapEvents.pas:611
-    public static void ShowTower(TWizardsTowerDlg Dialog, TEnterWizardsTowerEventLog Event, TExecuteDoneEvent Done)
-    {
-        TWizardsTower Tower;
-        TSpell Spell;
-        Dialog.FOnClose = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Tower = Dialog.FEvent.FTower;
-        if (Tower.FSpellID != 0)
-        {
-            var buyCost = Dialog.FEvent.FTower.BuyCost();
-            var format = AoWEUnit.Format(TranslateRStr(ForXGoldRStr), [IntToStr(buyCost)]);
-            Dialog.PriceLbl.Text = format + ".";
-            Spell = AoWHSSet.FSpellControl.GetSpell(Tower.FSpellID);
-            Dialog.SpellName.Text = Spell.FSpellName;
-            var magicSphere = TranslateRStr(TMagicSphereRStr[(int)Spell.FMagicSphere]);
-            var level = TranslateRStr(AoWEUnit.LevelRStr);
-            Dialog.SpellClass.Text = magicSphere + ", " + level + " " + IntToStr(Spell.FSpellLevel);
-            var castingCost = TranslateRStr(CastingCostRStr);
-            var mana = TranslateRStr(ManaRStr);
-            Dialog.SpellCost.Text = castingCost + ": " + IntToStr(Spell.FBaseManaCost) + " " + mana;
-            var text = Spell.FSpellText.Text;
-            Dialog.ResearchMemo.Items.Text = text;
-        }
-        else
-        {
-            Dialog.PriceLbl.Text = "";
-            var none = TranslateRStr(AoWEUnit.NoneRStr);
-            Dialog.SpellName.Text = none;
-            Dialog.SpellClass.Text = "";
-            Dialog.SpellCost.Text = "";
-            Dialog.ResearchMemo.Items.Text = "";
-        }
-
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:647
-    public static void ResetPartyJoin(TPartyJoinDlg Dialog)
-    {
-        Dialog.LeftBtn.Visible = true;
-        Dialog.MiddleBtn.Visible = true;
-        Dialog.RightBtn.Visible = true;
-        var partyJoin = TranslateRStr(PartyJoinRStr);
-        Dialog.Title.Text = partyJoin;
-    }
-
-    // aowMapEvents.pas:656
-    public static void UpdatePartyJoin(TPartyJoinDlg Dialog)
-    {
-        if (Dialog.ValidateJoin())
-        {
-            Dialog.FUnits.Clear();
-            Dialog.FFaceUnit = AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
-            Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
-            var text = Dialog.FJoinEvent.FJoinMessage.Text;
-            Dialog.JoinMemo.Items.Text = text;
+            Dialog.ShowRaceInformation((byte)Dialog.FInfoRace);
         }
     }
 
-    // aowMapEvents.pas:668
-    public static void ResetHeroJoin(THeroJoinDlg Dialog)
+    private static void HideItemSelection(global::Aow.Game.Ui.Dialogs.TIWindow Window)
     {
-        Dialog.LeftBtn.Visible = true;
-        Dialog.MiddleBtn.Visible = true;
-        Dialog.RightBtn.Visible = true;
+        Window.InfoWin.Visible = false;
+        Window.FItemBag = null;
     }
 
-    // aowMapEvents.pas:676
-    public static void UpdateHeroJoin(THeroJoinDlg Dialog)
+    private static void MagicPlayerChanged(global::Aow.Game.Ui.Dialogs.TMagicWin Window, sbyte Player)
     {
-        if (Dialog.ValidateJoin())
+        if (Window.Dlg.Visible && Player == global::Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
         {
-            Dialog.FUnits.Clear();
-            Dialog.FFaceUnit = AoWHSMap.FUnitControl.FindUnit(Dialog.FJoinEvent.FFirstUnitID);
-            Dialog.FJoinEvent.ListJoinUnits(Dialog.FUnits, ref Dialog.FSelection);
-            var level = ((THero)Dialog.FFaceUnit).GetLevel();
-            var format = AoWEUnit.Format(TranslateRStr(LevelXRStr), [IntToStr(level)]);
-            Dialog.HeroLevel.Text = format;
-            Dialog.HeroName.Text = ((THero)Dialog.FFaceUnit).FHeroName;
-            var text = Dialog.FJoinEvent.FJoinMessage.Text;
-            Dialog.JoinMemo.Items.Text = text;
+            global::Aow.Game.Ui.Dialogs.TMagicWin.RefreshMagicWindow(Window);
         }
     }
 
-    // aowMapEvents.pas:690
-    public static void ShowPartyJoin(TPartyJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
+    private static void GlobalMagicChanged(global::Aow.Game.Ui.Dialogs.TMagicWin Window)
     {
-        ResetPartyJoin(Dialog);
-        Dialog.Dlg.Visible = true;
-        Dialog.FJoinEvent = Event;
-        Dialog.FJoinEvent.AddRef();
-        Dialog.FDone = Done;
-        var accept = TranslateRStr(AcceptRStr);
-        Dialog.LeftBtn.Text = accept;
-        var attack = TranslateRStr(AttackRStr);
-        Dialog.MiddleBtn.Text = attack;
-        var cancel = TranslateRStr(CancelRStr);
-        Dialog.RightBtn.Text = cancel;
-        UpdatePartyJoin(Dialog);
-        AoWHSMap.FTutorialControl.ShowMessage(70, true, true);
-    }
-
-    // aowMapEvents.pas:706
-    public static void ShowPrisonersJoin(TPartyJoinDlg Dialog, TPrisonersJoinEventLog Event, TExecuteDoneEvent Done)
-    {
-        ResetPartyJoin(Dialog);
-        Dialog.Dlg.Visible = true;
-        var prisonerLiberation = TranslateRStr(PrisonerLiberationRStr);
-        Dialog.Title.Text = prisonerLiberation;
-        Dialog.FJoinEvent = Event;
-        Dialog.FJoinEvent.AddRef();
-        Dialog.FDone = Done;
-        var accept = TranslateRStr(AcceptRStr);
-        Dialog.LeftBtn.Text = accept;
-        Dialog.MiddleBtn.Visible = false;
-        var reject = TranslateRStr(RejectRStr);
-        Dialog.RightBtn.Text = reject;
-        UpdatePartyJoin(Dialog);
-    }
-
-    // aowMapEvents.pas:722
-    public static void ShowHeroJoin(THeroJoinDlg Dialog, THeroJoinEventLog Event, TExecuteDoneEvent Done)
-    {
-        ResetHeroJoin(Dialog);
-        Dialog.FJoinEvent = Event;
-        Dialog.FJoinEvent.AddRef();
-        Dialog.FDone = Done;
-        var accept = TranslateRStr(AcceptRStr);
-        Dialog.LeftBtn.Text = accept;
-        Dialog.MiddleBtn.Visible = false;
-        var cancel = TranslateRStr(CancelRStr);
-        Dialog.RightBtn.Text = cancel;
-        UpdateHeroJoin(Dialog);
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:736
-    public static void ShowHeroNegotiation(THeroJoinDlg Dialog, TNegotiateRequestEventLog Event, TExecuteDoneEvent Done)
-    {
-        ResetHeroJoin(Dialog);
-        Dialog.FJoinEvent = Event;
-        Dialog.FJoinEvent.AddRef();
-        Dialog.FDone = Done;
-        var accept = TranslateRStr(AcceptRStr);
-        Dialog.LeftBtn.Text = accept;
-        var attack = TranslateRStr(AttackRStr);
-        Dialog.MiddleBtn.Text = attack;
-        var cancel = TranslateRStr(CancelRStr);
-        Dialog.RightBtn.Text = cancel;
-        UpdateHeroJoin(Dialog);
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:750
-    public static void ShowPrisonerHero(THeroJoinDlg Dialog, TPrisonersJoinEventLog Event, TExecuteDoneEvent Done)
-    {
-        ResetHeroJoin(Dialog);
-        Dialog.FJoinEvent = Event;
-        Dialog.FJoinEvent.AddRef();
-        Dialog.FDone = Done;
-        var accept = TranslateRStr(AcceptRStr);
-        Dialog.LeftBtn.Text = accept;
-        Dialog.MiddleBtn.Visible = false;
-        var reject = TranslateRStr(RejectRStr);
-        Dialog.RightBtn.Text = reject;
-        UpdateHeroJoin(Dialog);
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:789
-    public static void ShowHeroUpgrade(THeroUpgradeDlg Dialog, THeroUpgradeEventLog Event, TExecuteDoneEvent Completed)
-    {
-        Dialog.FReferencedHero = Event;
-        Dialog.FReferencedHero.AddRef();
-        Dialog.FOnClose = Completed;
-        if (Dialog.ValidateHero())
+        if (Window.Dlg.Visible)
         {
-            Dialog.FEditedHero = (THero)Dialog.FHero.Copy(AoWEngine);
-            Dialog.UpdateStatistics();
-            Dialog.RefreshAbilities();
-            Dialog.UnitName.Text = Dialog.FHero.FHeroName;
-            var level = Dialog.FHero.GetLevel();
-            var levelText = TranslateRStr(AoWEUnit.LevelRStr);
-            Dialog.LevelLbl.Text = levelText + " " + IntToStr(level);
-            if (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel > 1)
-            {
-                var format = AoWEUnit.Format(TranslateRStr(E3GlobalsUnit.XMadeYLevelsRStr), [Dialog.FHero.FHeroName, (Dialog.FReferencedHero.FNewLevel - Dialog.FReferencedHero.FOldLevel)]);
-                Dialog.HeaderLbl.Text = format + "!";
-            }
-            else
-            {
-                var format = AoWEUnit.Format(TranslateRStr(E3GlobalsUnit.XMadeALevelRStr), [Dialog.FHero.FHeroName]);
-                Dialog.HeaderLbl.Text = format + "!";
-            }
-
-            Dialog.Dlg.Visible = true;
+            global::Aow.Game.Ui.Dialogs.TMagicWin.RefreshGlobalMagic(Window);
         }
     }
-
-    // aowMapEvents.pas:811
-    public static void ShowMessageEvent(TMessageDlg Dialog, TMessageEventLog Event, TExecuteDoneEvent Done)
-    {
-        TMessageEventLog Log;
-        ResetMessageDialog(Dialog);
-        Dialog.FDone = Done;
-        Dialog.FEvent = Event;
-        Dialog.FEvent.AddRef();
-        Log = Dialog.FEvent;
-        Dialog.TitleLbl.Text = Log.FTitle;
-        switch (Log.FLayout)
-        {
-            case TMessageEventLogLayout.melNormal:
-                var text = Log.FMessage.Text;
-                Dialog.MessageMemo.Items.Text = text;
-                if (Dialog.MessageMemo.Items.Text.Length < 80)
-                {
-                    Dialog.MessageMemo.Items.Insert(0, "");
-                }
-
-                break;
-            case TMessageEventLogLayout.melHeader:
-                Dialog.MemoPnl.Visible = false;
-                Dialog.HeaderMemoPnl.Visible = true;
-                Dialog.HeaderLbl.Text = Log.FHeader;
-                var fMessageText = Log.FMessage.Text;
-                Dialog.HeaderMemo.Items.Text = fMessageText;
-                break;
-        }
-
-        switch (Log.FButtons)
-        {
-            case TMessageEventLogButtons.mebOk:
-                Dialog.OKPnl.Visible = true;
-                break;
-            case TMessageEventLogButtons.mebOkCancel:
-                Dialog.OKCancelPnl.Visible = true;
-                break;
-            case TMessageEventLogButtons.mebYesNo:
-                Dialog.YesNoPnl.Visible = true;
-                break;
-            case TMessageEventLogButtons.mebYesNoCancel:
-                Dialog.YesNoCancelPnl.Visible = true;
-                break;
-        }
-
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:844
-    public static void ShowSaveGameEvent(TFileDlgWindow Dialog, TSaveGameEventLog Event, TExecuteDoneEvent Done)
-    {
-        Dialog.FDone = Done;
-        Dialog.FSaveEvent = Event;
-        Dialog.FSaveEvent.AddRef();
-        Dialog.FMode = 1;
-        Dialog.FileDialog.Visible = true;
-        if (!IsEmpty(Event.FDirectory))
-        {
-            SetCurrentDir(Event.FDirectory);
-        }
-
-        Dialog.SFileName.Text = Event.FDefaultName;
-        Dialog.Title.Text = Event.FTitle;
-        Dialog.FindFiles();
-    }
-
-    // aowMapEvents.pas:858
-    public static void ShowPasswordEvent(TPasswordDlg Dialog, TPasswordEventLog Event, TExecuteDoneEvent Done)
-    {
-        TPasswordEventLog Log;
-        Dialog.Reset();
-        Dialog.FDone = Done;
-        Dialog.FPasswordEvent = Event;
-        Dialog.FPasswordEvent.AddRef();
-        Log = Dialog.FPasswordEvent;
-        Dialog.TitleLbl.Text = Log.FTitle;
-        Dialog.PasswordLbl.Text = Log.FPrompt;
-        Dialog.PasswordEdit.Text = Log.FPassword;
-        Dialog.PasswordEdit.FRedraw = true;
-        Dialog.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:875
-    public static void ShowMagicWindow(TMagicWin Window)
-    {
-        if (!Window.Dlg.Visible)
-        {
-            RefreshMagicWindow(Window);
-            RefreshGlobalMagic(Window);
-        }
-
-        Window.Dlg.Visible = true;
-    }
-
-    // aowMapEvents.pas:885
-    public static void ShowMagicEvent(TMagicWin Window, TPlayerMagicEventLog Event, TExecuteDoneEvent Done)
-    {
-        ShowMagicWindow(Window);
-        if (Done != null)
-        {
-            Done(Event);
-        }
-    }
-
-    public static TMapEvents MapEvents;
 }

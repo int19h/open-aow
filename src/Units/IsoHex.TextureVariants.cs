@@ -14,7 +14,7 @@ public partial class TUpperIsometricHexagon
         int Xhp = default;
         int Yhp = default;
         int Variant;
-        HSEngineUnit.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -144,7 +144,7 @@ public partial class TLowerIsometricHexagon
         int Variant;
         int X;
         int Y;
-        HSEngineUnit.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;

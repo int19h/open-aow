@@ -6,5 +6,3 @@ namespace Aow.Game.Audio;
 public sealed class IDirectSoundBuffer : IUnknown { }
 
 public sealed class IDirectSound : IUnknown { }
-
-public static class E2DirectSoundUnit { }

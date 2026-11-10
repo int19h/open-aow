@@ -6,9 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Game.World.Terrain;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Terrain;
@@ -28,9 +25,9 @@ public partial class THouse : TCombatStructure
     {
         TPlayerStructure Structure;
         base.Activate();
-        if (!AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
+        if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
         {
-            Structure = (TPlayerStructure)AoWHSMap.MapContainer.GetMapLevel(CombatLLoc).GetField(CombatXLoc, CombatYLoc).FindNoneTransparentHS(typeof(TPlayerStructure));
+            Structure = (TPlayerStructure)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetMapLevel(Aow.Game.Combat.CombatPlacement.CombatLLoc).GetField(Aow.Game.Combat.CombatPlacement.CombatXLoc, Aow.Game.Combat.CombatPlacement.CombatYLoc).FindNoneTransparentHS(typeof(TPlayerStructure));
             if (Structure != null)
             {
                 if (Structure is TCity)
@@ -48,7 +45,7 @@ public partial class THouse : TCombatStructure
                 }
                 else
                 {
-                    FFlagID = AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
+                    FFlagID = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Structure.FPlayer).FPlayerRace;
                 }
 
                 if (FFlagID == -1)
@@ -66,15 +63,15 @@ public partial class THouse : TCombatStructure
         int Xhp = default;
         int Yhp = default;
         int TerrainOffset;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         XhpSurf = Xhp - XhpSurf;
         YhpSurf = Yhp - YhpSurf;
         if (FHitPoints == 0)
         {
-            Sequence = AoWHSSet.FImageSequences.GetImageSequence(50);
+            Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.GetImageSequence(50);
             var yhx = GetYhx();
             var xhx = GetXhx();
-            switch (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            switch (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
             {
                 case 3:
                     TerrainOffset = 1;
@@ -108,7 +105,7 @@ public partial class THouse : TCombatStructure
         {
             var yhx = GetYhx();
             var xhx = GetXhx();
-            switch (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
+            switch (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).TerrainType)
             {
                 case 3:
                     TerrainOffset = 20;
@@ -131,21 +128,21 @@ public partial class THouse : TCombatStructure
                     switch (Sequence.Layer)
                     {
                         case 7:
-                            ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                            ImageIndex = Sequence.GetFrameIndex(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                             if (ImageIndex != -1)
                             {
-                                if (!AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
+                                if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
                                 {
                                     var xhx2 = GetXhx();
                                     var yhx2 = GetYhx();
-                                    AoWHSSet.FFlagControl.ShowStructureFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + AoWHSMap.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
+                                    Aow.Game.Engine.TAoWHSSet.AoWHSSet.FFlagControl.ShowStructureFlagEx(XhpSurf + 21 + Sequence.dXshift, YhpSurf + Sequence.dYshift + 16, xhx2 + Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame + yhx2 * 100, (byte)FFlagID, SurfaceDesc, false);
                                 }
                             }
 
                             break;
                         default:
                             {
-                                ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                                ImageIndex = Sequence.GetFrameIndex(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                                 if (ImageIndex != -1)
                                 {
                                     Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
@@ -170,7 +167,7 @@ public partial class THouse : TCombatStructure
         int Yhp = default;
         if (FHitPoints > 0)
         {
-            HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+            Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
             XhpSurf = Xhp - XhpSurf;
             YhpSurf = Yhp - YhpSurf;
             Sequence = FResource.ImageSequenceList.GetImageSequence(FRace + 60);
@@ -178,7 +175,7 @@ public partial class THouse : TCombatStructure
             {
                 do
                 {
-                    ImageIndex = Sequence.GetFrameIndex(AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                    ImageIndex = Sequence.GetFrameIndex(Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                     if (ImageIndex != -1)
                     {
                         Sequence.ImageLibrary[ImageIndex].Show(XhpSurf + Sequence.dXshift, YhpSurf + Sequence.dYshift, SurfaceDesc);
@@ -206,21 +203,4 @@ public partial class THouseResource : TCombatStructureResource
     // House.pas:148
     public override string ResourceEditName() => "Combat House";
 
-}
-
-public static partial class HouseUnit
-{
-    // House.pas:154
-    public static void RegisterHouse(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<THouseResource>(), EClass.Of<THouse>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

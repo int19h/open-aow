@@ -11,8 +11,8 @@ public sealed class NullSoundSystem : TSoundSystem
 
     public static void Install()
     {
-        SoundUnit.RegisterSoundSystem(Descriptor);
-        SoundUnit.InitializeSoundSystem("Galaxy", default);
+        Aow.Game.Audio.NullSoundSystem.RegisterSoundSystem(Descriptor);
+        Aow.Game.Audio.AudioPlayback.InitializeSoundSystem("Galaxy", default);
     }
 
     public static string Name => "Galaxy";
@@ -28,7 +28,7 @@ public sealed class NullSoundSystem : TSoundSystem
 
     protected internal override void Process()
     {
-        for (int i = SoundUnit.SampleList.Count - 1; i >= 0; i--) ((TSample)SoundUnit.SampleList[i]).Update();
+        for (int i = Aow.Game.Audio.AudioHost.SampleList.Count - 1; i >= 0; i--) ((TSample)Aow.Game.Audio.AudioHost.SampleList[i]).Update();
     }
 
     protected internal override int GetMusicVolume() => musicVolume;
@@ -62,6 +62,21 @@ public sealed class NullSoundSystem : TSoundSystem
     public override TSongStatus BackupSongStatus() => new() { FFileName = song };
 
     public override bool RestoreSongStatus(TSongStatus status) { song = status.FileName; return true; }
+
+    internal static void RegisterSoundSystem(global::Aow.Game.Audio.SoundSystemClass AClass)
+    {
+        if (global::Aow.Game.Audio.AudioHost.SoundSystems == null)
+        {
+            global::Aow.Game.Audio.AudioHost.SoundSystems = new global::Aow.Game.Audio.TSoundSystemList();
+        }
+        string name = AClass.Name;
+        if (global::Aow.Game.Audio.AudioHost.SoundSystems.Find(name) == null)
+        {
+            ((TList)global::Aow.Game.Audio.AudioHost.SoundSystems).Add((object)AClass);
+            return;
+        }
+        throw new InvalidOperationException("Sound System with name: " + AClass.Name + " already registered");
+    }
 }
 
 internal class NullSample : TSample

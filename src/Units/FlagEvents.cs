@@ -7,7 +7,6 @@ using Aow.Game.Events;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World
 {
@@ -43,7 +42,7 @@ namespace Aow.Game.World
         // FlagEvents.pas:164
         public override void Show(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
         {
-            if (AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 base.Show(XhpSurf, YhpSurf, SurfaceDesc);
             }
@@ -60,7 +59,7 @@ namespace Aow.Game.World
         }
 
         // FlagEvents.pas:110
-        public override bool CanSelect(int Xhp, int Yhp) => AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
+        public override bool CanSelect(int Xhp, int Yhp) => Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting);
 
         // FlagEvents.pas:105
         public override bool CanPlace(TMapContainer MapContainer, sbyte Xhx, sbyte Yhx, sbyte Lhx) => true;
@@ -177,13 +176,13 @@ namespace Aow.Game.World
         public override bool Trigger(sbyte Player)
         {
             TFlagMessageEventLog Log;
-            if (AoWHSMap.FSeatedPlayer == Player)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
             {
                 Log = new TFlagMessageEventLog(null);
                 Log.FHelpFileName = FHelpFileName;
                 var text = FMessage.Text;
                 Log.FMessage.Text = text;
-                AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
                 Log.Release();
             }
 
@@ -206,7 +205,9 @@ namespace Aow.Game.World
         public override int ResourceUserClassID() => 132461;
 
         // FlagEvents.pas:223
-        public override string ResourceEditName() => TranslateRStr(FlagMessageEventRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.TFlagMessageEventResource.FlagMessageEventRStr);
+
+        private static readonly string FlagMessageEventRStr = "Flag Message Event";
 
     }
 
@@ -243,12 +244,12 @@ namespace Aow.Game.World
         public override bool Trigger(sbyte Player)
         {
             TTutorialMessageEventLog Log;
-            if (AoWHSMap.FSeatedPlayer == Player)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
             {
                 Log = new TTutorialMessageEventLog(null);
                 var text = FMessage.Text;
                 Log.FMessage.Text = text;
-                AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.TriggerExecuteEventLog(Log, FTriggerMode == TFlagEventTriggerMode.etmInstant, null);
                 Log.Release();
             }
 
@@ -271,7 +272,9 @@ namespace Aow.Game.World
         public override int ResourceUserClassID() => 132459;
 
         // FlagEvents.pas:274
-        public override string ResourceEditName() => TranslateRStr(TutorialMessageEventRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.TTutorialMessageEventResource.TutorialMessageEventRStr);
+
+        private static readonly string TutorialMessageEventRStr = "Tutorial Message Event";
 
     }
 
@@ -279,22 +282,5 @@ namespace Aow.Game.World
     {
         etmInstant = 0,
         etmNewTurn = 1
-    }
-
-    public static partial class FlagEventsUnit
-    {
-        // FlagEvents.pas:284
-        public static void RegisterFlagEvents(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TFlagMessageEvent>(), EClass.Of<TFlagMessageEventResource>(), EClass.Of<TTutorialMessageEvent>(), EClass.Of<TTutorialMessageEventResource>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

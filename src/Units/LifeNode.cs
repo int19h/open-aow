@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -41,23 +40,8 @@ public partial class TLifeNodeResource : TProductionPlaceResource
     // LifeNode.pas:27
 
     // LifeNode.pas:52
-    public override string ResourceEditName() => TranslateRStr(LifeNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TLifeNodeResource.LifeNodeRStr);
 
-}
+    private static readonly string LifeNodeRStr = "Life Node";
 
-public static partial class LifeNodeUnit
-{
-    // LifeNode.pas:61
-    public static void RegisterLifeNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TLifeNode>(), EClass.Of<TLifeNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

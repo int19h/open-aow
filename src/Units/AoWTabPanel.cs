@@ -358,7 +358,3 @@ public partial class TAOWTabPanel : TAOWControl
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWTabPanelUnit
-{
-}

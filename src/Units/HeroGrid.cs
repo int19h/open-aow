@@ -113,14 +113,14 @@ namespace Aow.Game.Ui.Grids
         public void SortHeroes(byte Mode)
         {
             FSort = Mode;
-            HeroGridUnit.SortHeroList = FHeroes;
+            Aow.Game.Ui.Grids.THeroGrid.SortHeroList = FHeroes;
             switch (FSort)
             {
                 case 0:
-                    FIndices.SortStable(HeroGridUnit.HeroGridCompareName);
+                    FIndices.SortStable(Aow.Game.Ui.Grids.THeroGrid.HeroGridCompareName);
                     break;
                 case 1:
-                    FIndices.SortStable(HeroGridUnit.HeroGridCompareLevel);
+                    FIndices.SortStable(Aow.Game.Ui.Grids.THeroGrid.HeroGridCompareLevel);
                     break;
             }
 
@@ -193,6 +193,19 @@ namespace Aow.Game.Ui.Grids
 
         [Published]
         public bool ShowHeroLevel { get => FShowLevel; set => FShowLevel = value; }
+
+        internal static global::Aow.Game.Units.THeroList SortHeroList;
+
+        internal static int HeroGridCompareName(int A, int B)
+        {
+            global::Aow.Game.Magic.Abilities.THero hero = SortHeroList.GetHero(B);
+            return RtlUnit.CompareText(SortHeroList.GetHero(A).FHeroName, hero.FHeroName);
+        }
+
+        internal static int HeroGridCompareLevel(int A, int B)
+        {
+            return SortHeroList.GetHero(A).GetLevel() - SortHeroList.GetHero(B).GetLevel();
+        }
     }
 }
 
@@ -243,37 +256,5 @@ namespace Aow.Game.Ui.Grids.HeroGrid
         public byte Kind;
         public FixedArray_byte_15 Reserved35;
         public bool Hidden;
-    }
-}
-
-namespace Aow.Game.Ui.Grids
-{
-
-    public static partial class HeroGridUnit
-    {
-        public static readonly string GridUsedRStr = "Used";
-
-        public static THeroList SortHeroList;
-
-        // HeroGrid.pas:102
-        public static int HeroGridCompareName(int A, int B)
-        {
-            var hero = SortHeroList.GetHero(B);
-            return CompareText(SortHeroList.GetHero(A).FHeroName, hero.FHeroName);
-        }
-
-        // HeroGrid.pas:108
-        public static int HeroGridCompareLevel(int A, int B)
-        {
-            return SortHeroList.GetHero(A).GetLevel() - SortHeroList.GetHero(B).GetLevel();
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

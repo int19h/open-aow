@@ -3,8 +3,6 @@ using Aow.Game.Combat;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -36,34 +34,34 @@ public partial class TUnitBanner : TDataModule
     public void BannerPopupShow()
     {
         TTCAbility A;
-        if (General.FSelectedUnit != null)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
-            var name = General.FSelectedUnit.GetName();
+            var name = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetName();
             UnitNameLbl.Text = name;
             BannerPopup.FAligned = false;
-            var hitPoints = General.FSelectedUnit.GetHitPoints();
-            var hits = General.FSelectedUnit.GetHits();
+            var hitPoints = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetHitPoints();
+            var hits = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetHits();
             Hits.Text = IntToStr(hitPoints) + "/" + IntToStr(hits);
-            var movePoints = General.FSelectedUnit.GetMovePoints();
-            var moves = General.FSelectedUnit.GetMoves();
+            var movePoints = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetMovePoints();
+            var moves = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetMoves();
             Moves.Text = IntToStr(movePoints) + "/" + IntToStr(moves);
-            var attack = General.FSelectedUnit.GetAttack();
+            var attack = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetAttack();
             Attack.Text = IntToStr(attack);
-            var damage = General.FSelectedUnit.GetDamage();
+            var damage = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetDamage();
             Damage.Text = IntToStr(damage);
-            var defense = General.FSelectedUnit.GetDefense();
+            var defense = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetDefense();
             Defense.Text = IntToStr(defense);
-            var resistance = General.FSelectedUnit.GetResistance();
+            var resistance = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetResistance();
             Resistance.Text = IntToStr(resistance);
-            var moveTypes = General.FSelectedUnit.GetMoveTypes();
-            var mTtoInt = General.MTtoInt(moveTypes);
+            var moveTypes = Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit.GetMoveTypes();
+            var mTtoInt = Aow.Game.Ui.Dialogs.DialogHosts.General.MTtoInt(moveTypes);
             MovesIcon.CurrentImage = mTtoInt;
             AbLB.Items.Clear();
-            General.BuildAbilities();
-            for (int I = 0, last = General.FAbilities.Count - 1; I <= last; I++)
+            Aow.Game.Ui.Dialogs.DialogHosts.General.BuildAbilities();
+            for (int I = 0, last = Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities.Count - 1; I <= last; I++)
             {
-                A = (TTCAbility)General.FAbilities[I];
-                var name2 = AoWHSSet.FAbilityControl.GetAbility(A.Ability).GetName(General.FSelectedUnit);
+                A = (TTCAbility)Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities[I];
+                var name2 = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(A.Ability).GetName(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit);
                 AbLB.Items.Add(name2);
             }
 
@@ -85,7 +83,7 @@ public partial class TUnitBanner : TDataModule
     // AoWUnitBanner.pas:85
     public void AbLBMouseMove(TSet<TShiftState> Shift, int X, int Y)
     {
-        if (General.FSelectedUnit != null && AbLB.F188 >= General.FActiveAbilityCount)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null && AbLB.F188 >= Aow.Game.Ui.Dialogs.DialogHosts.General.FActiveAbilityCount)
         {
             AbLB.F188 = -1;
         }
@@ -96,7 +94,7 @@ public partial class TUnitBanner : TDataModule
     {
         if (Button == 1)
         {
-            AoWUnitBannerUnit.UnitBanner.BannerPopup.Visible = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.UnitBanner.BannerPopup.Visible = false;
         }
     }
 
@@ -104,12 +102,12 @@ public partial class TUnitBanner : TDataModule
     public void AbLBMouseDown(TMouseButton Button, TSet<TShiftState> Shift, int X, int Y)
     {
         string Reason = "";
-        if (General.FSelectedUnit != null)
+        if (Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit != null)
         {
-            if (AbLB.Selected > -1 && AbLB.Selected < General.FActiveAbilityCount)
+            if (AbLB.Selected > -1 && AbLB.Selected < Aow.Game.Ui.Dialogs.DialogHosts.General.FActiveAbilityCount)
             {
-                var ability = General.FAbilities[AbLB.Selected];
-                AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).Activate(General.FSelectedUnit, ref Reason);
+                var ability = Aow.Game.Ui.Dialogs.DialogHosts.General.FAbilities[AbLB.Selected];
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(((TTCAbility)ability).Ability).Activate(Aow.Game.Ui.Dialogs.DialogHosts.General.FSelectedUnit, ref Reason);
                 BannerPopup.Visible = false;
             }
             else
@@ -118,9 +116,4 @@ public partial class TUnitBanner : TDataModule
             }
         }
     }
-}
-
-public static partial class AoWUnitBannerUnit
-{
-    public static TUnitBanner UnitBanner;
 }

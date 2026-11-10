@@ -1,8 +1,6 @@
 using System.Text.Json;
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-using G = Aow.Game.Draw.GFXEUnit;
-using Images = Aow.Game.Draw.Images.ImageLibUnit;
 
 namespace Aow.Units.Tests;
 
@@ -37,28 +35,28 @@ public sealed class ImageClassTests
         // Captured from the public image-class registry at b635b9f before the descriptor edits.
         using var baselineStream = typeof(ImageClassTests).Assembly.GetManifestResourceStream("Aow.Units.Tests.ImageClassSnapshot.json")!;
         var baseline = JsonSerializer.Deserialize<Baseline[]>(baselineStream)!;
-        var previousClasses = Images.LibraryImageClasses;
-        Images.LibraryImageClasses = new TList();
+        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
         var source = new TImageLibrary(null!);
         var loaded = new TImageLibrary(null!);
         var stream = new MemoryStream();
         try
         {
-            Images.RegisterLibraryImageClasses([
+            Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([
                 LibraryImageClass.Of<TPicture08>(), LibraryImageClass.Of<TRLESprite08>(),
                 LibraryImageClass.Of<TPicture16>(), LibraryImageClass.Of<TTransparentPicture16>(),
                 LibraryImageClass.Of<TRLESprite16>(), LibraryImageClass.Of<TTransparentRLESprite16>(),
                 LibraryImageClass.Of<TShadow>(), LibraryImageClass.Of<TImageNode>(), LibraryImageClass.Of<TSprite16>()]);
-            Assert.Equal(baseline.Length, Images.LibraryImageClassCount());
+            Assert.Equal(baseline.Length, Aow.Game.Draw.Images.LibraryCatalog.LibraryImageClassCount());
             for (int i = 0; i < baseline.Length; i++)
             {
                 var expected = baseline[i];
-                var descriptor = Images.GetLibraryImageClass(i);
+                var descriptor = Aow.Game.Draw.Images.LibraryCatalog.GetLibraryImageClass(i);
                 Assert.Equal(expected.Type, descriptor.Type.FullName);
                 Assert.Equal(expected.ClassID, descriptor.ClassID);
                 Assert.Equal(expected.ClassVersion, descriptor.ClassVersion);
                 Assert.Equal(expected.Name, descriptor.Name);
-                Assert.Same(descriptor, Images.FindLibraryImageClass(expected.ClassID));
+                Assert.Same(descriptor, Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(expected.ClassID));
                 Assert.Same(descriptor, LibraryImageClass.Of(descriptor.Type));
                 var image = descriptor.Create(source);
                 image.ReadDiscardableImageData(stream);
@@ -81,19 +79,19 @@ public sealed class ImageClassTests
                 Assert.Equal(expected.ClassVersion, image.ClassVersion());
                 Assert.Equal(expected.Name, image.Name());
                 Assert.Same(loaded, image.Owner);
-                Assert.Same(Images.FindLibraryImageClass(expected.ClassID), image.ImageClass);
+                Assert.Same(Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(expected.ClassID), image.ImageClass);
                 Assert.Same(image.ImageClass, image.ImageClass);
             }
-            Assert.Null(Images.FindLibraryImageClass(-1));
-            Assert.Throws<InvalidOperationException>(() => Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>()]));
+            Assert.Null(Aow.Game.Draw.Images.LibraryCatalog.FindLibraryImageClass(-1));
+            Assert.Throws<InvalidOperationException>(() => Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture08>()]));
         }
         finally
         {
             stream.Dispose();
             loaded.Dispose();
             source.Dispose();
-            Images.LibraryImageClasses.Dispose();
-            Images.LibraryImageClasses = previousClasses;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }
 
@@ -141,10 +139,10 @@ public sealed class ImageClassTests
     public void GrabImagesUsesTheDescriptorCreationDelegate()
     {
         var library = new TImageLibrary(null!);
-        var surface = new TDataSurface(2, 3, G.pfRGB555, null!);
-        var previousClasses = Images.LibraryImageClasses;
-        Images.LibraryImageClasses = new TList();
-        Images.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
+        var surface = new TDataSurface(2, 3, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
+        var previousClasses = Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses;
+        Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = new TList();
+        Aow.Game.Draw.Images.ImageLibraries.RegisterLibraryImageClasses([LibraryImageClass.Of<TPicture16>()]);
         TSurfaceDesc sd = default;
         Assert.Equal(0, surface.Lock(ref sd));
         var grab = new TGrabInfo { FileName = "grab.bmp", FindRectangles = false };
@@ -162,8 +160,8 @@ public sealed class ImageClassTests
             surface.Unlock();
             surface.Dispose();
             library.Dispose();
-            Images.LibraryImageClasses.Dispose();
-            Images.LibraryImageClasses = previousClasses;
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses.Dispose();
+            Aow.Game.Draw.Images.ImageLibraries.LibraryImageClasses = previousClasses;
         }
     }
 }

@@ -146,7 +146,3 @@ public partial class TPlugInManager : TComponent
     [Published]
     public TLoadPlugInEvent OnLoadPlugIn { get => FOnLoadPlugIn; set => FOnLoadPlugIn = value; }
 }
-
-public static partial class PlugInMUnit
-{
-}

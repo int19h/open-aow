@@ -6,8 +6,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
@@ -21,7 +19,7 @@ public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
     public new const int ClassID = 2229514;
 
     // IsoCombatHex.pas:43
-    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => AoWHSSet.FCombatResources;
+    public override Aow.Game.World.TMapObjectResourceList GetResourceList(TEngine AEngine) => Aow.Game.Engine.TAoWHSSet.AoWHSSet.FCombatResources;
 
     // IsoCombatHex.pas:46
     public override void ShowDynamic(int XhpSurf, int YhpSurf, in TSurfaceDesc SurfaceDesc)
@@ -30,7 +28,7 @@ public partial class TIsometricCombatHexagon : TUpperIsometricHexagon
         int Xhp = default;
         int Yhp = default;
         int Variant;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         Xhp = Xhp - XhpSurf - 8;
         Yhp = Yhp - YhpSurf;
         IL = FResource.ImageSequenceList.ImageSequences[0].ImageLibrary;
@@ -169,21 +167,4 @@ public partial class TIsometricCombatHexagonResource : TUpperIsometricHexagonRes
     // IsoCombatHex.pas:111
     public override string ResourceEditName() => "Combat ISO-Hex";
 
-}
-
-public static partial class IsoCombatHexUnit
-{
-    // IsoCombatHex.pas:120
-    public static void RegisterIsometricCombatHexagon(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TIsometricCombatHexagon>(), EClass.Of<TIsometricCombatHexagonResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

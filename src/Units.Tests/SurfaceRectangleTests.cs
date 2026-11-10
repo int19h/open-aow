@@ -1,5 +1,4 @@
 using Aow.Game.Draw;
-using G = Aow.Game.Draw.GFXEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -15,9 +14,9 @@ public sealed class SurfaceRectangleTests
 
     private static TDataSurface MakeSource()
     {
-        var surface = new TDataSurface(SourceWidth, SourceHeight, G.pfRGB555, null!);
+        var surface = new TDataSurface(SourceWidth, SourceHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
         TSurfaceDesc sd = default;
-        Assert.Equal(G.GFXE_OK, surface.Lock(ref sd));
+        Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
         for (int y = 0; y < SourceHeight; y++)
             for (int x = 0; x < SourceWidth; x++) sd.View().Word(y * sd.Pitch + x * 2, Source(x, y));
         surface.Unlock();
@@ -42,10 +41,10 @@ public sealed class SurfaceRectangleTests
                 Assert.True(expected[x, y] == dest.GetPixelInfo(x, y), $"pixel {x}, {y}: expected {expected[x, y]:X}, actual {dest.GetPixelInfo(x, y):X}");
     }
 
-    private static void Run(Func<TSurface, TSurface, int> copy, int[,] expected, int result = G.GFXE_OK)
+    private static void Run(Func<TSurface, TSurface, int> copy, int[,] expected, int result = Aow.Game.Draw.PixelFormats.GFXE_OK)
     {
         var source = MakeSource();
-        var dest = new TDataSurface(DestWidth, DestHeight, G.pfRGB555, null!);
+        var dest = new TDataSurface(DestWidth, DestHeight, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
         try
         {
             Assert.Equal(result, copy(source, dest));
@@ -105,7 +104,7 @@ public sealed class SurfaceRectangleTests
     [Fact]
     public void BltStretchOfUnequalSizesIsNotSupported()
         // Null rectangles are the whole source (4 by 3) and the whole destination (6 by 5).
-        => Run((s, d) => s.BltStretch(d, null, null), new int[DestWidth, DestHeight], G.GFXE_NOTSUPPORTED);
+        => Run((s, d) => s.BltStretch(d, null, null), new int[DestWidth, DestHeight], Aow.Game.Draw.PixelFormats.GFXE_NOTSUPPORTED);
 
     [Fact]
     public void BltStretchOfEqualSizesCopiesToTheDestinationRectangle()
@@ -155,22 +154,22 @@ public sealed class SurfaceRectangleTests
         try
         {
             TSurfaceDesc full = default, part = default, sub = default;
-            Assert.Equal(G.GFXE_OK, source.Lock(ref full));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, source.Lock(ref full));
             source.Unlock();
             Assert.Equal(0, full.DataIndex);
-            Assert.Equal(G.GFXE_OK, source.LockEx(ref part, RtlUnit.Rect(1, 1, 4, 3)));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, source.LockEx(ref part, RtlUnit.Rect(1, 1, 4, 3)));
             source.UnlockEx(part);
             Assert.Same(full.Data, part.Data);
             Assert.Equal(full.Pitch + 2, part.DataIndex);
             Assert.Equal((3, 2), (part.Width, part.Height));
             Assert.Equal(Source(1, 1), part.View().Word(0));
             Assert.Equal(Source(3, 2), part.View().Word(part.Pitch + 4));
-            G.CreateSDfromSD(full, RtlUnit.Rect(2, 1, 4, 3), ref sub);
+            Aow.Game.Draw.TSurfaceDesc.CreateSDfromSD(full, RtlUnit.Rect(2, 1, 4, 3), ref sub);
             Assert.Same(full.Data, sub.Data);
             Assert.Equal(full.Pitch + 4, sub.DataIndex);
             Assert.Equal(RtlUnit.Rect(0, 0, 2, 2), sub.ClipRect);
             Assert.Equal(Source(2, 1), sub.View().Word(0));
-            Assert.Equal(G.GFXE_ERROR, source.LockEx(ref part, RtlUnit.Rect(1, 1, 5, 3)));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_ERROR, source.LockEx(ref part, RtlUnit.Rect(1, 1, 5, 3)));
         }
         finally { source.Dispose(); }
     }

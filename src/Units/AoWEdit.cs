@@ -515,7 +515,3 @@ public partial class TAOWEdit : TAOWControl
         set => EventSlot.Set(this, ref FOnUpdate, value);
     }
 }
-
-public static partial class AoWEditUnit
-{
-}

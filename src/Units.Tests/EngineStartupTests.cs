@@ -6,10 +6,6 @@ using System.Text.Json.Nodes;
 using Aow.Game.Engine;
 using Aow.Game.World.Map;
 using Aow.Rtl.Localize;
-using Core = Aow.Game.Engine.Nodes.EngineUnit;
-using Hex = Aow.Game.World.Map.HSEngineUnit;
-using Images = Aow.Game.Draw.Images.ImageLibUnit;
-using SoundApi = Aow.Game.Audio.SoundUnit;
 
 namespace Aow.Units.Tests;
 
@@ -64,7 +60,7 @@ public sealed class EngineStartupTests
                     };
                 }
                 catch (System.Exception error) { caught = error; }
-                var engine = value ?? Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
+                var engine = value ?? Aow.Game.Magic.Abilities.GameTables.AoWEngine;
                 Assert.NotNull(engine);
                 Assert.Equal(route is "AoW" or "HS" or "Engine", caught is null);
                 var result = new JsonObject
@@ -78,8 +74,8 @@ public sealed class EngineStartupTests
                 };
                 if (route == "AoW")
                 {
-                    Assert.True(Aow.Game.Magic.Abilities.AoWEUnit.ValidateAoWEngine());
-                    Assert.Same(value, Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine);
+                    Assert.True(Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine());
+                    Assert.Same(value, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
                     result["ValidateAgain"] = true;
                     result["FinalSnapshot"] = Snapshot((TAoWEngine)value!, fixture);
                     result["MovePointTables"] = MovePoints();
@@ -87,8 +83,8 @@ public sealed class EngineStartupTests
                 else if (caught is not null)
                 {
                     Assert.Null(value);
-                    Assert.Same(engine, Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine);
-                    Assert.True(Aow.Game.Magic.Abilities.AoWEUnit.ValidateAoWEngine());
+                    Assert.Same(engine, Aow.Game.Magic.Abilities.GameTables.AoWEngine);
+                    Assert.True(Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine());
                     result["ValidateAfterFailure"] = true;
                 }
                 if (value is not null)
@@ -96,7 +92,7 @@ public sealed class EngineStartupTests
                     events.Add(fixture.Event("Destroy.begin", value.GetType().Name));
                     value.Dispose();
                     events.Add(fixture.Event("Destroy.end", value.GetType().Name));
-                    Assert.Equal(-1, Core.Engines.IndexOf(value));
+                    Assert.Equal(-1, Aow.Game.Engine.Nodes.EngineHost.Engines.IndexOf(value));
                 }
                 result["StateAfterDestruction"] = fixture.State();
                 // Failed early destructors leave partial objects. Free their independent resources
@@ -191,7 +187,7 @@ public sealed class EngineStartupTests
             for (int t = 0; t < 16; t++)
             {
                 var overlay = new JsonObject();
-                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)Aow.Game.Magic.Abilities.AoWEUnit.MovePointTables[mask][t][o + 1];
+                for (int o = -1; o < 15; o++) overlay[$"Overlay[{o}]"] = (int)Aow.Game.Magic.Abilities.MovementTables.MovePointTables[mask][t][o + 1];
                 terrain[$"Terrain[{t}]"] = overlay;
             }
             result[$"Mask[{mask}]"] = terrain;

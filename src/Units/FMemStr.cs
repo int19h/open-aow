@@ -283,7 +283,3 @@ public partial class TFastMemoryStream : Stream
     public byte[] Memory { get => FMemory; }
     public int Capacity { get => FCapacity; set => SetCapacity(value); }
 }
-
-public static partial class FMemStrUnit
-{
-}

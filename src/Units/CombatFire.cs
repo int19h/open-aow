@@ -7,9 +7,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Terrain;
-using static Aow.Game.Combat.AoWTCUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
@@ -36,7 +33,7 @@ public partial class TCombatFire : TSingleHS
         base.MsgProc(ref Msg, Sender);
         if (Msg.MsgID == 537006081)
         {
-            if (!AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (!Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.Status.Contains(THSMapStatusElement.msEditting))
             {
                 NewTurn();
             }
@@ -94,7 +91,7 @@ public partial class TCombatFire : TSingleHS
         base.Activate();
         FXShift = Random(10) + 11;
         FYShift = Random(10) + 11;
-        FPlayer = AoWCombatMap.FCurrentCombatPlayer;
+        FPlayer = Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer;
         FFirstTurn = true;
     }
 
@@ -122,21 +119,21 @@ public partial class TCombatFire : TSingleHS
         }
         else
         {
-            if (AoWCombatMap.FCurrentCombatPlayer == FPlayer)
+            if (Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.FCurrentCombatPlayer == FPlayer)
             {
                 Msg.MsgID = 200711;
                 Msg.Param[0] = this;
                 Msg.Result = -1;
                 var yhx = GetYhx();
                 var xhx = GetXhx();
-                AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
+                Aow.Game.Combat.TAoWCombatMap.AoWCombatMap.MapContainer.GetMapLevel(0).GetField(xhx, yhx).SendMapFieldMsg(ref Msg);
                 for (int I = 1; I <= 6; I++)
                 {
                     var yhx2 = GetYhx();
-                    CenterHNtoHX(GetXhx(), yhx2, I, ref Xhx, ref Yhx);
+                    Aow.Game.World.Map.HexGeometry.CenterHNtoHX(GetXhx(), yhx2, I, ref Xhx, ref Yhx);
                     if (Xhx > 0 && Yhx > 0)
                     {
-                        CombatFireUnit.CreateFire(true, 50, Xhx, Yhx);
+                        Aow.Game.Draw.EffectPaths.CreateFire(true, 50, Xhx, Yhx);
                     }
                 }
 
@@ -152,15 +149,15 @@ public partial class TCombatFire : TSingleHS
         int ImageIndex;
         int Xhp = default;
         int Yhp = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         XhpSurf = Xhp - XhpSurf;
         YhpSurf = Yhp - YhpSurf;
-        Sequence = AoWHSSet.FImageSequences.GetImageSequence(60);
+        Sequence = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FImageSequences.GetImageSequence(60);
         if (Sequence != null)
         {
             do
             {
-                ImageIndex = Sequence.GetFrameIndex(AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
+                ImageIndex = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, FrameFixtureInputs.AnimationOffset(this));
                 if (ImageIndex != -1)
                 {
                     Sequence.ImageLibrary.Get(ImageIndex).Show(XhpSurf + Sequence.dXshift + FXShift, YhpSurf + Sequence.dYshift + FYShift, SurfaceDesc);
@@ -187,76 +184,4 @@ public partial class TCombatFireResource : TILTerrainMOR
     // CombatFire.pas:163
     public override string ResourceEditName() => "Combat Fire";
 
-}
-
-public static partial class CombatFireUnit
-{
-    // CombatFire.pas:169
-    public static void CreateFire(bool Spread, int Chance, int Xhx, int Yhx)
-    {
-        TCombatFire Fire;
-        bool CanBurn;
-        TCombatILTerrain Terrain;
-        TCityWall Wall;
-        if (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).TerrainType != 15)
-        {
-            if (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229578) == null)
-            {
-                if (AoWHSMap.Random(100) < Chance)
-                {
-                    CanBurn = false;
-                    if (AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 9 || AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 1 || AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 2 || AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).GetDecorationType() == 3)
-                    {
-                        CanBurn = true;
-                    }
-                    else
-                    {
-                        Terrain = (TCombatILTerrain)AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2228534);
-                        if (Terrain != null)
-                        {
-                            if (Terrain.GetBurnValue() > 0)
-                            {
-                                CanBurn = true;
-                            }
-                        }
-
-                        Wall = (TCityWall)AoWCombatMap.MapContainer.GetMapLevel(0).GetField(Xhx, Yhx).FindOwnedChild(2229508);
-                        if (Wall != null)
-                        {
-                            if (Wall.FWallType == 1)
-                            {
-                                if (Wall.FHitPoints > 0)
-                                {
-                                    CanBurn = true;
-                                }
-                            }
-                        }
-                    }
-
-                    if (CanBurn)
-                    {
-                        Fire = new TCombatFire(null);
-                        if (!AoWCombatMap.PlaceHX(Fire, Xhx, Yhx, 0))
-                        {
-                            Fire?.Dispose();
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    // CombatFire.pas:204
-    public static void RegisterCombatFire(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TCombatFireResource>(), EClass.Of<TCombatFire>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

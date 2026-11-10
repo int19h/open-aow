@@ -10,7 +10,7 @@ public partial class TScenSetup
     public void RacePnlDrawBack(TAOWPanel sender, TSurfaceDesc surface, int Slot)
     {
         var panel = sender;
-        aowIntGfxModUnit.IntGfxMod.Shields[Slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
+        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.Shields[Slot].Show(panel.WinLeft + 5, panel.WinTop + 5, surface);
     }
 
     public void ScenSetupPnlUpdate() { }

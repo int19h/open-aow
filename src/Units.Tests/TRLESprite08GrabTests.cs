@@ -1,6 +1,5 @@
 using Aow.Game.Draw;
 using Aow.Game.Draw.Images;
-using G = Aow.Game.Draw.GFXEUnit;
 
 namespace Aow.Units.Tests;
 
@@ -14,14 +13,14 @@ public sealed class TRLESprite08GrabTests
     private static (TRLESprite08 Image, bool Grabbed) Grab(byte[,] pixels, TRect rect)
     {
         int w = pixels.GetLength(1), h = pixels.GetLength(0);
-        var palette = new TGFXEPalette { PixelFormatID = G.pfBGR24 };
-        var surface = new TDataSurface(w, h, G.pfPAL8, palette);
+        var palette = new TGFXEPalette { PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24 };
+        var surface = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
         var image = new TRLESprite08(null!);
         var grab = image.CreateGrabInfo();
         try
         {
             TSurfaceDesc sd = default;
-            Assert.Equal(G.GFXE_OK, surface.Lock(ref sd));
+            Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
             for (int y = 0; y < h; y++)
                 for (int x = 0; x < w; x++) sd.View()[y * sd.Pitch + x] = pixels[y, x];
             grab.TransparentPixel = 0;
@@ -106,7 +105,7 @@ public sealed class TRLESprite08GrabTests
     [Fact]
     public void GrabOfAnotherFormatFails()
     {
-        var surface = new TDataSurface(2, 2, G.pfRGB555, null!);
+        var surface = new TDataSurface(2, 2, Aow.Game.Draw.PixelFormats.pfRGB555, null!);
         var image = new TRLESprite08(null!);
         var grab = image.CreateGrabInfo();
         try
@@ -126,10 +125,10 @@ public sealed class TRLESprite08GrabTests
     // Draws the image at (0, 0) on an 8-bit surface filled with $55.
     private static byte[,] Draw(TRLESprite08 image, int w, int h)
     {
-        var palette = new TGFXEPalette { PixelFormatID = G.pfBGR24 };
-        using var surface = new TDataSurface(w, h, G.pfPAL8, palette);
+        var palette = new TGFXEPalette { PixelFormatID = Aow.Game.Draw.PixelFormats.pfBGR24 };
+        using var surface = new TDataSurface(w, h, Aow.Game.Draw.PixelFormats.pfPAL8, palette);
         TSurfaceDesc sd = default;
-        Assert.Equal(G.GFXE_OK, surface.Lock(ref sd));
+        Assert.Equal(Aow.Game.Draw.PixelFormats.GFXE_OK, surface.Lock(ref sd));
         for (int y = 0; y < h; y++) sd.View().Bytes(y * sd.Pitch, w).Fill(0x55);
         image.ShowOpaque(0, 0, sd);
         var result = new byte[h, w];

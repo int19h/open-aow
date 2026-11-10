@@ -35,7 +35,7 @@ public sealed class EngineLeafConstructionTests
 
     private static TEngine CreateEngine()
     {
-        if (EngineUnit.Engines is null) EngineUnit.Initialize();
+        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         var engine = new TEngine(null!);
         return engine;
     }
@@ -85,7 +85,7 @@ public sealed class EngineLeafConstructionTests
             }
             if (direct is TEControlStyleSortNode style)
                 style.SetControlStyle(TSet<TEControlStyleElement>.Of(
-                    EngineUnit.csStored, EngineUnit.csShared));
+                    Aow.Game.Engine.Nodes.EngineServices.csStored, Aow.Game.Engine.Nodes.EngineServices.csShared));
             copy = direct.Copy(engine);
             Assert.IsType(type, copy);
             Assert.Null(copy.Owner);
@@ -118,7 +118,7 @@ public sealed class EngineLeafConstructionTests
             case TEControlStyleSortNode sort:
                 Assert.Equal(0, sort.Count); Assert.Equal(0, Field<int>(sort, "FCapacity")); Assert.Empty(Field<TSortItem[]>(sort, "FItems"));
                 Assert.False(Field<bool>(sort, "FSorted"));
-                Assert.Equal(TSet<TEControlStyleElement>.Of(EngineUnit.csStored), sort.GetControlStyle());
+                Assert.Equal(TSet<TEControlStyleElement>.Of(Aow.Game.Engine.Nodes.EngineServices.csStored), sort.GetControlStyle());
                 break;
             case TETimerNode timer:
                 Assert.Equal(0, timer.Count); Assert.Equal(0, timer.Tick);

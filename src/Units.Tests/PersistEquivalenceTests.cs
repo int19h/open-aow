@@ -317,10 +317,10 @@ public sealed class PersistEquivalenceTests
     [Fact]
     public void ArmyViewCoversBothArrayWidths()
     {
-        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
         var map = new TAoWHSMap(null!);
         map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
         try
         {
             Check("TArmy", new TArmy(null!));
@@ -347,7 +347,7 @@ public sealed class PersistEquivalenceTests
         }
         finally
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous!;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous!;
             map.Dispose();
         }
     }
@@ -847,17 +847,17 @@ public sealed class PersistEquivalenceTests
 
     private static void WithDestroyingMap(Action<TAoWHSMap> body)
     {
-        var previous = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap;
+        var previous = Aow.Game.World.Map.TAoWHSMap.AoWHSMap;
         var map = new TAoWHSMap(null!);
         map.FStatus = TSet<THSMapStatusElement>.Of(THSMapStatusElement.msDestroying);
-        Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = map;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap = map;
         try
         {
             body(map);
         }
         finally
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSMap = previous!;
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap = previous!;
             map.Dispose();
         }
     }
@@ -946,7 +946,7 @@ public sealed class PersistEquivalenceTests
     {
         var ability = new TAbility(null!);
         ability.FAbilityID = id;
-        var list = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FAbilityControl.FAbilities;
+        var list = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.FAbilities;
         while (id >= list.Count) list.Add(null);
         list[id] = ability;
         return ability;
@@ -954,7 +954,7 @@ public sealed class PersistEquivalenceTests
 
     private static void ReleaseAbility(TAbility ability)
     {
-        var list = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet.FAbilityControl.FAbilities;
+        var list = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.FAbilities;
         int id = ability.FAbilityID;
         if ((uint)id < (uint)list.Count && ReferenceEquals(list[id], ability)) list[id] = null;
         ability.Dispose();

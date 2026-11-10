@@ -3,7 +3,6 @@ using Aow.Game.Draw;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Windows;
@@ -143,7 +142,7 @@ public partial class TAoWBookWindow : TAOWWindow
             R = Rect(0, 0, FWinWidth, FWinHeight);
             FBackSurface.Lock(ref Source);
             FPageSurface.Lock(ref Dest);
-            BltSDRectClipped(Source, R, Dest, 0, 0);
+            Aow.Game.Draw.TSurfaceDesc.BltSDRectClipped(Source, R, Dest, 0, 0);
             FPageSurface.Unlock();
             FBackSurface.Unlock();
             FPageTurn.SetPageDimensions(271, 368);
@@ -277,16 +276,5 @@ public partial class TAoWBookWindow : TAOWWindow
     {
         get => EventSlot.Get(this, FOnShow);
         set => EventSlot.Set(this, ref FOnShow, value);
-    }
-}
-
-public static partial class AoWBookWindowUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
     }
 }

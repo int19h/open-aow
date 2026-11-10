@@ -6,88 +6,48 @@ namespace Aow.Units.Tests;
 /// table ran them.</summary>
 public sealed class StartupOrderTests
 {
-    private const string Names = """
-        GFXE HashTabU ImageLib aowFX FMemStr Engine AoWReg Sound NetworkE EList HSEngine Animation
-        ILTer EventLog Pad Terrain AoWE PassiveAb CombatSpells GlobalEnchantmentSpells SmokeCloud
-        GlobalTargetSpells GlobalSpells UnitSpells SummonSpells PoisonC Storms BloodShrine ExploreS
-        ItemExpS AoWSetup Crops City AGCPlugins BehaviorAG MainAG IndependentAG Arena WizardsTower
-        ReflectingPool MagicSanctuary OverlayObject MoveOnEvents Altar AltPest AltDeath AltLife
-        AltLight FlagEvents PowerNode AltIce AltFire PrdPlace BldGuild Merchant UnHolyG HolyG
-        Shipyard Pyramid Ruin Crypt Dungeon Gems PoisonP Tower MonsterL AirNode WaterNode LifeNode
-        DeathNode EarthNode FireNode ManaCrystals Mine Cave Farm CitySpells Teleport Sign Spring
-        Hexagon BorderHx Road Bridge AoWTer Mountain AoWRoad RndHex IsoHex AoWHex HxBridge AoWEReg
-        LicenseF DisplayC AOWInterfaceImgLib AoWComp AoWWinControl AOWWinManager AoWBaseWin
-        AoWWinGeneric AoWWindow AOWToolTip AoWControl AoWVScroll AOWMenuBar AOWMenu AoWButton
-        AoWCheckBox FleeLoc CombatObstacle CombatILTer CityWall CombatFire CombatRoad CombatTerrain
-        CombatTE CombatHex AoWTC AoWFrame AoWTabPanel AoWPanel MapCtrl TurnButton AoWEdit AoWLabel
-        AoWImage AoWMemo AoWHTMLMemo aowIntGfxMod aowHelpWin AOWGauge AoWHScroll AoWListBox
-        aowUserDrawBox CMapCtrl Scanner AoWComboBox PageTurnCtrl AoWBookWindow AowUserWindow
-        StartMenu FontMod AoWEmailSettingsDlg AoWArnoLine AoWLenLine AoWPInfoWin CenterViewLoc
-        CombatStructure MainStructure SingleCombatHex House Townhall IsoCombatHex WorkShop AoWTCReg
-        AoWTutorialWin AoWMessageDlg AoWEmailGameSettingsDlg AoWScenSetup AoWSoundDlg AoWIntroScene
-        AoWPowerDlg AoWSpellBook AoWMagic AoWTCUnit AoWTCScanner AOWChatWin OverviewUnit
-        AoWCityScreen AoWInfoWin AOWPyreScrn AoWRelations AoWGamePlayDlg AoWPWindows AoWResultsWin
-        AoWCampaignJoin AoWSelFactionWin AOWTitleWindow AoWProgressDialog AoWTitleScene
-        AoWFileDialog AOWMWindow AoWSWindow AoWVideoDlg AoWPOP3Dlg AOWMultiWin AoWSyncDlg
-        aowSetupEvents AoWLeaderSetup AoWCampaignSettings AoWCampaignTransferDlg AoWWorldMap
-        AoWPasswordDlg AoWSMTPDlg AoWSendEmailGameDlg AoWItemsFoundDlg AoWWizardsTowerDlg
-        AoWUnitBanner AoWPartyJoin AoWHeroInfoDlg AoWArmyInfoDlg AoWHeroUpgradeDlg AoWDeformFaceDlg
-        AoWUnitSelDlg AoWTargetSelection TCFCDlg AoWNewTurnDialog AoWMsgReceiveDlg AoWHeroJoinDlg
-        AoWCityJoinDlg AoWCityRebelDlg AoWArmyEventDlg FastCombatWin AoWDisjunctionDlg
-        AoWCastUnitSpellDlg AoWConstructDlg aowMapEvents AOWDialogWin AoWArenaDlg AoWWinMan
-        AoWItemBanner AoWUnitWindow AOWControlWin AoWInfoBanner AoWProdScreen AoWRealm AoWTBWindow
-        aowTCMapEvents
-        """;
+    // The live steps, in initialization order. Finalization runs the steps that have a finalize, reversed.
+    private const string Names = "GFXE ImageLib Engine Sound AoWE City BehaviorAG MainAG IndependentAG AoWEReg AoWTitleScene";
 
-    // The units with an initialization section, in the order they run.
-    private const string Initializations = """
-        GFXE ImageLib Engine AoWReg Sound Animation EventLog Pad AoWE PassiveAb CombatSpells
-        GlobalEnchantmentSpells SmokeCloud GlobalTargetSpells GlobalSpells UnitSpells SummonSpells
-        PoisonC Storms BloodShrine ExploreS ItemExpS AoWSetup Crops City AGCPlugins BehaviorAG
-        MainAG IndependentAG Arena WizardsTower ReflectingPool MagicSanctuary OverlayObject
-        MoveOnEvents Altar AltPest AltDeath AltLife AltLight FlagEvents PowerNode AltIce AltFire
-        PrdPlace BldGuild Merchant UnHolyG HolyG Shipyard Pyramid Ruin Crypt Dungeon Gems PoisonP
-        Tower MonsterL AirNode WaterNode LifeNode DeathNode EarthNode FireNode ManaCrystals Mine
-        Cave Farm CitySpells Teleport Sign Spring AoWTer Mountain AoWRoad AoWHex HxBridge AoWEReg
-        LicenseF FleeLoc CombatObstacle CombatILTer CityWall CombatFire CombatRoad CombatTerrain
-        CombatTE CombatHex AoWTC MapCtrl TurnButton CMapCtrl Scanner PageTurnCtrl AoWBookWindow
-        AowUserWindow StartMenu AoWArnoLine AoWLenLine CenterViewLoc CombatStructure MainStructure
-        SingleCombatHex House Townhall IsoCombatHex WorkShop AoWTCReg OverviewUnit AoWTitleScene
-        """;
+    private const string Initializations = Names;
 
-    // The units with a finalization section, in the order they run.
-    private const string Finalizations = """
-        OverviewUnit AoWTCReg WorkShop IsoCombatHex Townhall House SingleCombatHex MainStructure
-        CombatStructure CenterViewLoc AoWLenLine AoWArnoLine StartMenu AowUserWindow AoWBookWindow
-        PageTurnCtrl Scanner CMapCtrl TurnButton MapCtrl AoWTC CombatHex CombatTE CombatTerrain
-        CombatRoad CombatFire CityWall CombatILTer CombatObstacle FleeLoc LicenseF AoWEReg HxBridge
-        AoWHex AoWRoad Mountain AoWTer Spring Sign Teleport CitySpells Farm Cave Mine ManaCrystals
-        FireNode EarthNode DeathNode LifeNode WaterNode AirNode MonsterL Tower PoisonP Gems Dungeon
-        Crypt Ruin Pyramid Shipyard HolyG UnHolyG Merchant BldGuild PrdPlace AltFire AltIce
-        PowerNode FlagEvents AltLight AltLife AltDeath AltPest Altar MoveOnEvents OverlayObject
-        MagicSanctuary ReflectingPool WizardsTower Arena IndependentAG MainAG BehaviorAG AGCPlugins
-        City Crops AoWSetup ItemExpS ExploreS BloodShrine Storms PoisonC SummonSpells UnitSpells
-        GlobalSpells GlobalTargetSpells SmokeCloud GlobalEnchantmentSpells CombatSpells PassiveAb
-        AoWE Pad EventLog Animation Sound AoWReg Engine ImageLib GFXE
-        """;
+    private const string Finalizations = "IndependentAG MainAG BehaviorAG City AoWE Sound Engine ImageLib GFXE";
+
+    private static readonly (string Name, string Type, string Init, string Fin)[] Delegates =
+    [
+        ("GFXE", "Aow.Game.Draw.GfxState", "Initialize", "Finalize"),
+        ("ImageLib", "Aow.Game.Draw.Images.ImageLibraries", "Initialize", "Finalize"),
+        ("Engine", "Aow.Game.Engine.Nodes.EngineHost", "Initialize", "Finalize"),
+        ("Sound", "Aow.Game.Audio.AudioHost", "Initialize", "Finalize"),
+        ("AoWE", "Aow.Game.Magic.Abilities.GameTables", "Initialize", "Finalize"),
+        ("City", "Aow.Game.World.Structures.TRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("BehaviorAG", "Aow.Game.Ai.Groups.BehaviorAG.TRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("MainAG", "Aow.Game.Ai.Groups.MainAG.TRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("IndependentAG", "Aow.Game.Ai.Groups.IndependentAG.TRegistrator", "SubscribeMapLoaded", "UnsubscribeMapLoaded"),
+        ("AoWEReg", "Aow.Game.Engine.GameClasses", "Register", ""),
+        ("AoWTitleScene", "Aow.Game.Ui.Dialogs.TitleCaptions", "Initialize", ""),
+    ];
 
     private static string[] Split(string text) => text.Split((char[])[' ', '\n'], StringSplitOptions.RemoveEmptyEntries);
 
-    private static string Section(Action section, string unit, string name)
+    private static void AssertDelegate(Action? section, string type, string name)
     {
+        if (name.Length == 0)
+        {
+            Assert.Null(section);
+            return;
+        }
+        Assert.NotNull(section);
         Assert.Equal(name, section.Method.Name);
-        var type = section.Method.DeclaringType!;
-        Assert.Equal(unit + "Unit", type.Name);
-        Assert.StartsWith("Aow.Game.", type.Namespace ?? "");
-        return unit;
+        Assert.Equal(type, section.Method.DeclaringType!.FullName);
     }
 
     private static (StartupUnit[] Units, List<string> Calls) Recording()
     {
         var calls = new List<string>();
         var units = Startup.Units.Select(u => new StartupUnit(u.Name,
-            u.Initialize is null ? null! : () => calls.Add("I " + Section(u.Initialize, u.Name, "Initialize")),
-            u.Finalize is null ? null! : () => calls.Add("F " + Section(u.Finalize, u.Name, "Finalize")))).ToArray();
+            u.Initialize is null ? null! : () => calls.Add("I " + u.Name),
+            u.Finalize is null ? null! : () => calls.Add("F " + u.Name))).ToArray();
         return (units, calls);
     }
 
@@ -95,6 +55,13 @@ public sealed class StartupOrderTests
     public void TableKeepsTheUnitOrder()
     {
         Assert.Equal(Split(Names), Startup.Units.Select(u => u.Name));
+        Assert.Equal(Delegates.Length, Startup.Units.Length);
+        for (int i = 0; i < Delegates.Length; i++)
+        {
+            Assert.Equal(Delegates[i].Name, Startup.Units[i].Name);
+            AssertDelegate(Startup.Units[i].Initialize, Delegates[i].Type, Delegates[i].Init);
+            AssertDelegate(Startup.Units[i].Finalize, Delegates[i].Type, Delegates[i].Fin);
+        }
     }
 
     [Fact]
@@ -118,12 +85,13 @@ public sealed class StartupOrderTests
     {
         var (units, calls) = Recording();
         var state = new bool[units.Length];
-        Startup.InitializeUnits(units, state, ["AoWTitleScene", "HashTabU", "Engine", "ImageLib", "AoWTC", "Sound"]);
-        Assert.Equal(["I ImageLib", "I Engine", "I Sound", "I AoWTC", "I AoWTitleScene"], calls);
+        Startup.InitializeUnits(units, state, ["AoWTitleScene", "Engine", "ImageLib", "Sound"]);
+        Assert.Equal(["I ImageLib", "I Engine", "I Sound", "I AoWTitleScene"], calls);
         calls.Clear();
-        // Units outside the finalization selection stay initialized.
-        Startup.FinalizeUnits(units, state, ["Engine", "AoWTitleScene", "AoWTC", "GFXE"]);
-        Assert.Equal(["F AoWTC", "F Engine"], calls);
+        // Units outside the finalization selection stay initialized. The title step has no finalize,
+        // and GFXE was not initialized.
+        Startup.FinalizeUnits(units, state, ["Engine", "AoWTitleScene", "GFXE"]);
+        Assert.Equal(["F Engine"], calls);
         calls.Clear();
         // Only initialized units are finalized: GFXE was never initialized.
         Startup.FinalizeUnits(units, state, null!);

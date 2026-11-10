@@ -7,7 +7,6 @@ using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Rtl;
-using static Aow.Game.World.Map.HSEngineUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.World.Hexes;
@@ -45,7 +44,9 @@ public partial class TTerrainMOR : Aow.Game.World.TMultiHexMOR
     // Terrain.pas:42
 
     // Terrain.pas:317
-    public override string ResourceEditName() => TerrainStr;
+    public override string ResourceEditName() => Aow.Game.World.Hexes.TTerrainMOR.TerrainStr;
+
+    private static readonly string TerrainStr = "Terrain";
 
 }
 
@@ -215,7 +216,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
                 {
                     if (TerrainList.GetTerrain(I) >= 0 && I != HN)
                     {
-                        CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
+                        Aow.Game.World.Map.HexGeometry.CenterHNtoHX(Xhx, Yhx, I, ref X, ref Y);
                         R.PlaceResourceUser(Map, (sbyte)X, (sbyte)Y, (sbyte)Lhx);
                     }
                 }
@@ -275,7 +276,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
         bool Result = true;
         Level = (TMapLevel)Owner.Owner;
         Count = GetTerrainCount();
-        InitHNWalk(ref Walk, FXhx, FYhx, 0);
+        Aow.Game.World.Movement.THNWalkData.InitHNWalk(ref Walk, FXhx, FYhx, 0);
         while (Walk.HN < Count && Result)
         {
             if (Walk.HN != HN && GetTerrain(Walk.HN) >= 0 && Walk.X >= 0 && Walk.Y >= 0 && Walk.X < Level.Width && Walk.Y < Level.Height)
@@ -283,7 +284,7 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
                 Result = Level.GetField(Walk.X, Walk.Y).CanChangeTerrainEx(this);
             }
 
-            WalkToNextHN(ref Walk);
+            Aow.Game.World.Movement.THNWalkData.WalkToNextHN(ref Walk);
         }
 
         return Result;
@@ -291,13 +292,4 @@ public partial class TTerrainMO : Aow.Game.World.TMultiHexMO
 
     // Terrain.pas:19
 
-}
-
-public static partial class TerrainUnit
-{
-    // Terrain.pas:332
-    public static void RegisterTerrain(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<TTerrainMO>(), EClass.Of<TTerrainMOR>()]);
-    }
 }

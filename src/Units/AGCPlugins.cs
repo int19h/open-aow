@@ -11,7 +11,6 @@ using Aow.Game.World.Map;
 using Aow.Game.World.Movement;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ai.Groups;
@@ -62,11 +61,11 @@ public partial class TAIGroupRazeControl : TAIGroupControlPlugin
         TBattleFieldInfo Info = default;
         if (FState == 0)
         {
-            Structure = (TStructure)AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(TStructure));
+            Structure = (TStructure)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetFieldXYL(Unsafe.As<TXYL, int>(ref FControl.FLocation)).FindNoneTransparentHS(typeof(TStructure));
             if (Structure != null && Structure.GetRazeable())
             {
-                SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, TSet<TBattleFieldInfoRequestsElement>.Of(TBattleFieldInfoRequestsElement.bfrIgnoreIndependents), FDamageTypes);
-                AoWHSMap.RetrieveBattleFieldInfo(FControl.FLocation.X, FControl.FLocation.Y, FControl.FLocation.L, 15, ref Info);
+                Aow.Game.Combat.TBattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, TSet<TBattleFieldInfoRequestsElement>.Of(TBattleFieldInfoRequestsElement.bfrIgnoreIndependents), FDamageTypes);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.RetrieveBattleFieldInfo(FControl.FLocation.X, FControl.FLocation.Y, FControl.FLocation.L, 15, ref Info);
                 if (Structure is TCity)
                 {
                     Result = ValidateRazeCity((TCity)Structure, Info);
@@ -95,7 +94,7 @@ public partial class TAIGroupRazeControl : TAIGroupControlPlugin
     // AGCPlugins.pas:90
     public void Reset()
     {
-        FDamageTypes = AGCPluginsUnit.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
+        FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
         FMode = TSet<TAIGroupRazeControlModeElement>.Of(TAIGroupRazeControlModeElement.rcmCannotDefend);
         FCityStrengthFactor = 2;
         FStructureStrengthFactor = 2;
@@ -118,7 +117,7 @@ public partial class TAIGroupRazeControl : TAIGroupControlPlugin
     public bool ValidateRazeCity(TCity City, in TBattleFieldInfo Info)
     {
         bool Result;
-        switch (AoWHSMap.FRaces.GetRace(City.FRace).GetPlayerRelation(FControl.FGroup.FPlayer))
+        switch (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(City.FRace).GetPlayerRelation(FControl.FGroup.FPlayer))
         {
             case TStatus.sHostile:
             case TStatus.sWary:
@@ -276,7 +275,7 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
         this.FSelector.FTargetInfo.Mode = Aow.Game.Ai.TAITargetMode.tmDefend;
 
         FPathStep = 7;
-        FDamageTypes = AGCPluginsUnit.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
+        FDamageTypes = Aow.Game.Magic.Abilities.AbilityRules.AllDamageTypes - TSet<TDamageType>.Of(TDamageType.dtWall);
         FBattleFieldRadius = 10;
         FMovePointsFactor = -1;
         FMode = TSet<TAIGroupDefendTargetSelectorModeElement>.Of();
@@ -292,7 +291,7 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
         {
             Result = 0;
             I = FPathStep;
-            SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, TSet<TBattleFieldInfoRequestsElement>.Of(), FDamageTypes);
+            Aow.Game.Combat.TBattleFieldInfo.SetupBattleFieldInfo(ref Info, FControl.FGroup.FPlayer, FControl.FGroup.FIndependentRelation, TSet<TBattleFieldInfoRequestsElement>.Of(), FDamageTypes);
             Info.FriendlyRelations = TSet<byte>.WithBounds(0, 7);
             Info.Requests = Info.Requests + TSet<TBattleFieldInfoRequestsElement>.Of(TBattleFieldInfoRequestsElement.bfrIgnorePassiveIndependents);
             while (I < Path.Count)
@@ -301,7 +300,7 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
                 var pathL = Path[I];
                 var pathY = Path[I];
                 var pathX = Path[I];
-                AoWHSMap.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.L, FBattleFieldRadius, ref Info);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.RetrieveBattleFieldInfo(pathX.X, pathY.Y, pathL.L, FBattleFieldRadius, ref Info);
                 if (Result < Info.Strength)
                 {
                     Result = Info.Strength;
@@ -355,7 +354,7 @@ public partial class TAIGroupDefendTargetSelector : TAIGroupControlPlugin
         FSelector.FMovePointTable = Control.FMovePointTable;
         FSelector.FTargetInfo.Player = Control.FGroup.FPlayer;
         FSelector.FTargetInfo.IndependentRelation = Control.FGroup.FIndependentRelation;
-        switch (AoWHSMap.FPlayers.GetPlayers(Control.FGroup.FPlayer).FPlayerType)
+        switch (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Control.FGroup.FPlayer).FPlayerType)
         {
             case TPlayerType.ptCPU2:
                 FMode = FMode + TSet<TAIGroupDefendTargetSelectorModeElement>.Of(TAIGroupDefendTargetSelectorModeElement.dtmCalculateMovepathBFS);
@@ -434,7 +433,7 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
                     moveControlSettings.FSelection = Control.FSelection;
                     moveControlSettings.FMovePointTable = Control.FMovePointTable;
                     moveControlSettings.FMode = moveControlSettings.FMode + TSet<TMoveModeElement>.Of(TMoveModeElement.mmLogProcessedMapFields);
-                    AoWHSMap.FMoveControl.ProcessMove(FMoveSettings);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMoveControl.ProcessMove(FMoveSettings);
                 }
 
                 {
@@ -487,12 +486,12 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
 
                 if (Fields.Count > 0)
                 {
-                    Fields.Sort(AGCPluginsUnit.CompareWanderFields);
+                    Fields.Sort(Aow.Game.Ai.Groups.TAIGroupWanderControl.CompareWanderFields);
                     Field = null;
                     I = 0;
                     while (Fields.Count != 0 && Field == null)
                     {
-                        I = AoWHSMap.Random(Round((double)Fields.Count * 0.1) + 1);
+                        I = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Random(Round((double)Fields.Count * 0.1) + 1);
                         Field = Fields[I].A;
                         if (Field.GetPlayer() != -1)
                         {
@@ -561,20 +560,9 @@ public partial class TAIGroupWanderControl : TAIGroupControlPlugin
         return true;
     }
 
-}
-
-public static partial class AGCPluginsUnit
-{
-    public static TSet<TDamageType> AllDamageTypes = TSet<TDamageType>.FromMask(1023UL);
-
-    // AGCPlugins.pas:326
-    public static int CompareWanderFields(in TDoubleItem<TAoWMapField> Item1, in TDoubleItem<TAoWMapField> Item2) => Item2.B - Item1.B;
-
-    public static void Initialize()
+    private static int CompareWanderFields(in global::Aow.Game.Engine.Collections.TDoubleItem<global::Aow.Game.World.Map.TAoWMapField> Item1, in global::Aow.Game.Engine.Collections.TDoubleItem<global::Aow.Game.World.Map.TAoWMapField> Item2)
     {
+        return Item2.B - Item1.B;
     }
 
-    public static void Finalize()
-    {
-    }
 }

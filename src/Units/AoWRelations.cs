@@ -1,20 +1,41 @@
 // Translated from AoWRelations.pas.
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Commands;
 using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Images;
 using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Magic;
 using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Unit;
+using Aow.Game.Net;
+using Aow.Game.Saves;
 using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
 // Translated from AoWRelations.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Draw.GFXEUnit;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.aowIntGfxModUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -185,9 +206,9 @@ public partial class TRelWindow : TDataModule
     public void FillPlayers()
     {
         FPlayers.Clear();
-        for (int I = 1, last = AoWHSMap.FPlayers.GetCount() - 1; I <= last; I++)
+        for (int I = 1, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)I) != -1 && AoWHSMap.FPlayers.GetPlayers(I).FStatus == TPlayerStatus.psPlaying)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)I) != -1 && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I).FStatus == TPlayerStatus.psPlaying)
             {
                 FPlayers.Add(I);
             }
@@ -200,7 +221,7 @@ public partial class TRelWindow : TDataModule
                 ((TAoWComponent)FControls[I + 23]).Visible = true;
                 ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 23]).ToolTipText.Clear();
                 var player = FPlayers[I - 1];
-                var name = AoWHSMap.FPlayers.GetPlayers(player).GetName();
+                var name = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player).GetName();
                 ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 23]).ToolTipText.Add(name);
             }
             else
@@ -209,7 +230,7 @@ public partial class TRelWindow : TDataModule
             }
         }
 
-        var indexOf = FPlayers.IndexOf(AoWHSMap.FSeatedPlayer);
+        var indexOf = FPlayers.IndexOf(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
         PlyrGlow.Alignment.LeftOffset = indexOf * 51 - 37 + 51;
         PlyrGlow.FAligned = false;
     }
@@ -220,11 +241,11 @@ public partial class TRelWindow : TDataModule
         int Index;
         ClearActions();
         ResetChecks();
-        General.Manager.OverlayPriority = 49;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 49;
         FRaces.Clear();
-        for (int I = 0, last = AoWHSMap.FRaces.GetCount() - 1; I <= last; I++)
+        for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetCount() - 1; I <= last; I++)
         {
-            if (AoWHSMap.FRaces.GetRace(I).FEnabled)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(I).FEnabled)
             {
                 FRaces.Add(I);
             }
@@ -237,8 +258,8 @@ public partial class TRelWindow : TDataModule
                 ((TAoWComponent)FControls[I + 36]).Visible = true;
                 ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 36]).ToolTipText.Clear();
                 var race = FRaces[I];
-                var fRacesRace = AoWHSMap.FRaces.GetRace(race);
-                var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[fRacesRace.FRace]);
+                var fRacesRace = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(race);
+                var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[fRacesRace.FRace]);
                 ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 36]).ToolTipText.Add(raceNamesPlural);
             }
             else
@@ -256,14 +277,14 @@ public partial class TRelWindow : TDataModule
             playerCheck.Checked = true;
         }
 
-        Index = FPlayers.IndexOf(AoWHSMap.FSeatedPlayer);
+        Index = FPlayers.IndexOf(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
         if (FControls[Index + 24] is TAOWCheckBox seatedCheck)
         {
             seatedCheck.Checked = true;
         }
 
         P1CBChange((TAoWComponent)FControls[Index + 24], Index);
-        AoWHSMap.FTutorialControl.ShowMessage(65, true, true);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(65, true, true);
     }
 
     // AoWRelations.pas:270
@@ -297,10 +318,10 @@ public partial class TRelWindow : TDataModule
         HighlightPlayer(Player);
         ShowPlayerInformation(Player);
         Selected = ActionsLB.Selected;
-        AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).ListDiplomaticActions(Player, ref FActions);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).ListDiplomaticActions(Player, ref FActions);
         for (int I = 0, last = FActions.GetCount() - 1; I <= last; I++)
         {
-            var name = FActions.GetDiplomaticActions(I).GetName(AoWHSMap.FSeatedPlayer);
+            var name = FActions.GetDiplomaticActions(I).GetName(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
             var diplomaticAction = FActions.GetDiplomaticActions(I);
             ActionsLB.Items.AddObject(name, diplomaticAction);
         }
@@ -323,22 +344,22 @@ public partial class TRelWindow : TDataModule
         PlStatLbl.Visible = true;
         LInfoPlayerPnl.Visible = true;
         LInfoRacePnl.Visible = false;
-        var playerPlayerRace = AoWHSMap.FPlayers.GetPlayers(Player);
+        var playerPlayerRace = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
         LShield.CurrentImage = playerPlayerRace.FPlayerRace + 26;
         LShield.Visible = true;
         RShield.CurrentImage = LShield.CurrentImage;
         RShield.Visible = true;
-        var firstDaySeen = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(Player);
+        var firstDaySeen = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen(Player);
         NoContact.Visible = firstDaySeen == -1;
         APlayer.Visible = !NoContact.Visible;
         OfTheLbl.Visible = APlayer.Visible;
         PRaceLbl.Visible = APlayer.Visible;
-        if (AoWHSMap.FPlayers.GetPlayers(Player).GetFirstDaySeen(AoWHSMap.FSeatedPlayer) != -1)
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetFirstDaySeen(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer) != -1)
         {
-            if (Player != AoWHSMap.FSeatedPlayer)
+            if (Player != Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
             {
-                Relation = AoWHSMap.FPlayers.GetDiplomaticRelation(Player, AoWHSMap.FSeatedPlayer);
-                var diplomaticRelation = TranslateRStr(TDiplomaticRelationRStr[(int)Relation]);
+                Relation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetDiplomaticRelation(Player, Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+                var diplomaticRelation = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TDiplomaticRelationRStr[(int)Relation]);
                 PlStatV.Text = diplomaticRelation;
                 if (Relation != TDiplomaticRelation.drUnknown)
                 {
@@ -359,20 +380,20 @@ public partial class TRelWindow : TDataModule
         else
         {
             PlStatIcn.Visible = false;
-            var noContact = TranslateRStr(NoContactRStr);
+            var noContact = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TRelWindow.NoContactRStr);
             PlStatV.Text = noContact;
         }
 
-        var name = AoWHSMap.FPlayers.GetPlayers(Player).GetName();
+        var name = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetName();
         APlayer.Text = name;
-        OfTheLbl.Text = AoWPInfoWinUnit.PInfoW.LeadL.Text;
-        var player = AoWHSMap.FPlayers.GetPlayers(Player);
-        var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[player.FPlayerRace]);
+        OfTheLbl.Text = Aow.Game.Ui.Dialogs.DialogHosts.PInfoW.LeadL.Text;
+        var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[player.FPlayerRace]);
         PRaceLbl.Text = raceNamesPlural;
-        var playerPlayerType = AoWHSMap.FPlayers.GetPlayers(Player);
+        var playerPlayerType = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
         if (TSet<TPlayerType>.Of(TPlayerType.ptHuman, TPlayerType.ptCPU1, TPlayerType.ptCPU2, TPlayerType.ptCPU3, TPlayerType.ptCPU4, TPlayerType.ptCPU5).Contains(playerPlayerType.FPlayerType))
         {
-            switch (AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType)
+            switch (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).FPlayerType)
             {
                 case TPlayerType.ptCPU1:
                     APlyrIcon.CurrentImage = 1;
@@ -401,8 +422,8 @@ public partial class TRelWindow : TDataModule
             APlyrIcon.Visible = false;
         }
 
-        var player2 = AoWHSMap.FPlayers.GetPlayers(Player);
-        var playerType = TranslateRStr(TPlayerTypeRStr[(int)player2.FPlayerType]);
+        var player2 = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+        var playerType = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TPlayerTypeRStr[(int)player2.FPlayerType]);
         APlyrType.Text = playerType;
     }
 
@@ -419,7 +440,7 @@ public partial class TRelWindow : TDataModule
             Check = (TAOWCheckBox)FControls[FSelectedIndex + 24];
             Check.Alignment.TopOffset = 20;
             Check.Checked = true;
-            if (AoWHSMap.FSeatedPlayer == Player)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Player)
             {
                 PlyrGlow.Alignment.TopOffset = Check.Alignment.TopOffset;
             }
@@ -457,17 +478,17 @@ public partial class TRelWindow : TDataModule
                     ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
-                        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                         {
                             var player = FPlayers[I];
-                            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
+                            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                             {
                                 var player2 = FPlayers[I];
-                                if (AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer).GetFirstDaySeen((sbyte)player2) != -1)
+                                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer).GetFirstDaySeen((sbyte)player2) != -1)
                                 {
                                     var player3 = FPlayers[I];
-                                    var diplomaticRelation = AoWHSMap.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)player3);
-                                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Add(TDiplomaticRelationRStr[(int)diplomaticRelation]);
+                                    var diplomaticRelation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)player3);
+                                    ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Add(Aow.Game.Magic.Abilities.GameTables.TDiplomaticRelationRStr[(int)diplomaticRelation]);
                                 }
                             }
                         }
@@ -497,13 +518,13 @@ public partial class TRelWindow : TDataModule
                     ((Aow.Game.Ui.Controls.TAOWControl)FControls[I + 12]).ToolTipText.Clear();
                     if (FSelectedPlayer != -1)
                     {
-                        if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                         {
                             var race = FRaces[I];
-                            var playerRelation = AoWHSMap.FRaces.GetRace(race).GetPlayerRelation(FSelectedPlayer);
-                            var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
+                            var playerRelation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(race).GetPlayerRelation(FSelectedPlayer);
+                            var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation]);
                             var race2 = FRaces[I];
-                            var playerRelationValue = AoWHSMap.FRaces.GetRace(race2).GetPlayerRelationValue(FSelectedPlayer);
+                            var playerRelationValue = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(race2).GetPlayerRelationValue(FSelectedPlayer);
                             ((Aow.Game.Ui.Controls.TAOWControl)FControls[12 + I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                         }
                     }
@@ -527,30 +548,30 @@ public partial class TRelWindow : TDataModule
         ActionPnl.Visible = true;
         LInfoPlayerPnl.Visible = false;
         LInfoRacePnl.Visible = true;
-        var playerRelation = AoWHSMap.FRaces.GetRace((sbyte)Race).GetPlayerRelation(AoWHSMap.FSeatedPlayer);
+        var playerRelation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace((sbyte)Race).GetPlayerRelation(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
         RlRelIcn.CurrentImage = (int)playerRelation + 11;
-        var playerRelation2 = AoWHSMap.FRaces.GetRace((sbyte)Race).GetPlayerRelation(AoWHSMap.FSeatedPlayer);
-        var status = TranslateRStr(TStatusRStr[(int)playerRelation2]);
+        var playerRelation2 = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace((sbyte)Race).GetPlayerRelation(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
+        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation2]);
         RlRelV.Text = status;
-        var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[(sbyte)Race]);
+        var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[(sbyte)Race]);
         ARace2.Text = raceNamesPlural;
         switch (Race)
         {
             case >= 0 and <= 3:
-                var neutral = TranslateRStr(NeutralRStr);
-                var format = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [neutral]);
+                var neutral = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.NeutralRStr);
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [neutral]);
                 AAlignmentLbl.Text = format;
                 AAlignment.CurrentImage = 33;
                 break;
             case >= 4 and <= 7:
-                var good = TranslateRStr(GoodRStr);
-                var aoWEFormat = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [good]);
+                var good = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TRelWindow.GoodRStr);
+                var aoWEFormat = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [good]);
                 AAlignmentLbl.Text = aoWEFormat;
                 AAlignment.CurrentImage = 31;
                 break;
             case >= 8 and <= 11:
-                var evil = TranslateRStr(EvilRStr);
-                var format2 = AoWEUnit.Format(TranslateRStr(AlignmentXRStr), [evil]);
+                var evil = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TRelWindow.EvilRStr);
+                var format2 = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.AlignmentXRStr), [evil]);
                 AAlignmentLbl.Text = format2;
                 AAlignment.CurrentImage = 35;
                 break;
@@ -586,13 +607,13 @@ public partial class TRelWindow : TDataModule
                 case 1:
                     ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Clear();
                     var player = FPlayers[I];
-                    if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)player) != -1)
                     {
                         var player2 = FPlayers[I];
-                        var playerRelation = AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelation((sbyte)player2);
-                        var status = TranslateRStr(TStatusRStr[(int)playerRelation]);
+                        var playerRelation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelation((sbyte)player2);
+                        var status = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.TStatusRStr[(int)playerRelation]);
                         var player3 = FPlayers[I];
-                        var playerRelationValue = AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelationValue((sbyte)player3);
+                        var playerRelationValue = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelationValue((sbyte)player3);
                         ((Aow.Game.Ui.Controls.TAOWControl)FControls[I]).ToolTipText.Add(status + " (" + IntToStr(playerRelationValue) + ")");
                     }
 
@@ -657,9 +678,9 @@ public partial class TRelWindow : TDataModule
     public void FinishDialog()
     {
         SetAction(null);
-        General.Manager.OverlayPriority = 0;
+        Aow.Game.Ui.Dialogs.DialogHosts.General.Manager.OverlayPriority = 0;
         FinishEvent();
-        AoWHSMap.FTutorialControl.ShowMessage(71, true, true);
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTutorialControl.ShowMessage(71, true, true);
     }
 
     // AoWRelations.pas:524
@@ -748,7 +769,7 @@ public partial class TRelWindow : TDataModule
     // AoWRelations.pas:604
     public void ExitClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         RelWin.Visible = false;
     }
 
@@ -758,11 +779,11 @@ public partial class TRelWindow : TDataModule
         // The original SetChecked call on an image is undefined, so skipped. An image has FChecked and no SetChecked. The action branch runs only for a check box.
         if (Sender.FChecked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
 
         RelPnl.FAligned = false;
@@ -787,11 +808,11 @@ public partial class TRelWindow : TDataModule
         Check = Sender;
         if (Check.Checked)
         {
-            General.PlayButtonSound(1);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(1);
         }
         else
         {
-            General.PlayButtonSound(2);
+            Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(2);
         }
 
         RelPnl.FAligned = false;
@@ -817,21 +838,21 @@ public partial class TRelWindow : TDataModule
         if (Slot < FPlayers.Count)
         {
             Player = (sbyte)FPlayers[Slot];
-            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(Player) == -1)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen(Player) == -1)
             {
-                IntGfxMod.RelWin[28].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[28].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
             }
             else
             {
                 R = Rect(Component.WinLeft + 1, Component.WinTop + 1, Component.WinLeft + Component.WinWidth - 1, Component.WinTop + Component.WinHeight - 1);
-                if (AoWHSMap.FPlayers.GetPlayers(Player).GetFace() != null)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetFace() != null)
                 {
-                    AoWHSMap.FPlayers.GetPlayers(Player).GetFace().ShowStretched(R, Surface);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetFace().ShowStretched(R, Surface);
                 }
             }
 
-            var player = AoWHSMap.FPlayers.GetPlayers(Player);
-            IntGfxMod.RelWin[player.FPlayerRace + 16].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
+            var player = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player);
+            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[player.FPlayerRace + 16].ShowClipped(Component.WinLeft, Component.WinTop, Surface);
         }
     }
 
@@ -848,7 +869,7 @@ public partial class TRelWindow : TDataModule
         {
             Race = (sbyte)FRaces[Slot - 20];
             R = Rect(Control.WinLeft + 1, Control.WinTop + 1, Control.WinLeft + Control.WinWidth - 1, Control.WinTop + Control.WinHeight - 1);
-            AoWHSSet.FRaceResources.GetRaceResource(Race).GetFace().ShowStretched(R, Surface);
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(Race).GetFace().ShowStretched(R, Surface);
             Action = FAction;
             if (Action == null && RNewActionPnl.Visible && ActionsLB.Selected != -1)
             {
@@ -857,11 +878,11 @@ public partial class TRelWindow : TDataModule
 
             if (Action != null)
             {
-                Modifier = Action.GetRelationModifier(AoWHSMap.FSeatedPlayer, Race);
+                Modifier = Action.GetRelationModifier(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer, Race);
                 if (Modifier != 0)
                 {
-                    AoWExeFormsUnit.FontModule.Age10.Color = 16777215;
-                    AoWExeFormsUnit.FontModule.Age10.SetTextCentered(R.Left + (R.Right - R.Left) / 2, R.Top + 50, IntToStr(Modifier), Surface);
+                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10.Color = 16777215;
+                    Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10.SetTextCentered(R.Left + (R.Right - R.Left) / 2, R.Top + 50, IntToStr(Modifier), Surface);
                 }
             }
         }
@@ -879,13 +900,13 @@ public partial class TRelWindow : TDataModule
             Player = FPlayers[Slot];
             if (FSelectedPlayer != -1)
             {
-                if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                 {
-                    if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
                     {
-                        if (AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
+                        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
                         {
-                            Relation = AoWHSMap.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)Player);
+                            Relation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetDiplomaticRelation(FSelectedPlayer, (sbyte)Player);
                             if (Relation != TDiplomaticRelation.drUnknown)
                             {
                                 Image = (int)Relation + 8;
@@ -895,17 +916,17 @@ public partial class TRelWindow : TDataModule
                                 Image = 50;
                             }
 
-                            IntGfxMod.RelWin[Image].Show(component.WinLeft, component.WinTop + 8, Surface);
+                            Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[Image].Show(component.WinLeft, component.WinTop + 8, Surface);
                         }
                     }
                 }
             }
             else
             {
-                if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen((sbyte)Player) != -1)
                 {
-                    var playerRelation = AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelation((sbyte)Player);
-                    IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, Surface);
+                    var playerRelation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(FSelectedRace).GetPlayerRelation((sbyte)Player);
+                    Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(component.WinLeft, component.WinTop + 8, Surface);
                 }
             }
         }
@@ -919,11 +940,11 @@ public partial class TRelWindow : TDataModule
         S = Sender;
         if (FSelectedPlayer != -1 && Slot - 20 < FRaces.Count)
         {
-            if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
             {
                 RaceIndex = FRaces[Slot - 20];
-                var playerRelation = AoWHSMap.FRaces.GetRace(RaceIndex).GetPlayerRelation(FSelectedPlayer);
-                IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, Surface);
+                var playerRelation = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FRaces.GetRace(RaceIndex).GetPlayerRelation(FSelectedPlayer);
+                Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[(int)playerRelation + 11].ShowClipped(S.WinLeft, S.WinTop + 15, Surface);
             }
         }
     }
@@ -933,7 +954,7 @@ public partial class TRelWindow : TDataModule
     {
         string Reason = "";
         TDiplomaticAction Action;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Action = FAction;
         if (Action != null)
         {
@@ -944,7 +965,7 @@ public partial class TRelWindow : TDataModule
             }
             else
             {
-                AoWHSMap.ShowMessage(Reason);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(Reason);
             }
         }
     }
@@ -954,7 +975,7 @@ public partial class TRelWindow : TDataModule
     {
         string Reason = "";
         TDiplomaticAction Action;
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         Action = FAction;
         if (Action != null)
         {
@@ -965,7 +986,7 @@ public partial class TRelWindow : TDataModule
             }
             else
             {
-                AoWHSMap.ShowMessage(Reason);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(Reason);
             }
         }
     }
@@ -1000,7 +1021,7 @@ public partial class TRelWindow : TDataModule
     // AoWRelations.pas:763
     public void PlyrGlowDraw(TSurfaceDesc Surface)
     {
-        IntGfxMod.RelWin[44].ShowBlended(PlyrGlow.WinLeft, PlyrGlow.WinTop, Surface, IntensityBlendTable.LookupTables[FGlowIntensity]);
+        Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.RelWin[44].ShowBlended(PlyrGlow.WinLeft, PlyrGlow.WinTop, Surface, Aow.Game.Draw.GfxState.IntensityBlendTable.LookupTables[FGlowIntensity]);
     }
 
     // AoWRelations.pas:768
@@ -1012,37 +1033,37 @@ public partial class TRelWindow : TDataModule
         {
             if (FSelectedPlayer != -1)
             {
-                if (AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).GetFirstDaySeen(FSelectedPlayer) != -1)
                 {
-                    AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer).FLeader.ShowFace(R, Surface);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FSelectedPlayer).FLeader.ShowFace(R, Surface);
                 }
             }
             else
             {
-                AoWHSSet.FRaceResources.GetRaceResource(FSelectedRace).GetFace().Show(FaceFr.WinLeft + 1, FaceFr.WinTop + 3, Surface);
+                Aow.Game.Engine.TAoWHSSet.AoWHSSet.FRaceResources.GetRaceResource(FSelectedRace).GetFace().Show(FaceFr.WinLeft + 1, FaceFr.WinTop + 3, Surface);
             }
         }
         else
         {
             if (FEvent != null && FEvent.FAction.Proposal.SignedAsOtherPlayer)
             {
-                AoWHSMap.FPlayers.GetPlayers(FEvent.FAction.FOtherPlayer).FLeader.ShowFace(R, Surface);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FEvent.FAction.FOtherPlayer).FLeader.ShowFace(R, Surface);
             }
             else
             {
-                if (FAction.FSource == AoWHSMap.FSeatedPlayer)
+                if (FAction.FSource == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
                 {
-                    AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).FLeader.ShowFace(R, Surface);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).FLeader.ShowFace(R, Surface);
                 }
                 else
                 {
                     if (FAction.FReaction == TDiplomaticActionReaction.darNone)
                     {
-                        AoWHSMap.FPlayers.GetPlayers(FAction.FSource).FLeader.ShowFace(R, Surface);
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FAction.FSource).FLeader.ShowFace(R, Surface);
                     }
                     else
                     {
-                        AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).FLeader.ShowFace(R, Surface);
+                        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).FLeader.ShowFace(R, Surface);
                     }
                 }
             }
@@ -1079,7 +1100,7 @@ public partial class TRelWindow : TDataModule
             {
                 if (!FAction.Send(ref Reason))
                 {
-                    AoWHSMap.ShowMessage(Reason);
+                    Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(Reason);
                 }
             }
             else if (view == ProposalView.Offer)
@@ -1089,13 +1110,13 @@ public partial class TRelWindow : TDataModule
                 RSBribePnl.Visible = true;
                 SBGoldSlid.Position = 0;
                 SBManaSlid.Position = 0;
-                var playerGems = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                var playerGems = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
                 SBGoldSlid.Max = playerGems.FGems;
-                var playerMagicControl = AoWHSMap.FPlayers.GetPlayers(AoWHSMap.FSeatedPlayer);
+                var playerMagicControl = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
                 SBManaSlid.Max = playerMagicControl.FMagicControl.FMana;
                 SBManaSlidChange();
                 SBGoldSlidChange();
-                var name = FAction.GetName(AoWHSMap.FSeatedPlayer);
+                var name = FAction.GetName(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
                 BribeHeaderLbl.Text = name;
                 if (FAction.Proposal.Icon >= 0)
                 {
@@ -1179,7 +1200,7 @@ public partial class TRelWindow : TDataModule
             }
             else
             {
-                AoWHSMap.ShowMessage(Reason);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.ShowMessage(Reason);
             }
         }
     }
@@ -1188,7 +1209,7 @@ public partial class TRelWindow : TDataModule
     public void ReplyBtnClick()
     {
         TDiplomaticAction Action;
-        Action = AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).CreateDiplomaticAction(new SendMessage(), FAction.FSource, -1);
+        Action = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(FAction.FTarget).CreateDiplomaticAction(new SendMessage(), FAction.FSource, -1);
         ClearActions();
         SetAction(Action);
         RNewActionPnl.Visible = false;
@@ -1210,7 +1231,7 @@ public partial class TRelWindow : TDataModule
     public void IIOkBtnClick()
     {
         FinishEvent();
-        if (FAction.FSource == AoWHSMap.FSeatedPlayer)
+        if (FAction.FSource == Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer)
         {
             ShowPlayerActions(FAction.FTarget);
         }
@@ -1228,8 +1249,140 @@ public partial class TRelWindow : TDataModule
             RelWin.Visible = false;
         }
     }
-}
 
-public static partial class AoWRelationsUnit
-{
+    private static readonly string EvilRStr = "Evil";
+
+    private static readonly string GoodRStr = "Good";
+
+    private static readonly string NoContactRStr = "No Contact";
+
+    internal static void ShowDiplomaticEvent(TRelWindow Dialog, TDiplomaticActionEventLog Event, TExecuteDoneEvent Done)
+    {
+        Dialog.ClearActions();
+        Dialog.ResetChecks();
+        // { Original reports its source filename, independent of this checkout. }
+        if (Dialog.FEvent != null)
+        {
+            Aow.Game.Ui.Dialogs.WindowActions.OriginalAssert("Assertion failure", "D:\\AoWDev\\AoWRelations.pas", 663);
+        }
+
+        Dialog.FDone = Done;
+        Dialog.FEvent = Event;
+        Event.AddRef();
+
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer).FStatus == TPlayerStatus.psPlaying)
+        {
+            Dialog.ShowRelations(Event.FAction.FTarget);
+            Dialog.SetAction(Event.FAction);
+            var proposal = Dialog.FAction.Proposal;
+            var view = proposal.View;
+            if (view == ProposalView.Message)
+            {
+                var from = proposal.SignedAsOtherPlayer ? Dialog.FAction.FOtherPlayer : Dialog.FAction.FSource;
+                Dialog.HighlightPlayer(from);
+                Dialog.ShowPlayerInformation(from);
+                Dialog.RNewActionPnl.Visible = false;
+                Dialog.RMsgRecPnl.Visible = true;
+                var text = proposal.MessageText;
+                Dialog.RMMemo.Items.Text = text;
+                var name = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(from).GetName();
+                var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.MessageFromXRStr), [name]);
+                Dialog.RMHeaderLbl.Text = format;
+            }
+            else if (view == ProposalView.Offer)
+            {
+                Dialog.RNewActionPnl.Visible = false;
+                if (Dialog.FAction.FReaction == TDiplomaticActionReaction.darNone)
+                {
+                    Dialog.HighlightPlayer(Dialog.FAction.FSource);
+                    Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
+                    Dialog.RIncomingPnl.Visible = true;
+                    var (_, gold, mana) = proposal.ToFields();
+                    Dialog.MBGoldBribeV.Text = IntToStr(gold);
+                    Dialog.MBManaBribeV.Text = IntToStr(mana);
+                    var text2 = proposal.MessageText;
+                    Dialog.MMemo.Items.Text = text2;
+                    if (proposal.Icon >= 0)
+                    {
+                        Dialog.MIcon.CurrentImage = proposal.Icon;
+                    }
+                }
+                else
+                {
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource && Dialog.FAction.FReaction != (TDiplomaticActionReaction)3)
+                    {
+                        Dialog.HighlightPlayer(Dialog.FAction.FTarget);
+                        Dialog.ShowPlayerInformation(Dialog.FAction.FTarget);
+                        Dialog.RNewActionPnl.Visible = false;
+                        Dialog.IncommingInfoPnl.Visible = true;
+                        var text2 = proposal.MessageText;
+                        Dialog.IIMemo.Items.Text = text2;
+                        if (proposal.Icon >= 0)
+                        {
+                            Dialog.IIIcon.CurrentImage = proposal.Icon;
+                        }
+                    }
+                    else
+                    {
+                        Dialog.FinishEvent();
+                        if (Dialog.FAction.FReaction == (TDiplomaticActionReaction)3)
+                        {
+                            Dialog.ShowPlayerActions(Dialog.FAction.FTarget);
+                        }
+                        else
+                        {
+                            Dialog.ShowPlayerActions(Dialog.FAction.FSource);
+                        }
+                    }
+                }
+            }
+            else if (view == ProposalView.Notice)
+            {
+                if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Dialog.FAction.FSource)
+                {
+                    Dialog.FinishEvent();
+                    Dialog.ShowPlayerActions(Dialog.FAction.FTarget);
+                }
+                else
+                {
+                    if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer == Dialog.FAction.FTarget)
+                    {
+                        Dialog.HighlightPlayer(Dialog.FAction.FSource);
+                        Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
+                        Dialog.RNewActionPnl.Visible = false;
+                        Dialog.IncommingInfoPnl.Visible = true;
+                        var text2 = proposal.MessageText;
+                        Dialog.IIMemo.Items.Text = text2;
+                        if (proposal.Icon >= 0)
+                        {
+                            Dialog.IIIcon.CurrentImage = proposal.Icon;
+                        }
+                    }
+                    else
+                    {
+                        Dialog.FinishEvent();
+                        Dialog.ShowPlayerActions(Dialog.FAction.FSource);
+                    }
+                }
+            }
+            else if (view == ProposalView.Threat)
+            {
+                Dialog.HighlightPlayer(Dialog.FAction.FSource);
+                Dialog.ShowPlayerInformation(Dialog.FAction.FSource);
+                Dialog.RNewActionPnl.Visible = false;
+                Dialog.IncommingInfoPnl.Visible = true;
+                var text3 = proposal.MessageText;
+                Dialog.IIMemo.Items.Text = text3;
+                if (proposal.Icon >= 0)
+                {
+                    Dialog.IIIcon.CurrentImage = proposal.Icon;
+                }
+            }
+        }
+        else
+        {
+            Dialog.FinishDialog();
+        }
+    }
+
 }

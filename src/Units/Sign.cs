@@ -14,7 +14,6 @@ using Aow.Game.Session;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures
 {
@@ -47,7 +46,7 @@ namespace Aow.Game.World.Structures
         {
             base.ReadWrite(Stream);
             Stream.rwStrings(FText, 7);
-            if (AoWHSMap != null && AoWHSMap.FConnectionType != (TPlayerConnectionType)1)
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FConnectionType != (TPlayerConnectionType)1)
             {
                 Stream.rwStreamProc(8, FTextSeen.LoadFromStream, FTextSeen.SaveToStream);
             }
@@ -62,9 +61,9 @@ namespace Aow.Game.World.Structures
         public override void Select()
         {
             base.Select();
-            if (!AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
+            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Status.Contains(THSMapStatusElement.msEditting))
             {
-                FTextSeen[AoWHSMap.FSeatedPlayer] = true;
+                FTextSeen[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer] = true;
             }
         }
 
@@ -83,7 +82,7 @@ namespace Aow.Game.World.Structures
         {
             TArmyHS ArmyHS;
             ArmyHS = ((TAoWMapField)Owner).GetArmyHS();
-            return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)AoWHSMap.FSeatedPlayer;
+            return ArmyHS != null && (byte)ArmyHS.FArmy.FPlayer == (byte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer;
         }
 
         // Sign.pas:134
@@ -91,14 +90,14 @@ namespace Aow.Game.World.Structures
         {
             bool Result;
             TUpdateSignTE Event;
-            if (!AoWHSMap.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
+            if (!Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(Player).GetBusy() && CanChangeText())
             {
                 Event = new TUpdateSignTE(null);
                 Event.FXhx = GetXhx();
                 Event.FYhx = GetYhx();
                 Event.FLhx = GetLhx();
                 Event.FText.Assign(Text);
-                AoWHSMap.FTokenManager.GetTokenControl(Player).AddEvent(Event);
+                Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTokenManager.GetTokenControl(Player).AddEvent(Event);
                 Event.Release();
                 Result = true;
             }
@@ -142,7 +141,7 @@ namespace Aow.Game.World.Structures
             {
                 Index = Structure.ImageIndex;
                 Offset = ((TMapField)Structure.Owner).Xhx + ((TMapField)Structure.Owner).Yhx * 16;
-                Animate = AoWHSMap.FSeatedPlayer < 0 || !((TSign)Structure).GetTextSeen(AoWHSMap.FSeatedPlayer);
+                Animate = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer < 0 || !((TSign)Structure).GetTextSeen(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
                 if (Index < FImageSequenceList.Count)
                 {
                     Sequence = (TImageSequence)FImageSequenceList.List[Index];
@@ -156,7 +155,7 @@ namespace Aow.Game.World.Structures
                 {
                     if (Animate)
                     {
-                        Image = Sequence.GetFrameIndex(AoWHSMap.Frame, Offset);
+                        Image = Sequence.GetFrameIndex(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame, Offset);
                     }
                     else
                     {
@@ -165,7 +164,7 @@ namespace Aow.Game.World.Structures
 
                     if (Image != -1)
                     {
-                        if (Structure.GetSelected() && (AoWHSMap.Frame & 6) == 6)
+                        if (Structure.GetSelected() && (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Frame & 6) == 6)
                         {
                             Sequence.ImageLibrary[Image].ShowTransparent(X + Sequence.dXshift, Y + Sequence.dYshift, SurfaceDesc);
                         }
@@ -183,7 +182,9 @@ namespace Aow.Game.World.Structures
         // Sign.pas:37
 
         // Sign.pas:162
-        public override string ResourceEditName() => TranslateRStr(SignRStr);
+        public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TSignResource.SignRStr);
+
+        private static readonly string SignRStr = "Sign";
 
     }
 }
@@ -231,12 +232,12 @@ namespace Aow.Game.Commands
         {
             TExecuteResult Result;
             TSign Sign;
-            Sign = (TSign)AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
+            Sign = (TSign)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.MapContainer.GetField(FXhx, FYhx, FLhx).FindOwnedChild(131330);
             if (Sign != null)
             {
                 Sign.SetText(FText);
                 Sign.FTextSeen.Clear();
-                Sign.FTextSeen[AoWHSMap.FCurrentPlayer] = true;
+                Sign.FTextSeen[Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer] = true;
                 Result = TExecuteResult.erDone;
             }
             else
@@ -268,26 +269,5 @@ namespace Aow.Game.World
         public FixedArray_byte_148 ReservedA6;
         [FieldOffset(314)]
         public byte StorageType;
-    }
-}
-
-namespace Aow.Game.World.Structures
-{
-
-    public static partial class SignUnit
-    {
-        // Sign.pas:229
-        public static void RegisterSign(TEngine AEngine)
-        {
-            AEngine.RegisterEClasses([EClass.Of<TSign>(), EClass.Of<TSignResource>(), EClass.Of<TUpdateSignTE>()]);
-        }
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
     }
 }

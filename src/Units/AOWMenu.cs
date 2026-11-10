@@ -1096,7 +1096,3 @@ public partial class TAOWMenu : TAOWGenericWindow
         set => EventSlot.Set(this, ref FOnShow, value);
     }
 }
-
-public static partial class AOWMenuUnit
-{
-}

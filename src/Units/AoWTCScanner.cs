@@ -6,8 +6,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWTCScanner.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.AoWWinManUnit;
 
 namespace Aow.Game.Ui.Dialogs;
 
@@ -27,14 +25,14 @@ public partial class TTCScanner : TDataModule
     // AoWTCScanner.pas:38
     public void ScannerChangeTileBox()
     {
-        AOWMWindowUnit.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
-        AOWMWindowUnit.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
-        if (AoWHSMap.FSeatedPlayer != -1)
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX = (Scanner.FTLeft + 6) * 33;
+        Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY = (Scanner.FTTop + 6) * 33;
+        if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer != -1)
         {
-            Scanner.SetTWidth(AOWMWindowUnit.MWindow.MapViewer.SceneWidth / 32);
-            Scanner.SetTHeight(AOWMWindowUnit.MWindow.MapViewer.SceneHeight / 32);
-            Scanner.SetTLeft(AOWMWindowUnit.MWindow.MapViewer.SceneX / 32 - 6);
-            Scanner.SetTTop(AOWMWindowUnit.MWindow.MapViewer.SceneY / 32 - 6);
+            Scanner.SetTWidth(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneWidth / 32);
+            Scanner.SetTHeight(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneHeight / 32);
+            Scanner.SetTLeft(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneX / 32 - 6);
+            Scanner.SetTTop(Aow.Game.Ui.Dialogs.DialogHosts.MWindow.MapViewer.SceneY / 32 - 6);
         }
     }
 
@@ -48,11 +46,7 @@ public partial class TTCScanner : TDataModule
     // AoWTCScanner.pas:60
     public void SMinIconClick()
     {
-        General.PlayButtonSound(0);
+        Aow.Game.Ui.Dialogs.DialogHosts.General.PlayButtonSound(0);
         TCScannerWin.Visible = false;
     }
-}
-
-public static partial class AoWTCScannerUnit
-{
 }

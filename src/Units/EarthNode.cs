@@ -3,7 +3,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Magic;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -40,23 +39,8 @@ public partial class TEarthNodeResource : TProductionPlaceResource
     // EarthNode.pas:26
 
     // EarthNode.pas:50
-    public override string ResourceEditName() => TranslateRStr(EarthNodeRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TEarthNodeResource.EarthNodeRStr);
 
-}
+    private static readonly string EarthNodeRStr = "Earth Node";
 
-public static partial class EarthNodeUnit
-{
-    // EarthNode.pas:59
-    public static void RegisterEarthNode(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TEarthNode>(), EClass.Of<TEarthNodeResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

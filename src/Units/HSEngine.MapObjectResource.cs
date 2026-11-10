@@ -2,7 +2,6 @@ using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.Engine.Storage;
 using Aow.Rtl;
-using static Aow.Game.Engine.Nodes.EngineUnit;
 
 namespace Aow.Game.World;
 
@@ -35,7 +34,7 @@ public partial class TMapObject
 
     public override void ReadWrite(TEStorageStream stream)
     {
-        if ((stream.StorageMode() & TSet<TStorageModeElement>.Of(smText, TStorageModeElement.smCompare)) != default) return;
+        if ((stream.StorageMode() & TSet<TStorageModeElement>.Of(Aow.Game.Engine.Nodes.EngineServices.smText, TStorageModeElement.smCompare)) != default) return;
         if (stream.StorageMode().Contains(TStorageModeElement.smRead))
         {
             SetResourceLinked(false);

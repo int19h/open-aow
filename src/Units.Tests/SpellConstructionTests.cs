@@ -40,21 +40,21 @@ public sealed partial class SpellConstructionTests
 
     private sealed class Fixture : IDisposable
     {
-        private readonly TAoWHSSet previousSet = Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet;
-        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine;
+        private readonly TAoWHSSet previousSet = Aow.Game.Engine.TAoWHSSet.AoWHSSet;
+        private readonly TAoWEngine previousEngine = Aow.Game.Magic.Abilities.GameTables.AoWEngine;
         internal readonly TImageLibraryManager Manager = new TImageLibraryManager(null!);
 
         internal Fixture()
         {
             var set = EngineFixture.CreateGameSet(Manager);
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = set;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = null!;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet = set;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = null!;
         }
 
         public void Dispose()
         {
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWHSSet = previousSet;
-            Aow.Game.Magic.Abilities.AoWEUnit.AoWEngine = previousEngine;
+            Aow.Game.Engine.TAoWHSSet.AoWHSSet = previousSet;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine = previousEngine;
             Manager.Dispose();
         }
     }
@@ -94,7 +94,7 @@ public sealed partial class SpellConstructionTests
 
     private static TEngine RegisteredEngine(Type type)
     {
-        if (EngineUnit.Engines is null) EngineUnit.Initialize();
+        if (Aow.Game.Engine.Nodes.EngineHost.Engines is null) Aow.Game.Engine.Nodes.EngineHost.Initialize();
         var engine = new TEngine(null!);
         try { engine.RegisterEClasses([EClass.Of(type)]); }
         catch { engine.Dispose(); throw; }

@@ -186,21 +186,3 @@ namespace Aow.Game.Ui.Grids.LeadrGrd
         public bool Hidden;
     }
 }
-
-namespace Aow.Game.Ui.Grids
-{
-
-    public static partial class LeadrGrdUnit
-    {
-        public static readonly string GridUsedRStr = "Used";
-        public static readonly string GridPlayerRStr = "Player";
-
-        public static void Initialize()
-        {
-        }
-
-        public static void Finalize()
-        {
-        }
-    }
-}

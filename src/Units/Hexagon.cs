@@ -7,7 +7,6 @@ using Aow.Game.Engine.Nodes;
 using Aow.Game.World;
 using Aow.Game.World.Map;
 using Aow.Rtl;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -51,7 +50,7 @@ public partial class THexagon : TAbstractHexagon
     {
         int Xhp = default;
         int Yhp = default;
-        HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
+        Aow.Game.World.Map.HexGeometry.HXtoHP(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ref Xhp, ref Yhp);
         ((THexagonResource)FResource).Show(Xhp - XhpSurf - 8, Yhp - YhpSurf, SurfaceDesc, this);
     }
 
@@ -189,15 +188,8 @@ public partial class THexagonResource : TAbstractHexagonResource
     // Hexagon.pas:32
 
     // Hexagon.pas:107
-    public override string ResourceEditName() => HexagonStr;
+    public override string ResourceEditName() => Aow.Game.World.Hexes.THexagonResource.HexagonStr;
 
-}
+    private static readonly string HexagonStr = "Hexagon";
 
-public static partial class HexagonUnit
-{
-    // Hexagon.pas:168
-    public static void RegisterHexagon(TEngine Engine)
-    {
-        Engine.RegisterEClasses([EClass.Of<THexagon>(), EClass.Of<THexagonResource>()]);
-    }
 }

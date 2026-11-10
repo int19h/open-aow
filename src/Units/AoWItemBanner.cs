@@ -4,7 +4,6 @@ using Aow.Game.Magic.Abilities;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Windows;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -34,7 +33,7 @@ public partial class TItemBanner : TDataModule
         TItem Item;
         int X;
         int Y;
-        Item = AoWHSMap.FItemControl.FindItem(AoWItemBannerUnit.ItemID);
+        Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(Aow.Game.Ui.Dialogs.TItemBanner.ItemID);
         if (Item != null)
         {
             ItemNameLbl.Text = Item.FOwnerName;
@@ -128,7 +127,7 @@ public partial class TItemBanner : TDataModule
             {
                 if (Item.GetAbEnabled(X))
                 {
-                    var name = AoWHSSet.FAbilityControl.GetAbility(X).GetName(Item);
+                    var name = Aow.Game.Engine.TAoWHSSet.AoWHSSet.FAbilityControl.GetAbility(X).GetName(Item);
                     AbLB.Items.AddObject(name, IntToObject(X));
                 }
             }
@@ -147,7 +146,7 @@ public partial class TItemBanner : TDataModule
     {
         if (Button == 1)
         {
-            AoWItemBannerUnit.ItemBanner.IBannerPopup.Visible = false;
+            Aow.Game.Ui.Dialogs.DialogHosts.ItemBanner.IBannerPopup.Visible = false;
         }
     }
 
@@ -155,16 +154,13 @@ public partial class TItemBanner : TDataModule
     public void DrawBoxPreDraw(TSurfaceDesc SurfDesc)
     {
         TItem Item;
-        Item = AoWHSMap.FItemControl.FindItem(AoWItemBannerUnit.ItemID);
+        Item = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FItemControl.FindItem(Aow.Game.Ui.Dialogs.TItemBanner.ItemID);
         if (Item != null)
         {
             Item.Show(DrawBox.WinLeft, DrawBox.WinTop, SurfDesc);
         }
     }
-}
 
-public static partial class AoWItemBannerUnit
-{
-    public static TItemBanner ItemBanner;
-    public static int ItemID;
+    internal static int ItemID;
+
 }

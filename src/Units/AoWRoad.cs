@@ -5,8 +5,6 @@ using Aow.Game.Engine.Buffers;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Hexes;
 using Aow.Game.World.Map;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.World.Map.HSEngineUnit;
 
 namespace Aow.Game.World.Hexes;
 
@@ -32,8 +30,8 @@ public partial class TAoWRoad : TRoad
         Msg.Param[0] = Owner;
         for (int HN = 1; HN <= 6; HN++)
         {
-            HNtoHX(HN, ref Xhx, ref Yhx);
-            TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.HNtoHX(HN, ref Xhx, ref Yhx);
+            Aow.Game.World.Map.HexGeometry.TranslateHX(0, 0, ((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, Xhx, Yhx, ref Xhx, ref Yhx);
             if (Xhx >= 0 && Yhx >= 0 && Level.Width > Xhx && Level.Height > Yhx)
             {
                 MapField = Level.GetField(Xhx, Yhx);
@@ -68,7 +66,7 @@ public partial class TAoWRoad : TRoad
 
         if (OldTransitions != FTransitions)
         {
-            AoWHSMap.InvalidateStaticScene(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx);
+            Aow.Game.World.Map.TAoWHSMap.AoWHSMap.InvalidateStaticScene(((TMapField)Owner).Xhx, ((TMapField)Owner).Yhx, ((TMapField)Owner).Lhx);
         }
     }
 }
@@ -80,21 +78,4 @@ public struct TRoadFields
     public FixedArray_byte_16 Reserved;
     [FieldOffset(16)]
     public byte Transitions;
-}
-
-public static partial class AoWRoadUnit
-{
-    // AoWRoad.pas:76
-    public static void RegisterAoWRoad(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TAoWRoad>(), EClass.Of<TRoadResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

@@ -12,7 +12,6 @@ using Aow.Game.Units;
 using Aow.Game.World.Map;
 using Aow.Game.World.Structures;
 using Aow.Rtl;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Grids;
@@ -69,11 +68,11 @@ public partial class TAoWMapControl : TComponent
     // MapCtrl.pas:186
     public override void Dispose()
     {
-        if (AoWEngine != null)
+        if (Aow.Game.Magic.Abilities.GameTables.AoWEngine != null)
         {
-            AoWEngine.FOnHSMLoaded -= ActivateHSM;
-            AoWEngine.FOnHSMClose -= DeactivateHSM;
-            if (AoWHSMap != null)
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoaded -= ActivateHSM;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMClose -= DeactivateHSM;
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
             {
                 ReleaseHSM();
             }
@@ -85,11 +84,11 @@ public partial class TAoWMapControl : TComponent
     // MapCtrl.pas:174
     public TAoWMapControl(TComponent owner) : base(owner)
     {
-        if (ValidateAoWEngine())
+        if (Aow.Game.Magic.Abilities.GameTables.ValidateAoWEngine())
         {
-            AoWEngine.FOnHSMLoaded += ActivateHSM;
-            AoWEngine.FOnHSMClose += DeactivateHSM;
-            if (AoWHSMap != null)
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMLoaded += ActivateHSM;
+            Aow.Game.Magic.Abilities.GameTables.AoWEngine.FOnHSMClose += DeactivateHSM;
+            if (Aow.Game.World.Map.TAoWHSMap.AoWHSMap != null)
             {
                 LinkToHSM();
             }
@@ -99,94 +98,94 @@ public partial class TAoWMapControl : TComponent
     // MapCtrl.pas:197
     public void LinkToHSM()
     {
-        AoWHSMap.FMouse.FOnDblClick += DblClick;
-        AoWHSMap.FNewDayEvents += ChangeDay;
-        AoWHSMap.FCurrentPlayerChangedEvents += PlayerChanged;
-        AoWHSMap.FNewTurnEvents += NewTurn;
-        AoWHSMap.FEndTurnEvents += EndTurn;
-        AoWHSMap.FSeatedPlayerChangedEvents += SeatedPlayerChanged;
-        AoWHSMap.FSelection.FOnSelect += SelectHS;
-        AoWHSMap.FSelection.FOnDeselect += DeselectHS;
-        AoWHSMap.FShowMessageEvents += ShowMessage;
-        AoWHSMap.FMapChangedEvents += MapChanged;
-        AoWHSMap.FScannerIconsChangedEvents += ScannerIconsChanged;
-        AoWHSMap.FUpdateVisibilityEvents += MapSettingsChanged;
-        AoWHSMap.FCombatEvents += CombatEvent;
-        AoWHSMap.FStructureChangedEvents += StructureChanged;
-        AoWHSMap.FStructureDestroyedEvents += StructureDestroyed;
-        AoWHSMap.FArmyChangedEvents += ArmyChanged;
-        AoWHSMap.FArmyDestroyedEvents += ArmyDestroyed;
-        AoWHSMap.FUnitChangedEvents += UnitChanged;
-        AoWHSMap.FUnitDestroyedEvents += UnitDestroyed;
-        AoWHSMap.FGameTerminatedEvents += GameOver;
-        AoWHSMap.FGameOverEvents += GameTerminated;
-        AoWHSMap.FHSChangedEvents += HSChanged;
-        AoWHSMap.FPlayerTerminatedEvents += PlayerTerminated;
-        AoWHSMap.FExecuteEventLogEvents += ExecuteEventLog;
-        AoWHSMap.FTargetSelection.FOnChange += TargetSelectionChange;
-        AoWHSMap.FViewPortChangedEvents += ViewPortChange;
-        AoWHSMap.FCosmeticSurgeryEvents += CastSpell;
-        AoWHSMap.FOnActivateAbility += ActivateAbility;
-        AoWHSMap.FGlobalMagicControl.FChangedEvents += GlobalMagicChanged;
-        AoWHSMap.FPlayerChangedEvents += RelationsChanged;
-        AoWHSMap.FDiplomaticRelationsChangedEvents += DiplomaticChange;
-        AoWHSMap.FExitEvents += ExitGameEvent;
-        AoWHSMap.FCombatMapCreatedEvents += ActivateCombatMap;
-        AoWHSMap.FCombatMapDestroyedEvents += DeactivateCombatMap;
-        for (int I = 0, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMouse.FOnDblClick += DblClick;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FNewDayEvents += ChangeDay;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayerChangedEvents += PlayerChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FNewTurnEvents += NewTurn;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FEndTurnEvents += EndTurn;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayerChangedEvents += SeatedPlayerChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelection.FOnSelect += SelectHS;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelection.FOnDeselect += DeselectHS;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowMessageEvents += ShowMessage;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMapChangedEvents += MapChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FScannerIconsChangedEvents += ScannerIconsChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUpdateVisibilityEvents += MapSettingsChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatEvents += CombatEvent;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStructureChangedEvents += StructureChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStructureDestroyedEvents += StructureDestroyed;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FArmyChangedEvents += ArmyChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FArmyDestroyedEvents += ArmyDestroyed;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitChangedEvents += UnitChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitDestroyedEvents += UnitDestroyed;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameTerminatedEvents += GameOver;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameOverEvents += GameTerminated;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FHSChangedEvents += HSChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerTerminatedEvents += PlayerTerminated;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExecuteEventLogEvents += ExecuteEventLog;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.FOnChange += TargetSelectionChange;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FViewPortChangedEvents += ViewPortChange;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCosmeticSurgeryEvents += CastSpell;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FOnActivateAbility += ActivateAbility;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.FChangedEvents += GlobalMagicChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerChangedEvents += RelationsChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDiplomaticRelationsChangedEvents += DiplomaticChange;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExitEvents += ExitGameEvent;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMapCreatedEvents += ActivateCombatMap;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMapDestroyedEvents += DeactivateCombatMap;
+        for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
         {
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FGemsChangedEvents += GemsChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FIncomeChangedEvents += IncomeChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FUpkeepChangedEvents += UpkeepChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FLogbookChangedEvents += LogbookChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents += PlayerMagicChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FGemsChangedEvents += GemsChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FIncomeChangedEvents += IncomeChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FUpkeepChangedEvents += UpkeepChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FLogbookChangedEvents += LogbookChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents += PlayerMagicChanged;
         }
     }
 
     // MapCtrl.pas:244
     public void ReleaseHSM()
     {
-        AoWHSMap.FMouse.FOnDblClick -= DblClick;
-        AoWHSMap.FNewDayEvents -= ChangeDay;
-        AoWHSMap.FCurrentPlayerChangedEvents -= PlayerChanged;
-        AoWHSMap.FNewTurnEvents -= NewTurn;
-        AoWHSMap.FEndTurnEvents -= EndTurn;
-        AoWHSMap.FSeatedPlayerChangedEvents -= SeatedPlayerChanged;
-        AoWHSMap.FSelection.FOnSelect -= SelectHS;
-        AoWHSMap.FSelection.FOnDeselect -= DeselectHS;
-        AoWHSMap.FShowMessageEvents -= ShowMessage;
-        AoWHSMap.FMapChangedEvents -= MapChanged;
-        AoWHSMap.FScannerIconsChangedEvents -= ScannerIconsChanged;
-        AoWHSMap.FUpdateVisibilityEvents -= MapSettingsChanged;
-        AoWHSMap.FCombatEvents -= CombatEvent;
-        AoWHSMap.FArmyChangedEvents -= ArmyChanged;
-        AoWHSMap.FArmyDestroyedEvents -= ArmyDestroyed;
-        AoWHSMap.FUnitChangedEvents -= UnitChanged;
-        AoWHSMap.FUnitDestroyedEvents -= UnitDestroyed;
-        AoWHSMap.FStructureChangedEvents -= StructureChanged;
-        AoWHSMap.FStructureDestroyedEvents -= StructureDestroyed;
-        AoWHSMap.FHSChangedEvents -= HSChanged;
-        AoWHSMap.FGameTerminatedEvents -= GameOver;
-        AoWHSMap.FGameOverEvents -= GameTerminated;
-        AoWHSMap.FPlayerTerminatedEvents -= PlayerTerminated;
-        AoWHSMap.FExecuteEventLogEvents -= ExecuteEventLog;
-        AoWHSMap.FTargetSelection.FOnChange -= TargetSelectionChange;
-        AoWHSMap.FViewPortChangedEvents -= ViewPortChange;
-        AoWHSMap.FCosmeticSurgeryEvents -= CastSpell;
-        AoWHSMap.FOnActivateAbility -= ActivateAbility;
-        AoWHSMap.FGlobalMagicControl.FChangedEvents -= GlobalMagicChanged;
-        AoWHSMap.FPlayerChangedEvents -= RelationsChanged;
-        AoWHSMap.FDiplomaticRelationsChangedEvents -= DiplomaticChange;
-        AoWHSMap.FExitEvents -= ExitGameEvent;
-        AoWHSMap.FCombatMapCreatedEvents -= ActivateCombatMap;
-        AoWHSMap.FCombatMapDestroyedEvents -= DeactivateCombatMap;
-        for (int I = 0, last = AoWHSMap.FPlayers.Count - 1; I <= last; I++)
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMouse.FOnDblClick -= DblClick;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FNewDayEvents -= ChangeDay;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayerChangedEvents -= PlayerChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FNewTurnEvents -= NewTurn;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FEndTurnEvents -= EndTurn;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayerChangedEvents -= SeatedPlayerChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelection.FOnSelect -= SelectHS;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelection.FOnDeselect -= DeselectHS;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FShowMessageEvents -= ShowMessage;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FMapChangedEvents -= MapChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FScannerIconsChangedEvents -= ScannerIconsChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUpdateVisibilityEvents -= MapSettingsChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatEvents -= CombatEvent;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FArmyChangedEvents -= ArmyChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FArmyDestroyedEvents -= ArmyDestroyed;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitChangedEvents -= UnitChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FUnitDestroyedEvents -= UnitDestroyed;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStructureChangedEvents -= StructureChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FStructureDestroyedEvents -= StructureDestroyed;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FHSChangedEvents -= HSChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameTerminatedEvents -= GameOver;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameOverEvents -= GameTerminated;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerTerminatedEvents -= PlayerTerminated;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExecuteEventLogEvents -= ExecuteEventLog;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.FOnChange -= TargetSelectionChange;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FViewPortChangedEvents -= ViewPortChange;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCosmeticSurgeryEvents -= CastSpell;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FOnActivateAbility -= ActivateAbility;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGlobalMagicControl.FChangedEvents -= GlobalMagicChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayerChangedEvents -= RelationsChanged;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDiplomaticRelationsChangedEvents -= DiplomaticChange;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FExitEvents -= ExitGameEvent;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMapCreatedEvents -= ActivateCombatMap;
+        Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCombatMapDestroyedEvents -= DeactivateCombatMap;
+        for (int I = 0, last = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.Count - 1; I <= last; I++)
         {
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FGemsChangedEvents -= GemsChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FIncomeChangedEvents -= IncomeChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FUpkeepChangedEvents -= UpkeepChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FLogbookChangedEvents -= LogbookChanged;
-            ((TPlayer)(object)(object)AoWHSMap.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents -= PlayerMagicChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FGemsChangedEvents -= GemsChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FIncomeChangedEvents -= IncomeChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FUpkeepChangedEvents -= UpkeepChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FLogbookChangedEvents -= LogbookChanged;
+            ((TPlayer)(object)(object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(I)).FMagicControl.FChangedEvents -= PlayerMagicChanged;
         }
     }
 
@@ -223,7 +222,7 @@ public partial class TAoWMapControl : TComponent
         THexagonSprite HS;
         if (FOnDblClickArmy != null)
         {
-            HS = AoWHSMap.Selection.FindClass(typeof(TArmyHS));
+            HS = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Selection.FindClass(typeof(TArmyHS));
             if (HS is TArmyHS armyHS)
             {
                 FOnDblClickArmy(armyHS.FArmy);
@@ -232,7 +231,7 @@ public partial class TAoWMapControl : TComponent
 
         if (FOnDblClickStructure != null)
         {
-            HS = AoWHSMap.Selection.FindClass(typeof(TStructure));
+            HS = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Selection.FindClass(typeof(TStructure));
             if (HS is TStructure structure)
             {
                 FOnDblClickStructure(structure);
@@ -294,8 +293,8 @@ public partial class TAoWMapControl : TComponent
         THexagonSpriteSelection Selection;
         try
         {
-            Selection = AoWHSMap.Selection;
-            if (FOnSelectArmy != null && Selection.EventHS is TArmyHS armyHS && AoWHSMap.FSelectedArmy.GetArmyHS() != null)
+            Selection = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Selection;
+            if (FOnSelectArmy != null && Selection.EventHS is TArmyHS armyHS && Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSelectedArmy.GetArmyHS() != null)
             {
                 FOnSelectArmy(armyHS.FArmy);
             }
@@ -322,7 +321,7 @@ public partial class TAoWMapControl : TComponent
         THexagonSpriteSelection Selection;
         try
         {
-            Selection = AoWHSMap.Selection;
+            Selection = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.Selection;
             if (FOnDeselectArmy != null && Selection.EventHS is TArmyHS armyHS)
             {
                 FOnDeselectArmy(armyHS.FArmy);
@@ -351,7 +350,7 @@ public partial class TAoWMapControl : TComponent
         {
             if (FOnPlayerChanged != null)
             {
-                FOnPlayerChanged(AoWHSMap.FCurrentPlayer);
+                FOnPlayerChanged(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FCurrentPlayer);
             }
         }
         catch
@@ -399,7 +398,7 @@ public partial class TAoWMapControl : TComponent
         {
             if (FOnEndTurn != null)
             {
-                var listed = (object)AoWHSMap.FPlayers.GetPlayers(player);
+                var listed = (object)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FPlayers.GetPlayers(player);
                 FOnEndTurn(player, !((TPlayer)(object)listed).FSingleProcessCycle);
             }
         }
@@ -416,7 +415,7 @@ public partial class TAoWMapControl : TComponent
         {
             if (FOnSeatedPlayerChanged != null)
             {
-                FOnSeatedPlayerChanged(AoWHSMap.FSeatedPlayer);
+                FOnSeatedPlayerChanged(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FSeatedPlayer);
             }
         }
         catch
@@ -528,7 +527,7 @@ public partial class TAoWMapControl : TComponent
         {
             if (FOnChangeDay != null)
             {
-                FOnChangeDay(AoWHSMap.FDay);
+                FOnChangeDay(Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay);
             }
         }
         catch
@@ -704,7 +703,7 @@ public partial class TAoWMapControl : TComponent
         {
             if (FOnGameTerminated != null)
             {
-                FOnGameTerminated((sbyte)AoWHSMap.FGameResult);
+                FOnGameTerminated((sbyte)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FGameResult);
             }
         }
         catch
@@ -782,7 +781,7 @@ public partial class TAoWMapControl : TComponent
     {
         try
         {
-            if (FOnTargetSelectionChange != null && Control != null && (((int)AoWHSMap.FTargetSelection.FTargetMode.Image) & 8) != 0)
+            if (FOnTargetSelectionChange != null && Control != null && (((int)Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FTargetSelection.FTargetMode.Image) & 8) != 0)
             {
                 FOnTargetSelectionChange(Control, Control.FChange);
             }
@@ -1082,14 +1081,3 @@ public struct TTargetState
 public delegate object TGetPlayers(TPlayerList List, int Index);
 public delegate TArmyHS TGetArmyHS(TSelectedArmy Selection);
 public delegate bool TValidateEngine();
-
-public static partial class MapCtrlUnit
-{
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}

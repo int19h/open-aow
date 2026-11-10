@@ -3,7 +3,6 @@ using System.Runtime.InteropServices;
 using Aow.Game.Draw;
 using Aow.Game.Engine.Buffers;
 using Aow.Rtl;
-using static Aow.Game.Draw.GFXEUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Draw;
@@ -544,7 +543,7 @@ public partial class TCustomDisplay : TWinControl
         }
         else
         {
-            Result = DisplayCUnit.DCERR_NOTSUPPORTED;
+            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
         }
 
         return Result;
@@ -590,6 +589,20 @@ public partial class TCustomDisplay : TWinControl
     protected internal TSurfaceDataLostEvent OnSurfaceDataLost { get => FOnSurfaceDataLost; set => FOnSurfaceDataLost = value; }
     protected internal TResizeBackSurfaceEvent OnResizeBackSurface { get => FOnResizeBackSurface; set => FOnResizeBackSurface = value; }
     protected internal TSwapDCEvent OnSwapDC { get => FOnSwapDC; set => FOnSwapDC = value; }
+
+    private const int DCERR_ACTIVATEFAILED = -2147414014;
+
+    private static int RemapSurface(global::Aow.Game.Draw.TSurface Src, global::Aow.Game.Draw.TSurface Dest)
+    {
+        global::Aow.Game.Draw.TSurfaceDesc SD = default(global::Aow.Game.Draw.TSurfaceDesc);
+        global::Aow.Game.Draw.TSurfaceDesc SD2 = default(global::Aow.Game.Draw.TSurfaceDesc);
+        Src.Lock(ref SD);
+        Dest.Lock(ref SD2);
+        int result = global::Aow.Game.Draw.TSurfaceDesc.RemapSurfacePart(in SD, 0, 0, SD.Width, SD.Height, in SD2, 0, 0);
+        Src.Unlock();
+        Dest.Unlock();
+        return result;
+    }
 
 }
 
@@ -846,7 +859,7 @@ public partial class TAbstractDC : TComponent
         }
         else
         {
-            Result = DisplayCUnit.DCERR_FAILED;
+            Result = Aow.Game.Draw.DisplayCodes.DCERR_FAILED;
         }
 
         return Result;
@@ -984,7 +997,7 @@ public partial class TDisplayCtrl : TAbstractDC
         int Result = GetSurface(Index).BltStretch(surface, default, primarySurfaceRgn);
         if (Succeeded(Result))
         {
-            Result = DisplayCUnit.DCERR_NOFLIP;
+            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOFLIP;
         }
 
         return Result;
@@ -1055,7 +1068,7 @@ public partial class TDisplayCtrl : TAbstractDC
         }
         else
         {
-            Result = DisplayCUnit.DCERR_ACTIVATED;
+            Result = Aow.Game.Draw.TDisplayCtrl.DCERR_ACTIVATED;
         }
 
         return Result;
@@ -1078,17 +1091,17 @@ public partial class TDisplayCtrl : TAbstractDC
         }
         else
         {
-            Result = DisplayCUnit.DCERR_NOTACTIVATED;
+            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOTACTIVATED;
         }
 
         return Result;
     }
 
     // DisplayC.pas:762
-    public override int SupportDisplayMode(TCustomDisplay ADisplay) => DisplayCUnit.DCERR_NOTSUPPORTED;
+    public override int SupportDisplayMode(TCustomDisplay ADisplay) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:767
-    public override int SetPalet(TGFXEPalette Palette) => DisplayCUnit.DCERR_NOTSUPPORTED;
+    public override int SetPalet(TGFXEPalette Palette) => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:772
     public void RealizePalet()
@@ -1104,7 +1117,7 @@ public partial class TDisplayCtrl : TAbstractDC
     }
 
     // DisplayC.pas:780
-    public override int RealizePaletNow() => DisplayCUnit.DCERR_NOTSUPPORTED;
+    public override int RealizePaletNow() => Aow.Game.Draw.DisplayCodes.DCERR_NOTSUPPORTED;
 
     // DisplayC.pas:787
     // { The mouse position in the display, or -1, -1 when the mouse is outside or another window has
@@ -1349,7 +1362,7 @@ public partial class TDisplayCtrl : TAbstractDC
         int T;
         if (FFrameCount >= 5)
         {
-            T = GetElapsedMilliSeconds();
+            T = Aow.Game.Draw.PixelFormats.GetElapsedMilliSeconds();
             FDisplay.FCurrentFrameRate = Round((double)5000 / (T - FLastFrameTime + 1));
             FFrameCount = 0;
             FLastFrameTime = T;
@@ -1362,6 +1375,8 @@ public partial class TDisplayCtrl : TAbstractDC
     public override void ShowFrameRate()
     {
     }
+
+    private const int DCERR_ACTIVATED = -2147414011;
 
 }
 
@@ -1615,7 +1630,7 @@ public partial class TWindowsDC : TDisplayCtrl
         throw new NotImplementedException();
         if (Result >= 0)
         {
-            Result = DisplayCUnit.DCERR_NOFLIP;
+            Result = Aow.Game.Draw.DisplayCodes.DCERR_NOFLIP;
         }
 
         return Result;
@@ -1666,7 +1681,7 @@ public partial class TWindows08DC : TWindowsDC
     public TWindows08DC(TComponent owner) : base(owner)
     {
         FPalette = new TGFXEPalette();
-        FPalette.PixelFormatID = pfRGB24;
+        FPalette.PixelFormatID = Aow.Game.Draw.PixelFormats.pfRGB24;
     }
 
     // DisplayC.pas:2172
@@ -2003,7 +2018,7 @@ public partial class TWindows08DIBSurface : TSurface
         SD.Width = FWidth;
         SD.Height = FHeight;
         SD.BitCount = 8;
-        SD.PixelFormatID = pfPAL8;
+        SD.PixelFormatID = Aow.Game.Draw.PixelFormats.pfPAL8;
         SD.ClipRect.Left = 0;
         SD.ClipRect.Right = FWidth;
         SD.ClipRect.Top = 0;
@@ -2060,26 +2075,4 @@ public partial class TWindows08DIBSurface : TSurface
         return Result;
     }
 
-}
-
-public static partial class DisplayCUnit
-{
-    // The DisplayC unit of Dcpack.dpl (the display layer of Age of Wonders: the display control
-    // TDisplay and the display controllers ("DCs") that put the surfaces of GFXE on the screen,
-    // in a window through GDI or full screen through DirectDraw, plus the frame update loop).
-    // The original was D:\GEngine\GFXE\DisplayC\DisplayC.pas with inc\TDisplay.PAS included
-    // (the Assert in TCustomDisplay.CreateWnd names it). TMatrix came from a unit DCTypes (its
-    // error message says so) but is compiled into this unit. The port has no DirectDraw: the
-    // DirectDraw controllers (TDDrawDC, TDDrawFullScrDC and its 16, 24 and 32 bit descendants)
-    // and their surface TDDrawDCSurface are dropped, and TSdlDC is the one controller
-    // (graphics.md 7.3).
-    // { HResult codes of the display controllers }
-    public const int DCERR_NOTSUPPORTED = -2147414015;
-    public const int DCERR_ACTIVATEFAILED = -2147414014;
-    public const int DCERR_FAILED = -2147414012;
-    public const int DCERR_ACTIVATED = -2147414011;
-    public const int DCERR_NOTACTIVATED = -2147414010;
-    public const int DCERR_NOFLIP = -2147414007;
-    // { Posted to the display: WParam 1 shows the active DC, 2 activates the primary DC }
-    public const short WM_DISPLAYC = 27135;
 }

@@ -2,7 +2,6 @@
 using Aow.Game.Engine;
 using Aow.Game.Engine.Nodes;
 using Aow.Game.World.Structures;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
 
 namespace Aow.Game.World.Structures;
 
@@ -28,23 +27,8 @@ public partial class TMonsterlairResource : TItemExplorationSiteResource
     public override int ResourceUserClassID() => 131886;
 
     // MonsterL.pas:37
-    public override string ResourceEditName() => TranslateRStr(MonsterLairRStr);
+    public override string ResourceEditName() => Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.World.Structures.TMonsterlairResource.MonsterLairRStr);
 
-}
+    private static readonly string MonsterLairRStr = "Monster Lair";
 
-public static partial class MonsterLUnit
-{
-    // MonsterL.pas:46
-    public static void RegisterMonsterlair(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TMonsterlair>(), EClass.Of<TMonsterlairResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
 }

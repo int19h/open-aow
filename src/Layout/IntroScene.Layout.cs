@@ -80,7 +80,7 @@ public partial class TIntroScene : ILayoutModule
         Window.Loaded();
         VideoPlayer.Loaded();
         session.Resolve(this);
-        Window.WinManager = AoWWinManUnit.General.Manager;
+        Window.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
     }
 
     private void Layout_WindowUpdate_0()

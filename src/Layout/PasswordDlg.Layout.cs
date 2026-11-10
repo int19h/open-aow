@@ -344,20 +344,20 @@ public partial class TPasswordDlg : ILayoutModule
         PasswordEdit.Loaded();
         Translator.Loaded();
         session.Resolve(this);
-        Dlg.WinManager = AoWWinManUnit.General.Manager;
-        Dlg.ILFrame = aowIntGfxModUnit.IntGfxMod.GenericF;
-        Dlg.ILTexture = aowIntGfxModUnit.IntGfxMod.GenericT;
-        TitleLbl.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        BCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        TCeltL.ILLine = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        TCeltLineL.ImageLib = aowIntGfxModUnit.IntGfxMod.CeltDeco;
-        OKBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        OKBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        CancelBtn.AOWFont = AoWExeFormsUnit.FontModule.Age10;
-        CancelBtn.ILButton = aowIntGfxModUnit.IntGfxMod.GenericB;
-        PasswordLbl.AOWFont = AoWExeFormsUnit.FontModule.AoW15WhiteGrey;
-        PasswordEdit.AOWFont = AoWExeFormsUnit.FontModule.Age10s;
-        PasswordEdit.ILEdit = aowIntGfxModUnit.IntGfxMod.GenericE;
+        Dlg.WinManager = Aow.Game.Ui.Dialogs.DialogHosts.General.Manager;
+        Dlg.ILFrame = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericF;
+        Dlg.ILTexture = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericT;
+        TitleLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        BCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        TCeltL.ILLine = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        TCeltLineL.ImageLib = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.CeltDeco;
+        OKBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        OKBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        CancelBtn.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10;
+        CancelBtn.ILButton = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericB;
+        PasswordLbl.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.AoW15WhiteGrey;
+        PasswordEdit.AOWFont = Aow.Game.Ui.Dialogs.DialogHosts.FontModule.Age10s;
+        PasswordEdit.ILEdit = Aow.Game.Ui.Dialogs.DialogHosts.IntGfxMod.GenericE;
     }
 
     private void Layout_DlgHide_0()

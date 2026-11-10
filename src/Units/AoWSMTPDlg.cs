@@ -1,14 +1,42 @@
 // Translated from AoWSMTPDlg.pas.
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using Aow.Formats.Tree;
+using Aow.Game.Ai;
+using Aow.Game.Ai.Groups;
+using Aow.Game.Audio;
+using Aow.Game.Combat;
+using Aow.Game.Combat.Actions;
+using Aow.Game.Commands;
+using Aow.Game.Draw;
+using Aow.Game.Draw.Animation;
+using Aow.Game.Draw.Images;
+using Aow.Game.Engine;
+using Aow.Game.Engine.Buffers;
+using Aow.Game.Engine.Collections;
+using Aow.Game.Engine.Nodes;
+using Aow.Game.Engine.Storage;
 using Aow.Game.Events;
+using Aow.Game.Magic;
+using Aow.Game.Magic.Abilities;
+using Aow.Game.Magic.Spells;
+using Aow.Game.Magic.Spells.Unit;
 using Aow.Game.Net;
+using Aow.Game.Saves;
+using Aow.Game.Session;
 using Aow.Game.Ui.Controls;
 using Aow.Game.Ui.Dialogs;
 using Aow.Game.Ui.Windows;
+using Aow.Game.Units;
+using Aow.Game.World;
+using Aow.Game.World.Map;
+using Aow.Game.World.Movement;
+using Aow.Game.World.Structures;
+using Aow.Game.World.Terrain;
 using Aow.Rtl;
 // Translated from AoWSMTPDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.E3GlobalsUnit;
+using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Net
 {
@@ -75,7 +103,7 @@ namespace Aow.Game.Ui.Dialogs
         {
             try
             {
-                AoWSMTPDlgUnit.SMTPDlg.IMSSMTP.Send();
+                Aow.Game.Ui.Dialogs.DialogHosts.SMTPDlg.IMSSMTP.Send();
                 FSuccess = true;
             }
             catch
@@ -136,7 +164,7 @@ namespace Aow.Game.Ui.Dialogs
         {
             FFinished = false;
             ProgressBar.Position = 0;
-            var sendingEmailGame = TranslateRStr(SendingEmailGameRStr);
+            var sendingEmailGame = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSMTPDlg.SendingEmailGameRStr);
             SendingGameLbl.Text = sendingEmailGame;
             FailedPnl.Visible = false;
             SendPnl.Visible = true;
@@ -209,7 +237,7 @@ namespace Aow.Game.Ui.Dialogs
             {
                 if (FEvent.FSuccess)
                 {
-                    var gameSuccessfullySent = TranslateRStr(GameSuccessfullySentRStr);
+                    var gameSuccessfullySent = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Ui.Dialogs.TSMTPDlg.GameSuccessfullySentRStr);
                     SendingGameLbl.Text = gameSuccessfullySent;
                     ExitBtn.Visible = true;
                 }
@@ -234,16 +262,50 @@ namespace Aow.Game.Ui.Dialogs
         // AoWSMTPDlg.pas:212
         public void SettingsBtnClick()
         {
-            ShowEmailSettings(EmailSettingsDlg);
+            Aow.Game.Ui.Dialogs.TEmailSettingsDlg.ShowEmailSettings(Aow.Game.Ui.Dialogs.DialogHosts.EmailSettingsDlg);
         }
-    }
-}
 
-namespace Aow.Game.Net
-{
+        private static readonly string GameSuccessfullySentRStr = "Game successfully sent";
 
-    public static partial class AoWSMTPDlgUnit
-    {
-        public static TSMTPDlg SMTPDlg;
+        private static readonly string SendingEmailGameRStr = "Sending email game...";
+
+        internal static void ShowSMTPEvent(TSMTPDlg Dialog, TSMTPEventLog Event, TExecuteDoneEvent Done)
+        {
+            Dialog.ResetProgress();
+            Dialog.FDone = Done;
+            Dialog.FEvent = Event;
+            var smtpEventLog = Dialog.FEvent;
+            smtpEventLog.AddRef();
+
+            var format = Aow.Game.Magic.Abilities.AbilityRules.Format(Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.RecipientXRStr), [Event.FToAddress]);
+            Dialog.RecipientLbl.Text = format;
+            try
+            {
+                Dialog.IMSSMTP.FMessage = Dialog.IMSMessage;
+                var smtpServer = Aow.Game.Magic.Abilities.GameTables.AoWEngine.FRegistry.GetSMTPServer();
+                Dialog.IMSSMTP.FHost = smtpServer;
+                Dialog.IMSSMTP.WinsockLoaded = true;
+                var tmsMessage = Dialog.IMSMessage;
+                tmsMessage.FEncode = false;
+                tmsMessage.FIncludeHeader = false;
+                tmsMessage.FHeader.FFrom = Event.FFromAddress;
+                tmsMessage.FRecipients.Clear();
+                Dialog.IMSMessage.FRecipients.AddAddress(Event.FToAddress, "");
+
+                Dialog.IMSMessage.FSubject = Event.FSubject;
+                Dialog.IMSMessage.SetBody(Event.FMessage);
+                Dialog.IMSMessage.FAttachments.Clear();
+                Dialog.IMSMessage.FAttachments.AddFile(Event.FFileName);
+                Dialog.StartSending();
+                Dialog.Dlg.Visible = true;
+            }
+            catch
+            {
+                Dialog.FEvent.FSuccess = false;
+                Dialog.FFinished = true;
+                Dialog.Dlg.Visible = true;
+            }
+        }
+
     }
 }

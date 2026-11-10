@@ -6,8 +6,6 @@ using Aow.Game.Ui.Windows;
 using Aow.Rtl;
 // Translated from AoWSyncDlg.pas.
 using Aow.Rtl.Localize;
-using static Aow.Game.Magic.Abilities.AoWEUnit;
-using static Aow.Game.Ui.Dialogs.aowSetupEventsUnit;
 using static Aow.Rtl.RtlUnit;
 
 namespace Aow.Game.Ui.Dialogs;
@@ -38,10 +36,10 @@ public partial class TSynchronizeDlg : TDataModule
     {
         TPlayerSetupSettings Result;
         int Index;
-        Index = SetupEvents.SetupControl.FSettings.IndexOfRemoteID(SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+        Index = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.IndexOfRemoteID(Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
         if (Index != -1)
         {
-            Result = SetupEvents.SetupControl.FSettings.GetSettings(Index);
+            Result = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.GetSettings(Index);
         }
         else
         {
@@ -73,12 +71,12 @@ public partial class TSynchronizeDlg : TDataModule
         Settings = GetPlayerSetup();
         if (Settings != null)
         {
-            if (!SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
+            if (!Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FCustomizeLeaders)
             {
-                I = SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
+                I = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.IndexOfRemoteID(Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FRemotePlayer.FRemoteID);
                 if (I != -1)
                 {
-                    var player = SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
+                    var player = Aow.Game.Ui.Dialogs.DialogHosts.SetupEvents.SetupControl.FSettings.FRemotePlayers.GetPlayers(I);
                     PlayerName.Text = player.FName;
                 }
                 else
@@ -91,22 +89,18 @@ public partial class TSynchronizeDlg : TDataModule
                 PlayerName.Text = Settings.FLeader.FHeroName;
             }
 
-            var raceNamesPlural = TranslateRStr(RaceNamesPluralRStr[Settings.FRace]);
+            var raceNamesPlural = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameTables.RaceNamesPluralRStr[Settings.FRace]);
             PlayerRace.Text = raceNamesPlural;
-            Day = AoWHSMap.FDay;
+            Day = Aow.Game.World.Map.TAoWHSMap.AoWHSMap.FDay;
             if (Day == 0)
             {
                 Day = 1;
             }
 
-            var day = TranslateRStr(DayRStr);
+            var day = Aow.Game.Magic.Abilities.AbilityRules.TranslateRStr(Aow.Game.Magic.Abilities.GameText.DayRStr);
             Turn.Text = day + " " + IntToStr(Day);
             LShield.CurrentImage = Settings.FRace + 26;
             RShield.CurrentImage = Settings.FRace + 26;
         }
     }
-}
-
-public static partial class AoWSyncDlgUnit
-{
 }

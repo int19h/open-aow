@@ -116,20 +116,3 @@ public partial class TPadResource : TFixedILTerrainMOR
     public override string ResourceEditName() => "Pad";
 
 }
-
-public static partial class PadUnit
-{
-    // Pad.pas:107
-    public static void RegisterPad(TEngine AEngine)
-    {
-        AEngine.RegisterEClasses([EClass.Of<TPad>(), EClass.Of<TPadResource>()]);
-    }
-
-    public static void Initialize()
-    {
-    }
-
-    public static void Finalize()
-    {
-    }
-}
