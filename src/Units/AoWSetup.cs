@@ -2168,27 +2168,15 @@ public enum MapValidationInfo : byte
     Valid = 3
 }
 
-[LegacyObject]
 public partial class LeaderSetupView
 {
     public Leader OriginalLeader;
     public Set<byte> Options;
     public Leader Leader;
     public IntegerList Races;
-
-    public LeaderSetupView()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 public partial class SetupHeroView
 {
     public string Name = "";
-
-    public SetupHeroView()
-    {
-        CaptureAddress.Assign(this);
-    }
 }

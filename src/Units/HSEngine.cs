@@ -4251,14 +4251,12 @@ namespace Aow.Game.World.Movement
 namespace Aow.Game.World.Map
 {
 
-    [LegacyObject]
     // the parameters of a new map (THSMap.CreateNewMap)
     public partial class NewHSMapSettings
     {
 
         public NewHSMapSettings()
         {
-            CaptureAddress.Assign(this);
             Width = 64;
             Height = 64;
             Levels = 1;
@@ -4282,7 +4280,6 @@ namespace Aow.Game.World.Map
 
     }
 
-    [LegacyObject]
     // terrain and overlay types by hexagon number, two bytes per hexagon (terrain type, overlay
     // type. -2: none)
     public partial class TerrainList : IDisposable
@@ -4559,11 +4556,6 @@ namespace Aow.Game.World.Map
         }
 
         public UsedAccessor Used => new UsedAccessor(this);
-
-        public TerrainList()
-        {
-            CaptureAddress.Assign(this);
-        }
 
     }
 
@@ -4921,7 +4913,6 @@ namespace Aow.Game.World.Map
 
     }
 
-    [LegacyObject]
     // the mouse of a map. FHSMap, FX, FY (the position in the view port in pixels, Low(Integer)
     // when outside), FButton, FOnUp, FOnDown, FOnMove, FOnDblClick, FOnCaptureChanged, FCapture
     // (the object that gets the mouse events), FStatus, FCursor, FCursorMode, FIgnoreDown, FShift,
@@ -4931,7 +4922,6 @@ namespace Aow.Game.World.Map
 
         public HSMapMouse()
         {
-            CaptureAddress.Assign(this);
             FOnUpStore = new();
             FOnDownStore = new();
             FOnMoveStore = new();
@@ -8214,15 +8204,9 @@ namespace Aow.Game.World.Map
         public int ClassID;
     }
 
-    [LegacyObject]
     public sealed class TerrainChangedNotification
     {
         public TerrainChangedInfo Info;
-
-        public TerrainChangedNotification()
-        {
-            CaptureAddress.Assign(this);
-        }
 
         public struct TerrainChangedInfo
         {

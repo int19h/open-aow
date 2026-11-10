@@ -1336,14 +1336,8 @@ namespace Aow.Game.Ui.Dialogs
 namespace Aow.Game.Ui.Controls
 {
 
-    [LegacyObject]
     public partial class FileTime
     {
         public double FTime;
-
-        public FileTime()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }

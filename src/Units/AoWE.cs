@@ -8836,7 +8836,6 @@ namespace Aow.Game.World.Movement
 
     }
 
-    [LegacyObject]
     // map, status, player, mode, source, destination, map level, processed count, move limit, move
     // table, processed fields, army, selection, move data, callback, field offsets, point offsets,
     // gap endpoints, direct route, exploration mask, settings
@@ -8846,7 +8845,6 @@ namespace Aow.Game.World.Movement
         // MoveT.PAS:257
         public MoveControl(HSMap owner)
         {
-            CaptureAddress.Assign(this);
             FMap = owner;
             FGapStarts = new XYLList();
             FGapEnds = new XYLList();
@@ -12117,14 +12115,12 @@ namespace Aow.Game.World.Movement
 
     }
 
-    [LegacyObject]
     public partial class MoveSelector : IDisposable
     {
         // Structur.PAS:4109
         // control settings, moves, current move, map, status
         public MoveSelector()
         {
-            CaptureAddress.Assign(this);
             FMoveControlSettings = CreateMCS();
             FMoveSettingsList = new MoveSettingsList(null);
             FCurrentMove = -1;
@@ -13579,7 +13575,6 @@ namespace Aow.Game.Units
 namespace Aow.Game.Combat
 {
 
-    [LegacyObject]
     // { Interface declaration run owned by P1. }
     public partial class TargetSelectionControl : IDisposable
     {
@@ -13588,7 +13583,6 @@ namespace Aow.Game.Combat
         // change, target, text, title, cancel text, images
         public TargetSelectionControl()
         {
-            CaptureAddress.Assign(this);
             FOnChangeStore = new();
             FHNs = new ShortIntList();
             FText = new StringList();
@@ -26851,14 +26845,12 @@ namespace Aow.Game.Units
 
     }
 
-    [LegacyObject]
     // FCollectionSize. FUnits
     public partial class UnitIndexListCollection : IDisposable
     {
         // Unit.PAS:2413
         public UnitIndexListCollection()
         {
-            CaptureAddress.Assign(this);
             FUnits = new UnitIndexList();
             FCollectionSize = 8;
         }
@@ -27325,13 +27317,11 @@ namespace Aow.Game.Units
 
     }
 
-    [LegacyObject]
     public partial class UnitSelector : IDisposable
     {
         // Ability.PAS:575
         public UnitSelector()
         {
-            CaptureAddress.Assign(this);
             FUnits = new UnitUserList(null);
             FReferences = 1;
             FCanceled = false;
@@ -42403,7 +42393,6 @@ namespace Aow.Game.World.Terrain
 
     }
 
-    [LegacyObject]
     // FResources
     public partial class FireControl : IDisposable
     {
@@ -42411,7 +42400,6 @@ namespace Aow.Game.World.Terrain
         // FResources
         public FireControl()
         {
-            CaptureAddress.Assign(this);
             FResources = new DelphiList();
         }
 
@@ -42501,7 +42489,6 @@ namespace Aow.Game.World.Terrain
 namespace Aow.Game.Combat
 {
 
-    [LegacyObject]
     // { Interface declaration run owned by P3. }
     // FUnit. FCPUID. FPredictor. FInitialHitPoints. FSide. FOpponents. FEnabled. FBehindWall.
     // FTargets. FCombatValue. FWallTargets. FWallCombatValue. cache flags. FRoundTargets.
@@ -42512,7 +42499,6 @@ namespace Aow.Game.Combat
         // CombatPredictor.pas:1
         public CombatPredictorUnit()
         {
-            CaptureAddress.Assign(this);
             FRoundTargets = new QuadItemList<CombatPredictorUnit>();
         }
 
@@ -43005,7 +42991,6 @@ namespace Aow.Game.Combat
 
     }
 
-    [LegacyObject]
     // FAllUnits. FActiveUnits. FSides. FResult. FSuperiority. FEfficiency. FWall. FRound.
     // FNextCPUID. FInvalid. FWork
     public partial class CombatPredictor : IDisposable
@@ -43013,7 +42998,6 @@ namespace Aow.Game.Combat
         // CombatPredictor.pas:292
         public CombatPredictor()
         {
-            CaptureAddress.Assign(this);
             FAllUnits = new CombatPredictorUnitList();
             FActiveUnits = new CombatPredictorUnitList();
             var combatPredictorSide = new CombatPredictorSide();
@@ -46143,7 +46127,6 @@ namespace Aow.Game.Combat
 
     }
 
-    [LegacyObject]
     // { Interface declaration run owned by P5. }
     // ability ID, source DV, target DV, expected DV, move cost, target
     public partial class FastCombatCommand
@@ -46151,7 +46134,6 @@ namespace Aow.Game.Combat
         // AIGroup.pas:6705
         public FastCombatCommand(int AbilityID)
         {
-            CaptureAddress.Assign(this);
             FAbilityID = AbilityID;
         }
 
@@ -46178,14 +46160,12 @@ namespace Aow.Game.Combat
 
     }
 
-    [LegacyObject]
     // source, source side, target side, combat, command list
     public partial class FastCombatCommandList : IDisposable
     {
         // AIGroup.pas:6716
         public FastCombatCommandList(CombatObject Source, FastCombat Combat, CombatSide Side)
         {
-            CaptureAddress.Assign(this);
             FCommands = new DelphiList();
             FSource = Source;
             FCombat = Combat;
@@ -46260,14 +46240,12 @@ namespace Aow.Game.Combat
 
     }
 
-    [LegacyObject]
     // FStatus. FCombat. FDelay. FSpeed. FPosition. FTime. FLogbook
     public partial class CombatViewer : IDisposable
     {
         // Combat2.pas:546
         public CombatViewer()
         {
-            CaptureAddress.Assign(this);
             FCombat = new Combat(null);
             FTime = -1;
             FSpeed = 5;
@@ -58474,7 +58452,6 @@ namespace Aow.Game.Ai.Groups
 
     }
 
-    [LegacyObject]
     // { TDamageStrengths is shared with TDefenseRequirements in intf_P1_01.inc. }
     // defenders, selected defense location
     public partial class GroupDefenseSelector : IDisposable
@@ -58482,7 +58459,6 @@ namespace Aow.Game.Ai.Groups
         // AIGroup.pas:1640
         public GroupDefenseSelector()
         {
-            CaptureAddress.Assign(this);
             FDefenders = new UnitUserList(null);
         }
 
@@ -61647,7 +61623,6 @@ namespace Aow.Game.Ai.Groups
             return ((AIGroupControlTarget)Item2).FDataA - ((AIGroupControlTarget)Item1).FDataA;
         }
 
-        [LegacyObject]
         // target factor, immediate bonus, transport penalty, overlap penalties, existing-target
         // bonuses, cooperation penalties, recruitment penalties, move-day penalty, production penalties
         public partial class AIGroupTargetPrioritySettings
@@ -61666,11 +61641,6 @@ namespace Aow.Game.Ai.Groups
             public int FMoveDayPenalty;
             public int FPartialProductionPenalty;
             public int FProductionDayPenalty;
-
-            public AIGroupTargetPrioritySettings()
-            {
-                CaptureAddress.Assign(this);
-            }
             // System.pas:111
 
         }
@@ -66091,16 +66061,10 @@ namespace Aow.Game.Combat.Actions
 namespace Aow.Game.Combat
 {
 
-    [LegacyObject]
     // count, capacity, strikes, combat objects, cached damage values, units, strike counts,
     // attacker/defender damage types
     public partial class MeleeRound : IDisposable
     {
-        // AoWAb.PAS:1487
-        public MeleeRound()
-        {
-            CaptureAddress.Assign(this);
-        }
 
         public int FCount;
         public int FCapacity;
@@ -73616,14 +73580,12 @@ namespace Aow.Game.Magic.Spells
 
     }
 
-    [LegacyObject]
     // (spell list)
     public partial class SpellList : IDisposable
     {
         // Spells.PAS:695
         public SpellList()
         {
-            CaptureAddress.Assign(this);
             FSpells = new DelphiList();
         }
 
@@ -80594,7 +80556,6 @@ namespace Aow.Game.Magic.Abilities
 namespace Aow.Game.Engine
 {
 
-    [LegacyObject]
     public partial class SelectorView
     {
         // Combat.pas:102
@@ -80608,18 +80569,12 @@ namespace Aow.Game.Engine
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
-
-        public SelectorView()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
 namespace Aow.Game.Combat
 {
 
-    [LegacyObject]
     public partial class P1DistanceCombatView
     {
         // Combat.pas:219
@@ -80945,11 +80900,6 @@ namespace Aow.Game.Combat
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
-
-        public P1DistanceCombatView()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
@@ -80994,36 +80944,23 @@ namespace Aow.Game.World.Map
 namespace Aow.Game.World
 {
 
-    [LegacyObject]
     // { Local views of unmarked foreign fields; no foreign layout is changed. }
     public partial class P2NodeFields
     {
         public object Owner;
         public DelphiList Children;
-
-        public P2NodeFields()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
 namespace Aow.Game.Magic.Abilities
 {
 
-    [LegacyObject]
     public partial class P2AbilityControlFields
     {
         public AbilityTypeList CombatAbilities;
         public AbilityTypeList Enchantments;
-
-        public P2AbilityControlFields()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 
-    [LegacyObject]
     public partial class P2AbilityCalls
     {
         public int AbilityID;
@@ -81370,11 +81307,6 @@ namespace Aow.Game.Magic.Abilities
             throw AbstractErrorException.Create("Abstract Error");
         }
 
-        public P2AbilityCalls()
-        {
-            CaptureAddress.Assign(this);
-        }
-
         // Damage-value record, five dwords
         [StructLayout(LayoutKind.Explicit, Size = 20)]
         public struct P2DamageValue
@@ -81397,7 +81329,6 @@ namespace Aow.Game.Magic.Abilities
 namespace Aow.Game.Engine
 {
 
-    [LegacyObject]
     // ExpandAbility acts on an owner. The setters update enchantments.
     public partial class P2OwnerCalls
     {
@@ -81628,18 +81559,12 @@ namespace Aow.Game.Engine
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
-
-        public P2OwnerCalls()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
 namespace Aow.Game.Magic
 {
 
-    [LegacyObject]
     public partial class P2EnchantmentCalls
     {
         public byte Duration;
@@ -81781,49 +81706,31 @@ namespace Aow.Game.Magic
         {
             throw AbstractErrorException.Create("Abstract Error");
         }
-
-        public P2EnchantmentCalls()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
 namespace Aow.Game.Magic.Spells
 {
 
-    [LegacyObject]
     public partial class P2SpellFields
     {
         public byte Duration;
-
-        public P2SpellFields()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
 namespace Aow.Game.Combat
 {
 
-    [LegacyObject]
     // original seven-byte table
     public partial class P2CombatTurnFields
     {
         public byte Turn;
-
-        public P2CombatTurnFields()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
 namespace Aow.Game.Ai
 {
 
-    [LegacyObject]
     // Obsolete serialized behavior object.
     public partial class P2LegacyBehaviorCalls
     {
@@ -81947,41 +81854,24 @@ namespace Aow.Game.Ai
             throw AbstractErrorException.Create("Abstract Error");
         }
 
-        public P2LegacyBehaviorCalls()
-        {
-            CaptureAddress.Assign(this);
-        }
-
     }
 }
 
 namespace Aow.Game.Session
 {
 
-    [LegacyObject]
     public partial class P2MapPlayerFields
     {
         public sbyte Player;
-
-        public P2MapPlayerFields()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 
 namespace Aow.Game.Magic
 {
 
-    [LegacyObject]
     public partial class P2FaceEnchantmentFields
     {
         public int FaceIndex;
-
-        public P2FaceEnchantmentFields()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }
 

@@ -38,30 +38,18 @@ namespace Aow.Game.Combat
         Climbing = 5
     }
 
-    [LegacyObject]
     // { ot=1 }
     public partial class CombatAbilityRef
     {
         public int Ability;
         public int Spell;
-
-        public CombatAbilityRef()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 
-    [LegacyObject]
     // PathIndex. Chance
     public partial class ROb
     {
         public int PathIndex;
         public int Chance;
-
-        public ROb()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 
     // Inherited Width. Height. Levels. HSSFileName. HSMapClassID. MapLevelClassID
@@ -83,7 +71,6 @@ namespace Aow.Game.Combat
 
     }
 
-    [LegacyObject]
     // MoveType. Ability. Spell. Value. GroupValue. UnitHS. Target. X. Y
     public partial class TaiMove
     {
@@ -96,14 +83,8 @@ namespace Aow.Game.Combat
         public CombatObject Target;
         public ushort X;
         public ushort Y;
-
-        public TaiMove()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 
-    [LegacyObject]
     // FSide. Units. Allies. Enemies. Moves. Walls. CurrentMove. FUnitIndex. FUnitLimit. FMinMoves.
     // FHeroMoves. FNormalUnits. FIgnoreWalls. FFlee. Status
     public partial class CAI : IDisposable
@@ -142,7 +123,6 @@ namespace Aow.Game.Combat
         // AoWTC.pas:752
         public CAI()
         {
-            CaptureAddress.Assign(this);
             Units = new DelphiList();
             Allies = new DelphiList();
             Enemies = new DelphiList();
@@ -8549,7 +8529,6 @@ namespace Aow.Game.Combat
 
     }
 
-    [LegacyObject]
     // FPlayers
     public partial class TacticalCombatPlayerList
     {
@@ -8573,11 +8552,6 @@ namespace Aow.Game.Combat
 
         // AoWTC.pas:6431
         public TacticalCombatPlayer GetPlayers(sbyte Index) => (TacticalCombatPlayer)FPlayers.GetPlayers(Index);
-
-        public TacticalCombatPlayerList()
-        {
-            CaptureAddress.Assign(this);
-        }
 
     }
 
@@ -9573,7 +9547,6 @@ namespace Aow.Game.Combat
         }
     }
 
-    [LegacyObject]
     // FItems. FRandomTerrain. neighbor weights. terrain weights. terrain-tag weights. terrain
     // samples. tag samples. resource lists. FHomePosition
     public partial class RndTacHsm : IDisposable
@@ -9602,7 +9575,6 @@ namespace Aow.Game.Combat
         // AoWTC.pas:4137
         public RndTacHsm()
         {
-            CaptureAddress.Assign(this);
             for (int I = 0; I <= 285; I++)
             {
                 var list = new DelphiList();

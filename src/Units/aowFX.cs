@@ -11,21 +11,14 @@ public enum SwarmDirection : byte
     Backward = 1
 }
 
-[LegacyObject]
 // one point, X, Y, Z
 public partial class XYZ
 {
     public int X;
     public int Y;
     public int Z;
-
-    public XYZ()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
-[LegacyObject]
 // FList, the owned points
 public partial class XYZList : IDisposable
 {
@@ -35,7 +28,6 @@ public partial class XYZList : IDisposable
     // aowFX.pas:93
     public XYZList()
     {
-        CaptureAddress.Assign(this);
         FList = new DelphiList();
     }
 
@@ -139,16 +131,10 @@ public partial class XYZList : IDisposable
 
 }
 
-[LegacyObject]
 // no method of the package touches its fields, so only their size is known
 public partial class TfxParticleObject
 {
     internal FixedArray_int_10 FData;
-
-    public TfxParticleObject()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
 // no fields of its own

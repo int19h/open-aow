@@ -8,7 +8,6 @@ public partial class FastLoadFileStream
 
     public FastLoadFileStream(string name)
     {
-        CaptureAddress.Assign(this);
         source = RtlUnit.OpenFile(name, RtlUnit.fmOpenRead | RtlUnit.fmShareDenyWrite);
     }
 

@@ -148,12 +148,11 @@ public sealed class EngineStartupTests
             }
             if (value is DelphiList list)
                 for (int i = 0; i < list.Count; i++)
-                    if (list[i] is object child && IsLegacyObject(child)) Visit(child, path + $"[{i}]");
+                    if (list[i] is object child && LegacyRoots.Contains(child.GetType())) Visit(child, path + $"[{i}]");
             for (Type? type = value.GetType(); type is not null && type != typeof(object); type = type.BaseType)
                 foreach (var field in type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly).OrderBy(x => x.Name, StringComparer.Ordinal))
                 {
-                    if (field.Name == "captureOrdinal") continue;
-                    if (field.Name != "FOwner" && field.GetValue(value) is object child && IsLegacyObject(child))
+                    if (field.Name != "FOwner" && field.GetValue(value) is object child && LegacyRoots.Contains(child.GetType()))
                         Visit(child, path + "." + field.Name);
                 }
         }
@@ -194,8 +193,5 @@ public sealed class EngineStartupTests
         }
         return result;
     }
-
-    private static bool IsLegacyObject(object? value) =>
-        value is not null && value.GetType().IsDefined(typeof(Aow.Rtl.LegacyObjectAttribute), true);
 
 }

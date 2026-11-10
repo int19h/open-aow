@@ -13,17 +13,11 @@ public enum MemoType : byte
     Blank = 1
 }
 
-[LegacyObject]
 // the color of a wrapped line. FHasColor, FColor
 public partial class ColorChange
 {
     public bool FHasColor;
     public int FColor;
-
-    public ColorChange()
-    {
-        CaptureAddress.Assign(this);
-    }
 }
 
 // Fields: F114 (cleared by CheckMouseUp, not read), FItems (the text, one paragraph a line),

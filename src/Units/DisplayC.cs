@@ -35,7 +35,6 @@ public enum DisplayStatusElement : byte
     FrameLoopPaused = 5
 }
 
-[LegacyObject]
 // a byte matrix (the invalidated blocks of a surface). FData, FWidth, FHeight. The port's FData
 // is the array of FWidth * FHeight bytes, row by row, and null for an empty matrix as GetMem of
 // size 0 gives nil.
@@ -49,7 +48,6 @@ public partial class Matrix : IDisposable
     // { TMatrix (DCTypes in the original) }
     public Matrix(byte AWidth, byte AHeight)
     {
-        CaptureAddress.Assign(this);
         FWidth = AWidth;
         FHeight = AHeight;
         FData = FWidth * FHeight == 0 ? null : new byte[FWidth * FHeight];
@@ -1498,7 +1496,6 @@ public enum UpdateFrameMode : byte
     Synchrone = 1
 }
 
-[LegacyObject]
 // the asynchronous frame loop. calls TCustomDisplay.UpdateFrame through Synchronize at the
 // frame rate. FDisplay, FBusy, FLastTime
 public partial class UpdateFrameThread
@@ -1524,7 +1521,6 @@ public partial class UpdateFrameThread
     // DisplayC.pas:1105
     public UpdateFrameThread(CustomDisplay ADisplay)
     {
-        CaptureAddress.Assign(this);
         /* TODO: Implement Classes.Create in the platform or editor service. */
         throw new NotImplementedException();
     }

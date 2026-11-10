@@ -30,7 +30,6 @@ public enum SampleCallBackMode : byte
     Done = 1
 }
 
-[LegacyObject]
 // FDelay (Update ticks before it plays), FSampleData, FCallBack, FStatus. One playing sound
 // effect, in SampleList
 public partial class Sample : IDisposable
@@ -109,7 +108,6 @@ public partial class Sample : IDisposable
     // Sound.pas:727
     protected Sample(ConstructionContext context, SampleData ASampleData)
     {
-        CaptureAddress.Assign(this);
         context.Capture(this);
         AudioHost.SampleList.Add(this);
         FSampleData = ASampleData;
@@ -177,18 +175,12 @@ public partial class Sample : IDisposable
 
 }
 
-[LegacyObject]
 // FFileName. What BackupSongStatus saves. the sound system adds its own position
 public partial class SongStatus
 {
     protected internal string FFileName = "";
 
     public string FileName { get => FFileName; }
-
-    public SongStatus()
-    {
-        CaptureAddress.Assign(this);
-    }
 
     internal static bool RestoreSongStatus(SongStatus Status)
     {
@@ -242,7 +234,6 @@ public struct SoundSettings
     public int SampleVoices;
 }
 
-[LegacyObject]
 // FName, FRefCount. The sound data of one wave file, in SampleDataList while it is loaded.
 // Create counts the first reference
 public partial class SampleData : IDisposable
@@ -255,7 +246,6 @@ public partial class SampleData : IDisposable
     // Sound.pas:674
     protected SampleData(ConstructionContext context, string Name)
     {
-        CaptureAddress.Assign(this);
         context.Capture(this);
         FName = Name;
         AudioHost.SampleDataList.Add(this);
@@ -266,7 +256,6 @@ public partial class SampleData : IDisposable
     // { Sound data from memory; it is not put in SampleDataList. }
     protected SampleData(ConstructionContext context, in WaveFormatEx Format, object Data, int Size)
     {
-        CaptureAddress.Assign(this);
         context.Capture(this);
         FName = "";
         AddRef();
@@ -323,7 +312,6 @@ public partial class SampleData : IDisposable
 
 }
 
-[LegacyObject]
 // FRefCount, FStatus. The abstract sound system. GetName is a class function
 // (RegisterSoundSystem calls it on the class)
 public partial class SoundSystem : IDisposable
@@ -400,7 +388,6 @@ public partial class SoundSystem : IDisposable
     // Sound.pas:1152
     public SoundSystem()
     {
-        CaptureAddress.Assign(this);
         FRefCount = 1;
     }
 
@@ -846,7 +833,6 @@ public partial class Songlist : EObject
 
 }
 
-[LegacyObject]
 // FCurrentSong, FStatus, FSongs, FSongNames, FCurrentIndex, FOnSongChange, FBackup (Pause),
 // FPauseCount. Plays the songs in turn (Update starts the next one)
 public partial class SongPlayer : IDisposable
@@ -921,7 +907,6 @@ public partial class SongPlayer : IDisposable
     // Sound.pas:854
     public SongPlayer()
     {
-        CaptureAddress.Assign(this);
         FSongs = new StringList();
         FSongs.OnChange = SongsChanged;
         FSongNames = new StringList();

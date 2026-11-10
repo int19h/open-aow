@@ -1118,7 +1118,6 @@ namespace Aow.Game.Ai.Groups
 namespace Aow.Game.Ai.Groups
 {
 
-    [LegacyObject]
     // no fields. map-load registration callback
     public partial class MainRegistrator
     {
@@ -1129,11 +1128,6 @@ namespace Aow.Game.Ai.Groups
             {
                 AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<PassiveAG>(), AIGroupClass.Of<SuicidalAG>(), AIGroupClass.Of<FortifyAG>(), AIGroupClass.Of<TransportAG>()]);
             }
-        }
-
-        public MainRegistrator()
-        {
-            CaptureAddress.Assign(this);
         }
 
         internal static void SubscribeMapLoaded()

@@ -874,7 +874,6 @@ namespace Aow.Game.Ai.Groups
 namespace Aow.Game.Ai.Groups
 {
 
-    [LegacyObject]
     public partial class IndependentRegistrator
     {
         // IndependentAG.pas:136
@@ -884,11 +883,6 @@ namespace Aow.Game.Ai.Groups
             {
                 AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<GuardAG>(), AIGroupClass.Of<GuardAreaAG>(), AIGroupClass.Of<PatrolAG>(), AIGroupClass.Of<RefugeAG>(), AIGroupClass.Of<RaidAG>(), AIGroupClass.Of<ScoutAG>()]);
             }
-        }
-
-        public IndependentRegistrator()
-        {
-            CaptureAddress.Assign(this);
         }
 
         internal static void SubscribeMapLoaded()

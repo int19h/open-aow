@@ -4516,7 +4516,6 @@ namespace Aow.Game.Engine.Collections
 namespace Aow.Game.Engine
 {
 
-    [LegacyObject]
     public partial class PropertyTable : IDisposable
     {
         internal PropertyItem[] FItems = [];
@@ -4764,11 +4763,6 @@ namespace Aow.Game.Engine
         public int Count { get => FCount; }
         public int First { get => FFirst; }
 
-        public PropertyTable()
-        {
-            CaptureAddress.Assign(this);
-        }
-
         [StructLayout(LayoutKind.Explicit, Size = 8)]
         public struct PropertyItem
         {
@@ -4794,7 +4788,6 @@ namespace Aow.Game.Engine
 namespace Aow.Game.Engine.Nodes
 {
 
-    [LegacyObject]
     // FOwner
     public partial class EObject : IDisposable, IPersistable
     {
@@ -4813,7 +4806,6 @@ namespace Aow.Game.Engine.Nodes
 
         private protected EObject(ConstructionContext context, ECustomNode owner)
         {
-            CaptureAddress.Assign(this);
             context?.Capture(this);
             InitializeBeforeInherited();
             SetOwner(owner);
@@ -6166,7 +6158,6 @@ namespace Aow.Game.Engine
 namespace Aow.Game.Engine.Storage
 {
 
-    [LegacyObject]
     // the base of every storage stream. The rw* methods do nothing here. the subclasses read,
     // write, compare or translate
     public partial class EStorageStream : IDisposable
@@ -6285,7 +6276,6 @@ namespace Aow.Game.Engine.Storage
         // Engine.pas:9489
         public EStorageStream(Stream AStream, Engine AEngine)
         {
-            CaptureAddress.Assign(this);
             FEngine = AEngine;
             FStream = AStream;
             FErrorHandled = false;
@@ -6325,7 +6315,6 @@ namespace Aow.Game.Engine.Storage
 namespace Aow.Game.Engine.Nodes
 {
 
-    [LegacyObject]
     // { Engine.TEObjectEditorList: the editor descriptors an engine registers, one per editor class id
     //   (an EditorClass per editor class since 9.4-4, a list of editor metaclasses before) }
     public partial class EObjectEditorList
@@ -6369,11 +6358,6 @@ namespace Aow.Game.Engine.Nodes
             }
 
             return Result;
-        }
-
-        public EObjectEditorList()
-        {
-            CaptureAddress.Assign(this);
         }
     }
 
@@ -6525,13 +6509,8 @@ namespace Aow.Game.Engine.Storage
         { }
     }
 
-    [LegacyObject]
     public partial class CompressStream : MemoryStream
     {
-        public CompressStream()
-        {
-            CaptureAddress.Assign(this);
-        }
 
         // Engine.pas:1715
         public void LoadFromStream(Stream Stream)
@@ -6684,7 +6663,6 @@ namespace Aow.Game.Engine.Storage
 namespace Aow.Game.Engine
 {
 
-    [LegacyObject]
     // FRefCount, FEngines, FCounts. A plug-in registers itself in PlugIns on creation and counts
     // the engines it is initialized for
     public partial class PlugIn : IDisposable
@@ -6696,7 +6674,6 @@ namespace Aow.Game.Engine
         // Engine.pas:9144
         public PlugIn()
         {
-            CaptureAddress.Assign(this);
             FEngines = new DelphiList();
             FCounts = new IntegerList();
             RegisterPlugIn(this);
@@ -8721,7 +8698,6 @@ namespace Aow.Game.Engine.Nodes
 namespace Aow.Game.Engine.Collections
 {
 
-    [LegacyObject]
     public partial class HashList : IDisposable
     {
         internal int FCount;
@@ -8780,11 +8756,6 @@ namespace Aow.Game.Engine.Collections
         }
 
         public int Count { get => FCount; }
-
-        public HashList()
-        {
-            CaptureAddress.Assign(this);
-        }
 
         // FCount, FCapacity, FItems. The hash classes come from an include file of the original,
         // D:\GEngine\Engine\inc\HashTab.PAS, whose name the Assert calls carry
@@ -8848,7 +8819,6 @@ namespace Aow.Game.Engine.Collections
         }
     }
 
-    [LegacyObject]
     // the abstract table interface
     public partial class IntegerHashTable
     {
@@ -8874,11 +8844,6 @@ namespace Aow.Game.Engine.Collections
         public virtual void Clear()
         {
             throw AbstractErrorException.Create("Abstract Error");
-        }
-
-        public IntegerHashTable()
-        {
-            CaptureAddress.Assign(this);
         }
     }
 
@@ -9042,7 +9007,6 @@ namespace Aow.Game.Engine.Collections
         }
     }
 
-    [LegacyObject]
     // the abstract table interface
     public partial class StringHashTable
     {
@@ -9068,11 +9032,6 @@ namespace Aow.Game.Engine.Collections
         public virtual void Clear()
         {
             throw AbstractErrorException.Create("Abstract Error");
-        }
-
-        public StringHashTable()
-        {
-            CaptureAddress.Assign(this);
         }
     }
 
@@ -11368,7 +11327,6 @@ namespace Aow.Game.Engine.Nodes
 namespace Aow.Game.Engine.Collections
 {
 
-    [LegacyObject]
     public partial class CallBackEventList : IDisposable
     {
         internal List<CallBackEvent> FList = [];
@@ -11382,7 +11340,6 @@ namespace Aow.Game.Engine.Collections
         // Engine.pas:5846
         public CallBackEventList()
         {
-            CaptureAddress.Assign(this);
             FList = new List<CallBackEvent>();
         }
 
@@ -13748,16 +13705,10 @@ namespace Aow.Game.Engine.Collections
 
     }
 
-    [LegacyObject]
     // { the layout of TList, to write its count field straight from the object }
     public partial class ListFields
     {
         public object FList;
         public int FCount;
-
-        public ListFields()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 }

@@ -992,7 +992,6 @@ namespace Aow.Game.Ai.Groups
 namespace Aow.Game.Ai.Groups
 {
 
-    [LegacyObject]
     public partial class BehaviorRegistrator
     {
         // BehaviorAG.pas:136
@@ -1002,11 +1001,6 @@ namespace Aow.Game.Ai.Groups
             {
                 AoWHSMap.Current.FAIGroupManager.RegisterAIGroupClasses([AIGroupClass.Of<DefenderAG>(), AIGroupClass.Of<AggressorAG>(), AIGroupClass.Of<ExpanderAG>(), AIGroupClass.Of<ScorcherAG>(), AIGroupClass.Of<NormalAG>(), AIGroupClass.Of<SkirmishAG>()]);
             }
-        }
-
-        public BehaviorRegistrator()
-        {
-            CaptureAddress.Assign(this);
         }
 
         internal static void SubscribeMapLoaded()

@@ -2347,7 +2347,6 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         public string Name { readonly get => name ?? ""; set => name = value; }
     }
 
-    [LegacyObject]
     public partial class TargetSelectionView
     {
         public CustomImageLibrary ImageLibrary;
@@ -2370,11 +2369,6 @@ namespace Aow.Game.Magic.Spells.GlobalTarget
         public LibraryImage Preview;
         public LibraryImage ValidPreview;
         public LibraryImage InvalidPreview;
-
-        public TargetSelectionView()
-        {
-            CaptureAddress.Assign(this);
-        }
     }
 
     public struct TargetSelectionFields
